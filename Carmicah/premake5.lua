@@ -26,7 +26,8 @@ project "Carmicah"
 
 	includedirs
 	{
-		-- nth atm
+		"source" -- so we dont have to source/file.h everytime to include
+		-- nth else
 		-- if we include any libraries, add it here
 	}
 
@@ -68,7 +69,9 @@ project "CarmicahApp"
 
 	includedirs
 	{
-		"Carmicah/source"
+		"Carmicah/source" -- so we dont have to source/file.h everytime to include
+		-- nth else
+		-- if we include any libraries, add it here
 	}
 
 	links
