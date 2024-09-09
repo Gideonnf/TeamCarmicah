@@ -14,6 +14,10 @@ project "Carmicah"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin_int/" .. outputdir .. "/%{prj.name}")
 
+	-- Add the pre compile header into carmicah sln
+	pchheader "pch.h"
+	pchsource "Carmicah/source/pch.cpp"
+
 	files 
 	{
 		"%{prj.name}/source/**.h",
