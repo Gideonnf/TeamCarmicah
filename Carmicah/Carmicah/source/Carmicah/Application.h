@@ -1,5 +1,5 @@
 #pragma once
-
+#include "GLFW/glfw3.h"
 #include "CarmicahCore.h"
 namespace Carmicah
 {
@@ -9,7 +9,7 @@ namespace Carmicah
 	public:
 		Application();
 		virtual ~Application();
-		void run();
+		int run();
 	};
 }
 
