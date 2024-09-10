@@ -4,6 +4,11 @@ workspace "Carmicah"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "Carmicah/Dependencies/GLFW/include"
+
+include "Carmicah/Dependencies/GLFW"
+
 project "Carmicah"
 	location "Carmicah"
 	kind "StaticLib"
@@ -26,9 +31,16 @@ project "Carmicah"
 
 	includedirs
 	{
-		"source" -- so we dont have to source/file.h everytime to include
+		"Carmicah/source", -- so we dont have to source/file.h everytime to include
+		"%{IncludeDir.GLFW}"
 		-- nth else
 		-- if we include any libraries, add it here
+	}
+
+	links
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"
