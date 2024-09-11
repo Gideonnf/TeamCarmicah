@@ -4,10 +4,12 @@ workspace "Carmicah"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.architecture}"
 
-IncludeDir = {}
-IncludeDir["GLFW"] = "Carmicah/Dependencies/GLFW/include"
+DependenciesDir = {}
+DependenciesDir["GLFW"] = "Carmicah/Dependencies/GLFW/include"
+DependenciesDir["GLAD"] = "Carmicah/Dependencies/GLAD/include"
 
 include "Carmicah/Dependencies/GLFW"
+include "Carmicah/Dependencies/GLAD"
 
 project "Carmicah"
 	location "Carmicah"
@@ -17,7 +19,7 @@ project "Carmicah"
 	-- buildcfg can be either debug or Release
 	-- architecture only x64
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin_int/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin_obj/" .. outputdir .. "/%{prj.name}")
 
 	-- Add the pre compile header into carmicah sln
 	pchheader "pch.h"
@@ -32,7 +34,9 @@ project "Carmicah"
 	includedirs
 	{
 		"Carmicah/source", -- so we dont have to source/file.h everytime to include
-		"%{IncludeDir.GLFW}"
+		"%{DependenciesDir.GLFW}",
+		"%{DependenciesDir.GLAD}"
+
 		-- nth else
 		-- if we include any libraries, add it here
 	}
@@ -40,6 +44,7 @@ project "Carmicah"
 	links
 	{
 		"GLFW",
+		"GLAD",
 		"opengl32.lib"
 	}
 

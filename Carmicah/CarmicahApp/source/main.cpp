@@ -18,6 +18,7 @@ int main()
 {
 	mainApp* app = new mainApp();
 	app->run();
+	
 
 	delete app;
 
