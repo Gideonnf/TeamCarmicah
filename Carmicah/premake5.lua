@@ -4,8 +4,8 @@ workspace "Carmicah"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.architecture}"
 
-IncludeDir = {}
-IncludeDir["GLFW"] = "Carmicah/Dependencies/GLFW/include"
+--IncludeDir = {}
+--IncludeDir["GLFW"] = "%{prj.name}/Dependencies/GLFW/include"
 
 include "Carmicah/Dependencies/GLFW"
 
@@ -21,7 +21,7 @@ project "Carmicah"
 
 	-- Add the pre compile header into carmicah sln
 	pchheader "pch.h"
-	pchsource "Carmicah/source/pch.cpp"
+	pchsource "%{prj.name}/source/pch.cpp"
 
 	files 
 	{
@@ -31,8 +31,8 @@ project "Carmicah"
 
 	includedirs
 	{
-		"Carmicah/source", -- so we dont have to source/file.h everytime to include
-		"%{IncludeDir.GLFW}"
+		"%{prj.name}/source", -- so we dont have to source/file.h everytime to include
+		"%{prj.name}/Dependencies/GLFW/include"
 		-- nth else
 		-- if we include any libraries, add it here
 	}
