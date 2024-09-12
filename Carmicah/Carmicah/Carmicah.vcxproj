@@ -93,12 +93,19 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentManager.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityManager.h" />
     <ClInclude Include="source\Carmicah.h" />
     <ClInclude Include="source\Carmicah\Application.h" />
     <ClInclude Include="source\Carmicah\CarmicahCore.h" />
     <ClInclude Include="source\pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ComponentManager.cpp" />
+    <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="source\Carmicah\Application.cpp" />
     <ClCompile Include="source\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
