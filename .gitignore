@@ -1,10 +1,6 @@
-#directories Carmicah
-Carmicah/.vs/
-Carmicah/bin/
-Carmicah/bin_int/
-
-#directories CarmicahExe
-Carmicah_exe/.vs/
+#directories CarmicahEngine
+CarmicahEngine/.vs/
+CarmicahEngine/bin/
 
 # User-specific files
 *.suo
