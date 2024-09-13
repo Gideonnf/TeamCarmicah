@@ -1,5 +1,7 @@
-#pragma once
+#ifndef COMPONENT_H
+#define COMPONENT_H
 
+#include "ECSTypes.h"
 // Interface for components so that component manager can notify components if an entity is destroyed
 class IComponent
 {
@@ -43,3 +45,4 @@ public:
 
 };
 
+#endif

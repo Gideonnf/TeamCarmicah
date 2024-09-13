@@ -14,4 +14,4 @@ using ComponentID = std::uint8_t;
 const std::uint8_t MAX_COMPONENTS = 32;
 
 // Keep track of entity signature using bitset
-using EntitySignature = std::bitset<MAX_COMPONENTS>;
+using Signature = std::bitset<MAX_COMPONENTS>;

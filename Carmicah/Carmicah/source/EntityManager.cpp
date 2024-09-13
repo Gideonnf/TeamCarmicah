@@ -1,9 +1,9 @@
 #include "pch.h"
-#include "Entity.h"
 #include "EntityManager.h"
 
 EntityManager::EntityManager()
 {
+	m_EntityCount = 0;
 	// Initialize free entities with the total number of max entities that we can have
 	for (Entity i_Entity = 0; i_Entity < MAX_ENTITIES; ++i_Entity)
 	{
@@ -36,7 +36,7 @@ void EntityManager::DeleteEntity(Entity entity)
 	m_EntityCount--;
 }
 
-void EntityManager::SetSignature(Entity entity, EntitySignature entitySignature)
+void EntityManager::SetSignature(Entity entity, Signature entitySignature)
 {
 	m_EntitySignatures[entity] = entitySignature;
 }
