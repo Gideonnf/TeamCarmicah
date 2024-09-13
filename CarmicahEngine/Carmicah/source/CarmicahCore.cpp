@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CarmicahCore.h"
 #include <stdio.h>
-
+#include <GLFW/glfw3.h>
 
 namespace Carmicah
 {
