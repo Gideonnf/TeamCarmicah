@@ -69,11 +69,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;fmod_vc.lib;fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>IF EXIST "..\Dependencies\lib\**.dll"\ (xcopy /Q /E /Y /I "..\Dependencies\lib\**.dll" "..\bin\x86_64\Editor" &gt; nul) ELSE (xcopy /Q /Y /I "..\Dependencies\lib\**.dll" "..\bin\x86_64\Editor" &gt; nul)</Command>
+      <Command>xcopy /Q /E /Y /I "..\Dependencies\lib\**.dll" "..\bin\x86_64\Editor"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -97,11 +97,11 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;fmod_vc.lib;fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>IF EXIST "..\Dependencies\lib\**.dll"\ (xcopy /Q /E /Y /I "..\Dependencies\lib\**.dll" "..\bin\x86_64\Editor" &gt; nul) ELSE (xcopy /Q /Y /I "..\Dependencies\lib\**.dll" "..\bin\x86_64\Editor" &gt; nul)</Command>
+      <Command>xcopy /Q /E /Y /I "..\Dependencies\lib\**.dll" "..\bin\x86_64\Editor"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

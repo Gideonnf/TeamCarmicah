@@ -37,9 +37,7 @@ project "Carmicah"
     {
         "glfw3.lib",
         "opengl32.lib",
-        "glad",
-        "fmod_vc.lib",
-        "fmodL_vc.lib"
+        "glad"
     }
 
     filter "system:windows"
@@ -51,16 +49,18 @@ project "Carmicah"
         }
         postbuildcommands -- copies dll files to Editor's bin (the exe)
         {
-            "{COPY} %[Dependencies/lib/**.dll] %[bin/" .. outputdir .. "/Editor]"
+            "{COPYDIR} %[Dependencies/lib/**.dll] %[bin/" .. outputdir .. "/Editor]"
         }
 
     filter "configurations:Debug"
         defines { "CM_DEBUG" }
         symbols "On"
+        links "fmodL_vc.lib"
 
     filter "configurations:Release"
         defines { "CM_RELEASE" }
         optimize "On"
+        links "fmod_vc.lib"
 
 project "Editor"
     location "Editor"
