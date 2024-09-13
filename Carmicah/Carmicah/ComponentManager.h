@@ -12,10 +12,9 @@ private:
 	std::unordered_map<const char*, std::shared_ptr<IComponent>> m_ComponentMap;
 
 	// Everytime a new component is registered, it uses this ID and increment it for the next component
+	// Use 0 as an error flag if trying to pull a component that doesn't exist
 	ComponentID m_NextID;
 public:
-	template<typename T>
-	std::shared_ptr<Component<T>> GetComponentData();
 
 	template<typename T>
 	void RegisterComponent();
@@ -28,6 +27,15 @@ public:
 
 	template<typename T>
 	void RemoveComponent(Entity entity);
+
+	template<typename T>
+	T& GetComponent(Entity entity);
+
+	void EntityDestroyed(Entity entity);
+
+	// Used to get the component for inserting in new entity data
+	template<typename T>
+	std::shared_ptr<Component<T>> GetComponent();
 
 };
 

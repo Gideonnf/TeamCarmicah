@@ -3,6 +3,7 @@
 // Interface for components so that component manager can notify components if an entity is destroyed
 class IComponent
 {
+public:
 	virtual ~IComponent() {};
 	virtual void EntityDestroyed(Entity entity) = 0;
 };
