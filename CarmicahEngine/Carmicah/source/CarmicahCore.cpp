@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <FMOD/fmod.hpp>
 
 namespace Carmicah
 {
@@ -36,17 +37,47 @@ namespace Carmicah
 
         glfwSetKeyCallback(window, key_callback);
 
-        //int version = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        //printf("GL %d.%d\n", GLFW_VERSION_MAJOR, GLFW_VERSION_MINOR);
+#ifndef NO_SOUND
+        FMOD::System* mpSystem;
+        if (FMOD::System_Create(&mpSystem) != FMOD_OK)
+            return 0;
+        mpSystem->init(32, FMOD_INIT_NORMAL, NULL);
+        FMOD::Sound* sound = nullptr;
+        FMOD::Channel* channel = NULL;
+        if (mpSystem->createSound("../Assets/bouken.mp3", FMOD_DEFAULT, nullptr, &sound) != FMOD_OK)
+            return 0;
+        sound->setMode(FMOD_LOOP_OFF);
+        mpSystem->playSound(sound, NULL, false, &channel);
+        
+#endif
+
+        int version = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+        printf("GL %d.%d\n", GLFW_VERSION_MAJOR, GLFW_VERSION_MINOR);
+
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        {
+            std::cout << "Failed to initialize GLAD" << std::endl;
+            return -1;
+        }
 
         while (!glfwWindowShouldClose(window)) {
-            //glfwPollEvents();
+            glfwPollEvents();
 
-            //glClearColor(0.7f, 0.9f, 0.1f, 1.0f);
-            //glClear(GL_COLOR_BUFFER_BIT);
+#ifndef NO_SOUND
+            mpSystem->update();
+#endif
 
-            //glfwSwapBuffers(window);
+            glClearColor(0.7f, 0.9f, 0.1f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            glfwSwapBuffers(window);
         }
+
+#ifndef NO_SOUND
+        sound->release();
+        if (mpSystem != NULL)
+            mpSystem->release();
+#endif
 
         glfwTerminate();
 

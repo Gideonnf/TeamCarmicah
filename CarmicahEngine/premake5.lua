@@ -37,7 +37,9 @@ project "Carmicah"
     {
         "glfw3.lib",
         "opengl32.lib",
-        "glad"
+        "glad",
+        "fmod_vc.lib",
+        "fmodL_vc.lib"
     }
 
     filter "system:windows"
@@ -46,6 +48,10 @@ project "Carmicah"
         defines
         {
             "CM_PLATFORM_WINDOWS"
+        }
+        postbuildcommands -- copies dll files to Editor's bin (the exe)
+        {
+            "{COPY} %[Dependencies/lib/**.dll] %[bin/" .. outputdir .. "/Editor]"
         }
 
     filter "configurations:Debug"
@@ -74,6 +80,10 @@ project "Editor"
         "Carmicah/include" 
     }
 
+    libdirs {
+        "Dependencies/lib"
+    }
+
     links
     {
         "Carmicah"
@@ -95,6 +105,7 @@ project "Editor"
         defines { "RELEASE" }
         optimize "On"
 
+-- exists outside of pch.h, since using .c, and pch is pre-compiled
 project "glad"
     location "glad"
     kind "StaticLib"
@@ -110,7 +121,6 @@ project "glad"
 
     includedirs 
     {
-        "glad/include",
         "Dependencies/includes"
     }
 

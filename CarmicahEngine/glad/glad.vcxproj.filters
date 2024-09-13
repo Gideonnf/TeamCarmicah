@@ -12,11 +12,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\glad\glad.h">
-      <Filter>include\glad</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="src\glad.c">
       <Filter>src</Filter>
     </ClCompile>
