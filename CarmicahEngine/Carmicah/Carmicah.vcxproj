@@ -41,14 +41,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>..\bin\x86_64\Carmicah\</OutDir>
-    <IntDir>..\bin\x86_64int\Carmicah\Debug\</IntDir>
+    <OutDir>..\bin\Debug-x86_64\Carmicah\</OutDir>
+    <IntDir>..\bin\Debug-x86_64int\Carmicah\</IntDir>
     <TargetName>Carmicah</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>..\bin\x86_64\Carmicah\</OutDir>
-    <IntDir>..\bin\x86_64int\Carmicah\Release\</IntDir>
+    <OutDir>..\bin\Release-x86_64\Carmicah\</OutDir>
+    <IntDir>..\bin\Release-x86_64int\Carmicah\</IntDir>
     <TargetName>Carmicah</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
@@ -73,7 +73,7 @@
       <AdditionalLibraryDirectories>..\Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>xcopy /Q /E /Y /I "..\Dependencies\lib\**.dll" "..\bin\x86_64\Editor"</Command>
+      <Command>xcopy /Q /E /Y /I "..\Dependencies\lib\**.dll" "..\bin\Debug-x86_64\Editor"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -101,7 +101,7 @@
       <AdditionalLibraryDirectories>..\Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>xcopy /Q /E /Y /I "..\Dependencies\lib\**.dll" "..\bin\x86_64\Editor"</Command>
+      <Command>xcopy /Q /E /Y /I "..\Dependencies\lib\**.dll" "..\bin\Release-x86_64\Editor"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

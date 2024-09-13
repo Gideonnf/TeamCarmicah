@@ -5,7 +5,7 @@ workspace "CarmicahEngine"
     system "windows"
     startproject "Editor"
 
-outputdir = "%{cfg.architecture}"
+outputdir = "%{cfg.buildcfg}-%{cfg.architecture}"
 
 project "Carmicah"
     location "Carmicah"

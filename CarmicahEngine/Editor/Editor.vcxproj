@@ -42,15 +42,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\bin\x86_64\Editor\</OutDir>
-    <IntDir>..\bin\x86_64int\Editor\Debug\</IntDir>
+    <OutDir>..\bin\Debug-x86_64\Editor\</OutDir>
+    <IntDir>..\bin\Debug-x86_64int\Editor\</IntDir>
     <TargetName>Editor</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin\x86_64\Editor\</OutDir>
-    <IntDir>..\bin\x86_64int\Editor\Release\</IntDir>
+    <OutDir>..\bin\Release-x86_64\Editor\</OutDir>
+    <IntDir>..\bin\Release-x86_64int\Editor\</IntDir>
     <TargetName>Editor</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
