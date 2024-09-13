@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CarmicahCore.h"
 #include <stdio.h>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace Carmicah
@@ -39,12 +40,12 @@ namespace Carmicah
         //printf("GL %d.%d\n", GLFW_VERSION_MAJOR, GLFW_VERSION_MINOR);
 
         while (!glfwWindowShouldClose(window)) {
-            glfwPollEvents();
+            //glfwPollEvents();
 
-            glClearColor(0.7f, 0.9f, 0.1f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
+            //glClearColor(0.7f, 0.9f, 0.1f, 1.0f);
+            //glClear(GL_COLOR_BUFFER_BIT);
 
-            glfwSwapBuffers(window);
+            //glfwSwapBuffers(window);
         }
 
         glfwTerminate();
