@@ -93,20 +93,25 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="ComponentManager.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="source\BaseSystem.h" />
     <ClInclude Include="source\Carmicah.h" />
     <ClInclude Include="source\Carmicah\Application.h" />
     <ClInclude Include="source\Carmicah\CarmicahCore.h" />
+    <ClInclude Include="source\CollisionSystem.h" />
+    <ClInclude Include="source\Component.h" />
+    <ClInclude Include="source\ComponentManager.h" />
+    <ClInclude Include="source\ECSTypes.h" />
+    <ClInclude Include="source\EntityManager.h" />
+    <ClInclude Include="source\GameObject.h" />
     <ClInclude Include="source\pch.h" />
+    <ClInclude Include="source\Singleton.h" />
+    <ClInclude Include="source\SystemManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="ComponentManager.cpp" />
-    <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="source\Carmicah\Application.cpp" />
+    <ClCompile Include="source\CollisionSystem.cpp" />
+    <ClCompile Include="source\EntityManager.cpp" />
+    <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

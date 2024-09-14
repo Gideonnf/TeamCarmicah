@@ -2,6 +2,30 @@
 #include "Application.h"
 #include <stdio.h>
 
+#include "ComponentManager.h"
+#include "SystemManager.h"
+#include "GameObject.h"
+#include "CollisionSystem.h"
+
+struct Transform
+{
+    float xPos;
+    float yPos;
+    float zPos;
+};
+
+struct AABB
+{
+    float minX;
+    float minY;
+    float maxX;
+    float maxY;
+};
+
+struct Collider2D
+{
+    AABB colliderBox;
+};
 
 namespace Carmicah
 {
@@ -37,6 +61,15 @@ namespace Carmicah
 
         //int version = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         //printf("GL %d.%d\n", GLFW_VERSION_MAJOR, GLFW_VERSION_MINOR);
+
+        // Register the components
+        ComponentManager::GetInstance()->RegisterComponent<Transform>();
+        ComponentManager::GetInstance()->RegisterComponent<Collider2D>();
+
+        auto colSystem = SystemManager::GetInstance()->RegisterSystem<CollisionSystem>();
+        SystemManager::GetInstance()->SetSignature<CollisionSystem>({ "Transform", "Collider2D" });
+
+        std::cout << colSystem->mSignature << std::endl;
 
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();
