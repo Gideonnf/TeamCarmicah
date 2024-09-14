@@ -1,6 +1,9 @@
 #ifndef COMPONENT_MANAGER_H
 #define COMPONENT_MANAGER_H
-class ComponentManager
+#include "Component.h"
+#include "Singleton.h"
+
+class ComponentManager : public Singleton<ComponentManager>
 {
 private:
 	// Keep track of what is the component ID 
@@ -8,7 +11,6 @@ private:
 
 	// Keep track of the components by storing a shared pointer to the interface base class
 	// Shared pointer so that it can keep track of every new component by using the same pointer
-
 	// I also cant store it as a const char*, IComponent without using shared_ptr 
 	std::unordered_map<const char*, std::shared_ptr<IComponent>> m_ComponentMap;
 

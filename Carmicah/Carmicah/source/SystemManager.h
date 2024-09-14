@@ -5,7 +5,9 @@
 #include "ECSTypes.h"
 #include <unordered_map>
 #include <memory>
-class SystemManager
+#include "Singleton.h"
+
+class SystemManager : public Singleton<SystemManager>
 {
 private:
 	std::unordered_map<const char*, Signature> mSystemSignatures;

@@ -1,8 +1,8 @@
 #ifndef ENTITY_MANAGER_H
 #define ENTITY_MANAGER_H
 #include "ECSTypes.h"
-
-class EntityManager
+#include "Singleton.h"
+class EntityManager : public Singleton<EntityManager>
 {
 private:
 	// Keep track of the current queue of free entity IDs that can be used
@@ -20,6 +20,8 @@ public:
 	void DeleteEntity(Entity entity);
 
 	void SetSignature(Entity entity, Signature entitySignature);
+
+	Signature GetSignature(Entity entity);
 };
 
 #endif

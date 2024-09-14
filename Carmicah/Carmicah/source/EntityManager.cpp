@@ -40,3 +40,8 @@ void EntityManager::SetSignature(Entity entity, Signature entitySignature)
 {
 	m_EntitySignatures[entity] = entitySignature;
 }
+
+Signature EntityManager::GetSignature(Entity entity)
+{
+	return m_EntitySignatures[entity];
+}

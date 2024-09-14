@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Entity.h"
+#include "ECSTypes.h"
 #include "Component.h"
 
 template <typename T>
