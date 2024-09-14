@@ -1,9 +1,12 @@
 #pragma once
 
-struct Collider2D
+namespace Carmicah
 {
-    float minX;
-    float minY;
-    float maxX;
-    float maxY;
-};
+    struct Collider2D
+    {
+        float minX;
+        float minY;
+        float maxX;
+        float maxY;
+    };
+}

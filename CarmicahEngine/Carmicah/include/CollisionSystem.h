@@ -1,14 +1,18 @@
 #pragma once
 #include "BaseSystem.h"
-class CollisionSystem : public BaseSystem
+
+namespace Carmicah
 {
-public:
-	void PrintEntities();
+	class CollisionSystem : public BaseSystem
+	{
+	public:
+		void PrintEntities();
 
-	void Init();
+		void Init();
 
-	void Update();
+		void Update();
 
-	void Exit() ;
-};
+		void Exit() ;
+	};
+}
 

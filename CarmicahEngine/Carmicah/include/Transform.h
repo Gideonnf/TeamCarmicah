@@ -1,7 +1,11 @@
 #pragma once
-struct Transform
+
+namespace Carmicah
 {
-    float xPos;
-    float yPos;
-    float zPos;
-};
+    struct Transform
+    {
+        float xPos;
+        float yPos;
+        float zPos;
+    };
+}

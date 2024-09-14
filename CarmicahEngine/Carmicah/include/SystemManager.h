@@ -6,88 +6,89 @@
 #include <memory>
 #include "Singleton.h"
 
-class SystemManager : public Singleton<SystemManager>
+namespace Carmicah
 {
-private:
-	std::unordered_map<std::string, Signature> mSystemSignatures{};
-	std::unordered_map<std::string, std::shared_ptr<BaseSystem>> mSystems{};
-
-public:
-	template<typename T>
-	std::shared_ptr<T> RegisterSystem()
+	class SystemManager : public Singleton<SystemManager>
 	{
-		// Get the name of the system
-		std::string sysName = typeid(T).name();
+	private:
+		std::unordered_map<std::string, Signature> mSystemSignatures{};
+		std::unordered_map<std::string, std::shared_ptr<BaseSystem>> mSystems{};
 
-		auto system = std::make_shared<T>();
-		mSystems.insert({ sysName, system });
-		return system;
-	}
-
-
-
-	template<typename T>
-	void SetSignature(Signature sig)
-	{
-		// Get the name of the system
-		std::string sysName = typeid(T).name();
-
-		mSystemSignatures.insert({ sysName, sig });
-	}
-
-	template<typename T>
-	void SetSignature(std::vector<const char*> componentList)
-	{
-		// Get the name of the system
-		std::string sysName = typeid(T).name();
-
-		Signature signature;
-		// Loop through the vector
-		for (auto const& component : componentList)
+	public:
+		template<typename T>
+		std::shared_ptr<T> RegisterSystem()
 		{
-			mSystems[sysName]->componentNames.push_back(component);
-			// Set the signature for all the component it has
-			signature.set(ComponentManager::GetInstance()->GetComponentID(component), true);
+			// Get the name of the system
+			std::string sysName = typeid(T).name();
+
+			auto system = std::make_shared<T>();
+			mSystems.insert({ sysName, system });
+			return system;
 		}
 
-		mSystems[sysName]->mSignature = signature;
-		mSystemSignatures.insert({ sysName, signature });
-	}
-
-	void EntityDestroyed(Entity entity)
-	{
-		std::unordered_map<std::string, std::shared_ptr<BaseSystem>>::iterator iSystemIterator = mSystems.begin();
-		for (; iSystemIterator != mSystems.end(); ++iSystemIterator)
+		template<typename T>
+		void SetSignature(Signature sig)
 		{
-			iSystemIterator->second->mEntitiesSet.erase(entity);
+			// Get the name of the system
+			std::string sysName = typeid(T).name();
+
+			mSystemSignatures.insert({ sysName, sig });
 		}
-	}
 
-	void UpdateSignatures(Entity entity, Signature entitySignature)
-	{
-		for (auto const& pair : mSystems)
+		template<typename T>
+		void SetSignature(std::vector<const char*> componentList)
 		{
-			// Get the name and system from mSystems
-			auto const& name = pair.first;
-			auto const& system = pair.second;
-			// Get the system's signature
-			auto const& systemSignature = mSystemSignatures[name];
+			// Get the name of the system
+			std::string sysName = typeid(T).name();
 
-			// Check if the entities signature matches the system's
-			if ((entitySignature & systemSignature) == systemSignature) // bit comparison 
+			Signature signature;
+			// Loop through the vector
+			for (auto const& component : componentList)
 			{
-				system->mEntitiesSet.insert(entity);
+				mSystems[sysName]->componentNames.push_back(component);
+				// Set the signature for all the component it has
+				signature.set(ComponentManager::GetInstance()->GetComponentID(component), true);
 			}
-			else
+
+			mSystems[sysName]->mSignature = signature;
+			mSystemSignatures.insert({ sysName, signature });
+		}
+
+		void EntityDestroyed(Entity entity)
+		{
+			std::unordered_map<std::string, std::shared_ptr<BaseSystem>>::iterator iSystemIterator = mSystems.begin();
+			for (; iSystemIterator != mSystems.end(); ++iSystemIterator)
 			{
-				// erase it from the system's signature if it exist within the entities set
-				if (system->mEntitiesSet.find(entity) != system->mEntitiesSet.end())
+				iSystemIterator->second->mEntitiesSet.erase(entity);
+			}
+		}
+
+		void UpdateSignatures(Entity entity, Signature entitySignature)
+		{
+			for (auto const& pair : mSystems)
+			{
+				// Get the name and system from mSystems
+				auto const& name = pair.first;
+				auto const& system = pair.second;
+				// Get the system's signature
+				auto const& systemSignature = mSystemSignatures[name];
+
+				// Check if the entities signature matches the system's
+				if ((entitySignature & systemSignature) == systemSignature) // bit comparison 
 				{
-					system->mEntitiesSet.erase(entity);
+					system->mEntitiesSet.insert(entity);
+				}
+				else
+				{
+					// erase it from the system's signature if it exist within the entities set
+					if (system->mEntitiesSet.find(entity) != system->mEntitiesSet.end())
+					{
+						system->mEntitiesSet.erase(entity);
+					}
 				}
 			}
 		}
-	}
-};
+	};
+}
 
 #endif
