@@ -5,6 +5,14 @@
 #include <GLFW/glfw3.h>
 #include <FMOD/fmod.hpp>
 
+#include "ComponentManager.h"
+#include "SystemManager.h"
+#include "GameObject.h"
+#include "Transform.h"
+#include "Collider2D.h"
+#include "CollisionSystem.h"
+
+
 namespace Carmicah
 {
     const GLuint WIDTH = 800, HEIGHT = 600;
@@ -59,6 +67,27 @@ namespace Carmicah
             std::cout << "Failed to initialize GLAD" << std::endl;
             return -1;
         }
+        ComponentManager::GetInstance()->RegisterComponent<Transform>();
+        ComponentManager::GetInstance()->RegisterComponent<Collider2D>();
+
+        auto colSystem = SystemManager::GetInstance()->RegisterSystem<CollisionSystem>();
+
+        //SystemManager::GetInstance()->SetSignature<CollisionSystem>({ "Transform", "Collider2D" });
+        //OR can put it in init
+        colSystem->Init(); // Set the signature
+
+        //Entity player = EntityManager::GetInstance()->CreateEntity();
+        Transform playerTrans{ 1, 1, 1 };
+        Collider2D playerCollider{ 1, 2, 3, 4 };
+
+        GameObject newObj;
+        colSystem->PrintEntities();
+        newObj.AddComponent<Transform>(playerTrans);
+        colSystem->PrintEntities();
+        newObj.AddComponent<Collider2D>(playerCollider);
+        colSystem->PrintEntities();
+
+
 
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();
