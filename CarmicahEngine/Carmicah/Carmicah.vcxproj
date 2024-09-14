@@ -105,11 +105,23 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\BaseSystem.h" />
     <ClInclude Include="include\CarmicahCore.h" />
+    <ClInclude Include="include\Collider2D.h" />
+    <ClInclude Include="include\CollisionSystem.h" />
+    <ClInclude Include="include\Component.h" />
+    <ClInclude Include="include\ComponentManager.h" />
+    <ClInclude Include="include\ECSTypes.h" />
+    <ClInclude Include="include\EntityManager.h" />
+    <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\pch.h" />
+    <ClInclude Include="include\Singleton.h" />
+    <ClInclude Include="include\SystemManager.h" />
+    <ClInclude Include="include\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />
+    <ClCompile Include="source\CollisionSystem.cpp" />
     <ClCompile Include="source\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

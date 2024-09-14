@@ -23,7 +23,12 @@ void CollisionSystem::Init()
 
 void CollisionSystem::Update()
 {
-	std::cout << mSignature << std::endl;
+	//std::cout << mSignature << std::endl;
+	for (auto entity : mEntitiesSet)
+	{
+		auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
+		transform.yPos += 1;		
+	}
 }
 
 void CollisionSystem::Exit()

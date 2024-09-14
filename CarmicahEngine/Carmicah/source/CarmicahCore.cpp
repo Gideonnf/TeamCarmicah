@@ -96,6 +96,12 @@ namespace Carmicah
             mpSystem->update();
 #endif
 
+            newObj.GetComponent<Transform>().xPos += 1;
+            std::cout << "xPos : " << newObj.GetComponent<Transform>().xPos << std::endl;
+            colSystem->Update();
+            std::cout << "yPos : " << newObj.GetComponent<Transform>().yPos << std::endl;
+
+
             glClearColor(0.7f, 0.9f, 0.1f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 

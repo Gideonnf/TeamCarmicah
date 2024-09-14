@@ -13,7 +13,8 @@ private:
 public:
 	GameObject()
 	{
-		mID = EntityManager::GetInstance()->CreateEntity();
+		// default construct the name based on "GameObject" + id
+		mID = EntityManager::GetInstance()->CreateEntity("GameObject");
 	}
 	GameObject(const Entity& id)
 	{

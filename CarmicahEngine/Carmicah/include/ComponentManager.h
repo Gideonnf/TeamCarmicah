@@ -97,12 +97,9 @@ public:
 	template<typename T>
 	T& GetComponent(Entity entity)
 	{
-		if (GetComponent<T>() != NULL)
-		{
-			return GetComponentArray<T>()->GetComponentData(entity);
-		}
+		// TODO: Assert error if it tries to get a component that it doesnt have
 
-		return NULL;
+		return GetComponentArray<T>()->GetComponentData(entity);
 	}
 
 	void EntityDestroyed(Entity entity)

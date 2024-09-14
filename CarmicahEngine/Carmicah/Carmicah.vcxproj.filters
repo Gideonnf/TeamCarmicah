@@ -7,6 +7,9 @@
     <Filter Include="source">
       <UniqueIdentifier>{76FF3A1C-62A1-65F2-4B5C-7946379DEC42}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\ECS">
+      <UniqueIdentifier>{e2bf875c-ff57-4512-9d2d-7cf26cd27edf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CarmicahCore.h">
@@ -15,12 +18,48 @@
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\BaseSystem.h">
+      <Filter>include\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Collider2D.h">
+      <Filter>include\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CollisionSystem.h">
+      <Filter>include\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Component.h">
+      <Filter>include\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ComponentManager.h">
+      <Filter>include\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ECSTypes.h">
+      <Filter>include\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EntityManager.h">
+      <Filter>include\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameObject.h">
+      <Filter>include\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Singleton.h">
+      <Filter>include\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SystemManager.h">
+      <Filter>include\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Transform.h">
+      <Filter>include\ECS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\pch.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CollisionSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
