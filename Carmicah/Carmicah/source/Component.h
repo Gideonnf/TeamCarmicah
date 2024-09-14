@@ -2,6 +2,8 @@
 #define COMPONENT_H
 
 #include "ECSTypes.h"
+#include <unordered_map>
+#include <array>
 // Interface for components so that component manager can notify components if an entity is destroyed
 class IComponent
 {
@@ -35,7 +37,7 @@ private:
 	*/
 
 public:
-	void AddComponent(Entity entity, T component)
+	void InsertComponentData(Entity entity, T component)
 	{
 		// use current active size to get the next component id
 		unsigned int componentIndex = m_Size;
@@ -51,7 +53,7 @@ public:
 		m_Size++;
 	}
 
-	void RemoveComponent(Entity entity)
+	void RemoveComponentData(Entity entity)
 	{
 		// Get the last active index and the entity to delete index
 		unsigned int lastValidIndex = m_Size - 1;
@@ -85,7 +87,7 @@ public:
 		if (m_EntityToComponent.find(entity) != m_EntityToComponent.end())
 		{
 			// Remove the data
-			RemoveComponent(entity);
+			RemoveComponentData(entity);
 		}
 	}
 

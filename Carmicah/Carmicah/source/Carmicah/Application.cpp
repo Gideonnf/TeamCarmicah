@@ -5,27 +5,13 @@
 #include "ComponentManager.h"
 #include "SystemManager.h"
 #include "GameObject.h"
+#include "Transform.h"
+#include "Collider2D.h"
 #include "CollisionSystem.h"
 
-struct Transform
-{
-    float xPos;
-    float yPos;
-    float zPos;
-};
 
-struct AABB
-{
-    float minX;
-    float minY;
-    float maxX;
-    float maxY;
-};
 
-struct Collider2D
-{
-    AABB colliderBox;
-};
+
 
 namespace Carmicah
 {
@@ -67,8 +53,32 @@ namespace Carmicah
         ComponentManager::GetInstance()->RegisterComponent<Collider2D>();
 
         auto colSystem = SystemManager::GetInstance()->RegisterSystem<CollisionSystem>();
-        SystemManager::GetInstance()->SetSignature<CollisionSystem>({ "Transform", "Collider2D" });
 
+        //OR can put it in init
+        //SystemManager::GetInstance()->SetSignature<CollisionSystem>({ "Transform", "Collider2D" });
+        colSystem->Init(); // Set the signature
+
+        //Entity player = EntityManager::GetInstance()->CreateEntity();
+        Transform playerTrans{ 1, 1, 1 };
+        Collider2D playerCollider{ 1, 2, 3, 4 };
+        //ComponentManager::GetInstance()->AddComponent<Transform>(player, playerTrans);
+        //auto entitySignature = EntityManager::GetInstance()->GetSignature(player);
+        //// Set the component's signature pos within entity signature to true
+        //entitySignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>(), true);
+        //// Set the new siganture of hte entity to show that it has this component now
+        //EntityManager::GetInstance()->SetSignature(player, entitySignature);
+        //// Update the systems that the signature changed
+        //SystemManager::GetInstance()->UpdateSignatures(player, entitySignature);
+
+        GameObject newObj;
+        colSystem->PrintEntities();
+        newObj.AddComponent<Transform>(playerTrans);
+        colSystem->PrintEntities();
+        newObj.AddComponent<Collider2D>(playerCollider);
+        colSystem->PrintEntities();
+
+      
+       
         std::cout << colSystem->mSignature << std::endl;
 
         while (!glfwWindowShouldClose(window)) {
@@ -76,6 +86,8 @@ namespace Carmicah
 
             glClearColor(0.7f, 0.9f, 0.1f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
+
+            colSystem->Update();
 
             glfwSwapBuffers(window);
         }

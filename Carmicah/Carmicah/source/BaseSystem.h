@@ -2,9 +2,7 @@
 #define BASE_SYSTEM_H
 #include <set>
 #include <ECSTypes.h>
-#include <vector>
-
-
+#include <set>
 
 class BaseSystem
 {
@@ -13,25 +11,8 @@ public:
 	std::set<Entity> mEntitiesSet;
 	// Keep track of the system's signature
 	Signature mSignature;
-	// Holds a vector of what components it uses. tbh idk if itll be used for anything but just keeping it ig
+	// Holds a vector of what components it uses. TODO: Verify if its actually useful for anything
 	std::vector<const char*> componentNames;
-
-	//// Initialize the components that the system needs
-	//virtual void InitComponents(std::vector<const char*> componentList)
-	//{
-	//	// Loop through the vector
-	//	for (auto const& component : componentList)
-	//	{
-	//		componentNames.push_back(component);
-	//		// Set the signature for all the component it has
-	//		mSignature.set(ComponentManager::GetInstance()->GetComponentID(component), true);
-	//	}
-	//}
-
-	//~BaseSystem()
-	//{
-
-	//}
 };
 
 #endif

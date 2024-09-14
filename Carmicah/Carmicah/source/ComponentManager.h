@@ -1,6 +1,9 @@
 #ifndef COMPONENT_MANAGER_H
 #define COMPONENT_MANAGER_H
-#include "Component.h"
+#include "Component.h" // ECStypes in component.h
+#include <unordered_map>
+#include <memory>
+
 #include "Singleton.h"
 
 class ComponentManager : public Singleton<ComponentManager>
@@ -74,9 +77,9 @@ public:
 	template<typename T>
 	void AddComponent(Entity entity, T component)
 	{
-		if (GetComponent<T>() != NULL)
+		if (GetComponentArray<T>() != NULL)
 		{
-			GetComponent<T>()->AddComponent(entity, component);
+			GetComponentArray<T>()->InsertComponentData(entity, component);
 		}
 	}
 
@@ -84,9 +87,9 @@ public:
 	template<typename T>
 	void RemoveComponent(Entity entity)
 	{
-		if (GetComponent<T>() != NULL)
+		if (GetComponentArray<T>() != NULL)
 		{
-			GetComponent<T>()->RemoveComponent(entity);
+			GetComponentArray<T>()->RemoveComponentData(entity);
 		}
 
 	}
@@ -96,7 +99,7 @@ public:
 	{
 		if (GetComponent<T>() != NULL)
 		{
-			return GetComponent<T>()->GetComponentData(entity);
+			return GetComponentArray<T>()->GetComponentData(entity);
 		}
 
 		return NULL;
@@ -113,7 +116,7 @@ public:
 
 	// Used to get the component for inserting in new entity data
 	template<typename T>
-	std::shared_ptr<Component<T>> GetComponent()
+	std::shared_ptr<Component<T>> GetComponentArray()
 	{
 		// Get the name of the component using typeid
 		std::string componentName = typeid(T).name();

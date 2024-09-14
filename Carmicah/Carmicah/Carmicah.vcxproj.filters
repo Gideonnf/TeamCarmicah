@@ -42,16 +42,14 @@
       <Filter>ECS</Filter>
     </ClInclude>
     <ClInclude Include="source\CollisionSystem.h" />
+    <ClInclude Include="source\Carmicah\Transform.h" />
+    <ClInclude Include="source\Carmicah\Collider2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Carmicah\Application.cpp">
       <Filter>Carmicah</Filter>
     </ClCompile>
     <ClCompile Include="source\pch.cpp" />
-    <ClCompile Include="source\GameObject.cpp">
-      <Filter>Carmicah</Filter>
-    </ClCompile>
     <ClCompile Include="source\CollisionSystem.cpp" />
-    <ClCompile Include="source\EntityManager.cpp" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,6 @@
 #pragma once
+#include <bitset>
+#include <cstdint>
 
 // Keep track of entity ids
 // use 16 bit int for now 

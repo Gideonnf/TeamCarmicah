@@ -3,6 +3,8 @@
 class CollisionSystem : public BaseSystem
 {
 public:
+	void PrintEntities();
+
 	void Init();
 
 	void Update();

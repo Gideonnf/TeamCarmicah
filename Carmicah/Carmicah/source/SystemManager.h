@@ -2,11 +2,9 @@
 #define SYSTEM_MANAGER_H
 
 #include "BaseSystem.h"
-#include "ECSTypes.h"
 #include <unordered_map>
 #include <memory>
 #include "Singleton.h"
-#include <vector>
 
 class SystemManager : public Singleton<SystemManager>
 {
