@@ -11,6 +11,7 @@
 #include "Transform.h"
 #include "Collider2D.h"
 #include "CollisionSystem.h"
+#include "Time.h"
 
 
 namespace Carmicah
@@ -44,6 +45,7 @@ namespace Carmicah
         glfwMakeContextCurrent(window);
 
         glfwSetKeyCallback(window, key_callback);
+
 
 #ifndef NO_SOUND
         FMOD::System* mpSystem;
@@ -87,9 +89,15 @@ namespace Carmicah
         newObj.AddComponent<Collider2D>(playerCollider);
         colSystem->PrintEntities();
 
+        // Start timer
+        CarmicahTimer::StartTime();
 
 
         while (!glfwWindowShouldClose(window)) {
+            // Update dt calc
+            CarmicahTimer::UpdateElapsedTime();
+
+            std::cout << "dt in CmCore: " << CarmicahTimer::GetDeltaTime() << std::endl;
             glfwPollEvents();
 
 #ifndef NO_SOUND
