@@ -5,12 +5,12 @@
 #include <GLFW/glfw3.h>
 #include <FMOD/fmod.hpp>
 
-#include "ComponentManager.h"
-#include "SystemManager.h"
-#include "GameObject.h"
-#include "Transform.h"
-#include "Collider2D.h"
-#include "CollisionSystem.h"
+#include "ECS/ComponentManager.h"
+#include "ECS/SystemManager.h"
+#include "ECS/GameObject.h"
+#include "Components/Transform.h"
+#include "Components/Collider2D.h"
+#include "Systems/CollisionSystem.h"
 #include "Time.h"
 
 

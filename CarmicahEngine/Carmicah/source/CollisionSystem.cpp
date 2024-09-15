@@ -1,10 +1,10 @@
 #include "pch.h"
-#include "CollisionSystem.h"
-#include <ECSTypes.h>
-#include "Transform.h"
-#include "Collider2D.h"
-#include "SystemManager.h"
-#include "ComponentManager.h"
+#include "Systems/CollisionSystem.h"
+#include <ECS/ECSTypes.h>
+#include "Components/Transform.h"
+#include "Components/Collider2D.h"
+#include "ECS/SystemManager.h"
+#include "ECS/ComponentManager.h"
 
 namespace Carmicah
 {

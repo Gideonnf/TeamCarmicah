@@ -1,7 +1,7 @@
 #ifndef BASE_SYSTEM_H
 #define BASE_SYSTEM_H
 #include <set>
-#include <ECSTypes.h>
+#include <ECS/ECSTypes.h>
 #include <chrono>
 
 namespace Carmicah
