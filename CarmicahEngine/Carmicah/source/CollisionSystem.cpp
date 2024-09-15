@@ -6,32 +6,36 @@
 #include "SystemManager.h"
 #include "ComponentManager.h"
 
-void CollisionSystem::PrintEntities()
+namespace Carmicah
 {
-	std::cout << "Entities in collision system: " << mEntitiesSet.size() << std::endl;
-}
-
-void CollisionSystem::Init()
-{
-	// Set the signature of the system
-	mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
-	mSignature.set(ComponentManager::GetInstance()->GetComponentID<Collider2D>());
-
-	// Update the signature of the system
-	SystemManager::GetInstance()->SetSignature<CollisionSystem>(mSignature);
-}
-
-void CollisionSystem::Update()
-{
-	//std::cout << mSignature << std::endl;
-	for (auto entity : mEntitiesSet)
+	void CollisionSystem::PrintEntities()
 	{
-		auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
-		transform.yPos += 1;		
+		std::cout << "Entities in collision system: " << mEntitiesSet.size() << std::endl;
 	}
-}
 
-void CollisionSystem::Exit()
-{
+	void CollisionSystem::Init()
+	{
+		// Set the signature of the system
+		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
+		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Collider2D>());
+
+		// Update the signature of the system
+		SystemManager::GetInstance()->SetSignature<CollisionSystem>(mSignature);
+	}
+
+	void CollisionSystem::Update()
+	{
+		//std::cout << mSignature << std::endl;
+		for (auto entity : mEntitiesSet)
+		{
+			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
+			transform.yPos += 1;		
+		}
+	}
+
+	void CollisionSystem::Exit()
+	{
+
+	}
 
 }
