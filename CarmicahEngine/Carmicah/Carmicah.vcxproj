@@ -105,19 +105,20 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\BaseSystem.h" />
     <ClInclude Include="include\CarmicahCore.h" />
-    <ClInclude Include="include\Collider2D.h" />
-    <ClInclude Include="include\CollisionSystem.h" />
-    <ClInclude Include="include\Component.h" />
-    <ClInclude Include="include\ComponentManager.h" />
-    <ClInclude Include="include\ECSTypes.h" />
-    <ClInclude Include="include\EntityManager.h" />
-    <ClInclude Include="include\GameObject.h" />
-    <ClInclude Include="include\pch.h" />
+    <ClInclude Include="include\CarmicahTime.h" />
+    <ClInclude Include="include\Components\Collider2D.h" />
+    <ClInclude Include="include\Components\Transform.h" />
+    <ClInclude Include="include\ECS\BaseSystem.h" />
+    <ClInclude Include="include\ECS\Component.h" />
+    <ClInclude Include="include\ECS\ComponentManager.h" />
+    <ClInclude Include="include\ECS\ECSTypes.h" />
+    <ClInclude Include="include\ECS\EntityManager.h" />
+    <ClInclude Include="include\ECS\GameObject.h" />
+    <ClInclude Include="include\ECS\SystemManager.h" />
     <ClInclude Include="include\Singleton.h" />
-    <ClInclude Include="include\SystemManager.h" />
-    <ClInclude Include="include\Transform.h" />
+    <ClInclude Include="include\Systems\CollisionSystem.h" />
+    <ClInclude Include="include\pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />

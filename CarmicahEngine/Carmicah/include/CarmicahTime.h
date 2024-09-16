@@ -1,12 +1,12 @@
-#ifndef TIME_H
-#define TIME_H
+#ifndef CARMICAH_TIME_H
+#define CARMICAH_TIME_H
 #include "Singleton.h"
 #include <GLFW/glfw3.h>
 #include <Windows.h>
 
 namespace Carmicah
 {
-	class Time : public Singleton<Time>
+	class CarmicahTime : public Singleton<CarmicahTime>
 	{
 	public:
 		// I dont know if we should use glfwGetTime or window's QueryPerformanceCounter
@@ -18,8 +18,8 @@ namespace Carmicah
 		double mDeltaTime;
 		double mPrevTime;
 
-		Time() : mDeltaTime(0), mPrevTime(0) { /*QueryPerformanceFrequency(&mFrequency);*/ }
-		~Time() {}
+		CarmicahTime() : mDeltaTime(0), mPrevTime(0) { /*QueryPerformanceFrequency(&mFrequency);*/ }
+		~CarmicahTime() {}
 
 		void InitTime()
 		{
@@ -38,7 +38,7 @@ namespace Carmicah
 	{
 		void StartTime()
 		{
-			Time::GetInstance()->InitTime();
+			CarmicahTime::GetInstance()->InitTime();
 			//Time::GetInstance()->
 			//QueryPerformanceCounter(&Time::GetInstance()->mPrevTime);
 		}
@@ -53,13 +53,13 @@ namespace Carmicah
 			//// Update the prev time
 			//Time::GetInstance()->mPrevTime = currTime;
 
-			Time::GetInstance()->UpdateTime();
+			CarmicahTime::GetInstance()->UpdateTime();
 
 		}
 
 		double GetDeltaTime()
 		{
-			return Time::GetInstance()->mDeltaTime;
+			return CarmicahTime::GetInstance()->mDeltaTime;
 		}
 
 	}

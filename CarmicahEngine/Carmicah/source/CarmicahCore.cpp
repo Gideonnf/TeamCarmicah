@@ -11,7 +11,7 @@
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Systems/CollisionSystem.h"
-#include "Time.h"
+#include "CarmicahTime.h"
 
 
 namespace Carmicah
@@ -90,7 +90,7 @@ namespace Carmicah
         colSystem->PrintEntities();
 
         // Start timer
-        CarmicahTimer::StartTime();
+        //CarmicahTimer::StartTime();
 
 
         while (!glfwWindowShouldClose(window)) {
