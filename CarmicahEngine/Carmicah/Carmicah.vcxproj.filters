@@ -57,8 +57,13 @@
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
+<<<<<<< Updated upstream
     <ClInclude Include="include\CarmicahTime.h">
       <Filter>include</Filter>
+=======
+    <ClInclude Include="log.h">
+      <Filter>source</Filter>
+>>>>>>> Stashed changes
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +74,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\pch.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="log.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

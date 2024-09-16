@@ -12,6 +12,8 @@
 #include <map>
 #include <unordered_map>
 #include <bitset>
+#include <CarmicahCore.h>
+
 // Any other common includes can add on here
 // ONLY BASIC STD includes (remove before Milestones) #TODO
 
