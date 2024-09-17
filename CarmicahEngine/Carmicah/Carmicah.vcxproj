@@ -116,6 +116,8 @@
     <ClInclude Include="include\ECS\EntityManager.h" />
     <ClInclude Include="include\ECS\GameObject.h" />
     <ClInclude Include="include\ECS\SystemManager.h" />
+    <ClInclude Include="include\Math\Matrix.h" />
+    <ClInclude Include="include\Math\Vec2.h" />
     <ClInclude Include="include\Singleton.h" />
     <ClInclude Include="include\Systems\CollisionSystem.h" />
     <ClInclude Include="include\pch.h" />
