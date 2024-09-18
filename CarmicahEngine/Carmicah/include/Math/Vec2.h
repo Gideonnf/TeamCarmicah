@@ -1,4 +1,5 @@
 #pragma once
+#include <math.h>
 
 namespace Vec2
 {
@@ -29,16 +30,16 @@ namespace Vec2
 			y -= rhs.y;
 			return *this;
 		}
-		Vector2D& operator *= (float rhs)
+		Vector2D& operator *= (T rhs)
 		{
-			x *= rhs.x;
-			y *= rhs.y;
+			x *= rhs;
+			y *= rhs;
 			return *this;
 		}
-		Vector2D& operator /= (float rhs)
+		Vector2D& operator /= (T rhs)
 		{
-			x /= rhs.x;
-			y /= rhs.y;
+			x /= rhs;
+			y /= rhs;
 			return *this;
 		}
 
@@ -52,7 +53,7 @@ namespace Vec2
 	// Binary operators
 	template<typename T> Vector2D<T> operator + (const Vector2D<T>& lhs, const Vector2D<T>& rhs)
 	{
-		return Vector2D (lhs.x + rhs.x, lhs.y + rhs.y);
+		return Vector2D(lhs.x + rhs.x, lhs.y + rhs.y);
 	}
 	template<typename T> Vector2D<T> operator - (const Vector2D<T>& lhs, const Vector2D<T>& rhs)
 	{
@@ -74,15 +75,24 @@ namespace Vec2
 	// Normalise
 	template<typename T> void Vector2DNormalize(Vector2D<T>& pResult, const Vector2D<T>& pVec0)
 	{
-		T normalisation = sqrtf(pVec0.x * pVec0.x + pVec0.y * pVec0.y);
-		pResult.x = pVec0.x / normalisation;
-		pResult.y = pVec0.y / normalisation;
+		T normalisation = sqrt(pVec0.x * pVec0.x + pVec0.y * pVec0.y);
+
+		if (normalisation == 0)
+		{
+			pResult.x = 0;
+			pResult.y = 0;
+		}
+		else
+		{
+			pResult.x = pVec0.x / normalisation;
+			pResult.y = pVec0.y / normalisation;
+		}
 	}
 
 	//Length
 	template<typename T> T Vector2DLength(const Vector2D<T>& pVec0)
 	{
-		T length = sqrtf(pVec0.x * pVec0.x + pVec0.y * pVec0.y);
+		T length = sqrt(pVec0.x * pVec0.x + pVec0.y * pVec0.y);
 
 		return length;
 	}
@@ -90,7 +100,7 @@ namespace Vec2
 	//Square Length
 	template<typename T> T Vector2DSquareLength(const Vector2D<T>& pVec0)
 	{
-		float length = pVec0.x * pVec0.x + pVec0.y * pVec0.y;
+		T length = pVec0.x * pVec0.x + pVec0.y * pVec0.y;
 
 		return length;
 	}
@@ -113,7 +123,7 @@ namespace Vec2
 	{
 		Vector2D DistanceVector = pVec1 - pVec0;
 
-		float distance = Vector2DSquareLength(DistanceVector);
+		T distance = Vector2DSquareLength(DistanceVector);
 
 		return distance;
 	}

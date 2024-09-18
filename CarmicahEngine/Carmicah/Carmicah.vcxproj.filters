@@ -54,7 +54,7 @@
     <ClInclude Include="include\ECS\SystemManager.h">
       <Filter>include\ECS</Filter>
     </ClInclude>
-    <ClInclude Include="include\Math\Matrix.h">
+    <ClInclude Include="include\Math\Matrix3x3.h">
       <Filter>include\Math</Filter>
     </ClInclude>
     <ClInclude Include="include\Math\Vec2.h">
