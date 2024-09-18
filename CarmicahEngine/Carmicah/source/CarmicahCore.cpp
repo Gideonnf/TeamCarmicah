@@ -6,10 +6,8 @@
 #include <FMOD/fmod.hpp>
 #include <spdlog/spdlog.h>
 #include <../log.h>
-
-#include "ECS/ComponentManager.h"
+#include "Systems/GOFactory.h"
 #include "ECS/SystemManager.h"
-#include "ECS/GameObject.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Systems/CollisionSystem.h"
