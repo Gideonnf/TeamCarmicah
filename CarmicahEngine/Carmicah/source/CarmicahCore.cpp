@@ -130,18 +130,20 @@ namespace Carmicah
 
  
 
-        Carmicah::log::init();
-        Carmicah::log::getCoreLogger()->info("Core Logger Initialized");
-        Carmicah::log::getCoreLogger()->warn("Core Logger Initialized");
-        Carmicah::log::getCoreLogger()->error("Core Logger Initialized");
-        Carmicah::log::getCoreLogger()->critical("Core Logger Initialized");
-        Carmicah::log::getClientLogger()->trace("Client Logger Initialized");
+        Carmicah::Log::init();
+        CM_CORE_INFO("Core Logger Initialized");
 
-        Carmicah::log::getClientLogger()->info("Client Logger Initialized");
-        Carmicah::log::getClientLogger()->warn("Client Logger Initialized");
-        Carmicah::log::getClientLogger()->error("Client Logger Initialized");
-        Carmicah::log::getClientLogger()->critical("Client Logger Initialized");
-        Carmicah::log::getClientLogger()->trace("Client Logger Initialized");
+        //Carmicah::Log::getCoreLogger()->info("Core Logger Initialized");
+        //Carmicah::Log::getCoreLogger()->warn("Core Logger Initialized");
+        //Carmicah::Log::getCoreLogger()->error("Core Logger Initialized");
+        //Carmicah::Log::getCoreLogger()->critical("Core Logger Initialized");
+        //Carmicah::Log::getClientLogger()->trace("Client Logger Initialized");
+        //          
+        //Carmicah::Log::getClientLogger()->info("Client Logger Initialized");
+        //Carmicah::Log::getClientLogger()->warn("Client Logger Initialized");
+        //Carmicah::Log::getClientLogger()->error("Client Logger Initialized");
+        //Carmicah::Log::getClientLogger()->critical("Client Logger Initialized");
+        //Carmicah::Log::getClientLogger()->trace("Client Logger Initialized");
 
         return 0;
     }
