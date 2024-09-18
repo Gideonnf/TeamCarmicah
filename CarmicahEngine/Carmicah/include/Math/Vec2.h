@@ -1,5 +1,5 @@
 #pragma once
-#include <math.h>
+#include <cmath>
 
 namespace Vec2
 {
@@ -110,7 +110,6 @@ namespace Vec2
 	template<typename T> T Vector2DDistance(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)
 	{
 
-		//TODO and FIX
 		Vector2D DistanceVector = pVec1 - pVec0;
 
 		T distance = Vector2DLength(DistanceVector);

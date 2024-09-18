@@ -1,6 +1,6 @@
 #pragma once
 #include "Vec2.h"
-#include <math.h>
+#include <cmath>
 
 #define PI 3.14159265358979323846
 
