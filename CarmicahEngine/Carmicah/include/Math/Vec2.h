@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include <iostream>
 
 namespace Vec2
 {
@@ -53,7 +54,7 @@ namespace Vec2
 	// Binary operators
 	template<typename T> Vector2D<T> operator + (const Vector2D<T>& lhs, const Vector2D<T>& rhs)
 	{
-		return Vector2D(lhs.x + rhs.x, lhs.y + rhs.y);
+		return Vector2D (lhs.x + rhs.x, lhs.y + rhs.y);
 	}
 	template<typename T> Vector2D<T> operator - (const Vector2D<T>& lhs, const Vector2D<T>& rhs)
 	{
@@ -77,7 +78,7 @@ namespace Vec2
 	{
 		T normalisation = sqrt(pVec0.x * pVec0.x + pVec0.y * pVec0.y);
 
-		if (normalisation == 0)
+		if(normalisation == 0)
 		{
 			pResult.x = 0;
 			pResult.y = 0;
@@ -110,6 +111,7 @@ namespace Vec2
 	template<typename T> T Vector2DDistance(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)
 	{
 
+		//TODO and FIX
 		Vector2D DistanceVector = pVec1 - pVec0;
 
 		T distance = Vector2DLength(DistanceVector);
@@ -140,6 +142,15 @@ namespace Vec2
 	{
 		return pVec0.x * pVec1.y - pVec0.y * pVec1.x;
 	}
+
+	//<< Operator Overload
+	template <typename T> std::ostream& operator<<(std::ostream& os, const Vector2D<T>& pVec0)
+	{
+		os << "(" << pVec0.x << "," << pVec0.y << ")";
+		return os;
+	}
+
+
 
 
 }

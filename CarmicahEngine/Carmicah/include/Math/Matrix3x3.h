@@ -1,22 +1,25 @@
 #pragma once
+
 #include "Vec2.h"
 #include <cmath>
 
-#define PI 3.14159265358979323846
+constexpr float PI = 3.14159265358f;
 
-namespace Matrix3x3
+namespace Matrix3x3d
 {
 	template <typename T> class Matrix3x3
 	{
-		struct
+		union
 		{
-			T m00, m01, m02;
-			T m10, m11, m12;
-			T m20, m21, m22;
-		};
+			struct
+			{
+				T m00, m01, m02;
+				T m10, m11, m12;
+				T m20, m21, m22;
+			};
 
-		T m[9];
-		T m2[3][3];
+			T m[9];
+		}
 
 		//Constructors
 		Matrix3x3() : m00(0.0f), m01(0.0f), m02(0.0f), m10(0.0f), m11(0.0f), m12(0.0f), m20(0.0f), m21(0.0f), m22(0.0f) {}
