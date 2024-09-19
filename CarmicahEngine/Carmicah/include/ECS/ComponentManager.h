@@ -58,7 +58,7 @@ namespace Carmicah
 
 		ComponentID GetComponentID(std::string componentName)
 		{
-		
+
 			if (m_ComponentTypes.find(componentName) != m_ComponentTypes.end())
 			{
 				return m_ComponentTypes[componentName];
@@ -131,6 +131,20 @@ namespace Carmicah
 			return NULL;
 		}
 	};
+
+	static ComponentManager componentManager;
+
+#pragma region Accessor Functions
+	template <typename T>
+	void RegisterComponent()
+	{
+		componentManager.RegisterComponent<T>();
+	}
+
+	// TODO: Try whether creating these accessor functions are better for accessing than using singleton
+	// Finish up the rest tomorrow morning
+
+#pragma endregion
 }
 
 #endif
