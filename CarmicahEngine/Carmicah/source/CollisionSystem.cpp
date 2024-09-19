@@ -28,16 +28,7 @@ namespace Carmicah
 	{
 		//std::cout << mSignature << std::endl;
 
-		std::vector<Entity> tmp(mEntitiesSet.begin(), mEntitiesSet.end());
-
-		std::sort(tmp.begin(), tmp.end(), [](Entity a, Entity b) 
-		{
-				auto& transformA = ComponentManager::GetInstance()->GetComponent<Transform>(a);
-				auto& transformB = ComponentManager::GetInstance()->GetComponent<Transform>(b);
-				return transformA.xPos < transformB.xPos;
-		});
-
-		for (auto entity : tmp) 
+		for (auto entity : mEntitiesSet) 
 		{
 			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
 			auto& AABB = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);
@@ -51,22 +42,17 @@ namespace Carmicah
 			AABB.maxY = transform.yPos + (transform.scaleY * 0.5f);
 		}
 
-		for (size_t i = 0; i < tmp.size(); ++i)
+		for (auto it1 = mEntitiesSet.begin(); it1 != mEntitiesSet.end(); ++it1)
 		{
-			Entity entity1 = tmp[i];
-
-			auto& transform1 = ComponentManager::GetInstance()->GetComponent<Transform>(entity1);
+			Entity entity1 = *it1;
 			auto& AABB1 = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity1);
 
-			// Inner loop: Compare entity1 with subsequent entities
-			for (size_t j = i + 1; j < tmp.size(); ++j)
+			for (auto it2 = std::next(it1); it2 != mEntitiesSet.end(); ++it2)
 			{
-				Entity entity2 = tmp[j];
-
-				auto& transform2 = ComponentManager::GetInstance()->GetComponent<Transform>(entity2);
+				Entity entity2 = *it2;
 				auto& AABB2 = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity2);
 
-				// Perform AABB collision check between entity1 and entity2
+				// Perform AABB collision check
 				if (AABB1.maxX > AABB2.minX && AABB1.minX < AABB2.maxX &&
 					AABB1.maxY > AABB2.minY && AABB1.minY < AABB2.maxY)
 				{
