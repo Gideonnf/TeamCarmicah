@@ -5,12 +5,18 @@
 
 namespace Carmicah
 {
+	
+	GOFactory* gGOFactory = NULL;
 
 	GOFactory::GOFactory()
 	{
+		//
+		if (gGOFactory == NULL)
+			gGOFactory = this;
+
 		//Create pointer to entity manager
-		mEntityManager = std::make_unique<EntityManager>();
-		mComponentManager = std::make_unique<ComponentManager>();
+		//mEntityManager = std::make_unique<EntityManager>();
+		//mComponentManager = std::make_unique<ComponentManager>();
 	}
 
 	GOFactory::~GOFactory()
@@ -21,22 +27,31 @@ namespace Carmicah
 
 #pragma region GameObject Functions
 
-	void GOFactory::CreateGO(std::string name)
+	GameObject GOFactory::CreateGO(std::string name)
 	{
 		GameObject go;
-		go.mID = mEntityManager->CreateEntity(name);
+		go.mID = EntityManager::GetInstance()->CreateEntity(name);
+
+		// Store in two maps. Testing use for fetching GO by name
+		mNameToID.insert(std::make_pair(go.mName, go.mID));
+		mIDToGO.insert(std::make_pair(go.mID, go));
+
+		// All entities created is stored in GOFactory
+		SystemManager::GetInstance()->UpdateSignatures(go.mID, EntityManager::GetInstance()->GetSignature(go.mID));
+
+
+		return go;
 	}
 
-	void GOFactory::CreateGO(GameObject* go)
+	void GOFactory::CreateGO(GameObject go)
 	{
-		go->mID = mEntityManager->CreateEntity(go->mName);
+		go.mID = EntityManager::GetInstance()->CreateEntity(go.mName);
 	}
 
-	void GOFactory::DestroyGameObject(GameObject* go)
+	void GOFactory::EntityDestroyed(Entity id) 
 	{
-		mEntityManager->DeleteEntity(go->mID);
-		mComponentManager->EntityDestroyed(go->mID);
-		SystemManager::GetInstance()->EntityDestroyed(go->mID);
+		EntityManager::GetInstance()->DeleteEntity(id);
+		ComponentManager::GetInstance()->EntityDestroyed(id);
 	}
 
 	void GOFactory::DestroyAll()
@@ -52,16 +67,6 @@ namespace Carmicah
 	{
 		ComponentManager::GetInstance()->RegisterComponent<T>();
 	}
-
-	template <typename T>
-	void GOFactory::AddComponent()
-	{
-
-	}
-
-
-
-
-
 #pragma endregion
+
 }

@@ -9,7 +9,7 @@
 
 namespace Carmicah
 {
-	class EntityManager 
+	class EntityManager : public Singleton<EntityManager>
 	{
 	private:
 		// Keep track of the current queue of free entity IDs that can be used

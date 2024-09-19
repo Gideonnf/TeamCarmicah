@@ -8,7 +8,7 @@
 
 namespace Carmicah
 {
-	class ComponentManager 
+	class ComponentManager : public Singleton<ComponentManager>
 	{
 		// Look into whether it should be a singleton/extern it out as a global variable
 	private:

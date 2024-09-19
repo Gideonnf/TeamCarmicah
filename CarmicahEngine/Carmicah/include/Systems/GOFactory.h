@@ -9,17 +9,19 @@
 
 namespace Carmicah
 {
-	class GOFactory : public Singleton<GOFactory>
+	// Look into other ways that doesnt require singleton
+	class GOFactory : public BaseSystem
 	{
 	private:
 		// So that players can search for game objects by their name
-		std::unordered_map<std::string, GameObject*> mGameObjectList;
+		std::unordered_map<std::string, Entity> mNameToID;
+		std::unordered_map<Entity, GameObject> mIDToGO;
 
 		// Holds game objects that require deletion at the end of updating
 		std::set<GameObject*> mDeleteList;
 
-		std::unique_ptr<EntityManager> mEntityManager;
-		std::unique_ptr<ComponentManager> mComponentManager;
+		//std::unique_ptr<EntityManager> mEntityManager;
+		//std::unique_ptr<ComponentManager> mComponentManager;
 		/*
 			NOTE: Not sure whats the best implementation right now.
 			1) Whether ot hold the entity and component manager within GOFactory 
@@ -33,26 +35,20 @@ namespace Carmicah
 
 #pragma region GameObject Functions
 		// Default name for GOs
-		void CreateGO(std::string name = "GameObject");
-		void CreateGO(GameObject* go);
-		void DestroyGameObject(GameObject* go);
+		GameObject CreateGO(std::string name = "GameObject");
+		void CreateGO(GameObject);
+		void EntityDestroyed(Entity) override;
 		void DestroyAll();
 #pragma endregion
 
 #pragma region Component Functions
 		template<typename T>
 		void CreateComponent();
-
-		template<typename T>
-		void AddComponent();
-
-		template<typename T>
-		void RemoveComponent();
 #pragma endregion
 
 	};
 
-	//extern GOFactory* gGOFactory;
+	extern GOFactory* gGOFactory;
 }
 
 #endif

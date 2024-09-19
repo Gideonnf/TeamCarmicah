@@ -33,7 +33,9 @@ namespace Carmicah
 
 		void Destroy()
 		{
-			//gGOFactory->DestroyGameObject(this);
+			SystemManager::GetInstance()->EntityDestroyed(mID);
+			//factoryRef->DestroyGameObject(mID);
+			//gGOFactory->DestroyGameObject(mID);
 		}
 
 		Entity GetID()
@@ -60,7 +62,7 @@ namespace Carmicah
 		void AddComponent(T Component)
 		{
 			ComponentManager::GetInstance()->AddComponent(mID, Component);
-			EntityManager::GetInstance()->AttachComponentToEntity(mID, Component);
+			EntityManager::GetInstance()->AddComponent(mID, Component);
 			//auto entitySignature = EntityManager::GetInstance()->GetSignature(mID);
 			//// Set the component's signature pos within entity signature to true
 			//entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), true);
@@ -74,7 +76,8 @@ namespace Carmicah
 		void RemoveComponent()
 		{
 			ComponentManager::GetInstance()->RemoveComponent<T>(mID);
-			EntityManager::GetInstance()->RemoveComponentFromEntity<T>(mID);
+			//gGOFactory->
+			EntityManager::GetInstance()->RemoveComponent<T>(mID);
 			//auto entitySignature = EntityManager::GetInstance()->GetSignature(mID);
 			// Set the component's signature pos within entity signature to false
 			//entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), false);
