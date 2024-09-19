@@ -3,14 +3,15 @@
 #include <stdio.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <FMOD/fmod.hpp>
 
 #include "ECS/ComponentManager.h"
 #include "ECS/SystemManager.h"
 #include "ECS/GameObject.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
+#include "Systems/GraphicsSystem.h"
 #include "Systems/CollisionSystem.h"
+#include "Systems/SoundSystem.h"
 #include "CarmicahTime.h"
 
 
@@ -36,47 +37,43 @@ namespace Carmicah
     int Application::run()
     {
         glfwInit();
-
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+        // Set required options for GLFW
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
         GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Carmicah", NULL, NULL);
         glfwMakeContextCurrent(window);
+        if (window == NULL)
+        {
+            std::cerr << "Failed to create GLFW window" << std::endl;
+            glfwTerminate();
+            return -1;
+        }
 
         glfwSetKeyCallback(window, key_callback);
 
-
-#ifndef NO_SOUND
-        FMOD::System* mpSystem;
-        if (FMOD::System_Create(&mpSystem) != FMOD_OK)
-            return 0;
-        mpSystem->init(32, FMOD_INIT_NORMAL, NULL);
-        FMOD::Sound* sound = nullptr;
-        FMOD::Channel* channel = NULL;
-        if (mpSystem->createSound("../Assets/bouken.mp3", FMOD_DEFAULT, nullptr, &sound) != FMOD_OK)
-            return 0;
-        sound->setMode(FMOD_LOOP_OFF);
-        mpSystem->playSound(sound, NULL, false, &channel);
-        
-#endif
-
         int version = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        printf("GL %d.%d\n", GLFW_VERSION_MAJOR, GLFW_VERSION_MINOR);
-
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        if (version == 0)
         {
-            std::cout << "Failed to initialize GLAD" << std::endl;
+            std::cerr << "Failed to initialize GLAD" << std::endl;
             return -1;
         }
+        glViewport(0, 0, WIDTH, HEIGHT);
+
         ComponentManager::GetInstance()->RegisterComponent<Transform>();
         ComponentManager::GetInstance()->RegisterComponent<Collider2D>();
 
+        auto graSystem = SystemManager::GetInstance()->RegisterSystem<GraphicsSystem>();
         auto colSystem = SystemManager::GetInstance()->RegisterSystem<CollisionSystem>();
+        auto souSystem = SystemManager::GetInstance()->RegisterSystem<SoundSystem>();
 
         //SystemManager::GetInstance()->SetSignature<CollisionSystem>({ "Transform", "Collider2D" });
         //OR can put it in init
+        graSystem->Init();
         colSystem->Init(); // Set the signature
+        souSystem->Init();
 
         //Entity player = EntityManager::GetInstance()->CreateEntity();
         Transform playerTrans{ 1, 1, 1 };
@@ -97,30 +94,17 @@ namespace Carmicah
             // Update dt calc
             CarmicahTimer::UpdateElapsedTime();
 
-            std::cout << "dt in CmCore: " << CarmicahTimer::GetDeltaTime() << std::endl;
             glfwPollEvents();
 
-#ifndef NO_SOUND
-            mpSystem->update();
-#endif
-
             newObj.GetComponent<Transform>().xPos += 1;
-            std::cout << "xPos : " << newObj.GetComponent<Transform>().xPos << std::endl;
             colSystem->Update();
-            std::cout << "yPos : " << newObj.GetComponent<Transform>().yPos << std::endl;
 
-
-            glClearColor(0.7f, 0.9f, 0.1f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
-
-            glfwSwapBuffers(window);
+            souSystem->Update();
+            graSystem->Render(window);
         }
 
-#ifndef NO_SOUND
-        sound->release();
-        if (mpSystem != NULL)
-            mpSystem->release();
-#endif
+        souSystem->Exit();
+        graSystem->Exit();
 
         glfwTerminate();
 

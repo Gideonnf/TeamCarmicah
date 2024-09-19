@@ -21,6 +21,9 @@
     <ClInclude Include="include\CarmicahCore.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\CarmicahTime.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="include\Components\Collider2D.h">
       <Filter>include\Components</Filter>
     </ClInclude>
@@ -54,10 +57,13 @@
     <ClInclude Include="include\Systems\CollisionSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="include\pch.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Systems\GraphicsSystem.h">
+      <Filter>include\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="include\CarmicahTime.h">
+    <ClInclude Include="include\Systems\SoundSystem.h">
+      <Filter>include\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
@@ -66,6 +72,12 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\CollisionSystem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GraphicsSystem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\SoundSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\pch.cpp">
