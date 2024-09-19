@@ -8,8 +8,9 @@
 
 namespace Carmicah
 {
-	class ComponentManager : public Singleton<ComponentManager>
+	class ComponentManager : public Singleton<ComponentManager> 
 	{
+		// Look into whether it should be a singleton/extern it out as a global variable
 	private:
 		// Keep track of what is the component ID 
 		std::unordered_map<std::string, ComponentID> m_ComponentTypes;

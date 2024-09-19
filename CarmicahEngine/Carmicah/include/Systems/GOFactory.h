@@ -11,8 +11,9 @@ namespace Carmicah
 	class GOFactory : public BaseSystem
 	{
 	private:
-		std::unique_ptr<EntityManager> mEntityManager;
-		std::unique_ptr<ComponentManager> mComponentManager;
+		// So that players can search for game objects by their name
+		std::unordered_map<std::string, GameObject*> mGameObjectList;
+
 		// Holds game objects that require deletion at the end of updating
 		std::set<GameObject*> mDeleteList;
 		/*
@@ -25,20 +26,23 @@ namespace Carmicah
 		GOFactory();
 		~GOFactory();
 
+
 #pragma region GameObject Functions
 		// Default name for GOs
 		void CreateGO(std::string name = "GameObject");
+		void CreateGO(GameObject* go);
 		void DestroyGameObject(GameObject* go);
 		void DestroyAll();
 #pragma endregion
 
 #pragma region Component Functions
-
-
+		template<typename T>
+		void CreateComponent();
 #pragma endregion
 
 	};
 
+	extern GOFactory* gGOFactory;
 }
 
 #endif

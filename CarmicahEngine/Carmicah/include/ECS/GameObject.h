@@ -4,7 +4,7 @@
 #include "EntityManager.h"
 #include "ComponentManager.h"
 #include "SystemManager.h"
-
+#include "./Systems/GOFactory.h"
 namespace Carmicah
 {
 
@@ -14,10 +14,13 @@ namespace Carmicah
 		Entity mID;
 		std::string mName;
 	public:
+		//Game object factory is the only class allowed to
+	//create and destroy game objects.
+		friend class GOFactory;
 		GameObject()
 		{
 			// default construct the name based on "GameObject" + id
-			mID = EntityManager::GetInstance()->CreateEntity("GameObject");
+			//mID = EntityManager::GetInstance()->CreateEntity("GameObject");
 		}
 		GameObject(const Entity& id)
 		{
@@ -26,11 +29,11 @@ namespace Carmicah
 
 		~GameObject() {}
 
+
+
 		void Destroy()
 		{
-			EntityManager::GetInstance()->DeleteEntity(mID);
-			ComponentManager::GetInstance()->EntityDestroyed(mID);
-			SystemManager::GetInstance()->EntityDestroyed(mID);
+			gGOFactory->DestroyGameObject(this);
 		}
 
 		Entity GetID()
@@ -57,27 +60,28 @@ namespace Carmicah
 		void AddComponent(T Component)
 		{
 			ComponentManager::GetInstance()->AddComponent(mID, Component);
-			auto entitySignature = EntityManager::GetInstance()->GetSignature(mID);
-			// Set the component's signature pos within entity signature to true
-			entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), true);
-			// Set the new siganture of hte entity to show that it has this component now
-			EntityManager::GetInstance()->SetSignature(mID, entitySignature);
+			EntityManager::GetInstance()->AttachComponentToEntity(mID, Component);
+			//auto entitySignature = EntityManager::GetInstance()->GetSignature(mID);
+			//// Set the component's signature pos within entity signature to true
+			//entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), true);
+			//// Set the new siganture of hte entity to show that it has this component now
+			//EntityManager::GetInstance()->SetSignature(mID, entitySignature);
 			// Update the systems that the signature changed
-			SystemManager::GetInstance()->UpdateSignatures(mID, entitySignature);
+			//SystemManager::GetInstance()->UpdateSignatures(mID, entitySignature);
 		}
 
 		template<typename T>
 		void RemoveComponent()
 		{
 			ComponentManager::GetInstance()->RemoveComponent<T>(mID);
-
-			auto entitySignature = EntityManager::GetInstance()->GetSignature(mID);
+			EntityManager::GetInstance()->RemoveComponentFromEntity<T>(mID);
+			//auto entitySignature = EntityManager::GetInstance()->GetSignature(mID);
 			// Set the component's signature pos within entity signature to false
-			entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), false);
-			// Set the new siganture of hte entity to show that it does not have this component
-			EntityManager::GetInstance()->SetSignature(mID, entitySignature);
-			// Update the systems that the signature changed
-			SystemManager::GetInstance()->UpdateSignatures(mID, entitySignature);
+			//entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), false);
+			//// Set the new siganture of hte entity to show that it does not have this component
+			//EntityManager::GetInstance()->SetSignature(mID, entitySignature);
+			//// Update the systems that the signature changed
+			//SystemManager::GetInstance()->UpdateSignatures(mID, entitySignature);
 		}
 
 		template<typename T>

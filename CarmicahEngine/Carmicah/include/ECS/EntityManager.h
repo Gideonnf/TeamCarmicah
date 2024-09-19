@@ -16,8 +16,6 @@ namespace Carmicah
 		std::queue<Entity> m_FreeEntities;
 		// Maps the entity signature to the entity ID
 		std::array<Signature, MAX_ENTITIES> m_EntitySignatures;
-		// So that players can search for game objects by their name
-		std::unordered_map<std::string, Entity> mGameObjectList;
 		// Keep track of the number of active entities
 		unsigned int m_EntityCount;
 
@@ -49,25 +47,22 @@ namespace Carmicah
 			// Increment to keep track of the current number of entities
 			m_EntityCount++;
 
-			std::string goName = entityName + std::to_string(entityId);
-			mGameObjectList.insert(std::make_pair(goName, entityId));
-
 			return entityId;
 		}
 
-		void UpdateEntityName(std::string entityName, Entity entityID)
-		{
-			for (auto go : mGameObjectList)
-			{
-				if (go.second == entityID)
-				{
-					mGameObjectList.erase(go.first);
-					break;
-				}
-			}
+		//void UpdateEntityName(std::string entityName, Entity entityID)
+		//{
+		//	for (auto go : mGameObjectList)
+		//	{
+		//		if (go.second == entityID)
+		//		{
+		//			mGameObjectList.erase(go.first);
+		//			break;
+		//		}
+		//	}
 
-			mGameObjectList.insert(std::make_pair(entityName, entityID));
-		}
+		//	mGameObjectList.insert(std::make_pair(entityName, entityID));
+		//}
 
 		void DeleteEntity(Entity entity)
 		{
@@ -86,6 +81,24 @@ namespace Carmicah
 		Signature GetSignature(Entity entity)
 		{
 			return m_EntitySignatures[entity];
+		}
+
+		template<typename T>
+		void AttachComponentToEntity(Entity id, T component)
+		{
+			Signature entitySignature = m_EntitySignatures[id];
+			entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), true);
+			m_EntitySignatures[id] = entitySignature;
+			SystemManager::GetInstance()->UpdateSignatures(id, entitySignature);
+		}
+
+		template<typename T>
+		void RemoveComponentFromEntity(Entity id)
+		{
+			Signature entitySignature = m_EntitySignatures[id];
+			entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), false);
+			m_EntitySignatures[id] = entitySignature;
+			SystemManager::GetInstance()->UpdateSignatures(id, entitySignature);
 		}
 	};
 }
