@@ -9,7 +9,7 @@
 
 namespace Carmicah
 {
-	class EntityManager : public Singleton<EntityManager>
+	class EntityManager 
 	{
 	private:
 		// Keep track of the current queue of free entity IDs that can be used
@@ -50,20 +50,6 @@ namespace Carmicah
 			return entityId;
 		}
 
-		//void UpdateEntityName(std::string entityName, Entity entityID)
-		//{
-		//	for (auto go : mGameObjectList)
-		//	{
-		//		if (go.second == entityID)
-		//		{
-		//			mGameObjectList.erase(go.first);
-		//			break;
-		//		}
-		//	}
-
-		//	mGameObjectList.insert(std::make_pair(entityName, entityID));
-		//}
-
 		void DeleteEntity(Entity entity)
 		{
 			// Reset the signature of the entity when destroyed
@@ -84,7 +70,7 @@ namespace Carmicah
 		}
 
 		template<typename T>
-		void AttachComponentToEntity(Entity id, T component)
+		void AddComponent(Entity id, T component)
 		{
 			Signature entitySignature = m_EntitySignatures[id];
 			entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), true);
@@ -93,7 +79,7 @@ namespace Carmicah
 		}
 
 		template<typename T>
-		void RemoveComponentFromEntity(Entity id)
+		void RemoveComponent(Entity id)
 		{
 			Signature entitySignature = m_EntitySignatures[id];
 			entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), false);

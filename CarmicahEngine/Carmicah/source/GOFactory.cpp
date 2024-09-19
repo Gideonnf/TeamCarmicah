@@ -1,16 +1,16 @@
 #include "pch.h"
 #include "Systems/GOFactory.h"
+#include "ECS/EntityManager.h"
+#include "ECS/ComponentManager.h"
 
 namespace Carmicah
 {
-	GOFactory* gGOFactory = NULL;
 
 	GOFactory::GOFactory()
 	{
-		if (gGOFactory == NULL)
-			gGOFactory = this;
 		//Create pointer to entity manager
-		//mEntityManager = std::make_unique<EntityManager>();
+		mEntityManager = std::make_unique<EntityManager>();
+		mComponentManager = std::make_unique<ComponentManager>();
 	}
 
 	GOFactory::~GOFactory()
@@ -24,18 +24,18 @@ namespace Carmicah
 	void GOFactory::CreateGO(std::string name)
 	{
 		GameObject go;
-		go.mID = EntityManager::GetInstance()->CreateEntity(name);
+		go.mID = mEntityManager->CreateEntity(name);
 	}
 
 	void GOFactory::CreateGO(GameObject* go)
 	{
-		go->mID = EntityManager::GetInstance()->CreateEntity(go->mName);
+		go->mID = mEntityManager->CreateEntity(go->mName);
 	}
 
 	void GOFactory::DestroyGameObject(GameObject* go)
 	{
-		EntityManager::GetInstance()->DeleteEntity(go->mID);
-		ComponentManager::GetInstance()->EntityDestroyed(go->mID);
+		mEntityManager->DeleteEntity(go->mID);
+		mComponentManager->EntityDestroyed(go->mID);
 		SystemManager::GetInstance()->EntityDestroyed(go->mID);
 	}
 
@@ -52,6 +52,14 @@ namespace Carmicah
 	{
 		ComponentManager::GetInstance()->RegisterComponent<T>();
 	}
+
+	template <typename T>
+	void GOFactory::AddComponent()
+	{
+
+	}
+
+
 
 
 

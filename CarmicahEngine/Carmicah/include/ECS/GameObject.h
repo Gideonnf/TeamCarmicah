@@ -1,10 +1,9 @@
 #ifndef GAME_OBJECT_H
 #define GAME_OBJECT_H
 #include "ECSTypes.h"
-#include "EntityManager.h"
-#include "ComponentManager.h"
+#include "Systems/GOFactory.h"
 #include "SystemManager.h"
-#include "./Systems/GOFactory.h"
+
 namespace Carmicah
 {
 
@@ -17,6 +16,7 @@ namespace Carmicah
 		//Game object factory is the only class allowed to
 	//create and destroy game objects.
 		friend class GOFactory;
+
 		GameObject()
 		{
 			// default construct the name based on "GameObject" + id
@@ -33,7 +33,7 @@ namespace Carmicah
 
 		void Destroy()
 		{
-			gGOFactory->DestroyGameObject(this);
+			//gGOFactory->DestroyGameObject(this);
 		}
 
 		Entity GetID()

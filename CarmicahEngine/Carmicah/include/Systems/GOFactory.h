@@ -1,14 +1,15 @@
 #ifndef GO_FACTORY_H
 #define GO_FACTORY_H
 #include "ECS/BaseSystem.h"
-#include "ECS/EntityManager.h"
-#include "ECS/ComponentManager.h"
 #include "ECS/GameObject.h"
+#include "ECS/ComponentManager.h"
+#include "ECS/EntityManager.h"
+#include "../Singleton.h"
 #include <memory>
 
 namespace Carmicah
 {
-	class GOFactory : public BaseSystem
+	class GOFactory : public Singleton<GOFactory>
 	{
 	private:
 		// So that players can search for game objects by their name
@@ -16,6 +17,9 @@ namespace Carmicah
 
 		// Holds game objects that require deletion at the end of updating
 		std::set<GameObject*> mDeleteList;
+
+		std::unique_ptr<EntityManager> mEntityManager;
+		std::unique_ptr<ComponentManager> mComponentManager;
 		/*
 			NOTE: Not sure whats the best implementation right now.
 			1) Whether ot hold the entity and component manager within GOFactory 
@@ -38,11 +42,17 @@ namespace Carmicah
 #pragma region Component Functions
 		template<typename T>
 		void CreateComponent();
+
+		template<typename T>
+		void AddComponent();
+
+		template<typename T>
+		void RemoveComponent();
 #pragma endregion
 
 	};
 
-	extern GOFactory* gGOFactory;
+	//extern GOFactory* gGOFactory;
 }
 
 #endif
