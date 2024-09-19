@@ -1,4 +1,6 @@
 #pragma once
+#ifndef COLLIDER2D_H
+#define COLLIDER2D_H
 
 namespace Carmicah
 {
@@ -10,3 +12,5 @@ namespace Carmicah
         float maxY;
     };
 }
+
+#endif

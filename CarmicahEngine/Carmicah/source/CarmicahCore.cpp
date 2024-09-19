@@ -79,14 +79,24 @@ namespace Carmicah
         colSystem->Init(); // Set the signature
 
         //Entity player = EntityManager::GetInstance()->CreateEntity();
-        Transform playerTrans{ 1, 1, 1 };
+        Transform playerTrans{ 5, 5, 1, 20, 20};
+        Transform testTrans{ 1, 1, 1, 20, 20};
+
         Collider2D playerCollider{ 1, 2, 3, 4 };
+        Collider2D testCollider{ 1, 2, 3, 4 };
 
         GameObject newObj;
         colSystem->PrintEntities();
         newObj.AddComponent<Transform>(playerTrans);
         colSystem->PrintEntities();
         newObj.AddComponent<Collider2D>(playerCollider);
+        colSystem->PrintEntities();
+
+        GameObject testObj;
+        colSystem->PrintEntities();
+        testObj.AddComponent<Transform>(testTrans);
+        colSystem->PrintEntities();
+        testObj.AddComponent<Collider2D>(testCollider);
         colSystem->PrintEntities();
 
         // Start timer
@@ -104,10 +114,10 @@ namespace Carmicah
             mpSystem->update();
 #endif
 
-            newObj.GetComponent<Transform>().xPos += 1;
-            std::cout << "xPos : " << newObj.GetComponent<Transform>().xPos << std::endl;
+            //newObj.GetComponent<Transform>().xPos += 1;
+            //std::cout << "xPos : " << newObj.GetComponent<Transform>().xPos << std::endl;
             colSystem->Update();
-            std::cout << "yPos : " << newObj.GetComponent<Transform>().yPos << std::endl;
+            //std::cout << "yPos : " << newObj.GetComponent<Transform>().yPos << std::endl;
 
 
             glClearColor(0.7f, 0.9f, 0.1f, 1.0f);

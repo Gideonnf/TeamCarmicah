@@ -1,4 +1,6 @@
 #pragma once
+#ifndef TRANSFORM_H
+#define TRANSFORM_H
 
 namespace Carmicah
 {
@@ -7,5 +9,10 @@ namespace Carmicah
         float xPos;
         float yPos;
         float zPos;
+
+        float scaleX;
+        float scaleY;
     };
 }
+
+#endif
