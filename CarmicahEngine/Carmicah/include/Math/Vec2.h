@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-namespace Vec2
+namespace Carmicah
 {
 	template<typename T> class Vector2D
 	{

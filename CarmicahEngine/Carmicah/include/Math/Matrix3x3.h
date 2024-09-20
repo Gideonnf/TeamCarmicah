@@ -5,7 +5,7 @@
 
 constexpr float PI = 3.14159265358f;
 
-namespace Matrix3x3D
+namespace Carmicah
 {
 	template <typename T> class Matrix3x3
 	{
@@ -119,7 +119,7 @@ namespace Matrix3x3D
 		and returns the result as a vector
 	 */
 	 /**************************************************************************/
-	template <typename T> Vec2::Vector2D<T>  operator * (const Matrix3x3<T>& lhs, const Vec2::Vector2D<T>& rhs)
+	template <typename T> Carmicah::Vector2D<T>  operator * (const Matrix3x3<T>& lhs, const Carmicah::Vector2D<T>& rhs)
 	{
 		return Vector2D(lhs.m00 * rhs.x + lhs.m01 * rhs.y + lhs.m02, lhs.m10 * rhs.x + lhs.m11 * rhs.y + lhs.m12);
 	}
