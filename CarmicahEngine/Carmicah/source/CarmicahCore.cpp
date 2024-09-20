@@ -7,10 +7,14 @@
 #include <spdlog/spdlog.h>
 #include <../log.h>
 #include "Systems/GOFactory.h"
+#include "ECS/ComponentManager.h"
 #include "ECS/SystemManager.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
+#include "Components/Renderer.h"
+#include "Systems/GraphicsSystem.h"
 #include "Systems/CollisionSystem.h"
+#include "Systems/SoundSystem.h"
 #include "CarmicahTime.h"
 
 
@@ -40,51 +44,51 @@ namespace Carmicah
         Carmicah::log::init();
         CM_CORE_INFO("Core Logger Initialized");
         glfwInit();
-
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+        // Set required options for GLFW
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
         GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Carmicah", NULL, NULL);
         glfwMakeContextCurrent(window);
+        if (window == NULL)
+        {
+            std::cerr << "Failed to create GLFW window" << std::endl;
+            glfwTerminate();
+            return -1;
+        }
 
         glfwSetKeyCallback(window, key_callback);
 
-
-#ifndef NO_SOUND
-        FMOD::System* mpSystem;
-        if (FMOD::System_Create(&mpSystem) != FMOD_OK)
-            return 0;
-        mpSystem->init(32, FMOD_INIT_NORMAL, NULL);
-        FMOD::Sound* sound = nullptr;
-        FMOD::Channel* channel = NULL;
-        if (mpSystem->createSound("../Assets/bouken.mp3", FMOD_DEFAULT, nullptr, &sound) != FMOD_OK)
-            return 0;
-        sound->setMode(FMOD_LOOP_OFF);
-        mpSystem->playSound(sound, NULL, false, &channel);
-
-#endif
-
         int version = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        printf("GL %d.%d\n", GLFW_VERSION_MAJOR, GLFW_VERSION_MINOR);
-
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        if (version == 0)
         {
-            std::cout << "Failed to initialize GLAD" << std::endl;
+            std::cerr << "Failed to initialize GLAD" << std::endl;
             return -1;
         }
+        glViewport(0, 0, WIDTH, HEIGHT);
+
         ComponentManager::GetInstance()->RegisterComponent<Transform>();
         ComponentManager::GetInstance()->RegisterComponent<Collider2D>();
+        ComponentManager::GetInstance()->RegisterComponent<Renderer>();
 
+        auto graSystem = SystemManager::GetInstance()->RegisterSystem<GraphicsSystem>();
         auto colSystem = SystemManager::GetInstance()->RegisterSystem<CollisionSystem>();
         SystemManager::GetInstance()->RegisterSystem<GOFactory>();
+        auto souSystem = SystemManager::GetInstance()->RegisterSystem<SoundSystem>();
+
         //SystemManager::GetInstance()->SetSignature<CollisionSystem>({ "Transform", "Collider2D" });
         //OR can put it in init
+        graSystem->Init();
         colSystem->Init(); // Set the signature
+        souSystem->Init(false);
 
         //Entity player = EntityManager::GetInstance()->CreateEntity();
-        Transform playerTrans{ 1, 1, 1 };
+        Transform playerTrans{ 0.5f, 0.5f, 1.f, 45.f, 1.f, 1.f};
+        Transform playerTrans2{ -1.0f, 0.f, 1.f, -125.f, 1.f, 1.f};
         Collider2D playerCollider{ 1, 2, 3, 4 };
+        Renderer toRender{};
 
         GameObject newObj = gGOFactory->CreateGO();
         colSystem->PrintEntities();
@@ -92,6 +96,14 @@ namespace Carmicah
         colSystem->PrintEntities();
         newObj.AddComponent<Collider2D>(playerCollider);
         colSystem->PrintEntities();
+        newObj.AddComponent<Renderer>(toRender);
+
+        GameObject newObj2;
+        colSystem->PrintEntities();
+        newObj2.AddComponent<Transform>(playerTrans2);
+        colSystem->PrintEntities();
+        newObj2.AddComponent<Renderer>(toRender);
+
 
         // Start timer
         //CarmicahTimer::StartTime();
@@ -101,30 +113,17 @@ namespace Carmicah
             // Update dt calc
             CarmicahTimer::UpdateElapsedTime();
 
-            std::cout << "dt in CmCore: " << CarmicahTimer::GetDeltaTime() << std::endl;
             glfwPollEvents();
 
-#ifndef NO_SOUND
-            mpSystem->update();
-#endif
-
-            newObj.GetComponent<Transform>().xPos += 1;
-            std::cout << "xPos : " << newObj.GetComponent<Transform>().xPos << std::endl;
+            //newObj.GetComponent<Transform>().xPos += 1;
             colSystem->Update();
-            std::cout << "yPos : " << newObj.GetComponent<Transform>().yPos << std::endl;
 
-
-            glClearColor(0.7f, 0.9f, 0.1f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
-
-            glfwSwapBuffers(window);
+            souSystem->Update();
+            graSystem->Render(window);
         }
 
-#ifndef NO_SOUND
-        sound->release();
-        if (mpSystem != NULL)
-            mpSystem->release();
-#endif
+        souSystem->Exit();
+        graSystem->Exit();
 
         glfwTerminate();
 
