@@ -6,7 +6,8 @@
 
 namespace Carmicah
 {
-	
+	// Trying this method for instantiating gofactory
+	// subject to change
 	GOFactory* gGOFactory = NULL;
 
 	GOFactory::GOFactory()
@@ -70,13 +71,30 @@ namespace Carmicah
 
 	void GOFactory::EntityDestroyed(Entity id) 
 	{
-		EntityManager::GetInstance()->DeleteEntity(id);
-		ComponentManager::GetInstance()->EntityDestroyed(id);
+		mDeleteList.insert(id);
+
+		//EntityManager::GetInstance()->DeleteEntity(id);
+		//ComponentManager::GetInstance()->EntityDestroyed(id);
 	}
 
 	void GOFactory::DestroyAll()
 	{
+		// Since GOFactory holds all the entities
+		// Can just use entitiesSet to destroy all
+		mDeleteList = mEntitiesSet;
+	}
 
+	void GOFactory::UpdateDestroyed()
+	{
+		std::set<Entity>::iterator iter;
+		for (iter = mDeleteList.begin(); iter != mDeleteList.end(); ++iter)
+		{
+			EntityManager::GetInstance()->DeleteEntity(*iter);
+			ComponentManager::GetInstance()->EntityDestroyed(*iter);
+		}
+
+		// Clear delete list afterwards
+		mDeleteList.clear();
 	}
 
 #pragma endregion

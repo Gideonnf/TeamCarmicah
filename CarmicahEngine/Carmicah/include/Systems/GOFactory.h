@@ -18,7 +18,7 @@ namespace Carmicah
 		std::unordered_map<Entity, GameObject> mIDToGO;
 
 		// Holds game objects that require deletion at the end of updating
-		std::set<GameObject*> mDeleteList;
+		std::set<Entity> mDeleteList;
 
 		//std::unique_ptr<EntityManager> mEntityManager;
 		//std::unique_ptr<ComponentManager> mComponentManager;
@@ -40,6 +40,7 @@ namespace Carmicah
 		void CreateGO(GameObject);
 		void EntityDestroyed(Entity) override;
 		void DestroyAll();
+		void UpdateDestroyed();
 #pragma endregion
 
 #pragma region Component Functions
