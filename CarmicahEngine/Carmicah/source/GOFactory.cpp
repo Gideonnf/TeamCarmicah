@@ -40,7 +40,7 @@ namespace Carmicah
 		// All entities created is stored in GOFactory
 		SystemManager::GetInstance()->UpdateSignatures(go.mID, EntityManager::GetInstance()->GetSignature(go.mID));
 		
-		Carmicah::log::getCoreLogger()->info("Creating a new game object with name: " + name + " and id: " + std::to_string(go.mID));
+		Carmicah::Log::GetCoreLogger()->info("Creating a new game object with name: " + name + " and id: " + std::to_string(go.mID));
 
 		return go;
 	}
@@ -56,7 +56,7 @@ namespace Carmicah
 		mNameToID.insert(std::make_pair(newGO.mName, newGO.mID));
 		mIDToGO.insert(std::make_pair(newGO.mID, newGO));
 
-		Carmicah::log::getCoreLogger()->info("Creating a clone of game object with name: " + newGO.mName + " with id: " + std::to_string(newGO.mID));
+		Carmicah::Log::GetCoreLogger()->info("Creating a clone of game object with name: " + newGO.mName + " with id: " + std::to_string(newGO.mID));
 
 		//Updating of signature done in the cloning process in entity manager
 

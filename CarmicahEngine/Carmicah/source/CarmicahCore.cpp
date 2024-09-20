@@ -41,7 +41,7 @@ namespace Carmicah
 
     int Application::run()
     {
-        Carmicah::log::init();
+        Carmicah::Log::init();
         CM_CORE_INFO("Core Logger Initialized");
         glfwInit();
         // Set required options for GLFW
@@ -90,6 +90,7 @@ namespace Carmicah
         Collider2D playerCollider{ 1, 2, 3, 4 };
         Renderer toRender{};
 
+
         GameObject newObj = gGOFactory->CreateGO();
         colSystem->PrintEntities();
         newObj.AddComponent<Transform>(playerTrans);
@@ -98,7 +99,7 @@ namespace Carmicah
         colSystem->PrintEntities();
         newObj.AddComponent<Renderer>(toRender);
 
-        GameObject newObj2;
+        GameObject newObj2 = gGOFactory->CreateGO();;
         colSystem->PrintEntities();
         newObj2.AddComponent<Transform>(playerTrans2);
         colSystem->PrintEntities();

@@ -45,7 +45,7 @@ namespace Carmicah
 			// Increment the next id var
 			m_NextID++;
 
-			Carmicah::log::getCoreLogger()->info("Component Created with name" + name);
+			Carmicah::Log::GetCoreLogger()->info("Component Created with name" + name);
 
 			//Insert into the component map
 			m_ComponentMap.insert({ name, std::make_shared<Component<T>>() });

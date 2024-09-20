@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <array>
 #include <vector>
-#include "log.h"
+#include "Log.h"
 namespace Carmicah
 {
 	// Interface for components so that component manager can notify components if an entity is destroyed
@@ -116,7 +116,7 @@ namespace Carmicah
 			m_ComponentToEntity[componentIndex] = newEntity;
 
 			std::string type = typeid(T).name();
-			Carmicah::log::getCoreLogger()->info("Copying component of type : " + type);
+			Carmicah::Log::GetCoreLogger()->info("Copying component of type : " + type);
 
 			// place a copy of the clone component data to the back
 			m_ComponentArray.emplace_back(componentData);
