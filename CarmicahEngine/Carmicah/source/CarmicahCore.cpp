@@ -83,8 +83,8 @@ namespace Carmicah
         colSystem->Init(); // Set the signature
 
         //Entity player = EntityManager::GetInstance()->CreateEntity();
-        Transform playerTrans{ 20, 20, 1, 20, 20};
-        Transform testTrans{ 1, 1, 1, 20, 20};
+        Transform playerTrans{ 50, 10, 1, 10, 10};
+        Transform testTrans{ 10, 10, 1, 10, 10};
 
         Collider2D playerCollider{ 1, 2, 3, 4 };
         Collider2D testCollider{ 1, 2, 3, 4 };
@@ -119,11 +119,15 @@ namespace Carmicah
 #endif
 
             testObj.GetComponent<Transform>().xPos += 1;
-            testObj.GetComponent<Transform>().yPos += 1;
-            std::cout << "newObj xPos : " << newObj.GetComponent<Transform>().xPos << std::endl;
-            std::cout << "newObj yPos : " << newObj.GetComponent<Transform>().yPos << std::endl;
-            std::cout << "testObj xPos : " << testObj.GetComponent<Transform>().xPos << std::endl;
-            std::cout << "testObj yPos : " << testObj.GetComponent<Transform>().yPos << std::endl;
+            //testObj.GetComponent<Transform>().yPos += 1;
+            std::cout << "newObj AABB :" << newObj.GetComponent<Collider2D>().minX << " " << newObj.GetComponent<Collider2D>().maxX 
+                << " " << newObj.GetComponent<Collider2D>().minY << " " << newObj.GetComponent<Collider2D>().maxY << std::endl;
+            std::cout << "testObj AABB :" << testObj.GetComponent<Collider2D>().minX << " " << testObj.GetComponent<Collider2D>().maxX
+                << " " << testObj.GetComponent<Collider2D>().minY << " " << testObj.GetComponent<Collider2D>().maxY << std::endl;
+
+            std::cout << "newObj Pos : " << newObj.GetComponent<Transform>().xPos << " " << newObj.GetComponent<Transform>().yPos << std::endl;
+            std::cout << "testObj Pos : " << testObj.GetComponent<Transform>().xPos << " " << testObj.GetComponent<Transform>().yPos << std::endl;
+            
             colSystem->Update();
 
 
