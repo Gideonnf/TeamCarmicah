@@ -36,6 +36,7 @@ namespace Carmicah
 #pragma region GameObject Functions
 		// Default name for GOs
 		GameObject CreateGO(std::string name = "GameObject");
+		GameObject CloneGO(GameObject const& go);
 		void CreateGO(GameObject);
 		void EntityDestroyed(Entity) override;
 		void DestroyAll();

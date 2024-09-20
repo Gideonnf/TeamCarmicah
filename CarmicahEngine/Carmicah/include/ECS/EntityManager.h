@@ -59,6 +59,17 @@ namespace Carmicah
 			m_EntityCount--;
 		}
 
+		void CloneEntity(Entity entityToClone, Entity newEntity)
+		{
+			// CloneEntity will create a copy of all the component data from the entity to clone
+			// and attach it to the new entity's id in component manager
+			ComponentManager::GetInstance()->CloneEntity(entityToClone, newEntity, m_EntitySignatures[entityToClone]);
+
+			// this part handles updating of signature so itll reflect in systems
+			m_EntitySignatures[newEntity] = m_EntitySignatures[entityToClone];
+			SystemManager::GetInstance()->UpdateSignatures(newEntity, m_EntitySignatures[newEntity]);
+		}
+
 		void SetSignature(Entity entity, Signature entitySignature)
 		{
 			m_EntitySignatures[entity] = entitySignature;
