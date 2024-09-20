@@ -3,6 +3,10 @@
 #include <stdio.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <rapidjson/document.h>
+#include <rapidjson/ostreamwrapper.h>
+#include <rapidjson/writer.h>
+#include <rapidjson/filereadstream.h>
 #include "ECS/ComponentManager.h"
 #include "ECS/SystemManager.h"
 #include "ECS/GameObject.h"
@@ -18,6 +22,7 @@
 namespace Carmicah
 {
     const GLuint WIDTH = 800, HEIGHT = 600;
+    const char* sceneName{"../Assets/Scene/Scene1.json"};
 
     Application::Application()
     {
@@ -74,7 +79,7 @@ namespace Carmicah
         //OR can put it in init
         graSystem->Init();
         colSystem->Init(); // Set the signature
-        souSystem->Init(false);
+        souSystem->Init(true);
 
         //Entity player = EntityManager::GetInstance()->CreateEntity();
         Transform playerTrans{ 0.5f, 0.5f, 1.f, 45.f, 1.f, 1.f};
@@ -120,5 +125,51 @@ namespace Carmicah
         glfwTerminate();
 
         return 0;
+    }
+    void Application::Import()
+    {
+        std::ifstream ifs{ sceneName, std::ios::binary };
+        if (ifs)
+        {
+            std::string data;
+            ifs.seekg(0, std::ios::end);
+            data.resize(ifs.tellg());
+            ifs.seekg(0, std::ios::beg);
+            ifs.read(&data[0], data.size());
+            ifs.close();
+
+            rapidjson::Document document;
+            document.Parse(data.c_str());
+
+            static const char* kTypeNames[] =
+            { "Null", "False", "True", "Object", "Array", "String", "Number" };
+
+            for (rapidjson::Value::ConstMemberIterator it = document.MemberBegin();
+                it != document.MemberEnd(); ++it)
+            {
+                std::cout << "Member:" << it->name.GetString() << " is a:" << kTypeNames[it->value.GetType()] << "\n";
+            }
+        }
+
+    }
+    void Application::Export()
+    {
+        std::ofstream ofs{ sceneName, std::ios::binary };
+        if (ofs)
+        {
+            rapidjson::Document document;
+           
+            document.SetObject();
+            rapidjson::Value o(GameObject);
+            
+
+
+
+            rapidjson::OStreamWrapper osw(ofs);
+            rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
+            document.Accept(writer);
+
+            ofs.close();
+        }
     }
 }
