@@ -36,31 +36,31 @@ namespace Carmicah
 			//std::cout << "Entity xPos : " << transform.xPos << std::endl;
 
 			//Form AABB bounding box
-			AABB.minX = transform.xPos - (transform.xScale * 0.5f);
-			AABB.minY = transform.yPos - (transform.yScale * 0.5f);
-			AABB.maxX = transform.xPos + (transform.xScale * 0.5f);
-			AABB.maxY = transform.yPos + (transform.yScale * 0.5f);
+			AABB.min.x = transform.xPos - (transform.xScale * 0.5f);
+			AABB.min.y = transform.yPos - (transform.yScale * 0.5f);
+			AABB.max.x = transform.xPos + (transform.xScale * 0.5f);
+			AABB.max.y = transform.yPos + (transform.yScale * 0.5f);
 		}
 
-		//for (auto it1 = mEntitiesSet.begin(); it1 != mEntitiesSet.end(); ++it1)
-		//{
-		//	Entity entity1 = *it1;
-		//	auto& AABB1 = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity1);
+		for (auto it1 = mEntitiesSet.begin(); it1 != mEntitiesSet.end(); ++it1)
+		{
+			Entity entity1 = *it1;
+			auto& AABB1 = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity1);
 
-		//	for (auto it2 = std::next(it1); it2 != mEntitiesSet.end(); ++it2)
-		//	{
-		//		Entity entity2 = *it2;
-		//		auto& AABB2 = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity2);
+			for (auto it2 = std::next(it1); it2 != mEntitiesSet.end(); ++it2)
+			{
+				Entity entity2 = *it2;
+				auto& AABB2 = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity2);
 
-		//		// Perform AABB collision check
-		//		if (AABB1.maxX > AABB2.minX && AABB1.minX < AABB2.maxX &&
-		//			AABB1.maxY > AABB2.minY && AABB1.minY < AABB2.maxY)
-		//		{
-		//			// Handle collision between entity1 and entity2
-		//			std::cout << "Collision detected between Entity " << entity1 << " and Entity " << entity2 << std::endl;
-		//		}
-		//	}
-		//}
+				// Perform AABB collision check
+				if (AABB1.max.x > AABB2.min.x && AABB1.min.x < AABB2.max.x &&
+					AABB1.max.y > AABB2.min.y && AABB1.min.y < AABB2.max.y)
+				{
+					// Handle collision between entity1 and entity2
+					std::cout << "Collision detected between Entity " << entity1 << " and Entity " << entity2 << std::endl;
+				}
+			}
+		}
 	}
 
 	void CollisionSystem::Exit()

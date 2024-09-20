@@ -125,17 +125,19 @@ xcopy /Q /E /Y /I "..\Assets\Shaders\**.**" "..\bin\Release-x86_64\Assets\Shader
     <ClInclude Include="include\Math\Vec2.h" />
     <ClInclude Include="include\Singleton.h" />
     <ClInclude Include="include\Systems\CollisionSystem.h" />
+    <ClInclude Include="include\Systems\GOFactory.h" />
     <ClInclude Include="include\Systems\GraphicsSystem.h" />
     <ClInclude Include="include\Systems\SoundSystem.h" />
+    <ClInclude Include="include\log.h" />
     <ClInclude Include="include\pch.h" />
-    <ClInclude Include="log.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="log.cpp" />
     <ClCompile Include="source\CarmicahCore.cpp" />
     <ClCompile Include="source\CollisionSystem.cpp" />
+    <ClCompile Include="source\GOFactory.cpp" />
     <ClCompile Include="source\GraphicsSystem.cpp" />
     <ClCompile Include="source\SoundSystem.cpp" />
+    <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

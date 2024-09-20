@@ -85,11 +85,11 @@ namespace Carmicah
         souSystem->Init(false);
 
         //Entity player = EntityManager::GetInstance()->CreateEntity();
-        Transform playerTrans{ 50, 10, 1, 10, 10};
-        Transform testTrans{ 10, 10, 1, 10, 10};
+        Transform playerTrans{ 0.5f, 0.5f, 1.f, 0.f, 0.5f, 0.5f };
+        Transform playerTrans2{ -1.0f, 0.5f, 1.f, 0.f, 0.5f, 0.5f };
 
-        Collider2D playerCollider{ 1, 2, 3, 4 };
-        Collider2D testCollider{ 1, 2, 3, 4 };
+        Collider2D playerCollider{ {1.0f, 2.0f}, {3.0f, 4.0f} };
+        //Collider2D playerCollider2{ 1, 2, 3, 4 };
         Renderer toRender{};
 
 
@@ -101,19 +101,14 @@ namespace Carmicah
         colSystem->PrintEntities();
         newObj.AddComponent<Renderer>(toRender);
 
-        /*GameObject newObj2 = gGOFactory->CreateGO();;
+        GameObject newObj2 = gGOFactory->CreateGO();
         colSystem->PrintEntities();
         newObj2.AddComponent<Transform>(playerTrans2);
         colSystem->PrintEntities();
-        newObj2.AddComponent<Renderer>(toRender);*/
+        newObj2.AddComponent<Collider2D>(playerCollider);
+        colSystem->PrintEntities();
+        newObj2.AddComponent<Renderer>(toRender);
 
-
-        GameObject testObj = gGoFactory->CreateGO();
-        colSystem->PrintEntities();
-        testObj.AddComponent<Transform>(testTrans);
-        colSystem->PrintEntities();
-        testObj.AddComponent<Collider2D>(testCollider);
-        colSystem->PrintEntities();
 
         // Start timer
         //CarmicahTimer::StartTime();
@@ -125,18 +120,7 @@ namespace Carmicah
 
             glfwPollEvents();
 
-
-
-            //testObj.GetComponent<Transform>().xPos += 1;
-            ////testObj.GetComponent<Transform>().yPos += 1;
-            //std::cout << "newObj AABB :" << newObj.GetComponent<Collider2D>().minX << " " << newObj.GetComponent<Collider2D>().maxX 
-            //    << " " << newObj.GetComponent<Collider2D>().minY << " " << newObj.GetComponent<Collider2D>().maxY << std::endl;
-            //std::cout << "testObj AABB :" << testObj.GetComponent<Collider2D>().minX << " " << testObj.GetComponent<Collider2D>().maxX
-            //    << " " << testObj.GetComponent<Collider2D>().minY << " " << testObj.GetComponent<Collider2D>().maxY << std::endl;
-
-            //std::cout << "newObj Pos : " << newObj.GetComponent<Transform>().xPos << " " << newObj.GetComponent<Transform>().yPos << std::endl;
-            //std::cout << "testObj Pos : " << testObj.GetComponent<Transform>().xPos << " " << testObj.GetComponent<Transform>().yPos << std::endl;
-            
+            newObj2.GetComponent<Transform>().xPos += 0.1f * CarmicahTimer::GetDeltaTime();
             colSystem->Update();
 
             souSystem->Update();
@@ -148,7 +132,7 @@ namespace Carmicah
 
         glfwTerminate();
 
- 
+
 
         //Carmicah::Log::init();
 
