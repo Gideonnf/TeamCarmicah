@@ -5,46 +5,44 @@
 
 namespace Carmicah
 {
-    class log
+    class Log
     {
     public:
         static void init();
-        static inline std::shared_ptr<spdlog::logger>& getCoreLogger() { return s_CoreLogger; }
-        static inline std::shared_ptr<spdlog::logger>& getClientLogger() { return s_ClientLogger; }
+        static inline std::shared_ptr<spdlog::logger>& GetCoreLogger() { return sCoreLogger; }
+        static inline std::shared_ptr<spdlog::logger>& GetClientLogger() { return sClientLogger; }
 
     private:
-        static std::shared_ptr<spdlog::logger> s_CoreLogger;
-        static std::shared_ptr<spdlog::logger> s_ClientLogger;
+        static std::shared_ptr<spdlog::logger> sCoreLogger;
+        static std::shared_ptr<spdlog::logger> sClientLogger;
     };
 
 
 }
 
-#define CM_CORE_TRACE(...) ::Carmicah::log::getCoreLogger()->trace(__VA_ARGS__)
-#define CM_CORE_INFO(...) ::Carmicah::log::getCoreLogger()->info(__VA_ARGS__)
-#define CM_CORE_WARN(...) ::Carmicah::log::getCoreLogger()->warn(__VA_ARGS__)
-#define CM_CORE_ERROR(...) ::Carmicah::log::getCoreLogger()->error(__VA_ARGS__)
-#define CM_CORE_FATAL(...) ::Carmicah::log::getCoreLogger()->fatal(__VA_ARGS__)
+#ifdef CM_DEBUG
+#define CM_CORE_TRACE(...) ::Carmicah::Log::GetCoreLogger()->trace(__VA_ARGS__)
+#define CM_CORE_INFO(...) ::Carmicah::Log::GetCoreLogger()->info(__VA_ARGS__)
+#define CM_CORE_WARN(...) ::Carmicah::Log::GetCoreLogger()->warn(__VA_ARGS__)
+#define CM_CORE_ERROR(...) ::Carmicah::Log::GetCoreLogger()->error(__VA_ARGS__)
 
-#define CM_TRACE(...) ::Carmicah::log::getClientLogger()->trace(__VA_ARGS__)
-#define CM_INFO(...) ::Carmicah::log::getClientLogger()->info(__VA_ARGS__)
-#define CM_WARN(...) ::Carmicah::log::getClientLogger()->warn(__VA_ARGS__)
-#define CM_ERROR(...) ::Carmicah::log::getClientLogger()->error(__VA_ARGS__)
-#define CM_FATAL(...) ::Carmicah::log::getClientLogger()->fatal(__VA_ARGS__)
+#define CM_TRACE(...) ::Carmicah::Log::GetClientLogger()->trace(__VA_ARGS__)
+#define CM_INFO(...) ::Carmicah::Log::GetClientLogger()->info(__VA_ARGS__)
+#define CM_WARN(...) ::Carmicah::Log::GetClientLogger()->warn(__VA_ARGS__)
+#define CM_ERROR(...) ::Carmicah::Log::GetClientLogger()->error(__VA_ARGS__)
+#endif
 
-
-//if distr build
+//if release build
+#ifdef CM_RELEASE
 #define CM_CORE_TRACE(...)
 #define CM_CORE_INFO(...)
 #define CM_CORE_WARN(...)
 #define CM_CORE_ERROR(...)
-#define CM_CORE_FATAL(...)
 #define CM_TRACE(...)
 #define CM_INFO(...)
 #define CM_WARN(...)
 #define CM_ERROR(...)
-#define CM_FATAL(...)
-
+#endif
 
 
 

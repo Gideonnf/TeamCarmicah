@@ -69,6 +69,9 @@
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="log.h">
+      <Filter>source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp">
@@ -78,6 +81,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\pch.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="log.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
