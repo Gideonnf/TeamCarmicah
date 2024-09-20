@@ -59,6 +59,7 @@ namespace Carmicah
 			std::unordered_map<std::string, std::shared_ptr<BaseSystem>>::iterator iSystemIterator = mSystems.begin();
 			for (; iSystemIterator != mSystems.end(); ++iSystemIterator)
 			{
+				iSystemIterator->second->EntityDestroyed(entity);
 				iSystemIterator->second->mEntitiesSet.erase(entity);
 			}
 		}

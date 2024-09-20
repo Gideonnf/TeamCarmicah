@@ -57,7 +57,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>CM_PLATFORM_WINDOWS;CM_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;CM_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include;..\Dependencies\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -73,7 +73,9 @@
       <AdditionalLibraryDirectories>..\Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>xcopy /Q /E /Y /I "..\Dependencies\lib\**.dll" "..\bin\Debug-x86_64\Editor"</Command>
+      <Command>xcopy /Q /E /Y /I "..\Dependencies\lib\**.dll" "..\bin\Debug-x86_64\Editor"
+xcopy /Q /E /Y /I "..\Assets\Audio\**.**" "..\bin\Debug-x86_64\Assets\Audio"
+xcopy /Q /E /Y /I "..\Assets\Shaders\**.**" "..\bin\Debug-x86_64\Assets\Shaders"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -81,7 +83,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>CM_PLATFORM_WINDOWS;CM_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;CM_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include;..\Dependencies\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -101,13 +103,16 @@
       <AdditionalLibraryDirectories>..\Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>xcopy /Q /E /Y /I "..\Dependencies\lib\**.dll" "..\bin\Release-x86_64\Editor"</Command>
+      <Command>xcopy /Q /E /Y /I "..\Dependencies\lib\**.dll" "..\bin\Release-x86_64\Editor"
+xcopy /Q /E /Y /I "..\Assets\Audio\**.**" "..\bin\Release-x86_64\Assets\Audio"
+xcopy /Q /E /Y /I "..\Assets\Shaders\**.**" "..\bin\Release-x86_64\Assets\Shaders"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\CarmicahCore.h" />
     <ClInclude Include="include\CarmicahTime.h" />
     <ClInclude Include="include\Components\Collider2D.h" />
+    <ClInclude Include="include\Components\Renderer.h" />
     <ClInclude Include="include\Components\Transform.h" />
     <ClInclude Include="include\ECS\BaseSystem.h" />
     <ClInclude Include="include\ECS\Component.h" />
@@ -116,8 +121,12 @@
     <ClInclude Include="include\ECS\EntityManager.h" />
     <ClInclude Include="include\ECS\GameObject.h" />
     <ClInclude Include="include\ECS\SystemManager.h" />
+    <ClInclude Include="include\Math\Matrix3x3.h" />
+    <ClInclude Include="include\Math\Vec2.h" />
     <ClInclude Include="include\Singleton.h" />
     <ClInclude Include="include\Systems\CollisionSystem.h" />
+    <ClInclude Include="include\Systems\GraphicsSystem.h" />
+    <ClInclude Include="include\Systems\SoundSystem.h" />
     <ClInclude Include="include\pch.h" />
     <ClInclude Include="log.h" />
   </ItemGroup>
@@ -125,6 +134,8 @@
     <ClCompile Include="log.cpp" />
     <ClCompile Include="source\CarmicahCore.cpp" />
     <ClCompile Include="source\CollisionSystem.cpp" />
+    <ClCompile Include="source\GraphicsSystem.cpp" />
+    <ClCompile Include="source\SoundSystem.cpp" />
     <ClCompile Include="source\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

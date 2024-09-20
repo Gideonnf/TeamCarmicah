@@ -10,8 +10,10 @@ namespace Carmicah
         float yPos;
         float zPos;
 
-        float scaleX;
-        float scaleY;
+        float rot;
+
+        float xScale;
+        float yScale;
     };
 }
 

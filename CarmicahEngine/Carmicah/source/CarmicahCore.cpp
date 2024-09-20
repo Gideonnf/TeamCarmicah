@@ -6,13 +6,15 @@
 #include <FMOD/fmod.hpp>
 #include <spdlog/spdlog.h>
 #include <../log.h>
-
+#include "Systems/GOFactory.h"
 #include "ECS/ComponentManager.h"
 #include "ECS/SystemManager.h"
-#include "ECS/GameObject.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
+#include "Components/Renderer.h"
+#include "Systems/GraphicsSystem.h"
 #include "Systems/CollisionSystem.h"
+#include "Systems/SoundSystem.h"
 #include "CarmicahTime.h"
 
 
@@ -39,48 +41,48 @@ namespace Carmicah
 
     int Application::run()
     {
+        Carmicah::Log::init();
+        CM_CORE_INFO("Core Logger Initialized");
         glfwInit();
-
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+        // Set required options for GLFW
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
         GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Carmicah", NULL, NULL);
         glfwMakeContextCurrent(window);
+        if (window == NULL)
+        {
+            std::cerr << "Failed to create GLFW window" << std::endl;
+            glfwTerminate();
+            return -1;
+        }
 
         glfwSetKeyCallback(window, key_callback);
 
-
-#ifndef NO_SOUND
-        FMOD::System* mpSystem;
-        if (FMOD::System_Create(&mpSystem) != FMOD_OK)
-            return 0;
-        mpSystem->init(32, FMOD_INIT_NORMAL, NULL);
-        FMOD::Sound* sound = nullptr;
-        FMOD::Channel* channel = NULL;
-        if (mpSystem->createSound("../Assets/bouken.mp3", FMOD_DEFAULT, nullptr, &sound) != FMOD_OK)
-            return 0;
-        sound->setMode(FMOD_LOOP_OFF);
-        mpSystem->playSound(sound, NULL, false, &channel);
-
-#endif
-
         int version = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        printf("GL %d.%d\n", GLFW_VERSION_MAJOR, GLFW_VERSION_MINOR);
-
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        if (version == 0)
         {
-            std::cout << "Failed to initialize GLAD" << std::endl;
+            std::cerr << "Failed to initialize GLAD" << std::endl;
             return -1;
         }
+        glViewport(0, 0, WIDTH, HEIGHT);
+
         ComponentManager::GetInstance()->RegisterComponent<Transform>();
         ComponentManager::GetInstance()->RegisterComponent<Collider2D>();
+        ComponentManager::GetInstance()->RegisterComponent<Renderer>();
 
+        auto graSystem = SystemManager::GetInstance()->RegisterSystem<GraphicsSystem>();
         auto colSystem = SystemManager::GetInstance()->RegisterSystem<CollisionSystem>();
+        SystemManager::GetInstance()->RegisterSystem<GOFactory>();
+        auto souSystem = SystemManager::GetInstance()->RegisterSystem<SoundSystem>();
 
         //SystemManager::GetInstance()->SetSignature<CollisionSystem>({ "Transform", "Collider2D" });
         //OR can put it in init
+        graSystem->Init();
         colSystem->Init(); // Set the signature
+        souSystem->Init(false);
 
         //Entity player = EntityManager::GetInstance()->CreateEntity();
         Transform playerTrans{ 50, 10, 1, 10, 10};
@@ -88,15 +90,25 @@ namespace Carmicah
 
         Collider2D playerCollider{ 1, 2, 3, 4 };
         Collider2D testCollider{ 1, 2, 3, 4 };
+        Renderer toRender{};
 
-        GameObject newObj;
+
+        GameObject newObj = gGOFactory->CreateGO();
         colSystem->PrintEntities();
         newObj.AddComponent<Transform>(playerTrans);
         colSystem->PrintEntities();
         newObj.AddComponent<Collider2D>(playerCollider);
         colSystem->PrintEntities();
+        newObj.AddComponent<Renderer>(toRender);
 
-        GameObject testObj;
+        /*GameObject newObj2 = gGOFactory->CreateGO();;
+        colSystem->PrintEntities();
+        newObj2.AddComponent<Transform>(playerTrans2);
+        colSystem->PrintEntities();
+        newObj2.AddComponent<Renderer>(toRender);*/
+
+
+        GameObject testObj = gGoFactory->CreateGO();
         colSystem->PrintEntities();
         testObj.AddComponent<Transform>(testTrans);
         colSystem->PrintEntities();
@@ -111,54 +123,46 @@ namespace Carmicah
             // Update dt calc
             CarmicahTimer::UpdateElapsedTime();
 
-            std::cout << "dt in CmCore: " << CarmicahTimer::GetDeltaTime() << std::endl;
             glfwPollEvents();
 
-#ifndef NO_SOUND
-            mpSystem->update();
-#endif
 
-            testObj.GetComponent<Transform>().xPos += 1;
-            //testObj.GetComponent<Transform>().yPos += 1;
-            std::cout << "newObj AABB :" << newObj.GetComponent<Collider2D>().minX << " " << newObj.GetComponent<Collider2D>().maxX 
-                << " " << newObj.GetComponent<Collider2D>().minY << " " << newObj.GetComponent<Collider2D>().maxY << std::endl;
-            std::cout << "testObj AABB :" << testObj.GetComponent<Collider2D>().minX << " " << testObj.GetComponent<Collider2D>().maxX
-                << " " << testObj.GetComponent<Collider2D>().minY << " " << testObj.GetComponent<Collider2D>().maxY << std::endl;
 
-            std::cout << "newObj Pos : " << newObj.GetComponent<Transform>().xPos << " " << newObj.GetComponent<Transform>().yPos << std::endl;
-            std::cout << "testObj Pos : " << testObj.GetComponent<Transform>().xPos << " " << testObj.GetComponent<Transform>().yPos << std::endl;
+            //testObj.GetComponent<Transform>().xPos += 1;
+            ////testObj.GetComponent<Transform>().yPos += 1;
+            //std::cout << "newObj AABB :" << newObj.GetComponent<Collider2D>().minX << " " << newObj.GetComponent<Collider2D>().maxX 
+            //    << " " << newObj.GetComponent<Collider2D>().minY << " " << newObj.GetComponent<Collider2D>().maxY << std::endl;
+            //std::cout << "testObj AABB :" << testObj.GetComponent<Collider2D>().minX << " " << testObj.GetComponent<Collider2D>().maxX
+            //    << " " << testObj.GetComponent<Collider2D>().minY << " " << testObj.GetComponent<Collider2D>().maxY << std::endl;
+
+            //std::cout << "newObj Pos : " << newObj.GetComponent<Transform>().xPos << " " << newObj.GetComponent<Transform>().yPos << std::endl;
+            //std::cout << "testObj Pos : " << testObj.GetComponent<Transform>().xPos << " " << testObj.GetComponent<Transform>().yPos << std::endl;
             
             colSystem->Update();
 
-
-            glClearColor(0.7f, 0.9f, 0.1f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
-
-            glfwSwapBuffers(window);
+            souSystem->Update();
+            graSystem->Render(window);
         }
 
-#ifndef NO_SOUND
-        sound->release();
-        if (mpSystem != NULL)
-            mpSystem->release();
-#endif
+        souSystem->Exit();
+        graSystem->Exit();
 
         glfwTerminate();
 
  
 
-        Carmicah::log::init();
-        Carmicah::log::getCoreLogger()->info("Core Logger Initialized");
-        Carmicah::log::getCoreLogger()->warn("Core Logger Initialized");
-        Carmicah::log::getCoreLogger()->error("Core Logger Initialized");
-        Carmicah::log::getCoreLogger()->critical("Core Logger Initialized");
-        Carmicah::log::getClientLogger()->trace("Client Logger Initialized");
+        //Carmicah::Log::init();
 
-        Carmicah::log::getClientLogger()->info("Client Logger Initialized");
-        Carmicah::log::getClientLogger()->warn("Client Logger Initialized");
-        Carmicah::log::getClientLogger()->error("Client Logger Initialized");
-        Carmicah::log::getClientLogger()->critical("Client Logger Initialized");
-        Carmicah::log::getClientLogger()->trace("Client Logger Initialized");
+        //Carmicah::Log::getCoreLogger()->info("Core Logger Initialized");
+        //Carmicah::Log::getCoreLogger()->warn("Core Logger Initialized");
+        //Carmicah::Log::getCoreLogger()->error("Core Logger Initialized");
+        //Carmicah::Log::getCoreLogger()->critical("Core Logger Initialized");
+        //Carmicah::Log::getClientLogger()->trace("Client Logger Initialized");
+        //          
+        //Carmicah::Log::getClientLogger()->info("Client Logger Initialized");
+        //Carmicah::Log::getClientLogger()->warn("Client Logger Initialized");
+        //Carmicah::Log::getClientLogger()->error("Client Logger Initialized");
+        //Carmicah::Log::getClientLogger()->critical("Client Logger Initialized");
+        //Carmicah::Log::getClientLogger()->trace("Client Logger Initialized");
 
         return 0;
     }
