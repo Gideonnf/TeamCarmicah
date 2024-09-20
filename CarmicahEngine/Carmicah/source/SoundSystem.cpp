@@ -6,7 +6,7 @@
 
 namespace Carmicah
 {
-	void SoundSystem::Init()
+	void SoundSystem::Init(bool playBgm)
 	{
 		// Set the signature of the system
 		//mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
@@ -21,7 +21,8 @@ namespace Carmicah
 		if (mpSystem->createSound("../Assets/Audio/bouken.mp3", FMOD_DEFAULT, nullptr, &sound) != FMOD_OK)
 			return;
 		sound->setMode(FMOD_LOOP_OFF);
-		mpSystem->playSound(sound, NULL, false, &channel);
+		if(playBgm)
+			mpSystem->playSound(sound, NULL, false, &channel);
 	}
 
 	void SoundSystem::Update()

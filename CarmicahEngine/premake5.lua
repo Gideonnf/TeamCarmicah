@@ -45,7 +45,8 @@ project "Carmicah"
         systemversion "latest"
         defines
         {
-            "CM_PLATFORM_WINDOWS"
+            "CM_PLATFORM_WINDOWS",
+            "GLM_ENABLE_EXPERIMENTAL"
         }
         postbuildcommands -- copies dll files to Editor's bin (the exe)
         {

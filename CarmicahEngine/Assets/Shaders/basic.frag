@@ -9,7 +9,7 @@ uniform sampler2D	uTex2d;
 
 void main(void){
 	
-	fFragColor = vec4(vInterpolatedColor, 1.0);
-
-	//fFragColor = vec4(texture(uTex2d, vTexCoord).rgb * vInterpolatedColor, fFragColor.a);
+	//fFragColor = vec4(vInterpolatedColor, 1.0);
+	vec4 tex = texture(uTex2d, vTexCoord);
+	fFragColor = tex;//vec4(tex.rgb * vInterpolatedColor, 1.0);
 }

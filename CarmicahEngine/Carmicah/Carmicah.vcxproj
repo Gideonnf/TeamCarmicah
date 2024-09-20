@@ -57,7 +57,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>CM_PLATFORM_WINDOWS;CM_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;CM_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include;..\Dependencies\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -83,7 +83,7 @@ xcopy /Q /E /Y /I "..\Assets\Shaders\**.**" "..\bin\Debug-x86_64\Assets\Shaders"
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>CM_PLATFORM_WINDOWS;CM_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;CM_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include;..\Dependencies\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -112,6 +112,7 @@ xcopy /Q /E /Y /I "..\Assets\Shaders\**.**" "..\bin\Release-x86_64\Assets\Shader
     <ClInclude Include="include\CarmicahCore.h" />
     <ClInclude Include="include\CarmicahTime.h" />
     <ClInclude Include="include\Components\Collider2D.h" />
+    <ClInclude Include="include\Components\Renderer.h" />
     <ClInclude Include="include\Components\Transform.h" />
     <ClInclude Include="include\ECS\BaseSystem.h" />
     <ClInclude Include="include\ECS\Component.h" />

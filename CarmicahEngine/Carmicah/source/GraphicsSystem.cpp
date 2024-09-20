@@ -1,25 +1,33 @@
 #include "pch.h"
 #include <glad/glad.h>
+#include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/matrix_transform_2d.hpp>
 #include <ECS/ECSTypes.h>
 #include "Systems/GraphicsSystem.h"
 #include "Components/Transform.h"
+#include "Components/Renderer.h"
 #include "ECS/SystemManager.h"
 #include "ECS/ComponentManager.h"
+
 
 namespace
 {
 	GLuint vboid{};
 	GLuint vaoid{};
+	GLuint texid{};
+	GLuint shaderPgm{};
 
-	GLuint shaderPgm;
+	const GLuint texDimensions{ 256 };
+	const GLuint bptex{ 4 };
+
 }
 
 namespace Carmicah
 {
 	void setUpQuad()
 	{
-		std::ifstream vertShaderFile("../Assets/Shaders/basic.vert", std::ifstream::in | std::ios::binary);
+		std::ifstream vertShaderFile("../Assets/Shaders/basic.vert", std::ios::binary);
 		if (!vertShaderFile)
 		{
 			std::cerr << "Unable to open Vertex Shader File";
@@ -33,7 +41,7 @@ namespace Carmicah
 		vertShaderFile.close();
 		GLchar const* vert_shader_code[] = { vertShaderSource.c_str() };
 		
-		std::ifstream fragShaderFile("../Assets/Shaders/basic.frag", std::ifstream::in | std::ios::binary);
+		std::ifstream fragShaderFile("../Assets/Shaders/basic.frag", std::ios::binary);
 		if (!fragShaderFile)
 		{
 			std::cerr << "Unable to open Fragment Shader File";
@@ -122,7 +130,7 @@ namespace Carmicah
 		glVertexArrayAttribBinding(vaoid, 1, 1);
 
 		// Texture
-		glEnableVertexArrayAttrib(vaoid, 1);
+		glEnableVertexArrayAttrib(vaoid, 2);
 		glVertexArrayVertexBuffer(vaoid, 2, vboid, 4 * (2 + 3) * 4, 4 * 2);
 		glVertexArrayAttribFormat(vaoid, 2, 2, GL_FLOAT, GL_FALSE, 0);
 		glVertexArrayAttribBinding(vaoid, 2, 2);
@@ -140,6 +148,24 @@ namespace Carmicah
 		glVertexArrayElementBuffer(vaoid, eboid);
 
 		glBindVertexArray(0);
+
+		// Texture Image
+		char ptr_texels[texDimensions * texDimensions * bptex];
+		//std::fill_n(&ptr_texels, texDimensions * texDimensions * bptex, 0);
+		std::ifstream texIF{ "../Assets/Images/duck-rgba-256.tex", std::ios::binary };
+		if (!texIF)
+		{
+			std::cerr << "Unable to open texture file\n";
+			exit(EXIT_FAILURE);
+		}
+		texIF.read(ptr_texels, texDimensions * texDimensions * bptex);
+		texIF.close();
+		glCreateTextures(GL_TEXTURE_2D, 1, &texid);
+		glTextureStorage2D(texid, 1, GL_RGBA8, texDimensions, texDimensions);
+		glTextureSubImage2D(texid, 0, 0, 0, texDimensions, texDimensions, GL_RGBA, GL_UNSIGNED_BYTE, ptr_texels);
+		glTextureParameterf(texid, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTextureParameterf(texid, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
 	}
 
 	void GraphicsSystem::Init()
@@ -154,6 +180,8 @@ namespace Carmicah
 
 	void GraphicsSystem::Update()
 	{
+
+
 	}
 
 	void GraphicsSystem::Render(GLFWwindow*& window)
@@ -161,50 +189,49 @@ namespace Carmicah
 		glClearColor(0.75294f, 1.f, 0.93333f, 1.f); // Gideon's favourite
 		glClear(GL_COLOR_BUFFER_BIT);
 
-
 		glUseProgram(shaderPgm);
 		glBindVertexArray(vaoid);
 
-		const glm::mat3 aObj{
-			1.f, 0.f, 0.f,
-			0.f, 1.f, 0.f,
-			0.5f, 0.5f, 1.f
-		};
-		const glm::mat3 bObj{
-			1.f, 0.f, 0.f,
-			0.f, 1.f, 0.f,
-			-0.7f, 0.f, 1.f
-		};
 
-		GLint uniform_var_loc0 = glGetUniformLocation(shaderPgm, "uModel_to_NDC");
-		if (uniform_var_loc0 >= 0)
+		for (auto entity : mEntitiesSet)
 		{
-			glUniformMatrix3fv(uniform_var_loc0, 1, GL_FALSE,
-				glm::value_ptr(aObj));
+			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
+			glm::mat3 mat = glm::mat3(1.f);
+			mat = glm::translate(mat, glm::vec2{ transform.xPos, transform.yPos});
+			mat = glm::rotate(mat, glm::radians(transform.rot));
+			mat = glm::scale(mat, glm::vec2{ transform.xScale, transform.yScale});
+
+			GLint uniform_var_loc0 = glGetUniformLocation(shaderPgm, "uModel_to_NDC");
+			if (uniform_var_loc0 >= 0)
+			{
+				glUniformMatrix3fv(uniform_var_loc0, 1, GL_FALSE,
+					glm::value_ptr(mat));
+			}
+			else
+			{
+				std::cout << "Uniform variable dosen't exist!!!\n";
+				std::exit(EXIT_FAILURE);
+			}
+			GLint uniform_var_loc1 = glGetUniformLocation(shaderPgm, "uTex2d");
+			if (uniform_var_loc1 >= 0)
+				glUniform1i(uniform_var_loc1, 0);
+
+			glBindTextureUnit(0, texid);
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, NULL);
 		}
-		else
-		{
-			std::cout << "Uniform variable dosen't exist!!!\n";
-			std::exit(EXIT_FAILURE);
-		}
-
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, NULL);
-		glUniformMatrix3fv(uniform_var_loc0, 1, GL_FALSE, glm::value_ptr(bObj));
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, NULL);
 
 
+		glBindTextureUnit(0, 0);
 		glBindVertexArray(0);
 		glUseProgram(0);
-		//for (auto entity : mEntitiesSet)
-		//{
-		//	auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
-		//	transform.yPos += 1;
-		//}
 		glfwSwapBuffers(window);
 	}
 
 	void GraphicsSystem::Exit()
 	{
-
+		glDeleteTextures(1, &texid);
+		glDeleteVertexArrays(1, &vaoid);
+		glDeleteBuffers(1, &vboid);
+		glDeleteProgram(shaderPgm);
 	}
 }

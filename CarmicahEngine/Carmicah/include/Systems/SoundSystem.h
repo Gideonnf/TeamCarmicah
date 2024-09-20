@@ -14,7 +14,7 @@ namespace Carmicah
 
 
 	public:
-		void Init();
+		void Init(bool playBgm);
 
 		void Update();
 

@@ -29,7 +29,7 @@ namespace Carmicah
 		for (auto entity : mEntitiesSet)
 		{
 			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
-			transform.yPos += 1;		
+			//transform.yPos += 1;		
 		}
 	}
 

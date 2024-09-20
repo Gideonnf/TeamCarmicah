@@ -3,12 +3,12 @@
 #include <stdio.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
 #include "ECS/ComponentManager.h"
 #include "ECS/SystemManager.h"
 #include "ECS/GameObject.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
+#include "Components/Renderer.h"
 #include "Systems/GraphicsSystem.h"
 #include "Systems/CollisionSystem.h"
 #include "Systems/SoundSystem.h"
@@ -64,6 +64,7 @@ namespace Carmicah
 
         ComponentManager::GetInstance()->RegisterComponent<Transform>();
         ComponentManager::GetInstance()->RegisterComponent<Collider2D>();
+        ComponentManager::GetInstance()->RegisterComponent<Renderer>();
 
         auto graSystem = SystemManager::GetInstance()->RegisterSystem<GraphicsSystem>();
         auto colSystem = SystemManager::GetInstance()->RegisterSystem<CollisionSystem>();
@@ -73,11 +74,13 @@ namespace Carmicah
         //OR can put it in init
         graSystem->Init();
         colSystem->Init(); // Set the signature
-        souSystem->Init();
+        souSystem->Init(false);
 
         //Entity player = EntityManager::GetInstance()->CreateEntity();
-        Transform playerTrans{ 1, 1, 1 };
+        Transform playerTrans{ 0.5f, 0.5f, 1.f, 45.f, 1.f, 1.f};
+        Transform playerTrans2{ -1.0f, 0.f, 1.f, -125.f, 1.f, 1.f};
         Collider2D playerCollider{ 1, 2, 3, 4 };
+        Renderer toRender{};
 
         GameObject newObj;
         colSystem->PrintEntities();
@@ -85,6 +88,14 @@ namespace Carmicah
         colSystem->PrintEntities();
         newObj.AddComponent<Collider2D>(playerCollider);
         colSystem->PrintEntities();
+        newObj.AddComponent<Renderer>(toRender);
+
+        GameObject newObj2;
+        colSystem->PrintEntities();
+        newObj2.AddComponent<Transform>(playerTrans2);
+        colSystem->PrintEntities();
+        newObj2.AddComponent<Renderer>(toRender);
+
 
         // Start timer
         //CarmicahTimer::StartTime();
@@ -96,7 +107,7 @@ namespace Carmicah
 
             glfwPollEvents();
 
-            newObj.GetComponent<Transform>().xPos += 1;
+            //newObj.GetComponent<Transform>().xPos += 1;
             colSystem->Update();
 
             souSystem->Update();

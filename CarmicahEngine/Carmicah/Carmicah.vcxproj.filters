@@ -27,6 +27,9 @@
     <ClInclude Include="include\Components\Collider2D.h">
       <Filter>include\Components</Filter>
     </ClInclude>
+    <ClInclude Include="include\Components\Renderer.h">
+      <Filter>include\Components</Filter>
+    </ClInclude>
     <ClInclude Include="include\Components\Transform.h">
       <Filter>include\Components</Filter>
     </ClInclude>
