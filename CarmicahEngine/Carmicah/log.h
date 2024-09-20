@@ -9,8 +9,8 @@ namespace Carmicah
     {
     public:
         static void init();
-        static inline std::shared_ptr<spdlog::logger>& getCoreLogger() { return sCoreLogger; }
-        static inline std::shared_ptr<spdlog::logger>& getClientLogger() { return sClientLogger; }
+        static inline std::shared_ptr<spdlog::logger>& GetCoreLogger() { return sCoreLogger; }
+        static inline std::shared_ptr<spdlog::logger>& GetClientLogger() { return sClientLogger; }
 
     private:
         static std::shared_ptr<spdlog::logger> sCoreLogger;
@@ -20,18 +20,20 @@ namespace Carmicah
 
 }
 
-#define CM_CORE_TRACE(...) ::Carmicah::Log::getCoreLogger()->trace(__VA_ARGS__)
-#define CM_CORE_INFO(...) ::Carmicah::Log::getCoreLogger()->info(__VA_ARGS__)
-#define CM_CORE_WARN(...) ::Carmicah::Log::getCoreLogger()->warn(__VA_ARGS__)
-#define CM_CORE_ERROR(...) ::Carmicah::Log::getCoreLogger()->error(__VA_ARGS__)
+#ifdef CM_DEBUG
+#define CM_CORE_TRACE(...) ::Carmicah::Log::GetCoreLogger()->trace(__VA_ARGS__)
+#define CM_CORE_INFO(...) ::Carmicah::Log::GetCoreLogger()->info(__VA_ARGS__)
+#define CM_CORE_WARN(...) ::Carmicah::Log::GetCoreLogger()->warn(__VA_ARGS__)
+#define CM_CORE_ERROR(...) ::Carmicah::Log::GetCoreLogger()->error(__VA_ARGS__)
 
-#define CM_TRACE(...) ::Carmicah::Log::getClientLogger()->trace(__VA_ARGS__)
-#define CM_INFO(...) ::Carmicah::Log::getClientLogger()->info(__VA_ARGS__)
-#define CM_WARN(...) ::Carmicah::Log::getClientLogger()->warn(__VA_ARGS__)
-#define CM_ERROR(...) ::Carmicah::Log::getClientLogger()->error(__VA_ARGS__)
+#define CM_TRACE(...) ::Carmicah::Log::GetClientLogger()->trace(__VA_ARGS__)
+#define CM_INFO(...) ::Carmicah::Log::GetClientLogger()->info(__VA_ARGS__)
+#define CM_WARN(...) ::Carmicah::Log::GetClientLogger()->warn(__VA_ARGS__)
+#define CM_ERROR(...) ::Carmicah::Log::GetClientLogger()->error(__VA_ARGS__)
+#endif
 
-
-//if distr build
+//if release build
+#ifdef CM_RELEASE
 #define CM_CORE_TRACE(...)
 #define CM_CORE_INFO(...)
 #define CM_CORE_WARN(...)
@@ -40,7 +42,7 @@ namespace Carmicah
 #define CM_INFO(...)
 #define CM_WARN(...)
 #define CM_ERROR(...)
-
+#endif
 
 
 
