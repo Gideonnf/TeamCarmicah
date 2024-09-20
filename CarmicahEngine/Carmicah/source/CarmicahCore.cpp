@@ -7,9 +7,12 @@
 #include <rapidjson/ostreamwrapper.h>
 #include <rapidjson/writer.h>
 #include <rapidjson/filereadstream.h>
+#include <FMOD/fmod.hpp>
+#include <spdlog/spdlog.h>
+#include <../log.h>
+#include "Systems/GOFactory.h"
 #include "ECS/ComponentManager.h"
 #include "ECS/SystemManager.h"
-#include "ECS/GameObject.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
@@ -21,6 +24,8 @@
 
 namespace Carmicah
 {
+
+
     const GLuint WIDTH = 800, HEIGHT = 600;
     const char* sceneName{"../Assets/Scene/Scene1.json"};
 
@@ -41,6 +46,8 @@ namespace Carmicah
 
     int Application::run()
     {
+        Carmicah::Log::init();
+        CM_CORE_INFO("Core Logger Initialized");
         glfwInit();
         // Set required options for GLFW
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -73,6 +80,7 @@ namespace Carmicah
 
         auto graSystem = SystemManager::GetInstance()->RegisterSystem<GraphicsSystem>();
         auto colSystem = SystemManager::GetInstance()->RegisterSystem<CollisionSystem>();
+        SystemManager::GetInstance()->RegisterSystem<GOFactory>();
         auto souSystem = SystemManager::GetInstance()->RegisterSystem<SoundSystem>();
 
         //SystemManager::GetInstance()->SetSignature<CollisionSystem>({ "Transform", "Collider2D" });
@@ -87,7 +95,8 @@ namespace Carmicah
         Collider2D playerCollider{ 1, 2, 3, 4 };
         Renderer toRender{};
 
-        GameObject newObj;
+
+        GameObject newObj = gGOFactory->CreateGO();
         colSystem->PrintEntities();
         newObj.AddComponent<Transform>(playerTrans);
         colSystem->PrintEntities();
@@ -95,7 +104,7 @@ namespace Carmicah
         colSystem->PrintEntities();
         newObj.AddComponent<Renderer>(toRender);
 
-        GameObject newObj2;
+        GameObject newObj2 = gGOFactory->CreateGO();;
         colSystem->PrintEntities();
         newObj2.AddComponent<Transform>(playerTrans2);
         colSystem->PrintEntities();
@@ -123,6 +132,22 @@ namespace Carmicah
         graSystem->Exit();
 
         glfwTerminate();
+
+ 
+
+        //Carmicah::Log::init();
+
+        //Carmicah::Log::getCoreLogger()->info("Core Logger Initialized");
+        //Carmicah::Log::getCoreLogger()->warn("Core Logger Initialized");
+        //Carmicah::Log::getCoreLogger()->error("Core Logger Initialized");
+        //Carmicah::Log::getCoreLogger()->critical("Core Logger Initialized");
+        //Carmicah::Log::getClientLogger()->trace("Client Logger Initialized");
+        //          
+        //Carmicah::Log::getClientLogger()->info("Client Logger Initialized");
+        //Carmicah::Log::getClientLogger()->warn("Client Logger Initialized");
+        //Carmicah::Log::getClientLogger()->error("Client Logger Initialized");
+        //Carmicah::Log::getClientLogger()->critical("Client Logger Initialized");
+        //Carmicah::Log::getClientLogger()->trace("Client Logger Initialized");
 
         return 0;
     }

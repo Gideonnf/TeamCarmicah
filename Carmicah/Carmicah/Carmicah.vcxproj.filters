@@ -4,9 +4,12 @@
     <Filter Include="Carmicah">
       <UniqueIdentifier>{7DD29A8D-699F-F598-92B8-E3407EE42A27}</UniqueIdentifier>
     </Filter>
+<<<<<<< Updated upstream
     <Filter Include="ECS">
       <UniqueIdentifier>{5d866541-a579-459e-af46-502e01eb3db2}</UniqueIdentifier>
     </Filter>
+=======
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Carmicah.h" />
@@ -16,6 +19,7 @@
     <ClInclude Include="source\Carmicah\CarmicahCore.h">
       <Filter>Carmicah</Filter>
     </ClInclude>
+<<<<<<< Updated upstream
     <ClInclude Include="source\pch.h" />
     <ClInclude Include="source\Singleton.h">
       <Filter>Carmicah</Filter>
@@ -44,12 +48,26 @@
     <ClInclude Include="source\CollisionSystem.h" />
     <ClInclude Include="source\Carmicah\Transform.h" />
     <ClInclude Include="source\Carmicah\Collider2D.h" />
+=======
+    <ClInclude Include="source\myDataTypes.h" />
+    <ClInclude Include="source\pch.h" />
+    <ClInclude Include="log.h" />
+    <ClInclude Include="EntryPoint.h">
+      <Filter>Carmicah</Filter>
+    </ClInclude>
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Carmicah\Application.cpp">
       <Filter>Carmicah</Filter>
     </ClCompile>
+<<<<<<< Updated upstream
     <ClCompile Include="source\pch.cpp" />
     <ClCompile Include="source\CollisionSystem.cpp" />
+=======
+    <ClCompile Include="source\myDataTypes.cpp" />
+    <ClCompile Include="source\pch.cpp" />
+    <ClCompile Include="log.cpp" />
+>>>>>>> Stashed changes
   </ItemGroup>
 </Project>

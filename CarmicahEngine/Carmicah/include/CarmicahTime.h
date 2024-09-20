@@ -6,7 +6,7 @@
 
 namespace Carmicah
 {
-	class CarmicahTime : public Singleton<CarmicahTime>
+	class CarmicahTime 
 	{
 	public:
 		// I dont know if we should use glfwGetTime or window's QueryPerformanceCounter
@@ -36,9 +36,11 @@ namespace Carmicah
 
 	namespace CarmicahTimer
 	{
+		static CarmicahTime timerObj;
+
 		void StartTime()
 		{
-			CarmicahTime::GetInstance()->InitTime();
+			timerObj.InitTime();
 			//Time::GetInstance()->
 			//QueryPerformanceCounter(&Time::GetInstance()->mPrevTime);
 		}
@@ -53,13 +55,13 @@ namespace Carmicah
 			//// Update the prev time
 			//Time::GetInstance()->mPrevTime = currTime;
 
-			CarmicahTime::GetInstance()->UpdateTime();
+			timerObj.UpdateTime();
 
 		}
 
 		double GetDeltaTime()
 		{
-			return CarmicahTime::GetInstance()->mDeltaTime;
+			return timerObj.mDeltaTime;
 		}
 
 	}

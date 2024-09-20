@@ -10,6 +10,7 @@ namespace Carmicah
 {
 	class ComponentManager : public Singleton<ComponentManager>
 	{
+		// Look into whether it should be a singleton/extern it out as a global variable
 	private:
 		// Keep track of what is the component ID 
 		std::unordered_map<std::string, ComponentID> m_ComponentTypes;
@@ -18,6 +19,8 @@ namespace Carmicah
 		// Shared pointer so that it can keep track of every new component by using the same pointer
 		// I also cant store it as a const char*, IComponent without using shared_ptr 
 		std::unordered_map<std::string, std::shared_ptr<IComponent>> m_ComponentMap;
+
+		//std::array<Signature, MAX_COMPONENTS> m_ComponentSignatures;
 
 		// Everytime a new component is registered, it uses this ID and increment it for the next component
 		// Use 0 as an error flag if trying to pull a component that doesn't exist
@@ -32,9 +35,17 @@ namespace Carmicah
 
 			// add it to the component type map
 			m_ComponentTypes.insert({ name, m_NextID });
+
+			// Set a signature for each component
+			//Signature componentSignature;
+			//componentSignature.set(m_NextID, true);
+			//m_ComponentSignatures[m_NextID] = componentSignature;
+			// 
 			//std::cout << "Component ID" << m_NextID << std::endl;
 			// Increment the next id var
 			m_NextID++;
+
+			Carmicah::Log::GetCoreLogger()->info("Component Created with name" + name);
 
 			//Insert into the component map
 			m_ComponentMap.insert({ name, std::make_shared<Component<T>>() });
@@ -47,7 +58,7 @@ namespace Carmicah
 			std::string componentName = typeid(T).name();
 
 			// Check if it exist in the map
-			if (m_ComponentTypes.find(componentName) != m_ComponentTypes.end())
+			if (m_ComponentTypes[componentName] != 0)
 			{
 				return m_ComponentTypes[componentName];
 			}
@@ -57,8 +68,8 @@ namespace Carmicah
 
 		ComponentID GetComponentID(std::string componentName)
 		{
-		
-			if (m_ComponentTypes.find(componentName) != m_ComponentTypes.end())
+
+			if (m_ComponentTypes[componentName] != 0)
 			{
 				return m_ComponentTypes[componentName];
 			}
@@ -104,6 +115,8 @@ namespace Carmicah
 			return GetComponentArray<T>()->GetComponentData(entity);
 		}
 
+		
+
 		void EntityDestroyed(Entity entity)
 		{
 			for (std::unordered_map<std::string, std::shared_ptr<IComponent>>::iterator i_mapIterator = m_ComponentMap.begin();
@@ -113,6 +126,33 @@ namespace Carmicah
 			}
 		}
 
+		void CloneEntity(Entity entityToClone, Entity newEntity, Signature entitySignature)
+		{
+			//Signature entitySignature = EntityManager::GetInstance()->GetSignature(entityToClone);
+
+			for (auto const& component : m_ComponentTypes)
+			{
+				Signature componentSignature;
+				// Set that component signature to true
+				componentSignature.set(component.second, true);
+				// Check if the entity's signature has this component
+
+				// It has that component
+				if ((entitySignature & componentSignature) == componentSignature)
+				{
+					m_ComponentMap[component.first]->CloneComponentData(entityToClone, newEntity);
+				}
+			}
+
+			// copy the entity's signature since it has the same components. nvm this will be done on entity manager side
+			//EntityManager::GetInstance()->SetSignature(newEntity, entitySignature);
+		}
+
+		size_t GetComponentCount()
+		{
+			return m_ComponentTypes.size();
+		}
+
 		// Used to get the component for inserting in new entity data
 		template<typename T>
 		std::shared_ptr<Component<T>> GetComponentArray()
@@ -120,7 +160,7 @@ namespace Carmicah
 			// Get the name of the component using typeid
 			std::string componentName = typeid(T).name();
 			// Check if it exist in the map
-			if (m_ComponentTypes.find(componentName) != m_ComponentTypes.end())
+			if (m_ComponentTypes[componentName] != 0)
 			{
 				// if it does then retrieve the component
 				return std::static_pointer_cast<Component<T>>(m_ComponentMap[componentName]);
@@ -130,6 +170,20 @@ namespace Carmicah
 			return NULL;
 		}
 	};
+
+	//static ComponentManager componentManager;
+
+#pragma region Accessor Functions
+	//template <typename T>
+	//void RegisterComponent()
+	//{
+	//	componentManager.RegisterComponent<T>();
+	//}
+
+	// TODO: Try whether creating these accessor functions are better for accessing than using singleton
+	// Finish up the rest tomorrow morning
+
+#pragma endregion
 }
 
 #endif
