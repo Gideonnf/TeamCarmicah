@@ -10,6 +10,9 @@
     <Filter Include="include\ECS">
       <UniqueIdentifier>{5340C031-BFF5-3827-48EA-32FEB49E2F2B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\Math">
+      <UniqueIdentifier>{0232CD69-EE94-5C0E-971A-95C4835C2891}</UniqueIdentifier>
+    </Filter>
     <Filter Include="include\Systems">
       <UniqueIdentifier>{907EE853-FC09-5618-051B-D90C7125B218}</UniqueIdentifier>
     </Filter>
@@ -54,10 +57,19 @@
     <ClInclude Include="include\ECS\SystemManager.h">
       <Filter>include\ECS</Filter>
     </ClInclude>
+    <ClInclude Include="include\Math\Matrix3x3.h">
+      <Filter>include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Math\Vec2.h">
+      <Filter>include\Math</Filter>
+    </ClInclude>
     <ClInclude Include="include\Singleton.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Systems\CollisionSystem.h">
+      <Filter>include\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Systems\GOFactory.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
     <ClInclude Include="include\Systems\GraphicsSystem.h">
@@ -65,6 +77,9 @@
     </ClInclude>
     <ClInclude Include="include\Systems\SoundSystem.h">
       <Filter>include\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="include\log.h">
+      <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
@@ -77,10 +92,16 @@
     <ClCompile Include="source\CollisionSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="source\GOFactory.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
     <ClCompile Include="source\GraphicsSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\SoundSystem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\log.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\pch.cpp">

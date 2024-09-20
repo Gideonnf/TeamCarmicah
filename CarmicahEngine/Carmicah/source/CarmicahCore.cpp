@@ -6,6 +6,9 @@
 #include <FMOD/fmod.hpp>
 #include <spdlog/spdlog.h>
 #include <../log.h>
+#include <ImGUI/imgui.h>
+#include <ImGUI/imgui_impl_glfw.h>   
+#include <ImGUI/imgui_impl_opengl3.h>
 #include "Systems/GOFactory.h"
 #include "ECS/ComponentManager.h"
 #include "ECS/SystemManager.h"

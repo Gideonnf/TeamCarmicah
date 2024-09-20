@@ -37,7 +37,8 @@ project "Carmicah"
     {
         "glfw3.lib",
         "opengl32.lib",
-        "glad"
+        "glad",
+        "ImGUI"
     }
 
     filter "system:windows"
@@ -118,7 +119,6 @@ project "glad"
 
     files 
     {
-        "%{prj.name}/include/**.h",
         "%{prj.name}/src/**.c" 
     }
 
@@ -129,6 +129,39 @@ project "glad"
 
     filter "system:windows"
         cdialect "C11"
+        systemversion "latest"
+        defines
+        {
+            "CM_PLATFORM_WINDOWS"
+        }
+
+    filter "configurations:Debug"
+        defines { "CM_DEBUG" }
+        symbols "On"
+
+    filter "configurations:Release"
+        defines { "CM_RELEASE" }
+        optimize "On"
+
+project "ImGUI"
+    location "ImGUI"
+    kind "StaticLib"
+    language "C++"
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin/" .. outputdir .. "int/%{prj.name}")
+
+    files 
+    {
+        "%{prj.name}/src/**.c" 
+    }
+
+    includedirs 
+    {
+        "Dependencies/includes/ImGUI"
+    }
+
+    filter "system:windows"
+        cppdialect "C++17"
         systemversion "latest"
         defines
         {
