@@ -37,6 +37,7 @@ namespace Carmicah
 
     int Application::run()
     {
+        Carmicah::log::init();
         glfwInit();
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -75,7 +76,7 @@ namespace Carmicah
         ComponentManager::GetInstance()->RegisterComponent<Collider2D>();
 
         auto colSystem = SystemManager::GetInstance()->RegisterSystem<CollisionSystem>();
-
+        SystemManager::GetInstance()->RegisterSystem<GOFactory>();
         //SystemManager::GetInstance()->SetSignature<CollisionSystem>({ "Transform", "Collider2D" });
         //OR can put it in init
         colSystem->Init(); // Set the signature
@@ -84,7 +85,7 @@ namespace Carmicah
         Transform playerTrans{ 1, 1, 1 };
         Collider2D playerCollider{ 1, 2, 3, 4 };
 
-        GameObject newObj;
+        GameObject newObj = gGOFactory->CreateGO();
         colSystem->PrintEntities();
         newObj.AddComponent<Transform>(playerTrans);
         colSystem->PrintEntities();
@@ -128,7 +129,6 @@ namespace Carmicah
 
  
 
-        Carmicah::log::init();
         Carmicah::log::getCoreLogger()->info("Core Logger Initialized");
         Carmicah::log::getCoreLogger()->warn("Core Logger Initialized");
         Carmicah::log::getCoreLogger()->error("Core Logger Initialized");
