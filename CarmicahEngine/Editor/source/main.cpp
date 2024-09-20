@@ -3,8 +3,6 @@
 
 int main(int argc, char** argv)
 {
-
-	
 	Carmicah::Application* app = new Carmicah::Application();
 	app->run();
 

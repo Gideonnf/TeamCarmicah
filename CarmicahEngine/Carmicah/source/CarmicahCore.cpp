@@ -4,6 +4,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <FMOD/fmod.hpp>
+#include <spdlog/spdlog.h>
+#include <../log.h>
 
 #include "ECS/ComponentManager.h"
 #include "ECS/SystemManager.h"
@@ -16,6 +18,8 @@
 
 namespace Carmicah
 {
+
+
     const GLuint WIDTH = 800, HEIGHT = 600;
 
     Application::Application()
@@ -58,7 +62,7 @@ namespace Carmicah
             return 0;
         sound->setMode(FMOD_LOOP_OFF);
         mpSystem->playSound(sound, NULL, false, &channel);
-        
+
 #endif
 
         int version = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
@@ -137,6 +141,22 @@ namespace Carmicah
 
         glfwTerminate();
 
+ 
+
+        Carmicah::log::init();
+        Carmicah::log::getCoreLogger()->info("Core Logger Initialized");
+        Carmicah::log::getCoreLogger()->warn("Core Logger Initialized");
+        Carmicah::log::getCoreLogger()->error("Core Logger Initialized");
+        Carmicah::log::getCoreLogger()->critical("Core Logger Initialized");
+        Carmicah::log::getClientLogger()->trace("Client Logger Initialized");
+
+        Carmicah::log::getClientLogger()->info("Client Logger Initialized");
+        Carmicah::log::getClientLogger()->warn("Client Logger Initialized");
+        Carmicah::log::getClientLogger()->error("Client Logger Initialized");
+        Carmicah::log::getClientLogger()->critical("Client Logger Initialized");
+        Carmicah::log::getClientLogger()->trace("Client Logger Initialized");
+
         return 0;
     }
+
 }

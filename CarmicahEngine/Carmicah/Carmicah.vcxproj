@@ -119,8 +119,10 @@
     <ClInclude Include="include\Singleton.h" />
     <ClInclude Include="include\Systems\CollisionSystem.h" />
     <ClInclude Include="include\pch.h" />
+    <ClInclude Include="log.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="log.cpp" />
     <ClCompile Include="source\CarmicahCore.cpp" />
     <ClCompile Include="source\CollisionSystem.cpp" />
     <ClCompile Include="source\pch.cpp">
