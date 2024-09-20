@@ -5,7 +5,7 @@
 
 constexpr float PI = 3.14159265358f;
 
-namespace Matrix3x3d
+namespace Matrix3x3D
 {
 	template <typename T> class Matrix3x3
 	{
