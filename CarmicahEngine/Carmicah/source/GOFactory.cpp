@@ -97,6 +97,15 @@ namespace Carmicah
 		mDeleteList.clear();
 	}
 
+	void GOFactory::ForAllGO(const std::function<void(GameObject&)>& func)
+	{
+		if (mIDToGO.size() > 1)
+		{
+			for (auto& i : mIDToGO)
+				func(i.second);
+		}
+	}
+
 #pragma endregion
 
 #pragma region Component Functions

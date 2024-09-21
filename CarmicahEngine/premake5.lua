@@ -51,8 +51,7 @@ project "Carmicah"
         postbuildcommands -- copies dll files to Editor's bin (the exe)
         {
             "{COPYDIR} %[Dependencies/lib/**.dll] %[bin/" .. outputdir .. "/Editor]",
-            "{COPYDIR} %[Assets/Audio/**.**] %[bin/" .. outputdir .. "/Assets/Audio]",
-            "{COPYDIR} %[Assets/Shaders/**.**] %[bin/" .. outputdir .. "/Assets/Shaders]"
+            "{COPYDIR} %[Assets/**.**] %[bin/" .. outputdir .. "/Assets]"
         }
 
     filter "configurations:Debug"

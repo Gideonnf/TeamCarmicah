@@ -2,3 +2,4 @@ GLFW
 GLAD
 GLM
 PREMAKE
+rapidJSON
