@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 #include <rapidjson/document.h>
 #include <rapidjson/ostreamwrapper.h>
+#include <rapidjson/istreamwrapper.h>
 #include <rapidjson/writer.h>
 #include <rapidjson/filereadstream.h>
 #include <FMOD/fmod.hpp>
@@ -89,28 +90,16 @@ namespace Carmicah
         colSystem->Init(); // Set the signature
         souSystem->Init(false);
 
+        Import();
         //Entity player = EntityManager::GetInstance()->CreateEntity();
-        Transform playerTrans{ 0.5f, 0.5f, 1.f, 45.f, 1.f, 1.f};
-        Transform playerTrans2{ -1.0f, 0.f, 1.f, -125.f, 1.f, 1.f};
-        Collider2D playerCollider{ 1, 2, 3, 4 };
-        Renderer toRender{};
-
-
-        GameObject newObj = gGOFactory->CreateGO();
+        //Transform playerTrans{ 0.5f, 0.5f, 1.f, 45.f, 1.f, 1.f};
+        //Collider2D playerCollider{ 1, 2, 3, 4 };
+        //Renderer toRender{};
+        //GameObject newObj = gGOFactory->CreateGO();
+        //newObj.AddComponent<Transform>(playerTrans);
+        //newObj.AddComponent<Collider2D>(playerCollider);
+        //newObj.AddComponent<Renderer>(toRender);
         colSystem->PrintEntities();
-        newObj.AddComponent<Transform>(playerTrans);
-        colSystem->PrintEntities();
-        newObj.AddComponent<Collider2D>(playerCollider);
-        colSystem->PrintEntities();
-        newObj.AddComponent<Renderer>(toRender);
-
-        GameObject newObj2 = gGOFactory->CreateGO();;
-        colSystem->PrintEntities();
-        newObj2.AddComponent<Transform>(playerTrans2);
-        colSystem->PrintEntities();
-        newObj2.AddComponent<Renderer>(toRender);
-
-        Export();
 
         // Start timer
         //CarmicahTimer::StartTime();
@@ -132,6 +121,8 @@ namespace Carmicah
         souSystem->Exit();
         graSystem->Exit();
 
+        Export();
+
         glfwTerminate();
 
  
@@ -152,28 +143,59 @@ namespace Carmicah
 
         return 0;
     }
+
     void Application::Import()
     {
         std::ifstream ifs{ sceneName, std::ios::binary };
         if (ifs)
         {
-            std::string data;
-            ifs.seekg(0, std::ios::end);
-            data.resize(ifs.tellg());
-            ifs.seekg(0, std::ios::beg);
-            ifs.read(&data[0], data.size());
-            ifs.close();
-
+            rapidjson::IStreamWrapper iws(ifs);
             rapidjson::Document document;
-            document.Parse(data.c_str());
-
-            static const char* kTypeNames[] =
-            { "Null", "False", "True", "Object", "Array", "String", "Number" };
-
-            for (rapidjson::Value::ConstMemberIterator it = document.MemberBegin();
-                it != document.MemberEnd(); ++it)
+            document.ParseStream(iws);
+            ifs.close();
+            
+            assert(document.IsArray());
+            for (rapidjson::SizeType i{}; i < document.Size(); ++i)
             {
-                std::cout << "Member:" << it->name.GetString() << " is a:" << kTypeNames[it->value.GetType()] << "\n";
+                const rapidjson::Value& go = document[i];
+                std::string name = std::string(go["GameObject"].GetString());
+                int id = go["ID"].GetInt();
+                if (id == i)
+                {
+                    GameObject newObj = gGOFactory->CreateGO();
+                    const rapidjson::Value& componentList = go["Components"];
+                    for (rapidjson::Value::ConstValueIterator it = componentList.Begin(); it != componentList.End(); ++it)
+                    {
+                        const std::string& componentName = (*it)["Component Name"].GetString();
+                        if (componentName == "struct Carmicah::Transform")
+                        {
+                            Transform t;
+                            t.xPos      = (*it)["xPos"].GetDouble();
+                            t.yPos      = (*it)["yPos"].GetDouble();
+                            t.zPos      = (*it)["zPos"].GetDouble();
+                            t.rot       = (*it)["rot"].GetDouble();
+                            t.xScale    = (*it)["xScale"].GetDouble();
+                            t.yScale    = (*it)["yScale"].GetDouble();
+                            newObj.AddComponent<Transform>(t);
+                        }
+                        else if (componentName == "struct Carmicah::Collider2D")
+                        {
+                            Collider2D t;
+                            t.minX = (*it)["minX"].GetDouble();
+                            t.minY = (*it)["minY"].GetDouble();
+                            t.maxX = (*it)["maxX"].GetDouble();
+                            t.maxY = (*it)["maxY"].GetDouble();
+                            newObj.AddComponent<Collider2D>(t);
+
+                        }
+                        else if (componentName == "struct Carmicah::Renderer")
+                        {
+                            Renderer t;
+                            t.primitiveType = static_cast<Renderer::PRIMITIVE>((*it)["primitiveType"].GetInt());
+                            newObj.AddComponent<Renderer>(t);
+                        }
+                    }
+                }
             }
         }
 
@@ -196,10 +218,13 @@ namespace Carmicah
                 writer.String("ID");
                 writer.Int(o.GetID());
 
+                writer.String("Components");
+                writer.StartArray();
                 ComponentManager::GetInstance()->ForEachComponent([&](const std::string componentName)
                 {
-                    writer.String(componentName.c_str(), static_cast<rapidjson::SizeType>(componentName.length()));
                     writer.StartObject();
+                    writer.String("Component Name");
+                    writer.String(componentName.c_str(), static_cast<rapidjson::SizeType>(componentName.length()));
                     if (componentName == "struct Carmicah::Transform")
                     {
                         Transform& t = o.GetComponent<Transform>();
@@ -239,6 +264,7 @@ namespace Carmicah
                     writer.EndObject();
 
                 }, EntityManager::GetInstance()->GetSignature(o.GetID()));
+                writer.EndArray();
 
                 writer.EndObject();
             });
