@@ -48,7 +48,7 @@ namespace Carmicah
 		template<typename T>
 		void CreateComponent();
 #pragma endregion
-
+		void ReceiveMessage(Message* msg) override;
 	};
 
 	extern GOFactory* gGOFactory;

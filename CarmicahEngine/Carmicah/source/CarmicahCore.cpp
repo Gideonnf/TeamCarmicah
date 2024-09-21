@@ -20,6 +20,7 @@
 #include "Systems/GraphicsSystem.h"
 #include "Systems/CollisionSystem.h"
 #include "Systems/SoundSystem.h"
+#include "Systems/InputSystem.h"
 #include "CarmicahTime.h"
 
 
@@ -81,6 +82,7 @@ namespace Carmicah
 
         auto graSystem = SystemManager::GetInstance()->RegisterSystem<GraphicsSystem>();
         auto colSystem = SystemManager::GetInstance()->RegisterSystem<CollisionSystem>();
+        auto inputSystem = SystemManager::GetInstance()->RegisterSystem<InputSystem>();
         SystemManager::GetInstance()->RegisterSystem<GOFactory>();
         auto souSystem = SystemManager::GetInstance()->RegisterSystem<SoundSystem>();
 
@@ -89,6 +91,8 @@ namespace Carmicah
         graSystem->Init();
         colSystem->Init(); // Set the signature
         souSystem->Init(false);
+        inputSystem->BindSystem(gGOFactory);
+        inputSystem->Init();
 
         Import();
         //Entity player = EntityManager::GetInstance()->CreateEntity();
