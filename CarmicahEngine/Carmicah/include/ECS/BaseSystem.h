@@ -3,6 +3,8 @@
 #include <set>
 #include <ECS/ECSTypes.h>
 #include <chrono>
+#include "Messaging/Message.h"
+#include "Messaging/InputMessage.h"
 
 namespace Carmicah
 {
@@ -11,6 +13,8 @@ namespace Carmicah
 	public:
 		// contain a set that holds what entities it holds
 		std::set<Entity> mEntitiesSet;
+		// Holds which systems are interested in messages from this current system
+		std::set<BaseSystem*> mSystemObservers;
 		// Keep track of the system's signature
 		Signature mSignature;
 
@@ -19,8 +23,22 @@ namespace Carmicah
 			std::cout << "Entities in "<< systemName << " : " << mEntitiesSet.size() << std::endl;
 		}
 
+		void BindSystem(BaseSystem* system)
+		{
+			mSystemObservers.insert(system);
+		}
+
 		virtual void EntityDestroyed(Entity id) {};
 
+		virtual void ReceiveMessage(Message* msg) {};
+
+		void SendMessage(Message* msg) 
+		{
+			for (auto const& system : mSystemObservers)
+			{
+				system->ReceiveMessage(msg);
+			}
+		};
 
 		// Keep track of time spent within system
 		std::chrono::milliseconds mMilliseconds;
