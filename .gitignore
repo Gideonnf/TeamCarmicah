@@ -8,8 +8,8 @@ CarmicahEngine/bin/
 *.sln.docstates
 
 # Project Settings
-CarmicahEngine/Carmicah/*.vcxproj
-CarmicahEngine/Carmicah/*.vcxproj.filters
+*.vcxproj
+*.vcxproj.filters
 
 # Build results
 [Dd]ebug/
