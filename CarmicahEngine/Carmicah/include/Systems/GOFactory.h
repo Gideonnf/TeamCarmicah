@@ -41,6 +41,7 @@ namespace Carmicah
 		void EntityDestroyed(Entity) override;
 		void DestroyAll();
 		void UpdateDestroyed();
+		void ForAllGO(const std::function<void(GameObject&)>& op);
 #pragma endregion
 
 #pragma region Component Functions

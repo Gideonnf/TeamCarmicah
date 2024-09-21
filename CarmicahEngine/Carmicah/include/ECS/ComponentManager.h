@@ -148,6 +148,25 @@ namespace Carmicah
 			//EntityManager::GetInstance()->SetSignature(newEntity, entitySignature);
 		}
 
+		void ForEachComponent(const std::function<void(const std::string&)>& func, const Signature& entitySignature)
+		{
+			for (auto const& component : m_ComponentTypes)
+			{
+				Signature componentSignature;
+				// Set that component signature to true
+				componentSignature.set(component.second, true);
+				// Check if the entity's signature has this component
+
+				// It has that component
+				if ((entitySignature & componentSignature) == componentSignature)
+				{
+					func(component.first);
+				}
+			}
+
+		}
+
+
 		size_t GetComponentCount()
 		{
 			return m_ComponentTypes.size();

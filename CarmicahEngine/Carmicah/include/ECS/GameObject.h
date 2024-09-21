@@ -38,7 +38,7 @@ namespace Carmicah
 			//gGOFactory->DestroyGameObject(mID);
 		}
 
-		Entity GetID()
+		Entity GetID() const
 		{
 			return mID;
 		}
@@ -48,7 +48,7 @@ namespace Carmicah
 			mID = id;
 		}
 
-		std::string GetName()
+		std::string GetName() const
 		{
 			return mName;
 		}

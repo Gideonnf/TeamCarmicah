@@ -7,6 +7,10 @@ CarmicahEngine/bin/
 *.user
 *.sln.docstates
 
+# Project Settings
+*.vcxproj
+*.vcxproj.filters
+
 # Build results
 [Dd]ebug/
 [Rr]elease/

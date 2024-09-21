@@ -75,7 +75,7 @@ namespace Carmicah
 			m_EntitySignatures[entity] = entitySignature;
 		}
 
-		Signature GetSignature(Entity entity)
+		Signature GetSignature(Entity entity) const
 		{
 			return m_EntitySignatures[entity];
 		}
