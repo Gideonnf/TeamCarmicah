@@ -111,9 +111,28 @@ namespace Carmicah
 
         // Start timer
         //CarmicahTimer::StartTime();
+        // Setup Dear ImGui context
+        GLFWwindow* window2 = glfwCreateWindow(WIDTH, HEIGHT, "ImGUI", NULL, NULL);
+
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO();
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+        //io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // IF using Docking Branch
+
+        // Setup Platform/Renderer backends
+        ImGui_ImplGlfw_InitForOpenGL(window2, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
+        ImGui_ImplOpenGL3_Init();
 
 
         while (!glfwWindowShouldClose(window)) {
+
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
+            ImGui::ShowDemoWindow(true);
+
             // Update dt calc
             CarmicahTimer::UpdateElapsedTime();
 
@@ -124,11 +143,16 @@ namespace Carmicah
 
             souSystem->Update();
             graSystem->Render(window);
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         }
 
         souSystem->Exit();
         graSystem->Exit();
 
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
         glfwTerminate();
 
  

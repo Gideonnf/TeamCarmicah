@@ -152,12 +152,24 @@ project "ImGUI"
 
     files 
     {
-        "%{prj.name}/src/**.c" 
+        "%{prj.name}/src/**.cpp" 
     }
 
     includedirs 
     {
-        "Dependencies/includes/ImGUI"
+        "Dependencies/includes/ImGUI",
+        "Dependencies/includes"
+    }
+
+    libdirs
+    {
+        "Dependencies/lib"
+    }
+
+    links
+    {
+        "glfw3.lib",
+        "opengl32.lib"
     }
 
     filter "system:windows"
