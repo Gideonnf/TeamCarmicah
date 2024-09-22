@@ -14,6 +14,7 @@
 #include "Systems/GOFactory.h"
 #include "ECS/ComponentManager.h"
 #include "ECS/SystemManager.h"
+#include "AssetManager.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
@@ -88,6 +89,7 @@ namespace Carmicah
 
         //SystemManager::GetInstance()->SetSignature<CollisionSystem>({ "Transform", "Collider2D" });
         //OR can put it in init
+        AssetManager::GetInstance()->LoadAll();
         graSystem->Init(WIDTH / 100, HEIGHT / 100);
         colSystem->Init(); // Set the signature
         souSystem->Init(false);
@@ -127,6 +129,7 @@ namespace Carmicah
         graSystem->Exit();
 
         Export();
+        AssetManager::GetInstance()->UnloadAll();
 
         glfwTerminate();
 

@@ -13,6 +13,9 @@
     <Filter Include="include\Math">
       <UniqueIdentifier>{0232CD69-EE94-5C0E-971A-95C4835C2891}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\Messaging">
+      <UniqueIdentifier>{162A52BD-8240-5053-CBB7-DB74370D21DB}</UniqueIdentifier>
+    </Filter>
     <Filter Include="include\Systems">
       <UniqueIdentifier>{907EE853-FC09-5618-051B-D90C7125B218}</UniqueIdentifier>
     </Filter>
@@ -21,6 +24,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\AssetManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="include\CarmicahCore.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -63,6 +69,12 @@
     <ClInclude Include="include\Math\Vec2.h">
       <Filter>include\Math</Filter>
     </ClInclude>
+    <ClInclude Include="include\Messaging\InputMessage.h">
+      <Filter>include\Messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Messaging\Message.h">
+      <Filter>include\Messaging</Filter>
+    </ClInclude>
     <ClInclude Include="include\Singleton.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -73,6 +85,9 @@
       <Filter>include\Systems</Filter>
     </ClInclude>
     <ClInclude Include="include\Systems\GraphicsSystem.h">
+      <Filter>include\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Systems\InputSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
     <ClInclude Include="include\Systems\SoundSystem.h">
@@ -86,6 +101,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\AssetManager.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
     <ClCompile Include="source\CarmicahCore.cpp">
       <Filter>source</Filter>
     </ClCompile>
@@ -96,6 +114,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\GraphicsSystem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\InputSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\SoundSystem.cpp">

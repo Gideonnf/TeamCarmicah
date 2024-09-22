@@ -2,8 +2,6 @@
 #define GRAPHICS_SYSTEM_H
 
 #include "ECS/BaseSystem.h"
-#include <GLFW/glfw3.h>
-
 
 namespace Carmicah
 {
@@ -12,7 +10,7 @@ namespace Carmicah
 	private:
 
 	public:
-		void Init(const GLuint&, const GLuint&);
+		void Init(const unsigned int&, const unsigned int&);
 
 		void Update();
 
