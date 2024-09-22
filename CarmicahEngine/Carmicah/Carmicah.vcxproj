@@ -105,8 +105,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="FPSCounter.h" />
     <ClInclude Include="include\CarmicahCore.h" />
-    <ClInclude Include="include\CarmicahTime.h" />
     <ClInclude Include="include\Components\Collider2D.h" />
     <ClInclude Include="include\Components\Transform.h" />
     <ClInclude Include="include\ECS\BaseSystem.h" />
@@ -122,6 +122,7 @@
     <ClInclude Include="log.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FPSCounter.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="source\CarmicahCore.cpp" />
     <ClCompile Include="source\CollisionSystem.cpp" />

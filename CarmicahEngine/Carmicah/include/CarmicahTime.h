@@ -3,17 +3,29 @@
 #include "Singleton.h"
 #include <GLFW/glfw3.h>
 #include <Windows.h>
+#include <chrono>
 
 namespace Carmicah
 {
 	class CarmicahTime 
 	{
+	private:
+		static std::chrono::steady_clock::time_point start_time;
+		static std::chrono::steady_clock::time_point last_frame_time;
+		static double delta_time;
+
+
 	public:
 		// I dont know if we should use glfwGetTime or window's QueryPerformanceCounter
 		// using glfwGetTime cause QueryPerformanceCounter dont work and glfw does so ill just use it for now instead
 
 		//LARGE_INTEdoublGER mPrevTime;
 		//LARGE_INTEGER mFrequency;
+
+		static void Start();
+		static void UpdateElapsedTime();
+		static double GetDeltaTime();
+		static double GetTime();
 
 		double mDeltaTime;
 		double mPrevTime;
