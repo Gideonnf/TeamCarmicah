@@ -76,18 +76,16 @@ namespace Carmicah
         }
         glViewport(0, 0, WIDTH, HEIGHT);
 
-        ComponentManager::GetInstance()->RegisterComponent<Transform>();
-        ComponentManager::GetInstance()->RegisterComponent<Collider2D>();
-        ComponentManager::GetInstance()->RegisterComponent<Renderer>();
+        REGISTER_COMPONENT(Transform);
+        REGISTER_COMPONENT(Collider2D);
+        REGISTER_COMPONENT(Renderer);
 
-        auto graSystem = SystemManager::GetInstance()->RegisterSystem<GraphicsSystem>();
-        auto colSystem = SystemManager::GetInstance()->RegisterSystem<CollisionSystem>();
-        auto inputSystem = SystemManager::GetInstance()->RegisterSystem<InputSystem>();
-        SystemManager::GetInstance()->RegisterSystem<GOFactory>();
-        auto souSystem = SystemManager::GetInstance()->RegisterSystem<SoundSystem>();
+        auto graSystem = REGISTER_SYSTEM(GraphicsSystem);
+        auto colSystem = REGISTER_SYSTEM(CollisionSystem);
+        auto inputSystem = REGISTER_SYSTEM(InputSystem);
+        REGISTER_SYSTEM(GOFactory);
+        auto souSystem = REGISTER_SYSTEM(SoundSystem);
 
-        //SystemManager::GetInstance()->SetSignature<CollisionSystem>({ "Transform", "Collider2D" });
-        //OR can put it in init
         graSystem->Init();
         colSystem->Init(); // Set the signature
         souSystem->Init(false);

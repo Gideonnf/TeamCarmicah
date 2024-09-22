@@ -104,7 +104,11 @@ namespace Carmicah
 				}
 			}
 		}
+	
 	};
+
+#define SYSTEM SystemManager::GetInstance()
+#define REGISTER_SYSTEM(system) SystemManager::GetInstance()->RegisterSystem<system>();
 }
 
 #endif

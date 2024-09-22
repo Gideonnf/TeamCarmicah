@@ -98,6 +98,8 @@ namespace Carmicah
 			SystemManager::GetInstance()->UpdateSignatures(id, entitySignature);
 		}
 	};
+
+#define ENTITYSYSTEM EntityManager::GetInstance()
 }
 
 #endif

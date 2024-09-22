@@ -190,19 +190,8 @@ namespace Carmicah
 		}
 	};
 
-	//static ComponentManager componentManager;
-
-#pragma region Accessor Functions
-	//template <typename T>
-	//void RegisterComponent()
-	//{
-	//	componentManager.RegisterComponent<T>();
-	//}
-
-	// TODO: Try whether creating these accessor functions are better for accessing than using singleton
-	// Finish up the rest tomorrow morning
-
-#pragma endregion
+#define COMPONENTSYSTEM ComponentManager::GetInstance()
+#define REGISTER_COMPONENT(Component) ComponentManager::GetInstance()->RegisterComponent<Component>()
 }
 
 #endif
