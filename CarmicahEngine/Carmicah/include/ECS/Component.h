@@ -54,7 +54,7 @@ namespace Carmicah
 			// TODO: CHeck if its inserting over the limit
 
 			// use current active size to get the next component id
-			unsigned int componentIndex = m_ComponentArray.size();
+			unsigned int componentIndex = (unsigned int)m_ComponentArray.size();
 
 			// Set the map variables
 			m_EntityToComponent[entity] = componentIndex;
@@ -71,7 +71,7 @@ namespace Carmicah
 		void RemoveComponentData(Entity entity)
 		{
 			// Get the last active index and the entity to delete index
-			unsigned int lastValidIndex = m_ComponentArray.size() - 1;
+			unsigned int lastValidIndex = (unsigned int)m_ComponentArray.size() - 1;
 			// get the component index related to the entity thats being removed
 			unsigned int componentIndex = m_EntityToComponent[entity];
 
@@ -107,7 +107,7 @@ namespace Carmicah
 		void CloneComponentData(Entity entityToClone, Entity newEntity)
 		{
 			// Get the next component index
-			unsigned int componentIndex = m_ComponentArray.size();
+			unsigned int componentIndex = (unsigned int)m_ComponentArray.size();
 			// Create a copy of the component data
 			T componentData = m_ComponentArray[entityToClone];
 			

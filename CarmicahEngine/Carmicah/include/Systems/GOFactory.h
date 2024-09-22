@@ -42,6 +42,8 @@ namespace Carmicah
 		void DestroyAll();
 		void UpdateDestroyed();
 		void ForAllGO(const std::function<void(GameObject&)>& op);
+		void ImportGOs(std::string sceneName);
+		void ExportGOs(std::string sceneName);
 #pragma endregion
 
 #pragma region Component Functions
