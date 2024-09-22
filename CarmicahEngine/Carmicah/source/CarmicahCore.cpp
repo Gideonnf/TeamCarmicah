@@ -25,7 +25,7 @@ namespace Carmicah
 {
 
 
-    const GLuint WIDTH = 800, HEIGHT = 600;
+    const GLuint WIDTH = 1920, HEIGHT = 1080;
 
     Application::Application()
     {
