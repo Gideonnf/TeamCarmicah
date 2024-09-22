@@ -116,4 +116,11 @@ namespace Carmicah
 	}
 #pragma endregion
 
+	void GOFactory::ReceiveMessage(Message* msg)
+	{
+		if (msg->mMsgType == MSG_KEYPRESS)
+		{			
+			Carmicah::Log::GetCoreLogger()->info("Msg Recevied in GOFactory containing :" + std::to_string(static_cast<KeyMessage*>(msg)->mKeypress));
+		}
+	}
 }

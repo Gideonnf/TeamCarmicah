@@ -14,6 +14,10 @@ namespace Carmicah
 		std::unordered_map<std::string, Signature> mSystemSignatures{};
 		std::unordered_map<std::string, std::shared_ptr<BaseSystem>> mSystems{};
 
+		//std::unordered_map< std::shared_ptr<BaseSystem>, std::shared_ptr<BaseSystem>> ObserverMap;
+		//std::unordered_map< std::shared_ptr<BaseSystem>, std::shared_ptr<BaseSystem>> ObserveredMap;
+
+
 	public:
 		template<typename T>
 		std::shared_ptr<T> RegisterSystem()
@@ -89,7 +93,22 @@ namespace Carmicah
 				}
 			}
 		}
+
+		void BroadcastMessage(Message* msg)
+		{
+			for (auto const& pair : mSystems)
+			{
+				if (msg->mMsgType != MSG_NONE)
+				{
+					pair.second->ReceiveMessage(msg);
+				}
+			}
+		}
+	
 	};
+
+#define SYSTEM SystemManager::GetInstance()
+#define REGISTER_SYSTEM(system) SystemManager::GetInstance()->RegisterSystem<system>();
 }
 
 #endif
