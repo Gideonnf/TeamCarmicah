@@ -86,7 +86,7 @@ namespace Carmicah
 
         //SystemManager::GetInstance()->SetSignature<CollisionSystem>({ "Transform", "Collider2D" });
         //OR can put it in init
-        graSystem->Init();
+        graSystem->Init(WIDTH / 100, HEIGHT / 100);
         colSystem->Init(); // Set the signature
         souSystem->Init(false);
 
@@ -115,7 +115,8 @@ namespace Carmicah
             colSystem->Update();
 
             souSystem->Update();
-            graSystem->Render(window);
+            graSystem->Render();
+            glfwSwapBuffers(window);
         }
 
         souSystem->Exit();

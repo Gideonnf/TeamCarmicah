@@ -23,15 +23,16 @@ namespace
 	struct Camera 
 	{
 		glm::vec2 eye{};					// Location of the camera
+		glm::vec2 scale{};					// Converts NDC based on window size
 		glm::mat3 mtx{};					// The computed camera matrix
 	};
 
 	// Data
 	std::unordered_map<std::string, GLuint> shaderPgms{};
-	std::unordered_map<std::string, Primitive> primitiveMaps;
-	std::unordered_map<std::string, GLuint> textureMaps;
-	Camera mainCam;
-	GLuint currShader;
+	std::unordered_map<std::string, Primitive> primitiveMaps{};
+	std::unordered_map<std::string, GLuint> textureMaps{};
+	Camera mainCam{};
+	GLuint currShader{};
 
 	// Load Functions
 	GLuint LoadShader(const std::string& shaderName, const std::string& vertFile, const std::string& fragFile)
@@ -334,12 +335,17 @@ namespace
 
 namespace Carmicah
 {
-	void GraphicsSystem::Init()
+	void GraphicsSystem::Init(const GLuint& width, const GLuint& height)
 	{
 		// Set the signature of the system
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<GraphicsSystem>(mSignature);
+
+		mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
+		mainCam.mtx = glm::mat3(1);
+		mainCam.mtx = glm::translate(mainCam.mtx, mainCam.eye);
+		mainCam.mtx = glm::scale(mainCam.mtx, mainCam.scale);
 
 		currShader = LoadShader("main", "../Assets/Shaders/basic.vert", "../Assets/Shaders/basic.frag");
 		LoadObject("obj1", "../Assets/Meshes/Circle.o");
@@ -353,7 +359,7 @@ namespace Carmicah
 
 	}
 
-	void GraphicsSystem::Render(GLFWwindow*& window)
+	void GraphicsSystem::Render()
 	{
 		glClearColor(0.75294f, 1.f, 0.93333f, 1.f); // Gideon's favourite
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -374,7 +380,8 @@ namespace Carmicah
 			glm::mat3 mat = glm::mat3(1.f);
 			mat = glm::translate(mat, glm::vec2{ transform.xPos, transform.yPos});
 			mat = glm::rotate(mat, glm::radians(transform.rot));
-			mat = glm::scale(mat, glm::vec2{ transform.xScale * 0.5f, transform.yScale * 0.5f});
+			mat = glm::scale(mat, glm::vec2{ transform.xScale, transform.yScale});
+			mat = mainCam.mtx * mat;
 
 			GLint uniform_var_loc0 = glGetUniformLocation(currShader, "uModel_to_NDC");
 			if (uniform_var_loc0 >= 0)
@@ -416,7 +423,6 @@ namespace Carmicah
 		glBindTextureUnit(0, 0);
 		glBindVertexArray(0);
 		glUseProgram(0);
-		glfwSwapBuffers(window);
 	}
 
 	void GraphicsSystem::Exit()
