@@ -10,7 +10,6 @@
 #include "ECS/SystemManager.h"
 #include "ECS/ComponentManager.h"
 
-const double PI = 3.14159265358979323846264;
 namespace
 {
 	// Structs
@@ -124,6 +123,17 @@ namespace
 		return shader;
 	}
 
+	/*
+	Assumes file follows this order
+	{
+		GL_TRIANGLE NUM_VERTS NUM_IDX
+		v0.x v0.y
+		...
+		idx1
+		idx2
+		...
+	}
+	*/
 	void LoadObject(const std::string& objName, const std::string& modelFile)
 	{
 		auto foundObj = primitiveMaps.find(objName);
@@ -145,7 +155,7 @@ namespace
 		ifs >> p.drawMode >> numVert >> p.drawCnt;
 		if (p.drawMode == 0)
 		{
-			std::cerr << "Error reading file";
+			std::cerr << "Error reading obj file";
 			return;
 		}
 
@@ -213,6 +223,67 @@ namespace
 		primitiveMaps.insert(std::make_pair(objName, p));
 	}
 
+	/*
+	Assumes file follows this order
+	{
+		NUM_VERTS DRAW_COUNT
+		v0.x v0.y
+		...
+	}
+	*/
+	void LoadDebugObject(const std::string& objName, const std::string& modelFile)
+	{
+		auto foundObj = primitiveMaps.find(objName);
+		if (foundObj != primitiveMaps.end())
+		{
+			std::cerr << "Object:" << objName << " Already Exists";
+			return;
+		}
+
+		std::ifstream ifs(modelFile, std::ios::binary);
+		if (!ifs)
+		{
+			std::cerr << "Unable to open Obj:" << modelFile;
+			return;
+		}
+		Primitive p;
+		p.drawMode = GL_LINE_LOOP;
+		unsigned int numVert;
+		ifs >> numVert >> p.drawCnt;
+		if (numVert == 0)
+		{
+			std::cerr << "Error reading debug obj file";
+			return;
+		}
+
+		std::vector<glm::vec2> vtx;
+
+		vtx.reserve(numVert);
+		float v1, v2;
+		for (unsigned int i{}; i < numVert; ++i)
+		{
+			ifs >> v1 >> v2;
+			vtx.emplace_back(glm::vec2{ v1, v2 });
+		}
+		ifs.close();
+
+		unsigned int sizeofVtxArray = numVert * sizeof(glm::vec2);
+
+		glCreateBuffers(1, &p.vboid);
+		glNamedBufferStorage(p.vboid, sizeofVtxArray, vtx.data(), GL_DYNAMIC_STORAGE_BIT);
+
+		// Position
+		glCreateVertexArrays(1, &p.vaoid);
+		glEnableVertexArrayAttrib(p.vaoid, 0); // VAO's vertex attribute index is 0 (vert)
+		glVertexArrayVertexBuffer(p.vaoid, 0, // vertex buffer binding point
+			p.vboid, 0, sizeof(glm::vec2));
+		glVertexArrayAttribFormat(p.vaoid, 0, 2, GL_FLOAT, GL_FALSE, 0);
+		glVertexArrayAttribBinding(p.vaoid, 0, 0);
+
+		primitiveMaps.insert(std::make_pair(objName, p));
+	}
+
+
 	void LoadTexture(const std::string& textureName, const std::string& textureFile, const GLuint& width, const GLuint& height, const GLuint& bpt)
 	{
 		auto foundTexture = textureMaps.find(textureName);
@@ -242,16 +313,19 @@ namespace
 		textureMaps.insert(std::make_pair(textureName, texture));
 	}
 
-	void ExportCircle(int numSlices)
+	void ExportCircle(int numSlices, const std::string& modelFile)
 	{
-		std::ofstream ofs("../Assets/Meshes/circle.o", std::ios::binary);
+		const double M_PI = 3.14159265358979323846264;
+		std::ofstream ofs(modelFile, std::ios::binary);
 		if (ofs)
 		{
-			double angleInc{ 2.0 / static_cast<double>(numSlices) * PI };
-			ofs << GL_TRIANGLE_FAN << ' ' << numSlices << ' ' << numSlices + 2 << '\n';
-			for (int i{}; i < numSlices; ++i)
+			double angleInc{ 2.0 / static_cast<double>(numSlices) * M_PI };
+			ofs << GL_TRIANGLE_FAN << ' ' << numSlices + 2 << ' ' << numSlices + 2 << '\n';
+			ofs << "0 0\n";
+			for (int i{}; i < numSlices + 1; ++i)
 				ofs << sinf((static_cast<double>(i) * angleInc)) << ' ' << cosf((static_cast<double>(i) * angleInc)) << '\n';
-			for (int i{}; i < numSlices; ++i)
+			ofs << "0.5 0.5\n";
+			for (int i{}; i < numSlices + 1; ++i)
 				ofs << sinf((static_cast<double>(i) * angleInc)) * 0.5 + 0.5 << ' ' << cosf((static_cast<double>(i) * angleInc)) * 0.5 + 0.5 << '\n';
 			ofs.close();
 		}
@@ -268,7 +342,8 @@ namespace Carmicah
 		SystemManager::GetInstance()->SetSignature<GraphicsSystem>(mSignature);
 
 		currShader = LoadShader("main", "../Assets/Shaders/basic.vert", "../Assets/Shaders/basic.frag");
-		LoadObject("Circle", "../Assets/Meshes/Circle.o");
+		LoadObject("obj1", "../Assets/Meshes/Circle.o");
+		LoadDebugObject("obj2", "../Assets/Meshes/Circle.do");
 		LoadTexture("Duck", "../Assets/Images/duck-rgba-256.tex", 256, 256, 4);
 	}
 
@@ -285,14 +360,21 @@ namespace Carmicah
 
 		glUseProgram(currShader);
 
-		Primitive p = primitiveMaps["Circle"];
+		int i = 0;
+		Primitive p{};
+
 		for (auto entity : mEntitiesSet)
 		{
+			if (i++ == 0)
+				p = primitiveMaps["obj1"];
+			else
+				p = primitiveMaps["obj2"];
+
 			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
 			glm::mat3 mat = glm::mat3(1.f);
 			mat = glm::translate(mat, glm::vec2{ transform.xPos, transform.yPos});
 			mat = glm::rotate(mat, glm::radians(transform.rot));
-			mat = glm::scale(mat, glm::vec2{ transform.xScale, transform.yScale});
+			mat = glm::scale(mat, glm::vec2{ transform.xScale * 0.5f, transform.yScale * 0.5f});
 
 			GLint uniform_var_loc0 = glGetUniformLocation(currShader, "uModel_to_NDC");
 			if (uniform_var_loc0 >= 0)
@@ -305,6 +387,11 @@ namespace Carmicah
 				std::cout << "Uniform variable dosen't exist!!!\n";
 				std::exit(EXIT_FAILURE);
 			}
+
+			uniform_var_loc0 = glGetUniformLocation(currShader, "isDebug");
+			if (uniform_var_loc0 >= 0)
+				glUniform1i(uniform_var_loc0, p.drawMode == GL_LINE_LOOP);
+
 			GLint uniform_var_loc1 = glGetUniformLocation(currShader, "uTex2d");
 			if (uniform_var_loc1 >= 0)
 				glUniform1i(uniform_var_loc1, 0);
@@ -313,6 +400,10 @@ namespace Carmicah
 			glBindTextureUnit(0, textureMaps["Duck"]);
 			switch (p.drawMode)
 			{
+			case GL_LINE_LOOP:
+				glLineWidth(2.f);
+				glDrawArrays(GL_LINE_LOOP, 0, p.drawCnt);
+				break;
 			case GL_TRIANGLES:
 				glDrawElements(GL_TRIANGLES, p.drawCnt, GL_UNSIGNED_SHORT, NULL);
 				break;
