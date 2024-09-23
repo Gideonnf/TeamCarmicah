@@ -12,11 +12,11 @@ namespace Carmicah
 	private:
 
 	public:
-		void Init();
+		void Init(const GLuint&, const GLuint&);
 
 		void Update();
 
-		void Render(GLFWwindow*&);
+		void Render();
 
 		void Exit();
 	};

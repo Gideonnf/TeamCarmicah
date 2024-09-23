@@ -97,7 +97,9 @@ namespace Carmicah
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);
 
-        graSystem->Init();
+        //SystemManager::GetInstance()->SetSignature<CollisionSystem>({ "Transform", "Collider2D" });
+        //OR can put it in init
+        graSystem->Init(WIDTH / 100, HEIGHT / 100);
         colSystem->Init(); // Set the signature
         souSystem->Init(false);
         inputSystem->BindSystem(gGOFactory);
@@ -129,7 +131,8 @@ namespace Carmicah
             colSystem->Update();
 
             souSystem->Update();
-            graSystem->Render(window);
+            graSystem->Render();
+            glfwSwapBuffers(window);
         }
 
         souSystem->Exit();
