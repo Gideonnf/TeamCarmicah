@@ -8,6 +8,7 @@
 
 namespace Carmicah
 {
+
 	void CollisionSystem::PrintEntities()
 	{
 		std::cout << "Entities in collision system: " << mEntitiesSet.size() << std::endl;
@@ -26,10 +27,39 @@ namespace Carmicah
 	void CollisionSystem::Update()
 	{
 		//std::cout << mSignature << std::endl;
-		for (auto entity : mEntitiesSet)
+
+		for (auto entity : mEntitiesSet) 
 		{
 			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
-			//transform.yPos += 1;		
+			auto& AABB = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);
+			//transform.yPos += 1;
+			//std::cout << "Entity xPos : " << transform.xPos << std::endl;
+
+			//Form AABB bounding box
+			AABB.min.x = transform.xPos - (transform.xScale * 0.5f);
+			AABB.min.y = transform.yPos - (transform.yScale * 0.5f);
+			AABB.max.x = transform.xPos + (transform.xScale * 0.5f);
+			AABB.max.y = transform.yPos + (transform.yScale * 0.5f);
+		}
+
+		for (auto it1 = mEntitiesSet.begin(); it1 != mEntitiesSet.end(); ++it1)
+		{
+			Entity entity1 = *it1;
+			auto& AABB1 = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity1);
+
+			for (auto it2 = std::next(it1); it2 != mEntitiesSet.end(); ++it2)
+			{
+				Entity entity2 = *it2;
+				auto& AABB2 = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity2);
+
+				// Perform AABB collision check
+				if (AABB1.max.x > AABB2.min.x && AABB1.min.x < AABB2.max.x &&
+					AABB1.max.y > AABB2.min.y && AABB1.min.y < AABB2.max.y)
+				{
+					// Handle collision between entity1 and entity2
+					std::cout << "Collision detected between Entity " << entity1 << " and Entity " << entity2 << std::endl;
+				}
+			}
 		}
 	}
 
