@@ -151,10 +151,10 @@ namespace Carmicah
 						else if (componentName == "struct Carmicah::Collider2D")
 						{
 							Collider2D t;
-							t.minX = (float)(*it)["minX"].GetDouble();
-							t.minY = (float)(*it)["minY"].GetDouble();
-							t.maxX = (float)(*it)["maxX"].GetDouble();
-							t.maxY = (float)(*it)["maxY"].GetDouble();
+							t.min.x = (float)(*it)["minX"].GetDouble();
+							t.min.y = (float)(*it)["minY"].GetDouble();
+							t.max.x = (float)(*it)["maxX"].GetDouble();
+							t.max.y = (float)(*it)["maxY"].GetDouble();
 							newObj.AddComponent<Collider2D>(t);
 
 						}
@@ -216,13 +216,13 @@ namespace Carmicah
 						{
 							Collider2D& t = o.GetComponent<Collider2D>();
 							writer.String("minX");
-							writer.Double(t.minX);
+							writer.Double(t.min.x);
 							writer.String("minY");
-							writer.Double(t.minY);
+							writer.Double(t.min.y);
 							writer.String("maxX");
-							writer.Double(t.maxX);
+							writer.Double(t.max.x);
 							writer.String("maxY");
-							writer.Double(t.maxY);
+							writer.Double(t.max.y);
 						}
 						else if (componentName == "struct Carmicah::Renderer")
 						{

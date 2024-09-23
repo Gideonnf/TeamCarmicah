@@ -10,10 +10,12 @@ namespace Carmicah
 	class CarmicahTime 
 	{
 	private:
-		static std::chrono::steady_clock::time_point start_time;
-		static std::chrono::steady_clock::time_point last_frame_time;
-		static double delta_time;
+		std::chrono::steady_clock::time_point lastUpdateTime;
 
+		double mUpdateInterval;
+		int mFrameCount;
+		double mCurrentFPS;
+		double mDeltaTime;
 
 	public:
 		// I dont know if we should use glfwGetTime or window's QueryPerformanceCounter
@@ -22,59 +24,29 @@ namespace Carmicah
 		//LARGE_INTEdoublGER mPrevTime;
 		//LARGE_INTEGER mFrequency;
 
-		static void Start();
-		static void UpdateElapsedTime();
-		static double GetDeltaTime();
-		static double GetTime();
-
-		double mDeltaTime;
-		double mPrevTime;
-
-		CarmicahTime() : mDeltaTime(0), mPrevTime(0) { /*QueryPerformanceFrequency(&mFrequency);*/ }
+		CarmicahTime() : mDeltaTime(0), mUpdateInterval(0.5), mFrameCount(0), mCurrentFPS(0.0) {}
 		~CarmicahTime() {}
 
-		void InitTime()
-		{
-			mPrevTime = glfwGetTime();
-		}
+		void InitTime();
 
-		void UpdateTime()
-		{
-			double currTime = glfwGetTime();
-			mDeltaTime = currTime - mPrevTime;
-			mPrevTime = currTime;
-		}
+		void UpdateTime();
+
+		inline double FPS() const { return mCurrentFPS; }
+
+		inline double GetDeltaTime() const { return mDeltaTime; }
 	};
 
 	namespace CarmicahTimer
 	{
 		static CarmicahTime timerObj;
 
-		void StartTime()
-		{
-			timerObj.InitTime();
-			//Time::GetInstance()->
-			//QueryPerformanceCounter(&Time::GetInstance()->mPrevTime);
-		}
+		void StartTime();
 
-		void UpdateElapsedTime()
-		{
-			//LARGE_INTEGER currTime;
-			//// Get the current time
-			//QueryPerformanceCounter(&currTime);
-			//// Current time - prev time divided by frequency and cast into double to get delta time
-			//Time::GetInstance()->mDeltaTime = static_cast<double>((currTime.QuadPart - Time::GetInstance()->mPrevTime.QuadPart) / Time::GetInstance()->mFrequency.QuadPart);
-			//// Update the prev time
-			//Time::GetInstance()->mPrevTime = currTime;
+		void UpdateElapsedTime();
 
-			timerObj.UpdateTime();
+		double GetDt();
 
-		}
-
-		double GetDeltaTime()
-		{
-			return timerObj.mDeltaTime;
-		}
+		double GetFPS();
 
 	}
 }
