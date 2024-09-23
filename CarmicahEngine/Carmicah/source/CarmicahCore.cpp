@@ -3,50 +3,31 @@
 #include <stdio.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
 #include <FMOD/fmod.hpp>
 #include <spdlog/spdlog.h>
-#include <log.h>
-#include "Systems/GOFactory.h"
+#include <../log.h>
+#include <queue>
+#include <chrono>
+#include <string>
+
 #include "ECS/ComponentManager.h"
 #include "ECS/SystemManager.h"
+#include "ECS/GameObject.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
-#include "Components/Renderer.h"
-#include "Systems/GraphicsSystem.h"
 #include "Systems/CollisionSystem.h"
-#include "Systems/SoundSystem.h"
-#include "Systems/InputSystem.h"
-#include "Systems/SceneSystem.h"
-#include "CarmicahTime.h"
-
+#include "../FPSCounter.h"
 
 namespace Carmicah
 {
-
-
     const GLuint WIDTH = 800, HEIGHT = 600;
-    const char* sceneName{"../Assets/Scene/Scene1.json"};
 
     Application::Application()
     {
-
     }
 
     Application::~Application()
     {
-
-    }
-
-    void EnableMemoryLeakChecking(int breakAlloc = -1)
-    {
-        //Set the leak checking flag
-        int tmpDbgFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
-        tmpDbgFlag |= _CRTDBG_LEAK_CHECK_DF;
-        _CrtSetDbgFlag(tmpDbgFlag);
-
-        //If a valid break alloc provided set the breakAlloc
-        if (breakAlloc != -1) _CrtSetBreakAlloc(breakAlloc);
     }
 
     void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode) {
@@ -56,94 +37,87 @@ namespace Carmicah
 
     int Application::run()
     {
-        EnableMemoryLeakChecking();
-
         Carmicah::Log::init();
         CM_CORE_INFO("Core Logger Initialized");
+        CM_INFO("Client Logger Initialized");
+
         glfwInit();
-        // Set required options for GLFW
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
         GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Carmicah", NULL, NULL);
         glfwMakeContextCurrent(window);
-        if (window == NULL)
-        {
-            std::cerr << "Failed to create GLFW window" << std::endl;
-            glfwTerminate();
-            return -1;
-        }
 
         glfwSetKeyCallback(window, key_callback);
 
-        int version = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        if (version == 0)
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
-            std::cerr << "Failed to initialize GLAD" << std::endl;
+            CM_CORE_ERROR("Failed to initialize GLAD");
             return -1;
         }
-        glViewport(0, 0, WIDTH, HEIGHT);
 
-        REGISTER_COMPONENT(Transform);
-        REGISTER_COMPONENT(Collider2D);
-        REGISTER_COMPONENT(Renderer);
+        ComponentManager::GetInstance()->RegisterComponent<Transform>();
+        ComponentManager::GetInstance()->RegisterComponent<Collider2D>();
 
-        auto graSystem = REGISTER_SYSTEM(GraphicsSystem);
-        auto colSystem = REGISTER_SYSTEM(CollisionSystem);
-        auto inputSystem = REGISTER_SYSTEM(InputSystem);
-        REGISTER_SYSTEM(GOFactory);
-        auto souSystem = REGISTER_SYSTEM(SoundSystem);
-        auto gameSystem = REGISTER_SYSTEM(SceneSystem);
+        auto colSystem = SystemManager::GetInstance()->RegisterSystem<CollisionSystem>();
+        colSystem->Init();
 
-        //SystemManager::GetInstance()->SetSignature<CollisionSystem>({ "Transform", "Collider2D" });
-        //OR can put it in init
-        graSystem->Init(WIDTH / 100, HEIGHT / 100);
-        colSystem->Init(); // Set the signature
-        souSystem->Init(false);
-        inputSystem->BindSystem(gGOFactory);
-        inputSystem->Init();
-        gameSystem->Init(sceneName);
-       // Import();
-        //Entity player = EntityManager::GetInstance()->CreateEntity();
-        //Transform playerTrans{ 0.5f, 0.5f, 1.f, 45.f, 1.f, 1.f};
-        //Collider2D playerCollider{ 1, 2, 3, 4 };
-        //Renderer toRender{};
-        //GameObject newObj = gGOFactory->CreateGO();
-        //newObj.AddComponent<Transform>(playerTrans);
-        //newObj.AddComponent<Collider2D>(playerCollider);
-        //newObj.AddComponent<Renderer>(toRender);
-        colSystem->PrintEntities();
+        auto fpsCounter = std::make_unique<FPSCounter>();
+        fpsCounter->Init();
 
-        // Start timer
-        //CarmicahTimer::StartTime();
+        GameObject newObj;
+        Transform playerTrans{ 1, 1, 1 };
+        Collider2D playerCollider{ 1, 2, 3, 4 };
+        newObj.AddComponent<Transform>(playerTrans);
+        newObj.AddComponent<Collider2D>(playerCollider);
 
+#ifndef NO_SOUND
+        FMOD::System* mpSystem;
+        if (FMOD::System_Create(&mpSystem) != FMOD_OK)
+            return 0;
+        mpSystem->init(32, FMOD_INIT_NORMAL, NULL);
+        FMOD::Sound* sound = nullptr;
+        FMOD::Channel* channel = NULL;
+        if (mpSystem->createSound("../Assets/bouken.mp3", FMOD_DEFAULT, nullptr, &sound) != FMOD_OK)
+            return 0;
+        sound->setMode(FMOD_LOOP_OFF);
+        mpSystem->playSound(sound, NULL, false, &channel);
+#endif
 
         while (!glfwWindowShouldClose(window)) {
-            // Update dt calc
-            CarmicahTimer::UpdateElapsedTime();
-
             glfwPollEvents();
 
-            gameSystem->Update();
-            //newObj.GetComponent<Transform>().xPos += 1;
-            colSystem->Update();
+#ifndef NO_SOUND
+            mpSystem->update();
+#endif
 
-            souSystem->Update();
-            graSystem->Render();
+            colSystem->Update();
+            fpsCounter->Update();
+
+            glClearColor(0.7f, 0.9f, 0.1f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            // Update window title with current FPS
+            std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(fpsCounter->GetFPS()));
+            glfwSetWindowTitle(window, title.c_str());
+
+            // Here you would draw your game objects
+
             glfwSwapBuffers(window);
         }
 
-        souSystem->Exit();
-        graSystem->Exit();
+#ifndef NO_SOUND
+        sound->release();
+        if (mpSystem != NULL)
+            mpSystem->release();
+#endif
 
-       // Export();
+        fpsCounter->Exit();
+        colSystem->Exit();
 
         glfwTerminate();
-
-
         return 0;
     }
-
 }
