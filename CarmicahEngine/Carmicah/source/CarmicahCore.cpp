@@ -14,11 +14,33 @@
 #include "Components/Collider2D.h"
 #include "Systems/CollisionSystem.h"
 #include "CarmicahTime.h"
-#include "Events.h"
+#include "../include/Systems/Events.h" // idk why this aint working
+#include "Systems/Input.h"  // this too wtf
+
 
 bool on_key_pressed(u16 code, void* sender, void* listener, EventData eventdata)
 {
     std::cout << "Key Pressed" << eventdata.data.i16[0] << std::endl;
+
+    //std::cout << "Key Pressed" << input_keycode_to_string(eventdata.data.i16[0]) << std::endl;
+    //printf("Key Pressed %s \n", input_keycode_to_string(eventdata.data.i16[0]));
+    // idk why this isnt working, it should work ^
+
+
+    return true;
+}
+
+bool on_mouse_button_down(u16 code, void* sender, void* listener, EventData eventdata)
+{
+    // check
+    if (eventdata.data.u16[0] == MOUSE_BUTTON_LEFT)
+    {
+        std::cout << "Mouse Left Button Down" << eventdata.data.i16[0] << std::endl;
+    }
+    if (eventdata.data.u16[0] == MOUSE_BUTTON_RIGHT)
+    {
+        std::cout << "Mouse Right Button Down" << eventdata.data.i16[0] << std::endl;
+    }
     return true;
 }
 
@@ -33,25 +55,38 @@ namespace Carmicah
 {
 
     // IDK WHERE TO RUN IT FROM SO IM GONNA JUST PLUNK MY FUNCTIONS HERE AND HOPE IT WORK
-    // it didnt work because i cant even include the header file
-    event_system_initialise();
-
-    event_subscribe(EVENT_CODE_KEY_PRESSED, 0, on_key_pressed);
-    event_subscribe(EVENT_CODE_MOUSE_MOVED, 0, on_key_pressed);
-
-    
-    EventData event_data;
-    event_data.eventdata.i16[0] = 13;
+    // it didnt work because i cant even include the header file properly
 
 
-    event_publish(EVENT_CODE_KEY_PRESSED, 0, event_data);
+    event_system_initialise(); // init event system
 
+    input_system_initialise();  // init input system
+
+    // test, create an event where it listens for key is pressed
+    event_subscribe(EVENT_CODE_KEY_PRESSED, 0, on_key_pressed);         // by the end i should only need this to test
+    // test, create an event where it listens for mouse is moved
+    event_subscribe(EVENT_CODE_MOUSE_MOVED, (void*) 1, on_mouse_moved); // by the end i should only need this to test
+    // test, create an event where it listens for mouse button is pressed
+    event_subscribe(EVENT_CODE_MOUSE_BUTTON_PRESSED, 0, on_key_pressed);  // *
+
+    // create an event to forcefully check if key is pressed
+    EventData event_data;               // *
+    event_data.eventdata.i16[0] = 13;   // *
+
+    // publish the event that represents the fake event above
+    event_publish(EVENT_CODE_KEY_PRESSED, 0, event_data); // *
+
+    // create second event to forcefully check that mouse position of x and y can be returned, not real value atp
     EventData event_data2;
-    event_data2.data.i16[0] = 125;
-    event_data2.data.i16[1] = 350;
+    event_data2.data.i16[0] = 125; // *
+    event_data2.data.i16[1] = 350; // *
 
 
-    void event_system_shutdown(void)();
+    // close event system
+    void event_system_shutdown();
+
+    // close input system
+    void input_system_shutdown();
 
 
     const GLuint WIDTH = 800, HEIGHT = 600;
@@ -179,5 +214,7 @@ namespace Carmicah
 
         return 0;
     }
+
+
 
 }

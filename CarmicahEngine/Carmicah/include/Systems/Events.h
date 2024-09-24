@@ -2,11 +2,20 @@
 
 
 #include <stdio.h>
-#include "Defines.h"
+#include "Systems/Defines.h"
 
 typedef enum EventCode : u16
 {
 	EVENT_CODE_KEY_PRESSED = 0,
+	EVENT_CODE_KEY_RELEASED,
+	EVENT_CODE_MOUSE_BUTTON_PRESSED,
+	EVENT_CODE_MOUSE_BUTTON_CLICKED,
+	EVENT_CODE_MOUSE_BUTTON_RELEASED,
+	EVENT_CODE_MOUSE_DRAGGED,
+	EVENT_CODE_MOUSE_DRAG_BEGIN,
+	EVENT_CODE_MOUSE_DRAG_END,
+	EVENT_CODE_MOUSE_WHEEL,
+	EVENT_CODE_MOUSE_MOVED,
 } EventCode;
 
 typedef struct EventData
@@ -28,7 +37,7 @@ typedef struct EventData
 
 		union
 		{
-			u32 size;
+			u32 size; // why tf doesnt this init properly, it is literally right there above 
 			void* data;
 		}custom_data;
 

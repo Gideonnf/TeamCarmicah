@@ -61,23 +61,26 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="log.h" />
-    <ClInclude Include="InputSystem.h">
-      <Filter>include\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="InputListener.h">
-      <Filter>include\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Events.h">
-      <Filter>include\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>include\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Defines.h">
-      <Filter>include\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="InputTypes.h">
       <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Systems\Defines.h">
+      <Filter>include\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Systems\Events.h">
+      <Filter>include\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Systems\Input.h">
+      <Filter>include\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Systems\InputListener.h">
+      <Filter>include\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Systems\InputSystem.h">
+      <Filter>include\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Systems\InputTypes.h">
+      <Filter>include\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -91,13 +94,13 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="log.cpp" />
-    <ClCompile Include="InputSystem.cpp">
+    <ClCompile Include="source\Events.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="Events.cpp">
+    <ClCompile Include="source\Input.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="Input.cpp">
+    <ClCompile Include="source\InputSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

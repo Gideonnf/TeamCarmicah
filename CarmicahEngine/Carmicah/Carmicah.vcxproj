@@ -105,8 +105,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Defines.h" />
-    <ClInclude Include="Events.h" />
     <ClInclude Include="include\CarmicahCore.h" />
     <ClInclude Include="include\CarmicahTime.h" />
     <ClInclude Include="include\Components\Collider2D.h" />
@@ -121,19 +119,22 @@
     <ClInclude Include="include\Singleton.h" />
     <ClInclude Include="include\Systems\CollisionSystem.h" />
     <ClInclude Include="include\pch.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="InputListener.h" />
-    <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="include\Systems\Defines.h" />
+    <ClInclude Include="include\Systems\Events.h" />
+    <ClInclude Include="include\Systems\Input.h" />
+    <ClInclude Include="include\Systems\InputListener.h" />
+    <ClInclude Include="include\Systems\InputSystem.h" />
+    <ClInclude Include="include\Systems\InputTypes.h" />
     <ClInclude Include="InputTypes.h" />
     <ClInclude Include="log.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Events.cpp" />
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="source\CarmicahCore.cpp" />
     <ClCompile Include="source\CollisionSystem.cpp" />
+    <ClCompile Include="source\Events.cpp" />
+    <ClCompile Include="source\Input.cpp" />
+    <ClCompile Include="source\InputSystem.cpp" />
     <ClCompile Include="source\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
