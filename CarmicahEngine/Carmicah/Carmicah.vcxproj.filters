@@ -67,6 +67,18 @@
     <ClInclude Include="InputListener.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Events.h">
+      <Filter>include\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>include\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines.h">
+      <Filter>include\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="InputTypes.h">
+      <Filter>source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp">
@@ -80,6 +92,12 @@
     </ClCompile>
     <ClCompile Include="log.cpp" />
     <ClCompile Include="InputSystem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Events.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

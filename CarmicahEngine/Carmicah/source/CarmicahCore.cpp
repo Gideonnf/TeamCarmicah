@@ -14,10 +14,44 @@
 #include "Components/Collider2D.h"
 #include "Systems/CollisionSystem.h"
 #include "CarmicahTime.h"
+#include "Events.h"
 
+bool on_key_pressed(u16 code, void* sender, void* listener, EventData eventdata)
+{
+    std::cout << "Key Pressed" << eventdata.data.i16[0] << std::endl;
+    return true;
+}
+
+bool on_mouse_moved(u16 code, void* sender, void* listener, EventData eventdata)
+{
+    std::cout   << "Mouse Moved! X: " << eventdata.data.i16[0] 
+                << "Y: " << eventdata.data.i16[1] << std::endl;
+    return true;
+}
 
 namespace Carmicah
 {
+
+    // IDK WHERE TO RUN IT FROM SO IM GONNA JUST PLUNK MY FUNCTIONS HERE AND HOPE IT WORK
+    // it didnt work because i cant even include the header file
+    event_system_initialise();
+
+    event_subscribe(EVENT_CODE_KEY_PRESSED, 0, on_key_pressed);
+    event_subscribe(EVENT_CODE_MOUSE_MOVED, 0, on_key_pressed);
+
+    
+    EventData event_data;
+    event_data.eventdata.i16[0] = 13;
+
+
+    event_publish(EVENT_CODE_KEY_PRESSED, 0, event_data);
+
+    EventData event_data2;
+    event_data2.data.i16[0] = 125;
+    event_data2.data.i16[1] = 350;
+
+
+    void event_system_shutdown(void)();
 
 
     const GLuint WIDTH = 800, HEIGHT = 600;

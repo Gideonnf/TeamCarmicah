@@ -105,6 +105,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Defines.h" />
+    <ClInclude Include="Events.h" />
     <ClInclude Include="include\CarmicahCore.h" />
     <ClInclude Include="include\CarmicahTime.h" />
     <ClInclude Include="include\Components\Collider2D.h" />
@@ -119,11 +121,15 @@
     <ClInclude Include="include\Singleton.h" />
     <ClInclude Include="include\Systems\CollisionSystem.h" />
     <ClInclude Include="include\pch.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="InputListener.h" />
     <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="InputTypes.h" />
     <ClInclude Include="log.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Events.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="source\CarmicahCore.cpp" />
