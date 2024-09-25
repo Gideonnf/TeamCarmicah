@@ -10,6 +10,9 @@
     <Filter Include="include\ECS">
       <UniqueIdentifier>{5340C031-BFF5-3827-48EA-32FEB49E2F2B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\GUI">
+      <UniqueIdentifier>{1D4BC031-8900-3927-12F5-32FE7EA92F2B}</UniqueIdentifier>
+    </Filter>
     <Filter Include="include\Math">
       <UniqueIdentifier>{0232CD69-EE94-5C0E-971A-95C4835C2891}</UniqueIdentifier>
     </Filter>
@@ -57,6 +60,9 @@
     <ClInclude Include="include\ECS\SystemManager.h">
       <Filter>include\ECS</Filter>
     </ClInclude>
+    <ClInclude Include="include\GUI\GUI.h">
+      <Filter>include\GUI</Filter>
+    </ClInclude>
     <ClInclude Include="include\Math\Matrix3x3.h">
       <Filter>include\Math</Filter>
     </ClInclude>
@@ -93,6 +99,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\GOFactory.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GUI.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\GraphicsSystem.cpp">
