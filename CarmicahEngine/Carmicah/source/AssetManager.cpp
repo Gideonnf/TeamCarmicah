@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "AssetManager.h"
+#include "Systems/SoundSystem.h"
 
 namespace Carmicah
 {
@@ -11,6 +12,8 @@ namespace Carmicah
 		std::filesystem::path directoryPath = assetPath;
 
 		textureMaps.insert(std::make_pair("", 0)); // Sets No Texture
+
+		InitSound();
 
 		if (std::filesystem::exists(directoryPath) && std::filesystem::is_directory(directoryPath))
 		{
@@ -24,7 +27,11 @@ namespace Carmicah
 						std::string fileName = entry.path().stem().string();
 						if (folderName == "Audio")
 						{
-
+							LoadSound(fileName, entry.path().string(), false);
+						}
+						else if (folderName == "BGM")
+						{
+							LoadSound(fileName, entry.path().string(), true);
 						}
 						else if (folderName == "Images")
 						{
@@ -72,6 +79,12 @@ namespace Carmicah
 		textureMaps.clear();
 		primitiveMaps.clear();
 		shaderPgms.clear();
+
+		// Unload Sound
+		for (auto& sound : soundMap)
+			sound.second.sound->release();
+		if (soundSystem != NULL)
+			soundSystem->release();
 	}
 	//bool AssetManager::TryGetPrimitive(Primitive& p, const std::string& s)
 	//{
@@ -87,7 +100,7 @@ namespace Carmicah
 	GLuint AssetManager::LoadShader(const std::string& shaderName, const std::string& vertFile, const std::string& fragFile)
 	{
 		// Shader Exists
-		auto foundShader = shaderPgms.find(shaderName);
+		auto& foundShader = shaderPgms.find(shaderName);
 		if (foundShader != shaderPgms.end())
 		{
 			std::cerr << "Shader:" << shaderName << " Already Exists";
@@ -186,7 +199,7 @@ namespace Carmicah
 	*/
 	void AssetManager::LoadObject(const std::string& objName, const std::string& modelFile)
 	{
-		auto foundObj = primitiveMaps.find(objName);
+		auto& foundObj = primitiveMaps.find(objName);
 		if (foundObj != primitiveMaps.end())
 		{
 			std::cerr << "Object:" << objName << " Already Exists";
@@ -283,7 +296,7 @@ namespace Carmicah
 	*/
 	void AssetManager::LoadDebugObject(const std::string& objName, const std::string& modelFile)
 	{
-		auto foundObj = primitiveMaps.find(objName);
+		auto& foundObj = primitiveMaps.find(objName);
 		if (foundObj != primitiveMaps.end())
 		{
 			std::cerr << "Object:" << objName << " Already Exists";
@@ -335,7 +348,7 @@ namespace Carmicah
 
 	void AssetManager::LoadTexture(const std::string& textureName, const std::string& textureFile, const GLuint& width, const GLuint& height, const GLuint& bpt)
 	{
-		auto foundTexture = textureMaps.find(textureName);
+		auto& foundTexture = textureMaps.find(textureName);
 		if (foundTexture != textureMaps.end())
 		{
 			std::cerr << "Texture:" << textureName << " Already Exists";
@@ -364,19 +377,50 @@ namespace Carmicah
 
 	void AssetManager::ExportCircle(int numSlices, const std::string& modelFile)
 	{
-		const double M_PI = 3.14159265358979323846264;
+		const float M_PI = 3.14159265358979323846264;
 		std::ofstream ofs(modelFile, std::ios::binary);
 		if (ofs)
 		{
-			double angleInc{ 2.0 / static_cast<double>(numSlices) * M_PI };
+			float angleInc{ 2.0f / static_cast<float>(numSlices) * M_PI };
 			ofs << GL_TRIANGLE_FAN << ' ' << numSlices + 2 << ' ' << numSlices + 2 << '\n';
 			ofs << "0 0\n";
 			for (int i{}; i < numSlices + 1; ++i)
-				ofs << sinf((static_cast<double>(i) * angleInc)) << ' ' << cosf((static_cast<double>(i) * angleInc)) << '\n';
+				ofs << sinf((static_cast<float>(i) * angleInc)) << ' ' << cosf((static_cast<float>(i) * angleInc)) << '\n';
 			ofs << "0.5 0.5\n";
 			for (int i{}; i < numSlices + 1; ++i)
-				ofs << sinf((static_cast<double>(i) * angleInc)) * 0.5 + 0.5 << ' ' << cosf((static_cast<double>(i) * angleInc)) * 0.5 + 0.5 << '\n';
+				ofs << sinf((static_cast<float>(i) * angleInc)) * 0.5f + 0.5f << ' ' << cosf((static_cast<float>(i) * angleInc)) * 0.5f + 0.5f << '\n';
 			ofs.close();
+		}
+	}
+
+	void AssetManager::InitSound()
+	{
+		if (FMOD::System_Create(&soundSystem) != FMOD_OK)
+			return;
+		soundSystem->init(maxChannels, FMOD_INIT_NORMAL, NULL);
+	}
+
+	void AssetManager::LoadSound(const std::string& soundName, std::string const& soundFile, bool b_isLoop)
+	{
+		auto& sound = soundMap.find(soundName);
+		if (sound != soundMap.end())
+		{
+			std::cerr << "Sound:" << soundName << " Already Exists";
+			return;
+		}
+
+		FMOD_MODE eMode = FMOD_DEFAULT;
+		Audio audio{};
+		soundSystem->createSound(soundFile.c_str(), eMode, nullptr, &audio.sound);
+		if (audio.sound)
+		{
+			audio.isLoop = b_isLoop;
+			soundMap.insert(std::make_pair(soundName, audio));
+			if (b_isLoop)
+			{
+				audio.sound->setMode(FMOD_LOOP_NORMAL);
+				audio.sound->setLoopCount(-1);
+			}
 		}
 	}
 

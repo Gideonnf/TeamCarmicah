@@ -2,6 +2,7 @@
 #define ASSET_MANAGER_H
 
 #include <GLFW/glfw3.h>
+#include <FMOD/fmod.hpp>
 #include <filesystem>
 #include <unordered_map>
 #include <vector>
@@ -25,6 +26,11 @@ namespace Carmicah
 	{
 		GLuint t;
 	};
+	struct Audio : BaseAsset
+	{
+		bool isLoop;
+		FMOD::Sound* sound;
+	};
 
 	class AssetManager : public Singleton<AssetManager>
 	{
@@ -39,15 +45,26 @@ namespace Carmicah
 		std::unordered_map<std::string, GLuint> textureMaps{};
 		std::unordered_map<std::string, Primitive> primitiveMaps{};
 
+		// Audio
+		const int maxChannels = 32;
+		FMOD::System* soundSystem;
+		std::unordered_map<std::string, Audio> soundMap;
+
 		//template<typename T>
 		//bool TryGetAsset(Primitive&, const std::string&);
 	private:
 
+		// Graphics Assets
 		GLuint LoadShader(const std::string& shaderName, const std::string& vertFile, const std::string& fragFile);
 		void LoadObject(const std::string& objName, const std::string& modelFile);
 		void LoadDebugObject(const std::string& objName, const std::string& modelFile);
 		void LoadTexture(const std::string& textureName, const std::string& textureFile, const GLuint& width, const GLuint& height, const GLuint& bpt);
 		void ExportCircle(int numSlices, const std::string& modelFile);
+
+
+		void InitSound();
+		// Sound Assets
+		void LoadSound(const std::string& soundName, std::string const& soundFile, bool b_isLoop);
 
 	};
 }

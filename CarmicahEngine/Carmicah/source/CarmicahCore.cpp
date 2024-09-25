@@ -137,7 +137,6 @@ namespace Carmicah
         }
 
         AssetManager::GetInstance()->UnloadAll();
-        souSystem->Exit();
         //fpsCounter->Exit();
         colSystem->Exit();
 
