@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Systems/InputSystem.h"
 #include "Messaging/InputMessage.h"
+#include "log.h"
+#include "CarmicahTime.h"
 namespace Carmicah
 {
 	void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -15,14 +17,23 @@ namespace Carmicah
 		Input.UpdateMouseMap(button, (KeyStates)action);
 	}
 
-	static void CursorPosCallback(GLFWwindow* window, double xpos, double ypos)
+	static void CursorPosCallback(GLFWwindow* window, double xPos, double yPos)
 	{
-		std::cout << "Mouse pos: " << xpos << ", " << ypos << std::endl;
+		Input.SetMousePosition(xPos, yPos);
+		//std::cout << "Mouse pos: " << xPos << ", " << yPos << std::endl;
+	}
+
+	// Scroll back stuff
+	void ScrollCallback(GLFWwindow* window, double xOffset, double yOffset)
+	{
+
 	}
 
 	void InputSystem::Init(GLFWwindow* ref)
 	{
 		windowRef = ref;
+
+		// example of sending messages
 		int keyCode = 5;
 		KeyMessage msg(keyCode);
 		SendMessage(&msg);
@@ -31,66 +42,97 @@ namespace Carmicah
 		glfwSetKeyCallback(windowRef, KeyCallback);
 		glfwSetMouseButtonCallback(windowRef, MouseCallback);
 		glfwSetCursorPosCallback(windowRef, CursorPosCallback);
+		glfwSetScrollCallback(windowRef, ScrollCallback);
 		//GLFW_MOUSE_BUTTON_LEFT;
 	}
 
 	void InputSystem::Update()
 	{
-		//key_callback
+		if (windowRef == nullptr)
+		{
+			CM_CORE_ERROR("Error: Input system not initalized.");
+		}
+
+		//std::cout << mMousePressed << std::endl;
+		//Update mouse map for HOLD since glfwSetMouseButtonCallback doesnt set HOLD
+		// idk doesnt work atm. Mouse can only have press and release no hold
+		if (mMousePressed)
+		{
+			std::cout << mMouseTick << std::endl;
+			if (mMouseTick > 0)
+			{
+				for (auto& mouse : mMouseMap)
+				{
+					if (mouse.second == KeyStates::PRESSED)
+					{
+						mouse.second = KeyStates::HOLD;
+					}
+					else if (mouse.second == KeyStates::HOLD)
+					{
+						std::cout << "Mouse State : " << mouse.second << " For : " << mouse.first << std::endl;
+					}
+				}
+			}
+			mMouseTick += CarmicahTimer::GetDt();
+		}
+		
 	}
 
 	bool InputSystem::IsKeyPressed(Keys key)
 	{
-		return false;
+		return KeyStates::PRESSED == mKeyMap[(int)key];
 	}
 
 	bool InputSystem::IsKeyReleased(Keys key)
 	{
-		return false;
-
+		return KeyStates::RELEASE == mKeyMap[(int)key];
 	}
 
 	bool InputSystem::IsKeyHold(Keys key)
 	{
-		return false;
-
+		return KeyStates::HOLD == mKeyMap[(int)key];
 	}
 
 	bool InputSystem::IsMousePressed(MouseButtons button)
 	{
-		return false;
-
+		return KeyStates::PRESSED == mMouseMap[(int)button];
 	}
 
 	bool InputSystem::IsMouseReleased(MouseButtons button)
 	{
-		return false;
-
+		return KeyStates::RELEASE == mMouseMap[(int)button];
 	}
 
 	bool InputSystem::IsMouseHold(MouseButtons button)
 	{
-		return false;
-
+		return KeyStates::HOLD == mMouseMap[(int)button];
 	}
 
-	Vector2D<float> InputSystem::GetMousePosition()
+	Vector2D<double> InputSystem::GetMousePosition()
 	{
-		return Vector2D<float>();
+		return mMousePos;
 	}
 
-	float InputSystem::GetMouseX()
+	double InputSystem::GetMouseX()
 	{
-		return float{};
+		return mMousePos.x;
 	}
 
-	float InputSystem::GetMouseY()
+	double InputSystem::GetMouseY()
 	{
-		return float{};
+		return mMousePos.y;
 	}
+
+	void InputSystem::SetMousePosition(double xPos, double yPos)
+	{
+		mMousePos.x = xPos;
+		mMousePos.y = yPos;
+	}
+
 
 	void InputSystem::UpdateKeyMap(int key, KeyStates state)
 	{
+
 		mKeyMap[key] = state;
 		std::cout << "Key State : " << state << " For : " << key << std::endl;
 	}
@@ -98,6 +140,17 @@ namespace Carmicah
 	void InputSystem::UpdateMouseMap(int key, KeyStates state)
 	{
 		mMouseMap[key] = state;
+		if (state == KeyStates::PRESSED)
+		{
+			mMousePressed = true;
+			mMouseTick = 0.0f;
+		}
+		else
+		{
+			mMousePressed = false;
+			mMouseTick = 0.0f;
+		}
+		std::cout << "in update mouse map" << mMousePressed << std::endl;
 		std::cout << "Mouse State : " << state << " For : " << key << std::endl;
 	}
 }

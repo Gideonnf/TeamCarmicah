@@ -112,9 +112,9 @@ namespace Carmicah
 	enum KeyStates
 	{
 		NONE = -1,
+		RELEASE,
 		PRESSED,
-		HOLD,
-		RELEASE
+		HOLD
 	};
 }
 

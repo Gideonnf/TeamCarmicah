@@ -15,10 +15,12 @@ namespace Carmicah
 		GLFWwindow* windowRef;
 		std::unordered_map<int, KeyStates> mKeyMap;
 		std::unordered_map<int, KeyStates> mMouseMap;
-
+		Vector2D<double> mMousePos;
+		bool mMousePressed;
+		float mMouseTick;
 
 	public:
-		InputSystem(){}
+		InputSystem() : windowRef(nullptr), mMousePressed(false), mMouseTick(0) {}
 		~InputSystem() {};
 
 		// Not using the inherited singleton template class cause we want the base system inheritance
@@ -39,9 +41,11 @@ namespace Carmicah
 		bool IsMouseReleased(MouseButtons button);
 		bool IsMouseHold(MouseButtons button);
 
-		Vector2D<float> GetMousePosition();
-		float GetMouseX();
-		float GetMouseY();
+		Vector2D<double> GetMousePosition();
+		double GetMouseX();
+		double GetMouseY();
+
+		void SetMousePosition(double xPos, double yPos);
 
 		void UpdateKeyMap(int key, KeyStates state);
 		void UpdateMouseMap(int key, KeyStates state);
