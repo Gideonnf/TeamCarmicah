@@ -21,6 +21,7 @@ namespace Carmicah
 		InputSystem(){}
 		~InputSystem() {};
 
+		// Not using the inherited singleton template class cause we want the base system inheritance
 		static InputSystem* GetInstance() {
 			static InputSystem instance;
 			return &instance;
@@ -42,8 +43,11 @@ namespace Carmicah
 		float GetMouseX();
 		float GetMouseY();
 
-		void UpdateMap(int key, KeyStates state);
+		void UpdateKeyMap(int key, KeyStates state);
+		void UpdateMouseMap(int key, KeyStates state);
 	};
+
+	// Just so people can call "Input.IsKeyPressed" 
 	static InputSystem& Input = *InputSystem::GetInstance();
 
 

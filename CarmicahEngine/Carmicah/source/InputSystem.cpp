@@ -3,11 +3,21 @@
 #include "Messaging/InputMessage.h"
 namespace Carmicah
 {
-	void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
-		Input.UpdateMap(key, (KeyStates)action);
+		Input.UpdateKeyMap(key, (KeyStates)action);
 		//if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		//	glfwSetWindowShouldClose(window, GL_TRUE);
+	}
+
+	void MouseCallback(GLFWwindow* window, int button, int action, int mods)
+	{
+		Input.UpdateMouseMap(button, (KeyStates)action);
+	}
+
+	static void CursorPosCallback(GLFWwindow* window, double xpos, double ypos)
+	{
+		std::cout << "Mouse pos: " << xpos << ", " << ypos << std::endl;
 	}
 
 	void InputSystem::Init(GLFWwindow* ref)
@@ -17,8 +27,10 @@ namespace Carmicah
 		KeyMessage msg(keyCode);
 		SendMessage(&msg);
 
-		glfwSetKeyCallback(windowRef, key_callback);
-		
+		// Set up the call backs
+		glfwSetKeyCallback(windowRef, KeyCallback);
+		glfwSetMouseButtonCallback(windowRef, MouseCallback);
+		glfwSetCursorPosCallback(windowRef, CursorPosCallback);
 		//GLFW_MOUSE_BUTTON_LEFT;
 	}
 
@@ -77,10 +89,15 @@ namespace Carmicah
 		return float{};
 	}
 
-	void InputSystem::UpdateMap(int key, KeyStates state)
+	void InputSystem::UpdateKeyMap(int key, KeyStates state)
 	{
 		mKeyMap[key] = state;
-		std::cout << "State : " << state << " For : " << key << std::endl;
+		std::cout << "Key State : " << state << " For : " << key << std::endl;
 	}
 
+	void InputSystem::UpdateMouseMap(int key, KeyStates state)
+	{
+		mMouseMap[key] = state;
+		std::cout << "Mouse State : " << state << " For : " << key << std::endl;
+	}
 }
