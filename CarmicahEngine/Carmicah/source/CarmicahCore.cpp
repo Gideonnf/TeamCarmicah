@@ -122,7 +122,7 @@ namespace Carmicah
             souSystem->Update();
             graSystem->Render();
             inputSystem->Update();
-            //if (Input.IsKeyPressed(Keys::KEY_W)) std::cout << "W" << std::endl;
+            if (Input.IsKeyPressed(Keys::KEY_W)) std::cout << "W" << std::endl;
             glfwSwapBuffers(window);
         }
 

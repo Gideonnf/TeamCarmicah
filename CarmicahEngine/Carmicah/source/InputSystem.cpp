@@ -74,13 +74,16 @@ namespace Carmicah
 				}
 			}
 			mMouseTick += CarmicahTimer::GetDt();
-		}
-		
+		}	
 	}
 
+	// key press should only return true once until its released and pressed again
+	// so a map is used to keep track of that
 	bool InputSystem::IsKeyPressed(Keys key)
 	{
-		return KeyStates::PRESSED == mKeyMap[(int)key];
+		bool returnVal = mKeyPressedMap[(int)key];
+		mKeyPressedMap[(int)key] = false;
+		return returnVal;
 	}
 
 	bool InputSystem::IsKeyReleased(Keys key)
@@ -134,6 +137,10 @@ namespace Carmicah
 	{
 
 		mKeyMap[key] = state;
+
+		if (state == KeyStates::PRESSED)
+			mKeyPressedMap[key] = true;
+
 		std::cout << "Key State : " << state << " For : " << key << std::endl;
 	}
 

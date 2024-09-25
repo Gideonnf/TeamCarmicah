@@ -15,6 +15,9 @@ namespace Carmicah
 		GLFWwindow* windowRef;
 		std::unordered_map<int, KeyStates> mKeyMap;
 		std::unordered_map<int, KeyStates> mMouseMap;
+
+		// Keep track of keyPressed since its meant to be a one time return
+		std::unordered_map<int, bool> mKeyPressedMap;
 		Vector2D<double> mMousePos;
 		bool mMousePressed;
 		float mMouseTick;
