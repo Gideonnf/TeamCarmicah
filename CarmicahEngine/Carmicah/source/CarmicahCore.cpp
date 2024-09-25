@@ -14,17 +14,20 @@
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
 #include "Systems/GraphicsSystem.h"
+#include "Systems/ColliderRenderSystem.h"
 #include "Systems/CollisionSystem.h"
 #include "Systems/SoundSystem.h"
 #include "Systems/InputSystem.h"
 #include "Systems/SceneSystem.h"
 #include "CarmicahTime.h"
+#include "AssetManager.h"
 
 
 namespace Carmicah
 {
     const GLuint WIDTH = 800, HEIGHT = 600;
     const char* sceneName{ "../Assets/Scene/Scene1.json" };
+    const char* assetsLoc{ "../Assets" };
 
     Application::Application()
     {
@@ -93,13 +96,16 @@ namespace Carmicah
         REGISTER_COMPONENT(Renderer);
 
         auto graSystem = REGISTER_SYSTEM(GraphicsSystem);
+        auto crsSystem = REGISTER_SYSTEM(ColliderRenderSystem);
         auto colSystem = REGISTER_SYSTEM(CollisionSystem);
         auto inputSystem = REGISTER_SYSTEM(InputSystem);
         REGISTER_SYSTEM(GOFactory);
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);
 
-        graSystem->Init(WIDTH / 100, HEIGHT / 100);
+        AssetManager::GetInstance()->LoadAll(assetsLoc);
+        graSystem->Init();
+        crsSystem->Init();
         colSystem->Init(); // Set the signature
         souSystem->Init(false);
         inputSystem->BindSystem(gGOFactory);
@@ -124,13 +130,14 @@ namespace Carmicah
             //newObj.GetComponent<Transform>().xPos += 1;
             colSystem->Update();
 
+            graSystem->Render(gGOFactory->mainCam);
+            crsSystem->Render(gGOFactory->mainCam);
             souSystem->Update();
-            graSystem->Render();
             glfwSwapBuffers(window);
         }
 
+        AssetManager::GetInstance()->UnloadAll();
         souSystem->Exit();
-        graSystem->Exit();
         //fpsCounter->Exit();
         colSystem->Exit();
 

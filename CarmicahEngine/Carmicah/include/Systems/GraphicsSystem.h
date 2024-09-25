@@ -8,15 +8,12 @@ namespace Carmicah
 	class GraphicsSystem : public BaseSystem
 	{
 	private:
-
+		const char* shaderName{"basic"};
+		GLuint currShader;
 	public:
-		void Init(const unsigned int&, const unsigned int&);
+		void Init();
 
-		void Update();
-
-		void Render();
-
-		void Exit();
+		void Render(Entity& cam);
 	};
 }
 

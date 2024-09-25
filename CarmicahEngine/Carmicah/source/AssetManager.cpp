@@ -6,8 +6,12 @@
 
 namespace Carmicah
 {
-	void AssetManager::LoadAll()
+	void AssetManager::LoadAll(const char* assetPath)
 	{
+		std::filesystem::path directoryPath = assetPath;
+
+		textureMaps.insert(std::make_pair("", 0)); // Sets No Texture
+
 		if (std::filesystem::exists(directoryPath) && std::filesystem::is_directory(directoryPath))
 		{
 			for (const auto& subFile : std::filesystem::directory_iterator(directoryPath))
@@ -50,9 +54,9 @@ namespace Carmicah
 			}
 		}
 		LoadShader("basic", "../Assets/Shaders/basic.vert", "../Assets/Shaders/basic.frag");
-		
-
+		LoadShader("debug", "../Assets/Shaders/debug.vert", "../Assets/Shaders/debug.frag");
 	}
+
 	void AssetManager::UnloadAll()
 	{
 		// Unload Graphics

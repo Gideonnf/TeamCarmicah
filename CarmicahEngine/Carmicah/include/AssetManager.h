@@ -32,7 +32,7 @@ namespace Carmicah
 		
 		// Data
 		
-		void LoadAll();
+		void LoadAll(const char*);
 		void UnloadAll();
 
 		std::unordered_map<std::string, GLuint> shaderPgms{};
@@ -42,8 +42,6 @@ namespace Carmicah
 		//template<typename T>
 		//bool TryGetAsset(Primitive&, const std::string&);
 	private:
-
-		const std::filesystem::path directoryPath = "";
 
 		GLuint LoadShader(const std::string& shaderName, const std::string& vertFile, const std::string& fragFile);
 		void LoadObject(const std::string& objName, const std::string& modelFile);

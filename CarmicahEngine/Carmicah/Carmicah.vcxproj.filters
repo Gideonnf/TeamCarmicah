@@ -30,6 +30,9 @@
     <ClInclude Include="include\CarmicahCore.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\CarmicahTime.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="include\Components\Collider2D.h">
       <Filter>include\Components</Filter>
     </ClInclude>
@@ -60,6 +63,9 @@
     <ClInclude Include="include\ECS\SystemManager.h">
       <Filter>include\ECS</Filter>
     </ClInclude>
+    <ClInclude Include="include\FPSCounter.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="include\Math\Matrix3x3.h">
       <Filter>include\Math</Filter>
     </ClInclude>
@@ -87,6 +93,9 @@
     <ClInclude Include="include\Systems\InputSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="include\Systems\SceneSystem.h">
+      <Filter>include\Systems</Filter>
+    </ClInclude>
     <ClInclude Include="include\Systems\SoundSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
@@ -96,9 +105,7 @@
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="FPSCounter.h">
-      <Filter>source</Filter>
-    </ClInclude>
+    <ClInclude Include="include\Systems\ColliderRenderSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\AssetManager.cpp">
@@ -107,7 +114,13 @@
     <ClCompile Include="source\CarmicahCore.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="source\CarmicahTime.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
     <ClCompile Include="source\CollisionSystem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\FPSCounter.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\GOFactory.cpp">
@@ -119,6 +132,9 @@
     <ClCompile Include="source\InputSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="source\SceneSystem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
     <ClCompile Include="source\SoundSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
@@ -128,8 +144,6 @@
     <ClCompile Include="source\pch.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="FPSCounter.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
+    <ClCompile Include="source\ColliderRenderSystem.cpp" />
   </ItemGroup>
 </Project>
