@@ -1,10 +1,10 @@
 #pragma region C Rendition of Input.cpp
 /*
 
+
 #include "Systems//Input.h"
 #include "Systems/Events.h"
 #include <iostream>
-
 
 
 //-------------------------------------------------------------------------------------------------
@@ -587,6 +587,7 @@ const char* input_keycode_to_string(Keys key)
 
 
 #include "Systems//Input.h"
+#include "Systems/Events.h"
 
 // Constructor that takes in a reference to EventSystem
 InputSystem::InputSystem(EventSystem& eventSystem) : event_system(eventSystem) {}

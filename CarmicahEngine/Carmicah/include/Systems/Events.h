@@ -75,7 +75,7 @@ bool event_publish(u16 code, void* subscriber, EventData eventdata);
 #include <vector>
 #include "Systems/Defines.h"
 
-enum class EventCode : u16 {
+enum EventCode : u16 {
     EVENT_CODE_KEY_PRESSED = 0,
     EVENT_CODE_KEY_RELEASED,
     EVENT_CODE_MOUSE_BUTTON_PRESSED,
