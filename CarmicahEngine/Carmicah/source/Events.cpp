@@ -1,3 +1,7 @@
+#pragma region C Rendition of Events.cpp
+/*
+
+
 #include "../include/Systems/Events.h"
 #include "pch.h"
 #include <stdlib.h>
@@ -212,9 +216,99 @@ bool event_publish(u16 code, void* subscriber, EventData eventdata)
 		if (e.callback(code, subscriber, e.subscriber, eventdata))
 		{
 			// message has been handled, we dont have to send to other listeners/subscribers
+			break;
 		}
 	}
 	return true; 
 }
 
+#pragma endregion
+
+
+*/
+#pragma endregion
+
+
+
+
+#pragma region C++ Version of Event.cpp
+///*
+
+#include "Systems/Events.h"
+
+
+void EventSystem::initialise() 
+{
+	// No manual memory management needed, just clear the events
+	for (auto& entry : subscribed) 
+	{
+		entry.events.clear();
+	}
+}
+
+void EventSystem::shutdown() 
+{
+	// Clear events
+	for (auto& entry : subscribed) 
+	{
+		entry.events.clear();
+	}
+}
+
+bool EventSystem::subscribe(u16 code, void* subscriber, PFN_on_event on_event) 
+{
+	// Bounds check
+	if (code >= 100) 
+	{
+		std::cerr << "Event code out of bounds" << std::endl;
+		return false;
+	}
+
+	EventCodeEntry& entry = subscribed[code];
+
+	// Prevent double subscription
+	for (const auto& event : entry.events) 
+	{
+		if (event.subscriber == subscriber /*&& event.callback == on_event*/) 
+		{
+			std::cout << "Event already registered" << std::endl;
+			return false;
+		}
+	}
+
+	// Add new event
+	entry.events.push_back({ subscriber, on_event });
+	return true;
+}
+
+void EventSystem::unsubscribe(u16 code, void* subscriber, PFN_on_event on_event) {
+	if (code >= 100) return;
+
+	EventCodeEntry& entry = subscribed[code];
+	for (auto it = entry.events.begin(); it != entry.events.end(); ++it) 
+	{
+		if (it->subscriber == subscriber /*&& it->callback == on_event*/) {
+			entry.events.erase(it);
+			break;
+		}
+	}
+}
+
+bool EventSystem::publish(u16 code, void* subscriber, EventData eventdata) 
+{
+	if (code >= 100) return false;
+
+	EventCodeEntry& entry = subscribed[code];
+	for (auto& event : entry.events) {
+		if (event.callback(code, subscriber, event.subscriber, eventdata)) 
+		{
+			// Message handled, no need to continue
+			break;
+		}
+	}
+	return true;
+}
+
+
+//*/
 #pragma endregion

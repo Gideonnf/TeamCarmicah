@@ -1,3 +1,6 @@
+#pragma region C Rendition of Input.cpp
+/*
+
 #include "Systems//Input.h"
 #include "Systems/Events.h"
 #include <iostream>
@@ -152,10 +155,10 @@ void input_process_keys(Keys key, bool pressed)
 	// check if it is NOT pressed
 	bool changed = (iState->keyboard_current.keys[key] != pressed);
 	
-	/*	everytime a key is pressed or released, fire an event
-		in this loop we are checking if a key has been pressed/released
-		everytime we check for that, we fire an event
-		any subscriber listening to that event can than handle that event */
+	// verytime a key is pressed or released, fire an event
+	//	in this loop we are checking if a key has been pressed/released
+	//	everytime we check for that, we fire an event
+	//	any subscriber listening to that event can than handle that event 
 	if (iState->keys_repeats_enabled || changed) // check if iState repeat state is enabled
 	{
 		// if the key we're currently pressing is not the same as the key previously pressed, update the keyboard state
@@ -573,4 +576,332 @@ const char* input_keycode_to_string(Keys key)
 	}
 }
 
+
+*/
+#pragma endregion
+
+
+
+#pragma region C++ Rendition of Input.cpp
+///*
+
+
+#include "Systems//Input.h"
+
+// Constructor that takes in a reference to EventSystem
+InputSystem::InputSystem(EventSystem& eventSystem) : event_system(eventSystem) {}
+
+// Destructor
+InputSystem::~InputSystem() {
+	shutdown();
+}
+
+// Initialize the input system
+bool InputSystem::initialise() {
+	state = std::make_unique<InputState>();
+	std::cout << "Input System has been initialized!" << std::endl;
+	return true;
+}
+
+// Shutdown and clean up
+void InputSystem::shutdown() {
+	state.reset();  // Smart pointer takes care of memory deallocation
+}
+
+// Key state checks
+bool InputSystem::is_key_down(Keys key) {
+	return state ? state->current_keyboard.keys[key] : false;
+}
+
+bool InputSystem::is_key_up(Keys key) {
+	return state ? !state->current_keyboard.keys[key] : false;
+}
+
+bool InputSystem::was_key_down(Keys key) {
+	return state ? state->previous_keyboard.keys[key] : false;
+}
+
+bool InputSystem::was_key_up(Keys key) {
+	return state ? !state->previous_keyboard.keys[key] : false;
+}
+
+// Process key presses and releases
+void InputSystem::process_keys(Keys key, bool pressed) {
+	if (!state) return;
+
+	bool changed = (state->current_keyboard.keys[key] != pressed);
+	bool isRepeating = pressed && state->current_keyboard.keys[key];
+
+	if (state->keys_repeats_enabled || changed) {
+		state->current_keyboard.keys[key] = pressed;
+
+		EventData event_data;
+		event_data.data.u16[0] = key;
+		event_data.data.u16[1] = isRepeating ? 1 : 0;
+
+		// Publish key pressed or released event
+		event_system.publish(pressed ? EVENT_CODE_KEY_PRESSED : EVENT_CODE_KEY_RELEASED, nullptr, event_data);
+	}
+}
+
+// Mouse state checks
+bool InputSystem::is_mouse_down(Mouse_Buttons button) {
+	return state ? state->current_mouse.buttons[button] : false;
+}
+
+bool InputSystem::is_mouse_up(Mouse_Buttons button) {
+	return state ? !state->current_mouse.buttons[button] : false;
+}
+
+bool InputSystem::was_mouse_down(Mouse_Buttons button) {
+	return state ? state->previous_mouse.buttons[button] : false;
+}
+
+bool InputSystem::was_mouse_up(Mouse_Buttons button) {
+	return state ? !state->previous_mouse.buttons[button] : false;
+}
+
+bool InputSystem::is_mouse_button_dragging(Mouse_Buttons button) {
+	return state ? state->current_mouse.dragging[button] : false;
+}
+
+// Get mouse position
+void InputSystem::get_mouse_position(i16& x, i16& y) {
+	if (state) {
+		x = state->current_mouse.x;
+		y = state->current_mouse.y;
+	}
+	else {
+		x = y = 0;
+	}
+}
+
+// Get previous mouse position
+void InputSystem::get_previous_mouse_position(i16& x, i16& y) {
+	if (state) {
+		x = state->previous_mouse.x;
+		y = state->previous_mouse.y;
+	}
+	else {
+		x = y = 0;
+	}
+}
+
+// Process mouse button actions
+void InputSystem::process_mouse_button(Mouse_Buttons button, bool pressed) {
+	if (!state) return;
+
+	if (state->current_mouse.buttons[button] != pressed) {
+		state->current_mouse.buttons[button] = pressed;
+
+		EventData event_data;
+		event_data.data.u16[0] = button;
+		event_data.data.u16[1] = state->current_mouse.x;
+		event_data.data.u16[2] = state->current_mouse.y;
+
+		event_system.publish(pressed ? EVENT_CODE_MOUSE_BUTTON_PRESSED : EVENT_CODE_MOUSE_BUTTON_RELEASED, nullptr, event_data);
+	}
+}
+
+// Process mouse movement
+void InputSystem::process_mouse_move(i16 x, i16 y) {
+	if (!state) return;
+
+	if (state->current_mouse.x != x || state->current_mouse.y != y) {
+		state->current_mouse.x = x;
+		state->current_mouse.y = y;
+
+		EventData event_data;
+		event_data.data.u16[0] = x;
+		event_data.data.u16[1] = y;
+		event_system.publish(EVENT_CODE_MOUSE_MOVED, nullptr, event_data);
+
+		// Handle dragging
+		for (int i = 0; i < MAX_MOUSE_BUTONS; ++i) {
+			if (state->current_mouse.buttons[i]) {
+				if (!state->current_mouse.dragging[i]) {
+					state->current_mouse.dragging[i] = true;
+					event_system.publish(EVENT_CODE_MOUSE_DRAG_BEGIN, nullptr, event_data);
+				}
+				else {
+					event_system.publish(EVENT_CODE_MOUSE_DRAGGED, nullptr, event_data);
+				}
+			}
+		}
+	}
+}
+
+// Process mouse wheel actions
+void InputSystem::process_mouse_wheel(i8 delta_z) {
+	EventData event_data;
+	event_data.data.i8[0] = delta_z;
+	event_system.publish(EVENT_CODE_MOUSE_WHEEL, nullptr, event_data);
+}
+
+// Convert keycode to string
+const char* InputSystem::keycode_to_string(Keys key) {
+	switch (key)
+	{
+		// Misc Keys
+	case KEY_BACKSPACE:
+		return "backspace";
+	case KEY_TAB:
+		return "tab";
+	case KEY_ENTER:
+		return "enter";
+	case KEY_CTRL:
+		return "ctrl";
+	case KEY_CAPSLOCK:
+		return "capslock";
+	case KEY_ESC:
+		return "esc";
+	case KEY_SPACEBAR:
+		return "spacebar";
+	case KEY_PLUS:
+		return "plus";
+	case KEY_COMMA:
+		return "comma";
+	case KEY_DASH:
+		return "dash";
+	case KEY_FULLSTOP:
+		return "fullstop";
+	case KEY_PRINT_SCREEN:
+		return "print_screen";
+	case KEY_DELETE:
+		return "delete";
+	case KEY_SHIFT_LEFT:
+		return "shift_left";
+	case KEY_SHIFT_RIGHT:
+		return "shift_right";
+	case KEY_ALT_LEFT:
+		return "alt_left";
+	case KEY_ALT_RIGHT:
+		return "alt_right";
+
+		// Arrow Keys
+	case KEY_ARROW_LEFT:
+		return "arrow_left";
+	case KEY_ARROW_UP:
+		return "arrow_up";
+	case KEY_ARROW_RIGHT:
+		return "arrow_right";
+	case KEY_ARROW_DOWN:
+		return "arrow_down";
+
+		// Volume Keys
+	case KEY_VOLUME_MUTE:
+		return "volume_mute";
+	case KEY_VOLUME_DOWN:
+		return "volume_down";
+	case KEY_VOLUME_UP:
+		return "volume_up";
+
+		// Number Keys
+	case KEY_0:
+		return "0";
+	case KEY_1:
+		return "1";
+	case KEY_2:
+		return "2";
+	case KEY_3:
+		return "3";
+	case KEY_4:
+		return "4";
+	case KEY_5:
+		return "5";
+	case KEY_6:
+		return "6";
+	case KEY_7:
+		return "7";
+	case KEY_8:
+		return "8";
+	case KEY_9:
+		return "9";
+
+		// Alphabet Keys
+	case KEY_A:
+		return "A";
+	case KEY_B:
+		return "B";
+	case KEY_C:
+		return "C";
+	case KEY_D:
+		return "D";
+	case KEY_E:
+		return "E";
+	case KEY_F:
+		return "F";
+	case KEY_G:
+		return "G";
+	case KEY_H:
+		return "H";
+	case KEY_I:
+		return "I";
+	case KEY_J:
+		return "J";
+	case KEY_K:
+		return "K";
+	case KEY_L:
+		return "L";
+	case KEY_M:
+		return "M";
+	case KEY_N:
+		return "N";
+	case KEY_O:
+		return "O";
+	case KEY_P:
+		return "P";
+	case KEY_Q:
+		return "Q";
+	case KEY_R:
+		return "R";
+	case KEY_S:
+		return "S";
+	case KEY_T:
+		return "T";
+	case KEY_U:
+		return "U";
+	case KEY_V:
+		return "V";
+	case KEY_W:
+		return "W";
+	case KEY_X:
+		return "X";
+	case KEY_Y:
+		return "Y";
+	case KEY_Z:
+		return "Z";
+
+		// Function Keys
+	case KEY_F01:
+		return "F1";
+	case KEY_F02:
+		return "F2";
+	case KEY_F03:
+		return "F3";
+	case KEY_F04:
+		return "F4";
+	case KEY_F05:
+		return "F5";
+	case KEY_F06:
+		return "F6";
+	case KEY_F07:
+		return "F7";
+	case KEY_F08:
+		return "F8";
+	case KEY_F09:
+		return "F9";
+	case KEY_F10:
+		return "F10";
+	case KEY_F11:
+		return "F11";
+	case KEY_F12:
+		return "F12";
+
+	default: 
+		return "undefined";
+	}
+}
+
+//*/
 #pragma endregion

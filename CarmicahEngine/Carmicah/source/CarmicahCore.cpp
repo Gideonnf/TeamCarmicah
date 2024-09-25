@@ -14,15 +14,15 @@
 #include "Components/Collider2D.h"
 #include "Systems/CollisionSystem.h"
 #include "CarmicahTime.h"
-#include "../include/Systems/Events.h" // idk why this aint working
+#include "Systems/Events.h" // idk why this aint working
 #include "Systems/Input.h"  // this too wtf
 
 
 bool on_key_pressed(u16 code, void* sender, void* listener, EventData eventdata)
 {
-    std::cout << "Key Pressed" << eventdata.data.i16[0] << std::endl;
+    std::cout << "Key Pressed" << eventdata.data.u16[0] << std::endl;
 
-    //std::cout << "Key Pressed" << input_keycode_to_string(eventdata.data.i16[0]) << std::endl;
+    //std::cout << "Key Pressed" << input_keycode_to_string(eventdata.data.u16[0]) << std::endl;
     //printf("Key Pressed %s \n", input_keycode_to_string(eventdata.data.i16[0]));
     // idk why this isnt working, it should work ^
 
@@ -58,35 +58,35 @@ namespace Carmicah
     // it didnt work because i cant even include the header file properly
 
 
-    event_system_initialise(); // init event system
+    //event_system_initialise(); // init event system
 
-    input_system_initialise();  // init input system
+    //input_system_initialise();  // init input system
 
-    // test, create an event where it listens for key is pressed
-    event_subscribe(EVENT_CODE_KEY_PRESSED, 0, on_key_pressed);         // by the end i should only need this to test
-    // test, create an event where it listens for mouse is moved
-    event_subscribe(EVENT_CODE_MOUSE_MOVED, (void*) 1, on_mouse_moved); // by the end i should only need this to test
-    // test, create an event where it listens for mouse button is pressed
-    event_subscribe(EVENT_CODE_MOUSE_BUTTON_PRESSED, 0, on_key_pressed);  // *
+    //// test, create an event where it listens for key is pressed
+    //event_subscribe(EVENT_CODE_KEY_PRESSED, 0, on_key_pressed);         // by the end i should only need this to test
+    //// test, create an event where it listens for mouse is moved
+    //event_subscribe(EVENT_CODE_MOUSE_MOVED, (void*) 1, on_mouse_moved); // by the end i should only need this to test
+    //// test, create an event where it listens for mouse button is pressed
+    //event_subscribe(EVENT_CODE_MOUSE_BUTTON_PRESSED, 0, on_key_pressed);  // *
 
-    // create an event to forcefully check if key is pressed
-    EventData event_data;               // *
-    event_data.eventdata.i16[0] = 13;   // *
+    //// create an event to forcefully check if key is pressed
+    //EventData event_data;               // *
+    //event_data.eventdata.i16[0] = 13;   // *
 
-    // publish the event that represents the fake event above
-    event_publish(EVENT_CODE_KEY_PRESSED, 0, event_data); // *
+    //// publish the event that represents the fake event above
+    //event_publish(EVENT_CODE_KEY_PRESSED, 0, event_data); // *
 
-    // create second event to forcefully check that mouse position of x and y can be returned, not real value atp
-    EventData event_data2;
-    event_data2.data.i16[0] = 125; // *
-    event_data2.data.i16[1] = 350; // *
+    //// create second event to forcefully check that mouse position of x and y can be returned, not real value atp
+    //EventData event_data2;
+    //event_data2.data.i16[0] = 125; // *
+    //event_data2.data.i16[1] = 350; // *
 
 
-    // close event system
-    void event_system_shutdown();
+    //// close event system
+    //void event_system_shutdown();
 
-    // close input system
-    void input_system_shutdown();
+    //// close input system
+    //void input_system_shutdown();
 
 
     const GLuint WIDTH = 800, HEIGHT = 600;
@@ -118,6 +118,17 @@ namespace Carmicah
         glfwMakeContextCurrent(window);
 
         glfwSetKeyCallback(window, key_callback);
+
+        // Initialize Event and Input systems
+        EventSystem event_system;
+        InputSystem input_system(event_system);
+        event_system.initialise();
+        input_system.initialise();
+
+        // Subscribe to events
+        event_system.subscribe(EVENT_CODE_KEY_PRESSED, nullptr, on_key_pressed);
+        event_system.subscribe(EVENT_CODE_MOUSE_MOVED, nullptr, on_mouse_moved);
+        event_system.subscribe(EVENT_CODE_MOUSE_BUTTON_PRESSED, nullptr, on_mouse_button_down);
 
 
 #ifndef NO_SOUND
@@ -177,6 +188,11 @@ namespace Carmicah
             mpSystem->update();
 #endif
 
+            // Simulate input processing for key events (in a real setup, you'd capture actual inputs)
+            input_system.process_keys(GLFW_KEY_W, true);  // Simulate pressing the "W" key
+            input_system.process_mouse_move(125, 350);    // Simulate moving the mouse to (125, 350)
+            input_system.process_mouse_button(MOUSE_BUTTON_LEFT, true);  // Simulate pressing the left mouse button
+
             newObj.GetComponent<Transform>().xPos += 1;
             std::cout << "xPos : " << newObj.GetComponent<Transform>().xPos << std::endl;
             colSystem->Update();
@@ -188,6 +204,10 @@ namespace Carmicah
 
             glfwSwapBuffers(window);
         }
+
+        // Shutdown Event and Input systems
+        input_system.shutdown();
+        event_system.shutdown();
 
 #ifndef NO_SOUND
         sound->release();
