@@ -15,7 +15,7 @@ public:
 
 protected:
 	Singleton() {};
-	virtual ~Singleton() {};
+	virtual ~Singleton() = default;
 };
 
 

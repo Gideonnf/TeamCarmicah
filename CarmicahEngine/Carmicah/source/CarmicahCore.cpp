@@ -34,11 +34,6 @@ namespace Carmicah
     {
     }
 
-    void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode) {
-        if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-            glfwSetWindowShouldClose(window, GL_TRUE);
-    }
-
     void EnableMemoryLeakChecking(int breakAlloc = -1)
     {
         //Set the leak checking flag
@@ -103,7 +98,7 @@ namespace Carmicah
         colSystem->Init(); // Set the signature
         souSystem->Init(false);
         inputSystem->BindSystem(gGOFactory);
-        inputSystem->Init();
+        inputSystem->Init(window);
         gameSystem->Init(sceneName);
 
         //GameObject newObj;
