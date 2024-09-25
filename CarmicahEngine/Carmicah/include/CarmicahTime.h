@@ -3,11 +3,20 @@
 #include "Singleton.h"
 #include <GLFW/glfw3.h>
 #include <Windows.h>
+#include <chrono>
 
 namespace Carmicah
 {
 	class CarmicahTime 
 	{
+	private:
+		std::chrono::steady_clock::time_point lastUpdateTime;
+
+		double mUpdateInterval;
+		int mFrameCount;
+		double mCurrentFPS;
+		double mDeltaTime;
+
 	public:
 		// I dont know if we should use glfwGetTime or window's QueryPerformanceCounter
 		// using glfwGetTime cause QueryPerformanceCounter dont work and glfw does so ill just use it for now instead
@@ -15,54 +24,29 @@ namespace Carmicah
 		//LARGE_INTEdoublGER mPrevTime;
 		//LARGE_INTEGER mFrequency;
 
-		double mDeltaTime;
-		double mPrevTime;
-
-		CarmicahTime() : mDeltaTime(0), mPrevTime(0) { /*QueryPerformanceFrequency(&mFrequency);*/ }
+		CarmicahTime() : mDeltaTime(0), mUpdateInterval(0.5), mFrameCount(0), mCurrentFPS(0.0) {}
 		~CarmicahTime() {}
 
-		void InitTime()
-		{
-			mPrevTime = glfwGetTime();
-		}
+		void InitTime();
 
-		void UpdateTime()
-		{
-			double currTime = glfwGetTime();
-			mDeltaTime = currTime - mPrevTime;
-			mPrevTime = currTime;
-		}
+		void UpdateTime();
+
+		inline double FPS() const { return mCurrentFPS; }
+
+		inline double GetDeltaTime() const { return mDeltaTime; }
 	};
 
 	namespace CarmicahTimer
 	{
 		static CarmicahTime timerObj;
 
-		void StartTime()
-		{
-			timerObj.InitTime();
-			//Time::GetInstance()->
-			//QueryPerformanceCounter(&Time::GetInstance()->mPrevTime);
-		}
+		void StartTime();
 
-		void UpdateElapsedTime()
-		{
-			//LARGE_INTEGER currTime;
-			//// Get the current time
-			//QueryPerformanceCounter(&currTime);
-			//// Current time - prev time divided by frequency and cast into double to get delta time
-			//Time::GetInstance()->mDeltaTime = static_cast<double>((currTime.QuadPart - Time::GetInstance()->mPrevTime.QuadPart) / Time::GetInstance()->mFrequency.QuadPart);
-			//// Update the prev time
-			//Time::GetInstance()->mPrevTime = currTime;
+		void UpdateElapsedTime();
 
-			timerObj.UpdateTime();
+		double GetDt();
 
-		}
-
-		double GetDeltaTime()
-		{
-			return timerObj.mDeltaTime;
-		}
+		double GetFPS();
 
 	}
 }

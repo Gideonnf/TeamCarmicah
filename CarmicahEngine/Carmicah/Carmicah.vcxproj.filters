@@ -30,9 +30,6 @@
     <ClInclude Include="include\CarmicahCore.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\CarmicahTime.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\Components\Collider2D.h">
       <Filter>include\Components</Filter>
     </ClInclude>
@@ -99,6 +96,9 @@
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="FPSCounter.h">
+      <Filter>source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\AssetManager.cpp">
@@ -126,6 +126,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\pch.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSCounter.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

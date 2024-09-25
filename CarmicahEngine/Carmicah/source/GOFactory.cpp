@@ -2,6 +2,14 @@
 #include "Systems/GOFactory.h"
 #include "ECS/EntityManager.h"
 #include "ECS/ComponentManager.h"
+#include <rapidjson/document.h>
+#include <rapidjson/ostreamwrapper.h>
+#include <rapidjson/istreamwrapper.h>
+#include <rapidjson/writer.h>
+#include <rapidjson/filereadstream.h>
+#include "Components/Transform.h"
+#include "Components/Collider2D.h"
+#include "Components/Renderer.h"
 #include "log.h"
 
 namespace Carmicah
@@ -104,6 +112,136 @@ namespace Carmicah
 			for (auto& i : mIDToGO)
 				func(i.second);
 		}
+	}
+
+	void GOFactory::ImportGOs(std::string sceneName)
+	{
+		std::ifstream ifs{ sceneName, std::ios::binary };
+		if (ifs)
+		{
+			rapidjson::IStreamWrapper iws(ifs);
+			rapidjson::Document document;
+			document.ParseStream(iws);
+			ifs.close();
+
+			assert(document.IsArray());
+			for (rapidjson::SizeType i{}; i < document.Size(); ++i)
+			{
+				const rapidjson::Value& go = document[i];
+				std::string name = std::string(go["GameObject"].GetString());
+				int id = go["ID"].GetInt();
+				if (id == i)
+				{
+					GameObject newObj = gGOFactory->CreateGO();
+					const rapidjson::Value& componentList = go["Components"];
+					for (rapidjson::Value::ConstValueIterator it = componentList.Begin(); it != componentList.End(); ++it)
+					{
+						const std::string& componentName = (*it)["Component Name"].GetString();
+						if (componentName == "struct Carmicah::Transform")
+						{
+							Transform t;
+							t.xPos = (float)(*it)["xPos"].GetDouble();
+							t.yPos = (float)(*it)["yPos"].GetDouble();
+							t.zPos = (float)(*it)["zPos"].GetDouble();
+							t.rot = (float)(*it)["rot"].GetDouble();
+							t.xScale = (float)(*it)["xScale"].GetDouble();
+							t.yScale = (float)(*it)["yScale"].GetDouble();
+							newObj.AddComponent<Transform>(t);
+						}
+						else if (componentName == "struct Carmicah::Collider2D")
+						{
+							Collider2D t;
+							t.min.x = (float)(*it)["minX"].GetDouble();
+							t.min.y = (float)(*it)["minY"].GetDouble();
+							t.max.x = (float)(*it)["maxX"].GetDouble();
+							t.max.y = (float)(*it)["maxY"].GetDouble();
+							newObj.AddComponent<Collider2D>(t);
+
+						}
+						else if (componentName == "struct Carmicah::Renderer")
+						{
+							Renderer t;
+							t.primitiveType = static_cast<Renderer::PRIMITIVE>((*it)["primitiveType"].GetInt());
+							newObj.AddComponent<Renderer>(t);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	void GOFactory::ExportGOs(std::string sceneName)
+	{
+		std::ofstream ofs{ sceneName, std::ios::binary };
+		if (ofs)
+		{
+			rapidjson::OStreamWrapper osw(ofs);
+			rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
+
+			writer.StartArray();
+			gGOFactory->ForAllGO([&](GameObject& o) {
+				writer.StartObject();
+
+				writer.String("GameObject");
+				writer.String(o.GetName().c_str(), static_cast<rapidjson::SizeType>(o.GetName().length()));
+
+				writer.String("ID");
+				writer.Int(o.GetID());
+
+				writer.String("Components");
+				writer.StartArray();
+				ComponentManager::GetInstance()->ForEachComponent([&](const std::string componentName)
+					{
+						writer.StartObject();
+						writer.String("Component Name");
+						writer.String(componentName.c_str(), static_cast<rapidjson::SizeType>(componentName.length()));
+						if (componentName == "struct Carmicah::Transform")
+						{
+							Transform& t = o.GetComponent<Transform>();
+							writer.String("xPos");
+							writer.Double(t.xPos);
+							writer.String("yPos");
+							writer.Double(t.yPos);
+							writer.String("zPos");
+							writer.Double(t.zPos);
+							writer.String("rot");
+							writer.Double(t.rot);
+							writer.String("xScale");
+							writer.Double(t.xScale);
+							writer.String("yScale");
+							writer.Double(t.yScale);
+
+						}
+						else if (componentName == "struct Carmicah::Collider2D")
+						{
+							Collider2D& t = o.GetComponent<Collider2D>();
+							writer.String("minX");
+							writer.Double(t.min.x);
+							writer.String("minY");
+							writer.Double(t.min.y);
+							writer.String("maxX");
+							writer.Double(t.max.x);
+							writer.String("maxY");
+							writer.Double(t.max.y);
+						}
+						else if (componentName == "struct Carmicah::Renderer")
+						{
+							Renderer& t = o.GetComponent<Renderer>();
+							writer.String("primitiveType");
+							writer.Int(t.primitiveType);
+						}
+
+						writer.EndObject();
+
+					}, EntityManager::GetInstance()->GetSignature(o.GetID()));
+				writer.EndArray();
+
+				writer.EndObject();
+				});
+			writer.EndArray();
+			ofs.close();
+		}
+
 	}
 
 #pragma endregion

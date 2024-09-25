@@ -1,4 +1,6 @@
 #pragma once
+#ifndef TRANSFORM_H
+#define TRANSFORM_H
 
 namespace Carmicah
 {
@@ -14,3 +16,5 @@ namespace Carmicah
         float yScale;
     };
 }
+
+#endif

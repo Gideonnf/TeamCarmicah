@@ -10,8 +10,6 @@ namespace Carmicah
 		Application();
 		virtual ~Application();
 		int run();
-		void Import();
-		void Export();
 	};
 }
 
