@@ -81,6 +81,9 @@
     <ClInclude Include="include\Singleton.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\Systems\ColliderRenderSystem.h">
+      <Filter>include\Systems</Filter>
+    </ClInclude>
     <ClInclude Include="include\Systems\CollisionSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
@@ -105,7 +108,6 @@
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Systems\ColliderRenderSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\AssetManager.cpp">
@@ -115,6 +117,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\CarmicahTime.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ColliderRenderSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\CollisionSystem.cpp">
@@ -144,6 +149,5 @@
     <ClCompile Include="source\pch.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="source\ColliderRenderSystem.cpp" />
   </ItemGroup>
 </Project>

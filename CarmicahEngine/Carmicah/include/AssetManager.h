@@ -25,6 +25,9 @@ namespace Carmicah
 	struct Texture : BaseAsset
 	{
 		GLuint t;
+		int width;
+		int height;
+		int bpt;
 	};
 	struct Audio : BaseAsset
 	{
@@ -42,7 +45,7 @@ namespace Carmicah
 		void UnloadAll();
 
 		std::unordered_map<std::string, GLuint> shaderPgms{};
-		std::unordered_map<std::string, GLuint> textureMaps{};
+		std::unordered_map<std::string, Texture> textureMaps{};
 		std::unordered_map<std::string, Primitive> primitiveMaps{};
 
 		// Audio
@@ -58,7 +61,8 @@ namespace Carmicah
 		GLuint LoadShader(const std::string& shaderName, const std::string& vertFile, const std::string& fragFile);
 		void LoadObject(const std::string& objName, const std::string& modelFile);
 		void LoadDebugObject(const std::string& objName, const std::string& modelFile);
-		void LoadTexture(const std::string& textureName, const std::string& textureFile, const GLuint& width, const GLuint& height, const GLuint& bpt);
+		void LoadTexture(const std::string& textureName, const std::string& textureFile);
+		
 		void ExportCircle(int numSlices, const std::string& modelFile);
 
 

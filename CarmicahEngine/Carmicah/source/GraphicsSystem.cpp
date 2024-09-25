@@ -86,7 +86,7 @@ namespace Carmicah
 			}
 
 			glBindVertexArray(p.vaoid);
-			glBindTextureUnit(0, AssetManager::GetInstance()->textureMaps[renderer.texture]);
+			glBindTextureUnit(0, AssetManager::GetInstance()->textureMaps[renderer.texture].t);
 			switch (p.drawMode)
 			{
 			case GL_LINE_LOOP:

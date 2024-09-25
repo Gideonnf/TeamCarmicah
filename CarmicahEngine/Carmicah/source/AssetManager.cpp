@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <stb/stb_image.h>
 #include "AssetManager.h"
 #include "Systems/SoundSystem.h"
 
@@ -11,7 +12,7 @@ namespace Carmicah
 	{
 		std::filesystem::path directoryPath = assetPath;
 
-		textureMaps.insert(std::make_pair("", 0)); // Sets No Texture
+		textureMaps.insert(std::make_pair("", Texture{})); // Sets No Texture
 
 		InitSound();
 
@@ -35,7 +36,7 @@ namespace Carmicah
 						}
 						else if (folderName == "Images")
 						{
-							LoadTexture(fileName, entry.path().string(), 256, 256, 4);
+							LoadTexture(fileName, entry.path().string());
 						}
 						else if (folderName == "Meshes")
 						{
@@ -68,7 +69,7 @@ namespace Carmicah
 	{
 		// Unload Graphics
 		for (const auto& i : textureMaps)
-			glDeleteTextures(1, &i.second);
+			glDeleteTextures(1, &i.second.t);
 		for (const auto& i : primitiveMaps)
 		{
 			glDeleteVertexArrays(1, &i.second.vaoid);
@@ -346,7 +347,7 @@ namespace Carmicah
 		primitiveMaps.insert(std::make_pair(objName, p));
 	}
 
-	void AssetManager::LoadTexture(const std::string& textureName, const std::string& textureFile, const GLuint& width, const GLuint& height, const GLuint& bpt)
+	void AssetManager::LoadTexture(const std::string& textureName, const std::string& textureFile)
 	{
 		auto& foundTexture = textureMaps.find(textureName);
 		if (foundTexture != textureMaps.end())
@@ -355,22 +356,32 @@ namespace Carmicah
 			return;
 		}
 
-		GLuint texture;
-		std::ifstream texIF{ textureFile, std::ios::binary };
-		if (!texIF)
+		//GLuint texture;
+		//std::ifstream texIF{ textureFile, std::ios::binary };
+		//if (!texIF)
+		//{
+		//	std::cerr << "Unable to open texture file\n";
+		//	exit(EXIT_FAILURE);
+		//}
+		//char* ptr_texels = new char[width * height * bpt];
+		//texIF.read(ptr_texels, width * height * bpt);
+		//texIF.close();
+		Texture texture;
+		stbi_uc* data = stbi_load(textureFile.c_str(), &texture.width, &texture.height, &texture.bpt, 0);
+		if (!data)
 		{
 			std::cerr << "Unable to open texture file\n";
 			exit(EXIT_FAILURE);
 		}
-		char* ptr_texels = new char[width * height * bpt];
-		texIF.read(ptr_texels, width * height * bpt);
-		texIF.close();
-		glCreateTextures(GL_TEXTURE_2D, 1, &texture);
-		glTextureStorage2D(texture, 1, GL_RGBA8, width, height);
-		glTextureSubImage2D(texture, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, ptr_texels);
-		delete[] ptr_texels;
-		glTextureParameterf(texture, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTextureParameterf(texture, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		glCreateTextures(GL_TEXTURE_2D, 1, &texture.t);
+		glTextureStorage2D(texture.t, 1, GL_RGBA8, texture.width, texture.height);
+
+		glTextureParameterf(texture.t, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTextureParameterf(texture.t, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		glTextureSubImage2D(texture.t, 0, 0, 0, texture.width, texture.height, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		stbi_image_free(data);
 		//glPixelStorei(GL_UNPACK_ALIGNMENT, ); if width * bpt is not multiple of 4
 		textureMaps.insert(std::make_pair(textureName, texture));
 	}
