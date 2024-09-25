@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #pragma region C Rendition of Input.cpp
 /*
 
@@ -715,6 +717,8 @@ void InputSystem::process_mouse_move(i16 x, i16 y) {
 		EventData event_data;
 		event_data.data.u16[0] = x;
 		event_data.data.u16[1] = y;
+		std::cout << x << " , " << y << std::endl;
+
 		event_system.publish(EVENT_CODE_MOUSE_MOVED, nullptr, event_data);
 
 		// Handle dragging

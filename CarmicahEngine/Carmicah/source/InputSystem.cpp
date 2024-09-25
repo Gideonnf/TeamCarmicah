@@ -1,4 +1,5 @@
-#include "InputSystem.h"
+#include "pch.h"
+#include "./Systems/InputSystem.h"
 
 #include <Windows.h> 
 
@@ -61,7 +62,7 @@ void InputSystem::addListener(InputListener* listener)
 {
 	// add the listener pointer to the map by using insert
 	m_map_listeners.insert(std::make_pair<InputListener*, InputListener*>
-		(std::forward<InputListener*>(listener), std::forward<InputListener*>(listener));
+		(std::forward<InputListener*>(listener), std::forward<InputListener*>(listener)));
 }
 
 void InputSystem::removeListener(InputListener* listener)
