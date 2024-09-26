@@ -388,7 +388,7 @@ namespace Carmicah
 
 	void AssetManager::ExportCircle(int numSlices, const std::string& modelFile)
 	{
-		const float M_PI = 3.14159265358979323846264;
+		const float M_PI = 3.14159265358979f;
 		std::ofstream ofs(modelFile, std::ios::binary);
 		if (ofs)
 		{
