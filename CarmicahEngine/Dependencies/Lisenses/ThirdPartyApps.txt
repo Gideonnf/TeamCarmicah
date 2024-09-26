@@ -3,3 +3,4 @@ GLAD
 GLM
 PREMAKE
 rapidJSON
+stb

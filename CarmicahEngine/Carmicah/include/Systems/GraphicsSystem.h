@@ -2,23 +2,21 @@
 #define GRAPHICS_SYSTEM_H
 
 #include "ECS/BaseSystem.h"
-#include <GLFW/glfw3.h>
-
 
 namespace Carmicah
 {
 	class GraphicsSystem : public BaseSystem
 	{
 	private:
+		const char* shaderName{"basic"};
+		GLuint currShader{};
 
+		bool uniformExists(const char* str, GLint& ref);
 	public:
-		void Init(const GLuint&, const GLuint&);
+		void Init();
 
-		void Update();
+		void Render(Entity& cam);
 
-		void Render();
-
-		void Exit();
 	};
 }
 

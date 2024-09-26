@@ -10,8 +10,8 @@ namespace Carmicah
 	class GameObject
 	{
 	private:
-		Entity mID;
-		std::string mName;
+		Entity mID{};
+		std::string mName{};
 	public:
 		//Game object factory is the only class allowed to
 	//create and destroy game objects.

@@ -3,37 +3,41 @@
 #include <ECS/ECSTypes.h>
 #include "ECS/SystemManager.h"
 #include "ECS/ComponentManager.h"
+#include "AssetManager.h"
 
 namespace Carmicah
 {
-	void SoundSystem::Init(bool playBgm)
+	void SoundSystem::Init(bool play)
 	{
 		// Set the signature of the system
 		//mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<SoundSystem>(mSignature);
+		if(play)
+			PlayAudio(defaultBGM, true);
+	}
 
-		if (FMOD::System_Create(&mpSystem) != FMOD_OK)
-			return;
-		mpSystem->init(32, FMOD_INIT_NORMAL, NULL);
-		FMOD::Sound* sound = nullptr;
+	void SoundSystem::PlayAudio(const std::string& sound, bool isBgm)
+	{
 		FMOD::Channel* channel = NULL;
-		if (mpSystem->createSound("../Assets/Audio/bouken.mp3", FMOD_DEFAULT, nullptr, &sound) != FMOD_OK)
-			return;
-		sound->setMode(FMOD_LOOP_OFF);
-		if(playBgm)
-			mpSystem->playSound(sound, NULL, false, &channel);
+		AssetManager::GetInstance()->soundSystem->playSound(AssetManager::GetInstance()->soundMap[sound].sound, NULL, false, &channel);
+		sfxList.push_back(channel);
 	}
 
 	void SoundSystem::Update()
 	{
-		mpSystem->update();
-	}
-
-	void SoundSystem::Exit()
-	{
-		sound->release();
-		if (mpSystem != NULL)
-			mpSystem->release();
+		for (auto& it = sfxList.begin(); it != sfxList.end();)
+		{
+			// If channel stops playing, remove from list
+			bool bIsPlaying = false;
+			(*it)->isPlaying(&bIsPlaying);
+			if (!bIsPlaying)
+			{
+				it = sfxList.erase(it);
+			}
+			else
+				++it;
+		}
+		AssetManager::GetInstance()->soundSystem->update();
 	}
 }

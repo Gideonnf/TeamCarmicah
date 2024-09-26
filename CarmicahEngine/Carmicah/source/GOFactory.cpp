@@ -10,6 +10,7 @@
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
+#include "Components/Animation.h"
 #include "log.h"
 
 namespace Carmicah
@@ -133,6 +134,9 @@ namespace Carmicah
 				if (id == i)
 				{
 					GameObject newObj = gGOFactory->CreateGO();
+					if (name == "MainCamera")
+						mainCam = newObj.GetID();
+
 					const rapidjson::Value& componentList = go["Components"];
 					for (rapidjson::Value::ConstValueIterator it = componentList.Begin(); it != componentList.End(); ++it)
 					{
@@ -140,29 +144,41 @@ namespace Carmicah
 						if (componentName == "struct Carmicah::Transform")
 						{
 							Transform t;
-							t.xPos = (float)(*it)["xPos"].GetDouble();
-							t.yPos = (float)(*it)["yPos"].GetDouble();
-							t.zPos = (float)(*it)["zPos"].GetDouble();
-							t.rot = (float)(*it)["rot"].GetDouble();
-							t.xScale = (float)(*it)["xScale"].GetDouble();
-							t.yScale = (float)(*it)["yScale"].GetDouble();
+							t.xPos = static_cast<float>((*it)["xPos"].GetDouble());
+							t.yPos = static_cast<float>((*it)["yPos"].GetDouble());
+							t.zPos = static_cast<float>((*it)["zPos"].GetDouble());
+							t.rot = static_cast<float>((*it)["rot"].GetDouble());
+							t.xScale = static_cast<float>((*it)["xScale"].GetDouble());
+							t.yScale = static_cast<float>((*it)["yScale"].GetDouble());
+							t.isUpdated = true;
 							newObj.AddComponent<Transform>(t);
 						}
 						else if (componentName == "struct Carmicah::Collider2D")
 						{
 							Collider2D t;
-							t.min.x = (float)(*it)["minX"].GetDouble();
-							t.min.y = (float)(*it)["minY"].GetDouble();
-							t.max.x = (float)(*it)["maxX"].GetDouble();
-							t.max.y = (float)(*it)["maxY"].GetDouble();
+							t.min.x = static_cast<float>((*it)["minX"].GetDouble());
+							t.min.y = static_cast<float>((*it)["minY"].GetDouble());
+							t.max.x = static_cast<float>((*it)["maxX"].GetDouble());
+							t.max.y = static_cast<float>((*it)["maxY"].GetDouble());
+							t.shape = (*it)["shape"].GetString();
 							newObj.AddComponent<Collider2D>(t);
 
 						}
 						else if (componentName == "struct Carmicah::Renderer")
 						{
 							Renderer t;
-							t.primitiveType = static_cast<Renderer::PRIMITIVE>((*it)["primitiveType"].GetInt());
+							t.model = (*it)["model"].GetString();
+							t.texture = (*it)["texture"].GetString();
+							t.texureMat = glm::mat3(1);
 							newObj.AddComponent<Renderer>(t);
+						}
+						else if (componentName == "struct Carmicah::Animation")
+						{
+							Animation t{}; 
+							t.xSlice = (*it)["xSlice"].GetInt();
+							t.ySlice = (*it)["ySlice"].GetInt();
+							t.maxTime = static_cast<float>((*it)["timeBetween"].GetDouble());
+							newObj.AddComponent<Animation>(t);
 						}
 					}
 				}
@@ -223,14 +239,27 @@ namespace Carmicah
 							writer.Double(t.max.x);
 							writer.String("maxY");
 							writer.Double(t.max.y);
+							writer.String("shape");
+							writer.String(t.shape.c_str());
 						}
 						else if (componentName == "struct Carmicah::Renderer")
 						{
 							Renderer& t = o.GetComponent<Renderer>();
-							writer.String("primitiveType");
-							writer.Int(t.primitiveType);
+							writer.String("model");
+							writer.String(t.model.c_str());
+							writer.String("texture");
+							writer.String(t.texture.c_str());
 						}
-
+						else if (componentName == "struct Carmicah::Animation")
+						{
+							Animation& t = o.GetComponent<Animation>();
+							writer.String("xSlice");
+							writer.Int(t.xSlice);
+							writer.String("ySlice");
+							writer.Int(t.xSlice);
+							writer.String("timeBetween");
+							writer.Double(t.maxTime);
+						}
 						writer.EndObject();
 
 					}, EntityManager::GetInstance()->GetSignature(o.GetID()));
