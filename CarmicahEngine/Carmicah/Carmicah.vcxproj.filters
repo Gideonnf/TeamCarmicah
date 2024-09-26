@@ -24,14 +24,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\AssetManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="include\CarmicahCore.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\CarmicahTime.h">
       <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Components\Body.h">
-      <Filter>include\Components</Filter>
     </ClInclude>
     <ClInclude Include="include\Components\Collider2D.h">
       <Filter>include\Components</Filter>
@@ -81,6 +81,9 @@
     <ClInclude Include="include\Singleton.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\Systems\ColliderRenderSystem.h">
+      <Filter>include\Systems</Filter>
+    </ClInclude>
     <ClInclude Include="include\Systems\CollisionSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
@@ -91,9 +94,6 @@
       <Filter>include\Systems</Filter>
     </ClInclude>
     <ClInclude Include="include\Systems\InputSystem.h">
-      <Filter>include\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Systems\PhysicsSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
     <ClInclude Include="include\Systems\SceneSystem.h">
@@ -108,12 +108,20 @@
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\Components\Animation.h" />
+    <ClInclude Include="include\Systems\AnimationSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\AssetManager.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
     <ClCompile Include="source\CarmicahCore.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\CarmicahTime.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ColliderRenderSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\CollisionSystem.cpp">
@@ -131,9 +139,6 @@
     <ClCompile Include="source\InputSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="source\PhysicsSystem.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
     <ClCompile Include="source\SceneSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
@@ -146,5 +151,6 @@
     <ClCompile Include="source\pch.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="source\AnimationSystem.cpp" />
   </ItemGroup>
 </Project>

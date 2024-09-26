@@ -33,7 +33,7 @@ namespace Carmicah
 		std::unordered_map<unsigned int, Entity> m_ComponentToEntity;
 
 		// Keep track of the active components
-		unsigned int m_Size;
+		unsigned int m_Size{};
 
 		// NOTE:
 		/*

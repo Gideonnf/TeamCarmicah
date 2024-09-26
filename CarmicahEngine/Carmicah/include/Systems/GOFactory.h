@@ -32,6 +32,9 @@ namespace Carmicah
 		GOFactory();
 		~GOFactory();
 
+#pragma region SceneData
+		Entity mainCam;
+#pragma endregion
 
 #pragma region GameObject Functions
 		// Default name for GOs

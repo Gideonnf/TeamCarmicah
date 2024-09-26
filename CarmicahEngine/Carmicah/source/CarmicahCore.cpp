@@ -13,19 +13,24 @@
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
+#include "Components/Animation.h"
 #include "Systems/GraphicsSystem.h"
+#include "Systems/AnimationSystem.h"
+#include "Systems/ColliderRenderSystem.h"
 #include "Systems/CollisionSystem.h"
 #include "Systems/PhysicsSystem.h"
 #include "Systems/SoundSystem.h"
 #include "Systems/InputSystem.h"
 #include "Systems/SceneSystem.h"
 #include "CarmicahTime.h"
+#include "AssetManager.h"
 
 
 namespace Carmicah
 {
     const GLuint WIDTH = 800, HEIGHT = 600;
     const char* sceneName{ "../Assets/Scene/Scene1.json" };
+    const char* assetsLoc{ "../Assets" };
 
     Application::Application()
     {
@@ -33,11 +38,6 @@ namespace Carmicah
 
     Application::~Application()
     {
-    }
-
-    void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode) {
-        if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-            glfwSetWindowShouldClose(window, GL_TRUE);
     }
 
     void EnableMemoryLeakChecking(int breakAlloc = -1)
@@ -92,8 +92,11 @@ namespace Carmicah
         REGISTER_COMPONENT(Transform);
         REGISTER_COMPONENT(Collider2D);
         REGISTER_COMPONENT(Renderer);
+        REGISTER_COMPONENT(Animation);
 
         auto graSystem = REGISTER_SYSTEM(GraphicsSystem);
+        auto aniSystem = REGISTER_SYSTEM(AnimationSystem);
+        auto crsSystem = REGISTER_SYSTEM(ColliderRenderSystem);
         auto colSystem = REGISTER_SYSTEM(CollisionSystem);
         auto phySystem = REGISTER_SYSTEM(PhysicsSystem);
         auto inputSystem = REGISTER_SYSTEM(InputSystem);
@@ -101,12 +104,15 @@ namespace Carmicah
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);
 
-        graSystem->Init(WIDTH / 100, HEIGHT / 100);
+        AssetManager::GetInstance()->LoadAll(assetsLoc);
+        graSystem->Init();
+        aniSystem->Init();
+        crsSystem->Init();
         colSystem->Init(); // Set the signature
         phySystem->Init();
         souSystem->Init(false);
         inputSystem->BindSystem(gGOFactory);
-        inputSystem->Init();
+        inputSystem->Init(window);
         gameSystem->Init(sceneName);
 
         //GameObject newObj;
@@ -114,12 +120,13 @@ namespace Carmicah
         //Collider2D playerCollider{ 1, 2, 3, 4 };
         //newObj.AddComponent<Transform>(playerTrans);
         //newObj.AddComponent<Collider2D>(playerCollider);
-
+        double testTime = 0.0;
         while (!glfwWindowShouldClose(window)) {
             // Update dt calc
             CarmicahTimer::UpdateElapsedTime();
             glfwPollEvents();
-
+            testTime += CarmicahTimer::GetDt();
+            std::cout << testTime << std::endl;
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS()));
             glfwSetWindowTitle(window, title.c_str());
 
@@ -127,13 +134,17 @@ namespace Carmicah
             //newObj.GetComponent<Transform>().xPos += 1;
             colSystem->Update();
 
+            graSystem->Render(gGOFactory->mainCam);
+            aniSystem->Update();
+            crsSystem->Render(gGOFactory->mainCam);
             souSystem->Update();
-            graSystem->Render();
             glfwSwapBuffers(window);
+
+            
+            
         }
 
-        souSystem->Exit();
-        graSystem->Exit();
+        AssetManager::GetInstance()->UnloadAll();
         //fpsCounter->Exit();
         colSystem->Exit();
 
