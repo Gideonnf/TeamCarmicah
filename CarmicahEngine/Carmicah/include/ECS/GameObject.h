@@ -61,8 +61,22 @@ namespace Carmicah
 		template<typename T>
 		void AddComponent(T Component)
 		{
-			ComponentManager::GetInstance()->AddComponent(mID, Component);
-			EntityManager::GetInstance()->AddComponent(mID, Component);
+			ComponentManager::GetInstance()->AddComponent<T>(mID, Component);
+			EntityManager::GetInstance()->AddComponent<T>(mID);
+			//auto entitySignature = EntityManager::GetInstance()->GetSignature(mID);
+			//// Set the component's signature pos within entity signature to true
+			//entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), true);
+			//// Set the new siganture of hte entity to show that it has this component now
+			//EntityManager::GetInstance()->SetSignature(mID, entitySignature);
+			// Update the systems that the signature changed
+			//SystemManager::GetInstance()->UpdateSignatures(mID, entitySignature);
+		}
+
+		template<typename T>
+		void AddComponent()
+		{
+			ComponentManager::GetInstance()->AddComponent<T>(mID);
+			EntityManager::GetInstance()->AddComponent<T>(mID);
 			//auto entitySignature = EntityManager::GetInstance()->GetSignature(mID);
 			//// Set the component's signature pos within entity signature to true
 			//entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), true);

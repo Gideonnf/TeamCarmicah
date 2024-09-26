@@ -112,18 +112,26 @@ namespace Carmicah
         inputSystem->Init(window);
         gameSystem->Init(sceneName);
 
+        colSystem->PrintEntities();
+
+        GameObject newObj = gGOFactory->CreateGO();
+        newObj.AddComponent<Transform>();
+        newObj.AddComponent<Collider2D>();
+        colSystem->PrintEntities();
+
+        newObj.Destroy();
         //GameObject newObj;
         //Transform playerTrans{ 1, 1, 1 };
         //Collider2D playerCollider{ 1, 2, 3, 4 };
         //newObj.AddComponent<Transform>(playerTrans);
         //newObj.AddComponent<Collider2D>(playerCollider);
-        double testTime = 0.0;
+       //double testTime = 0.0;
         while (!glfwWindowShouldClose(window)) {
             // Update dt calc
             CarmicahTimer::UpdateElapsedTime();
             glfwPollEvents();
-            testTime += CarmicahTimer::GetDt();
-            std::cout << testTime << std::endl;
+           // testTime += CarmicahTimer::GetDt();
+            //std::cout << testTime << std::endl;
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS()));
             glfwSetWindowTitle(window, title.c_str());
 
@@ -137,8 +145,10 @@ namespace Carmicah
             souSystem->Update();
             glfwSwapBuffers(window);
 
-            
-            
+            SystemManager::GetInstance()->UpdateDestroyed();
+
+            colSystem->PrintEntities();
+
         }
 
         AssetManager::GetInstance()->UnloadAll();

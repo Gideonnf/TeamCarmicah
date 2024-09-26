@@ -33,7 +33,7 @@ namespace Carmicah
 	GOFactory::~GOFactory()
 	{
 		// Destroy all objects if factory is deleted
-		DestroyAll();
+		//DestroyAll();
 	}
 
 #pragma region GameObject Functions
@@ -58,7 +58,10 @@ namespace Carmicah
 	GameObject GOFactory::CloneGO(GameObject const& go)
 	{
 		GameObject newGO(go);
-		newGO.mName = go.mName + "_Clone"; // TODO: Find a way to create clones like clone1, clone2, clone3, etc
+		newGO.mName = go.mName + "_Clone"; 
+		// TODO: Find a way to create clones like clone1, clone2, clone3, etc
+		// can probably while loop then check if the map with .count instead of using .find
+		// if it has 1, then increment a counter to go to clone2, clone3, etc until it finds no counts
 		newGO.mID = EntityManager::GetInstance()->CreateEntity(newGO.mName);
 		EntityManager::GetInstance()->CloneEntity(go.mID, newGO.mID);
 
@@ -78,32 +81,25 @@ namespace Carmicah
 		go.mID = EntityManager::GetInstance()->CreateEntity(go.mName);
 	}
 
-	void GOFactory::EntityDestroyed(Entity id) 
+	void GOFactory::EntityDestroyed(Entity entity)
 	{
-		mDeleteList.insert(id);
+		// erase from the maps
+		mNameToID.erase(mIDToGO[entity].mName);
+		mIDToGO.erase(entity);
 
-		//EntityManager::GetInstance()->DeleteEntity(id);
-		//ComponentManager::GetInstance()->EntityDestroyed(id);
+		EntityManager::GetInstance()->DeleteEntity(entity);
+		ComponentManager::GetInstance()->EntityDestroyed(entity);
 	}
 
 	void GOFactory::DestroyAll()
 	{
 		// Since GOFactory holds all the entities
 		// Can just use entitiesSet to destroy all
-		mDeleteList = mEntitiesSet;
-	}
-
-	void GOFactory::UpdateDestroyed()
-	{
-		std::set<Entity>::iterator iter;
-		for (iter = mDeleteList.begin(); iter != mDeleteList.end(); ++iter)
+		//mDeleteList = mEntitiesSet;
+		for (auto& entity : mEntitiesSet)
 		{
-			EntityManager::GetInstance()->DeleteEntity(*iter);
-			ComponentManager::GetInstance()->EntityDestroyed(*iter);
+			SystemManager::GetInstance()->EntityDestroyed(entity);
 		}
-
-		// Clear delete list afterwards
-		mDeleteList.clear();
 	}
 
 	void GOFactory::ForAllGO(const std::function<void(GameObject&)>& func)

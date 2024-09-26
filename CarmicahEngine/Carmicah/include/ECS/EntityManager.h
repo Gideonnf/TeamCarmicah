@@ -81,7 +81,7 @@ namespace Carmicah
 		}
 
 		template<typename T>
-		void AddComponent(Entity id, T component)
+		void AddComponent(Entity id)
 		{
 			Signature entitySignature = m_EntitySignatures[id];
 			entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), true);

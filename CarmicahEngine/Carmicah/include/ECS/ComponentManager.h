@@ -96,6 +96,16 @@ namespace Carmicah
 			}
 		}
 
+		template<typename T>
+		void AddComponent(Entity entity)
+		{
+			T component{};
+			if (GetComponentArray<T>() != NULL)
+			{
+				GetComponentArray<T>()->InsertComponentData(entity, component);
+			}
+		}
+
 
 		template<typename T>
 		void RemoveComponent(Entity entity)
