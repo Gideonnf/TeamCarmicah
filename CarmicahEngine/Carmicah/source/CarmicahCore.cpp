@@ -15,6 +15,7 @@
 #include "Components/Renderer.h"
 #include "Systems/GraphicsSystem.h"
 #include "Systems/CollisionSystem.h"
+#include "Systems/PhysicsSystem.h"
 #include "Systems/SoundSystem.h"
 #include "Systems/InputSystem.h"
 #include "Systems/SceneSystem.h"
@@ -94,6 +95,7 @@ namespace Carmicah
 
         auto graSystem = REGISTER_SYSTEM(GraphicsSystem);
         auto colSystem = REGISTER_SYSTEM(CollisionSystem);
+        auto phySystem = REGISTER_SYSTEM(PhysicsSystem);
         auto inputSystem = REGISTER_SYSTEM(InputSystem);
         REGISTER_SYSTEM(GOFactory);
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
@@ -101,6 +103,7 @@ namespace Carmicah
 
         graSystem->Init(WIDTH / 100, HEIGHT / 100);
         colSystem->Init(); // Set the signature
+        phySystem->Init();
         souSystem->Init(false);
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init();
