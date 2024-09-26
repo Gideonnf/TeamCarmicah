@@ -3,6 +3,7 @@
 #define RENDERER_COMPONENT_H
 
 #include <string>
+#include <glm/glm.hpp>
 
 namespace Carmicah
 {
@@ -10,6 +11,7 @@ namespace Carmicah
     {
         std::string model;
         std::string texture;
+        glm::mat3 texureMat;
     };
 }
 

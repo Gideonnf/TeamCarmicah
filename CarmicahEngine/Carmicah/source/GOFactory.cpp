@@ -10,6 +10,7 @@
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
+#include "Components/Animation.h"
 #include "log.h"
 
 namespace Carmicah
@@ -168,7 +169,16 @@ namespace Carmicah
 							Renderer t;
 							t.model = (*it)["model"].GetString();
 							t.texture = (*it)["texture"].GetString();
+							t.texureMat = glm::mat3(1);
 							newObj.AddComponent<Renderer>(t);
+						}
+						else if (componentName == "struct Carmicah::Animation")
+						{
+							Animation t{};
+							t.xSlice = 3;
+							t.ySlice = 3;
+							t.maxTime = 1.f;
+							newObj.AddComponent<Animation>(t);
 						}
 					}
 				}
@@ -240,7 +250,10 @@ namespace Carmicah
 							writer.String("texture");
 							writer.String(t.texture.c_str());
 						}
-
+						else if (componentName == "struct Carmicah::Animation")
+						{
+							
+						}
 						writer.EndObject();
 
 					}, EntityManager::GetInstance()->GetSignature(o.GetID()));

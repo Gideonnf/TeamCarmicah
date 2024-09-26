@@ -108,6 +108,8 @@
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\Components\Animation.h" />
+    <ClInclude Include="include\Systems\AnimationSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\AssetManager.cpp">
@@ -149,5 +151,6 @@
     <ClCompile Include="source\pch.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="source\AnimationSystem.cpp" />
   </ItemGroup>
 </Project>

@@ -7,6 +7,5 @@ layout (location=0) out vec4 fFragColor; // location 0 is default GL_BACK_LEFT c
 uniform sampler2D	uTex2d;
 
 void main(void){
-	vec4 tex = texture(uTex2d, vTexCoord);
-	fFragColor = tex;
+	fFragColor = texture(uTex2d, vTexCoord);
 }

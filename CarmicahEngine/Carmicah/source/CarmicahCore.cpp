@@ -13,7 +13,9 @@
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
+#include "Components/Animation.h"
 #include "Systems/GraphicsSystem.h"
+#include "Systems/AnimationSystem.h"
 #include "Systems/ColliderRenderSystem.h"
 #include "Systems/CollisionSystem.h"
 #include "Systems/SoundSystem.h"
@@ -94,8 +96,10 @@ namespace Carmicah
         REGISTER_COMPONENT(Transform);
         REGISTER_COMPONENT(Collider2D);
         REGISTER_COMPONENT(Renderer);
+        REGISTER_COMPONENT(Animation);
 
         auto graSystem = REGISTER_SYSTEM(GraphicsSystem);
+        auto aniSystem = REGISTER_SYSTEM(AnimationSystem);
         auto crsSystem = REGISTER_SYSTEM(ColliderRenderSystem);
         auto colSystem = REGISTER_SYSTEM(CollisionSystem);
         auto inputSystem = REGISTER_SYSTEM(InputSystem);
@@ -105,6 +109,7 @@ namespace Carmicah
 
         AssetManager::GetInstance()->LoadAll(assetsLoc);
         graSystem->Init();
+        aniSystem->Init();
         crsSystem->Init();
         colSystem->Init(); // Set the signature
         souSystem->Init(false);
@@ -131,9 +136,11 @@ namespace Carmicah
             colSystem->Update();
 
             graSystem->Render(gGOFactory->mainCam);
+            aniSystem->Update();
             crsSystem->Render(gGOFactory->mainCam);
             souSystem->Update();
             glfwSwapBuffers(window);
+            
         }
 
         AssetManager::GetInstance()->UnloadAll();

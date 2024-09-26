@@ -24,6 +24,9 @@
         "Component Name": "struct Carmicah::Renderer",
         "model": "Square",
         "texture": "Duck"
+      },
+      {
+        "Component Name": "struct Carmicah::Animation"
       }
     ]
   },

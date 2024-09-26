@@ -14,6 +14,21 @@
 
 namespace Carmicah
 {
+	int counter{};
+	int progress{};
+
+	bool GraphicsSystem::uniformExists(const char* str, GLint& ref)
+	{
+		ref = glGetUniformLocation(currShader, str);
+		if (ref >= 0)
+			return true;
+
+		std::cerr << "Uniform variable: " << str << " dosen't exist!!!\n";
+		std::exit(EXIT_FAILURE);
+		return false;
+
+	}
+	
 	void GraphicsSystem::Init()
 	{
 		// Set the signature of the system
@@ -33,6 +48,8 @@ namespace Carmicah
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glUseProgram(currShader);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		// Handle Camera Transform
 		auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
@@ -66,24 +83,15 @@ namespace Carmicah
 			else if (currCam.isUpdated)
 				transform.camSpace = currCam.camSpace * transform.worldSpace;
 
+			GLint uniformLoc{};
+			if (uniformExists("uModel_to_NDC", uniformLoc))
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(transform.camSpace));
 
-			GLint uniform_var_loc0 = glGetUniformLocation(currShader, "uModel_to_NDC");
-			if (uniform_var_loc0 >= 0)
-				glUniformMatrix3fv(uniform_var_loc0, 1, GL_FALSE, glm::value_ptr(transform.camSpace));
-			else
-			{
-				std::cout << "Uniform variable dosen't exist!!!\n";
-				std::exit(EXIT_FAILURE);
-			}
+			if (uniformExists("uTex2d", uniformLoc))
+				glUniform1i(uniformLoc, 0);
 
-			uniform_var_loc0 = glGetUniformLocation(currShader, "uTex2d");
-			if (uniform_var_loc0 >= 0)
-				glUniform1i(uniform_var_loc0, 0);
-			else
-			{
-				std::cout << "Uniform variable dosen't exist!!!\n";
-				std::exit(EXIT_FAILURE);
-			}
+			if (uniformExists("uAnimationMult", uniformLoc))
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(renderer.texureMat));
 
 			glBindVertexArray(p.vaoid);
 			glBindTextureUnit(0, AssetManager::GetInstance()->textureMaps[renderer.texture].t);
@@ -101,8 +109,6 @@ namespace Carmicah
 				break;
 			}
 		}
-
-		currCam.isUpdated = false;
 
 		glBindTextureUnit(0, 0);
 		glBindVertexArray(0);

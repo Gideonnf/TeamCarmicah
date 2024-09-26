@@ -10,10 +10,13 @@ namespace Carmicah
 	private:
 		const char* shaderName{"basic"};
 		GLuint currShader{};
+
+		bool uniformExists(const char* str, GLint& ref);
 	public:
 		void Init();
 
 		void Render(Entity& cam);
+
 	};
 }
 
