@@ -24,9 +24,8 @@ namespace Carmicah
 	{
 		for (auto& entity : mEntitiesSet)
 		{
-			auto& rend = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
 			auto& anim = ComponentManager::GetInstance()->GetComponent<Animation>(entity);
-			anim.time += 0.1f;
+			anim.time += CarmicahTimer::GetDt();
 			if (anim.time > anim.maxTime)
 			{
 				if (++anim.currPiece > anim.xSlice * anim.ySlice)
@@ -36,6 +35,7 @@ namespace Carmicah
 				float xMulti = static_cast<float>(anim.currPiece % anim.xSlice);
 				float yMulti = 1.f - static_cast<float>(anim.currPiece / anim.xSlice);
 
+				auto& rend = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
 				// Animation translates
 				rend.texureMat = glm::mat3(1);
 				glm::vec2 animScale = glm::vec2{ 1.f / static_cast<float>(anim.xSlice), 1.f / static_cast<float>(anim.ySlice) };
