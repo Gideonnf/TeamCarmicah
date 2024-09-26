@@ -1,16 +1,19 @@
 #pragma once
-#ifndef BODY_H
-#define BODY_H
+#ifndef RIGIDBODY_H
+#define RIGIDBODY_H
 
 #include <Math/Vec2.h>
 
 namespace Carmicah 
 {
-	struct Body
+	struct RigidBody
 	{
 		Vector2D<float> velocity;
 		Vector2D<float> acceleration;
-		float mass;
+		float posPrev;
+
+		bool isKinematic;
+		bool isStatic;
 	};
 }
 

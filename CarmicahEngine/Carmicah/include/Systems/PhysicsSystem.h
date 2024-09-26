@@ -6,10 +6,13 @@ namespace Carmicah
 	class PhysicsSystem : public BaseSystem
 	{
 	public:
+
 		void Init();
 
 		void Update();
 
 		void Exit();
+
+		void ApplyForce(Entity obj);
 	};
 }

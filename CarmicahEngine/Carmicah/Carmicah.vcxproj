@@ -111,6 +111,8 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="include\CarmicahCore.h" />
     <ClInclude Include="include\CarmicahTime.h" />
     <ClInclude Include="include\Components\Animation.h" />
+    <ClInclude Include="include\Components\Gravity.h" />
+    <ClInclude Include="include\Components\RigidBody.h" />
     <ClInclude Include="include\Components\Collider2D.h" />
     <ClInclude Include="include\Components\Renderer.h" />
     <ClInclude Include="include\Components\Transform.h" />
@@ -122,6 +124,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="include\ECS\GameObject.h" />
     <ClInclude Include="include\ECS\SystemManager.h" />
     <ClInclude Include="include\FPSCounter.h" />
+    <ClInclude Include="include\Input\InputTypes.h" />
     <ClInclude Include="include\Math\Matrix3x3.h" />
     <ClInclude Include="include\Math\Vec2.h" />
     <ClInclude Include="include\Messaging\InputMessage.h" />
@@ -133,6 +136,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="include\Systems\GOFactory.h" />
     <ClInclude Include="include\Systems\GraphicsSystem.h" />
     <ClInclude Include="include\Systems\InputSystem.h" />
+    <ClInclude Include="include\Systems\PhysicsSystem.h" />
     <ClInclude Include="include\Systems\SceneSystem.h" />
     <ClInclude Include="include\Systems\SoundSystem.h" />
     <ClInclude Include="include\log.h" />
@@ -149,6 +153,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClCompile Include="source\GOFactory.cpp" />
     <ClCompile Include="source\GraphicsSystem.cpp" />
     <ClCompile Include="source\InputSystem.cpp" />
+    <ClCompile Include="source\PhysicsSystem.cpp" />
     <ClCompile Include="source\SceneSystem.cpp" />
     <ClCompile Include="source\SoundSystem.cpp" />
     <ClCompile Include="source\log.cpp" />

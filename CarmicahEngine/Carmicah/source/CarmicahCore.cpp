@@ -12,6 +12,8 @@
 #include "ECS/SystemManager.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
+#include "Components/RigidBody.h"
+#include "Components/Gravity.h"
 #include "Components/Renderer.h"
 #include "Components/Animation.h"
 #include "Systems/GraphicsSystem.h"
@@ -93,6 +95,8 @@ namespace Carmicah
         REGISTER_COMPONENT(Collider2D);
         REGISTER_COMPONENT(Renderer);
         REGISTER_COMPONENT(Animation);
+        REGISTER_COMPONENT(RigidBody);
+        REGISTER_COMPONENT(Gravity);
 
         auto graSystem = REGISTER_SYSTEM(GraphicsSystem);
         auto aniSystem = REGISTER_SYSTEM(AnimationSystem);
@@ -133,7 +137,7 @@ namespace Carmicah
             gameSystem->Update();
             //newObj.GetComponent<Transform>().xPos += 1;
             colSystem->Update();
-
+            phySystem->Update();
             graSystem->Render(gGOFactory->mainCam);
             aniSystem->Update();
             crsSystem->Render(gGOFactory->mainCam);
