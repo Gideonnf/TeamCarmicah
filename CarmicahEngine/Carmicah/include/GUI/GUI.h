@@ -5,15 +5,15 @@
 
 namespace Carmicah
 {
-	class GUI
+	class Editor
 	{
 	public:
 
-		GUI();
+		Editor();
 
-		~GUI();
+		~Editor();
 
-		void Init(GLFWwindow* window);
+		void Init(GLFWwindow* window, const char* version);
 
 		void Update();
 
@@ -22,7 +22,7 @@ namespace Carmicah
 		void Exit();
 
 	private:
-		ImGuiIO io;
+
 	};
 
 }

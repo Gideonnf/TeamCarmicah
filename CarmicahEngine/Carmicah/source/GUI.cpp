@@ -9,16 +9,16 @@ namespace Carmicah
 {
 
 
-	GUI::GUI()
+	Editor::Editor()
 	{
 
 	}
 
-	GUI::~GUI()
+	Editor::~Editor()
 	{
 
 	}
-	void GUI::Init(GLFWwindow* window)
+	void Editor::Init(GLFWwindow* window, const char* glsl_version)
 	{
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -32,7 +32,7 @@ namespace Carmicah
 		ImGui_ImplOpenGL3_Init("#version 460");
 	}
 
-	void GUI::Update()
+	void Editor::Update()
 	{
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
@@ -40,13 +40,13 @@ namespace Carmicah
 
 	}
 
-	void GUI::Render()
+	void Editor::Render()
 	{
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 
-	void GUI::Exit()
+	void Editor::Exit()
 	{
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
