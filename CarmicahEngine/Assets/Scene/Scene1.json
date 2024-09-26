@@ -23,10 +23,13 @@
       {
         "Component Name": "struct Carmicah::Renderer",
         "model": "Square",
-        "texture": "Duck"
+        "texture": "Count"
       },
       {
-        "Component Name": "struct Carmicah::Animation"
+        "Component Name": "struct Carmicah::Animation",
+        "xSlice": 3,
+        "ySlice": 3,
+        "timeBetween": 2.0
       }
     ]
   },

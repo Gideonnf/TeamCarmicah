@@ -174,10 +174,10 @@ namespace Carmicah
 						}
 						else if (componentName == "struct Carmicah::Animation")
 						{
-							Animation t{};
-							t.xSlice = 3;
-							t.ySlice = 3;
-							t.maxTime = 1.f;
+							Animation t{}; 
+							t.xSlice = (*it)["xSlice"].GetInt();
+							t.ySlice = (*it)["ySlice"].GetInt();
+							t.maxTime = static_cast<float>((*it)["timeBetween"].GetDouble());
 							newObj.AddComponent<Animation>(t);
 						}
 					}
@@ -252,7 +252,13 @@ namespace Carmicah
 						}
 						else if (componentName == "struct Carmicah::Animation")
 						{
-							
+							Animation& t = o.GetComponent<Animation>();
+							writer.String("xSlice");
+							writer.Int(t.xSlice);
+							writer.String("ySlice");
+							writer.Int(t.xSlice);
+							writer.String("timeBetween");
+							writer.Double(t.maxTime);
 						}
 						writer.EndObject();
 
