@@ -106,12 +106,13 @@ namespace Carmicah
         //Collider2D playerCollider{ 1, 2, 3, 4 };
         //newObj.AddComponent<Transform>(playerTrans);
         //newObj.AddComponent<Collider2D>(playerCollider);
-
+        double testTime = 0.0;
         while (!glfwWindowShouldClose(window)) {
             // Update dt calc
             CarmicahTimer::UpdateElapsedTime();
             glfwPollEvents();
-
+            testTime += CarmicahTimer::GetDt();
+            std::cout << testTime << std::endl;
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS()));
             glfwSetWindowTitle(window, title.c_str());
 

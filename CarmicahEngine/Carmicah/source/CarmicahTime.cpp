@@ -9,21 +9,28 @@ namespace Carmicah
 		lastUpdateTime = std::chrono::steady_clock::now();
 		mFrameCount = 0;
 		mCurrentFPS = 0.0;
+		mPrevTime = glfwGetTime();
 	}
 
 	void CarmicahTime::UpdateTime()
 	{
 		mFrameCount++;
 
-		auto currentTime = std::chrono::steady_clock::now();
-		mDeltaTime = std::chrono::duration<double>(currentTime - lastUpdateTime).count();
+		//auto currentTime = std::chrono::steady_clock::now();
+		//mDeltaTime = std::chrono::duration<double>(currentTime - lastUpdateTime).count();
 
-		if (mDeltaTime >= mUpdateInterval)
+		double currTime = glfwGetTime();
+		mDeltaTime = currTime - mPrevTime;
+		mPrevTime = currTime;
+		mUpdateTimer += mDeltaTime;
+
+
+		if (mUpdateTimer >= mUpdateInterval)
 		{
-			mCurrentFPS = static_cast<double>(mFrameCount) / mDeltaTime;
+			mCurrentFPS = static_cast<double>(mFrameCount) / mUpdateTimer;
 			mFrameCount = 0;
-			lastUpdateTime = currentTime;
-
+			//lastUpdateTime = currentTime;
+			mUpdateTimer = 0.0;
 			// Log the FPS using spdlog
 			auto logger = spdlog::get("CARMICAH");
 			if (logger)

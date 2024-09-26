@@ -12,10 +12,13 @@ namespace Carmicah
 	private:
 		std::chrono::steady_clock::time_point lastUpdateTime;
 
+		double mUpdateTimer;
 		double mUpdateInterval;
 		int mFrameCount;
 		double mCurrentFPS;
 		double mDeltaTime;
+		double mPrevTime;
+		
 
 	public:
 		// I dont know if we should use glfwGetTime or window's QueryPerformanceCounter
@@ -24,7 +27,7 @@ namespace Carmicah
 		//LARGE_INTEdoublGER mPrevTime;
 		//LARGE_INTEGER mFrequency;
 
-		CarmicahTime() : mDeltaTime(0), mUpdateInterval(0.5), mFrameCount(0), mCurrentFPS(0.0) {}
+		CarmicahTime() : mDeltaTime(0), mUpdateTimer(0.0), mUpdateInterval(0.5), mFrameCount(0), mCurrentFPS(0.0) {}
 		~CarmicahTime() {}
 
 		void InitTime();
