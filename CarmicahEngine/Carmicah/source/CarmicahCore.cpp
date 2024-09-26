@@ -110,6 +110,8 @@ namespace Carmicah
         souSystem->Init(false);
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
+
+        //gameSystem->SetScene(sceneName);
         gameSystem->Init(sceneName);
 
         colSystem->PrintEntities();
@@ -134,20 +136,32 @@ namespace Carmicah
             //std::cout << testTime << std::endl;
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS()));
             glfwSetWindowTitle(window, title.c_str());
+            
+           // gameSystem->Update();
+            if (gameSystem->mState == SceneState::INITIALISING)
+            {
+                   gameSystem->
+            }
+            else if (gameSystem->mState == SceneState::RUNTIME)
+            {
+                colSystem->Update();
 
-            gameSystem->Update();
-            //newObj.GetComponent<Transform>().xPos += 1;
-            colSystem->Update();
+                graSystem->Render(gGOFactory->mainCam);
+                aniSystem->Update();
+                crsSystem->Render(gGOFactory->mainCam);
+                souSystem->Update();
+                glfwSwapBuffers(window);
 
-            graSystem->Render(gGOFactory->mainCam);
-            aniSystem->Update();
-            crsSystem->Render(gGOFactory->mainCam);
-            souSystem->Update();
-            glfwSwapBuffers(window);
+                SystemManager::GetInstance()->UpdateDestroyed();
 
-            SystemManager::GetInstance()->UpdateDestroyed();
+                colSystem->PrintEntities();
+            }
+            else
+            {
+                // Clean all entities here
+                gameSystem->Exit();
+            }
 
-            colSystem->PrintEntities();
 
         }
 
