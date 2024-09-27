@@ -111,6 +111,7 @@ namespace Carmicah
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
         gameSystem->Init(sceneName);
+        graSystem->SetScreenSize(WIDTH / 100, HEIGHT / 100, gGOFactory->mainCam);
 
         //GameObject newObj;
         //Transform playerTrans{ 1, 1, 1 };

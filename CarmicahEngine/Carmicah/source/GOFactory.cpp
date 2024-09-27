@@ -143,19 +143,18 @@ namespace Carmicah
 						const std::string& componentName = (*it)["Component Name"].GetString();
 						if (componentName == "struct Carmicah::Transform")
 						{
-							Transform t;
+							Transform t{};
 							t.xPos = static_cast<float>((*it)["xPos"].GetDouble());
 							t.yPos = static_cast<float>((*it)["yPos"].GetDouble());
 							t.zPos = static_cast<float>((*it)["zPos"].GetDouble());
 							t.rot = static_cast<float>((*it)["rot"].GetDouble());
 							t.xScale = static_cast<float>((*it)["xScale"].GetDouble());
 							t.yScale = static_cast<float>((*it)["yScale"].GetDouble());
-							t.isUpdated = true;
 							newObj.AddComponent<Transform>(t);
 						}
 						else if (componentName == "struct Carmicah::Collider2D")
 						{
-							Collider2D t;
+							Collider2D t{};
 							t.min.x = static_cast<float>((*it)["minX"].GetDouble());
 							t.min.y = static_cast<float>((*it)["minY"].GetDouble());
 							t.max.x = static_cast<float>((*it)["maxX"].GetDouble());
@@ -166,7 +165,7 @@ namespace Carmicah
 						}
 						else if (componentName == "struct Carmicah::Renderer")
 						{
-							Renderer t;
+							Renderer t{};
 							t.model = (*it)["model"].GetString();
 							t.texture = (*it)["texture"].GetString();
 							t.texureMat = glm::mat3(1);

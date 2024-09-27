@@ -17,7 +17,7 @@ namespace Carmicah
         float xScale;
         float yScale;
 
-        bool isUpdated;
+        bool notUpdated;
         glm::mat3 worldSpace;
         glm::mat3 camSpace;
     };

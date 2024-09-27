@@ -25,7 +25,7 @@ namespace Carmicah
 		for (auto& entity : mEntitiesSet)
 		{
 			auto& anim = ComponentManager::GetInstance()->GetComponent<Animation>(entity);
-			anim.time += CarmicahTimer::GetDt();
+			anim.time += static_cast<float>(CarmicahTimer::GetDt());
 			if (anim.time > anim.maxTime)
 			{
 				if (++anim.currPiece >= anim.xSlice * anim.ySlice)

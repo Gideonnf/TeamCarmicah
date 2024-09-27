@@ -42,6 +42,14 @@ namespace Carmicah
 			currShader = shdrRef->second;
 	}
 
+	void GraphicsSystem::SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam)
+	{
+		auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
+		currCam.notUpdated = false;
+		currCam.xScale = 1.f / static_cast<float>(camWidth);
+		currCam.yScale = 1.f / static_cast<float>(camHeight);
+	}
+
 	void GraphicsSystem::Render(Entity& cam)
 	{
 		glClearColor(0.75294f, 1.f, 0.93333f, 1.f); // Gideon's favourite
@@ -53,16 +61,14 @@ namespace Carmicah
 
 		// Handle Camera Transform
 		auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-		currCam.isUpdated = true;
-		if (currCam.isUpdated)
+		if (!currCam.notUpdated)
 		{
 			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
 			currCam.camSpace = glm::mat3(1);
 			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-			glm::vec2 camEye = glm::vec2{ camTrans.xPos, camTrans.yPos };
-			glm::vec2 camScale = glm::vec2{ camTrans.xScale, camTrans.yScale };
-			currCam.camSpace = glm::translate(currCam.camSpace, camEye);
-			currCam.camSpace = glm::scale(currCam.camSpace, camScale);
+			currCam.camSpace = glm::scale(currCam.camSpace, glm::vec2{ camTrans.xScale, camTrans.yScale });
+			currCam.camSpace = glm::rotate(currCam.camSpace, glm::radians(-camTrans.rot));
+			currCam.camSpace = glm::translate(currCam.camSpace, glm::vec2{ camTrans.xPos, camTrans.yPos });
 		}
 
 		for (auto& entity : mEntitiesSet)
@@ -72,7 +78,7 @@ namespace Carmicah
 			Primitive p{ AssetManager::GetInstance()->primitiveMaps[renderer.model] };
 
 			// Handle Entities transform
-			if (transform.isUpdated)
+			if (!transform.notUpdated)
 			{
 				transform.worldSpace = glm::mat3(1.f);
 				transform.worldSpace = glm::translate(transform.worldSpace, glm::vec2{ transform.xPos, transform.yPos});
@@ -80,7 +86,7 @@ namespace Carmicah
 				transform.worldSpace = glm::scale(transform.worldSpace, glm::vec2{ transform.xScale, transform.yScale});
 				transform.camSpace = currCam.camSpace * transform.worldSpace;
 			}
-			else if (currCam.isUpdated)
+			else if (!currCam.notUpdated)
 				transform.camSpace = currCam.camSpace * transform.worldSpace;
 
 			GLint uniformLoc{};

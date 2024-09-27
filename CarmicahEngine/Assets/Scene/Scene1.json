@@ -9,7 +9,7 @@
         "yPos": 0.0,
         "zPos": 1.0,
         "rot": -1.0,
-        "xScale": 30.2,
+        "xScale": 30.0,
         "yScale": 30.0
       },
       {
@@ -28,7 +28,7 @@
         "xPos": 0.5,
         "yPos": 0.5,
         "zPos": 1.0,
-        "rot": 45.0,
+        "rot": 30.0,
         "xScale": 1.0,
         "yScale": 1.0
       },
