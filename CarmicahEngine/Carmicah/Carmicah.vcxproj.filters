@@ -39,13 +39,16 @@
     <ClInclude Include="include\Components\Animation.h">
       <Filter>include\Components</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\RigidBody.h">
-      <Filter>include\Components</Filter>
-    </ClInclude>
     <ClInclude Include="include\Components\Collider2D.h">
       <Filter>include\Components</Filter>
     </ClInclude>
+    <ClInclude Include="include\Components\Gravity.h">
+      <Filter>include\Components</Filter>
+    </ClInclude>
     <ClInclude Include="include\Components\Renderer.h">
+      <Filter>include\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\RigidBody.h">
       <Filter>include\Components</Filter>
     </ClInclude>
     <ClInclude Include="include\Components\Transform.h">
@@ -126,9 +129,6 @@
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\Gravity.h">
-      <Filter>include\Components</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\AnimationSystem.cpp">
@@ -159,6 +159,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\InputSystem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\PhysicsSystem - Copy.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\PhysicsSystem.cpp">

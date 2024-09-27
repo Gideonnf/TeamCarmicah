@@ -13,6 +13,6 @@ namespace Carmicah
 
 		void Exit();
 
-		void ApplyForce(Entity obj);
+		void ApplyForce(Entity& obj);
 	};
 }

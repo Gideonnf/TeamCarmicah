@@ -30,7 +30,7 @@
 
 namespace Carmicah
 {
-    const GLuint WIDTH = 800, HEIGHT = 600;
+    const GLuint WIDTH = 1600, HEIGHT = 900;
     const char* sceneName{ "../Assets/Scene/Scene1.json" };
     const char* assetsLoc{ "../Assets" };
 
@@ -119,11 +119,18 @@ namespace Carmicah
         inputSystem->Init(window);
         gameSystem->Init(sceneName);
 
-        //GameObject newObj;
-        //Transform playerTrans{ 1, 1, 1 };
-        //Collider2D playerCollider{ 1, 2, 3, 4 };
-        //newObj.AddComponent<Transform>(playerTrans);
-        //newObj.AddComponent<Collider2D>(playerCollider);
+        GameObject newObj = gGOFactory->CreateGO();
+        Transform playerTrans{ -5.0f, 0.0f, 1.0f , 0.0f, 1.f, 2.f , true};
+        RigidBody playerPhysics{ {0.0f, 0.0f}, {0.0f,0.0f}, true, false};
+        Gravity   playerGravity{ -20.0f };
+        Renderer  playerRender{ "Square", "mc_test" };
+        playerRender.texureMat = glm::mat3(1);
+        //Collider2D playerCollider{ {1, 2, 3, 4 };
+        newObj.AddComponent<Transform>(playerTrans);
+        newObj.AddComponent<RigidBody>(playerPhysics);
+        newObj.AddComponent<Renderer>(playerRender);
+        newObj.AddComponent<Gravity>(playerGravity);
+
         double testTime = 0.0;
         while (!glfwWindowShouldClose(window)) {
             // Update dt calc
@@ -133,11 +140,19 @@ namespace Carmicah
             std::cout << testTime << std::endl;
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS()));
             glfwSetWindowTitle(window, title.c_str());
+            //GameObject test = 
+            if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) 
+            {
+                newObj.GetComponent<RigidBody>().velocity.y = 11.0f;
+            }
+            else {
+                newObj.GetComponent<RigidBody>().velocity.y = 0.0f;
+            }
 
+            phySystem->Update();
             gameSystem->Update();
             //newObj.GetComponent<Transform>().xPos += 1;
             colSystem->Update();
-            phySystem->Update();
             graSystem->Render(gGOFactory->mainCam);
             aniSystem->Update();
             crsSystem->Render(gGOFactory->mainCam);

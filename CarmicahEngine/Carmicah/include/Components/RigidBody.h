@@ -10,7 +10,7 @@ namespace Carmicah
 	{
 		Vector2D<float> velocity;
 		Vector2D<float> acceleration;
-		float posPrev;
+		//float posPrev;
 
 		bool isKinematic;
 		bool isStatic;

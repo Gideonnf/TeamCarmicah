@@ -11,6 +11,7 @@
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
 #include "Components/Animation.h"
+#include "Components/RigidBody.h"
 #include "log.h"
 
 namespace Carmicah

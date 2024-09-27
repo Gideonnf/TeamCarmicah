@@ -4,13 +4,14 @@
 #include "Components/Transform.h"
 #include "Components/RigidBody.h"
 #include "Components/Gravity.h"
+#include "Systems/GOFactory.h"
 #include "ECS/SystemManager.h"
 #include "ECS/ComponentManager.h"
 #include "CarmicahTime.h"
 
 namespace Carmicah 
 {
-	void PhysicsSystem::ApplyForce(Entity obj) 
+	void PhysicsSystem::ApplyForce(Entity& obj) 
 	{
 		auto& rigidbody = ComponentManager::GetInstance()->GetComponent<RigidBody>(obj);
 		auto& jump = ComponentManager::GetInstance()->GetComponent<Gravity>(obj);
@@ -21,6 +22,7 @@ namespace Carmicah
 			rigidbody.velocity.y += jump.gravity * CarmicahTimer::GetDt();
 
 			transform.xPos += rigidbody.velocity.x * CarmicahTimer::GetDt();
+			transform.yPos += rigidbody.velocity.y * CarmicahTimer::GetDt();
 		}
 	}
 	
