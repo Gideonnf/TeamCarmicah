@@ -29,6 +29,8 @@ namespace Carmicah
 {
     const GLuint WIDTH = 800, HEIGHT = 600;
     const char* sceneName{ "../Assets/Scene/Scene1.json" };
+    const char* scene2Name{ "../Assets/Scene/Scene2.json" };
+
     const char* assetsLoc{ "../Assets" };
 
     Application::Application()
@@ -111,8 +113,8 @@ namespace Carmicah
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
 
-        //gameSystem->SetScene(sceneName);
-        gameSystem->Init(sceneName);
+        gameSystem->SetScene(sceneName);
+        gameSystem->Init();
 
         colSystem->PrintEntities();
 
@@ -136,13 +138,21 @@ namespace Carmicah
             //std::cout << testTime << std::endl;
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS()));
             glfwSetWindowTitle(window, title.c_str());
+
+            if (gameSystem->mNextState == SceneState::EXIT)
+            {
+                // Closing Engine
+                // Dont init a new scene
+                // Any exit of systems can be ran here or at the bottom, outside of loop maybe
+                break;
+            }
             
            // gameSystem->Update();
-            if (gameSystem->mState == SceneState::INITIALISING)
+            if (gameSystem->mNextState == SceneState::INITIALISING)
             {
-                   gameSystem->
+                gameSystem->Init();
             }
-            else if (gameSystem->mState == SceneState::RUNTIME)
+            else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
                 colSystem->Update();
 
@@ -152,11 +162,19 @@ namespace Carmicah
                 souSystem->Update();
                 glfwSwapBuffers(window);
 
+                if (Input.IsKeyPressed(Keys::KEY_SPACEBAR))
+                {
+                    gameSystem->ChangeScene(scene2Name);
+                }
+
                 SystemManager::GetInstance()->UpdateDestroyed();
 
-                colSystem->PrintEntities();
+               // colSystem->PrintEntities();
             }
-            else
+            
+            // Changing of scene/closing of engine
+            // run exit to clear objects
+            if (gameSystem->mNextState != gameSystem->mCurrState)
             {
                 // Clean all entities here
                 gameSystem->Exit();

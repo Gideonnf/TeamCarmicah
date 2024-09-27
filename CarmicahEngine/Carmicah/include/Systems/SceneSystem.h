@@ -20,10 +20,11 @@ namespace Carmicah
 		std::string mCurrScene;
 		std::string mNextScene;
 	public:
-		SceneState mState;
+		SceneState mCurrState;
+		SceneState mNextState;
 
 		//GameCore(std::string scene) : mScene(scene) {}
-		void Init(std::string nextScene);
+		void Init();
 		void ChangeScene(std::string nextScene);
 		void Exit();
 		void SetScene(std::string scene);

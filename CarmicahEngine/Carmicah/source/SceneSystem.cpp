@@ -5,7 +5,7 @@
 namespace Carmicah
 {
 
-	void SceneSystem::Init(std::string nextScene)
+	void SceneSystem::Init()
 	{
 		//mCurrScene = scene;
 
@@ -19,26 +19,31 @@ namespace Carmicah
 		//	// Not changing to a new scene
 		//	CM_CORE_WARN("Not changing scene");
 		//}
-
-		gGOFactory->ImportGOs(nextScene);
-		mState = SceneState::RUNTIME;
+		mCurrScene = mNextScene;
+		gGOFactory->ImportGOs(mCurrScene);
+		mNextState = mCurrState = SceneState::RUNTIME;
 	}
 
+	/// <summary>
+	/// Only used initial setting of starting scene when engine is ran
+	/// Can be read from 
+	/// </summary>
+	/// <param name="scene"></param>
 	void SceneSystem::SetScene(std::string scene)
 	{
-		mCurrScene = scene;
+		mNextScene = scene;
 	}
 
 	void SceneSystem::ChangeScene(std::string nextScene)
 	{
 		if (nextScene == mCurrScene)
 		{
-			mState = RELOAD;
+			mNextState = RELOAD;
 		}
 		else
 		{
 			// Change scene
-			mState = CHANGESCENE;
+			mNextState = CHANGESCENE;
 
 			mNextScene = nextScene;
 		}
@@ -47,13 +52,15 @@ namespace Carmicah
 	void SceneSystem::Exit()
 	{
 		// initialize the next scene
-		if (mState == CHANGESCENE || mState == RELOAD)
-			mState = INITIALISING;
+		if (mNextState == CHANGESCENE || mNextState == RELOAD)
+			mNextState = INITIALISING;
+		else
+			mNextState = EXIT;
 
 		//mState = EXIT;
-		gGOFactory->ExportGOs(mCurrScene);
+		//gGOFactory->ExportGOs(mCurrScene); // Dont save objects for now
 		gGOFactory->DestroyAll();
-
+		SystemManager::GetInstance()->UpdateDestroyed();
 	}
 
 	void SceneSystem::ReceiveMessage(Message* msg)
