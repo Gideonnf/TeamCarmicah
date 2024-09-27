@@ -55,7 +55,7 @@
   },
   {
     "GameObject": "MainCamera",
-    "ID": 3,
+    "ID": 2,
     "Components": [
       {
         "Component Name": "struct Carmicah::Transform",
