@@ -91,12 +91,22 @@ namespace Carmicah
 		ComponentManager::GetInstance()->EntityDestroyed(entity);
 	}
 
+	void GOFactory::Destroy(Entity entity)
+	{
+		// To destroy at the end of update
+		mDeleteList.insert(entity);
+	}
+
 	void GOFactory::DestroyAll()
 	{
 		// Since GOFactory holds all the entities
 		// Can just use entitiesSet to destroy all
-		//mDeleteList = mEntitiesSet;
-		for (auto& entity : mEntitiesSet)
+		mDeleteList = mEntitiesSet;
+	}
+
+	void GOFactory::UpdateDestroyed()
+	{
+		for (auto& entity : mDeleteList)
 		{
 			SystemManager::GetInstance()->EntityDestroyed(entity);
 		}

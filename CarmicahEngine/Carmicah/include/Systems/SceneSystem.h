@@ -29,7 +29,7 @@ namespace Carmicah
 		void Exit();
 		void SetScene(std::string scene);
 		void ReceiveMessage(Message* msg) override;
-
+		std::string GetCurrScene();
 	};
 }
 

@@ -5,22 +5,16 @@ namespace Carmicah
 {
 	void SystemManager::EntityDestroyed(Entity entity)
 	{
-		mDeleteList.insert(entity);
-	}
-
-	void SystemManager::UpdateDestroyed()
-	{
-		for (std::set<Entity>::iterator entity = mDeleteList.begin(); entity != mDeleteList.end(); ++entity)
+		std::unordered_map<std::string, std::shared_ptr<BaseSystem>>::iterator iSystemIterator = mSystems.begin();
+		for (; iSystemIterator != mSystems.end(); ++iSystemIterator)
 		{
-			std::unordered_map<std::string, std::shared_ptr<BaseSystem>>::iterator iSystemIterator = mSystems.begin();
-			for (; iSystemIterator != mSystems.end(); ++iSystemIterator)
+			// It exist within that system's entity set
+			if (iSystemIterator->second->mEntitiesSet.count(entity) != 0)
 			{
-				iSystemIterator->second->EntityDestroyed(*entity);
-				iSystemIterator->second->mEntitiesSet.erase(*entity);
+				iSystemIterator->second->EntityDestroyed(entity);
+				iSystemIterator->second->mEntitiesSet.erase(entity);
 			}
-
 		}
-
 	}
 
 	void SystemManager::UpdateSignatures(Entity entity, Signature entitySignature)

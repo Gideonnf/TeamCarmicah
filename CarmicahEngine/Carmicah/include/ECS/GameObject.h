@@ -1,7 +1,6 @@
 #ifndef GAME_OBJECT_H
 #define GAME_OBJECT_H
 #include "ECSTypes.h"
-#include "Systems/GOFactory.h"
 #include "SystemManager.h"
 
 namespace Carmicah
@@ -17,46 +16,21 @@ namespace Carmicah
 	//create and destroy game objects.
 		friend class GOFactory;
 
-		GameObject()
-		{
-			// default construct the name based on "GameObject" + id
-			//mID = EntityManager::GetInstance()->CreateEntity("GameObject");
-		}
-		GameObject(const Entity& id)
-		{
-			mID = id;
-		}
+		GameObject();
 
-		~GameObject() {}
+		GameObject(const Entity& id);
 
+		~GameObject();
 
+		void Destroy();
 
-		void Destroy()
-		{
-			SystemManager::GetInstance()->EntityDestroyed(mID);
-			//factoryRef->DestroyGameObject(mID);
-			//gGOFactory->DestroyGameObject(mID);
-		}
+		Entity GetID() const;
 
-		Entity GetID() const
-		{
-			return mID;
-		}
+		void SetID(const Entity& id);
 
-		void SetID(const Entity& id)
-		{
-			mID = id;
-		}
+		std::string GetName() const;
 
-		std::string GetName() const
-		{
-			return mName;
-		}
-
-		void SetName(const std::string& name)
-		{
-			mName = name;
-		}
+		void SetName(const std::string& name);
 
 		template<typename T>
 		void AddComponent(T Component)

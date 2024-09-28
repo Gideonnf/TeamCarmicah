@@ -7,18 +7,6 @@ namespace Carmicah
 
 	void SceneSystem::Init()
 	{
-		//mCurrScene = scene;
-
-		// If its changing to a new scene
-		//if (mCurrScene != mNextScene)
-		//{
-		//	mCurrScene = mNextScene;
-		//}
-		//else
-		//{
-		//	// Not changing to a new scene
-		//	CM_CORE_WARN("Not changing scene");
-		//}
 		mCurrScene = mNextScene;
 		gGOFactory->ImportGOs(mCurrScene);
 		mNextState = mCurrState = SceneState::RUNTIME;
@@ -60,7 +48,7 @@ namespace Carmicah
 		//mState = EXIT;
 		//gGOFactory->ExportGOs(mCurrScene); // Dont save objects for now
 		gGOFactory->DestroyAll();
-		SystemManager::GetInstance()->UpdateDestroyed();
+		gGOFactory->UpdateDestroyed();
 	}
 
 	void SceneSystem::ReceiveMessage(Message* msg)
@@ -69,5 +57,10 @@ namespace Carmicah
 		// Call exit
 		// Call init to import new GOs
 		
+	}
+
+	std::string SceneSystem::GetCurrScene()
+	{
+		return mCurrScene;
 	}
 }

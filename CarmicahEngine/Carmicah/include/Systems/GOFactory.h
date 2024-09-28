@@ -17,6 +17,9 @@ namespace Carmicah
 		std::unordered_map<std::string, Entity> mNameToID;
 		std::unordered_map<Entity, GameObject> mIDToGO;
 
+		// Holds game objects that require deletion at the end of updating
+		std::set<Entity> mDeleteList;
+
 		//std::unique_ptr<EntityManager> mEntityManager;
 		//std::unique_ptr<ComponentManager> mComponentManager;
 		/*
@@ -39,7 +42,9 @@ namespace Carmicah
 		GameObject CloneGO(GameObject const& go);
 		void CreateGO(GameObject);
 		void EntityDestroyed(Entity) override;
+		void Destroy(Entity);
 		void DestroyAll();
+		void UpdateDestroyed();
 		void ForAllGO(const std::function<void(GameObject&)>& op);
 		void ImportGOs(std::string sceneName);
 		void ExportGOs(std::string sceneName);

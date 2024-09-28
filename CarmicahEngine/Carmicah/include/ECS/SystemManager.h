@@ -14,8 +14,7 @@ namespace Carmicah
 		std::unordered_map<std::string, Signature> mSystemSignatures{};
 		std::unordered_map<std::string, std::shared_ptr<BaseSystem>> mSystems{};
 
-		// Holds game objects that require deletion at the end of updating
-		std::set<Entity> mDeleteList;
+
 
 	public:
 		template<typename T>
@@ -58,8 +57,6 @@ namespace Carmicah
 		}
 
 		void EntityDestroyed(Entity entity);
-
-		void UpdateDestroyed();
 
 		void UpdateSignatures(Entity entity, Signature entitySignature);
 
