@@ -15,9 +15,9 @@ namespace Carmicah
 
 		void Init(GLFWwindow* window, const char* version);
 
-		void Update();
+		void Update(bool& demo);
 
-		void Render();
+		void Render(GLFWwindow* window);
 
 		void Exit();
 

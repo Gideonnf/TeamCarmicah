@@ -9,7 +9,7 @@
 #include <ImGUI/imgui.h>
 #include <ImGUI/imgui_impl_glfw.h>   
 #include <ImGUI/imgui_impl_opengl3.h>
-#include "GUI/GUI.h"
+#include "Editor/Editor.h"
 #include "Systems/GOFactory.h"
 #include "ECS/ComponentManager.h"
 #include "ECS/SystemManager.h"
@@ -55,16 +55,16 @@ namespace Carmicah
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-        GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Carmicah", NULL, NULL);
-        glfwMakeContextCurrent(window);
-        if (window == NULL)
+        GLFWwindow* graphicsWindow = glfwCreateWindow(WIDTH, HEIGHT, "Carmicah", NULL, NULL);
+        glfwMakeContextCurrent(graphicsWindow);
+        if (graphicsWindow == NULL)
         {
             std::cerr << "Failed to create GLFW window" << std::endl;
             glfwTerminate();
             return -1;
         }
 
-        glfwSetKeyCallback(window, key_callback);
+        glfwSetKeyCallback(graphicsWindow, key_callback);
 
         int version = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         if (version == 0)
@@ -114,18 +114,25 @@ namespace Carmicah
         // Start timer
         //CarmicahTimer::StartTime();
 
-        //Editor Editor;
-        //Editor.Init(window);
+        //Creating the ImGUI Window
+        GLFWwindow* ImGuiWindow = glfwCreateWindow(WIDTH/2, HEIGHT/2, "ImGuiWindow", NULL, NULL);
+        if (ImGuiWindow == NULL)
+        {
+            std::cerr << "Failed to create GLFW window" << std::endl;
+            glfwTerminate();
+            return -1;
+        }
+        glfwMakeContextCurrent(ImGuiWindow);
+        bool demo = true;
+        Editor Editor;
+        Editor.Init(ImGuiWindow, glsl_version);
+
+        glfwMakeContextCurrent(graphicsWindow);
 
 
-        //bool show_demo_window = true;
-        //bool show_another_window = false;
-        //ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+        while (!glfwWindowShouldClose(graphicsWindow)&& !glfwWindowShouldClose(ImGuiWindow)) {
 
-
-        while (!glfwWindowShouldClose(window)) {
-
-            //Editor.Update();
+            glfwMakeContextCurrent(graphicsWindow);
 
             // Update dt calc
             CarmicahTimer::UpdateElapsedTime();
@@ -136,28 +143,19 @@ namespace Carmicah
             colSystem->Update();
 
             souSystem->Update();
-            graSystem->Render(window);
+            graSystem->Render(graphicsWindow);
 
-            // Rendering
-            //ImGui::Render();
-            //Editor.Render();
-            //int display_w, display_h;
-            //glfwGetFramebufferSize(window, &display_w, &display_h);
-            //glViewport(0, 0, display_w, display_h);
-            //glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-            //glClear(GL_COLOR_BUFFER_BIT);
-            //ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+            glfwMakeContextCurrent(ImGuiWindow);
+            glfwPollEvents();  // Poll for events in the ImGui window
+            Editor.Update(demo);
+            Editor.Render(ImGuiWindow);
+            glfwSwapBuffers(ImGuiWindow);
 
-            //glfwSwapBuffers(window);
         }
 
         souSystem->Exit();
         graSystem->Exit();
-
-        //ImGui_ImplOpenGL3_Shutdown();
-        //ImGui_ImplGlfw_Shutdown();
-        //ImGui::DestroyContext();
-        //Editor.Exit();
+        Editor.Exit();
         glfwTerminate();
 
  
