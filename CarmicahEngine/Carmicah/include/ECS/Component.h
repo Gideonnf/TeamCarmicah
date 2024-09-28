@@ -6,6 +6,8 @@
 #include <array>
 #include <vector>
 #include "Log.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/ostreamwrapper.h"
 namespace Carmicah
 {
 	// Interface for components so that component manager can notify components if an entity is destroyed
@@ -15,6 +17,7 @@ namespace Carmicah
 		virtual ~IComponent() {};
 		virtual void EntityDestroyed(Entity entity) = 0;
 		virtual void CloneComponentData(Entity, Entity) = 0;
+		virtual void SerializeData(Entity, rapidjson::Writer<rapidjson::OStreamWrapper>&) = 0;
 	};
 
 	template <typename T>
@@ -120,6 +123,12 @@ namespace Carmicah
 
 			// place a copy of the clone component data to the back
 			m_ComponentArray.emplace_back(componentData);
+		}
+
+		void SerializeData(Entity entity, rapidjson::Writer<rapidjson::OStreamWrapper>& writer)
+		{
+			T componentData = m_ComponentArray[entity];
+			componentData.SerializeComponent(writer);
 		}
 
 		void EntityDestroyed(Entity entity) override

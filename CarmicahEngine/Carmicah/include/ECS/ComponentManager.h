@@ -3,7 +3,8 @@
 #include "Component.h" // ECStypes in component.h
 #include <unordered_map>
 #include <memory>
-
+#include <rapidjson/ostreamwrapper.h>
+#include <rapidjson/writer.h>
 #include "Singleton.h"
 
 namespace Carmicah
@@ -173,9 +174,29 @@ namespace Carmicah
 					func(component.first);
 				}
 			}
-
 		}
 
+		void SerializeEntityComponents(const Entity& entity,const Signature& entitySignature, rapidjson::Writer<rapidjson::OStreamWrapper>& writer)
+		{
+			for (auto const& component : m_ComponentTypes)
+			{
+				Signature componentSignature;
+				// Set that component signature to true
+				componentSignature.set(component.second, true);
+				// Check if the entity's signature has this component
+				
+				// It has that component
+				if ((entitySignature & componentSignature) == componentSignature)
+				{
+					writer.StartObject();
+					writer.String("Component Name");
+					writer.String(component.first.c_str(), static_cast<rapidjson::SizeType>(component.first.length()));
+					m_ComponentMap[component.first]->SerializeData(entity, writer);
+					writer.EndObject();
+				}
+			}
+
+		}
 
 		size_t GetComponentCount()
 		{

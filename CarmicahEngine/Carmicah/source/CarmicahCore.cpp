@@ -119,12 +119,12 @@ namespace Carmicah
 
         colSystem->PrintEntities();
 
-        GameObject newObj = gGOFactory->CreateGO();
-        newObj.AddComponent<Transform>();
-        newObj.AddComponent<Collider2D>();
+        //GameObject newObj = gGOFactory->CreateGO();
+        //newObj.AddComponent<Transform>();
+        //newObj.AddComponent<Collider2D>();
         colSystem->PrintEntities();
 
-        newObj.Destroy();
+        //newObj.Destroy();
 
 
         while (!glfwWindowShouldClose(window)) {

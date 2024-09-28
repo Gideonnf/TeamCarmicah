@@ -127,7 +127,7 @@ namespace Carmicah
 
 	void GOFactory::ForAllGO(const std::function<void(GameObject&)>& func)
 	{
-		if (mIDToGO.size() > 1)
+		if (mIDToGO.size() > 0)
 		{
 			for (auto& i : mIDToGO)
 				func(i.second);
@@ -199,52 +199,56 @@ namespace Carmicah
 			writer.Int(o.GetID());
 
 			writer.String("Components");
-			writer.StartArray();
-			ComponentManager::GetInstance()->ForEachComponent([&](const std::string componentName)
-				{
-					writer.StartObject();
-					writer.String("Component Name");
-					writer.String(componentName.c_str(), static_cast<rapidjson::SizeType>(componentName.length()));
-					if (componentName == "struct Carmicah::Transform")
-					{
-						o.GetComponent<Transform>().SerializeComponent(writer);
-					}
-					else if (componentName == "struct Carmicah::Collider2D")
-					{
-						Collider2D& t = o.GetComponent<Collider2D>();
-						writer.String("minX");
-						writer.Double(t.min.x);
-						writer.String("minY");
-						writer.Double(t.min.y);
-						writer.String("maxX");
-						writer.Double(t.max.x);
-						writer.String("maxY");
-						writer.Double(t.max.y);
-						writer.String("shape");
-						writer.String(t.shape.c_str());
-					}
-					else if (componentName == "struct Carmicah::Renderer")
-					{
-						Renderer& t = o.GetComponent<Renderer>();
-						writer.String("model");
-						writer.String(t.model.c_str());
-						writer.String("texture");
-						writer.String(t.texture.c_str());
-					}
-					else if (componentName == "struct Carmicah::Animation")
-					{
-						Animation& t = o.GetComponent<Animation>();
-						writer.String("xSlice");
-						writer.Int(t.xSlice);
-						writer.String("ySlice");
-						writer.Int(t.xSlice);
-						writer.String("timeBetween");
-						writer.Double(t.maxTime);
-					}
-					writer.EndObject();
 
-				}, EntityManager::GetInstance()->GetSignature(o.GetID()));
+			writer.StartArray();
+			ComponentManager::GetInstance()->SerializeEntityComponents(o.GetID(), EntityManager::GetInstance()->GetSignature(o.GetID()), writer);
 			writer.EndArray();
+			//writer.StartArray();
+			//ComponentManager::GetInstance()->ForEachComponent([&](const std::string componentName)
+			//	{
+			//		writer.StartObject();
+			//		writer.String("Component Name");
+			//		writer.String(componentName.c_str(), static_cast<rapidjson::SizeType>(componentName.length()));
+			//		if (componentName == "struct Carmicah::Transform")
+			//		{
+			//			o.GetComponent<Transform>().SerializeComponent(writer);
+			//		}
+			//		else if (componentName == "struct Carmicah::Collider2D")
+			//		{
+			//			Collider2D& t = o.GetComponent<Collider2D>();
+			//			writer.String("minX");
+			//			writer.Double(t.min.x);
+			//			writer.String("minY");
+			//			writer.Double(t.min.y);
+			//			writer.String("maxX");
+			//			writer.Double(t.max.x);
+			//			writer.String("maxY");
+			//			writer.Double(t.max.y);
+			//			writer.String("shape");
+			//			writer.String(t.shape.c_str());
+			//		}
+			//		else if (componentName == "struct Carmicah::Renderer")
+			//		{
+			//			Renderer& t = o.GetComponent<Renderer>();
+			//			writer.String("model");
+			//			writer.String(t.model.c_str());
+			//			writer.String("texture");
+			//			writer.String(t.texture.c_str());
+			//		}
+			//		else if (componentName == "struct Carmicah::Animation")
+			//		{
+			//			Animation& t = o.GetComponent<Animation>();
+			//			writer.String("xSlice");
+			//			writer.Int(t.xSlice);
+			//			writer.String("ySlice");
+			//			writer.Int(t.xSlice);
+			//			writer.String("timeBetween");
+			//			writer.Double(t.maxTime);
+			//		}
+			//		writer.EndObject();
+
+			//	}, EntityManager::GetInstance()->GetSignature(o.GetID()));
+			//writer.EndArray();
 
 			writer.EndObject();
 			});

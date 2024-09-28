@@ -4,7 +4,7 @@
 #include "BaseComponent.h"
 namespace Carmicah
 {
-    struct Animation //: public BaseComponent<Animation>
+    struct Animation : public BaseComponent<Animation>
     {
         int currPiece;
         int xSlice;
@@ -12,10 +12,15 @@ namespace Carmicah
         float time;
         float maxTime;
 
-        //virtual Animation DeserializeComponent(const rapidjson::Value& component) override
-        //{
+        Animation& DeserializeComponent(const rapidjson::Value& component) override
+        {
+            return *this;
+        }
 
-        //}
+        void SerializeComponent(rapidjson::Writer<rapidjson::OStreamWrapper>& writer) override
+        {
+
+        }
     };
 }
 
