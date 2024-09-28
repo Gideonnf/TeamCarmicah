@@ -30,17 +30,61 @@ namespace Carmicah
 
 		ImGui_ImplGlfw_InitForOpenGL(window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
 		ImGui_ImplOpenGL3_Init("#version 460");
+
+		//Creating Windows
+		windows.push_back(std::make_unique <EditorWindow>("Testing",ImVec2(500,500), ImVec2(0,1080)));
+		windows.push_back(std::make_unique<DebugWindow>());
+
 	}
 
-	void Editor::Update(bool& demo)
+	void Editor::Update()
 	{
 		
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-		
-		ImGui::ShowDemoWindow(&demo);
 
+		//Main Menu Bar
+		if (ImGui::BeginMainMenuBar())
+		{
+			if (ImGui::BeginMenu("File"))
+			{
+				if (ImGui::MenuItem("New"))
+				{
+
+				}
+
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("Window"))
+			{
+				for(const auto& window : windows)
+				{
+					if (auto debugWindow = dynamic_cast<DebugWindow*>(window.get()))
+					{
+						if (ImGui::MenuItem("Debug", nullptr, debugWindow->isVisible))
+						{
+							debugWindow->isVisible = !debugWindow->isVisible;
+						}
+					}
+				}
+				ImGui::EndMenu();
+			}
+			ImGui::EndMainMenuBar();
+		}
+		
+		for (auto& window : windows) 
+		{
+
+			ImGui::SetNextWindowSize(window->size, ImGuiCond_FirstUseEver);
+			ImGui::SetNextWindowPos(window->pos, ImGuiCond_FirstUseEver);
+
+			if(window->isVisible)
+			{
+				window->Update();
+			}
+		}
 	}
 
 	void Editor::Render(GLFWwindow* window)
@@ -54,6 +98,7 @@ namespace Carmicah
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
+		glfwSwapBuffers(window);
 	}
 
 	void Editor::Exit()

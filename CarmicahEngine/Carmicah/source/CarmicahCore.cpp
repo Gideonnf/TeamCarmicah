@@ -115,7 +115,7 @@ namespace Carmicah
         //CarmicahTimer::StartTime();
 
         //Creating the ImGUI Window
-        GLFWwindow* ImGuiWindow = glfwCreateWindow(WIDTH/2, HEIGHT/2, "ImGuiWindow", NULL, NULL);
+        GLFWwindow* ImGuiWindow = glfwCreateWindow(WIDTH, HEIGHT, "ImGuiWindow", NULL, NULL);
         if (ImGuiWindow == NULL)
         {
             std::cerr << "Failed to create GLFW window" << std::endl;
@@ -123,7 +123,6 @@ namespace Carmicah
             return -1;
         }
         glfwMakeContextCurrent(ImGuiWindow);
-        bool demo = true;
         Editor Editor;
         Editor.Init(ImGuiWindow, glsl_version);
 
@@ -144,12 +143,13 @@ namespace Carmicah
 
             souSystem->Update();
             graSystem->Render(graphicsWindow);
+            
 
             glfwMakeContextCurrent(ImGuiWindow);
             glfwPollEvents();  // Poll for events in the ImGui window
-            Editor.Update(demo);
+            Editor.Update();
             Editor.Render(ImGuiWindow);
-            glfwSwapBuffers(ImGuiWindow);
+            
 
         }
 

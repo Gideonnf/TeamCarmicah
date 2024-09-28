@@ -63,6 +63,9 @@
     <ClInclude Include="include\Editor\Editor.h">
       <Filter>include\Editor</Filter>
     </ClInclude>
+    <ClInclude Include="include\Editor\EditorWindow.h">
+      <Filter>include\Editor</Filter>
+    </ClInclude>
     <ClInclude Include="include\Math\Matrix3x3.h">
       <Filter>include\Math</Filter>
     </ClInclude>
@@ -90,6 +93,8 @@
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\Editor\DebugWindow.h" />
+    <ClInclude Include="include\Editor\HeirarchyWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp">
@@ -99,6 +104,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\Editor.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\EditorWindow.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\GOFactory.cpp">
@@ -116,5 +124,7 @@
     <ClCompile Include="source\pch.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="source\DebugWindow.cpp" />
+    <ClCompile Include="source\HeirarchyWindow.cpp" />
   </ItemGroup>
 </Project>

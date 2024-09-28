@@ -1,7 +1,9 @@
-#ifndef GUI_H_
-#define GUI_H_
+#ifndef EDITOR_H_
+#define EDITOR_H_
 #include <GLFW/glfw3.h>
 #include <ImGUI/imgui.h>
+#include "Editor/DebugWindow.h"
+#include "Editor/EditorWindow.h"
 
 namespace Carmicah
 {
@@ -15,7 +17,7 @@ namespace Carmicah
 
 		void Init(GLFWwindow* window, const char* version);
 
-		void Update(bool& demo);
+		void Update();
 
 		void Render(GLFWwindow* window);
 
@@ -23,6 +25,7 @@ namespace Carmicah
 
 	private:
 
+		std::vector<std::unique_ptr<EditorWindow>> windows;
 	};
 
 }
