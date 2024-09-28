@@ -77,7 +77,16 @@ namespace Carmicah
 
 	void SerializerSystem::SerializeScene(std::string sceneFile)
 	{
+		std::ofstream ofs{ sceneFile, std::ios::binary };
+		if (!ofs)
+		{
+			CM_CORE_ERROR("Unable to open scene file");
+			return;
+		}
 
+		OStreamWrapper osw(ofs);
+		Writer<OStreamWrapper> writer(osw);
+		gGOFactory->ExportGOs(writer);
 	}
 
 

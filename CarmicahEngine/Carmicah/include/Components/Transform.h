@@ -34,6 +34,23 @@ namespace Carmicah
 
             return *this;
         }
+
+        void SerializeComponent(rapidjson::Writer<rapidjson::OStreamWrapper>& writer) override
+        {
+            writer.String("xPos");
+            writer.Double(xPos);
+            writer.String("yPos");
+            writer.Double(yPos);
+            writer.String("zPos");
+            writer.Double(zPos);
+            writer.String("rot");
+            writer.Double(rot);
+            writer.String("xScale");
+            writer.Double(xScale);
+            writer.String("yScale");
+            writer.Double(yScale);
+
+        }
     };
 }
 

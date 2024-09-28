@@ -7,6 +7,8 @@
 #include "../Singleton.h"
 #include <memory>
 #include <rapidjson/document.h>
+#include <rapidjson/ostreamwrapper.h>
+#include <rapidjson/writer.h>
 
 namespace Carmicah
 {
@@ -49,8 +51,8 @@ namespace Carmicah
 		void UpdateDestroyed();
 		void ForAllGO(const std::function<void(GameObject&)>& op);
 		void ImportGO(const rapidjson::Value& go);
-		void ImportGOs(std::string sceneName);
-		void ExportGOs(std::string sceneName);
+		
+		void ExportGOs(rapidjson::Writer<rapidjson::OStreamWrapper>& writer);
 #pragma endregion
 
 #pragma region Component Functions

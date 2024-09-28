@@ -64,6 +64,7 @@ namespace Carmicah
 			mNextState = EXIT;
 
 		//mState = EXIT;
+		SerializerSystem::GetInstance()->SerializeScene(mCurrScene);
 		//gGOFactory->ExportGOs(sceneLoc + mCurrScene + ".json"); // Dont save objects for now
 		gGOFactory->DestroyAll();
 		gGOFactory->UpdateDestroyed();
