@@ -2,7 +2,7 @@
 #define ENTITY_MANAGER_H
 #include "ECSTypes.h"
 #include <array>
-#include <queue>
+#include <deque>
 #include <unordered_map>
 #include "Singleton.h"
 #include "GameObject.h"
@@ -13,9 +13,10 @@ namespace Carmicah
 	{
 	private:
 		// Keep track of the current queue of free entity IDs that can be used
-		std::queue<Entity> m_FreeEntities;
+		//std::queue<Entity> m_FreeEntities;
+		std::deque<Entity> mFreeEntities;
 		// Maps the entity signature to the entity ID
-		std::array<Signature, MAX_ENTITIES> m_EntitySignatures;
+		std::array<Signature, MAX_ENTITIES> mEntitySignatures;
 		// Keep track of the number of active entities
 		unsigned int m_EntityCount;
 
@@ -24,9 +25,11 @@ namespace Carmicah
 		{
 			m_EntityCount = 0;
 			// Initialize free entities with the total number of max entities that we can have
+			//mFreeEntities.reserve(MAX_ENTITIES);
 			for (Entity i_Entity = 0; i_Entity < MAX_ENTITIES; ++i_Entity)
 			{
-				m_FreeEntities.push(i_Entity);
+				// push back so itll go from MAX_ENTITIES at the front to 0 at the back
+				mFreeEntities.push_back(i_Entity);
 			}
 		}
 
@@ -41,21 +44,47 @@ namespace Carmicah
 			}
 
 			// Get the front most id in the queue
-			Entity entityId = m_FreeEntities.front();
+			Entity entityId = mFreeEntities.front();
 			// Pop it to remove it afterwards
-			m_FreeEntities.pop();
+			mFreeEntities.pop_front();
 			// Increment to keep track of the current number of entities
 			m_EntityCount++;
 
 			return entityId;
 		}
 
+		Entity LoadEntity(Entity entityID)
+		{
+
+			if (entityID == mFreeEntities.front())
+			{
+				Entity entID = mFreeEntities.front();
+				mFreeEntities.pop_front();
+				m_EntityCount++;
+				return entID;
+			}
+			else
+			{
+				//mFreeEntities.erase()
+				for (auto& it = mFreeEntities.begin(); it != mFreeEntities.end(); it++)
+				{
+					if (*it == entityID)
+					{
+						Entity entID = *it;
+						mFreeEntities.erase(it);
+						m_EntityCount++;
+						return entID;
+					}
+				}
+			}
+		}
+
 		void DeleteEntity(Entity entity)
 		{
 			// Reset the signature of the entity when destroyed
-			m_EntitySignatures[entity].reset();
-			// Put the id back to the queue to be reused
-			m_FreeEntities.push(entity);
+			mEntitySignatures[entity].reset();
+			// Put the id back to the vector to be reused
+			mFreeEntities.push_front(entity);
 			m_EntityCount--;
 		}
 
@@ -63,38 +92,38 @@ namespace Carmicah
 		{
 			// CloneEntity will create a copy of all the component data from the entity to clone
 			// and attach it to the new entity's id in component manager
-			ComponentManager::GetInstance()->CloneEntity(entityToClone, newEntity, m_EntitySignatures[entityToClone]);
+			ComponentManager::GetInstance()->CloneEntity(entityToClone, newEntity, mEntitySignatures[entityToClone]);
 
 			// this part handles updating of signature so itll reflect in systems
-			m_EntitySignatures[newEntity] = m_EntitySignatures[entityToClone];
-			SystemManager::GetInstance()->UpdateSignatures(newEntity, m_EntitySignatures[newEntity]);
+			mEntitySignatures[newEntity] = mEntitySignatures[entityToClone];
+			SystemManager::GetInstance()->UpdateSignatures(newEntity, mEntitySignatures[newEntity]);
 		}
 
 		void SetSignature(Entity entity, Signature entitySignature)
 		{
-			m_EntitySignatures[entity] = entitySignature;
+			mEntitySignatures[entity] = entitySignature;
 		}
 
 		Signature GetSignature(Entity entity) const
 		{
-			return m_EntitySignatures[entity];
+			return mEntitySignatures[entity];
 		}
 
 		template<typename T>
 		void AddComponent(Entity id)
 		{
-			Signature entitySignature = m_EntitySignatures[id];
+			Signature entitySignature = mEntitySignatures[id];
 			entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), true);
-			m_EntitySignatures[id] = entitySignature;
+			mEntitySignatures[id] = entitySignature;
 			SystemManager::GetInstance()->UpdateSignatures(id, entitySignature);
 		}
 
 		template<typename T>
 		void RemoveComponent(Entity id)
 		{
-			Signature entitySignature = m_EntitySignatures[id];
+			Signature entitySignature = mEntitySignatures[id];
 			entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), false);
-			m_EntitySignatures[id] = entitySignature;
+			mEntitySignatures[id] = entitySignature;
 			SystemManager::GetInstance()->UpdateSignatures(id, entitySignature);
 		}
 	};

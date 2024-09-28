@@ -6,6 +6,7 @@
 #include "ECS/EntityManager.h"
 #include "../Singleton.h"
 #include <memory>
+#include <rapidjson/document.h>
 
 namespace Carmicah
 {
@@ -41,11 +42,13 @@ namespace Carmicah
 		GameObject CreateGO(std::string name = "GameObject");
 		GameObject CloneGO(GameObject const& go);
 		void CreateGO(GameObject);
+		GameObject LoadGO(std::string name, Entity entityID);
 		void EntityDestroyed(Entity) override;
 		void Destroy(Entity);
 		void DestroyAll();
 		void UpdateDestroyed();
 		void ForAllGO(const std::function<void(GameObject&)>& op);
+		void ImportGO(const rapidjson::Value& go);
 		void ImportGOs(std::string sceneName);
 		void ExportGOs(std::string sceneName);
 #pragma endregion

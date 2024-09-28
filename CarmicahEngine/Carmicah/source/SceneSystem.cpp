@@ -2,14 +2,19 @@
 #include "Systems/SceneSystem.h"
 #include "Systems/GOFactory.h"
 #include "log.h"
+#include "AssetManager.h"
+#include "Systems/SerializerSystem.h"
+
 namespace Carmicah
 {
-	const char* sceneLoc{ "../Assets/Scene/" };
+	//const char* sceneLoc{ "../Assets/Scene/" };
 
 	void SceneSystem::Init()
 	{
 		mCurrScene = mNextScene;
-		gGOFactory->ImportGOs(sceneLoc + mCurrScene + ".json");
+		
+		//gGOFactory->ImportGOs(mCurrScene);
+		SerializerSystem::GetInstance()->DeserializeScene(mCurrScene);
 		mNextState = mCurrState = SceneState::RUNTIME;
 	}
 
@@ -20,21 +25,33 @@ namespace Carmicah
 	/// <param name="scene"></param>
 	void SceneSystem::SetScene(std::string scene)
 	{
-		mNextScene = scene;
+		std::string sceneFile;
+		if (AssetManager::GetInstance()->GetScene(scene, sceneFile))
+			mNextScene = sceneFile;
+		else
+			CM_CORE_ERROR("Unable to set scene.");
 	}
 
 	void SceneSystem::ChangeScene(std::string nextScene)
 	{
-		if (nextScene == mCurrScene)
+		std::string sceneFile;
+		if (AssetManager::GetInstance()->GetScene(nextScene, sceneFile))
 		{
-			mNextState = RELOAD;
+			if (sceneFile == mCurrScene)
+			{
+				mNextState = RELOAD;
+			}
+			else
+			{
+				// Change scene
+				mNextState = CHANGESCENE;
+
+				mNextScene = sceneFile;
+			}
 		}
 		else
 		{
-			// Change scene
-			mNextState = CHANGESCENE;
-
-			mNextScene = nextScene;
+			CM_CORE_ERROR("Unable to change scene.");
 		}
 	}
 

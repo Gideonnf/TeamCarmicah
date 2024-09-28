@@ -5,7 +5,7 @@
 #include <stb/stb_image.h>
 #include "AssetManager.h"
 #include "Systems/SoundSystem.h"
-
+#include "log.h"
 namespace Carmicah
 {
 	void AssetManager::LoadAll(const char* assetPath)
@@ -52,6 +52,9 @@ namespace Carmicah
 						}
 						else if (folderName == "Scene")
 						{
+						//	std::cout << entry.path().string() << std::endl;
+							//std::cout << fileName << std::endl;
+							sceneFiles.insert(std::make_pair(fileName, entry.path().string()));
 						}
 						else if (folderName == "Shaders")
 						{
@@ -435,4 +438,17 @@ namespace Carmicah
 		}
 	}
 
+	bool AssetManager::GetScene(std::string scene, std::string& filePath)
+	{
+		if (sceneFiles.count(scene) != 0)
+		{
+			filePath = sceneFiles[scene];
+			return true;
+		}
+		else
+		{
+			CM_CORE_ERROR("Scene not found");
+			return false;
+		}
+	}
 }

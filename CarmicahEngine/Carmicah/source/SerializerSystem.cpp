@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Systems/SerializerSystem.h"
 #include "log.h"
+#include "Systems/GOFactory.h"
 namespace Carmicah
 {
 	using namespace rapidjson;
@@ -51,5 +52,33 @@ namespace Carmicah
 
 		writer.EndObject();
 	}
+
+	void SerializerSystem::DeserializeScene(std::string sceneFile)
+	{
+		std::ifstream ifs{ sceneFile, std::ios::binary };
+		if (!ifs)
+		{
+			CM_CORE_ERROR("Unable to open scene file");
+			return;
+		}
+
+		IStreamWrapper isw(ifs);
+		Document doc;
+		doc.ParseStream(isw);
+		ifs.close();
+
+		for (SizeType i = 0; i < doc.Size(); ++i)
+		{
+			const Value& go = doc[i];
+			gGOFactory->ImportGO(go);
+		}
+
+	}
+
+	void SerializerSystem::SerializeScene(std::string sceneFile)
+	{
+
+	}
+
 
 }

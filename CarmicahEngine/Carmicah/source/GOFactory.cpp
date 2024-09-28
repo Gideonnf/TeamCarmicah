@@ -2,11 +2,7 @@
 #include "Systems/GOFactory.h"
 #include "ECS/EntityManager.h"
 #include "ECS/ComponentManager.h"
-#include <rapidjson/document.h>
-#include <rapidjson/ostreamwrapper.h>
-#include <rapidjson/istreamwrapper.h>
-#include <rapidjson/writer.h>
-#include <rapidjson/filereadstream.h>
+
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
@@ -50,8 +46,23 @@ namespace Carmicah
 		// All entities created is stored in GOFactory
 		SystemManager::GetInstance()->UpdateSignatures(go.mID, EntityManager::GetInstance()->GetSignature(go.mID));
 		
-		Carmicah::Log::GetCoreLogger()->info("Creating a new game object with name: " + name + " and id: " + std::to_string(go.mID));
+		CM_CORE_INFO("Creating a new game object with name: " + name + " and id: " + std::to_string(go.mID));
 
+		return go;
+	}
+
+	GameObject GOFactory::LoadGO(std::string name, Entity entityID)
+	{
+		GameObject go;
+		go.mID = EntityManager::GetInstance()->LoadEntity(entityID);
+		go.mName = name;
+
+		mNameToID.insert(std::make_pair(go.mName, go.mID));
+		mIDToGO.insert(std::make_pair(go.mID, go));
+
+		// for now idk if i want to update here or in ImportGO 
+		//SystemManager::GetInstance()->UpdateSignatures(go.mID,)
+		CM_CORE_INFO("Creating a new game object with name: " + name + " and id: " + std::to_string(go.mID));
 		return go;
 	}
 
@@ -110,6 +121,8 @@ namespace Carmicah
 		{
 			SystemManager::GetInstance()->EntityDestroyed(entity);
 		}
+
+		mDeleteList.clear();
 	}
 
 	void GOFactory::ForAllGO(const std::function<void(GameObject&)>& func)
@@ -121,9 +134,61 @@ namespace Carmicah
 		}
 	}
 
+	void GOFactory::ImportGO(const rapidjson::Value& go)
+	{
+		std::string name = std::string(go["GameObject"].GetString());
+		int entityID = go["ID"].GetInt();
+			//mainCam = newObj.GetID
+		GameObject newObj = LoadGO(name, entityID);
+
+		if (name == "MainCamera")
+			mainCam = newObj.GetID();
+
+		const rapidjson::Value& componentList = go["Components"];
+		for (rapidjson::Value::ConstValueIterator it = componentList.Begin(); it != componentList.End(); ++it)
+		{
+			const std::string& componentName = (*it)["Component Name"].GetString();
+			if (componentName == "struct Carmicah::Transform")
+			{
+				Transform t;
+				t.DeserializeComponent((*it));
+				newObj.AddComponent<Transform>(t);
+			}
+			else if (componentName == "struct Carmicah::Collider2D")
+			{
+				Collider2D t;
+				t.min.x = static_cast<float>((*it)["minX"].GetDouble());
+				t.min.y = static_cast<float>((*it)["minY"].GetDouble());
+				t.max.x = static_cast<float>((*it)["maxX"].GetDouble());
+				t.max.y = static_cast<float>((*it)["maxY"].GetDouble());
+				t.shape = (*it)["shape"].GetString();
+				newObj.AddComponent<Collider2D>(t);
+
+			}
+			else if (componentName == "struct Carmicah::Renderer")
+			{
+				Renderer t;
+				t.model = (*it)["model"].GetString();
+				t.texture = (*it)["texture"].GetString();
+				t.texureMat = glm::mat3(1);
+				newObj.AddComponent<Renderer>(t);
+			}
+			else if (componentName == "struct Carmicah::Animation")
+			{
+				Animation t{};
+				t.xSlice = (*it)["xSlice"].GetInt();
+				t.ySlice = (*it)["ySlice"].GetInt();
+				t.maxTime = static_cast<float>((*it)["timeBetween"].GetDouble());
+				newObj.AddComponent<Animation>(t);
+			}
+		}
+	
+		//SystemManager::GetInstance()->UpdateSignatures(newObj.mID, EntityManager::GetInstance()->GetSignature(newObj.mID));
+	}
+
 	void GOFactory::ImportGOs(std::string sceneName)
 	{
-		std::ifstream ifs{ sceneName, std::ios::binary };
+		/*std::ifstream ifs{sceneName, std::ios::binary};
 		if (ifs)
 		{
 			rapidjson::IStreamWrapper iws(ifs);
@@ -189,11 +254,12 @@ namespace Carmicah
 					}
 				}
 			}
-		}
+		}*/
 	}
 
 	void GOFactory::ExportGOs(std::string sceneName)
 	{
+		/*
 		std::ofstream ofs{ sceneName, std::ios::binary };
 		if (ofs)
 		{
@@ -275,7 +341,8 @@ namespace Carmicah
 				});
 			writer.EndArray();
 			ofs.close();
-		}
+			
+		}*/
 
 	}
 

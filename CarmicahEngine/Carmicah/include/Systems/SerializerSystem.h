@@ -21,8 +21,10 @@ namespace Carmicah
 
 	public:
 		// Read in config file from asset manager
-		void LoadConfig(Application& app);
-		void WriteConfig(Application& app);
+		void LoadConfig(Application&);
+		void WriteConfig(Application&);
+		void DeserializeScene(std::string);
+		void SerializeScene(std::string);
 
 	};
 

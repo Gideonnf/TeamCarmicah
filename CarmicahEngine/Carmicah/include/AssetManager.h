@@ -47,11 +47,14 @@ namespace Carmicah
 		std::unordered_map<std::string, GLuint> shaderPgms{};
 		std::unordered_map<std::string, Texture> textureMaps{};
 		std::unordered_map<std::string, Primitive> primitiveMaps{};
+		std::unordered_map<std::string, std::string> sceneFiles{};
 
 		// Audio
 		const int maxChannels = 32;
 		FMOD::System* soundSystem;
 		std::unordered_map<std::string, Audio> soundMap;
+
+		bool GetScene(std::string scene, std::string& filePath);
 
 		//template<typename T>
 		//bool TryGetAsset(Primitive&, const std::string&);
@@ -70,6 +73,7 @@ namespace Carmicah
 		// Sound Assets
 		void LoadSound(const std::string& soundName, std::string const& soundFile, bool b_isLoop);
 
+		//void LoadScene()
 	};
 }
 #endif
