@@ -4,11 +4,12 @@
 #include "log.h"
 namespace Carmicah
 {
+	const char* sceneLoc{ "../Assets/Scene/" };
 
 	void SceneSystem::Init()
 	{
 		mCurrScene = mNextScene;
-		gGOFactory->ImportGOs(mCurrScene);
+		gGOFactory->ImportGOs(sceneLoc + mCurrScene + ".json");
 		mNextState = mCurrState = SceneState::RUNTIME;
 	}
 
@@ -46,7 +47,7 @@ namespace Carmicah
 			mNextState = EXIT;
 
 		//mState = EXIT;
-		//gGOFactory->ExportGOs(mCurrScene); // Dont save objects for now
+		//gGOFactory->ExportGOs(sceneLoc + mCurrScene + ".json"); // Dont save objects for now
 		gGOFactory->DestroyAll();
 		gGOFactory->UpdateDestroyed();
 	}

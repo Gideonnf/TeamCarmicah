@@ -1,9 +1,8 @@
 #include "pch.h"
-#include "CarmicahCore.h"
 #include <stdio.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
+#include "CarmicahCore.h"
 #include <FMOD/fmod.hpp>
 #include <spdlog/spdlog.h>
 #include <log.h>
@@ -21,15 +20,16 @@
 #include "Systems/SoundSystem.h"
 #include "Systems/InputSystem.h"
 #include "Systems/SceneSystem.h"
+#include "Systems/SerializerSystem.h"
 #include "CarmicahTime.h"
 #include "AssetManager.h"
 
 
 namespace Carmicah
 {
-    const GLuint WIDTH = 800, HEIGHT = 600;
-    const char* sceneName{ "../Assets/Scene/Scene1.json" };
-    const char* scene2Name{ "../Assets/Scene/Scene2.json" };
+   // const GLuint WIDTH = 800, HEIGHT = 600;
+    const char* sceneName{ "Scene1" };
+    const char* scene2Name{ "Scene2" };
 
     const char* assetsLoc{ "../Assets" };
 
@@ -55,7 +55,8 @@ namespace Carmicah
     int Application::run()
     {
         EnableMemoryLeakChecking();
-
+        Serializer.LoadConfig(*this);
+        std::cout << Width << Height << std::endl;
         Carmicah::Log::init();
         CM_CORE_INFO("Core Logger Initialized");
         CM_INFO("Client Logger Initialized");
@@ -68,7 +69,7 @@ namespace Carmicah
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-        GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Carmicah", NULL, NULL);
+        GLFWwindow* window = glfwCreateWindow((GLuint)Width, (GLuint)Height, "Carmicah", NULL, NULL);
         glfwMakeContextCurrent(window);
 
         if (window == NULL)
@@ -88,7 +89,7 @@ namespace Carmicah
         //fpsCounter->Init();
         CarmicahTimer::StartTime();
 
-        glViewport(0, 0, WIDTH, HEIGHT);
+        glViewport(0, 0, (GLuint)Width, (GLuint)Height);
 
         REGISTER_COMPONENT(Transform);
         REGISTER_COMPONENT(Collider2D);
@@ -113,7 +114,7 @@ namespace Carmicah
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
 
-        gameSystem->SetScene(sceneName);
+        gameSystem->SetScene(defaultScene);
         gameSystem->Init();
 
         colSystem->PrintEntities();
@@ -174,10 +175,13 @@ namespace Carmicah
 
 
         }
+        //Width = 800;
+        //Height = 600;
 
         AssetManager::GetInstance()->UnloadAll();
         //fpsCounter->Exit();
         colSystem->Exit();
+        Serializer.WriteConfig(*this);
 
         glfwTerminate();
         return 0;
