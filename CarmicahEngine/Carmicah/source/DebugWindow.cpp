@@ -4,6 +4,7 @@
 #include <ImGUI/imgui_impl_opengl3.h>
 #include "Editor/EditorWindow.h"
 #include "Editor/DebugWindow.h"
+#include "CarmicahTime.h"
 
 namespace Carmicah
 {
@@ -41,7 +42,7 @@ namespace Carmicah
 				{
 					if (ImGui::BeginTabItem("FPS Info"))
 					{
-						ImGui::Text("FPS: %f", ImGui::GetIO().Framerate);
+						ImGui::Text("FPS: %f", (static_cast<float>(CarmicahTimer::GetFPS())));
 						ImGui::EndTabItem();
 					}
 				}
