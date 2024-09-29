@@ -32,14 +32,15 @@ namespace Carmicah
 		ImGui_ImplOpenGL3_Init("#version 460");
 
 		//Creating Windows
-		windows.push_back(std::make_unique <EditorWindow>("Testing",ImVec2(500,500), ImVec2(0,1080)));
+		windows.push_back(std::make_unique <EditorWindow>("Testing", ImVec2(500, 500), ImVec2(0, 1080)));
+		windows.push_back(std::make_unique<HeirarchyWindow>());
 		windows.push_back(std::make_unique<DebugWindow>());
 
 	}
 
 	void Editor::Update()
 	{
-		
+
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
@@ -59,8 +60,17 @@ namespace Carmicah
 
 			if (ImGui::BeginMenu("Window"))
 			{
-				for(const auto& window : windows)
+				for (const auto& window : windows)
 				{
+					//Toggle Heirarchy Window Visibility
+					if (auto heirarchyWindow = dynamic_cast<HeirarchyWindow*>(window.get()))
+					{
+						if (ImGui::MenuItem("Heirarchy", nullptr, heirarchyWindow->isVisible))
+						{
+							heirarchyWindow->isVisible = !heirarchyWindow->isVisible;
+						}
+					}
+					//Toggle Debug Window Visibility
 					if (auto debugWindow = dynamic_cast<DebugWindow*>(window.get()))
 					{
 						if (ImGui::MenuItem("Debug", nullptr, debugWindow->isVisible))

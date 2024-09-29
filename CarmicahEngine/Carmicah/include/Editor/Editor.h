@@ -4,6 +4,7 @@
 #include <ImGUI/imgui.h>
 #include "Editor/DebugWindow.h"
 #include "Editor/EditorWindow.h"
+#include "Editor/HeirarchyWindow.h"
 
 namespace Carmicah
 {
