@@ -56,7 +56,7 @@ namespace Carmicah
     {
         EnableMemoryLeakChecking();
         Serializer.LoadConfig(*this);
-        std::cout << Width << Height << std::endl;
+        //std::cout << Width << Height << std::endl;
         Carmicah::Log::init();
         CM_CORE_INFO("Core Logger Initialized");
         CM_INFO("Client Logger Initialized");
@@ -114,7 +114,7 @@ namespace Carmicah
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
 
-        gameSystem->SetScene(defaultScene);
+        gameSystem->SetScene("DefaultScene");
         gameSystem->Init();
 
         colSystem->PrintEntities();

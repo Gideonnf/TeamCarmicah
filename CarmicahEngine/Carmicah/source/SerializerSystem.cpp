@@ -53,13 +53,13 @@ namespace Carmicah
 		writer.EndObject();
 	}
 
-	void SerializerSystem::DeserializeScene(std::string sceneFile)
+	bool SerializerSystem::DeserializeScene(std::string sceneFile)
 	{
 		std::ifstream ifs{ sceneFile, std::ios::binary };
 		if (!ifs)
 		{
 			CM_CORE_ERROR("Unable to open scene file");
-			return;
+			return false;
 		}
 
 		IStreamWrapper isw(ifs);
@@ -67,27 +67,35 @@ namespace Carmicah
 		doc.ParseStream(isw);
 		ifs.close();
 
+		if (doc.Empty())
+		{
+			CM_CORE_ERROR("Scenefile is empty");
+			return false;
+		}
+
 		for (SizeType i = 0; i < doc.Size(); ++i)
 		{
 			const Value& go = doc[i];
 			gGOFactory->ImportGO(go);
 		}
-
+		return true;
 	}
 
-	void SerializerSystem::SerializeScene(std::string sceneFile)
+	bool SerializerSystem::SerializeScene(std::string sceneFile)
 	{
 		std::ofstream ofs{ sceneFile, std::ios::binary };
 		if (!ofs)
 		{
 			CM_CORE_ERROR("Unable to open scene file");
-			return;
+			return false;
 		}
 
 		OStreamWrapper osw(ofs);
 		Writer<OStreamWrapper> writer(osw);
 		gGOFactory->ExportGOs(writer);
+		return true;
 	}
+
 
 
 }

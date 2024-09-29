@@ -12,32 +12,51 @@ namespace Carmicah
 	void SceneSystem::Init()
 	{
 		mCurrScene = mNextScene;
+		std::string sceneFile;
+
+		if (!AssetManager::GetInstance()->GetScene(mCurrScene, sceneFile))
+		{
+			// Loading scene failed, open default scene
+			CM_CORE_ERROR("Can't get next scene file, opening default scene");
+			AssetManager::GetInstance()->GetScene("DefaultScene", sceneFile);
+			mCurrScene = mNextScene = "DefaultScene";
+		}
+
 		
 		//gGOFactory->ImportGOs(mCurrScene);
-		SerializerSystem::GetInstance()->DeserializeScene(mCurrScene);
-		mNextState = mCurrState = SceneState::RUNTIME;
+		if (SerializerSystem::GetInstance()->DeserializeScene(sceneFile))
+		{
+			mNextState = mCurrState = SceneState::RUNTIME;
+		}
+		else
+		{
+			// deserializing scene failed so use default scene
+			CM_CORE_ERROR("Can't get deserialize scene file, opening default scene");
+
+			AssetManager::GetInstance()->GetScene("DefaultScene", sceneFile);
+			mCurrScene = mNextScene = "DefaultScene";
+			SerializerSystem::GetInstance()->DeserializeScene(sceneFile);
+		}
+
 	}
 
 	/// <summary>
 	/// Only used initial setting of starting scene when engine is ran
 	/// Can be read from 
 	/// </summary>
-	/// <param name="scene"></param>
+	/// <param name="scene">name of the file</param>
 	void SceneSystem::SetScene(std::string scene)
 	{
-		std::string sceneFile;
-		if (AssetManager::GetInstance()->GetScene(scene, sceneFile))
-			mNextScene = sceneFile;
-		else
-			CM_CORE_ERROR("Unable to set scene.");
+		mNextScene = scene;
 	}
 
 	void SceneSystem::ChangeScene(std::string nextScene)
 	{
+		// technically dont have to check here since i check in init
 		std::string sceneFile;
 		if (AssetManager::GetInstance()->GetScene(nextScene, sceneFile))
 		{
-			if (sceneFile == mCurrScene)
+			if (nextScene == mCurrScene)
 			{
 				mNextState = RELOAD;
 			}
@@ -46,7 +65,7 @@ namespace Carmicah
 				// Change scene
 				mNextState = CHANGESCENE;
 
-				mNextScene = sceneFile;
+				mNextScene = nextScene;
 			}
 		}
 		else
@@ -64,7 +83,12 @@ namespace Carmicah
 			mNextState = EXIT;
 
 		//mState = EXIT;
-		SerializerSystem::GetInstance()->SerializeScene(mCurrScene);
+		if (mCurrScene != "DefaultScene")
+		{
+			std::string sceneFile;
+			AssetManager::GetInstance()->GetScene(mCurrScene, sceneFile);
+			SerializerSystem::GetInstance()->SerializeScene(mCurrScene);
+		}
 		//gGOFactory->ExportGOs(sceneLoc + mCurrScene + ".json"); // Dont save objects for now
 		gGOFactory->DestroyAll();
 		gGOFactory->UpdateDestroyed();
