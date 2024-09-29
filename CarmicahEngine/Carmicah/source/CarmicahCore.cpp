@@ -124,7 +124,7 @@ namespace Carmicah
         //newObj.AddComponent<Collider2D>();
         colSystem->PrintEntities();
 
-        //newObj.Destroy();
+        //Testing prefab
         gGOFactory->CreatePrefab("Duck");
         GameObject newObj = gGOFactory->FetchGO("Duck");
         newObj.GetComponent<Transform>().xPos = -2.0;

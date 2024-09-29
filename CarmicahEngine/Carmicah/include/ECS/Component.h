@@ -107,6 +107,13 @@ namespace Carmicah
 			return m_ComponentArray[m_EntityToComponent[entity]];
 		}
 
+		bool HasComponentData(Entity entity)
+		{
+			// If component has this entity, count would return as 1
+			// if not it would return as 0
+			return m_EntityToComponent.count(entity);
+		}
+
 		void CloneComponentData(Entity entityToClone, Entity newEntity)
 		{
 			// Get the next component index

@@ -75,6 +75,12 @@ namespace Carmicah
 			//SystemManager::GetInstance()->UpdateSignatures(mID, entitySignature);
 		}
 
+		template <typename T>
+		bool HasComponent()
+		{
+			return ComponentManager::GetInstance()->HasComponent<T>(mID);
+		}
+
 		template<typename T>
 		T& GetComponent()
 		{

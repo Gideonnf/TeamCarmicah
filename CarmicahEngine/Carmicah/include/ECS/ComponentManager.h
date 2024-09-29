@@ -203,6 +203,12 @@ namespace Carmicah
 			return m_ComponentTypes.size();
 		}
 
+		template<typename T>
+		bool HasComponent(Entity entity)
+		{
+			return GetComponentArray<T>()->HasComponentData(entity);
+		}
+
 		// Used to get the component for inserting in new entity data
 		template<typename T>
 		std::shared_ptr<Component<T>> GetComponentArray()
