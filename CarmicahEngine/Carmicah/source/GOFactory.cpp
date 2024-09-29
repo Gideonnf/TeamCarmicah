@@ -247,7 +247,7 @@ namespace Carmicah
 		}
 	}
 
-	void GOFactory::ExportGOs(rapidjson::Writer<rapidjson::OStreamWrapper>& writer)
+	void GOFactory::ExportGOs(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer)
 	{
 		writer.StartArray();
 		for (auto& obj : mIDToGO)

@@ -1,1 +1,111 @@
-[{"GameObject":"GameObject","ID":0,"Components":[{"Component Name":"struct Carmicah::Transform","xPos":-1.0,"yPos":0.0,"zPos":1.0,"rot":-1.0,"xScale":30.200000762939454,"yScale":30.0},{"Component Name":"struct Carmicah::Renderer","model":"Circle","texture":"Duck"}]},{"GameObject":"GameObject","ID":1,"Components":[{"Component Name":"struct Carmicah::Transform","xPos":0.5,"yPos":0.5,"zPos":1.0,"rot":45.0,"xScale":1.0,"yScale":1.0},{"Component Name":"struct Carmicah::Collider2D","minX":0.0,"minY":0.0,"maxX":1.0,"maxY":1.0,"shape":"DebugSquare"},{"Component Name":"struct Carmicah::Renderer","model":"Square","texture":"Count"},{"Component Name":"struct Carmicah::Animation","xSlice":3,"ySlice":3,"timeBetween":2.0}]},{"GameObject":"GameObject","ID":2,"Components":[{"Component Name":"struct Carmicah::Transform","xPos":-1.0,"yPos":0.0,"zPos":1.0,"rot":-125.0,"xScale":1.0,"yScale":1.0},{"Component Name":"struct Carmicah::Renderer","model":"Circle","texture":"Duck"}]},{"GameObject":"MainCamera","ID":3,"Components":[{"Component Name":"struct Carmicah::Transform","xPos":0.0,"yPos":0.0,"zPos":1.0,"rot":0.0,"xScale":0.125,"yScale":0.1666666716337204}]}]
+[
+    {
+        "GameObject": "GameObject",
+        "ID": 0,
+        "Components": [
+            {
+                "Component Name": "struct Carmicah::Transform",
+                "xPos": -1.0,
+                "yPos": 0.0,
+                "zPos": 1.0,
+                "rot": -1.0,
+                "xScale": 30.200000762939454,
+                "yScale": 30.0
+            },
+            {
+                "Component Name": "struct Carmicah::Renderer",
+                "model": "Circle",
+                "texture": "Duck"
+            }
+        ]
+    },
+    {
+        "GameObject": "GameObject1",
+        "ID": 1,
+        "Components": [
+            {
+                "Component Name": "struct Carmicah::Transform",
+                "xPos": 0.5,
+                "yPos": 0.5,
+                "zPos": 1.0,
+                "rot": 45.0,
+                "xScale": 1.0,
+                "yScale": 1.0
+            },
+            {
+                "Component Name": "struct Carmicah::Collider2D",
+                "minX": 0.0,
+                "minY": 0.0,
+                "maxX": 1.0,
+                "maxY": 1.0,
+                "shape": "DebugSquare"
+            },
+            {
+                "Component Name": "struct Carmicah::Renderer",
+                "model": "Square",
+                "texture": "Count"
+            },
+            {
+                "Component Name": "struct Carmicah::Animation",
+                "xSlice": 3,
+                "ySlice": 3,
+                "timeBetween": 2.0
+            }
+        ]
+    },
+    {
+        "GameObject": "GameObject2",
+        "ID": 2,
+        "Components": [
+            {
+                "Component Name": "struct Carmicah::Transform",
+                "xPos": -1.0,
+                "yPos": 0.0,
+                "zPos": 1.0,
+                "rot": -125.0,
+                "xScale": 1.0,
+                "yScale": 1.0
+            },
+            {
+                "Component Name": "struct Carmicah::Renderer",
+                "model": "Circle",
+                "texture": "Duck"
+            }
+        ]
+    },
+    {
+        "GameObject": "MainCamera",
+        "ID": 3,
+        "Components": [
+            {
+                "Component Name": "struct Carmicah::Transform",
+                "xPos": 0.0,
+                "yPos": 0.0,
+                "zPos": 1.0,
+                "rot": 0.0,
+                "xScale": 0.125,
+                "yScale": 0.1666666716337204
+            }
+        ]
+    },
+    {
+        "GameObject": "Duck",
+        "ID": 4,
+        "Components": [
+            {
+                "Component Name": "struct Carmicah::Transform",
+                "xPos": -2.0,
+                "yPos": 0.0,
+                "zPos": 1.0,
+                "rot": -125.0,
+                "xScale": 1.0,
+                "yScale": 1.0
+            },
+            {
+                "Component Name": "struct Carmicah::Renderer",
+                "model": "Circle",
+                "texture": "Duck"
+            }
+        ]
+    }
+]

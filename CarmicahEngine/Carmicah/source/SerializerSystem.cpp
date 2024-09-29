@@ -37,7 +37,7 @@ namespace Carmicah
 		}
 
 		OStreamWrapper osw(ofs);
-		Writer<OStreamWrapper> writer(osw);
+		PrettyWriter<OStreamWrapper> writer(osw);
 
 		writer.StartObject();
 
@@ -91,7 +91,7 @@ namespace Carmicah
 		}
 
 		OStreamWrapper osw(ofs);
-		Writer<OStreamWrapper> writer(osw);
+		PrettyWriter<OStreamWrapper> writer(osw);
 		gGOFactory->ExportGOs(writer);
 		return true;
 	}

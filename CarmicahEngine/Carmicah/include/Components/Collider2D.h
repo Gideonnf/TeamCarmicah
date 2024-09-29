@@ -24,7 +24,7 @@ namespace Carmicah
             return *this;
         }
 
-        void SerializeComponent(rapidjson::Writer<rapidjson::OStreamWrapper>& writer) override
+        void SerializeComponent(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer) override
         {
             writer.String("minX");
 			writer.Double(min.x);

@@ -57,7 +57,7 @@ namespace Carmicah
 #pragma region Importing and Exporting
 		void ForAllGO(const std::function<void(GameObject&)>& op);
 		void ImportGO(const rapidjson::Value& go);
-		void ExportGOs(rapidjson::Writer<rapidjson::OStreamWrapper>& writer);
+		void ExportGOs(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer);
 #pragma endregion
 
 #pragma region Component Functions

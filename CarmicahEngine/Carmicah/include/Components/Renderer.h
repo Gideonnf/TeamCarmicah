@@ -22,7 +22,7 @@ namespace Carmicah
             return *this;
         }
 
-        void SerializeComponent(rapidjson::Writer<rapidjson::OStreamWrapper>& writer) override
+        void SerializeComponent(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer) override
         {
             writer.String("model");
             writer.String(model.c_str());

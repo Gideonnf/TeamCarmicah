@@ -36,12 +36,7 @@ namespace Carmicah
 		// entityName is always defaulted to gameobject when an entity is created
 		Entity CreateEntity()
 		{
-			if (m_EntityCount > MAX_ENTITIES)
-			{
-				//TODO: Add error response
-				// Too many entities
-				// can output an error here
-			}
+			assert(m_EntityCount <= MAX_ENTITIES && "Too many entities");
 
 			// Get the front most id in the queue
 			Entity entityId = mFreeEntities.front();
@@ -77,6 +72,8 @@ namespace Carmicah
 					}
 				}
 			}
+
+			return Entity{};
 		}
 
 		void DeleteEntity(Entity entity)

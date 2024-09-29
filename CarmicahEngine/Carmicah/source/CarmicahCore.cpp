@@ -114,7 +114,7 @@ namespace Carmicah
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
 
-        gameSystem->SetScene("DefaultScene");
+        gameSystem->SetScene("Scene1");
         gameSystem->Init();
 
         colSystem->PrintEntities();
