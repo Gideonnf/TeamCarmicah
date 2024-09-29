@@ -2,6 +2,7 @@
 #include "Systems/GOFactory.h"
 #include "ECS/EntityManager.h"
 #include "ECS/ComponentManager.h"
+#include "AssetManager.h"
 
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
@@ -86,9 +87,52 @@ namespace Carmicah
 		return newGO;
 	}
 
-	void GOFactory::CreateGO(GameObject go)
+	GameObject GOFactory::CreatePrefab(std::string prefab)
 	{
-		go.mID = EntityManager::GetInstance()->CreateEntity(go.mName);
+		GameObject newGO = CreateGO();
+		if (AssetManager::GetInstance()->prefabFiles.count(prefab) > 0)
+		{
+			const rapidjson::Document goFile = SerializerSystem::GetInstance()->DeserializePrefab(AssetManager::GetInstance()->prefabFiles[prefab]);
+			std::string name = std::string(goFile["GameObject"].GetString());
+
+			const rapidjson::Value& componentList = goFile["Components"];
+			for (rapidjson::Value::ConstValueIterator it = componentList.Begin(); it != componentList.End(); ++it)
+			{
+				const std::string& componentName = (*it)["Component Name"].GetString();
+				if (componentName == "struct Carmicah::Transform")
+				{
+					Transform t;
+					t.DeserializeComponent((*it));
+					newGO.AddComponent<Transform>(t);
+				}
+				else if (componentName == "struct Carmicah::Collider2D")
+				{
+					Collider2D t;
+					t.DeserializeComponent((*it));
+					newGO.AddComponent<Collider2D>(t);
+
+				}
+				else if (componentName == "struct Carmicah::Renderer")
+				{
+					Renderer t;
+					t.DeserializeComponent((*it));
+					newGO.AddComponent<Renderer>(t);
+				}
+				else if (componentName == "struct Carmicah::Animation")
+				{
+					Animation t{};
+					t.DeserializeComponent((*it));
+					newGO.AddComponent<Animation>(t);
+				}
+			}
+
+		}
+		else
+		{
+			// assert an error here cause prefab doesnt exist in asset manager
+		}
+
+		return newGO;
 	}
 
 	void GOFactory::EntityDestroyed(Entity entity)

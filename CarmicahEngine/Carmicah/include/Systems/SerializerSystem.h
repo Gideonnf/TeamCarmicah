@@ -25,6 +25,8 @@ namespace Carmicah
 		void WriteConfig(Application&);
 		bool DeserializeScene(std::string);
 		bool SerializeScene(std::string);
+		const rapidjson::Document DeserializePrefab(std::string);
+
 
 	};
 

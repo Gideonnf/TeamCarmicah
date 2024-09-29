@@ -6,9 +6,7 @@
 #include "ECS/EntityManager.h"
 #include "../Singleton.h"
 #include <memory>
-#include <rapidjson/document.h>
-#include <rapidjson/ostreamwrapper.h>
-#include <rapidjson/writer.h>
+#include "Systems/SerializerSystem.h"
 
 namespace Carmicah
 {
@@ -43,14 +41,15 @@ namespace Carmicah
 		// Default name for GOs
 		GameObject CreateGO(std::string name = "GameObject");
 		GameObject CloneGO(GameObject const& go);
-		void CreateGO(GameObject);
 		GameObject LoadGO(std::string name, Entity entityID);
+		GameObject CreatePrefab(std::string prefab);
 		void EntityDestroyed(Entity) override;
 		void Destroy(Entity);
 		void DestroyAll();
 		void UpdateDestroyed();
 		void ForAllGO(const std::function<void(GameObject&)>& op);
 		void ImportGO(const rapidjson::Value& go);
+		void UpdateGOName(std::string oldName, std::string newName); // TODO: Make a function to update the GO names
 		
 		void ExportGOs(rapidjson::Writer<rapidjson::OStreamWrapper>& writer);
 #pragma endregion

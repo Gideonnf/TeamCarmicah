@@ -96,6 +96,28 @@ namespace Carmicah
 		return true;
 	}
 
+	const Document SerializerSystem::DeserializePrefab(std::string prefabFile)
+	{
+		std::ifstream ifs{ prefabFile, std::ios::binary };
+		if (!ifs)
+		{
+			CM_CORE_ERROR("Error opening prefab file");
+		}
+
+		IStreamWrapper isw(ifs);
+		Document doc;
+		doc.ParseStream(isw);
+		ifs.close();
+
+		if (doc.HasParseError())
+		{
+			// Assert error here
+		}
+
+		//const Value go = doc;
+		return doc;
+	}
+
 
 
 }

@@ -125,7 +125,8 @@ namespace Carmicah
         colSystem->PrintEntities();
 
         //newObj.Destroy();
-
+        GameObject newObj = gGOFactory->CreatePrefab("Duck");
+        newObj.GetComponent<Transform>().xPos = -2.0;
 
         while (!glfwWindowShouldClose(window)) {
             // Update dt calc

@@ -48,6 +48,7 @@ namespace Carmicah
 		std::unordered_map<std::string, Texture> textureMaps{};
 		std::unordered_map<std::string, Primitive> primitiveMaps{};
 		std::unordered_map<std::string, std::string> sceneFiles{};
+		std::unordered_map<std::string, std::string> prefabFiles{};
 
 		// Audio
 		const int maxChannels = 32;

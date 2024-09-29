@@ -60,6 +60,10 @@ namespace Carmicah
 						{
 
 						}
+						else if (folderName == "Prefabs")
+						{
+							prefabFiles.insert(std::make_pair(fileName, entry.path().string()));
+						}
 					}
 				}
 			}
