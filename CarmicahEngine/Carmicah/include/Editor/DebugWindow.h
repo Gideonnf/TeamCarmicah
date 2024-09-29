@@ -11,6 +11,7 @@ namespace Carmicah
 	{
 	private:
 		bool showFPS;
+		bool showLogger;
 	public:
 
 		DebugWindow();

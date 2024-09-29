@@ -7,13 +7,15 @@
 
 namespace Carmicah
 {
-	DebugWindow::DebugWindow() : EditorWindow("Debug", ImVec2(900, 300), ImVec2(0, 0)), showFPS(false) { isVisible = true; }
+	DebugWindow::DebugWindow() : EditorWindow("Debug", ImVec2(900, 300), ImVec2(0, 0)), showFPS(false), showLogger(true) { isVisible = true; }
 
 	void DebugWindow::Update()
 	{
 		static int clicked;
-		static int fps; //TODO:: Replace with Actual FPS system later
-		fps++;
+		static int counter; //TODO:: Replace with Actual FPS system later
+		static ImGuiTextBuffer logBuffer;
+		static bool autoScrollLog = true;
+		counter++;
 
 		if(ImGui::Begin(title, nullptr, ImGuiWindowFlags_MenuBar))
 		{
@@ -27,15 +29,37 @@ namespace Carmicah
 					{
 						showFPS = !showFPS;
 					}
+
 					ImGui::EndMenu();
 				}
 			}
 			ImGui::EndMenuBar();
 
-
-			if (showFPS)
+			if(ImGui::BeginTabBar("Debug Tabs"))
 			{
-				ImGui::Text("FPS: %d", fps);
+				if (showFPS)
+				{
+					if (ImGui::BeginTabItem("FPS Info"))
+					{
+						ImGui::Text("FPS: %f", ImGui::GetIO().Framerate);
+						ImGui::EndTabItem();
+					}
+				}
+				if (showLogger)
+				{
+					if (ImGui::BeginTabItem("Logger"))
+					{
+						//Append logs here
+						logBuffer.append(std::to_string(counter).c_str());
+						logBuffer.append("\n");
+
+						ImGui::BeginChild("Logs", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
+						ImGui::TextUnformatted(logBuffer.begin(), logBuffer.end());
+						ImGui::EndChild();
+						ImGui::EndTabItem();
+					}
+				}
+				ImGui::EndTabBar();
 			}
 
 			if (ImGui::Button("Counter Clicker"))

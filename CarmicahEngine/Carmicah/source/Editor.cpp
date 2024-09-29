@@ -32,7 +32,6 @@ namespace Carmicah
 		ImGui_ImplOpenGL3_Init("#version 460");
 
 		//Creating Windows
-		windows.push_back(std::make_unique <EditorWindow>("Testing", ImVec2(500, 500), ImVec2(0, 1080)));
 		windows.push_back(std::make_unique<HeirarchyWindow>());
 		windows.push_back(std::make_unique<DebugWindow>());
 
