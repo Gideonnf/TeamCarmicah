@@ -32,6 +32,9 @@ namespace Carmicah
 		GOFactory();
 		~GOFactory();
 
+#pragma region SceneData
+		Entity mainCam;
+#pragma endregion
 
 #pragma region GameObject Functions
 		// Default name for GOs
@@ -41,13 +44,16 @@ namespace Carmicah
 		void EntityDestroyed(Entity) override;
 		void DestroyAll();
 		void UpdateDestroyed();
+		void ForAllGO(const std::function<void(GameObject&)>& op);
+		void ImportGOs(std::string sceneName);
+		void ExportGOs(std::string sceneName);
 #pragma endregion
 
 #pragma region Component Functions
 		template<typename T>
 		void CreateComponent();
 #pragma endregion
-
+		void ReceiveMessage(Message* msg) override;
 	};
 
 	extern GOFactory* gGOFactory;

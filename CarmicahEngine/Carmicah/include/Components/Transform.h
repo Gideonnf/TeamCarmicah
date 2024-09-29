@@ -1,4 +1,8 @@
 #pragma once
+#ifndef TRANSFORM_H
+#define TRANSFORM_H
+
+#include <glm/glm.hpp>
 
 namespace Carmicah
 {
@@ -12,5 +16,11 @@ namespace Carmicah
 
         float xScale;
         float yScale;
+
+        bool isUpdated;
+        glm::mat3 worldSpace;
+        glm::mat3 camSpace;
     };
 }
+
+#endif

@@ -1,13 +1,18 @@
 #pragma once
+#ifndef RENDERER_COMPONENT_H
+#define RENDERER_COMPONENT_H
+
+#include <string>
+#include <glm/glm.hpp>
 
 namespace Carmicah
 {
     struct Renderer
     {
-        enum PRIMITIVE{
-            SQUARE = 0,
-            CIRCLE
-        };
-        PRIMITIVE primitiveType;
+        std::string model;
+        std::string texture;
+        glm::mat3 texureMat;
     };
 }
+
+#endif

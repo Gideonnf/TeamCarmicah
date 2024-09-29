@@ -12,7 +12,7 @@ namespace Carmicah
 
 		void Update();
 
-		void Exit() ;
+		void Exit();
 	};
 }
 

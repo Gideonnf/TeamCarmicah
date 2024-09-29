@@ -10,8 +10,8 @@ namespace Carmicah
 	class GameObject
 	{
 	private:
-		Entity mID;
-		std::string mName;
+		Entity mID{};
+		std::string mName{};
 	public:
 		//Game object factory is the only class allowed to
 	//create and destroy game objects.
@@ -38,7 +38,7 @@ namespace Carmicah
 			//gGOFactory->DestroyGameObject(mID);
 		}
 
-		Entity GetID()
+		Entity GetID() const
 		{
 			return mID;
 		}
@@ -48,7 +48,7 @@ namespace Carmicah
 			mID = id;
 		}
 
-		std::string GetName()
+		std::string GetName() const
 		{
 			return mName;
 		}

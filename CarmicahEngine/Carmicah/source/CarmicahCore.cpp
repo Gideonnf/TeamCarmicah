@@ -3,178 +3,149 @@
 #include <stdio.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
 #include <FMOD/fmod.hpp>
 #include <spdlog/spdlog.h>
 #include <log.h>
-#include <ImGUI/imgui.h>
-#include <ImGUI/imgui_impl_glfw.h>   
-#include <ImGUI/imgui_impl_opengl3.h>
-#include "Editor/Editor.h"
 #include "Systems/GOFactory.h"
 #include "ECS/ComponentManager.h"
 #include "ECS/SystemManager.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
+#include "Components/Animation.h"
 #include "Systems/GraphicsSystem.h"
+#include "Systems/AnimationSystem.h"
+#include "Systems/ColliderRenderSystem.h"
 #include "Systems/CollisionSystem.h"
 #include "Systems/SoundSystem.h"
+#include "Systems/InputSystem.h"
+#include "Systems/SceneSystem.h"
 #include "CarmicahTime.h"
+#include "AssetManager.h"
 
 
 namespace Carmicah
 {
-
-
-    const GLuint WIDTH = 1920, HEIGHT = 1080;
+    const GLuint WIDTH = 800, HEIGHT = 600;
+    const char* sceneName{ "../Assets/Scene/Scene1.json" };
+    const char* assetsLoc{ "../Assets" };
 
     Application::Application()
     {
-
     }
 
     Application::~Application()
     {
-
     }
 
-    void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode) {
-        if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-            glfwSetWindowShouldClose(window, GL_TRUE);
+    void EnableMemoryLeakChecking(int breakAlloc = -1)
+    {
+        //Set the leak checking flag
+        int tmpDbgFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
+        tmpDbgFlag |= _CRTDBG_LEAK_CHECK_DF;
+        _CrtSetDbgFlag(tmpDbgFlag);
+
+        //If a valid break alloc provided set the breakAlloc
+        if (breakAlloc != -1) _CrtSetBreakAlloc(breakAlloc);
     }
 
     int Application::run()
     {
+        EnableMemoryLeakChecking();
+
         Carmicah::Log::init();
         CM_CORE_INFO("Core Logger Initialized");
+        CM_INFO("Client Logger Initialized");
+
         glfwInit();
+
         // Set required options for GLFW
-        const char* glsl_version = "#version 460";
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-        GLFWwindow* graphicsWindow = glfwCreateWindow(WIDTH, HEIGHT, "Carmicah", NULL, NULL);
-        glfwMakeContextCurrent(graphicsWindow);
-        if (graphicsWindow == NULL)
+        GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Carmicah", NULL, NULL);
+        glfwMakeContextCurrent(window);
+
+        if (window == NULL)
         {
-            std::cerr << "Failed to create GLFW window" << std::endl;
+            CM_CORE_ERROR("Failed to create GLFW window");
             glfwTerminate();
             return -1;
         }
 
-        glfwSetKeyCallback(graphicsWindow, key_callback);
-
-        int version = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        if (version == 0)
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
-            std::cerr << "Failed to initialize GLAD" << std::endl;
+            CM_CORE_ERROR("Failed to initialize GLAD");
             return -1;
         }
+
+        //auto fpsCounter = std::make_unique<FPSCounter>();
+        //fpsCounter->Init();
+        CarmicahTimer::StartTime();
+
         glViewport(0, 0, WIDTH, HEIGHT);
 
-        ComponentManager::GetInstance()->RegisterComponent<Transform>();
-        ComponentManager::GetInstance()->RegisterComponent<Collider2D>();
-        ComponentManager::GetInstance()->RegisterComponent<Renderer>();
+        REGISTER_COMPONENT(Transform);
+        REGISTER_COMPONENT(Collider2D);
+        REGISTER_COMPONENT(Renderer);
+        REGISTER_COMPONENT(Animation);
 
-        auto graSystem = SystemManager::GetInstance()->RegisterSystem<GraphicsSystem>();
-        auto colSystem = SystemManager::GetInstance()->RegisterSystem<CollisionSystem>();
-        SystemManager::GetInstance()->RegisterSystem<GOFactory>();
-        auto souSystem = SystemManager::GetInstance()->RegisterSystem<SoundSystem>();
+        auto graSystem = REGISTER_SYSTEM(GraphicsSystem);
+        auto aniSystem = REGISTER_SYSTEM(AnimationSystem);
+        auto crsSystem = REGISTER_SYSTEM(ColliderRenderSystem);
+        auto colSystem = REGISTER_SYSTEM(CollisionSystem);
+        auto inputSystem = REGISTER_SYSTEM(InputSystem);
+        REGISTER_SYSTEM(GOFactory);
+        auto souSystem = REGISTER_SYSTEM(SoundSystem);
+        auto gameSystem = REGISTER_SYSTEM(SceneSystem);
 
-        //SystemManager::GetInstance()->SetSignature<CollisionSystem>({ "Transform", "Collider2D" });
-        //OR can put it in init
+        AssetManager::GetInstance()->LoadAll(assetsLoc);
         graSystem->Init();
+        aniSystem->Init();
+        crsSystem->Init();
         colSystem->Init(); // Set the signature
         souSystem->Init(false);
+        inputSystem->BindSystem(gGOFactory);
+        inputSystem->Init(window);
+        gameSystem->Init(sceneName);
 
-        //Entity player = EntityManager::GetInstance()->CreateEntity();
-        Transform playerTrans{ 0.5f, 0.5f, 1.f, 45.f, 1.f, 1.f};
-        Transform playerTrans2{ -1.0f, 0.f, 1.f, -125.f, 1.f, 1.f};
-        Collider2D playerCollider{ 1, 2, 3, 4 };
-        Renderer toRender{};
-
-
-        GameObject newObj = gGOFactory->CreateGO();
-        colSystem->PrintEntities();
-        newObj.AddComponent<Transform>(playerTrans);
-        colSystem->PrintEntities();
-        newObj.AddComponent<Collider2D>(playerCollider);
-        colSystem->PrintEntities();
-        newObj.AddComponent<Renderer>(toRender);
-
-        GameObject newObj2 = gGOFactory->CreateGO();;
-        colSystem->PrintEntities();
-        newObj2.AddComponent<Transform>(playerTrans2);
-        colSystem->PrintEntities();
-        newObj2.AddComponent<Renderer>(toRender);
-
-
-        // Start timer
-        //CarmicahTimer::StartTime();
-
-        //Creating the ImGUI Window
-        GLFWwindow* ImGuiWindow = glfwCreateWindow(WIDTH, HEIGHT, "ImGuiWindow", NULL, NULL);
-        if (ImGuiWindow == NULL)
-        {
-            std::cerr << "Failed to create GLFW window" << std::endl;
-            glfwTerminate();
-            return -1;
-        }
-        glfwMakeContextCurrent(ImGuiWindow);
-        Editor Editor;
-        Editor.Init(ImGuiWindow, glsl_version);
-
-        glfwMakeContextCurrent(graphicsWindow);
-
-
-        while (!glfwWindowShouldClose(graphicsWindow)&& !glfwWindowShouldClose(ImGuiWindow)) {
-
-            glfwMakeContextCurrent(graphicsWindow);
-
+        //GameObject newObj;
+        //Transform playerTrans{ 1, 1, 1 };
+        //Collider2D playerCollider{ 1, 2, 3, 4 };
+        //newObj.AddComponent<Transform>(playerTrans);
+        //newObj.AddComponent<Collider2D>(playerCollider);
+        double testTime = 0.0;
+        while (!glfwWindowShouldClose(window)) {
             // Update dt calc
             CarmicahTimer::UpdateElapsedTime();
-
             glfwPollEvents();
+            testTime += CarmicahTimer::GetDt();
+            std::cout << testTime << std::endl;
+            std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS()));
+            glfwSetWindowTitle(window, title.c_str());
 
-            newObj.GetComponent<Transform>().xPos += 1;
+            gameSystem->Update();
+            //newObj.GetComponent<Transform>().xPos += 1;
             colSystem->Update();
 
+            graSystem->Render(gGOFactory->mainCam);
+            aniSystem->Update();
+            crsSystem->Render(gGOFactory->mainCam);
             souSystem->Update();
-            graSystem->Render(graphicsWindow);
-            
+            glfwSwapBuffers(window);
 
-            glfwMakeContextCurrent(ImGuiWindow);
-            glfwPollEvents();  // Poll for events in the ImGui window
-            Editor.Update();
-            Editor.Render(ImGuiWindow);
             
-
+            
         }
 
-        souSystem->Exit();
-        graSystem->Exit();
-        Editor.Exit();
+        AssetManager::GetInstance()->UnloadAll();
+        //fpsCounter->Exit();
+        colSystem->Exit();
+
         glfwTerminate();
-
- 
-
-        //Carmicah::Log::init();
-
-        //Carmicah::Log::getCoreLogger()->info("Core Logger Initialized");
-        //Carmicah::Log::getCoreLogger()->warn("Core Logger Initialized");
-        //Carmicah::Log::getCoreLogger()->error("Core Logger Initialized");
-        //Carmicah::Log::getCoreLogger()->critical("Core Logger Initialized");
-        //Carmicah::Log::getClientLogger()->trace("Client Logger Initialized");
-        //          
-        //Carmicah::Log::getClientLogger()->info("Client Logger Initialized");
-        //Carmicah::Log::getClientLogger()->warn("Client Logger Initialized");
-        //Carmicah::Log::getClientLogger()->error("Client Logger Initialized");
-        //Carmicah::Log::getClientLogger()->critical("Client Logger Initialized");
-        //Carmicah::Log::getClientLogger()->trace("Client Logger Initialized");
-
         return 0;
     }
-
 }

@@ -2,23 +2,22 @@
 #define SOUND_SYSTEM_H
 
 #include "ECS/BaseSystem.h"
-#include <FMOD/fmod.hpp>
+#include "FMOD/fmod.hpp"
 
 namespace Carmicah
 {
 	class SoundSystem : public BaseSystem
 	{
 	private:
-		FMOD::System* mpSystem;
-		FMOD::Sound* sound;
-
+		std::vector<FMOD::Channel*> sfxList;
+		const char* defaultBGM{ "bouken" };
 
 	public:
-		void Init(bool playBgm);
+		void Init(bool play);
 
 		void Update();
 
-		void Exit();
+		void PlayAudio(const std::string& sound, bool isBgm);
 	};
 }
 #endif
