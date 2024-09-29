@@ -3,13 +3,16 @@
 #include <stdio.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
 #include <FMOD/fmod.hpp>
 #include <spdlog/spdlog.h>
 #include <log.h>
+#include <ImGUI/imgui.h>
+#include <ImGUI/imgui_impl_glfw.h>   
+#include <ImGUI/imgui_impl_opengl3.h>
 #include "Systems/GOFactory.h"
 #include "ECS/ComponentManager.h"
 #include "ECS/SystemManager.h"
+#include "Editor/Editor.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
@@ -82,6 +85,16 @@ namespace Carmicah
             return -1;
         }
 
+        GLFWwindow* ImGuiWindow = glfwCreateWindow(WIDTH, HEIGHT, "ImGui", NULL, NULL);
+        //glfwMakeContextCurrent(ImGuiWindow);
+
+        if (ImGuiWindow == NULL)
+        {
+            CM_CORE_ERROR("Failed to create GLFW window");
+            glfwTerminate();
+            return -1;
+        }
+
         //auto fpsCounter = std::make_unique<FPSCounter>();
         //fpsCounter->Init();
         CarmicahTimer::StartTime();
@@ -111,6 +124,8 @@ namespace Carmicah
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
         gameSystem->Init(sceneName);
+        Editor Editor;
+        Editor.Init(ImGuiWindow);
 
         //GameObject newObj;
         //Transform playerTrans{ 1, 1, 1 };
@@ -118,7 +133,7 @@ namespace Carmicah
         //newObj.AddComponent<Transform>(playerTrans);
         //newObj.AddComponent<Collider2D>(playerCollider);
         double testTime = 0.0;
-        while (!glfwWindowShouldClose(window)) {
+        while (!glfwWindowShouldClose(window) && !glfwWindowShouldClose(ImGuiWindow)) {
             // Update dt calc
             CarmicahTimer::UpdateElapsedTime();
             glfwPollEvents();
@@ -136,6 +151,10 @@ namespace Carmicah
             crsSystem->Render(gGOFactory->mainCam);
             souSystem->Update();
             glfwSwapBuffers(window);
+            glfwMakeContextCurrent(ImGuiWindow);
+            Editor.Update();
+            Editor.Render(ImGuiWindow);
+            glfwMakeContextCurrent(window);
 
             
             
@@ -143,6 +162,7 @@ namespace Carmicah
 
         AssetManager::GetInstance()->UnloadAll();
         //fpsCounter->Exit();
+        Editor.Exit();
         colSystem->Exit();
 
         glfwTerminate();

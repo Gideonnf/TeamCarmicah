@@ -16,7 +16,7 @@ namespace Carmicah
 
 		~Editor();
 
-		void Init(GLFWwindow* window, const char* version);
+		void Init(GLFWwindow* window);
 
 		void Update();
 

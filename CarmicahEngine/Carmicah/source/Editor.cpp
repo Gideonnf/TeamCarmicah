@@ -18,7 +18,7 @@ namespace Carmicah
 	{
 
 	}
-	void Editor::Init(GLFWwindow* window, const char* glsl_version)
+	void Editor::Init(GLFWwindow* window)
 	{
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();

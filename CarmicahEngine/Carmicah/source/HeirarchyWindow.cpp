@@ -18,7 +18,7 @@ namespace Carmicah
 		if (ImGui::Begin(title))
 		{
 			static Transform playerTrans{ 0.5f, 0.5f, 1.f, 45.f, 1.f, 1.f };
-			static Collider2D playerCollider{ 1, 2, 3, 4 };
+			//static Collider2D playerCollider{ 1.0, 2.0, 3.0, 4.0 };
 			static Renderer toRender{};
 			static char goName[256] = "";
 			ImGui::Text("Game Object Name: ");
@@ -80,7 +80,7 @@ namespace Carmicah
 				static std::string name(goName);
 				GameObject newObj = gGOFactory->CreateGO(goName);
 				newObj.AddComponent<Transform>(playerTrans);
-				newObj.AddComponent<Collider2D>(playerCollider);
+				//newObj.AddComponent<Collider2D>(playerCollider);
 				newObj.AddComponent<Renderer>(toRender);
 			}
 		}
