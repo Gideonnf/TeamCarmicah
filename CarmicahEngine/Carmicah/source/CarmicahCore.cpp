@@ -69,6 +69,11 @@ namespace Carmicah
         GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Carmicah", NULL, NULL);
         glfwMakeContextCurrent(window);
 
+        auto soundSystem = REGISTER_SYSTEM(SoundSystem);
+        soundSystem->Init(true);  // Initialize with default BGM
+
+
+
         if (window == NULL)
         {
             CM_CORE_ERROR("Failed to create GLFW window");
@@ -137,12 +142,14 @@ namespace Carmicah
             souSystem->Update();
             glfwSwapBuffers(window);
 
-            
+            //sound
+            soundSystem->Update();
             
         }
 
         AssetManager::GetInstance()->UnloadAll();
         //fpsCounter->Exit();
+        soundSystem->Exit();
         colSystem->Exit();
 
         glfwTerminate();
