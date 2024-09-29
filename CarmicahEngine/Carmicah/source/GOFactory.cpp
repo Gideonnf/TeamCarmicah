@@ -60,8 +60,7 @@ namespace Carmicah
 		mNameToID.insert(std::make_pair(go.mName, go.mID));
 		mIDToGO.insert(std::make_pair(go.mID, go));
 
-		// for now idk if i want to update here or in ImportGO 
-		//SystemManager::GetInstance()->UpdateSignatures(go.mID,)
+		SystemManager::GetInstance()->UpdateSignatures(go.mID, EntityManager::GetInstance()->GetSignature(go.mID));
 		CM_CORE_INFO("Creating a new game object with name: " + name + " and id: " + std::to_string(go.mID));
 		return go;
 	}
@@ -82,7 +81,7 @@ namespace Carmicah
 
 		Carmicah::Log::GetCoreLogger()->info("Creating a clone of game object with name: " + newGO.mName + " with id: " + std::to_string(newGO.mID));
 
-		//Updating of signature done in the cloning process in entity manager
+		SystemManager::GetInstance()->UpdateSignatures(newGO.mID, EntityManager::GetInstance()->GetSignature(newGO.mID));
 
 		return newGO;
 	}
@@ -157,102 +156,51 @@ namespace Carmicah
 			else if (componentName == "struct Carmicah::Collider2D")
 			{
 				Collider2D t;
-				t.min.x = static_cast<float>((*it)["minX"].GetDouble());
-				t.min.y = static_cast<float>((*it)["minY"].GetDouble());
-				t.max.x = static_cast<float>((*it)["maxX"].GetDouble());
-				t.max.y = static_cast<float>((*it)["maxY"].GetDouble());
-				t.shape = (*it)["shape"].GetString();
+				t.DeserializeComponent((*it));
 				newObj.AddComponent<Collider2D>(t);
 
 			}
 			else if (componentName == "struct Carmicah::Renderer")
 			{
 				Renderer t;
-				t.model = (*it)["model"].GetString();
-				t.texture = (*it)["texture"].GetString();
-				t.texureMat = glm::mat3(1);
+				t.DeserializeComponent((*it));
 				newObj.AddComponent<Renderer>(t);
 			}
 			else if (componentName == "struct Carmicah::Animation")
 			{
 				Animation t{};
-				t.xSlice = (*it)["xSlice"].GetInt();
-				t.ySlice = (*it)["ySlice"].GetInt();
-				t.maxTime = static_cast<float>((*it)["timeBetween"].GetDouble());
+				t.DeserializeComponent((*it));
 				newObj.AddComponent<Animation>(t);
 			}
 		}
-	
-		//SystemManager::GetInstance()->UpdateSignatures(newObj.mID, EntityManager::GetInstance()->GetSignature(newObj.mID));
 	}
 
 	void GOFactory::ExportGOs(rapidjson::Writer<rapidjson::OStreamWrapper>& writer)
 	{
 		writer.StartArray();
-		gGOFactory->ForAllGO([&](GameObject& o) {
+		for (auto& obj : mIDToGO)
+		{
 			writer.StartObject();
 
 			writer.String("GameObject");
-			writer.String(o.GetName().c_str(), static_cast<rapidjson::SizeType>(o.GetName().length()));
+			writer.String(obj.second.GetName().c_str(), static_cast<rapidjson::SizeType>(obj.second.GetName().length()));
 
 			writer.String("ID");
-			writer.Int(o.GetID());
+			writer.Int(obj.second.GetID());
 
 			writer.String("Components");
 
 			writer.StartArray();
-			ComponentManager::GetInstance()->SerializeEntityComponents(o.GetID(), EntityManager::GetInstance()->GetSignature(o.GetID()), writer);
+			ComponentManager::GetInstance()->SerializeEntityComponents(obj.second.GetID(), EntityManager::GetInstance()->GetSignature(obj.second.GetID()), writer);
 			writer.EndArray();
-			//writer.StartArray();
-			//ComponentManager::GetInstance()->ForEachComponent([&](const std::string componentName)
-			//	{
-			//		writer.StartObject();
-			//		writer.String("Component Name");
-			//		writer.String(componentName.c_str(), static_cast<rapidjson::SizeType>(componentName.length()));
-			//		if (componentName == "struct Carmicah::Transform")
-			//		{
-			//			o.GetComponent<Transform>().SerializeComponent(writer);
-			//		}
-			//		else if (componentName == "struct Carmicah::Collider2D")
-			//		{
-			//			Collider2D& t = o.GetComponent<Collider2D>();
-			//			writer.String("minX");
-			//			writer.Double(t.min.x);
-			//			writer.String("minY");
-			//			writer.Double(t.min.y);
-			//			writer.String("maxX");
-			//			writer.Double(t.max.x);
-			//			writer.String("maxY");
-			//			writer.Double(t.max.y);
-			//			writer.String("shape");
-			//			writer.String(t.shape.c_str());
-			//		}
-			//		else if (componentName == "struct Carmicah::Renderer")
-			//		{
-			//			Renderer& t = o.GetComponent<Renderer>();
-			//			writer.String("model");
-			//			writer.String(t.model.c_str());
-			//			writer.String("texture");
-			//			writer.String(t.texture.c_str());
-			//		}
-			//		else if (componentName == "struct Carmicah::Animation")
-			//		{
-			//			Animation& t = o.GetComponent<Animation>();
-			//			writer.String("xSlice");
-			//			writer.Int(t.xSlice);
-			//			writer.String("ySlice");
-			//			writer.Int(t.xSlice);
-			//			writer.String("timeBetween");
-			//			writer.Double(t.maxTime);
-			//		}
-			//		writer.EndObject();
-
-			//	}, EntityManager::GetInstance()->GetSignature(o.GetID()));
-			//writer.EndArray();
 
 			writer.EndObject();
-			});
+		}
 		writer.EndArray();
+		//gGOFactory->ForAllGO([&](GameObject& o) {
+		//	
+		//	});
+		
 
 	}
 

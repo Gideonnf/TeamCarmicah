@@ -16,12 +16,18 @@ namespace Carmicah
 
         Renderer& DeserializeComponent(const rapidjson::Value& component) override
         {
+            model = component["model"].GetString();
+            texture = component["texture"].GetString();
+            texureMat = glm::mat3(1);
             return *this;
         }
 
         void SerializeComponent(rapidjson::Writer<rapidjson::OStreamWrapper>& writer) override
         {
-
+            writer.String("model");
+            writer.String(model.c_str());
+            writer.String("texture");
+            writer.String(texture.c_str());
         }
     };
 }

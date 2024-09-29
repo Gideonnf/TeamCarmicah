@@ -127,7 +127,8 @@ namespace Carmicah
 
 		void SerializeData(Entity entity, rapidjson::Writer<rapidjson::OStreamWrapper>& writer)
 		{
-			T componentData = m_ComponentArray[entity];
+			unsigned int componentIndex = m_EntityToComponent[entity];
+			T componentData = m_ComponentArray[componentIndex];
 			componentData.SerializeComponent(writer);
 		}
 

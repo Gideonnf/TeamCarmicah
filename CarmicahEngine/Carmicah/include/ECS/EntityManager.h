@@ -96,7 +96,6 @@ namespace Carmicah
 
 			// this part handles updating of signature so itll reflect in systems
 			mEntitySignatures[newEntity] = mEntitySignatures[entityToClone];
-			SystemManager::GetInstance()->UpdateSignatures(newEntity, mEntitySignatures[newEntity]);
 		}
 
 		void SetSignature(Entity entity, Signature entitySignature)
