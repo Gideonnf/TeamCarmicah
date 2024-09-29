@@ -34,7 +34,7 @@ namespace Carmicah
 		}
 
 		// entityName is always defaulted to gameobject when an entity is created
-		Entity CreateEntity(std::string entityName)
+		Entity CreateEntity()
 		{
 			if (m_EntityCount > MAX_ENTITIES)
 			{

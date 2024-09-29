@@ -38,8 +38,9 @@ namespace Carmicah
 	GameObject GOFactory::CreateGO(std::string name)
 	{
 		GameObject go;
-		go.mID = EntityManager::GetInstance()->CreateEntity(name);
-		go.mName = name;
+		std::string goName = CreateGOName(name);
+		go.mID = EntityManager::GetInstance()->CreateEntity();
+		go.mName = goName;
 		// Store in two maps. Testing use for fetching GO by name
 		mNameToID.insert(std::make_pair(go.mName, go.mID));
 		mIDToGO.insert(std::make_pair(go.mID, go));
@@ -56,7 +57,7 @@ namespace Carmicah
 	{
 		GameObject go;
 		go.mID = EntityManager::GetInstance()->LoadEntity(entityID);
-		go.mName = name;
+		go.mName = CreateGOName(name);
 
 		mNameToID.insert(std::make_pair(go.mName, go.mID));
 		mIDToGO.insert(std::make_pair(go.mID, go));
@@ -69,11 +70,11 @@ namespace Carmicah
 	GameObject GOFactory::CloneGO(GameObject const& go)
 	{
 		GameObject newGO(go);
-		newGO.mName = go.mName + "_Clone"; 
+		newGO.mName = CreateGOName(go.mName);
 		// TODO: Find a way to create clones like clone1, clone2, clone3, etc
 		// can probably while loop then check if the map with .count instead of using .find
 		// if it has 1, then increment a counter to go to clone2, clone3, etc until it finds no counts
-		newGO.mID = EntityManager::GetInstance()->CreateEntity(newGO.mName);
+		newGO.mID = EntityManager::GetInstance()->CreateEntity();
 		EntityManager::GetInstance()->CloneEntity(go.mID, newGO.mID);
 
 		// Store in two maps. Testing use for fetching GO by name
@@ -89,7 +90,7 @@ namespace Carmicah
 
 	GameObject GOFactory::CreatePrefab(std::string prefab)
 	{
-		GameObject newGO = CreateGO();
+		GameObject newGO = CreateGO("Duck");
 		if (AssetManager::GetInstance()->prefabFiles.count(prefab) > 0)
 		{
 			const rapidjson::Document goFile = SerializerSystem::GetInstance()->DeserializePrefab(AssetManager::GetInstance()->prefabFiles[prefab]);
@@ -135,6 +136,11 @@ namespace Carmicah
 		return newGO;
 	}
 
+	GameObject GOFactory::FetchGO(std::string GOName)
+	{
+		return mIDToGO[mNameToID[GOName]];
+	}
+
 	void GOFactory::EntityDestroyed(Entity entity)
 	{
 		// erase from the maps
@@ -168,6 +174,28 @@ namespace Carmicah
 		mDeleteList.clear();
 	}
 
+	void GOFactory::UpdateGOName(GameObject& go, std::string newName)
+	{
+		mNameToID.erase(go.mName);
+		mNameToID.insert(std::make_pair(newName, go.mID));
+		go.mName = newName;
+	}
+
+	std::string GOFactory::CreateGOName(std::string goName)
+	{
+		std::string newGOName = goName;
+		int counter = 1;
+		while (mNameToID.count(newGOName) != 0)
+		{
+			newGOName = goName + std::to_string(counter);
+			counter++;
+		}
+
+		return newGOName;
+	}
+#pragma endregion
+
+#pragma region Importing and Exporting
 	void GOFactory::ForAllGO(const std::function<void(GameObject&)>& func)
 	{
 		if (mIDToGO.size() > 0)
@@ -247,7 +275,6 @@ namespace Carmicah
 		
 
 	}
-
 #pragma endregion
 
 #pragma region Component Functions
