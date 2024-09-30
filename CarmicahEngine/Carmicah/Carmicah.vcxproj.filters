@@ -161,9 +161,6 @@
     <ClCompile Include="source\InputSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="source\PhysicsSystem - Copy.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
     <ClCompile Include="source\PhysicsSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>

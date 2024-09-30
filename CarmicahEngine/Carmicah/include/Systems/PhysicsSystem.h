@@ -6,7 +6,6 @@ namespace Carmicah
 	class PhysicsSystem : public BaseSystem
 	{
 	public:
-
 		void Init();
 
 		void Update();
@@ -14,5 +13,7 @@ namespace Carmicah
 		void Exit();
 
 		void ApplyForce(Entity& obj);
+
+		void UpdatePosition(Entity& obj);
 	};
 }

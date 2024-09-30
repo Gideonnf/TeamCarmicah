@@ -33,6 +33,8 @@ namespace Carmicah
     const GLuint WIDTH = 1600, HEIGHT = 900;
     const char* sceneName{ "../Assets/Scene/Scene1.json" };
     const char* assetsLoc{ "../Assets" };
+    bool leftPressed = false;
+    bool rightPressed = false;
 
     Application::Application()
     {
@@ -120,16 +122,45 @@ namespace Carmicah
         gameSystem->Init(sceneName);
 
         GameObject newObj = gGOFactory->CreateGO();
-        Transform playerTrans{ -5.0f, 0.0f, 1.0f , 0.0f, 1.f, 2.f , true};
-        RigidBody playerPhysics{ {0.0f, 0.0f}, {0.0f,0.0f}, true, false};
+        Transform playerTrans{ -5.0f, 0.0f, 1.0f , 0.0f, 1.f, 1.f , true};
+        RigidBody playerPhysics{ {0.0f, 0.0f}, {0.0f,0.0f}, {0.0f,0.0f},0.0f, KINEMATIC};
+        Collider2D playerCollider{ {0.0f, 0.0f}, {0.0f,0.0f}, "debugSquare"};
         Gravity   playerGravity{ -20.0f };
-        Renderer  playerRender{ "Square", "mc_test" };
-        playerRender.texureMat = glm::mat3(1);
-        //Collider2D playerCollider{ {1, 2, 3, 4 };
+        Renderer  playerRender{ "Square", "mc_test", glm::mat3(1) };
+
+
         newObj.AddComponent<Transform>(playerTrans);
         newObj.AddComponent<RigidBody>(playerPhysics);
+        newObj.AddComponent<Collider2D>(playerCollider);
         newObj.AddComponent<Renderer>(playerRender);
         newObj.AddComponent<Gravity>(playerGravity);
+
+        GameObject wall = gGOFactory->CreateGO();
+        Transform wallTrans{ 5.0f, 0.0f, 1.0f , 0.0f, 1.f, 1.f , true};
+        RigidBody wallPhysics{ {0.0f, 0.0f}, {0.0f,0.0f}, {0.0f,0.0f},0.0f, STATIC};
+        Collider2D wallCollider{ {0.0f,0.0f},{0.0f,0.0f}, "debugSquare" };
+        Gravity   wallGravity{ 0.0f };
+        Renderer  wallRender{ "Square", "wall", glm::mat3(1) };
+        
+
+        wall.AddComponent<Transform>(wallTrans);
+        wall.AddComponent<RigidBody>(wallPhysics);
+        wall.AddComponent<Collider2D>(wallCollider);
+        wall.AddComponent<Gravity>(wallGravity);
+        wall.AddComponent<Renderer>(wallRender);
+
+        GameObject ball = gGOFactory->CreateGO();
+        Transform ballTrans{ -5.0f, 0.0f, 1.0f, 0.0f, 1.f, 1.f, true };
+        RigidBody ballPhysics{ {2.0f, 3.0f}, {0.0f,0.0f}, {0.0f,0.0f},0.f, DYNAMIC};
+        Gravity ballGravity{ -10.0f };
+        Collider2D ballCollider{ {0.0f,0.0f},{0.0f,0.0f}, "debugSquare" };
+        Renderer ballRender{ "Square", "bullet", glm::mat3(1) };
+
+        ball.AddComponent<Transform>(ballTrans);
+        ball.AddComponent<RigidBody>(ballPhysics);
+        ball.AddComponent<Collider2D>(ballCollider);
+        ball.AddComponent<Gravity>(ballGravity);
+        ball.AddComponent<Renderer>(ballRender);
 
         double testTime = 0.0;
         while (!glfwWindowShouldClose(window)) {
@@ -141,14 +172,22 @@ namespace Carmicah
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS()));
             glfwSetWindowTitle(window, title.c_str());
             //GameObject test = 
-            if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) 
+            /*std::cout << "AABB Player min" << newObj.GetComponent<Collider2D>().min << std::endl;
+            std::cout << "AABB Player max" << newObj.GetComponent<Collider2D>().max << std::endl;
+
+            std::cout << "AABB Wall min" << wall.GetComponent<Collider2D>().min << std::endl;
+            std::cout << "AABB Wall max" << wall.GetComponent<Collider2D>().max << std::endl;*/
+            if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) 
             {
-                newObj.GetComponent<RigidBody>().velocity.y = 11.0f;
+                newObj.GetComponent<RigidBody>().velocity.x = 5.0f;
+            }
+            else if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+
+                newObj.GetComponent<RigidBody>().velocity.x = -5.0f;
             }
             else {
-                newObj.GetComponent<RigidBody>().velocity.y = 0.0f;
+                newObj.GetComponent<RigidBody>().velocity.x = 0.0f;
             }
-
             phySystem->Update();
             gameSystem->Update();
             //newObj.GetComponent<Transform>().xPos += 1;

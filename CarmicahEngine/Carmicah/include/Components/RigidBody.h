@@ -6,14 +6,23 @@
 
 namespace Carmicah 
 {
+	enum ObjectType
+	{
+		KINEMATIC,
+		STATIC,
+		DYNAMIC
+	};
+
 	struct RigidBody
 	{
 		Vector2D<float> velocity;
 		Vector2D<float> acceleration;
-		//float posPrev;
+		Vector2D<float> posPrev; //Putting it here first but may move it to transform
 
-		bool isKinematic;
-		bool isStatic;
+		float zposPrev;
+
+		ObjectType objectType;
+		
 	};
 }
 

@@ -11,18 +11,43 @@
 
 namespace Carmicah 
 {
+
+	void PhysicsSystem::UpdatePosition(Entity& obj) 
+	{
+		auto* componentManager = ComponentManager::GetInstance();
+		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
+		auto& transform = componentManager->GetComponent<Transform>(obj);
+
+		rigidbody.posPrev.x = transform.xPos;
+		rigidbody.posPrev.y = transform.yPos;
+
+		rigidbody.zposPrev = transform.zPos;
+	}
+
 	void PhysicsSystem::ApplyForce(Entity& obj) 
 	{
-		auto& rigidbody = ComponentManager::GetInstance()->GetComponent<RigidBody>(obj);
-		auto& jump = ComponentManager::GetInstance()->GetComponent<Gravity>(obj);
-		auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(obj);
+		auto* componentManager = ComponentManager::GetInstance();
+		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
+		auto& gravity = componentManager->GetComponent<Gravity>(obj);
+		auto& transform = componentManager->GetComponent<Transform>(obj);
+		
+		float deltaTime = CarmicahTimer::GetDt();
 
-		if (!rigidbody.isStatic && rigidbody.isKinematic) 
+		if (rigidbody.objectType == DYNAMIC) 
 		{
-			rigidbody.velocity.y += jump.gravity * CarmicahTimer::GetDt();
 
-			transform.xPos += rigidbody.velocity.x * CarmicahTimer::GetDt();
-			transform.yPos += rigidbody.velocity.y * CarmicahTimer::GetDt();
+			//rigidbody.velocity.y += gravity.gravity * deltaTime;
+
+			transform.xPos += rigidbody.velocity.x * deltaTime;
+			//transform.yPos += rigidbody.velocity.y * deltaTime;
+
+		}
+		else if (rigidbody.objectType == KINEMATIC) 
+		{
+			if (rigidbody.velocity.x != 0)
+			{
+				transform.xPos += rigidbody.velocity.x * deltaTime;
+			}
 		}
 	}
 	
@@ -40,10 +65,12 @@ namespace Carmicah
 
 	void PhysicsSystem::Update() 
 	{
+
+
 		for (auto entity : mEntitiesSet) 
 		{
-			
 			ApplyForce(entity);
+			UpdatePosition(entity);
 
 		}
 	}

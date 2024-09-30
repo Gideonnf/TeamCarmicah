@@ -9,8 +9,8 @@ namespace Carmicah
 {
     struct Collider2D
     {
-        Carmicah::Vector2D<float> min;
-        Carmicah::Vector2D<float> max;
+        Vector2D<float> min;
+        Vector2D<float> max;
         std::string shape;
     };
 }
