@@ -4,32 +4,26 @@
 
 namespace Carmicah
 {
-	enum SceneState
-	{
-		BLANKSTATE,
-		INITIALISING,
-		CHANGESCENE,
-		RUNTIME,
-		RELOAD,
-		EXIT
-	};
+	//enum SceneState
+	//{
+	//	NONE,
+	//	INITIALISING,
+	//	RUNTIME,
+	//	EXIT
+	//};
 
 	class SceneSystem : public BaseSystem
 	{
 	private:
-		std::string mCurrScene;
-		std::string mNextScene;
-	public:
-		SceneState mCurrState;
-		SceneState mNextState;
+		std::string mScene;
 
+	public:
 		//GameCore(std::string scene) : mScene(scene) {}
-		void Init();
-		void ChangeScene(std::string nextScene);
+		void Init(std::string scene);
+		void Update();
 		void Exit();
-		void SetScene(std::string scene);
 		void ReceiveMessage(Message* msg) override;
-		std::string GetCurrScene();
+
 	};
 }
 

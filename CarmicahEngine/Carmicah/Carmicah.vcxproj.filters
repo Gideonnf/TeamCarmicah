@@ -10,9 +10,6 @@
     <Filter Include="include\ECS">
       <UniqueIdentifier>{5340C031-BFF5-3827-48EA-32FEB49E2F2B}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\Editor">
-      <UniqueIdentifier>{9FF868FF-8BC6-5C05-745A-CD2B60C7386A}</UniqueIdentifier>
-    </Filter>
     <Filter Include="include\Input">
       <UniqueIdentifier>{482232A3-B4E2-ADD9-7D1D-F756E99CF2B5}</UniqueIdentifier>
     </Filter>
@@ -45,7 +42,13 @@
     <ClInclude Include="include\Components\Collider2D.h">
       <Filter>include\Components</Filter>
     </ClInclude>
+    <ClInclude Include="include\Components\Gravity.h">
+      <Filter>include\Components</Filter>
+    </ClInclude>
     <ClInclude Include="include\Components\Renderer.h">
+      <Filter>include\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\RigidBody.h">
       <Filter>include\Components</Filter>
     </ClInclude>
     <ClInclude Include="include\Components\Transform.h">
@@ -71,18 +74,6 @@
     </ClInclude>
     <ClInclude Include="include\ECS\SystemManager.h">
       <Filter>include\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Editor\DebugWindow.h">
-      <Filter>include\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Editor\Editor.h">
-      <Filter>include\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Editor\EditorWindow.h">
-      <Filter>include\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Editor\HeirarchyWindow.h">
-      <Filter>include\Editor</Filter>
     </ClInclude>
     <ClInclude Include="include\FPSCounter.h">
       <Filter>include</Filter>
@@ -123,6 +114,9 @@
     <ClInclude Include="include\Systems\InputSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="include\Systems\PhysicsSystem.h">
+      <Filter>include\Systems</Filter>
+    </ClInclude>
     <ClInclude Include="include\Systems\SceneSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
@@ -155,15 +149,6 @@
     <ClCompile Include="source\CollisionSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="source\DebugWindow.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Editor.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="source\EditorWindow.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
     <ClCompile Include="source\FPSCounter.cpp">
       <Filter>source</Filter>
     </ClCompile>
@@ -173,10 +158,10 @@
     <ClCompile Include="source\GraphicsSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="source\HeirarchyWindow.cpp">
+    <ClCompile Include="source\InputSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="source\InputSystem.cpp">
+    <ClCompile Include="source\PhysicsSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\SceneSystem.cpp">

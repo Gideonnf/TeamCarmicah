@@ -3,8 +3,7 @@
 #include "Component.h" // ECStypes in component.h
 #include <unordered_map>
 #include <memory>
-#include <rapidjson/ostreamwrapper.h>
-#include <rapidjson/prettywriter.h>
+
 #include "Singleton.h"
 
 namespace Carmicah
@@ -34,12 +33,16 @@ namespace Carmicah
 			// Get the name of the type that was passed in for storing in the map
 			std::string name = typeid(T).name();
 
-			// if count is 1 this will fail
-			assert(m_ComponentTypes.count(name) == 0 && "Component has been registered");
-
 			// add it to the component type map
 			m_ComponentTypes.insert({ name, m_NextID });
 
+			// Set a signature for each component
+			//Signature componentSignature;
+			//componentSignature.set(m_NextID, true);
+			//m_ComponentSignatures[m_NextID] = componentSignature;
+			// 
+			//std::cout << "Component ID" << m_NextID << std::endl;
+			// Increment the next id var
 			m_NextID++;
 
 			Carmicah::Log::GetCoreLogger()->info("Component Created with name" + name);
@@ -55,12 +58,15 @@ namespace Carmicah
 			std::string componentName = typeid(T).name();
 
 			// Check if it exist in the map
-			assert(m_ComponentTypes.count(componentName) != 0 && "Component does not exist yet");
+			if (m_ComponentTypes[componentName] != 0)
+			{
+				return m_ComponentTypes[componentName];
+			}
 
-			return m_ComponentTypes[componentName];
+			return 0;
 		}
 
-		ComponentID GetComponentID(const std::string& componentName)
+		ComponentID GetComponentID(std::string componentName)
 		{
 
 			if (m_ComponentTypes[componentName] != 0)
@@ -78,34 +84,38 @@ namespace Carmicah
 				}
 			}
 
-			assert("String does not match any registered components");
+			return 0;
 		}
 
 		template<typename T>
-		void AddComponent(const Entity& entity, T component)
+		void AddComponent(Entity entity, T component)
 		{
-			GetComponentArray<T>()->InsertComponentData(entity, component);
-		}
-
-		template<typename T>
-		void AddComponent(const Entity& entity)
-		{
-			T component{};
-			GetComponentArray<T>()->InsertComponentData(entity, component);
+			if (GetComponentArray<T>() != NULL)
+			{
+				GetComponentArray<T>()->InsertComponentData(entity, component);
+			}
 		}
 
 
 		template<typename T>
-		void RemoveComponent(const Entity& entity)
+		void RemoveComponent(Entity entity)
 		{
-			GetComponentArray<T>()->RemoveComponentData(entity);
+			if (GetComponentArray<T>() != NULL)
+			{
+				GetComponentArray<T>()->RemoveComponentData(entity);
+			}
+
 		}
 
 		template<typename T>
-		T& GetComponent(const Entity& entity)
+		T& GetComponent(Entity entity)
 		{
+			// TODO: Assert error if it tries to get a component that it doesnt have
+
 			return GetComponentArray<T>()->GetComponentData(entity);
 		}
+
+		
 
 		void EntityDestroyed(Entity entity)
 		{
@@ -153,39 +163,13 @@ namespace Carmicah
 					func(component.first);
 				}
 			}
-		}
-
-		void SerializeEntityComponents(const Entity& entity,const Signature& entitySignature, rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer)
-		{
-			for (auto const& component : m_ComponentTypes)
-			{
-				Signature componentSignature;
-				// Set that component signature to true
-				componentSignature.set(component.second, true);
-				// Check if the entity's signature has this component
-				
-				// It has that component
-				if ((entitySignature & componentSignature) == componentSignature)
-				{
-					writer.StartObject();
-					writer.String("Component Name");
-					writer.String(component.first.c_str(), static_cast<rapidjson::SizeType>(component.first.length()));
-					m_ComponentMap[component.first]->SerializeData(entity, writer);
-					writer.EndObject();
-				}
-			}
 
 		}
+
 
 		size_t GetComponentCount()
 		{
 			return m_ComponentTypes.size();
-		}
-
-		template<typename T>
-		bool HasComponent(Entity entity)
-		{
-			return GetComponentArray<T>()->HasComponentData(entity);
 		}
 
 		// Used to get the component for inserting in new entity data
@@ -195,14 +179,13 @@ namespace Carmicah
 			// Get the name of the component using typeid
 			std::string componentName = typeid(T).name();
 			// Check if it exist in the map
-			if (m_ComponentTypes.count(componentName) != 0)
+			if (m_ComponentTypes[componentName] != 0)
 			{
 				// if it does then retrieve the component
 				return std::static_pointer_cast<Component<T>>(m_ComponentMap[componentName]);
 			}
 
 			// If it reaches here then itll flag an error
-			assert(m_ComponentTypes.count(componentName) == 0 && "Component does not exist yet. ");
 			return NULL;
 		}
 	};

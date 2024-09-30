@@ -5,7 +5,7 @@
 #include <stb/stb_image.h>
 #include "AssetManager.h"
 #include "Systems/SoundSystem.h"
-#include "log.h"
+
 namespace Carmicah
 {
 	void AssetManager::LoadAll(const char* assetPath)
@@ -15,7 +15,6 @@ namespace Carmicah
 		textureMaps.insert(std::make_pair("", Texture{})); // Sets No Texture
 
 		InitSound();
-		InitFontType();
 
 		if (std::filesystem::exists(directoryPath) && std::filesystem::is_directory(directoryPath))
 		{
@@ -37,17 +36,7 @@ namespace Carmicah
 						}
 						else if (folderName == "Images")
 						{
-							std::string fileExt = entry.path().extension().string();
-
-							if (fileExt == ".png")
-							{
-								const auto testOtherFile = subFile.path() / (fileName + std::string(".ani"));
-								LoadTexture(fileName, entry.path().string(), testOtherFile.string());
-							}
-						}
-						else if (folderName == "Fonts")
-						{
-							LoadFont(fileName, entry.path().string(), fontSize);
+							LoadTexture(fileName, entry.path().string());
 						}
 						else if (folderName == "Meshes")
 						{
@@ -63,30 +52,17 @@ namespace Carmicah
 						}
 						else if (folderName == "Scene")
 						{
-						//	std::cout << entry.path().string() << std::endl;
-							//std::cout << fileName << std::endl;
-							sceneFiles.insert(std::make_pair(fileName, entry.path().string()));
 						}
 						else if (folderName == "Shaders")
 						{
-							std::string fileExt = entry.path().extension().string();
-							if (fileExt == ".vert")
-							{
-								const auto testOtherFile = subFile.path() / (fileName + std::string(".frag"));
-								if(std::filesystem::exists(testOtherFile))
-								{
-									LoadShader(fileName, entry.path().string(), testOtherFile.string());
-								}
-							}
-						}
-						else if (folderName == "Prefabs")
-						{
-							prefabFiles.insert(std::make_pair(fileName, entry.path().string()));
+
 						}
 					}
 				}
 			}
 		}
+		LoadShader("basic", "../Assets/Shaders/basic.vert", "../Assets/Shaders/basic.frag");
+		LoadShader("debug", "../Assets/Shaders/debug.vert", "../Assets/Shaders/debug.frag");
 	}
 
 	void AssetManager::UnloadAll()
@@ -104,7 +80,6 @@ namespace Carmicah
 		textureMaps.clear();
 		primitiveMaps.clear();
 		shaderPgms.clear();
-		FT_Done_FreeType(ftLib);
 
 		// Unload Sound
 		for (auto& sound : soundMap)
@@ -112,8 +87,6 @@ namespace Carmicah
 		if (soundSystem != NULL)
 			soundSystem->release();
 	}
-
-
 	//bool AssetManager::TryGetPrimitive(Primitive& p, const std::string& s)
 	//{
 	//	auto& temp = primitiveMaps.find(s);
@@ -374,7 +347,7 @@ namespace Carmicah
 		primitiveMaps.insert(std::make_pair(objName, p));
 	}
 
-	void AssetManager::LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile)
+	void AssetManager::LoadTexture(const std::string& textureName, const std::string& textureFile)
 	{
 		auto& foundTexture = textureMaps.find(textureName);
 		if (foundTexture != textureMaps.end())
@@ -383,14 +356,17 @@ namespace Carmicah
 			return;
 		}
 
+		//GLuint texture;
+		//std::ifstream texIF{ textureFile, std::ios::binary };
+		//if (!texIF)
+		//{
+		//	std::cerr << "Unable to open texture file\n";
+		//	exit(EXIT_FAILURE);
+		//}
+		//char* ptr_texels = new char[width * height * bpt];
+		//texIF.read(ptr_texels, width * height * bpt);
+		//texIF.close();
 		Texture texture;
-		std::ifstream ssDets{ spriteSheetFile, std::ios::binary };
-		if (ssDets)
-		{
-			ssDets >> texture.xSlices >> texture.ySlices;
-			ssDets.close();
-		}
-
 		stbi_uc* data = stbi_load(textureFile.c_str(), &texture.width, &texture.height, &texture.bpt, 0);
 		if (!data)
 		{
@@ -410,70 +386,9 @@ namespace Carmicah
 		textureMaps.insert(std::make_pair(textureName, texture));
 	}
 
-	void AssetManager::InitFontType()
-	{
-		if (FT_Init_FreeType(&ftLib))
-		{
-			std::cerr << "Error with Free Type Init" << std::endl;
-			return;
-		}
-	}
-
-	void AssetManager::LoadFont(const std::string& fontName, const std::string& fontLoc, const unsigned int& fontHeight)
-	{
-		auto& foundFontTex = fontMaps.find(fontName);
-		if (foundFontTex != fontMaps.end())
-		{
-			std::cerr << "Font: " << fontName << " Already Exists";
-			return;
-		}
-
-		std::array<Carmicah::FontChar, 128> newFont;
-
-		FT_Face fontFace;
-		if (FT_New_Face(ftLib, fontLoc.c_str(), 0, &fontFace))
-		{
-			std::cerr << "Error with Free Type Face: " << fontName << std::endl;
-			return;
-		}
-		FT_Set_Pixel_Sizes(fontFace, 0, fontHeight);
-
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		for (unsigned char c = 0; c < 128; ++c)
-		{
-			if (FT_Load_Char(fontFace, c, FT_LOAD_RENDER))
-			{
-				std::cerr << "Failed to load FreeType Glyph: " <<fontName << "(" << c << ")" << std::endl;
-				continue;
-			}
-			Carmicah::FontChar fc;
-			fc.width = fontFace->glyph->bitmap.width;
-			fc.height = fontFace->glyph->bitmap.rows;
-			fc.xBearing = fontFace->glyph->bitmap_left;
-			fc.yBearing = fontFace->glyph->bitmap_top;
-			fc.advance = fontFace->glyph->advance.x;
-
-			glCreateTextures(GL_TEXTURE_2D, 1, &fc.texID);
-			glTextureStorage2D(fc.texID, 1, GL_R8, fc.width, fc.height);
-			glTextureSubImage2D(fc.texID, 0, 0, 0, fc.width, fc.height, GL_RED, GL_UNSIGNED_BYTE, fontFace->glyph->bitmap.buffer);
-
-			glTextureParameterf(fc.texID, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTextureParameterf(fc.texID, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			glTextureParameterf(fc.texID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTextureParameterf(fc.texID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-			newFont[c] = std::move(fc);
-		}
-
-		FT_Done_Face(fontFace);
-
-		fontMaps.insert(std::make_pair(fontName, std::move(newFont)));
-	}
-
-
 	void AssetManager::ExportCircle(int numSlices, const std::string& modelFile)
 	{
-		const float M_PI = 3.14159265358979f;
+		const float M_PI = 3.14159265358979323846264;
 		std::ofstream ofs(modelFile, std::ios::binary);
 		if (ofs)
 		{
@@ -520,17 +435,4 @@ namespace Carmicah
 		}
 	}
 
-	bool AssetManager::GetScene(std::string scene, std::string& filePath)
-	{
-		if (sceneFiles.count(scene) != 0)
-		{
-			filePath = sceneFiles[scene];
-			return true;
-		}
-		else
-		{
-			CM_CORE_ERROR("Scene not found");
-			return false;
-		}
-	}
 }

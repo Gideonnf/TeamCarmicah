@@ -6,8 +6,6 @@
 #include <array>
 #include <vector>
 #include "Log.h"
-#include "rapidjson/prettywriter.h"
-#include "rapidjson/ostreamwrapper.h"
 namespace Carmicah
 {
 	// Interface for components so that component manager can notify components if an entity is destroyed
@@ -17,7 +15,6 @@ namespace Carmicah
 		virtual ~IComponent() {};
 		virtual void EntityDestroyed(Entity entity) = 0;
 		virtual void CloneComponentData(Entity, Entity) = 0;
-		virtual void SerializeData(Entity, rapidjson::PrettyWriter<rapidjson::OStreamWrapper>&) = 0;
 	};
 
 	template <typename T>
@@ -36,7 +33,7 @@ namespace Carmicah
 		std::unordered_map<unsigned int, Entity> m_ComponentToEntity;
 
 		// Keep track of the active components
-		//unsigned int m_Size{};
+		unsigned int m_Size{};
 
 		// NOTE:
 		/*
@@ -54,10 +51,7 @@ namespace Carmicah
 
 		void InsertComponentData(Entity entity, T component)
 		{
-			if (m_ComponentArray.size() > MAX_ENTITIES)
-			{
-				assert("Too many entities have been added.");
-			}
+			// TODO: CHeck if its inserting over the limit
 
 			// use current active size to get the next component id
 			unsigned int componentIndex = (unsigned int)m_ComponentArray.size();
@@ -107,16 +101,7 @@ namespace Carmicah
 
 		T& GetComponentData(Entity entity)
 		{
-			assert(m_EntityToComponent.count(entity) != 0 && "Entity does not contain this component");
-
 			return m_ComponentArray[m_EntityToComponent[entity]];
-		}
-
-		bool HasComponentData(Entity entity)
-		{
-			// If component has this entity, count would return as 1
-			// if not it would return as 0
-			return m_EntityToComponent.count(entity);
 		}
 
 		void CloneComponentData(Entity entityToClone, Entity newEntity)
@@ -135,13 +120,6 @@ namespace Carmicah
 
 			// place a copy of the clone component data to the back
 			m_ComponentArray.emplace_back(componentData);
-		}
-
-		void SerializeData(Entity entity, rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer)
-		{
-			unsigned int componentIndex = m_EntityToComponent[entity];
-			T componentData = m_ComponentArray[componentIndex];
-			componentData.SerializeComponent(writer);
 		}
 
 		void EntityDestroyed(Entity entity) override
