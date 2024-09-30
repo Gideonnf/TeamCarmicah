@@ -22,7 +22,6 @@ namespace Carmicah
 	void ColliderRenderSystem::Init()
 	{
 		// Set the signature of the system
-		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Collider2D>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<ColliderRenderSystem>(mSignature);
@@ -38,15 +37,21 @@ namespace Carmicah
 
 		for (auto entity : mEntitiesSet)
 		{
-			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
+			auto& camera = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);
 			Primitive p{ AssetManager::GetInstance()->primitiveMaps[collider.shape] };
+
+			glm::mat3 trans{1};
+			trans = glm::translate(trans, glm::vec2((collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f));
+			trans = glm::scale(trans, glm::vec2(collider.max.x - collider.min.x, collider.max.y - collider.min.y));
+			trans = camera.camSpace * trans;
+
 
 			GLint uniform_var_loc0 = glGetUniformLocation(currShader, "uModel_to_NDC");
 			if (uniform_var_loc0 >= 0)
 			{
 				glUniformMatrix3fv(uniform_var_loc0, 1, GL_FALSE,
-					glm::value_ptr(transform.camSpace));
+					glm::value_ptr(trans));
 			}
 			else
 			{
