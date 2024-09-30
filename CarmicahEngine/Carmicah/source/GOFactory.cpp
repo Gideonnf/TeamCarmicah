@@ -8,6 +8,8 @@
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
 #include "Components/Animation.h"
+#include "Components/TextRenderer.h"
+#include "Components/UITransform.h"
 #include "log.h"
 
 namespace Carmicah
@@ -244,6 +246,27 @@ namespace Carmicah
 				t.DeserializeComponent((*it));
 				newObj.AddComponent<Animation>(t);
 			}
+            else if (componentName == "struct Carmicah::TextRenderer")
+            {
+                TextRenderer t{};
+                t.model = (*it)["model"].GetString();
+                t.font = (*it)["font"].GetString();
+                t.txt = (*it)["text"].GetString();
+                t.color.r = static_cast<float>((*it)["colorR"].GetDouble());
+                t.color.g = static_cast<float>((*it)["colorG"].GetDouble());
+                t.color.b = static_cast<float>((*it)["colorB"].GetDouble());
+                newObj.AddComponent<TextRenderer>(t);
+            }
+            else if (componentName == "struct Carmicah::UITransform")
+            {
+                UITransform t{};
+                t.xPos = static_cast<float>((*it)["xPos"].GetDouble());
+                t.yPos = static_cast<float>((*it)["yPos"].GetDouble());
+                //t.rot = static_cast<float>((*it)["rot"].GetDouble());
+                t.xScale = static_cast<float>((*it)["xScale"].GetDouble());
+                t.yScale = static_cast<float>((*it)["yScale"].GetDouble());
+                newObj.AddComponent<UITransform>(t);
+            }
 		}
 	}
 
@@ -264,6 +287,105 @@ namespace Carmicah
 
 			writer.StartArray();
 			ComponentManager::GetInstance()->SerializeEntityComponents(obj.second.GetID(), EntityManager::GetInstance()->GetSignature(obj.second.GetID()), writer);
+            /*
+			gGOFactory->ForAllGO([&](GameObject& o) {
+				writer.StartObject();
+
+				writer.String("GameObject");
+				writer.String(o.GetName().c_str(), static_cast<rapidjson::SizeType>(o.GetName().length()));
+
+				writer.String("ID");
+				writer.Int(o.GetID());
+
+				writer.String("Components");
+				writer.StartArray();
+				ComponentManager::GetInstance()->ForEachComponent([&](const std::string componentName)
+					{
+						writer.StartObject();
+						writer.String("Component Name");
+						writer.String(componentName.c_str(), static_cast<rapidjson::SizeType>(componentName.length()));
+						if (componentName == "struct Carmicah::Transform")
+						{
+							Transform& t = o.GetComponent<Transform>();
+							writer.String("xPos");
+							writer.Double(t.xPos);
+							writer.String("yPos");
+							writer.Double(t.yPos);
+							writer.String("zPos");
+							writer.Double(t.zPos);
+							writer.String("rot");
+							writer.Double(t.rot);
+							writer.String("xScale");
+							writer.Double(t.xScale);
+							writer.String("yScale");
+							writer.Double(t.yScale);
+
+						}
+						else if (componentName == "struct Carmicah::Collider2D")
+						{
+							Collider2D& t = o.GetComponent<Collider2D>();
+							writer.String("minX");
+							writer.Double(t.min.x);
+							writer.String("minY");
+							writer.Double(t.min.y);
+							writer.String("maxX");
+							writer.Double(t.max.x);
+							writer.String("maxY");
+							writer.Double(t.max.y);
+							writer.String("shape");
+							writer.String(t.shape.c_str());
+						}
+						else if (componentName == "struct Carmicah::Renderer")
+						{
+							Renderer& t = o.GetComponent<Renderer>();
+							writer.String("model");
+							writer.String(t.model.c_str());
+							writer.String("texture");
+							writer.String(t.texture.c_str());
+						}
+						else if (componentName == "struct Carmicah::Animation")
+						{
+							Animation& t = o.GetComponent<Animation>();
+							writer.String("timeBetween");
+							writer.Double(t.maxTime);
+						}
+						else if (componentName == "struct Carmicah::TextRenderer")
+						{
+							TextRenderer& t = o.GetComponent<TextRenderer>();
+							writer.String("model");
+							writer.String(t.model.c_str());
+							writer.String("font");
+							writer.String(t.font.c_str());
+							writer.String("text");
+							writer.String(t.txt.c_str());
+							writer.String("colorR");
+							writer.Double(t.color.r);
+							writer.String("colorG");
+							writer.Double(t.color.g);
+							writer.String("colorB");
+							writer.Double(t.color.b);
+						}
+						else if (componentName == "struct Carmicah::UITransform")
+						{
+							UITransform& t = o.GetComponent<UITransform>();
+							writer.String("xPos");
+							writer.Double(t.xPos);
+							writer.String("yPos");
+							writer.Double(t.yPos);
+							//writer.String("rot");
+							//writer.Double(t.rot);
+							writer.String("xScale");
+							writer.Double(t.xScale);
+							writer.String("yScale");
+							writer.Double(t.yScale);
+						}
+						writer.EndObject();
+
+					}, EntityManager::GetInstance()->GetSignature(o.GetID()));*/
+				writer.EndArray();
+
+				writer.EndObject();
+				});
 			writer.EndArray();
 
 			writer.EndObject();

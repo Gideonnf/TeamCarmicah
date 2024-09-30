@@ -34,7 +34,7 @@ namespace Carmicah
 		~GOFactory();
 
 #pragma region SceneData
-		Entity mainCam;
+		Entity mainCam{};
 #pragma endregion
 
 #pragma region GameObject Functions

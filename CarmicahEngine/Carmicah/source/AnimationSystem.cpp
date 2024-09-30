@@ -8,6 +8,7 @@
 #include "ECS/SystemManager.h"
 #include "ECS/ComponentManager.h"
 #include "CarmicahTime.h"
+#include "AssetManager.h"
 
 namespace Carmicah
 {
@@ -25,7 +26,22 @@ namespace Carmicah
 		for (auto& entity : mEntitiesSet)
 		{
 			auto& anim = ComponentManager::GetInstance()->GetComponent<Animation>(entity);
-			anim.time += CarmicahTimer::GetDt();
+			auto& rend = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
+
+			if (!anim.notChangedAnim)
+			{
+				auto& tex = AssetManager::GetInstance()->textureMaps.find(rend.texture);
+				if (tex != AssetManager::GetInstance()->textureMaps.end())
+				{
+					anim.xSlice = tex->second.xSlices + 1;
+					anim.ySlice = tex->second.ySlices + 1;
+					anim.time = anim.maxTime;
+					anim.currPiece = anim.xSlice * anim.ySlice;
+				}
+				anim.notChangedAnim = true;
+			}
+
+			anim.time += static_cast<float>(CarmicahTimer::GetDt());
 			if (anim.time > anim.maxTime)
 			{
 				if (++anim.currPiece >= anim.xSlice * anim.ySlice)
@@ -35,7 +51,7 @@ namespace Carmicah
 				float xMulti = static_cast<float>(anim.currPiece % anim.xSlice);
 				float yMulti = static_cast<float>(anim.ySlice - (anim.currPiece / anim.xSlice));
 
-				auto& rend = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
+				
 				// Animation translates
 				rend.texureMat = glm::mat3(1);
 				glm::vec2 animScale = glm::vec2{ 1.f / static_cast<float>(anim.xSlice), 1.f / static_cast<float>(anim.ySlice) };

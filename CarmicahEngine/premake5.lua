@@ -39,6 +39,7 @@ project "Carmicah"
         "opengl32.lib",
         "glad",
         "ImGUI"
+        "freetype.lib"
     }
 
     filter "system:windows"
@@ -59,12 +60,18 @@ project "Carmicah"
     filter "configurations:Debug"
         defines { "CM_DEBUG" }
         symbols "On"
-        links "fmodL_vc.lib"
+        links 
+        {
+            "fmodL_vc.lib"
+        }
 
     filter "configurations:Release"
         defines { "CM_RELEASE" }
         optimize "On"
-        links "fmod_vc.lib"
+        links 
+        {
+            "fmod_vc.lib"
+        }
 
 project "Editor"
     location "Editor"
