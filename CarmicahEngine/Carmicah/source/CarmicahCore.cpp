@@ -139,6 +139,7 @@ namespace Carmicah
         aniSystem->Init();
         crsSystem->Init();
         colSystem->Init(); // Set the signature
+        phySystem->Init();
         souSystem->Init(true);
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
@@ -146,11 +147,34 @@ namespace Carmicah
         gameSystem->Init();
 
         graSystem->SetScreenSize(WIDTH / 100, HEIGHT / 100, gGOFactory->mainCam);
-        colSystem->PrintEntities();
 
-        //GameObject newObj = gGOFactory->CreateGO();
-        //newObj.AddComponent<Transform>();
-        //newObj.AddComponent<Collider2D>();
+        GameObject newObj = gGOFactory->CreateGO();
+        newObj.AddComponent<Transform>();
+        newObj.GetComponent<Transform>().xPos = -5.0f;
+        newObj.GetComponent<Transform>().xScale = 1.0f;
+        newObj.GetComponent<Transform>().yScale = 1.0f;
+        newObj.AddComponent<Collider2D>();
+        newObj.AddComponent<RigidBody>();
+        newObj.GetComponent<RigidBody>().velocity.x = 2.0f;
+        newObj.GetComponent<RigidBody>().objectType = "Dynamic";
+        newObj.AddComponent<Renderer>();
+        newObj.GetComponent<Renderer>().model = "Square";
+        newObj.GetComponent<Renderer>().texture = "Bullet";
+        newObj.GetComponent<Renderer>().texureMat = glm::mat3(1);
+
+        GameObject wall = gGOFactory->CreateGO();
+        wall.AddComponent<Transform>();
+        wall.GetComponent<Transform>().xPos = 5.0f;
+        wall.GetComponent<Transform>().xScale = 1.0f;
+        wall.GetComponent<Transform>().yScale = 1.0f;
+        wall.AddComponent<Collider2D>();
+        wall.AddComponent<RigidBody>();
+        wall.GetComponent<RigidBody>().objectType = "Static";
+        wall.AddComponent<Renderer>();
+        wall.GetComponent<Renderer>().model = "Square";
+        wall.GetComponent<Renderer>().texture = "wall";
+        wall.GetComponent<Renderer>().texureMat = glm::mat3(1);
+
         colSystem->PrintEntities();
 
         //Testing prefab
@@ -186,6 +210,7 @@ namespace Carmicah
             {
 
                 colSystem->Update();
+                phySystem->Update();
                 aniSystem->Update();
 
                 graSystem->Render(gGOFactory->mainCam);

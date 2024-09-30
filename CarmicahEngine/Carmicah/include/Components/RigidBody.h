@@ -27,7 +27,7 @@ namespace Carmicah
             posPrev.y = static_cast<float>(component["posPrevY"].GetDouble());
             gravity = static_cast<float>(component["gravity"].GetDouble());
             zposPrev = static_cast<float>(component["zposPrev"].GetDouble());
-            objectType = (component["ObjectType"].GetString());
+            objectType = (component["objectType"].GetString());
             return *this;
         }
 
@@ -45,7 +45,7 @@ namespace Carmicah
             writer.Double(gravity);
 			writer.String("zposPrev");
 			writer.Double(zposPrev);
-            writer.String("ObjectType");
+            writer.String("objectType");
 			writer.String(objectType.c_str());
         }
     };

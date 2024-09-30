@@ -26,10 +26,10 @@ namespace Carmicah
 		auto& AABB = componentManager->GetComponent<Collider2D>(obj);
 		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
 
-		AABB.min.x = rigidbody.posPrev.x - (transform.xScale);
-		AABB.min.y = rigidbody.posPrev.y - (transform.yScale);
-		AABB.max.x = rigidbody.posPrev.x + (transform.xScale);
-		AABB.max.y = rigidbody.posPrev.y + (transform.yScale);
+		AABB.min.x = transform.xPos - (transform.xScale *0.9f);
+		AABB.min.y = transform.yPos - (transform.yScale*0.9f);
+		AABB.max.x = transform.xPos + (transform.xScale*0.9f);
+		AABB.max.y = transform.yPos + (transform.yScale*0.9f);
 	}
 
 	bool CollisionSystem::CollisionIntersect(Entity& obj1, Entity& obj2, float tFirst)
@@ -187,7 +187,7 @@ namespace Carmicah
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
 
-			//gGOFactory->EntityDestroyed(obj1);
+			gGOFactory->Destroy(obj1);
 
 		}
 

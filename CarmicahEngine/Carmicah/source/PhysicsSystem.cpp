@@ -3,6 +3,7 @@
 #include <ECS/ECSTypes.h>
 #include "Components/Transform.h"
 #include "Components/RigidBody.h"
+#include "Components/Collider2D.h"
 #include "Systems/GOFactory.h"
 #include "ECS/SystemManager.h"
 #include "ECS/ComponentManager.h"
