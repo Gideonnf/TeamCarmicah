@@ -15,6 +15,7 @@
 #include "Editor/Editor.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
+#include "Components/RigidBody.h"
 #include "Components/Renderer.h"
 #include "Components/Animation.h"
 #include "Components/TextRenderer.h"
@@ -26,6 +27,7 @@
 #include "Systems/AnimationSystem.h"
 #include "Systems/ColliderRenderSystem.h"
 #include "Systems/CollisionSystem.h"
+#include "Systems/PhysicsSystem.h"
 #include "Systems/SoundSystem.h"
 #include "Systems/InputSystem.h"
 #include "Systems/SceneSystem.h"
@@ -114,6 +116,7 @@ namespace Carmicah
 
         REGISTER_COMPONENT(Transform);
         REGISTER_COMPONENT(Collider2D);
+        REGISTER_COMPONENT(RigidBody);
         REGISTER_COMPONENT(Renderer);
         REGISTER_COMPONENT(Animation);
         REGISTER_COMPONENT(TextRenderer);
@@ -125,6 +128,7 @@ namespace Carmicah
         auto aniSystem = REGISTER_SYSTEM(AnimationSystem);
         auto crsSystem = REGISTER_SYSTEM(ColliderRenderSystem);
         auto colSystem = REGISTER_SYSTEM(CollisionSystem);
+        auto phySystem = REGISTER_SYSTEM(PhysicsSystem);
         auto inputSystem = REGISTER_SYSTEM(InputSystem);
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);

@@ -114,6 +114,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="include\Components\BaseComponent.h" />
     <ClInclude Include="include\Components\Collider2D.h" />
     <ClInclude Include="include\Components\Renderer.h" />
+    <ClInclude Include="include\Components\RigidBody.h" />
     <ClInclude Include="include\Components\TextRenderer.h" />
     <ClInclude Include="include\Components\Transform.h" />
     <ClInclude Include="include\Components\UITransform.h" />
@@ -141,6 +142,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="include\Systems\GOFactory.h" />
     <ClInclude Include="include\Systems\GraphicsSystem.h" />
     <ClInclude Include="include\Systems\InputSystem.h" />
+    <ClInclude Include="include\Systems\PhysicsSystem.h" />
     <ClInclude Include="include\Systems\SceneSystem.h" />
     <ClInclude Include="include\Systems\SerializerSystem.h" />
     <ClInclude Include="include\Systems\SoundSystem.h" />
@@ -164,6 +166,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClCompile Include="source\GraphicsSystem.cpp" />
     <ClCompile Include="source\HeirarchyWindow.cpp" />
     <ClCompile Include="source\InputSystem.cpp" />
+    <ClCompile Include="source\PhysicsSystem.cpp" />
     <ClCompile Include="source\SceneSystem.cpp" />
     <ClCompile Include="source\SerializerSystem.cpp" />
     <ClCompile Include="source\SoundSystem.cpp" />
