@@ -38,7 +38,7 @@ namespace Carmicah
 {
     const char* sceneName{ "Scene1" };
     const char* scene2Name{ "Scene2" };
-    const GLuint WIDTH = 1920, HEIGHT = 1080;
+    const GLuint WIDTH = 600, HEIGHT = 320;
     const char* assetsLoc{ "../Assets" };
 
     Application::Application()
