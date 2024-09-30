@@ -104,20 +104,20 @@ namespace Carmicah
 				const std::string& componentName = (*it)["Component Name"].GetString();
 				if (componentName == "struct Carmicah::Transform")
 				{
-					Transform t;
+					Transform t{};
 					t.DeserializeComponent((*it));
 					newGO.AddComponent<Transform>(t);
 				}
 				else if (componentName == "struct Carmicah::Collider2D")
 				{
-					Collider2D t;
+					Collider2D t{};
 					t.DeserializeComponent((*it));
 					newGO.AddComponent<Collider2D>(t);
 
 				}
 				else if (componentName == "struct Carmicah::Renderer")
 				{
-					Renderer t;
+					Renderer t{};
 					t.DeserializeComponent((*it));
 					newGO.AddComponent<Renderer>(t);
 				}
@@ -126,6 +126,18 @@ namespace Carmicah
 					Animation t{};
 					t.DeserializeComponent((*it));
 					newGO.AddComponent<Animation>(t);
+				}
+				else if (componentName == "struct Carmicah::TextRenderer")
+				{
+					TextRenderer t{};
+					t.DeserializeComponent((*it));
+					newGO.AddComponent<TextRenderer>(t);
+				}
+				else if (componentName == "struct Carmicah::UITransform")
+				{
+					UITransform t{};
+					t.DeserializeComponent((*it));
+					newGO.AddComponent<UITransform>(t);
 				}
 			}
 
@@ -223,20 +235,20 @@ namespace Carmicah
 			const std::string& componentName = (*it)["Component Name"].GetString();
 			if (componentName == "struct Carmicah::Transform")
 			{
-				Transform t;
+				Transform t{};
 				t.DeserializeComponent((*it));
 				newObj.AddComponent<Transform>(t);
 			}
 			else if (componentName == "struct Carmicah::Collider2D")
 			{
-				Collider2D t;
+				Collider2D t{};
 				t.DeserializeComponent((*it));
 				newObj.AddComponent<Collider2D>(t);
 
 			}
 			else if (componentName == "struct Carmicah::Renderer")
 			{
-				Renderer t;
+				Renderer t{};
 				t.DeserializeComponent((*it));
 				newObj.AddComponent<Renderer>(t);
 			}
@@ -249,22 +261,13 @@ namespace Carmicah
             else if (componentName == "struct Carmicah::TextRenderer")
             {
                 TextRenderer t{};
-                t.model = (*it)["model"].GetString();
-                t.font = (*it)["font"].GetString();
-                t.txt = (*it)["text"].GetString();
-                t.color.r = static_cast<float>((*it)["colorR"].GetDouble());
-                t.color.g = static_cast<float>((*it)["colorG"].GetDouble());
-                t.color.b = static_cast<float>((*it)["colorB"].GetDouble());
-                newObj.AddComponent<TextRenderer>(t);
+				t.DeserializeComponent((*it));
+				newObj.AddComponent<TextRenderer>(t);
             }
             else if (componentName == "struct Carmicah::UITransform")
             {
                 UITransform t{};
-                t.xPos = static_cast<float>((*it)["xPos"].GetDouble());
-                t.yPos = static_cast<float>((*it)["yPos"].GetDouble());
-                //t.rot = static_cast<float>((*it)["rot"].GetDouble());
-                t.xScale = static_cast<float>((*it)["xScale"].GetDouble());
-                t.yScale = static_cast<float>((*it)["yScale"].GetDouble());
+				t.DeserializeComponent((*it));
                 newObj.AddComponent<UITransform>(t);
             }
 		}
