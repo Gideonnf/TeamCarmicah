@@ -197,6 +197,12 @@ namespace Carmicah
                     gameSystem->ChangeScene(scene2Name);
                 }
 
+                if (Input.IsKeyPressed(Keys::KEY_1))
+                {
+                    GameObject duckObj = gGOFactory->FetchGO("Duck");
+                    duckObj.Destroy();
+                }
+
                 gGOFactory->UpdateDestroyed();
             }
             

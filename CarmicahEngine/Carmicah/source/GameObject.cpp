@@ -18,7 +18,7 @@ namespace Carmicah
 
 	void GameObject::Destroy()
 	{
-		//gGOFactory->Destroy(mID);
+		gGOFactory->Destroy(mID);
 		//SystemManager::GetInstance()->EntityDestroyed(mID);
 		//factoryRef->DestroyGameObject(mID);
 		//gGOFactory->DestroyGameObject(mID);
