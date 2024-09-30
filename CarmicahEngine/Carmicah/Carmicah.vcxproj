@@ -69,7 +69,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
@@ -98,7 +98,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Debug-x86_64\Assets"</Command>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
@@ -113,7 +113,9 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="include\Components\Animation.h" />
     <ClInclude Include="include\Components\Collider2D.h" />
     <ClInclude Include="include\Components\Renderer.h" />
+    <ClInclude Include="include\Components\TextRenderer.h" />
     <ClInclude Include="include\Components\Transform.h" />
+    <ClInclude Include="include\Components\UITransform.h" />
     <ClInclude Include="include\ECS\BaseSystem.h" />
     <ClInclude Include="include\ECS\Component.h" />
     <ClInclude Include="include\ECS\ComponentManager.h" />
@@ -122,6 +124,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="include\ECS\GameObject.h" />
     <ClInclude Include="include\ECS\SystemManager.h" />
     <ClInclude Include="include\FPSCounter.h" />
+    <ClInclude Include="include\Input\InputTypes.h" />
     <ClInclude Include="include\Math\Matrix3x3.h" />
     <ClInclude Include="include\Math\Vec2.h" />
     <ClInclude Include="include\Messaging\InputMessage.h" />
@@ -135,6 +138,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="include\Systems\InputSystem.h" />
     <ClInclude Include="include\Systems\SceneSystem.h" />
     <ClInclude Include="include\Systems\SoundSystem.h" />
+    <ClInclude Include="include\Systems\TextSystem.h" />
     <ClInclude Include="include\log.h" />
     <ClInclude Include="include\pch.h" />
   </ItemGroup>
@@ -151,6 +155,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClCompile Include="source\InputSystem.cpp" />
     <ClCompile Include="source\SceneSystem.cpp" />
     <ClCompile Include="source\SoundSystem.cpp" />
+    <ClCompile Include="source\TextSystem.cpp" />
     <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
