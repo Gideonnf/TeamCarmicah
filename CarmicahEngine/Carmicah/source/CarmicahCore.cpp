@@ -150,12 +150,16 @@ namespace Carmicah
 
         GameObject newObj = gGOFactory->CreateGO();
         newObj.AddComponent<Transform>();
-        newObj.GetComponent<Transform>().xPos = -5.0f;
+        newObj.GetComponent<Transform>().xPos = 1.0f;
+        newObj.GetComponent<Transform>().yPos = 2.0f;
         newObj.GetComponent<Transform>().xScale = 1.0f;
         newObj.GetComponent<Transform>().yScale = 1.0f;
         newObj.AddComponent<Collider2D>();
+        newObj.GetComponent<Collider2D>().shape = "DebugSquare";
         newObj.AddComponent<RigidBody>();
         newObj.GetComponent<RigidBody>().velocity.x = 2.0f;
+        newObj.GetComponent<RigidBody>().velocity.y = 2.0f;
+        newObj.GetComponent<RigidBody>().gravity = -5.0f;
         newObj.GetComponent<RigidBody>().objectType = "Dynamic";
         newObj.AddComponent<Renderer>();
         newObj.GetComponent<Renderer>().model = "Square";
@@ -164,10 +168,11 @@ namespace Carmicah
 
         GameObject wall = gGOFactory->CreateGO();
         wall.AddComponent<Transform>();
-        wall.GetComponent<Transform>().xPos = 5.0f;
+        wall.GetComponent<Transform>().xPos = 4.0f;
         wall.GetComponent<Transform>().xScale = 1.0f;
         wall.GetComponent<Transform>().yScale = 1.0f;
         wall.AddComponent<Collider2D>();
+        wall.GetComponent<Collider2D>().shape = "DebugSquare";
         wall.AddComponent<RigidBody>();
         wall.GetComponent<RigidBody>().objectType = "Static";
         wall.AddComponent<Renderer>();

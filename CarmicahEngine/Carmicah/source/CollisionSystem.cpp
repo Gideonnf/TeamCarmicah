@@ -26,10 +26,10 @@ namespace Carmicah
 		auto& AABB = componentManager->GetComponent<Collider2D>(obj);
 		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
 
-		AABB.min.x = transform.xPos - (transform.xScale *0.9f);
-		AABB.min.y = transform.yPos - (transform.yScale*0.9f);
-		AABB.max.x = transform.xPos + (transform.xScale*0.9f);
-		AABB.max.y = transform.yPos + (transform.yScale*0.9f);
+		AABB.min.x = transform.xPos - (transform.xScale *0.7f);
+		AABB.min.y = transform.yPos - (transform.yScale*0.7f);
+		AABB.max.x = transform.xPos + (transform.xScale*0.7f);
+		AABB.max.y = transform.yPos + (transform.yScale*0.7f);
 	}
 
 	bool CollisionSystem::CollisionIntersect(Entity& obj1, Entity& obj2, float tFirst)
@@ -44,9 +44,9 @@ namespace Carmicah
 		float firstTimeOfCollision = 0, tLast = CarmicahTimer::GetDt();
 
 		// Check for no overlap on the x-axis
-		if (AABB2.max.x < AABB1.min.x || AABB2.min.x > AABB1.max.x || AABB2.max.x == AABB1.min.x || AABB2.min.x == 0.0f) {
+		if (AABB2.max.x < AABB1.min.x || AABB2.min.x > AABB1.max.x) {
 
-			if (AABB2.max.y < AABB1.min.y || AABB2.min.y > AABB1.max.y || AABB2.max.y == AABB1.min.y || AABB2.min.y == 0.0f) {
+			if (AABB2.max.y < AABB1.min.y || AABB2.min.y > AABB1.max.y) {
 
 				return false;
 
@@ -207,47 +207,49 @@ namespace Carmicah
 			auto& rigidbody1 = componentManager->GetComponent<RigidBody>(entity1);
 
 			// Handle Dynamic vs Static Collision
-			//if (rigidbody1.objectType == DYNAMIC)
-			//{
-			//	for (auto it2 = mEntitiesSet.begin(); it2 != mEntitiesSet.end(); ++it2)
-			//	{
-			//		Entity entity2 = *it2;
-			//		auto& rigidbody2 = componentManager->GetComponent<RigidBody>(entity2);
-
-			//		// Only check for collisions with static objects
-			//		if (rigidbody2.objectType == STATIC)
-			//		{
-			//			float tFirst = 0.0f;
-			//			if (CollisionIntersect(entity1, entity2, tFirst))
-			//			{
-			//				CollisionResponse(entity1, entity2, tFirst);
-			//			}
-			//		}
-			//	}
-			//}
-
-			for (auto it2 = mEntitiesSet.begin(); it2 != mEntitiesSet.end(); ++it2)
+			if (rigidbody1.objectType == "Dynamic")
 			{
-				Entity entity2 = *it2;
-
-				if (entity2 == entity1)
+				for (auto it2 = mEntitiesSet.begin(); it2 != mEntitiesSet.end(); ++it2)
 				{
-					continue;
+					Entity entity2 = *it2;
+					auto& rigidbody2 = componentManager->GetComponent<RigidBody>(entity2);
+
+					// Only check for collisions with static objects
+					if (rigidbody2.objectType == "Static")
+					{
+						float tFirst = 0.0f;
+						if (CollisionIntersect(entity1, entity2, tFirst))
+						{
+							CollisionResponse(entity1, entity2, tFirst);
+						}
+					}
 				}
-				auto& rigidbody2 = componentManager->GetComponent<RigidBody>(entity2);
-
-
-
-				// Only check for collisions with static objects
-				/*if (rigidbody2.objectType == STATIC)
-				{*/
-				float tFirst = 0.0f;
-				if (CollisionIntersect(entity1, entity2, tFirst))
-				{
-					CollisionResponse(entity1, entity2, tFirst);
-				}
-				//}
 			}
+
+			
+
+			//for (auto it2 = mEntitiesSet.begin(); it2 != mEntitiesSet.end(); ++it2)
+			//{
+			//	Entity entity2 = *it2;
+
+			//	if (entity2 == entity1)
+			//	{
+			//		continue;
+			//	}
+			//	auto& rigidbody2 = componentManager->GetComponent<RigidBody>(entity2);
+
+
+
+			//	// Only check for collisions with static objects
+			//	/*if (rigidbody2.objectType == STATIC)
+			//	{*/
+			//	float tFirst = 0.0f;
+			//	if (CollisionIntersect(entity1, entity2, tFirst))
+			//	{
+			//		CollisionResponse(entity1, entity2, tFirst);
+			//	}
+			//	//}
+			//}
 		}
 	}
 
