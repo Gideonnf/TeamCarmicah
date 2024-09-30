@@ -142,7 +142,6 @@ namespace Carmicah
         GameObject newObj = gGOFactory->FetchGO("Duck");
         newObj.GetComponent<Transform>().xPos = -2.0;
 
-        gameSystem->Init(sceneName);
         Editor Editor;
         Editor.Init(ImGuiWindow);
 

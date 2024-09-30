@@ -37,13 +37,7 @@ namespace Carmicah
 		{
 			ComponentManager::GetInstance()->AddComponent<T>(mID, Component);
 			EntityManager::GetInstance()->AddComponent<T>(mID);
-			//auto entitySignature = EntityManager::GetInstance()->GetSignature(mID);
-			//// Set the component's signature pos within entity signature to true
-			//entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), true);
-			//// Set the new siganture of hte entity to show that it has this component now
-			//EntityManager::GetInstance()->SetSignature(mID, entitySignature);
-			// Update the systems that the signature changed
-			//SystemManager::GetInstance()->UpdateSignatures(mID, entitySignature);
+
 		}
 
 		template<typename T>
@@ -51,13 +45,7 @@ namespace Carmicah
 		{
 			ComponentManager::GetInstance()->AddComponent<T>(mID);
 			EntityManager::GetInstance()->AddComponent<T>(mID);
-			//auto entitySignature = EntityManager::GetInstance()->GetSignature(mID);
-			//// Set the component's signature pos within entity signature to true
-			//entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), true);
-			//// Set the new siganture of hte entity to show that it has this component now
-			//EntityManager::GetInstance()->SetSignature(mID, entitySignature);
-			// Update the systems that the signature changed
-			//SystemManager::GetInstance()->UpdateSignatures(mID, entitySignature);
+
 		}
 
 		template<typename T>
@@ -66,13 +54,7 @@ namespace Carmicah
 			ComponentManager::GetInstance()->RemoveComponent<T>(mID);
 			//gGOFactory->
 			EntityManager::GetInstance()->RemoveComponent<T>(mID);
-			//auto entitySignature = EntityManager::GetInstance()->GetSignature(mID);
-			// Set the component's signature pos within entity signature to false
-			//entitySignature.set(ComponentManager::GetInstance()->GetComponentID<T>(), false);
-			//// Set the new siganture of hte entity to show that it does not have this component
-			//EntityManager::GetInstance()->SetSignature(mID, entitySignature);
-			//// Update the systems that the signature changed
-			//SystemManager::GetInstance()->UpdateSignatures(mID, entitySignature);
+
 		}
 
 		template <typename T>

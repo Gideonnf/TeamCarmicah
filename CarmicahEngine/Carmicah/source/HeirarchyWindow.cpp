@@ -17,10 +17,10 @@ namespace Carmicah
 	{
 		if (ImGui::Begin(title))
 		{
-			static Transform playerTrans{ 0.5f, 0.5f, 1.f, 45.f, 1.f, 1.f };
+			static Transform playerTrans{};
 			//static Collider2D playerCollider{ 1.0, 2.0, 3.0, 4.0 };
 			static Renderer toRender{};
-			static char goName[256] = "";
+			static char goName[256] = "Duck";
 			ImGui::Text("Game Object Name: ");
 			ImGui::SameLine();
 			ImGui::InputText("##GameObjectNameInput", goName, IM_ARRAYSIZE(goName));
@@ -78,10 +78,11 @@ namespace Carmicah
 			if (ImGui::Button("Create Game Object"))
 			{
 				static std::string name(goName);
-				GameObject newObj = gGOFactory->CreateGO(goName);
-				newObj.AddComponent<Transform>(playerTrans);
-				//newObj.AddComponent<Collider2D>(playerCollider);
-				newObj.AddComponent<Renderer>(toRender);
+				GameObject newObj = gGOFactory->CreatePrefab(goName);
+				newObj.GetComponent<Transform>().xPos += 2.0;
+				//newObj.AddComponent<Transform>(playerTrans);
+				////newObj.AddComponent<Collider2D>(playerCollider);
+				//newObj.AddComponent<Renderer>(toRender);
 			}
 		}
 		ImGui::End();
