@@ -12,7 +12,7 @@ namespace Carmicah
 	{
 		std::filesystem::path directoryPath = assetPath;
 
-		textureMaps.insert(std::make_pair("", Texture{})); // Sets No Texture
+		mTextureMaps.insert(std::make_pair("", Texture{})); // Sets No Texture
 
 		InitSound();
 		InitFontType();
@@ -65,7 +65,7 @@ namespace Carmicah
 						{
 						//	std::cout << entry.path().string() << std::endl;
 							//std::cout << fileName << std::endl;
-							sceneFiles.insert(std::make_pair(fileName, entry.path().string()));
+							mSceneFiles.insert(std::make_pair(fileName, entry.path().string()));
 						}
 						else if (folderName == "Shaders")
 						{
@@ -81,7 +81,7 @@ namespace Carmicah
 						}
 						else if (folderName == "Prefabs")
 						{
-							prefabFiles.insert(std::make_pair(fileName, entry.path().string()));
+							mPrefabFiles.insert(std::make_pair(fileName, entry.path().string()));
 						}
 					}
 				}
@@ -92,25 +92,25 @@ namespace Carmicah
 	void AssetManager::UnloadAll()
 	{
 		// Unload Graphics
-		for (const auto& i : textureMaps)
+		for (const auto& i : mTextureMaps)
 			glDeleteTextures(1, &i.second.t);
-		for (const auto& i : primitiveMaps)
+		for (const auto& i : mPrimitiveMaps)
 		{
 			glDeleteVertexArrays(1, &i.second.vaoid);
 			glDeleteBuffers(1, &i.second.vboid);
 		}
-		for (const auto& i : shaderPgms)
+		for (const auto& i : mShaderPgms)
 			glDeleteProgram(i.second);
-		textureMaps.clear();
-		primitiveMaps.clear();
-		shaderPgms.clear();
-		FT_Done_FreeType(ftLib);
+		mTextureMaps.clear();
+		mPrimitiveMaps.clear();
+		mShaderPgms.clear();
+		FT_Done_FreeType(mFTLib);
 
 		// Unload Sound
-		for (auto& sound : soundMap)
+		for (auto& sound : mSoundMap)
 			sound.second.sound->release();
-		if (soundSystem != NULL)
-			soundSystem->release();
+		if (mSoundSystem != NULL)
+			mSoundSystem->release();
 	}
 
 
@@ -128,8 +128,8 @@ namespace Carmicah
 	GLuint AssetManager::LoadShader(const std::string& shaderName, const std::string& vertFile, const std::string& fragFile)
 	{
 		// Shader Exists
-		auto& foundShader = shaderPgms.find(shaderName);
-		if (foundShader != shaderPgms.end())
+		auto& foundShader = mShaderPgms.find(shaderName);
+		if (foundShader != mShaderPgms.end())
 		{
 			std::cerr << "Shader:" << shaderName << " Already Exists";
 			return foundShader->second;
@@ -210,7 +210,7 @@ namespace Carmicah
 		glDeleteShader(vertShader);
 		glDeleteShader(fragShader);
 
-		shaderPgms.insert(std::make_pair(shaderName, shader));
+		mShaderPgms.insert(std::make_pair(shaderName, shader));
 		return shader;
 	}
 
@@ -227,8 +227,8 @@ namespace Carmicah
 	*/
 	void AssetManager::LoadObject(const std::string& objName, const std::string& modelFile)
 	{
-		auto& foundObj = primitiveMaps.find(objName);
-		if (foundObj != primitiveMaps.end())
+		auto& foundObj = mPrimitiveMaps.find(objName);
+		if (foundObj != mPrimitiveMaps.end())
 		{
 			std::cerr << "Object:" << objName << " Already Exists";
 			return;
@@ -311,7 +311,7 @@ namespace Carmicah
 		}
 		//glBindVertexArray(0);
 
-		primitiveMaps.insert(std::make_pair(objName, p));
+		mPrimitiveMaps.insert(std::make_pair(objName, p));
 	}
 
 	/*
@@ -324,8 +324,8 @@ namespace Carmicah
 	*/
 	void AssetManager::LoadDebugObject(const std::string& objName, const std::string& modelFile)
 	{
-		auto& foundObj = primitiveMaps.find(objName);
-		if (foundObj != primitiveMaps.end())
+		auto& foundObj = mPrimitiveMaps.find(objName);
+		if (foundObj != mPrimitiveMaps.end())
 		{
 			std::cerr << "Object:" << objName << " Already Exists";
 			return;
@@ -371,13 +371,13 @@ namespace Carmicah
 		glVertexArrayAttribFormat(p.vaoid, 0, 2, GL_FLOAT, GL_FALSE, 0);
 		glVertexArrayAttribBinding(p.vaoid, 0, 0);
 
-		primitiveMaps.insert(std::make_pair(objName, p));
+		mPrimitiveMaps.insert(std::make_pair(objName, p));
 	}
 
 	void AssetManager::LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile)
 	{
-		auto& foundTexture = textureMaps.find(textureName);
-		if (foundTexture != textureMaps.end())
+		auto& foundTexture = mTextureMaps.find(textureName);
+		if (foundTexture != mTextureMaps.end())
 		{
 			std::cerr << "Texture:" << textureName << " Already Exists";
 			return;
@@ -407,12 +407,12 @@ namespace Carmicah
 		glTextureSubImage2D(texture.t, 0, 0, 0, texture.width, texture.height, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		stbi_image_free(data);
 		//glPixelStorei(GL_UNPACK_ALIGNMENT, ); if width * bpt is not multiple of 4
-		textureMaps.insert(std::make_pair(textureName, texture));
+		mTextureMaps.insert(std::make_pair(textureName, texture));
 	}
 
 	void AssetManager::InitFontType()
 	{
-		if (FT_Init_FreeType(&ftLib))
+		if (FT_Init_FreeType(&mFTLib))
 		{
 			std::cerr << "Error with Free Type Init" << std::endl;
 			return;
@@ -421,8 +421,8 @@ namespace Carmicah
 
 	void AssetManager::LoadFont(const std::string& fontName, const std::string& fontLoc, const unsigned int& fontHeight)
 	{
-		auto& foundFontTex = fontMaps.find(fontName);
-		if (foundFontTex != fontMaps.end())
+		auto& foundFontTex = mFontMaps.find(fontName);
+		if (foundFontTex != mFontMaps.end())
 		{
 			std::cerr << "Font: " << fontName << " Already Exists";
 			return;
@@ -431,7 +431,7 @@ namespace Carmicah
 		std::array<Carmicah::FontChar, 128> newFont;
 
 		FT_Face fontFace;
-		if (FT_New_Face(ftLib, fontLoc.c_str(), 0, &fontFace))
+		if (FT_New_Face(mFTLib, fontLoc.c_str(), 0, &fontFace))
 		{
 			std::cerr << "Error with Free Type Face: " << fontName << std::endl;
 			return;
@@ -467,7 +467,7 @@ namespace Carmicah
 
 		FT_Done_Face(fontFace);
 
-		fontMaps.insert(std::make_pair(fontName, std::move(newFont)));
+		mFontMaps.insert(std::make_pair(fontName, std::move(newFont)));
 	}
 
 
@@ -491,15 +491,15 @@ namespace Carmicah
 
 	void AssetManager::InitSound()
 	{
-		if (FMOD::System_Create(&soundSystem) != FMOD_OK)
+		if (FMOD::System_Create(&mSoundSystem) != FMOD_OK)
 			return;
-		soundSystem->init(maxChannels, FMOD_INIT_NORMAL, NULL);
+		mSoundSystem->init(maxChannels, FMOD_INIT_NORMAL, NULL);
 	}
 
 	void AssetManager::LoadSound(const std::string& soundName, std::string const& soundFile, bool b_isLoop)
 	{
-		auto& sound = soundMap.find(soundName);
-		if (sound != soundMap.end())
+		auto& sound = mSoundMap.find(soundName);
+		if (sound != mSoundMap.end())
 		{
 			std::cerr << "Sound:" << soundName << " Already Exists";
 			return;
@@ -507,11 +507,11 @@ namespace Carmicah
 
 		FMOD_MODE eMode = FMOD_DEFAULT;
 		Audio audio{};
-		soundSystem->createSound(soundFile.c_str(), eMode, nullptr, &audio.sound);
+		mSoundSystem->createSound(soundFile.c_str(), eMode, nullptr, &audio.sound);
 		if (audio.sound)
 		{
 			audio.isLoop = b_isLoop;
-			soundMap.insert(std::make_pair(soundName, audio));
+			mSoundMap.insert(std::make_pair(soundName, audio));
 			if (b_isLoop)
 			{
 				audio.sound->setMode(FMOD_LOOP_NORMAL);
@@ -522,9 +522,9 @@ namespace Carmicah
 
 	bool AssetManager::GetScene(std::string scene, std::string& filePath)
 	{
-		if (sceneFiles.count(scene) != 0)
+		if (mSceneFiles.count(scene) != 0)
 		{
-			filePath = sceneFiles[scene];
+			filePath = mSceneFiles[scene];
 			return true;
 		}
 		else

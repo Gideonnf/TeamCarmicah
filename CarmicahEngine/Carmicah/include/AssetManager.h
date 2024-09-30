@@ -55,19 +55,19 @@ namespace Carmicah
 		void LoadAll(const char*);
 		void UnloadAll();
 
-		std::unordered_map<std::string, GLuint> shaderPgms{};
-		std::unordered_map<std::string, Texture> textureMaps{};
-		std::unordered_map<std::string, Primitive> primitiveMaps{};
-		std::unordered_map<std::string, std::string> sceneFiles{};
-		std::unordered_map<std::string, std::string> prefabFiles{};
-		FT_Library ftLib;
+		std::unordered_map<std::string, GLuint> mShaderPgms{};
+		std::unordered_map<std::string, Texture> mTextureMaps{};
+		std::unordered_map<std::string, Primitive> mPrimitiveMaps{};
+		std::unordered_map<std::string, std::string> mSceneFiles{};
+		std::unordered_map<std::string, std::string> mPrefabFiles{};
+		FT_Library mFTLib;
 		const unsigned int fontSize{ 36 };
-		std::unordered_map<std::string, std::array<Carmicah::FontChar, 128>> fontMaps{};
+		std::unordered_map<std::string, std::array<Carmicah::FontChar, 128>> mFontMaps{};
 
 		// Audio
 		const int maxChannels{ 32 };
-		FMOD::System* soundSystem{};
-		std::unordered_map<std::string, Audio> soundMap{};
+		FMOD::System* mSoundSystem{};
+		std::unordered_map<std::string, Audio> mSoundMap{};
 
 
 		bool GetScene(std::string scene, std::string& filePath);

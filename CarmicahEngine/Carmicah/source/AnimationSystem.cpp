@@ -30,8 +30,8 @@ namespace Carmicah
 
 			if (!anim.notChangedAnim)
 			{
-				auto& tex = AssetManager::GetInstance()->textureMaps.find(rend.texture);
-				if (tex != AssetManager::GetInstance()->textureMaps.end())
+				auto& tex = AssetManager::GetInstance()->mTextureMaps.find(rend.texture);
+				if (tex != AssetManager::GetInstance()->mTextureMaps.end())
 				{
 					anim.xSlice = tex->second.xSlices + 1;
 					anim.ySlice = tex->second.ySlices + 1;

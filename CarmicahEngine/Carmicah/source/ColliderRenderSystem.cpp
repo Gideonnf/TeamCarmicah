@@ -12,11 +12,6 @@
 #include "ECS/ComponentManager.h"
 #include "AssetManager.h"
 
-namespace
-{
-	GLuint currShader{};
-}
-
 namespace Carmicah
 {
 	void ColliderRenderSystem::Init()
@@ -26,20 +21,20 @@ namespace Carmicah
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<ColliderRenderSystem>(mSignature);
 
-		auto shdrRef = AssetManager::GetInstance()->shaderPgms.find("debug");
-		if (shdrRef != AssetManager::GetInstance()->shaderPgms.end())
-			currShader = shdrRef->second;
+		auto shdrRef = AssetManager::GetInstance()->mShaderPgms.find("debug");
+		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
+			mCurrShader = shdrRef->second;
 	}
 
 	void ColliderRenderSystem::Render(Entity& cam)
 	{
-		glUseProgram(currShader);
+		glUseProgram(mCurrShader);
 
 		for (auto entity : mEntitiesSet)
 		{
 			auto& camera = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);
-			Primitive p{ AssetManager::GetInstance()->primitiveMaps[collider.shape] };
+			Primitive p{ AssetManager::GetInstance()->mPrimitiveMaps[collider.shape] };
 
 			glm::mat3 trans{1};
 			trans = glm::translate(trans, glm::vec2((collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f));
@@ -47,7 +42,7 @@ namespace Carmicah
 			trans = camera.camSpace * trans;
 
 
-			GLint uniform_var_loc0 = glGetUniformLocation(currShader, "uModel_to_NDC");
+			GLint uniform_var_loc0 = glGetUniformLocation(mCurrShader, "uModel_to_NDC");
 			if (uniform_var_loc0 >= 0)
 			{
 				glUniformMatrix3fv(uniform_var_loc0, 1, GL_FALSE,

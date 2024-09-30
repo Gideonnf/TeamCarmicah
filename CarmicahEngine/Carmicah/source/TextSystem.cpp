@@ -22,14 +22,14 @@ namespace Carmicah
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<TextSystem>(mSignature);
 
-		auto& shdrRef = AssetManager::GetInstance()->shaderPgms.find(shaderName);
-		if (shdrRef != AssetManager::GetInstance()->shaderPgms.end())
-			currShader = shdrRef->second;
+		auto& shdrRef = AssetManager::GetInstance()->mShaderPgms.find(shaderName);
+		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
+			mCurrShader = shdrRef->second;
 	}
 
 	void TextSystem::Render(GLuint canvasWidth, GLuint canvasHeight)
 	{
-		glUseProgram(currShader);
+		glUseProgram(mCurrShader);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -41,19 +41,19 @@ namespace Carmicah
 		{
 			auto& txtRenderer = ComponentManager::GetInstance()->GetComponent<TextRenderer>(entity);
 			auto& UITrans = ComponentManager::GetInstance()->GetComponent<UITransform>(entity);
-			auto& foundFontTex = AssetManager::GetInstance()->fontMaps.find(txtRenderer.font);
-			auto& tryPrimitive{ AssetManager::GetInstance()->primitiveMaps.find(txtRenderer.model) };
+			auto& foundFontTex = AssetManager::GetInstance()->mFontMaps.find(txtRenderer.font);
+			auto& tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(txtRenderer.model) };
 			Primitive* p;
-			if (tryPrimitive == AssetManager::GetInstance()->primitiveMaps.end())
+			if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
 			{
 				std::cerr << "Renderer Model not found: " << txtRenderer.model << std::endl;
-				p = &AssetManager::GetInstance()->primitiveMaps.begin()->second;
+				p = &AssetManager::GetInstance()->mPrimitiveMaps.begin()->second;
 			}
 			else
 				p = &tryPrimitive->second;
 
 			float xTrack = UITrans.xPos, yTrack = UITrans.yPos;
-			glUniform3f(glGetUniformLocation(currShader, "uTextColor"), txtRenderer.color.x, txtRenderer.color.y, txtRenderer.color.z);
+			glUniform3f(glGetUniformLocation(mCurrShader, "uTextColor"), txtRenderer.color.x, txtRenderer.color.y, txtRenderer.color.z);
 
 			// iterate through all characters (alot of it divides by 2 since quad is based on [-1,1])
 			for (auto& c : txtRenderer.txt)
@@ -73,7 +73,7 @@ namespace Carmicah
 
 				charTransform = projection * charTransform;
 
-				glUniformMatrix3fv(glGetUniformLocation(currShader, "uModel_to_NDC"), 1, GL_FALSE, glm::value_ptr(charTransform));
+				glUniformMatrix3fv(glGetUniformLocation(mCurrShader, "uModel_to_NDC"), 1, GL_FALSE, glm::value_ptr(charTransform));
 
 				glBindVertexArray(p->vaoid);
 				glBindTextureUnit(0, ch.texID);

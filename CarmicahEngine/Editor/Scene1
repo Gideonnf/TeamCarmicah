@@ -9,7 +9,7 @@
                 "yPos": 0.0,
                 "zPos": 1.0,
                 "rot": -1.0,
-                "xScale": 30.200000762939454,
+                "xScale": 30.0,
                 "yScale": 30.0
             },
             {
@@ -28,7 +28,7 @@
                 "xPos": 0.5,
                 "yPos": 0.5,
                 "zPos": 1.0,
-                "rot": 45.0,
+                "rot": 30.0,
                 "xScale": 1.0,
                 "yScale": 1.0
             },
@@ -47,8 +47,6 @@
             },
             {
                 "Component Name": "struct Carmicah::Animation",
-                "xSlice": 3,
-                "ySlice": 3,
                 "timeBetween": 2.0
             }
         ]
@@ -83,28 +81,52 @@
                 "yPos": 0.0,
                 "zPos": 1.0,
                 "rot": 0.0,
-                "xScale": 0.125,
-                "yScale": 0.1666666716337204
+                "xScale": 0.1666666716337204,
+                "yScale": 0.3333333432674408
             }
         ]
     },
     {
-        "GameObject": "Duck",
+        "GameObject": "GameObject3",
         "ID": 4,
         "Components": [
             {
-                "Component Name": "struct Carmicah::Transform",
-                "xPos": -2.0,
+                "Component Name": "struct Carmicah::UITransform",
+                "xPos": 0.0,
                 "yPos": 0.0,
-                "zPos": 1.0,
-                "rot": -125.0,
                 "xScale": 1.0,
                 "yScale": 1.0
             },
             {
-                "Component Name": "struct Carmicah::Renderer",
-                "model": "Circle",
-                "texture": "Duck"
+                "Component Name": "struct Carmicah::TextRenderer",
+                "model": "Square",
+                "font": "arial",
+                "text": "This is sample text",
+                "colorR": 0.0,
+                "colorG": 1.0,
+                "colorB": 0.0
+            }
+        ]
+    },
+    {
+        "GameObject": "GameObject4",
+        "ID": 5,
+        "Components": [
+            {
+                "Component Name": "struct Carmicah::UITransform",
+                "xPos": 0.0,
+                "yPos": 550.0,
+                "xScale": 1.0,
+                "yScale": 0.5
+            },
+            {
+                "Component Name": "struct Carmicah::TextRenderer",
+                "model": "Square",
+                "font": "comic",
+                "text": "This is Comics text",
+                "colorR": 1.0,
+                "colorG": 0.0,
+                "colorB": 0.0
             }
         ]
     }
