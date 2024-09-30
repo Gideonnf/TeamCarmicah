@@ -381,11 +381,11 @@ namespace Carmicah
 						}
 						writer.EndObject();
 
-					}, EntityManager::GetInstance()->GetSignature(o.GetID()));*/
+					}, EntityManager::GetInstance()->GetSignature(o.GetID()));
 				writer.EndArray();
 
 				writer.EndObject();
-				});
+				});*/
 			writer.EndArray();
 
 			writer.EndObject();

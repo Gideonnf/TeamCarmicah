@@ -135,10 +135,10 @@ namespace Carmicah
         souSystem->Init(false);
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
-        graSystem->SetScreenSize(WIDTH / 100, HEIGHT / 100, gGOFactory->mainCam);
         gameSystem->SetScene("Scene1");
         gameSystem->Init();
 
+        graSystem->SetScreenSize(WIDTH / 100, HEIGHT / 100, gGOFactory->mainCam);
         colSystem->PrintEntities();
 
         //GameObject newObj = gGOFactory->CreateGO();
@@ -147,9 +147,9 @@ namespace Carmicah
         colSystem->PrintEntities();
 
         //Testing prefab
-        gGOFactory->CreatePrefab("Duck");
-        GameObject newObj = gGOFactory->FetchGO("Duck");
-        newObj.GetComponent<Transform>().xPos = -2.0;
+        //gGOFactory->CreatePrefab("Duck");
+        //GameObject newObj = gGOFactory->FetchGO("Duck");
+        //newObj.GetComponent<Transform>().xPos = -2.0;
 
         Editor Editor;
         Editor.Init(ImGuiWindow);

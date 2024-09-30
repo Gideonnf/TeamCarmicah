@@ -30,7 +30,6 @@ namespace Carmicah
             rot = static_cast<float>(component["rot"].GetDouble());
             xScale = static_cast<float>(component["xScale"].GetDouble());
             yScale = static_cast<float>(component["yScale"].GetDouble());
-            isUpdated = true;
 
             return *this;
         }

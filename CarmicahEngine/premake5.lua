@@ -38,7 +38,7 @@ project "Carmicah"
         "glfw3.lib",
         "opengl32.lib",
         "glad",
-        "ImGUI"
+        "ImGUI",
         "freetype.lib"
     }
 
