@@ -14,9 +14,6 @@
 
 namespace Carmicah
 {
-	int counter{};
-	int progress{};
-
 	bool GraphicsSystem::uniformExists(const char* str, GLint& ref)
 	{
 		ref = glGetUniformLocation(currShader, str);
@@ -42,6 +39,14 @@ namespace Carmicah
 			currShader = shdrRef->second;
 	}
 
+	void GraphicsSystem::SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam)
+	{
+		auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
+		currCam.notUpdated = false;
+		currCam.xScale = 1.f / static_cast<float>(camWidth);
+		currCam.yScale = 1.f / static_cast<float>(camHeight);
+	}
+
 	void GraphicsSystem::Render(Entity& cam)
 	{
 		glClearColor(0.75294f, 1.f, 0.93333f, 1.f); // Gideon's favourite
@@ -53,26 +58,32 @@ namespace Carmicah
 
 		// Handle Camera Transform
 		auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-		currCam.isUpdated = true;
-		if (currCam.isUpdated)
+		if (!currCam.notUpdated)
 		{
 			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
 			currCam.camSpace = glm::mat3(1);
 			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-			glm::vec2 camEye = glm::vec2{ camTrans.xPos, camTrans.yPos };
-			glm::vec2 camScale = glm::vec2{ camTrans.xScale, camTrans.yScale };
-			currCam.camSpace = glm::translate(currCam.camSpace, camEye);
-			currCam.camSpace = glm::scale(currCam.camSpace, camScale);
+			currCam.camSpace = glm::scale(currCam.camSpace, glm::vec2{ camTrans.xScale, camTrans.yScale });
+			currCam.camSpace = glm::rotate(currCam.camSpace, glm::radians(-camTrans.rot));
+			currCam.camSpace = glm::translate(currCam.camSpace, glm::vec2{ camTrans.xPos, camTrans.yPos });
 		}
 
 		for (auto& entity : mEntitiesSet)
 		{
 			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
 			Renderer& renderer = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
-			Primitive p{ AssetManager::GetInstance()->primitiveMaps[renderer.model] };
+			auto& tryPrimitive{ AssetManager::GetInstance()->primitiveMaps.find(renderer.model) };
+			Primitive* p;
+			if (tryPrimitive == AssetManager::GetInstance()->primitiveMaps.end())
+			{
+				std::cerr << "Renderer Model not found: " << renderer.model << std::endl;
+				p = &AssetManager::GetInstance()->primitiveMaps.begin()->second;
+			}
+			else
+				p = &tryPrimitive->second;
 
 			// Handle Entities transform
-			if (transform.isUpdated)
+			if (!transform.notUpdated)
 			{
 				transform.worldSpace = glm::mat3(1.f);
 				transform.worldSpace = glm::translate(transform.worldSpace, glm::vec2{ transform.xPos, transform.yPos});
@@ -80,7 +91,7 @@ namespace Carmicah
 				transform.worldSpace = glm::scale(transform.worldSpace, glm::vec2{ transform.xScale, transform.yScale});
 				transform.camSpace = currCam.camSpace * transform.worldSpace;
 			}
-			else if (currCam.isUpdated)
+			else if (!currCam.notUpdated)
 				transform.camSpace = currCam.camSpace * transform.worldSpace;
 
 			GLint uniformLoc{};
@@ -91,21 +102,39 @@ namespace Carmicah
 				glUniform1i(uniformLoc, 0);
 
 			if (uniformExists("uAnimationMult", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(renderer.texureMat));
+			{
+				if (renderer.texureMat == glm::mat3(0))
+				{
+					std::cerr << "Renderer Texture Matrix empty" << std::endl;
+					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(glm::mat3(1)));
+				}
+				else
+					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(renderer.texureMat));
+			}
 
-			glBindVertexArray(p.vaoid);
-			glBindTextureUnit(0, AssetManager::GetInstance()->textureMaps[renderer.texture].t);
-			switch (p.drawMode)
+			glBindVertexArray(p->vaoid);
+
+			// Error Checking if texture no exists
+			auto& tryTex = AssetManager::GetInstance()->textureMaps.find(renderer.texture);
+			if (tryTex == AssetManager::GetInstance()->textureMaps.end())
+			{
+				std::cerr << "Texture not found" << renderer.texture << std::endl;
+				glBindTextureUnit(0, AssetManager::GetInstance()->textureMaps.begin()->second.t);
+			}
+			else
+				glBindTextureUnit(0, tryTex->second.t);
+
+			switch (p->drawMode)
 			{
 			case GL_LINE_LOOP:
 				glLineWidth(2.f);
-				glDrawArrays(GL_LINE_LOOP, 0, p.drawCnt);
+				glDrawArrays(GL_LINE_LOOP, 0, p->drawCnt);
 				break;
 			case GL_TRIANGLES:
-				glDrawElements(GL_TRIANGLES, p.drawCnt, GL_UNSIGNED_SHORT, NULL);
+				glDrawElements(GL_TRIANGLES, p->drawCnt, GL_UNSIGNED_SHORT, NULL);
 				break;
 			case GL_TRIANGLE_FAN:
-				glDrawArrays(GL_TRIANGLE_FAN, 0, p.drawCnt);
+				glDrawArrays(GL_TRIANGLE_FAN, 0, p->drawCnt);
 				break;
 			}
 		}

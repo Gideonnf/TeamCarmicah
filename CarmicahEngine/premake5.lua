@@ -37,7 +37,9 @@ project "Carmicah"
     {
         "glfw3.lib",
         "opengl32.lib",
-        "glad"
+        "glad",
+        "ImGUI",
+        "freetype.lib"
     }
 
     filter "system:windows"
@@ -58,12 +60,18 @@ project "Carmicah"
     filter "configurations:Debug"
         defines { "CM_DEBUG" }
         symbols "On"
-        links "fmodL_vc.lib"
+        links 
+        {
+            "fmodL_vc.lib"
+        }
 
     filter "configurations:Release"
         defines { "CM_RELEASE" }
         optimize "On"
-        links "fmod_vc.lib"
+        links 
+        {
+            "fmod_vc.lib"
+        }
 
 project "Editor"
     location "Editor"
@@ -118,7 +126,6 @@ project "glad"
 
     files 
     {
-        "%{prj.name}/include/**.h",
         "%{prj.name}/src/**.c" 
     }
 
@@ -129,6 +136,51 @@ project "glad"
 
     filter "system:windows"
         cdialect "C11"
+        systemversion "latest"
+        defines
+        {
+            "CM_PLATFORM_WINDOWS"
+        }
+
+    filter "configurations:Debug"
+        defines { "CM_DEBUG" }
+        symbols "On"
+
+    filter "configurations:Release"
+        defines { "CM_RELEASE" }
+        optimize "On"
+
+project "ImGUI"
+    location "ImGUI"
+    kind "StaticLib"
+    language "C++"
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin/" .. outputdir .. "int/%{prj.name}")
+
+    files 
+    {
+        "%{prj.name}/src/**.cpp" 
+    }
+
+    includedirs 
+    {
+        "Dependencies/includes/ImGUI",
+        "Dependencies/includes"
+    }
+
+    libdirs
+    {
+        "Dependencies/lib"
+    }
+
+    links
+    {
+        "glfw3.lib",
+        "opengl32.lib"
+    }
+
+    filter "system:windows"
+        cppdialect "C++17"
         systemversion "latest"
         defines
         {

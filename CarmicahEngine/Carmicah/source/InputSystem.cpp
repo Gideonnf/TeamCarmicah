@@ -73,7 +73,7 @@ namespace Carmicah
 					}
 				}
 			}
-			mMouseTick += CarmicahTimer::GetDt();
+			mMouseTick += static_cast<float>(CarmicahTimer::GetDt());
 		}	
 	}
 

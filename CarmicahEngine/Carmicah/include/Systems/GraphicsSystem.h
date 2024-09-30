@@ -14,6 +14,7 @@ namespace Carmicah
 		bool uniformExists(const char* str, GLint& ref);
 	public:
 		void Init();
+		void SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam);
 
 		void Render(Entity& cam);
 
