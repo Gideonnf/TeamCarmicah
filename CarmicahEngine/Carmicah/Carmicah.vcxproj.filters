@@ -10,6 +10,12 @@
     <Filter Include="include\ECS">
       <UniqueIdentifier>{5340C031-BFF5-3827-48EA-32FEB49E2F2B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\Editor">
+      <UniqueIdentifier>{9FF868FF-8BC6-5C05-745A-CD2B60C7386A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Input">
+      <UniqueIdentifier>{482232A3-B4E2-ADD9-7D1D-F756E99CF2B5}</UniqueIdentifier>
+    </Filter>
     <Filter Include="include\Math">
       <UniqueIdentifier>{0232CD69-EE94-5C0E-971A-95C4835C2891}</UniqueIdentifier>
     </Filter>
@@ -32,6 +38,9 @@
     </ClInclude>
     <ClInclude Include="include\CarmicahTime.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\Animation.h">
+      <Filter>include\Components</Filter>
     </ClInclude>
     <ClInclude Include="include\Components\Collider2D.h">
       <Filter>include\Components</Filter>
@@ -63,8 +72,23 @@
     <ClInclude Include="include\ECS\SystemManager.h">
       <Filter>include\ECS</Filter>
     </ClInclude>
+    <ClInclude Include="include\Editor\DebugWindow.h">
+      <Filter>include\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Editor\Editor.h">
+      <Filter>include\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Editor\EditorWindow.h">
+      <Filter>include\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Editor\HeirarchyWindow.h">
+      <Filter>include\Editor</Filter>
+    </ClInclude>
     <ClInclude Include="include\FPSCounter.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Input\InputTypes.h">
+      <Filter>include\Input</Filter>
     </ClInclude>
     <ClInclude Include="include\Math\Matrix3x3.h">
       <Filter>include\Math</Filter>
@@ -80,6 +104,9 @@
     </ClInclude>
     <ClInclude Include="include\Singleton.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Systems\AnimationSystem.h">
+      <Filter>include\Systems</Filter>
     </ClInclude>
     <ClInclude Include="include\Systems\ColliderRenderSystem.h">
       <Filter>include\Systems</Filter>
@@ -108,10 +135,11 @@
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\Animation.h" />
-    <ClInclude Include="include\Systems\AnimationSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\AnimationSystem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
     <ClCompile Include="source\AssetManager.cpp">
       <Filter>source</Filter>
     </ClCompile>
@@ -127,6 +155,15 @@
     <ClCompile Include="source\CollisionSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="source\DebugWindow.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Editor.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\EditorWindow.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
     <ClCompile Include="source\FPSCounter.cpp">
       <Filter>source</Filter>
     </ClCompile>
@@ -134,6 +171,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\GraphicsSystem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\HeirarchyWindow.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\InputSystem.cpp">
@@ -151,6 +191,5 @@
     <ClCompile Include="source\pch.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="source\AnimationSystem.cpp" />
   </ItemGroup>
 </Project>

@@ -2,13 +2,17 @@
 #include <stdio.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "CarmicahCore.h"
 #include <FMOD/fmod.hpp>
+#include "CarmicahCore.h"
 #include <spdlog/spdlog.h>
 #include <log.h>
+#include <ImGUI/imgui.h>
+#include <ImGUI/imgui_impl_glfw.h>   
+#include <ImGUI/imgui_impl_opengl3.h>
 #include "Systems/GOFactory.h"
 #include "ECS/ComponentManager.h"
 #include "ECS/SystemManager.h"
+#include "Editor/Editor.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
@@ -27,10 +31,9 @@
 
 namespace Carmicah
 {
-   // const GLuint WIDTH = 800, HEIGHT = 600;
     const char* sceneName{ "Scene1" };
     const char* scene2Name{ "Scene2" };
-
+    const GLuint WIDTH = 1920, HEIGHT = 1080;
     const char* assetsLoc{ "../Assets" };
 
     Application::Application()
@@ -85,6 +88,16 @@ namespace Carmicah
             return -1;
         }
 
+        GLFWwindow* ImGuiWindow = glfwCreateWindow(WIDTH, HEIGHT, "ImGui", NULL, NULL);
+        //glfwMakeContextCurrent(ImGuiWindow);
+
+        if (ImGuiWindow == NULL)
+        {
+            CM_CORE_ERROR("Failed to create GLFW window");
+            glfwTerminate();
+            return -1;
+        }
+
         //auto fpsCounter = std::make_unique<FPSCounter>();
         //fpsCounter->Init();
         CarmicahTimer::StartTime();
@@ -129,7 +142,12 @@ namespace Carmicah
         GameObject newObj = gGOFactory->FetchGO("Duck");
         newObj.GetComponent<Transform>().xPos = -2.0;
 
-        while (!glfwWindowShouldClose(window)) {
+        gameSystem->Init(sceneName);
+        Editor Editor;
+        Editor.Init(ImGuiWindow);
+
+        double testTime = 0.0;
+        while (!glfwWindowShouldClose(window) && !glfwWindowShouldClose(ImGuiWindow)) {
             // Update dt calc
             CarmicahTimer::UpdateElapsedTime();
             glfwPollEvents();
@@ -159,6 +177,11 @@ namespace Carmicah
                 souSystem->Update();
                 glfwSwapBuffers(window);
 
+                glfwMakeContextCurrent(ImGuiWindow);
+                Editor.Update();
+                Editor.Render(ImGuiWindow);
+                glfwMakeContextCurrent(window);
+
                 if (Input.IsKeyPressed(Keys::KEY_SPACEBAR))
                 {
                     gameSystem->ChangeScene(scene2Name);
@@ -182,6 +205,7 @@ namespace Carmicah
 
         AssetManager::GetInstance()->UnloadAll();
         //fpsCounter->Exit();
+        Editor.Exit();
         colSystem->Exit();
         Serializer.WriteConfig(*this);
 
