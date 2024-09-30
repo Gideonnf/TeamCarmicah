@@ -31,6 +31,9 @@ namespace Carmicah
 		int width;
 		int height;
 		int bpt;
+
+		int xSlices;
+		int ySlices;
 	};
 	struct FontChar : BaseAsset
 	{
@@ -73,7 +76,7 @@ namespace Carmicah
 		GLuint LoadShader(const std::string& shaderName, const std::string& vertFile, const std::string& fragFile);
 		void LoadObject(const std::string& objName, const std::string& modelFile);
 		void LoadDebugObject(const std::string& objName, const std::string& modelFile);
-		void LoadTexture(const std::string& textureName, const std::string& textureFile);
+		void LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile);
 		void InitFontType();
 		void LoadFont(const std::string& fontName, const std::string& fontLoc, const unsigned int& fontHeight);
 

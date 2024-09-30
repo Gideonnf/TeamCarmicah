@@ -37,7 +37,13 @@ namespace Carmicah
 						}
 						else if (folderName == "Images")
 						{
-							LoadTexture(fileName, entry.path().string());
+							std::string fileExt = entry.path().extension().string();
+
+							if (fileExt == ".png")
+							{
+								const auto testOtherFile = subFile.path() / (fileName + std::string(".ani"));
+								LoadTexture(fileName, entry.path().string(), testOtherFile.string());
+							}
 						}
 						else if (folderName == "Fonts")
 						{
@@ -60,15 +66,20 @@ namespace Carmicah
 						}
 						else if (folderName == "Shaders")
 						{
-
+							std::string fileExt = entry.path().extension().string();
+							if (fileExt == ".vert")
+							{
+								const auto testOtherFile = subFile.path() / (fileName + std::string(".frag"));
+								if(std::filesystem::exists(testOtherFile))
+								{
+									LoadShader(fileName, entry.path().string(), testOtherFile.string());
+								}
+							}
 						}
 					}
 				}
 			}
 		}
-		LoadShader("basic", "../Assets/Shaders/basic.vert", "../Assets/Shaders/basic.frag");
-		LoadShader("debug", "../Assets/Shaders/debug.vert", "../Assets/Shaders/debug.frag");
-		LoadShader("font", "../Assets/Shaders/font.vert", "../Assets/Shaders/font.frag");
 	}
 
 	void AssetManager::UnloadAll()
@@ -356,7 +367,7 @@ namespace Carmicah
 		primitiveMaps.insert(std::make_pair(objName, p));
 	}
 
-	void AssetManager::LoadTexture(const std::string& textureName, const std::string& textureFile)
+	void AssetManager::LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile)
 	{
 		auto& foundTexture = textureMaps.find(textureName);
 		if (foundTexture != textureMaps.end())
@@ -365,17 +376,14 @@ namespace Carmicah
 			return;
 		}
 
-		//GLuint texture;
-		//std::ifstream texIF{ textureFile, std::ios::binary };
-		//if (!texIF)
-		//{
-		//	std::cerr << "Unable to open texture file\n";
-		//	exit(EXIT_FAILURE);
-		//}
-		//char* ptr_texels = new char[width * height * bpt];
-		//texIF.read(ptr_texels, width * height * bpt);
-		//texIF.close();
 		Texture texture;
+		std::ifstream ssDets{ spriteSheetFile, std::ios::binary };
+		if (ssDets)
+		{
+			ssDets >> texture.xSlices >> texture.ySlices;
+			ssDets.close();
+		}
+
 		stbi_uc* data = stbi_load(textureFile.c_str(), &texture.width, &texture.height, &texture.bpt, 0);
 		if (!data)
 		{

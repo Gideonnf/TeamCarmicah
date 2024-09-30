@@ -6,6 +6,7 @@ namespace Carmicah
 {
     struct Animation
     {
+        bool notChangedAnim;
         int currPiece;
         int xSlice;
         int ySlice;

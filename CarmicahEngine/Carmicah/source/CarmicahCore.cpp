@@ -145,7 +145,7 @@ namespace Carmicah
 
             graSystem->Render(gGOFactory->mainCam);
             txtSystem->Render(WIDTH, HEIGHT);
-            aniSystem->Update();
+            aniSystem->Update(window);
             crsSystem->Render(gGOFactory->mainCam);
             souSystem->Update();
             glfwSwapBuffers(window);
