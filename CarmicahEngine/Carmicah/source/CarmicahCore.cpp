@@ -80,6 +80,9 @@ namespace Carmicah
         GLFWwindow* window = glfwCreateWindow((GLuint)Width, (GLuint)Height, "Carmicah", NULL, NULL);
         glfwMakeContextCurrent(window);
 
+
+
+
         if (window == NULL)
         {
             CM_CORE_ERROR("Failed to create GLFW window");
@@ -116,13 +119,13 @@ namespace Carmicah
         REGISTER_COMPONENT(TextRenderer);
         REGISTER_COMPONENT(UITransform);
 
+        REGISTER_SYSTEM(GOFactory);
         auto graSystem = REGISTER_SYSTEM(GraphicsSystem);
         auto txtSystem = REGISTER_SYSTEM(TextSystem);
         auto aniSystem = REGISTER_SYSTEM(AnimationSystem);
         auto crsSystem = REGISTER_SYSTEM(ColliderRenderSystem);
         auto colSystem = REGISTER_SYSTEM(CollisionSystem);
         auto inputSystem = REGISTER_SYSTEM(InputSystem);
-        REGISTER_SYSTEM(GOFactory);
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);
 
@@ -132,7 +135,7 @@ namespace Carmicah
         aniSystem->Init();
         crsSystem->Init();
         colSystem->Init(); // Set the signature
-        souSystem->Init(false);
+        souSystem->Init(true);
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
         gameSystem->SetScene("Scene1");
@@ -205,7 +208,7 @@ namespace Carmicah
 
                 gGOFactory->UpdateDestroyed();
             }
-            
+
             // Changing of scene/closing of engine
             // run exit to clear objects
             if (gameSystem->mNextState != gameSystem->mCurrState)
@@ -222,6 +225,7 @@ namespace Carmicah
         AssetManager::GetInstance()->UnloadAll();
         //fpsCounter->Exit();
         Editor.Exit();
+        souSystem->Exit();
         colSystem->Exit();
         Serializer.WriteConfig(*this);
 
