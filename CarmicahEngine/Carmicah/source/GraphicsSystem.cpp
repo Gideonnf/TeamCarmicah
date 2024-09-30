@@ -14,9 +14,6 @@
 
 namespace Carmicah
 {
-	int counter{};
-	int progress{};
-
 	bool GraphicsSystem::uniformExists(const char* str, GLint& ref)
 	{
 		ref = glGetUniformLocation(currShader, str);

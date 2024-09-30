@@ -11,6 +11,8 @@
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
 #include "Components/Animation.h"
+#include "Components/TextRenderer.h"
+#include "Components/UITransform.h"
 #include "log.h"
 
 namespace Carmicah
@@ -179,6 +181,27 @@ namespace Carmicah
 							t.maxTime = static_cast<float>((*it)["timeBetween"].GetDouble());
 							newObj.AddComponent<Animation>(t);
 						}
+						else if (componentName == "struct Carmicah::TextRenderer")
+						{
+							TextRenderer t{};
+							t.model = (*it)["model"].GetString();
+							t.font = (*it)["font"].GetString();
+							t.txt = (*it)["text"].GetString();
+							t.color.r = static_cast<float>((*it)["colorR"].GetDouble());
+							t.color.g = static_cast<float>((*it)["colorG"].GetDouble());
+							t.color.b = static_cast<float>((*it)["colorB"].GetDouble());
+							newObj.AddComponent<TextRenderer>(t);
+						}
+						else if (componentName == "struct Carmicah::UITransform")
+						{
+							UITransform t{};
+							t.xPos = static_cast<float>((*it)["xPos"].GetDouble());
+							t.yPos = static_cast<float>((*it)["yPos"].GetDouble());
+							//t.rot = static_cast<float>((*it)["rot"].GetDouble());
+							t.xScale = static_cast<float>((*it)["xScale"].GetDouble());
+							t.yScale = static_cast<float>((*it)["yScale"].GetDouble());
+							newObj.AddComponent<UITransform>(t);
+						}
 					}
 				}
 			}
@@ -258,6 +281,36 @@ namespace Carmicah
 							writer.Int(t.xSlice);
 							writer.String("timeBetween");
 							writer.Double(t.maxTime);
+						}
+						else if (componentName == "struct Carmicah::TextRenderer")
+						{
+							TextRenderer& t = o.GetComponent<TextRenderer>();
+							writer.String("model");
+							writer.String(t.model.c_str());
+							writer.String("font");
+							writer.String(t.font.c_str());
+							writer.String("text");
+							writer.String(t.txt.c_str());
+							writer.String("colorR");
+							writer.Double(t.color.r);
+							writer.String("colorG");
+							writer.Double(t.color.g);
+							writer.String("colorB");
+							writer.Double(t.color.b);
+						}
+						else if (componentName == "struct Carmicah::UITransform")
+						{
+							UITransform& t = o.GetComponent<UITransform>();
+							writer.String("xPos");
+							writer.Double(t.xPos);
+							writer.String("yPos");
+							writer.Double(t.yPos);
+							//writer.String("rot");
+							//writer.Double(t.rot);
+							writer.String("xScale");
+							writer.Double(t.xScale);
+							writer.String("yScale");
+							writer.Double(t.yScale);
 						}
 						writer.EndObject();
 

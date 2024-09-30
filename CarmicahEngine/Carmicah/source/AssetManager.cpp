@@ -15,6 +15,7 @@ namespace Carmicah
 		textureMaps.insert(std::make_pair("", Texture{})); // Sets No Texture
 
 		InitSound();
+		InitFontType();
 
 		if (std::filesystem::exists(directoryPath) && std::filesystem::is_directory(directoryPath))
 		{
@@ -37,6 +38,10 @@ namespace Carmicah
 						else if (folderName == "Images")
 						{
 							LoadTexture(fileName, entry.path().string());
+						}
+						else if (folderName == "Fonts")
+						{
+							LoadFont(fileName, entry.path().string(), fontSize);
 						}
 						else if (folderName == "Meshes")
 						{
@@ -63,6 +68,7 @@ namespace Carmicah
 		}
 		LoadShader("basic", "../Assets/Shaders/basic.vert", "../Assets/Shaders/basic.frag");
 		LoadShader("debug", "../Assets/Shaders/debug.vert", "../Assets/Shaders/debug.frag");
+		LoadShader("font", "../Assets/Shaders/font.vert", "../Assets/Shaders/font.frag");
 	}
 
 	void AssetManager::UnloadAll()
@@ -80,6 +86,7 @@ namespace Carmicah
 		textureMaps.clear();
 		primitiveMaps.clear();
 		shaderPgms.clear();
+		FT_Done_FreeType(ftLib);
 
 		// Unload Sound
 		for (auto& sound : soundMap)
@@ -87,6 +94,8 @@ namespace Carmicah
 		if (soundSystem != NULL)
 			soundSystem->release();
 	}
+
+
 	//bool AssetManager::TryGetPrimitive(Primitive& p, const std::string& s)
 	//{
 	//	auto& temp = primitiveMaps.find(s);
@@ -385,6 +394,67 @@ namespace Carmicah
 		//glPixelStorei(GL_UNPACK_ALIGNMENT, ); if width * bpt is not multiple of 4
 		textureMaps.insert(std::make_pair(textureName, texture));
 	}
+
+	void AssetManager::InitFontType()
+	{
+		if (FT_Init_FreeType(&ftLib))
+		{
+			std::cerr << "Error with Free Type Init" << std::endl;
+			return;
+		}
+	}
+
+	void AssetManager::LoadFont(const std::string& fontName, const std::string& fontLoc, const unsigned int& fontHeight)
+	{
+		auto& foundFontTex = fontMaps.find(fontName);
+		if (foundFontTex != fontMaps.end())
+		{
+			std::cerr << "Font: " << fontName << " Already Exists";
+			return;
+		}
+
+		std::array<Carmicah::FontChar, 128> newFont;
+
+		FT_Face fontFace;
+		if (FT_New_Face(ftLib, fontLoc.c_str(), 0, &fontFace))
+		{
+			std::cerr << "Error with Free Type Face: " << fontName << std::endl;
+			return;
+		}
+		FT_Set_Pixel_Sizes(fontFace, 0, fontHeight);
+
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		for (unsigned char c = 0; c < 128; ++c)
+		{
+			if (FT_Load_Char(fontFace, c, FT_LOAD_RENDER))
+			{
+				std::cerr << "Failed to load FreeType Glyph: " <<fontName << "(" << c << ")" << std::endl;
+				continue;
+			}
+			Carmicah::FontChar fc;
+			fc.width = fontFace->glyph->bitmap.width;
+			fc.height = fontFace->glyph->bitmap.rows;
+			fc.xBearing = fontFace->glyph->bitmap_left;
+			fc.yBearing = fontFace->glyph->bitmap_top;
+			fc.advance = fontFace->glyph->advance.x;
+
+			glCreateTextures(GL_TEXTURE_2D, 1, &fc.texID);
+			glTextureStorage2D(fc.texID, 1, GL_R8, fc.width, fc.height);
+			glTextureSubImage2D(fc.texID, 0, 0, 0, fc.width, fc.height, GL_RED, GL_UNSIGNED_BYTE, fontFace->glyph->bitmap.buffer);
+
+			glTextureParameterf(fc.texID, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTextureParameterf(fc.texID, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTextureParameterf(fc.texID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTextureParameterf(fc.texID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			newFont[c] = std::move(fc);
+		}
+
+		FT_Done_Face(fontFace);
+
+		fontMaps.insert(std::make_pair(fontName, std::move(newFont)));
+	}
+
 
 	void AssetManager::ExportCircle(int numSlices, const std::string& modelFile)
 	{

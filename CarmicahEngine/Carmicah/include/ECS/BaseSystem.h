@@ -41,9 +41,9 @@ namespace Carmicah
 		};
 
 		// Keep track of time spent within system
-		std::chrono::milliseconds mMilliseconds;
+		std::chrono::milliseconds mMilliseconds{};
 		// Holds a vector of what components it uses. TODO: Verify if its actually useful for anything
-		std::vector<const char*> componentNames;
+		std::vector<const char*> componentNames{};
 	};
 
 }

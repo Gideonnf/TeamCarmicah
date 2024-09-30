@@ -4,3 +4,4 @@ GLM
 PREMAKE
 rapidJSON
 stb
+freetype

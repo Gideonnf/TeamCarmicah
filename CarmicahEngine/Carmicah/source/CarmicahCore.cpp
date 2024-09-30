@@ -7,20 +7,27 @@
 #include <FMOD/fmod.hpp>
 #include <spdlog/spdlog.h>
 #include <log.h>
-#include "Systems/GOFactory.h"
+
 #include "ECS/ComponentManager.h"
 #include "ECS/SystemManager.h"
+
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
 #include "Components/Animation.h"
+#include "Components/TextRenderer.h"
+#include "Components/UITransform.h"
+
+#include "Systems/GOFactory.h"
 #include "Systems/GraphicsSystem.h"
+#include "Systems/TextSystem.h"
 #include "Systems/AnimationSystem.h"
 #include "Systems/ColliderRenderSystem.h"
 #include "Systems/CollisionSystem.h"
 #include "Systems/SoundSystem.h"
 #include "Systems/InputSystem.h"
 #include "Systems/SceneSystem.h"
+
 #include "CarmicahTime.h"
 #include "AssetManager.h"
 
@@ -92,8 +99,11 @@ namespace Carmicah
         REGISTER_COMPONENT(Collider2D);
         REGISTER_COMPONENT(Renderer);
         REGISTER_COMPONENT(Animation);
+        REGISTER_COMPONENT(TextRenderer);
+        REGISTER_COMPONENT(UITransform);
 
         auto graSystem = REGISTER_SYSTEM(GraphicsSystem);
+        auto txtSystem = REGISTER_SYSTEM(TextSystem);
         auto aniSystem = REGISTER_SYSTEM(AnimationSystem);
         auto crsSystem = REGISTER_SYSTEM(ColliderRenderSystem);
         auto colSystem = REGISTER_SYSTEM(CollisionSystem);
@@ -104,6 +114,7 @@ namespace Carmicah
 
         AssetManager::GetInstance()->LoadAll(assetsLoc);
         graSystem->Init();
+        txtSystem->Init();
         aniSystem->Init();
         crsSystem->Init();
         colSystem->Init(); // Set the signature
@@ -133,6 +144,7 @@ namespace Carmicah
             colSystem->Update();
 
             graSystem->Render(gGOFactory->mainCam);
+            txtSystem->Render(WIDTH, HEIGHT);
             aniSystem->Update();
             crsSystem->Render(gGOFactory->mainCam);
             souSystem->Update();
