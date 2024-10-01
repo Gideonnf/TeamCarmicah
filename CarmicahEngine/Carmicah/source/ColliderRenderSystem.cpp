@@ -38,7 +38,7 @@ namespace Carmicah
 
 			glm::mat3 trans{1};
 			trans = glm::translate(trans, glm::vec2((collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f));
-			trans = glm::scale(trans, glm::vec2(collider.max.x - collider.min.x, collider.max.y - collider.min.y));
+			trans = glm::scale(trans, glm::vec2(collider.max.x - collider.min.x, collider.max.y - collider.min.y)*0.5f);
 			trans = camera.camSpace * trans;
 
 

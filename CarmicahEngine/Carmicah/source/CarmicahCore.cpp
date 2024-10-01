@@ -150,8 +150,8 @@ namespace Carmicah
 
         GameObject newObj = gGOFactory->CreateGO();
         newObj.AddComponent<Transform>();
-        newObj.GetComponent<Transform>().xPos = -5.0f;
-        newObj.GetComponent<Transform>().yPos = 0.0f;
+        newObj.GetComponent<Transform>().xPos = 1.0f;
+        newObj.GetComponent<Transform>().yPos = 3.0f;
         newObj.GetComponent<Transform>().xScale = 1.0f;
         newObj.GetComponent<Transform>().yScale = 1.0f;
         newObj.GetComponent<Transform>().notUpdated = false;
@@ -233,7 +233,7 @@ namespace Carmicah
                         test.GetComponent<Transform>().yScale = 0.5f;*/
 
                         std::cout << "Bullet max" << newObj.GetComponent<Collider2D>().max << std::endl;
-                        std::cout << "Bullet xPos" << newObj.GetComponent<Transform>().xPos << std::endl;
+                        std::cout << "Bullet xPos " << newObj.GetComponent<Transform>().xPos << std::endl;
                         std::cout << "Wall min" << wall.GetComponent<Collider2D>().min << std::endl;
                     //}
 
@@ -246,6 +246,7 @@ namespace Carmicah
 
                 #ifdef CM_RELEASE
                 phySystem->Update();
+                colSystem->Update();
                 #endif
 
                 aniSystem->Update();
