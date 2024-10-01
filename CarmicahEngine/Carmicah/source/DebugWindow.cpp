@@ -8,7 +8,7 @@
 
 namespace Carmicah
 {
-	DebugWindow::DebugWindow() : EditorWindow("Debug", ImVec2(900, 300), ImVec2(0, 0)), showFPS(false), showLogger(true) { isVisible = true; }
+	DebugWindow::DebugWindow() : EditorWindow("Debug", ImVec2(900, 300), ImVec2(0, 0)), mShowFPS(false), mShowLogger(true) { mIsVisible = true; }
 
 	void DebugWindow::Update()
 	{
@@ -18,7 +18,7 @@ namespace Carmicah
 		static bool autoScrollLog = true;
 		counter++;
 
-		if(ImGui::Begin(title, nullptr, ImGuiWindowFlags_MenuBar))
+		if(ImGui::Begin(mTitle, nullptr, ImGuiWindowFlags_MenuBar))
 		{
 			//Draw Menu Bar
 			if (ImGui::BeginMenuBar())
@@ -26,9 +26,9 @@ namespace Carmicah
 				//Menu for Debugging Tools
 				if (ImGui::BeginMenu("Debugging Tools"))
 				{
-					if (ImGui::MenuItem("FPS", nullptr, showFPS))
+					if (ImGui::MenuItem("FPS", nullptr, mShowFPS))
 					{
-						showFPS = !showFPS;
+						mShowFPS = !mShowFPS;
 					}
 
 					ImGui::EndMenu();
@@ -38,7 +38,7 @@ namespace Carmicah
 
 			if(ImGui::BeginTabBar("Debug Tabs"))
 			{
-				if (showFPS)
+				if (mShowFPS)
 				{
 					if (ImGui::BeginTabItem("FPS Info"))
 					{
@@ -46,7 +46,7 @@ namespace Carmicah
 						ImGui::EndTabItem();
 					}
 				}
-				if (showLogger)
+				if (mShowLogger)
 				{
 					if (ImGui::BeginTabItem("Logger"))
 					{

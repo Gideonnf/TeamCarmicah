@@ -26,14 +26,16 @@ namespace Carmicah
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
 		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Window
+		io.IniFilename = nullptr;
 
 		ImGui_ImplGlfw_InitForOpenGL(window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
 		ImGui_ImplOpenGL3_Init("#version 460");
 
 		//Creating Windows
-		windows.push_back(std::make_unique<HeirarchyWindow>());
-		windows.push_back(std::make_unique<DebugWindow>());
+		//mWindows.push_back(std::make_unique<EditorWindow>("##",ImVec2(glfwGet)))
+		mWindows.push_back(std::make_unique<HeirarchyWindow>());
+		mWindows.push_back(std::make_unique<DebugWindow>());
 
 	}
 
@@ -43,6 +45,21 @@ namespace Carmicah
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
+
+		ImGuiWindowFlags windowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+
+
+		ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImGui::SetNextWindowPos(viewport->Pos);
+		ImGui::SetNextWindowSize(viewport->Size);
+		ImGui::SetNextWindowViewport(viewport->ID);
+
+		// Begin full-screen window
+		ImGui::Begin("DockingWindow", nullptr, windowFlags);
+
+		// Create the main docking space
+		ImGuiID dockspaceID = ImGui::GetID("MainDockSpace");
+		ImGui::DockSpace(dockspaceID, ImVec2(0, 0), ImGuiDockNodeFlags_PassthruCentralNode);
 
 		//Main Menu Bar
 		if (ImGui::BeginMainMenuBar())
@@ -59,22 +76,22 @@ namespace Carmicah
 
 			if (ImGui::BeginMenu("Window"))
 			{
-				for (const auto& window : windows)
+				for (const auto& window : mWindows)
 				{
 					//Toggle Heirarchy Window Visibility
 					if (auto heirarchyWindow = dynamic_cast<HeirarchyWindow*>(window.get()))
 					{
-						if (ImGui::MenuItem("Heirarchy", nullptr, heirarchyWindow->isVisible))
+						if (ImGui::MenuItem("Heirarchy", nullptr, heirarchyWindow->mIsVisible))
 						{
-							heirarchyWindow->isVisible = !heirarchyWindow->isVisible;
+							heirarchyWindow->mIsVisible = !heirarchyWindow->mIsVisible;
 						}
 					}
 					//Toggle Debug Window Visibility
 					if (auto debugWindow = dynamic_cast<DebugWindow*>(window.get()))
 					{
-						if (ImGui::MenuItem("Debug", nullptr, debugWindow->isVisible))
+						if (ImGui::MenuItem("Debug", nullptr, debugWindow->mIsVisible))
 						{
-							debugWindow->isVisible = !debugWindow->isVisible;
+							debugWindow->mIsVisible = !debugWindow->mIsVisible;
 						}
 					}
 				}
@@ -83,13 +100,22 @@ namespace Carmicah
 			ImGui::EndMainMenuBar();
 		}
 		
-		for (auto& window : windows) 
+		ImGui::End();
+
+		static bool sFirstTime = true;
+		if (sFirstTime)
+		{
+			sFirstTime = false;
+
+			//ImGui::DockingBuilderRemoveNode()
+		}
+		for (auto& window : mWindows) 
 		{
 
-			ImGui::SetNextWindowSize(window->size, ImGuiCond_FirstUseEver);
-			ImGui::SetNextWindowPos(window->pos, ImGuiCond_FirstUseEver);
+			ImGui::SetNextWindowSize(window->mSize, ImGuiCond_FirstUseEver);
+			ImGui::SetNextWindowPos(window->mPos, ImGuiCond_FirstUseEver);
 
-			if(window->isVisible)
+			if(window->mIsVisible)
 			{
 				window->Update();
 			}

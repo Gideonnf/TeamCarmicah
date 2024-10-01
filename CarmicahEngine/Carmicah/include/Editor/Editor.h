@@ -26,7 +26,7 @@ namespace Carmicah
 
 	private:
 
-		std::vector<std::unique_ptr<EditorWindow>> windows;
+		std::vector<std::unique_ptr<EditorWindow>> mWindows;
 	};
 
 }

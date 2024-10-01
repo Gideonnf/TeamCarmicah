@@ -45,20 +45,21 @@
     <IntDir>..\bin\Debug-x86_64int\Carmicah\</IntDir>
     <TargetName>Carmicah</TargetName>
     <TargetExt>.lib</TargetExt>
+    <ExternalIncludePath>include;..\Dependencies\includes;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>..\bin\Release-x86_64\Carmicah\</OutDir>
     <IntDir>..\bin\Release-x86_64int\Carmicah\</IntDir>
     <TargetName>Carmicah</TargetName>
     <TargetExt>.lib</TargetExt>
+    <ExternalIncludePath>include;..\Dependencies\includes;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;STB_IMAGE_IMPLEMENTATION;CM_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;..\Dependencies\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;STB_IMAGE_IMPLEMENTATION;CM_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -84,8 +85,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Debug-x86_64\Assets"</Command>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;STB_IMAGE_IMPLEMENTATION;CM_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;..\Dependencies\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;STB_IMAGE_IMPLEMENTATION;CM_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>

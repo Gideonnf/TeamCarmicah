@@ -7,13 +7,12 @@
 namespace Carmicah
 {
 
-	EditorWindow::EditorWindow(const char* title, ImVec2 size, ImVec2 pos) : title(title), size(size), pos(pos), isVisible(true) {}
+	EditorWindow::EditorWindow(const char* title, ImVec2 size, ImVec2 pos) : mTitle(title), mSize(size), mPos(pos), mIsVisible(true) {}
 
 	void EditorWindow::Update()
 	{
-		if (ImGui::Begin(title))
+		if (ImGui::Begin(mTitle))
 		{
-			ImGui::Text("Default");
 		}
 		ImGui::End();
 	}

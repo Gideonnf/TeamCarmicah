@@ -10,8 +10,8 @@ namespace Carmicah
 	class DebugWindow : public EditorWindow
 	{
 	private:
-		bool showFPS;
-		bool showLogger;
+		bool mShowFPS;
+		bool mShowLogger;
 	public:
 
 		DebugWindow();

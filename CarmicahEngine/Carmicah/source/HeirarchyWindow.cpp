@@ -11,11 +11,11 @@
 
 namespace Carmicah
 {
-	HeirarchyWindow::HeirarchyWindow() : EditorWindow("Heirarchy", ImVec2(900, 300), ImVec2(0, 0)) { isVisible = true; }
+	HeirarchyWindow::HeirarchyWindow() : EditorWindow("Heirarchy", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
 
 	void HeirarchyWindow::Update()
 	{
-		if (ImGui::Begin(title))
+		if (ImGui::Begin(mTitle))
 		{
 			static Transform playerTrans{};
 			//static Collider2D playerCollider{ 1.0, 2.0, 3.0, 4.0 };
