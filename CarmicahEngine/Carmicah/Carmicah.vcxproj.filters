@@ -157,6 +157,7 @@
       <Filter>include\Systems</Filter>
     </ClInclude>
     <ClInclude Include="include\Graphics\RigidbodyRendererSystem.h" />
+    <ClInclude Include="include\Graphics\BaseGraphicsSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\AnimationSystem.cpp">
@@ -229,5 +230,6 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\RigidbodyRendererSystem.cpp" />
+    <ClCompile Include="source\BaseGraphicsSystem.cpp" />
   </ItemGroup>
 </Project>

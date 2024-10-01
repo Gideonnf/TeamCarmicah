@@ -40,12 +40,28 @@ namespace Carmicah
 		auto shdrRef = AssetManager::GetInstance()->mShaderPgms.find("debug");
 		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
 			mCurrShader = shdrRef->second;
+		else
+			CM_CORE_ERROR("RigidbodyRendererSystem failed to load Shader");
 	}
 
 	void RigidbodyRendererSystem::Render(Entity& cam)
 	{
+		if (mCurrShader == 0)
+			return;
 		glUseProgram(mCurrShader);
-		Primitive& p{ AssetManager::GetInstance()->mPrimitiveMaps[modelName] };
+
+		auto& tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(modelName) };
+		Primitive* p;
+		if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
+		{
+			std::stringstream ss;
+			ss << "Renderer Model not found: " << modelName << std::endl;
+			CM_CORE_ERROR(ss.str());
+			return;
+		}
+		else
+			p = &tryPrimitive->second;
+
 		auto& camera = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 
 		for (auto& entity : mEntitiesSet)
@@ -54,7 +70,6 @@ namespace Carmicah
 			if (fabs(rigidbody.velocity.x) < std::numeric_limits<float>::epsilon() &&
 				fabs(rigidbody.velocity.y) < std::numeric_limits<float>::epsilon())
 				continue;
-
 
 			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
 
@@ -70,24 +85,17 @@ namespace Carmicah
 			trans = glm::scale(trans, glm::vec2(biggerVel, biggerVel));
 			trans = camera.camSpace * trans;
 
-			GLint uniform_var_loc0 = glGetUniformLocation(mCurrShader, "uModel_to_NDC");
-			if (uniform_var_loc0 >= 0)
-			{
-				glUniformMatrix3fv(uniform_var_loc0, 1, GL_FALSE,
-					glm::value_ptr(trans));
-			}
-			else
-			{
-				std::cout << "Uniform variable dosen't exist!!!\n";
-				continue;
-			}
 
-			glBindVertexArray(p.vaoid);
-			switch (p.drawMode)
+			GLint uniformLoc;
+			if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+
+			glBindVertexArray(p->vaoid);
+			switch (p->drawMode)
 			{
 			case GL_LINE_LOOP:
 				glLineWidth(2.f);
-				glDrawArrays(GL_LINE_LOOP, 0, p.drawCnt);
+				glDrawArrays(GL_LINE_LOOP, 0, p->drawCnt);
 				break;
 			}
 		}

@@ -37,17 +37,32 @@ namespace Carmicah
 		auto shdrRef = AssetManager::GetInstance()->mShaderPgms.find("debug");
 		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
 			mCurrShader = shdrRef->second;
+		else
+			CM_CORE_ERROR("ColliderRenderSystem failed to load Shader");
 	}
 
 	void ColliderRenderSystem::Render(Entity& cam)
 	{
+		if (mCurrShader == 0)
+			return;
 		glUseProgram(mCurrShader);
 
 		for (auto& entity : mEntitiesSet)
 		{
 			auto& camera = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);
-			Primitive p{ AssetManager::GetInstance()->mPrimitiveMaps[collider.shape] };
+			auto& tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(collider.shape) };
+			Primitive* p;
+			if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
+			{
+				std::stringstream ss;
+				ss << "Renderer Model not found: " << collider.shape << std::endl;
+				CM_CORE_ERROR(ss.str());
+				continue;
+			}
+			else
+				p = &tryPrimitive->second;
+
 
 			glm::mat3 trans{1};
 			trans = glm::translate(trans, glm::vec2((collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f));
@@ -55,24 +70,16 @@ namespace Carmicah
 			trans = camera.camSpace * trans;
 
 
-			GLint uniform_var_loc0 = glGetUniformLocation(mCurrShader, "uModel_to_NDC");
-			if (uniform_var_loc0 >= 0)
-			{
-				glUniformMatrix3fv(uniform_var_loc0, 1, GL_FALSE,
-					glm::value_ptr(trans));
-			}
-			else
-			{
-				std::cout << "Uniform variable dosen't exist!!!\n";
-				std::exit(EXIT_FAILURE);
-			}
+			GLint uniformLoc;
+			if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
-			glBindVertexArray(p.vaoid);
-			switch (p.drawMode)
+			glBindVertexArray(p->vaoid);
+			switch (p->drawMode)
 			{
 			case GL_LINE_LOOP:
 				glLineWidth(2.f);
-				glDrawArrays(GL_LINE_LOOP, 0, p.drawCnt);
+				glDrawArrays(GL_LINE_LOOP, 0, p->drawCnt);
 				break;
 			}
 		}
