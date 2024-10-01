@@ -5,6 +5,7 @@
 #include "Editor/DebugWindow.h"
 #include "Editor/EditorWindow.h"
 #include "Editor/HierarchyWindow.h"
+#include "Editor/SceneWindow.h"
 
 namespace Carmicah
 {

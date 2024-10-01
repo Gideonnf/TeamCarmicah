@@ -156,6 +156,7 @@
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\Editor\SceneWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\AnimationSystem.cpp">
@@ -227,5 +228,6 @@
     <ClCompile Include="source\pch.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="source\SceneWindow.cpp" />
   </ItemGroup>
 </Project>

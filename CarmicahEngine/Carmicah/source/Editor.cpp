@@ -35,9 +35,9 @@ namespace Carmicah
 
 		//Creating Windows
 		//For Testing
-		/*mWindows.push_back(std::make_unique<EditorWindow>("A", ImVec2(200,100), ImVec2(1080, 200)));
-		mWindows.push_back(std::make_unique<EditorWindow>("B", ImVec2(100,100), ImVec2(200, 100)));*/
-
+		//mWindows.push_back(std::make_unique<EditorWindow>("A", ImVec2(200,100), ImVec2(1080, 200)));
+		//mWindows.push_back(std::make_unique<EditorWindow>("B", ImVec2(100,100), ImVec2(200, 100)));
+		mWindows.push_back(std::make_unique<SceneWindow>());
 		mWindows.push_back(std::make_unique<HierarchyWindow>());
 		mWindows.push_back(std::make_unique<DebugWindow>());
 
@@ -74,10 +74,13 @@ namespace Carmicah
 				ImGui::DockBuilderAddNode(dockspaceID, ImGuiDockNodeFlags_DockSpace);*/
 				ImGuiID dockMain = dockspaceID; // Main area
 				ImGuiID dockLeft = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Left, 0.25f, nullptr, &dockMain);
-				ImGuiID dockBottom = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Down, 0.5f, nullptr, &dockMain);
+				ImGuiID dockRight = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Right, 0.25f, nullptr,&dockMain);
+				ImGuiID dockBottom = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Down, 0.4f, nullptr, &dockMain);
 				// Dock your windows into the split areas
 				ImGui::DockBuilderDockWindow("Hierarchy", dockLeft);
+				//ImGui::DockBuilderDockWindow("A", dockRight);
 				ImGui::DockBuilderDockWindow("Debug", dockBottom);
+				ImGui::DockBuilderDockWindow("Scene", dockMain);
 				ImGui::DockBuilderFinish(dockMain);
 			}
 

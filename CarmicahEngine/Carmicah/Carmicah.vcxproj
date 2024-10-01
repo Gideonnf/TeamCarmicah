@@ -132,6 +132,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="include\Editor\Editor.h" />
     <ClInclude Include="include\Editor\EditorWindow.h" />
     <ClInclude Include="include\Editor\HierarchyWindow.h" />
+    <ClInclude Include="include\Editor\SceneWindow.h" />
     <ClInclude Include="include\FPSCounter.h" />
     <ClInclude Include="include\Input\InputTypes.h" />
     <ClInclude Include="include\Math\Matrix3x3.h" />
@@ -171,6 +172,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClCompile Include="source\InputSystem.cpp" />
     <ClCompile Include="source\PhysicsSystem.cpp" />
     <ClCompile Include="source\SceneSystem.cpp" />
+    <ClCompile Include="source\SceneWindow.cpp" />
     <ClCompile Include="source\SerializerSystem.cpp" />
     <ClCompile Include="source\SoundSystem.cpp" />
     <ClCompile Include="source\SystemManager.cpp" />
