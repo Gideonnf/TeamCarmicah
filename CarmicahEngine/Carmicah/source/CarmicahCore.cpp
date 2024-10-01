@@ -251,31 +251,23 @@ namespace Carmicah
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
                 #ifdef CM_DEBUG
-                /*if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) 
-                {*/
+                if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) 
+                {
                 
-                   /* if (is_P_pressed == false)
-                    {*/
-                        //is_P_pressed = true;
+                    if (is_P_pressed == false)
+                    {
+                        is_P_pressed = true;
                         phySystem->Update();
                         colSystem->Update();
 
-                        /*GameObject test = gGOFactory->CreatePrefab("Duck");
-                        test.GetComponent<Transform>().xPos = newObj.GetComponent<Collider2D>().max.x;
-                        test.GetComponent<Transform>().yPos = newObj.GetComponent<Collider2D>().max.y;
-                        test.GetComponent<Transform>().xScale = 0.5f;
-                        test.GetComponent<Transform>().yScale = 0.5f;*/
+                        
+                    }
 
-                        /*std::cout << "Bullet max" << ball2.GetComponent<Collider2D>().max << std::endl;
-                        std::cout << "Bullet xPos " << ball2.GetComponent<Transform>().xPos << std::endl;
-                        std::cout << "Wall min" << wall.GetComponent<Collider2D>().min << std::endl;*/
-                    //}
-
-                    //}
-                /*else 
+                }
+                else 
                 {
                     is_P_pressed = false;
-                }*/
+                }
                 #endif
 
                 #ifdef CM_RELEASE
