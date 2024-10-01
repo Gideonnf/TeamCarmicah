@@ -13,19 +13,35 @@
 
 namespace Carmicah
 {
-	struct BaseAsset {};
-	struct Primitive : BaseAsset
+	class IAsset {
+	public:
+		virtual ~IAsset() = default;
+	};
+
+	template <typename T>
+	class Asset : public IAsset
+	{
+	public:
+		std::unordered_map<std::string, std::shared_ptr<IAsset>> mAssetMap;
+	};
+
+	template <typename T>
+	struct BaseAsset {
+		std::unordered_map<std::string, T> mAssetMap;
+	};
+
+	struct Primitive
 	{
 		GLuint vaoid{};
 		GLuint vboid{};
 		GLenum drawMode{};
 		GLuint drawCnt{};
 	};
-	struct Shader : BaseAsset
+	struct Shader
 	{
 		GLuint s;
 	};
-	struct Texture : BaseAsset
+	struct Texture
 	{
 		GLuint t;
 		int width;
@@ -35,13 +51,13 @@ namespace Carmicah
 		int xSlices;
 		int ySlices;
 	};
-	struct FontChar : BaseAsset
+	struct FontChar 
 	{
 		unsigned int texID, width, height;
 		int			 xBearing, yBearing;
 		long		 advance;
 	};
-	struct Audio : BaseAsset
+	struct Audio
 	{
 		bool isLoop;
 		FMOD::Sound* sound;
@@ -55,11 +71,13 @@ namespace Carmicah
 		void LoadAll(const char*);
 		void UnloadAll();
 
-		std::unordered_map<std::string, GLuint> mShaderPgms{};
-		std::unordered_map<std::string, Texture> mTextureMaps{};
-		std::unordered_map<std::string, Primitive> mPrimitiveMaps{};
-		std::unordered_map<std::string, std::string> mSceneFiles{};
-		std::unordered_map<std::string, std::string> mPrefabFiles{};
+		//std::unordered_map<std::string, std::shared_ptr<BaseAsset>> mMapOfAssets;
+		//
+		//std::unordered_map<std::string, GLuint> mShaderPgms{};
+		//std::unordered_map<std::string, Texture> mTextureMaps{};
+		//std::unordered_map<std::string, Primitive> mPrimitiveMaps{};
+		//std::unordered_map<std::string, std::string> mSceneFiles{};
+		//std::unordered_map<std::string, std::string> mPrefabFiles{};
 		FT_Library mFTLib;
 		const unsigned int fontSize{ 36 };
 		std::unordered_map<std::string, std::array<Carmicah::FontChar, 128>> mFontMaps{};
