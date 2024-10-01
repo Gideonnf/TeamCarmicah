@@ -4,6 +4,8 @@ workspace "CarmicahEngine"
     architecture "x64"
     system "windows"
     startproject "Editor"
+    flags "MultiProcessorCompile"
+    warnings "Extra"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.architecture}"
 
