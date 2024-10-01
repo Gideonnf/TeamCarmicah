@@ -189,8 +189,6 @@ namespace Carmicah
         ball.GetComponent<Renderer>().texureMat = glm::mat3(1);
 
         GameObject ball2 = gGOFactory->CreatePrefab("Duck");
-        ball2.GetComponent<Transform>().xPos = 1.0f;
-        ball2.GetComponent<Transform>().yPos = 0.0f;
         ball2.GetComponent<Transform>().xScale = 0.5f;
         ball2.GetComponent<Transform>().yScale = 0.5f;
         ball2.GetComponent<Transform>().notUpdated = false;
@@ -201,10 +199,6 @@ namespace Carmicah
         ball2.GetComponent<RigidBody>().velocity.y = 0.0f;
         ball2.GetComponent<RigidBody>().gravity = 0.0f;
         ball2.GetComponent<RigidBody>().objectType = "Dynamic";
-        ball2.AddComponent<Renderer>();
-        ball2.GetComponent<Renderer>().model = "Square";
-        ball2.GetComponent<Renderer>().texture = "Bullet2";
-        ball2.GetComponent<Renderer>().texureMat = glm::mat3(1);
 
 
         GameObject wall = gGOFactory->CreateGO();
@@ -257,31 +251,23 @@ namespace Carmicah
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
                 #ifdef CM_DEBUG
-                /*if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) 
-                {*/
+                if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) 
+                {
                 
-                   /* if (is_P_pressed == false)
-                    {*/
-                        //is_P_pressed = true;
+                    if (is_P_pressed == false)
+                    {
+                        is_P_pressed = true;
                         phySystem->Update();
                         colSystem->Update();
 
-                        /*GameObject test = gGOFactory->CreatePrefab("Duck");
-                        test.GetComponent<Transform>().xPos = newObj.GetComponent<Collider2D>().max.x;
-                        test.GetComponent<Transform>().yPos = newObj.GetComponent<Collider2D>().max.y;
-                        test.GetComponent<Transform>().xScale = 0.5f;
-                        test.GetComponent<Transform>().yScale = 0.5f;*/
+                        
+                    }
 
-                        /*std::cout << "Bullet max" << ball2.GetComponent<Collider2D>().max << std::endl;
-                        std::cout << "Bullet xPos " << ball2.GetComponent<Transform>().xPos << std::endl;
-                        std::cout << "Wall min" << wall.GetComponent<Collider2D>().min << std::endl;*/
-                    //}
-
-                    //}
-                /*else 
+                }
+                else 
                 {
                     is_P_pressed = false;
-                }*/
+                }
                 #endif
 
                 #ifdef CM_RELEASE
