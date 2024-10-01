@@ -152,6 +152,13 @@ namespace Carmicah
 
 	GameObject GOFactory::FetchGO(std::string GOName)
 	{
+		if (mNameToID.count(GOName) == 0)
+		{		
+			CM_CORE_ERROR("GameObject does not exist");
+		}
+
+		assert(mNameToID.count(GOName) != 0 && "GameObject does not exist");
+
 		return mIDToGO[mNameToID[GOName]];
 	}
 
@@ -167,6 +174,11 @@ namespace Carmicah
 
 	void GOFactory::Destroy(Entity entity)
 	{
+		if (mEntitiesSet.count(entity) <= 0)
+		{
+			CM_CORE_ERROR("Trying to delete a gameobject that does not exist");
+			return;
+		}
 		// To destroy at the end of update
 		mDeleteList.insert(entity);
 	}
