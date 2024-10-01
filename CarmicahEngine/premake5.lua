@@ -19,13 +19,15 @@ project "Carmicah"
     pchheader "pch.h"
     pchsource "Carmicah/source/pch.cpp"
 
+    defines {  "_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS" }
+
     files 
     {
         "%{prj.name}/include/**.h",
         "%{prj.name}/source/**.cpp" 
     }
 
-    includedirs 
+    externalincludedirs 
     {
         "Carmicah/include",
         "Dependencies/includes" 
@@ -88,7 +90,7 @@ project "Editor"
         "%{prj.name}/source/**.cpp" 
     }
 
-    includedirs 
+    externalincludedirs 
     {
         "Carmicah/include" 
     }
@@ -131,7 +133,7 @@ project "glad"
         "%{prj.name}/src/**.c" 
     }
 
-    includedirs 
+    externalincludedirs 
     {
         "Dependencies/includes"
     }
@@ -164,7 +166,7 @@ project "ImGUI"
         "%{prj.name}/src/**.cpp" 
     }
 
-    includedirs 
+    externalincludedirs 
     {
         "Dependencies/includes/ImGUI",
         "Dependencies/includes"
