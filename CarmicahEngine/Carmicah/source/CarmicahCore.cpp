@@ -154,24 +154,75 @@ namespace Carmicah
         GameObject newObj = gGOFactory->CreateGO();
         newObj.AddComponent<Transform>();
         newObj.GetComponent<Transform>().xPos = 1.0f;
-        newObj.GetComponent<Transform>().yPos = 2.0f;
+        newObj.GetComponent<Transform>().yPos = 3.0f;
         newObj.GetComponent<Transform>().xScale = 1.0f;
         newObj.GetComponent<Transform>().yScale = 1.0f;
+        newObj.GetComponent<Transform>().notUpdated = false;
         newObj.AddComponent<Collider2D>();
         newObj.GetComponent<Collider2D>().shape = "DebugSquare";
         newObj.AddComponent<RigidBody>();
-        newObj.GetComponent<RigidBody>().velocity.x = 2.0f;
-        newObj.GetComponent<RigidBody>().velocity.y = 2.0f;
-        newObj.GetComponent<RigidBody>().gravity = -5.0f;
+        newObj.GetComponent<RigidBody>().velocity.x = 1.0f;
+        newObj.GetComponent<RigidBody>().velocity.y = 0.0f;
+        newObj.GetComponent<RigidBody>().gravity = -0.5f;
         newObj.GetComponent<RigidBody>().objectType = "Dynamic";
         newObj.AddComponent<Renderer>();
         newObj.GetComponent<Renderer>().model = "Square";
         newObj.GetComponent<Renderer>().texture = "Bullet";
         newObj.GetComponent<Renderer>().texureMat = glm::mat3(1);
 
+        GameObject ball = gGOFactory->CreatePrefab("Duck");
+        ball.GetComponent<Transform>().xPos = -5.0f;
+        ball.GetComponent<Transform>().yPos = 0.0f;
+        ball.GetComponent<Transform>().xScale = 0.5f;
+        ball.GetComponent<Transform>().yScale = 0.5f;
+        ball.GetComponent<Transform>().notUpdated = false;
+        ball.AddComponent<Collider2D>();
+        ball.GetComponent<Collider2D>().shape = "DebugSquare";
+        ball.AddComponent<RigidBody>();
+        ball.GetComponent<RigidBody>().velocity.x = 1.0f;
+        ball.GetComponent<RigidBody>().velocity.y = 0.0f;
+        ball.GetComponent<RigidBody>().gravity = 0.0f;
+        ball.GetComponent<RigidBody>().objectType = "Dynamic";
+        ball.AddComponent<Renderer>();
+        ball.GetComponent<Renderer>().model = "Square";
+        ball.GetComponent<Renderer>().texture = "Bullet";
+        ball.GetComponent<Renderer>().texureMat = glm::mat3(1);
+
+        GameObject ball2 = gGOFactory->CreatePrefab("Duck");
+        ball2.GetComponent<Transform>().xScale = 0.5f;
+        ball2.GetComponent<Transform>().yScale = 0.5f;
+        ball2.GetComponent<Transform>().notUpdated = false;
+        ball2.AddComponent<Collider2D>();
+        ball2.GetComponent<Collider2D>().shape = "DebugSquare";
+        ball2.AddComponent<RigidBody>();
+        ball2.GetComponent<RigidBody>().velocity.x = -1.0f;
+        ball2.GetComponent<RigidBody>().velocity.y = 0.0f;
+        ball2.GetComponent<RigidBody>().gravity = 0.0f;
+        ball2.GetComponent<RigidBody>().objectType = "Dynamic";
+
+        GameObject mainCharacter = gGOFactory->CreatePrefab("Duck");
+        mainCharacter.GetComponent<Transform>().xPos = 2.0f;
+        mainCharacter.GetComponent<Transform>().yPos = 2.0f;
+        mainCharacter.GetComponent<Transform>().rot = 0.0f;
+        mainCharacter.GetComponent<Transform>().xScale = 0.5f;
+        mainCharacter.GetComponent<Transform>().yScale = 0.5f;
+        mainCharacter.GetComponent<Transform>().notUpdated = false;
+        mainCharacter.AddComponent<Collider2D>();
+        mainCharacter.GetComponent<Collider2D>().shape = "DebugSquare";
+        mainCharacter.AddComponent<RigidBody>();
+        mainCharacter.GetComponent<RigidBody>().velocity.x = 0.0f;
+        mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
+        mainCharacter.GetComponent<RigidBody>().gravity = 0.0f;
+        mainCharacter.GetComponent<RigidBody>().objectType = "Kinematic";
+        mainCharacter.GetComponent<Renderer>().model = "Square";
+        mainCharacter.GetComponent<Renderer>().texture = "mc_redesign_2";
+        mainCharacter.GetComponent<Renderer>().texureMat = glm::mat3(1);
+
+
         GameObject wall = gGOFactory->CreateGO();
         wall.AddComponent<Transform>();
         wall.GetComponent<Transform>().xPos = 4.0f;
+        wall.GetComponent<Transform>().yPos = 0.0f;
         wall.GetComponent<Transform>().xScale = 1.0f;
         wall.GetComponent<Transform>().yScale = 1.0f;
         wall.AddComponent<Collider2D>();
@@ -180,18 +231,19 @@ namespace Carmicah
         wall.GetComponent<RigidBody>().objectType = "Static";
         wall.AddComponent<Renderer>();
         wall.GetComponent<Renderer>().model = "Square";
-        wall.GetComponent<Renderer>().texture = "wall";
+        wall.GetComponent<Renderer>().texture = "wall2";
         wall.GetComponent<Renderer>().texureMat = glm::mat3(1);
 
         colSystem->PrintEntities();
 
         //Testing prefab
-        //gGOFactory->CreatePrefab("Duck");
-        //GameObject newObj = gGOFactory->FetchGO("Duck");
+        
         //newObj.GetComponent<Transform>().xPos = -2.0;
+        //int objectCount = 0;
 
         Editor Editor;
         Editor.Init(ImGuiWindow);
+        bool is_P_pressed = false;
 
         double testTime = 0.0;
         while (!glfwWindowShouldClose(window) && !glfwWindowShouldClose(ImGuiWindow)) {
@@ -216,9 +268,53 @@ namespace Carmicah
             }
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
+                #ifdef CM_DEBUG
+                if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) 
+                {
+                
+                    if (is_P_pressed == false)
+                    {
+                        is_P_pressed = true;
+                        phySystem->Update();
+                        colSystem->Update();
 
-                colSystem->Update();
+                        
+                    }
+
+                }
+                else 
+                {
+                    is_P_pressed = false;
+                }
+                #endif
+
+                #ifdef CM_RELEASE
+                if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
+                {
+                    mainCharacter.GetComponent<RigidBody>().velocity.x = 5.0f;
+                }
+                else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+                {
+                    mainCharacter.GetComponent<RigidBody>().velocity.x = -5.0f;
+                }
+                else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+                {
+                    mainCharacter.GetComponent<RigidBody>().velocity.y = 5.0f;
+                }
+                else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+                {
+                    mainCharacter.GetComponent<RigidBody>().velocity.y = -5.0f;
+                }
+                else 
+                {
+                    mainCharacter.GetComponent<RigidBody>().velocity.x = 0.0f;
+                    mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
+                }
+
                 phySystem->Update();
+                colSystem->Update();
+                #endif
+
                 aniSystem->Update();
 
                 graSystem->Render(gGOFactory->mainCam);

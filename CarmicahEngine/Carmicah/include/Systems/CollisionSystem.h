@@ -10,9 +10,11 @@ namespace Carmicah
 
 		void UpdateAABB(Entity& obj);
 
-		bool CollisionIntersect(Entity& obj1, Entity& obj2, float tFirst);
+		bool CollisionIntersect(Entity& obj1, Entity& obj2, float firstTimeOfCollision);
 
 		void CollisionResponse(Entity& obj1, Entity& obj2, float tFirst);
+
+		void StaticDynamicCollisionCheck(Entity& obj1, Entity& obj2);
 
 		void CollisionCheck();
 
