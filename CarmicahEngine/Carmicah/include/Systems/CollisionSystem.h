@@ -14,6 +14,10 @@ namespace Carmicah
 
 		void CollisionResponse(Entity& obj1, Entity& obj2, float tFirst);
 
+		void StaticDynamicCollisionCheck(Entity& obj1, Entity& obj2);
+
+		//Vector2D<float> CollisionNormal(Entity& obj1, Entity& obj2);
+
 		void CollisionCheck();
 
 		void Init();

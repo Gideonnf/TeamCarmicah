@@ -8,6 +8,7 @@
 #include "ECS/SystemManager.h"
 #include "ECS/ComponentManager.h"
 #include "CarmicahTime.h"
+#include "log.h"
 
 namespace Carmicah
 {
@@ -35,10 +36,11 @@ namespace Carmicah
 		if (rigidbody.objectType == "Dynamic")
 		{
 
-			rigidbody.velocity.y += rigidbody.gravity * deltaTime;
+			//rigidbody.velocity.y += rigidbody.gravity * deltaTime;
 
 			transform.xPos += rigidbody.velocity.x * deltaTime;
-			transform.yPos += rigidbody.velocity.y * deltaTime;
+			//transform.yPos += rigidbody.velocity.y * deltaTime;
+
 
 		}
 		else if (rigidbody.objectType == "Kinematic")

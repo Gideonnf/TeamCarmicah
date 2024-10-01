@@ -26,10 +26,11 @@ namespace Carmicah
 		auto& AABB = componentManager->GetComponent<Collider2D>(obj);
 		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
 
-		AABB.min.x = transform.xPos - (transform.xScale *0.7f);
-		AABB.min.y = transform.yPos - (transform.yScale*0.7f);
-		AABB.max.x = transform.xPos + (transform.xScale*0.7f);
-		AABB.max.y = transform.yPos + (transform.yScale*0.7f);
+		AABB.min.x = rigidbody.posPrev.x - (transform.xScale *0.5f);
+		AABB.min.y = rigidbody.posPrev.y - (transform.yScale *0.5f);
+
+		AABB.max.x = rigidbody.posPrev.x + (transform.xScale *0.5f);
+		AABB.max.y = rigidbody.posPrev.y + (transform.yScale *0.5f);
 	}
 
 	bool CollisionSystem::CollisionIntersect(Entity& obj1, Entity& obj2, float tFirst)
@@ -41,125 +42,9 @@ namespace Carmicah
 		auto& AABB1 = componentManager->GetComponent<Collider2D>(obj1);
 		auto& AABB2 = componentManager->GetComponent<Collider2D>(obj2);
 
-		float firstTimeOfCollision = 0, tLast = CarmicahTimer::GetDt();
+		float firstTimeOfCollision = 0.0f, tLast = CarmicahTimer::GetDt();
 
-		// Check for no overlap on the x-axis
-		if (AABB2.max.x < AABB1.min.x || AABB2.min.x > AABB1.max.x) {
-
-			if (AABB2.max.y < AABB1.min.y || AABB2.min.y > AABB1.max.y) {
-
-				return false;
-
-			}
-
-		}
-
-		//Dynamic Collision Checking from the right for x-axis
-		if ((rigidbody1.velocity.x - rigidbody2.velocity.x) < 0)
-		{
-			if (AABB2.max.x < AABB1.min.x)
-			{
-				firstTimeOfCollision = std::max(firstTimeOfCollision, (AABB2.max.x - AABB1.min.x) / rigidbody1.velocity.x);
-			}
-
-			if (AABB2.min.x < AABB1.max.x)
-			{
-				tLast = std::min((AABB2.min.x - AABB1.max.x) / rigidbody1.velocity.x, tLast);
-			}
-
-			if (AABB2.min.x > AABB1.max.x)
-			{
-				return false;
-			}
-		}
-		//Dynamic Collision Checking from the left for the x-axis
-		else if ((rigidbody1.velocity.x - rigidbody2.velocity.x) > 0)
-		{
-			if (AABB2.min.x > AABB1.max.x)
-			{
-				firstTimeOfCollision = std::max(firstTimeOfCollision, (AABB2.min.x - AABB1.max.x) / rigidbody1.velocity.x);
-			}
-
-			if (AABB2.max.x > AABB1.min.x)
-			{
-				tLast = std::min((AABB2.max.x - AABB1.min.x) / rigidbody1.velocity.x, tLast);
-			}
-
-			if (AABB2.max.x < AABB1.min.x)
-			{
-				return false;
-			}
-		}
-		//Velocity is equal to zero
-		else
-		{
-			if (AABB2.max.x < AABB1.min.x)
-			{
-				return false;
-			}
-
-			if (AABB2.min.x < AABB1.max.x)
-			{
-				return false;
-			}
-		}
-
-		//Dynamic Collision Checking from the right for the y-axis
-		if ((rigidbody1.velocity.y - rigidbody2.velocity.y) < 0)
-		{
-			if (AABB2.max.y < AABB1.min.y)
-			{
-				firstTimeOfCollision = std::max(firstTimeOfCollision, (AABB2.max.y - AABB1.min.y) / rigidbody1.velocity.y);
-			}
-			if (AABB2.min.y < AABB1.max.y)
-			{
-				tLast = std::min((AABB2.min.y - AABB1.max.y) / rigidbody1.velocity.y, tLast);
-			}
-
-			if (AABB2.min.y < AABB1.max.y)
-			{
-				return false;
-			}
-		}
-		//Dynamic Collision Checking from the left for the y-axis
-		else if ((rigidbody1.velocity.y - rigidbody2.velocity.y) > 0)
-		{
-			if (AABB2.min.y > AABB1.max.y)
-			{
-				firstTimeOfCollision = std::max(firstTimeOfCollision, (AABB2.min.y - AABB1.max.y) / rigidbody1.velocity.y);
-			}
-
-			if (AABB2.max.y > AABB1.min.y)
-			{
-				tLast = std::min((AABB2.max.y - AABB1.min.y) / rigidbody1.velocity.y, tLast);
-			}
-
-			if (AABB2.max.y < AABB1.min.y)
-			{
-				return false;
-			}
-		}
-		else
-		{
-			if (AABB2.max.y < AABB1.min.y)
-			{
-				return false;
-			}
-
-			if (AABB2.min.y > AABB1.max.y)
-			{
-				return false;
-			}
-		}
-
-		if (firstTimeOfCollision > tLast)
-		{
-			return false;
-		}
-
-		tFirst = firstTimeOfCollision;
-
-		return true;
+		
 
 	}
 
@@ -187,14 +72,40 @@ namespace Carmicah
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
 
-			gGOFactory->Destroy(obj1);
+			//gGOFactory->Destroy(obj1);
 
 		}
 
 
 	}
 
+	void StaticDynamicCollisionCheck(Entity& obj1, Entity& obj2) 
+	{
+		auto& rigidbody1 = ComponentManager::GetInstance()->GetComponent<RigidBody>(obj1);
+		auto& AABB2 = ComponentManager::GetInstance()->GetComponent<Collider2D>(obj2);
+		
+		Vector2D<float> vec1;
+		vec1.x = rigidbody1.posPrev.x - AABB2.min.x;
+		vec1.y = rigidbody1.posPrev.y - AABB2.min.y;
+		Vector2D<float> vec2;
+		vec2.x = 0.0f;
+		vec2.y = -1.0f;
+		Vector2D<float> vec3;
+		vec3.x = rigidbody1.posPrev.x - AABB2.max.x;
+		vec3.y = rigidbody1.posPrev.y - AABB2.max.y;
+		Vector2D<float> vec4;
+		vec4.x = 1.0f;
+		vec4.y = 0.0f;
+		Vector2D<float> vec5;
+		vec5.x = rigidbody1.posPrev.x - AABB2.max.x;
+		vec5.y = rigidbody1.posPrev.y - AABB2.max.y;
+		Vector2D<float> vec6;
+		vec6.x = 0.0f;
+		vec6.y = 1.0f;
+		Vector2D<float> vec7;
 
+
+	}
 
 	void CollisionSystem::CollisionCheck()
 	{
@@ -206,50 +117,20 @@ namespace Carmicah
 			Entity entity1 = *it1;
 			auto& rigidbody1 = componentManager->GetComponent<RigidBody>(entity1);
 
-			// Handle Dynamic vs Static Collision
-			if (rigidbody1.objectType == "Dynamic")
+			if (rigidbody1.objectType == "Dynamic") 
 			{
-				for (auto it2 = mEntitiesSet.begin(); it2 != mEntitiesSet.end(); ++it2)
+				for (auto it2 = std::next(it1); it2 == mEntitiesSet.end(); ++it2) 
 				{
 					Entity entity2 = *it2;
+
 					auto& rigidbody2 = componentManager->GetComponent<RigidBody>(entity2);
 
-					// Only check for collisions with static objects
-					if (rigidbody2.objectType == "Static")
+					if (rigidbody2.objectType == "Static") 
 					{
-						float tFirst = 0.0f;
-						if (CollisionIntersect(entity1, entity2, tFirst))
-						{
-							CollisionResponse(entity1, entity2, tFirst);
-						}
+						StaticDynamicCollisionCheck(entity1, entity2);
 					}
 				}
 			}
-
-			
-
-			//for (auto it2 = mEntitiesSet.begin(); it2 != mEntitiesSet.end(); ++it2)
-			//{
-			//	Entity entity2 = *it2;
-
-			//	if (entity2 == entity1)
-			//	{
-			//		continue;
-			//	}
-			//	auto& rigidbody2 = componentManager->GetComponent<RigidBody>(entity2);
-
-
-
-			//	// Only check for collisions with static objects
-			//	/*if (rigidbody2.objectType == STATIC)
-			//	{*/
-			//	float tFirst = 0.0f;
-			//	if (CollisionIntersect(entity1, entity2, tFirst))
-			//	{
-			//		CollisionResponse(entity1, entity2, tFirst);
-			//	}
-			//	//}
-			//}
 		}
 	}
 
@@ -275,7 +156,7 @@ namespace Carmicah
 
 			UpdateAABB(entity);
 
-
+			
 
 			CollisionCheck();
 		}
