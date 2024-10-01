@@ -78,7 +78,7 @@ namespace Carmicah
 			// Get rotation
 			float rot = std::atan2f(rigidbody.velocity.y, rigidbody.velocity.x);
 			// Get scale multi
-			float biggerVel = fmaxf(rigidbody.velocity.x, rigidbody.velocity.y);
+			float biggerVel = fmaxf(fabs(rigidbody.velocity.x), fabs(rigidbody.velocity.y));
 
 			trans = glm::translate(trans, glm::vec2(transform.xPos, transform.yPos));
 			trans = glm::rotate(trans, rot);
