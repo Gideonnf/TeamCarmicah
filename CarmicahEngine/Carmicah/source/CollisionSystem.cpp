@@ -26,11 +26,11 @@ namespace Carmicah
 		auto& AABB = componentManager->GetComponent<Collider2D>(obj);
 		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
 
-		AABB.min.x = -(transform.xScale) + rigidbody.posPrev.x;
-		AABB.min.y = -(transform.yScale) + rigidbody.posPrev.y;
+		AABB.min.x = -(transform.xScale * 0.5f) + rigidbody.posPrev.x;
+		AABB.min.y = -(transform.yScale * 0.5f) + rigidbody.posPrev.y;
 
-		AABB.max.x = (transform.xScale) + rigidbody.posPrev.x;
-		AABB.max.y = (transform.yScale) + rigidbody.posPrev.y;
+		AABB.max.x = (transform.xScale * 0.5f) + rigidbody.posPrev.x;
+		AABB.max.y = (transform.yScale * 0.5f) + rigidbody.posPrev.y;
 	}
 
 	bool CollisionSystem::CollisionIntersect(Entity& obj1, Entity& obj2, float tFirst)
@@ -189,8 +189,8 @@ namespace Carmicah
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
 
-			std::cout << "Collided" << std::endl;
-			//gGOFactory->Destroy(obj1);
+			//std::cout << "Collided" << std::endl;
+			gGOFactory->Destroy(obj1);
 
 		}
 		else if (rigidbody1.objectType == "Dynamic" && rigidbody2.objectType == "Dynamic") 
@@ -262,7 +262,6 @@ namespace Carmicah
 	{
 		auto* componentManager = ComponentManager::GetInstance();
 
-		// Separate static and dynamic entities
 		for (auto it1 = mEntitiesSet.begin(); it1 != mEntitiesSet.end(); ++it1)
 		{
 			Entity entity1 = *it1;
@@ -314,9 +313,6 @@ namespace Carmicah
 		{
 
 			UpdateAABB(entity);
-
-			
-
 			CollisionCheck();
 		}
 

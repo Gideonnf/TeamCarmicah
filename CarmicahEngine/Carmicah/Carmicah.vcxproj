@@ -45,20 +45,21 @@
     <IntDir>..\bin\Debug-x86_64int\Carmicah\</IntDir>
     <TargetName>Carmicah</TargetName>
     <TargetExt>.lib</TargetExt>
+    <ExternalIncludePath>include;..\Dependencies\includes;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>..\bin\Release-x86_64\Carmicah\</OutDir>
     <IntDir>..\bin\Release-x86_64int\Carmicah\</IntDir>
     <TargetName>Carmicah</TargetName>
     <TargetExt>.lib</TargetExt>
+    <ExternalIncludePath>include;..\Dependencies\includes;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;STB_IMAGE_IMPLEMENTATION;CM_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;..\Dependencies\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;STB_IMAGE_IMPLEMENTATION;CM_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -84,8 +85,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Debug-x86_64\Assets"</Command>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;STB_IMAGE_IMPLEMENTATION;CM_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;..\Dependencies\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;STB_IMAGE_IMPLEMENTATION;CM_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -133,24 +133,24 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="include\Editor\EditorWindow.h" />
     <ClInclude Include="include\Editor\HeirarchyWindow.h" />
     <ClInclude Include="include\FPSCounter.h" />
+    <ClInclude Include="include\Graphics\AnimationSystem.h" />
+    <ClInclude Include="include\Graphics\ColliderRenderSystem.h" />
+    <ClInclude Include="include\Graphics\GraphicsSystem.h" />
+    <ClInclude Include="include\Graphics\RigidbodyRendererSystem.h" />
+    <ClInclude Include="include\Graphics\TextSystem.h" />
     <ClInclude Include="include\Input\InputTypes.h" />
     <ClInclude Include="include\Math\Matrix3x3.h" />
     <ClInclude Include="include\Math\Vec2.h" />
     <ClInclude Include="include\Messaging\InputMessage.h" />
     <ClInclude Include="include\Messaging\Message.h" />
     <ClInclude Include="include\Singleton.h" />
-    <ClInclude Include="include\Graphics\AnimationSystem.h" />
-    <ClInclude Include="include\Graphics\ColliderRenderSystem.h" />
     <ClInclude Include="include\Systems\CollisionSystem.h" />
     <ClInclude Include="include\Systems\GOFactory.h" />
-    <ClInclude Include="include\Graphics\GraphicsSystem.h" />
     <ClInclude Include="include\Systems\InputSystem.h" />
     <ClInclude Include="include\Systems\PhysicsSystem.h" />
-    <ClInclude Include="include\Graphics\RigidbodyRendererSystem.h" />
     <ClInclude Include="include\Systems\SceneSystem.h" />
     <ClInclude Include="include\Systems\SerializerSystem.h" />
     <ClInclude Include="include\Systems\SoundSystem.h" />
-    <ClInclude Include="include\Graphics\TextSystem.h" />
     <ClInclude Include="include\log.h" />
     <ClInclude Include="include\pch.h" />
   </ItemGroup>
