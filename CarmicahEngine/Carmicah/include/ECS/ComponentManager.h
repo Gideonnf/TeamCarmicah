@@ -42,7 +42,7 @@ namespace Carmicah
 
 			m_NextID++;
 
-			Carmicah::Log::GetCoreLogger()->info("Component Created with name" + name);
+			CM_CORE_INFO("Component Created with name" + name);
 
 			//Insert into the component map
 			m_ComponentMap.insert({ name, std::make_shared<Component<T>>() });
