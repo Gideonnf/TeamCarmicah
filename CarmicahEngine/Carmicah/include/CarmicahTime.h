@@ -14,6 +14,9 @@ namespace Carmicah
     class CarmicahTime
     {
     private:
+        static CarmicahTime* instance;
+        CarmicahTime(); // Private constructor
+
         std::chrono::steady_clock::time_point lastUpdateTime;
         double mUpdateTimer;
         double mUpdateInterval;
@@ -21,117 +24,58 @@ namespace Carmicah
         double mCurrentFPS;
         double mDeltaTime;
         double mPrevTime;
-
+        std::unordered_map<std::string, std::chrono::steady_clock::time_point> mSystemStartTimes;
         std::unordered_map<std::string, double> mSystemTimes;
         std::unordered_map<std::string, double> mSystemPercentages;
         double mTotalLoopTime;
-
+        std::chrono::steady_clock::time_point mLoopStartTime;
         GLuint mGPUQueryStart;
         GLuint mGPUQueryEnd;
         GLuint64 mGPUTime;
 
     public:
-        inline CarmicahTime()
-            : mUpdateTimer(0.0), mUpdateInterval(0.5), mFrameCount(0), mCurrentFPS(0.0),
-            mDeltaTime(0), mPrevTime(0), mTotalLoopTime(0.0),
-            mGPUQueryStart(0), mGPUQueryEnd(0), mGPUTime(0)
-        {}
+        static CarmicahTime* GetInstance();
+        ~CarmicahTime(); // Public destructor
 
-        inline ~CarmicahTime()
-        {
-            if (mGPUQueryStart)
-                glDeleteQueries(1, &mGPUQueryStart);
-            if (mGPUQueryEnd)
-                glDeleteQueries(1, &mGPUQueryEnd);
-        }
-
-        inline void InitTime()
-        {
-            lastUpdateTime = std::chrono::steady_clock::now();
-            mFrameCount = 0;
-            mCurrentFPS = 0.0;
-            mPrevTime = glfwGetTime();
-        }
-
-        inline void UpdateTime()
-        {
-            mFrameCount++;
-            double currTime = glfwGetTime();
-            mDeltaTime = currTime - mPrevTime;
-            mPrevTime = currTime;
-            mUpdateTimer += mDeltaTime;
-
-            if (mUpdateTimer >= mUpdateInterval)
-            {
-                mCurrentFPS = static_cast<double>(mFrameCount) / mUpdateTimer;
-                mFrameCount = 0;
-                mUpdateTimer = 0.0;
-            }
-        }
-
-        inline void StartSystemTimer(const std::string& systemName)
-        {
-            if (!systemName.empty()) {
-                mSystemTimes[systemName] = glfwGetTime();
-            }
-        }
-
-        inline void StopSystemTimer(const std::string& systemName)
-        {
-            if (!systemName.empty() && mSystemTimes.find(systemName) != mSystemTimes.end()) {
-                double endTime = glfwGetTime();
-                mSystemTimes[systemName] = endTime - mSystemTimes[systemName];
-            }
-        }
-
-        inline void StartLoopTimer() { mTotalLoopTime = glfwGetTime(); }
-
-        inline void StopLoopTimer()
-        {
-            double endTime = glfwGetTime();
-            mTotalLoopTime = endTime - mTotalLoopTime;
-        }
-
-        inline void CalculateSystemPercentages()
-        {
-            if (mTotalLoopTime > 0) {
-                for (const auto& [systemName, systemTime] : mSystemTimes)
-                {
-                    mSystemPercentages[systemName] = (systemTime / mTotalLoopTime) * 100.0;
-                }
-            }
-        }
-
-        inline void InitGPUProfiling()
-        {
-            glGenQueries(1, &mGPUQueryStart);
-            glGenQueries(1, &mGPUQueryEnd);
-        }
-
-        inline void StartGPUTimer() { glQueryCounter(mGPUQueryStart, GL_TIMESTAMP); }
-
-        inline void StopGPUTimer()
-        {
-            glQueryCounter(mGPUQueryEnd, GL_TIMESTAMP);
-
-            GLint done = 0;
-            while (!done)
-            {
-                glGetQueryObjectiv(mGPUQueryEnd, GL_QUERY_RESULT_AVAILABLE, &done);
-            }
-
-            GLuint64 startTime, endTime;
-            glGetQueryObjectui64v(mGPUQueryStart, GL_QUERY_RESULT, &startTime);
-            glGetQueryObjectui64v(mGPUQueryEnd, GL_QUERY_RESULT, &endTime);
-            mGPUTime = endTime - startTime;
-        }
-
-        inline double GetGPUTime() const { return static_cast<double>(mGPUTime) / 1000000.0; }
-        inline double FPS() const { return mCurrentFPS; }
-        inline double GetDeltaTime() const { return mDeltaTime; }
-        inline const std::unordered_map<std::string, double>& GetSystemPercentages() const { return mSystemPercentages; }
-        inline double GetTotalLoopTime() const { return mTotalLoopTime; }
+        void InitTime();
+        void UpdateTime();
+        void StartSystemTimer(const std::string& systemName);
+        void StopSystemTimer(const std::string& systemName);
+        void StartLoopTimer();
+        void StopLoopTimer();
+        void CalculateSystemPercentages();
+        void InitGPUProfiling();
+        void StartGPUTimer();
+        void StopGPUTimer();
+        double GetGPUTime() const;
+        double FPS() const { return mCurrentFPS; }
+        double GetDeltaTime() const { return mDeltaTime; }
+        const std::unordered_map<std::string, double>& GetSystemPercentages() const { return mSystemPercentages; }
+        double GetTotalLoopTime() const { return mTotalLoopTime; }
     };
+
+    // Global accessor
+#define gCarmicahTime CarmicahTime::GetInstance()
+
+// Namespace for static functions
+    namespace CarmicahTimer
+    {
+        void StartTime();
+        void UpdateElapsedTime();
+        double GetDt();
+        double GetFPS();
+        void StartSystemTimer(const std::string& systemName);
+        void StopSystemTimer(const std::string& systemName);
+        void StartLoopTimer();
+        void StopLoopTimer();
+        void CalculateSystemPercentages();
+        const std::unordered_map<std::string, double>& GetSystemPercentages();
+        double GetTotalLoopTime();
+        void InitGPUProfiling();
+        void StartGPUTimer();
+        void StopGPUTimer();
+        double GetGPUTime();
+    }
 }
 
 #endif

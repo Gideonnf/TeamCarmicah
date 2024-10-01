@@ -54,7 +54,7 @@ namespace Carmicah
     int Application::run()
     {
         EnableMemoryLeakChecking();
-        SerializerSystem::GetInstance()->LoadConfig(*this);
+        Serializer.LoadConfig(*this);
         Carmicah::Log::init();
         CM_CORE_INFO("Core Logger Initialized");
         CM_INFO("Client Logger Initialized");
@@ -217,12 +217,12 @@ namespace Carmicah
                 CarmicahTimer::StopSystemTimer("EditorSystem");
                 glfwMakeContextCurrent(window);
 
-                if (InputSystem::GetInstance()->IsKeyPressed(Keys::KEY_SPACEBAR))
+                if (Input.IsKeyPressed(Keys::KEY_SPACEBAR))
                 {
                     gameSystem->ChangeScene(scene2Name);
                 }
 
-                if (InputSystem::GetInstance()->IsKeyPressed(Keys::KEY_1))
+                if (Input.IsKeyPressed(Keys::KEY_1))
                 {
                     GameObject duckObj = gGOFactory->FetchGO("Duck");
                     duckObj.Destroy();
@@ -244,7 +244,7 @@ namespace Carmicah
         Editor.Exit();
         souSystem->Exit();
         colSystem->Exit();
-        SerializerSystem::GetInstance()->WriteConfig(*this);
+        Serializer.WriteConfig(*this);
 
         glfwTerminate();
         return 0;
