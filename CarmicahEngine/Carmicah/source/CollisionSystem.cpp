@@ -103,6 +103,7 @@ namespace Carmicah
 		vec6.x = 0.0f;
 		vec6.y = 1.0f;
 		Vector2D<float> vec7;
+		vec7.x = 
 
 
 	}
