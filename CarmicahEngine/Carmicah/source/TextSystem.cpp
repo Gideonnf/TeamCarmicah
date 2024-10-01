@@ -17,7 +17,7 @@ DigiPen Institute of Technology is prohibited.
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <ECS/ECSTypes.h>
-#include "Systems/TextSystem.h"
+#include "Graphics/TextSystem.h"
 #include "Systems/GOFactory.h"
 #include "Components/UITransform.h"
 #include "Components/TextRenderer.h"

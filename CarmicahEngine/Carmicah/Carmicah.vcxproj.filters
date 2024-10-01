@@ -114,10 +114,10 @@
     <ClInclude Include="include\Singleton.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Systems\AnimationSystem.h">
+    <ClInclude Include="include\Graphics\AnimationSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="include\Systems\ColliderRenderSystem.h">
+    <ClInclude Include="include\Graphics\ColliderRenderSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
     <ClInclude Include="include\Systems\CollisionSystem.h">
@@ -126,7 +126,7 @@
     <ClInclude Include="include\Systems\GOFactory.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="include\Systems\GraphicsSystem.h">
+    <ClInclude Include="include\Graphics\GraphicsSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
     <ClInclude Include="include\Systems\InputSystem.h">
@@ -141,7 +141,7 @@
     <ClInclude Include="include\Systems\SoundSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="include\Systems\TextSystem.h">
+    <ClInclude Include="include\Graphics\TextSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
     <ClInclude Include="include\log.h">
@@ -156,6 +156,7 @@
     <ClInclude Include="include\Systems\PhysicsSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="include\Graphics\RigidbodyRendererSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\AnimationSystem.cpp">
@@ -227,5 +228,6 @@
     <ClCompile Include="source\PhysicsSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="source\RigidbodyRendererSystem.cpp" />
   </ItemGroup>
 </Project>

@@ -355,9 +355,8 @@ namespace Carmicah
 		}
 		Primitive p;
 		p.drawMode = GL_LINE_LOOP;
-		unsigned int numVert;
-		ifs >> numVert >> p.drawCnt;
-		if (numVert == 0)
+		ifs >> p.drawCnt;
+		if (p.drawCnt == 0)
 		{
 			std::cerr << "Error reading debug obj file";
 			return;
@@ -365,16 +364,16 @@ namespace Carmicah
 
 		std::vector<glm::vec2> vtx;
 
-		vtx.reserve(numVert);
+		vtx.reserve(p.drawCnt);
 		float v1, v2;
-		for (unsigned int i{}; i < numVert; ++i)
+		for (unsigned int i{}; i < p.drawCnt; ++i)
 		{
 			ifs >> v1 >> v2;
 			vtx.emplace_back(glm::vec2{ v1, v2 });
 		}
 		ifs.close();
 
-		unsigned int sizeofVtxArray = numVert * sizeof(glm::vec2);
+		unsigned int sizeofVtxArray = p.drawCnt * sizeof(glm::vec2);
 
 		glCreateBuffers(1, &p.vboid);
 		glNamedBufferStorage(p.vboid, sizeofVtxArray, vtx.data(), GL_DYNAMIC_STORAGE_BIT);

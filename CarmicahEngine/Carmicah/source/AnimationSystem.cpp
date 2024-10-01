@@ -15,7 +15,7 @@ DigiPen Institute of Technology is prohibited.
 #include <glm/glm.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <ECS/ECSTypes.h>
-#include "Systems/AnimationSystem.h"
+#include "Graphics/AnimationSystem.h"
 #include "Components/Renderer.h"
 #include "Components/Animation.h"
 #include "ECS/SystemManager.h"
