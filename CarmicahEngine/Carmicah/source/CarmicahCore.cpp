@@ -33,7 +33,6 @@
 #include "CarmicahTime.h"
 #include "AssetManager.h"
 
-
 namespace Carmicah
 {
     const char* sceneName{ "Scene1" };
@@ -51,12 +50,10 @@ namespace Carmicah
 
     void EnableMemoryLeakChecking(int breakAlloc = -1)
     {
-        //Set the leak checking flag
         int tmpDbgFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
         tmpDbgFlag |= _CRTDBG_LEAK_CHECK_DF;
         _CrtSetDbgFlag(tmpDbgFlag);
 
-        //If a valid break alloc provided set the breakAlloc
         if (breakAlloc != -1) _CrtSetBreakAlloc(breakAlloc);
     }
 
@@ -64,14 +61,12 @@ namespace Carmicah
     {
         EnableMemoryLeakChecking();
         Serializer.LoadConfig(*this);
-        //std::cout << Width << Height << std::endl;
         Carmicah::Log::init();
         CM_CORE_INFO("Core Logger Initialized");
         CM_INFO("Client Logger Initialized");
 
         glfwInit();
 
-        // Set required options for GLFW
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -79,9 +74,6 @@ namespace Carmicah
 
         GLFWwindow* window = glfwCreateWindow((GLuint)Width, (GLuint)Height, "Carmicah", NULL, NULL);
         glfwMakeContextCurrent(window);
-
-
-
 
         if (window == NULL)
         {
@@ -97,7 +89,6 @@ namespace Carmicah
         }
 
         GLFWwindow* ImGuiWindow = glfwCreateWindow(WIDTH, HEIGHT, "ImGui", NULL, NULL);
-        //glfwMakeContextCurrent(ImGuiWindow);
 
         if (ImGuiWindow == NULL)
         {
@@ -106,8 +97,6 @@ namespace Carmicah
             return -1;
         }
 
-        //auto fpsCounter = std::make_unique<FPSCounter>();
-        //fpsCounter->Init();
         CarmicahTimer::StartTime();
 
         glViewport(0, 0, (GLuint)Width, (GLuint)Height);
@@ -134,7 +123,7 @@ namespace Carmicah
         txtSystem->Init();
         aniSystem->Init();
         crsSystem->Init();
-        colSystem->Init(); // Set the signature
+        colSystem->Init();
         souSystem->Init(true);
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
@@ -144,22 +133,11 @@ namespace Carmicah
         graSystem->SetScreenSize(WIDTH / 100, HEIGHT / 100, gGOFactory->mainCam);
         colSystem->PrintEntities();
 
-        //GameObject newObj = gGOFactory->CreateGO();
-        //newObj.AddComponent<Transform>();
-        //newObj.AddComponent<Collider2D>();
-        colSystem->PrintEntities();
-
-        //Testing prefab
-        //gGOFactory->CreatePrefab("Duck");
-        //GameObject newObj = gGOFactory->FetchGO("Duck");
-        //newObj.GetComponent<Transform>().xPos = -2.0;
-
         Editor Editor;
         Editor.Init(ImGuiWindow);
 
         double testTime = 0.0;
         while (!glfwWindowShouldClose(window) && !glfwWindowShouldClose(ImGuiWindow)) {
-            // Update dt calc
             CarmicahTimer::UpdateElapsedTime();
             glfwPollEvents();
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS())) + " - Scene : " + gameSystem->GetCurrScene();
@@ -167,32 +145,46 @@ namespace Carmicah
 
             if (gameSystem->mNextState == SceneState::EXIT)
             {
-                // Closing Engine
-                // Dont init a new scene
-                // Any exit of systems can be ran here or at the bottom, outside of loop maybe
                 break;
             }
-            
-           // gameSystem->Update();
+
             if (gameSystem->mNextState == SceneState::INITIALISING)
             {
                 gameSystem->Init();
             }
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
-
+                CarmicahTimer::StartProfileTimer("Collision System");
                 colSystem->Update();
-                aniSystem->Update();
+                CarmicahTimer::EndProfileTimer("Collision System");
 
+                CarmicahTimer::StartProfileTimer("Animation System");
+                aniSystem->Update();
+                CarmicahTimer::EndProfileTimer("Animation System");
+
+                CarmicahTimer::StartProfileTimer("Graphics System");
                 graSystem->Render(gGOFactory->mainCam);
+                CarmicahTimer::EndProfileTimer("Graphics System");
+
+                CarmicahTimer::StartProfileTimer("Collider Render System");
                 crsSystem->Render(gGOFactory->mainCam);
+                CarmicahTimer::EndProfileTimer("Collider Render System");
+
+                CarmicahTimer::StartProfileTimer("Text System");
                 txtSystem->Render(WIDTH, HEIGHT);
+                CarmicahTimer::EndProfileTimer("Text System");
+
+                CarmicahTimer::StartProfileTimer("Sound System");
                 souSystem->Update();
+                CarmicahTimer::EndProfileTimer("Sound System");
+
                 glfwSwapBuffers(window);
 
                 glfwMakeContextCurrent(ImGuiWindow);
+                CarmicahTimer::StartProfileTimer("Editor");
                 Editor.Update();
                 Editor.Render(ImGuiWindow);
+                CarmicahTimer::EndProfileTimer("Editor");
                 glfwMakeContextCurrent(window);
 
                 if (Input.IsKeyPressed(Keys::KEY_SPACEBAR))
@@ -209,21 +201,13 @@ namespace Carmicah
                 gGOFactory->UpdateDestroyed();
             }
 
-            // Changing of scene/closing of engine
-            // run exit to clear objects
             if (gameSystem->mNextState != gameSystem->mCurrState)
             {
-                // Clean all entities here
                 gameSystem->Exit();
             }
-
-
         }
-        //Width = 800;
-        //Height = 600;
 
         AssetManager::GetInstance()->UnloadAll();
-        //fpsCounter->Exit();
         Editor.Exit();
         souSystem->Exit();
         colSystem->Exit();

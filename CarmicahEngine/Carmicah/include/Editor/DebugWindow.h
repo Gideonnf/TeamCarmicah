@@ -1,3 +1,5 @@
+// DebugWindow.h
+
 #ifndef DEBUGWINDOW_H_
 #define DEBUGWINDOW_H_
 
@@ -7,20 +9,16 @@
 
 namespace Carmicah
 {
-	class DebugWindow : public EditorWindow
-	{
-	private:
-		bool showFPS;
-		bool showLogger;
-	public:
-
-		DebugWindow();
-
-		void Update() override;
-
-
-	};
+    class DebugWindow : public EditorWindow
+    {
+    private:
+        bool showFPS;
+        bool showLogger;
+        bool showProfiling;
+    public:
+        DebugWindow();
+        void Update() override;
+    };
 }
-
 
 #endif

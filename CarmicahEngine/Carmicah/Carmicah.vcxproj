@@ -111,6 +111,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="include\CarmicahCore.h" />
     <ClInclude Include="include\CarmicahTime.h" />
     <ClInclude Include="include\Components\Animation.h" />
+    <ClInclude Include="include\Components\BaseComponent.h" />
     <ClInclude Include="include\Components\Collider2D.h" />
     <ClInclude Include="include\Components\Renderer.h" />
     <ClInclude Include="include\Components\TextRenderer.h" />
@@ -123,6 +124,10 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="include\ECS\EntityManager.h" />
     <ClInclude Include="include\ECS\GameObject.h" />
     <ClInclude Include="include\ECS\SystemManager.h" />
+    <ClInclude Include="include\Editor\DebugWindow.h" />
+    <ClInclude Include="include\Editor\Editor.h" />
+    <ClInclude Include="include\Editor\EditorWindow.h" />
+    <ClInclude Include="include\Editor\HeirarchyWindow.h" />
     <ClInclude Include="include\FPSCounter.h" />
     <ClInclude Include="include\Input\InputTypes.h" />
     <ClInclude Include="include\Math\Matrix3x3.h" />
@@ -137,6 +142,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="include\Systems\GraphicsSystem.h" />
     <ClInclude Include="include\Systems\InputSystem.h" />
     <ClInclude Include="include\Systems\SceneSystem.h" />
+    <ClInclude Include="include\Systems\SerializerSystem.h" />
     <ClInclude Include="include\Systems\SoundSystem.h" />
     <ClInclude Include="include\Systems\TextSystem.h" />
     <ClInclude Include="include\log.h" />
@@ -149,12 +155,19 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClCompile Include="source\CarmicahTime.cpp" />
     <ClCompile Include="source\ColliderRenderSystem.cpp" />
     <ClCompile Include="source\CollisionSystem.cpp" />
+    <ClCompile Include="source\DebugWindow.cpp" />
+    <ClCompile Include="source\Editor.cpp" />
+    <ClCompile Include="source\EditorWindow.cpp" />
     <ClCompile Include="source\FPSCounter.cpp" />
     <ClCompile Include="source\GOFactory.cpp" />
+    <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\GraphicsSystem.cpp" />
+    <ClCompile Include="source\HeirarchyWindow.cpp" />
     <ClCompile Include="source\InputSystem.cpp" />
     <ClCompile Include="source\SceneSystem.cpp" />
+    <ClCompile Include="source\SerializerSystem.cpp" />
     <ClCompile Include="source\SoundSystem.cpp" />
+    <ClCompile Include="source\SystemManager.cpp" />
     <ClCompile Include="source\TextSystem.cpp" />
     <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\pch.cpp">
@@ -164,6 +177,9 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
   <ItemGroup>
     <ProjectReference Include="..\glad\glad.vcxproj">
       <Project>{DD62977C-C999-980D-7286-7E105E9C140F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ImGUI\ImGUI.vcxproj">
+      <Project>{80FB640D-EC0F-8DBE-B591-301E216589EF}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,58 +1,56 @@
+// CarmicahTime.h
+
 #ifndef CARMICAH_TIME_H
 #define CARMICAH_TIME_H
 #include "Singleton.h"
 #include <GLFW/glfw3.h>
 #include <Windows.h>
 #include <chrono>
+#include <unordered_map>
+#include <string>
 
 namespace Carmicah
 {
-	class CarmicahTime 
-	{
-	private:
-		std::chrono::steady_clock::time_point lastUpdateTime;
+    class CarmicahTime
+    {
+    private:
+        std::chrono::steady_clock::time_point lastUpdateTime;
 
-		double mUpdateTimer;
-		double mUpdateInterval;
-		int mFrameCount;
-		double mCurrentFPS;
-		double mDeltaTime;
-		double mPrevTime;
-		
+        double mUpdateTimer;
+        double mUpdateInterval;
+        int mFrameCount;
+        double mCurrentFPS;
+        double mDeltaTime;
+        double mPrevTime;
 
-	public:
-		// I dont know if we should use glfwGetTime or window's QueryPerformanceCounter
-		// using glfwGetTime cause QueryPerformanceCounter dont work and glfw does so ill just use it for now instead
+        std::unordered_map<std::string, double> mSystemProfilingData;
 
-		//LARGE_INTEdoublGER mPrevTime;
-		//LARGE_INTEGER mFrequency;
+    public:
+        CarmicahTime() : mDeltaTime(0), mUpdateTimer(0.0), mUpdateInterval(0.5), mFrameCount(0), mCurrentFPS(0.0) {}
+        ~CarmicahTime() {}
 
-		CarmicahTime() : mDeltaTime(0), mUpdateTimer(0.0), mUpdateInterval(0.5), mFrameCount(0), mCurrentFPS(0.0) {}
-		~CarmicahTime() {}
+        void InitTime();
+        void UpdateTime();
+        void StartProfileTimer(const std::string& systemName);
+        void EndProfileTimer(const std::string& systemName);
+        const std::unordered_map<std::string, double>& GetProfilingData() const { return mSystemProfilingData; }
 
-		void InitTime();
+        inline double FPS() const { return mCurrentFPS; }
+        inline double GetDeltaTime() const { return mDeltaTime; }
+    };
 
-		void UpdateTime();
+    namespace CarmicahTimer
+    {
+        static CarmicahTime timerObj;
 
-		inline double FPS() const { return mCurrentFPS; }
-
-		inline double GetDeltaTime() const { return mDeltaTime; }
-	};
-
-	namespace CarmicahTimer
-	{
-		static CarmicahTime timerObj;
-
-		void StartTime();
-
-		void UpdateElapsedTime();
-
-		double GetDt();
-
-		double GetFPS();
-
-	}
+        void StartTime();
+        void UpdateElapsedTime();
+        double GetDt();
+        double GetFPS();
+        void StartProfileTimer(const std::string& systemName);
+        void EndProfileTimer(const std::string& systemName);
+        const std::unordered_map<std::string, double>& GetProfilingData();
+    }
 }
-
 
 #endif

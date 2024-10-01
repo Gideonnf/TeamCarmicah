@@ -40,6 +40,22 @@ namespace Carmicah
 		}
 	}
 
+	void CarmicahTime::StartProfileTimer(const std::string& systemName)
+	{
+		mSystemProfilingData[systemName] = glfwGetTime();
+	}
+
+	void CarmicahTime::EndProfileTimer(const std::string& systemName)
+	{
+		if (mSystemProfilingData.find(systemName) != mSystemProfilingData.end())
+		{
+			double startTime = mSystemProfilingData[systemName];
+			double endTime = glfwGetTime();
+			mSystemProfilingData[systemName] = (endTime - startTime) / mDeltaTime * 100.0; // Convert to percentage
+		}
+	}
+
+
 	namespace CarmicahTimer
 	{
 		void StartTime()
@@ -63,5 +79,22 @@ namespace Carmicah
 		{
 			return timerObj.FPS();
 		}
+
+
+		void StartProfileTimer(const std::string& systemName)
+		{
+			timerObj.StartProfileTimer(systemName);
+		}
+
+		void EndProfileTimer(const std::string& systemName)
+		{
+			timerObj.EndProfileTimer(systemName);
+		}
+
+		const std::unordered_map<std::string, double>& GetProfilingData()
+		{
+			return timerObj.GetProfilingData();
+		}
+
 	}
 }
