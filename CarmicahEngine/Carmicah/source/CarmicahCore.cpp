@@ -167,6 +167,43 @@ namespace Carmicah
         newObj.GetComponent<Renderer>().texture = "Bullet";
         newObj.GetComponent<Renderer>().texureMat = glm::mat3(1);
 
+        GameObject ball = gGOFactory->CreatePrefab("Duck");
+        ball.GetComponent<Transform>().xPos = -5.0f;
+        ball.GetComponent<Transform>().yPos = 0.0f;
+        ball.GetComponent<Transform>().xScale = 0.5f;
+        ball.GetComponent<Transform>().yScale = 0.5f;
+        ball.GetComponent<Transform>().notUpdated = false;
+        ball.AddComponent<Collider2D>();
+        ball.GetComponent<Collider2D>().shape = "DebugSquare";
+        ball.AddComponent<RigidBody>();
+        ball.GetComponent<RigidBody>().velocity.x = 1.0f;
+        ball.GetComponent<RigidBody>().velocity.y = 0.0f;
+        ball.GetComponent<RigidBody>().gravity = 0.0f;
+        ball.GetComponent<RigidBody>().objectType = "Dynamic";
+        ball.AddComponent<Renderer>();
+        ball.GetComponent<Renderer>().model = "Square";
+        ball.GetComponent<Renderer>().texture = "Bullet";
+        ball.GetComponent<Renderer>().texureMat = glm::mat3(1);
+
+        GameObject ball2 = gGOFactory->CreatePrefab("Duck");
+        ball2.GetComponent<Transform>().xPos = 1.0f;
+        ball2.GetComponent<Transform>().yPos = 0.0f;
+        ball2.GetComponent<Transform>().xScale = 0.5f;
+        ball2.GetComponent<Transform>().yScale = 0.5f;
+        ball2.GetComponent<Transform>().notUpdated = false;
+        ball2.AddComponent<Collider2D>();
+        ball2.GetComponent<Collider2D>().shape = "DebugSquare";
+        ball2.AddComponent<RigidBody>();
+        ball2.GetComponent<RigidBody>().velocity.x = -1.0f;
+        ball2.GetComponent<RigidBody>().velocity.y = 0.0f;
+        ball2.GetComponent<RigidBody>().gravity = 0.0f;
+        ball2.GetComponent<RigidBody>().objectType = "Dynamic";
+        ball2.AddComponent<Renderer>();
+        ball2.GetComponent<Renderer>().model = "Square";
+        ball2.GetComponent<Renderer>().texture = "Bullet2";
+        ball2.GetComponent<Renderer>().texureMat = glm::mat3(1);
+
+
         GameObject wall = gGOFactory->CreateGO();
         wall.AddComponent<Transform>();
         wall.GetComponent<Transform>().xPos = 4.0f;
@@ -217,8 +254,8 @@ namespace Carmicah
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
                 #ifdef CM_DEBUG
-                if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) 
-                {
+                /*if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) 
+                {*/
                 
                    /* if (is_P_pressed == false)
                     {*/
@@ -232,12 +269,12 @@ namespace Carmicah
                         test.GetComponent<Transform>().xScale = 0.5f;
                         test.GetComponent<Transform>().yScale = 0.5f;*/
 
-                        std::cout << "Bullet max" << newObj.GetComponent<Collider2D>().max << std::endl;
-                        std::cout << "Bullet xPos " << newObj.GetComponent<Transform>().xPos << std::endl;
-                        std::cout << "Wall min" << wall.GetComponent<Collider2D>().min << std::endl;
+                        /*std::cout << "Bullet max" << ball2.GetComponent<Collider2D>().max << std::endl;
+                        std::cout << "Bullet xPos " << ball2.GetComponent<Transform>().xPos << std::endl;
+                        std::cout << "Wall min" << wall.GetComponent<Collider2D>().min << std::endl;*/
                     //}
 
-                    }
+                    //}
                 /*else 
                 {
                     is_P_pressed = false;

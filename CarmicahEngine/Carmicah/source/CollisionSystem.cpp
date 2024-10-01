@@ -42,11 +42,18 @@ namespace Carmicah
 		auto& AABB1 = componentManager->GetComponent<Collider2D>(obj1);
 		auto& AABB2 = componentManager->GetComponent<Collider2D>(obj2);
 
-
-		if (!(AABB1.max.x < AABB2.min.x || AABB1.min.x > AABB2.max.x ||
-			AABB1.max.y < AABB2.min.y || AABB1.min.y > AABB2.max.y))
+		if (AABB1.max.x == AABB2.max.x)
 		{
-			return true;  // No collision if there's no overlap on either axis
+			return false;
+		}
+
+		if (AABB1.max.x < AABB2.min.x || AABB1.min.x > AABB2.max.x &&
+			AABB1.max.y < AABB2.min.y || AABB1.min.y > AABB2.max.y)
+		{
+			return false;  // No collision if there's no overlap on either axis
+		}
+		else {
+			return true;
 		}
 
 		
@@ -148,7 +155,7 @@ namespace Carmicah
 			}
 		}
 
-		if (firstTimeOfCollision > tLast) 
+		if (firstTimeOfCollision > tLast || firstTimeOfCollision == 0.0f) 
 		{
 			return false;
 		}
@@ -182,10 +189,25 @@ namespace Carmicah
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
 
-			gGOFactory->Destroy(obj1);
+			std::cout << "Collided" << std::endl;
+			//gGOFactory->Destroy(obj1);
 
 		}
-		
+		else if (rigidbody1.objectType == "Dynamic" && rigidbody2.objectType == "Dynamic") 
+		{
+			transform1.xPos = rigidbody1.velocity.x * tFirst + rigidbody1.posPrev.x;
+			transform1.yPos = rigidbody1.velocity.y * tFirst + rigidbody1.posPrev.y;
+
+			transform2.xPos = rigidbody2.velocity.x * tFirst + rigidbody2.posPrev.x;
+			transform2.yPos = rigidbody2.velocity.y * tFirst + rigidbody2.posPrev.y;
+
+			// Zero out both velocity components (or apply bounce/rest)
+			rigidbody1.velocity.x = 0;
+			rigidbody1.velocity.y = 0;
+
+			rigidbody2.velocity.x = 0;
+			rigidbody2.velocity.y = 0;
+		}
 
 
 	}
@@ -258,7 +280,14 @@ namespace Carmicah
 					{
 						StaticDynamicCollisionCheck(entity1, entity2);
 					}
-					
+					else if(rigidbody2.objectType == "Dynamic")
+					{
+						float firstTimeOfCollision = 0.0f;
+						if (CollisionIntersect(entity1, entity2, firstTimeOfCollision)) 
+						{
+							CollisionResponse(entity1, entity2, firstTimeOfCollision);
+						}
+					}
 				}
 			}
 		}

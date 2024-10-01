@@ -33,23 +33,6 @@
         "yScale": 1.0
       },
       {
-        "Component Name": "struct Carmicah::Collider2D",
-        "minX": -1.0,
-        "minY": -1.0,
-        "maxX": 1.0,
-        "maxY": 1.0,
-        "shape": "DebugSquare"
-      },
-      {
-        "Component Name": "struct Carmicah::RigidBody",
-        "velocityX": 0.0,
-        "velocityY": 0.0,
-        "posPrevX": 0.0,
-        "posPrevY": 0.0,
-        "zposPrev": 0.0,
-        "objectType": "Dynamic"
-      },
-      {
         "Component Name": "struct Carmicah::Renderer",
         "model": "Square",
         "texture": "Count"
