@@ -10,6 +10,7 @@
 #include "Components/Animation.h"
 #include "Components/TextRenderer.h"
 #include "Components/UITransform.h"
+#include "Components/RigidBody.h"
 #include "log.h"
 
 namespace Carmicah
@@ -92,59 +93,20 @@ namespace Carmicah
 
 	GameObject GOFactory::CreatePrefab(std::string prefab)
 	{
-		GameObject newGO = CreateGO("Duck");
+		GameObject newGO = CreateGO(prefab);
 		if (AssetManager::GetInstance()->mPrefabFiles.count(prefab) > 0)
 		{
-			const rapidjson::Document goFile = SerializerSystem::GetInstance()->DeserializePrefab(AssetManager::GetInstance()->mPrefabFiles[prefab]);
-			std::string name = std::string(goFile["GameObject"].GetString());
-
-			const rapidjson::Value& componentList = goFile["Components"];
-			for (rapidjson::Value::ConstValueIterator it = componentList.Begin(); it != componentList.End(); ++it)
+			// Loop through the components within asset manager
+			for (auto& component : AssetManager::GetInstance()->mPrefabFiles[prefab].mComponents)
 			{
-				const std::string& componentName = (*it)["Component Name"].GetString();
-				if (componentName == "struct Carmicah::Transform")
-				{
-					Transform t{};
-					t.DeserializeComponent((*it));
-					newGO.AddComponent<Transform>(t);
-				}
-				else if (componentName == "struct Carmicah::Collider2D")
-				{
-					Collider2D t{};
-					t.DeserializeComponent((*it));
-					newGO.AddComponent<Collider2D>(t);
-
-				}
-				else if (componentName == "struct Carmicah::Renderer")
-				{
-					Renderer t{};
-					t.DeserializeComponent((*it));
-					newGO.AddComponent<Renderer>(t);
-				}
-				else if (componentName == "struct Carmicah::Animation")
-				{
-					Animation t{};
-					t.DeserializeComponent((*it));
-					newGO.AddComponent<Animation>(t);
-				}
-				else if (componentName == "struct Carmicah::TextRenderer")
-				{
-					TextRenderer t{};
-					t.DeserializeComponent((*it));
-					newGO.AddComponent<TextRenderer>(t);
-				}
-				else if (componentName == "struct Carmicah::UITransform")
-				{
-					UITransform t{};
-					t.DeserializeComponent((*it));
-					newGO.AddComponent<UITransform>(t);
-				}
+				AttachComponents(newGO, component);
+				// Same if checks as component manager, but we're adding components here instead of deserializing
 			}
-
 		}
 		else
 		{
-			// assert an error here cause prefab doesnt exist in asset manager
+			//TODO: Decide if this should assert or give an error warning and return an empty GO instead
+			assert("Prefab does not exist");
 		}
 
 		return newGO;
@@ -152,7 +114,55 @@ namespace Carmicah
 
 	GameObject GOFactory::FetchGO(std::string GOName)
 	{
+		if (mNameToID.count(GOName) == 0)
+		{		
+			CM_CORE_ERROR("GameObject does not exist");
+		}
+
+		assert(mNameToID.count(GOName) != 0 && "GameObject does not exist");
+
 		return mIDToGO[mNameToID[GOName]];
+	}
+
+	void GOFactory::AttachComponents(GameObject& obj, std::pair<std::string, std::any> component)
+	{
+		std::string componentName = component.first;
+		std::any componentData = component.second;
+
+		if (componentName == typeid(Transform).name())
+		{
+			obj.AddComponent(std::any_cast<Transform>(componentData));
+		}
+		else if (componentName == typeid(Collider2D).name())
+		{
+			obj.AddComponent(std::any_cast<Collider2D>(componentData));
+		}
+		else if (componentName == typeid(Animation).name())
+		{
+			obj.AddComponent(std::any_cast<Animation>(componentData));
+		}
+		else if (componentName == typeid(Renderer).name())
+		{
+			obj.AddComponent(std::any_cast<Renderer>(componentData));
+		}
+		else if (componentName == typeid(RigidBody).name())
+		{
+			obj.AddComponent(std::any_cast<RigidBody>(componentData));
+		}
+		else if (componentName == typeid(UITransform).name())
+		{
+			obj.AddComponent(std::any_cast<UITransform>(componentData));
+		}
+		else if (componentName == typeid(TextRenderer).name())
+		{
+			obj.AddComponent(std::any_cast<TextRenderer>(componentData));
+		}
+		else
+		{
+			// incase someone added a component and forgot to write here
+			assert("Component does not have a deserialize function");
+		}
+
 	}
 
 	void GOFactory::EntityDestroyed(Entity entity)
@@ -167,6 +177,11 @@ namespace Carmicah
 
 	void GOFactory::Destroy(Entity entity)
 	{
+		if (mEntitiesSet.count(entity) <= 0)
+		{
+			CM_CORE_ERROR("Trying to delete a gameobject that does not exist");
+			return;
+		}
 		// To destroy at the end of update
 		mDeleteList.insert(entity);
 	}
@@ -232,44 +247,13 @@ namespace Carmicah
 		const rapidjson::Value& componentList = go["Components"];
 		for (rapidjson::Value::ConstValueIterator it = componentList.Begin(); it != componentList.End(); ++it)
 		{
+			// Get the name of the current component being deserialized
 			const std::string& componentName = (*it)["Component Name"].GetString();
-			if (componentName == "struct Carmicah::Transform")
-			{
-				Transform t{};
-				t.DeserializeComponent((*it));
-				newObj.AddComponent<Transform>(t);
-			}
-			else if (componentName == "struct Carmicah::Collider2D")
-			{
-				Collider2D t{};
-				t.DeserializeComponent((*it));
-				newObj.AddComponent<Collider2D>(t);
-
-			}
-			else if (componentName == "struct Carmicah::Renderer")
-			{
-				Renderer t{};
-				t.DeserializeComponent((*it));
-				newObj.AddComponent<Renderer>(t);
-			}
-			else if (componentName == "struct Carmicah::Animation")
-			{
-				Animation t{};
-				t.DeserializeComponent((*it));
-				newObj.AddComponent<Animation>(t);
-			}
-            else if (componentName == "struct Carmicah::TextRenderer")
-            {
-                TextRenderer t{};
-				t.DeserializeComponent((*it));
-				newObj.AddComponent<TextRenderer>(t);
-            }
-            else if (componentName == "struct Carmicah::UITransform")
-            {
-                UITransform t{};
-				t.DeserializeComponent((*it));
-                newObj.AddComponent<UITransform>(t);
-            }
+			// Deserialize the json file that contains the component's data
+			std::any componentData = ComponentManager::GetInstance()->DeserializePrefabComponent(*it);
+			
+			// Attach it to the game object
+			AttachComponents(newObj, std::make_pair(componentName, componentData));
 		}
 	}
 
@@ -290,105 +274,6 @@ namespace Carmicah
 
 			writer.StartArray();
 			ComponentManager::GetInstance()->SerializeEntityComponents(obj.second.GetID(), EntityManager::GetInstance()->GetSignature(obj.second.GetID()), writer);
-            /*
-			gGOFactory->ForAllGO([&](GameObject& o) {
-				writer.StartObject();
-
-				writer.String("GameObject");
-				writer.String(o.GetName().c_str(), static_cast<rapidjson::SizeType>(o.GetName().length()));
-
-				writer.String("ID");
-				writer.Int(o.GetID());
-
-				writer.String("Components");
-				writer.StartArray();
-				ComponentManager::GetInstance()->ForEachComponent([&](const std::string componentName)
-					{
-						writer.StartObject();
-						writer.String("Component Name");
-						writer.String(componentName.c_str(), static_cast<rapidjson::SizeType>(componentName.length()));
-						if (componentName == "struct Carmicah::Transform")
-						{
-							Transform& t = o.GetComponent<Transform>();
-							writer.String("xPos");
-							writer.Double(t.xPos);
-							writer.String("yPos");
-							writer.Double(t.yPos);
-							writer.String("zPos");
-							writer.Double(t.zPos);
-							writer.String("rot");
-							writer.Double(t.rot);
-							writer.String("xScale");
-							writer.Double(t.xScale);
-							writer.String("yScale");
-							writer.Double(t.yScale);
-
-						}
-						else if (componentName == "struct Carmicah::Collider2D")
-						{
-							Collider2D& t = o.GetComponent<Collider2D>();
-							writer.String("minX");
-							writer.Double(t.min.x);
-							writer.String("minY");
-							writer.Double(t.min.y);
-							writer.String("maxX");
-							writer.Double(t.max.x);
-							writer.String("maxY");
-							writer.Double(t.max.y);
-							writer.String("shape");
-							writer.String(t.shape.c_str());
-						}
-						else if (componentName == "struct Carmicah::Renderer")
-						{
-							Renderer& t = o.GetComponent<Renderer>();
-							writer.String("model");
-							writer.String(t.model.c_str());
-							writer.String("texture");
-							writer.String(t.texture.c_str());
-						}
-						else if (componentName == "struct Carmicah::Animation")
-						{
-							Animation& t = o.GetComponent<Animation>();
-							writer.String("timeBetween");
-							writer.Double(t.maxTime);
-						}
-						else if (componentName == "struct Carmicah::TextRenderer")
-						{
-							TextRenderer& t = o.GetComponent<TextRenderer>();
-							writer.String("model");
-							writer.String(t.model.c_str());
-							writer.String("font");
-							writer.String(t.font.c_str());
-							writer.String("text");
-							writer.String(t.txt.c_str());
-							writer.String("colorR");
-							writer.Double(t.color.r);
-							writer.String("colorG");
-							writer.Double(t.color.g);
-							writer.String("colorB");
-							writer.Double(t.color.b);
-						}
-						else if (componentName == "struct Carmicah::UITransform")
-						{
-							UITransform& t = o.GetComponent<UITransform>();
-							writer.String("xPos");
-							writer.Double(t.xPos);
-							writer.String("yPos");
-							writer.Double(t.yPos);
-							//writer.String("rot");
-							//writer.Double(t.rot);
-							writer.String("xScale");
-							writer.Double(t.xScale);
-							writer.String("yScale");
-							writer.Double(t.yScale);
-						}
-						writer.EndObject();
-
-					}, EntityManager::GetInstance()->GetSignature(o.GetID()));
-				writer.EndArray();
-
-				writer.EndObject();
-				});*/
 			writer.EndArray();
 
 			writer.EndObject();

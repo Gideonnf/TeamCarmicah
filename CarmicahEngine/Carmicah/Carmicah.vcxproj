@@ -140,17 +140,18 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="include\Messaging\InputMessage.h" />
     <ClInclude Include="include\Messaging\Message.h" />
     <ClInclude Include="include\Singleton.h" />
-    <ClInclude Include="include\Systems\AnimationSystem.h" />
-    <ClInclude Include="include\Systems\ColliderRenderSystem.h" />
+    <ClInclude Include="include\Graphics\AnimationSystem.h" />
+    <ClInclude Include="include\Graphics\ColliderRenderSystem.h" />
     <ClInclude Include="include\Systems\CollisionSystem.h" />
     <ClInclude Include="include\Systems\GOFactory.h" />
-    <ClInclude Include="include\Systems\GraphicsSystem.h" />
+    <ClInclude Include="include\Graphics\GraphicsSystem.h" />
     <ClInclude Include="include\Systems\InputSystem.h" />
     <ClInclude Include="include\Systems\PhysicsSystem.h" />
+    <ClInclude Include="include\Graphics\RigidbodyRendererSystem.h" />
     <ClInclude Include="include\Systems\SceneSystem.h" />
     <ClInclude Include="include\Systems\SerializerSystem.h" />
     <ClInclude Include="include\Systems\SoundSystem.h" />
-    <ClInclude Include="include\Systems\TextSystem.h" />
+    <ClInclude Include="include\Graphics\TextSystem.h" />
     <ClInclude Include="include\log.h" />
     <ClInclude Include="include\pch.h" />
   </ItemGroup>
@@ -171,6 +172,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClCompile Include="source\HierarchyWindow.cpp" />
     <ClCompile Include="source\InputSystem.cpp" />
     <ClCompile Include="source\PhysicsSystem.cpp" />
+    <ClCompile Include="source\RigidbodyRendererSystem.cpp" />
     <ClCompile Include="source\SceneSystem.cpp" />
     <ClCompile Include="source\SceneWindow.cpp" />
     <ClCompile Include="source\SerializerSystem.cpp" />

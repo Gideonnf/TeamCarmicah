@@ -5,6 +5,15 @@
 #include <memory>
 #include <rapidjson/ostreamwrapper.h>
 #include <rapidjson/prettywriter.h>
+#include <rapidjson/document.h>
+#include <any>
+#include "Components/Transform.h"
+#include "Components/Collider2D.h"
+#include "Components/Renderer.h"
+#include "Components/Animation.h"
+#include "Components/TextRenderer.h"
+#include "Components/UITransform.h"
+#include "Components/RigidBody.h"
 #include "Singleton.h"
 
 namespace Carmicah
@@ -21,6 +30,7 @@ namespace Carmicah
 		// I also cant store it as a const char*, IComponent without using shared_ptr 
 		std::unordered_map<std::string, std::shared_ptr<IComponent>> m_ComponentMap;
 
+		//std::unordered_map<std::string, std::any> mComponentRegistry;
 		//std::array<Signature, MAX_COMPONENTS> m_ComponentSignatures;
 
 		// Everytime a new component is registered, it uses this ID and increment it for the next component
@@ -46,6 +56,10 @@ namespace Carmicah
 
 			//Insert into the component map
 			m_ComponentMap.insert({ name, std::make_shared<Component<T>>() });
+
+			// Create a lambda function that returns an instance of T 
+			// not being used atm
+			//mComponentRegistry.insert({ name, []() -> T {return T{}; } });
 		}
 
 		template<typename T>
@@ -204,6 +218,75 @@ namespace Carmicah
 			// If it reaches here then itll flag an error
 			assert(m_ComponentTypes.count(componentName) == 0 && "Component does not exist yet. ");
 			return NULL;
+		}
+
+		std::any DeserializePrefabComponent(const rapidjson::Value& val)
+		{
+			const std::string& componentName = val["Component Name"].GetString();
+			std::any component;
+			if (componentName == typeid(Transform).name())
+			{
+				Transform componentData{}; // Default initialize
+				componentData.DeserializeComponent(val);
+				component = componentData;
+
+				//component = std::any_cast<Transform>(component).DeserializeComponent(val);
+			}
+			else if (componentName == typeid(Collider2D).name())
+			{
+				Collider2D componentData{}; // Default initialize
+				componentData.DeserializeComponent(val);
+				component = componentData;
+
+				//component = std::any_cast<Collider2D>(component).
+			}
+			else if (componentName == typeid(Animation).name())
+			{
+				Animation componentData{}; // Default initialize
+				componentData.DeserializeComponent(val);
+				component = componentData;
+
+				//std::any_cast<Animation>(component).DeserializeComponent(val);
+			}
+			else if (componentName == typeid(Renderer).name())
+			{
+				Renderer componentData{}; // Default initialize
+				componentData.DeserializeComponent(val);
+				component = componentData;
+
+				//std::any_cast<Renderer>(component).DeserializeComponent(val);
+			}
+			else if (componentName == typeid(RigidBody).name())
+			{
+				RigidBody componentData{}; // Default initialize
+				componentData.DeserializeComponent(val);
+				component = componentData;
+
+				//std::any_cast<RigidBody>(component).DeserializeComponent(val);
+			}
+			else if (componentName == typeid(UITransform).name())
+			{
+				UITransform componentData{}; // Default initialize
+				componentData.DeserializeComponent(val);
+				component = componentData;
+
+				//std::any_cast<UITransform>(component).DeserializeComponent(val);
+			}
+			else if (componentName == typeid(TextRenderer).name())
+			{
+				TextRenderer componentData{}; // Default initialize
+				componentData.DeserializeComponent(val);
+				component = componentData;
+
+				//std::any_cast<TextRenderer>(component).DeserializeComponent(val);
+			}
+			else
+			{
+				// incase someone added a component and forgot to write here
+				assert("Component does not have a deserialize function");
+			}
+
+			return component;
 		}
 	};
 

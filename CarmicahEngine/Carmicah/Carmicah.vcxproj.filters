@@ -93,7 +93,7 @@
     <ClInclude Include="include\Editor\EditorWindow.h">
       <Filter>include\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="include\Editor\HierarchyWindow.h">
+    <ClInclude Include="include\Editor\HeirarchyWindow.h">
       <Filter>include\Editor</Filter>
     </ClInclude>
     <ClInclude Include="include\FPSCounter.h">
@@ -156,7 +156,6 @@
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Editor\SceneWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\AnimationSystem.cpp">
@@ -198,7 +197,7 @@
     <ClCompile Include="source\GraphicsSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="source\HierarchyWindow.cpp">
+    <ClCompile Include="source\HeirarchyWindow.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\InputSystem.cpp">
@@ -228,6 +227,5 @@
     <ClCompile Include="source\pch.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="source\SceneWindow.cpp" />
   </ItemGroup>
 </Project>

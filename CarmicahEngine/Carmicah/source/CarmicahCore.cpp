@@ -22,10 +22,11 @@
 #include "Components/UITransform.h"
 
 #include "Systems/GOFactory.h"
-#include "Systems/GraphicsSystem.h"
-#include "Systems/TextSystem.h"
-#include "Systems/AnimationSystem.h"
-#include "Systems/ColliderRenderSystem.h"
+#include "Graphics/GraphicsSystem.h"
+#include "Graphics/TextSystem.h"
+#include "Graphics/AnimationSystem.h"
+#include "Graphics/ColliderRenderSystem.h"
+#include "Graphics/RigidbodyRendererSystem.h"
 #include "Systems/CollisionSystem.h"
 #include "Systems/PhysicsSystem.h"
 #include "Systems/SoundSystem.h"
@@ -127,6 +128,7 @@ namespace Carmicah
         auto txtSystem = REGISTER_SYSTEM(TextSystem);
         auto aniSystem = REGISTER_SYSTEM(AnimationSystem);
         auto crsSystem = REGISTER_SYSTEM(ColliderRenderSystem);
+        auto rrsSystem = REGISTER_SYSTEM(RigidbodyRendererSystem);
         auto colSystem = REGISTER_SYSTEM(CollisionSystem);
         auto phySystem = REGISTER_SYSTEM(PhysicsSystem);
         auto inputSystem = REGISTER_SYSTEM(InputSystem);
@@ -138,6 +140,7 @@ namespace Carmicah
         txtSystem->Init();
         aniSystem->Init();
         crsSystem->Init();
+        rrsSystem->Init();
         colSystem->Init(); // Set the signature
         phySystem->Init();
         souSystem->Init(false);
@@ -151,24 +154,63 @@ namespace Carmicah
         GameObject newObj = gGOFactory->CreateGO();
         newObj.AddComponent<Transform>();
         newObj.GetComponent<Transform>().xPos = 1.0f;
-        newObj.GetComponent<Transform>().yPos = 2.0f;
+        newObj.GetComponent<Transform>().yPos = 3.0f;
         newObj.GetComponent<Transform>().xScale = 1.0f;
         newObj.GetComponent<Transform>().yScale = 1.0f;
+        newObj.GetComponent<Transform>().notUpdated = false;
         newObj.AddComponent<Collider2D>();
         newObj.GetComponent<Collider2D>().shape = "DebugSquare";
         newObj.AddComponent<RigidBody>();
-        newObj.GetComponent<RigidBody>().velocity.x = 2.0f;
-        newObj.GetComponent<RigidBody>().velocity.y = 2.0f;
-        newObj.GetComponent<RigidBody>().gravity = -5.0f;
+        newObj.GetComponent<RigidBody>().velocity.x = 1.0f;
+        newObj.GetComponent<RigidBody>().velocity.y = 0.0f;
+        newObj.GetComponent<RigidBody>().gravity = -0.5f;
         newObj.GetComponent<RigidBody>().objectType = "Dynamic";
         newObj.AddComponent<Renderer>();
         newObj.GetComponent<Renderer>().model = "Square";
         newObj.GetComponent<Renderer>().texture = "Bullet";
         newObj.GetComponent<Renderer>().texureMat = glm::mat3(1);
 
+        GameObject ball = gGOFactory->CreatePrefab("Duck");
+        ball.GetComponent<Transform>().xPos = -5.0f;
+        ball.GetComponent<Transform>().yPos = 0.0f;
+        ball.GetComponent<Transform>().xScale = 0.5f;
+        ball.GetComponent<Transform>().yScale = 0.5f;
+        ball.GetComponent<Transform>().notUpdated = false;
+        ball.AddComponent<Collider2D>();
+        ball.GetComponent<Collider2D>().shape = "DebugSquare";
+        ball.AddComponent<RigidBody>();
+        ball.GetComponent<RigidBody>().velocity.x = 1.0f;
+        ball.GetComponent<RigidBody>().velocity.y = 0.0f;
+        ball.GetComponent<RigidBody>().gravity = 0.0f;
+        ball.GetComponent<RigidBody>().objectType = "Dynamic";
+        ball.AddComponent<Renderer>();
+        ball.GetComponent<Renderer>().model = "Square";
+        ball.GetComponent<Renderer>().texture = "Bullet";
+        ball.GetComponent<Renderer>().texureMat = glm::mat3(1);
+
+        GameObject ball2 = gGOFactory->CreatePrefab("Duck");
+        ball2.GetComponent<Transform>().xPos = 1.0f;
+        ball2.GetComponent<Transform>().yPos = 0.0f;
+        ball2.GetComponent<Transform>().xScale = 0.5f;
+        ball2.GetComponent<Transform>().yScale = 0.5f;
+        ball2.GetComponent<Transform>().notUpdated = false;
+        ball2.AddComponent<Collider2D>();
+        ball2.GetComponent<Collider2D>().shape = "DebugSquare";
+        ball2.AddComponent<RigidBody>();
+        ball2.GetComponent<RigidBody>().velocity.x = -1.0f;
+        ball2.GetComponent<RigidBody>().velocity.y = 0.0f;
+        ball2.GetComponent<RigidBody>().gravity = 0.0f;
+        ball2.GetComponent<RigidBody>().objectType = "Dynamic";
+        ball2.AddComponent<Renderer>();
+        ball2.GetComponent<Renderer>().model = "Square";
+        ball2.GetComponent<Renderer>().texture = "Bullet2";
+        ball2.GetComponent<Renderer>().texureMat = glm::mat3(1);
+
+
         GameObject wall = gGOFactory->CreateGO();
         wall.AddComponent<Transform>();
         wall.GetComponent<Transform>().xPos = 4.0f;
+        wall.GetComponent<Transform>().yPos = 0.0f;
         wall.GetComponent<Transform>().xScale = 1.0f;
         wall.GetComponent<Transform>().yScale = 1.0f;
         wall.AddComponent<Collider2D>();
@@ -177,18 +219,19 @@ namespace Carmicah
         wall.GetComponent<RigidBody>().objectType = "Static";
         wall.AddComponent<Renderer>();
         wall.GetComponent<Renderer>().model = "Square";
-        wall.GetComponent<Renderer>().texture = "wall";
+        wall.GetComponent<Renderer>().texture = "wall2";
         wall.GetComponent<Renderer>().texureMat = glm::mat3(1);
 
         colSystem->PrintEntities();
 
         //Testing prefab
-        //gGOFactory->CreatePrefab("Duck");
-        //GameObject newObj = gGOFactory->FetchGO("Duck");
+        
         //newObj.GetComponent<Transform>().xPos = -2.0;
+        //int objectCount = 0;
 
         Editor Editor;
         Editor.Init(ImGuiWindow);
+        bool is_P_pressed = false;
 
         double testTime = 0.0;
         while (!glfwWindowShouldClose(window) && !glfwWindowShouldClose(ImGuiWindow)) {
@@ -213,13 +256,44 @@ namespace Carmicah
             }
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
+                #ifdef CM_DEBUG
+                /*if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) 
+                {*/
+                
+                   /* if (is_P_pressed == false)
+                    {*/
+                        //is_P_pressed = true;
+                        phySystem->Update();
+                        colSystem->Update();
 
-                colSystem->Update();
+                        /*GameObject test = gGOFactory->CreatePrefab("Duck");
+                        test.GetComponent<Transform>().xPos = newObj.GetComponent<Collider2D>().max.x;
+                        test.GetComponent<Transform>().yPos = newObj.GetComponent<Collider2D>().max.y;
+                        test.GetComponent<Transform>().xScale = 0.5f;
+                        test.GetComponent<Transform>().yScale = 0.5f;*/
+
+                        /*std::cout << "Bullet max" << ball2.GetComponent<Collider2D>().max << std::endl;
+                        std::cout << "Bullet xPos " << ball2.GetComponent<Transform>().xPos << std::endl;
+                        std::cout << "Wall min" << wall.GetComponent<Collider2D>().min << std::endl;*/
+                    //}
+
+                    //}
+                /*else 
+                {
+                    is_P_pressed = false;
+                }*/
+                #endif
+
+                #ifdef CM_RELEASE
                 phySystem->Update();
+                colSystem->Update();
+                #endif
+
                 aniSystem->Update();
 
                 graSystem->Render(gGOFactory->mainCam);
                 crsSystem->Render(gGOFactory->mainCam);
+                rrsSystem->Render(gGOFactory->mainCam);
                 txtSystem->Render(WIDTH, HEIGHT);
                 souSystem->Update();
                 glfwSwapBuffers(window);

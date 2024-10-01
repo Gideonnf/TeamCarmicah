@@ -1,3 +1,19 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			AssetManager.cpp
+
+ author:		Won Yu Xuan Rainne(77.5%)
+ co-author(s):	Gideon Francis(15%)
+				YANG YUJIE(7.5%)
+
+ email:			won.m@digipen.edu
+
+ brief:			Asset Manager checks through the folders and files inside Asset folder and loads them.
+				It handles Assets such as scene data, graphics, audio, and prefabs
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -6,6 +22,7 @@
 #include "AssetManager.h"
 #include "Systems/SoundSystem.h"
 #include "log.h"
+#include "Systems/SerializerSystem.h"
 namespace Carmicah
 {
 	void AssetManager::LoadAll(const char* assetPath)
@@ -81,7 +98,8 @@ namespace Carmicah
 						}
 						else if (folderName == "Prefabs")
 						{
-							mPrefabFiles.insert(std::make_pair(fileName, entry.path().string()));
+							Prefab goPrefab = Serializer.DeserializePrefab(entry.path().string());
+							mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
 						}
 					}
 				}
@@ -339,9 +357,8 @@ namespace Carmicah
 		}
 		Primitive p;
 		p.drawMode = GL_LINE_LOOP;
-		unsigned int numVert;
-		ifs >> numVert >> p.drawCnt;
-		if (numVert == 0)
+		ifs >> p.drawCnt;
+		if (p.drawCnt == 0)
 		{
 			std::cerr << "Error reading debug obj file";
 			return;
@@ -349,16 +366,16 @@ namespace Carmicah
 
 		std::vector<glm::vec2> vtx;
 
-		vtx.reserve(numVert);
+		vtx.reserve(p.drawCnt);
 		float v1, v2;
-		for (unsigned int i{}; i < numVert; ++i)
+		for (unsigned int i{}; i < p.drawCnt; ++i)
 		{
 			ifs >> v1 >> v2;
 			vtx.emplace_back(glm::vec2{ v1, v2 });
 		}
 		ifs.close();
 
-		unsigned int sizeofVtxArray = numVert * sizeof(glm::vec2);
+		unsigned int sizeofVtxArray = p.drawCnt * sizeof(glm::vec2);
 
 		glCreateBuffers(1, &p.vboid);
 		glNamedBufferStorage(p.vboid, sizeofVtxArray, vtx.data(), GL_DYNAMIC_STORAGE_BIT);
@@ -481,7 +498,7 @@ namespace Carmicah
 			ofs << GL_TRIANGLE_FAN << ' ' << numSlices + 2 << ' ' << numSlices + 2 << '\n';
 			ofs << "0 0\n";
 			for (int i{}; i < numSlices + 1; ++i)
-				ofs << sinf((static_cast<float>(i) * angleInc)) << ' ' << cosf((static_cast<float>(i) * angleInc)) << '\n';
+				ofs << sinf((static_cast<float>(i) * angleInc)) * 0.5f << ' ' << cosf((static_cast<float>(i) * angleInc)) * 0.5f << '\n';
 			ofs << "0.5 0.5\n";
 			for (int i{}; i < numSlices + 1; ++i)
 				ofs << sinf((static_cast<float>(i) * angleInc)) * 0.5f + 0.5f << ' ' << cosf((static_cast<float>(i) * angleInc)) * 0.5f + 0.5f << '\n';

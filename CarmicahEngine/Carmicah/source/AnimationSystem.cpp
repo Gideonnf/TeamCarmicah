@@ -1,8 +1,21 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			AnimationSystem.cpp
+
+ author:		Won Yu Xuan Rainne(100%)
+
+ email:			won.m@digipen.edu
+
+ brief:			Collider Render System handles the switching and behaviour of gameobjects with the animator and renderer component
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include <glm/glm.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <ECS/ECSTypes.h>
-#include "Systems/AnimationSystem.h"
+#include "Graphics/AnimationSystem.h"
 #include "Components/Renderer.h"
 #include "Components/Animation.h"
 #include "ECS/SystemManager.h"

@@ -1,10 +1,23 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			GraphicsSystem.cpp
+
+ author:		Won Yu Xuan Rainne(100%)
+
+ email:			won.m@digipen.edu
+
+ brief:			Graphics System handles the rendering of textured meshes onto the screen (using transform, camera reference, and texture matrix)
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <ECS/ECSTypes.h>
-#include "Systems/GraphicsSystem.h"
+#include "Graphics/GraphicsSystem.h"
 #include "Systems/GOFactory.h"
 #include "Components/Transform.h"
 #include "Components/Renderer.h"

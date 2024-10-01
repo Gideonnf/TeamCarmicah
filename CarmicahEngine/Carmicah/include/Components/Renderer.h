@@ -1,4 +1,16 @@
-#pragma once
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			Renderer.h
+
+ author:		Won Yu Xuan Rainne(100%)
+
+ email:			won.m@digipen.edu
+
+ brief:			Keeps track of Rendering specific details such as the model being used, texture, and a mat3 for accessing parts of the texture
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #ifndef RENDERER_COMPONENT_H
 #define RENDERER_COMPONENT_H
 

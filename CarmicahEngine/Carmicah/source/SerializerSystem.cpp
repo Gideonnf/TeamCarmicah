@@ -2,6 +2,7 @@
 #include "Systems/SerializerSystem.h"
 #include "log.h"
 #include "Systems/GOFactory.h"
+
 namespace Carmicah
 {
 	using namespace rapidjson;
@@ -96,7 +97,7 @@ namespace Carmicah
 		return true;
 	}
 
-	const Document SerializerSystem::DeserializePrefab(std::string prefabFile)
+	Prefab SerializerSystem::DeserializePrefab(std::string prefabFile)
 	{
 		std::ifstream ifs{ prefabFile, std::ios::binary };
 		if (!ifs)
@@ -106,16 +107,44 @@ namespace Carmicah
 
 		IStreamWrapper isw(ifs);
 		Document doc;
+		Prefab prefab{};
+
 		doc.ParseStream(isw);
 		ifs.close();
 
 		if (doc.HasParseError())
 		{
-			// Assert error here
+			CM_CORE_ERROR("Failed to load " + prefabFile);
+			// return an empty prefab
+			return prefab;
+		}
+
+		// Get the name of the prefab
+		prefab.mName = std::string(doc["GameObject"].GetString());
+
+		// get the ID attached to the prefab
+		prefab.mPrefabID = static_cast<Entity>(doc["ID"].GetInt());
+
+		// Loop through the components and store it into the map
+		const rapidjson::Value& componentList = doc["Components"];
+		for (rapidjson::Value::ConstValueIterator it = componentList.Begin(); it != componentList.End(); ++it)
+		{
+			std::string componentName = (*it)["Component Name"].GetString();
+			// Retrieve component data as an std::any object as there can be multiple types of components
+			std::any component = ComponentManager::GetInstance()->DeserializePrefabComponent(*it);
+			
+			//if (componentName == typeid(Transform).name())
+			//{
+			//	Transform data = std::any_cast<Transform>(component);
+			//	std::cout << data.xPos << std::endl;
+			//}
+			
+			// Insert it into the component map
+			prefab.mComponents.insert({ componentName, component });
 		}
 
 		//const Value go = doc;
-		return doc;
+		return prefab;
 	}
 
 

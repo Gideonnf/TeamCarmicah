@@ -8,6 +8,7 @@
 #include "ECS/SystemManager.h"
 #include "ECS/ComponentManager.h"
 #include "CarmicahTime.h"
+#include "log.h"
 
 namespace Carmicah
 {
@@ -40,6 +41,24 @@ namespace Carmicah
 			transform.xPos += rigidbody.velocity.x * deltaTime;
 			transform.yPos += rigidbody.velocity.y * deltaTime;
 
+			if (rigidbody.velocity.x > 0) 
+			{
+				transform.rot += 50.0f * deltaTime;
+
+				if (transform.rot > 360.0f)
+				{
+					transform.rot -= 360.0f;
+				}
+			}
+			else {
+				
+				transform.rot -= 50.0f * deltaTime;
+				if (transform.rot < -360.0f) 
+				{
+					transform.rot += 360.0f;
+				}
+
+			}
 		}
 		else if (rigidbody.objectType == "Kinematic")
 		{
