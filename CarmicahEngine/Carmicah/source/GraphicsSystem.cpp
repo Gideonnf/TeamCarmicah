@@ -16,7 +16,7 @@ namespace Carmicah
 {
 	bool GraphicsSystem::uniformExists(const char* str, GLint& ref)
 	{
-		ref = glGetUniformLocation(currShader, str);
+		ref = glGetUniformLocation(mCurrShader, str);
 		if (ref >= 0)
 			return true;
 
@@ -34,9 +34,9 @@ namespace Carmicah
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<GraphicsSystem>(mSignature);
 
-		auto& shdrRef = AssetManager::GetInstance()->shaderPgms.find(shaderName);
-		if (shdrRef != AssetManager::GetInstance()->shaderPgms.end())
-			currShader = shdrRef->second;
+		auto& shdrRef = AssetManager::GetInstance()->mShaderPgms.find(shaderName);
+		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
+			mCurrShader = shdrRef->second;
 	}
 
 	void GraphicsSystem::SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam)
@@ -52,7 +52,7 @@ namespace Carmicah
 		glClearColor(0.75294f, 1.f, 0.93333f, 1.f); // Gideon's favourite
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glUseProgram(currShader);
+		glUseProgram(mCurrShader);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -72,12 +72,12 @@ namespace Carmicah
 		{
 			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
 			Renderer& renderer = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
-			auto& tryPrimitive{ AssetManager::GetInstance()->primitiveMaps.find(renderer.model) };
+			auto& tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(renderer.model) };
 			Primitive* p;
-			if (tryPrimitive == AssetManager::GetInstance()->primitiveMaps.end())
+			if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
 			{
 				std::cerr << "Renderer Model not found: " << renderer.model << std::endl;
-				p = &AssetManager::GetInstance()->primitiveMaps.begin()->second;
+				p = &AssetManager::GetInstance()->mPrimitiveMaps.begin()->second;
 			}
 			else
 				p = &tryPrimitive->second;
@@ -115,11 +115,11 @@ namespace Carmicah
 			glBindVertexArray(p->vaoid);
 
 			// Error Checking if texture no exists
-			auto& tryTex = AssetManager::GetInstance()->textureMaps.find(renderer.texture);
-			if (tryTex == AssetManager::GetInstance()->textureMaps.end())
+			auto& tryTex = AssetManager::GetInstance()->mTextureMaps.find(renderer.texture);
+			if (tryTex == AssetManager::GetInstance()->mTextureMaps.end())
 			{
 				std::cerr << "Texture not found" << renderer.texture << std::endl;
-				glBindTextureUnit(0, AssetManager::GetInstance()->textureMaps.begin()->second.t);
+				glBindTextureUnit(0, AssetManager::GetInstance()->mTextureMaps.begin()->second.t);
 			}
 			else
 				glBindTextureUnit(0, tryTex->second.t);

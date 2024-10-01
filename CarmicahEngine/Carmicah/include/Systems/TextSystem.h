@@ -9,7 +9,7 @@ namespace Carmicah
 	{
 	private:
 		const char* shaderName{ "font" };
-		GLuint currShader{};
+		GLuint mCurrShader{};
 
 	public:
 		void Init();

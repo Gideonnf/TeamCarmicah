@@ -199,6 +199,9 @@ namespace Carmicah
                 }
 
                 gGOFactory->UpdateDestroyed();
+
+                // Reset profiling data at the end of each frame
+                CarmicahTimer::ResetProfilingData();
             }
 
             if (gameSystem->mNextState != gameSystem->mCurrState)

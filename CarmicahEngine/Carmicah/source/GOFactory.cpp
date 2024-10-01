@@ -93,9 +93,9 @@ namespace Carmicah
 	GameObject GOFactory::CreatePrefab(std::string prefab)
 	{
 		GameObject newGO = CreateGO("Duck");
-		if (AssetManager::GetInstance()->prefabFiles.count(prefab) > 0)
+		if (AssetManager::GetInstance()->mPrefabFiles.count(prefab) > 0)
 		{
-			const rapidjson::Document goFile = SerializerSystem::GetInstance()->DeserializePrefab(AssetManager::GetInstance()->prefabFiles[prefab]);
+			const rapidjson::Document goFile = SerializerSystem::GetInstance()->DeserializePrefab(AssetManager::GetInstance()->mPrefabFiles[prefab]);
 			std::string name = std::string(goFile["GameObject"].GetString());
 
 			const rapidjson::Value& componentList = goFile["Components"];
