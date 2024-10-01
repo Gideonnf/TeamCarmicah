@@ -15,10 +15,11 @@ DigiPen Institute of Technology is prohibited.
 #define COLLIDER_RENDERER_SYSTEM_H
 
 #include "ECS/BaseSystem.h"
+#include "Graphics/BaseGraphicsSystem.h"
 
 namespace Carmicah
 {
-	class ColliderRenderSystem : public BaseSystem
+	class ColliderRenderSystem : public BaseSystem, private BaseGraphicsSystem
 	{
 	private:
 		const char* shaderName{ "debug" };

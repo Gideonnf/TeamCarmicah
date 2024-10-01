@@ -38,10 +38,14 @@ namespace Carmicah
 		auto& shdrRef = AssetManager::GetInstance()->mShaderPgms.find(shaderName);
 		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
 			mCurrShader = shdrRef->second;
+		else
+			CM_CORE_ERROR("TextSystem failed to load Shader");
 	}
 
 	void TextSystem::Render(GLuint canvasWidth, GLuint canvasHeight)
 	{
+		if (mCurrShader == 0)
+			return;
 		glUseProgram(mCurrShader);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -52,41 +56,56 @@ namespace Carmicah
 
 		for (auto& entity : mEntitiesSet)
 		{
-			auto& txtRenderer = ComponentManager::GetInstance()->GetComponent<TextRenderer>(entity);
-			auto& UITrans = ComponentManager::GetInstance()->GetComponent<UITransform>(entity);
-			auto& foundFontTex = AssetManager::GetInstance()->mFontMaps.find(txtRenderer.font);
+			auto& txtRenderer{ ComponentManager::GetInstance()->GetComponent<TextRenderer>(entity) };
+			auto& UITrans{ ComponentManager::GetInstance()->GetComponent<UITransform>(entity)};
+			auto& foundFontTex{ AssetManager::GetInstance()->mFontMaps.find(txtRenderer.font) };
+			if (foundFontTex == AssetManager::GetInstance()->mFontMaps.end())
+			{
+				std::stringstream ss;
+				ss << "Font not found: " << txtRenderer.font << std::endl;
+				CM_CORE_ERROR(ss.str());
+				continue;
+			}
 			auto& tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(txtRenderer.model) };
 			Primitive* p;
 			if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
 			{
-				std::cerr << "Renderer Model not found: " << txtRenderer.model << std::endl;
-				p = &AssetManager::GetInstance()->mPrimitiveMaps.begin()->second;
+				std::stringstream ss;
+				ss << "Renderer Model not found: " << txtRenderer.model << std::endl;
+				CM_CORE_ERROR(ss.str());
+				continue;
 			}
 			else
 				p = &tryPrimitive->second;
 
 			float xTrack = UITrans.xPos, yTrack = UITrans.yPos;
-			glUniform3f(glGetUniformLocation(mCurrShader, "uTextColor"), txtRenderer.color.x, txtRenderer.color.y, txtRenderer.color.z);
+
+
+			GLint uniformLoc;
+			if (uniformExists(mCurrShader, "uTextColor", uniformLoc))
+				glUniform3f(uniformLoc, txtRenderer.color.x, txtRenderer.color.y, txtRenderer.color.z);
 
 			// iterate through all characters (alot of it divides by 2 since quad is based on [-1,1])
 			for (auto& c : txtRenderer.txt)
 			{
 				FontChar ch = foundFontTex->second[c];
 
-				xTrack += (ch.advance >> 7) * UITrans.xScale; // bitshift by 6 to get value in pixels (2^6 = 64)
+				xTrack += (ch.advance >> 7) * UITrans.xScale * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
 				glm::mat3 charTransform{ 1 };
 
+				// scale is multiplied by 0.5f since the mesh is from -0.5 to 0.5
 				charTransform = glm::translate(charTransform, glm::vec2(
-					xTrack + static_cast<float>(ch.xBearing) * UITrans.xScale,
-					yTrack - (static_cast<float>(ch.height >> 1) - static_cast<float>(ch.yBearing)) * UITrans.yScale));
+					xTrack + static_cast<float>(ch.xBearing) * UITrans.xScale * 0.5f,
+					yTrack - (static_cast<float>(ch.height >> 1) - static_cast<float>(ch.yBearing)) * UITrans.yScale * 0.5f));
 
 				charTransform = glm::scale(charTransform, glm::vec2(
-					static_cast<float>(ch.width >> 1) * UITrans.xScale,
-					static_cast<float>(ch.height >> 1) * UITrans.yScale));
+					static_cast<float>(ch.width) * UITrans.xScale * 0.5f,
+					static_cast<float>(ch.height) * UITrans.yScale * 0.5f));
 
 				charTransform = projection * charTransform;
 
-				glUniformMatrix3fv(glGetUniformLocation(mCurrShader, "uModel_to_NDC"), 1, GL_FALSE, glm::value_ptr(charTransform));
+				if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
+					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(charTransform));
 
 				glBindVertexArray(p->vaoid);
 				glBindTextureUnit(0, ch.texID);
@@ -105,7 +124,7 @@ namespace Carmicah
 				}
 
 				// now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-				xTrack += (ch.advance >> 7) * UITrans.xScale; // bitshift by 6 to get value in pixels (2^6 = 64)
+				xTrack += (ch.advance >> 7) * UITrans.xScale * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
 			}
 		}
 		
