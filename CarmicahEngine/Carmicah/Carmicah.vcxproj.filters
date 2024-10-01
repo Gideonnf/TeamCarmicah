@@ -51,6 +51,9 @@
     <ClInclude Include="include\Components\Renderer.h">
       <Filter>include\Components</Filter>
     </ClInclude>
+    <ClInclude Include="include\Components\RigidBody.h">
+      <Filter>include\Components</Filter>
+    </ClInclude>
     <ClInclude Include="include\Components\TextRenderer.h">
       <Filter>include\Components</Filter>
     </ClInclude>
@@ -132,6 +135,9 @@
     <ClInclude Include="include\Systems\InputSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="include\Systems\PhysicsSystem.h">
+      <Filter>include\Systems</Filter>
+    </ClInclude>
     <ClInclude Include="include\Systems\SceneSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
@@ -149,12 +155,6 @@
     </ClInclude>
     <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Components\RigidBody.h">
-      <Filter>include\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Systems\PhysicsSystem.h">
-      <Filter>include\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +203,9 @@
     <ClCompile Include="source\InputSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="source\PhysicsSystem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
     <ClCompile Include="source\SceneSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
@@ -222,9 +225,6 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\pch.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="source\PhysicsSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
