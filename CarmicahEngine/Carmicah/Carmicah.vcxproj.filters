@@ -93,7 +93,7 @@
     <ClInclude Include="include\Editor\EditorWindow.h">
       <Filter>include\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="include\Editor\HeirarchyWindow.h">
+    <ClInclude Include="include\Editor\HierarchyWindow.h">
       <Filter>include\Editor</Filter>
     </ClInclude>
     <ClInclude Include="include\FPSCounter.h">
@@ -197,7 +197,7 @@
     <ClCompile Include="source\GraphicsSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="source\HeirarchyWindow.cpp">
+    <ClCompile Include="source\HierarchyWindow.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\InputSystem.cpp">

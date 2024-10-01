@@ -4,7 +4,7 @@
 #include <ImGUI/imgui.h>
 #include "Editor/DebugWindow.h"
 #include "Editor/EditorWindow.h"
-#include "Editor/HeirarchyWindow.h"
+#include "Editor/HierarchyWindow.h"
 
 namespace Carmicah
 {
@@ -18,7 +18,7 @@ namespace Carmicah
 
 		void Init(GLFWwindow* window);
 
-		void Update();
+		void Update(GLFWwindow* window);
 
 		void Render(GLFWwindow* window);
 

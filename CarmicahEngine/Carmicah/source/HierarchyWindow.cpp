@@ -3,7 +3,7 @@
 #include <ImGUI/imgui_impl_glfw.h>
 #include <ImGUI/imgui_impl_opengl3.h>
 #include "Editor/EditorWindow.h"
-#include "Editor/HeirarchyWindow.h"
+#include "Editor/HierarchyWindow.h"
 #include "Systems/GOFactory.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
@@ -11,9 +11,9 @@
 
 namespace Carmicah
 {
-	HeirarchyWindow::HeirarchyWindow() : EditorWindow("Heirarchy", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
+	HierarchyWindow::HierarchyWindow() : EditorWindow("Hierarchy", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
 
-	void HeirarchyWindow::Update()
+	void HierarchyWindow::Update()
 	{
 		if (ImGui::Begin(mTitle))
 		{

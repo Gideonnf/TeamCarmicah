@@ -3,6 +3,7 @@
 #include <ImGUI/imgui.h>
 #include <ImGUI/imgui_impl_glfw.h>
 #include <ImGUI/imgui_impl_opengl3.h>
+#include <ImGUI/imgui_internal.h>
 
 
 namespace Carmicah
@@ -34,81 +35,95 @@ namespace Carmicah
 
 		//Creating Windows
 		//mWindows.push_back(std::make_unique<EditorWindow>("##",ImVec2(glfwGet)))
-		mWindows.push_back(std::make_unique<HeirarchyWindow>());
+		mWindows.push_back(std::make_unique<EditorWindow>("A", ImVec2(200,100), ImVec2(100, 100)));
+		mWindows.push_back(std::make_unique<EditorWindow>("B", ImVec2(100,100), ImVec2(100, 100)));
+		mWindows.push_back(std::make_unique<HierarchyWindow>());
 		mWindows.push_back(std::make_unique<DebugWindow>());
 
 	}
 
-	void Editor::Update()
+	void Editor::Update(GLFWwindow* window)
 	{
 
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-
+		static bool sFirstTime = true;
+		float mainMenuHeight{};
 		ImGuiWindowFlags windowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 
 
+
+		// Begin full-screen window
 		ImGuiViewport* viewport = ImGui::GetMainViewport();
 		ImGui::SetNextWindowPos(viewport->Pos);
 		ImGui::SetNextWindowSize(viewport->Size);
 		ImGui::SetNextWindowViewport(viewport->ID);
-
-		// Begin full-screen window
-		ImGui::Begin("DockingWindow", nullptr, windowFlags);
-
-		// Create the main docking space
-		ImGuiID dockspaceID = ImGui::GetID("MainDockSpace");
-		ImGui::DockSpace(dockspaceID, ImVec2(0, 0), ImGuiDockNodeFlags_PassthruCentralNode);
-
-		//Main Menu Bar
-		if (ImGui::BeginMainMenuBar())
+		ImGuiStyle& style = ImGui::GetStyle();
+		ImVec2 padding = style.WindowPadding;
+		if(ImGui::Begin("DockingWindow", nullptr, windowFlags))
 		{
-			if (ImGui::BeginMenu("File"))
+
+			// Create the main docking space
+			ImGuiID dockspaceID = ImGui::GetID("MainDockSpace");
+			ImGui::DockSpace(dockspaceID, ImVec2(0, 0), ImGuiDockNodeFlags_PassthruCentralNode);
+			if (sFirstTime)
 			{
-				if (ImGui::MenuItem("New"))
-				{
+				sFirstTime = false;
 
-				}
-
-				ImGui::EndMenu();
+				/*ImGui::DockBuilderRemoveNode(dockspaceID);
+				ImGui::DockBuilderAddNode(dockspaceID, ImGuiDockNodeFlags_DockSpace);*/
+				ImGuiID dockMain = dockspaceID; // Main area
+				ImGuiID dockLeft = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Left, 0.25f, nullptr, &dockMain);
+				ImGuiID dockBottom = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Down, 0.25f, nullptr, &dockMain);
+				// Dock your windows into the split areas
+				ImGui::DockBuilderDockWindow("Hierarchy", dockLeft);
+				ImGui::DockBuilderDockWindow("Debug", dockBottom);
+				ImGui::DockBuilderFinish(dockMain);
 			}
 
-			if (ImGui::BeginMenu("Window"))
+			//Main Menu Bar
+			if (ImGui::BeginMenuBar())
 			{
-				for (const auto& window : mWindows)
+				mainMenuHeight = ImGui::GetFrameHeight();
+				if (ImGui::BeginMenu("File"))
 				{
-					//Toggle Heirarchy Window Visibility
-					if (auto heirarchyWindow = dynamic_cast<HeirarchyWindow*>(window.get()))
+					if (ImGui::MenuItem("New"))
 					{
-						if (ImGui::MenuItem("Heirarchy", nullptr, heirarchyWindow->mIsVisible))
-						{
-							heirarchyWindow->mIsVisible = !heirarchyWindow->mIsVisible;
-						}
+
 					}
-					//Toggle Debug Window Visibility
-					if (auto debugWindow = dynamic_cast<DebugWindow*>(window.get()))
-					{
-						if (ImGui::MenuItem("Debug", nullptr, debugWindow->mIsVisible))
-						{
-							debugWindow->mIsVisible = !debugWindow->mIsVisible;
-						}
-					}
+
+					ImGui::EndMenu();
 				}
-				ImGui::EndMenu();
+
+				if (ImGui::BeginMenu("Window"))
+				{
+					for (const auto& window : mWindows)
+					{
+						//Toggle Heirarchy Window Visibility
+						if (auto heirarchyWindow = dynamic_cast<HierarchyWindow*>(window.get()))
+						{
+							if (ImGui::MenuItem("Hierarchy", nullptr, heirarchyWindow->mIsVisible))
+							{
+								heirarchyWindow->mIsVisible = !heirarchyWindow->mIsVisible;
+							}
+						}
+						//Toggle Debug Window Visibility
+						if (auto debugWindow = dynamic_cast<DebugWindow*>(window.get()))
+						{
+							if (ImGui::MenuItem("Debug", nullptr, debugWindow->mIsVisible))
+							{
+								debugWindow->mIsVisible = !debugWindow->mIsVisible;
+							}
+						}
+					}
+					ImGui::EndMenu();
+				}
+				ImGui::EndMenuBar();
 			}
-			ImGui::EndMainMenuBar();
+			ImGui::End();
 		}
-		
-		ImGui::End();
 
-		static bool sFirstTime = true;
-		if (sFirstTime)
-		{
-			sFirstTime = false;
-
-			//ImGui::DockingBuilderRemoveNode()
-		}
 		for (auto& window : mWindows) 
 		{
 

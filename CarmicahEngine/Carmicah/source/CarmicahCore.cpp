@@ -225,7 +225,7 @@ namespace Carmicah
                 glfwSwapBuffers(window);
 
                 glfwMakeContextCurrent(ImGuiWindow);
-                Editor.Update();
+                Editor.Update(ImGuiWindow);
                 Editor.Render(ImGuiWindow);
                 glfwMakeContextCurrent(window);
 
