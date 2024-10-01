@@ -1,3 +1,19 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			AssetManager.h
+
+ author:		Won Yu Xuan Rainne(77.5%)
+ co-author(s):	Gideon Francis(15%)
+				YANG YUJIE(7.5%)
+
+ email:			won.m@digipen.edu
+
+ brief:			Asset Manager checks through the folders and files inside Asset folder and loads them.
+				It handles Assets such as scene data, graphics, audio, and prefabs
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #ifndef ASSET_MANAGER_H
 #define ASSET_MANAGER_H
 
@@ -8,24 +24,18 @@
 #include <FMOD/fmod.hpp>
 #include <filesystem>
 #include <unordered_map>
-#include <vector>
 #include "Singleton.h"
 
 namespace Carmicah
 {
-	struct BaseAsset {};
-	struct Primitive : BaseAsset
+	struct Primitive
 	{
 		GLuint vaoid{};
 		GLuint vboid{};
 		GLenum drawMode{};
 		GLuint drawCnt{};
 	};
-	struct Shader : BaseAsset
-	{
-		GLuint s;
-	};
-	struct Texture : BaseAsset
+	struct Texture
 	{
 		GLuint t;
 		int width;
@@ -35,13 +45,13 @@ namespace Carmicah
 		int xSlices;
 		int ySlices;
 	};
-	struct FontChar : BaseAsset
+	struct FontChar
 	{
 		unsigned int texID, width, height;
 		int			 xBearing, yBearing;
 		long		 advance;
 	};
-	struct Audio : BaseAsset
+	struct Audio
 	{
 		bool isLoop;
 		FMOD::Sound* sound;
@@ -67,13 +77,12 @@ namespace Carmicah
 		// Audio
 		const int maxChannels{ 32 };
 		FMOD::System* mSoundSystem{};
+		std::unordered_map<std::string, FMOD::Channel*> mChannelMap;
 		std::unordered_map<std::string, Audio> mSoundMap{};
 
 
 		bool GetScene(std::string scene, std::string& filePath);
 
-		//template<typename T>
-		//bool TryGetAsset(Primitive&, const std::string&);
 	private:
 
 		// Graphics Assets
@@ -86,12 +95,10 @@ namespace Carmicah
 
 		void ExportCircle(int numSlices, const std::string& modelFile);
 
-
-		void InitSound();
 		// Sound Assets
+		void InitSound();
 		void LoadSound(const std::string& soundName, std::string const& soundFile, bool b_isLoop);
 
-		//void LoadScene()
 	};
 }
 #endif

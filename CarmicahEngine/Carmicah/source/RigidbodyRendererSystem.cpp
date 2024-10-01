@@ -1,59 +1,74 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:			ColliderRenderSystem.cpp
+ file:			RigidbodyRendererSystem.cpp
 
  author:		Won Yu Xuan Rainne(100%)
 
  email:			won.m@digipen.edu
 
- brief:			Collider Render System handles rendering the collision boxes of gameobjects with the collider2D component
+ brief:			Rigidbody Render System handles rendering the rigidbody parts such as velocity of gameobjects with the rigidbody component
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
 DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
+#include <limits>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <ECS/ECSTypes.h>
-#include "Graphics/ColliderRenderSystem.h"
+#include "Graphics/RigidbodyRendererSystem.h"
 #include "Systems/GOFactory.h"
 #include "Components/Transform.h"
-#include "Components/Collider2D.h"
+#include "Components/RigidBody.h"
 #include "ECS/SystemManager.h"
 #include "ECS/ComponentManager.h"
 #include "AssetManager.h"
 
+
 namespace Carmicah
 {
-	void ColliderRenderSystem::Init()
+	void RigidbodyRendererSystem::Init()
 	{
 		// Set the signature of the system
-		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Collider2D>());
+		mSignature.set(ComponentManager::GetInstance()->GetComponentID<RigidBody>());
+		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
 		// Update the signature of the system
-		SystemManager::GetInstance()->SetSignature<ColliderRenderSystem>(mSignature);
+		SystemManager::GetInstance()->SetSignature<RigidbodyRendererSystem>(mSignature);
 
 		auto shdrRef = AssetManager::GetInstance()->mShaderPgms.find("debug");
 		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
 			mCurrShader = shdrRef->second;
 	}
 
-	void ColliderRenderSystem::Render(Entity& cam)
+	void RigidbodyRendererSystem::Render(Entity& cam)
 	{
 		glUseProgram(mCurrShader);
+		Primitive& p{ AssetManager::GetInstance()->mPrimitiveMaps[modelName] };
+		auto& camera = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 
 		for (auto& entity : mEntitiesSet)
 		{
-			auto& camera = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-			auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);
-			Primitive p{ AssetManager::GetInstance()->mPrimitiveMaps[collider.shape] };
+			auto& rigidbody = ComponentManager::GetInstance()->GetComponent<RigidBody>(entity);
+			if (fabs(rigidbody.velocity.x) < std::numeric_limits<float>::epsilon() &&
+				fabs(rigidbody.velocity.y) < std::numeric_limits<float>::epsilon())
+				continue;
 
-			glm::mat3 trans{1};
-			trans = glm::translate(trans, glm::vec2((collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f));
-			trans = glm::scale(trans, glm::vec2(collider.max.x - collider.min.x, collider.max.y - collider.min.y)*0.5f);
+
+			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
+
+			glm::mat3 trans{ 1 };
+
+			// Get rotation
+			float rot = std::atan2f(rigidbody.velocity.y, rigidbody.velocity.x);
+			// Get scale multi
+			float biggerVel = fmaxf(rigidbody.velocity.x, rigidbody.velocity.y);
+
+			trans = glm::translate(trans, glm::vec2(transform.xPos, transform.yPos));
+			trans = glm::rotate(trans, rot);
+			trans = glm::scale(trans, glm::vec2(biggerVel, biggerVel));
 			trans = camera.camSpace * trans;
-
 
 			GLint uniform_var_loc0 = glGetUniformLocation(mCurrShader, "uModel_to_NDC");
 			if (uniform_var_loc0 >= 0)
@@ -64,7 +79,7 @@ namespace Carmicah
 			else
 			{
 				std::cout << "Uniform variable dosen't exist!!!\n";
-				std::exit(EXIT_FAILURE);
+				continue;
 			}
 
 			glBindVertexArray(p.vaoid);

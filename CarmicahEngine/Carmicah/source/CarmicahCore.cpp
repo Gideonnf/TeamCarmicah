@@ -22,10 +22,11 @@
 #include "Components/UITransform.h"
 
 #include "Systems/GOFactory.h"
-#include "Systems/GraphicsSystem.h"
-#include "Systems/TextSystem.h"
-#include "Systems/AnimationSystem.h"
-#include "Systems/ColliderRenderSystem.h"
+#include "Graphics/GraphicsSystem.h"
+#include "Graphics/TextSystem.h"
+#include "Graphics/AnimationSystem.h"
+#include "Graphics/ColliderRenderSystem.h"
+#include "Graphics/RigidbodyRendererSystem.h"
 #include "Systems/CollisionSystem.h"
 #include "Systems/PhysicsSystem.h"
 #include "Systems/SoundSystem.h"
@@ -127,6 +128,7 @@ namespace Carmicah
         auto txtSystem = REGISTER_SYSTEM(TextSystem);
         auto aniSystem = REGISTER_SYSTEM(AnimationSystem);
         auto crsSystem = REGISTER_SYSTEM(ColliderRenderSystem);
+        auto rrsSystem = REGISTER_SYSTEM(RigidbodyRendererSystem);
         auto colSystem = REGISTER_SYSTEM(CollisionSystem);
         auto phySystem = REGISTER_SYSTEM(PhysicsSystem);
         auto inputSystem = REGISTER_SYSTEM(InputSystem);
@@ -138,6 +140,7 @@ namespace Carmicah
         txtSystem->Init();
         aniSystem->Init();
         crsSystem->Init();
+        rrsSystem->Init();
         colSystem->Init(); // Set the signature
         phySystem->Init();
         souSystem->Init(true);
@@ -290,6 +293,7 @@ namespace Carmicah
 
                 graSystem->Render(gGOFactory->mainCam);
                 crsSystem->Render(gGOFactory->mainCam);
+                rrsSystem->Render(gGOFactory->mainCam);
                 txtSystem->Render(WIDTH, HEIGHT);
                 souSystem->Update();
                 glfwSwapBuffers(window);
