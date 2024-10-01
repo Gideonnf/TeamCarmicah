@@ -189,8 +189,6 @@ namespace Carmicah
         ball.GetComponent<Renderer>().texureMat = glm::mat3(1);
 
         GameObject ball2 = gGOFactory->CreatePrefab("Duck");
-        ball2.GetComponent<Transform>().xPos = 1.0f;
-        ball2.GetComponent<Transform>().yPos = 0.0f;
         ball2.GetComponent<Transform>().xScale = 0.5f;
         ball2.GetComponent<Transform>().yScale = 0.5f;
         ball2.GetComponent<Transform>().notUpdated = false;
@@ -201,10 +199,6 @@ namespace Carmicah
         ball2.GetComponent<RigidBody>().velocity.y = 0.0f;
         ball2.GetComponent<RigidBody>().gravity = 0.0f;
         ball2.GetComponent<RigidBody>().objectType = "Dynamic";
-        ball2.AddComponent<Renderer>();
-        ball2.GetComponent<Renderer>().model = "Square";
-        ball2.GetComponent<Renderer>().texture = "Bullet2";
-        ball2.GetComponent<Renderer>().texureMat = glm::mat3(1);
 
 
         GameObject wall = gGOFactory->CreateGO();

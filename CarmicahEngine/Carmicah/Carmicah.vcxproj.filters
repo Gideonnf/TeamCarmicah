@@ -13,6 +13,9 @@
     <Filter Include="include\Editor">
       <UniqueIdentifier>{9FF868FF-8BC6-5C05-745A-CD2B60C7386A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\Graphics">
+      <UniqueIdentifier>{E901C778-D5FA-E5CA-FE2C-CB4FEA84C5D6}</UniqueIdentifier>
+    </Filter>
     <Filter Include="include\Input">
       <UniqueIdentifier>{482232A3-B4E2-ADD9-7D1D-F756E99CF2B5}</UniqueIdentifier>
     </Filter>
@@ -99,6 +102,21 @@
     <ClInclude Include="include\FPSCounter.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\Graphics\AnimationSystem.h">
+      <Filter>include\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\ColliderRenderSystem.h">
+      <Filter>include\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\GraphicsSystem.h">
+      <Filter>include\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\RigidbodyRendererSystem.h">
+      <Filter>include\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\TextSystem.h">
+      <Filter>include\Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="include\Input\InputTypes.h">
       <Filter>include\Input</Filter>
     </ClInclude>
@@ -117,19 +135,10 @@
     <ClInclude Include="include\Singleton.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Systems\AnimationSystem.h">
-      <Filter>include\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Systems\ColliderRenderSystem.h">
-      <Filter>include\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="include\Systems\CollisionSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
     <ClInclude Include="include\Systems\GOFactory.h">
-      <Filter>include\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Systems\GraphicsSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
     <ClInclude Include="include\Systems\InputSystem.h">
@@ -145,9 +154,6 @@
       <Filter>include\Systems</Filter>
     </ClInclude>
     <ClInclude Include="include\Systems\SoundSystem.h">
-      <Filter>include\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Systems\TextSystem.h">
       <Filter>include\Systems</Filter>
     </ClInclude>
     <ClInclude Include="include\log.h">
@@ -204,6 +210,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\PhysicsSystem.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\RigidbodyRendererSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\SceneSystem.cpp">
