@@ -43,7 +43,7 @@ namespace Carmicah
 
 	}
 
-	void Editor::Update(GLFWwindow* window)
+	void Editor::Update()
 	{
 
 		ImGui_ImplOpenGL3_NewFrame();

@@ -19,7 +19,7 @@ namespace Carmicah
 
 		void Init(GLFWwindow* window);
 
-		void Update(GLFWwindow* window);
+		void Update();
 
 		void Render(GLFWwindow* window);
 
