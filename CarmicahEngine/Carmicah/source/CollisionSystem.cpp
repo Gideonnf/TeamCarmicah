@@ -1,3 +1,18 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:        CollisionSystem.cpp
+
+ author:	   Lee Yong Yee(90%)
+ co-author(s): Gideon Francis(10%)
+
+ email:        l.yongyee@digipen.edu
+
+ brief:        Functions definitions for the Collision system. Handles the collision response and the collision checking between objects
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 #include "pch.h"
 #include "Systems/CollisionSystem.h"
 #include "Systems/GOFactory.h"
@@ -208,6 +223,16 @@ namespace Carmicah
 			rigidbody2.velocity.x = 0;
 			rigidbody2.velocity.y = 0;
 		}
+		else if (rigidbody1.objectType == "Kinematic" && rigidbody2.objectType == "Static") 
+		{
+			// Update position based on the first time of collision (tFirst)
+			transform1.xPos = rigidbody1.velocity.x * tFirst + rigidbody1.posPrev.x;
+			transform1.yPos = rigidbody1.velocity.y * tFirst + rigidbody1.posPrev.y;
+
+			// Zero out both velocity components (or apply bounce/rest)
+			rigidbody1.velocity.x = 0;
+			rigidbody1.velocity.y = 0;
+		}
 
 
 	}
@@ -279,7 +304,7 @@ namespace Carmicah
 					{
 						StaticDynamicCollisionCheck(entity1, entity2);
 					}
-					else if(rigidbody2.objectType == "Dynamic")
+					else
 					{
 						float firstTimeOfCollision = 0.0f;
 						if (CollisionIntersect(entity1, entity2, firstTimeOfCollision)) 
@@ -305,9 +330,6 @@ namespace Carmicah
 
 	void CollisionSystem::Update()
 	{
-		//std::cout << mSignature << std::endl;
-
-
 
 		for (auto entity : mEntitiesSet)
 		{

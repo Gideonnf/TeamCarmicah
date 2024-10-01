@@ -200,6 +200,24 @@ namespace Carmicah
         ball2.GetComponent<RigidBody>().gravity = 0.0f;
         ball2.GetComponent<RigidBody>().objectType = "Dynamic";
 
+        GameObject mainCharacter = gGOFactory->CreatePrefab("Duck");
+        mainCharacter.GetComponent<Transform>().xPos = 2.0f;
+        mainCharacter.GetComponent<Transform>().yPos = 2.0f;
+        mainCharacter.GetComponent<Transform>().rot = 0.0f;
+        mainCharacter.GetComponent<Transform>().xScale = 0.5f;
+        mainCharacter.GetComponent<Transform>().yScale = 0.5f;
+        mainCharacter.GetComponent<Transform>().notUpdated = false;
+        mainCharacter.AddComponent<Collider2D>();
+        mainCharacter.GetComponent<Collider2D>().shape = "DebugSquare";
+        mainCharacter.AddComponent<RigidBody>();
+        mainCharacter.GetComponent<RigidBody>().velocity.x = 0.0f;
+        mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
+        mainCharacter.GetComponent<RigidBody>().gravity = 0.0f;
+        mainCharacter.GetComponent<RigidBody>().objectType = "Kinematic";
+        mainCharacter.GetComponent<Renderer>().model = "Square";
+        mainCharacter.GetComponent<Renderer>().texture = "mc_redesign_2";
+        mainCharacter.GetComponent<Renderer>().texureMat = glm::mat3(1);
+
 
         GameObject wall = gGOFactory->CreateGO();
         wall.AddComponent<Transform>();
@@ -271,6 +289,28 @@ namespace Carmicah
                 #endif
 
                 #ifdef CM_RELEASE
+                if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
+                {
+                    mainCharacter.GetComponent<RigidBody>().velocity.x = 5.0f;
+                }
+                else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+                {
+                    mainCharacter.GetComponent<RigidBody>().velocity.x = -5.0f;
+                }
+                else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+                {
+                    mainCharacter.GetComponent<RigidBody>().velocity.y = 5.0f;
+                }
+                else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+                {
+                    mainCharacter.GetComponent<RigidBody>().velocity.y = -5.0f;
+                }
+                else 
+                {
+                    mainCharacter.GetComponent<RigidBody>().velocity.x = 0.0f;
+                    mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
+                }
+
                 phySystem->Update();
                 colSystem->Update();
                 #endif

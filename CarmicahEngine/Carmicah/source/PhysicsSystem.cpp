@@ -66,6 +66,13 @@ namespace Carmicah
 			{
 				transform.xPos += rigidbody.velocity.x * deltaTime;
 			}
+
+			if (rigidbody.velocity.y != 0)
+			{
+				transform.yPos += rigidbody.velocity.y * deltaTime;
+			}
+
+
 		}
 	}
 
