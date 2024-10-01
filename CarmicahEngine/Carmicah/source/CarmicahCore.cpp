@@ -15,6 +15,7 @@
 #include "Editor/Editor.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
+#include "Components/RigidBody.h"
 #include "Components/Renderer.h"
 #include "Components/Animation.h"
 #include "Components/TextRenderer.h"
@@ -26,6 +27,7 @@
 #include "Systems/AnimationSystem.h"
 #include "Systems/ColliderRenderSystem.h"
 #include "Systems/CollisionSystem.h"
+#include "Systems/PhysicsSystem.h"
 #include "Systems/SoundSystem.h"
 #include "Systems/InputSystem.h"
 #include "Systems/SceneSystem.h"
@@ -114,6 +116,7 @@ namespace Carmicah
 
         REGISTER_COMPONENT(Transform);
         REGISTER_COMPONENT(Collider2D);
+        REGISTER_COMPONENT(RigidBody);
         REGISTER_COMPONENT(Renderer);
         REGISTER_COMPONENT(Animation);
         REGISTER_COMPONENT(TextRenderer);
@@ -125,6 +128,7 @@ namespace Carmicah
         auto aniSystem = REGISTER_SYSTEM(AnimationSystem);
         auto crsSystem = REGISTER_SYSTEM(ColliderRenderSystem);
         auto colSystem = REGISTER_SYSTEM(CollisionSystem);
+        auto phySystem = REGISTER_SYSTEM(PhysicsSystem);
         auto inputSystem = REGISTER_SYSTEM(InputSystem);
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);
@@ -135,6 +139,7 @@ namespace Carmicah
         aniSystem->Init();
         crsSystem->Init();
         colSystem->Init(); // Set the signature
+        phySystem->Init();
         souSystem->Init(true);
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
@@ -142,11 +147,39 @@ namespace Carmicah
         gameSystem->Init();
 
         graSystem->SetScreenSize(WIDTH / 100, HEIGHT / 100, gGOFactory->mainCam);
-        colSystem->PrintEntities();
 
-        //GameObject newObj = gGOFactory->CreateGO();
-        //newObj.AddComponent<Transform>();
-        //newObj.AddComponent<Collider2D>();
+        GameObject newObj = gGOFactory->CreateGO();
+        newObj.AddComponent<Transform>();
+        newObj.GetComponent<Transform>().xPos = 1.0f;
+        newObj.GetComponent<Transform>().yPos = 2.0f;
+        newObj.GetComponent<Transform>().xScale = 1.0f;
+        newObj.GetComponent<Transform>().yScale = 1.0f;
+        newObj.AddComponent<Collider2D>();
+        newObj.GetComponent<Collider2D>().shape = "DebugSquare";
+        newObj.AddComponent<RigidBody>();
+        newObj.GetComponent<RigidBody>().velocity.x = 2.0f;
+        newObj.GetComponent<RigidBody>().velocity.y = 2.0f;
+        newObj.GetComponent<RigidBody>().gravity = -5.0f;
+        newObj.GetComponent<RigidBody>().objectType = "Dynamic";
+        newObj.AddComponent<Renderer>();
+        newObj.GetComponent<Renderer>().model = "Square";
+        newObj.GetComponent<Renderer>().texture = "Bullet";
+        newObj.GetComponent<Renderer>().texureMat = glm::mat3(1);
+
+        GameObject wall = gGOFactory->CreateGO();
+        wall.AddComponent<Transform>();
+        wall.GetComponent<Transform>().xPos = 4.0f;
+        wall.GetComponent<Transform>().xScale = 1.0f;
+        wall.GetComponent<Transform>().yScale = 1.0f;
+        wall.AddComponent<Collider2D>();
+        wall.GetComponent<Collider2D>().shape = "DebugSquare";
+        wall.AddComponent<RigidBody>();
+        wall.GetComponent<RigidBody>().objectType = "Static";
+        wall.AddComponent<Renderer>();
+        wall.GetComponent<Renderer>().model = "Square";
+        wall.GetComponent<Renderer>().texture = "wall";
+        wall.GetComponent<Renderer>().texureMat = glm::mat3(1);
+
         colSystem->PrintEntities();
 
         //Testing prefab
@@ -182,6 +215,7 @@ namespace Carmicah
             {
 
                 colSystem->Update();
+                phySystem->Update();
                 aniSystem->Update();
 
                 graSystem->Render(gGOFactory->mainCam);
