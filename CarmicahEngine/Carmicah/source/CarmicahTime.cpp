@@ -5,28 +5,11 @@
 
 namespace Carmicah
 {
-    CarmicahTime* CarmicahTime::instance = nullptr;
-
-    CarmicahTime* CarmicahTime::GetInstance()
+    // Call this instead of constructor
+    // cause singleton cant define two constructors
+    void CarmicahTime::Init()
     {
-        if (instance == nullptr)
-        {
-            instance = new CarmicahTime();
-        }
-        return instance;
-    }
-
-    CarmicahTime::CarmicahTime()
-        : mUpdateTimer(0.0), mUpdateInterval(0.5), mFrameCount(0),
-        mCurrentFPS(0.0), mDeltaTime(0.0), mPrevTime(0.0),
-        mTotalLoopTime(0.0), mGPUTime(0)
-    {
-        // Initialize other members as needed
-    }
-
-    CarmicahTime::~CarmicahTime()
-    {
-        // Cleanup if necessary
+        mUpdateInterval = 0.5;
     }
 
     void CarmicahTime::InitTime()
@@ -123,77 +106,77 @@ namespace Carmicah
     {
         void StartTime()
         {
-            gCarmicahTime->InitTime();
+            gCTimer.InitTime();
         }
 
         void UpdateElapsedTime()
         {
-            gCarmicahTime->UpdateTime();
+            gCTimer.UpdateTime();
         }
 
         double GetDt()
         {
-            return gCarmicahTime->GetDeltaTime();
+            return gCTimer.GetDeltaTime();
         }
 
         double GetFPS()
         {
-            return gCarmicahTime->FPS();
+            return gCTimer.FPS();
         }
 
         void StartSystemTimer(const std::string& systemName)
         {
-            gCarmicahTime->StartSystemTimer(systemName);
+            gCTimer.StartSystemTimer(systemName);
         }
 
         void StopSystemTimer(const std::string& systemName)
         {
-            gCarmicahTime->StopSystemTimer(systemName);
+            gCTimer.StopSystemTimer(systemName);
         }
 
         void StartLoopTimer()
         {
-            gCarmicahTime->StartLoopTimer();
+            gCTimer.StartLoopTimer();
         }
 
         void StopLoopTimer()
         {
-            gCarmicahTime->StopLoopTimer();
+            gCTimer.StopLoopTimer();
         }
 
         void CalculateSystemPercentages()
         {
-            gCarmicahTime->CalculateSystemPercentages();
+            gCTimer.CalculateSystemPercentages();
         }
 
         const std::unordered_map<std::string, double>& GetSystemPercentages()
         {
-            return gCarmicahTime->GetSystemPercentages();
+            return gCTimer.GetSystemPercentages();
         }
 
         double GetTotalLoopTime()
         {
-            return gCarmicahTime->GetTotalLoopTime();
+            return gCTimer.GetTotalLoopTime();
         }
 
         void InitGPUProfiling()
         {
-            gCarmicahTime->InitGPUProfiling();
+            gCTimer.InitGPUProfiling();
         }
 
         void StartGPUTimer()
         {
-            gCarmicahTime->StartGPUTimer();
+            gCTimer.StartGPUTimer();
         }
 
         void StopGPUTimer()
         {
-            gCarmicahTime->StopGPUTimer();
+            gCTimer.StopGPUTimer();
         }
 
         double GetGPUTime()
         {
-            return gCarmicahTime->GetGPUTime();
+            return gCTimer.GetGPUTime();
         }
     }
 }

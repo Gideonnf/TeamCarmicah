@@ -4,6 +4,7 @@
 #include <chrono>
 #include <unordered_map>
 #include <string>
+#include "Singleton.h"
 
 // Forward declare GLuint and GLuint64
 typedef unsigned int GLuint;
@@ -11,11 +12,9 @@ typedef unsigned long long GLuint64;
 
 namespace Carmicah
 {
-    class CarmicahTime
+    class CarmicahTime : public Singleton<CarmicahTime>
     {
     private:
-        static CarmicahTime* instance;
-        CarmicahTime(); // Private constructor
 
         std::chrono::steady_clock::time_point lastUpdateTime;
         double mUpdateTimer;
@@ -34,9 +33,9 @@ namespace Carmicah
         GLuint64 mGPUTime;
 
     public:
-        static CarmicahTime* GetInstance();
-        ~CarmicahTime(); // Public destructor
-
+        //CarmicahTime(); // public constructor
+        //~CarmicahTime(); // Public destructor
+        void Init();
         void InitTime();
         void UpdateTime();
         void StartSystemTimer(const std::string& systemName);
@@ -55,7 +54,7 @@ namespace Carmicah
     };
 
     // Global accessor
-#define gCarmicahTime CarmicahTime::GetInstance()
+    static CarmicahTime& gCTimer = *CarmicahTime::GetInstance();
 
 // Namespace for static functions
     namespace CarmicahTimer
