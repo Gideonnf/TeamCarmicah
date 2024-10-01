@@ -7,6 +7,7 @@ namespace Carmicah
 {
 	std::shared_ptr<spdlog::logger> Log::sCoreLogger;
 	std::shared_ptr<spdlog::logger> Log::sClientLogger;
+	std::vector<std::string> Log::logMessages;
 
 	void Log::init()
 	{
@@ -19,4 +20,8 @@ namespace Carmicah
 		sClientLogger->set_level(spdlog::level::trace);
 	}
 
+	void Log::logMessage(const std::string& msg)
+	{
+		logMessages.push_back(msg);
+	}
 }

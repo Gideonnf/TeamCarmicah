@@ -4,6 +4,8 @@
 #include <GLFW/glfw3.h>
 #include <ImGUI/imgui.h>
 #include "Editor/EditorWindow.h"
+#include "log.h"
+
 
 namespace Carmicah
 {

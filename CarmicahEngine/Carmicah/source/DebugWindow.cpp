@@ -50,26 +50,35 @@ namespace Carmicah
 				{
 					if (ImGui::BeginTabItem("Logger"))
 					{
-						//Append logs here
-						logBuffer.append(std::to_string(counter).c_str());
-						logBuffer.append("\n");
+						//Debug button press thing
+						if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_D)))
+						{
+							Log::logMessage("Log Test Button Pressed");
+						}
+
+						static bool sAutoScroll = true;
+						const auto& logMessages = Carmicah::Log::getLogs();
 
 						ImGui::BeginChild("Logs", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
-						ImGui::TextUnformatted(logBuffer.begin(), logBuffer.end());
+						for(const auto& msg : logMessages)
+						{
+							ImGui::TextUnformatted(msg.c_str());
+						}
+						if (sAutoScroll)
+						{
+							ImGui::SetScrollHereY(1.0f);
+						}
+						if (ImGui::GetScrollY() < ImGui::GetScrollMaxY())
+						{
+							sAutoScroll = false;
+						}
+
 						ImGui::EndChild();
 						ImGui::EndTabItem();
 					}
 				}
 				ImGui::EndTabBar();
 			}
-
-			if (ImGui::Button("Counter Clicker"))
-			{
-				clicked++;
-			}
-
-			ImGui::Text("Clicked: %d", clicked);
-
 		}
 		ImGui::End();
 
