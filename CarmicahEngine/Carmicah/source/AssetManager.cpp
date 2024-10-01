@@ -496,7 +496,7 @@ namespace Carmicah
 			ofs << GL_TRIANGLE_FAN << ' ' << numSlices + 2 << ' ' << numSlices + 2 << '\n';
 			ofs << "0 0\n";
 			for (int i{}; i < numSlices + 1; ++i)
-				ofs << sinf((static_cast<float>(i) * angleInc)) << ' ' << cosf((static_cast<float>(i) * angleInc)) << '\n';
+				ofs << sinf((static_cast<float>(i) * angleInc)) * 0.5f << ' ' << cosf((static_cast<float>(i) * angleInc)) * 0.5f << '\n';
 			ofs << "0.5 0.5\n";
 			for (int i{}; i < numSlices + 1; ++i)
 				ofs << sinf((static_cast<float>(i) * angleInc)) * 0.5f + 0.5f << ' ' << cosf((static_cast<float>(i) * angleInc)) * 0.5f + 0.5f << '\n';
