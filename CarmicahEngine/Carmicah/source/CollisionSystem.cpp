@@ -28,12 +28,19 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-
+	/**
+	 * @brief Prints the number of entities currently tracked by the CollisionSystem.
+	 */
 	void CollisionSystem::PrintEntities()
 	{
 		std::cout << "Entities in collision system: " << mEntitiesSet.size() << std::endl;
 	}
 
+	/**
+	 * @brief Updates the Axis-Aligned Bounding Box (AABB) for a given entity based on its transform and previous position.
+	 *
+	 * @param obj The entity whose AABB is being updated.
+	 */
 	void CollisionSystem::UpdateAABB(Entity& obj)
 	{
 		auto* componentManager = ComponentManager::GetInstance();
@@ -48,6 +55,17 @@ namespace Carmicah
 		AABB.max.y = (transform.yScale * 0.5f) + rigidbody.posPrev.y;
 	}
 
+	/**
+	 * @brief Checks for collision between two entities using their AABB and velocities.
+	 *
+	 * This function uses the separating axis theorem to determine if the AABBs intersect and returns true if a collision occurs.
+	 * It also calculates the first time of collision (tFirst) within the current frame.
+	 *
+	 * @param obj1 The first entity to check for collision.
+	 * @param obj2 The second entity to check for collision.
+	 * @param tFirst A float that stores the first time of collision.
+	 * @return True if the objects collide, false otherwise.
+	 */
 	bool CollisionSystem::CollisionIntersect(Entity& obj1, Entity& obj2, float tFirst)
 	{
 		auto* componentManager = ComponentManager::GetInstance();
@@ -180,6 +198,15 @@ namespace Carmicah
 		return true;
 	}
 
+	/**
+	 * @brief Handles the response to a collision between two entities. Updates their positions and velocities accordingly.
+	 *
+	 * Depending on the object types (dynamic, static, kinematic), the response will either stop the entities or destroy them.
+	 *
+	 * @param obj1 The first entity in the collision.
+	 * @param obj2 The second entity in the collision.
+	 * @param tFirst The first time of collision, used to update entity positions.
+	 */
 	void CollisionSystem::CollisionResponse(Entity& obj1, Entity& obj2, float tFirst)
 	{
 		auto* componentManager = ComponentManager::GetInstance();
@@ -223,20 +250,18 @@ namespace Carmicah
 			rigidbody2.velocity.x = 0;
 			rigidbody2.velocity.y = 0;
 		}
-		else if (rigidbody1.objectType == "Kinematic" && rigidbody2.objectType == "Static") 
-		{
-			// Update position based on the first time of collision (tFirst)
-			transform1.xPos = rigidbody1.velocity.x * tFirst + rigidbody1.posPrev.x;
-			transform1.yPos = rigidbody1.velocity.y * tFirst + rigidbody1.posPrev.y;
-
-			// Zero out both velocity components (or apply bounce/rest)
-			rigidbody1.velocity.x = 0;
-			rigidbody1.velocity.y = 0;
-		}
 
 
 	}
 
+	/**
+	 * @brief Performs a static vs dynamic collision check for two entities.
+	 *
+	 * This function checks for collision between a dynamic and static object and calls the collision response if a collision occurs.
+	 *
+	 * @param obj1 The dynamic entity.
+	 * @param obj2 The static entity.
+	 */
 	void CollisionSystem::StaticDynamicCollisionCheck(Entity& obj1, Entity& obj2) 
 	{
 		auto& rigidbody1 = ComponentManager::GetInstance()->GetComponent<RigidBody>(obj1);
@@ -283,6 +308,11 @@ namespace Carmicah
 
 	}
 
+	/**
+	 * @brief Checks for collisions between all entities within the system.
+	 *
+	 * This function iterates over all dynamic entities and checks for collisions with other entities (static, dynamic, or kinematic).
+	 */
 	void CollisionSystem::CollisionCheck()
 	{
 		auto* componentManager = ComponentManager::GetInstance();
@@ -317,6 +347,9 @@ namespace Carmicah
 		}
 	}
 
+	/**
+	 * @brief Initializes the CollisionSystem by setting its signature and registering the system with the SystemManager.
+	 */
 	void CollisionSystem::Init()
 	{
 		// Set the signature of the system
@@ -328,6 +361,9 @@ namespace Carmicah
 		SystemManager::GetInstance()->SetSignature<CollisionSystem>(mSignature);
 	}
 
+	/**
+	 * @brief Updates the CollisionSystem by updating the AABB of each entity and performing collision checks.
+	 */
 	void CollisionSystem::Update()
 	{
 
@@ -341,6 +377,9 @@ namespace Carmicah
 
 	}
 
+	/**
+	 * @brief Cleans up any resources or state when exiting the CollisionSystem.
+	 */
 	void CollisionSystem::Exit()
 	{
 
