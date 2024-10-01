@@ -1,67 +1,87 @@
 #include "pch.h"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include "CarmicahTime.h"
-#include "log.h"
 
 namespace Carmicah
 {
-	void CarmicahTime::InitTime()
-	{
-		lastUpdateTime = std::chrono::steady_clock::now();
-		mFrameCount = 0;
-		mCurrentFPS = 0.0;
-		mPrevTime = glfwGetTime();
-	}
+    namespace CarmicahTimer
+    {
+        CarmicahTime timerObj;
 
-	void CarmicahTime::UpdateTime()
-	{
-		mFrameCount++;
+        void StartTime()
+        {
+            timerObj.InitTime();
+        }
 
-		//auto currentTime = std::chrono::steady_clock::now();
-		//mDeltaTime = std::chrono::duration<double>(currentTime - lastUpdateTime).count();
+        void UpdateElapsedTime()
+        {
+            timerObj.UpdateTime();
+        }
 
-		double currTime = glfwGetTime();
-		mDeltaTime = currTime - mPrevTime;
-		mPrevTime = currTime;
-		mUpdateTimer += mDeltaTime;
+        double GetDt()
+        {
+            return timerObj.GetDeltaTime();
+        }
 
+        double GetFPS()
+        {
+            return timerObj.FPS();
+        }
 
-		if (mUpdateTimer >= mUpdateInterval)
-		{
-			mCurrentFPS = static_cast<double>(mFrameCount) / mUpdateTimer;
-			mFrameCount = 0;
-			//lastUpdateTime = currentTime;
-			mUpdateTimer = 0.0;
-			// Log the FPS using spdlog
-			auto logger = spdlog::get("CARMICAH");
-			if (logger)
-			{
-				logger->info("Current FPS: {:.2f}", mCurrentFPS);
-			}
-		}
-	}
+        void StartSystemTimer(const std::string& systemName)
+        {
+            timerObj.StartSystemTimer(systemName);
+        }
 
-	namespace CarmicahTimer
-	{
-		void StartTime()
-		{
-			timerObj.InitTime();
-		}
+        void StopSystemTimer(const std::string& systemName)
+        {
+            timerObj.StopSystemTimer(systemName);
+        }
 
-		void UpdateElapsedTime()
-		{
+        void StartLoopTimer()
+        {
+            timerObj.StartLoopTimer();
+        }
 
-			timerObj.UpdateTime();
+        void StopLoopTimer()
+        {
+            timerObj.StopLoopTimer();
+        }
 
-		}
+        void CalculateSystemPercentages()
+        {
+            timerObj.CalculateSystemPercentages();
+        }
 
-		double GetDt()
-		{
-			return timerObj.GetDeltaTime();
-		}
+        const std::unordered_map<std::string, double>& GetSystemPercentages()
+        {
+            return timerObj.GetSystemPercentages();
+        }
 
-		double GetFPS()
-		{
-			return timerObj.FPS();
-		}
-	}
+        double GetTotalLoopTime()
+        {
+            return timerObj.GetTotalLoopTime();
+        }
+
+        void InitGPUProfiling()
+        {
+            timerObj.InitGPUProfiling();
+        }
+
+        void StartGPUTimer()
+        {
+            timerObj.StartGPUTimer();
+        }
+
+        void StopGPUTimer()
+        {
+            timerObj.StopGPUTimer();
+        }
+
+        double GetGPUTime()
+        {
+            return timerObj.GetGPUTime();
+        }
+    }
 }
