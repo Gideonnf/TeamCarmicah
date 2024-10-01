@@ -1,3 +1,16 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			TextRenderer.h
+
+ author:		Won Yu Xuan Rainne(100%)
+
+ email:			won.m@digipen.edu
+
+ brief:			Keeps track of Text specific details such as the model(quad), font, text(words), and color
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #ifndef TEXT_RENDERER_COMPONENT_H
 #define TEXT_RENDERER_COMPONENT_H
 

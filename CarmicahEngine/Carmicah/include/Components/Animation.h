@@ -1,4 +1,16 @@
-#pragma once
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			Animation.h
+
+ author:		Won Yu Xuan Rainne(100%)
+
+ email:			won.m@digipen.edu
+
+ brief:			Keeps track of current Animation details
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #ifndef ANIMATION_COMPONENT_H
 #define ANIMATION_COMPONENT_H
 #include "BaseComponent.h"

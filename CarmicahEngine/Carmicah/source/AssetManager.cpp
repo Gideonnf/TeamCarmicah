@@ -1,3 +1,19 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			AssetManager.cpp
+
+ author:		Won Yu Xuan Rainne(77.5%)
+ co-author(s):	Gideon Francis(15%)
+				YANG YUJIE(7.5%)
+
+ email:			won.m@digipen.edu
+
+ brief:			Asset Manager checks through the folders and files inside Asset folder and loads them.
+				It handles Assets such as scene data, graphics, audio, and prefabs
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include <glad/glad.h>
 #include <glm/glm.hpp>
