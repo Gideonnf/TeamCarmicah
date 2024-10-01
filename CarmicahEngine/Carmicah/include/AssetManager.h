@@ -10,9 +10,11 @@
 #include <unordered_map>
 #include <vector>
 #include "Singleton.h"
+#include <any>
 
 namespace Carmicah
 {
+#pragma region SharedPtr & UniquePtr version of Asset storing
 	class IAsset {
 	public:
 		virtual ~IAsset() = default;
@@ -25,10 +27,30 @@ namespace Carmicah
 		std::unordered_map<std::string, std::shared_ptr<IAsset>> mAssetMap;
 	};
 
-	template <typename T>
-	struct BaseAsset {
-		std::unordered_map<std::string, T> mAssetMap;
+	class AssetManagerPtrVersion : Singleton<AssetManagerPtrVersion>
+	{
+	public:
+		// since theres gonna be different assets, storing it as a generic void pointer can
+		// ignore the type of asset and just store it as an Asset<T>
+		// Then just static cast based on the type we're looking for
+		// kinda the same as component manager except theres another level above component manager
+		std::unordered_map<std::string, std::unique_ptr<void>> mAssetMap; // idk how to name this map
+
+		template <typename T>
+		Asset<T>& GetAssetMap()
+		{
+			std::string assetType = typeid(T).name();
+
+			// Doesnt exist in the map yet
+			if (mAssetMap.count(assetType) == 0)
+			{
+				mAssetMap[assetType] = std::make_unique<Asset<T>>();
+			}
+
+			return std::static_pointer_cast<Asset<T>>(mAssetMap[assetType]);
+		}
 	};
+#pragma endregion SharedPtr & UniquePtr version of Asset storing
 
 	struct Primitive
 	{
@@ -63,6 +85,13 @@ namespace Carmicah
 		FMOD::Sound* sound;
 	};
 
+	struct Prefab
+	{
+		unsigned int mPrefabID;
+		std::string mName;
+		std::unordered_map<std::string, std::any> mComponents;
+	};
+
 	class AssetManager : public Singleton<AssetManager>
 	{
 	public:
@@ -73,11 +102,11 @@ namespace Carmicah
 
 		//std::unordered_map<std::string, std::shared_ptr<BaseAsset>> mMapOfAssets;
 		//
-		//std::unordered_map<std::string, GLuint> mShaderPgms{};
-		//std::unordered_map<std::string, Texture> mTextureMaps{};
-		//std::unordered_map<std::string, Primitive> mPrimitiveMaps{};
-		//std::unordered_map<std::string, std::string> mSceneFiles{};
-		//std::unordered_map<std::string, std::string> mPrefabFiles{};
+		std::unordered_map<std::string, GLuint> mShaderPgms{};
+		std::unordered_map<std::string, Texture> mTextureMaps{};
+		std::unordered_map<std::string, Primitive> mPrimitiveMaps{};
+		std::unordered_map<std::string, std::string> mSceneFiles{};
+		std::unordered_map<std::string, Prefab> mPrefabFiles{};
 		FT_Library mFTLib;
 		const unsigned int fontSize{ 36 };
 		std::unordered_map<std::string, std::array<Carmicah::FontChar, 128>> mFontMaps{};

@@ -44,6 +44,7 @@ namespace Carmicah
 		GameObject LoadGO(std::string name, Entity entityID);
 		GameObject CreatePrefab(std::string prefab);
 		GameObject FetchGO(std::string GOName);
+		void AttachComponents(GameObject& obj, std::pair<std::string, std::any> component );
 		void EntityDestroyed(Entity) override;
 		void Destroy(Entity);
 		void DestroyAll();
