@@ -17,6 +17,20 @@ namespace Carmicah
 	{
 		if (ImGui::Begin(mTitle))
 		{
+			gGOFactory->ForAllGO([](GameObject& go)
+				{
+					if (ImGui::Button(go.GetName().c_str()))
+					{
+						
+					}
+				});
+
+
+
+
+
+
+
 			static Transform playerTrans{};
 			//static Collider2D playerCollider{ 1.0, 2.0, 3.0, 4.0 };
 			static Renderer toRender{};
