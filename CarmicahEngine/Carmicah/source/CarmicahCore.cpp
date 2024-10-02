@@ -31,11 +31,11 @@
 #include "Systems/CollisionSystem.h"
 #include "Systems/PhysicsSystem.h"
 #include "Systems/SoundSystem.h"
-#include "Systems/InputSystem.h"
+#include "Input/InputSystem.h"
 #include "Systems/SceneSystem.h"
 #include "Systems/SerializerSystem.h"
 #include "CarmicahTime.h"
-#include "AssetManager.h"
+#include "Systems/AssetManager.h"
 
 namespace Carmicah
 {
@@ -258,8 +258,8 @@ namespace Carmicah
             }
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
-                gameLogic.Update();
-                phySystem->Update();
+                //gameLogic.Update();
+                //phySystem->Update();
                 #ifdef CM_DEBUG
                 if (phySystem->mDebugPhysics) {
                     // Handle WASD movement during debugPhysics mode
@@ -274,6 +274,9 @@ namespace Carmicah
                         colSystem->Update();
                         CarmicahTimer::StopSystemTimer("CollisionSystem");
                     }
+
+                    gameLogic.Update();
+                    phySystem->Update();
                 }
                 else {
                     CarmicahTimer::StartSystemTimer("PhysicsSystem");
