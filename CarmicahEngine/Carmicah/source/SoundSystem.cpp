@@ -57,7 +57,7 @@ namespace Carmicah
         fmodSystem->init(32, FMOD_INIT_NORMAL, nullptr);
 
         // Load default BGM
-        LoadSound(defaultBGM, "../Assets/BGM/cute.mp3", true);
+        LoadSound(defaultBGM, "../Assets/BGM/bouken.mp3", true);
 
         if (playDefaultBGM)
         {
@@ -113,6 +113,17 @@ namespace Carmicah
             pair.second->stop();
         }
         channelMap.clear();
+    }
+
+    void SoundSystem::PauseResumeSound(const std::string& soundName)
+    {
+        auto it = channelMap.find(soundName);
+        if (it != channelMap.end())
+        {
+            bool paused;
+            it->second->getPaused(&paused);
+            it->second->setPaused(!paused);
+        }
     }
 
     void SoundSystem::Update()

@@ -53,6 +53,8 @@ namespace Carmicah
 
     int Application::run()
     {
+        bool isSoundPlaying = false;
+
         EnableMemoryLeakChecking();
         Serializer.LoadConfig(*this);
         Carmicah::Log::init();
@@ -227,6 +229,13 @@ namespace Carmicah
                     GameObject duckObj = gGOFactory->FetchGO("Duck");
                     duckObj.Destroy();
                 }
+
+                if (Input.IsKeyPressed(Keys::KEY_P))
+                {
+                    souSystem->PauseResumeSound(souSystem->defaultBGM);
+                }
+
+
 
                 gGOFactory->UpdateDestroyed();
             }
