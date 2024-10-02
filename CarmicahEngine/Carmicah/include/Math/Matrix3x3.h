@@ -1,4 +1,24 @@
-#pragma once
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			Matrix3x3.h
+
+ author:		Nicholas Lai (100%)
+ co-author(s):
+
+ email:			n.lai@digipen.edu
+
+ brief:			The Matrix3x3 class template provides a 3x3 matrix implementation for mathematical 
+				operations in the Carmicah game engine. It supports matrix arithmetic (multiplication),
+				matrix-vector multiplication, and various transformation matrices such as translation,
+				scaling, and rotation (in both radians and degrees). The class also includes functions 
+				for matrix identity, transpose, and inverse calculations.
+
+				The template is designed to handle different data types and integrates with the 
+				Vector2D class for 2D transformations.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/#pragma once
 
 #include "Vec2.h"
 #include <cmath>
