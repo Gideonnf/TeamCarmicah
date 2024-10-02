@@ -5,6 +5,7 @@
 #include "SoundSystem.h"
 #include "PhysicsSystem.h"
 #include "../ECS/GameObject.h"
+#include <GLFW/glfw3.h>
 
 namespace Carmicah
 {
@@ -22,7 +23,7 @@ namespace Carmicah
 
 	public:
 		void Init();
-		void Update();
+		void Update(GLFWwindow* window);
 	};
 }
 

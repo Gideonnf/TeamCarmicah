@@ -258,6 +258,9 @@ namespace Carmicah
             }
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
+                
+                //phySystem->Update();
+                gameLogic.Update(window);
                 //gameLogic.Update();
                 //phySystem->Update();
                 #ifdef CM_DEBUG
@@ -266,26 +269,24 @@ namespace Carmicah
                     if (phySystem->mToggleUpdate)
                     {
                         phySystem->mToggleUpdate = false;
+                        CarmicahTimer::StartSystemTimer("CollisionSystem");
+                        colSystem->Update();
+                        CarmicahTimer::StopSystemTimer("CollisionSystem");
+
                         CarmicahTimer::StartSystemTimer("PhysicsSystem");
                         phySystem->Update();
                         CarmicahTimer::StopSystemTimer("PhysicsSystem");
 
-                        CarmicahTimer::StartSystemTimer("CollisionSystem");
-                        colSystem->Update();
-                        CarmicahTimer::StopSystemTimer("CollisionSystem");
                     }
-
-                    gameLogic.Update();
-                    phySystem->Update();
                 }
                 else {
+                    CarmicahTimer::StartSystemTimer("CollisionSystem");
+                    colSystem->Update();
+                    CarmicahTimer::StopSystemTimer("CollisionSystem");
                     CarmicahTimer::StartSystemTimer("PhysicsSystem");
                     phySystem->Update();
                     CarmicahTimer::StopSystemTimer("PhysicsSystem");
 
-                    CarmicahTimer::StartSystemTimer("CollisionSystem");
-                    colSystem->Update();
-                    CarmicahTimer::StopSystemTimer("CollisionSystem");
                  }
 
                 #endif

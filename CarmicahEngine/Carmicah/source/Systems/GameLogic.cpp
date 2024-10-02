@@ -12,6 +12,11 @@
 
 namespace Carmicah
 {
+    bool pKeyWasPressed = false;
+    bool moveKeyWasPressed = false;
+    bool tKeyWasPressed = false;
+    bool debugPhysics = false; // This will toggle the physics debug mode
+
 	void GameLogic::Init()
 	{
         soundSystemRef = SystemManager::GetInstance()->GetSystem<SoundSystem>();
@@ -43,6 +48,7 @@ namespace Carmicah
         wall.GetComponent<Transform>().yPos = 0.0f;
         wall.GetComponent<Transform>().xScale = 1.0f;
         wall.GetComponent<Transform>().yScale = 1.0f;
+        wall.GetComponent<Transform>().notUpdated = false;
         wall.AddComponent<Collider2D>();
         wall.GetComponent<Collider2D>().shape = "DebugSquare";
         wall.AddComponent<RigidBody>();
@@ -56,7 +62,7 @@ namespace Carmicah
         FPSText.GetComponent<UITransform>().yPos = AssetManager::GetInstance()->enConfig.Height;
     }
 
-	void GameLogic::Update()
+	void GameLogic::Update(GLFWwindow* window)
 	{
         if (Input.IsKeyPressed(Keys::KEY_SPACEBAR))
         {
@@ -77,7 +83,7 @@ namespace Carmicah
 
         // TODO: Input key press is broken atm. Pressed will only work for the very first function call cause its a global map
         // I need to make an event listener 
-
+        /*
         // Trigger physics debug
         if (Input.IsKeyPressed(Keys::KEY_P))
         {
@@ -111,7 +117,65 @@ namespace Carmicah
             mainCharacter.GetComponent<RigidBody>().velocity.x = 0.0f;
             mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
         }
-       
+       */
+        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS && !pKeyWasPressed) {
+            physicsRef->mDebugPhysics = !physicsRef->mDebugPhysics;
+            pKeyWasPressed = true;  // Mark the key as pressed
+        }
+        else if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE) {
+            pKeyWasPressed = false;  // Reset the key press flag when the P key is released
+        }
+
+        if (physicsRef->mDebugPhysics) {
+            // Handle WASD movement during debugPhysics mode
+            if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && !tKeyWasPressed)
+            {
+                physicsRef->mToggleUpdate = true;
+                tKeyWasPressed = true;
+            }
+            else if (glfwGetKey(window, GLFW_KEY_T) == GLFW_RELEASE)
+            {
+                tKeyWasPressed = false;
+            }
+
+            // Check if a movement key was pressed
+            bool movementKeyPressed = glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS ||
+                glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS ||
+                glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS ||
+                glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS;
+
+            if (movementKeyPressed && !moveKeyWasPressed) {
+                physicsRef->mToggleUpdate = true;
+                moveKeyWasPressed = true;  // Mark movement key as pressed
+            }
+            else if (!movementKeyPressed) {
+                moveKeyWasPressed = false;  // Reset when no key is pressed
+            }
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        {
+            mainCharacter.GetComponent<RigidBody>().velocity.x = 5.0f;
+        }
+        else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        {
+            mainCharacter.GetComponent<RigidBody>().velocity.x = -5.0f;
+        }
+        else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        {
+            mainCharacter.GetComponent<RigidBody>().velocity.y = 5.0f;
+        }
+        else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        {
+            mainCharacter.GetComponent<RigidBody>().velocity.y = -5.0f;
+        }
+        else
+        {
+            mainCharacter.GetComponent<RigidBody>().velocity.x = 0.0f;
+            mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
+        }
+
+
         
         FPSText.GetComponent<TextRenderer>().txt = "FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS()));
         //if (Input.IsKeyPressed(Keys::KEY_SPACEBAR))
