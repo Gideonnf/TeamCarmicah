@@ -1,3 +1,18 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			DebugWindow.h
+
+ author:		Nicholas Lai (60%)
+ co-author(s):	Yang Yujie (40%)
+
+ email:			n.lai@digipen.edu
+
+ brief:			This DebugWindow class is a derived class from EditorWindow.
+				It currently provides an FPS tracker, a console log and profiler for tracking purposes.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #ifndef DEBUGWINDOW_H_
 #define DEBUGWINDOW_H_
 
@@ -14,15 +29,16 @@ namespace Carmicah
 	private:
 		bool mShowFPS;
 		bool mShowLogger;
+		bool mShowProfiling;
+		bool mShowGPUProfiling;
+
+		void RenderProfilingTab();
+		void RenderGPUProfilingTab();
+
 	public:
-
 		DebugWindow();
-
 		void Update() override;
-
-
 	};
 }
-
 
 #endif

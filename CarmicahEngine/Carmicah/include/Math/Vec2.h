@@ -1,3 +1,23 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			Vec2.h
+
+ author:		Nicholas Lai (100%)
+ co-author(s):	
+
+ email:			n.lai@digipen.edu
+
+ brief:			The Vector2D class template provides a 2D vector implementation for mathematical 
+				operations in the Carmicah game engine. It supports basic vector arithmetic 
+				(addition, subtraction, scalar multiplication, division), vector normalization, 
+				length calculations, distance, dot product, and cross product magnitude. 
+
+				The class is designed to be flexible and can handle different data types for 
+				its components (x and y).
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #pragma once
 #include <cmath>
 #include <iostream>

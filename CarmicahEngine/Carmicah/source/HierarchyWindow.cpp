@@ -1,6 +1,22 @@
 #include "pch.h"
 #include <ImGUI/imgui.h>
 #include <ImGUI/imgui_impl_glfw.h>
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			HierarchyWindow.cpp
+
+ author:		Nicholas Lai (100%)
+ co-author(s):
+
+ email:			n.lai@digipen.edu
+
+ brief:			This HierarchyWindow class is a derived class from EditorWindow.
+				It currently provides an list of GameObjects, and has a button that allows for the creation of new GameObjects.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 #include <ImGUI/imgui_impl_opengl3.h>
 #include "Editor/EditorWindow.h"
 #include "Editor/HierarchyWindow.h"
@@ -31,57 +47,60 @@ namespace Carmicah
 			static char goName[256] = "Duck";
 			ImGui::Text("Game Object Name: ");
 			ImGui::SameLine();
-			ImGui::InputText("##GameObjectNameInput", goName, IM_ARRAYSIZE(goName));
+			ImGui::Text(goName); //Cannot be edited for now.
 
-			if (ImGui::BeginTable("Transform Table", 2, ImGuiTableFlags_Borders))
-			{
-				//Column Headers
-				ImGui::TableNextColumn();
-				ImGui::Text("Attribute");
-				ImGui::TableNextColumn();
-				ImGui::Text("Value");
+			//ImGui::InputText("##GameObjectNameInput", goName, IM_ARRAYSIZE(goName));
 
-				//Position (X,Y,Z)
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("xPos");
-				ImGui::TableNextColumn();
-				ImGui::InputFloat("##xPos", &playerTrans.xPos);
+			//CURRENTLY NOT IN USE
+			//if (ImGui::BeginTable("Transform Table", 2, ImGuiTableFlags_Borders))
+			//{
+			//	//Column Headers
+			//	ImGui::TableNextColumn();
+			//	ImGui::Text("Attribute");
+			//	ImGui::TableNextColumn();
+			//	ImGui::Text("Value");
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("yPos");
-				ImGui::TableNextColumn();
-				ImGui::InputFloat("##yPos", &playerTrans.yPos);
+			//	//Position (X,Y,Z)
+			//	ImGui::TableNextRow();
+			//	ImGui::TableNextColumn();
+			//	ImGui::Text("xPos");
+			//	ImGui::TableNextColumn();
+			//	ImGui::InputFloat("##xPos", &playerTrans.xPos);
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("zPos");
-				ImGui::TableNextColumn();
-				ImGui::InputFloat("##zPos", &playerTrans.zPos);
+			//	ImGui::TableNextRow();
+			//	ImGui::TableNextColumn();
+			//	ImGui::Text("yPos");
+			//	ImGui::TableNextColumn();
+			//	ImGui::InputFloat("##yPos", &playerTrans.yPos);
 
-				// Rotation
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Rotation");
-				ImGui::TableNextColumn();
-				ImGui::InputFloat("##rot", &playerTrans.rot);
+			//	ImGui::TableNextRow();
+			//	ImGui::TableNextColumn();
+			//	ImGui::Text("zPos");
+			//	ImGui::TableNextColumn();
+			//	ImGui::InputFloat("##zPos", &playerTrans.zPos);
 
-				// Scale (xScale, yScale)
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("xScale");
-				ImGui::TableNextColumn();
-				ImGui::InputFloat("##xScale", &playerTrans.xScale);
+			//	// Rotation
+			//	ImGui::TableNextRow();
+			//	ImGui::TableNextColumn();
+			//	ImGui::Text("Rotation");
+			//	ImGui::TableNextColumn();
+			//	ImGui::InputFloat("##rot", &playerTrans.rot);
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("yScale");
-				ImGui::TableNextColumn();
-				ImGui::InputFloat("##yScale", &playerTrans.yScale);
+			//	// Scale (xScale, yScale)
+			//	ImGui::TableNextRow();
+			//	ImGui::TableNextColumn();
+			//	ImGui::Text("xScale");
+			//	ImGui::TableNextColumn();
+			//	ImGui::InputFloat("##xScale", &playerTrans.xScale);
 
-			}
-			ImGui::EndTable();
+			//	ImGui::TableNextRow();
+			//	ImGui::TableNextColumn();
+			//	ImGui::Text("yScale");
+			//	ImGui::TableNextColumn();
+			//	ImGui::InputFloat("##yScale", &playerTrans.yScale);
+
+			//}
+			//ImGui::EndTable();
 
 			if (ImGui::Button("Create Game Object"))
 			{

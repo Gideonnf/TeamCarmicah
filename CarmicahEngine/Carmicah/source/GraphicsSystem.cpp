@@ -47,7 +47,7 @@ namespace Carmicah
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<GraphicsSystem>(mSignature);
 
-		auto& shdrRef = AssetManager::GetInstance()->mShaderPgms.find(shaderName);
+		auto& shdrRef = AssetManager::GetInstance()->mShaderPgms.find(AssetManager::GetInstance()->enConfig.defaultShader);
 		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
 			mCurrShader = shdrRef->second;
 	}

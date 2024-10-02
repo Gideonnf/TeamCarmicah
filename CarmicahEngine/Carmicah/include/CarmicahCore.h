@@ -7,9 +7,6 @@ namespace Carmicah
 	{
 
 	public:
-		int Width, Height;
-		std::string defaultScene;
-		std::string lastScene;
 
 		Application();
 		virtual ~Application();

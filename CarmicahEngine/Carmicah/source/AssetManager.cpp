@@ -25,6 +25,15 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/SerializerSystem.h"
 namespace Carmicah
 {
+	void AssetManager::LoadConfig(const std::string& configPath)
+	{
+		std::filesystem::path directoryPath = configPath;
+		if (std::filesystem::exists(directoryPath))
+		{
+			enConfig = Serializer.LoadConfig(directoryPath.string());
+		}
+	}
+
 	void AssetManager::LoadAll(const char* assetPath)
 	{
 		std::filesystem::path directoryPath = assetPath;
@@ -105,6 +114,8 @@ namespace Carmicah
 				}
 			}
 		}
+	
+		//enConfig = Serializer.LoadConfig(directoryPath)
 	}
 
 	void AssetManager::UnloadAll()

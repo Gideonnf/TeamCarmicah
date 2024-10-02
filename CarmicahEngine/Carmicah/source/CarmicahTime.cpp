@@ -1,68 +1,182 @@
 #include "pch.h"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include "CarmicahTime.h"
-#include "log.h"
 
 namespace Carmicah
 {
-	void CarmicahTime::InitTime()
-	{
-		lastUpdateTime = std::chrono::steady_clock::now();
-		mFrameCount = 0;
-		mCurrentFPS = 0.0;
-		mPrevTime = glfwGetTime();
-	}
+    // Call this instead of constructor
+    // cause singleton cant define two constructors
+    void CarmicahTime::Init()
+    {
+        mUpdateInterval = 0.5;
+    }
 
-	void CarmicahTime::UpdateTime()
-	{
-		mFrameCount++;
+    void CarmicahTime::InitTime()
+    {
+        lastUpdateTime = std::chrono::steady_clock::now();
+        mPrevTime = glfwGetTime();
+    }
 
-		//auto currentTime = std::chrono::steady_clock::now();
-		//mDeltaTime = std::chrono::duration<double>(currentTime - lastUpdateTime).count();
+    void CarmicahTime::UpdateTime()
+    {
+        mFrameCount++;
 
-		double currTime = glfwGetTime();
-		mDeltaTime = currTime - mPrevTime;
-		mPrevTime = currTime;
-		mUpdateTimer += mDeltaTime;
+        double currTime = glfwGetTime();
+        mDeltaTime = currTime - mPrevTime;
+        mPrevTime = currTime;
+        mUpdateTimer += mDeltaTime;
 
+        if (mUpdateTimer >= mUpdateInterval)
+        {
+            mCurrentFPS = static_cast<double>(mFrameCount) / mUpdateTimer;
+            mFrameCount = 0;
+            mUpdateTimer = 0.0;
+        }
+    }
 
-		if (mUpdateTimer >= mUpdateInterval)
-		{
-			mCurrentFPS = static_cast<double>(mFrameCount) / mUpdateTimer;
-			mFrameCount = 0;
-			//lastUpdateTime = currentTime;
-			mUpdateTimer = 0.0;
-			// Log the FPS using spdlog
-			auto logger = spdlog::get("CARMICAH");
-			if (logger)
-			{
-				CM_CORE_INFO("Current FPS: {:.2f}", mCurrentFPS);
-				logger->info("Current FPS: {:.2f}", mCurrentFPS);
-			}
-		}
-	}
+    void CarmicahTime::StartSystemTimer(const std::string& systemName)
+    {
+        mSystemStartTimes[systemName] = std::chrono::steady_clock::now();
+    }
 
-	namespace CarmicahTimer
-	{
-		void StartTime()
-		{
-			timerObj.InitTime();
-		}
+    void CarmicahTime::StopSystemTimer(const std::string& systemName)
+    {
+        auto endTime = std::chrono::steady_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - mSystemStartTimes[systemName]);
+        mSystemTimes[systemName] = duration.count() / 1000000.0; // Convert to seconds
+    }
 
-		void UpdateElapsedTime()
-		{
+    void CarmicahTime::StartLoopTimer()
+    {
+        mLoopStartTime = std::chrono::steady_clock::now();
+    }
 
-			timerObj.UpdateTime();
+    void CarmicahTime::StopLoopTimer()
+    {
+        auto endTime = std::chrono::steady_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - mLoopStartTime);
+        mTotalLoopTime = duration.count() / 1000000.0; // Convert to seconds
+    }
 
-		}
+    void CarmicahTime::CalculateSystemPercentages()
+    {
+        for (const auto& pair : mSystemTimes)
+        {
+            mSystemPercentages[pair.first] = (pair.second / mTotalLoopTime) * 100.0;
+        }
+    }
 
-		double GetDt()
-		{
-			return timerObj.GetDeltaTime();
-		}
+    void CarmicahTime::InitGPUProfiling()
+    {
+        glGenQueries(1, &mGPUQueryStart);
+        glGenQueries(1, &mGPUQueryEnd);
+    }
 
-		double GetFPS()
-		{
-			return timerObj.FPS();
-		}
-	}
+    void CarmicahTime::StartGPUTimer()
+    {
+        glQueryCounter(mGPUQueryStart, GL_TIMESTAMP);
+    }
+
+    void CarmicahTime::StopGPUTimer()
+    {
+        glQueryCounter(mGPUQueryEnd, GL_TIMESTAMP);
+
+        // Wait until the results are available
+        GLint stopTimerAvailable = 0;
+        while (!stopTimerAvailable) {
+            glGetQueryObjectiv(mGPUQueryEnd, GL_QUERY_RESULT_AVAILABLE, &stopTimerAvailable);
+        }
+
+        // Get query results
+        glGetQueryObjectui64v(mGPUQueryStart, GL_QUERY_RESULT, &mGPUTime);
+        GLuint64 endTime;
+        glGetQueryObjectui64v(mGPUQueryEnd, GL_QUERY_RESULT, &endTime);
+
+        mGPUTime = endTime - mGPUTime;
+    }
+
+    double CarmicahTime::GetGPUTime() const
+    {
+        return static_cast<double>(mGPUTime) / 1000000.0; // Convert nanoseconds to milliseconds
+    }
+
+    // CarmicahTimer namespace implementation
+    namespace CarmicahTimer
+    {
+        void StartTime()
+        {
+            gCTimer.InitTime();
+        }
+
+        void UpdateElapsedTime()
+        {
+            gCTimer.UpdateTime();
+        }
+
+        double GetDt()
+        {
+            return gCTimer.GetDeltaTime();
+        }
+
+        double GetFPS()
+        {
+            return gCTimer.FPS();
+        }
+
+        void StartSystemTimer(const std::string& systemName)
+        {
+            gCTimer.StartSystemTimer(systemName);
+        }
+
+        void StopSystemTimer(const std::string& systemName)
+        {
+            gCTimer.StopSystemTimer(systemName);
+        }
+
+        void StartLoopTimer()
+        {
+            gCTimer.StartLoopTimer();
+        }
+
+        void StopLoopTimer()
+        {
+            gCTimer.StopLoopTimer();
+        }
+
+        void CalculateSystemPercentages()
+        {
+            gCTimer.CalculateSystemPercentages();
+        }
+
+        const std::unordered_map<std::string, double>& GetSystemPercentages()
+        {
+            return gCTimer.GetSystemPercentages();
+        }
+
+        double GetTotalLoopTime()
+        {
+            return gCTimer.GetTotalLoopTime();
+        }
+
+        void InitGPUProfiling()
+        {
+            gCTimer.InitGPUProfiling();
+        }
+
+        void StartGPUTimer()
+        {
+            gCTimer.StartGPUTimer();
+        }
+
+        void StopGPUTimer()
+        {
+            gCTimer.StopGPUTimer();
+        }
+
+        double GetGPUTime()
+        {
+            return gCTimer.GetGPUTime();
+        }
+    }
 }

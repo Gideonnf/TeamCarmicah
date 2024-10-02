@@ -1,3 +1,17 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			Editor.cpp
+
+ author:		Nicholas Lai (100%)
+ co-author(s):
+
+ email:			n.lai@digipen.edu
+
+ brief:			This editor class manages and coordinates the various editor windows.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include "Editor/Editor.h"
 #include <ImGUI/imgui.h>
