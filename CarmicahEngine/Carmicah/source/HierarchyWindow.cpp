@@ -106,6 +106,7 @@ namespace Carmicah
 				if(ImGui::Button(destroyGO.c_str()))
 				{
 					gGOFactory->Destroy(selectedEntity);
+					selectedGO = nullptr;
 				}
 			}
 
