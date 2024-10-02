@@ -130,9 +130,9 @@ namespace Carmicah
         txtSystem->Init();
         aniSystem->Init();
         crsSystem->Init();
-        rrsSystem->Init();
         colSystem->Init(); // Set the signature
         phySystem->Init();
+        rrsSystem->Init();
         souSystem->Init(false);
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
@@ -155,7 +155,7 @@ namespace Carmicah
         newObj.AddComponent<RigidBody>();
         newObj.GetComponent<RigidBody>().velocity.x = 1.0f;
         newObj.GetComponent<RigidBody>().velocity.y = 0.0f;
-        newObj.GetComponent<RigidBody>().gravity = -0.5f;
+        newObj.GetComponent<RigidBody>().gravity = -0.3f;
         newObj.GetComponent<RigidBody>().objectType = "Dynamic";
         newObj.AddComponent<Renderer>();
         newObj.GetComponent<Renderer>().model = "Square";
@@ -175,9 +175,8 @@ namespace Carmicah
         ball.GetComponent<RigidBody>().velocity.y = 0.0f;
         ball.GetComponent<RigidBody>().gravity = 0.0f;
         ball.GetComponent<RigidBody>().objectType = "Dynamic";
-        ball.AddComponent<Renderer>();
         ball.GetComponent<Renderer>().model = "Square";
-        ball.GetComponent<Renderer>().texture = "Bullet";
+        ball.GetComponent<Renderer>().texture = "Bullet2";
         ball.GetComponent<Renderer>().texureMat = glm::mat3(1);
 
         GameObject ball2 = gGOFactory->CreatePrefab("Duck");
@@ -191,6 +190,24 @@ namespace Carmicah
         ball2.GetComponent<RigidBody>().velocity.y = 0.0f;
         ball2.GetComponent<RigidBody>().gravity = 0.0f;
         ball2.GetComponent<RigidBody>().objectType = "Dynamic";
+
+        GameObject mainCharacter = gGOFactory->CreatePrefab("Duck");
+        mainCharacter.GetComponent<Transform>().xPos = 2.0f;
+        mainCharacter.GetComponent<Transform>().yPos = 2.0f;
+        mainCharacter.GetComponent<Transform>().rot = 0.0f;
+        mainCharacter.GetComponent<Transform>().xScale = 0.5f;
+        mainCharacter.GetComponent<Transform>().yScale = 0.5f;
+        mainCharacter.GetComponent<Transform>().notUpdated = false;
+        mainCharacter.AddComponent<Collider2D>();
+        mainCharacter.GetComponent<Collider2D>().shape = "DebugSquare";
+        mainCharacter.AddComponent<RigidBody>();
+        mainCharacter.GetComponent<RigidBody>().velocity.x = 0.0f;
+        mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
+        mainCharacter.GetComponent<RigidBody>().gravity = 0.0f;
+        mainCharacter.GetComponent<RigidBody>().objectType = "Kinematic";
+        mainCharacter.GetComponent<Renderer>().model = "Square";
+        mainCharacter.GetComponent<Renderer>().texture = "mc_redesign_2";
+        mainCharacter.GetComponent<Renderer>().texureMat = glm::mat3(1);
 
 
         GameObject wall = gGOFactory->CreateGO();
@@ -209,6 +226,7 @@ namespace Carmicah
         wall.GetComponent<Renderer>().texureMat = glm::mat3(1);
 
         colSystem->PrintEntities();
+        
 
         //Testing prefab
         
@@ -217,7 +235,10 @@ namespace Carmicah
 
         Editor Editor;
         Editor.Init(ImGuiWindow);
-        bool is_P_pressed = false;
+        bool pKeyWasPressed = false;
+        bool moveKeyWasPressed = false;
+        bool tKeyWasPressed = false;
+        bool debugPhysics = false; // This will toggle the physics debug mode
 
         while (!glfwWindowShouldClose(window) && !glfwWindowShouldClose(ImGuiWindow)) {
             CarmicahTimer::StartLoopTimer();
@@ -237,29 +258,122 @@ namespace Carmicah
             }
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
+                phySystem->Update();
                 #ifdef CM_DEBUG
-                if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) 
-                {
-                
-                    if (is_P_pressed == false)
+                if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS && !pKeyWasPressed) {
+                    debugPhysics = !debugPhysics;
+                    pKeyWasPressed = true;  // Mark the key as pressed
+                }
+                else if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE) {
+                    pKeyWasPressed = false;  // Reset the key press flag when the P key is released
+                }
+
+                if (debugPhysics) {
+                    // Handle WASD movement during debugPhysics mode
+                    if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && !tKeyWasPressed) 
                     {
-                        is_P_pressed = true;
+
                         phySystem->Update();
                         colSystem->Update();
-
-                        
+                        tKeyWasPressed = true;
+                    }
+                    else if (glfwGetKey(window, GLFW_KEY_T) == GLFW_RELEASE) 
+                    {
+                        tKeyWasPressed = false;
                     }
 
+                    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
+                    {
+                        mainCharacter.GetComponent<RigidBody>().velocity.x = 5.0f;
+                    }
+                    else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
+                    {
+                        mainCharacter.GetComponent<RigidBody>().velocity.x = -5.0f;
+                    }
+                    else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) 
+                    {
+                        mainCharacter.GetComponent<RigidBody>().velocity.y = 5.0f;
+                    }
+                    else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) 
+                    {
+                        mainCharacter.GetComponent<RigidBody>().velocity.y = -5.0f;
+                    }
+                    else 
+                    {
+                        mainCharacter.GetComponent<RigidBody>().velocity.x = 0.0f;
+                        mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
+                    }
+
+                    // Check if a movement key was pressed
+                    bool movementKeyPressed = glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS ||
+                        glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS ||
+                        glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS ||
+                        glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS;
+
+                    if (movementKeyPressed && !moveKeyWasPressed) {
+                        phySystem->Update();
+                        colSystem->Update();
+                        moveKeyWasPressed = true;  // Mark movement key as pressed
+                    }
+                    else if (!movementKeyPressed) {
+                        moveKeyWasPressed = false;  // Reset when no key is pressed
+                    }
                 }
-                else 
-                {
-                    is_P_pressed = false;
-                }
+                else {
+                    // Regular mode, continuous update
+                    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+                    {
+                        mainCharacter.GetComponent<RigidBody>().velocity.x = 5.0f;
+                    }
+                    else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+                    {
+                        mainCharacter.GetComponent<RigidBody>().velocity.x = -5.0f;
+                    }
+                    else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+                    {
+                        mainCharacter.GetComponent<RigidBody>().velocity.y = 5.0f;
+                    }
+                    else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+                    {
+                        mainCharacter.GetComponent<RigidBody>().velocity.y = -5.0f;
+                    }
+                    else
+                    {
+                        mainCharacter.GetComponent<RigidBody>().velocity.x = 0.0f;
+                        mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
+                    }
+
+                    colSystem->Update();
+                    phySystem->Update();
+                    }
+
                 #endif
 
                 #ifdef CM_RELEASE
-                phySystem->Update();
+                if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+                {
+                    mainCharacter.GetComponent<RigidBody>().velocity.x = 5.0f;
+                }
+                else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+                {
+                    mainCharacter.GetComponent<RigidBody>().velocity.x = -5.0f;
+                }
+                else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+                {
+                    mainCharacter.GetComponent<RigidBody>().velocity.y = 5.0f;
+                }
+                else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+                {
+                    mainCharacter.GetComponent<RigidBody>().velocity.y = -5.0f;
+                }
+                else
+                {
+                    mainCharacter.GetComponent<RigidBody>().velocity.x = 0.0f;
+                    mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
+                }
+
                 colSystem->Update();
+                phySystem->Update();
                 #endif
 
                 //aniSystem->Update();

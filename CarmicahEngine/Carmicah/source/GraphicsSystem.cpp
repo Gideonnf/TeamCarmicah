@@ -16,29 +16,22 @@ DigiPen Institute of Technology is prohibited.
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
-#include <ECS/ECSTypes.h>
 #include "Graphics/GraphicsSystem.h"
+
+#include <ECS/ECSTypes.h>
 #include "Systems/GOFactory.h"
+
 #include "Components/Transform.h"
 #include "Components/Renderer.h"
+
 #include "ECS/SystemManager.h"
 #include "ECS/ComponentManager.h"
+
 #include "AssetManager.h"
+#include "log.h"
 
 namespace Carmicah
 {
-	bool GraphicsSystem::uniformExists(const char* str, GLint& ref)
-	{
-		ref = glGetUniformLocation(mCurrShader, str);
-		if (ref >= 0)
-			return true;
-
-		std::cerr << "Uniform variable: " << str << " dosen't exist!!!\n";
-		std::exit(EXIT_FAILURE);
-		return false;
-
-	}
-	
 	void GraphicsSystem::Init()
 	{
 		// Set the signature of the system
@@ -50,6 +43,8 @@ namespace Carmicah
 		auto& shdrRef = AssetManager::GetInstance()->mShaderPgms.find(AssetManager::GetInstance()->enConfig.defaultShader);
 		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
 			mCurrShader = shdrRef->second;
+		else
+			CM_CORE_ERROR("GraphicsSystem failed to load Shader");
 	}
 
 	void GraphicsSystem::SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam)
@@ -84,16 +79,6 @@ namespace Carmicah
 		for (auto& entity : mEntitiesSet)
 		{
 			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
-			Renderer& renderer = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
-			auto& tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(renderer.model) };
-			Primitive* p;
-			if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
-			{
-				std::cerr << "Renderer Model not found: " << renderer.model << std::endl;
-				p = &AssetManager::GetInstance()->mPrimitiveMaps.begin()->second;
-			}
-			else
-				p = &tryPrimitive->second;
 
 			// Handle Entities transform
 			if (!transform.notUpdated)
@@ -107,18 +92,38 @@ namespace Carmicah
 			else if (!currCam.notUpdated)
 				transform.camSpace = currCam.camSpace * transform.worldSpace;
 
+			if (mCurrShader == 0)
+				continue;
+
+			// Get Components
+			Renderer& renderer = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
+			auto& tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(renderer.model) };
+			Primitive* p;
+			if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
+			{
+				std::stringstream ss;
+				ss << "Renderer Model not found: " << renderer.model << std::endl;
+				CM_CORE_ERROR(ss.str());
+				p = &AssetManager::GetInstance()->mPrimitiveMaps.begin()->second;
+			}
+			else
+				p = &tryPrimitive->second;
+
+			// Set Uniforms
 			GLint uniformLoc{};
-			if (uniformExists("uModel_to_NDC", uniformLoc))
+			if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(transform.camSpace));
 
-			if (uniformExists("uTex2d", uniformLoc))
-				glUniform1i(uniformLoc, 0);
+			//if (uniformExists(mCurrShader, "uTex2d", uniformLoc)) // Only if multiple textures
+			//	glUniform1i(uniformLoc, 0);
 
-			if (uniformExists("uAnimationMult", uniformLoc))
+			if (uniformExists(mCurrShader, "uAnimationMult", uniformLoc))
 			{
 				if (renderer.texureMat == glm::mat3(0))
 				{
-					std::cerr << "Renderer Texture Matrix empty" << std::endl;
+					std::stringstream ss;
+					ss << "Renderer Texture Matrix empty, defaulting to 1";
+					CM_CORE_WARN(ss.str());
 					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(glm::mat3(1)));
 				}
 				else
@@ -131,7 +136,9 @@ namespace Carmicah
 			auto& tryTex = AssetManager::GetInstance()->mTextureMaps.find(renderer.texture);
 			if (tryTex == AssetManager::GetInstance()->mTextureMaps.end())
 			{
-				std::cerr << "Texture not found" << renderer.texture << std::endl;
+				std::stringstream ss;
+				ss << "Texture not found" << renderer.texture << std::endl;
+				CM_CORE_ERROR(ss.str());
 				glBindTextureUnit(0, AssetManager::GetInstance()->mTextureMaps.begin()->second.t);
 			}
 			else

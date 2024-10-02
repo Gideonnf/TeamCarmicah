@@ -1,3 +1,16 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:         CollisionSystem.h
+
+ author:	   Lee Yong Yee(100%)
+
+ email:        l.yongyee@digipen.edu
+
+ brief:        Contains the Class declaration of the Collision System as well its public functions
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #pragma once
 #include "ECS/BaseSystem.h"
 
@@ -15,8 +28,6 @@ namespace Carmicah
 		void CollisionResponse(Entity& obj1, Entity& obj2, float tFirst);
 
 		void StaticDynamicCollisionCheck(Entity& obj1, Entity& obj2);
-
-		//Vector2D<float> CollisionNormal(Entity& obj1, Entity& obj2);
 
 		void CollisionCheck();
 

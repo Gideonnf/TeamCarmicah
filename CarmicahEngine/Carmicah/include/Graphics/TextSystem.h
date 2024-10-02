@@ -15,10 +15,11 @@ DigiPen Institute of Technology is prohibited.
 #define TEXT_SYSTEM_H
 
 #include "ECS/BaseSystem.h"
+#include "Graphics/BaseGraphicsSystem.h"
 
 namespace Carmicah
 {
-	class TextSystem : public BaseSystem
+	class TextSystem : public BaseSystem, private BaseGraphicsSystem
 	{
 	private:
 		const char* shaderName{ "font" };

@@ -1,35 +1,21 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:			GraphicsSystem.h
+ file:			BaseGraphicsSystem.h
 
  author:		Won Yu Xuan Rainne(100%)
 
  email:			won.m@digipen.edu
 
- brief:			Graphics System handles the rendering of textured meshes onto the screen (using transform, camera reference, and texture matrix)
+ brief:			Similar function used across all rendering systems to check if uniform exists in shader
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
 DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-#ifndef GRAPHICS_SYSTEM_H
-#define GRAPHICS_SYSTEM_H
-
-#include "ECS/BaseSystem.h"
-#include "Graphics/BaseGraphicsSystem.h"
-
-namespace Carmicah
+#ifndef BASE_GRAPHICS_SYSTEM
+#define BASE_GRAPHICS_SYSTEM
+class BaseGraphicsSystem
 {
-	class GraphicsSystem : public BaseSystem, private BaseGraphicsSystem
-	{
-	private:
-		GLuint mCurrShader{};
-	public:
-		void Init();
-		void SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam);
-
-		void Render(Entity& cam);
-
-	};
-}
-
+protected:
+	bool uniformExists(const GLuint& shdr, const char* str, GLint& ref);
+};
 #endif

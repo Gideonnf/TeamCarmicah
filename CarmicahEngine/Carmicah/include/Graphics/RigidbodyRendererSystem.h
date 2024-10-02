@@ -15,10 +15,11 @@ DigiPen Institute of Technology is prohibited.
 #define RIGIDBODY_RENDERER_SYSTEM_H
 
 #include "ECS/BaseSystem.h"
+#include "Graphics/BaseGraphicsSystem.h"
 
 namespace Carmicah
 {
-	class RigidbodyRendererSystem : public BaseSystem
+	class RigidbodyRendererSystem : public BaseSystem, private BaseGraphicsSystem
 	{
 	private:
 		const char* shaderName{ "debug" };
