@@ -610,16 +610,27 @@ namespace Carmicah
 	{
 		std::string sceneFile;
 	};
+	struct EngineConfig
+	{
+		int Width, Height;
+		std::string defaultScene;
+		std::string lastScene;
+		std::string defaultShader;
+		std::string assetLoc;
+	};
+
 	class AssetManager : public Singleton<AssetManager>
 	{
 	public:
-		
+
+		void LoadConfig(const std::string& configPath);
 		// Data
 		void LoadAll(const char*);
 		void UnloadAll();
 
 		//std::unordered_map<std::string, std::shared_ptr<BaseAsset>> mMapOfAssets;
 		//
+		EngineConfig enConfig;
 		std::unordered_map<std::string, GLuint> mShaderPgms{};
 		std::unordered_map<std::string, Texture> mTextureMaps{};
 		std::unordered_map<std::string, Primitive> mPrimitiveMaps{};

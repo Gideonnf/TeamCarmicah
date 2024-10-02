@@ -1,5 +1,7 @@
 {
     "Width": 1600,
     "Height": 900,
-    "Default Scene": "Scene1"
+    "Default Scene": "Scene1",
+    "Default Shader": "basic",
+    "Asset Loc": "../Assets"
 }

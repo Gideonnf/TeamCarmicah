@@ -41,7 +41,7 @@ namespace Carmicah
     const char* sceneName{ "Scene1" };
     const char* scene2Name{ "Scene2" };
     const GLuint WIDTH = 1920, HEIGHT = 1080;
-    const char* assetsLoc{ "../Assets" };
+    //const char* assetsLoc{ "../Assets" };
 
     Application::Application() {}
     Application::~Application() {}
@@ -59,7 +59,8 @@ namespace Carmicah
         bool isSoundPlaying = false;
 
         EnableMemoryLeakChecking();
-        Serializer.LoadConfig(*this);
+        AssetManager::GetInstance()->LoadConfig("../Assets/config.json");
+        // Serializer.LoadConfig(*this);
         Carmicah::Log::init();
         CM_CORE_INFO("Core Logger Initialized");
         CM_INFO("Client Logger Initialized");
@@ -69,6 +70,9 @@ namespace Carmicah
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+        int Width = AssetManager::GetInstance()->enConfig.Width;
+        int Height = AssetManager::GetInstance()->enConfig.Height;
+        std::string defaultScene = AssetManager::GetInstance()->enConfig.defaultScene;
 
         GLFWwindow* window = glfwCreateWindow((GLuint)Width, (GLuint)Height, "Carmicah", NULL, NULL);
         glfwMakeContextCurrent(window);
@@ -120,7 +124,7 @@ namespace Carmicah
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);
 
-        AssetManager::GetInstance()->LoadAll(assetsLoc);
+        AssetManager::GetInstance()->LoadAll(AssetManager::GetInstance()->enConfig.assetLoc.c_str());
         graSystem->Init();
         txtSystem->Init();
         aniSystem->Init();
@@ -324,7 +328,7 @@ namespace Carmicah
         Editor.Exit();
         souSystem->Exit();
         colSystem->Exit();
-        Serializer.WriteConfig(*this);
+        Serializer.WriteConfig();
 
         glfwTerminate();
         return 0;

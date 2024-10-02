@@ -7,9 +7,9 @@ namespace Carmicah
 {
 	using namespace rapidjson;
 
-	void SerializerSystem::LoadConfig(Application& app)
+	EngineConfig SerializerSystem::LoadConfig(const std::string& filePath)
 	{
-		std::ifstream ifs{ "../Assets/config.json", std::ios::binary };
+		std::ifstream ifs{ filePath, std::ios::binary };
 		Document doc;
 		if (ifs)
 		{
@@ -19,18 +19,23 @@ namespace Carmicah
 		}
 		else
 		{
-			CM_CORE_ERROR("Unable to open config.json");
-			return;
+			assert("Unable to open config.json");
+			//CM_CORE_ERROR("Unable to open config.json");
 		}
+		EngineConfig enConfig;
 		const Value& config = doc;
-		app.Width = config["Width"].GetInt();
-		app.Height = config["Height"].GetInt();
-		app.defaultScene = config["Default Scene"].GetString();
+		enConfig.Width = config["Width"].GetInt();
+		enConfig.Height = config["Height"].GetInt();
+		enConfig.defaultScene = config["Default Scene"].GetString();
+		enConfig.defaultShader = config["Default Shader"].GetString();
+		enConfig.assetLoc = config["Asset Loc"].GetString();
+		configFilePath = filePath;
+		return enConfig;
 	}
 
-	void SerializerSystem::WriteConfig(Application& app)
+	void SerializerSystem::WriteConfig()
 	{
-		std::ofstream ofs{ "../Assets/config.json", std::ios::binary };
+		std::ofstream ofs{ configFilePath, std::ios::binary };
 		if (!ofs)
 		{
 			CM_CORE_ERROR("Unable to open config.json");
@@ -40,16 +45,24 @@ namespace Carmicah
 		OStreamWrapper osw(ofs);
 		PrettyWriter<OStreamWrapper> writer(osw);
 
+		EngineConfig& enConfig = AssetManager::GetInstance()->enConfig;
+
 		writer.StartObject();
 
 		writer.String("Width");
-		writer.Int(app.Width);
+		writer.Int(enConfig.Width);
 
 		writer.String("Height");
-		writer.Int(app.Height);
+		writer.Int(enConfig.Height);
 
 		writer.String("Default Scene");
-		writer.String(app.defaultScene.c_str(), static_cast<SizeType>(app.defaultScene.length()));
+		writer.String(enConfig.defaultScene.c_str(), static_cast<SizeType>(enConfig.defaultScene.length()));
+
+		writer.String("Default Shader");
+		writer.String(enConfig.defaultShader.c_str(), static_cast<SizeType>(enConfig.defaultShader.length()));
+
+		writer.String("Asset Loc");
+		writer.String(enConfig.assetLoc.c_str(), static_cast<SizeType>(enConfig.assetLoc.length()));
 
 		writer.EndObject();
 	}
