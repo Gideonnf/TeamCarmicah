@@ -8,33 +8,33 @@
 
 namespace Carmicah
 {
-	DebugWindow::DebugWindow() : EditorWindow("Debug", ImVec2(900, 300), ImVec2(0, 0)), mShowFPS(false), mShowLogger(true) { mIsVisible = true; }
+    DebugWindow::DebugWindow() : EditorWindow("Debug", ImVec2(900, 300), ImVec2(0, 0)),
+        mShowFPS(false), mShowLogger(true), showProfiling(true), showGPUProfiling(true) {
+        mIsVisible = true;
+    }
 
-	void DebugWindow::Update()
-	{
-		static int clicked;
-		static int counter; //TODO:: Replace with Actual FPS system later
-		static ImGuiTextBuffer logBuffer;
-		static bool autoScrollLog = true;
-		counter++;
-
-		if(ImGui::Begin(mTitle, nullptr, ImGuiWindowFlags_MenuBar))
-		{
-			//Draw Menu Bar
-			if (ImGui::BeginMenuBar())
-			{
-				//Menu for Debugging Tools
-				if (ImGui::BeginMenu("Debugging Tools"))
-				{
-					if (ImGui::MenuItem("FPS", nullptr, mShowFPS))
-					{
-						mShowFPS = !mShowFPS;
-					}
-
-					ImGui::EndMenu();
-				}
-			}
-			ImGui::EndMenuBar();
+    void DebugWindow::Update()
+    {
+        static int clicked;
+        static int counter;
+        static ImGuiTextBuffer logBuffer;
+        static bool autoScrollLog = true;
+        counter++;
+        
+        if (ImGui::Begin(title, nullptr, ImGuiWindowFlags_MenuBar))
+        {
+            if (ImGui::BeginMenuBar())
+            {
+                if (ImGui::BeginMenu("Debugging Tools"))
+                {
+                    ImGui::MenuItem("FPS", nullptr, &showFPS);
+                    ImGui::MenuItem("Logger", nullptr, &showLogger);
+                    ImGui::MenuItem("Profiling", nullptr, &showProfiling);
+                    ImGui::MenuItem("GPU Profiling", nullptr, &showGPUProfiling);
+                    ImGui::EndMenu();
+                }
+            }
+            ImGui::EndMenuBar();
 
 			if(ImGui::BeginTabBar("Debug Tabs"))
 			{
@@ -75,12 +75,60 @@ namespace Carmicah
 
 						ImGui::EndChild();
 						ImGui::EndTabItem();
+                        if (showProfiling && ImGui::BeginTabItem("Profiling-Game"))
+                        {
+                            RenderProfilingTab();
+                            ImGui::EndTabItem();
+                        }
+                        if (showGPUProfiling && ImGui::BeginTabItem("GPU Profiling"))
+                        {
+                            RenderGPUProfilingTab();
+                            ImGui::EndTabItem();
+                        }
 					}
 				}
 				ImGui::EndTabBar();
 			}
 		}
 		ImGui::End();
+    }
 
-	}
+    void DebugWindow::RenderProfilingTab()
+    {
+        const auto& systemPercentages = CarmicahTimer::GetSystemPercentages();
+        double totalLoopTime = CarmicahTimer::GetTotalLoopTime();
+
+        ImGui::Text("Total Loop Time: %.3f ms", totalLoopTime * 1000.0);
+        ImGui::Separator();
+
+        if (totalLoopTime > 0) {
+            ImGui::Text("Total Loop Time: %.3f ms", totalLoopTime * 1000.0);
+            ImGui::Separator();
+
+            for (const auto& [systemName, percentage] : systemPercentages)
+            {
+                if (!systemName.empty()) {
+                    ImGui::Text("%s: %.2f%%", systemName.c_str(), percentage);
+                    ImGui::ProgressBar(static_cast<float>(percentage) / 100.0f);
+                }
+            }
+        }
+        else {
+            ImGui::Text("No profiling data available yet.");
+        }
+    }
+
+    void DebugWindow::RenderGPUProfilingTab()
+    {
+        double gpuTime = CarmicahTimer::GetGPUTime();
+        double totalLoopTime = CarmicahTimer::GetTotalLoopTime();
+
+        if (totalLoopTime > 0) {
+            ImGui::Text("GPU Time: %.3f ms", gpuTime);
+            ImGui::ProgressBar(static_cast<float>(gpuTime / (totalLoopTime * 1000.0)));
+        }
+        else {
+            ImGui::Text("No GPU profiling data available yet.");
+        }
+    }
 }

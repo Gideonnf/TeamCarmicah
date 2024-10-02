@@ -27,6 +27,8 @@ namespace Carmicah
         SystemManager::GetInstance()->SetSignature<SoundSystem>(mSignature);
 
         // Load default BGM
+        LoadSound(defaultBGM, "../Assets/BGM/bouken.mp3", true);
+
         if (playDefaultBGM)
         {
             PlaySound(defaultBGM, 0.5f);
@@ -72,6 +74,17 @@ namespace Carmicah
             pair.second->stop();
         }
         AssetManager::GetInstance()->mChannelMap.clear();
+    }
+
+    void SoundSystem::PauseResumeSound(const std::string& soundName)
+    {
+        auto it = channelMap.find(soundName);
+        if (it != channelMap.end())
+        {
+            bool paused;
+            it->second->getPaused(&paused);
+            it->second->setPaused(!paused);
+        }
     }
 
     void SoundSystem::Update()

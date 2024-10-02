@@ -5,7 +5,7 @@
 #include <FMOD/fmod.hpp>
 #include "CarmicahCore.h"
 #include <spdlog/spdlog.h>
-#include <log.h>
+#include "log.h"
 #include <ImGUI/imgui.h>
 #include <ImGUI/imgui_impl_glfw.h>   
 #include <ImGUI/imgui_impl_opengl3.h>
@@ -36,7 +36,6 @@
 #include "CarmicahTime.h"
 #include "AssetManager.h"
 
-
 namespace Carmicah
 {
     const char* sceneName{ "Scene1" };
@@ -44,37 +43,28 @@ namespace Carmicah
     const GLuint WIDTH = 1920, HEIGHT = 1080;
     const char* assetsLoc{ "../Assets" };
 
-    Application::Application()
-    {
-    }
-
-    Application::~Application()
-    {
-    }
+    Application::Application() {}
+    Application::~Application() {}
 
     void EnableMemoryLeakChecking(int breakAlloc = -1)
     {
-        //Set the leak checking flag
         int tmpDbgFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
         tmpDbgFlag |= _CRTDBG_LEAK_CHECK_DF;
         _CrtSetDbgFlag(tmpDbgFlag);
-
-        //If a valid break alloc provided set the breakAlloc
         if (breakAlloc != -1) _CrtSetBreakAlloc(breakAlloc);
     }
 
     int Application::run()
     {
+        bool isSoundPlaying = false;
+
         EnableMemoryLeakChecking();
         Serializer.LoadConfig(*this);
-        //std::cout << Width << Height << std::endl;
         Carmicah::Log::init();
         CM_CORE_INFO("Core Logger Initialized");
         CM_INFO("Client Logger Initialized");
 
         glfwInit();
-
-        // Set required options for GLFW
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -82,9 +72,6 @@ namespace Carmicah
 
         GLFWwindow* window = glfwCreateWindow((GLuint)Width, (GLuint)Height, "Carmicah", NULL, NULL);
         glfwMakeContextCurrent(window);
-
-
-
 
         if (window == NULL)
         {
@@ -100,7 +87,6 @@ namespace Carmicah
         }
 
         GLFWwindow* ImGuiWindow = glfwCreateWindow(WIDTH, HEIGHT, "ImGui", NULL, NULL);
-        //glfwMakeContextCurrent(ImGuiWindow);
 
         if (ImGuiWindow == NULL)
         {
@@ -109,9 +95,8 @@ namespace Carmicah
             return -1;
         }
 
-        //auto fpsCounter = std::make_unique<FPSCounter>();
-        //fpsCounter->Init();
         CarmicahTimer::StartTime();
+        CarmicahTimer::InitGPUProfiling();
 
         glViewport(0, 0, (GLuint)Width, (GLuint)Height);
 
@@ -227,9 +212,8 @@ namespace Carmicah
         Editor.Init(ImGuiWindow);
         bool is_P_pressed = false;
 
-        double testTime = 0.0;
         while (!glfwWindowShouldClose(window) && !glfwWindowShouldClose(ImGuiWindow)) {
-            // Update dt calc
+            CarmicahTimer::StartLoopTimer();
             CarmicahTimer::UpdateElapsedTime();
             glfwPollEvents();
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS())) + " - Scene : " + gameSystem->GetCurrScene();
@@ -237,13 +221,9 @@ namespace Carmicah
 
             if (gameSystem->mNextState == SceneState::EXIT)
             {
-                // Closing Engine
-                // Dont init a new scene
-                // Any exit of systems can be ran here or at the bottom, outside of loop maybe
                 break;
             }
-            
-           // gameSystem->Update();
+
             if (gameSystem->mNextState == SceneState::INITIALISING)
             {
                 gameSystem->Init();
@@ -275,18 +255,39 @@ namespace Carmicah
                 colSystem->Update();
                 #endif
 
-                aniSystem->Update();
+                //aniSystem->Update();
+                CarmicahTimer::StartSystemTimer("CollisionSystem");
+                colSystem->Update();
+                CarmicahTimer::StopSystemTimer("CollisionSystem");
 
+                CarmicahTimer::StartSystemTimer("PhysicsSystem");
+                phySystem->Update();
+                CarmicahTimer::StopSystemTimer("PhysicsSystem");
+
+                CarmicahTimer::StartSystemTimer("AnimationSystem");
+                aniSystem->Update();
+                CarmicahTimer::StopSystemTimer("AnimationSystem");
+
+                CarmicahTimer::StartGPUTimer();
+                CarmicahTimer::StartSystemTimer("RenderingSystems");
                 graSystem->Render(gGOFactory->mainCam);
                 crsSystem->Render(gGOFactory->mainCam);
                 rrsSystem->Render(gGOFactory->mainCam);
                 txtSystem->Render(WIDTH, HEIGHT);
+                CarmicahTimer::StopSystemTimer("RenderingSystems");
+                CarmicahTimer::StopGPUTimer();
+
+                CarmicahTimer::StartSystemTimer("SoundSystem");
                 souSystem->Update();
+                CarmicahTimer::StopSystemTimer("SoundSystem");
+
                 glfwSwapBuffers(window);
 
                 glfwMakeContextCurrent(ImGuiWindow);
+                CarmicahTimer::StartSystemTimer("EditorSystem");
                 Editor.Update();
                 Editor.Render(ImGuiWindow);
+                CarmicahTimer::StopSystemTimer("EditorSystem");
                 glfwMakeContextCurrent(window);
 
                 if (Input.IsKeyPressed(Keys::KEY_SPACEBAR))
@@ -300,24 +301,26 @@ namespace Carmicah
                     duckObj.Destroy();
                 }
 
+                if (Input.IsKeyPressed(Keys::KEY_P))
+                {
+                    souSystem->PauseResumeSound(souSystem->defaultBGM);
+                }
+
+
+
                 gGOFactory->UpdateDestroyed();
             }
 
-            // Changing of scene/closing of engine
-            // run exit to clear objects
             if (gameSystem->mNextState != gameSystem->mCurrState)
             {
-                // Clean all entities here
                 gameSystem->Exit();
             }
 
-
+            CarmicahTimer::StopLoopTimer();
+            CarmicahTimer::CalculateSystemPercentages();
         }
-        //Width = 800;
-        //Height = 600;
 
         AssetManager::GetInstance()->UnloadAll();
-        //fpsCounter->Exit();
         Editor.Exit();
         souSystem->Exit();
         colSystem->Exit();

@@ -1,58 +1,80 @@
 #ifndef CARMICAH_TIME_H
 #define CARMICAH_TIME_H
-#include "Singleton.h"
-#include <GLFW/glfw3.h>
-#include <Windows.h>
+
 #include <chrono>
+#include <unordered_map>
+#include <string>
+#include "Singleton.h"
+
+// Forward declare GLuint and GLuint64
+typedef unsigned int GLuint;
+typedef unsigned long long GLuint64;
 
 namespace Carmicah
 {
-	class CarmicahTime 
-	{
-	private:
-		std::chrono::steady_clock::time_point lastUpdateTime;
+    class CarmicahTime : public Singleton<CarmicahTime>
+    {
+    private:
 
-		double mUpdateTimer;
-		double mUpdateInterval;
-		int mFrameCount;
-		double mCurrentFPS;
-		double mDeltaTime;
-		double mPrevTime;
-		
+        std::chrono::steady_clock::time_point lastUpdateTime;
+        double mUpdateTimer;
+        double mUpdateInterval;
+        int mFrameCount;
+        double mCurrentFPS;
+        double mDeltaTime;
+        double mPrevTime;
+        std::unordered_map<std::string, std::chrono::steady_clock::time_point> mSystemStartTimes;
+        std::unordered_map<std::string, double> mSystemTimes;
+        std::unordered_map<std::string, double> mSystemPercentages;
+        double mTotalLoopTime;
+        std::chrono::steady_clock::time_point mLoopStartTime;
+        GLuint mGPUQueryStart;
+        GLuint mGPUQueryEnd;
+        GLuint64 mGPUTime;
 
-	public:
-		// I dont know if we should use glfwGetTime or window's QueryPerformanceCounter
-		// using glfwGetTime cause QueryPerformanceCounter dont work and glfw does so ill just use it for now instead
+    public:
+        //CarmicahTime(); // public constructor
+        //~CarmicahTime(); // Public destructor
+        void Init();
+        void InitTime();
+        void UpdateTime();
+        void StartSystemTimer(const std::string& systemName);
+        void StopSystemTimer(const std::string& systemName);
+        void StartLoopTimer();
+        void StopLoopTimer();
+        void CalculateSystemPercentages();
+        void InitGPUProfiling();
+        void StartGPUTimer();
+        void StopGPUTimer();
+        double GetGPUTime() const;
+        double FPS() const { return mCurrentFPS; }
+        double GetDeltaTime() const { return mDeltaTime; }
+        const std::unordered_map<std::string, double>& GetSystemPercentages() const { return mSystemPercentages; }
+        double GetTotalLoopTime() const { return mTotalLoopTime; }
+    };
 
-		//LARGE_INTEdoublGER mPrevTime;
-		//LARGE_INTEGER mFrequency;
+    // Global accessor
+    static CarmicahTime& gCTimer = *CarmicahTime::GetInstance();
 
-		CarmicahTime() : mDeltaTime(0), mUpdateTimer(0.0), mUpdateInterval(0.5), mFrameCount(0), mCurrentFPS(0.0) {}
-		~CarmicahTime() {}
-
-		void InitTime();
-
-		void UpdateTime();
-
-		inline double FPS() const { return mCurrentFPS; }
-
-		inline double GetDeltaTime() const { return mDeltaTime; }
-	};
-
-	namespace CarmicahTimer
-	{
-		static CarmicahTime timerObj;
-
-		void StartTime();
-
-		void UpdateElapsedTime();
-
-		double GetDt();
-
-		double GetFPS();
-
-	}
+// Namespace for static functions
+    namespace CarmicahTimer
+    {
+        void StartTime();
+        void UpdateElapsedTime();
+        double GetDt();
+        double GetFPS();
+        void StartSystemTimer(const std::string& systemName);
+        void StopSystemTimer(const std::string& systemName);
+        void StartLoopTimer();
+        void StopLoopTimer();
+        void CalculateSystemPercentages();
+        const std::unordered_map<std::string, double>& GetSystemPercentages();
+        double GetTotalLoopTime();
+        void InitGPUProfiling();
+        void StartGPUTimer();
+        void StopGPUTimer();
+        double GetGPUTime();
+    }
 }
-
 
 #endif

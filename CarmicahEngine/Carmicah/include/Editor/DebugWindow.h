@@ -14,15 +14,16 @@ namespace Carmicah
 	private:
 		bool mShowFPS;
 		bool mShowLogger;
+		bool showProfiling;
+		bool showGPUProfiling;
+
+		void RenderProfilingTab();
+		void RenderGPUProfilingTab();
+
 	public:
-
 		DebugWindow();
-
 		void Update() override;
-
-
 	};
 }
-
 
 #endif
