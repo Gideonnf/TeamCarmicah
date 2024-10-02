@@ -10,10 +10,10 @@ namespace Carmicah
 	{
 	public:
 
-		const char* title;
-		ImVec2 size;
-		ImVec2 pos;
-		bool isVisible;
+		const char* mTitle;
+		ImVec2 mSize;
+		ImVec2 mPos;
+		bool mIsVisible;
 	public:
 
 		EditorWindow(const char* title, ImVec2 size, ImVec2 pos);

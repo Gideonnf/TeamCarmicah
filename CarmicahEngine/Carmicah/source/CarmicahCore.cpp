@@ -41,7 +41,7 @@ namespace Carmicah
 {
     const char* sceneName{ "Scene1" };
     const char* scene2Name{ "Scene2" };
-    const GLuint WIDTH = 600, HEIGHT = 320;
+    const GLuint WIDTH = 1920, HEIGHT = 1080;
     const char* assetsLoc{ "../Assets" };
 
     Application::Application()
@@ -143,7 +143,7 @@ namespace Carmicah
         rrsSystem->Init();
         colSystem->Init(); // Set the signature
         phySystem->Init();
-        souSystem->Init(true);
+        souSystem->Init(false);
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
         gameSystem->SetScene("Scene1");
