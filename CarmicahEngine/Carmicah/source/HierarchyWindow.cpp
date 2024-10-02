@@ -7,7 +7,7 @@
  email:			n.lai@digipen.edu
 
  brief:			This HierarchyWindow class is a derived class from EditorWindow.
-				It currently provides an list of GameObjects, and has a button that allows for the creation of new GameObjects.
+				It currently provides an list of GameObjects, and has a button that allows for the creation/destruction of new GameObjects.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
