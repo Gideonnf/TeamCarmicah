@@ -30,6 +30,7 @@ DigiPen Institute of Technology is prohibited.
 namespace Carmicah
 {
 #pragma region SharedPtr & UniquePtr version of Asset storing
+	/*
 	class IAsset {
 	public:
 		virtual ~IAsset() = default;
@@ -564,7 +565,7 @@ namespace Carmicah
 			mShaderAssets.mAssetMap.insert(std::make_pair(shaderName, std::make_shared<Asset<Shader>>(shader)));
 			return shader;
 		}
-};
+};*/
 #pragma endregion SharedPtr & UniquePtr version of Asset storing
 
 	struct Primitive
