@@ -140,9 +140,9 @@ namespace Carmicah
         txtSystem->Init();
         aniSystem->Init();
         crsSystem->Init();
-        rrsSystem->Init();
         colSystem->Init(); // Set the signature
         phySystem->Init();
+        rrsSystem->Init();
         souSystem->Init(false);
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
@@ -163,7 +163,7 @@ namespace Carmicah
         newObj.AddComponent<RigidBody>();
         newObj.GetComponent<RigidBody>().velocity.x = 1.0f;
         newObj.GetComponent<RigidBody>().velocity.y = 0.0f;
-        newObj.GetComponent<RigidBody>().gravity = -0.5f;
+        newObj.GetComponent<RigidBody>().gravity = -0.3f;
         newObj.GetComponent<RigidBody>().objectType = "Dynamic";
         newObj.AddComponent<Renderer>();
         newObj.GetComponent<Renderer>().model = "Square";
@@ -183,9 +183,8 @@ namespace Carmicah
         ball.GetComponent<RigidBody>().velocity.y = 0.0f;
         ball.GetComponent<RigidBody>().gravity = 0.0f;
         ball.GetComponent<RigidBody>().objectType = "Dynamic";
-        ball.AddComponent<Renderer>();
         ball.GetComponent<Renderer>().model = "Square";
-        ball.GetComponent<Renderer>().texture = "Bullet";
+        ball.GetComponent<Renderer>().texture = "Bullet2";
         ball.GetComponent<Renderer>().texureMat = glm::mat3(1);
 
         GameObject ball2 = gGOFactory->CreatePrefab("Duck");
@@ -235,6 +234,7 @@ namespace Carmicah
         wall.GetComponent<Renderer>().texureMat = glm::mat3(1);
 
         colSystem->PrintEntities();
+        
 
         //Testing prefab
         
@@ -271,6 +271,7 @@ namespace Carmicah
             }
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
+                phySystem->Update();
                 #ifdef CM_DEBUG
                 if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS && !pKeyWasPressed) {
                     debugPhysics = !debugPhysics;
@@ -282,28 +283,36 @@ namespace Carmicah
 
                 if (debugPhysics) {
                     // Handle WASD movement during debugPhysics mode
-                    if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && !tKeyWasPressed) {
+                    if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && !tKeyWasPressed) 
+                    {
+
                         phySystem->Update();
                         colSystem->Update();
                         tKeyWasPressed = true;
                     }
-                    else if (glfwGetKey(window, GLFW_KEY_T) == GLFW_RELEASE) {
+                    else if (glfwGetKey(window, GLFW_KEY_T) == GLFW_RELEASE) 
+                    {
                         tKeyWasPressed = false;
                     }
 
-                    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+                    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
+                    {
                         mainCharacter.GetComponent<RigidBody>().velocity.x = 5.0f;
                     }
-                    else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+                    else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
+                    {
                         mainCharacter.GetComponent<RigidBody>().velocity.x = -5.0f;
                     }
-                    else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+                    else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) 
+                    {
                         mainCharacter.GetComponent<RigidBody>().velocity.y = 5.0f;
                     }
-                    else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+                    else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) 
+                    {
                         mainCharacter.GetComponent<RigidBody>().velocity.y = -5.0f;
                     }
-                    else {
+                    else 
+                    {
                         mainCharacter.GetComponent<RigidBody>().velocity.x = 0.0f;
                         mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
                     }
@@ -347,11 +356,10 @@ namespace Carmicah
                         mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
                     }
 
-                    phySystem->Update();
                     colSystem->Update();
+                    phySystem->Update();
                     }
 
-                std::cout << "mainCharacter velocity" << mainCharacter.GetComponent<RigidBody>().velocity << std::endl;
                 #endif
 
                 #ifdef CM_RELEASE
@@ -377,8 +385,8 @@ namespace Carmicah
                     mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
                 }
 
-                phySystem->Update();
                 colSystem->Update();
+                phySystem->Update();
                 #endif
 
                 aniSystem->Update();

@@ -123,61 +123,23 @@
         ]
     },
     {
-        "GameObject": "GameObject5",
-        "ID": 6,
-        "Components": [
-            {
-                "Component Name": "struct Carmicah::Transform",
-                "xPos": 8.78954029083252,
-                "yPos": -12.872235298156739,
-                "zPos": 0.0,
-                "rot": 29.47698211669922,
-                "xScale": 1.0,
-                "yScale": 1.0
-            },
-            {
-                "Component Name": "struct Carmicah::Collider2D",
-                "minX": 8.28954029083252,
-                "minY": -13.372235298156739,
-                "maxX": 9.28954029083252,
-                "maxY": -12.372235298156739,
-                "shape": "DebugSquare"
-            },
-            {
-                "Component Name": "struct Carmicah::RigidBody",
-                "velocityX": 1.0,
-                "velocityY": -3.8947696685791017,
-                "posPrevX": 8.78954029083252,
-                "posPrevY": -12.872235298156739,
-                "gravity": -0.5,
-                "zposPrev": 0.0,
-                "objectType": "Dynamic"
-            },
-            {
-                "Component Name": "struct Carmicah::Renderer",
-                "model": "Square",
-                "texture": "Bullet"
-            }
-        ]
-    },
-    {
         "GameObject": "Duck",
         "ID": 7,
         "Components": [
             {
                 "Component Name": "struct Carmicah::Transform",
-                "xPos": -3.248593330383301,
+                "xPos": -3.2369587421417238,
                 "yPos": 0.0,
                 "zPos": 1.0,
-                "rot": -339.33612060546877,
+                "rot": -105.50374603271485,
                 "xScale": 0.5,
                 "yScale": 0.5
             },
             {
                 "Component Name": "struct Carmicah::Collider2D",
-                "minX": -3.498593330383301,
+                "minX": -3.4869587421417238,
                 "minY": -0.25,
-                "maxX": -2.998593330383301,
+                "maxX": -2.9869587421417238,
                 "maxY": 0.25,
                 "shape": "DebugSquare"
             },
@@ -185,7 +147,7 @@
                 "Component Name": "struct Carmicah::RigidBody",
                 "velocityX": 0.0,
                 "velocityY": 0.0,
-                "posPrevX": -3.248593330383301,
+                "posPrevX": -3.2369587421417238,
                 "posPrevY": 0.0,
                 "gravity": 0.0,
                 "zposPrev": 1.0,
@@ -204,18 +166,18 @@
         "Components": [
             {
                 "Component Name": "struct Carmicah::Transform",
-                "xPos": -2.751408100128174,
+                "xPos": -2.7630419731140138,
                 "yPos": 0.0,
                 "zPos": 1.0,
-                "rot": -154.47718811035157,
+                "rot": -281.8077392578125,
                 "xScale": 0.5,
                 "yScale": 0.5
             },
             {
                 "Component Name": "struct Carmicah::Collider2D",
-                "minX": -3.001408100128174,
+                "minX": -3.0130419731140138,
                 "minY": -0.25,
-                "maxX": -2.501408100128174,
+                "maxX": -2.5130419731140138,
                 "maxY": 0.25,
                 "shape": "DebugSquare"
             },
@@ -223,7 +185,7 @@
                 "Component Name": "struct Carmicah::RigidBody",
                 "velocityX": 0.0,
                 "velocityY": 0.0,
-                "posPrevX": -2.751408100128174,
+                "posPrevX": -2.7630419731140138,
                 "posPrevY": 0.0,
                 "gravity": 0.0,
                 "zposPrev": 1.0,

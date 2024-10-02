@@ -15,6 +15,8 @@ namespace Carmicah
 		void ApplyForce(Entity& obj);
 
 		void UpdatePosition(Entity& obj);
+
+		void CollisionResponse(Entity& obj1, Entity& obj2, float firstTimeOfCollision);
 	};
 }
 
