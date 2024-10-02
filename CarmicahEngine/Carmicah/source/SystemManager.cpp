@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ECS/SystemManager.h"
+#include "Systems/SceneSystem.h"
 
 namespace Carmicah
 {
@@ -52,6 +53,12 @@ namespace Carmicah
 				pair.second->ReceiveMessage(msg);
 			}
 		}
+	}
+
+	void SystemManager::ChangeScene(std::string sceneName)
+	{
+		//GetSystem<SceneSystem>();
+		GetSystem<SceneSystem>()->ChangeScene(sceneName);
 	}
 
 }

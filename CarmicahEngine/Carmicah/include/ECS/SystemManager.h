@@ -14,8 +14,6 @@ namespace Carmicah
 		std::unordered_map<std::string, Signature> mSystemSignatures{};
 		std::unordered_map<std::string, std::shared_ptr<BaseSystem>> mSystems{};
 
-
-
 	public:
 		template<typename T>
 		std::shared_ptr<T> RegisterSystem()
@@ -61,7 +59,21 @@ namespace Carmicah
 		void UpdateSignatures(Entity entity, Signature entitySignature);
 
 		void BroadcastMessage(Message* msg);
+
+		void ChangeScene(std::string sceneName);
 	
+		template <typename T>
+		std::shared_ptr<T> GetSystem()
+		{
+			std::string systemName = typeid(T).name();
+			if (mSystems.count(systemName) != 0)
+			{
+				return std::static_pointer_cast<T>(mSystems[systemName]);
+			}
+
+			assert("System does not exist yet");
+			return NULL;
+		}
 	};
 
 #define SYSTEM SystemManager::GetInstance()

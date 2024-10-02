@@ -101,7 +101,7 @@
     ]
   },
   {
-    "GameObject": "GameObject",
+    "GameObject": "FPSText",
     "ID": 5,
     "Components": [
       {

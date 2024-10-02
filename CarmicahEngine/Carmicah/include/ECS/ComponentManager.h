@@ -216,7 +216,7 @@ namespace Carmicah
 			}
 
 			// If it reaches here then itll flag an error
-			assert(m_ComponentTypes.count(componentName) == 0 && "Component does not exist yet. ");
+			assert(m_ComponentTypes.count(componentName) != 0 && "Component does not exist yet. ");
 			return NULL;
 		}
 

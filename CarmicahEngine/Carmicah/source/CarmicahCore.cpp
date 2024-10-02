@@ -20,6 +20,7 @@
 #include "Components/Animation.h"
 #include "Components/TextRenderer.h"
 #include "Components/UITransform.h"
+#include "Systems/GameLogic.h"
 
 #include "Systems/GOFactory.h"
 #include "Graphics/GraphicsSystem.h"
@@ -138,6 +139,8 @@ namespace Carmicah
         gameSystem->SetScene("Scene1");
         gameSystem->Init();
 
+        GameLogic gameLogic;
+        gameLogic.Init();
         graSystem->SetScreenSize(WIDTH / 100, HEIGHT / 100, gGOFactory->mainCam);
 
         GameObject newObj = gGOFactory->CreateGO();
@@ -294,21 +297,7 @@ namespace Carmicah
                 CarmicahTimer::StopSystemTimer("EditorSystem");
                 glfwMakeContextCurrent(window);
 
-                if (Input.IsKeyPressed(Keys::KEY_SPACEBAR))
-                {
-                    gameSystem->ChangeScene(scene2Name);
-                }
-
-                if (Input.IsKeyPressed(Keys::KEY_1))
-                {
-                    GameObject duckObj = gGOFactory->FetchGO("Duck");
-                    duckObj.Destroy();
-                }
-
-                if (Input.IsKeyPressed(Keys::KEY_P))
-                {
-                    souSystem->PauseResumeSound(souSystem->defaultBGM);
-                }
+                gameLogic.Update();
 
 
 

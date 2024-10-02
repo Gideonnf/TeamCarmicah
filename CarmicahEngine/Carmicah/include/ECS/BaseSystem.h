@@ -5,6 +5,7 @@
 #include <chrono>
 #include "Messaging/Message.h"
 #include "Messaging/InputMessage.h"
+#include <assert.h>
 
 namespace Carmicah
 {
