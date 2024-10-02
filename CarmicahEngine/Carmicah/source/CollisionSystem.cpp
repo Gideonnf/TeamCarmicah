@@ -87,7 +87,7 @@ namespace Carmicah
 			return false;
 		}
 
-		if (!(AABB1.max.x < AABB2.min.x || AABB1.min.x > AABB2.max.x &&
+		if (!(AABB1.max.x < AABB2.min.x || AABB1.min.x > AABB2.max.x ||
 			AABB1.max.y < AABB2.min.y || AABB1.min.y > AABB2.max.y))
 		{
 			return true;  // No collision if there's no overlap on either axis
