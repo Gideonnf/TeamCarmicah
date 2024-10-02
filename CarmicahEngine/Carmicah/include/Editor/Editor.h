@@ -4,7 +4,8 @@
 #include <ImGUI/imgui.h>
 #include "Editor/DebugWindow.h"
 #include "Editor/EditorWindow.h"
-#include "Editor/HeirarchyWindow.h"
+#include "Editor/HierarchyWindow.h"
+#include "Editor/SceneWindow.h"
 
 namespace Carmicah
 {
@@ -26,7 +27,7 @@ namespace Carmicah
 
 	private:
 
-		std::vector<std::unique_ptr<EditorWindow>> windows;
+		std::vector<std::unique_ptr<EditorWindow>> mWindows;
 	};
 
 }

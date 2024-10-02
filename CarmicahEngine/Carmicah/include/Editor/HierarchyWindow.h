@@ -7,13 +7,13 @@
 
 namespace Carmicah
 {
-	class HeirarchyWindow : public EditorWindow
+	class HierarchyWindow : public EditorWindow
 	{
 	private:
 	
 	public:
 
-		HeirarchyWindow();
+		HierarchyWindow();
 
 		void Update() override;
 

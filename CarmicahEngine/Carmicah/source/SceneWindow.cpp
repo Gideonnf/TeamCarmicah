@@ -3,16 +3,18 @@
 #include <ImGUI/imgui_impl_glfw.h>
 #include <ImGUI/imgui_impl_opengl3.h>
 #include "Editor/EditorWindow.h"
+#include "Editor/SceneWindow.h"
+
 
 namespace Carmicah
 {
+	SceneWindow::SceneWindow() : EditorWindow("Scene", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
 
-	EditorWindow::EditorWindow(const char* title, ImVec2 size, ImVec2 pos) : mTitle(title), mSize(size), mPos(pos), mIsVisible(true) {}
-
-	void EditorWindow::Update()
+	void SceneWindow::Update()
 	{
 		if (ImGui::Begin(mTitle))
 		{
+
 		}
 		ImGui::End();
 	}

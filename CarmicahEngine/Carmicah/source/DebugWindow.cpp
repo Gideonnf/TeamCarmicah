@@ -8,7 +8,7 @@
 
 namespace Carmicah
 {
-	DebugWindow::DebugWindow() : EditorWindow("Debug", ImVec2(900, 300), ImVec2(0, 0)), showFPS(false), showLogger(true) { isVisible = true; }
+	DebugWindow::DebugWindow() : EditorWindow("Debug", ImVec2(900, 300), ImVec2(0, 0)), mShowFPS(false), mShowLogger(true) { mIsVisible = true; }
 
 	void DebugWindow::Update()
 	{
@@ -18,7 +18,7 @@ namespace Carmicah
 		static bool autoScrollLog = true;
 		counter++;
 
-		if(ImGui::Begin(title, nullptr, ImGuiWindowFlags_MenuBar))
+		if(ImGui::Begin(mTitle, nullptr, ImGuiWindowFlags_MenuBar))
 		{
 			//Draw Menu Bar
 			if (ImGui::BeginMenuBar())
@@ -26,9 +26,9 @@ namespace Carmicah
 				//Menu for Debugging Tools
 				if (ImGui::BeginMenu("Debugging Tools"))
 				{
-					if (ImGui::MenuItem("FPS", nullptr, showFPS))
+					if (ImGui::MenuItem("FPS", nullptr, mShowFPS))
 					{
-						showFPS = !showFPS;
+						mShowFPS = !mShowFPS;
 					}
 
 					ImGui::EndMenu();
@@ -38,7 +38,7 @@ namespace Carmicah
 
 			if(ImGui::BeginTabBar("Debug Tabs"))
 			{
-				if (showFPS)
+				if (mShowFPS)
 				{
 					if (ImGui::BeginTabItem("FPS Info"))
 					{
@@ -46,30 +46,39 @@ namespace Carmicah
 						ImGui::EndTabItem();
 					}
 				}
-				if (showLogger)
+				if (mShowLogger)
 				{
 					if (ImGui::BeginTabItem("Logger"))
 					{
-						//Append logs here
-						logBuffer.append(std::to_string(counter).c_str());
-						logBuffer.append("\n");
+						//Debug button press thing
+						if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_D)))
+						{
+							Log::logMessage("Log Test Button Pressed");
+						}
+
+						static bool sAutoScroll = true;
+						const auto& logMessages = Carmicah::Log::getLogs();
 
 						ImGui::BeginChild("Logs", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
-						ImGui::TextUnformatted(logBuffer.begin(), logBuffer.end());
+						for(const auto& msg : logMessages)
+						{
+							ImGui::TextUnformatted(msg.c_str());
+						}
+						if (sAutoScroll)
+						{
+							ImGui::SetScrollHereY(1.0f);
+						}
+						if (ImGui::GetScrollY() < ImGui::GetScrollMaxY())
+						{
+							sAutoScroll = false;
+						}
+
 						ImGui::EndChild();
 						ImGui::EndTabItem();
 					}
 				}
 				ImGui::EndTabBar();
 			}
-
-			if (ImGui::Button("Counter Clicker"))
-			{
-				clicked++;
-			}
-
-			ImGui::Text("Clicked: %d", clicked);
-
 		}
 		ImGui::End();
 

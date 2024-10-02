@@ -22,6 +22,7 @@ DigiPen Institute of Technology is prohibited.
 #include "AssetManager.h"
 #include "Systems/SoundSystem.h"
 #include "log.h"
+#include "Systems/SerializerSystem.h"
 namespace Carmicah
 {
 	void AssetManager::LoadAll(const char* assetPath)
@@ -97,7 +98,8 @@ namespace Carmicah
 						}
 						else if (folderName == "Prefabs")
 						{
-							mPrefabFiles.insert(std::make_pair(fileName, entry.path().string()));
+							Prefab goPrefab = Serializer.DeserializePrefab(entry.path().string());
+							mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
 						}
 					}
 				}

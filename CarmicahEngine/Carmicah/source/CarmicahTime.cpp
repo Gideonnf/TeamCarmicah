@@ -35,6 +35,7 @@ namespace Carmicah
 			auto logger = spdlog::get("CARMICAH");
 			if (logger)
 			{
+				CM_CORE_INFO("Current FPS: {:.2f}", mCurrentFPS);
 				logger->info("Current FPS: {:.2f}", mCurrentFPS);
 			}
 		}
