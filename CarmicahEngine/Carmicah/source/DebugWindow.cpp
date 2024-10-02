@@ -9,7 +9,7 @@
 namespace Carmicah
 {
     DebugWindow::DebugWindow() : EditorWindow("Debug", ImVec2(900, 300), ImVec2(0, 0)),
-        mShowFPS(false), mShowLogger(true), showProfiling(true), showGPUProfiling(true) {
+        mShowFPS(true), mShowLogger(true), mShowProfiling(true), mShowGPUProfiling(true) {
         mIsVisible = true;
     }
 
@@ -21,16 +21,16 @@ namespace Carmicah
         static bool autoScrollLog = true;
         counter++;
         
-        if (ImGui::Begin(title, nullptr, ImGuiWindowFlags_MenuBar))
+        if (ImGui::Begin(mTitle, nullptr, ImGuiWindowFlags_MenuBar))
         {
             if (ImGui::BeginMenuBar())
             {
                 if (ImGui::BeginMenu("Debugging Tools"))
                 {
-                    ImGui::MenuItem("FPS", nullptr, &showFPS);
-                    ImGui::MenuItem("Logger", nullptr, &showLogger);
-                    ImGui::MenuItem("Profiling", nullptr, &showProfiling);
-                    ImGui::MenuItem("GPU Profiling", nullptr, &showGPUProfiling);
+                    ImGui::MenuItem("FPS", nullptr, &mShowFPS);
+                    ImGui::MenuItem("Logger", nullptr, &mShowLogger);
+                    ImGui::MenuItem("Profiling", nullptr, &mShowProfiling);
+                    ImGui::MenuItem("GPU Profiling", nullptr, &mShowGPUProfiling);
                     ImGui::EndMenu();
                 }
             }
@@ -38,55 +38,49 @@ namespace Carmicah
 
 			if(ImGui::BeginTabBar("Debug Tabs"))
 			{
-				if (mShowFPS)
+				if (mShowFPS && ImGui::BeginTabItem("FPS Info"))
 				{
-					if (ImGui::BeginTabItem("FPS Info"))
-					{
-						ImGui::Text("FPS: %f", (static_cast<float>(CarmicahTimer::GetFPS())));
-						ImGui::EndTabItem();
-					}
+					ImGui::Text("FPS: %f", (static_cast<float>(CarmicahTimer::GetFPS())));
+					ImGui::EndTabItem();
 				}
-				if (mShowLogger)
-				{
-					if (ImGui::BeginTabItem("Logger"))
-					{
-						//Debug button press thing
-						if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_D)))
-						{
-							Log::logMessage("Log Test Button Pressed");
-						}
+                if (mShowLogger && ImGui::BeginTabItem("Logger"))
+                {
+                    //Debug button press thing
+                    if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_D)))
+                    {
+                        Log::logMessage("Log Test Button Pressed");
+                    }
 
-						static bool sAutoScroll = true;
-						const auto& logMessages = Carmicah::Log::getLogs();
+                    static bool sAutoScroll = true;
+                    const auto& logMessages = Carmicah::Log::getLogs();
 
-						ImGui::BeginChild("Logs", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
-						for(const auto& msg : logMessages)
-						{
-							ImGui::TextUnformatted(msg.c_str());
-						}
-						if (sAutoScroll)
-						{
-							ImGui::SetScrollHereY(1.0f);
-						}
-						if (ImGui::GetScrollY() < ImGui::GetScrollMaxY())
-						{
-							sAutoScroll = false;
-						}
+                    ImGui::BeginChild("Logs", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
+                    for (const auto& msg : logMessages)
+                    {
+                        ImGui::TextUnformatted(msg.c_str());
+                    }
+                    if (sAutoScroll)
+                    {
+                        ImGui::SetScrollHereY(1.0f);
+                    }
+                    if (ImGui::GetScrollY() < ImGui::GetScrollMaxY())
+                    {
+                        sAutoScroll = false;
+                    }
 
-						ImGui::EndChild();
-						ImGui::EndTabItem();
-                        if (showProfiling && ImGui::BeginTabItem("Profiling-Game"))
-                        {
-                            RenderProfilingTab();
-                            ImGui::EndTabItem();
-                        }
-                        if (showGPUProfiling && ImGui::BeginTabItem("GPU Profiling"))
-                        {
-                            RenderGPUProfilingTab();
-                            ImGui::EndTabItem();
-                        }
-					}
-				}
+                    ImGui::EndChild();
+                    ImGui::EndTabItem();
+                }
+                if (mShowProfiling && ImGui::BeginTabItem("Profiling-Game"))
+                {
+                    RenderProfilingTab();
+                    ImGui::EndTabItem();
+                }
+                if (mShowGPUProfiling && ImGui::BeginTabItem("GPU Profiling"))
+                {
+                    RenderGPUProfilingTab();
+                    ImGui::EndTabItem();
+                }
 				ImGui::EndTabBar();
 			}
 		}

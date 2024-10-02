@@ -14,8 +14,8 @@ namespace Carmicah
 	private:
 		bool mShowFPS;
 		bool mShowLogger;
-		bool showProfiling;
-		bool showGPUProfiling;
+		bool mShowProfiling;
+		bool mShowGPUProfiling;
 
 		void RenderProfilingTab();
 		void RenderGPUProfilingTab();
