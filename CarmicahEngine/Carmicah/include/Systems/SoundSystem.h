@@ -24,28 +24,18 @@ namespace Carmicah
     class SoundSystem : public BaseSystem
     {
     private:
-        std::unordered_map<std::string, FMOD::Sound*> soundMap;
-        std::unordered_map<std::string, FMOD::Channel*> channelMap;
-        FMOD::System* fmodSystem;
+        const char* defaultBGM{ "cute" };
 
     public:
-        SoundSystem();
-        ~SoundSystem();
 
         void Init(bool playDefaultBGM = true);
         void Update();
         void Exit();
 
-        void LoadSound(const std::string& soundName, const std::string& filePath, bool isLooping = false);
         void PlaySound(const std::string& soundName, float volume = 1.0f);
         void StopSound(const std::string& soundName);
         void SetVolume(const std::string& soundName, float volume);
         void StopAllSounds();
-        void PauseResumeSound(const std::string& soundName);
-
-
-        const char* defaultBGM{ "bouken" };
     };
 }
-
 #endif

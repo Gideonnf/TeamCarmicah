@@ -21,6 +21,7 @@ namespace Carmicah
 	class GraphicsSystem : public BaseSystem
 	{
 	private:
+		const char* shaderName{"basic"};
 		GLuint mCurrShader{};
 
 		bool uniformExists(const char* str, GLint& ref);

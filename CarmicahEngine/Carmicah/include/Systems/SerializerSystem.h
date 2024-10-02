@@ -19,12 +19,11 @@ namespace Carmicah
 
 		//rapidjson::OStreamWrapper osw;
 		//rapidjson::Writer<rapidjson::OStreamWrapper> mOutWritter;
-		std::string configFilePath;
 
 	public:
 		// Read in config file from asset manager
-		EngineConfig LoadConfig(const std::string& filePath);
-		void WriteConfig();
+		void LoadConfig(Application&);
+		void WriteConfig(Application&);
 		bool DeserializeScene(std::string);
 		bool SerializeScene(std::string);
 		Prefab DeserializePrefab(std::string);
