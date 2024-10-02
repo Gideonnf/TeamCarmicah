@@ -3,7 +3,7 @@
 #include <ImGUI/imgui_impl_glfw.h>
 #include <ImGUI/imgui_impl_opengl3.h>
 #include "Editor/EditorWindow.h"
-#include "Editor/HeirarchyWindow.h"
+#include "Editor/HierarchyWindow.h"
 #include "Systems/GOFactory.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
@@ -11,12 +11,20 @@
 
 namespace Carmicah
 {
-	HeirarchyWindow::HeirarchyWindow() : EditorWindow("Heirarchy", ImVec2(900, 300), ImVec2(0, 0)) { isVisible = true; }
+	HierarchyWindow::HierarchyWindow() : EditorWindow("Hierarchy", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
 
-	void HeirarchyWindow::Update()
+	void HierarchyWindow::Update()
 	{
-		if (ImGui::Begin(title))
+		if (ImGui::Begin(mTitle))
 		{
+			gGOFactory->ForAllGO([](GameObject& go)
+				{
+					if (ImGui::Button(go.GetName().c_str()))
+					{
+						
+					}
+				});
+
 			static Transform playerTrans{};
 			//static Collider2D playerCollider{ 1.0, 2.0, 3.0, 4.0 };
 			static Renderer toRender{};

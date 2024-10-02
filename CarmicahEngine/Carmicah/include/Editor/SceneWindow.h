@@ -1,28 +1,26 @@
-#ifndef DEBUGWINDOW_H_
-#define DEBUGWINDOW_H_
+#ifndef SCENEWINDOW_H_
+#define SCENEWINDOW_H_
 
 #include <GLFW/glfw3.h>
 #include <ImGUI/imgui.h>
 #include "Editor/EditorWindow.h"
 #include "log.h"
 
-
 namespace Carmicah
 {
-	class DebugWindow : public EditorWindow
+	class SceneWindow : public EditorWindow
 	{
 	private:
-		bool mShowFPS;
-		bool mShowLogger;
+
+
 	public:
 
-		DebugWindow();
+		SceneWindow();
 
 		void Update() override;
 
 
 	};
 }
-
 
 #endif

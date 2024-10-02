@@ -17,6 +17,8 @@ namespace Carmicah
 		std::deque<Entity> mFreeEntities;
 		// Maps the entity signature to the entity ID
 		std::array<Signature, MAX_ENTITIES> mEntitySignatures;
+		// Keep a map that keeps track if an entity ID is active or inactive
+		std::array<bool, MAX_ENTITIES> mEntityActive;
 		// Keep track of the number of active entities
 		unsigned int m_EntityCount;
 
@@ -40,6 +42,8 @@ namespace Carmicah
 
 			// Get the front most id in the queue
 			Entity entityId = mFreeEntities.front();
+			// Set the active flag
+			mEntityActive[entityId] = true;
 			// Pop it to remove it afterwards
 			mFreeEntities.pop_front();
 			// Increment to keep track of the current number of entities
@@ -55,6 +59,7 @@ namespace Carmicah
 			{
 				Entity entID = mFreeEntities.front();
 				mFreeEntities.pop_front();
+				mEntityActive[entID] = true;
 				m_EntityCount++;
 				return entID;
 			}
@@ -67,6 +72,7 @@ namespace Carmicah
 					{
 						Entity entID = *it;
 						mFreeEntities.erase(it);
+						mEntityActive[entID] = true;
 						m_EntityCount++;
 						return entID;
 					}
@@ -80,8 +86,9 @@ namespace Carmicah
 		{
 			// Reset the signature of the entity when destroyed
 			mEntitySignatures[entity].reset();
-			// Put the id back to the vector to be reused
-			mFreeEntities.push_front(entity);
+			mEntityActive[entity] = false;
+			// Put the id back to the deque to be reused
+			mFreeEntities.push_back(entity);
 			m_EntityCount--;
 		}
 
@@ -103,6 +110,11 @@ namespace Carmicah
 		Signature GetSignature(Entity entity) const
 		{
 			return mEntitySignatures[entity];
+		}
+
+		bool DoesEntityExist(Entity entity)
+		{
+			return mEntityActive[entity];
 		}
 
 		template<typename T>

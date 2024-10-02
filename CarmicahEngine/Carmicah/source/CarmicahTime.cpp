@@ -32,11 +32,12 @@ namespace Carmicah
 			//lastUpdateTime = currentTime;
 			mUpdateTimer = 0.0;
 			// Log the FPS using spdlog
-			//auto logger = spdlog::get("CARMICAH");
-			//if (logger)
-			//{
-			//	logger->info("Current FPS: {:.2f}", mCurrentFPS);
-			//}
+			auto logger = spdlog::get("CARMICAH");
+			if (logger)
+			{
+				CM_CORE_INFO("Current FPS: {:.2f}", mCurrentFPS);
+				logger->info("Current FPS: {:.2f}", mCurrentFPS);
+			}
 		}
 	}
 
