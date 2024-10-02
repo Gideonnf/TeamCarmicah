@@ -34,17 +34,21 @@ namespace Carmicah
 
 	void GameLogic::Update(GLFWwindow* window)
 	{
-        if (Input.IsKeyPressed(Keys::KEY_SPACEBAR))
+        if (Input.IsKeyPressed(Keys::KEY_1))
+        {
+            SystemManager::GetInstance()->ChangeScene("Scene1");
+        }
+        if (Input.IsKeyPressed(Keys::KEY_2))
         {
             SystemManager::GetInstance()->ChangeScene("Scene2");
         }
-
-        if (Input.IsKeyPressed(Keys::KEY_1))
+        if (Input.IsKeyPressed(Keys::KEY_3))
         {
-            GameObject duckObj = gGOFactory->FetchGO("Duck");
-            duckObj.Destroy();
-        }
+            mainCharacter.GetComponent<Transform>().xScale += 2.0f * CarmicahTimer::GetDt();
+            mainCharacter.GetComponent<Transform>().yScale += 2.0f * CarmicahTimer::GetDt();
 
+            //SystemManager::GetInstance()->ChangeScene("Scene2");
+        }
         if (Input.IsKeyPressed(Keys::KEY_B))
         {
             soundSystemRef->PauseResumeSound(soundSystemRef->defaultBGM);
