@@ -24,39 +24,9 @@ namespace Carmicah
         physicsRef->mDebugPhysics = false;
         physicsRef->mToggleUpdate = false;
 
-        mainCharacter = gGOFactory->CreatePrefab("Duck");
-        mainCharacter.GetComponent<Transform>().xPos = 2.0f;
-        mainCharacter.GetComponent<Transform>().yPos = 2.0f;
-        mainCharacter.GetComponent<Transform>().rot = 0.0f;
-        mainCharacter.GetComponent<Transform>().xScale = 0.5f;
-        mainCharacter.GetComponent<Transform>().yScale = 0.5f;
-        mainCharacter.GetComponent<Transform>().notUpdated = false;
-        mainCharacter.AddComponent<Collider2D>();
-        mainCharacter.GetComponent<Collider2D>().shape = "DebugSquare";
-        mainCharacter.AddComponent<RigidBody>();
-        mainCharacter.GetComponent<RigidBody>().velocity.x = 0.0f;
-        mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
-        mainCharacter.GetComponent<RigidBody>().gravity = 0.0f;
-        mainCharacter.GetComponent<RigidBody>().objectType = "Kinematic";
-        mainCharacter.GetComponent<Renderer>().model = "Square";
-        mainCharacter.GetComponent<Renderer>().texture = "mc_redesign_2";
-        mainCharacter.GetComponent<Renderer>().texureMat = glm::mat3(1);
+        mainCharacter = gGOFactory->FetchGO("mainCharacter");
 
-        wall = gGOFactory->CreateGO();
-        wall.AddComponent<Transform>();
-        wall.GetComponent<Transform>().xPos = 4.0f;
-        wall.GetComponent<Transform>().yPos = 0.0f;
-        wall.GetComponent<Transform>().xScale = 1.0f;
-        wall.GetComponent<Transform>().yScale = 1.0f;
-        wall.GetComponent<Transform>().notUpdated = false;
-        wall.AddComponent<Collider2D>();
-        wall.GetComponent<Collider2D>().shape = "DebugSquare";
-        wall.AddComponent<RigidBody>();
-        wall.GetComponent<RigidBody>().objectType = "Static";
-        wall.AddComponent<Renderer>();
-        wall.GetComponent<Renderer>().model = "Square";
-        wall.GetComponent<Renderer>().texture = "wall2";
-        wall.GetComponent<Renderer>().texureMat = glm::mat3(1);
+        wall = gGOFactory->FetchGO("wall");
 
         FPSText = gGOFactory->FetchGO("FPSText");
         FPSText.GetComponent<UITransform>().yPos = AssetManager::GetInstance()->enConfig.Height;
