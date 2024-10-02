@@ -350,6 +350,8 @@ namespace Carmicah
                     phySystem->Update();
                     colSystem->Update();
                     }
+
+                std::cout << "mainCharacter velocity" << mainCharacter.GetComponent<RigidBody>().velocity << std::endl;
                 #endif
 
                 #ifdef CM_RELEASE

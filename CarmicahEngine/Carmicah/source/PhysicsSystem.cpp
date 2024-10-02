@@ -1,3 +1,16 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:        PhysicsSystem.cpp
+
+ author:	   Lee Yong Yee(100%)
+
+ email:        l.yongyee@digipen.edu
+
+ brief:        Functions definitions for the Collision system. Handles the collision response and the collision checking between objects
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include "Systems/PhysicsSystem.h"
 #include <ECS/ECSTypes.h>
@@ -5,6 +18,7 @@
 #include "Components/RigidBody.h"
 #include "Components/Collider2D.h"
 #include "Systems/GOFactory.h"
+#include "Systems/CollisionSystem.h"
 #include "ECS/SystemManager.h"
 #include "ECS/ComponentManager.h"
 #include "CarmicahTime.h"
@@ -71,7 +85,6 @@ namespace Carmicah
 			{
 				transform.yPos += rigidbody.velocity.y * deltaTime;
 			}
-
 
 		}
 	}
