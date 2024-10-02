@@ -4,24 +4,25 @@
 #include <GLFW/glfw3.h>
 #include <ImGUI/imgui.h>
 #include "Editor/EditorWindow.h"
+#include "log.h"
+
 
 namespace Carmicah
 {
 	class DebugWindow : public EditorWindow
 	{
 	private:
-		bool showFPS;
-		bool showLogger;
-		bool showProfiling;
-		bool showGPUProfiling;
-
-		void RenderProfilingTab();
-		void RenderGPUProfilingTab();
-
+		bool mShowFPS;
+		bool mShowLogger;
 	public:
+
 		DebugWindow();
+
 		void Update() override;
+
+
 	};
 }
+
 
 #endif
