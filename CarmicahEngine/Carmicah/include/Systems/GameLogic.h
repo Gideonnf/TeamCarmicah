@@ -3,6 +3,8 @@
 
 #include "SceneSystem.h"
 #include "SoundSystem.h"
+#include "PhysicsSystem.h"
+#include "../ECS/GameObject.h"
 
 namespace Carmicah
 {
@@ -13,6 +15,11 @@ namespace Carmicah
 	{
 	private:
 		std::shared_ptr<SoundSystem> soundSystemRef;
+		std::shared_ptr<PhysicsSystem> physicsRef;
+		GameObject mainCharacter;
+		GameObject wall;
+		GameObject FPSText;
+
 	public:
 		void Init();
 		void Update();

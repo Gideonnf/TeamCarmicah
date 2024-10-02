@@ -28,6 +28,9 @@ namespace Carmicah
 		void ApplyForce(Entity& obj);
 
 		void UpdatePosition(Entity& obj);
+
+		bool mDebugPhysics;
+		bool mToggleUpdate;
 	};
 }
 

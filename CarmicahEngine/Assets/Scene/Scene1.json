@@ -87,7 +87,7 @@
         "model": "Square",
         "font": "arial",
         "text": "This is sample text",
-        "colorR": 0.0,
+        "colorR": 1.0,
         "colorG": 1.0,
         "colorB": 0.0
       },

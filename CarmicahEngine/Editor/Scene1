@@ -101,7 +101,7 @@
         ]
     },
     {
-        "GameObject": "GameObject4",
+        "GameObject": "FPSText",
         "ID": 5,
         "Components": [
             {
@@ -124,83 +124,7 @@
     },
     {
         "GameObject": "Duck",
-        "ID": 7,
-        "Components": [
-            {
-                "Component Name": "struct Carmicah::Transform",
-                "xPos": -3.2369587421417238,
-                "yPos": 0.0,
-                "zPos": 1.0,
-                "rot": -105.50374603271485,
-                "xScale": 0.5,
-                "yScale": 0.5
-            },
-            {
-                "Component Name": "struct Carmicah::Collider2D",
-                "minX": -3.4869587421417238,
-                "minY": -0.25,
-                "maxX": -2.9869587421417238,
-                "maxY": 0.25,
-                "shape": "DebugSquare"
-            },
-            {
-                "Component Name": "struct Carmicah::RigidBody",
-                "velocityX": 0.0,
-                "velocityY": 0.0,
-                "posPrevX": -3.2369587421417238,
-                "posPrevY": 0.0,
-                "gravity": 0.0,
-                "zposPrev": 1.0,
-                "objectType": "Dynamic"
-            },
-            {
-                "Component Name": "struct Carmicah::Renderer",
-                "model": "Square",
-                "texture": "Bullet"
-            }
-        ]
-    },
-    {
-        "GameObject": "Duck1",
-        "ID": 8,
-        "Components": [
-            {
-                "Component Name": "struct Carmicah::Transform",
-                "xPos": -2.7630419731140138,
-                "yPos": 0.0,
-                "zPos": 1.0,
-                "rot": -281.8077392578125,
-                "xScale": 0.5,
-                "yScale": 0.5
-            },
-            {
-                "Component Name": "struct Carmicah::Collider2D",
-                "minX": -3.0130419731140138,
-                "minY": -0.25,
-                "maxX": -2.5130419731140138,
-                "maxY": 0.25,
-                "shape": "DebugSquare"
-            },
-            {
-                "Component Name": "struct Carmicah::RigidBody",
-                "velocityX": 0.0,
-                "velocityY": 0.0,
-                "posPrevX": -2.7630419731140138,
-                "posPrevY": 0.0,
-                "gravity": 0.0,
-                "zposPrev": 1.0,
-                "objectType": "Dynamic"
-            },
-            {
-                "Component Name": "struct Carmicah::Renderer",
-                "model": "Circle",
-                "texture": "Duck"
-            }
-        ]
-    },
-    {
-        "GameObject": "Duck2",
-        "ID": 9,
+        "ID": 6,
         "Components": [
             {
                 "Component Name": "struct Carmicah::Transform",
@@ -237,8 +161,8 @@
         ]
     },
     {
-        "GameObject": "GameObject6",
-        "ID": 10,
+        "GameObject": "GameObject4",
+        "ID": 7,
         "Components": [
             {
                 "Component Name": "struct Carmicah::Transform",
@@ -271,6 +195,120 @@
                 "Component Name": "struct Carmicah::Renderer",
                 "model": "Square",
                 "texture": "wall2"
+            }
+        ]
+    },
+    {
+        "GameObject": "GameObject5",
+        "ID": 8,
+        "Components": [
+            {
+                "Component Name": "struct Carmicah::Transform",
+                "xPos": 66.04198455810547,
+                "yPos": -638.580078125,
+                "zPos": 0.0,
+                "rot": 12.093330383300782,
+                "xScale": 1.0,
+                "yScale": 1.0
+            },
+            {
+                "Component Name": "struct Carmicah::Collider2D",
+                "minX": 65.54198455810547,
+                "minY": -639.080078125,
+                "maxX": 66.54198455810547,
+                "maxY": -638.080078125,
+                "shape": "DebugSquare"
+            },
+            {
+                "Component Name": "struct Carmicah::RigidBody",
+                "velocityX": 1.0,
+                "velocityY": -19.512577056884767,
+                "posPrevX": 66.04198455810547,
+                "posPrevY": -638.580078125,
+                "gravity": -0.30000001192092898,
+                "zposPrev": 0.0,
+                "objectType": "Dynamic"
+            },
+            {
+                "Component Name": "struct Carmicah::Renderer",
+                "model": "Square",
+                "texture": "Bullet"
+            }
+        ]
+    },
+    {
+        "GameObject": "Duck1",
+        "ID": 9,
+        "Components": [
+            {
+                "Component Name": "struct Carmicah::Transform",
+                "xPos": -2.7740464210510256,
+                "yPos": 0.0,
+                "zPos": 1.0,
+                "rot": -274.4996337890625,
+                "xScale": 0.5,
+                "yScale": 0.5
+            },
+            {
+                "Component Name": "struct Carmicah::Collider2D",
+                "minX": -3.0240464210510256,
+                "minY": -0.25,
+                "maxX": -2.5240464210510256,
+                "maxY": 0.25,
+                "shape": "DebugSquare"
+            },
+            {
+                "Component Name": "struct Carmicah::RigidBody",
+                "velocityX": 0.0,
+                "velocityY": 0.0,
+                "posPrevX": -2.7740464210510256,
+                "posPrevY": 0.0,
+                "gravity": 0.0,
+                "zposPrev": 1.0,
+                "objectType": "Dynamic"
+            },
+            {
+                "Component Name": "struct Carmicah::Renderer",
+                "model": "Square",
+                "texture": "Bullet2"
+            }
+        ]
+    },
+    {
+        "GameObject": "Duck2",
+        "ID": 10,
+        "Components": [
+            {
+                "Component Name": "struct Carmicah::Transform",
+                "xPos": -3.2259535789489748,
+                "yPos": 0.0,
+                "zPos": 1.0,
+                "rot": -137.09408569335938,
+                "xScale": 0.5,
+                "yScale": 0.5
+            },
+            {
+                "Component Name": "struct Carmicah::Collider2D",
+                "minX": -3.4759535789489748,
+                "minY": -0.25,
+                "maxX": -2.9759535789489748,
+                "maxY": 0.25,
+                "shape": "DebugSquare"
+            },
+            {
+                "Component Name": "struct Carmicah::RigidBody",
+                "velocityX": 0.0,
+                "velocityY": 0.0,
+                "posPrevX": -3.2259535789489748,
+                "posPrevY": 0.0,
+                "gravity": 0.0,
+                "zposPrev": 1.0,
+                "objectType": "Dynamic"
+            },
+            {
+                "Component Name": "struct Carmicah::Renderer",
+                "model": "Circle",
+                "texture": "Duck"
             }
         ]
     }
