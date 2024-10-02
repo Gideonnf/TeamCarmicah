@@ -1,6 +1,22 @@
 #include "pch.h"
 #include <ImGUI/imgui.h>
 #include <ImGUI/imgui_impl_glfw.h>
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			HierarchyWindow.cpp
+
+ author:		Nicholas Lai (100%)
+ co-author(s):
+
+ email:			n.lai@digipen.edu
+
+ brief:			This HierarchyWindow class is a derived class from EditorWindow.
+				It currently provides an list of GameObjects, and has a button that allows for the creation of new GameObjects.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 #include <ImGUI/imgui_impl_opengl3.h>
 #include "Editor/EditorWindow.h"
 #include "Editor/HierarchyWindow.h"
