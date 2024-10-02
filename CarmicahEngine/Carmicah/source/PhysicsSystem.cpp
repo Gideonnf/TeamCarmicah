@@ -45,7 +45,7 @@ namespace Carmicah
 		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
 		auto& transform = componentManager->GetComponent<Transform>(obj);
 
-		float deltaTime = CarmicahTimer::GetDt();
+		float deltaTime = (float)CarmicahTimer::GetDt();
 
 		if (rigidbody.objectType == "Dynamic")
 		{

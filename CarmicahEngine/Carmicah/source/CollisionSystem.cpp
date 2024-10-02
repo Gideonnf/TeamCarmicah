@@ -69,8 +69,6 @@ namespace Carmicah
 	bool CollisionSystem::CollisionIntersect(Entity& obj1, Entity& obj2, float tFirst)
 	{
 		auto* componentManager = ComponentManager::GetInstance();
-		auto& transform1 = componentManager->GetComponent<Transform>(obj1);
-		auto& transform2 = componentManager->GetComponent<Transform>(obj2);
 
 		auto& rigidbody1 = componentManager->GetComponent<RigidBody>(obj1);
 		auto& rigidbody2 = componentManager->GetComponent<RigidBody>(obj2);
@@ -87,7 +85,7 @@ namespace Carmicah
 			return false;
 		}
 
-		if (!(AABB1.max.x < AABB2.min.x || AABB1.min.x > AABB2.max.x &&
+		if (!(AABB1.max.x < AABB2.min.x || AABB1.min.x > AABB2.max.x ||
 			AABB1.max.y < AABB2.min.y || AABB1.min.y > AABB2.max.y))
 		{
 			return true;  // No collision if there's no overlap on either axis
@@ -95,7 +93,7 @@ namespace Carmicah
 
 		
 
-		float firstTimeOfCollision = 0.0f, tLast = CarmicahTimer::GetDt();
+		float firstTimeOfCollision = 0.0f, tLast = (float)CarmicahTimer::GetDt();
 
 		if ((rigidbody1.velocity.x - rigidbody2.velocity.x) < 0) 
 		{
@@ -216,9 +214,6 @@ namespace Carmicah
 		auto* componentManager = ComponentManager::GetInstance();
 		auto& rigidbody1 = componentManager->GetComponent<RigidBody>(obj1);
 		auto& rigidbody2 = componentManager->GetComponent<RigidBody>(obj2);
-
-		auto& collider1 = componentManager->GetComponent<Collider2D>(obj1);
-		auto& collider2 = componentManager->GetComponent<Collider2D>(obj2);
 
 		auto& transform1 = componentManager->GetComponent<Transform>(obj1);
 		auto& transform2 = componentManager->GetComponent<Transform>(obj2);
