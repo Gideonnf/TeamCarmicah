@@ -2,7 +2,7 @@
 #define INPUT_SYSTEM_H
 #include "ECS/BaseSystem.h"
 #include "GLFW/glfw3.h"
-#include <unordered_map>
+#include <array>
 #include "Input/InputTypes.h"
 #include "Singleton.h"
 #include "Math/Vec2.h"
@@ -17,9 +17,11 @@ namespace Carmicah
 		std::unordered_map<int, KeyStates> mMouseMap;
 
 		// Keep track of keyPressed since its meant to be a one time return
-		std::unordered_map<int, bool> mKeyPressedMap;
-		// Keep track if key was used in an event
-		std::unordered_map<int, bool> mKeyTriggeredMap;
+		//std::unordered_map<int, bool> mKeyPressedMap;
+		//// Keep track if key was used in an event
+		//std::unordered_map<int, bool> mKeyPreviousMap;
+
+
 		Vector2D<double> mMousePos;
 		bool mMousePressed;
 		float mMouseTick;
@@ -37,6 +39,8 @@ namespace Carmicah
 		void Init(GLFWwindow* ref);
 
 		void Update();
+
+		void UpdatePrevInput();
 
 		bool IsKeyPressed(Keys key);
 		bool IsKeyReleased(Keys key);

@@ -146,7 +146,6 @@ namespace Carmicah
         }
 
 
-        
         FPSText.GetComponent<TextRenderer>().txt = "FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS()));
         //if (Input.IsKeyPressed(Keys::KEY_SPACEBAR))
         //{

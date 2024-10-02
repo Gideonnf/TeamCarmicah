@@ -248,6 +248,7 @@ namespace Carmicah
             glfwSetWindowTitle(window, title.c_str());
 
 
+
             if (gameSystem->mNextState == SceneState::EXIT)
             {
                 break;
@@ -328,7 +329,6 @@ namespace Carmicah
                 glfwMakeContextCurrent(window);
 
                 gGOFactory->UpdateDestroyed();
-                inputSystem->Update();
             }
 
             if (gameSystem->mNextState != gameSystem->mCurrState)
@@ -339,6 +339,8 @@ namespace Carmicah
             CarmicahTimer::StopLoopTimer();
             CarmicahTimer::CalculateSystemPercentages();
             CarmicahTimer::UpdateElapsedTime();
+            inputSystem->UpdatePrevInput();
+
         }
 
         AssetManager::GetInstance()->UnloadAll();

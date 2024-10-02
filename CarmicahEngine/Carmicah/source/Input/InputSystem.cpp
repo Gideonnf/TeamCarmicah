@@ -5,6 +5,9 @@
 #include "CarmicahTime.h"
 namespace Carmicah
 {
+	std::array<bool, (int)GLFW_KEY_LAST> mKeyCurrentState{};
+	std::array<bool, (int)GLFW_KEY_LAST> mKeyPreviousState{};
+
 	void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
 		Input.UpdateKeyMap(key, (KeyStates)action);
@@ -53,38 +56,28 @@ namespace Carmicah
 			CM_CORE_ERROR("Error: Input system not initalized.");
 		}
 		
-		// Set all the key presses to false
-		for (auto& key : mKeyPressedMap)
-		{
-			if (key.second)
-			{
-				mKeyTriggeredMap[(int)key.first] = true;
-			}
-			//key.second = false;
-		}
+	}
+
+	void InputSystem::UpdatePrevInput()
+	{
+		mKeyPreviousState = mKeyCurrentState;
 	}
 
 	// key press should only return true once until its released and pressed again
 	// so a map is used to keep track of that
 	bool InputSystem::IsKeyPressed(Keys key)
 	{
-		if (mKeyPressedMap[(int)key] && !mKeyTriggeredMap[(int)key])
-		{
-			//mKeyTriggeredMap[(int)key] = true;
-			return true;
-		}
-		//mKeyPressedMap[(int)key] = false;
-		return false;
+		return mKeyCurrentState[(int)key] && !mKeyPreviousState[(int)key];
 	}
 
 	bool InputSystem::IsKeyReleased(Keys key)
 	{
-		return KeyStates::RELEASE == mKeyMap[(int)key];
+		return !mKeyCurrentState[(int)key] && mKeyPreviousState[(int)key];
 	}
 
 	bool InputSystem::IsKeyHold(Keys key)
 	{
-		return KeyStates::HOLD == mKeyMap[(int)key];
+		return mKeyCurrentState[(int)key];
 	}
 
 	bool InputSystem::IsMousePressed(MouseButtons button)
@@ -126,19 +119,16 @@ namespace Carmicah
 
 	void InputSystem::UpdateKeyMap(int key, KeyStates state)
 	{
-
 		mKeyMap[key] = state;
 
 		if (state == KeyStates::PRESSED)
-			mKeyPressedMap[key] = true;
-		
-		if (state == KeyStates::RELEASE)
 		{
-			mKeyTriggeredMap[(int)key] = false;
-			mKeyPressedMap[(int)key] = false;
+			mKeyCurrentState[(int)key] = true;
 		}
-
-		std::cout << "Key State : " << state << " For : " << key << std::endl;
+		else if (state == KeyStates::RELEASE)
+		{
+			mKeyCurrentState[(int)key] = false;
+		}
 	}
 
 	void InputSystem::UpdateMouseMap(int key, KeyStates state)
