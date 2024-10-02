@@ -105,6 +105,9 @@
     <ClInclude Include="include\Graphics\AnimationSystem.h">
       <Filter>include\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="include\Graphics\BaseGraphicsSystem.h">
+      <Filter>include\Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="include\Graphics\ColliderRenderSystem.h">
       <Filter>include\Graphics</Filter>
     </ClInclude>
@@ -168,6 +171,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\AssetManager.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BaseGraphicsSystem.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\CarmicahCore.cpp">

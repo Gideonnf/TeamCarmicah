@@ -134,6 +134,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="include\Editor\HeirarchyWindow.h" />
     <ClInclude Include="include\FPSCounter.h" />
     <ClInclude Include="include\Graphics\AnimationSystem.h" />
+    <ClInclude Include="include\Graphics\BaseGraphicsSystem.h" />
     <ClInclude Include="include\Graphics\ColliderRenderSystem.h" />
     <ClInclude Include="include\Graphics\GraphicsSystem.h" />
     <ClInclude Include="include\Graphics\RigidbodyRendererSystem.h" />
@@ -157,6 +158,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
   <ItemGroup>
     <ClCompile Include="source\AnimationSystem.cpp" />
     <ClCompile Include="source\AssetManager.cpp" />
+    <ClCompile Include="source\BaseGraphicsSystem.cpp" />
     <ClCompile Include="source\CarmicahCore.cpp" />
     <ClCompile Include="source\CarmicahTime.cpp" />
     <ClCompile Include="source\ColliderRenderSystem.cpp" />
