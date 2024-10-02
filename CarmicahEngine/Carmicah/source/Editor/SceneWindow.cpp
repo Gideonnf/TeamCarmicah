@@ -29,7 +29,18 @@ namespace Carmicah
 	{
 		if (ImGui::Begin(mTitle))
 		{
+			const float windowWidth = ImGui::GetContentRegionAvail().x;
+			const float windowHeight = ImGui::GetContentRegionAvail().y;
 
+			ImVec2 pos = ImGui::GetCursorScreenPos();
+
+			ImGui::GetWindowDrawList()->AddImage(
+				(void*)texture_id,
+				ImVec2(pos.x, pos.y),
+				ImVec2(pos.x + windowWidth, pos.y + windowHeight),
+				ImVec2(0, 1),
+				ImVec2(1, 0)
+			);
 		}
 		ImGui::End();
 	}

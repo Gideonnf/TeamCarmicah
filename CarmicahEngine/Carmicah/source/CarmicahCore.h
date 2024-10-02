@@ -11,6 +11,15 @@ namespace Carmicah
 		Application();
 		virtual ~Application();
 		int run();
+
+		GLuint FBO;
+		GLuint RBO;
+		GLuint texture_id;
+
+		void create_framebuffer(int width, int height);
+		void bind_framebuffer();
+		void unbind_framebuffer();
+		void rescale_framebuffer(float width, float height);
 	};
 }
 

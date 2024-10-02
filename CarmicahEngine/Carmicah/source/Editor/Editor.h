@@ -39,6 +39,7 @@ namespace Carmicah
 
 		void Exit();
 
+
 	private:
 
 		std::vector<std::unique_ptr<EditorWindow>> mWindows;

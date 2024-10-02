@@ -39,9 +39,8 @@
 
 namespace Carmicah
 {
-    const char* sceneName{ "Scene1" };
-    const char* scene2Name{ "Scene2" };
     const GLuint WIDTH = 1920, HEIGHT = 1080;
+    bool gToggleGui = false;
     //const char* assetsLoc{ "../Assets" };
 
     Application::Application() {}
@@ -76,6 +75,8 @@ namespace Carmicah
         std::string defaultScene = AssetManager::GetInstance()->enConfig.defaultScene;
 
         GLFWwindow* window = glfwCreateWindow((GLuint)Width, (GLuint)Height, "Carmicah", NULL, NULL);
+        int bufferWidth, bufferHeight;
+        glfwGetFramebufferSize(window, &bufferWidth, &bufferHeight);
         glfwMakeContextCurrent(window);
 
         if (window == NULL)
@@ -143,111 +144,21 @@ namespace Carmicah
         gameLogic.Init();
         graSystem->SetScreenSize(WIDTH / 100, HEIGHT / 100, gGOFactory->mainCam);
 
-        //GameObject newObj = gGOFactory->CreateGO();
-        //newObj.AddComponent<Transform>();
-        //newObj.GetComponent<Transform>().xPos = 1.0f;
-        //newObj.GetComponent<Transform>().yPos = 3.0f;
-        //newObj.GetComponent<Transform>().xScale = 1.0f;
-        //newObj.GetComponent<Transform>().yScale = 1.0f;
-        //newObj.GetComponent<Transform>().notUpdated = false;
-        //newObj.AddComponent<Collider2D>();
-        //newObj.GetComponent<Collider2D>().shape = "DebugSquare";
-        //newObj.AddComponent<RigidBody>();
-        //newObj.GetComponent<RigidBody>().velocity.x = 1.0f;
-        //newObj.GetComponent<RigidBody>().velocity.y = 0.0f;
-        //newObj.GetComponent<RigidBody>().gravity = -0.3f;
-        //newObj.GetComponent<RigidBody>().objectType = "Dynamic";
-        //newObj.AddComponent<Renderer>();
-        //newObj.GetComponent<Renderer>().model = "Square";
-        //newObj.GetComponent<Renderer>().texture = "Bullet";
-        //newObj.GetComponent<Renderer>().texureMat = glm::mat3(1);
-
-        //GameObject ball = gGOFactory->CreatePrefab("Duck");
-        //ball.GetComponent<Transform>().xPos = -5.0f;
-        //ball.GetComponent<Transform>().yPos = 0.0f;
-        //ball.GetComponent<Transform>().xScale = 0.5f;
-        //ball.GetComponent<Transform>().yScale = 0.5f;
-        //ball.GetComponent<Transform>().notUpdated = false;
-        //ball.AddComponent<Collider2D>();
-        //ball.GetComponent<Collider2D>().shape = "DebugSquare";
-        //ball.AddComponent<RigidBody>();
-        //ball.GetComponent<RigidBody>().velocity.x = 1.0f;
-        //ball.GetComponent<RigidBody>().velocity.y = 0.0f;
-        //ball.GetComponent<RigidBody>().gravity = 0.0f;
-        //ball.GetComponent<RigidBody>().objectType = "Dynamic";
-        //ball.GetComponent<Renderer>().model = "Square";
-        //ball.GetComponent<Renderer>().texture = "Bullet2";
-        //ball.GetComponent<Renderer>().texureMat = glm::mat3(1);
-
-        //GameObject ball2 = gGOFactory->CreatePrefab("Duck");
-        //ball2.GetComponent<Transform>().xScale = 0.5f;
-        //ball2.GetComponent<Transform>().yScale = 0.5f;
-        //ball2.GetComponent<Transform>().notUpdated = false;
-        //ball2.AddComponent<Collider2D>();
-        //ball2.GetComponent<Collider2D>().shape = "DebugSquare";
-        //ball2.AddComponent<RigidBody>();
-        //ball2.GetComponent<RigidBody>().velocity.x = -1.0f;
-        //ball2.GetComponent<RigidBody>().velocity.y = 0.0f;
-        //ball2.GetComponent<RigidBody>().gravity = 0.0f;
-        //ball2.GetComponent<RigidBody>().objectType = "Dynamic";
-
-        //GameObject mainCharacter = gGOFactory->CreatePrefab("Duck");
-        //mainCharacter.GetComponent<Transform>().xPos = 2.0f;
-        //mainCharacter.GetComponent<Transform>().yPos = 2.0f;
-        //mainCharacter.GetComponent<Transform>().rot = 0.0f;
-        //mainCharacter.GetComponent<Transform>().xScale = 0.5f;
-        //mainCharacter.GetComponent<Transform>().yScale = 0.5f;
-        //mainCharacter.GetComponent<Transform>().notUpdated = false;
-        //mainCharacter.AddComponent<Collider2D>();
-        //mainCharacter.GetComponent<Collider2D>().shape = "DebugSquare";
-        //mainCharacter.AddComponent<RigidBody>();
-        //mainCharacter.GetComponent<RigidBody>().velocity.x = 0.0f;
-        //mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
-        //mainCharacter.GetComponent<RigidBody>().gravity = 0.0f;
-        //mainCharacter.GetComponent<RigidBody>().objectType = "Kinematic";
-        //mainCharacter.GetComponent<Renderer>().model = "Square";
-        //mainCharacter.GetComponent<Renderer>().texture = "mc_redesign_2";
-        //mainCharacter.GetComponent<Renderer>().texureMat = glm::mat3(1);
-
-
-        //GameObject wall = gGOFactory->CreateGO();
-        //wall.AddComponent<Transform>();
-        //wall.GetComponent<Transform>().xPos = 4.0f;
-        //wall.GetComponent<Transform>().yPos = 0.0f;
-        //wall.GetComponent<Transform>().xScale = 1.0f;
-        //wall.GetComponent<Transform>().yScale = 1.0f;
-        //wall.AddComponent<Collider2D>();
-        //wall.GetComponent<Collider2D>().shape = "DebugSquare";
-        //wall.AddComponent<RigidBody>();
-        //wall.GetComponent<RigidBody>().objectType = "Static";
-        //wall.AddComponent<Renderer>();
-        //wall.GetComponent<Renderer>().model = "Square";
-        //wall.GetComponent<Renderer>().texture = "wall2";
-        //wall.GetComponent<Renderer>().texureMat = glm::mat3(1);
-
         colSystem->PrintEntities();
-        
 
-        //Testing prefab
-        
-        //newObj.GetComponent<Transform>().xPos = -2.0;
         //int objectCount = 0;
         phySystem->Update();
 
         Editor Editor;
         Editor.Init(ImGuiWindow);
-        //bool pKeyWasPressed = false;
-        //bool moveKeyWasPressed = false;
-        //bool tKeyWasPressed = false;
-        //bool debugPhysics = false; // This will toggle the physics debug mode
+
+        create_framebuffer(bufferWidth, bufferHeight);
 
         while (!glfwWindowShouldClose(window) && !glfwWindowShouldClose(ImGuiWindow)) {
             CarmicahTimer::StartLoopTimer();
             glfwPollEvents();
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS())) + " - Scene : " + gameSystem->GetCurrScene();
             glfwSetWindowTitle(window, title.c_str());
-
-
 
             if (gameSystem->mNextState == SceneState::EXIT)
             {
@@ -260,7 +171,6 @@ namespace Carmicah
             }
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
-                
                 //phySystem->Update();
                 gameLogic.Update(window);
                 //gameLogic.Update();
@@ -312,7 +222,6 @@ namespace Carmicah
                 CarmicahTimer::StopSystemTimer("SoundSystem");
                 CarmicahTimer::StartGPUTimer();
                 CarmicahTimer::StartSystemTimer("RenderingSystems");
-                graSystem->Render(gGOFactory->mainCam);
                 crsSystem->Render(gGOFactory->mainCam);
                 rrsSystem->Render(gGOFactory->mainCam);
                 txtSystem->Render(WIDTH, HEIGHT);
@@ -323,8 +232,12 @@ namespace Carmicah
 
                 glfwMakeContextCurrent(ImGuiWindow);
                 CarmicahTimer::StartSystemTimer("EditorSystem");
+
                 Editor.Update();
                 Editor.Render(ImGuiWindow);
+                bind_framebuffer();
+                graSystem->Render(gGOFactory->mainCam);
+                unbind_framebuffer();
                 CarmicahTimer::StopSystemTimer("EditorSystem");
                 glfwMakeContextCurrent(window);
 
@@ -352,4 +265,53 @@ namespace Carmicah
         glfwTerminate();
         return 0;
     }
+
+    void Application::create_framebuffer(int width, int height)
+    {
+        glGenFramebuffers(1, &FBO);
+        glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+
+        glGenTextures(1, &texture_id);
+        glBindTexture(GL_TEXTURE_2D, texture_id);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture_id, 0);
+
+        glGenRenderbuffers(1, &RBO);
+        glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
+
+        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+            std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!\n";
+
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    }
+
+    void Application::bind_framebuffer()
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+    }
+
+    void Application::unbind_framebuffer()
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
+
+    void Application::rescale_framebuffer(float width, float height)
+    {
+        glBindTexture(GL_TEXTURE_2D, texture_id);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture_id, 0);
+
+        glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
+}
+
 }
