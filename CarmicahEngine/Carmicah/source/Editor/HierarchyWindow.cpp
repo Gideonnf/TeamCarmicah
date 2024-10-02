@@ -28,6 +28,7 @@ DigiPen Institute of Technology is prohibited.
 namespace Carmicah
 {
 	HierarchyWindow::HierarchyWindow() : EditorWindow("Hierarchy", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
+	std::vector<GameObject> createdList;
 
 	void HierarchyWindow::Update()
 	{
@@ -144,12 +145,21 @@ namespace Carmicah
 					newObj.GetComponent<Transform>().xPos = random_xPos;
 					newObj.GetComponent<Transform>().yPos = random_yPos;
 					newObj.GetComponent<Transform>().rot = random_rot;
+
+					createdList.push_back(newObj);
 				}
 			}
 
 			if (ImGui::Button("Destroy all Game Objects"))
 			{
-				gGOFactory->DestroyAll();
+				for (auto& obj : createdList)
+				{
+					obj.Destroy();
+					//gGOFactory->Destroy(obj.GetID());
+				}
+
+				createdList.clear();
+				//gGOFactory->DestroyAll();
 			}
 		}
 		ImGui::End();
