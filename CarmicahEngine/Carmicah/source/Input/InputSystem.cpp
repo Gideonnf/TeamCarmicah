@@ -10,6 +10,9 @@ namespace Carmicah
 
 	void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
+		UNUSED(scancode);
+		UNUSED(mods);
+		UNUSED(window);
 		Input.UpdateKeyMap(key, (KeyStates)action);
 		//if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		//	glfwSetWindowShouldClose(window, GL_TRUE);
@@ -17,11 +20,14 @@ namespace Carmicah
 
 	void MouseCallback(GLFWwindow* window, int button, int action, int mods)
 	{
+		UNUSED(mods);
+		UNUSED(window);
 		Input.UpdateMouseMap(button, (KeyStates)action);
 	}
 
 	static void CursorPosCallback(GLFWwindow* window, double xPos, double yPos)
 	{
+		UNUSED(window);
 		Input.SetMousePosition(xPos, yPos);
 		//std::cout << "Mouse pos: " << xPos << ", " << yPos << std::endl;
 	}
@@ -29,7 +35,9 @@ namespace Carmicah
 	// Scroll back stuff
 	void ScrollCallback(GLFWwindow* window, double xOffset, double yOffset)
 	{
-
+		UNUSED(window);
+		UNUSED(xOffset);
+		UNUSED(yOffset);
 	}
 
 	void InputSystem::Init(GLFWwindow* ref)

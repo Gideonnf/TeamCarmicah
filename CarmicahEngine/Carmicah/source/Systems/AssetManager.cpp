@@ -167,8 +167,9 @@ namespace Carmicah
 		std::ifstream vertShaderFile(vertFile, std::ios::binary);
 		if (!vertShaderFile)
 		{
-			std::cerr << "Unable to open Vertex Shader File";
-			return -1;
+			assert("Unable to open Vertex Shader File");
+			//std::cerr << "Unable to open Vertex Shader File";
+			return 0;
 		}
 		std::string vertShaderSource;
 		vertShaderFile.seekg(0, std::ios::end);
@@ -181,8 +182,9 @@ namespace Carmicah
 		std::ifstream fragShaderFile(fragFile, std::ios::binary);
 		if (!fragShaderFile)
 		{
-			std::cerr << "Unable to open Fragment Shader File";
-			return -1;
+			assert("Unable to open Fragment Shader File");
+			//std::cerr << "Unable to open Fragment Shader File";
+			return 0;
 		}
 		std::string fragShaderSource;
 		fragShaderFile.seekg(0, std::ios::end);
@@ -203,8 +205,9 @@ namespace Carmicah
 		if (!success)
 		{
 			glGetShaderInfoLog(vertShader, 512, nullptr, infoLog);
-			std::cerr << "Unable to compile vertex shader:" << infoLog << std::endl;
-			return -1;
+			assert("Unable to compile vertex shader");
+			//std::cerr << "Unable to compile vertex shader:" << infoLog << std::endl;
+			return 0;
 		}
 		GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(fragShader, 1, frag_shader_code, nullptr);
@@ -213,8 +216,9 @@ namespace Carmicah
 		if (!success)
 		{
 			glGetShaderInfoLog(fragShader, 512, nullptr, infoLog);
-			std::cerr << "Unable to compile fragment shader:" << infoLog << std::endl;
-			return -1;
+			assert("Unable to compile fragment shader");
+			//std::cerr << "Unable to compile fragment shader:" << infoLog << std::endl;
+			return 0;
 		}
 		GLuint shader = glCreateProgram();
 		glAttachShader(shader, vertShader);
@@ -225,16 +229,18 @@ namespace Carmicah
 		if (!success)
 		{
 			glGetShaderInfoLog(shader, 512, nullptr, infoLog);
-			std::cerr << "Link / Compile Failed:" << infoLog << std::endl;
-			return -1;
+			assert("Link / Compile failed");
+			//std::cerr << "Link / Compile Failed:" << infoLog << std::endl;
+			return 0;
 		}
 		glValidateProgram(shader);
 		glGetProgramiv(shader, GL_LINK_STATUS, &success);
 		if (!success)
 		{
 			glGetShaderInfoLog(shader, 512, nullptr, infoLog);
-			std::cerr << "Validate Failed:" << infoLog << std::endl;
-			return -1;
+			assert("Validate failed");
+			//std::cerr << "Validate Failed:" << infoLog << std::endl;
+			return 0;
 		}
 		glDeleteShader(vertShader);
 		glDeleteShader(fragShader);

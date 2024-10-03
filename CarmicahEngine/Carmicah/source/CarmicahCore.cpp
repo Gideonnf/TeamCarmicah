@@ -40,7 +40,6 @@
 
 namespace Carmicah
 {
-    const GLuint WIDTH = 1920, HEIGHT = 1080;
     bool gToggleGui = false;
     //const char* assetsLoc{ "../Assets" };
 
@@ -57,7 +56,7 @@ namespace Carmicah
 
     int Application::run()
     {
-        bool isSoundPlaying = false;
+       // bool isSoundPlaying = false;
 
         EnableMemoryLeakChecking();
         AssetManager::GetInstance()->LoadConfig("../Assets/config.json");
@@ -75,7 +74,7 @@ namespace Carmicah
         int Height = AssetManager::GetInstance()->enConfig.Height;
         std::string defaultScene = AssetManager::GetInstance()->enConfig.defaultScene;
 
-        GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Carmicah", NULL, NULL);
+        GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", NULL, NULL);
         int bufferWidth, bufferHeight;
         glfwGetFramebufferSize(window, &bufferWidth, &bufferHeight);
         glfwMakeContextCurrent(window);
@@ -105,7 +104,7 @@ namespace Carmicah
         CarmicahTimer::StartTime();
         CarmicahTimer::InitGPUProfiling();
 
-        glViewport(0, 0, WIDTH, HEIGHT);
+        glViewport(0, 0, (GLsizei)Width, (GLsizei)Height);
 
         REGISTER_COMPONENT(Transform);
         REGISTER_COMPONENT(Collider2D);
@@ -144,7 +143,7 @@ namespace Carmicah
 
         GameLogic gameLogic;
         gameLogic.Init();
-        graSystem->SetScreenSize(WIDTH / 100, HEIGHT / 100, gGOFactory->mainCam);
+        graSystem->SetScreenSize((GLuint)Width / 100, (GLuint)Height / 100, gGOFactory->mainCam);
 
         colSystem->PrintEntities();
         //int objectCount = 0;
@@ -238,7 +237,7 @@ namespace Carmicah
                 graSystem->Render(gGOFactory->mainCam);
                 crsSystem->Render(gGOFactory->mainCam);
                 rrsSystem->Render(gGOFactory->mainCam);
-                txtSystem->Render(WIDTH, HEIGHT);
+                txtSystem->Render((GLuint)Width, (GLuint)Height);
                 CarmicahTimer::StopSystemTimer("RenderingSystems");
                 SceneToImgui::GetInstance()->unbind_framebuffer();
                // glfwMakeContextCurrent(window);

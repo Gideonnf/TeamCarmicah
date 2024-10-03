@@ -16,7 +16,7 @@
 #include "CarmicahTime.h"
 
 
-
+#define UNUSED(x) (void)(x)
 // Any other common includes can add on here
 // ONLY BASIC STD includes (remove before Milestones) #TODO
 

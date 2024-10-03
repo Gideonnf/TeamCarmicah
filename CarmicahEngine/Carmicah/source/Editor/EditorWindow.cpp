@@ -31,5 +31,5 @@ namespace Carmicah
 		ImGui::End();
 	}
 
-	void EditorWindow::EntityDestroyed(Entity id) {}
+	void EditorWindow::EntityDestroyed(Entity id) { UNUSED(id); }
 }

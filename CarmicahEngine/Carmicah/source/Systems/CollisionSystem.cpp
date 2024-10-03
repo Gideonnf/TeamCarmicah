@@ -47,7 +47,7 @@ namespace Carmicah
 		auto* componentManager = ComponentManager::GetInstance();
 		auto& transform = componentManager->GetComponent<Transform>(obj);
 		auto& AABB = componentManager->GetComponent<Collider2D>(obj);
-		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
+		//auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
 
 		AABB.min.x = -(transform.xScale * 0.5f) + transform.xPos;
 		AABB.min.y = -(transform.yScale * 0.5f) + transform.yPos;

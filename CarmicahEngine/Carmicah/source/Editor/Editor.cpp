@@ -96,6 +96,7 @@ namespace Carmicah
 				ImGuiID dockMain = dockspaceID; // Main area
 				ImGuiID dockLeft = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Left, 0.25f, nullptr, &dockMain);
 				ImGuiID dockRight = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Right, 0.25f, nullptr,&dockMain);
+				UNUSED(dockRight);
 				ImGuiID dockBottom = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Down, 0.4f, nullptr, &dockMain);
 				// Dock your windows into the split areas
 				ImGui::DockBuilderDockWindow("Hierarchy", dockLeft);

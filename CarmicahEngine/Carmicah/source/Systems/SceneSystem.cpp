@@ -96,6 +96,7 @@ namespace Carmicah
 
 	void SceneSystem::ReceiveMessage(Message* msg)
 	{
+		UNUSED(msg);
 		// Can use this for scene changing
 		// Call exit
 		// Call init to import new GOs

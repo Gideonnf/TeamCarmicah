@@ -33,12 +33,12 @@ namespace Carmicah
 			const float windowHeight = ImGui::GetContentRegionAvail().y;
 
 			SceneToImgui::GetInstance()->rescale_framebuffer(windowWidth, windowHeight);
-			glViewport(0, 0, windowWidth, windowHeight);
+			glViewport(0, 0, (GLsizei)windowWidth, (GLsizei)windowHeight);
 
 			ImVec2 pos = ImGui::GetCursorScreenPos();
 
 			ImGui::GetWindowDrawList()->AddImage(
-				(void*)SceneToImgui::GetInstance()->texture_id,
+				(ImTextureID)(uintptr_t)SceneToImgui::GetInstance()->texture_id,
 				ImVec2(pos.x, pos.y),
 				ImVec2(pos.x + windowWidth, pos.y + windowHeight),
 				ImVec2(0, 1),
