@@ -34,15 +34,15 @@ namespace Carmicah
 
 	void GameLogic::Update(GLFWwindow* window)
 	{
-        if (Input.IsKeyPressed(Keys::KEY_1))
+        if (Input.IsKeyPressed(Keys::KEY_Z))
         {
             SystemManager::GetInstance()->ChangeScene("Scene1");
         }
-        if (Input.IsKeyPressed(Keys::KEY_2))
+        if (Input.IsKeyPressed(Keys::KEY_X))
         {
             SystemManager::GetInstance()->ChangeScene("Scene2");
         }
-        if (Input.IsKeyPressed(Keys::KEY_3))
+        if (Input.IsKeyPressed(Keys::KEY_C))
         {
             mainCharacter.GetComponent<Transform>().xScale += 2.0f * CarmicahTimer::GetDt();
             mainCharacter.GetComponent<Transform>().yScale += 2.0f * CarmicahTimer::GetDt();
