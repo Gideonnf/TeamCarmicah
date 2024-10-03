@@ -49,11 +49,11 @@ namespace Carmicah
 		auto& AABB = componentManager->GetComponent<Collider2D>(obj);
 		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
 
-		AABB.min.x = -(transform.xScale * 0.5f) + rigidbody.posPrev.x;
-		AABB.min.y = -(transform.yScale * 0.5f) + rigidbody.posPrev.y;
+		AABB.min.x = -(transform.xScale * 0.5f) + transform.xPos;
+		AABB.min.y = -(transform.yScale * 0.5f) + transform.yPos;
 
-		AABB.max.x = (transform.xScale * 0.5f) + rigidbody.posPrev.x;
-		AABB.max.y = (transform.yScale * 0.5f) + rigidbody.posPrev.y;
+		AABB.max.x = (transform.xScale * 0.5f) + transform.xPos;
+		AABB.max.y = (transform.yScale * 0.5f) + transform.yPos;
 	}
 
 	/**
@@ -419,8 +419,10 @@ namespace Carmicah
 		{
 
 			UpdateAABB(entity);
-			CollisionCheck();
 		}
+
+		CollisionCheck();
+
 
 
 	}

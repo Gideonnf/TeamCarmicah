@@ -232,7 +232,8 @@ namespace Carmicah
         
         //newObj.GetComponent<Transform>().xPos = -2.0;
         //int objectCount = 0;
-        phySystem->Update();
+        //phySystem->Update();
+        
 
         Editor Editor;
         Editor.Init(ImGuiWindow);

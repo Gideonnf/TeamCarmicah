@@ -135,8 +135,8 @@ namespace Carmicah
 		for (auto entity : mEntitiesSet)
 		{
 
-			ApplyForce(entity);
 			UpdatePosition(entity);
+			ApplyForce(entity);
 
 		}
 	}
