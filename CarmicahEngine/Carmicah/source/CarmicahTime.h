@@ -2,6 +2,7 @@
  file:			DebugWindow.h
 
  author:		YANG YUJIE 80%
+ co-author(s): Gideon Francis 20%
 
  email:			y.yujie@digipen.edu
 

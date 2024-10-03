@@ -1,12 +1,11 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:        EntityManager.h
+ file:        ECSTypes.h
 
  author:   Gideon Francis
 
  email:       g.francis@digipen.edu
 
- brief:       A singleton manager to handle the creation and management of Entity IDs and their Entity Signature which is a bitset that represents
-				the components that the entity has
+ brief:       Contains keywords to be used for ECS systems
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of

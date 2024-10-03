@@ -1,3 +1,17 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:        GameLogic.h
+
+ author:   Gideon Francis
+
+ email:       g.francis@digipen.edu
+
+ brief:       A system to handle game logic coding. Controling of players and any game play related examples to show in engine
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 #ifndef GAME_SYSTEM_H
 #define GAME_SYSTEM_H
 
