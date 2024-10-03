@@ -19,7 +19,7 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui_impl_opengl3.h>
 #include "EditorWindow.h"
 #include "SceneWindow.h"
-
+#include "SceneToImgui.h"
 
 namespace Carmicah
 {
@@ -32,10 +32,13 @@ namespace Carmicah
 			const float windowWidth = ImGui::GetContentRegionAvail().x;
 			const float windowHeight = ImGui::GetContentRegionAvail().y;
 
+			SceneToImgui::GetInstance()->rescale_framebuffer(windowWidth, windowHeight);
+			glViewport(0, 0, windowWidth, windowHeight);
+
 			ImVec2 pos = ImGui::GetCursorScreenPos();
 
 			ImGui::GetWindowDrawList()->AddImage(
-				(void*)texture_id,
+				(void*)SceneToImgui::GetInstance()->texture_id,
 				ImVec2(pos.x, pos.y),
 				ImVec2(pos.x + windowWidth, pos.y + windowHeight),
 				ImVec2(0, 1),

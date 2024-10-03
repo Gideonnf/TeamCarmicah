@@ -30,8 +30,6 @@ namespace Carmicah
 
 
 	public:
-		GLuint texture_id;
-
 		SceneWindow();
 
 		void Update() override;

@@ -36,6 +36,7 @@
 #include "Systems/SerializerSystem.h"
 #include "CarmicahTime.h"
 #include "Systems/AssetManager.h"
+#include "Editor/SceneToImgui.h"
 
 namespace Carmicah
 {
@@ -74,7 +75,7 @@ namespace Carmicah
         int Height = AssetManager::GetInstance()->enConfig.Height;
         std::string defaultScene = AssetManager::GetInstance()->enConfig.defaultScene;
 
-        GLFWwindow* window = glfwCreateWindow((GLuint)Width, (GLuint)Height, "Carmicah", NULL, NULL);
+        GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Carmicah", NULL, NULL);
         int bufferWidth, bufferHeight;
         glfwGetFramebufferSize(window, &bufferWidth, &bufferHeight);
         glfwMakeContextCurrent(window);
@@ -92,19 +93,19 @@ namespace Carmicah
             return -1;
         }
 
-        GLFWwindow* ImGuiWindow = glfwCreateWindow(WIDTH, HEIGHT, "ImGui", NULL, NULL);
+     /*   GLFWwindow* ImGuiWindow = glfwCreateWindow(WIDTH, HEIGHT, "ImGui", NULL, NULL);
 
         if (ImGuiWindow == NULL)
         {
             CM_CORE_ERROR("Failed to create GLFW window");
             glfwTerminate();
             return -1;
-        }
+        }*/
 
         CarmicahTimer::StartTime();
         CarmicahTimer::InitGPUProfiling();
 
-        glViewport(0, 0, (GLuint)Width, (GLuint)Height);
+        glViewport(0, 0, WIDTH, HEIGHT);
 
         REGISTER_COMPONENT(Transform);
         REGISTER_COMPONENT(Collider2D);
@@ -150,11 +151,11 @@ namespace Carmicah
         phySystem->Update();
 
         Editor Editor;
-        Editor.Init(ImGuiWindow);
+        Editor.Init(window);
 
-        create_framebuffer(bufferWidth, bufferHeight);
+        SceneToImgui::GetInstance()->create_framebuffer(bufferWidth, bufferHeight);
 
-        while (!glfwWindowShouldClose(window) && !glfwWindowShouldClose(ImGuiWindow)) {
+        while (!glfwWindowShouldClose(window)) {
             CarmicahTimer::StartLoopTimer();
             glfwPollEvents();
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS())) + " - Scene : " + gameSystem->GetCurrScene();
@@ -228,19 +229,19 @@ namespace Carmicah
                 CarmicahTimer::StopSystemTimer("RenderingSystems");
                 CarmicahTimer::StopGPUTimer();
 
-                glfwSwapBuffers(window);
 
-                glfwMakeContextCurrent(ImGuiWindow);
+               // glfwMakeContextCurrent(ImGuiWindow);
                 CarmicahTimer::StartSystemTimer("EditorSystem");
 
                 Editor.Update();
-                Editor.Render(ImGuiWindow);
-                bind_framebuffer();
+                Editor.Render(window);
+                SceneToImgui::GetInstance()->bind_framebuffer();
                 graSystem->Render(gGOFactory->mainCam);
-                unbind_framebuffer();
+                SceneToImgui::GetInstance()->unbind_framebuffer();
                 CarmicahTimer::StopSystemTimer("EditorSystem");
-                glfwMakeContextCurrent(window);
+               // glfwMakeContextCurrent(window);
 
+                glfwSwapBuffers(window);
                 gGOFactory->UpdateDestroyed();
             }
 
@@ -266,52 +267,6 @@ namespace Carmicah
         return 0;
     }
 
-    void Application::create_framebuffer(int width, int height)
-    {
-        glGenFramebuffers(1, &FBO);
-        glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 
-        glGenTextures(1, &texture_id);
-        glBindTexture(GL_TEXTURE_2D, texture_id);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture_id, 0);
-
-        glGenRenderbuffers(1, &RBO);
-        glBindRenderbuffer(GL_RENDERBUFFER, RBO);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
-
-        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-            std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!\n";
-
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glBindTexture(GL_TEXTURE_2D, 0);
-        glBindRenderbuffer(GL_RENDERBUFFER, 0);
-    }
-
-    void Application::bind_framebuffer()
-    {
-        glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-    }
-
-    void Application::unbind_framebuffer()
-    {
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    }
-
-    void Application::rescale_framebuffer(float width, float height)
-    {
-        glBindTexture(GL_TEXTURE_2D, texture_id);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture_id, 0);
-
-        glBindRenderbuffer(GL_RENDERBUFFER, RBO);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
-}
 
 }
