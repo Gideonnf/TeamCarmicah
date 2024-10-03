@@ -112,16 +112,17 @@ namespace Carmicah
 		return newGO;
 	}
 
-	GameObject GOFactory::FetchGO(std::string GOName)
+	void GOFactory::FetchGO(std::string GOName, GameObject& go)
 	{
 		if (mNameToID.count(GOName) == 0)
 		{		
 			CM_CORE_ERROR("GameObject does not exist");
+			return;
+			//assert(mNameToID.count(GOName) != 0 && "GameObject does not exist");
 		}
 
-		assert(mNameToID.count(GOName) != 0 && "GameObject does not exist");
-
-		return mIDToGO[mNameToID[GOName]];
+		go = mIDToGO[mNameToID[GOName]];
+		//return mIDToGO[mNameToID[GOName]];
 	}
 
 	void GOFactory::AttachComponents(GameObject& obj, std::pair<std::string, std::any> component)

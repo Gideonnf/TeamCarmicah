@@ -24,11 +24,11 @@ namespace Carmicah
         physicsRef->mDebugPhysics = false;
         physicsRef->mToggleUpdate = false;
 
-        mainCharacter = gGOFactory->FetchGO("mainCharacter");
+        gGOFactory->FetchGO("mainCharacter", mainCharacter);
 
-        wall = gGOFactory->FetchGO("wall");
+        //wall = gGOFactory->FetchGO("wall");
 
-        FPSText = gGOFactory->FetchGO("FPSText");
+        gGOFactory->FetchGO("FPSText", FPSText);
         FPSText.GetComponent<UITransform>().yPos = (float)AssetManager::GetInstance()->enConfig.Height;
     }
 
@@ -43,7 +43,7 @@ namespace Carmicah
         {
             SystemManager::GetInstance()->ChangeScene("Scene2");
         }
-        if (Input.IsKeyPressed(Keys::KEY_C))
+        if (Input.IsKeyPressed(Keys::KEY_C) && mainCharacter.IsActive())
         {
             mainCharacter.GetComponent<Transform>().xScale += 2.0f * (float)CarmicahTimer::GetDt();
             mainCharacter.GetComponent<Transform>().yScale += 2.0f * (float)CarmicahTimer::GetDt();
@@ -67,28 +67,40 @@ namespace Carmicah
             physicsRef->mToggleUpdate = true;
         }
 
-        if (physicsRef->mDebugPhysics ? Input.IsKeyPressed(Keys::KEY_D) : Input.IsKeyHold(Keys::KEY_D))
+        if (mainCharacter.IsActive())
         {
-            mainCharacter.GetComponent<RigidBody>().velocity.x = 5.0f;
-        }
-        else if (physicsRef->mDebugPhysics ? Input.IsKeyPressed(Keys::KEY_A) : Input.IsKeyHold(Keys::KEY_A))
-        {
-            mainCharacter.GetComponent<RigidBody>().velocity.x = -5.0f;
-        }
-        else if (physicsRef->mDebugPhysics ? Input.IsKeyPressed(Keys::KEY_W) : Input.IsKeyHold(Keys::KEY_W))
-        {
-            mainCharacter.GetComponent<RigidBody>().velocity.y = 5.0f;
-        }
-        else if (physicsRef->mDebugPhysics ? Input.IsKeyPressed(Keys::KEY_S) : Input.IsKeyHold(Keys::KEY_S))
-        {
-            mainCharacter.GetComponent<RigidBody>().velocity.y = -5.0f;
-        }
-        else
-        {
-            mainCharacter.GetComponent<RigidBody>().velocity.x = 0.0f;
-            mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
+            if (physicsRef->mDebugPhysics ? Input.IsKeyPressed(Keys::KEY_D) : Input.IsKeyHold(Keys::KEY_D))
+            {
+                mainCharacter.GetComponent<RigidBody>().velocity.x = 5.0f;
+            }
+            else if (physicsRef->mDebugPhysics ? Input.IsKeyPressed(Keys::KEY_A) : Input.IsKeyHold(Keys::KEY_A))
+            {
+                mainCharacter.GetComponent<RigidBody>().velocity.x = -5.0f;
+            }
+            else if (physicsRef->mDebugPhysics ? Input.IsKeyPressed(Keys::KEY_W) : Input.IsKeyHold(Keys::KEY_W))
+            {
+                mainCharacter.GetComponent<RigidBody>().velocity.y = 5.0f;
+            }
+            else if (physicsRef->mDebugPhysics ? Input.IsKeyPressed(Keys::KEY_S) : Input.IsKeyHold(Keys::KEY_S))
+            {
+                mainCharacter.GetComponent<RigidBody>().velocity.y = -5.0f;
+            }
+            else
+            {
+                mainCharacter.GetComponent<RigidBody>().velocity.x = 0.0f;
+                mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
+            }
+
         }
 
         FPSText.GetComponent<TextRenderer>().txt = "FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS()));
 	}
+
+    void GameLogic::EntityDestroyed(Entity id)
+    {
+        if (id == mainCharacter.GetID())
+        {
+            mainCharacter.SetActive(false);
+        }
+    }
 }

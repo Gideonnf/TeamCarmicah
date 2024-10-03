@@ -4,12 +4,12 @@
 
 namespace Carmicah
 {
-	GameObject::GameObject()
+	GameObject::GameObject() : mActive(true)
 	{
 
 	}
 
-	GameObject::GameObject(const Entity& id)
+	GameObject::GameObject(const Entity& id) : mActive(true)
 	{
 		mID = id;
 	}
@@ -42,5 +42,15 @@ namespace Carmicah
 	void GameObject::SetName(const std::string& name)
 	{
 		mName = name;
+	}
+
+	bool GameObject::IsActive()
+	{
+		return mActive;
+	}
+
+	void GameObject::SetActive(bool active)
+	{
+		mActive = active;
 	}
 }

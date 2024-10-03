@@ -126,6 +126,7 @@ namespace Carmicah
         auto inputSystem = REGISTER_SYSTEM(InputSystem);
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);
+        auto gameLogic = REGISTER_SYSTEM(GameLogic);
 
         AssetManager::GetInstance()->LoadAll(AssetManager::GetInstance()->enConfig.assetLoc.c_str());
         graSystem->Init();
@@ -141,8 +142,8 @@ namespace Carmicah
         gameSystem->SetScene("Scene1");
         gameSystem->Init();
 
-        GameLogic gameLogic;
-        gameLogic.Init();
+        //GameLogic gameLogic;
+        gameLogic->Init();
         graSystem->SetScreenSize((GLuint)Width / 100, (GLuint)Height / 100, gGOFactory->mainCam);
 
         colSystem->PrintEntities();
@@ -169,11 +170,12 @@ namespace Carmicah
             if (gameSystem->mNextState == SceneState::INITIALISING)
             {
                 gameSystem->Init();
+                gameLogic->Init(); // refetch the objects needed
             }
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
                 //phySystem->Update();
-                gameLogic.Update(window);
+                gameLogic->Update(window);
                 //gameLogic.Update();
                 //phySystem->Update();
                 #ifdef CM_DEBUG

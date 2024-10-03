@@ -12,6 +12,7 @@ namespace Carmicah
 	private:
 		Entity mID{};
 		std::string mName{};
+		bool mActive;
 	public:
 		//Game object factory is the only class allowed to
 	//create and destroy game objects.
@@ -32,6 +33,10 @@ namespace Carmicah
 		std::string GetName() const;
 
 		void SetName(const std::string& name);
+
+		bool IsActive();
+
+		void SetActive(bool active);
 
 		template<typename T>
 		void AddComponent(T Component)
