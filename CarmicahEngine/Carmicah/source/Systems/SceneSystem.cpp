@@ -101,7 +101,7 @@ namespace Carmicah
 		{
 			std::string sceneFile;
 			AssetManager::GetInstance()->GetScene(mCurrScene, sceneFile);
-			SerializerSystem::GetInstance()->SerializeScene(mCurrScene);
+			SerializerSystem::GetInstance()->SerializeScene(sceneFile);
 		}
 		//gGOFactory->ExportGOs(sceneLoc + mCurrScene + ".json"); // Dont save objects for now
 		gGOFactory->DestroyAll();

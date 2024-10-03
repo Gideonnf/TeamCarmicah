@@ -46,7 +46,7 @@ namespace Carmicah
 }
 
 // Core log macros for logging to the core logger (used by the engine)
-#ifdef CM_DEBUG
+
 #define CM_CORE_TRACE(...){ std::ostringstream oss; oss << fmt::format(__VA_ARGS__); std::string msg = oss.str(); ::Carmicah::Log::GetCoreLogger()->trace(msg);  ::Carmicah::Log::logMessage(msg);}
 #define CM_CORE_INFO(...) {  std::string msg = fmt::format(__VA_ARGS__);  ::Carmicah::Log::GetCoreLogger()->info(msg);  ::Carmicah::Log::logMessage(msg);}
 #define CM_CORE_WARN(...) {  std::ostringstream oss; oss << fmt::format(__VA_ARGS__); std::string msg = oss.str();  ::Carmicah::Log::GetCoreLogger()->warn(msg);  ::Carmicah::Log::logMessage(msg);}
@@ -56,9 +56,10 @@ namespace Carmicah
 #define CM_INFO(...) {  std::ostringstream oss; oss << fmt::format(__VA_ARGS__); std::string msg = oss.str();  ::Carmicah::Log::GetClientLogger()->info(msg);  ::Carmicah::Log::logMessage(msg);}
 #define CM_WARN(...) {  std::ostringstream oss; oss << fmt::format(__VA_ARGS__); std::string msg = oss.str(); ::Carmicah::Log::GetClientLogger()->warn(msg);  ::Carmicah::Log::logMessage(msg);}
 #define CM_ERROR(...) {  std::ostringstream oss; oss << fmt::format(__VA_ARGS__); std::string msg = oss.str();  ::Carmicah::Log::GetClientLogger()->error(msg);  ::Carmicah::Log::logMessage(msg);}
-#endif
+
 
 // Release mode logging is disabled for performance reasons
+/*
 #ifndef CM_DEBUG
 #define CM_CORE_TRACE(...)
 #define CM_CORE_INFO(...)
@@ -68,7 +69,7 @@ namespace Carmicah
 #define CM_INFO(...)
 #define CM_WARN(...)
 #define CM_ERROR(...)
-#endif
+#endif*/
 
 
 
