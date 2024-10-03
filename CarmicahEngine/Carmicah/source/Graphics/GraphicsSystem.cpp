@@ -73,7 +73,7 @@ namespace Carmicah
 			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			currCam.camSpace = glm::scale(currCam.camSpace, glm::vec2{ camTrans.xScale, camTrans.yScale });
 			currCam.camSpace = glm::rotate(currCam.camSpace, glm::radians(-camTrans.rot));
-			currCam.camSpace = glm::translate(currCam.camSpace, glm::vec2{ camTrans.xPos, camTrans.yPos });
+			currCam.camSpace = glm::translate(currCam.camSpace, glm::vec2{ -camTrans.xPos, -camTrans.yPos });
 		}
 
 		for (auto& entity : mEntitiesSet)

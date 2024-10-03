@@ -158,6 +158,18 @@ namespace Carmicah
 					ImGui::EndTable();
 				}
 				
+				if (selectedGO->HasComponent<Animation>())
+				{
+					std::string animGO = "Change Animation of " + selectedGO->GetName();
+					if (ImGui::Button(animGO.c_str()))
+					{
+						selectedGO->GetComponent<Animation>().notChangedAnim = true;
+						selectedGO->GetComponent<Renderer>().texture = "Duck";
+						//gGOFactory->Destroy(selectedEntity);
+						//selectedGO = nullptr;
+					}
+				}
+
 				std::string destroyGO = "Destroy " + selectedGO->GetName();
 				if(ImGui::Button(destroyGO.c_str()))
 				{

@@ -59,8 +59,8 @@
     "Components": [
       {
         "Component Name": "struct Carmicah::Transform",
-        "xPos": 0.0,
-        "yPos": 0.0,
+        "xPos": 4.0,
+        "yPos": 4.0,
         "zPos": 1.0,
         "rot": 0.0,
         "xScale": 0.125,
