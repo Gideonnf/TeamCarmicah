@@ -4,9 +4,29 @@
 \course     CSD 2400
 \date		240924
 
-\brief      This file implements...
+\brief      This file implements the input system for handling keyboard and mouse input in a game engine.
+			It includes methods for tracking key and mouse states, detecting key presses/releases,
+			and managing drag events with the mouse. Additionally, it integrates callbacks for input
+			handling using the GLFW library.
 
-\functions  This file includes...
+\functions  - KeyCallback: Handles keyboard input, including key press and release detection.
+			- MouseCallback: Handles mouse button input, including drag events.
+			- CursorPosCallback: Tracks the mouse cursor's position and manages dragging logic.
+			- ScrollCallback: Handles mouse scroll input (currently unused).
+			- InputSystem::Init: Initializes the input system with a reference to the GLFW window.
+			- InputSystem::Update: Updates the input system's state.
+			- InputSystem::UpdatePrevInput: Updates the previous key state for tracking.
+			- InputSystem::IsKeyPressed/IsKeyReleased/IsKeyHold: Checks the current key states.
+			- InputSystem::IsMousePressed/IsMouseReleased/IsMouseHold: Checks the current mouse button states.
+			- InputSystem::SetMousePosition/GetMousePosition: Sets or retrieves the current mouse position.
+			- InputSystem::SetDragging/IsDragging: Manages drag state and tracking of start, current, and end positions.
+			- InputSystem::UpdateKeyMap: Updates the key state map.
+			- InputSystem::UpdateMouseMap: Updates the mouse button state map.
+			- InputSystem::KeycodeToString: Converts keycodes to string names.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
 -------------------------------------------------------------------------------------------------*/
 
 

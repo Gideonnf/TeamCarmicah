@@ -1,3 +1,32 @@
+/* file documentation -----------------------------------------------------------------------------
+\file		InputSystem.hpp
+\author     Micah Lim, (micahshengyao.lim)
+\course     CSD 2400
+\date		240924
+
+\brief      This file declares the InputSystem class, which manages the input handling for keyboard
+			and mouse events in a game engine. It includes functionality for tracking key and mouse
+			states, handling drag events, and converting keycodes to string representations.
+
+\functions  - InputSystem::Init: Initializes the input system with a reference to the GLFW window.
+			- InputSystem::Update: Updates the input system's state.
+			- InputSystem::UpdatePrevInput: Updates the previous key state for tracking.
+			- InputSystem::IsKeyPressed/IsKeyReleased/IsKeyHold: Checks the current key states.
+			- InputSystem::WasKeyPressed/WasKeyReleased/WasKeyHold: Placeholder methods for tracking previous key states.
+			- InputSystem::IsMousePressed/IsMouseReleased/IsMouseHold: Checks the current mouse button states.
+			- InputSystem::GetMousePosition/GetMouseX/GetMouseY: Retrieves the current mouse position.
+			- InputSystem::SetMousePosition: Sets the mouse position.
+			- InputSystem::UpdateKeyMap/UpdateMouseMap: Updates the key and mouse button state maps.
+			- InputSystem::IsDragging/SetDragging: Manages drag state.
+			- InputSystem::GetDragStartPos/GetDragEndPos/GetDragCurrentPos: Retrieves the drag positions.
+			- InputSystem::SetDragStartPos/SetDragEndPos/SetDragCurrentPos: Sets the drag positions.
+			- InputSystem::KeycodeToString: Converts keycodes to string names.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-------------------------------------------------------------------------------------------------*/
+
 #ifndef INPUT_SYSTEM_H
 #define INPUT_SYSTEM_H
 #include "ECS/BaseSystem.h"
