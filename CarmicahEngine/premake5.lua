@@ -49,7 +49,8 @@ project "Carmicah"
     buildoptions { "/wd4003" }
     linkoptions { 
         "/ignore:4099",
-        "/NODEFAULTLIB:LIBCMT"
+        "/NODEFAULTLIB:LIBCMT",
+        "/ignore:4098"
     }
 
     filter "system:windows"
@@ -112,7 +113,8 @@ project "Editor"
     buildoptions { "/wd4003" }
     linkoptions { 
         "/ignore:4099",
-        "/NODEFAULTLIB:LIBCMT"
+        "/NODEFAULTLIB:LIBCMT",
+        "/ignore:4098"
     }
     filter "system:windows"
         cppdialect "C++17"
@@ -146,6 +148,12 @@ project "glad"
     externalincludedirs 
     {
         "Dependencies/includes"
+    }
+
+    linkoptions { 
+        "/ignore:4099",
+        "/NODEFAULTLIB:LIBCMT",
+        "/ignore:4098"
     }
 
     filter "system:windows"
@@ -185,6 +193,12 @@ project "ImGUI"
     libdirs
     {
         "Dependencies/lib"
+    }
+
+    linkoptions { 
+        "/ignore:4099",
+        "/NODEFAULTLIB:LIBCMT",
+        "/ignore:4098"
     }
 
     links
