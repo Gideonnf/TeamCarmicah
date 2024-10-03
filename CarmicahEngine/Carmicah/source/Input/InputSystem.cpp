@@ -148,22 +148,25 @@ namespace Carmicah
 		return mKeyCurrentState[(int)key];
 	}
 
-	bool WasKeyPressed(Keys key)
+	bool InputSystem::WasKeyPressed(Keys key)
 	{
+		UNUSED(key);
 		// do later
 		return false;
 	}
 
-	bool WasKeyReleased(Keys key)
+	bool  InputSystem::WasKeyReleased(Keys key)
 	{
+		UNUSED(key);
 		// do later
 		return false;
 	}
 
-	bool WasKeyHold(Keys key)
+	bool  InputSystem::WasKeyHold(Keys key)
 	{
+		UNUSED(key);
 		// do later
-		return false
+		return false;
 	}
 
 	bool InputSystem::IsMousePressed(MouseButtons button)
@@ -271,8 +274,8 @@ namespace Carmicah
 			mMousePressed = false;
 			mMouseTick = 0.0f;
 		}
-		std::cout << "in update mouse map" << mMousePressed << std::endl;
-		std::cout << "Mouse State : " << state << " For : " << key << std::endl;
+		//std::cout << "in update mouse map" << mMousePressed << std::endl;
+		//std::cout << "Mouse State : " << state << " For : " << key << std::endl;
 	}
 
 	// Convert keycode to string (if-version)
