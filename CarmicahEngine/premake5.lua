@@ -23,13 +23,12 @@ project "Carmicah"
 
     files 
     {
-        "%{prj.name}/include/**.h",
-        "%{prj.name}/source/**.cpp" 
+        "%{prj.name}/source/**"
     }
 
     externalincludedirs 
     {
-        "Carmicah/include",
+        "Carmicah/source",
         "Dependencies/includes" 
     }
 
@@ -86,13 +85,12 @@ project "Editor"
 
     files 
     {
-        "%{prj.name}/include/**.h",
-        "%{prj.name}/source/**.cpp" 
+        "%{prj.name}/source/**"
     }
 
     externalincludedirs 
     {
-        "Carmicah/include" 
+        "Carmicah/source" 
     }
 
     libdirs {

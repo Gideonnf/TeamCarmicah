@@ -1,240 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="include">
-      <UniqueIdentifier>{89AF369E-F58E-B539-FEA6-40106A051C9B}</UniqueIdentifier>
+    <Filter Include="Components">
+      <UniqueIdentifier>{6B7DD516-5735-1764-C03C-F0BFAC13B254}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\Components">
-      <UniqueIdentifier>{FE2CB57C-EA10-76D2-5371-70253F746054}</UniqueIdentifier>
+    <Filter Include="ECS">
+      <UniqueIdentifier>{60E1870B-CCEA-877C-5566-9E7CC16E937C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\ECS">
-      <UniqueIdentifier>{5340C031-BFF5-3827-48EA-32FEB49E2F2B}</UniqueIdentifier>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{8C1A20B0-78BC-4A86-6177-5EDA4DB8D1D6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\Editor">
-      <UniqueIdentifier>{9FF868FF-8BC6-5C05-745A-CD2B60C7386A}</UniqueIdentifier>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{1653CE33-0220-293F-2B39-17E717655ECD}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\Graphics">
-      <UniqueIdentifier>{E901C778-D5FA-E5CA-FE2C-CB4FEA84C5D6}</UniqueIdentifier>
+    <Filter Include="Input">
+      <UniqueIdentifier>{953A660D-014F-8EBE-CAD0-311E36A48AEF}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\Input">
-      <UniqueIdentifier>{482232A3-B4E2-ADD9-7D1D-F756E99CF2B5}</UniqueIdentifier>
+    <Filter Include="Math">
+      <UniqueIdentifier>{AFF4887C-9B2B-8A0D-4418-7010302E060F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\Math">
-      <UniqueIdentifier>{0232CD69-EE94-5C0E-971A-95C4835C2891}</UniqueIdentifier>
+    <Filter Include="Messaging">
+      <UniqueIdentifier>{E3A043D9-4F0B-F84F-9849-A9F504F3D5A4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\Messaging">
-      <UniqueIdentifier>{162A52BD-8240-5053-CBB7-DB74370D21DB}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\Systems">
-      <UniqueIdentifier>{907EE853-FC09-5618-051B-D90C7125B218}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="source">
-      <UniqueIdentifier>{76FF3A1C-62A1-65F2-4B5C-7946379DEC42}</UniqueIdentifier>
+    <Filter Include="Systems">
+      <UniqueIdentifier>{1DDE831B-89BD-02B7-92D5-8D8DFE336918}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\AssetManager.h">
-      <Filter>include</Filter>
+    <ClInclude Include="source\CarmicahCore.h" />
+    <ClInclude Include="source\CarmicahTime.h" />
+    <ClInclude Include="source\Components\Animation.h">
+      <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="include\CarmicahCore.h">
-      <Filter>include</Filter>
+    <ClInclude Include="source\Components\BaseComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="include\CarmicahTime.h">
-      <Filter>include</Filter>
+    <ClInclude Include="source\Components\Collider2D.h">
+      <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\Animation.h">
-      <Filter>include\Components</Filter>
+    <ClInclude Include="source\Components\Renderer.h">
+      <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\BaseComponent.h">
-      <Filter>include\Components</Filter>
+    <ClInclude Include="source\Components\RigidBody.h">
+      <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\Collider2D.h">
-      <Filter>include\Components</Filter>
+    <ClInclude Include="source\Components\TextRenderer.h">
+      <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\Renderer.h">
-      <Filter>include\Components</Filter>
+    <ClInclude Include="source\Components\Transform.h">
+      <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\RigidBody.h">
-      <Filter>include\Components</Filter>
+    <ClInclude Include="source\Components\UITransform.h">
+      <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\TextRenderer.h">
-      <Filter>include\Components</Filter>
+    <ClInclude Include="source\ECS\BaseSystem.h">
+      <Filter>ECS</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\Transform.h">
-      <Filter>include\Components</Filter>
+    <ClInclude Include="source\ECS\Component.h">
+      <Filter>ECS</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\UITransform.h">
-      <Filter>include\Components</Filter>
+    <ClInclude Include="source\ECS\ComponentManager.h">
+      <Filter>ECS</Filter>
     </ClInclude>
-    <ClInclude Include="include\ECS\BaseSystem.h">
-      <Filter>include\ECS</Filter>
+    <ClInclude Include="source\ECS\ECSTypes.h">
+      <Filter>ECS</Filter>
     </ClInclude>
-    <ClInclude Include="include\ECS\Component.h">
-      <Filter>include\ECS</Filter>
+    <ClInclude Include="source\ECS\EntityManager.h">
+      <Filter>ECS</Filter>
     </ClInclude>
-    <ClInclude Include="include\ECS\ComponentManager.h">
-      <Filter>include\ECS</Filter>
+    <ClInclude Include="source\ECS\GameObject.h">
+      <Filter>ECS</Filter>
     </ClInclude>
-    <ClInclude Include="include\ECS\ECSTypes.h">
-      <Filter>include\ECS</Filter>
+    <ClInclude Include="source\ECS\SystemManager.h">
+      <Filter>ECS</Filter>
     </ClInclude>
-    <ClInclude Include="include\ECS\EntityManager.h">
-      <Filter>include\ECS</Filter>
+    <ClInclude Include="source\Editor\DebugWindow.h">
+      <Filter>Editor</Filter>
     </ClInclude>
-    <ClInclude Include="include\ECS\GameObject.h">
-      <Filter>include\ECS</Filter>
+    <ClInclude Include="source\Editor\Editor.h">
+      <Filter>Editor</Filter>
     </ClInclude>
-    <ClInclude Include="include\ECS\SystemManager.h">
-      <Filter>include\ECS</Filter>
+    <ClInclude Include="source\Editor\EditorWindow.h">
+      <Filter>Editor</Filter>
     </ClInclude>
-    <ClInclude Include="include\Editor\DebugWindow.h">
-      <Filter>include\Editor</Filter>
+    <ClInclude Include="source\Editor\HierarchyWindow.h">
+      <Filter>Editor</Filter>
     </ClInclude>
-    <ClInclude Include="include\Editor\Editor.h">
-      <Filter>include\Editor</Filter>
+    <ClInclude Include="source\Editor\SceneWindow.h">
+      <Filter>Editor</Filter>
     </ClInclude>
-    <ClInclude Include="include\Editor\EditorWindow.h">
-      <Filter>include\Editor</Filter>
+    <ClInclude Include="source\Graphics\AnimationSystem.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\Editor\HeirarchyWindow.h">
-      <Filter>include\Editor</Filter>
+    <ClInclude Include="source\Graphics\BaseGraphicsSystem.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\FPSCounter.h">
-      <Filter>include</Filter>
+    <ClInclude Include="source\Graphics\ColliderRenderSystem.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\Graphics\AnimationSystem.h">
-      <Filter>include\Graphics</Filter>
+    <ClInclude Include="source\Graphics\GraphicsSystem.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\Graphics\ColliderRenderSystem.h">
-      <Filter>include\Graphics</Filter>
+    <ClInclude Include="source\Graphics\RigidbodyRendererSystem.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\Graphics\GraphicsSystem.h">
-      <Filter>include\Graphics</Filter>
+    <ClInclude Include="source\Graphics\TextSystem.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\Graphics\RigidbodyRendererSystem.h">
-      <Filter>include\Graphics</Filter>
+    <ClInclude Include="source\Input\InputSystem.h">
+      <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="include\Graphics\TextSystem.h">
-      <Filter>include\Graphics</Filter>
+    <ClInclude Include="source\Input\InputTypes.h">
+      <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="include\Input\InputTypes.h">
-      <Filter>include\Input</Filter>
+    <ClInclude Include="source\Math\Matrix3x3.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="include\Math\Matrix3x3.h">
-      <Filter>include\Math</Filter>
+    <ClInclude Include="source\Math\Vec2.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="include\Math\Vec2.h">
-      <Filter>include\Math</Filter>
+    <ClInclude Include="source\Messaging\InputMessage.h">
+      <Filter>Messaging</Filter>
     </ClInclude>
-    <ClInclude Include="include\Messaging\InputMessage.h">
-      <Filter>include\Messaging</Filter>
+    <ClInclude Include="source\Messaging\Message.h">
+      <Filter>Messaging</Filter>
     </ClInclude>
-    <ClInclude Include="include\Messaging\Message.h">
-      <Filter>include\Messaging</Filter>
+    <ClInclude Include="source\Singleton.h" />
+    <ClInclude Include="source\Systems\AssetManager.h">
+      <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="include\Singleton.h">
-      <Filter>include</Filter>
+    <ClInclude Include="source\Systems\CollisionSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="include\Systems\CollisionSystem.h">
-      <Filter>include\Systems</Filter>
+    <ClInclude Include="source\Systems\GOFactory.h">
+      <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="include\Systems\GOFactory.h">
-      <Filter>include\Systems</Filter>
+    <ClInclude Include="source\Systems\GameLogic.h">
+      <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="include\Systems\InputSystem.h">
-      <Filter>include\Systems</Filter>
+    <ClInclude Include="source\Systems\PhysicsSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="include\Systems\PhysicsSystem.h">
-      <Filter>include\Systems</Filter>
+    <ClInclude Include="source\Systems\SceneSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="include\Systems\SceneSystem.h">
-      <Filter>include\Systems</Filter>
+    <ClInclude Include="source\Systems\SerializerSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="include\Systems\SerializerSystem.h">
-      <Filter>include\Systems</Filter>
+    <ClInclude Include="source\Systems\SoundSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="include\Systems\SoundSystem.h">
-      <Filter>include\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="include\log.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\pch.h">
-      <Filter>include</Filter>
-    </ClInclude>
+    <ClInclude Include="source\log.h" />
+    <ClInclude Include="source\pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\AnimationSystem.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\CarmicahCore.cpp" />
+    <ClCompile Include="source\CarmicahTime.cpp" />
+    <ClCompile Include="source\ECS\GameObject.cpp">
+      <Filter>ECS</Filter>
     </ClCompile>
-    <ClCompile Include="source\AssetManager.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\ECS\SystemManager.cpp">
+      <Filter>ECS</Filter>
     </ClCompile>
-    <ClCompile Include="source\CarmicahCore.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Editor\DebugWindow.cpp">
+      <Filter>Editor</Filter>
     </ClCompile>
-    <ClCompile Include="source\CarmicahTime.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Editor\Editor.cpp">
+      <Filter>Editor</Filter>
     </ClCompile>
-    <ClCompile Include="source\ColliderRenderSystem.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Editor\EditorWindow.cpp">
+      <Filter>Editor</Filter>
     </ClCompile>
-    <ClCompile Include="source\CollisionSystem.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Editor\HierarchyWindow.cpp">
+      <Filter>Editor</Filter>
     </ClCompile>
-    <ClCompile Include="source\DebugWindow.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Editor\SceneWindow.cpp">
+      <Filter>Editor</Filter>
     </ClCompile>
-    <ClCompile Include="source\Editor.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Graphics\AnimationSystem.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="source\EditorWindow.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Graphics\BaseGraphicsSystem.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="source\FPSCounter.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Graphics\ColliderRenderSystem.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="source\GOFactory.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Graphics\GraphicsSystem.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="source\GameObject.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Graphics\RigidbodyRendererSystem.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="source\GraphicsSystem.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Graphics\TextSystem.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="source\HeirarchyWindow.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Input\InputSystem.cpp">
+      <Filter>Input</Filter>
     </ClCompile>
-    <ClCompile Include="source\InputSystem.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Systems\AssetManager.cpp">
+      <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="source\PhysicsSystem.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Systems\CollisionSystem.cpp">
+      <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="source\RigidbodyRendererSystem.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Systems\GOFactory.cpp">
+      <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="source\SceneSystem.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Systems\GameLogic.cpp">
+      <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="source\SerializerSystem.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Systems\PhysicsSystem.cpp">
+      <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="source\SoundSystem.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Systems\SceneSystem.cpp">
+      <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="source\SystemManager.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Systems\SerializerSystem.cpp">
+      <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="source\TextSystem.cpp">
-      <Filter>source</Filter>
+    <ClCompile Include="source\Systems\SoundSystem.cpp">
+      <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="source\log.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="source\pch.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
+    <ClCompile Include="source\log.cpp" />
+    <ClCompile Include="source\pch.cpp" />
   </ItemGroup>
 </Project>

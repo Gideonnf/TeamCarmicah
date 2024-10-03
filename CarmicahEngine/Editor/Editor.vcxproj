@@ -46,7 +46,7 @@
     <IntDir>..\bin\Debug-x86_64int\Editor\</IntDir>
     <TargetName>Editor</TargetName>
     <TargetExt>.exe</TargetExt>
-    <ExternalIncludePath>..\Carmicah\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>..\Carmicah\source;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -54,7 +54,7 @@
     <IntDir>..\bin\Release-x86_64int\Editor\</IntDir>
     <TargetName>Editor</TargetName>
     <TargetExt>.exe</TargetExt>
-    <ExternalIncludePath>..\Carmicah\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>..\Carmicah\source;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
