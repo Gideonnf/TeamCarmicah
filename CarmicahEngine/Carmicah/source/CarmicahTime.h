@@ -1,3 +1,19 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			DebugWindow.h
+
+ author:		YANG YUJIE 80%
+
+ email:			y.yujie@digipen.edu
+
+ brief:         This file contains the declaration of the CarmicahTime class. This class is a singleton that is used to keep track of the time in the engine.
+				It is used to calculate the delta time, frames per second, and the time taken by each system in the engine.
+				It also contains functions to start and stop timers for each system and the loop, as well as functions to calculate the percentage of time taken by each system.
+				It also contains functions to start and stop GPU timers and calculate the time taken by the GPU.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #ifndef CARMICAH_TIME_H
 #define CARMICAH_TIME_H
 
@@ -10,9 +26,11 @@
 typedef unsigned int GLuint;
 typedef unsigned long long GLuint64;
 
+// Namespace for the engine code    
 namespace Carmicah
 {
-    class CarmicahTime : public Singleton<CarmicahTime>
+// Class to keep track of the time in the engine 
+    class CarmicahTime : public Singleton<CarmicahTime> // Inherit from Singleton
     {
     private:
 

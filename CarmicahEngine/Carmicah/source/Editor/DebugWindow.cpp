@@ -51,6 +51,7 @@ namespace Carmicah
             }
             ImGui::EndMenuBar();
 
+            //Debugging tabs for FPS, Logger, Profiling, GPU Profiling
 			if(ImGui::BeginTabBar("Debug Tabs"))
 			{
 				if (mShowFPS && ImGui::BeginTabItem("FPS Info"))
@@ -69,6 +70,7 @@ namespace Carmicah
                     static bool sAutoScroll = true;
                     const auto& logMessages = Carmicah::Log::getLogs();
 
+                    //ImGui::Text("Log Messages");
                     ImGui::BeginChild("Logs", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
                     for (const auto& msg : logMessages)
                     {
@@ -86,11 +88,13 @@ namespace Carmicah
                     ImGui::EndChild();
                     ImGui::EndTabItem();
                 }
+                //Render the profiling tab for the Debug Window to display the profiling data
                 if (mShowProfiling && ImGui::BeginTabItem("Profiling-Game"))
                 {
                     RenderProfilingTab();
                     ImGui::EndTabItem();
                 }
+                //  Render the GPU profiling tab for the Debug Window to display the GPU profiling data
                 if (mShowGPUProfiling && ImGui::BeginTabItem("GPU Profiling"))
                 {
                     RenderGPUProfilingTab();
@@ -102,6 +106,7 @@ namespace Carmicah
 		ImGui::End();
     }
 
+    //Render the profiling tab for the Debug Window to display the profiling data
     void DebugWindow::RenderProfilingTab()
     {
         const auto& systemPercentages = CarmicahTimer::GetSystemPercentages();
@@ -127,6 +132,7 @@ namespace Carmicah
         }
     }
 
+    //Render the GPU profiling tab for the Debug Window to display the GPU profiling data  
     void DebugWindow::RenderGPUProfilingTab()
     {
         double gpuTime = CarmicahTimer::GetGPUTime();

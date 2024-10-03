@@ -1,3 +1,19 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			DebugWindow.cpp
+
+ author:		YANG YUJIE 100%
+
+ email:			y.yujie@digipen.edu
+
+ brief:         This file contains the implementation of the DebugWindow class
+				DebugWindow is a singleton class that is used to display debug information
+				on the screen. It is used to display the frame rate, system times, and GPU times.
+				It also allows the user to enable and disable the debug window.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -18,6 +34,7 @@ namespace Carmicah
         mPrevTime = glfwGetTime();
     }
 
+    // Update the time variables and calculate the delta time
     void CarmicahTime::UpdateTime()
     {
         mFrameCount++;
@@ -35,11 +52,13 @@ namespace Carmicah
         }
     }
 
+    // Get the delta time
     void CarmicahTime::StartSystemTimer(const std::string& systemName)
     {
         mSystemStartTimes[systemName] = std::chrono::steady_clock::now();
     }
 
+    // Get the delta time
     void CarmicahTime::StopSystemTimer(const std::string& systemName)
     {
         auto endTime = std::chrono::steady_clock::now();
@@ -47,40 +66,45 @@ namespace Carmicah
         mSystemTimes[systemName] = duration.count() / 1000000.0; // Convert to seconds
     }
 
+    // Get the delta time for the loop timer and calculate the system percentages
     void CarmicahTime::StartLoopTimer()
     {
         mLoopStartTime = std::chrono::steady_clock::now();
     }
 
+    //  Get the delta time for the loop timer and calculate the system percentages
     void CarmicahTime::StopLoopTimer()
     {
         auto endTime = std::chrono::steady_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - mLoopStartTime);
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - mLoopStartTime); // Get the duration in microseconds
         mTotalLoopTime = duration.count() / 1000000.0; // Convert to seconds
     }
 
+    // Get the delta time for the loop timer and calculate the system percentages
     void CarmicahTime::CalculateSystemPercentages()
     {
         for (const auto& pair : mSystemTimes)
         {
-            mSystemPercentages[pair.first] = (pair.second / mTotalLoopTime) * 100.0;
+            mSystemPercentages[pair.first] = (pair.second / mTotalLoopTime) * 100.0; // Convert to percentage
         }
     }
 
+    // Get the delta time for the loop timer and calculate the system percentages
     void CarmicahTime::InitGPUProfiling()
     {
+        // Generate the queries for the GPU profiling timer
         glGenQueries(1, &mGPUQueryStart);
         glGenQueries(1, &mGPUQueryEnd);
     }
 
-    void CarmicahTime::StartGPUTimer()
+    void CarmicahTime::StartGPUTimer() // Start the GPU timer
     {
-        glQueryCounter(mGPUQueryStart, GL_TIMESTAMP);
+        glQueryCounter(mGPUQueryStart, GL_TIMESTAMP); // Start the timer by recording a timestamp
     }
 
-    void CarmicahTime::StopGPUTimer()
+    void CarmicahTime::StopGPUTimer() // Stop the GPU timer
     {
-        glQueryCounter(mGPUQueryEnd, GL_TIMESTAMP);
+        glQueryCounter(mGPUQueryEnd, GL_TIMESTAMP); // Stop the timer by recording a timestamp
 
         // Wait until the results are available
         GLint stopTimerAvailable = 0;
@@ -104,6 +128,7 @@ namespace Carmicah
     // CarmicahTimer namespace implementation
     namespace CarmicahTimer
     {
+        // Singleton instance
         void StartTime()
         {
             gCTimer.InitTime();

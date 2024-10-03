@@ -5,8 +5,11 @@
  co-author(s):	Won Yu Xuan Rainne(30%)
 
  email:			won.m@digipen.edu
+                y.yujie@digipen.edu
 
- brief:			Sound Manager 
+ brief:	        This file contains the declaration of the SoundSystem class, which is responsible for playing sound effects and background music.
+				it uses the FMOD library to handle sound effects and background music.
+				it also contains the declaration of the SoundComponent class, which is responsible for storing the sound name of an entity.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of

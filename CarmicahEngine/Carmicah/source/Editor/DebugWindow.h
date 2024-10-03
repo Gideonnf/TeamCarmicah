@@ -31,7 +31,8 @@ namespace Carmicah
 		bool mShowLogger;
 		bool mShowProfiling;
 		bool mShowGPUProfiling;
-
+		
+		// Profiling variables
 		void RenderProfilingTab();
 		void RenderGPUProfilingTab();
 
