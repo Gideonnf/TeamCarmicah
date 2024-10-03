@@ -3,5 +3,7 @@
     "Height": 900,
     "Default Scene": "Scene1",
     "Default Shader": "basic",
+    "Font Shader": "font",
+    "Font Size": 36,
     "Asset Loc": "../Assets"
 }

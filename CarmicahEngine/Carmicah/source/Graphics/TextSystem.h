@@ -22,7 +22,7 @@ namespace Carmicah
 	class TextSystem : public BaseSystem, private BaseGraphicsSystem
 	{
 	private:
-		const char* shaderName{ "font" };
+		//const char* shaderName{ "font" };
 		GLuint mCurrShader{};
 
 	public:

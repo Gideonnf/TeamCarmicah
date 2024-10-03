@@ -73,7 +73,7 @@ namespace Carmicah
 						}
 						else if (folderName == "Fonts")
 						{
-							LoadFont(fileName, entry.path().string(), fontSize);
+							LoadFont(fileName, entry.path().string(), enConfig.fontSize);
 						}
 						else if (folderName == "Meshes")
 						{

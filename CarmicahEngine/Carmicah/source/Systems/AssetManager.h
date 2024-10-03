@@ -612,10 +612,11 @@ namespace Carmicah
 	};
 	struct EngineConfig
 	{
-		int Width, Height;
+		int Width, Height, fontSize;
 		std::string defaultScene;
 		std::string lastScene;
 		std::string defaultShader;
+		std::string fontShader;
 		std::string assetLoc;
 	};
 
@@ -639,7 +640,7 @@ namespace Carmicah
 		std::unordered_map<std::string, std::array<Carmicah::FontChar, 128>> mFontMaps{};
 
 		FT_Library mFTLib;
-		const unsigned int fontSize{ 36 };
+		//const unsigned int fontSize{ 36 };
 		// Audio
 		const int maxChannels{ 32 };
 		FMOD::System* mSoundSystem{};
