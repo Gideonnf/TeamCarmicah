@@ -35,7 +35,7 @@ namespace Carmicah
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<TextSystem>(mSignature);
 
-		auto& shdrRef = AssetManager::GetInstance()->mShaderPgms.find(shaderName);
+		auto shdrRef = AssetManager::GetInstance()->mShaderPgms.find(shaderName);
 		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
 			mCurrShader = shdrRef->second;
 		else
@@ -58,7 +58,7 @@ namespace Carmicah
 		{
 			auto& txtRenderer{ ComponentManager::GetInstance()->GetComponent<TextRenderer>(entity) };
 			auto& UITrans{ ComponentManager::GetInstance()->GetComponent<UITransform>(entity)};
-			auto& foundFontTex{ AssetManager::GetInstance()->mFontMaps.find(txtRenderer.font) };
+			auto foundFontTex{ AssetManager::GetInstance()->mFontMaps.find(txtRenderer.font) };
 			if (foundFontTex == AssetManager::GetInstance()->mFontMaps.end())
 			{
 				std::stringstream ss;
@@ -66,7 +66,7 @@ namespace Carmicah
 				CM_CORE_ERROR(ss.str());
 				continue;
 			}
-			auto& tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(txtRenderer.model) };
+			auto tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(txtRenderer.model) };
 			Primitive* p;
 			if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
 			{

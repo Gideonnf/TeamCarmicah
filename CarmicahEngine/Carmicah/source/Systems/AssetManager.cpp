@@ -157,7 +157,7 @@ namespace Carmicah
 	GLuint AssetManager::LoadShader(const std::string& shaderName, const std::string& vertFile, const std::string& fragFile)
 	{
 		// Shader Exists
-		auto& foundShader = mShaderPgms.find(shaderName);
+		auto foundShader = mShaderPgms.find(shaderName);
 		if (foundShader != mShaderPgms.end())
 		{
 			std::cerr << "Shader:" << shaderName << " Already Exists";
@@ -256,7 +256,7 @@ namespace Carmicah
 	*/
 	void AssetManager::LoadObject(const std::string& objName, const std::string& modelFile)
 	{
-		auto& foundObj = mPrimitiveMaps.find(objName);
+		auto foundObj = mPrimitiveMaps.find(objName);
 		if (foundObj != mPrimitiveMaps.end())
 		{
 			std::cerr << "Object:" << objName << " Already Exists";
@@ -353,7 +353,7 @@ namespace Carmicah
 	*/
 	void AssetManager::LoadDebugObject(const std::string& objName, const std::string& modelFile)
 	{
-		auto& foundObj = mPrimitiveMaps.find(objName);
+		auto foundObj = mPrimitiveMaps.find(objName);
 		if (foundObj != mPrimitiveMaps.end())
 		{
 			std::cerr << "Object:" << objName << " Already Exists";
@@ -404,7 +404,7 @@ namespace Carmicah
 
 	void AssetManager::LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile)
 	{
-		auto& foundTexture = mTextureMaps.find(textureName);
+		auto foundTexture = mTextureMaps.find(textureName);
 		if (foundTexture != mTextureMaps.end())
 		{
 			std::cerr << "Texture:" << textureName << " Already Exists";
@@ -449,7 +449,7 @@ namespace Carmicah
 
 	void AssetManager::LoadFont(const std::string& fontName, const std::string& fontLoc, const unsigned int& fontHeight)
 	{
-		auto& foundFontTex = mFontMaps.find(fontName);
+		auto foundFontTex = mFontMaps.find(fontName);
 		if (foundFontTex != mFontMaps.end())
 		{
 			std::cerr << "Font: " << fontName << " Already Exists";
@@ -526,7 +526,7 @@ namespace Carmicah
 
 	void AssetManager::LoadSound(const std::string& soundName, std::string const& soundFile, bool b_isLoop)
 	{
-		auto& sound = mSoundMap.find(soundName);
+		auto sound = mSoundMap.find(soundName);
 		if (sound != mSoundMap.end())
 		{
 			std::cerr << "Sound:" << soundName << " Already Exists";

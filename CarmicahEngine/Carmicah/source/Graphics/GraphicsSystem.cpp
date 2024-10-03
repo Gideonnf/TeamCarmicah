@@ -40,7 +40,7 @@ namespace Carmicah
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<GraphicsSystem>(mSignature);
 
-		auto& shdrRef = AssetManager::GetInstance()->mShaderPgms.find(AssetManager::GetInstance()->enConfig.defaultShader);
+		auto shdrRef = AssetManager::GetInstance()->mShaderPgms.find(AssetManager::GetInstance()->enConfig.defaultShader);
 		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
 			mCurrShader = shdrRef->second;
 		else
@@ -97,7 +97,7 @@ namespace Carmicah
 
 			// Get Components
 			Renderer& renderer = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
-			auto& tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(renderer.model) };
+			auto tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(renderer.model) };
 			Primitive* p;
 			if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
 			{
@@ -133,7 +133,7 @@ namespace Carmicah
 			glBindVertexArray(p->vaoid);
 
 			// Error Checking if texture no exists
-			auto& tryTex = AssetManager::GetInstance()->mTextureMaps.find(renderer.texture);
+			auto tryTex = AssetManager::GetInstance()->mTextureMaps.find(renderer.texture);
 			if (tryTex == AssetManager::GetInstance()->mTextureMaps.end())
 			{
 				std::stringstream ss;

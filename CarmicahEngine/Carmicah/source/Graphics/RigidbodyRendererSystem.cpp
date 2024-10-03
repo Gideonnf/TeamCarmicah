@@ -50,7 +50,7 @@ namespace Carmicah
 			return;
 		glUseProgram(mCurrShader);
 
-		auto& tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(modelName) };
+		auto tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(modelName) };
 		Primitive* p;
 		if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
 		{

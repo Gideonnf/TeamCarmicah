@@ -19,8 +19,10 @@ project "Carmicah"
     pchheader "pch.h"
     pchsource "Carmicah/source/pch.cpp"
 
-    defines {  "_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS" }
-
+    defines { 
+        "_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS", 
+        "NOMINMAX"  -- Prevent <windows.h> from defining min/max macros
+    }
     files 
     {
         "%{prj.name}/source/**"
@@ -44,6 +46,9 @@ project "Carmicah"
         "ImGUI",
         "freetype.lib"
     }
+
+    buildoptions { "/wd4003" }
+    linkoptions { "/ignore:4099" }
 
     filter "system:windows"
         cppdialect "C++17"
@@ -101,6 +106,9 @@ project "Editor"
     {
         "Carmicah"
     }
+
+    buildoptions { "/wd4003" }
+    linkoptions { "/ignore:4099" }
 
     filter "system:windows"
         cppdialect "C++17"

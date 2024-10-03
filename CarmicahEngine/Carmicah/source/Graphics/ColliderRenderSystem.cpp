@@ -51,7 +51,7 @@ namespace Carmicah
 		{
 			auto& camera = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);
-			auto& tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(collider.shape) };
+			auto tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(collider.shape) };
 			Primitive* p;
 			if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
 			{
