@@ -53,6 +53,10 @@ namespace Carmicah
 		bool IsKeyReleased(Keys key);
 		bool IsKeyHold(Keys key);
 
+		bool WasKeyPressed(Keys key);
+		bool WasKeyReleased(Keys key);
+		bool WasKeyHold(Keys key);
+
 		bool IsMousePressed(MouseButtons button);
 		bool IsMouseReleased(MouseButtons button);
 		bool IsMouseHold(MouseButtons button);
@@ -83,7 +87,5 @@ namespace Carmicah
 
 	// Just so people can call "Input.IsKeyPressed" 
 	static InputSystem& Input = *InputSystem::GetInstance();
-
-
 }
 #endif

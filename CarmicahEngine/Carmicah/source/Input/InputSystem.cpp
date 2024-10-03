@@ -140,6 +140,24 @@ namespace Carmicah
 		return mKeyCurrentState[(int)key];
 	}
 
+	bool WasKeyPressed(Keys key)
+	{
+		// do later
+		return false;
+	}
+
+	bool WasKeyReleased(Keys key)
+	{
+		// do later
+		return false;
+	}
+
+	bool WasKeyHold(Keys key)
+	{
+		// do later
+		return false
+	}
+
 	bool InputSystem::IsMousePressed(MouseButtons button)
 	{
 		return KeyStates::PRESSED == mMouseMap[(int)button];
@@ -249,7 +267,335 @@ namespace Carmicah
 		std::cout << "Mouse State : " << state << " For : " << key << std::endl;
 	}
 
-	// Convert keycode to string
+	// Convert keycode to string (if-version)
+	const char* InputSystem::KeycodeToString(Keys key)
+	{
+		if (key == KEY_BACKSPACE)
+		{
+			return "backspace";
+		}
+		if (key == KEY_TAB)
+		{
+			return "tab";
+		}
+		if (key == KEY_ENTER)
+		{
+			return "enter";
+		}
+		if (key == KEY_CTRL)
+		{
+			return "ctrl";
+		}
+		if (key == KEY_CAPSLOCK)
+		{
+			return "capslock";
+		}
+		if (key == KEY_ESC)
+		{
+			return "esc";
+		}
+		if (key == KEY_SPACEBAR)
+		{
+			return "spacebar";
+		}
+		if (key == KEY_PLUS)
+		{
+			return "plus";
+		}
+		if (key == KEY_COMMA)
+		{
+			return "comma";
+		}
+		if (key == KEY_DASH)
+		{
+			return "dash";
+		}
+		if (key == KEY_FULLSTOP)
+		{
+			return "fullstop";
+		}
+		if (key == KEY_QUESTIONMARK)
+		{
+			return "questionmark";
+		}
+		if (key == KEY_CURLYDASH)
+		{
+			return "curlydash";
+		}
+		if (key == KEY_CURLYBRACKET_OPEN)
+		{
+			return "curlybracket_open";
+		}
+		if (key == KEY_BACKDASH)
+		{
+			return "backdash";
+		}
+		if (key == KEY_CURLYBRACKET_CLOSE)
+		{
+			return "curlybracket_close";
+		}
+		if (key == KEY_APOSTROPHE)
+		{
+			return "apostrophe";
+		}
+		if (key == KEY_WINDOWS_KEY)
+		{
+			return "windows_key";
+		}
+
+		// Arrow Keys
+		if (key == KEY_ARROW_LEFT)
+		{
+			return "arrow_left";
+		}
+		if (key == KEY_ARROW_UP)
+		{
+			return "arrow_up";
+		}
+		if (key == KEY_ARROW_RIGHT)
+		{
+			return "arrow_right";
+		}
+		if (key == KEY_ARROW_DOWN)
+		{
+			return "arrow_down";
+		}
+
+		// Volume Keys
+		if (key == KEY_VOLUME_MUTE)
+		{
+			return "volume_mute";
+		}
+		if (key == KEY_VOLUME_DOWN)
+		{
+			return "volume_down";
+		}
+		if (key == KEY_VOLUME_UP)
+		{
+			return "volume_up";
+		}
+
+		// Track Keys
+		if (key == KEY_TRACK_NEXT)
+		{
+			return "track_next";
+		}
+		if (key == KEY_TRACK_PREVIOUS)
+		{
+			return "track_previous";
+		}
+		if (key == KEY_TRACK_STOP)
+		{
+			return "track_stop";
+		}
+		if (key == KEY_TRACK_PLAYORPAUSE)
+		{
+			return "track_playorpause";
+		}
+
+		// Number Keys
+		if (key == KEY_0)
+		{
+			return "0";
+		}
+		if (key == KEY_1)
+		{
+			return "1";
+		}
+		if (key == KEY_2)
+		{
+			return "2";
+		}
+		if (key == KEY_3)
+		{
+			return "3";
+		}
+		if (key == KEY_4)
+		{
+			return "4";
+		}
+		if (key == KEY_5)
+		{
+			return "5";
+		}
+		if (key == KEY_6)
+		{
+			return "6";
+		}
+		if (key == KEY_7)
+		{
+			return "7";
+		}
+		if (key == KEY_8)
+		{
+			return "8";
+		}
+		if (key == KEY_9)
+		{
+			return "9";
+		}
+
+		// Alphabet Keys
+		if (key == KEY_A)
+		{
+			return "A";
+		}
+		if (key == KEY_B)
+		{
+			return "B";
+		}
+		if (key == KEY_C)
+		{
+			return "C";
+		}
+		if (key == KEY_D)
+		{
+			return "D";
+		}
+		if (key == KEY_E)
+		{
+			return "E";
+		}
+		if (key == KEY_F)
+		{
+			return "F";
+		}
+		if (key == KEY_G)
+		{
+			return "G";
+		}
+		if (key == KEY_H)
+		{
+			return "H";
+		}
+		if (key == KEY_I)
+		{
+			return "I";
+		}
+		if (key == KEY_J)
+		{
+			return "J";
+		}
+		if (key == KEY_K)
+		{
+			return "K";
+		}
+		if (key == KEY_L)
+		{
+			return "L";
+		}
+		if (key == KEY_M)
+		{
+			return "M";
+		}
+		if (key == KEY_N)
+		{
+			return "N";
+		}
+		if (key == KEY_O)
+		{
+			return "O";
+		}
+		if (key == KEY_P)
+		{
+			return "P";
+		}
+		if (key == KEY_Q)
+		{
+			return "Q";
+		}
+		if (key == KEY_R)
+		{
+			return "R";
+		}
+		if (key == KEY_S)
+		{
+			return "S";
+		}
+		if (key == KEY_T)
+		{
+			return "T";
+		}
+		if (key == KEY_U)
+		{
+			return "U";
+		}
+		if (key == KEY_V)
+		{
+			return "V";
+		}
+		if (key == KEY_W)
+		{
+			return "W";
+		}
+		if (key == KEY_X)
+		{
+			return "X";
+		}
+		if (key == KEY_Y)
+		{
+			return "Y";
+		}
+		if (key == KEY_Z)
+		{
+			return "Z";
+		}
+
+		// Function Keys
+		if (key == KEY_F01)
+		{
+			return "F1";
+		}
+		if (key == KEY_F02)
+		{
+			return "F2";
+		}
+		if (key == KEY_F03)
+		{
+			return "F3";
+		}
+		if (key == KEY_F04)
+		{
+			return "F4";
+		}
+		if (key == KEY_F05)
+		{
+			return "F5";
+		}
+		if (key == KEY_F06)
+		{
+			return "F6";
+		}
+		if (key == KEY_F07)
+		{
+			return "F7";
+		}
+		if (key == KEY_F08)
+		{
+			return "F8";
+		}
+		if (key == KEY_F09)
+		{
+			return "F9";
+		}
+		if (key == KEY_F10)
+		{
+			return "F10";
+		}
+		if (key == KEY_F11)
+		{
+			return "F11";
+		}
+		if (key == KEY_F12)
+		{
+			return "F12";
+		}
+
+		return "undefined";
+	}
+
+	// convert keycode to string (switch version)
+	/*// Convert keycode to string
 	const char* InputSystem::KeycodeToString(Keys key)
 	{
 		switch (key)
@@ -425,7 +771,7 @@ namespace Carmicah
 		default:
 			return "undefined";
 		}
-	}
+	}*/
 
 
 }
