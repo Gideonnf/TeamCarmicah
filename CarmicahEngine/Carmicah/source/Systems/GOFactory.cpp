@@ -213,6 +213,8 @@ namespace Carmicah
 		for (auto& entity : mDeleteList)
 		{
 			SystemManager::GetInstance()->EntityDestroyed(entity);
+			EntityKilledMessage msg(entity);
+			SendMessage(&msg);
 		}
 
 		mDeleteList.clear();
@@ -317,4 +319,6 @@ namespace Carmicah
 			Carmicah::Log::GetCoreLogger()->info("Msg Recevied in GOFactory containing :" + std::to_string(static_cast<KeyMessage*>(msg)->mKeypress));
 		}
 	}
+
+	
 }

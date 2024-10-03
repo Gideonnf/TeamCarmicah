@@ -61,7 +61,7 @@ namespace Carmicah
 		else
 		{
 			//mFreeEntities.erase()
-			for (auto& it = mFreeEntities.begin(); it != mFreeEntities.end(); it++)
+			for (auto it = mFreeEntities.begin(); it != mFreeEntities.end(); it++)
 			{
 				if (*it == entityID)
 				{

@@ -112,9 +112,23 @@ namespace Carmicah
 
     void GameLogic::EntityDestroyed(Entity id)
     {
-        if (id == mainCharacter.GetID())
+        UNUSED(id);
+        //if (id == mainCharacter.GetID())
+        //{
+        //    mainCharacter.SetActive(false);
+        //}
+    }
+
+    void GameLogic::ReceiveMessage(Message* msg)
+    {
+        if (msg->mMsgType == MSG_ENTITYKILLED)
         {
-            mainCharacter.SetActive(false);
+            Entity entityKilled = dynamic_cast<EntityKilledMessage*>(msg)->mEntityID;
+
+            if (entityKilled == mainCharacter.GetID())
+            {
+                mainCharacter.SetActive(false);
+            }
         }
     }
 }

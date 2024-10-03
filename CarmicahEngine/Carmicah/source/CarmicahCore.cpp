@@ -144,6 +144,7 @@ namespace Carmicah
 
         //GameLogic gameLogic;
         gameLogic->Init();
+        gGOFactory->BindSystem(std::static_pointer_cast<BaseSystem>(gameLogic).get());
         graSystem->SetScreenSize((GLuint)Width / 100, (GLuint)Height / 100, gGOFactory->mainCam);
 
         colSystem->PrintEntities();

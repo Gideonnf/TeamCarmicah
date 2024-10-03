@@ -80,6 +80,8 @@ namespace Carmicah
 		void CreateComponent();
 #pragma endregion
 		void ReceiveMessage(Message* msg) override;
+
+		//void SendMessage(Message* msg) override;
 	};
 
 	extern GOFactory* gGOFactory;

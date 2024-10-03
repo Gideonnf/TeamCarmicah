@@ -40,6 +40,8 @@ namespace Carmicah
 		void Update(GLFWwindow* window);
 
 		void EntityDestroyed(Entity id) override;
+
+		void ReceiveMessage(Message* msg) override;
 	};
 }
 

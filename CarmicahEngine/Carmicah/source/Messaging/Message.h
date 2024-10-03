@@ -14,28 +14,42 @@ DigiPen Institute of Technology is prohibited.
 
 #ifndef MESSAGE_H
 #define MESSAGE_H
+#include "../ECS/ECSTypes.h"
 
-enum MessageType
+namespace Carmicah
 {
-	MSG_NONE,
-	MSG_KEYPRESS,
-	MSG_MOUSEPRESS
-};
+	enum MessageType
+	{
+		MSG_NONE,
+		MSG_KEYPRESS,
+		MSG_MOUSEPRESS,
+		MSG_ENTITYKILLED
+	};
 
-namespace
-{
-	// Keep track of how many messages has been sent around since system start
-	static int msgID = 0;
+	namespace
+	{
+		// Keep track of how many messages has been sent around since system start
+		static int msgID = 0;
+	}
+
+	class Message
+	{
+	public:
+		MessageType mMsgType;
+		const int mID;
+
+		Message(MessageType msgType) : mMsgType(msgType), mID(msgID++) {}
+		virtual ~Message() {}
+	};
+
+	class EntityKilledMessage : public Message
+	{
+	public:
+		Entity mEntityID;
+		EntityKilledMessage(Entity id) : Message(MSG_ENTITYKILLED), mEntityID(id) {}
+	};
+
+
 }
-
-class Message
-{
-public:
-	MessageType mMsgType;
-	const int mID;
-
-	Message(MessageType msgType) : mMsgType(msgType), mID(msgID++) {}
-};
-
 
 #endif
