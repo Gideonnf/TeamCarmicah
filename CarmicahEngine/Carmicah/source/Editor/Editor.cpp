@@ -171,7 +171,7 @@ namespace Carmicah
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
-		glfwSwapBuffers(window);
+		//glfwSwapBuffers(window);
 	}
 
 	void Editor::Exit()
