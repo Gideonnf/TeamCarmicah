@@ -130,8 +130,8 @@ namespace Carmicah
         txtSystem->Init();
         aniSystem->Init();
         crsSystem->Init();
-        colSystem->Init(); // Set the signature
         phySystem->Init();
+        colSystem->Init(); // Set the signature
         rrsSystem->Init();
         souSystem->Init(false);
         inputSystem->BindSystem(gGOFactory);
@@ -227,7 +227,7 @@ namespace Carmicah
 
         colSystem->PrintEntities();
         
-
+        
         //Testing prefab
         
         //newObj.GetComponent<Transform>().xPos = -2.0;

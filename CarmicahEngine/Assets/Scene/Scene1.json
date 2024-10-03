@@ -178,7 +178,7 @@
         "velocityY": 0.0,
         "posPrevX": 0.0,
         "posPrevY": 0.0,
-        "gravity": -0.3,
+        "gravity": -0.5,
         "zposPrev": 0.0,
         "objectType": "Dynamic"
       }

@@ -15,6 +15,7 @@ DigiPen Institute of Technology is prohibited.
 
 #include "pch.h"
 #include "Systems/CollisionSystem.h"
+#include "Systems/PhysicsSystem.h"
 #include "Systems/GOFactory.h"
 #include <ECS/ECSTypes.h>
 #include <ECS/GameObject.h>
@@ -250,8 +251,6 @@ namespace Carmicah
 			rigidbody2.velocity.x = 0;
 			rigidbody2.velocity.y = 0;
 
-			//std::cout << "Obj 1 Collided at " << collider1.max << " " << collider1.min << std::endl;
-			//std::cout << "Obj 2 Collided at " << collider2.max << " " << collider2.min << std::endl;
 		}
 		else if (rigidbody1.objectType == "Kinematic" && rigidbody2.objectType == "Static")
 		{
@@ -340,9 +339,14 @@ namespace Carmicah
 
 			if (rigidbody1.objectType == "Dynamic")
 			{
-				for (auto it2 = std::next(it1); it2 != mEntitiesSet.end(); ++it2) 
+				for (auto it2 = mEntitiesSet.begin(); it2 != mEntitiesSet.end(); ++it2) 
 				{
 					Entity entity2 = *it2;
+
+					if (entity2 == entity1) 
+					{
+						continue;
+					}
 
 					auto& rigidbody2 = componentManager->GetComponent<RigidBody>(entity2);
 
@@ -362,9 +366,14 @@ namespace Carmicah
 			}
 			else if (rigidbody1.objectType == "Kinematic") 
 			{
-				for (auto it2 = std::next(it1); it2 != mEntitiesSet.end(); ++it2)
+				for (auto it2 = mEntitiesSet.begin(); it2 != mEntitiesSet.end(); ++it2)
 				{
 					Entity entity2 = *it2;
+
+					if (entity2 == entity1)
+					{
+						continue;
+					}
 
 					auto& rigidbody2 = componentManager->GetComponent<RigidBody>(entity2);
 
@@ -397,6 +406,7 @@ namespace Carmicah
 
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<CollisionSystem>(mSignature);
+	
 	}
 
 	/**
