@@ -41,14 +41,16 @@ project "Carmicah"
     links
     {
         "glfw3.lib",
-        "opengl32.lib",
         "glad",
         "ImGUI",
-        "freetype.lib"
+        "freetype.lib",
     }
 
     buildoptions { "/wd4003" }
-    linkoptions { "/ignore:4099" }
+    linkoptions { 
+        "/ignore:4099",
+        "/NODEFAULTLIB:LIBCMT"
+    }
 
     filter "system:windows"
         cppdialect "C++17"
@@ -108,8 +110,10 @@ project "Editor"
     }
 
     buildoptions { "/wd4003" }
-    linkoptions { "/ignore:4099" }
-
+    linkoptions { 
+        "/ignore:4099",
+        "/NODEFAULTLIB:LIBCMT"
+    }
     filter "system:windows"
         cppdialect "C++17"
         systemversion "latest"
