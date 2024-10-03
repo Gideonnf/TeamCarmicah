@@ -23,6 +23,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
+#include "Components/UITransform.h"
 #include <random>
 
 namespace Carmicah
@@ -53,56 +54,110 @@ namespace Carmicah
 			{
 				ImGui::Text("Selected Game Object: %s", selectedGO->GetName().c_str());
 				Entity selectedEntity = selectedGO->GetID();
-				Transform& selectedTransform = selectedGO->GetComponent<Transform>();
-				if (ImGui::BeginTable("Transform Table", 2, ImGuiTableFlags_Borders))
+				if (selectedGO->HasComponent<Transform>())
 				{
-					//Column Headers
-					ImGui::TableNextColumn();
-					ImGui::Text("Attribute");
-					ImGui::TableNextColumn();
-					ImGui::Text("Value");
+					Transform& selectedTransform = selectedGO->GetComponent<Transform>();
+					if (ImGui::BeginTable("Transform Table", 2, ImGuiTableFlags_Borders))
+					{
+						//Column Headers
+						ImGui::TableNextColumn();
+						ImGui::Text("Attribute");
+						ImGui::TableNextColumn();
+						ImGui::Text("Value");
 
-					//Position (X,Y,Z)
-					ImGui::TableNextRow();
-					ImGui::TableNextColumn();
-					ImGui::Text("xPos");
-					ImGui::TableNextColumn();
-					ImGui::InputFloat("##xPos", &selectedTransform.xPos);
+						//Position (X,Y,Z)
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("xPos");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##xPos", &selectedTransform.xPos);
 
-					ImGui::TableNextRow();
-					ImGui::TableNextColumn();
-					ImGui::Text("yPos");
-					ImGui::TableNextColumn();
-					ImGui::InputFloat("##yPos", &selectedTransform.yPos);
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("yPos");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##yPos", &selectedTransform.yPos);
 
-					ImGui::TableNextRow();
-					ImGui::TableNextColumn();
-					ImGui::Text("zPos");
-					ImGui::TableNextColumn();
-					ImGui::InputFloat("##zPos", &selectedTransform.zPos);
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("zPos");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##zPos", &selectedTransform.zPos);
 
-					// Rotation
-					ImGui::TableNextRow();
-					ImGui::TableNextColumn();
-					ImGui::Text("Rotation");
-					ImGui::TableNextColumn();
-					ImGui::InputFloat("##rot",  &selectedTransform.rot);
+						// Rotation
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("Rotation");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##rot", &selectedTransform.rot);
 
-					// Scale (xScale, yScale)
-					ImGui::TableNextRow();
-					ImGui::TableNextColumn();
-					ImGui::Text("xScale");
-					ImGui::TableNextColumn();
-					ImGui::InputFloat("##xScale", &selectedTransform.xScale);
+						// Scale (xScale, yScale)
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("xScale");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##xScale", &selectedTransform.xScale);
 
-					ImGui::TableNextRow();
-					ImGui::TableNextColumn();
-					ImGui::Text("yScale");
-					ImGui::TableNextColumn();
-					ImGui::InputFloat("##yScale", &selectedTransform.yScale);
-
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("yScale");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##yScale", &selectedTransform.yScale);
+					}
+					ImGui::EndTable();
 				}
-				ImGui::EndTable();
+				else if (selectedGO->HasComponent<UITransform>())
+				{
+					UITransform& selectedUITransform = selectedGO->GetComponent<UITransform>();
+					if (ImGui::BeginTable("UI Transform Table", 2, ImGuiTableFlags_Borders))
+					{
+						//Column Headers
+						ImGui::TableNextColumn();
+						ImGui::Text("Attribute");
+						ImGui::TableNextColumn();
+						ImGui::Text("Value");
+
+						// Position x and y
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("xPos");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##xPos", &selectedUITransform.xPos);
+
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("yPos");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##yPos", &selectedUITransform.yPos);
+
+						// Scale (xScale, yScale)
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("xScale");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##xScale", &selectedUITransform.xScale);
+
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("yScale");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##yScale", &selectedUITransform.yScale);
+
+						//ImGui::TableNextRow();
+						//ImGui::TableNextColumn();
+						//ImGui::Text("Update Object");
+						//ImGui::TableNextColumn();
+						//std::string UpdateGO = "Update " + selectedGO->GetName();
+						//if (ImGui::Button(UpdateGO.c_str()))
+						//{
+						//	
+						//	//gGOFactory->Destroy(selectedEntity);
+						//	//selectedGO = nullptr;
+						//}
+					}
+					ImGui::EndTable();
+				}
+				
 				std::string destroyGO = "Destroy " + selectedGO->GetName();
 				if(ImGui::Button(destroyGO.c_str()))
 				{
@@ -114,10 +169,7 @@ namespace Carmicah
 			static char goName[256] = "Duck";
 			ImGui::Text("Game Object Name: ");
 			ImGui::SameLine();
-			ImGui::Text(goName); //Cannot be edited for now.
-
-			//ImGui::InputText("##GameObjectNameInput", goName, IM_ARRAYSIZE(goName));
-
+			ImGui::Text(goName); //Cannot be edited for now
 
 			if (ImGui::Button("Create Game Object"))
 			{
@@ -154,6 +206,10 @@ namespace Carmicah
 			{
 				for (auto& obj : createdList)
 				{
+					if (selectedGO != nullptr && obj.GetID() == selectedGO->GetID())
+					{
+						selectedGO = nullptr;
+					}
 					obj.Destroy();
 					//gGOFactory->Destroy(obj.GetID());
 				}

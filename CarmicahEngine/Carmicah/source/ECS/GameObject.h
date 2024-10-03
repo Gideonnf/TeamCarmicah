@@ -80,7 +80,7 @@ namespace Carmicah
 			if (!EntityManager::GetInstance()->DoesEntityExist(mID))
 			{
 				CM_CORE_ERROR("Entity does not exist");
-				return;
+				return false;
 			}
 
 			return ComponentManager::GetInstance()->HasComponent<T>(mID);
