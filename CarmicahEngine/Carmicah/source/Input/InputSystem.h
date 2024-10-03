@@ -26,6 +26,13 @@ namespace Carmicah
 		bool mMousePressed;
 		float mMouseTick;
 
+		// dragging state and position tracking variables
+		bool isDragging;
+		Vector2D<double> dragStartPos;
+		Vector2D<double> dragEndPos;
+		Vector2D<double> dragCurrentPos;
+		
+
 	public:
 		InputSystem() : windowRef(nullptr), mMousePressed(false), mMouseTick(0) {}
 		~InputSystem() {};
@@ -46,6 +53,10 @@ namespace Carmicah
 		bool IsKeyReleased(Keys key);
 		bool IsKeyHold(Keys key);
 
+		bool WasKeyPressed(Keys key);
+		bool WasKeyReleased(Keys key);
+		bool WasKeyHold(Keys key);
+
 		bool IsMousePressed(MouseButtons button);
 		bool IsMouseReleased(MouseButtons button);
 		bool IsMouseHold(MouseButtons button);
@@ -58,11 +69,23 @@ namespace Carmicah
 
 		void UpdateKeyMap(int key, KeyStates state);
 		void UpdateMouseMap(int key, KeyStates state);
+
+		// new methods for drag tracking
+		bool IsDragging() const;
+		Vector2D<double> GetDragStartPos() const;
+		Vector2D<double> GetDragEndPos() const;
+		Vector2D<double> GetDragCurrentPos() const;
+
+		// setter methods for dragging state and position tracking
+		void SetDragging(bool dragging);
+		void SetDragStartPos(const Vector2D<double>& pos);
+		void SetDragEndPos(const Vector2D<double>& pos);
+		void SetDragCurrentPos(const Vector2D<double>& pos);
+
+		const char* KeycodeToString(Keys key);
 	};
 
 	// Just so people can call "Input.IsKeyPressed" 
 	static InputSystem& Input = *InputSystem::GetInstance();
-
-
 }
 #endif
