@@ -222,23 +222,24 @@ namespace Carmicah
                 souSystem->Update();
                 CarmicahTimer::StopSystemTimer("SoundSystem");
                 CarmicahTimer::StartGPUTimer();
-                CarmicahTimer::StartSystemTimer("RenderingSystems");
-                crsSystem->Render(gGOFactory->mainCam);
-                rrsSystem->Render(gGOFactory->mainCam);
-                txtSystem->Render(WIDTH, HEIGHT);
-                CarmicahTimer::StopSystemTimer("RenderingSystems");
                 CarmicahTimer::StopGPUTimer();
 
 
                // glfwMakeContextCurrent(ImGuiWindow);
                 CarmicahTimer::StartSystemTimer("EditorSystem");
-
                 Editor.Update();
                 Editor.Render(window);
-                SceneToImgui::GetInstance()->bind_framebuffer();
-                graSystem->Render(gGOFactory->mainCam);
-                SceneToImgui::GetInstance()->unbind_framebuffer();
                 CarmicahTimer::StopSystemTimer("EditorSystem");
+
+                SceneToImgui::GetInstance()->bind_framebuffer();
+                CarmicahTimer::StartSystemTimer("RenderingSystems");
+               // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+                graSystem->Render(gGOFactory->mainCam);
+                crsSystem->Render(gGOFactory->mainCam);
+                rrsSystem->Render(gGOFactory->mainCam);
+                txtSystem->Render(WIDTH, HEIGHT);
+                CarmicahTimer::StopSystemTimer("RenderingSystems");
+                SceneToImgui::GetInstance()->unbind_framebuffer();
                // glfwMakeContextCurrent(window);
 
                 glfwSwapBuffers(window);
