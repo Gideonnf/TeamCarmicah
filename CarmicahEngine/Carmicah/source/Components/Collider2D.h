@@ -22,6 +22,7 @@ namespace Carmicah
 
         void SerializeComponent(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer) override
         {
+            writer.String("shape");
 			writer.String(shape.c_str());
         }
     };

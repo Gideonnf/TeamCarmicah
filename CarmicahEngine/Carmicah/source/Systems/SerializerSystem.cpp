@@ -130,6 +130,7 @@ namespace Carmicah
 		OStreamWrapper osw(ofs);
 		PrettyWriter<OStreamWrapper> writer(osw);
 		gGOFactory->ExportGOs(writer);
+		ofs.close();
 		return true;
 	}
 
