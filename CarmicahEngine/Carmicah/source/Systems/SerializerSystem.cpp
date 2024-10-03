@@ -28,7 +28,10 @@ namespace Carmicah
 		enConfig.Height = config["Height"].GetInt();
 		enConfig.defaultScene = config["Default Scene"].GetString();
 		enConfig.defaultShader = config["Default Shader"].GetString();
+		enConfig.fontShader = config["Font Shader"].GetString();
 		enConfig.assetLoc = config["Asset Loc"].GetString();
+		enConfig.fontSize = config["Font Size"].GetInt();
+		
 		configFilePath = filePath;
 		return enConfig;
 	}
@@ -60,6 +63,12 @@ namespace Carmicah
 
 		writer.String("Default Shader");
 		writer.String(enConfig.defaultShader.c_str(), static_cast<SizeType>(enConfig.defaultShader.length()));
+
+		writer.String("Font Shader");
+		writer.String(enConfig.fontShader.c_str(), static_cast<SizeType>(enConfig.fontShader.length()));
+
+		writer.String("Font Size");
+		writer.Int(enConfig.fontSize);
 
 		writer.String("Asset Loc");
 		writer.String(enConfig.assetLoc.c_str(), static_cast<SizeType>(enConfig.assetLoc.length()));
