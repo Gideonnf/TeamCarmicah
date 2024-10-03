@@ -30,4 +30,6 @@ namespace Carmicah
 		}
 		ImGui::End();
 	}
+
+	void EditorWindow::EntityDestroyed(Entity id) {}
 }

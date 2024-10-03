@@ -181,4 +181,12 @@ namespace Carmicah
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 	}
+
+	void Editor::EntityDestroyed(Entity id)
+	{
+		for (auto& window : mWindows)
+		{
+			window->EntityDestroyed(id);
+		}
+	}
 }

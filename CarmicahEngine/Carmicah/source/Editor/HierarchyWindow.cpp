@@ -30,11 +30,11 @@ namespace Carmicah
 {
 	HierarchyWindow::HierarchyWindow() : EditorWindow("Hierarchy", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
 	std::vector<GameObject> createdList;
+	static GameObject* selectedGO;
 
 	void HierarchyWindow::Update()
 	{
-			static Transform playerTrans{};
-			static GameObject* selectedGO;
+			//static Transform playerTrans{};
 			//static Collider2D playerCollider{ 1.0, 2.0, 3.0, 4.0 };
 			//static Renderer toRender{};
 		if (ImGui::Begin(mTitle))
@@ -219,5 +219,13 @@ namespace Carmicah
 			}
 		}
 		ImGui::End();
+	}
+
+	void HierarchyWindow::EntityDestroyed(Entity id)
+	{
+		if (selectedGO != nullptr && id == selectedGO->GetID())
+		{
+			selectedGO = nullptr;
+		}
 	}
 }

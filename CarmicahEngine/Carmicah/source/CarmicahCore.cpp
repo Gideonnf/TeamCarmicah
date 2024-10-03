@@ -115,6 +115,7 @@ namespace Carmicah
         REGISTER_COMPONENT(TextRenderer);
         REGISTER_COMPONENT(UITransform);
 
+        auto editorSys = REGISTER_SYSTEM(Editor);
         REGISTER_SYSTEM(GOFactory);
         auto graSystem = REGISTER_SYSTEM(GraphicsSystem);
         auto txtSystem = REGISTER_SYSTEM(TextSystem);
@@ -150,8 +151,8 @@ namespace Carmicah
         //phySystem->Update();
         
 
-        Editor Editor;
-        Editor.Init(window);
+       // Editor Editor;
+        editorSys->Init(window);
 
         SceneToImgui::GetInstance()->create_framebuffer(bufferWidth, bufferHeight);
 
@@ -227,8 +228,8 @@ namespace Carmicah
 
                // glfwMakeContextCurrent(ImGuiWindow);
                 CarmicahTimer::StartSystemTimer("EditorSystem");
-                Editor.Update();
-                Editor.Render(window);
+                editorSys->Update();
+                editorSys->Render(window);
                 CarmicahTimer::StopSystemTimer("EditorSystem");
 
                 SceneToImgui::GetInstance()->bind_framebuffer();
@@ -259,7 +260,7 @@ namespace Carmicah
         }
 
         AssetManager::GetInstance()->UnloadAll();
-        Editor.Exit();
+        editorSys->Exit();
         souSystem->Exit();
         colSystem->Exit();
         Serializer.WriteConfig();

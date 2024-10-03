@@ -32,7 +32,7 @@ namespace Carmicah
 
 		void Update() override;
 
-
+		void EntityDestroyed(Entity id) override;
 	};
 }
 

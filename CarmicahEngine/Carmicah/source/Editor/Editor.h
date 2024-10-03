@@ -20,10 +20,11 @@ DigiPen Institute of Technology is prohibited.
 #include "EditorWindow.h"
 #include "HierarchyWindow.h"
 #include "SceneWindow.h"
+#include "../ECS/BaseSystem.h"
 
 namespace Carmicah
 {
-	class Editor
+	class Editor : public BaseSystem
 	{
 	public:
 
@@ -39,6 +40,7 @@ namespace Carmicah
 
 		void Exit();
 
+		void EntityDestroyed(Entity id) override;
 
 	private:
 

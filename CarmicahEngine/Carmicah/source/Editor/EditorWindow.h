@@ -17,6 +17,7 @@ DigiPen Institute of Technology is prohibited.
 
 #include <GLFW/glfw3.h>
 #include <ImGUI/imgui.h>
+#include "../ECS/BaseSystem.h"
 
 namespace Carmicah
 {
@@ -34,6 +35,7 @@ namespace Carmicah
 
 		virtual void Update();
 
+		virtual void EntityDestroyed(Entity id);
 
 	};
 }
