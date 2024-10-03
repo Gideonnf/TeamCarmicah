@@ -132,8 +132,8 @@ namespace Carmicah
         txtSystem->Init();
         aniSystem->Init();
         crsSystem->Init();
-        colSystem->Init(); // Set the signature
         phySystem->Init();
+        colSystem->Init(); // Set the signature
         rrsSystem->Init();
         souSystem->Init(false);
         inputSystem->BindSystem(gGOFactory);
@@ -146,9 +146,9 @@ namespace Carmicah
         graSystem->SetScreenSize(WIDTH / 100, HEIGHT / 100, gGOFactory->mainCam);
 
         colSystem->PrintEntities();
-
         //int objectCount = 0;
-        phySystem->Update();
+        //phySystem->Update();
+        
 
         Editor Editor;
         Editor.Init(window);

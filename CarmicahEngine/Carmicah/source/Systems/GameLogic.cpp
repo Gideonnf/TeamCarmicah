@@ -57,7 +57,7 @@ namespace Carmicah
 
         if (Input.IsKeyPressed(Keys::KEY_P))
         {
-            physicsRef->mDebugPhysics = true;
+            physicsRef->mDebugPhysics = !physicsRef->mDebugPhysics;
         }
 
         // Anytime a movement key is pressed or T key 
