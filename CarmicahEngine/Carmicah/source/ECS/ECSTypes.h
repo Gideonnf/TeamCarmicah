@@ -1,4 +1,20 @@
-#pragma once
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:        EntityManager.h
+
+ author:   Gideon Francis
+
+ email:       g.francis@digipen.edu
+
+ brief:       A singleton manager to handle the creation and management of Entity IDs and their Entity Signature which is a bitset that represents
+				the components that the entity has
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+#ifndef ECS_TYPES_H
+#define ECS_TYPES_H
 #include <bitset>
 #include <cstdint>
 
@@ -20,3 +36,4 @@ namespace Carmicah
 	// Keep track of entity signature using bitset
 	using Signature = std::bitset<MAX_COMPONENTS>;
 }
+#endif

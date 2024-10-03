@@ -1,3 +1,19 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:        SystemManager.cpp
+
+ author:   Gideon Francis
+
+ email:       g.francis@digipen.edu
+
+ brief:       A singleton manager class that controls all systems in the engine. Stores them in a map based on the string representation of the system.
+				Also acts as a message dispatcher to systems that subscribe to specific systems to receive messages from them. Also updates all systems when
+				an entity has a new component added to map them to their entitiesSet or if an entity was destroyed and needs to be removed
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 #include "pch.h"
 #include "SystemManager.h"
 #include "Systems/SceneSystem.h"

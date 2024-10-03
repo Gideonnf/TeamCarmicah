@@ -1,3 +1,17 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:        ComponentManager.h
+
+ author:   Gideon Francis
+
+ email:       g.francis@digipen.edu
+
+ brief:       A singleton manager to handle the creation and management of Components. Stores a map of a string representation to the component.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 #ifndef COMPONENT_MANAGER_H
 #define COMPONENT_MANAGER_H
 #include "Component.h" // ECStypes in component.h

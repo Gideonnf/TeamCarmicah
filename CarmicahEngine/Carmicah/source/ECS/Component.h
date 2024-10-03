@@ -1,3 +1,18 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:        Component.h
+
+ author:   Gideon Francis
+
+ email:       g.francis@digipen.edu
+
+ brief:       The component template class that allows for any kind of component creation. Uses two maps, Entity ID to Component and Component to Entity ID.
+				Components are stored in a vector that reserves a size based on the max entities that the system allows to allow for contiguous memory of components
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
