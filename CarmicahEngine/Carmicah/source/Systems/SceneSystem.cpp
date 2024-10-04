@@ -18,6 +18,7 @@ DigiPen Institute of Technology is prohibited.
 #include "log.h"
 #include "Systems/AssetManager.h"
 #include "Systems/SerializerSystem.h"
+#include "../Editor/SceneToImgui.h"
 
 namespace Carmicah
 {
@@ -51,7 +52,8 @@ namespace Carmicah
 			mCurrScene = mNextScene = "DefaultScene";
 			SerializerSystem::GetInstance()->DeserializeScene(sceneFile);
 		}
-
+		// For transferring curr scene to imgui for now. TODO: Better implementation
+		SceneToImgui::GetInstance()->currentScene = mCurrScene;
 	}
 
 	/// <summary>

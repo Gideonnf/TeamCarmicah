@@ -25,6 +25,7 @@ namespace Carmicah
 		GLuint FBO;
 		GLuint RBO;
 		GLuint texture_id;
+		std::string currentScene;
 
 		void create_framebuffer(int width, int height);
 		void bind_framebuffer();

@@ -24,6 +24,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
 #include "Components/UITransform.h"
+#include "SceneToImgui.h"
 #include <random>
 
 namespace Carmicah
@@ -214,7 +215,7 @@ namespace Carmicah
 				}
 			}
 
-			if (ImGui::Button("Destroy all Game Objects"))
+			if (ImGui::Button("Destroy all 2500 Game Objects"))
 			{
 				for (auto& obj : createdList)
 				{
@@ -227,6 +228,15 @@ namespace Carmicah
 				}
 
 				createdList.clear();
+				//gGOFactory->DestroyAll();
+			}
+
+			std::string buttonName = "Save current scene: " + SceneToImgui::GetInstance()->currentScene;
+			if (ImGui::Button(buttonName.c_str()))
+			{
+				std::string sceneFile;
+				AssetManager::GetInstance()->GetScene(SceneToImgui::GetInstance()->currentScene, sceneFile);
+				SerializerSystem::GetInstance()->SerializeScene(sceneFile);
 				//gGOFactory->DestroyAll();
 			}
 		}

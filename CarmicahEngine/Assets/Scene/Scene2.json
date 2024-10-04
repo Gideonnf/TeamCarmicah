@@ -20,7 +20,7 @@
         ]
     },    
   {
-    "GameObject": "GameObject",
+    "GameObject": "SpriteChangeObject",
     "ID": 1,
     "Components": [
       {
