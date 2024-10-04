@@ -68,7 +68,7 @@ namespace Carmicah
         if (Input.IsKeyPressed(Keys::KEY_B))
         {
             soundSystemRef->PauseResumeSound(soundSystemRef->defaultBGM);
-            soundSystemRef->PauseResumeSound(soundSystemRef->buttonBGM);
+          //  soundSystemRef->PauseResumeSound(soundSystemRef->buttonBGM);
 
            // SystemManager::GetInstance()->GetSystem<SoundSystem>()->PauseResumeSound
         }
