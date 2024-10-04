@@ -62,7 +62,7 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-    SoundSystem::SoundSystem() : fmodSystem(nullptr) {}
+    SoundSystem::SoundSystem() {}
 
     SoundSystem::~SoundSystem()
     {
@@ -72,38 +72,32 @@ namespace Carmicah
     //This is the signature of the sound system which is used to determine if an entity should be processed by the system
     void SoundSystem::Init(bool playDefaultBGM)
     {
-        FMOD::System_Create(&fmodSystem);
-        fmodSystem->init(32, FMOD_INIT_NORMAL, nullptr);
-
-        // Load default BGM
-        LoadSound(defaultBGM, "../Assets/BGM/bouken.mp3", true);
 
         // Play default BGM
         if (playDefaultBGM)
         {
-            PlaySound(defaultBGM, 0.5f);
+            PlaySound(defaultBGM, 0.3f);
         }
+
+        if (playDefaultBGM)
+        {
+            PlaySound(buttonBGM, 0.5f);
+        }
+
+
 
         SystemManager::GetInstance()->SetSignature<SoundSystem>(mSignature);
     }
 
-    //This function is used to load a sound file into the sound system
-    void SoundSystem::LoadSound(const std::string& soundName, const std::string& filePath, bool isLooping)
-    {
-        FMOD::Sound* sound;
-        FMOD_MODE mode = isLooping ? FMOD_LOOP_NORMAL : FMOD_DEFAULT;
-        fmodSystem->createSound(filePath.c_str(), mode, nullptr, &sound);
-        soundMap[soundName] = sound;
-    }
 
     //This function is used to play a sound file from the sound system
     void SoundSystem::PlaySound(const std::string& soundName, float volume)
     {
-        auto it = soundMap.find(soundName);
-        if (it != soundMap.end())
+        auto it = AssetManager::GetInstance()->mSoundMap.find(soundName);
+        if (it != AssetManager::GetInstance()->mSoundMap.end())
         {
             FMOD::Channel* channel;
-            fmodSystem->playSound(it->second, nullptr, false, &channel);
+            AssetManager::GetInstance()->mSoundSystem->playSound(it->second.sound, nullptr, false, &channel);
             channel->setVolume(volume);
             channelMap[soundName] = channel;
         }
@@ -155,7 +149,7 @@ namespace Carmicah
     //This function is used to update the sound system and remove any stopped channels
     void SoundSystem::Update()
     {
-        fmodSystem->update();
+        AssetManager::GetInstance()->mSoundSystem->update();
 
         // Remove stopped channels
         for (auto it = channelMap.begin(); it != channelMap.end();)
@@ -180,19 +174,5 @@ namespace Carmicah
     {
         // Stop all sounds
         StopAllSounds();
-
-        // Release all sounds in the sound map
-        for (auto& pair : soundMap)
-        {
-            pair.second->release();
-        }
-        soundMap.clear();
-
-        // Release the FMOD system
-        if (fmodSystem)
-        {
-            fmodSystem->release();
-            fmodSystem = nullptr;
-        }
     }
 }

@@ -65,6 +65,7 @@ namespace Carmicah
                     if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_D)))
                     {
                         Log::logMessage("Log Test Button Pressed");
+
                     }
 
                     static bool sAutoScroll = true;
