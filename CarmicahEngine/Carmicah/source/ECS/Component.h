@@ -67,6 +67,17 @@ namespace Carmicah
 			m_ComponentArray.reserve(MAX_ENTITIES);
 		}
 
+        /*!*************************************************************************
+        \brief
+        	    Insert component data into the array
+        
+        \param[in] entity
+        	Entity to pair to
+        
+        \param[in] component
+        	Component to insert
+        
+        ***************************************************************************/
 		void InsertComponentData(Entity entity, T component)
 		{
 			if (m_ComponentArray.size() > MAX_ENTITIES)
@@ -89,6 +100,14 @@ namespace Carmicah
 			//m_Size++;
 		}
 
+        /*!*************************************************************************
+        \brief
+        	remove component data related to entity id
+        
+        \param[in] entity
+        	Entity to remove component from
+        
+        ***************************************************************************/
 		void RemoveComponentData(Entity entity)
 		{
 			// Get the last active index and the entity to delete index
@@ -120,6 +139,16 @@ namespace Carmicah
 			//m_Size--;
 		}
 
+        /*!*************************************************************************
+        \brief
+        	Get the Component Data object
+        
+        \param[in] entity to get from
+        	
+        
+        \return T&
+        	
+        ***************************************************************************/
 		T& GetComponentData(Entity entity)
 		{
 			assert(m_EntityToComponent.count(entity) != 0 && "Entity does not contain this component");
@@ -127,6 +156,18 @@ namespace Carmicah
 			return m_ComponentArray[m_EntityToComponent[entity]];
 		}
 
+        /*!*************************************************************************
+        \brief
+        	Check if entity has that component data
+        
+        \param[in] entity
+        	Entity to check
+        
+        \return true if have
+        	
+        \return false if dont have
+        	
+        ***************************************************************************/
 		bool HasComponentData(Entity entity)
 		{
 			// If component has this entity, count would return as 1
@@ -134,6 +175,17 @@ namespace Carmicah
 			return m_EntityToComponent.count(entity);
 		}
 
+        /*!*************************************************************************
+        \brief
+        	Clone component data related to the entity
+        
+        \param[in] entityToClone
+        	Entity to clone data from
+        
+        \param[in] newEntity
+        	Entity to clone into
+        
+        ***************************************************************************/
 		void CloneComponentData(Entity entityToClone, Entity newEntity)
 		{
 			// Get the next component index
@@ -152,6 +204,17 @@ namespace Carmicah
 			m_ComponentArray.emplace_back(componentData);
 		}
 
+        /*!*************************************************************************
+        \brief
+        	Serialize the component data
+        
+        \param[in] entity
+        	Entity to serialize from
+        
+        \param[in] writer
+        	Reference to the ostream wrapper
+        
+        ***************************************************************************/
 		void SerializeData(Entity entity, rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer)
 		{
 			unsigned int componentIndex = m_EntityToComponent[entity];
@@ -159,6 +222,14 @@ namespace Carmicah
 			componentData.SerializeComponent(writer);
 		}
 
+        /*!*************************************************************************
+        \brief
+        	When an entity is destroyed, call this
+        
+        \param[in] entity
+        	
+        
+        ***************************************************************************/
 		void EntityDestroyed(Entity entity) override
 		{
 			// If the entity exist within this component
