@@ -27,19 +27,43 @@ namespace Carmicah
 	class Editor : public BaseSystem
 	{
 	public:
-
+		/**
+		 * @brief Construct a new Editor object
+		 * 
+		 */
 		Editor();
-
+		/**
+		 * @brief Destroy the Editor object
+		 * 
+		 */
 		~Editor();
-
+		/**
+		 * @brief Initializer function for Editor class
+		 * 
+		 * @param window 
+		 */
 		void Init(GLFWwindow* window);
-
+		/**
+		 * @brief Update function for Editor class
+		 * 
+		 */
 		void Update();
-
+		/**
+		 * @brief Render function for the Editor class
+		 * 
+		 * @param window 
+		 */
 		void Render(GLFWwindow* window);
-
+		/**
+		 * @brief Exit function for the editor class
+		 * 
+		 */
 		void Exit();
-
+		/**
+		 * @brief Tells the editor class when an entity is destroyed
+		 * 
+		 * @param id 
+		 */
 		void EntityDestroyed(Entity id) override;
 
 	private:
