@@ -30,8 +30,15 @@ namespace Carmicah
 
 
 	public:
+		/**
+		 * @brief Construct a new Scene Window object
+		 * 
+		 */
 		SceneWindow();
-
+		/**
+		 * @brief SceneWindow Update override from EditorWindow
+		 * 
+		 */
 		void Update() override;
 
 

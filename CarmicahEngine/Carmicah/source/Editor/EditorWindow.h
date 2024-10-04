@@ -30,11 +30,24 @@ namespace Carmicah
 		ImVec2 mPos;
 		bool mIsVisible;
 	public:
-
+		/**
+		 * @brief Construct a new Editor Window object
+		 * 
+		 * @param title 
+		 * @param size 
+		 * @param pos 
+		 */
 		EditorWindow(const char* title, ImVec2 size, ImVec2 pos);
-
+		/**
+		 * @brief Base class Update function for the class
+		 * 
+		 */
 		virtual void Update();
-
+		/**
+		 * @brief Tells when an entity is destroyed.
+		 * 
+		 * @param id 
+		 */
 		virtual void EntityDestroyed(Entity id);
 
 	};
