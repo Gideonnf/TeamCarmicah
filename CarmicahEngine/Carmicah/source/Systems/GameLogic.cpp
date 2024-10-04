@@ -43,7 +43,7 @@ namespace Carmicah
         //wall = gGOFactory->FetchGO("wall");
 
         gGOFactory->FetchGO("FPSText", FPSText);
-        FPSText.GetComponent<UITransform>().yPos = (float)AssetManager::GetInstance()->enConfig.Height;
+        //FPSText.GetComponent<UITransform>().yPos = (float)AssetManager::GetInstance()->enConfig.Height;
     }
 
 	void GameLogic::Update(GLFWwindow* window)

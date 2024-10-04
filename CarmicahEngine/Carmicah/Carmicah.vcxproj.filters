@@ -86,6 +86,9 @@
     <ClInclude Include="source\Editor\HierarchyWindow.h">
       <Filter>Editor</Filter>
     </ClInclude>
+    <ClInclude Include="source\Editor\SceneToImgui.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
     <ClInclude Include="source\Editor\SceneWindow.h">
       <Filter>Editor</Filter>
     </ClInclude>
@@ -156,6 +159,12 @@
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />
     <ClCompile Include="source\CarmicahTime.cpp" />
+    <ClCompile Include="source\ECS\ComponentManager.cpp">
+      <Filter>ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ECS\EntityManager.cpp">
+      <Filter>ECS</Filter>
+    </ClCompile>
     <ClCompile Include="source\ECS\GameObject.cpp">
       <Filter>ECS</Filter>
     </ClCompile>
@@ -172,6 +181,9 @@
       <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="source\Editor\HierarchyWindow.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Editor\SceneToImgui.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="source\Editor\SceneWindow.cpp">

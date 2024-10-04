@@ -59,11 +59,12 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;STB_IMAGE_IMPLEMENTATION;CM_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NOMINMAX;CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;STB_IMAGE_IMPLEMENTATION;CM_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/wd4003 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -72,8 +73,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;freetype.lib;fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4099 /NODEFAULTLIB:LIBCMT /ignore:4098 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <PostBuildEvent>
       <Command>xcopy /Q /E /Y /I "..\Dependencies\lib\**.dll" "..\bin\Debug-x86_64\Editor"
@@ -85,13 +87,14 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Debug-x86_64\Assets"</Command>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;STB_IMAGE_IMPLEMENTATION;CM_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NOMINMAX;CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;STB_IMAGE_IMPLEMENTATION;CM_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/wd4003 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -101,8 +104,9 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Debug-x86_64\Assets"</Command>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;freetype.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4099 /NODEFAULTLIB:LIBCMT /ignore:4098 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <PostBuildEvent>
       <Command>xcopy /Q /E /Y /I "..\Dependencies\lib\**.dll" "..\bin\Release-x86_64\Editor"
@@ -131,6 +135,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="source\Editor\Editor.h" />
     <ClInclude Include="source\Editor\EditorWindow.h" />
     <ClInclude Include="source\Editor\HierarchyWindow.h" />
+    <ClInclude Include="source\Editor\SceneToImgui.h" />
     <ClInclude Include="source\Editor\SceneWindow.h" />
     <ClInclude Include="source\Graphics\AnimationSystem.h" />
     <ClInclude Include="source\Graphics\BaseGraphicsSystem.h" />
@@ -159,12 +164,15 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />
     <ClCompile Include="source\CarmicahTime.cpp" />
+    <ClCompile Include="source\ECS\ComponentManager.cpp" />
+    <ClCompile Include="source\ECS\EntityManager.cpp" />
     <ClCompile Include="source\ECS\GameObject.cpp" />
     <ClCompile Include="source\ECS\SystemManager.cpp" />
     <ClCompile Include="source\Editor\DebugWindow.cpp" />
     <ClCompile Include="source\Editor\Editor.cpp" />
     <ClCompile Include="source\Editor\EditorWindow.cpp" />
     <ClCompile Include="source\Editor\HierarchyWindow.cpp" />
+    <ClCompile Include="source\Editor\SceneToImgui.cpp" />
     <ClCompile Include="source\Editor\SceneWindow.cpp" />
     <ClCompile Include="source\Graphics\AnimationSystem.cpp" />
     <ClCompile Include="source\Graphics\BaseGraphicsSystem.cpp" />
