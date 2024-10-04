@@ -33,11 +33,27 @@ namespace Carmicah
 		bool mShowGPUProfiling;
 		
 		// Profiling variables
+		/**
+		 * @brief Renders the Profiling tab
+		 * 
+		 */
 		void RenderProfilingTab();
+		/**
+		 * @brief Renders the GPU profiling tab
+		 * 
+		 */
 		void RenderGPUProfilingTab();
 
 	public:
+		/**
+		 * @brief Construct a new Debug Window object
+		 * 
+		 */
 		DebugWindow();
+		/**
+		 * @brief Update override over EditorWindow class
+		 * 
+		 */
 		void Update() override;
 	};
 }
