@@ -28,6 +28,10 @@ typedef unsigned int GLuint;
 typedef unsigned long long GLuint64;
 
 // Namespace for the engine code    
+//brief:         This class is a singleton that is used to keep track of the time in the engine.
+//                 It is used to calculate the delta time, frames per second, and the time taken by each system in the engine.
+//                 It also contains functions to start and stop timers for each system and the loop, as well as functions to calculate the percentage of time taken by each system.
+//                 It also contains functions to start and stop GPU timers and calculate the time taken by the GPU.
 namespace Carmicah
 {
 // Class to keep track of the time in the engine 

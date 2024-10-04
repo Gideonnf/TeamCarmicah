@@ -19,6 +19,9 @@ DigiPen Institute of Technology is prohibited.
 #include <GLFW/glfw3.h>
 #include "CarmicahTime.h"
 
+//brief:			This DebugWindow class is a derived class from EditorWindow.
+//                 It currently provides an FPS tracker, a console log and profiler for tracking purposes.
+
 namespace Carmicah
 {
     // Call this instead of constructor

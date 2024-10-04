@@ -20,6 +20,8 @@ DigiPen Institute of Technology is prohibited.
 #include "spdlog/spdlog.h"
 #include <sstream>
 
+
+
 namespace Carmicah
 {
     class Log

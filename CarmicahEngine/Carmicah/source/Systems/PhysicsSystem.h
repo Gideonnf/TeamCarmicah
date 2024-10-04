@@ -14,6 +14,8 @@ DigiPen Institute of Technology is prohibited.
 #pragma once
 #include "ECS/BaseSystem.h"
 
+
+//berif:         This class is a system that handles the physics of all the game objects
 namespace Carmicah
 {
 	class PhysicsSystem : public BaseSystem

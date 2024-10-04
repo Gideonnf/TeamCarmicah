@@ -21,13 +21,22 @@ DigiPen Institute of Technology is prohibited.
 #include "DebugWindow.h"
 #include "CarmicahTime.h"
 
+//brief:			This DebugWindow class is a derived class from Editor
+//                 It currently provides an FPS tracker, a console log and profiler for tracking purposes.
+
 namespace Carmicah
 {
+    //Constructor for the Debug Window
     DebugWindow::DebugWindow() : EditorWindow("Debug", ImVec2(900, 300), ImVec2(0, 0)),
         mShowFPS(true), mShowLogger(true), mShowProfiling(true), mShowGPUProfiling(true) {
         mIsVisible = true;
     }
-
+    //Update the Debug Window to display the FPS, Logger, Profiling, GPU Profiling data
+    //The Debug Window will display the FPS, Logger, Profiling, GPU Profiling data in tabs
+    //The Debug Window will display the FPS data in the FPS Info tab
+    //The Debug Window will display the Logger data in the Logger tab
+    //The Debug Window will display the Profiling data in the Profiling tab
+    //The Debug Window will display the GPU Profiling data in the GPU Profiling tab
     void DebugWindow::Update()
     {
         static int clicked;
@@ -35,7 +44,9 @@ namespace Carmicah
         static ImGuiTextBuffer logBuffer;
         static bool autoScrollLog = true;
         counter++;
-        
+       
+        //Render the Debug Window
+        //Render the Debug Window with the title "Debug" and the ImGuiWindowFlags_MenuBar flag
         if (ImGui::Begin(mTitle, nullptr, ImGuiWindowFlags_MenuBar))
         {
             if (ImGui::BeginMenuBar())

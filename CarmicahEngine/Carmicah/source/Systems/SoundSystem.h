@@ -22,6 +22,9 @@ DigiPen Institute of Technology is prohibited.
 #include "FMOD/fmod.hpp"
 #include <string>
 
+
+//breif:         This class is a system that handles the sound effects and background music of the game
+
 namespace Carmicah
 {
     class SoundSystem : public BaseSystem

@@ -16,6 +16,10 @@ DigiPen Institute of Technology is prohibited.
 #define GAME_CORE_H
 #include "ECS/BaseSystem.h"
 
+
+//brief:         This class is a system
+//                 that handles the changing of scenes within the engine.
+//                 It allows for any exit calls or init calls when changing between scenes
 namespace Carmicah
 {
 	enum SceneState

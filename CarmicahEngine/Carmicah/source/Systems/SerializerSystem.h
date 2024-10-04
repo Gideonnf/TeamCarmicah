@@ -23,6 +23,9 @@ DigiPen Institute of Technology is prohibited.
 #include "CarmicahCore.h"
 #include "AssetManager.h"
 
+
+//berif:         This class is a system
+//                 that handles the serializing of data and deserializing of data
 namespace Carmicah
 {
 	class SerializerSystem : public Singleton<SerializerSystem>

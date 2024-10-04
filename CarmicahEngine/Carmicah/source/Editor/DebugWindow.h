@@ -21,7 +21,8 @@ DigiPen Institute of Technology is prohibited.
 #include "EditorWindow.h"
 #include "log.h"
 
-
+//brief:			This DebugWindow class is a derived class from EditorWindow.
+//                 It currently provides an FPS tracker, a console log and profiler for tracking purposes.
 namespace Carmicah
 {
 	class DebugWindow : public EditorWindow

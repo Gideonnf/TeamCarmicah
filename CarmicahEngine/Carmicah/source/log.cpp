@@ -17,6 +17,9 @@ DigiPen Institute of Technology is prohibited.
 #include "spdlog/sinks/stdout_color_sinks.h"
 
 
+//brief:         This file contains the logging system for the engine. It uses the spdlog library to log messages to the console and to a file.
+//				The logging system is used by the engine and the client. The engine uses the core logger and the client uses the client logger.
+//				The logging system is disabled in release mode for performance reasons.
 namespace Carmicah
 {
 	// Initialize the static variables
