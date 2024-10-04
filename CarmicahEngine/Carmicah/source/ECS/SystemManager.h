@@ -42,6 +42,15 @@ namespace Carmicah
 			return system;
 		}
 
+        /*!*************************************************************************
+        \brief
+        	Set the Signature object
+        
+        \tparam T 
+        \param[in] sig
+        	
+        
+        ***************************************************************************/
 		template<typename T>
 		void SetSignature(Signature sig)
 		{
@@ -51,6 +60,15 @@ namespace Carmicah
 			mSystemSignatures.insert({ sysName, sig });
 		}
 
+        /*!*************************************************************************
+        \brief
+        	Set the Signature object
+        
+        \tparam T 
+        \param[in] componentList
+        	
+        
+        ***************************************************************************/
 		template<typename T>
 		void SetSignature(std::vector<const char*> componentList)
 		{
@@ -70,12 +88,47 @@ namespace Carmicah
 			mSystemSignatures.insert({ sysName, signature });
 		}
 
+        /*!*************************************************************************
+        \brief
+        	Called when entity is destroyed
+        
+        \param[in] entity
+        	
+        
+        ***************************************************************************/
 		void EntityDestroyed(Entity entity);
 
+        /*!*************************************************************************
+        \brief
+        	Update entity's signature to all systems
+        
+        \param[in] entity
+        	
+        
+        \param[in] entitySignature
+        	
+        
+        ***************************************************************************/
 		void UpdateSignatures(Entity entity, Signature entitySignature);
 
+        /*!*************************************************************************
+        \brief
+        	Broad cast a message to all systems
+        
+        \param[in] msg
+        	
+        
+        ***************************************************************************/
 		void BroadcastMessage(Message* msg);
 
+        /*!*************************************************************************
+        \brief
+        	called to change scene
+        
+        \param[in] sceneName
+        	
+        
+        ***************************************************************************/
 		void ChangeScene(std::string sceneName);
 	
 		template <typename T>

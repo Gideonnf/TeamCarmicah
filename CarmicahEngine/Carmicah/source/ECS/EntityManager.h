@@ -41,18 +41,87 @@ namespace Carmicah
 		EntityManager();
 
 		// entityName is always defaulted to gameobject when an entity is created
+        /*!*************************************************************************
+        \brief
+        	Create a Entity object
+        
+        \return Entity
+        	
+        ***************************************************************************/
 		Entity CreateEntity();
 
+        /*!*************************************************************************
+        \brief
+        	Load an entity ID. Allow for replacing an entity ID from anywhere in mFreeEntities
+        
+        \param[in] entityID
+        	
+        
+        \return Entity - ID 
+        	
+        ***************************************************************************/
 		Entity LoadEntity(Entity entityID);
 
+        /*!*************************************************************************
+        \brief
+        	Called when deleting an entity
+        
+        \param[in] entity
+        	
+        
+        ***************************************************************************/
 		void DeleteEntity(Entity entity);
 
+        /*!*************************************************************************
+        \brief
+        	Used to clone Entity
+        
+        \param[in] entityToClone
+        	Entity to clone
+        
+        \param[in] newEntity
+        	
+        
+        ***************************************************************************/
 		void CloneEntity(Entity entityToClone, Entity newEntity);
 
+        /*!*************************************************************************
+        \brief
+        	Set the Signature object
+        
+        \param[in] entity
+        	
+        
+        \param[in] entitySignature
+        	
+        
+        ***************************************************************************/
 		void SetSignature(Entity entity, Signature entitySignature);
 
+        /*!*************************************************************************
+        \brief
+        	Get the Signature object
+        
+        \param[in] entity
+        	
+        
+        \return Signature
+        	
+        ***************************************************************************/
 		Signature GetSignature(Entity entity) const;
 
+        /*!*************************************************************************
+        \brief
+        	Check if entity exist
+        
+        \param[in] entity
+        	
+        
+        \return true
+        	
+        \return false
+        	
+        ***************************************************************************/
 		bool DoesEntityExist(Entity entity);
 
 		template<typename T>

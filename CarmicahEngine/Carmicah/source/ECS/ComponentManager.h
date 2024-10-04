@@ -52,6 +52,12 @@ namespace Carmicah
 		ComponentID m_NextID = 1;
 	public:
 
+        /*!*************************************************************************
+        \brief
+        	Register component into the component manager that is type T
+        
+        \tparam T 
+        ***************************************************************************/
 		template<typename T>
 		void RegisterComponent()
 		{
@@ -76,6 +82,14 @@ namespace Carmicah
 			//mComponentRegistry.insert({ name, []() -> T {return T{}; } });
 		}
 
+        /*!*************************************************************************
+        \brief
+        	Get the Component ID from a template type T
+        
+        \tparam T 
+        \return ComponentID
+        	
+        ***************************************************************************/
 		template<typename T>
 		ComponentID GetComponentID()
 		{
@@ -88,6 +102,16 @@ namespace Carmicah
 			return m_ComponentTypes[componentName];
 		}
 
+        /*!*************************************************************************
+        \brief
+        	Get the Component ID from a string
+        
+        \param[in] componentName
+        	
+        
+        \return ComponentID
+        	
+        ***************************************************************************/
 		ComponentID GetComponentID(const std::string& componentName)
 		{
 
@@ -109,12 +133,33 @@ namespace Carmicah
 			assert("String does not match any registered components");
 		}
 
+        /*!*************************************************************************
+        \brief
+        	Add a component to the entity
+        
+        \tparam T - Type of component
+        \param[in] entity - Entity to add to
+        	
+        
+        \param[in] component - Component
+        	
+        
+        ***************************************************************************/
 		template<typename T>
 		void AddComponent(const Entity& entity, T component)
 		{
 			GetComponentArray<T>()->InsertComponentData(entity, component);
 		}
 
+        /*!*************************************************************************
+        \brief
+        	Add component to entity
+        
+        \tparam T  - Type of component
+        \param[in] entity - Entity to attach component to
+        	
+        
+        ***************************************************************************/
 		template<typename T>
 		void AddComponent(const Entity& entity)
 		{
@@ -123,34 +168,122 @@ namespace Carmicah
 		}
 
 
+        /*!*************************************************************************
+        \brief
+        	Remove component from an entity
+        
+        \tparam T 
+        \param[in] entity
+        	
+        
+        ***************************************************************************/
 		template<typename T>
 		void RemoveComponent(const Entity& entity)
 		{
 			GetComponentArray<T>()->RemoveComponentData(entity);
 		}
 
+        /*!*************************************************************************
+        \brief
+        	Get the Component object
+        
+        \tparam T 
+        \param[in] entity
+        	
+        
+        \return T&
+        	
+        ***************************************************************************/
 		template<typename T>
 		T& GetComponent(const Entity& entity)
 		{
 			return GetComponentArray<T>()->GetComponentData(entity);
 		}
 
+        /*!*************************************************************************
+        \brief
+        	Called when entities are destroyed
+        
+        \param[in] entity
+        	
+        
+        ***************************************************************************/
 		void EntityDestroyed(Entity entity);
 
+        /*!*************************************************************************
+        \brief
+        	Called when cloning entity
+        
+        \param[in] entityToClone
+        	Entity to clone
+        
+        \param[in] newEntity
+        	Entity to clone into
+        
+        \param[in] entitySignature
+        	Signature to copy
+        
+        ***************************************************************************/
 		void CloneEntity(Entity entityToClone, Entity newEntity, Signature entitySignature);
 
+        /*!*************************************************************************
+        \brief
+        	For looping through components of an entity
+        
+        \param[in] func
+        	Function
+        
+        \param[in] entitySignature
+        	Entity signature
+        
+        ***************************************************************************/
 		void ForEachComponent(const std::function<void(const std::string&)>& func, const Signature& entitySignature);
 
+        /*!*************************************************************************
+        \brief
+        	Serialize the components to an entity
+        
+        \param[in] entity
+        	Entity to serialize from
+        
+        \param[in] entitySignature
+        	Signature of the entity
+        
+        \param[in] writer
+        	reference to the writer
+        
+        ***************************************************************************/
 		void SerializeEntityComponents(const Entity& entity, const Signature& entitySignature, rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer);
+
 
 		size_t GetComponentCount();
 
+        /*!*************************************************************************
+        \brief
+        	Check if the entity has the component by calling the HasComponentData
+        
+        \tparam T 
+        \param[in] entity
+        	
+        
+        \return true
+        	
+        \return false
+        	
+        ***************************************************************************/
 		template<typename T>
 		bool HasComponent(Entity entity)
 		{
 			return GetComponentArray<T>()->HasComponentData(entity);
 		}
 
+        /*!*************************************************************************
+        \brief
+        	Get the Component Array object
+        
+        \return template<typename T>
+        	
+        ***************************************************************************/
 		// Used to get the component for inserting in new entity data
 		template<typename T>
 		std::shared_ptr<Component<T>> GetComponentArray()
