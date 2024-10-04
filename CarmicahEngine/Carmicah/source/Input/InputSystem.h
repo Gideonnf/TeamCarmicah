@@ -71,15 +71,110 @@ namespace Carmicah
 			static InputSystem instance;
 			return &instance;
 		}
+		
+		/* function documentation--------------------------------------------------------------------------
 
+		\brief      Initializes the input system with a reference to the GLFW window
+
+					This function is responsible for initializing the input system by setting up the GLFW window
+					reference. It ensures that the system is prepared to handle keyboard and mouse input events.
+					Pre-condition: A valid GLFWwindow reference must be provided.
+					Post-condition: The input system is ready to track input events.
+
+		\param      [in] ref
+					Reference to the GLFW window.
+
+		\return     void
+
+		\exceptions No exceptions thrown.
+		-------------------------------------------------------------------------------------------------*/
 		void Init(GLFWwindow* ref);
 
+		/* function documentation--------------------------------------------------------------------------
+
+		\brief      Updates the input system's state
+
+					This function updates the current state of the input system. It checks for new input events
+					and processes them, updating internal maps to reflect the current status of keys and mouse buttons.
+					Pre-condition: The input system must be initialized.
+					Post-condition: The input system's key and mouse maps are updated.
+
+		\param      void
+
+		\return     void
+
+		\exceptions No exceptions thrown.
+		-------------------------------------------------------------------------------------------------*/
 		void Update();
 
+		/* function documentation--------------------------------------------------------------------------
+
+		\brief      Updates the previous key state for tracking
+
+					This function stores the current key states into the previous state maps, allowing the system
+					to track changes between input states across frames.
+					Pre-condition: The input system must be initialized.
+					Post-condition: Previous input states are updated for comparison in the next frame.
+
+		\param      void
+
+		\return     void
+
+		\exceptions No exceptions thrown.
+		-------------------------------------------------------------------------------------------------*/
 		void UpdatePrevInput();
 
+		/* function documentation--------------------------------------------------------------------------
+
+		\brief      Checks if a key is currently pressed
+
+					This function checks if the specified key is currently pressed down. It only returns true once
+					when the key is initially pressed.
+					Pre-condition: The input system must be initialized.
+					Post-condition: Returns whether the key is pressed.
+
+		\param      [in] key
+					The key to check the press status of.
+
+		\return     bool - True if the key is pressed, false otherwise.
+
+		\exceptions No exceptions thrown.
+		-------------------------------------------------------------------------------------------------*/
 		bool IsKeyPressed(Keys key);
+
+		/* function documentation--------------------------------------------------------------------------
+
+		\brief      Checks if a key is currently released
+
+					This function checks if the specified key is currently released. It returns true when the key
+					has been let go.
+					Pre-condition: The input system must be initialized.
+					Post-condition: Returns whether the key is released.
+
+		\param      [in] key
+					The key to check the release status of.
+
+		\return     bool - True if the key is released, false otherwise.
+
+		\exceptions No exceptions thrown.
+		-------------------------------------------------------------------------------------------------*/
 		bool IsKeyReleased(Keys key);
+
+		/* function documentation--------------------------------------------------------------------------
+
+		\brief      Checks if a key is being held down
+
+					This function checks if the specified key is being held down continuously.
+					Pre-condition: The input system must be initialized.
+					Post-condition: Returns whether the key is held down.
+
+		\param      [in] key
+					The key to check the hold status of.
+
+		\return     bool - True if the key is held down, false otherwise.
+
+		\exceptions No exceptions thrown.
+		-------------------------------------------------------------------------------------------------*/
 		bool IsKeyHold(Keys key);
 
 		bool WasKeyPressed(Keys key);
@@ -90,6 +185,21 @@ namespace Carmicah
 		bool IsMouseReleased(MouseButtons button);
 		bool IsMouseHold(MouseButtons button);
 
+
+		/* function documentation--------------------------------------------------------------------------
+
+		\brief      Retrieves the current mouse position
+
+					This function retrieves the current position of the mouse cursor within the window.
+					Pre-condition: The input system must be initialized.
+					Post-condition: Returns the current mouse position.
+
+		\param      void
+
+		\return     Vector2D<double> - The current mouse position.
+
+		\exceptions No exceptions thrown.
+		-------------------------------------------------------------------------------------------------*/
 		Vector2D<double> GetMousePosition();
 		double GetMouseX();
 		double GetMouseY();
@@ -111,6 +221,22 @@ namespace Carmicah
 		void SetDragEndPos(const Vector2D<double>& pos);
 		void SetDragCurrentPos(const Vector2D<double>& pos);
 
+
+		/* function documentation--------------------------------------------------------------------------
+
+		\brief      Converts keycodes to string representations
+
+					This function takes a keycode and returns the corresponding string name for that key.
+					Pre-condition: A valid key must be provided.
+					Post-condition: Returns the string representation of the key.
+
+		\param      [in] key
+					The keycode to be converted.
+
+		\return     const char* - The string representation of the keycode.
+
+		\exceptions No exceptions thrown.
+		-------------------------------------------------------------------------------------------------*/
 		const char* KeycodeToString(Keys key);
 	};
 

@@ -21,8 +21,17 @@ namespace Carmicah
 	class AnimationSystem : public BaseSystem
 	{
 	public:
+
+		/*
+		brief
+			Sets which components the system references, and load the shader
+		*/
 		void Init();
 
+		/*
+		brief
+			Updates Animation components
+		*/
 		void Update();
 	};
 }

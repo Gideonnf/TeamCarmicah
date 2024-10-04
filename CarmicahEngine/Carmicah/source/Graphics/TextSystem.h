@@ -26,8 +26,20 @@ namespace Carmicah
 		GLuint mCurrShader{};
 
 	public:
+		/*
+		brief
+			Sets which components the system references, and load the shader
+		*/
 		void Init();
 
+		/*
+		brief
+			Renders text of objects with text and UITransform Components
+		param[canvasWidth]
+			width of reference canvas
+		param[canvasHeight]
+			height of reference canvas
+		*/
 		void Render(GLuint canvasWidth, GLuint canvasHeight);
 	};
 }

@@ -40,8 +40,29 @@ namespace Carmicah
 
 	public:
 		// Read in config file from asset manager
+
+		/*
+		brief
+			Loads the config data
+		param[filePath]
+			filepath to load from
+		return
+			EngineConfig
+		*/
 		EngineConfig LoadConfig(const std::string& filePath);
+
+		/*
+		brief
+			writes to the config
+		*/
 		void WriteConfig();
+
+		/*
+		brief
+			Loads the scene
+		return
+			success
+		*/
 		bool DeserializeScene(std::string);
 		bool SerializeScene(std::string);
 		Prefab DeserializePrefab(std::string);

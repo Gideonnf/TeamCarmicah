@@ -16,6 +16,18 @@ DigiPen Institute of Technology is prohibited.
 class BaseGraphicsSystem
 {
 protected:
+	/*
+	brief
+		Checks if uniform exists in the shader
+	param[shdr]
+		shader reference
+	param[str]
+		name to check
+	param[ref]
+		the uniform reference to return
+	return
+		if the check succeeded
+	*/
 	bool uniformExists(const GLuint& shdr, const char* str, GLint& ref);
 };
 #endif
