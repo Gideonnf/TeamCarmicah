@@ -36,6 +36,7 @@
 #include "Systems/SerializerSystem.h"
 #include "CarmicahTime.h"
 #include "Systems/AssetManager.h"
+#include "Systems/AMTest.h"
 #include "Editor/SceneToImgui.h"
 
 namespace Carmicah
@@ -127,7 +128,7 @@ namespace Carmicah
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);
         auto gameLogic = REGISTER_SYSTEM(GameLogic);
-
+        CarmicahTesting::AssetManagerPtrVersion::GetInstance()->LoadAll("../Assets");
         AssetManager::GetInstance()->LoadAll(AssetManager::GetInstance()->enConfig.assetLoc.c_str());
         graSystem->Init();
         txtSystem->Init();
