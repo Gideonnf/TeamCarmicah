@@ -36,8 +36,10 @@ namespace Carmicah
 		//Assignment Operators
 		Vector2D& operator=(const Vector2D& rhs) = default;
 		Vector2D(const Vector2D& rhs) = default;
+		Vector2D(Vector2D&&) = default;
+		Vector2D& operator=(Vector2D&&) = default;
 
-		//Assignment Operators
+		//Compound Assignment Operators
 		Vector2D& operator += (const Vector2D& rhs)
 		{
 			x += rhs.x;
@@ -68,6 +70,38 @@ namespace Carmicah
 		Vector2D operator -() const
 		{
 			return Vector2D(-x, -y);
+		}
+
+		//Other Member Functions
+		T length()
+		{
+			return std::sqrt(x * x + y * y);
+		}
+
+		T squareLength()
+		{
+			return (x * x + y * y);
+		}
+
+		Vector2D& normalize()
+		{
+			T len = length();
+			if (len == 0)
+			{
+				throw std::domain_error("Cannot normalize zero vector");
+			}
+			*this /= len;
+			return *this;
+		}
+
+		T dot(const Vector2D& other)
+		{
+			return(x * other.x + y * other.y);
+		}
+
+		T cross(const Vector2D& other)
+		{
+			return(x * other.y - y * other.x);
 		}
 	};
 
@@ -130,8 +164,6 @@ namespace Carmicah
 
 	template<typename T> T Vector2DDistance(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)
 	{
-
-		//TODO and FIX
 		Vector2D DistanceVector = pVec1 - pVec0;
 
 		T distance = Vector2DLength(DistanceVector);
@@ -142,11 +174,7 @@ namespace Carmicah
 	//Square Distance
 	template<typename T> T Vector2DSquareDistance(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)
 	{
-		Vector2D DistanceVector = pVec1 - pVec0;
-
-		T distance = Vector2DSquareLength(DistanceVector);
-
-		return distance;
+		return (pVec1 - pVec0).squareLength();
 	}
 
 	//Dot Product
