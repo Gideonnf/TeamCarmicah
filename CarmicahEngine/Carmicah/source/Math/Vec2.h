@@ -72,17 +72,18 @@ namespace Carmicah
 			return Vector2D(-x, -y);
 		}
 
-		//Other Member Functions
+		//Other Member Functions:
+		//Length
 		T length()
 		{
 			return std::sqrt(x * x + y * y);
 		}
-
+		//Square Length
 		T squareLength()
 		{
 			return (x * x + y * y);
 		}
-
+		//Normalize
 		Vector2D& normalize()
 		{
 			T len = length();
@@ -93,12 +94,12 @@ namespace Carmicah
 			*this /= len;
 			return *this;
 		}
-
+		//Dot Product
 		T dot(const Vector2D& other)
 		{
 			return(x * other.x + y * other.y);
 		}
-
+		//Cross Product
 		T cross(const Vector2D& other)
 		{
 			return(x * other.y - y * other.x);
@@ -124,40 +125,11 @@ namespace Carmicah
 	}
 	template<typename T> Vector2D<T> operator / (const Vector2D<T>& lhs, T rhs)
 	{
+		if (rhs == 0)
+		{
+			throw std::domain_error("Division by zero");
+		}
 		return Vector2D(lhs.x / rhs, lhs.y / rhs);
-	}
-
-	// Normalise
-	template<typename T> void Vector2DNormalize(Vector2D<T>& pResult, const Vector2D<T>& pVec0)
-	{
-		T normalisation = sqrt(pVec0.x * pVec0.x + pVec0.y * pVec0.y);
-
-		if(normalisation == 0)
-		{
-			pResult.x = 0;
-			pResult.y = 0;
-		}
-		else
-		{
-			pResult.x = pVec0.x / normalisation;
-			pResult.y = pVec0.y / normalisation;
-		}
-	}
-
-	//Length
-	template<typename T> T Vector2DLength(const Vector2D<T>& pVec0)
-	{
-		T length = sqrt(pVec0.x * pVec0.x + pVec0.y * pVec0.y);
-
-		return length;
-	}
-
-	//Square Length
-	template<typename T> T Vector2DSquareLength(const Vector2D<T>& pVec0)
-	{
-		T length = pVec0.x * pVec0.x + pVec0.y * pVec0.y;
-
-		return length;
 	}
 
 	//Distance
@@ -175,20 +147,6 @@ namespace Carmicah
 	template<typename T> T Vector2DSquareDistance(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)
 	{
 		return (pVec1 - pVec0).squareLength();
-	}
-
-	//Dot Product
-	template<typename T> T Vector2DDotProduct(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)
-	{
-		T dot_product = pVec0.x * pVec1.x + pVec0.y * pVec1.y;
-
-		return dot_product;
-	}
-
-	//Cross Product
-	template<typename T> T Vector2DCrossProductMag(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)
-	{
-		return pVec0.x * pVec1.y - pVec0.y * pVec1.x;
 	}
 
 	//<< Operator Overload
