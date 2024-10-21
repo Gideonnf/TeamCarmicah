@@ -65,18 +65,22 @@ namespace Carmicah
 
             //SystemManager::GetInstance()->ChangeScene("Scene2");
         }
+        if (Input.IsKeyPressed(Keys::KEY_G))
+        {
+
+            soundSystemRef->PlaySoundW(soundSystemRef->buttonBGM, SoundChannel::BGM);
+
+            // SystemManager::GetInstance()->GetSystem<SoundSystem>()->PauseResumeSound
+        }
         if (Input.IsKeyPressed(Keys::KEY_B))
         {
-            soundSystemRef->PauseResumeSound(soundSystemRef->defaultBGM);
-          //  soundSystemRef->PauseResumeSound(soundSystemRef->buttonBGM);
+            soundSystemRef->PauseResumeChannel(SoundChannel::BGM);
+
+            //  soundSystemRef->PauseResumeSound(soundSystemRef->buttonBGM);
 
            // SystemManager::GetInstance()->GetSystem<SoundSystem>()->PauseResumeSound
         }
-        if (Input.IsKeyPressed(Keys::KEY_G))
-        {
-            soundSystemRef->PauseResumeSound(soundSystemRef->buttonBGM);
-            // SystemManager::GetInstance()->GetSystem<SoundSystem>()->PauseResumeSound
-        }
+      
 
         if (Input.IsKeyPressed(Keys::KEY_P))
         {
