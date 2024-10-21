@@ -29,6 +29,23 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+
+	// Only used for the map so that theres a base class that can be dynamic casted
+	class IAsset
+	{
+	public:
+		virtual ~IAsset() = default;
+	};
+
+	template <typename T>
+	class AssetType : public IAsset
+	{
+	public:
+		std::vector<T> mAssetList;
+		std::unordered_map<std::string, unsigned int> mAssetMap;
+	};
+
+#pragma region AssetStructs
 	struct Primitive
 	{
 		GLuint vaoid{};
@@ -50,7 +67,7 @@ namespace Carmicah
 		int xSlices;
 		int ySlices;
 	};
-	struct FontChar 
+	struct FontChar
 	{
 		unsigned int texID, width, height;
 		int			 xBearing, yBearing;
@@ -80,6 +97,7 @@ namespace Carmicah
 		std::string fontShader;
 		std::string assetLoc;
 	};
+#pragma endregion AssetStructs
 
 	class AssetManager : public Singleton<AssetManager>
 	{
@@ -93,12 +111,13 @@ namespace Carmicah
 		//std::unordered_map<std::string, std::shared_ptr<BaseAsset>> mMapOfAssets;
 		//
 		EngineConfig enConfig;
-		std::unordered_map<std::string, GLuint> mShaderPgms{};
-		std::unordered_map<std::string, Texture> mTextureMaps{};
-		std::unordered_map<std::string, Primitive> mPrimitiveMaps{};
-		std::unordered_map<std::string, std::string> mSceneFiles{};
-		std::unordered_map<std::string, Prefab> mPrefabFiles{};
-		std::unordered_map<std::string, std::array<Carmicah::FontChar, 128>> mFontMaps{};
+		std::unordered_map<std::string, std::shared_ptr<IAsset>> mAssetTypeMap;
+		//std::unordered_map<std::string, GLuint> mShaderPgms{};
+		//std::unordered_map<std::string, Texture> mTextureMaps{};
+		//std::unordered_map<std::string, Primitive> mPrimitiveMaps{};
+		//std::unordered_map<std::string, std::string> mSceneFiles{};
+		//std::unordered_map<std::string, Prefab> mPrefabFiles{};
+		//std::unordered_map<std::string, std::array<Carmicah::FontChar, 128>> mFontMaps{};
 
 		FT_Library mFTLib;
 		//const unsigned int fontSize{ 36 };
@@ -112,6 +131,86 @@ namespace Carmicah
 		bool GetScene(std::string scene, std::string& filePath);
 
 	private:
+		template <typename T>
+		std::shared_ptr<AssetType<T>> GetAssetMap()
+		{
+			std::string assetType = typeid(T).name();
+
+			// Doesnt exist in the map yet
+			if (mAssetTypeMap.count(assetType) == 0)
+			{
+				assert("Asset type does not exist");
+				//mAssetMap[assetType] = std::make_unique<Asset<T>>();
+			}
+			// cast it to the correct asset type 
+			return std::static_pointer_cast<AssetType<T>>(mAssetTypeMap[assetType]);
+		}
+
+		template <typename T>
+		T& GetAsset(std::string name)
+		{
+			if (GetAssetMap<T>()->mAssetList.size() == 0)
+				assert("Asset does not exist");
+			if (GetAssetMap<T>()->mAssetMap.count(name) == 0)
+				assert("Asset does not exist");
+
+			return GetAssetMap<T>()->mAssetList[GetAssetMap<T>()->mAssetMap[name]];
+		}
+
+		template <typename T>
+		void RegisterAsset()
+		{
+			std::string assetType = typeid(T).name();
+
+			if (mAssetTypeMap.count(assetType) == 0)
+			{
+				mAssetTypeMap[assetType] = std::make_shared<Asset<T>>();
+			}
+			else
+			{
+				//CM_CORE_ERROR("Asset being registered more than once");
+				assert("Asset has been registered before");
+			}
+		}
+
+		template <typename T>
+		void AddAsset(std::string name, T& asset)
+		{
+			// Check if asset exist
+			std::string assetType = typeid(T).name();
+			if (mAssetTypeMap.count(assetType) == 0)
+			{
+				// If the asset doesn't exist yet, then create it
+				RegisterAsset<T>(); 
+			}
+
+			GetAssetMap<T>()->mAssetList.push_back(asset);
+			// The map is name -> index
+			// where index is where the asset belongs in mAssetList
+			GetAssetMap<T>()->mAssetMap[name] = GetAssetMap<T>()->mAssetList.size() - 1;
+		}
+
+		template <typename T>
+		bool AssetExist(std::string name)
+		{
+			// Check if asset exist
+			std::string assetType = typeid(T).name();
+			if (mAssetTypeMap.count(assetType) == 0)
+			{
+				// If the asset doesn't exist yet, then create it
+				RegisterAsset<T>();
+			}
+
+			if (GetAssetMap<T>()->mAssetList.size() == 0)
+				return false;
+			if (GetAssetMap<T>()->mAssetMap.count(name) == 0)
+				return false;
+
+			return true;
+		}
+
+		// TODO: Handle removal of assets
+		// cant rlly be done/tested until editor has ways to delete and add assets
 
 		// Graphics Assets
 		GLuint LoadShader(const std::string& shaderName, const std::string& vertFile, const std::string& fragFile);
