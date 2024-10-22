@@ -36,7 +36,6 @@
 #include "Systems/SerializerSystem.h"
 #include "CarmicahTime.h"
 #include "Systems/AssetManager.h"
-#include "Systems/AMTest.h"
 #include "Editor/SceneToImgui.h"
 
 namespace Carmicah

@@ -256,8 +256,10 @@ namespace Carmicah
 		}
 		glDeleteShader(vertShader);
 		glDeleteShader(fragShader);
+		Shader newShader;
+		newShader.s = shader;
 
-		AddAsset(shaderName, shader);
+		AddAsset(shaderName, newShader);
 		//mShaderPgms.insert(std::make_pair(shaderName, shader));
 		return shader;
 	}
@@ -494,14 +496,14 @@ namespace Carmicah
 			std::cerr << "Font: " << fontName << " Already Exists";
 			return;
 		}*/
-		if (AssetExist<FontChar>(fontName))
+		if (AssetExist<Font>(fontName))
 		{
 			// TODO: Change to CM Error
 			std::cerr << "Font: " << fontName << " Already Exists";
 			return;
 		}
 
-		std::array<Carmicah::FontChar, 128> newFont;
+		std::array<Font::FontChar, 128> newFont;
 
 		FT_Face fontFace;
 		if (FT_New_Face(mFTLib, fontLoc.c_str(), 0, &fontFace))
@@ -519,7 +521,7 @@ namespace Carmicah
 				std::cerr << "Failed to load FreeType Glyph: " <<fontName << "(" << c << ")" << std::endl;
 				continue;
 			}
-			Carmicah::FontChar fc;
+			Font::FontChar fc;
 			fc.width = fontFace->glyph->bitmap.width;
 			fc.height = fontFace->glyph->bitmap.rows;
 			fc.xBearing = fontFace->glyph->bitmap_left;
@@ -538,10 +540,12 @@ namespace Carmicah
 			newFont[c] = std::move(fc);
 		}
 
+		Font fontObj;
+		fontObj.mFontMaps = std::move(newFont);
 		FT_Done_Face(fontFace);
 		//mFontMaps.insert(std::make_pair(fontName, std::move(newFont)));
 		// TODO: change to use move
-		AddAsset(fontName, newFont);
+		AddAsset(fontName, fontObj);
 	}
 
 

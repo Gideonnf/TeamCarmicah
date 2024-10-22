@@ -67,11 +67,17 @@ namespace Carmicah
 		int xSlices;
 		int ySlices;
 	};
-	struct FontChar
+	struct Font
 	{
-		unsigned int texID, width, height;
-		int			 xBearing, yBearing;
-		long		 advance;
+		struct FontChar
+		{
+			unsigned int texID, width, height;
+			int			 xBearing, yBearing;
+			long		 advance;
+			//std::array<
+		};
+
+		std::array<FontChar, 128> mFontMaps;
 	};
 	struct Audio
 	{
@@ -108,8 +114,6 @@ namespace Carmicah
 		void LoadAll(const char*);
 		void UnloadAll();
 
-		//std::unordered_map<std::string, std::shared_ptr<BaseAsset>> mMapOfAssets;
-		//
 		EngineConfig enConfig;
 		std::unordered_map<std::string, std::shared_ptr<IAsset>> mAssetTypeMap;
 		//std::unordered_map<std::string, GLuint> mShaderPgms{};
@@ -130,7 +134,6 @@ namespace Carmicah
 
 		bool GetScene(std::string scene, std::string& filePath);
 
-	private:
 		template <typename T>
 		std::shared_ptr<AssetType<T>> GetAssetMap()
 		{
@@ -164,7 +167,7 @@ namespace Carmicah
 
 			if (mAssetTypeMap.count(assetType) == 0)
 			{
-				mAssetTypeMap[assetType] = std::make_shared<Asset<T>>();
+				mAssetTypeMap[assetType] = std::make_shared<AssetType<T>>();
 			}
 			else
 			{
@@ -208,9 +211,10 @@ namespace Carmicah
 
 			return true;
 		}
-
 		// TODO: Handle removal of assets
 		// cant rlly be done/tested until editor has ways to delete and add assets
+	private:
+
 
 		// Graphics Assets
 		GLuint LoadShader(const std::string& shaderName, const std::string& vertFile, const std::string& fragFile);

@@ -39,12 +39,13 @@ namespace Carmicah
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Renderer>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<GraphicsSystem>(mSignature);
-
-		auto shdrRef = AssetManager::GetInstance()->mShaderPgms.find(AssetManager::GetInstance()->enConfig.defaultShader);
-		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
-			mCurrShader = shdrRef->second;
-		else
-			CM_CORE_ERROR("GraphicsSystem failed to load Shader");
+		auto& shdrRef = AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.defaultShader);
+		mCurrShader = shdrRef.s;
+		//auto shdrRef = AssetManager::GetInstance()->mShaderPgms.find(AssetManager::GetInstance()->enConfig.defaultShader);
+		//if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
+		//	mCurrShader = shdrRef->second;
+		//else
+		//	CM_CORE_ERROR("GraphicsSystem failed to load Shader");
 	}
 
 	void GraphicsSystem::SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam)
@@ -97,17 +98,19 @@ namespace Carmicah
 
 			// Get Components
 			Renderer& renderer = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
-			auto tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(renderer.model) };
-			Primitive* p;
-			if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
-			{
-				std::stringstream ss;
-				ss << "Renderer Model not found: " << renderer.model << std::endl;
-				CM_CORE_ERROR(ss.str());
-				p = &AssetManager::GetInstance()->mPrimitiveMaps.begin()->second;
-			}
-			else
-				p = &tryPrimitive->second;
+			auto& tryPrimitive{ AssetManager::GetInstance()->GetAsset<Primitive>(renderer.model) };
+			Primitive* p = &tryPrimitive;
+			//auto tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(renderer.model) };
+			//Primitive* p;
+			//if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
+			//{
+			//	std::stringstream ss;
+			//	ss << "Renderer Model not found: " << renderer.model << std::endl;
+			//	CM_CORE_ERROR(ss.str());
+			//	p = &AssetManager::GetInstance()->mPrimitiveMaps.begin()->second;
+			//}
+			//else
+			//	p = &tryPrimitive->second;
 
 			// Set Uniforms
 			GLint uniformLoc{};
@@ -133,8 +136,10 @@ namespace Carmicah
 			glBindVertexArray(p->vaoid);
 
 			// Error Checking if texture no exists
-			auto tryTex = AssetManager::GetInstance()->mTextureMaps.find(renderer.texture);
-			if (tryTex == AssetManager::GetInstance()->mTextureMaps.end())
+			auto& tryTex = AssetManager::GetInstance()->GetAsset<Texture>(renderer.texture);
+			glBindTextureUnit(0, tryTex.t);
+			//auto tryTex = AssetManager::GetInstance()->mTextureMaps.find(renderer.texture);
+			/*if (tryTex == AssetManager::GetInstance()->mTextureMaps.end())
 			{
 				std::stringstream ss;
 				ss << "Texture not found" << renderer.texture << std::endl;
@@ -142,7 +147,7 @@ namespace Carmicah
 				glBindTextureUnit(0, AssetManager::GetInstance()->mTextureMaps.begin()->second.t);
 			}
 			else
-				glBindTextureUnit(0, tryTex->second.t);
+				glBindTextureUnit(0, tryTex->second.t);*/
 
 			switch (p->drawMode)
 			{

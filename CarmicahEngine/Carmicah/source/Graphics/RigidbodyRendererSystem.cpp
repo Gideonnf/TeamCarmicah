@@ -36,12 +36,13 @@ namespace Carmicah
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<RigidbodyRendererSystem>(mSignature);
-
-		auto shdrRef = AssetManager::GetInstance()->mShaderPgms.find("debug");
+		auto& shdrRef = AssetManager::GetInstance()->GetAsset<Shader>("debug");
+		mCurrShader = shdrRef.s;
+	/*	auto shdrRef = AssetManager::GetInstance()->mShaderPgms.find("debug");
 		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
 			mCurrShader = shdrRef->second;
 		else
-			CM_CORE_ERROR("RigidbodyRendererSystem failed to load Shader");
+			CM_CORE_ERROR("RigidbodyRendererSystem failed to load Shader");*/
 	}
 
 	void RigidbodyRendererSystem::Render(Entity& cam)
@@ -49,8 +50,10 @@ namespace Carmicah
 		if (mCurrShader == 0)
 			return;
 		glUseProgram(mCurrShader);
-
-		auto tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(modelName) };
+		auto& tryPrimitive{ AssetManager::GetInstance()->GetAsset<Primitive>(modelName) };
+		Primitive* p;
+		p = &tryPrimitive;
+	/*	auto tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(modelName) };
 		Primitive* p;
 		if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
 		{
@@ -60,7 +63,7 @@ namespace Carmicah
 			return;
 		}
 		else
-			p = &tryPrimitive->second;
+			p = &tryPrimitive->second;*/
 
 		auto& camera = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 
