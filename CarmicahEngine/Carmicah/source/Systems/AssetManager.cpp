@@ -125,6 +125,26 @@ namespace Carmicah
 	void AssetManager::UnloadAll()
 	{
 		// Unload Graphics
+		for (const auto& i : GetAssetMap<Texture>()->mAssetList)
+		{
+			glDeleteTextures(1, &i.t);
+		}
+		GetAssetMap<Texture>()->mAssetMap.clear();
+		// Delete primitives
+		for (const auto& i : GetAssetMap<Primitive>()->mAssetList)
+		{
+			glDeleteVertexArrays(1, &i.vaoid);
+			glDeleteBuffers(1, &i.vboid);
+		}
+		GetAssetMap<Primitive>()->mAssetMap.clear();
+
+		// Delete Shaders
+		for (const auto& i : GetAssetMap<Shader>()->mAssetList)
+		{
+			glDeleteProgram(i.s);
+		}
+		GetAssetMap<Shader>()->mAssetMap.clear();
+
 		// TODO: Delete textures
 		//for (const auto& i : mTextureMaps)
 		//	glDeleteTextures(1, &i.second.t);
