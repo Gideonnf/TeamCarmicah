@@ -140,6 +140,55 @@ namespace Carmicah
 		return Vector2D(lhs.x / rhs, lhs.y / rhs);
 	}
 
+	// Normalise
+	template<typename T> void Vector2DNormalize(Vector2D<T>& pResult, const Vector2D<T>& pVec0)
+	{
+		T normalisation = sqrt(pVec0.x * pVec0.x + pVec0.y * pVec0.y);
+
+		if (normalisation == 0)
+		{
+			pResult.x = 0;
+			pResult.y = 0;
+		}
+		else
+		{
+			pResult.x = pVec0.x / normalisation;
+			pResult.y = pVec0.y / normalisation;
+
+		}
+	}
+
+	//Length
+	template<typename T> T Vector2DLength(const Vector2D<T>& pVec0)
+	{
+		T length = sqrt(pVec0.x * pVec0.x + pVec0.y * pVec0.y);
+
+		return length;
+	}
+
+	//Square Length
+	template<typename T> T Vector2DSquareLength(const Vector2D<T>& pVec0)
+	{
+		T length = pVec0.x * pVec0.x + pVec0.y * pVec0.y;
+
+		return length;
+	}
+
+	//Dot Product
+	template<typename T> T Vector2DDotProduct(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)
+	{
+		T dot_product = pVec0.x * pVec1.x + pVec0.y * pVec1.y;
+
+		return dot_product;
+	}
+
+	//Cross Product
+	template<typename T> T Vector2DCrossProductMag(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)
+	{
+		return pVec0.x * pVec1.y - pVec0.y * pVec1.x;
+	}
+
+
 	//Distance
 
 	template<typename T> T Vector2DDistance(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)

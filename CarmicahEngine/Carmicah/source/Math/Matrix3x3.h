@@ -123,6 +123,12 @@ namespace Carmicah
 		Matrix3x3 rotRad(T angle) { return Matrix3x3(cos(angle), -sin(angle), 0, sin(angle), cos(angle), 0, 0, 0, 1); }
 		Matrix3x3 rotDeg(T angle) { T rad = angle * (PI / 180); return rotRad(rad); }
 
+		//Transpose
+		Matrix3x3 getTranspose() const
+		{
+			return Matrix3x3(m00, m10, m20, m01, m11, m21, m02, m12, m22);
+		}
+
 
 	};
 
