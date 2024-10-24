@@ -19,6 +19,7 @@ DigiPen Institute of Technology is prohibited.
 #include <GLFW/glfw3.h>
 #include <ImGUI/imgui.h>
 #include "EditorWindow.h"
+#include "ECS/GameObject.h"
 
 namespace Carmicah
 {
@@ -27,6 +28,7 @@ namespace Carmicah
 	private:
 	
 	public:
+		static GameObject* selectedGO;
 		/**
 		 * @brief Construct a new Hierarchy Window object
 		 * 
@@ -43,6 +45,7 @@ namespace Carmicah
 		 * @param id 
 		 */
 		void EntityDestroyed(Entity id) override;
+
 	};
 }
 

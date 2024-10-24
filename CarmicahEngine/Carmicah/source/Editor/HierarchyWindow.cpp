@@ -31,7 +31,7 @@ namespace Carmicah
 {
 	HierarchyWindow::HierarchyWindow() : EditorWindow("Hierarchy", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
 	std::vector<GameObject> createdList;
-	static GameObject* selectedGO;
+	GameObject* HierarchyWindow::selectedGO = nullptr;
 
 	void HierarchyWindow::Update()
 	{
