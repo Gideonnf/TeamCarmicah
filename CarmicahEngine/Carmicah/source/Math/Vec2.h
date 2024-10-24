@@ -164,7 +164,8 @@ namespace Carmicah
 		return os;
 	}
 
-
-
-
+	//Could be used(?)
+	using Vec2f = Vector2D<float>;
+	using Vec2d = Vector2D<double>;
+	using Vec2i = Vector2D<int>;
 }

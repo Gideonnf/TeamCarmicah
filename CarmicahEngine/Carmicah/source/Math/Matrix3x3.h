@@ -117,6 +117,9 @@ namespace Carmicah
 		//Other Functions
 		Matrix3x3 identity() { return Matrix3x3(1, 0, 0, 0, 1, 0, 0, 0, 1); }
 
+		//Translation
+		Matrix3x3 translate(T x, T y) { return Matrix3x3(0, 0, x, 0, 0, y, 0, 0, 0); }
+
 
 	};
 
