@@ -115,10 +115,13 @@ namespace Carmicah
 
 
 		//Other Functions
-		Matrix3x3 identity() { return Matrix3x3(1, 0, 0, 0, 1, 0, 0, 0, 1); }
+		static Matrix3x3 identity() { return Matrix3x3(1, 0, 0, 0, 1, 0, 0, 0, 1); }
 
 		//Translation
-		Matrix3x3 translate(T x, T y) { return Matrix3x3(0, 0, x, 0, 0, y, 0, 0, 0); }
+		Matrix3x3 translate(T x, T y) { return Matrix3x3(1, 0, x, 0, 1, y, 0, 0, 1); }
+		Matrix3x3 scale(T x, T y) { return Matrix3x3(x, 0, 0, 0, y, 0, 0, 0, 1); }
+		Matrix3x3 rotRad(T angle) { return Matrix3x3(cos(angle), -sin(angle), 0, sin(angle), cos(angle), 0, 0, 0, 1); }
+		Matrix3x3 rotDeg(T angle) { T rad = angle * (PI / 180); return rotRad(rad); }
 
 
 	};
