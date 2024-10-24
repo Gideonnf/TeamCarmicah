@@ -112,7 +112,15 @@ namespace Carmicah
 
 			return *this;
 		}
+
+
+		//Other Functions
+		Matrix3x3 identity() { return Matrix3x3(1, 0, 0, 0, 1, 0, 0, 0, 1); }
+
+
 	};
+
+	//
 
 	/**************************************************************************/
 	/*!

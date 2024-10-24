@@ -104,6 +104,14 @@ namespace Carmicah
 		{
 			return(x * other.y - y * other.x);
 		}
+
+
+		//Default Vectors
+		static Vector2D zero() { return Vector2D(0, 0); }
+		static Vector2D up() { return Vector2D(0, 1); }
+		static Vector2D down() { return Vector2D(0, -1); }
+		static Vector2D left() { return Vector2D(-1, 0); }
+		static Vector2D right() { return Vector2D(1, 0); }
 	};
 
 	// Binary operators
