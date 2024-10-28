@@ -16,13 +16,13 @@ DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <stb/stb_image.h>
 #include "AssetManager.h"
 #include "Systems/SoundSystem.h"
 #include "log.h"
 #include "Systems/SerializerSystem.h"
+#include "Math/Vec2.h"
+
 namespace Carmicah
 {
 	void AssetManager::LoadConfig(const std::string& configPath)
@@ -326,8 +326,8 @@ namespace Carmicah
 			return;
 		}
 
-		std::vector<glm::vec2> vtx;
-		std::vector<glm::vec2> texCoord;
+		std::vector<Vector2D<float>> vtx;
+		std::vector<Vector2D<float>> texCoord;
 		std::vector<GLushort> idx;
 
 		vtx.reserve(numVert);
@@ -337,12 +337,12 @@ namespace Carmicah
 		for (unsigned int i{}; i < numVert; ++i)
 		{
 			ifs >> v1 >> v2;
-			vtx.emplace_back(glm::vec2{ v1, v2 });
+			vtx.emplace_back(Vector2D<float>{ v1, v2 });
 		}
 		for (unsigned int i{}; i < numVert; ++i)
 		{
 			ifs >> v1 >> v2;
-			texCoord.emplace_back(glm::vec2{ v1, v2 });
+			texCoord.emplace_back(Vector2D<float>{ v1, v2 });
 		}
 		// Only save index when following Triangle method
 		if (p.drawMode == GL_TRIANGLES)
@@ -356,7 +356,7 @@ namespace Carmicah
 		}
 		ifs.close();
 
-		unsigned int sizeofVtxArray = numVert * sizeof(glm::vec2);
+		unsigned int sizeofVtxArray = numVert * sizeof(Vector2D<float>);
 
 		glCreateBuffers(1, &p.vboid);
 		glNamedBufferStorage(p.vboid, sizeofVtxArray * 2, nullptr, GL_DYNAMIC_STORAGE_BIT);
@@ -367,13 +367,13 @@ namespace Carmicah
 		glCreateVertexArrays(1, &p.vaoid);
 		glEnableVertexArrayAttrib(p.vaoid, 0); // VAO's vertex attribute index is 0 (vert)
 		glVertexArrayVertexBuffer(p.vaoid, 0, // vertex buffer binding point
-			p.vboid, 0, sizeof(glm::vec2));
+			p.vboid, 0, sizeof(Vector2D<float>));
 		glVertexArrayAttribFormat(p.vaoid, 0, 2, GL_FLOAT, GL_FALSE, 0);
 		glVertexArrayAttribBinding(p.vaoid, 0, 0);
 
 		// Texture
 		glEnableVertexArrayAttrib(p.vaoid, 1);
-		glVertexArrayVertexBuffer(p.vaoid, 1, p.vboid, sizeofVtxArray, sizeof(glm::vec2));
+		glVertexArrayVertexBuffer(p.vaoid, 1, p.vboid, sizeofVtxArray, sizeof(Vector2D<float>));
 		glVertexArrayAttribFormat(p.vaoid, 1, 2, GL_FLOAT, GL_FALSE, 0);
 		glVertexArrayAttribBinding(p.vaoid, 1, 1);
 
@@ -429,18 +429,18 @@ namespace Carmicah
 			return;
 		}
 
-		std::vector<glm::vec2> vtx;
+		std::vector<Vector2D<float>> vtx;
 
 		vtx.reserve(p.drawCnt);
 		float v1, v2;
 		for (unsigned int i{}; i < p.drawCnt; ++i)
 		{
 			ifs >> v1 >> v2;
-			vtx.emplace_back(glm::vec2{ v1, v2 });
+			vtx.emplace_back(Vector2D<float>{ v1, v2 });
 		}
 		ifs.close();
 
-		unsigned int sizeofVtxArray = p.drawCnt * sizeof(glm::vec2);
+		unsigned int sizeofVtxArray = p.drawCnt * sizeof(Vector2D<float>);
 
 		glCreateBuffers(1, &p.vboid);
 		glNamedBufferStorage(p.vboid, sizeofVtxArray, vtx.data(), GL_DYNAMIC_STORAGE_BIT);
@@ -449,7 +449,7 @@ namespace Carmicah
 		glCreateVertexArrays(1, &p.vaoid);
 		glEnableVertexArrayAttrib(p.vaoid, 0); // VAO's vertex attribute index is 0 (vert)
 		glVertexArrayVertexBuffer(p.vaoid, 0, // vertex buffer binding point
-			p.vboid, 0, sizeof(glm::vec2));
+			p.vboid, 0, sizeof(Vector2D<float>));
 		glVertexArrayAttribFormat(p.vaoid, 0, 2, GL_FLOAT, GL_FALSE, 0);
 		glVertexArrayAttribBinding(p.vaoid, 0, 0);
 

@@ -13,9 +13,6 @@ DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/matrix_transform_2d.hpp>
 #include "Graphics/GraphicsSystem.h"
 
 #include <ECS/ECSTypes.h>
@@ -41,11 +38,6 @@ namespace Carmicah
 		SystemManager::GetInstance()->SetSignature<GraphicsSystem>(mSignature);
 		auto& shdrRef = AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.defaultShader);
 		mCurrShader = shdrRef.s;
-		//auto shdrRef = AssetManager::GetInstance()->mShaderPgms.find(AssetManager::GetInstance()->enConfig.defaultShader);
-		//if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
-		//	mCurrShader = shdrRef->second;
-		//else
-		//	CM_CORE_ERROR("GraphicsSystem failed to load Shader");
 	}
 
 	void GraphicsSystem::SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam)
@@ -70,11 +62,15 @@ namespace Carmicah
 		if (!currCam.notUpdated)
 		{
 			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
-			currCam.camSpace = glm::mat3(1);
+			Matrix3x3<float> scaleMtx{}, rotMtx{}, transMtx{};
+			Mtx33Identity(scaleMtx);
+			Mtx33Identity(rotMtx);
+			Mtx33Identity(transMtx);
 			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-			currCam.camSpace = glm::scale(currCam.camSpace, glm::vec2{ camTrans.xScale, camTrans.yScale });
-			currCam.camSpace = glm::rotate(currCam.camSpace, glm::radians(-camTrans.rot));
-			currCam.camSpace = glm::translate(currCam.camSpace, glm::vec2{ -camTrans.xPos, -camTrans.yPos });
+			Mtx33Scale(scaleMtx, camTrans.xScale, camTrans.yScale);
+			Mtx33RotDeg(rotMtx, -camTrans.rot);
+			Mtx33Translate(transMtx, -camTrans.xPos, -camTrans.yPos);
+			currCam.camSpace = scaleMtx * rotMtx, transMtx;
 		}
 
 		for (auto& entity : mEntitiesSet)
@@ -84,10 +80,13 @@ namespace Carmicah
 			// Handle Entities transform
 			if (!transform.notUpdated)
 			{
-				transform.worldSpace = glm::mat3(1.f);
-				transform.worldSpace = glm::translate(transform.worldSpace, glm::vec2{ transform.xPos, transform.yPos});
-				transform.worldSpace = glm::rotate(transform.worldSpace, glm::radians(transform.rot));
-				transform.worldSpace = glm::scale(transform.worldSpace, glm::vec2{ transform.xScale, transform.yScale});
+				Mtx33Identity(transform.worldSpace);
+				Matrix3x3<float> rotMtx{};
+				Mtx33Identity(rotMtx);
+				Mtx33Translate(transform.worldSpace,transform.xPos, transform.yPos);
+				Mtx33RotDeg(rotMtx, transform.rot);
+				transform.worldSpace *= rotMtx;
+				Mtx33Scale(transform.worldSpace,transform.xScale, transform.yScale);
 				transform.camSpace = currCam.camSpace * transform.worldSpace;
 			}
 			else if (!currCam.notUpdated)
@@ -98,68 +97,39 @@ namespace Carmicah
 
 			// Get Components
 			Renderer& renderer = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
-			auto& tryPrimitive{ AssetManager::GetInstance()->GetAsset<Primitive>(renderer.model) };
-			Primitive* p = &tryPrimitive;
-			//auto tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(renderer.model) };
-			//Primitive* p;
-			//if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
-			//{
-			//	std::stringstream ss;
-			//	ss << "Renderer Model not found: " << renderer.model << std::endl;
-			//	CM_CORE_ERROR(ss.str());
-			//	p = &AssetManager::GetInstance()->mPrimitiveMaps.begin()->second;
-			//}
-			//else
-			//	p = &tryPrimitive->second;
+			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(renderer.model) };
+
+			Matrix3x3<float> invMat{};
+			Mtx33Transpose(invMat, transform.camSpace);
 
 			// Set Uniforms
 			GLint uniformLoc{};
 			if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(transform.camSpace));
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, invMat.m);
 
 			//if (uniformExists(mCurrShader, "uTex2d", uniformLoc)) // Only if multiple textures
 			//	glUniform1i(uniformLoc, 0);
 
 			if (uniformExists(mCurrShader, "uAnimationMult", uniformLoc))
-			{
-				if (renderer.texureMat == glm::mat3(0))
-				{
-					std::stringstream ss;
-					ss << "Renderer Texture Matrix empty, defaulting to 1";
-					CM_CORE_WARN(ss.str());
-					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(glm::mat3(1)));
-				}
-				else
-					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(renderer.texureMat));
-			}
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, renderer.textureMat.m);
 
-			glBindVertexArray(p->vaoid);
+			glBindVertexArray(p.vaoid);
 
 			// Error Checking if texture no exists
 			auto& tryTex = AssetManager::GetInstance()->GetAsset<Texture>(renderer.texture);
 			glBindTextureUnit(0, tryTex.t);
-			//auto tryTex = AssetManager::GetInstance()->mTextureMaps.find(renderer.texture);
-			/*if (tryTex == AssetManager::GetInstance()->mTextureMaps.end())
-			{
-				std::stringstream ss;
-				ss << "Texture not found" << renderer.texture << std::endl;
-				CM_CORE_ERROR(ss.str());
-				glBindTextureUnit(0, AssetManager::GetInstance()->mTextureMaps.begin()->second.t);
-			}
-			else
-				glBindTextureUnit(0, tryTex->second.t);*/
 
-			switch (p->drawMode)
+			switch (p.drawMode)
 			{
 			case GL_LINE_LOOP:
 				glLineWidth(2.f);
-				glDrawArrays(GL_LINE_LOOP, 0, p->drawCnt);
+				glDrawArrays(GL_LINE_LOOP, 0, p.drawCnt);
 				break;
 			case GL_TRIANGLES:
-				glDrawElements(GL_TRIANGLES, p->drawCnt, GL_UNSIGNED_SHORT, NULL);
+				glDrawElements(GL_TRIANGLES, p.drawCnt, GL_UNSIGNED_SHORT, NULL);
 				break;
 			case GL_TRIANGLE_FAN:
-				glDrawArrays(GL_TRIANGLE_FAN, 0, p->drawCnt);
+				glDrawArrays(GL_TRIANGLE_FAN, 0, p.drawCnt);
 				break;
 			}
 		}

@@ -29,6 +29,7 @@ namespace Carmicah
 {
 	template <typename T> class Matrix3x3
 	{
+	public:
 		union
 		{
 			struct
@@ -39,7 +40,7 @@ namespace Carmicah
 			};
 
 			T m[9];
-		}
+		};
 
 		//Constructors
 		Matrix3x3() : m00(0.0f), m01(0.0f), m02(0.0f), m10(0.0f), m11(0.0f), m12(0.0f), m20(0.0f), m21(0.0f), m22(0.0f) {}

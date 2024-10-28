@@ -2,7 +2,7 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 
-#include <glm/glm.hpp>
+#include "Math/Matrix3x3.h"
 #include "BaseComponent.h"
 
 namespace Carmicah
@@ -19,8 +19,8 @@ namespace Carmicah
         float yScale;
 
         bool notUpdated;
-        glm::mat3 worldSpace;
-        glm::mat3 camSpace;
+        Matrix3x3<float> worldSpace;
+        Matrix3x3<float> camSpace;
 
         Transform& DeserializeComponent(const rapidjson::Value& component) override
         {           

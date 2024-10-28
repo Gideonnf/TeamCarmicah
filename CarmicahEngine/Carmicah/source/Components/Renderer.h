@@ -15,8 +15,9 @@ DigiPen Institute of Technology is prohibited.
 #define RENDERER_COMPONENT_H
 
 #include <string>
-#include <glm/glm.hpp>
 #include "BaseComponent.h"
+#include "Math/Vec2.h"
+#include "Math/Matrix3x3.h"
 
 namespace Carmicah
 {
@@ -24,13 +25,13 @@ namespace Carmicah
     {
         std::string model;
         std::string texture;
-        glm::mat3 texureMat;
+        Matrix3x3<float> textureMat;
 
         Renderer& DeserializeComponent(const rapidjson::Value& component) override
         {
             model = component["model"].GetString();
             texture = component["texture"].GetString();
-            texureMat = glm::mat3(1);
+            Mtx33Identity(textureMat);
             return *this;
         }
 

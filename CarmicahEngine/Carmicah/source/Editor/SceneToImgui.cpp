@@ -14,9 +14,6 @@ DigiPen Institute of Technology is prohibited.
 
 #include "pch.h"
 #include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/matrix_transform_2d.hpp>
 #include "SceneToImgui.h"
 
 

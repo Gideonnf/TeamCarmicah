@@ -27,7 +27,14 @@ namespace Carmicah
 	template<typename T> class Vector2D
 	{
 	public:
-		T x, y;
+		union
+		{
+			struct
+			{
+				T x, y;
+			};
+			T _mAccessor[2];
+		};
 
 		//Constructors
 		Vector2D() : x(0), y(0) {}

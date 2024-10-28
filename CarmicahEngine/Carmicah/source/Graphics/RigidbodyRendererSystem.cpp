@@ -14,9 +14,6 @@ DigiPen Institute of Technology is prohibited.
 #include "pch.h"
 #include <limits>
 #include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/matrix_transform_2d.hpp>
 #include <ECS/ECSTypes.h>
 #include "Graphics/RigidbodyRendererSystem.h"
 #include "Systems/GOFactory.h"
@@ -76,22 +73,29 @@ namespace Carmicah
 
 			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
 
-			glm::mat3 trans{ 1 };
+			Matrix3x3<float> trans{}, rotMtx{};
+			Mtx33Identity(trans);
+			Mtx33Identity(rotMtx);
 
 			// Get rotation
 			float rot = std::atan2f(rigidbody.velocity.y, rigidbody.velocity.x);
 			// Get scale multi
 			float biggerVel = fmaxf(fabs(rigidbody.velocity.x), fabs(rigidbody.velocity.y));
 
-			trans = glm::translate(trans, glm::vec2(transform.xPos, transform.yPos));
-			trans = glm::rotate(trans, rot);
-			trans = glm::scale(trans, glm::vec2(biggerVel, biggerVel));
+			Mtx33Translate(trans, transform.xPos, transform.yPos);
+			Mtx33RotRad(trans, rot);
+			trans *= rotMtx;
+			Mtx33Scale(trans, biggerVel, biggerVel);
 			trans = camera.camSpace * trans;
+
+
+			Matrix3x3<float> invMat{};
+			Mtx33Transpose(invMat, trans);
 
 
 			GLint uniformLoc;
 			if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, invMat.m);
 
 			glBindVertexArray(p->vaoid);
 			switch (p->drawMode)
