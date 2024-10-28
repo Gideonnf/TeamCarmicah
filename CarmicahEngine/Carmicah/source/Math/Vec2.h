@@ -43,8 +43,10 @@ namespace Carmicah
 		//Assignment Operators
 		Vector2D& operator=(const Vector2D& rhs) = default;
 		Vector2D(const Vector2D& rhs) = default;
+		Vector2D(Vector2D&&) = default;
+		Vector2D& operator=(Vector2D&&) = default;
 
-		//Assignment Operators
+		//Compound Assignment Operators
 		Vector2D& operator += (const Vector2D& rhs)
 		{
 			x += rhs.x;
@@ -76,6 +78,47 @@ namespace Carmicah
 		{
 			return Vector2D(-x, -y);
 		}
+
+		//Other Member Functions:
+		//Length
+		T length()
+		{
+			return std::sqrt(x * x + y * y);
+		}
+		//Square Length
+		T squareLength()
+		{
+			return (x * x + y * y);
+		}
+		//Normalize
+		Vector2D& normalize()
+		{
+			T len = length();
+			if (len == 0)
+			{
+				throw std::domain_error("Cannot normalize zero vector");
+			}
+			*this /= len;
+			return *this;
+		}
+		//Dot Product
+		T dot(const Vector2D& other)
+		{
+			return(x * other.x + y * other.y);
+		}
+		//Cross Product
+		T cross(const Vector2D& other)
+		{
+			return(x * other.y - y * other.x);
+		}
+
+
+		//Default Vectors
+		static Vector2D zero() { return Vector2D(0, 0); }
+		static Vector2D up() { return Vector2D(0, 1); }
+		static Vector2D down() { return Vector2D(0, -1); }
+		static Vector2D left() { return Vector2D(-1, 0); }
+		static Vector2D right() { return Vector2D(1, 0); }
 	};
 
 	// Binary operators
@@ -97,6 +140,10 @@ namespace Carmicah
 	}
 	template<typename T> Vector2D<T> operator / (const Vector2D<T>& lhs, T rhs)
 	{
+		if (rhs == 0)
+		{
+			throw std::domain_error("Division by zero");
+		}
 		return Vector2D(lhs.x / rhs, lhs.y / rhs);
 	}
 
@@ -105,7 +152,7 @@ namespace Carmicah
 	{
 		T normalisation = sqrt(pVec0.x * pVec0.x + pVec0.y * pVec0.y);
 
-		if(normalisation == 0)
+		if (normalisation == 0)
 		{
 			pResult.x = 0;
 			pResult.y = 0;
@@ -114,6 +161,7 @@ namespace Carmicah
 		{
 			pResult.x = pVec0.x / normalisation;
 			pResult.y = pVec0.y / normalisation;
+
 		}
 	}
 
@@ -133,29 +181,6 @@ namespace Carmicah
 		return length;
 	}
 
-	//Distance
-
-	template<typename T> T Vector2DDistance(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)
-	{
-
-		//TODO and FIX
-		Vector2D DistanceVector = pVec1 - pVec0;
-
-		T distance = Vector2DLength(DistanceVector);
-
-		return distance;
-	}
-
-	//Square Distance
-	template<typename T> T Vector2DSquareDistance(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)
-	{
-		Vector2D DistanceVector = pVec1 - pVec0;
-
-		T distance = Vector2DSquareLength(DistanceVector);
-
-		return distance;
-	}
-
 	//Dot Product
 	template<typename T> T Vector2DDotProduct(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)
 	{
@@ -170,6 +195,24 @@ namespace Carmicah
 		return pVec0.x * pVec1.y - pVec0.y * pVec1.x;
 	}
 
+
+	//Distance
+
+	template<typename T> T Vector2DDistance(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)
+	{
+		Vector2D DistanceVector = pVec1 - pVec0;
+
+		T distance = Vector2DLength(DistanceVector);
+
+		return distance;
+	}
+
+	//Square Distance
+	template<typename T> T Vector2DSquareDistance(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)
+	{
+		return (pVec1 - pVec0).squareLength();
+	}
+
 	//<< Operator Overload
 	template <typename T> std::ostream& operator<<(std::ostream& os, const Vector2D<T>& pVec0)
 	{
@@ -177,7 +220,8 @@ namespace Carmicah
 		return os;
 	}
 
-
-
-
+	//Could be used(?)
+	using Vec2f = Vector2D<float>;
+	using Vec2d = Vector2D<double>;
+	using Vec2i = Vector2D<int>;
 }
