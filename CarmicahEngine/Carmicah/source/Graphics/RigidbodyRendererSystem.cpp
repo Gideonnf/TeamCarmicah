@@ -55,29 +55,21 @@ namespace Carmicah
 
 			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
 
-			Matrix3x3<float> trans{}, rotMtx{};
-			Mtx33Identity(trans);
-			Mtx33Identity(rotMtx);
+			Matrix3x3<float> trans{};
 
 			// Get rotation
 			float rot = std::atan2f(rigidbody.velocity.y, rigidbody.velocity.x);
 			// Get scale multi
-			float biggerVel = fmaxf(fabs(rigidbody.velocity.x), fabs(rigidbody.velocity.y));
+			//float biggerVel = fmaxf(fabs(rigidbody.velocity.x), fabs(rigidbody.velocity.y));
+			//trans.translateThis(transform.xPos, transform.yPos).scaleThis(biggerVel, biggerVel).rotRadThis(rot);
 
-			Mtx33Translate(trans, transform.xPos, transform.yPos);
-			Mtx33RotRad(trans, rot);
-			trans *= rotMtx;
-			Mtx33Scale(trans, biggerVel, biggerVel);
+			trans.translateThis(transform.xPos, transform.yPos).rotRadThis(rot);
 			trans = camera.camSpace * trans;
-
-
-			Matrix3x3<float> invMat{};
-			Mtx33Transpose(invMat, trans);
 
 
 			GLint uniformLoc;
 			if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, invMat.m);
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, trans.m);
 
 			glBindVertexArray(p.vaoid);
 			switch (p.drawMode)

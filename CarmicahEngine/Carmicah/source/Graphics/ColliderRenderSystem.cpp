@@ -48,16 +48,13 @@ namespace Carmicah
 
 
 			Matrix3x3<float> trans{};
-			Mtx33Translate(trans, (collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f);
-			Mtx33Scale(trans, collider.max.x - collider.min.x, collider.max.y - collider.min.y);
+			trans.translateThis((collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f)
+				.scaleThis(collider.max.x - collider.min.x, collider.max.y - collider.min.y);
 			trans = camera.camSpace * trans;
-
-			Matrix3x3<float> invMat{};
-			Mtx33Transpose(invMat, trans);
 
 			GLint uniformLoc;
 			if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, invMat.m);
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, trans.m);
 
 			glBindVertexArray(p.vaoid);
 			switch (p.drawMode)

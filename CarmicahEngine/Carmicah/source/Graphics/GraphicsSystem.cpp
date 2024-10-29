@@ -62,15 +62,9 @@ namespace Carmicah
 		if (!currCam.notUpdated)
 		{
 			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
-			Matrix3x3<float> scaleMtx{}, rotMtx{}, transMtx{};
-			Mtx33Identity(scaleMtx);
-			Mtx33Identity(rotMtx);
-			Mtx33Identity(transMtx);
 			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-			Mtx33Scale(scaleMtx, camTrans.xScale, camTrans.yScale);
-			Mtx33RotDeg(rotMtx, -camTrans.rot);
-			Mtx33Translate(transMtx, -camTrans.xPos, -camTrans.yPos);
-			currCam.camSpace = scaleMtx * rotMtx, transMtx;
+			Mtx33Identity(currCam.camSpace);
+			currCam.camSpace.scaleThis(camTrans.xScale, camTrans.yScale).rotDegThis(-camTrans.rot).translateThis(-camTrans.xPos, -camTrans.yPos);
 		}
 
 		for (auto& entity : mEntitiesSet)
@@ -81,12 +75,7 @@ namespace Carmicah
 			if (!transform.notUpdated)
 			{
 				Mtx33Identity(transform.worldSpace);
-				Matrix3x3<float> rotMtx{};
-				Mtx33Identity(rotMtx);
-				Mtx33Translate(transform.worldSpace,transform.xPos, transform.yPos);
-				Mtx33RotDeg(rotMtx, transform.rot);
-				transform.worldSpace *= rotMtx;
-				Mtx33Scale(transform.worldSpace,transform.xScale, transform.yScale);
+				transform.worldSpace.translateThis(transform.xPos, transform.yPos).rotDegThis(transform.rot).scaleThis(transform.xScale, transform.yScale);
 				transform.camSpace = currCam.camSpace * transform.worldSpace;
 			}
 			else if (!currCam.notUpdated)
@@ -99,13 +88,10 @@ namespace Carmicah
 			Renderer& renderer = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
 			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(renderer.model) };
 
-			Matrix3x3<float> invMat{};
-			Mtx33Transpose(invMat, transform.camSpace);
-
 			// Set Uniforms
 			GLint uniformLoc{};
 			if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, invMat.m);
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, transform.camSpace.m);
 
 			//if (uniformExists(mCurrShader, "uTex2d", uniformLoc)) // Only if multiple textures
 			//	glUniform1i(uniformLoc, 0);
