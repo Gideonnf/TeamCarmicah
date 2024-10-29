@@ -28,8 +28,8 @@ namespace Carmicah
 		std::string mName{};
 		bool mActive;
 
-		Entity* mParentID;
-		std::vector<Entity*> mChildIDs;
+		//Entity* mParentID;
+		//std::vector<Entity*> mChildIDs;
 
 	public:
 		//Game object factory is the only class allowed to
