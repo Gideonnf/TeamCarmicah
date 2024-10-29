@@ -44,8 +44,8 @@ namespace Carmicah
 	{
 		auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 		currCam.notUpdated = false;
-		currCam.xScale = 1.f / static_cast<float>(camWidth);
-		currCam.yScale = 1.f / static_cast<float>(camHeight);
+		currCam.scale.x = 1.f / static_cast<float>(camWidth);
+		currCam.scale.y = 1.f / static_cast<float>(camHeight);
 	}
 
 	void GraphicsSystem::Render(Entity& cam)
@@ -64,7 +64,7 @@ namespace Carmicah
 			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
 			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			Mtx33Identity(currCam.camSpace);
-			currCam.camSpace.scaleThis(camTrans.xScale, camTrans.yScale).rotDegThis(-camTrans.rot).translateThis(-camTrans.xPos, -camTrans.yPos);
+			currCam.camSpace.scaleThis(camTrans.scale.x, camTrans.scale.y).rotDegThis(-camTrans.rot).translateThis(-camTrans.pos.x, -camTrans.pos.y);
 		}
 
 		for (auto& entity : mEntitiesSet)
@@ -75,7 +75,7 @@ namespace Carmicah
 			if (!transform.notUpdated)
 			{
 				Mtx33Identity(transform.worldSpace);
-				transform.worldSpace.translateThis(transform.xPos, transform.yPos).rotDegThis(transform.rot).scaleThis(transform.xScale, transform.yScale);
+				transform.worldSpace.translateThis(transform.pos.x, transform.pos.y).rotDegThis(transform.rot).scaleThis(transform.scale.x, transform.scale.y);
 				transform.camSpace = currCam.camSpace * transform.worldSpace;
 			}
 			else if (!currCam.notUpdated)

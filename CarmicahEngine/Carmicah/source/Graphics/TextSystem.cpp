@@ -55,7 +55,7 @@ namespace Carmicah
 			auto& foundFontTex{ AssetManager::GetInstance()->GetAsset<Font>(txtRenderer.font) };
 			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(txtRenderer.model) };
 
-			float xTrack = UITrans.xPos, yTrack = UITrans.yPos;
+			float xTrack = UITrans.pos.x, yTrack = UITrans.pos.y;
 
 			GLint uniformLoc;
 			if (uniformExists(mCurrShader, "uTextColor", uniformLoc))
@@ -67,16 +67,16 @@ namespace Carmicah
 				Font::FontChar ch = foundFontTex.mFontMaps[c];
 				//FontChar ch = foundFontTex-second[c];
 
-				xTrack += (ch.advance >> 7) * UITrans.xScale * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
+				xTrack += (ch.advance >> 7) * UITrans.scale.x * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
 				Mtx3x3f charTransform{};
 
 				// scale is multiplied by 0.5f since the mesh is from -0.5 to 0.5
 				charTransform
 					.translateThis(
-					xTrack + static_cast<float>(ch.xBearing) * UITrans.xScale * 0.5f,
-					yTrack - (static_cast<float>(ch.height >> 1) - static_cast<float>(ch.yBearing)) * UITrans.yScale * 0.5f)
-					.scaleThis(static_cast<float>(ch.width) * UITrans.xScale * 0.5f,
-						static_cast<float>(ch.height) * UITrans.yScale * 0.5f);
+					xTrack + static_cast<float>(ch.xBearing) * UITrans.scale.x * 0.5f,
+					yTrack - (static_cast<float>(ch.height >> 1) - static_cast<float>(ch.yBearing)) * UITrans.scale.y * 0.5f)
+					.scaleThis(static_cast<float>(ch.width) * UITrans.scale.x * 0.5f,
+						static_cast<float>(ch.height) * UITrans.scale.y * 0.5f);
 
 				charTransform = projection * charTransform;
 
@@ -100,7 +100,7 @@ namespace Carmicah
 				}
 
 				// now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-				xTrack += (ch.advance >> 7) * UITrans.xScale * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
+				xTrack += (ch.advance >> 7) * UITrans.scale.x * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
 			}
 		}
 		

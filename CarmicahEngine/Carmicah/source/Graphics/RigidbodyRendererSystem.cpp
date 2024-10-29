@@ -61,9 +61,9 @@ namespace Carmicah
 			float rot = std::atan2f(rigidbody.velocity.y, rigidbody.velocity.x);
 			// Get scale multi
 			//float biggerVel = fmaxf(fabs(rigidbody.velocity.x), fabs(rigidbody.velocity.y));
-			//trans.translateThis(transform.xPos, transform.yPos).scaleThis(biggerVel, biggerVel).rotRadThis(rot);
+			//trans.translateThis(transform.pos.x, transform.pos.y).scaleThis(biggerVel, biggerVel).rotRadThis(rot);
 
-			trans.translateThis(transform.xPos, transform.yPos).rotRadThis(rot);
+			trans.translateThis(transform.pos.x, transform.pos.y).rotRadThis(rot);
 			trans = camera.camSpace * trans;
 
 
