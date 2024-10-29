@@ -20,6 +20,7 @@ DigiPen Institute of Technology is prohibited.
 #include "EditorWindow.h"
 #include "SceneWindow.h"
 #include "SceneToImgui.h"
+#include "Input/InputSystem.h"
 
 namespace Carmicah
 {

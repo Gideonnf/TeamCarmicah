@@ -1,6 +1,6 @@
 {
-    "Width": 1600,
-    "Height": 900,
+    "Width": 1920,
+    "Height": 1080,
     "Default Scene": "Scene1",
     "Default Shader": "basic",
     "Font Shader": "font",

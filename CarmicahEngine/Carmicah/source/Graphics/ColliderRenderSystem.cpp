@@ -32,11 +32,6 @@ namespace Carmicah
 		SystemManager::GetInstance()->SetSignature<ColliderRenderSystem>(mSignature);
 		auto shdrRef = AssetManager::GetInstance()->GetAsset<Shader>("debug");
 		mCurrShader = shdrRef.s;
-	/*	auto shdrRef = AssetManager::GetInstance()->mShaderPgms.find("debug");
-		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
-			mCurrShader = shdrRef->second;
-		else
-			CM_CORE_ERROR("ColliderRenderSystem failed to load Shader");*/
 	}
 
 	void ColliderRenderSystem::Render(Entity& cam)

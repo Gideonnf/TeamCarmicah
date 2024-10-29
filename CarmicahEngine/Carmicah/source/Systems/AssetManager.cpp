@@ -168,26 +168,10 @@ namespace Carmicah
 	}
 
 
-	//bool AssetManager::TryGetPrimitive(Primitive& p, const std::string& s)
-	//{
-	//	auto& temp = primitiveMaps.find(s);
-	//	if (temp != primitiveMaps.end())
-	//	{
-	//		p = temp->second;
-	//		return true;
-	//	}
-	//	return false;
-	//}
 	// Load Functions
 	GLuint AssetManager::LoadShader(const std::string& shaderName, const std::string& vertFile, const std::string& fragFile)
 	{
 		// Shader Exists
-		//auto foundShader = mShaderPgms.find(shaderName);
-		//if (foundShader != mShaderPgms.end())
-		//{
-		//	std::cerr << "Shader:" << shaderName << " Already Exists";
-		//	return foundShader->second;
-		//}
 		if (AssetExist<Shader>(shaderName))
 		{
 			// TODO: Change to CM error logger thing
@@ -297,12 +281,7 @@ namespace Carmicah
 	*/
 	void AssetManager::LoadObject(const std::string& objName, const std::string& modelFile)
 	{
-		//auto foundObj = mPrimitiveMaps.find(objName);
-		//if (foundObj != mPrimitiveMaps.end())
-		//{
-		//	std::cerr << "Object:" << objName << " Already Exists";
-		//	return;
-		//}
+
 		if (AssetExist<Primitive>(objName))
 		{
 			// TODO: Change to CM error logger thing
@@ -326,8 +305,8 @@ namespace Carmicah
 			return;
 		}
 
-		std::vector<Vector2D<float>> vtx;
-		std::vector<Vector2D<float>> texCoord;
+		std::vector<Vec2f> vtx;
+		std::vector<Vec2f> texCoord;
 		std::vector<GLushort> idx;
 
 		vtx.reserve(numVert);
@@ -337,12 +316,12 @@ namespace Carmicah
 		for (unsigned int i{}; i < numVert; ++i)
 		{
 			ifs >> v1 >> v2;
-			vtx.emplace_back(Vector2D<float>{ v1, v2 });
+			vtx.emplace_back(Vec2f{ v1, v2 });
 		}
 		for (unsigned int i{}; i < numVert; ++i)
 		{
 			ifs >> v1 >> v2;
-			texCoord.emplace_back(Vector2D<float>{ v1, v2 });
+			texCoord.emplace_back(Vec2f{ v1, v2 });
 		}
 		// Only save index when following Triangle method
 		if (p.drawMode == GL_TRIANGLES)
@@ -356,7 +335,7 @@ namespace Carmicah
 		}
 		ifs.close();
 
-		unsigned int sizeofVtxArray = numVert * sizeof(Vector2D<float>);
+		unsigned int sizeofVtxArray = numVert * sizeof(Vec2f);
 
 		glCreateBuffers(1, &p.vboid);
 		glNamedBufferStorage(p.vboid, sizeofVtxArray * 2, nullptr, GL_DYNAMIC_STORAGE_BIT);
@@ -367,13 +346,13 @@ namespace Carmicah
 		glCreateVertexArrays(1, &p.vaoid);
 		glEnableVertexArrayAttrib(p.vaoid, 0); // VAO's vertex attribute index is 0 (vert)
 		glVertexArrayVertexBuffer(p.vaoid, 0, // vertex buffer binding point
-			p.vboid, 0, sizeof(Vector2D<float>));
+			p.vboid, 0, sizeof(Vec2f));
 		glVertexArrayAttribFormat(p.vaoid, 0, 2, GL_FLOAT, GL_FALSE, 0);
 		glVertexArrayAttribBinding(p.vaoid, 0, 0);
 
 		// Texture
 		glEnableVertexArrayAttrib(p.vaoid, 1);
-		glVertexArrayVertexBuffer(p.vaoid, 1, p.vboid, sizeofVtxArray, sizeof(Vector2D<float>));
+		glVertexArrayVertexBuffer(p.vaoid, 1, p.vboid, sizeofVtxArray, sizeof(Vec2f));
 		glVertexArrayAttribFormat(p.vaoid, 1, 2, GL_FLOAT, GL_FALSE, 0);
 		glVertexArrayAttribBinding(p.vaoid, 1, 1);
 
@@ -400,12 +379,6 @@ namespace Carmicah
 	*/
 	void AssetManager::LoadDebugObject(const std::string& objName, const std::string& modelFile)
 	{
-		//auto foundObj = mPrimitiveMaps.find(objName);
-		//if (foundObj != mPrimitiveMaps.end())
-		//{
-		//	std::cerr << "Object:" << objName << " Already Exists";
-		//	return;
-		//}
 		if (AssetExist<Primitive>(objName))
 		{
 			// TODO: Change to CM error logger thing
@@ -429,18 +402,18 @@ namespace Carmicah
 			return;
 		}
 
-		std::vector<Vector2D<float>> vtx;
+		std::vector<Vec2f> vtx;
 
 		vtx.reserve(p.drawCnt);
 		float v1, v2;
 		for (unsigned int i{}; i < p.drawCnt; ++i)
 		{
 			ifs >> v1 >> v2;
-			vtx.emplace_back(Vector2D<float>{ v1, v2 });
+			vtx.emplace_back(Vec2f{ v1, v2 });
 		}
 		ifs.close();
 
-		unsigned int sizeofVtxArray = p.drawCnt * sizeof(Vector2D<float>);
+		unsigned int sizeofVtxArray = p.drawCnt * sizeof(Vec2f);
 
 		glCreateBuffers(1, &p.vboid);
 		glNamedBufferStorage(p.vboid, sizeofVtxArray, vtx.data(), GL_DYNAMIC_STORAGE_BIT);
@@ -449,7 +422,7 @@ namespace Carmicah
 		glCreateVertexArrays(1, &p.vaoid);
 		glEnableVertexArrayAttrib(p.vaoid, 0); // VAO's vertex attribute index is 0 (vert)
 		glVertexArrayVertexBuffer(p.vaoid, 0, // vertex buffer binding point
-			p.vboid, 0, sizeof(Vector2D<float>));
+			p.vboid, 0, sizeof(Vec2f));
 		glVertexArrayAttribFormat(p.vaoid, 0, 2, GL_FLOAT, GL_FALSE, 0);
 		glVertexArrayAttribBinding(p.vaoid, 0, 0);
 
@@ -459,12 +432,6 @@ namespace Carmicah
 
 	void AssetManager::LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile)
 	{
-		/*auto foundTexture = mTextureMaps.find(textureName);
-		if (foundTexture != mTextureMaps.end())
-		{
-			std::cerr << "Texture:" << textureName << " Already Exists";
-			return;
-		}*/
 		if (AssetExist<Texture>(textureName))
 		{
 			std::cerr << "Texture:" << textureName << " Already Exists";
@@ -510,12 +477,6 @@ namespace Carmicah
 
 	void AssetManager::LoadFont(const std::string& fontName, const std::string& fontLoc, const unsigned int& fontHeight)
 	{
-	/*	auto foundFontTex = mFontMaps.find(fontName);
-		if (foundFontTex != mFontMaps.end())
-		{
-			std::cerr << "Font: " << fontName << " Already Exists";
-			return;
-		}*/
 		if (AssetExist<Font>(fontName))
 		{
 			// TODO: Change to CM Error

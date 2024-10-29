@@ -35,11 +35,6 @@ namespace Carmicah
 		SystemManager::GetInstance()->SetSignature<RigidbodyRendererSystem>(mSignature);
 		auto& shdrRef = AssetManager::GetInstance()->GetAsset<Shader>("debug");
 		mCurrShader = shdrRef.s;
-	/*	auto shdrRef = AssetManager::GetInstance()->mShaderPgms.find("debug");
-		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
-			mCurrShader = shdrRef->second;
-		else
-			CM_CORE_ERROR("RigidbodyRendererSystem failed to load Shader");*/
 	}
 
 	void RigidbodyRendererSystem::Render(Entity& cam)
@@ -47,20 +42,7 @@ namespace Carmicah
 		if (mCurrShader == 0)
 			return;
 		glUseProgram(mCurrShader);
-		auto& tryPrimitive{ AssetManager::GetInstance()->GetAsset<Primitive>(modelName) };
-		Primitive* p;
-		p = &tryPrimitive;
-	/*	auto tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(modelName) };
-		Primitive* p;
-		if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
-		{
-			std::stringstream ss;
-			ss << "Renderer Model not found: " << modelName << std::endl;
-			CM_CORE_ERROR(ss.str());
-			return;
-		}
-		else
-			p = &tryPrimitive->second;*/
+		auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(modelName) };
 
 		auto& camera = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 
@@ -97,12 +79,12 @@ namespace Carmicah
 			if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, invMat.m);
 
-			glBindVertexArray(p->vaoid);
-			switch (p->drawMode)
+			glBindVertexArray(p.vaoid);
+			switch (p.drawMode)
 			{
 			case GL_LINE_LOOP:
 				glLineWidth(2.f);
-				glDrawArrays(GL_LINE_LOOP, 0, p->drawCnt);
+				glDrawArrays(GL_LINE_LOOP, 0, p.drawCnt);
 				break;
 			}
 		}
