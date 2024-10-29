@@ -146,8 +146,7 @@ namespace Carmicah
 		//Rotation
 		Matrix3x3& rotRadThis(T angle)
 		{
-			Matrix3x3 rotation{};
-			rotation = rotation.rotRad(angle);
+			Matrix3x3 rotation = rotRad(angle);
 
 			*this = *this * rotation;
 
