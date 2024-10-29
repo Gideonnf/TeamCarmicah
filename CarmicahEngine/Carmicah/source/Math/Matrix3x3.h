@@ -43,7 +43,7 @@ namespace Carmicah
 		};
 
 		//Constructors
-		Matrix3x3() : m00(0.0f), m01(0.0f), m02(0.0f), m10(0.0f), m11(0.0f), m12(0.0f), m20(0.0f), m21(0.0f), m22(0.0f) {}
+		Matrix3x3() : m00(1.0f), m01(0.0f), m02(0.0f), m10(0.0f), m11(1.0f), m12(0.0f), m20(0.0f), m21(0.0f), m22(1.0f) {}
 
 		/**************************************************************************/
 		/*!
@@ -118,11 +118,65 @@ namespace Carmicah
 		//Other Functions
 		static Matrix3x3 identity() { return Matrix3x3(1, 0, 0, 0, 1, 0, 0, 0, 1); }
 
-		//Translation
+		//Translation/Scale/Rot
 		Matrix3x3 translate(T x, T y) { return Matrix3x3(1, 0, x, 0, 1, y, 0, 0, 1); }
+		Matrix3x3 translate(Vector2D other) { return Matrix3x3(1, 0, other.x, 0, 1, other.y, 0, 0, 1); }
+
 		Matrix3x3 scale(T x, T y) { return Matrix3x3(x, 0, 0, 0, y, 0, 0, 0, 1); }
+		Matrix3x3 scale(Vector2D other) { return Matrix3x3(other.x, 0, 0, 0, other.y, 0, 0, 0, 1); }
+
 		Matrix3x3 rotRad(T angle) { return Matrix3x3(cos(angle), -sin(angle), 0, sin(angle), cos(angle), 0, 0, 0, 1); }
 		Matrix3x3 rotDeg(T angle) { T rad = angle * (PI / 180); return rotRad(rad); }
+
+		//Scale
+		Matrix3x3& scaleThis(T x, T y)
+		{
+			m[0] *= x;
+			m[4] *= y;
+			return *this;
+		}
+
+		Matrix3x3& scaleThis(Vector2D other)
+		{
+			m[0] *= other.x;
+			m[4] *= other.y;
+			return *this;
+		}
+
+		//Rotation
+		Matrix3x3& rotRadThis(T angle)
+		{
+			Matrix3x3 rotation = rotRad(angle);
+
+			*this = *this * rotation;
+
+			return *this;
+
+		}
+
+		Matrix3x3& rotDegThis(T angle)
+		{
+			T rad = angle * (PI / 180);
+
+			return *this->rotRadThis(rad);
+		}
+
+		//Translate
+		Matrix3x3& translateThis(T x, T y)
+		{
+			m[2] += x;
+			m[5] += y;
+			return *this;
+		}
+
+		Matrix3x3& translateThis(Vector2D other)
+		{
+			m[2] += other.x;
+			m[5] += other.y;
+			return *this;
+		}
+
+
 
 		//Transpose
 		Matrix3x3 getTranspose() const
@@ -280,4 +334,7 @@ namespace Carmicah
 			pResult->m22 = adjoint.m22 / (*determinant);
 		}
 	}
+	using Mtx3x3f = Matrix3x3<float>;
+	using Mtx3x3d = Matrix3x3<double>;
+	using Mtx3x3i = Matrix3x3<int>;
 }
