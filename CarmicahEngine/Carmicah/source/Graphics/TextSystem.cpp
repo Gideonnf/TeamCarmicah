@@ -35,11 +35,13 @@ namespace Carmicah
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<TextSystem>(mSignature);
 
-		auto shdrRef = AssetManager::GetInstance()->mShaderPgms.find(AssetManager::GetInstance()->enConfig.fontShader);
+		auto& shdrRef = AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.fontShader);
+		mCurrShader = shdrRef.s;
+		/*auto& shdrRef = AssetManager::GetInstance()->mShaderPgms.find(AssetManager::GetInstance()->enConfig.fontShader);
 		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
 			mCurrShader = shdrRef->second;
 		else
-			CM_CORE_ERROR("TextSystem failed to load Shader");
+			CM_CORE_ERROR("TextSystem failed to load Shader");*/
 	}
 
 	void TextSystem::Render(GLuint canvasWidth, GLuint canvasHeight)
@@ -58,28 +60,30 @@ namespace Carmicah
 		{
 			auto& txtRenderer{ ComponentManager::GetInstance()->GetComponent<TextRenderer>(entity) };
 			auto& UITrans{ ComponentManager::GetInstance()->GetComponent<UITransform>(entity)};
-			auto foundFontTex{ AssetManager::GetInstance()->mFontMaps.find(txtRenderer.font) };
+			auto& foundFontTex{ AssetManager::GetInstance()->GetAsset<Font>(txtRenderer.font) };
+		/*	auto& foundFontTex{ AssetManager::GetInstance()->mFontMaps.find(txtRenderer.font) };
 			if (foundFontTex == AssetManager::GetInstance()->mFontMaps.end())
 			{
 				std::stringstream ss;
 				ss << "Font not found: " << txtRenderer.font << std::endl;
 				CM_CORE_ERROR(ss.str());
 				continue;
-			}
-			auto tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(txtRenderer.model) };
+			}*/
+			auto& tryPrimitive{ AssetManager::GetInstance()->GetAsset<Primitive>(txtRenderer.model) };
+			//auto tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(txtRenderer.model) };
 			Primitive* p;
-			if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
-			{
-				std::stringstream ss;
-				ss << "Renderer Model not found: " << txtRenderer.model << std::endl;
-				CM_CORE_ERROR(ss.str());
-				continue;
-			}
-			else
-				p = &tryPrimitive->second;
+			p = &tryPrimitive;
+			//if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
+			//{
+			//	std::stringstream ss;
+			//	ss << "Renderer Model not found: " << txtRenderer.model << std::endl;
+			//	CM_CORE_ERROR(ss.str());
+			//	continue;
+			//}
+			//else
+			//	p = &tryPrimitive->second;
 
 			float xTrack = UITrans.xPos, yTrack = UITrans.yPos;
-
 
 			GLint uniformLoc;
 			if (uniformExists(mCurrShader, "uTextColor", uniformLoc))
@@ -88,7 +92,8 @@ namespace Carmicah
 			// iterate through all characters (alot of it divides by 2 since quad is based on [-1,1])
 			for (auto& c : txtRenderer.txt)
 			{
-				FontChar ch = foundFontTex->second[c];
+				Font::FontChar ch = foundFontTex.mFontMaps[c];
+				//FontChar ch = foundFontTex-second[c];
 
 				xTrack += (ch.advance >> 7) * UITrans.xScale * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
 				glm::mat3 charTransform{ 1 };
