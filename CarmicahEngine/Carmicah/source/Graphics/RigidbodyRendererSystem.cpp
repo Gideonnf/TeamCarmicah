@@ -14,9 +14,6 @@ DigiPen Institute of Technology is prohibited.
 #include "pch.h"
 #include <limits>
 #include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/matrix_transform_2d.hpp>
 #include <ECS/ECSTypes.h>
 #include "Graphics/RigidbodyRendererSystem.h"
 #include "Systems/GOFactory.h"
@@ -38,11 +35,6 @@ namespace Carmicah
 		SystemManager::GetInstance()->SetSignature<RigidbodyRendererSystem>(mSignature);
 		auto& shdrRef = AssetManager::GetInstance()->GetAsset<Shader>("debug");
 		mCurrShader = shdrRef.s;
-	/*	auto shdrRef = AssetManager::GetInstance()->mShaderPgms.find("debug");
-		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
-			mCurrShader = shdrRef->second;
-		else
-			CM_CORE_ERROR("RigidbodyRendererSystem failed to load Shader");*/
 	}
 
 	void RigidbodyRendererSystem::Render(Entity& cam)
@@ -50,20 +42,7 @@ namespace Carmicah
 		if (mCurrShader == 0)
 			return;
 		glUseProgram(mCurrShader);
-		auto& tryPrimitive{ AssetManager::GetInstance()->GetAsset<Primitive>(modelName) };
-		Primitive* p;
-		p = &tryPrimitive;
-	/*	auto tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(modelName) };
-		Primitive* p;
-		if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
-		{
-			std::stringstream ss;
-			ss << "Renderer Model not found: " << modelName << std::endl;
-			CM_CORE_ERROR(ss.str());
-			return;
-		}
-		else
-			p = &tryPrimitive->second;*/
+		auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(modelName) };
 
 		auto& camera = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 
@@ -76,29 +55,28 @@ namespace Carmicah
 
 			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
 
-			glm::mat3 trans{ 1 };
+			Matrix3x3<float> trans{};
 
 			// Get rotation
 			float rot = std::atan2f(rigidbody.velocity.y, rigidbody.velocity.x);
 			// Get scale multi
-			float biggerVel = fmaxf(fabs(rigidbody.velocity.x), fabs(rigidbody.velocity.y));
+			//float biggerVel = fmaxf(fabs(rigidbody.velocity.x), fabs(rigidbody.velocity.y));
+			//trans.translateThis(transform.pos.x, transform.pos.y).scaleThis(biggerVel, biggerVel).rotRadThis(rot);
 
-			trans = glm::translate(trans, glm::vec2(transform.xPos, transform.yPos));
-			trans = glm::rotate(trans, rot);
-			trans = glm::scale(trans, glm::vec2(biggerVel, biggerVel));
+			trans.translateThis(transform.pos.x, transform.pos.y).rotRadThis(rot);
 			trans = camera.camSpace * trans;
 
 
 			GLint uniformLoc;
 			if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, trans.m);
 
-			glBindVertexArray(p->vaoid);
-			switch (p->drawMode)
+			glBindVertexArray(p.vaoid);
+			switch (p.drawMode)
 			{
 			case GL_LINE_LOOP:
 				glLineWidth(2.f);
-				glDrawArrays(GL_LINE_LOOP, 0, p->drawCnt);
+				glDrawArrays(GL_LINE_LOOP, 0, p.drawCnt);
 				break;
 			}
 		}

@@ -12,8 +12,6 @@ Reproduction or disclosure of this file or its contents without the prior writte
 DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
-#include <glm/glm.hpp>
-#include <glm/gtx/matrix_transform_2d.hpp>
 #include <ECS/ECSTypes.h>
 #include "Graphics/AnimationSystem.h"
 #include "Components/Renderer.h"
@@ -44,14 +42,10 @@ namespace Carmicah
 			if (!anim.notChangedAnim)
 			{
 				auto& tex = AssetManager::GetInstance()->GetAsset<Texture>(rend.texture);
-				//auto tex = AssetManager::GetInstance()->mTextureMaps.find(rend.texture);
-				/*if (tex != AssetManager::GetInstance()->mTextureMaps.end())
-				{*/
-					anim.xSlice = tex.xSlices + 1;
-					anim.ySlice = tex.ySlices + 1;
-					anim.time = anim.maxTime;
-					anim.currPiece = anim.xSlice * anim.ySlice;
-				//}
+				anim.xSlice = tex.xSlices + 1;
+				anim.ySlice = tex.ySlices + 1;
+				anim.time = anim.maxTime;
+				anim.currPiece = anim.xSlice * anim.ySlice;
 				anim.notChangedAnim = true;
 			}
 
@@ -67,11 +61,9 @@ namespace Carmicah
 
 				
 				// Animation translates
-				rend.texureMat = glm::mat3(1);
-				glm::vec2 animScale = glm::vec2{ 1.f / static_cast<float>(anim.xSlice), 1.f / static_cast<float>(anim.ySlice) };
-				glm::vec2 animTranslate = glm::vec2{ xMulti * animScale.x , yMulti * animScale.y};
-				rend.texureMat = glm::translate(rend.texureMat, animTranslate);
-				rend.texureMat = glm::scale(rend.texureMat, animScale);
+				Mtx33Identity(rend.textureMat);
+				Vector2D animScale{ 1.f / static_cast<float>(anim.xSlice), 1.f / static_cast<float>(anim.ySlice) };
+				rend.textureMat.translateThis(xMulti * animScale.x, yMulti * animScale.y).scaleThis(animScale);
 			}
 		}
 	}

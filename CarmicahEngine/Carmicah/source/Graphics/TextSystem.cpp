@@ -13,9 +13,6 @@ DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/matrix_transform_2d.hpp>
 #include <ECS/ECSTypes.h>
 #include "Graphics/TextSystem.h"
 #include "Systems/GOFactory.h"
@@ -24,6 +21,7 @@ DigiPen Institute of Technology is prohibited.
 #include "ECS/SystemManager.h"
 #include "ECS/ComponentManager.h"
 #include "Systems/AssetManager.h"
+#include "Math/Matrix3x3.h"
 
 namespace Carmicah
 {
@@ -37,11 +35,6 @@ namespace Carmicah
 
 		auto& shdrRef = AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.fontShader);
 		mCurrShader = shdrRef.s;
-		/*auto& shdrRef = AssetManager::GetInstance()->mShaderPgms.find(AssetManager::GetInstance()->enConfig.fontShader);
-		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
-			mCurrShader = shdrRef->second;
-		else
-			CM_CORE_ERROR("TextSystem failed to load Shader");*/
 	}
 
 	void TextSystem::Render(GLuint canvasWidth, GLuint canvasHeight)
@@ -52,42 +45,21 @@ namespace Carmicah
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		glm::mat3 projection{ 1 };
-		projection = glm::translate(projection, glm::vec2(-1.f, -1.f));
-		projection = glm::scale(projection, glm::vec2(2.f / static_cast<float>(canvasWidth), 2.f / static_cast<float>(canvasHeight)));
+		Mtx3x3f projection{};
+		projection.translateThis(-1.f, -1.f).scaleThis(2.f / static_cast<float>(canvasWidth), 2.f / static_cast<float>(canvasHeight));
 
 		for (auto& entity : mEntitiesSet)
 		{
 			auto& txtRenderer{ ComponentManager::GetInstance()->GetComponent<TextRenderer>(entity) };
 			auto& UITrans{ ComponentManager::GetInstance()->GetComponent<UITransform>(entity)};
 			auto& foundFontTex{ AssetManager::GetInstance()->GetAsset<Font>(txtRenderer.font) };
-		/*	auto& foundFontTex{ AssetManager::GetInstance()->mFontMaps.find(txtRenderer.font) };
-			if (foundFontTex == AssetManager::GetInstance()->mFontMaps.end())
-			{
-				std::stringstream ss;
-				ss << "Font not found: " << txtRenderer.font << std::endl;
-				CM_CORE_ERROR(ss.str());
-				continue;
-			}*/
-			auto& tryPrimitive{ AssetManager::GetInstance()->GetAsset<Primitive>(txtRenderer.model) };
-			//auto tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(txtRenderer.model) };
-			Primitive* p;
-			p = &tryPrimitive;
-			//if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
-			//{
-			//	std::stringstream ss;
-			//	ss << "Renderer Model not found: " << txtRenderer.model << std::endl;
-			//	CM_CORE_ERROR(ss.str());
-			//	continue;
-			//}
-			//else
-			//	p = &tryPrimitive->second;
+			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(txtRenderer.model) };
 
-			float xTrack = UITrans.xPos, yTrack = UITrans.yPos;
+			float xTrack = UITrans.pos.x, yTrack = UITrans.pos.y;
 
 			GLint uniformLoc;
 			if (uniformExists(mCurrShader, "uTextColor", uniformLoc))
-				glUniform3f(uniformLoc, txtRenderer.color.x, txtRenderer.color.y, txtRenderer.color.z);
+				glUniform3f(uniformLoc, txtRenderer.colorR, txtRenderer.colorG, txtRenderer.colorB);
 
 			// iterate through all characters (alot of it divides by 2 since quad is based on [-1,1])
 			for (auto& c : txtRenderer.txt)
@@ -95,41 +67,40 @@ namespace Carmicah
 				Font::FontChar ch = foundFontTex.mFontMaps[c];
 				//FontChar ch = foundFontTex-second[c];
 
-				xTrack += (ch.advance >> 7) * UITrans.xScale * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
-				glm::mat3 charTransform{ 1 };
+				xTrack += (ch.advance >> 7) * UITrans.scale.x * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
+				Mtx3x3f charTransform{};
 
 				// scale is multiplied by 0.5f since the mesh is from -0.5 to 0.5
-				charTransform = glm::translate(charTransform, glm::vec2(
-					xTrack + static_cast<float>(ch.xBearing) * UITrans.xScale * 0.5f,
-					yTrack - (static_cast<float>(ch.height >> 1) - static_cast<float>(ch.yBearing)) * UITrans.yScale * 0.5f));
-
-				charTransform = glm::scale(charTransform, glm::vec2(
-					static_cast<float>(ch.width) * UITrans.xScale * 0.5f,
-					static_cast<float>(ch.height) * UITrans.yScale * 0.5f));
+				charTransform
+					.translateThis(
+					xTrack + static_cast<float>(ch.xBearing) * UITrans.scale.x * 0.5f,
+					yTrack - (static_cast<float>(ch.height >> 1) - static_cast<float>(ch.yBearing)) * UITrans.scale.y * 0.5f)
+					.scaleThis(static_cast<float>(ch.width) * UITrans.scale.x * 0.5f,
+						static_cast<float>(ch.height) * UITrans.scale.y * 0.5f);
 
 				charTransform = projection * charTransform;
 
 				if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(charTransform));
+					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, charTransform.m);
 
-				glBindVertexArray(p->vaoid);
+				glBindVertexArray(p.vaoid);
 				glBindTextureUnit(0, ch.texID);
-				switch (p->drawMode)
+				switch (p.drawMode)
 				{
 				case GL_LINE_LOOP:
 					glLineWidth(2.f);
-					glDrawArrays(GL_LINE_LOOP, 0, p->drawCnt);
+					glDrawArrays(GL_LINE_LOOP, 0, p.drawCnt);
 					break;
 				case GL_TRIANGLES:
-					glDrawElements(GL_TRIANGLES, p->drawCnt, GL_UNSIGNED_SHORT, NULL);
+					glDrawElements(GL_TRIANGLES, p.drawCnt, GL_UNSIGNED_SHORT, NULL);
 					break;
 				case GL_TRIANGLE_FAN:
-					glDrawArrays(GL_TRIANGLE_FAN, 0, p->drawCnt);
+					glDrawArrays(GL_TRIANGLE_FAN, 0, p.drawCnt);
 					break;
 				}
 
 				// now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-				xTrack += (ch.advance >> 7) * UITrans.xScale * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
+				xTrack += (ch.advance >> 7) * UITrans.scale.x * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
 			}
 		}
 		

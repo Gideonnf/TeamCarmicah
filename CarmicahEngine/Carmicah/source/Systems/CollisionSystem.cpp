@@ -49,11 +49,11 @@ namespace Carmicah
 		auto& AABB = componentManager->GetComponent<Collider2D>(obj);
 		//auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
 
-		AABB.min.x = -(transform.xScale * 0.5f) + transform.xPos;
-		AABB.min.y = -(transform.yScale * 0.5f) + transform.yPos;
+		AABB.min.x = -(transform.scale.x * 0.5f) + transform.pos.x;
+		AABB.min.y = -(transform.scale.y * 0.5f) + transform.pos.y;
 
-		AABB.max.x = (transform.xScale * 0.5f) + transform.xPos;
-		AABB.max.y = (transform.yScale * 0.5f) + transform.yPos;
+		AABB.max.x = (transform.scale.x * 0.5f) + transform.pos.x;
+		AABB.max.y = (transform.scale.y * 0.5f) + transform.pos.y;
 	}
 
 	/**
@@ -225,8 +225,8 @@ namespace Carmicah
 		{
 			
 			// Update position based on the first time of collision (tFirst)
-			transform1.xPos = rigidbody1.velocity.x * tFirst + rigidbody1.posPrev.x;
-			transform1.yPos = rigidbody1.velocity.y * tFirst + rigidbody1.posPrev.y;
+			transform1.pos.x = rigidbody1.velocity.x * tFirst + rigidbody1.posPrev.x;
+			transform1.pos.y = rigidbody1.velocity.y * tFirst + rigidbody1.posPrev.y;
 
 			// Zero out both velocity components (or apply bounce/rest)
 			rigidbody1.velocity.x = 0;
@@ -237,11 +237,11 @@ namespace Carmicah
 		}
 		else if (rigidbody1.objectType == "Dynamic" && rigidbody2.objectType == "Dynamic")
 		{
-			transform1.xPos = rigidbody1.velocity.x * tFirst + rigidbody1.posPrev.x;
-			transform1.yPos = rigidbody1.velocity.y * tFirst + rigidbody1.posPrev.y;
+			transform1.pos.x = rigidbody1.velocity.x * tFirst + rigidbody1.posPrev.x;
+			transform1.pos.y = rigidbody1.velocity.y * tFirst + rigidbody1.posPrev.y;
 
-			transform2.xPos = rigidbody2.velocity.x * tFirst + rigidbody2.posPrev.x;
-			transform2.yPos = rigidbody2.velocity.y * tFirst + rigidbody2.posPrev.y;
+			transform2.pos.x = rigidbody2.velocity.x * tFirst + rigidbody2.posPrev.x;
+			transform2.pos.y = rigidbody2.velocity.y * tFirst + rigidbody2.posPrev.y;
 
 			
 			// Zero out both velocity components (or apply bounce/rest)
@@ -255,8 +255,8 @@ namespace Carmicah
 		else if (rigidbody1.objectType == "Kinematic" && rigidbody2.objectType == "Static")
 		{
 			// Update position based on the first time of collision (tFirst)
-			transform1.xPos = rigidbody1.velocity.x * tFirst + rigidbody1.posPrev.x;
-			transform1.yPos = rigidbody1.velocity.y * tFirst + rigidbody1.posPrev.y;
+			transform1.pos.x = rigidbody1.velocity.x * tFirst + rigidbody1.posPrev.x;
+			transform1.pos.y = rigidbody1.velocity.y * tFirst + rigidbody1.posPrev.y;
 
 			// Zero out both velocity components (or apply bounce/rest)
 			rigidbody1.velocity.x = 0;

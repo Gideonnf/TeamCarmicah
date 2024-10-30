@@ -15,7 +15,6 @@ DigiPen Institute of Technology is prohibited.
 #define TEXT_RENDERER_COMPONENT_H
 
 #include <string>
-#include <glm/glm.hpp>
 #include "BaseComponent.h"
 namespace Carmicah
 {
@@ -24,16 +23,16 @@ namespace Carmicah
         std::string model;
         std::string font;
         std::string txt;
-        glm::vec3 color;
+        float colorR, colorG, colorB;
 
         TextRenderer& DeserializeComponent(const rapidjson::Value& component) override
         {
             model = component["model"].GetString();
             font = component["font"].GetString();
             txt = component["text"].GetString();
-            color.r = component["colorR"].GetFloat();
-            color.g = component["colorG"].GetFloat();
-            color.b = component["colorB"].GetFloat();
+            colorR = component["colorR"].GetFloat();
+            colorG = component["colorG"].GetFloat();
+            colorB = component["colorB"].GetFloat();
             return *this;
         }
 
@@ -46,11 +45,11 @@ namespace Carmicah
             writer.String("text");
             writer.String(txt.c_str());
             writer.String("colorR");
-            writer.Double(color.r);
+            writer.Double(colorR);
             writer.String("colorG");
-            writer.Double(color.g);
+            writer.Double(colorG);
             writer.String("colorB");
-            writer.Double(color.b);
+            writer.Double(colorB);
 
         }
     };

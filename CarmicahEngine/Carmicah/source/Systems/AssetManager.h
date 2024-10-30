@@ -18,7 +18,6 @@ DigiPen Institute of Technology is prohibited.
 #define ASSET_MANAGER_H
 
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
 #include <freetype/ft2build.h>
 #include FT_FREETYPE_H
 #include <FMOD/fmod.hpp>
