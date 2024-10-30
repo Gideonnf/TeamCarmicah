@@ -93,6 +93,7 @@ namespace Carmicah
 		void ImportGO(const rapidjson::Value& go);
 		void ExportGOs(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer);
 		void ExportEntity(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer, Entity id);
+		Entity ImportEntity(const rapidjson::Value& go, Entity parentID);
 #pragma endregion
 
 #pragma region Component Functions

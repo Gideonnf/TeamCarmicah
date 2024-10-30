@@ -424,26 +424,19 @@ namespace Carmicah
 		}
 	}
 
-	void GOFactory::ImportGO(const rapidjson::Value& go)
+	void GOFactory::ImportGO(const rapidjson::Value& doc)
 	{
-		std::string name = std::string(go["GameObject"].GetString());
-		int entityID = go["ID"].GetInt();
-			//mainCam = newObj.GetID
-		GameObject newObj = LoadGO(name, entityID);
+		std::string sceneName = std::string(doc["Scene"].GetString());
+		CreateSceneObject(sceneName);
 
-		if (name == "MainCamera")
-			mainCam = newObj.GetID();
-
-		const rapidjson::Value& componentList = go["Components"];
-		for (rapidjson::Value::ConstValueIterator it = componentList.Begin(); it != componentList.End(); ++it)
+		if (doc.HasMember("SceneObjects"))
 		{
-			// Get the name of the current component being deserialized
-			const std::string& componentName = (*it)["Component Name"].GetString();
-			// Deserialize the json file that contains the component's data
-			std::any componentData = ComponentManager::GetInstance()->DeserializePrefabComponent(*it);
-			
-			// Attach it to the game object
-			AttachComponents(newObj, std::make_pair(componentName, componentData));
+			const rapidjson::Value& sceneObjects = doc["SceneObjects"];
+			for (rapidjson::SizeType i = 0; i < sceneObjects.Size(); ++i)
+			{
+				const rapidjson::Value& go = sceneObjects[i];
+				sceneGO.children.insert(ImportEntity(go, sceneGO.sceneID));
+			}
 		}
 	}
 
@@ -478,41 +471,94 @@ namespace Carmicah
 			writer.StartArray();
 			ComponentManager::GetInstance()->SerializeEntityComponents(obj.GetID(), EntityManager::GetInstance()->GetSignature(obj.GetID()), writer);
 			writer.EndArray();
-			
-			if (id == 6)
+
+			// Check for children. Only loop if there obj has children
+			if (obj.HasComponent<Transform>())
 			{
-				// Check for children. Only loop if there obj has children
-				if (obj.HasComponent<Transform>())
+				//if (obj.GetComponent<Transform>().children.size())
+				writer.String("Children");
+				writer.StartArray();
+
+				for (auto& id : obj.GetComponent<Transform>().children)
 				{
-					//if (obj.GetComponent<Transform>().children.size())
-					writer.String("Children");
-					writer.StartArray();
-
-					for (auto& id : obj.GetComponent<Transform>().children)
-					{
-						ExportEntity(writer, id);
-					}
-
-					writer.EndArray();
-				}
-				else if (obj.HasComponent<UITransform>() && obj.GetComponent<UITransform>().children.size() > 0)
-				{
-					writer.String("Children");
-					writer.StartArray();
-
-					for (auto& id : obj.GetComponent<UITransform>().children)
-					{
-						ExportEntity(writer, id);
-					}
-
-					writer.EndArray();
+					ExportEntity(writer, id);
 				}
 
+				writer.EndArray();
+			}
+			else if (obj.HasComponent<UITransform>() && obj.GetComponent<UITransform>().children.size() > 0)
+			{
+				writer.String("Children");
+				writer.StartArray();
+
+				for (auto& id : obj.GetComponent<UITransform>().children)
+				{
+					ExportEntity(writer, id);
+				}
+
+				writer.EndArray();
 			}
 
 			writer.EndObject();
 
 	}
+	
+	Entity GOFactory::ImportEntity(const rapidjson::Value& go, Entity parentID)
+	{
+
+		std::string name = std::string(go["GameObject"].GetString());
+		int entityID = go["ID"].GetInt();
+		//mainCam = newObj.GetID
+		GameObject newObj = LoadGO(name, entityID);
+
+		if (name == "MainCamera")
+			mainCam = newObj.GetID();
+
+		// Add all components to the obj
+		const rapidjson::Value& componentList = go["Components"];
+		for (rapidjson::Value::ConstValueIterator it = componentList.Begin(); it != componentList.End(); ++it)
+		{
+			// Get the name of the current component being deserialized
+			const std::string& componentName = (*it)["Component Name"].GetString();
+			// Deserialize the json file that contains the component's data
+			std::any componentData = ComponentManager::GetInstance()->DeserializePrefabComponent(*it);
+
+			// Attach it to the game object
+			AttachComponents(newObj, std::make_pair(componentName, componentData));
+		}
+
+		// Attach to the parent
+		if (newObj.HasComponent<Transform>())
+		{
+			newObj.GetComponent<Transform>().parent = parentID;
+		}
+		else if (newObj.HasComponent<UITransform>())
+		{
+			newObj.GetComponent<UITransform>().parent = parentID;
+		}
+
+		// Now check if that obj has children that we need to deserialize
+		// if it does then we have to recursively add it
+		if (go.HasMember("Children"))
+		{
+			const rapidjson::Value& childrenList = go["Children"];
+			for (rapidjson::SizeType i = 0; i < childrenList.Size(); ++i)
+			{
+				const rapidjson::Value& childGO = childrenList[i];
+				if (newObj.HasComponent<Transform>())
+				{
+					newObj.GetComponent<Transform>().children.push_back(ImportEntity(childGO, entityID));
+				}
+				else if (newObj.HasComponent<UITransform>())
+				{
+					newObj.GetComponent<UITransform>().children.push_back(ImportEntity(childGO, entityID));
+				}
+			}
+		}
+
+		return entityID;
+	}
+
 #pragma endregion
 
 #pragma region Component Functions
