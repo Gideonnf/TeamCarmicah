@@ -19,6 +19,8 @@ DigiPen Institute of Technology is prohibited.
 #include "CarmicahCore.h"
 #include "spdlog/spdlog.h"
 #include <sstream>
+#include <vector>
+#include <fstream>
 
 
 
@@ -28,20 +30,21 @@ namespace Carmicah
     {
     public:
         static void init();
-        // Core logger is used by the engine
         static inline std::shared_ptr<spdlog::logger>& GetCoreLogger() { return sCoreLogger; }
-        // Client logger is used by the client
         static inline std::shared_ptr<spdlog::logger>& GetClientLogger() { return sClientLogger; }
-        // Get all logs
         static inline const std::vector<std::string>& getLogs() { return logMessages; }
         static void logMessage(const std::string& msg);
+        static void writeLogsToFile(const std::string& filename);
+        static void flushLogsToFile();
 
     private:
-        static std::shared_ptr<spdlog::logger> sCoreLogger; // Core logger is used by the engine
-
-        static std::shared_ptr<spdlog::logger> sClientLogger; // Client logger is used by the client
-
+        static std::shared_ptr<spdlog::logger> sCoreLogger; 
+        static std::shared_ptr<spdlog::logger> sClientLogger; 
         static std::vector<std::string> logMessages;
+        static std::ofstream logFile;
+        static std::string currentLogFile;
+        static const size_t LOG_FLUSH_THRESHOLD = 1000;
+
     };
 
 
@@ -61,7 +64,7 @@ namespace Carmicah
 
 
 // Release mode logging is disabled for performance reasons
-/*
+
 #ifndef CM_DEBUG
 #define CM_CORE_TRACE(...)
 #define CM_CORE_INFO(...)
@@ -71,7 +74,7 @@ namespace Carmicah
 #define CM_INFO(...)
 #define CM_WARN(...)
 #define CM_ERROR(...)
-#endif*/
+#endif
 
 
 
