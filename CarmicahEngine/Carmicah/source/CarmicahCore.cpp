@@ -128,6 +128,7 @@ namespace Carmicah
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);
         auto gameLogic = REGISTER_SYSTEM(GameLogic);
         AssetManager::GetInstance()->LoadAll(AssetManager::GetInstance()->enConfig.assetLoc.c_str());
+        // TODO: Shift this all into system constructors to clean up core.cpp
         graSystem->Init();
         txtSystem->Init();
         aniSystem->Init();
@@ -139,7 +140,9 @@ namespace Carmicah
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
         gameSystem->SetScene("Scene1");
-        gameSystem->Init();
+        gameSystem->Init(); // Load all GOs from scene file
+        gGOFactory->CreateSceneObject("Scene1"); // TODO: Shift this so that it isnt here and manually being made
+        gGOFactory->ParentAllGO();
 
         //GameLogic gameLogic;
         gameLogic->Init();

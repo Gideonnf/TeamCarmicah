@@ -24,7 +24,15 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	// Look into other ways that doesnt require singleton
+	struct SceneGO
+	{
+		std::string sceneName{};
+		Entity sceneID = 0; // Default 0 for scenes
+		std::set<Entity> children;
+		//Transform sceneTransform{};
+	};
+
+	
 	class GOFactory : public BaseSystem
 	{
 	private:
@@ -49,6 +57,7 @@ namespace Carmicah
 
 #pragma region SceneData
 		Entity mainCam{};
+		SceneGO sceneGO;
 #pragma endregion
 
 #pragma region GameObject Functions
@@ -57,6 +66,7 @@ namespace Carmicah
 		GameObject CloneGO(GameObject const& go);
 		GameObject LoadGO(std::string name, Entity entityID);
 		GameObject CreatePrefab(std::string prefab);
+		void CreateSceneObject(std::string sceneName);
 		void FetchGO(std::string GOName, GameObject& go);
 		void AttachComponents(GameObject& obj, std::pair<std::string, std::any> component );
 		void EntityDestroyed(Entity) override;
@@ -67,7 +77,15 @@ namespace Carmicah
 		// To fix the issue of all gameobjects having the same name
 		// Add a number to the back until it has a unique name
 		std::string CreateGOName(std::string goName);
+
+		/*!
+			Used for updating the sceneGO if the entity's parent was changed so that scene hierarchy can update
+		*/
+		void UpdateParent(Entity entityID, Entity parentID);
 #pragma endregion
+
+		// FOR TESTING
+		void ParentAllGO();
 
 #pragma region Importing and Exporting
 		void ForAllGO(const std::function<void(GameObject&)>& op);

@@ -15,6 +15,10 @@ namespace Carmicah
 
         bool notUpdated;
 
+        Entity parent; // Hold 0 if no parent
+        std::vector<Entity> children;
+
+
         void DeserializeComponentBuffer(const rapidjson::Value& component)
         {
             pos.x = static_cast<float>(component["xPos"].GetDouble());

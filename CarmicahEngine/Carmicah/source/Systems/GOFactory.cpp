@@ -141,6 +141,14 @@ namespace Carmicah
 		return newGO;
 	}
 
+	void GOFactory::CreateSceneObject(std::string sceneName)
+	{
+		sceneGO.sceneName = sceneName;
+		sceneGO.children.clear();
+		// Blank transform
+		//sceneGO.sceneTransform = Transform{};
+	}
+
 	void GOFactory::FetchGO(std::string GOName, GameObject& go)
 	{
 		if (mNameToID.count(GOName) == 0)
@@ -254,7 +262,46 @@ namespace Carmicah
 
 		return newGOName;
 	}
+
+	void GOFactory::UpdateParent(Entity entityID, Entity parentID) 
+	{
+		if (sceneGO.children.find(entityID) != sceneGO.children.end())
+		{
+			sceneGO.children.erase(entityID);
+		}
+
+		if (parentID == sceneGO.sceneID)
+		{
+			sceneGO.children.insert(entityID);
+		}
+	}
 #pragma endregion
+
+	// TODO: Remove after setting up scene hirerachy
+	void GOFactory::ParentAllGO()
+	{
+		for (std::set<Entity>::iterator it = mEntitiesSet.begin(); it != mEntitiesSet.end(); ++it)
+		{
+			sceneGO.children.insert(*it);
+
+			if (ComponentManager::GetInstance()->HasComponent<Transform>(*it))
+			{			
+				BaseTransform<Transform>& entityTransform = static_cast<BaseTransform<Transform>&>(ComponentManager::GetInstance()->GetComponent<Transform>(*it));
+				entityTransform.parent = sceneGO.sceneID;
+			}
+			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(*it))
+			{
+				BaseTransform<UITransform>& entityTransform = static_cast<BaseTransform<UITransform>&>(ComponentManager::GetInstance()->GetComponent<UITransform>(*it));
+				entityTransform.parent = sceneGO.sceneID;
+			}
+		
+			//entityTransform.parent = &sceneGO.sceneTransform; // Set all GOs to be children of scene
+			//sceneGO.sceneTransform.childrens.push_back(&entityTransform); // add the transform to the child
+
+			// this function is just because our current version of scene isnt parented
+			// so i'm trying to make it all parented for now and once its done ill remove this function
+		}
+	}
 
 #pragma region Importing and Exporting
 	void GOFactory::ForAllGO(const std::function<void(GameObject&)>& func)
