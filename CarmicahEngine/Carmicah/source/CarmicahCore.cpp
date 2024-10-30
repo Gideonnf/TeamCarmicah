@@ -141,8 +141,9 @@ namespace Carmicah
         inputSystem->Init(window);
         gameSystem->SetScene("Scene1");
         gameSystem->Init(); // Load all GOs from scene file
-        gGOFactory->CreateSceneObject("Scene1"); // TODO: Shift this so that it isnt here and manually being made
-        gGOFactory->ParentAllGO();
+
+        //gGOFactory->CreateSceneObject("Scene1"); // TODO: Shift this so that it isnt here and manually being made
+        //gGOFactory->ParentAllGO();
 
         //GameLogic gameLogic;
         gameLogic->Init();

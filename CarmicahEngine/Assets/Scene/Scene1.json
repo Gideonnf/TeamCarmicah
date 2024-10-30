@@ -123,7 +123,7 @@
                     "Component Name": "struct Carmicah::TextRenderer",
                     "model": "Square",
                     "font": "comic",
-                    "text": "FPS: 27",
+                    "text": "FPS: 122",
                     "colorR": 1.0,
                     "colorG": 0.0,
                     "colorB": 0.0
@@ -163,43 +163,7 @@
                     "texture": "mc_redesign_2"
                 }
             ],
-            "Children": [
-                {
-                    "GameObject": "wall",
-                    "ID": 7,
-                    "Components": [
-                        {
-                            "Component Name": "struct Carmicah::Transform",
-                            "xPos": 4.0,
-                            "yPos": 0.0,
-                            "depth": 0.0,
-                            "xScale": 1.0,
-                            "yScale": 1.0,
-                            "rot": 0.0
-                        },
-                        {
-                            "Component Name": "struct Carmicah::Collider2D",
-                            "shape": "DebugSquare"
-                        },
-                        {
-                            "Component Name": "struct Carmicah::RigidBody",
-                            "velocityX": 0.0,
-                            "velocityY": 0.0,
-                            "posPrevX": 4.0,
-                            "posPrevY": 0.0,
-                            "gravity": 0.0,
-                            "zposPrev": 0.0,
-                            "objectType": "Static"
-                        },
-                        {
-                            "Component Name": "struct Carmicah::Renderer",
-                            "model": "Square",
-                            "texture": "wall2"
-                        }
-                    ],
-                    "Children": []
-                }
-            ]
+            "Children": []
         },
         {
             "GameObject": "Duck2",
@@ -233,7 +197,7 @@
                     "depth": 0.0,
                     "xScale": 0.5,
                     "yScale": 0.5,
-                    "rot": -171.23414611816407
+                    "rot": -100.89865112304688
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",
@@ -268,7 +232,7 @@
                     "depth": 0.0,
                     "xScale": 0.5,
                     "yScale": 0.5,
-                    "rot": -222.28469848632813
+                    "rot": -151.94903564453126
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",
@@ -283,27 +247,6 @@
                     "gravity": 0.0,
                     "zposPrev": 0.0,
                     "objectType": "Dynamic"
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Circle",
-                    "texture": "Duck"
-                }
-            ],
-            "Children": []
-        },
-        {
-            "GameObject": "Duck",
-            "ID": 11,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::Transform",
-                    "xPos": 1.0,
-                    "yPos": 5.0,
-                    "depth": 0.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
-                    "rot": -125.0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
