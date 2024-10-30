@@ -51,6 +51,7 @@ namespace Carmicah
 					});
 				ImGui::EndChild();
 			}
+#if 0
 			if (selectedGO != nullptr)
 			{
 				ImGui::Text("Selected Game Object: %s", selectedGO->GetName().c_str());
@@ -178,7 +179,7 @@ namespace Carmicah
 					selectedGO = nullptr;
 				}
 			}
-
+#endif
 			static char goName[256] = "Duck";
 			ImGui::Text("Game Object Name: ");
 			ImGui::SameLine();
