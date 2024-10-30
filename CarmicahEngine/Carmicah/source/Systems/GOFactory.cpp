@@ -65,6 +65,9 @@ namespace Carmicah
 		// All entities created is stored in GOFactory
 		SystemManager::GetInstance()->UpdateSignatures(go.mID, EntityManager::GetInstance()->GetSignature(go.mID));
 		
+		// By default add transform to a blank component
+		go.AddComponent<Transform>();
+
 		CM_CORE_INFO("Creating a new game object with name: " + name + " and id: " + std::to_string(go.mID));
 
 		return go;
@@ -102,12 +105,21 @@ namespace Carmicah
 
 		SystemManager::GetInstance()->UpdateSignatures(newGO.mID, EntityManager::GetInstance()->GetSignature(newGO.mID));
 
+		UpdateParent(newGO.mID, sceneGO.sceneID);
+
 		return newGO;
 	}
 
 	GameObject GOFactory::CreatePrefab(std::string prefab)
 	{
-		GameObject newGO = CreateGO(prefab);
+		GameObject newGO;
+		std::string goName = CreateGOName(prefab);
+		newGO.mID = EntityManager::GetInstance()->CreateEntity();
+		newGO.mName = goName;
+		// Store in two maps. Testing use for fetching GO by name
+		mNameToID.insert(std::make_pair(newGO.mName, newGO.mID));
+		mIDToGO.insert(std::make_pair(newGO.mID, newGO));
+
 		if (AssetManager::GetInstance()->AssetExist<Prefab>(prefab))
 		{
 			// Loop through the components within asset manager
@@ -116,27 +128,15 @@ namespace Carmicah
 				AttachComponents(newGO, component);
 				// Same if checks as component manager, but we're adding components here instead of deserializing
 			}
+
+			// Parent it to the scene on creation
+			UpdateParent(newGO.mID, sceneGO.sceneID);
 		}
 		else
 		{
 			//TODO: Decide if this should assert or give an error warning and return an empty GO instead
 			assert("Prefab does not exist");
 		}
-
-		//if (AssetManager::GetInstance()->mPrefabFiles.count(prefab) > 0)
-		//{
-		//	// Loop through the components within asset manager
-		//	for (auto& component : AssetManager::GetInstance()->mPrefabFiles[prefab].mComponents)
-		//	{
-		//		AttachComponents(newGO, component);
-		//		// Same if checks as component manager, but we're adding components here instead of deserializing
-		//	}
-		//}
-		//else
-		//{
-		//	//TODO: Decide if this should assert or give an error warning and return an empty GO instead
-		//	assert("Prefab does not exist");
-		//}
 
 		return newGO;
 	}
@@ -559,14 +559,6 @@ namespace Carmicah
 		return entityID;
 	}
 
-#pragma endregion
-
-#pragma region Component Functions
-	template <typename T>
-	void GOFactory::CreateComponent()
-	{
-		ComponentManager::GetInstance()->RegisterComponent<T>();
-	}
 #pragma endregion
 
 	void GOFactory::ReceiveMessage(Message* msg)

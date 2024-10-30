@@ -96,10 +96,6 @@ namespace Carmicah
 		Entity ImportEntity(const rapidjson::Value& go, Entity parentID);
 #pragma endregion
 
-#pragma region Component Functions
-		template<typename T>
-		void CreateComponent();
-#pragma endregion
 		void ReceiveMessage(Message* msg) override;
 
 		//void SendMessage(Message* msg) override;
