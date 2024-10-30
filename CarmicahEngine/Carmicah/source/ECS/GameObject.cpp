@@ -67,4 +67,28 @@ namespace Carmicah
 	{
 		mActive = active;
 	}
+
+	bool GameObject::SetParent(Entity parentID)
+	{
+		// Check if the parent is the same (i.e accidentally dragging it back onto the same parent
+		if (GetComponent<Transform>().parent == parentID)
+			return false;
+
+		// If not then update the old and new parents
+		gGOFactory->UpdateParent(mID, parentID);
+
+		return true;
+	}
+
+	bool GameObject::SetParent(GameObject parentObj)
+	{
+		// Check if the parent is the same (i.e accidentally dragging it back onto the same parent
+		if (GetComponent<Transform>().parent == parentObj.mID)
+			return false;
+
+		// If not then update the old and new parents
+		gGOFactory->UpdateParent(mID, parentObj.mID);
+
+		return true;
+	}
 }

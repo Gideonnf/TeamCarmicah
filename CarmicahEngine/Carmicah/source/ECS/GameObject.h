@@ -56,6 +56,10 @@ namespace Carmicah
 
 		void SetActive(bool active);
 
+		bool SetParent(Entity parentID);
+
+		bool SetParent(GameObject parentObj);
+
 		template<typename T>
 		void AddComponent(T Component)
 		{

@@ -263,16 +263,132 @@ namespace Carmicah
 		return newGOName;
 	}
 
-	void GOFactory::UpdateParent(Entity entityID, Entity parentID) 
+	/// <summary>
+	///  Updates the parent entity. Removes it from its child list and add it to the new one.
+	/// Currently the issue with having two different transform and a base transform, I have to check
+	/// which transform it has and when i get the base transform, i have to cast it
+	/// So currently it requires a lot of if and else if to check whether it has or not and cast to the respective base transform
+	/// </summary>
+	/// <param name="entityID">Current Entity ID</param>
+	/// <param name="newParentID">The new parent ID</param>
+	void GOFactory::UpdateParent(Entity entityID, Entity newParentID) 
 	{
-		if (sceneGO.children.find(entityID) != sceneGO.children.end())
+		// Remove entityID from it's current parent
+		// Check if its part of sceneGO
+		if (sceneGO.children.count(entityID) > 0)
 		{
 			sceneGO.children.erase(entityID);
 		}
+		// Find out what is the current parent
+		else
+		{
+			Entity* parentID = nullptr;
+			// Get the old parent ID
+			if (ComponentManager::GetInstance()->HasComponent<Transform>(entityID))
+			{
+				// Get the transform
+				BaseTransform<Transform>& entityTransform = static_cast<BaseTransform<Transform>&>(ComponentManager::GetInstance()->GetComponent<Transform>(entityID));
+				// Get the parent ID
+				parentID = &entityTransform.parent;
+			}
+			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(entityID))
+			{
+				BaseTransform<UITransform>& entityTransform = static_cast<BaseTransform<UITransform>&>(ComponentManager::GetInstance()->GetComponent<UITransform>(entityID));
+				parentID = &entityTransform.parent;
+			}
 
-		if (parentID == sceneGO.sceneID)
+			if (parentID == nullptr)
+			{
+				assert("Parent ID does not exist");
+				return;
+			}
+
+			// Get the parent's transform
+			if (ComponentManager::GetInstance()->HasComponent<Transform>(*parentID))
+			{
+				// Get the transform
+				BaseTransform<Transform>& parentTransform = static_cast<BaseTransform<Transform>&>(ComponentManager::GetInstance()->GetComponent<Transform>(*parentID));
+				// Erase from parent's child ids
+				for (auto it = parentTransform.children.begin(); it != parentTransform.children.end(); it++)
+				{
+					if (*it == entityID)
+					{
+						parentTransform.children.erase(it);
+						break;
+					}
+				}
+			}
+			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(*parentID))
+			{
+				BaseTransform<UITransform>& parentTransform = static_cast<BaseTransform<UITransform>&>(ComponentManager::GetInstance()->GetComponent<UITransform>(*parentID));
+				for (auto it = parentTransform.children.begin(); it != parentTransform.children.end(); it++)
+				{
+					if (*it == entityID)
+					{
+						parentTransform.children.erase(it);
+						break;
+					}
+				}
+			}
+		}
+
+		//Change the parent after removing from the old parent
+	
+		// If its being parented to the scene
+		if (newParentID == sceneGO.sceneID)
 		{
 			sceneGO.children.insert(entityID);
+			if (ComponentManager::GetInstance()->HasComponent<Transform>(entityID))
+			{
+				// Get the transform
+				BaseTransform<Transform>& entityTransform = static_cast<BaseTransform<Transform>&>(ComponentManager::GetInstance()->GetComponent<Transform>(entityID));
+				// Change the parent
+				entityTransform.parent = sceneGO.sceneID;
+			}
+			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(entityID))
+			{
+				// Get the transform
+				BaseTransform<UITransform>& entityTransform = static_cast<BaseTransform<UITransform>&>(ComponentManager::GetInstance()->GetComponent<UITransform>(entityID));
+				// Change the parent
+				entityTransform.parent = sceneGO.sceneID;
+			}
+
+		}
+		// If it isnt then have to find the new parent
+		else
+		{
+			// Change the current transform parent ID
+			if (ComponentManager::GetInstance()->HasComponent<Transform>(entityID))
+			{
+				// Get the transform
+				BaseTransform<Transform>& entityTransform = static_cast<BaseTransform<Transform>&>(ComponentManager::GetInstance()->GetComponent<Transform>(entityID));
+				// Change the parent
+				entityTransform.parent = newParentID;
+			}
+			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(entityID))
+			{
+				// Get the transform
+				BaseTransform<UITransform>& entityTransform = static_cast<BaseTransform<UITransform>&>(ComponentManager::GetInstance()->GetComponent<UITransform>(entityID));
+				// Change the parent
+				entityTransform.parent = newParentID;
+			}
+
+			if (ComponentManager::GetInstance()->HasComponent<Transform>(newParentID))
+			{
+				// Get the transform
+				BaseTransform<Transform>& parentTransform = static_cast<BaseTransform<Transform>&>(ComponentManager::GetInstance()->GetComponent<Transform>(entityID));
+				// Add to the child list
+				parentTransform.children.push_back(entityID);
+
+				CM_CORE_INFO("Parenting entity: " + std::to_string(entityID) + " to " + std::to_string(newParentID));
+			}
+			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
+			{
+				// Get the transform
+				BaseTransform<UITransform>& parentTransform = static_cast<BaseTransform<UITransform>&>(ComponentManager::GetInstance()->GetComponent<UITransform>(entityID));
+				// Add to the child list
+				parentTransform.children.push_back(entityID);
+			}
 		}
 	}
 #pragma endregion
