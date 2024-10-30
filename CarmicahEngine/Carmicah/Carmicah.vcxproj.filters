@@ -86,6 +86,9 @@
     <ClInclude Include="source\Editor\HierarchyWindow.h">
       <Filter>Editor</Filter>
     </ClInclude>
+    <ClInclude Include="source\Editor\InspectorWindow.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
     <ClInclude Include="source\Editor\SceneToImgui.h">
       <Filter>Editor</Filter>
     </ClInclude>
@@ -155,7 +158,6 @@
     </ClInclude>
     <ClInclude Include="source\log.h" />
     <ClInclude Include="source\pch.h" />
-    <ClInclude Include="source\Editor\InspectorWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />
@@ -182,6 +184,9 @@
       <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="source\Editor\HierarchyWindow.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Editor\InspectorWindow.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="source\Editor\SceneToImgui.cpp">
@@ -237,6 +242,5 @@
     </ClCompile>
     <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\pch.cpp" />
-    <ClCompile Include="source\Editor\InspectorWindow.cpp" />
   </ItemGroup>
 </Project>
