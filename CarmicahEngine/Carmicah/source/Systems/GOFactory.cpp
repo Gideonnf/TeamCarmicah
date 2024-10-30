@@ -205,9 +205,16 @@ namespace Carmicah
 
 	void GOFactory::EntityDestroyed(Entity entity)
 	{
+		// Current cheat way is to change the parent to scene
+		// and then remove it from scene's child list
+		UpdateParent(entity, sceneGO.sceneID);
+
+		sceneGO.children.erase(entity);
+
 		// erase from the maps
 		mNameToID.erase(mIDToGO[entity].mName);
 		mIDToGO.erase(entity);
+
 
 		EntityManager::GetInstance()->DeleteEntity(entity);
 		ComponentManager::GetInstance()->EntityDestroyed(entity);
