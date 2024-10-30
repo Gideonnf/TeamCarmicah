@@ -18,6 +18,7 @@ DigiPen Institute of Technology is prohibited.
 
 #include <Math/Vec2.h>
 #include <string>
+#include "Systems/ForcesManager.h"
 #include "BaseComponent.h"
 
 namespace Carmicah
@@ -26,8 +27,14 @@ namespace Carmicah
     {
         Vector2D<float> velocity;
         Vector2D<float> posPrev;
+        
+        Vector2D<float> acceleration;
+
+        float mass;
 
         float gravity;
+
+        ForceManager forcesManager;
 
         float zposPrev;
 

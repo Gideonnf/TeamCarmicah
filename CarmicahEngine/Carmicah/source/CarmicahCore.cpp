@@ -108,6 +108,7 @@ namespace Carmicah
 
         REGISTER_COMPONENT(Transform);
         REGISTER_COMPONENT(Collider2D);
+        REGISTER_COMPONENT(Forces);
         REGISTER_COMPONENT(RigidBody);
         REGISTER_COMPONENT(Renderer);
         REGISTER_COMPONENT(Animation);

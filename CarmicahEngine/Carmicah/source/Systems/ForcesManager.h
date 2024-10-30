@@ -12,27 +12,24 @@ Reproduction or disclosure of this file or its contents without the prior writte
 DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #pragma once
-#include "ECS/BaseSystem.h"
+#ifndef FORCES_MANAGER_H
+#define FORCES_MANAGER_H
+
+#include "Math/Vec2.h"
+#include "Components/Forces.h"
+#include <vector>
 
 
 //berif:         This class is a system that handles the physics of all the game objects
 namespace Carmicah
 {
-	class PhysicsSystem : public BaseSystem
+	class ForcesManager 
 	{
-	public:
-		void Init();
+		void UpdateForces(Entity& obj, float deltaTime);
 
-		void Update();
-
-		void Exit();
-
-		void Integrate(Entity& obj);
-
-		void UpdatePosition(Entity& obj);
-
-		bool mDebugPhysics;
-		bool mToggleUpdate;
+		void ApplyForces(Entity& obj, Vector2D<float>& velocity);
 	};
 }
+
+#endif
 

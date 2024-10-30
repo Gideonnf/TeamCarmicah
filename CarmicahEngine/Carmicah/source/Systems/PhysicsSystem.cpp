@@ -16,6 +16,7 @@ DigiPen Institute of Technology is prohibited.
 #include <ECS/ECSTypes.h>
 #include "Components/Transform.h"
 #include "Components/RigidBody.h"
+#include "Components/Forces.h"
 #include "Components/Collider2D.h"
 #include "Systems/GOFactory.h"
 #include "Systems/CollisionSystem.h"
@@ -56,7 +57,7 @@ namespace Carmicah
 	 *
 	 * @param obj The entity on which the force is applied.
 	 */
-	void PhysicsSystem::ApplyForce(Entity& obj)
+	void PhysicsSystem::Integrate(Entity& obj)
 	{
 		auto* componentManager = ComponentManager::GetInstance();
 		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
@@ -115,6 +116,7 @@ namespace Carmicah
 	{
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<RigidBody>());
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
+		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Forces>());
 
 		SystemManager::GetInstance()->SetSignature<PhysicsSystem>(mSignature);
 
@@ -136,7 +138,7 @@ namespace Carmicah
 		{
 
 			UpdatePosition(entity);
-			ApplyForce(entity);
+			Integrate(entity);
 
 		}
 	}
