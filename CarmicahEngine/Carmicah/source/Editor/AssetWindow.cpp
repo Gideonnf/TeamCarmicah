@@ -100,7 +100,10 @@ namespace Carmicah
 				ImGui::Indent();
 				for (const auto& entry : prefabMap->mAssetMap)
 				{
-					if (ImGui::Button(entry.first.c_str()));
+					if (ImGui::Button(entry.first.c_str()))
+					{
+						GameObject newObj = gGOFactory->CreatePrefab(entry.first);
+					}
 				}
 				ImGui::Unindent();
 			}
