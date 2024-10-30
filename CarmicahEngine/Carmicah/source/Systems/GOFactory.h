@@ -82,6 +82,7 @@ namespace Carmicah
 			Used for updating the sceneGO if the entity's parent was changed so that scene hierarchy can update
 		*/
 		void UpdateParent(Entity entityID, Entity parentID);
+
 #pragma endregion
 
 		// FOR TESTING
@@ -91,6 +92,7 @@ namespace Carmicah
 		void ForAllGO(const std::function<void(GameObject&)>& op);
 		void ImportGO(const rapidjson::Value& go);
 		void ExportGOs(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer);
+		void ExportEntity(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer, Entity id);
 #pragma endregion
 
 #pragma region Component Functions

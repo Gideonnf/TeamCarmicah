@@ -267,12 +267,14 @@ namespace Carmicah
 	///  Updates the parent entity. Removes it from its child list and add it to the new one.
 	/// Currently the issue with having two different transform and a base transform, I have to check
 	/// which transform it has and when i get the base transform, i have to cast it
-	/// So currently it requires a lot of if and else if to check whether it has or not and cast to the respective base transform
+	/// So currently it requires a lot of if and else if to check whether it has or not and cast to the respective base transform.
+	/// I'm not sure if I should move parent and child hirerachy into another component on its own
 	/// </summary>
 	/// <param name="entityID">Current Entity ID</param>
 	/// <param name="newParentID">The new parent ID</param>
 	void GOFactory::UpdateParent(Entity entityID, Entity newParentID) 
 	{
+		GameObject& go = mIDToGO[entityID];
 		// Remove entityID from it's current parent
 		// Check if its part of sceneGO
 		if (sceneGO.children.count(entityID) > 0)
@@ -284,17 +286,14 @@ namespace Carmicah
 		{
 			Entity* parentID = nullptr;
 			// Get the old parent ID
-			if (ComponentManager::GetInstance()->HasComponent<Transform>(entityID))
+			if (go.HasComponent<Transform>())
 			{
-				// Get the transform
-				BaseTransform<Transform>& entityTransform = static_cast<BaseTransform<Transform>&>(ComponentManager::GetInstance()->GetComponent<Transform>(entityID));
 				// Get the parent ID
-				parentID = &entityTransform.parent;
+				parentID = &go.GetComponent<Transform>().parent;
 			}
-			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(entityID))
+			else if (go.HasComponent<UITransform>())
 			{
-				BaseTransform<UITransform>& entityTransform = static_cast<BaseTransform<UITransform>&>(ComponentManager::GetInstance()->GetComponent<UITransform>(entityID));
-				parentID = &entityTransform.parent;
+				parentID = &go.GetComponent<Transform>().parent;
 			}
 
 			if (parentID == nullptr)
@@ -307,7 +306,7 @@ namespace Carmicah
 			if (ComponentManager::GetInstance()->HasComponent<Transform>(*parentID))
 			{
 				// Get the transform
-				BaseTransform<Transform>& parentTransform = static_cast<BaseTransform<Transform>&>(ComponentManager::GetInstance()->GetComponent<Transform>(*parentID));
+				Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(*parentID);
 				// Erase from parent's child ids
 				for (auto it = parentTransform.children.begin(); it != parentTransform.children.end(); it++)
 				{
@@ -320,7 +319,7 @@ namespace Carmicah
 			}
 			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(*parentID))
 			{
-				BaseTransform<UITransform>& parentTransform = static_cast<BaseTransform<UITransform>&>(ComponentManager::GetInstance()->GetComponent<UITransform>(*parentID));
+				UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(*parentID);
 				for (auto it = parentTransform.children.begin(); it != parentTransform.children.end(); it++)
 				{
 					if (*it == entityID)
@@ -358,25 +357,21 @@ namespace Carmicah
 		else
 		{
 			// Change the current transform parent ID
-			if (ComponentManager::GetInstance()->HasComponent<Transform>(entityID))
+			if (go.HasComponent<Transform>())
 			{
-				// Get the transform
-				BaseTransform<Transform>& entityTransform = static_cast<BaseTransform<Transform>&>(ComponentManager::GetInstance()->GetComponent<Transform>(entityID));
 				// Change the parent
-				entityTransform.parent = newParentID;
+				go.GetComponent<Transform>().parent = newParentID;
 			}
-			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(entityID))
+			else if (go.HasComponent<UITransform>())
 			{
-				// Get the transform
-				BaseTransform<UITransform>& entityTransform = static_cast<BaseTransform<UITransform>&>(ComponentManager::GetInstance()->GetComponent<UITransform>(entityID));
 				// Change the parent
-				entityTransform.parent = newParentID;
+				go.GetComponent<UITransform>().parent = newParentID;
 			}
 
 			if (ComponentManager::GetInstance()->HasComponent<Transform>(newParentID))
 			{
 				// Get the transform
-				BaseTransform<Transform>& parentTransform = static_cast<BaseTransform<Transform>&>(ComponentManager::GetInstance()->GetComponent<Transform>(entityID));
+				Transform& parentTransform =ComponentManager::GetInstance()->GetComponent<Transform>(newParentID);
 				// Add to the child list
 				parentTransform.children.push_back(entityID);
 
@@ -385,7 +380,7 @@ namespace Carmicah
 			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
 			{
 				// Get the transform
-				BaseTransform<UITransform>& parentTransform = static_cast<BaseTransform<UITransform>&>(ComponentManager::GetInstance()->GetComponent<UITransform>(entityID));
+				UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(newParentID);
 				// Add to the child list
 				parentTransform.children.push_back(entityID);
 			}
@@ -454,30 +449,68 @@ namespace Carmicah
 
 	void GOFactory::ExportGOs(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer)
 	{
+		writer.StartObject();
+		writer.String("Scene");
+		writer.String(sceneGO.sceneName.c_str(), static_cast<rapidjson::SizeType>(sceneGO.sceneName.length()));
+		writer.String("SceneObjects");
 		writer.StartArray();
-		for (auto& obj : mIDToGO)
+		for (auto& id : sceneGO.children)
 		{
+			ExportEntity(writer, id);
+		}
+		writer.EndArray();
+		writer.EndObject();
+	}
+
+	void GOFactory::ExportEntity(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer, Entity id)
+	{
+			GameObject& obj = mIDToGO[id];
 			writer.StartObject();
 
 			writer.String("GameObject");
-			writer.String(obj.second.GetName().c_str(), static_cast<rapidjson::SizeType>(obj.second.GetName().length()));
+			writer.String(obj.GetName().c_str(), static_cast<rapidjson::SizeType>(obj.GetName().length()));
 
 			writer.String("ID");
-			writer.Int(obj.second.GetID());
+			writer.Int(obj.GetID());
 
 			writer.String("Components");
 
 			writer.StartArray();
-			ComponentManager::GetInstance()->SerializeEntityComponents(obj.second.GetID(), EntityManager::GetInstance()->GetSignature(obj.second.GetID()), writer);
+			ComponentManager::GetInstance()->SerializeEntityComponents(obj.GetID(), EntityManager::GetInstance()->GetSignature(obj.GetID()), writer);
 			writer.EndArray();
+			
+			if (id == 6)
+			{
+				// Check for children. Only loop if there obj has children
+				if (obj.HasComponent<Transform>())
+				{
+					//if (obj.GetComponent<Transform>().children.size())
+					writer.String("Children");
+					writer.StartArray();
+
+					for (auto& id : obj.GetComponent<Transform>().children)
+					{
+						ExportEntity(writer, id);
+					}
+
+					writer.EndArray();
+				}
+				else if (obj.HasComponent<UITransform>() && obj.GetComponent<UITransform>().children.size() > 0)
+				{
+					writer.String("Children");
+					writer.StartArray();
+
+					for (auto& id : obj.GetComponent<UITransform>().children)
+					{
+						ExportEntity(writer, id);
+					}
+
+					writer.EndArray();
+				}
+
+			}
 
 			writer.EndObject();
-		}
-		writer.EndArray();
-		//gGOFactory->ForAllGO([&](GameObject& o) {
-		//	
-		//	});
-		
 
 	}
 #pragma endregion
