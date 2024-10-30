@@ -135,7 +135,7 @@ namespace Carmicah
         phySystem->Init();
         colSystem->Init(); // Set the signature
         rrsSystem->Init();
-        souSystem->Init(true);
+        souSystem->Init(false);
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
         gameSystem->SetScene("Scene1");

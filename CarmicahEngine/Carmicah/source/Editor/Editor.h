@@ -20,6 +20,7 @@ DigiPen Institute of Technology is prohibited.
 #include "EditorWindow.h"
 #include "HierarchyWindow.h"
 #include "InspectorWindow.h"
+#include "AssetWindow.h"
 #include "SceneWindow.h"
 #include "../ECS/BaseSystem.h"
 

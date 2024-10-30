@@ -59,7 +59,7 @@ namespace Carmicah
 		//mWindows.push_back(std::make_unique<EditorWindow>("B", ImVec2(100,100), ImVec2(200, 100)));
 		mWindows.push_back(std::make_unique<SceneWindow>());
 		mWindows.push_back(std::make_unique<HierarchyWindow>());
-		//mWindows.push_back(std::make_unique<EditorWindow>("Asset", ImVec2(200,100), ImVec2(1080, 200)));
+		mWindows.push_back(std::make_unique<AssetWindow>());
 		mWindows.push_back(std::make_unique<DebugWindow>());
 		mWindows.push_back(std::make_unique<InspectorWindow>());
 
@@ -99,7 +99,7 @@ namespace Carmicah
 				ImGuiID dockBottom = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Down, 0.4f, nullptr, &dockMain);
 				ImGuiID dockRight = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Right, 0.25f, nullptr,&dockMain);
 				// Dock your windows into the split areas
-				//ImGui::DockBuilderDockWindow("Asset", dockLeft);
+				ImGui::DockBuilderDockWindow("Asset", dockLeft);
 				ImGui::DockBuilderDockWindow("Debug", dockBottom);
 				ImGui::DockBuilderDockWindow("Scene", dockMain);
 				ImGui::DockBuilderDockWindow("Inspector", dockRight);
