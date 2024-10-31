@@ -40,9 +40,9 @@ namespace Carmicah
         physicsRef->mToggleUpdate = false;
 
         gGOFactory->FetchGO("mainCharacter", mainCharacter);
-        gGOFactory->FetchGO("wall", wall);
+        //gGOFactory->FetchGO("wall", wall);
 
-        wall.SetParent(mainCharacter);
+        //wall.SetParent(mainCharacter);
 
         //wall = gGOFactory->FetchGO("wall");
 

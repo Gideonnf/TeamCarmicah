@@ -70,6 +70,9 @@ namespace Carmicah
 
 		CM_CORE_INFO("Creating a new game object with name: " + name + " and id: " + std::to_string(go.mID));
 
+		// Parent it to the scene on creation
+		UpdateParent(go.mID, sceneGO.sceneID);
+
 		return go;
 	}
 
@@ -263,7 +266,7 @@ namespace Carmicah
 		int counter = 1;
 		while (mNameToID.count(newGOName) != 0)
 		{
-			newGOName = goName + std::to_string(counter);
+			newGOName = goName + "_" + std::to_string(counter);
 			counter++;
 		}
 

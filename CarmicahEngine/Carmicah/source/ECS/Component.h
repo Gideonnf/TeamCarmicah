@@ -191,7 +191,7 @@ namespace Carmicah
 			// Get the next component index
 			unsigned int componentIndex = (unsigned int)m_ComponentArray.size();
 			// Create a copy of the component data
-			T componentData = m_ComponentArray[entityToClone];
+			T componentData = m_ComponentArray[m_EntityToComponent[entityToClone]];
 			
 			// Set the map
 			m_EntityToComponent[newEntity] = componentIndex;
