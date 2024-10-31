@@ -21,18 +21,29 @@ DigiPen Institute of Technology is prohibited.
 #include <filesystem>
 
 
-//brief:         This file contains the logging system for the engine. It uses the spdlog library to log messages to the console and to a file.
-//				The logging system is used by the engine and the client. The engine uses the core logger and the client uses the client logger.
-//				The logging system is disabled in release mode for performance reasons.
+//brief:    this function initializes the log system. It creates a log file with a timestamp and sets up the console logging.
+//          It also creates the core and client loggers and sets their log levels to trace.
+//          If the log file cannot be created, it logs an error message to the console.
+//          If the console logging cannot be set up, it logs an error message to the console.
+//          If the log file cannot be opened, it logs an error message to the console.
+//          If the log file is opened successfully, it logs a message to the console that the log system has been initialized.
+//          If the log file is not opened successfully, it logs an error message to the console.
+
 namespace Carmicah
 {
 	// Initialize the static variables
 	// The static variables are shared pointers to the logger objects
-	std::shared_ptr<spdlog::logger> Log::sCoreLogger;
-	std::shared_ptr<spdlog::logger> Log::sClientLogger;
-	std::vector<std::string> Log::logMessages;
-	std::ofstream Log::logFile;
-	std::string Log::currentLogFile;
+    std::shared_ptr<spdlog::logger> Log::sCoreLogger;
+    std::shared_ptr<spdlog::logger> Log::sClientLogger;
+    std::vector<std::string> Log::logMessages;
+    std::ofstream Log::logFile;
+    std::string Log::currentLogFile;
+
+    // Add these static member definitions
+    std::ofstream Log::crashLogFile;
+    std::string Log::currentCrashLogFile;
+    std::vector<std::string> Log::crashMessages;
+    bool Log::hasCrashed = false;
 	
 
 	// Initialize the logger
@@ -79,6 +90,44 @@ namespace Carmicah
         }
     }
 
+    void Log::initAssertion() {
+        try {
+            // Create crashes directory if it doesn't exist
+            if (!std::filesystem::exists("crashes")) {
+                if (!std::filesystem::create_directory("crashes")) {
+                    throw std::runtime_error("Failed to create crashes directory");
+                }
+            }
+
+            // Create crash log file with timestamp
+            auto now = std::chrono::system_clock::now();
+            auto nowTime = std::chrono::system_clock::to_time_t(now);
+            std::stringstream ss;
+            ss << "crashes/crash_" << std::put_time(std::localtime(&nowTime), "%Y%m%d_%H%M%S") << ".txt";
+            currentCrashLogFile = ss.str();
+
+            // Open crash log file
+            crashLogFile.open(currentCrashLogFile, std::ios::out | std::ios::app);
+            if (!crashLogFile.is_open()) {
+                throw std::runtime_error("Failed to open crash log file: " + currentCrashLogFile);
+            }
+
+            // Write header information
+            crashLogFile << "Carmicah Engine Crash Log" << std::endl;
+            crashLogFile << "=========================" << std::endl;
+            crashLogFile << "Generated: " << std::put_time(std::localtime(&nowTime), "%Y-%m-%d %H:%M:%S") << std::endl;
+            crashLogFile << std::endl;
+        }
+        catch (const std::exception& e) {
+            if (sCoreLogger) {
+                CM_CORE_ERROR("Failed to initialize crash logging: {}", e.what());
+            }
+        }
+    }
+
+
+
+
     void Log::logMessage(const std::string& msg) {
         logMessages.push_back(msg);
 
@@ -96,6 +145,23 @@ namespace Carmicah
         }
     }
 
+    void Log::logCrashMessage(const char* file, int line, const char* function, const char* message) {
+		// Log the crash message
+		std::string crashMsg = fmt::format("CRASH: {}:{} in function {} - {}", file, line, function, message);
+		crashMessages.push_back(crashMsg);
+
+		// Write to crash log file if open
+        if (crashLogFile.is_open()) {
+			auto now = std::chrono::system_clock::now();
+			auto nowTime = std::chrono::system_clock::to_time_t(now);
+			crashLogFile << std::put_time(std::localtime(&nowTime), "%Y-%m-%d %H:%M:%S")
+				<< " " << crashMsg << std::endl;
+		}
+
+		hasCrashed = true;
+	}
+
+
     void Log::writeLogsToFile(const std::string& filename) {
         std::ofstream outFile(filename);
         if (!outFile.is_open()) {
@@ -107,6 +173,23 @@ namespace Carmicah
             outFile << msg << std::endl;
         }
         outFile.close();
+    }
+
+    void Log::writeCrashReport() {
+        if (crashLogFile.is_open()) {
+            // Write any additional diagnostic information
+            crashLogFile << "\nSystem Information:\n";
+            // Add relevant system information here
+
+            crashLogFile << "\nFinal log messages before crash:\n";
+            // Write the last few log messages that occurred before the crash
+            size_t startIdx = logMessages.size() > 10 ? logMessages.size() - 10 : 0;
+            for (size_t i = startIdx; i < logMessages.size(); ++i) {
+                crashLogFile << logMessages[i] << std::endl;
+            }
+
+            crashLogFile.close();
+        }
     }
 
     void Log::flushLogsToFile() {

@@ -37,6 +37,11 @@ namespace Carmicah
         static void writeLogsToFile(const std::string& filename);
         static void flushLogsToFile();
 
+        //log assertion
+        static void initAssertion();
+        static void logCrashMessage(const char* file, int line, const char* function, const char* message);
+        static void writeCrashReport();
+
     private:
         static std::shared_ptr<spdlog::logger> sCoreLogger; 
         static std::shared_ptr<spdlog::logger> sClientLogger; 
@@ -44,6 +49,12 @@ namespace Carmicah
         static std::ofstream logFile;
         static std::string currentLogFile;
         static const size_t LOG_FLUSH_THRESHOLD = 1000;
+
+        // Assertion
+        static std::ofstream crashLogFile;  // Add this declaration
+        static std::string currentCrashLogFile;  // Add this declaration
+        static std::vector<std::string> crashMessages;  // Add this declaration
+        static bool hasCrashed;
 
     };
 
@@ -78,3 +89,11 @@ namespace Carmicah
 
 
 
+// Assertion macros
+#ifdef CM_DEBUG 
+#define CM_ASSERT(x, ...) { if(!(x)) { CM_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#define CM_CORE_ASSERT(x, ...) { if(!(x)) { CM_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#else
+#define CM_ASSERT(x, ...)
+#define CM_CORE_ASSERT(x, ...)
+#endif // CM_DEBUG 
