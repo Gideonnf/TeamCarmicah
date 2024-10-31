@@ -50,7 +50,12 @@ namespace Carmicah
 				{
 					if (ImGui::Button(entry.first.c_str()))
 					{
-						
+					}
+					if (ImGui::IsItemHovered())
+					{
+						ImGui::BeginTooltip();
+						ImGui::Text("Cool Shape!");
+						ImGui::EndTooltip();
 					}
 				}
 				ImGui::Unindent();
@@ -60,7 +65,18 @@ namespace Carmicah
 				ImGui::Indent();
 				for (const auto& entry : shaderMap->mAssetMap)
 				{
-					if (ImGui::Button(entry.first.c_str()));
+					if (ImGui::Button(entry.first.c_str()))
+					{
+					}
+					if (ImGui::IsItemHovered())
+					{
+						ImGui::BeginTooltip();
+						ImVec2 textureSize(100, 100);
+						GLuint textureID = shaderMap->mAssetList[entry.second].s;
+						ImGui::Text("Shader!");
+						ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(textureID)), textureSize);
+						ImGui::EndTooltip();
+					}
 				}
 				ImGui::Unindent();
 			}
@@ -70,17 +86,18 @@ namespace Carmicah
 				ImGui::Indent();
 				for (const auto& entry : textureMap->mAssetMap)
 				{
-					if (ImGui::Button(entry.first.c_str()));
+					if (ImGui::Button(entry.first.c_str()))
 					{
-						if (ImGui::IsItemHovered())
-						{
-							ImGui::BeginTooltip();
-							ImVec2 textureSize(100, 100);
-							GLuint textureID = textureMap->mAssetList[entry.second].t;
-							ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(textureID)), textureSize);
-							ImGui::Text("Cheated on my diet today. Kinda bummed. Been watching my calories like a hawk, to a certain extent. Oh well, try again tomorrow");
-							ImGui::EndTooltip();
-						}
+
+					}
+					if (ImGui::IsItemHovered())
+					{
+						ImGui::BeginTooltip();
+						ImVec2 textureSize(100, 100);
+						GLuint textureID = textureMap->mAssetList[entry.second].t;
+						ImGui::Text("Texture!");
+						ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(textureID)), textureSize);
+						ImGui::EndTooltip();
 					}
 				}
 				ImGui::Unindent();
@@ -91,7 +108,16 @@ namespace Carmicah
 				ImGui::Indent();
 				for (const auto& entry : fontMap->mAssetMap)
 				{
-					if (ImGui::Button(entry.first.c_str()));
+					if (ImGui::Button(entry.first.c_str()))
+					{
+
+					}
+					if (ImGui::IsItemHovered())
+					{
+						ImGui::BeginTooltip();
+						ImGui::Text("Font!");
+						ImGui::EndTooltip();
+					}
 				}
 				ImGui::Unindent();
 			}
