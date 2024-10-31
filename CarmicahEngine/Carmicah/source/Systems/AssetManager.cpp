@@ -39,7 +39,7 @@ namespace Carmicah
 		std::filesystem::path directoryPath = assetPath;
 
 		//mTextureMaps.insert(std::make_pair("", Texture{})); // Sets No Texture
-		AddAsset("", Texture{}); // Sets no texture
+		//AddAsset("", Texture{}); // Sets no texture
 
 		InitSound();
 		InitFontType();

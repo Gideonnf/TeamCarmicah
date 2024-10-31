@@ -132,10 +132,12 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="source\ECS\EntityManager.h" />
     <ClInclude Include="source\ECS\GameObject.h" />
     <ClInclude Include="source\ECS\SystemManager.h" />
+    <ClInclude Include="source\Editor\AssetWindow.h" />
     <ClInclude Include="source\Editor\DebugWindow.h" />
     <ClInclude Include="source\Editor\Editor.h" />
     <ClInclude Include="source\Editor\EditorWindow.h" />
     <ClInclude Include="source\Editor\HierarchyWindow.h" />
+    <ClInclude Include="source\Editor\InspectorWindow.h" />
     <ClInclude Include="source\Editor\SceneToImgui.h" />
     <ClInclude Include="source\Editor\SceneWindow.h" />
     <ClInclude Include="source\Graphics\AnimationSystem.h" />
@@ -169,10 +171,12 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClCompile Include="source\ECS\EntityManager.cpp" />
     <ClCompile Include="source\ECS\GameObject.cpp" />
     <ClCompile Include="source\ECS\SystemManager.cpp" />
+    <ClCompile Include="source\Editor\AssetWindow.cpp" />
     <ClCompile Include="source\Editor\DebugWindow.cpp" />
     <ClCompile Include="source\Editor\Editor.cpp" />
     <ClCompile Include="source\Editor\EditorWindow.cpp" />
     <ClCompile Include="source\Editor\HierarchyWindow.cpp" />
+    <ClCompile Include="source\Editor\InspectorWindow.cpp" />
     <ClCompile Include="source\Editor\SceneToImgui.cpp" />
     <ClCompile Include="source\Editor\SceneWindow.cpp" />
     <ClCompile Include="source\Graphics\AnimationSystem.cpp" />
