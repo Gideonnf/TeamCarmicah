@@ -40,7 +40,17 @@ namespace Carmicah
         physicsRef->mToggleUpdate = false;
 
         gGOFactory->FetchGO("mainCharacter", mainCharacter);
-        //gGOFactory->FetchGO("wall", wall);
+
+        // TESTING DELETION OF CHILDREN
+        GameObject Duck;
+        gGOFactory->FetchGO("Duck", Duck);
+        GameObject Duck4;
+        gGOFactory->FetchGO("Duck4", Duck4);
+        GameObject Duck3;
+        gGOFactory->FetchGO("Duck3", Duck3);
+        // Duck -> Duck3 -> Duck4
+        Duck3.SetParent(Duck);
+        Duck4.SetParent(Duck3);
 
         //wall.SetParent(mainCharacter);
 

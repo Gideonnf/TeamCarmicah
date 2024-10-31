@@ -71,6 +71,7 @@ namespace Carmicah
 		void AttachComponents(GameObject& obj, std::pair<std::string, std::any> component );
 		void EntityDestroyed(Entity) override;
 		void Destroy(Entity);
+		Entity DestroyEntity(Entity); // For recursively destroying all children attached
 		void DestroyAll();
 		void UpdateDestroyed();
 		void UpdateGOName(GameObject& go, std::string newName); // TODO: Make a function to update the GO names		
@@ -78,9 +79,7 @@ namespace Carmicah
 		// Add a number to the back until it has a unique name
 		std::string CreateGOName(std::string goName);
 
-		/*!
-			Used for updating the sceneGO if the entity's parent was changed so that scene hierarchy can update
-		*/
+		//Used for updating the sceneGO if the entity's parent was changed so that scene hierarchy can update
 		void UpdateParent(Entity entityID, Entity parentID);
 
 #pragma endregion
@@ -90,10 +89,10 @@ namespace Carmicah
 
 #pragma region Importing and Exporting
 		void ForAllGO(const std::function<void(GameObject&)>& op);
-		void ImportGO(const rapidjson::Value& go);
-		void ExportGOs(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer);
-		void ExportEntity(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer, Entity id);
-		Entity ImportEntity(const rapidjson::Value& go, Entity parentID);
+		void ImportGO(const rapidjson::Value& go); // Start the recursive importing 
+		Entity ImportEntity(const rapidjson::Value& go, Entity parentID); // For recursively importing entities
+		void ExportGOs(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer); // Start the recursive exporting
+		void ExportEntity(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer, Entity id); // For recursively exporting entities
 #pragma endregion
 
 		void ReceiveMessage(Message* msg) override;

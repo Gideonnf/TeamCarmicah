@@ -231,7 +231,41 @@ namespace Carmicah
 			return;
 		}
 		// To destroy at the end of update
-		mDeleteList.insert(entity);
+		mDeleteList.insert(DestroyEntity(entity));
+
+	}
+
+	Entity GOFactory::DestroyEntity(Entity entity)
+	{
+		GameObject& go = mIDToGO[entity];
+
+		// Check if has any children
+		if (go.HasComponent<Transform>())
+		{
+			if (go.GetComponent<Transform>().children.size() > 0)
+			{
+				for (auto& id : go.GetComponent<Transform>().children)
+				{
+					// Recall the function so any children within that child is also inserted
+					// NOTE: I have only tested this with 1 layer of parent-child, so if it dies next time, cehck this part 
+					mDeleteList.insert(DestroyEntity(id));
+				}
+			}
+		}
+		else if (go.HasComponent<UITransform>())
+		{
+			if (go.GetComponent<UITransform>().children.size() > 0)
+			{
+				for (auto& id : go.GetComponent<UITransform>().children)
+				{
+					// Recall the function so any children within that child is also inserted
+					// NOTE: I have only tested this with 1 layer of parent-child, so if it dies next time, cehck this part 
+					mDeleteList.insert(DestroyEntity(id));
+				}
+			}
+		}
+
+		return entity;
 	}
 
 	void GOFactory::DestroyAll()
