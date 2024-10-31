@@ -458,7 +458,7 @@ namespace Carmicah
 		}
 	}
 
-#pragma region Importing and Exporting
+#pragma region IMGUI Accessor functions
 	void GOFactory::ForAllGO(const std::function<void(GameObject&)>& func)
 	{
 		if (mIDToGO.size() > 0)
@@ -467,6 +467,33 @@ namespace Carmicah
 				func(i.second);
 		}
 	}
+
+	void GOFactory::ForAllSceneGOs(const std::function<void(GameObject&)>& func)
+	{
+		if (sceneGO.children.size() > 0)
+		{
+			for (auto& child : sceneGO.children)
+			{
+				func(mIDToGO[child]);
+			}
+		}
+	}
+
+	void GOFactory::ForGOChildren(GameObject& parentGO, const std::function<void(GameObject&)>& func)
+	{
+		if (parentGO.HasComponent<Transform>() && parentGO.GetComponent<Transform>().children.size() > 0)
+		{
+			for (auto& child : parentGO.GetComponent<Transform>().children)
+			{
+				func(mIDToGO[child]);
+			}
+		}
+
+	}
+
+#pragma endregion
+
+#pragma region Importing and Exporting
 
 	void GOFactory::ImportGO(const rapidjson::Value& doc)
 	{

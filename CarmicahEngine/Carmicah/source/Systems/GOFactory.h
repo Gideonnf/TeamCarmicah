@@ -87,8 +87,14 @@ namespace Carmicah
 		// FOR TESTING
 		void ParentAllGO();
 
-#pragma region Importing and Exporting
+#pragma region IMGUI Accessor functions
 		void ForAllGO(const std::function<void(GameObject&)>& op);
+		void ForAllSceneGOs(const std::function<void(GameObject&)>& op);
+		void ForGOChildren(GameObject& parentGO, const std::function<void(GameObject&)>& go);
+
+#pragma endregion
+
+#pragma region Importing and Exporting
 		void ImportGO(const rapidjson::Value& go); // Start the recursive importing 
 		Entity ImportEntity(const rapidjson::Value& go, Entity parentID); // For recursively importing entities
 		void ExportGOs(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer); // Start the recursive exporting

@@ -33,6 +33,23 @@ namespace Carmicah
 	std::vector<GameObject> createdList;
 	GameObject* HierarchyWindow::selectedGO = nullptr;
 
+	void HierarchyWindow::GOButton(GameObject& go)
+	{
+		if (ImGui::Button(go.GetName().c_str()))
+		{
+			selectedGO = &go;
+		}
+
+		ImGui::Indent();
+		// Check if go has child
+		gGOFactory->ForGOChildren(go, [this](GameObject& childGo) 
+		{
+				GOButton(childGo);
+		});
+
+		ImGui::Unindent();
+	}
+
 	void HierarchyWindow::Update()
 	{
 			//static Transform playerTrans{};
@@ -42,12 +59,17 @@ namespace Carmicah
 		{
 			if(ImGui::BeginChild("Game Object List: ", ImVec2(900,300)))
 			{
-				gGOFactory->ForAllGO([](GameObject& go)
+				/*gGOFactory->ForAllGO([](GameObject& go)
 					{
 						if (ImGui::Button(go.GetName().c_str()))
 						{
 							selectedGO = &go;
 						}
+					});*/
+				gGOFactory->ForAllSceneGOs([this](GameObject& go)
+					{
+						GOButton(go);
+
 					});
 				ImGui::EndChild();
 			}
@@ -238,6 +260,19 @@ namespace Carmicah
 				AssetManager::GetInstance()->GetScene(SceneToImgui::GetInstance()->currentScene, sceneFile);
 				SerializerSystem::GetInstance()->SerializeScene(sceneFile);
 				//gGOFactory->DestroyAll();
+			}
+
+			std::string goCloneButton = "Clone GO";
+			if (ImGui::Button(goCloneButton.c_str()))
+			{
+				gGOFactory->CloneGO(*selectedGO);
+				//gGOFactory->CreateGO();
+			}
+
+			std::string goCreateButton = "Create Blank GO";
+			if (ImGui::Button(goCreateButton.c_str()))
+			{
+				gGOFactory->CreateGO();
 			}
 		}
 		ImGui::End();
