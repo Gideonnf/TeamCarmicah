@@ -71,6 +71,9 @@ namespace Carmicah
 				for (const auto& entry : textureMap->mAssetMap)
 				{
 					if (ImGui::Button(entry.first.c_str()));
+
+					// you can do this
+					textureMap->mAssetList[entry.second].t;
 				}
 				ImGui::Unindent();
 			}
