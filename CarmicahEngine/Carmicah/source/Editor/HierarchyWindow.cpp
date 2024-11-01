@@ -76,6 +76,10 @@ namespace Carmicah
 
 						});
 				}
+				else if (AssetWindow::selectedPrefab != nullptr)
+				{
+					ImGui::Text(AssetWindow::selectedPrefab->mName.c_str());
+				}
 				ImGui::EndChild();
 			}
 			static char goName[256] = "Duck";
