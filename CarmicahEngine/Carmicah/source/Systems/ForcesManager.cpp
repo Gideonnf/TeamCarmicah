@@ -15,6 +15,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/PhysicsSystem.h"
 #include <ECS/ECSTypes.h>
 #include "Components/Transform.h"
+#include "Systems/ForcesManager.h"
 #include "Components/RigidBody.h"
 #include "Components/Collider2D.h"
 #include "Systems/GOFactory.h"
@@ -26,28 +27,83 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	/**
-	 * @brief Updates the previous position (both x and y) of an object based on its current transform.
-	 *
-	 * The function fetches the RigidBody and Transform components of the object.
-	 * It saves the current position into the previous position variables in the RigidBody component,
-	 * so that it can be used for physics calculations or other logic requiring the previous position.
-	 *
-	 * @param obj The entity for which the previous position is updated.
-	 */
-	void ForcesManager::UpdateForces(Entity& obj, float deltaTime)
-	{
-		auto* componentManager = ComponentManager::GetInstance();
-		auto& force = componentManager->GetComponent<Forces>(obj);
 
-		force.dragForce.Update(deltaTime, force.linearForce.unitDirection);
-		force.linearForce.Update(deltaTime);
+
+	Vector2D<float> LinearDirectionalForce::GetForceVector() const
+	{
+		return unitDirection * magnitude;
 	}
 
-	void ForcesManager::ApplyForces(Entity& obj, Vector2D<float>& velocity) 
+	void LinearDirectionalForce::SetLinearForce(std::vector<LinearDirectionalForce>& linearForceVect, Vector2D<float> unitDirectionVect, float magnitudeValue)
+	{
+
+		LinearDirectionalForce linearForce;
+
+		linearForce.unitDirection = unitDirectionVect;
+
+		linearForce.magnitude = magnitudeValue;
+
+		linearForce.isActive = false;
+
+		linearForceVect.push_back(linearForce);
+	}
+
+	float LinearDirectionalForce::SetLifeTime(float lifeTimeValue) 
+	{
+		return this->lifetime = lifeTimeValue;
+	}
+
+	bool LinearDirectionalForce::ActivateForce(bool state)
+	{
+		return isActive = state;
+	}
+
+	void LinearDirectionalForce::Update(float deltaTime)
+	{
+		age += deltaTime;
+
+		if (age >= lifetime)
+		{
+			isActive = false;
+		}
+	}
+
+	void ForcesManager::AddLinearForce(LinearDirectionalForce& force) 
+	{
+		force.SetLifeTime(10.0f);
+		force.ActivateForce();
+		accumulatedForce += force.GetForceVector();
+	}
+
+	void ForcesManager::UpdateForces(float deltaTime)
+	{
+		//auto* componentManager = ComponentManager::GetInstance();
+		for (auto& force : linearForces) 
+		{
+			if (force.isActive == true) 
+			{
+
+				force.Update(deltaTime);
+
+			}
+
+		}
+		
+	}
+
+	Vector2D<float> ForcesManager::GetSumForces() 
+	{
+		return accumulatedForce;
+	}
+
+	Vector2D<float> ForcesManager::SetSumForces(Vector2D<float> value)
+	{
+		return accumulatedForce = value;
+	}
+
+	/*void ForcesManager::ApplyForces(Entity& obj, Vector2D<float>& velocity) 
 	{
 		auto* componentManager = ComponentManager::GetInstance();
-		auto& force = componentManager->GetComponent<Forces>(obj);
 		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
 
 		if (force.dragForce.isActive) 
@@ -60,6 +116,6 @@ namespace Carmicah
 		{
 			rigidbody.velocity += force.linearForce.GetForceVector();
 		}
-	}
+	}*/
 
 }

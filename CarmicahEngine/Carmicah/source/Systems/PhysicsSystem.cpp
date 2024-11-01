@@ -67,8 +67,10 @@ namespace Carmicah
 
 		if (rigidbody.objectType == "Dynamic")
 		{
-			rigidbody.acceleration = 
-			rigidbody.velocity.y += rigidbody.gravity * deltaTime;
+			rigidbody.acceleration.x = rigidbody.forcesManager.GetSumForces().x * (1/rigidbody.mass) + rigidbody.gravity;
+			rigidbody.acceleration.y = rigidbody.forcesManager.GetSumForces().y * (1 / rigidbody.mass) + rigidbody.gravity;
+
+			rigidbody.velocity.y += rigidbody.acceleration.y * deltaTime;
 
 			transform.xPos += rigidbody.velocity.x * deltaTime;
 			transform.yPos += rigidbody.velocity.y * deltaTime;
@@ -105,6 +107,9 @@ namespace Carmicah
 			}
 
 		}
+
+		//Clear Summed Forces
+		rigidbody.forcesManager.SetSumForces({ 0.0f , 0.0f});
 	}
 	/**
 	 * @brief Initializes the PhysicsSystem by setting its signature and registering it with the SystemManager.
@@ -116,7 +121,6 @@ namespace Carmicah
 	{
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<RigidBody>());
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
-		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Forces>());
 
 		SystemManager::GetInstance()->SetSignature<PhysicsSystem>(mSignature);
 

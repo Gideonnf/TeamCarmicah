@@ -16,18 +16,47 @@ DigiPen Institute of Technology is prohibited.
 #define FORCES_MANAGER_H
 
 #include "Math/Vec2.h"
-#include "Components/Forces.h"
 #include <vector>
 
 
 //berif:         This class is a system that handles the physics of all the game objects
 namespace Carmicah
 {
-	class ForcesManager 
-	{
-		void UpdateForces(Entity& obj, float deltaTime);
+    struct LinearDirectionalForce
+    {
+        Vector2D<float> unitDirection; //What direction object is going in
+        float magnitude; //How strong the force is
+        float lifetime;
+        float age = 0.0f;
+        bool isActive;
 
-		void ApplyForces(Entity& obj, Vector2D<float>& velocity);
+        Vector2D<float> GetForceVector() const;
+
+        void SetLinearForce(std::vector<LinearDirectionalForce>& linearForceVect, Vector2D<float> unitDirectionVect, float magnitudeValue);
+
+        bool ActivateForce(bool state = true);
+
+        float SetLifeTime(float lifeTimeValue);
+
+        void Update(float deltaTime);
+
+    };
+
+	class ForcesManager
+	{
+        std::vector<LinearDirectionalForce> linearForces;
+
+        Vector2D<float> accumulatedForce;
+
+        public:
+        void AddLinearForce(LinearDirectionalForce& force);
+
+		void UpdateForces(float deltaTime);
+
+        Vector2D<float> GetSumForces();
+
+        Vector2D<float> SetSumForces(Vector2D<float> value);
+		//void ApplyForces(Entity& obj, Vector2D<float>& velocity);
 	};
 }
 

@@ -38,6 +38,9 @@
     <ClInclude Include="source\Components\Collider2D.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="source\Components\Forces.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="source\Components\Renderer.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -135,6 +138,9 @@
     <ClInclude Include="source\Systems\CollisionSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
+    <ClInclude Include="source\Systems\ForcesManager.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
     <ClInclude Include="source\Systems\GOFactory.h">
       <Filter>Systems</Filter>
     </ClInclude>
@@ -155,12 +161,6 @@
     </ClInclude>
     <ClInclude Include="source\log.h" />
     <ClInclude Include="source\pch.h" />
-    <ClInclude Include="source\Systems\ForcesManager.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Components\Forces.h">
-      <Filter>Components</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />
@@ -222,6 +222,9 @@
     <ClCompile Include="source\Systems\CollisionSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
+    <ClCompile Include="source\Systems\ForcesManager.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
     <ClCompile Include="source\Systems\GOFactory.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
@@ -242,8 +245,5 @@
     </ClCompile>
     <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\pch.cpp" />
-    <ClCompile Include="source\Systems\ForcesManager.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

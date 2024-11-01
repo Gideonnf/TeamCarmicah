@@ -1,7 +1,7 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  file:        GameLogic.cpp
 
- author:   Gideon Francis(70%)
+ author:    Gideon Francis(70%)
  co-author: Lee Yong Yee (30%)
 
  emails:       g.francis@digipen.edu, l.yongyee@digipen.edu
