@@ -173,7 +173,7 @@ namespace Carmicah
 			//if (componentName == typeid(Transform).name())
 			//{
 			//	Transform data = std::any_cast<Transform>(component);
-			//	std::cout << data.xPos << std::endl;
+			//	std::cout << data.pos.x << std::endl;
 			//}
 			
 			// Insert it into the component map

@@ -25,13 +25,12 @@ namespace Carmicah
     {
         std::string model;
         std::string texture;
-        Matrix3x3<float> textureMat;
+        Matrix3x3<float> textureMat{};
 
         Renderer& DeserializeComponent(const rapidjson::Value& component) override
         {
             model = component["model"].GetString();
             texture = component["texture"].GetString();
-            Mtx33Identity(textureMat);
             return *this;
         }
 

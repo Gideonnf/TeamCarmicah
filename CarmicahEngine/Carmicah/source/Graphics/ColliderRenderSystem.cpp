@@ -32,11 +32,6 @@ namespace Carmicah
 		SystemManager::GetInstance()->SetSignature<ColliderRenderSystem>(mSignature);
 		auto shdrRef = AssetManager::GetInstance()->GetAsset<Shader>("debug");
 		mCurrShader = shdrRef.s;
-	/*	auto shdrRef = AssetManager::GetInstance()->mShaderPgms.find("debug");
-		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
-			mCurrShader = shdrRef->second;
-		else
-			CM_CORE_ERROR("ColliderRenderSystem failed to load Shader");*/
 	}
 
 	void ColliderRenderSystem::Render(Entity& cam)
@@ -53,16 +48,13 @@ namespace Carmicah
 
 
 			Matrix3x3<float> trans{};
-			Mtx33Translate(trans, (collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f);
-			Mtx33Scale(trans, collider.max.x - collider.min.x, collider.max.y - collider.min.y);
+			trans.translateThis((collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f)
+				.scaleThis(collider.max.x - collider.min.x, collider.max.y - collider.min.y);
 			trans = camera.camSpace * trans;
 
-			Matrix3x3<float> invMat{};
-			Mtx33Transpose(invMat, trans);
-
 			GLint uniformLoc;
-			if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, invMat.m);
+			if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, trans.m);
 
 			glBindVertexArray(p.vaoid);
 			switch (p.drawMode)

@@ -45,10 +45,8 @@ namespace Carmicah
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		Matrix3x3<float> projection;
-		Mtx33Identity(projection);
-		Mtx33Translate(projection, -1.f, -1.f);
-		Mtx33Scale(projection, 2.f / static_cast<float>(canvasWidth), 2.f / static_cast<float>(canvasHeight));
+		Mtx3x3f projection{};
+		projection.translateThis(-1.f, -1.f).scaleThis(2.f / static_cast<float>(canvasWidth), 2.f / static_cast<float>(canvasHeight));
 
 		for (auto& entity : mEntitiesSet)
 		{
@@ -57,10 +55,10 @@ namespace Carmicah
 			auto& foundFontTex{ AssetManager::GetInstance()->GetAsset<Font>(txtRenderer.font) };
 			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(txtRenderer.model) };
 
-			float xTrack = UITrans.xPos, yTrack = UITrans.yPos;
+			float xTrack = UITrans.pos.x, yTrack = UITrans.pos.y;
 
 			GLint uniformLoc;
-			if (uniformExists(mCurrShader, "uTextColor", uniformLoc))
+			if (UniformExists(mCurrShader, "uTextColor", uniformLoc))
 				glUniform3f(uniformLoc, txtRenderer.colorR, txtRenderer.colorG, txtRenderer.colorB);
 
 			// iterate through all characters (alot of it divides by 2 since quad is based on [-1,1])
@@ -69,26 +67,21 @@ namespace Carmicah
 				Font::FontChar ch = foundFontTex.mFontMaps[c];
 				//FontChar ch = foundFontTex-second[c];
 
-				xTrack += (ch.advance >> 7) * UITrans.xScale * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
-				Matrix3x3<float> charTransform{};
-				Mtx33Identity(charTransform);
+				xTrack += (ch.advance >> 7) * UITrans.scale.x * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
+				Mtx3x3f charTransform{};
 
 				// scale is multiplied by 0.5f since the mesh is from -0.5 to 0.5
-				Mtx33Translate(charTransform,
-					xTrack + static_cast<float>(ch.xBearing) * UITrans.xScale * 0.5f,
-					yTrack - (static_cast<float>(ch.height >> 1) - static_cast<float>(ch.yBearing)) * UITrans.yScale * 0.5f);
-
-				Mtx33Scale(charTransform, 
-					static_cast<float>(ch.width) * UITrans.xScale * 0.5f,
-					static_cast<float>(ch.height) * UITrans.yScale * 0.5f);
+				charTransform
+					.translateThis(
+					xTrack + static_cast<float>(ch.xBearing) * UITrans.scale.x * 0.5f,
+					yTrack - (static_cast<float>(ch.height >> 1) - static_cast<float>(ch.yBearing)) * UITrans.scale.y * 0.5f)
+					.scaleThis(static_cast<float>(ch.width) * UITrans.scale.x * 0.5f,
+						static_cast<float>(ch.height) * UITrans.scale.y * 0.5f);
 
 				charTransform = projection * charTransform;
 
-				Matrix3x3<float> invMat{};
-				Mtx33Transpose(invMat, charTransform);
-
-				if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, invMat.m);
+				if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
+					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, charTransform.m);
 
 				glBindVertexArray(p.vaoid);
 				glBindTextureUnit(0, ch.texID);
@@ -107,7 +100,7 @@ namespace Carmicah
 				}
 
 				// now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-				xTrack += (ch.advance >> 7) * UITrans.xScale * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
+				xTrack += (ch.advance >> 7) * UITrans.scale.x * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
 			}
 		}
 		

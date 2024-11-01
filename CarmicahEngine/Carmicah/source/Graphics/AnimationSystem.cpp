@@ -42,14 +42,10 @@ namespace Carmicah
 			if (!anim.notChangedAnim)
 			{
 				auto& tex = AssetManager::GetInstance()->GetAsset<Texture>(rend.texture);
-				//auto tex = AssetManager::GetInstance()->mTextureMaps.find(rend.texture);
-				/*if (tex != AssetManager::GetInstance()->mTextureMaps.end())
-				{*/
-					anim.xSlice = tex.xSlices + 1;
-					anim.ySlice = tex.ySlices + 1;
-					anim.time = anim.maxTime;
-					anim.currPiece = anim.xSlice * anim.ySlice;
-				//}
+				anim.xSlice = tex.xSlices + 1;
+				anim.ySlice = tex.ySlices + 1;
+				anim.time = anim.maxTime;
+				anim.currPiece = anim.xSlice * anim.ySlice;
 				anim.notChangedAnim = true;
 			}
 
@@ -67,8 +63,7 @@ namespace Carmicah
 				// Animation translates
 				Mtx33Identity(rend.textureMat);
 				Vector2D animScale{ 1.f / static_cast<float>(anim.xSlice), 1.f / static_cast<float>(anim.ySlice) };
-				Mtx33Translate(rend.textureMat, xMulti * animScale.x, yMulti * animScale.y);
-				Mtx33Scale(rend.textureMat, animScale.x, animScale.y);
+				rend.textureMat.translateThis(xMulti * animScale.x, yMulti * animScale.y).scaleThis(animScale);
 			}
 		}
 	}

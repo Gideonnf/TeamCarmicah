@@ -44,33 +44,29 @@ namespace Carmicah
 	{
 		auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 		currCam.notUpdated = false;
-		currCam.xScale = 1.f / static_cast<float>(camWidth);
-		currCam.yScale = 1.f / static_cast<float>(camHeight);
+		currCam.scale.x = 1.f / static_cast<float>(camWidth);
+		currCam.scale.y = 1.f / static_cast<float>(camHeight);
 	}
 
 	void GraphicsSystem::Render(Entity& cam)
 	{
 		glClearColor(0.75294f, 1.f, 0.93333f, 1.f); // Gideon's favourite
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glUseProgram(mCurrShader);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
 
 		// Handle Camera Transform
 		auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 		if (!currCam.notUpdated)
 		{
 			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
-			Matrix3x3<float> scaleMtx{}, rotMtx{}, transMtx{};
-			Mtx33Identity(scaleMtx);
-			Mtx33Identity(rotMtx);
-			Mtx33Identity(transMtx);
 			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-			Mtx33Scale(scaleMtx, camTrans.xScale, camTrans.yScale);
-			Mtx33RotDeg(rotMtx, -camTrans.rot);
-			Mtx33Translate(transMtx, -camTrans.xPos, -camTrans.yPos);
-			currCam.camSpace = scaleMtx * rotMtx, transMtx;
+			Mtx33Identity(currCam.camSpace);
+			currCam.camSpace.scaleThis(camTrans.scale.x, camTrans.scale.y).rotDegThis(-camTrans.rot).translateThis(-camTrans.pos.x, -camTrans.pos.y);
 		}
 
 		for (auto& entity : mEntitiesSet)
@@ -81,12 +77,7 @@ namespace Carmicah
 			if (!transform.notUpdated)
 			{
 				Mtx33Identity(transform.worldSpace);
-				Matrix3x3<float> rotMtx{};
-				Mtx33Identity(rotMtx);
-				Mtx33Translate(transform.worldSpace,transform.xPos, transform.yPos);
-				Mtx33RotDeg(rotMtx, transform.rot);
-				transform.worldSpace *= rotMtx;
-				Mtx33Scale(transform.worldSpace,transform.xScale, transform.yScale);
+				transform.worldSpace.translateThis(transform.pos.x, transform.pos.y).rotDegThis(transform.rot).scaleThis(transform.scale.x, transform.scale.y);
 				transform.camSpace = currCam.camSpace * transform.worldSpace;
 			}
 			else if (!currCam.notUpdated)
@@ -99,18 +90,21 @@ namespace Carmicah
 			Renderer& renderer = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
 			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(renderer.model) };
 
-			Matrix3x3<float> invMat{};
-			Mtx33Transpose(invMat, transform.camSpace);
-
 			// Set Uniforms
 			GLint uniformLoc{};
-			if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, invMat.m);
+			if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, transform.camSpace.m);
 
-			//if (uniformExists(mCurrShader, "uTex2d", uniformLoc)) // Only if multiple textures
+			//if (UniformExists(mCurrShader, "uTex2d", uniformLoc)) // Only if multiple textures
 			//	glUniform1i(uniformLoc, 0);
 
-			if (uniformExists(mCurrShader, "uAnimationMult", uniformLoc))
+			if (UniformExists(mCurrShader, "uDepth", uniformLoc))
+				glUniform1f(uniformLoc, CalcDepth(transform.depth));
+
+			if (UniformExists(mCurrShader, "uID", uniformLoc))
+				glUniform1ui(uniformLoc, entity);
+
+			if (UniformExists(mCurrShader, "uAnimationMult", uniformLoc))
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, renderer.textureMat.m);
 
 			glBindVertexArray(p.vaoid);
