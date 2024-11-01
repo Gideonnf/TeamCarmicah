@@ -19,6 +19,7 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui_impl_opengl3.h>
 #include "EditorWindow.h"
 #include "InspectorWindow.h"
+#include "HierarchyWindow.h"
 #include "Systems/GOFactory.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
@@ -33,6 +34,133 @@ namespace Carmicah
 	{
 		if (ImGui::Begin(mTitle))
 		{
+			if (HierarchyWindow::selectedGO != nullptr)
+			{
+				ImGui::Text("Selected Game Object: %s", HierarchyWindow::selectedGO->GetName().c_str());
+				Entity selectedEntity = HierarchyWindow::selectedGO->GetID();
+				if (HierarchyWindow::selectedGO->HasComponent<Transform>())
+				{
+					Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
+					if (ImGui::BeginTable("Transform Table", 2, ImGuiTableFlags_Borders))
+					{
+						//Column Headers
+						ImGui::TableNextColumn();
+						ImGui::Text("Attribute");
+						ImGui::TableNextColumn();
+						ImGui::Text("Value");
+
+						//Position (X,Y,Z)
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("xPos");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##xPos", &selectedTransform.xPos);
+
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("yPos");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##yPos", &selectedTransform.yPos);
+
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("zPos");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##zPos", &selectedTransform.zPos);
+
+						// Rotation
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("Rotation");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##rot", &selectedTransform.rot);
+
+						// Scale (xScale, yScale)
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("xScale");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##xScale", &selectedTransform.xScale);
+
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("yScale");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##yScale", &selectedTransform.yScale);
+					}
+					ImGui::EndTable();
+				}
+				else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
+				{
+					UITransform& selectedUITransform = HierarchyWindow::selectedGO->GetComponent<UITransform>();
+					if (ImGui::BeginTable("UI Transform Table", 2, ImGuiTableFlags_Borders))
+					{
+						//Column Headers
+						ImGui::TableNextColumn();
+						ImGui::Text("Attribute");
+						ImGui::TableNextColumn();
+						ImGui::Text("Value");
+
+						// Position x and y
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("xPos");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##xPos", &selectedUITransform.xPos);
+
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("yPos");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##yPos", &selectedUITransform.yPos);
+
+						// Scale (xScale, yScale)
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("xScale");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##xScale", &selectedUITransform.xScale);
+
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("yScale");
+						ImGui::TableNextColumn();
+						ImGui::InputFloat("##yScale", &selectedUITransform.yScale);
+
+						//ImGui::TableNextRow();
+						//ImGui::TableNextColumn();
+						//ImGui::Text("Update Object");
+						//ImGui::TableNextColumn();
+						//std::string UpdateGO = "Update " + selectedGO->GetName();
+						//if (ImGui::Button(UpdateGO.c_str()))
+						//{
+						//	
+						//	//gGOFactory->Destroy(selectedEntity);
+						//	//selectedGO = nullptr;
+						//}
+					}
+					ImGui::EndTable();
+				}
+
+				if (HierarchyWindow::selectedGO->HasComponent<Animation>())
+				{
+					std::string animGO = "Change Animation of " + HierarchyWindow::selectedGO->GetName();
+					if (ImGui::Button(animGO.c_str()))
+					{
+						HierarchyWindow::selectedGO->GetComponent<Animation>().notChangedAnim = true;
+						HierarchyWindow::selectedGO->GetComponent<Renderer>().texture = "Duck";
+						//gGOFactory->Destroy(selectedEntity);
+						//selectedGO = nullptr;
+					}
+				}
+
+				std::string destroyGO = "Destroy " + HierarchyWindow::selectedGO->GetName();
+				if (ImGui::Button(destroyGO.c_str()))
+				{
+					gGOFactory->Destroy(selectedEntity);
+					HierarchyWindow::selectedGO = nullptr;
+				}
+			}
 		}
 		ImGui::End();
 	}
