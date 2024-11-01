@@ -23,7 +23,8 @@ namespace Carmicah
 		MSG_NONE,
 		MSG_KEYPRESS,
 		MSG_MOUSEPRESS,
-		MSG_ENTITYKILLED
+		MSG_ENTITYKILLED,
+		MSG_UPDATETRANSFORM
 	};
 
 	namespace
@@ -47,6 +48,14 @@ namespace Carmicah
 	public:
 		Entity mEntityID;
 		EntityKilledMessage(Entity id) : Message(MSG_ENTITYKILLED), mEntityID(id) {}
+	};
+
+	class UpdateTransformMessage : public Message
+	{
+	public:
+		Entity mEntityID;
+		Entity mParentID;
+		UpdateTransformMessage(Entity id, Entity parentID) : Message(MSG_UPDATETRANSFORM), mEntityID(id), mParentID(parentID) {}
 	};
 
 

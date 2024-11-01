@@ -361,6 +361,14 @@ namespace Carmicah
 	void GOFactory::UpdateParent(Entity entityID, Entity newParentID) 
 	{
 		GameObject& go = mIDToGO[entityID];
+
+		// Send msg to UpdateTransform
+		// Important to send here because if parenting back to scene
+		// we need the original parent's transform so that we can convert the entity's local transform
+		// back to world transform
+		UpdateTransformMessage msg(entityID, newParentID);
+		SendMessage(&msg); 
+
 		// Remove entityID from it's current parent
 		// Check if its part of sceneGO
 		if (sceneGO.children.count(entityID) > 0)

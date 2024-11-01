@@ -166,7 +166,13 @@ namespace Carmicah
         colSystem->Init(); // Set the signature
         rrsSystem->Init();
         souSystem->Init(false);
+
+        // Add goFactory to input system's messaging so that it can send msg to it
         inputSystem->BindSystem(gGOFactory);
+
+        // Add transform system into gGOFactory's observer so that it can send msg to it
+        gGOFactory->BindSystem(std::static_pointer_cast<BaseSystem>(transformSystem).get());
+
         inputSystem->Init(window);
         gameSystem->SetScene("Scene1");
         gameSystem->Init(); // Load all GOs from scene file

@@ -39,6 +39,7 @@ namespace Carmicah
 			std::cout << "Entities in "<< systemName << " : " << mEntitiesSet.size() << std::endl;
 		}
 
+		// TODO: Make a version that takes in a shared_ptr<baseSystem> then cast it in here instead of in core.cpp
 		void BindSystem(BaseSystem* system)
 		{
 			mSystemObservers.insert(system);
