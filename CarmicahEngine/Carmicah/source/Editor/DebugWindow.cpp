@@ -24,7 +24,7 @@ DigiPen Institute of Technology is prohibited.
 namespace Carmicah
 {
     DebugWindow::DebugWindow() : EditorWindow("Debug", ImVec2(900, 300), ImVec2(0, 0)),
-        mShowFPS(true), mShowLogger(true), mShowProfiling(true), mShowGPUProfiling(true) {
+        mShowPerformance(true), mShowLogger(true){
         mIsVisible = true;
     }
 
@@ -80,7 +80,7 @@ namespace Carmicah
 
             // Draw each system's time slice
             for (const auto& pair : systemPercentages) {
-                float width = (pair.second / 100.0f) * canvas_size.x;
+                float width = (static_cast<float>(pair.second) / 100.0f) * canvas_size.x;
                 ImU32 color = GetSystemColor(pair.first);
 
                 draw_list->AddRectFilled(
@@ -145,10 +145,8 @@ namespace Carmicah
             {
                 if (ImGui::BeginMenu("Debugging Tools"))
                 {
-                    ImGui::MenuItem("FPS", nullptr, &mShowFPS);
+                    ImGui::MenuItem("Performance", nullptr, &mShowPerformance);
                     ImGui::MenuItem("Logger", nullptr, &mShowLogger);
-                    ImGui::MenuItem("Profiling", nullptr, &mShowProfiling);
-                    ImGui::MenuItem("GPU Profiling", nullptr, &mShowGPUProfiling);
                     ImGui::EndMenu();
                 }
                 ImGui::EndMenuBar();
@@ -156,7 +154,7 @@ namespace Carmicah
 
             if (ImGui::BeginTabBar("Debug Tabs"))
             {
-                if (mShowFPS && ImGui::BeginTabItem("Performance"))
+                if (mShowPerformance && ImGui::BeginTabItem("Performance"))
                 {
                     RenderProfilingTab();
                     ImGui::EndTabItem();

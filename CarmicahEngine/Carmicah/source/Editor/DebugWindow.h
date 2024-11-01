@@ -28,10 +28,8 @@ namespace Carmicah
 	class DebugWindow : public EditorWindow
 	{
 	private:
-		bool mShowFPS;
+		bool mShowPerformance;
 		bool mShowLogger;
-		bool mShowProfiling;
-		bool mShowGPUProfiling;
 		
 		// Profiling variables
 		/**
@@ -39,11 +37,6 @@ namespace Carmicah
 		 * 
 		 */
 		void RenderProfilingTab();
-		/**
-		 * @brief Renders the GPU profiling tab
-		 * 
-		 */
-		void RenderGPUProfilingTab();
 
 	public:
 		/**
