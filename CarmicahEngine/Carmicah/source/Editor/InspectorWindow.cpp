@@ -216,6 +216,7 @@ namespace Carmicah
 			}
 		}
 
+		// show text 
 		if (go->HasComponent<TextRenderer>())
 		{
 			TextRenderer& text = go->GetComponent<TextRenderer>();
