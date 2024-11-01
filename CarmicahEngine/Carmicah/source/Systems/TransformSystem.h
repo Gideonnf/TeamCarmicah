@@ -13,7 +13,7 @@ namespace Carmicah
 		void Update();
 
 		void ReceiveMessage(Message* msg)  override;
-		void CalculateTransform(Entity entityID, Entity parentID);
+		void CalculateTransform(Entity entityID, Entity parentID, bool ToWorld = false);
 		void CalculateChildren(Entity id, Entity parentID);
 	};
 

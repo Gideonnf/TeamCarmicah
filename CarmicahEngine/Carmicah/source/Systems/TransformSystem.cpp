@@ -41,31 +41,47 @@ namespace Carmicah
 		}
 	}
 
-	void TransformSystem::CalculateTransform(Entity entityID, Entity parentID)
+	void TransformSystem::CalculateTransform(Entity entityID, Entity parentID, bool ToWorld)
 	{
 		Transform& entityTransform = ComponentManager::GetInstance()->GetComponent<Transform>(entityID);
 		Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(parentID);
 
-		// get the change in position
-		float deltaX = entityTransform.pos.x - parentTransform.pos.x;
-		float deltaY = entityTransform.pos.y - parentTransform.pos.y;
+		if (ToWorld)
+		{
+			// Get back world transform pos
+			entityTransform.pos.x = parentTransform.pos.x + entityTransform.pos.x;
 
-		// convert parent rot to radians
-		float rad = parentTransform.rot * (PI / 180.0f);
+			// get back world transform rot
+			entityTransform.rot = parentTransform.rot + entityTransform.rot;
 
-		float cosTheta = cos(rad);
-		float sinTheta = sin(rad);
+			// get back world transform scale
+			entityTransform.scale.x = parentTransform.scale.x * entityTransform.scale.x;
+			entityTransform.scale.y = parentTransform.scale.y * entityTransform.scale.y;
 
-		// Calculate the new transform position
-		entityTransform.pos.x = deltaX * cosTheta + deltaY * sinTheta;
-		entityTransform.pos.y = -deltaX * sinTheta + deltaY * cosTheta;
+		}
+		else
+		{
+			// get the change in position
+			float deltaX = entityTransform.pos.x - parentTransform.pos.x;
+			float deltaY = entityTransform.pos.y - parentTransform.pos.y;
 
-		//entityTransform.scale /= parentTransform.scale; // doesntw ork for some reason
-		entityTransform.scale.x = entityTransform.scale.x / parentTransform.scale.x;
-		entityTransform.scale.y = entityTransform.scale.y / parentTransform.scale.y;
+			// convert parent rot to radians
+			float rad = parentTransform.rot * (PI / 180.0f);
 
-		// calculate the new rotation
-		entityTransform.rot = entityTransform.rot - parentTransform.rot;
+			float cosTheta = cos(rad);
+			float sinTheta = sin(rad);
+
+			// Calculate the new transform position
+			entityTransform.pos.x = deltaX * cosTheta + deltaY * sinTheta;
+			entityTransform.pos.y = -deltaX * sinTheta + deltaY * cosTheta;
+
+			//entityTransform.scale /= parentTransform.scale; // doesntw ork for some reason
+			entityTransform.scale.x = entityTransform.scale.x / parentTransform.scale.x;
+			entityTransform.scale.y = entityTransform.scale.y / parentTransform.scale.y;
+
+			// calculate the new rotation
+			entityTransform.rot = entityTransform.rot - parentTransform.rot;
+		}
 	}
 
 	void TransformSystem::CalculateChildren(Entity id, Entity parentID)
@@ -98,7 +114,21 @@ namespace Carmicah
 			// Update scale
 			Transform& entityTransform = ComponentManager::GetInstance()->GetComponent<Transform>(castedMsg->mEntityID);
 
-			CalculateTransform(castedMsg->mEntityID, castedMsg->mParentID);
+			// Its being parented back to the scene
+			// so we have to use its old's parent ID and reset it
+			// if the entity transform parent is already 0, that meants its already in world pos
+			// so no calculation needed
+			if (castedMsg->mParentID == 0 && entityTransform.parent != 0)
+			{
+				CalculateTransform(castedMsg->mEntityID, entityTransform.parent, true);
+			}
+			// If the original parent is not the scene
+			// means it has a new parent that isnt the scene
+			// so it isnt calculating world position
+			else if (entityTransform.parent != 0)
+			{
+				CalculateTransform(castedMsg->mEntityID, castedMsg->mParentID);
+			}
 
 			// It has children
 			if (entityTransform.children.size() > 0)
