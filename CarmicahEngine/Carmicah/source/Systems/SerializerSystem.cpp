@@ -162,6 +162,8 @@ namespace Carmicah
 		// Get the name of the prefab
 		prefab.mName = std::string(doc["GameObject"].GetString());
 
+		CM_CORE_INFO("Creating prefab with name: " + prefab.mName);
+
 		// get the ID attached to the prefab
 		prefab.mPrefabID = static_cast<Entity>(doc["ID"].GetInt());
 
@@ -205,6 +207,8 @@ namespace Carmicah
 
 		// get the ID attached to the prefab
 		prefab.mPrefabID = static_cast<Entity>(doc["ID"].GetInt());
+
+		CM_CORE_INFO("Creating prefab child with name: " + prefab.mName);
 
 		// Loop through the components and store it into the map
 		const rapidjson::Value& componentList = doc["Components"];
