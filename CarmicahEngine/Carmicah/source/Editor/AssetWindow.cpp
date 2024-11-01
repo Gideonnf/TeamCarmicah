@@ -19,6 +19,7 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui_impl_opengl3.h>
 #include "EditorWindow.h"
 #include "AssetWindow.h"
+#include "HierarchyWindow.h"
 #include "../Systems/AssetManager.h"
 #include "Systems/GOFactory.h"
 #include "Components/Transform.h"
@@ -29,6 +30,8 @@ DigiPen Institute of Technology is prohibited.
 namespace Carmicah
 {
 	AssetWindow::AssetWindow() : EditorWindow("Asset", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
+
+	Prefab* AssetWindow::selectedPrefab = nullptr;
 
 	void AssetWindow::Update()
 	{
@@ -43,12 +46,14 @@ namespace Carmicah
 
 		if (ImGui::Begin(mTitle))
 		{
+			std::string name;
 			if (ImGui::CollapsingHeader("Primitive"))
 			{
 				ImGui::Indent();
 				for (const auto& entry : primitiveMap->mAssetMap)
 				{
-					if (ImGui::Button(entry.first.c_str()))
+					name = entry.first + "##Prim";
+					if (ImGui::Button(name.c_str()))
 					{
 					}
 					if (ImGui::IsItemHovered())
@@ -65,7 +70,8 @@ namespace Carmicah
 				ImGui::Indent();
 				for (const auto& entry : shaderMap->mAssetMap)
 				{
-					if (ImGui::Button(entry.first.c_str()))
+					name = entry.first + "##Shader";
+					if (ImGui::Button(name.c_str()))
 					{
 					}
 					if (ImGui::IsItemHovered())
@@ -84,9 +90,11 @@ namespace Carmicah
 			if (ImGui::CollapsingHeader("Texture"))
 			{
 				ImGui::Indent();
+				
 				for (const auto& entry : textureMap->mAssetMap)
 				{
-					if (ImGui::Button(entry.first.c_str()))
+					name = entry.first + "##texture";
+					if (ImGui::Button(name.c_str()))
 					{
 
 					}
@@ -106,9 +114,11 @@ namespace Carmicah
 			if (ImGui::CollapsingHeader("Font"))
 			{
 				ImGui::Indent();
+
 				for (const auto& entry : fontMap->mAssetMap)
 				{
-					if (ImGui::Button(entry.first.c_str()))
+					name = entry.first + "##font";
+					if (ImGui::Button(name.c_str()))
 					{
 
 					}
@@ -137,9 +147,11 @@ namespace Carmicah
 				ImGui::Indent();
 				for (const auto& entry : prefabMap->mAssetMap)
 				{
-					if (ImGui::Button(entry.first.c_str()))
+					name = entry.first + "##Prefab";
+					if (ImGui::Button(name.c_str()))
 					{
-						
+						selectedPrefab = &prefabMap->mAssetList[entry.second];
+						HierarchyWindow::mShowScene = !HierarchyWindow::mShowScene;
 					}
 				}
 				ImGui::Unindent();

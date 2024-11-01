@@ -26,8 +26,8 @@ namespace Carmicah
 	class HierarchyWindow : public EditorWindow
 	{
 	private:
-	
 	public:
+		static bool mShowScene;
 		static GameObject* selectedGO;
 		/**
 		 * @brief Construct a new Hierarchy Window object
@@ -48,6 +48,7 @@ namespace Carmicah
 
 
 		void GOButton(GameObject& go);
+
 	};
 }
 

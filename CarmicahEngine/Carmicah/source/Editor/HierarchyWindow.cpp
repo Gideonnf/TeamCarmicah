@@ -19,6 +19,7 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui_impl_opengl3.h>
 #include "EditorWindow.h"
 #include "HierarchyWindow.h"
+#include "AssetWindow.h"
 #include "Systems/GOFactory.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
@@ -30,6 +31,7 @@ DigiPen Institute of Technology is prohibited.
 namespace Carmicah
 {
 	HierarchyWindow::HierarchyWindow() : EditorWindow("Hierarchy", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
+	bool HierarchyWindow::mShowScene = true;
 	std::vector<GameObject> createdList;
 	GameObject* HierarchyWindow::selectedGO = nullptr;
 
@@ -66,11 +68,14 @@ namespace Carmicah
 							selectedGO = &go;
 						}
 					});*/
-				gGOFactory->ForAllSceneGOs([this](GameObject& go)
-					{
-						GOButton(go);
+				if(mShowScene && AssetWindow::selectedPrefab == nullptr)
+				{
+					gGOFactory->ForAllSceneGOs([this](GameObject& go)
+						{
+							GOButton(go);
 
-					});
+						});
+				}
 				ImGui::EndChild();
 			}
 			static char goName[256] = "Duck";
@@ -137,7 +142,10 @@ namespace Carmicah
 			std::string goCloneButton = "Clone GO";
 			if (ImGui::Button(goCloneButton.c_str()))
 			{
-				gGOFactory->CloneGO(*selectedGO);
+				if(selectedGO != nullptr)
+				{
+					gGOFactory->CloneGO(*selectedGO);
+				}
 				//gGOFactory->CreateGO();
 			}
 

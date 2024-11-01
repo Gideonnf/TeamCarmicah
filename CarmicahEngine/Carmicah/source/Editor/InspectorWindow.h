@@ -26,7 +26,7 @@ namespace Carmicah
 	class InspectorWindow : public EditorWindow
 	{
 	private:
-
+	
 	public:
 		/**
 		 * @brief Construct a new Inspector Window object
@@ -41,7 +41,6 @@ namespace Carmicah
 
 		void GOTable(GameObject* go);
 
-		friend class HierarchyWindow;
 
 	};
 }
