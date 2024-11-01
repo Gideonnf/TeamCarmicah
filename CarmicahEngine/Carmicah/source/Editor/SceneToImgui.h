@@ -22,15 +22,18 @@ namespace Carmicah
 	class SceneToImgui : public Singleton<SceneToImgui>
 	{
 	public:
-		GLuint FBO;
-		GLuint RBO;
-		GLuint texture_id;
-		std::string currentScene;
+		GLuint FBO{};
+		//GLuint RBO{};
+		GLuint texture_id{};
+		GLuint picker_id{};
+		std::string currentScene{};
 
-		void create_framebuffer(int width, int height);
-		void bind_framebuffer();
-		void unbind_framebuffer();
-		void rescale_framebuffer(float width, float height);
+		void CreateFramebuffer(int width, int height);
+		void UnloadFramebuffer();
+		void BindFramebuffer();
+		void UnbindFramebuffer();
+		unsigned int IDPick();
+		void RescaleFramebuffer(float width, float height);
 
 	};
 }

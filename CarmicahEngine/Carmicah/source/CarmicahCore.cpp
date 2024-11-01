@@ -56,6 +56,30 @@ namespace Carmicah
         if (breakAlloc != -1) _CrtSetBreakAlloc(breakAlloc);
     }
 
+    void EnableOpenGLErrorCheck(bool extraDetails = false)
+    {
+        static bool ex = extraDetails;
+        glEnable(GL_DEBUG_OUTPUT);
+        glDebugMessageCallback(
+            [](GLenum source, GLenum type, GLuint id, GLenum severity,
+            GLsizei length, const GLchar* msg, const void* uParam)
+            {
+                if (type == GL_DEBUG_TYPE_ERROR)
+                {
+                    std::stringstream ss;
+                    ss << "GL: ";
+                    if (ex)
+                        ss << " type = 0x" << type << ", Severity = 0x" << severity << ", ";
+                    ss << "msg = " << msg << std::endl;
+
+                    CM_ERROR(ss.str());
+                }
+                if (uParam || source || length || id) // TODO: It's Just removing warnings idfk how to remove this warnings
+                    ex = ex;
+            },
+            0);
+    }
+
     int Application::run()
     {
        // bool isSoundPlaying = false;
@@ -93,6 +117,7 @@ namespace Carmicah
             CM_CORE_ERROR("Failed to initialize GLAD");
             return -1;
         }
+        EnableOpenGLErrorCheck();
 
      /*   GLFWwindow* ImGuiWindow = glfwCreateWindow(WIDTH, HEIGHT, "ImGui", NULL, NULL);
 
@@ -162,7 +187,7 @@ namespace Carmicah
        // Editor Editor;
         editorSys->Init(window);
 
-        SceneToImgui::GetInstance()->create_framebuffer(bufferWidth, bufferHeight);
+        SceneToImgui::GetInstance()->CreateFramebuffer(bufferWidth, bufferHeight);
 
         while (!glfwWindowShouldClose(window)) {
             CarmicahTimer::StartLoopTimer();
@@ -241,7 +266,7 @@ namespace Carmicah
                 editorSys->Render(window);
                 CarmicahTimer::StopSystemTimer("EditorSystem");
 
-                SceneToImgui::GetInstance()->bind_framebuffer();
+                SceneToImgui::GetInstance()->BindFramebuffer();
                 CarmicahTimer::StartSystemTimer("RenderingSystems");
                // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
                 transformSystem->Update(); // Update world and local transforms before rendering
@@ -250,7 +275,8 @@ namespace Carmicah
                 rrsSystem->Render(gGOFactory->mainCam);
                 txtSystem->Render((GLuint)Width, (GLuint)Height);
                 CarmicahTimer::StopSystemTimer("RenderingSystems");
-                SceneToImgui::GetInstance()->unbind_framebuffer();
+                SceneToImgui::GetInstance()->IDPick();
+                SceneToImgui::GetInstance()->UnbindFramebuffer();
                // glfwMakeContextCurrent(window);
 
                 glfwSwapBuffers(window);
@@ -268,6 +294,8 @@ namespace Carmicah
             inputSystem->UpdatePrevInput();
 
         }
+
+        SceneToImgui::GetInstance()->UnloadFramebuffer();
 
         AssetManager::GetInstance()->UnloadAll();
         editorSys->Exit();

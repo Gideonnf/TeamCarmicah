@@ -51,11 +51,13 @@ namespace Carmicah
 	void GraphicsSystem::Render(Entity& cam)
 	{
 		glClearColor(0.75294f, 1.f, 0.93333f, 1.f); // Gideon's favourite
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glUseProgram(mCurrShader);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
 
 		// Handle Camera Transform
 		auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
@@ -90,13 +92,19 @@ namespace Carmicah
 
 			// Set Uniforms
 			GLint uniformLoc{};
-			if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
+			if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, transform.camSpace.m);
 
-			//if (uniformExists(mCurrShader, "uTex2d", uniformLoc)) // Only if multiple textures
+			//if (UniformExists(mCurrShader, "uTex2d", uniformLoc)) // Only if multiple textures
 			//	glUniform1i(uniformLoc, 0);
 
-			if (uniformExists(mCurrShader, "uAnimationMult", uniformLoc))
+			if (UniformExists(mCurrShader, "uDepth", uniformLoc))
+				glUniform1f(uniformLoc, CalcDepth(transform.depth));
+
+			if (UniformExists(mCurrShader, "uID", uniformLoc))
+				glUniform1ui(uniformLoc, entity);
+
+			if (UniformExists(mCurrShader, "uAnimationMult", uniformLoc))
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, renderer.textureMat.m);
 
 			glBindVertexArray(p.vaoid);
