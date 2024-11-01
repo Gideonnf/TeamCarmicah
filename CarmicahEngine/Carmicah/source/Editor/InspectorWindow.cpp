@@ -54,39 +54,39 @@ namespace Carmicah
 						ImGui::TableNextColumn();
 						ImGui::Text("xPos");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##xPos", &selectedTransform.xPos);
+						ImGui::DragFloat("##xPos", &selectedTransform.pos.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("yPos");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##yPos", &selectedTransform.yPos);
+						ImGui::DragFloat("##yPos", &selectedTransform.pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("zPos");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##zPos", &selectedTransform.zPos);
+						ImGui::DragFloat("##zPos", &selectedTransform.depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 						// Rotation
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("Rotation");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##rot", &selectedTransform.rot);
+						ImGui::DragFloat("##rot", &selectedTransform.rot, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 						// Scale (xScale, yScale)
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("xScale");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##xScale", &selectedTransform.xScale);
+						ImGui::DragFloat("##xScale", &selectedTransform.scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("yScale");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##yScale", &selectedTransform.yScale);
+						ImGui::DragFloat("##yScale", &selectedTransform.scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 					}
 					ImGui::EndTable();
 				}
@@ -106,26 +106,26 @@ namespace Carmicah
 						ImGui::TableNextColumn();
 						ImGui::Text("xPos");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##xPos", &selectedUITransform.xPos);
+						ImGui::DragFloat("##xPos", &selectedUITransform.pos.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("yPos");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##yPos", &selectedUITransform.yPos);
+						ImGui::DragFloat("##yPos", &selectedUITransform.pos.y,0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 						// Scale (xScale, yScale)
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("xScale");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##xScale", &selectedUITransform.xScale);
+						ImGui::DragFloat("##xScale", &selectedUITransform.scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("yScale");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##yScale", &selectedUITransform.yScale);
+						ImGui::DragFloat("##yScale", &selectedUITransform.scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 						//ImGui::TableNextRow();
 						//ImGui::TableNextColumn();
