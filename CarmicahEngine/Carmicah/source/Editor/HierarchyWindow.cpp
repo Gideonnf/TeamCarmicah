@@ -71,39 +71,39 @@ namespace Carmicah
 						ImGui::TableNextColumn();
 						ImGui::Text("xPos");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##xPos", &selectedTransform.pos.x);
+						ImGui::DragFloat("##xPos", &selectedTransform.pos.x,0.05f,-FLT_MAX,FLT_MAX,"%.3f");
 
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("yPos");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##yPos", &selectedTransform.pos.y);
+						ImGui::DragFloat("##yPos", &selectedTransform.pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("zPos");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##zPos", &selectedTransform.depth);
+						ImGui::DragFloat("##zPos", &selectedTransform.depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 						// Rotation
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("Rotation");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##rot", &selectedTransform.rot);
+						ImGui::DragFloat("##rot", &selectedTransform.rot, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 						// Scale (xScale, yScale)
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("xScale");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##xScale", &selectedTransform.scale.x);
+						ImGui::DragFloat("##xScale", &selectedTransform.scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("yScale");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##yScale", &selectedTransform.scale.y);
+						ImGui::DragFloat("##yScale", &selectedTransform.scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 					}
 					ImGui::EndTable();
 				}
