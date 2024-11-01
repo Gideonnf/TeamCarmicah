@@ -74,6 +74,9 @@
     <ClInclude Include="source\ECS\SystemManager.h">
       <Filter>ECS</Filter>
     </ClInclude>
+    <ClInclude Include="source\Editor\AssetWindow.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
     <ClInclude Include="source\Editor\DebugWindow.h">
       <Filter>Editor</Filter>
     </ClInclude>
@@ -158,7 +161,6 @@
     </ClInclude>
     <ClInclude Include="source\log.h" />
     <ClInclude Include="source\pch.h" />
-    <ClInclude Include="source\Editor\AssetWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />
@@ -174,6 +176,9 @@
     </ClCompile>
     <ClCompile Include="source\ECS\SystemManager.cpp">
       <Filter>ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Editor\AssetWindow.cpp">
+      <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="source\Editor\DebugWindow.cpp">
       <Filter>Editor</Filter>
@@ -243,6 +248,5 @@
     </ClCompile>
     <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\pch.cpp" />
-    <ClCompile Include="source\Editor\AssetWindow.cpp" />
   </ItemGroup>
 </Project>
