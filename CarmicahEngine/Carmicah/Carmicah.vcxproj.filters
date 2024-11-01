@@ -35,6 +35,9 @@
     <ClInclude Include="source\Components\BaseComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="source\Components\BaseTransform.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="source\Components\Collider2D.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -159,9 +162,11 @@
     <ClInclude Include="source\Systems\SoundSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
+    <ClInclude Include="source\Systems\TransformSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
     <ClInclude Include="source\log.h" />
     <ClInclude Include="source\pch.h" />
-    <ClInclude Include="source\Components\BaseTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />
@@ -245,6 +250,9 @@
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="source\Systems\SoundSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Systems\TransformSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="source\log.cpp" />

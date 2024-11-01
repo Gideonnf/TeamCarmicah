@@ -31,6 +31,8 @@
 #include "Systems/CollisionSystem.h"
 #include "Systems/PhysicsSystem.h"
 #include "Systems/SoundSystem.h"
+#include "Systems/TransformSystem.h"
+
 #include "Input/InputSystem.h"
 #include "Systems/SceneSystem.h"
 #include "Systems/SerializerSystem.h"
@@ -152,7 +154,10 @@ namespace Carmicah
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);
         auto gameLogic = REGISTER_SYSTEM(GameLogic);
+        auto transformSystem = REGISTER_SYSTEM(TransformSystem);
         AssetManager::GetInstance()->LoadAll(AssetManager::GetInstance()->enConfig.assetLoc.c_str());
+        // TODO: Shift this all into system constructors to clean up core.cpp
+        transformSystem->Init();
         graSystem->Init();
         txtSystem->Init();
         aniSystem->Init();
@@ -164,7 +169,10 @@ namespace Carmicah
         inputSystem->BindSystem(gGOFactory);
         inputSystem->Init(window);
         gameSystem->SetScene("Scene1");
-        gameSystem->Init();
+        gameSystem->Init(); // Load all GOs from scene file
+
+        //gGOFactory->CreateSceneObject("Scene1"); // TODO: Shift this so that it isnt here and manually being made
+        //gGOFactory->ParentAllGO();
 
         //GameLogic gameLogic;
         gameLogic->Init();
@@ -261,6 +269,7 @@ namespace Carmicah
                 SceneToImgui::GetInstance()->BindFramebuffer();
                 CarmicahTimer::StartSystemTimer("RenderingSystems");
                // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+                transformSystem->Update(); // Update world and local transforms before rendering
                 graSystem->Render(gGOFactory->mainCam);
                 crsSystem->Render(gGOFactory->mainCam);
                 rrsSystem->Render(gGOFactory->mainCam);

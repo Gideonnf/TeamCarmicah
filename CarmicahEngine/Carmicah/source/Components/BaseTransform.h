@@ -15,11 +15,15 @@ namespace Carmicah
 
         bool notUpdated;
 
+        Entity parent; // Hold 0 if no parent
+        std::vector<Entity> children;
+
+
         void DeserializeComponentBuffer(const rapidjson::Value& component)
         {
             pos.x = static_cast<float>(component["xPos"].GetDouble());
             pos.y = static_cast<float>(component["yPos"].GetDouble());
-            depth = static_cast<float>(component["zPos"].GetDouble());
+            depth = static_cast<float>(component["depth"].GetDouble());
             scale.x = static_cast<float>(component["xScale"].GetDouble());
             scale.y = static_cast<float>(component["yScale"].GetDouble());
         }
@@ -30,7 +34,7 @@ namespace Carmicah
             writer.Double(pos.x);
             writer.String("yPos");
             writer.Double(pos.y);
-            writer.String("zPos");
+            writer.String("depth");
             writer.Double(depth);
             writer.String("xScale");
             writer.Double(scale.x);

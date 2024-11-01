@@ -1,0 +1,20 @@
+#ifndef TRANSFORM_SYSTEM_H
+#define TRANSFORM_SYSTEM_H
+
+#include "../ECS/GameObject.h"
+#include "../ECS/BaseSystem.h"
+
+namespace Carmicah
+{
+	class TransformSystem : public BaseSystem
+	{
+	public:
+		void Init();
+		void Update();
+
+		void ReceiveMessage(Message* msg)  override;
+	};
+
+}
+
+#endif

@@ -46,6 +46,8 @@ namespace Carmicah
 		 */
 		void EntityDestroyed(Entity id) override;
 
+
+		void GOButton(GameObject& go);
 	};
 }
 

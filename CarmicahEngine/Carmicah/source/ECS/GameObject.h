@@ -27,6 +27,10 @@ namespace Carmicah
 		Entity mID{};
 		std::string mName{};
 		bool mActive;
+
+		//Entity* mParentID;
+		//std::vector<Entity*> mChildIDs;
+
 	public:
 		//Game object factory is the only class allowed to
 	//create and destroy game objects.
@@ -51,6 +55,10 @@ namespace Carmicah
 		bool IsActive();
 
 		void SetActive(bool active);
+
+		bool SetParent(Entity parentID);
+
+		bool SetParent(GameObject parentObj);
 
 		template<typename T>
 		void AddComponent(T Component)
@@ -90,7 +98,6 @@ namespace Carmicah
 			ComponentManager::GetInstance()->RemoveComponent<T>(mID);
 			//gGOFactory->
 			EntityManager::GetInstance()->RemoveComponent<T>(mID);
-
 		}
 
 		template <typename T>
@@ -117,6 +124,35 @@ namespace Carmicah
 
 			return ComponentManager::GetInstance()->GetComponent<T>(mID);
 		}
+
+		//// For getting the transform of just the game object only
+		//template <typename T>
+		//T& GetComponentInParent()
+		//{
+		//	if (mParentID == nullptr)
+		//	{
+		//		CM_CORE_ERROR("Entity has no parent");
+		//		// return its own component instead
+		//		return GetComponent<T>();
+		//	}
+
+		//	if (!EntityManager::GetInstance()->DoesEntityExist(*mParentID))
+		//	{
+		//		//assert("Getting component when Entity does not exist");
+		//		CM_CORE_ERROR("Entity's Parent no longer exist");
+		//		//return T{};
+		//		// Set the parent to null since it doesnt exist anymore
+		//		mParentID = nullptr;
+		//		// return its own component instead
+		//		return GetComponent<T>();
+		//	}
+
+
+		//	return ComponentManager::GetInstance()->GetComponent<T>(*mParentID);
+		//	//return GetComponent<Transform>();
+		//}
+
+
 	};
 }
 

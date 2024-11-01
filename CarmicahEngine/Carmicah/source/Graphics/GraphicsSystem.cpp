@@ -76,8 +76,8 @@ namespace Carmicah
 			// Handle Entities transform
 			if (!transform.notUpdated)
 			{
-				Mtx33Identity(transform.worldSpace);
-				transform.worldSpace.translateThis(transform.pos.x, transform.pos.y).rotDegThis(transform.rot).scaleThis(transform.scale.x, transform.scale.y);
+				//Mtx33Identity(transform.worldSpace);
+				//transform.worldSpace.translateThis(transform.pos.x, transform.pos.y).rotDegThis(transform.rot).scaleThis(transform.scale.x, transform.scale.y);
 				transform.camSpace = currCam.camSpace * transform.worldSpace;
 			}
 			else if (!currCam.notUpdated)

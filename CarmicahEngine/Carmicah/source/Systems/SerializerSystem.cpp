@@ -104,17 +104,19 @@ namespace Carmicah
 		doc.ParseStream(isw);
 		ifs.close();
 
-		if (doc.Empty())
+		if (doc.IsNull() || !doc.IsObject())
 		{
 			CM_CORE_ERROR("Scenefile is empty");
 			return false;
 		}
 
-		for (SizeType i = 0; i < doc.Size(); ++i)
-		{
-			const Value& go = doc[i];
-			gGOFactory->ImportGO(go);
-		}
+		gGOFactory->ImportGO(doc);
+
+		//for (SizeType i = 0; i < doc.Size(); ++i)
+		//{
+		//	const Value& go = doc[i];
+		//	gGOFactory->ImportGO(go);
+		//}
 		return true;
 	}
 

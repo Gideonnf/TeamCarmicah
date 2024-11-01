@@ -65,7 +65,13 @@ namespace Carmicah
 		// All entities created is stored in GOFactory
 		SystemManager::GetInstance()->UpdateSignatures(go.mID, EntityManager::GetInstance()->GetSignature(go.mID));
 		
+		// By default add transform to a blank component
+		go.AddComponent<Transform>();
+
 		CM_CORE_INFO("Creating a new game object with name: " + name + " and id: " + std::to_string(go.mID));
+
+		// Parent it to the scene on creation
+		UpdateParent(go.mID, sceneGO.sceneID);
 
 		return go;
 	}
@@ -102,12 +108,21 @@ namespace Carmicah
 
 		SystemManager::GetInstance()->UpdateSignatures(newGO.mID, EntityManager::GetInstance()->GetSignature(newGO.mID));
 
+		UpdateParent(newGO.mID, sceneGO.sceneID);
+
 		return newGO;
 	}
 
 	GameObject GOFactory::CreatePrefab(std::string prefab)
 	{
-		GameObject newGO = CreateGO(prefab);
+		GameObject newGO;
+		std::string goName = CreateGOName(prefab);
+		newGO.mID = EntityManager::GetInstance()->CreateEntity();
+		newGO.mName = goName;
+		// Store in two maps. Testing use for fetching GO by name
+		mNameToID.insert(std::make_pair(newGO.mName, newGO.mID));
+		mIDToGO.insert(std::make_pair(newGO.mID, newGO));
+
 		if (AssetManager::GetInstance()->AssetExist<Prefab>(prefab))
 		{
 			// Loop through the components within asset manager
@@ -116,6 +131,9 @@ namespace Carmicah
 				AttachComponents(newGO, component);
 				// Same if checks as component manager, but we're adding components here instead of deserializing
 			}
+
+			// Parent it to the scene on creation
+			UpdateParent(newGO.mID, sceneGO.sceneID);
 		}
 		else
 		{
@@ -123,22 +141,15 @@ namespace Carmicah
 			assert("Prefab does not exist");
 		}
 
-		//if (AssetManager::GetInstance()->mPrefabFiles.count(prefab) > 0)
-		//{
-		//	// Loop through the components within asset manager
-		//	for (auto& component : AssetManager::GetInstance()->mPrefabFiles[prefab].mComponents)
-		//	{
-		//		AttachComponents(newGO, component);
-		//		// Same if checks as component manager, but we're adding components here instead of deserializing
-		//	}
-		//}
-		//else
-		//{
-		//	//TODO: Decide if this should assert or give an error warning and return an empty GO instead
-		//	assert("Prefab does not exist");
-		//}
-
 		return newGO;
+	}
+
+	void GOFactory::CreateSceneObject(std::string sceneName)
+	{
+		sceneGO.sceneName = sceneName;
+		sceneGO.children.clear();
+		// Blank transform
+		//sceneGO.sceneTransform = Transform{};
 	}
 
 	void GOFactory::FetchGO(std::string GOName, GameObject& go)
@@ -197,9 +208,16 @@ namespace Carmicah
 
 	void GOFactory::EntityDestroyed(Entity entity)
 	{
+		// Current cheat way is to change the parent to scene
+		// and then remove it from scene's child list
+		UpdateParent(entity, sceneGO.sceneID);
+
+		sceneGO.children.erase(entity);
+
 		// erase from the maps
 		mNameToID.erase(mIDToGO[entity].mName);
 		mIDToGO.erase(entity);
+
 
 		EntityManager::GetInstance()->DeleteEntity(entity);
 		ComponentManager::GetInstance()->EntityDestroyed(entity);
@@ -213,7 +231,41 @@ namespace Carmicah
 			return;
 		}
 		// To destroy at the end of update
-		mDeleteList.insert(entity);
+		mDeleteList.insert(DestroyEntity(entity));
+
+	}
+
+	Entity GOFactory::DestroyEntity(Entity entity)
+	{
+		GameObject& go = mIDToGO[entity];
+
+		// Check if has any children
+		if (go.HasComponent<Transform>())
+		{
+			if (go.GetComponent<Transform>().children.size() > 0)
+			{
+				for (auto& id : go.GetComponent<Transform>().children)
+				{
+					// Recall the function so any children within that child is also inserted
+					// NOTE: I have only tested this with 1 layer of parent-child, so if it dies next time, cehck this part 
+					mDeleteList.insert(DestroyEntity(id));
+				}
+			}
+		}
+		else if (go.HasComponent<UITransform>())
+		{
+			if (go.GetComponent<UITransform>().children.size() > 0)
+			{
+				for (auto& id : go.GetComponent<UITransform>().children)
+				{
+					// Recall the function so any children within that child is also inserted
+					// NOTE: I have only tested this with 1 layer of parent-child, so if it dies next time, cehck this part 
+					mDeleteList.insert(DestroyEntity(id));
+				}
+			}
+		}
+
+		return entity;
 	}
 
 	void GOFactory::DestroyAll()
@@ -248,15 +300,165 @@ namespace Carmicah
 		int counter = 1;
 		while (mNameToID.count(newGOName) != 0)
 		{
-			newGOName = goName + std::to_string(counter);
+			newGOName = goName + "_" + std::to_string(counter);
 			counter++;
 		}
 
 		return newGOName;
 	}
+
+	/// <summary>
+	///  Updates the parent entity. Removes it from its child list and add it to the new one.
+	/// Currently the issue with having two different transform and a base transform, I have to check
+	/// which transform it has and when i get the base transform, i have to cast it
+	/// So currently it requires a lot of if and else if to check whether it has or not and cast to the respective base transform.
+	/// I'm not sure if I should move parent and child hirerachy into another component on its own
+	/// </summary>
+	/// <param name="entityID">Current Entity ID</param>
+	/// <param name="newParentID">The new parent ID</param>
+	void GOFactory::UpdateParent(Entity entityID, Entity newParentID) 
+	{
+		GameObject& go = mIDToGO[entityID];
+		// Remove entityID from it's current parent
+		// Check if its part of sceneGO
+		if (sceneGO.children.count(entityID) > 0)
+		{
+			sceneGO.children.erase(entityID);
+		}
+		// Find out what is the current parent
+		else
+		{
+			Entity* parentID = nullptr;
+			// Get the old parent ID
+			if (go.HasComponent<Transform>())
+			{
+				// Get the parent ID
+				parentID = &go.GetComponent<Transform>().parent;
+			}
+			else if (go.HasComponent<UITransform>())
+			{
+				parentID = &go.GetComponent<Transform>().parent;
+			}
+
+			if (parentID == nullptr)
+			{
+				assert("Parent ID does not exist");
+				return;
+			}
+
+			// Get the parent's transform
+			if (ComponentManager::GetInstance()->HasComponent<Transform>(*parentID))
+			{
+				// Get the transform
+				Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(*parentID);
+				// Erase from parent's child ids
+				for (auto it = parentTransform.children.begin(); it != parentTransform.children.end(); it++)
+				{
+					if (*it == entityID)
+					{
+						parentTransform.children.erase(it);
+						break;
+					}
+				}
+			}
+			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(*parentID))
+			{
+				UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(*parentID);
+				for (auto it = parentTransform.children.begin(); it != parentTransform.children.end(); it++)
+				{
+					if (*it == entityID)
+					{
+						parentTransform.children.erase(it);
+						break;
+					}
+				}
+			}
+		}
+
+		//Change the parent after removing from the old parent
+	
+		// If its being parented to the scene
+		if (newParentID == sceneGO.sceneID)
+		{
+			sceneGO.children.insert(entityID);
+			if (ComponentManager::GetInstance()->HasComponent<Transform>(entityID))
+			{
+				// Get the transform
+				BaseTransform<Transform>& entityTransform = static_cast<BaseTransform<Transform>&>(ComponentManager::GetInstance()->GetComponent<Transform>(entityID));
+				// Change the parent
+				entityTransform.parent = sceneGO.sceneID;
+			}
+			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(entityID))
+			{
+				// Get the transform
+				BaseTransform<UITransform>& entityTransform = static_cast<BaseTransform<UITransform>&>(ComponentManager::GetInstance()->GetComponent<UITransform>(entityID));
+				// Change the parent
+				entityTransform.parent = sceneGO.sceneID;
+			}
+
+		}
+		// If it isnt then have to find the new parent
+		else
+		{
+			// Change the current transform parent ID
+			if (go.HasComponent<Transform>())
+			{
+				// Change the parent
+				go.GetComponent<Transform>().parent = newParentID;
+			}
+			else if (go.HasComponent<UITransform>())
+			{
+				// Change the parent
+				go.GetComponent<UITransform>().parent = newParentID;
+			}
+
+			if (ComponentManager::GetInstance()->HasComponent<Transform>(newParentID))
+			{
+				// Get the transform
+				Transform& parentTransform =ComponentManager::GetInstance()->GetComponent<Transform>(newParentID);
+				// Add to the child list
+				parentTransform.children.push_back(entityID);
+
+				CM_CORE_INFO("Parenting entity: " + std::to_string(entityID) + " to " + std::to_string(newParentID));
+			}
+			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
+			{
+				// Get the transform
+				UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(newParentID);
+				// Add to the child list
+				parentTransform.children.push_back(entityID);
+			}
+		}
+	}
 #pragma endregion
 
-#pragma region Importing and Exporting
+	// TODO: Remove after setting up scene hirerachy
+	void GOFactory::ParentAllGO()
+	{
+		for (std::set<Entity>::iterator it = mEntitiesSet.begin(); it != mEntitiesSet.end(); ++it)
+		{
+			sceneGO.children.insert(*it);
+
+			if (ComponentManager::GetInstance()->HasComponent<Transform>(*it))
+			{			
+				BaseTransform<Transform>& entityTransform = static_cast<BaseTransform<Transform>&>(ComponentManager::GetInstance()->GetComponent<Transform>(*it));
+				entityTransform.parent = sceneGO.sceneID;
+			}
+			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(*it))
+			{
+				BaseTransform<UITransform>& entityTransform = static_cast<BaseTransform<UITransform>&>(ComponentManager::GetInstance()->GetComponent<UITransform>(*it));
+				entityTransform.parent = sceneGO.sceneID;
+			}
+		
+			//entityTransform.parent = &sceneGO.sceneTransform; // Set all GOs to be children of scene
+			//sceneGO.sceneTransform.childrens.push_back(&entityTransform); // add the transform to the child
+
+			// this function is just because our current version of scene isnt parented
+			// so i'm trying to make it all parented for now and once its done ill remove this function
+		}
+	}
+
+#pragma region IMGUI Accessor functions
 	void GOFactory::ForAllGO(const std::function<void(GameObject&)>& func)
 	{
 		if (mIDToGO.size() > 0)
@@ -266,16 +468,124 @@ namespace Carmicah
 		}
 	}
 
-	void GOFactory::ImportGO(const rapidjson::Value& go)
+	void GOFactory::ForAllSceneGOs(const std::function<void(GameObject&)>& func)
 	{
+		if (sceneGO.children.size() > 0)
+		{
+			for (auto& child : sceneGO.children)
+			{
+				func(mIDToGO[child]);
+			}
+		}
+	}
+
+	void GOFactory::ForGOChildren(GameObject& parentGO, const std::function<void(GameObject&)>& func)
+	{
+		if (parentGO.HasComponent<Transform>() && parentGO.GetComponent<Transform>().children.size() > 0)
+		{
+			for (auto& child : parentGO.GetComponent<Transform>().children)
+			{
+				func(mIDToGO[child]);
+			}
+		}
+
+	}
+
+#pragma endregion
+
+#pragma region Importing and Exporting
+
+	void GOFactory::ImportGO(const rapidjson::Value& doc)
+	{
+		std::string sceneName = std::string(doc["Scene"].GetString());
+		CreateSceneObject(sceneName);
+
+		if (doc.HasMember("SceneObjects"))
+		{
+			const rapidjson::Value& sceneObjects = doc["SceneObjects"];
+			for (rapidjson::SizeType i = 0; i < sceneObjects.Size(); ++i)
+			{
+				const rapidjson::Value& go = sceneObjects[i];
+				sceneGO.children.insert(ImportEntity(go, sceneGO.sceneID));
+			}
+		}
+	}
+
+	void GOFactory::ExportGOs(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer)
+	{
+		writer.StartObject();
+		writer.String("Scene");
+		writer.String(sceneGO.sceneName.c_str(), static_cast<rapidjson::SizeType>(sceneGO.sceneName.length()));
+		writer.String("SceneObjects");
+		writer.StartArray();
+		for (auto& id : sceneGO.children)
+		{
+			ExportEntity(writer, id);
+		}
+		writer.EndArray();
+		writer.EndObject();
+	}
+
+	void GOFactory::ExportEntity(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer, Entity id)
+	{
+			GameObject& obj = mIDToGO[id];
+			writer.StartObject();
+
+			writer.String("GameObject");
+			writer.String(obj.GetName().c_str(), static_cast<rapidjson::SizeType>(obj.GetName().length()));
+
+			writer.String("ID");
+			writer.Int(obj.GetID());
+
+			writer.String("Components");
+
+			writer.StartArray();
+			ComponentManager::GetInstance()->SerializeEntityComponents(obj.GetID(), EntityManager::GetInstance()->GetSignature(obj.GetID()), writer);
+			writer.EndArray();
+
+			// Check for children. Only loop if there obj has children
+			if (obj.HasComponent<Transform>())
+			{
+				//if (obj.GetComponent<Transform>().children.size())
+				writer.String("Children");
+				writer.StartArray();
+
+				for (auto& id : obj.GetComponent<Transform>().children)
+				{
+					ExportEntity(writer, id);
+				}
+
+				writer.EndArray();
+			}
+			else if (obj.HasComponent<UITransform>() && obj.GetComponent<UITransform>().children.size() > 0)
+			{
+				writer.String("Children");
+				writer.StartArray();
+
+				for (auto& id : obj.GetComponent<UITransform>().children)
+				{
+					ExportEntity(writer, id);
+				}
+
+				writer.EndArray();
+			}
+
+			writer.EndObject();
+
+	}
+	
+	Entity GOFactory::ImportEntity(const rapidjson::Value& go, Entity parentID)
+	{
+
 		std::string name = std::string(go["GameObject"].GetString());
 		int entityID = go["ID"].GetInt();
-			//mainCam = newObj.GetID
+		//mainCam = newObj.GetID
 		GameObject newObj = LoadGO(name, entityID);
 
 		if (name == "MainCamera")
 			mainCam = newObj.GetID();
 
+		// Add all components to the obj
 		const rapidjson::Value& componentList = go["Components"];
 		for (rapidjson::Value::ConstValueIterator it = componentList.Begin(); it != componentList.End(); ++it)
 		{
@@ -283,48 +593,43 @@ namespace Carmicah
 			const std::string& componentName = (*it)["Component Name"].GetString();
 			// Deserialize the json file that contains the component's data
 			std::any componentData = ComponentManager::GetInstance()->DeserializePrefabComponent(*it);
-			
+
 			// Attach it to the game object
 			AttachComponents(newObj, std::make_pair(componentName, componentData));
 		}
-	}
 
-	void GOFactory::ExportGOs(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer)
-	{
-		writer.StartArray();
-		for (auto& obj : mIDToGO)
+		// Attach to the parent
+		if (newObj.HasComponent<Transform>())
 		{
-			writer.StartObject();
-
-			writer.String("GameObject");
-			writer.String(obj.second.GetName().c_str(), static_cast<rapidjson::SizeType>(obj.second.GetName().length()));
-
-			writer.String("ID");
-			writer.Int(obj.second.GetID());
-
-			writer.String("Components");
-
-			writer.StartArray();
-			ComponentManager::GetInstance()->SerializeEntityComponents(obj.second.GetID(), EntityManager::GetInstance()->GetSignature(obj.second.GetID()), writer);
-			writer.EndArray();
-
-			writer.EndObject();
+			newObj.GetComponent<Transform>().parent = parentID;
 		}
-		writer.EndArray();
-		//gGOFactory->ForAllGO([&](GameObject& o) {
-		//	
-		//	});
-		
+		else if (newObj.HasComponent<UITransform>())
+		{
+			newObj.GetComponent<UITransform>().parent = parentID;
+		}
 
-	}
-#pragma endregion
+		// Now check if that obj has children that we need to deserialize
+		// if it does then we have to recursively add it
+		if (go.HasMember("Children"))
+		{
+			const rapidjson::Value& childrenList = go["Children"];
+			for (rapidjson::SizeType i = 0; i < childrenList.Size(); ++i)
+			{
+				const rapidjson::Value& childGO = childrenList[i];
+				if (newObj.HasComponent<Transform>())
+				{
+					newObj.GetComponent<Transform>().children.push_back(ImportEntity(childGO, entityID));
+				}
+				else if (newObj.HasComponent<UITransform>())
+				{
+					newObj.GetComponent<UITransform>().children.push_back(ImportEntity(childGO, entityID));
+				}
+			}
+		}
 
-#pragma region Component Functions
-	template <typename T>
-	void GOFactory::CreateComponent()
-	{
-		ComponentManager::GetInstance()->RegisterComponent<T>();
+		return entityID;
 	}
+
 #pragma endregion
 
 	void GOFactory::ReceiveMessage(Message* msg)
