@@ -83,6 +83,9 @@ namespace Carmicah
 				if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
 					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, charTransform.m);
 
+				if (UniformExists(mCurrShader, "uDepth", uniformLoc))
+					glUniform1f(uniformLoc, CalcDepth(UITrans.depth, RENDER_LAYERS::UI_LAYER));
+
 				glBindTextureUnit(0, ch.texID);
 
 				RenderPrimitive(p);

@@ -48,7 +48,12 @@ namespace Carmicah
 		Entity mEntityID;
 		EntityKilledMessage(Entity id) : Message(MSG_ENTITYKILLED), mEntityID(id) {}
 	};
-
+	class EntityPickedMessage : public Message
+	{
+	public:
+		Entity mEntityID;
+		EntityPickedMessage(Entity id) : Message(MSG_ENTITYKILLED), mEntityID(id) {}
+	};
 
 }
 

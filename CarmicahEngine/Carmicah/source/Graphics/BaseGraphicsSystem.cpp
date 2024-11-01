@@ -31,10 +31,10 @@ namespace Carmicah
 		return false;
 	}
 
-	float BaseGraphicsSystem::CalcDepth(const float& depth)
+	float BaseGraphicsSystem::CalcDepth(const float& depth, const RENDER_LAYERS& layer)
 	{
-		const float furtherstDepth{ -100.f }, nearestDepth{ 100.f };
-		return -(depth + nearestDepth) / (nearestDepth - furtherstDepth);
+		float trueRange = (mNearestDepth - mFurtherstDepth) * static_cast<float>(MAX_LAYERS);
+		return -((depth * static_cast<float>(layer)) + mNearestDepth) / trueRange;
 	}
 
 	void BaseGraphicsSystem::RenderPrimitive(const Primitive& p)

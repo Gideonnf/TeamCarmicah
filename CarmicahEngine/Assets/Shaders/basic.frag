@@ -10,5 +10,7 @@ uniform unsigned int	uID;
 
 void main(void){
 	fFragColor = texture(uTex2d, vTexCoord);
+	if(fFragColor.a < 0.00001)
+		discard;
 	fGID = uID;
 }

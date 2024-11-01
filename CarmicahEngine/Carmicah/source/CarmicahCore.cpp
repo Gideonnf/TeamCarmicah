@@ -24,6 +24,7 @@
 
 #include "Systems/GOFactory.h"
 #include "Graphics/GraphicsSystem.h"
+#include "Graphics/UIGraphicsSystem.h"
 #include "Graphics/TextSystem.h"
 #include "Graphics/AnimationSystem.h"
 #include "Graphics/ColliderRenderSystem.h"
@@ -144,6 +145,7 @@ namespace Carmicah
         auto editorSys = REGISTER_SYSTEM(Editor);
         REGISTER_SYSTEM(GOFactory);
         auto graSystem = REGISTER_SYSTEM(GraphicsSystem);
+        auto uigSystem = REGISTER_SYSTEM(UIGraphicsSystem);
         auto txtSystem = REGISTER_SYSTEM(TextSystem);
         auto aniSystem = REGISTER_SYSTEM(AnimationSystem);
         auto crsSystem = REGISTER_SYSTEM(ColliderRenderSystem);
@@ -159,6 +161,7 @@ namespace Carmicah
         // TODO: Shift this all into system constructors to clean up core.cpp
         transformSystem->Init();
         graSystem->Init();
+        uigSystem->Init(Width, Height);
         txtSystem->Init();
         aniSystem->Init();
         crsSystem->Init();
@@ -271,11 +274,12 @@ namespace Carmicah
                // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
                 transformSystem->Update(); // Update world and local transforms before rendering
                 graSystem->Render(gGOFactory->mainCam);
+                uigSystem->Render();
                 crsSystem->Render(gGOFactory->mainCam);
                 rrsSystem->Render(gGOFactory->mainCam);
                 txtSystem->Render((GLuint)Width, (GLuint)Height);
                 CarmicahTimer::StopSystemTimer("RenderingSystems");
-                SceneToImgui::GetInstance()->IDPick();
+                
                 SceneToImgui::GetInstance()->UnbindFramebuffer();
                // glfwMakeContextCurrent(window);
 

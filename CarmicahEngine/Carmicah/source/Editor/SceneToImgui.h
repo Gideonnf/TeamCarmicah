@@ -23,7 +23,7 @@ namespace Carmicah
 	{
 	public:
 		GLuint FBO{};
-		//GLuint RBO{};
+		GLuint RBO{};
 		GLuint texture_id{};
 		GLuint picker_id{};
 		std::string currentScene{};
@@ -32,7 +32,7 @@ namespace Carmicah
 		void UnloadFramebuffer();
 		void BindFramebuffer();
 		void UnbindFramebuffer();
-		unsigned int IDPick();
+		unsigned int IDPick(const int& mouseX, const int& mouseY);
 		void RescaleFramebuffer(float width, float height);
 
 	};

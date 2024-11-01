@@ -54,8 +54,10 @@ namespace Carmicah
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glUseProgram(mCurrShader);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		// Just did discard instead, cuz this stopped working
+		//glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		// Needs RBO to depth test
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 
@@ -99,7 +101,7 @@ namespace Carmicah
 			//	glUniform1i(uniformLoc, 0);
 
 			if (UniformExists(mCurrShader, "uDepth", uniformLoc))
-				glUniform1f(uniformLoc, CalcDepth(transform.depth));
+				glUniform1f(uniformLoc, CalcDepth(transform.depth, RENDER_LAYERS::BASE_LAYER));
 
 			if (UniformExists(mCurrShader, "uID", uniformLoc))
 				glUniform1ui(uniformLoc, entity);

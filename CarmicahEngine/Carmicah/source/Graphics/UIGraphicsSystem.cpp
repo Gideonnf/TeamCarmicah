@@ -38,7 +38,7 @@ namespace Carmicah
 		SystemManager::GetInstance()->SetSignature<UIGraphicsSystem>(mSignature);
 		auto& shdrRef = AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.defaultShader);
 		mCurrShader = shdrRef.s;
-		screenMtx.scaleThis(1 / screenWidth, 1 / screenHeight);
+		screenMtx.translateThis(-1.f, -1.f).scaleThis(2 / screenWidth, 2 / screenHeight);
 	}
 
 	void UIGraphicsSystem::Render()
@@ -47,25 +47,24 @@ namespace Carmicah
 		if (mCurrShader == 0)
 			return;
 
-		// Set Uniforms
-		GLint uniformLoc{};
-		if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-			glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, screenMtx.m);
-
-
 		for (auto& entity : mEntitiesSet)
 		{
-			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
+			auto& transform = ComponentManager::GetInstance()->GetComponent<UITransform>(entity);
+
+			Mtx3x3f localSpace;
+			localSpace = screenMtx * Mtx3x3f::translate(transform.pos.x, transform.pos.y) * Mtx3x3f::scale(transform.scale.x, transform.scale.y);
 
 			// Get Components
 			Renderer& renderer = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
 			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(renderer.model) };
 
-			//if (UniformExists(mCurrShader, "uTex2d", uniformLoc)) // Only if multiple textures
-			//	glUniform1i(uniformLoc, 0);
+			// Set Uniforms
+			GLint uniformLoc{};
+			if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, localSpace.m);
 
 			if (UniformExists(mCurrShader, "uDepth", uniformLoc))
-				glUniform1f(uniformLoc, CalcDepth(transform.depth));
+				glUniform1f(uniformLoc, CalcDepth(transform.depth, RENDER_LAYERS::UI_LAYER));
 
 			if (UniformExists(mCurrShader, "uID", uniformLoc))
 				glUniform1ui(uniformLoc, entity);
