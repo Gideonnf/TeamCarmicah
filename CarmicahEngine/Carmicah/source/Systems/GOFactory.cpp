@@ -125,8 +125,9 @@ namespace Carmicah
 
 		if (AssetManager::GetInstance()->AssetExist<Prefab>(prefab))
 		{
+			Prefab& goPrefab = AssetManager::GetInstance()->GetAsset<Prefab>(prefab);
 			// Loop through the components within asset manager
-			for (auto& component : AssetManager::GetInstance()->GetAsset<Prefab>(prefab).mComponents)
+			for (auto& component : goPrefab.mComponents)
 			{
 				AttachComponents(newGO, component);
 				// Same if checks as component manager, but we're adding components here instead of deserializing
@@ -136,7 +137,14 @@ namespace Carmicah
 			UpdateParent(newGO.mID, sceneGO.sceneID);
 
 			// Now check for children
-			
+			// Has children
+			if (goPrefab.childList.size() > 0)
+			{
+				for (auto& it : goPrefab.childList)
+				{
+					CreatePrefabChild(std::any_cast<Prefab>(it), newGO.mID);
+				}
+			}
 		}
 		else
 		{
@@ -145,6 +153,34 @@ namespace Carmicah
 		}
 
 		return newGO;
+	}
+
+	void GOFactory::CreatePrefabChild(Prefab& prefab, Entity parentID)
+	{
+		GameObject newGO;
+		std::string goName = CreateGOName(prefab.mName);
+		newGO.mID = EntityManager::GetInstance()->CreateEntity();
+		newGO.mName = goName;
+		// Store in two maps. Testing use for fetching GO by name
+		mNameToID.insert(std::make_pair(newGO.mName, newGO.mID));
+		mIDToGO.insert(std::make_pair(newGO.mID, newGO));
+
+		for (auto& component : prefab.mComponents)
+		{
+			AttachComponents(newGO, component);
+		}
+
+		// Set the child to parent the original GO
+		UpdateParent(newGO.mID, parentID);
+
+		// If there is a child in this prefab also, then go through the process again
+		if (prefab.childList.size() > 0)
+		{
+			for (auto& it : prefab.childList)
+			{
+				CreatePrefabChild(std::any_cast<Prefab>(it), newGO.mID);
+			}
+		}
 	}
 
 	void GOFactory::CreateSceneObject(std::string sceneName)
