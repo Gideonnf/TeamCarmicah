@@ -139,7 +139,7 @@ namespace Carmicah
 				{
 					if (ImGui::Button(entry.first.c_str()))
 					{
-						GameObject newObj = gGOFactory->CreatePrefab(entry.first);
+						
 					}
 				}
 				ImGui::Unindent();

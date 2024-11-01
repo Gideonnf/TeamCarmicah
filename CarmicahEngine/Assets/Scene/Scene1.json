@@ -102,7 +102,7 @@
                     "Component Name": "struct Carmicah::TextRenderer",
                     "model": "Square",
                     "font": "comic",
-                    "text": "FPS: 27",
+                    "text": "FPS: 49",
                     "colorR": 1.0,
                     "colorG": 0.0,
                     "colorB": 0.0
@@ -212,7 +212,7 @@
                     "depth": 0.0,
                     "xScale": 0.5,
                     "yScale": 0.5,
-                    "rot": -171.23414611816407
+                    "rot": -32.95541763305664
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",
@@ -247,7 +247,7 @@
                     "depth": 0.0,
                     "xScale": 0.5,
                     "yScale": 0.5,
-                    "rot": -222.28469848632813
+                    "rot": -84.00611877441406
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",
@@ -290,49 +290,51 @@
                     "texture": "Duck"
                 }
             ],
-            "Children": []
-        },
-        {
-            "GameObject": "Duck3",
-            "ID": 12,
-            "Components": [
+            "Children": [
                 {
-                    "Component Name": "struct Carmicah::Transform",
-                    "xPos": 5.0,
-                    "yPos": 2.0,
-                    "depth": 0.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
-                    "rot": -125.0
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Circle",
-                    "texture": "Duck"
+                    "GameObject": "Duck3",
+                    "ID": 12,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 5.0,
+                            "yPos": 2.0,
+                            "depth": 0.0,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": -125.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Circle",
+                            "texture": "Duck"
+                        }
+                    ],
+                    "Children": [
+                        {
+                            "GameObject": "Duck4",
+                            "ID": 13,
+                            "Components": [
+                                {
+                                    "Component Name": "struct Carmicah::Transform",
+                                    "xPos": 4.0,
+                                    "yPos": 5.0,
+                                    "depth": 0.0,
+                                    "xScale": 3.0,
+                                    "yScale": 1.0,
+                                    "rot": -125.0
+                                },
+                                {
+                                    "Component Name": "struct Carmicah::Renderer",
+                                    "model": "Circle",
+                                    "texture": "Duck"
+                                }
+                            ],
+                            "Children": []
+                        }
+                    ]
                 }
-            ],
-            "Children": []
-        },
-        {
-            "GameObject": "Duck4",
-            "ID": 13,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::Transform",
-                    "xPos": 4.0,
-                    "yPos": 5.0,
-                    "depth": 0.0,
-                    "xScale": 3.0,
-                    "yScale": 1.0,
-                    "rot": -125.0
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Circle",
-                    "texture": "Duck"
-                }
-            ],
-            "Children": []
+            ]
         }
     ]
 }

@@ -39,6 +39,10 @@ namespace Carmicah
 		 */
 		void Update() override;
 
+		void GOTable(GameObject* go);
+
+		friend class HierarchyWindow;
+
 	};
 }
 
