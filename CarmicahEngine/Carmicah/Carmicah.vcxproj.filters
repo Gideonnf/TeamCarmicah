@@ -35,6 +35,9 @@
     <ClInclude Include="source\Components\BaseComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="source\Components\BaseTransform.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="source\Components\Collider2D.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="source\ECS\SystemManager.h">
       <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Editor\AssetWindow.h">
+      <Filter>Editor</Filter>
     </ClInclude>
     <ClInclude Include="source\Editor\DebugWindow.h">
       <Filter>Editor</Filter>
@@ -156,9 +162,11 @@
     <ClInclude Include="source\Systems\SoundSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
+    <ClInclude Include="source\Systems\TransformSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
     <ClInclude Include="source\log.h" />
     <ClInclude Include="source\pch.h" />
-    <ClInclude Include="source\Editor\AssetWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />
@@ -174,6 +182,9 @@
     </ClCompile>
     <ClCompile Include="source\ECS\SystemManager.cpp">
       <Filter>ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Editor\AssetWindow.cpp">
+      <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="source\Editor\DebugWindow.cpp">
       <Filter>Editor</Filter>
@@ -241,8 +252,10 @@
     <ClCompile Include="source\Systems\SoundSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
+    <ClCompile Include="source\Systems\TransformSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
     <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\pch.cpp" />
-    <ClCompile Include="source\Editor\AssetWindow.cpp" />
   </ItemGroup>
 </Project>
