@@ -134,6 +134,9 @@ namespace Carmicah
 
 			// Parent it to the scene on creation
 			UpdateParent(newGO.mID, sceneGO.sceneID);
+
+			// Now check for children
+			
 		}
 		else
 		{
@@ -490,7 +493,6 @@ namespace Carmicah
 		}
 
 	}
-
 #pragma endregion
 
 #pragma region Importing and Exporting

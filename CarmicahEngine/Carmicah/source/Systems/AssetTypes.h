@@ -66,6 +66,7 @@ namespace Carmicah
 		unsigned int mPrefabID;
 		std::string mName;
 		std::unordered_map<std::string, std::any> mComponents;
+		std::vector<std::any> childList;
 	};
 	struct Scene
 	{
