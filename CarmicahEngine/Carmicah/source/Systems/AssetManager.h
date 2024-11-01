@@ -24,11 +24,10 @@ DigiPen Institute of Technology is prohibited.
 #include <filesystem>
 #include <unordered_map>
 #include "Singleton.h"
-#include <any>
+#include "Systems/AssetTypes.h"
 
 namespace Carmicah
 {
-
 	// Only used for the map so that theres a base class that can be dynamic casted
 	class IAsset
 	{
@@ -44,66 +43,6 @@ namespace Carmicah
 		std::unordered_map<std::string, unsigned int> mAssetMap;
 	};
 
-#pragma region AssetStructs
-	struct Primitive
-	{
-		GLuint vaoid{};
-		GLuint vboid{};
-		GLenum drawMode{};
-		GLuint drawCnt{};
-	};
-	struct Shader
-	{
-		GLuint s;
-	};
-	struct Texture
-	{
-		GLuint t;
-		int width;
-		int height;
-		int bpt;
-
-		int xSlices;
-		int ySlices;
-	};
-	struct Font
-	{
-		struct FontChar
-		{
-			unsigned int texID, width, height;
-			int			 xBearing, yBearing;
-			long		 advance;
-			//std::array<
-		};
-
-		std::array<FontChar, 128> mFontMaps;
-	};
-	struct Audio
-	{
-		bool isLoop;
-		FMOD::Sound* sound;
-	};
-	struct Prefab
-	{
-		unsigned int mPrefabID;
-		std::string mName;
-		std::unordered_map<std::string, std::any> mComponents;
-	};
-	struct Scene
-	{
-		std::string sceneFile;
-	};
-	struct EngineConfig
-	{
-		int Width, Height, fontSize;
-		std::string defaultScene;
-		std::string lastScene;
-		std::string defaultShader;
-		std::string fontShader;
-		std::string assetLoc;
-	};
-#pragma endregion AssetStructs
-
 	class AssetManager : public Singleton<AssetManager>
 	{
 	public:
@@ -113,14 +52,8 @@ namespace Carmicah
 		void LoadAll(const char*);
 		void UnloadAll();
 
-		EngineConfig enConfig;
-		std::unordered_map<std::string, std::shared_ptr<IAsset>> mAssetTypeMap;
-		//std::unordered_map<std::string, GLuint> mShaderPgms{};
-		//std::unordered_map<std::string, Texture> mTextureMaps{};
-		//std::unordered_map<std::string, Primitive> mPrimitiveMaps{};
-		//std::unordered_map<std::string, std::string> mSceneFiles{};
-		//std::unordered_map<std::string, Prefab> mPrefabFiles{};
-		//std::unordered_map<std::string, std::array<Carmicah::FontChar, 128>> mFontMaps{};
+		EngineConfig enConfig{};
+		std::unordered_map<std::string, std::shared_ptr<IAsset>> mAssetTypeMap{};
 
 		FT_Library mFTLib;
 		//const unsigned int fontSize{ 36 };

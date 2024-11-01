@@ -13,23 +13,33 @@ DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #ifndef BASE_GRAPHICS_SYSTEM
 #define BASE_GRAPHICS_SYSTEM
-class BaseGraphicsSystem
-{
-protected:
-	/*
-	brief
-		Checks if uniform exists in the shader
-	param[shdr]
-		shader reference
-	param[str]
-		name to check
-	param[ref]
-		the uniform reference to return
-	return
-		if the check succeeded
-	*/
-	bool UniformExists(const GLuint& shdr, const char* str, GLint& ref);
 
-	float CalcDepth(const float& depth);
-};
+#include "Systems/AssetTypes.h"
+
+namespace Carmicah
+{
+	class BaseGraphicsSystem
+	{
+	protected:
+		GLuint mCurrShader{};
+
+		/*
+		brief
+			Checks if uniform exists in the shader
+		param[shdr]
+			shader reference
+		param[str]
+			name to check
+		param[ref]
+			the uniform reference to return
+		return
+			if the check succeeded
+		*/
+		bool UniformExists(const GLuint& shdr, const char* str, GLint& ref);
+
+		float CalcDepth(const float& depth);
+
+		void RenderPrimitive(const Primitive& p);
+	};
+}
 #endif

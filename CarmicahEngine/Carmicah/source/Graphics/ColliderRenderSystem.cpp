@@ -44,7 +44,7 @@ namespace Carmicah
 		{
 			auto& camera = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);
-			auto p{ AssetManager::GetInstance()->GetAsset<Primitive>(collider.shape)};\
+			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(collider.shape)};
 
 
 			Matrix3x3<float> trans{};
@@ -56,14 +56,7 @@ namespace Carmicah
 			if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, trans.m);
 
-			glBindVertexArray(p.vaoid);
-			switch (p.drawMode)
-			{
-			case GL_LINE_LOOP:
-				glLineWidth(2.f);
-				glDrawArrays(GL_LINE_LOOP, 0, p.drawCnt);
-				break;
-			}
+			RenderPrimitive(p);
 		}
 
 		glBindVertexArray(0);

@@ -16,6 +16,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/SerializerSystem.h"
 #include "log.h"
 #include "Systems/GOFactory.h"
+#include "AssetManager.h"
 
 namespace Carmicah
 {

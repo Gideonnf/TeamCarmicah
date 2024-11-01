@@ -23,7 +23,6 @@ namespace Carmicah
 	{
 	private:
 		const char* shaderName{ "debug" };
-		GLuint mCurrShader{};
 	public:
 		/*
 		brief

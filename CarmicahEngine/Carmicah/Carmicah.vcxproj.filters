@@ -119,6 +119,9 @@
     <ClInclude Include="source\Graphics\TextSystem.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="source\Graphics\UIGraphicsSystem.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="source\Input\InputSystem.h">
       <Filter>Input</Filter>
     </ClInclude>
@@ -139,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="source\Singleton.h" />
     <ClInclude Include="source\Systems\AssetManager.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Systems\AssetTypes.h">
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="source\Systems\CollisionSystem.h">
@@ -223,6 +229,9 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="source\Graphics\TextSystem.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Graphics\UIGraphicsSystem.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="source\Input\InputSystem.cpp">

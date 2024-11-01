@@ -1,43 +1,47 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:			RigidbodyRendererSystem.h
+ file:			UIGraphicsSystem.h
 
  author:		Won Yu Xuan Rainne(100%)
 
  email:			won.m@digipen.edu
 
- brief:			Rigidbody Render System handles rendering the rigidbody parts such as velocity of gameobjects with the rigidbody component
+ brief:			UI Graphics System handles the rendering of textured meshes onto the screen (using transform, screen reference, and texture matrix)
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
 DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-#ifndef RIGIDBODY_RENDERER_SYSTEM_H
-#define RIGIDBODY_RENDERER_SYSTEM_H
+#ifndef UI_GRAPHICS_SYSTEM_H
+#define UI_GRAPHICS_SYSTEM_H
 
 #include "ECS/BaseSystem.h"
 #include "Graphics/BaseGraphicsSystem.h"
+#include "Math/Matrix3x3.h"
 
 namespace Carmicah
 {
-	class RigidbodyRendererSystem : public BaseSystem, private BaseGraphicsSystem
+	class UIGraphicsSystem : public BaseSystem, private BaseGraphicsSystem
 	{
 	private:
-		const char* shaderName{ "debug" };
-		const char* modelName{ "DebugLine" };
+		Mtx3x3f screenMtx{};
+
 	public:
 		/*
 		brief
-			Sets which components the system references, and load the shader
+			Sets which components the system references, loads the shader, and calculates the screenMultiplcationMatrix
+		param[screenWidth]
+			Screen dimensions (width)
+		param[screenHeight]
+			Screen dimensions (height)
 		*/
-		void Init();
+		void Init(const float& screenWidth, const float& screenHeight);
 
 		/*
 		brief
-			Renders the Debug line of entities
-		param[cam]
-			camera dimensions and position to reference
+			Renders the objects based on screen position [0,0] -> (top left)
 		*/
-		void Render(Entity& cam);
+		void Render();
+
 	};
 }
 

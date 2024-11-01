@@ -21,7 +21,7 @@ DigiPen Institute of Technology is prohibited.
 #include <rapidjson/prettywriter.h>
 #include <rapidjson/filereadstream.h>
 #include "CarmicahCore.h"
-#include "AssetManager.h"
+#include "Systems/AssetTypes.h"
 
 
 //berif:         This class is a system

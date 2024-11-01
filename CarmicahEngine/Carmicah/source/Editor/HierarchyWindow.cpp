@@ -20,6 +20,7 @@ DigiPen Institute of Technology is prohibited.
 #include "EditorWindow.h"
 #include "HierarchyWindow.h"
 #include "Systems/GOFactory.h"
+#include "Systems/AssetManager.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"

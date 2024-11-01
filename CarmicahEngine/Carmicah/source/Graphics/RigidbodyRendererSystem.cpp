@@ -66,19 +66,11 @@ namespace Carmicah
 			trans.translateThis(transform.pos.x, transform.pos.y).rotRadThis(rot);
 			trans = camera.camSpace * trans;
 
-
 			GLint uniformLoc;
 			if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, trans.m);
 
-			glBindVertexArray(p.vaoid);
-			switch (p.drawMode)
-			{
-			case GL_LINE_LOOP:
-				glLineWidth(2.f);
-				glDrawArrays(GL_LINE_LOOP, 0, p.drawCnt);
-				break;
-			}
+			RenderPrimitive(p);
 		}
 
 		glBindVertexArray(0);

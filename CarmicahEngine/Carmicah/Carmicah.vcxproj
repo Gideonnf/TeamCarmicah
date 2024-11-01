@@ -146,6 +146,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="source\Graphics\GraphicsSystem.h" />
     <ClInclude Include="source\Graphics\RigidbodyRendererSystem.h" />
     <ClInclude Include="source\Graphics\TextSystem.h" />
+    <ClInclude Include="source\Graphics\UIGraphicsSystem.h" />
     <ClInclude Include="source\Input\InputSystem.h" />
     <ClInclude Include="source\Input\InputTypes.h" />
     <ClInclude Include="source\Math\Matrix3x3.h" />
@@ -154,6 +155,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="source\Messaging\Message.h" />
     <ClInclude Include="source\Singleton.h" />
     <ClInclude Include="source\Systems\AssetManager.h" />
+    <ClInclude Include="source\Systems\AssetTypes.h" />
     <ClInclude Include="source\Systems\CollisionSystem.h" />
     <ClInclude Include="source\Systems\GOFactory.h" />
     <ClInclude Include="source\Systems\GameLogic.h" />
@@ -186,6 +188,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClCompile Include="source\Graphics\GraphicsSystem.cpp" />
     <ClCompile Include="source\Graphics\RigidbodyRendererSystem.cpp" />
     <ClCompile Include="source\Graphics\TextSystem.cpp" />
+    <ClCompile Include="source\Graphics\UIGraphicsSystem.cpp" />
     <ClCompile Include="source\Input\InputSystem.cpp" />
     <ClCompile Include="source\Systems\AssetManager.cpp" />
     <ClCompile Include="source\Systems\CollisionSystem.cpp" />

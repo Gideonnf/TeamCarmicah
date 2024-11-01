@@ -22,6 +22,7 @@ DigiPen Institute of Technology is prohibited.
 #include "log.h"
 #include "Systems/SerializerSystem.h"
 #include "Math/Vec2.h"
+#include "Systems/AssetTypes.h"
 
 namespace Carmicah
 {
@@ -497,6 +498,9 @@ namespace Carmicah
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		for (unsigned char c = 0; c < 128; ++c)
 		{
+			// Unprintable 32 control characters
+			if (c < 32)
+				continue;
 			if (FT_Load_Char(fontFace, c, FT_LOAD_RENDER))
 			{
 				std::cerr << "Failed to load FreeType Glyph: " <<fontName << "(" << c << ")" << std::endl;
