@@ -67,7 +67,7 @@ namespace Carmicah
 		std::string mName;
 		std::unordered_map<std::string, std::any> mComponents;
 	
-		std::vector<std::any> childList;
+		std::vector<Prefab> childList;
 	};
 	struct Scene
 	{

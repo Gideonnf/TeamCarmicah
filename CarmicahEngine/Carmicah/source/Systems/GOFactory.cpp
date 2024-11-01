@@ -144,7 +144,7 @@ namespace Carmicah
 			{
 				for (auto& it : goPrefab.childList)
 				{
-					CreatePrefabChild(std::any_cast<Prefab>(it), newGO.mID);
+					CreatePrefabChild(it, newGO.mID);
 				}
 			}
 		}
@@ -181,7 +181,7 @@ namespace Carmicah
 		{
 			for (auto& it : prefab.childList)
 			{
-				CreatePrefabChild(std::any_cast<Prefab>(it), newGO.mID);
+				CreatePrefabChild(it, newGO.mID);
 			}
 		}
 	}
