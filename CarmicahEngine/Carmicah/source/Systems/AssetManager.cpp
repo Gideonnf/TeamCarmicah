@@ -511,6 +511,10 @@ namespace Carmicah
 
 			glCreateTextures(GL_TEXTURE_2D, 1, &fc.texID);
 			glTextureStorage2D(fc.texID, 1, GL_R8, fc.width, fc.height);
+			// RAINNE: Smthing going on here idk
+			// type = 0x33356, Severity = 0x37190
+			// message = GL_INVALID_VALUE error generated.
+			// <levels>, <width> and <height> must be 1 or greater.
 			glTextureSubImage2D(fc.texID, 0, 0, 0, fc.width, fc.height, GL_RED, GL_UNSIGNED_BYTE, fontFace->glyph->bitmap.buffer);
 
 			glTextureParameterf(fc.texID, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -520,7 +524,6 @@ namespace Carmicah
 
 			newFont[c] = std::move(fc);
 		}
-
 		Font fontObj;
 		fontObj.mFontMaps = std::move(newFont);
 		FT_Done_Face(fontFace);

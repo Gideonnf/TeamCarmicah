@@ -53,7 +53,7 @@ namespace Carmicah
 			trans = camera.camSpace * trans;
 
 			GLint uniformLoc;
-			if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
+			if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, trans.m);
 
 			glBindVertexArray(p.vaoid);

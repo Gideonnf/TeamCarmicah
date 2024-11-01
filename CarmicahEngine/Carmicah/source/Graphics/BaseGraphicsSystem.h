@@ -28,6 +28,8 @@ protected:
 	return
 		if the check succeeded
 	*/
-	bool uniformExists(const GLuint& shdr, const char* str, GLint& ref);
+	bool UniformExists(const GLuint& shdr, const char* str, GLint& ref);
+
+	float CalcDepth(const float& depth);
 };
 #endif
