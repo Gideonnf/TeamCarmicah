@@ -29,12 +29,13 @@ namespace Carmicah
         float lifetime;
         float age = 0.0f;
         bool isActive;
+        
+        LinearDirectionalForce(Vector2D<float> direction, float mag, float life, bool state)
+            : unitDirection(direction), magnitude(mag), lifetime(life), isActive(state) {}
 
         Vector2D<float> GetForceVector() const;
 
-        void SetLinearForce(std::vector<LinearDirectionalForce>& linearForceVect, Vector2D<float> unitDirectionVect, float magnitudeValue);
-
-        bool ActivateForce(bool state = true);
+        //bool ActivateForce(bool state);
 
         float SetLifeTime(float lifeTimeValue);
 

@@ -34,29 +34,15 @@ namespace Carmicah
 		return unitDirection * magnitude;
 	}
 
-	void LinearDirectionalForce::SetLinearForce(std::vector<LinearDirectionalForce>& linearForceVect, Vector2D<float> unitDirectionVect, float magnitudeValue)
-	{
-
-		LinearDirectionalForce linearForce;
-
-		linearForce.unitDirection = unitDirectionVect;
-
-		linearForce.magnitude = magnitudeValue;
-
-		linearForce.isActive = false;
-
-		linearForceVect.push_back(linearForce);
-	}
-
 	float LinearDirectionalForce::SetLifeTime(float lifeTimeValue) 
 	{
 		return this->lifetime = lifeTimeValue;
 	}
 
-	bool LinearDirectionalForce::ActivateForce(bool state)
+	/*bool LinearDirectionalForce::ActivateForce(bool state)
 	{
 		return isActive = state;
-	}
+	}*/
 
 	void LinearDirectionalForce::Update(float deltaTime)
 	{
@@ -64,30 +50,47 @@ namespace Carmicah
 
 		if (age >= lifetime)
 		{
+			age = 0.0f;
+			std::cout << "Force with " << unitDirection.x << ", " << unitDirection.y << std::endl;
 			isActive = false;
+			
 		}
 	}
 
 	void ForcesManager::AddLinearForce(LinearDirectionalForce& force) 
 	{
-		force.SetLifeTime(10.0f);
-		force.ActivateForce();
-		accumulatedForce += force.GetForceVector();
+		/*force.SetLifeTime(3.0f);
+		force.ActivateForce();*/
+
+		linearForces.push_back(force);
+
 	}
 
 	void ForcesManager::UpdateForces(float deltaTime)
 	{
 		//auto* componentManager = ComponentManager::GetInstance();
+
+		// Clear accumulated force before recalculating
+		accumulatedForce = { 0.0f, 0.0f };
+
 		for (auto& force : linearForces) 
 		{
 			if (force.isActive == true) 
 			{
 
 				force.Update(deltaTime);
+				
+				accumulatedForce += force.GetForceVector();
 
+			}
+			else 
+			{
+				//SetSumForces({ 0.0f,0.0f });
 			}
 
 		}
+
+		
 		
 	}
 

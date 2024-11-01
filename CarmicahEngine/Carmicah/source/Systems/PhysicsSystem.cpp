@@ -65,15 +65,44 @@ namespace Carmicah
 
 		float deltaTime = (float)CarmicahTimer::GetDt();
 
+		rigidbody.forcesManager.UpdateForces(deltaTime);
+
+
 		if (rigidbody.objectType == "Dynamic")
 		{
-			rigidbody.acceleration.x = rigidbody.forcesManager.GetSumForces().x * (1/rigidbody.mass) + rigidbody.gravity;
-			rigidbody.acceleration.y = rigidbody.forcesManager.GetSumForces().y * (1 / rigidbody.mass) + rigidbody.gravity;
+			transform.xPos = transform.xPos + rigidbody.velocity.x * deltaTime;
+			transform.yPos = transform.yPos + rigidbody.velocity.y * deltaTime;
 
-			rigidbody.velocity.y += rigidbody.acceleration.y * deltaTime;
+			Vector2D<float> sumForces = rigidbody.forcesManager.GetSumForces();
 
-			transform.xPos += rigidbody.velocity.x * deltaTime;
-			transform.yPos += rigidbody.velocity.y * deltaTime;
+
+
+			// Apply damping when there are no active forces
+			const float dampingFactor = 0.99f; // Adjust as necessary
+			const float maxVelocity = 50.0f;
+
+			if (sumForces.x == 0 && sumForces.y == 0)
+			{
+
+				rigidbody.velocity.x *= dampingFactor;
+				rigidbody.velocity.y *= dampingFactor;
+
+			}
+
+
+			rigidbody.acceleration.x = sumForces.x * (1/rigidbody.mass) + rigidbody.gravity;
+			rigidbody.acceleration.y = sumForces.y * (1 / rigidbody.mass) + rigidbody.gravity;
+
+			rigidbody.velocity.x = rigidbody.velocity.x + rigidbody.acceleration.x * deltaTime;
+
+			rigidbody.velocity.y = rigidbody.velocity.y + rigidbody.acceleration.y * deltaTime;
+
+			if (Vector2DDotProduct(rigidbody.velocity, rigidbody.velocity) > 50.0f * 50.0f)
+			{
+				Vector2DNormalize(rigidbody.velocity, rigidbody.velocity);
+				rigidbody.velocity = rigidbody.velocity * (50.0f * 50.0f);
+			}
+
 
 			if (rigidbody.velocity.x > 0) 
 			{
@@ -123,8 +152,6 @@ namespace Carmicah
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
 
 		SystemManager::GetInstance()->SetSignature<PhysicsSystem>(mSignature);
-
-
 
 	}
 

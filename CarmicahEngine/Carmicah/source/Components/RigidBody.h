@@ -46,6 +46,7 @@ namespace Carmicah
             velocity.y = static_cast<float>(component["velocityY"].GetDouble());
             posPrev.x = static_cast<float>(component["posPrevX"].GetDouble());
             posPrev.y = static_cast<float>(component["posPrevY"].GetDouble());
+            mass = static_cast<float>(component["mass"].GetDouble());
             gravity = static_cast<float>(component["gravity"].GetDouble());
             zposPrev = static_cast<float>(component["zposPrev"].GetDouble());
             objectType = (component["objectType"].GetString());
@@ -62,6 +63,8 @@ namespace Carmicah
 			writer.Double(posPrev.x);
 			writer.String("posPrevY");
 			writer.Double(posPrev.y);
+            writer.String("mass");
+            writer.Double(mass);
             writer.String("gravity");
             writer.Double(gravity);
 			writer.String("zposPrev");

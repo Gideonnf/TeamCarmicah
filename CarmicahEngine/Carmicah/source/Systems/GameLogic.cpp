@@ -41,6 +41,19 @@ namespace Carmicah
 
         gGOFactory->FetchGO("mainCharacter", mainCharacter);
 
+        gGOFactory->FetchGO("GameObject2", GameObject2);
+
+            LinearDirectionalForce upForce({ 0.0f,-1.0f }, 2.0f, 3.0f, false);
+            LinearDirectionalForce downForce({ 0.0f,1.0f }, 2.0f, 3.0f, false);
+            LinearDirectionalForce rightForce({ 1.0f,0.0f }, 1.0f, 2.0f, true);
+            LinearDirectionalForce leftForce({ -1.0f,0.0f }, 2.0f, 3.0f, false);
+
+            GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(upForce);
+            GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(downForce);
+            GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(rightForce);
+            GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(leftForce);
+
+
         //wall = gGOFactory->FetchGO("wall");
 
         gGOFactory->FetchGO("FPSText", FPSText);
