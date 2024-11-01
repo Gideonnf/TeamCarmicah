@@ -18,6 +18,7 @@ DigiPen Institute of Technology is prohibited.
 
 #include <Math/Vec2.h>
 #include <string>
+#include <vector>
 #include "BaseComponent.h"
 
 namespace Carmicah
@@ -75,8 +76,8 @@ namespace Carmicah
 
     struct Forces : BaseComponent<Forces>
     {
-        DragForce dragForce;
-        LinearDirectionalForce linearForce;
+        std::vector<DragForce> dragForce;
+        std::vector<LinearDirectionalForce> linearForce;
 
         Forces& DeserializeComponent(const rapidjson::Value& component) override
         {

@@ -34,7 +34,7 @@ namespace Carmicah
 
         float gravity;
 
-        ForceManager forcesManager;
+        ForcesManager forcesManager;
 
         float zposPrev;
 

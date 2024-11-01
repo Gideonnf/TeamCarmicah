@@ -67,7 +67,7 @@ namespace Carmicah
 
 		if (rigidbody.objectType == "Dynamic")
 		{
-
+			rigidbody.acceleration = 
 			rigidbody.velocity.y += rigidbody.gravity * deltaTime;
 
 			transform.xPos += rigidbody.velocity.x * deltaTime;
