@@ -16,7 +16,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Graphics/BaseGraphicsSystem.h"
 #include "log.h"
 
-bool BaseGraphicsSystem::uniformExists(const GLuint& shdr, const char* str, GLint& ref)
+bool BaseGraphicsSystem::UniformExists(const GLuint& shdr, const char* str, GLint& ref)
 {
 	ref = glGetUniformLocation(shdr, str);
 	if (ref >= 0)
@@ -27,4 +27,10 @@ bool BaseGraphicsSystem::uniformExists(const GLuint& shdr, const char* str, GLin
 	CM_CORE_ERROR(ss.str());
 
 	return false;
+}
+
+float BaseGraphicsSystem::CalcDepth(const float& depth)
+{
+	const float furtherstDepth{ -100.f }, nearestDepth{ 100.f };
+	return -(depth + nearestDepth) / (nearestDepth - furtherstDepth);
 }

@@ -74,6 +74,9 @@
     <ClInclude Include="source\ECS\SystemManager.h">
       <Filter>ECS</Filter>
     </ClInclude>
+    <ClInclude Include="source\Editor\AssetWindow.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
     <ClInclude Include="source\Editor\DebugWindow.h">
       <Filter>Editor</Filter>
     </ClInclude>
@@ -84,6 +87,9 @@
       <Filter>Editor</Filter>
     </ClInclude>
     <ClInclude Include="source\Editor\HierarchyWindow.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Editor\InspectorWindow.h">
       <Filter>Editor</Filter>
     </ClInclude>
     <ClInclude Include="source\Editor\SceneToImgui.h">
@@ -155,6 +161,7 @@
     </ClInclude>
     <ClInclude Include="source\log.h" />
     <ClInclude Include="source\pch.h" />
+    <ClInclude Include="source\Components\BaseTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />
@@ -171,6 +178,9 @@
     <ClCompile Include="source\ECS\SystemManager.cpp">
       <Filter>ECS</Filter>
     </ClCompile>
+    <ClCompile Include="source\Editor\AssetWindow.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
     <ClCompile Include="source\Editor\DebugWindow.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
@@ -181,6 +191,9 @@
       <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="source\Editor\HierarchyWindow.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Editor\InspectorWindow.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="source\Editor\SceneToImgui.cpp">

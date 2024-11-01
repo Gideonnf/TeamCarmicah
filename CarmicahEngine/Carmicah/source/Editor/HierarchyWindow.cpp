@@ -31,7 +31,7 @@ namespace Carmicah
 {
 	HierarchyWindow::HierarchyWindow() : EditorWindow("Hierarchy", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
 	std::vector<GameObject> createdList;
-	static GameObject* selectedGO;
+	GameObject* HierarchyWindow::selectedGO = nullptr;
 
 	void HierarchyWindow::Update()
 	{
@@ -51,6 +51,7 @@ namespace Carmicah
 					});
 				ImGui::EndChild();
 			}
+#if 0
 			if (selectedGO != nullptr)
 			{
 				ImGui::Text("Selected Game Object: %s", selectedGO->GetName().c_str());
@@ -71,39 +72,39 @@ namespace Carmicah
 						ImGui::TableNextColumn();
 						ImGui::Text("xPos");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##xPos", &selectedTransform.xPos);
+						ImGui::DragFloat("##xPos", &selectedTransform.pos.x,0.05f,-FLT_MAX,FLT_MAX,"%.3f");
 
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("yPos");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##yPos", &selectedTransform.yPos);
+						ImGui::DragFloat("##yPos", &selectedTransform.pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("zPos");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##zPos", &selectedTransform.zPos);
+						ImGui::DragFloat("##zPos", &selectedTransform.depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 						// Rotation
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("Rotation");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##rot", &selectedTransform.rot);
+						ImGui::DragFloat("##rot", &selectedTransform.rot, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 						// Scale (xScale, yScale)
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("xScale");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##xScale", &selectedTransform.xScale);
+						ImGui::DragFloat("##xScale", &selectedTransform.scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("yScale");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##yScale", &selectedTransform.yScale);
+						ImGui::DragFloat("##yScale", &selectedTransform.scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 					}
 					ImGui::EndTable();
 				}
@@ -123,26 +124,26 @@ namespace Carmicah
 						ImGui::TableNextColumn();
 						ImGui::Text("xPos");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##xPos", &selectedUITransform.xPos);
+						ImGui::InputFloat("##xPos", &selectedUITransform.pos.x);
 
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("yPos");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##yPos", &selectedUITransform.yPos);
+						ImGui::InputFloat("##yPos", &selectedUITransform.pos.y);
 
 						// Scale (xScale, yScale)
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("xScale");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##xScale", &selectedUITransform.xScale);
+						ImGui::InputFloat("##xScale", &selectedUITransform.scale.x);
 
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("yScale");
 						ImGui::TableNextColumn();
-						ImGui::InputFloat("##yScale", &selectedUITransform.yScale);
+						ImGui::InputFloat("##yScale", &selectedUITransform.scale.y);
 
 						//ImGui::TableNextRow();
 						//ImGui::TableNextColumn();
@@ -178,7 +179,7 @@ namespace Carmicah
 					selectedGO = nullptr;
 				}
 			}
-
+#endif
 			static char goName[256] = "Duck";
 			ImGui::Text("Game Object Name: ");
 			ImGui::SameLine();
@@ -188,7 +189,7 @@ namespace Carmicah
 			{
 				//static std::string name(goName);
 				GameObject newObj = gGOFactory->CreatePrefab(goName);
-				newObj.GetComponent<Transform>().xPos += 2.0;
+				newObj.GetComponent<Transform>().pos.x += 2.0;
 				//newObj.AddComponent<Transform>(playerTrans);
 				////newObj.AddComponent<Collider2D>(playerCollider);
 				//newObj.AddComponent<Renderer>(toRender);
@@ -207,8 +208,8 @@ namespace Carmicah
 					float random_yPos = distrib(gen);
 					float random_rot = rotDistrib(gen);
 
-					newObj.GetComponent<Transform>().xPos = random_xPos;
-					newObj.GetComponent<Transform>().yPos = random_yPos;
+					newObj.GetComponent<Transform>().pos.x = random_xPos;
+					newObj.GetComponent<Transform>().pos.y = random_yPos;
 					newObj.GetComponent<Transform>().rot = random_rot;
 
 					createdList.push_back(newObj);

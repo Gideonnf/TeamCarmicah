@@ -20,6 +20,7 @@ DigiPen Institute of Technology is prohibited.
 #include "EditorWindow.h"
 #include "SceneWindow.h"
 #include "SceneToImgui.h"
+#include "Input/InputSystem.h"
 
 namespace Carmicah
 {
@@ -32,7 +33,7 @@ namespace Carmicah
 			const float windowWidth = ImGui::GetContentRegionAvail().x;
 			const float windowHeight = ImGui::GetContentRegionAvail().y;
 
-			SceneToImgui::GetInstance()->rescale_framebuffer(windowWidth, windowHeight);
+			SceneToImgui::GetInstance()->RescaleFramebuffer(windowWidth, windowHeight);
 			glViewport(0, 0, (GLsizei)windowWidth, (GLsizei)windowHeight);
 
 			ImVec2 pos = ImGui::GetCursorScreenPos();

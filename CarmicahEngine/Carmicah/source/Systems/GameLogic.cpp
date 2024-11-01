@@ -44,7 +44,7 @@ namespace Carmicah
         //wall = gGOFactory->FetchGO("wall");
 
         gGOFactory->FetchGO("FPSText", FPSText);
-        //FPSText.GetComponent<UITransform>().yPos = (float)AssetManager::GetInstance()->enConfig.Height;
+        //FPSText.GetComponent<UITransform>().pos.y = (float)AssetManager::GetInstance()->enConfig.Height;
     }
 
 	void GameLogic::Update(GLFWwindow* window)
@@ -60,8 +60,8 @@ namespace Carmicah
         }
         if (Input.IsKeyPressed(Keys::KEY_C) && mainCharacter.IsActive())
         {
-            mainCharacter.GetComponent<Transform>().xScale += 2.0f * (float)CarmicahTimer::GetDt();
-            mainCharacter.GetComponent<Transform>().yScale += 2.0f * (float)CarmicahTimer::GetDt();
+            mainCharacter.GetComponent<Transform>().scale.x += 2.0f * (float)CarmicahTimer::GetDt();
+            mainCharacter.GetComponent<Transform>().scale.y += 2.0f * (float)CarmicahTimer::GetDt();
 
             //SystemManager::GetInstance()->ChangeScene("Scene2");
         }

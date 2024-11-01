@@ -1,52 +1,48 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:			HierarchyWindow.h
+ file:			InspectorWindow.h
 
  author:		Nicholas Lai (100%)
  co-author(s):
 
  email:			n.lai@digipen.edu
 
- brief:			This HierarchyWindow class is a derived class from EditorWindow.
-				It currently provides an list of GameObjects, and has a button that allows for the creation of new GameObjects.
+ brief:
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
 DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-#ifndef HEIRARCHYWINDOW_H_
-#define HEIRARCHYWINDOW_H_
+#ifndef ASSETWINDOW_H_
+#define ASSETWINDOW_H_
 
 #include <GLFW/glfw3.h>
 #include <ImGUI/imgui.h>
 #include "EditorWindow.h"
 #include "ECS/GameObject.h"
 
+
 namespace Carmicah
 {
-	class HierarchyWindow : public EditorWindow
+	class AssetWindow : public EditorWindow
 	{
 	private:
-	
+
 	public:
-		static GameObject* selectedGO;
 		/**
-		 * @brief Construct a new Hierarchy Window object
-		 * 
+		 * @brief Construct a new Asset Window object
+		 *
 		 */
-		HierarchyWindow();
+		AssetWindow();
+		
 		/**
 		 * @brief Update function override from EditorWindow
-		 * 
+		 *
 		 */
 		void Update() override;
-		/**
-		 * @brief Tells when an entity is destroyed.
-		 * 
-		 * @param id 
-		 */
-		void EntityDestroyed(Entity id) override;
 
 	};
 }
+
+
 
 #endif

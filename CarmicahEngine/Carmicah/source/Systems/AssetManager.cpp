@@ -16,13 +16,13 @@ DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <stb/stb_image.h>
 #include "AssetManager.h"
 #include "Systems/SoundSystem.h"
 #include "log.h"
 #include "Systems/SerializerSystem.h"
+#include "Math/Vec2.h"
+
 namespace Carmicah
 {
 	void AssetManager::LoadConfig(const std::string& configPath)
@@ -38,7 +38,8 @@ namespace Carmicah
 	{
 		std::filesystem::path directoryPath = assetPath;
 
-		mTextureMaps.insert(std::make_pair("", Texture{})); // Sets No Texture
+		//mTextureMaps.insert(std::make_pair("", Texture{})); // Sets No Texture
+		//AddAsset("", Texture{}); // Sets no texture
 
 		InitSound();
 		InitFontType();
@@ -91,7 +92,9 @@ namespace Carmicah
 						{
 						//	std::cout << entry.path().string() << std::endl;
 							//std::cout << fileName << std::endl;
-							mSceneFiles.insert(std::make_pair(fileName, entry.path().string()));
+							Scene newScene{ entry.path().string() };
+							AddAsset<Scene>(fileName, newScene);
+							//mSceneFiles.insert(std::make_pair(fileName, entry.path().string()));
 						}
 						else if (folderName == "Shaders")
 						{
@@ -108,7 +111,8 @@ namespace Carmicah
 						else if (folderName == "Prefabs")
 						{
 							Prefab goPrefab = Serializer.DeserializePrefab(entry.path().string());
-							mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
+							AddAsset<Prefab>(fileName, goPrefab);
+							//mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
 						}
 					}
 				}
@@ -121,18 +125,39 @@ namespace Carmicah
 	void AssetManager::UnloadAll()
 	{
 		// Unload Graphics
-		for (const auto& i : mTextureMaps)
-			glDeleteTextures(1, &i.second.t);
-		for (const auto& i : mPrimitiveMaps)
+		for (const auto& i : GetAssetMap<Texture>()->mAssetList)
 		{
-			glDeleteVertexArrays(1, &i.second.vaoid);
-			glDeleteBuffers(1, &i.second.vboid);
+			glDeleteTextures(1, &i.t);
 		}
-		for (const auto& i : mShaderPgms)
-			glDeleteProgram(i.second);
-		mTextureMaps.clear();
-		mPrimitiveMaps.clear();
-		mShaderPgms.clear();
+		GetAssetMap<Texture>()->mAssetMap.clear();
+		// Delete primitives
+		for (const auto& i : GetAssetMap<Primitive>()->mAssetList)
+		{
+			glDeleteVertexArrays(1, &i.vaoid);
+			glDeleteBuffers(1, &i.vboid);
+		}
+		GetAssetMap<Primitive>()->mAssetMap.clear();
+
+		// Delete Shaders
+		for (const auto& i : GetAssetMap<Shader>()->mAssetList)
+		{
+			glDeleteProgram(i.s);
+		}
+		GetAssetMap<Shader>()->mAssetMap.clear();
+
+		// TODO: Delete textures
+		//for (const auto& i : mTextureMaps)
+		//	glDeleteTextures(1, &i.second.t);
+		//for (const auto& i : mPrimitiveMaps)
+		//{
+		//	glDeleteVertexArrays(1, &i.second.vaoid);
+		//	glDeleteBuffers(1, &i.second.vboid);
+		//}
+		//for (const auto& i : mShaderPgms)
+		//	glDeleteProgram(i.second);
+		//mTextureMaps.clear();
+		//mPrimitiveMaps.clear();
+		//mShaderPgms.clear();
 		FT_Done_FreeType(mFTLib);
 
 		// Unload Sound
@@ -143,27 +168,18 @@ namespace Carmicah
 	}
 
 
-	//bool AssetManager::TryGetPrimitive(Primitive& p, const std::string& s)
-	//{
-	//	auto& temp = primitiveMaps.find(s);
-	//	if (temp != primitiveMaps.end())
-	//	{
-	//		p = temp->second;
-	//		return true;
-	//	}
-	//	return false;
-	//}
 	// Load Functions
 	GLuint AssetManager::LoadShader(const std::string& shaderName, const std::string& vertFile, const std::string& fragFile)
 	{
 		// Shader Exists
-		auto foundShader = mShaderPgms.find(shaderName);
-		if (foundShader != mShaderPgms.end())
+		if (AssetExist<Shader>(shaderName))
 		{
+			// TODO: Change to CM error logger thing
 			std::cerr << "Shader:" << shaderName << " Already Exists";
-			return foundShader->second;
+			auto foundShader = GetAsset<Shader>(shaderName).s;
+			return foundShader;
+			//	return foundShader->second;
 		}
-
 		std::ifstream vertShaderFile(vertFile, std::ios::binary);
 		if (!vertShaderFile)
 		{
@@ -244,8 +260,11 @@ namespace Carmicah
 		}
 		glDeleteShader(vertShader);
 		glDeleteShader(fragShader);
+		Shader newShader;
+		newShader.s = shader;
 
-		mShaderPgms.insert(std::make_pair(shaderName, shader));
+		AddAsset(shaderName, newShader);
+		//mShaderPgms.insert(std::make_pair(shaderName, shader));
 		return shader;
 	}
 
@@ -262,9 +281,10 @@ namespace Carmicah
 	*/
 	void AssetManager::LoadObject(const std::string& objName, const std::string& modelFile)
 	{
-		auto foundObj = mPrimitiveMaps.find(objName);
-		if (foundObj != mPrimitiveMaps.end())
+
+		if (AssetExist<Primitive>(objName))
 		{
+			// TODO: Change to CM error logger thing
 			std::cerr << "Object:" << objName << " Already Exists";
 			return;
 		}
@@ -285,8 +305,8 @@ namespace Carmicah
 			return;
 		}
 
-		std::vector<glm::vec2> vtx;
-		std::vector<glm::vec2> texCoord;
+		std::vector<Vec2f> vtx;
+		std::vector<Vec2f> texCoord;
 		std::vector<GLushort> idx;
 
 		vtx.reserve(numVert);
@@ -296,12 +316,12 @@ namespace Carmicah
 		for (unsigned int i{}; i < numVert; ++i)
 		{
 			ifs >> v1 >> v2;
-			vtx.emplace_back(glm::vec2{ v1, v2 });
+			vtx.emplace_back(Vec2f{ v1, v2 });
 		}
 		for (unsigned int i{}; i < numVert; ++i)
 		{
 			ifs >> v1 >> v2;
-			texCoord.emplace_back(glm::vec2{ v1, v2 });
+			texCoord.emplace_back(Vec2f{ v1, v2 });
 		}
 		// Only save index when following Triangle method
 		if (p.drawMode == GL_TRIANGLES)
@@ -315,7 +335,7 @@ namespace Carmicah
 		}
 		ifs.close();
 
-		unsigned int sizeofVtxArray = numVert * sizeof(glm::vec2);
+		unsigned int sizeofVtxArray = numVert * sizeof(Vec2f);
 
 		glCreateBuffers(1, &p.vboid);
 		glNamedBufferStorage(p.vboid, sizeofVtxArray * 2, nullptr, GL_DYNAMIC_STORAGE_BIT);
@@ -326,13 +346,13 @@ namespace Carmicah
 		glCreateVertexArrays(1, &p.vaoid);
 		glEnableVertexArrayAttrib(p.vaoid, 0); // VAO's vertex attribute index is 0 (vert)
 		glVertexArrayVertexBuffer(p.vaoid, 0, // vertex buffer binding point
-			p.vboid, 0, sizeof(glm::vec2));
+			p.vboid, 0, sizeof(Vec2f));
 		glVertexArrayAttribFormat(p.vaoid, 0, 2, GL_FLOAT, GL_FALSE, 0);
 		glVertexArrayAttribBinding(p.vaoid, 0, 0);
 
 		// Texture
 		glEnableVertexArrayAttrib(p.vaoid, 1);
-		glVertexArrayVertexBuffer(p.vaoid, 1, p.vboid, sizeofVtxArray, sizeof(glm::vec2));
+		glVertexArrayVertexBuffer(p.vaoid, 1, p.vboid, sizeofVtxArray, sizeof(Vec2f));
 		glVertexArrayAttribFormat(p.vaoid, 1, 2, GL_FLOAT, GL_FALSE, 0);
 		glVertexArrayAttribBinding(p.vaoid, 1, 1);
 
@@ -345,8 +365,8 @@ namespace Carmicah
 			glVertexArrayElementBuffer(p.vaoid, eboid);
 		}
 		//glBindVertexArray(0);
-
-		mPrimitiveMaps.insert(std::make_pair(objName, p));
+		//mPrimitiveMaps.insert(std::make_pair(objName, p));
+		AddAsset(objName, p);
 	}
 
 	/*
@@ -359,12 +379,13 @@ namespace Carmicah
 	*/
 	void AssetManager::LoadDebugObject(const std::string& objName, const std::string& modelFile)
 	{
-		auto foundObj = mPrimitiveMaps.find(objName);
-		if (foundObj != mPrimitiveMaps.end())
+		if (AssetExist<Primitive>(objName))
 		{
+			// TODO: Change to CM error logger thing
 			std::cerr << "Object:" << objName << " Already Exists";
 			return;
 		}
+
 
 		std::ifstream ifs(modelFile, std::ios::binary);
 		if (!ifs)
@@ -381,18 +402,18 @@ namespace Carmicah
 			return;
 		}
 
-		std::vector<glm::vec2> vtx;
+		std::vector<Vec2f> vtx;
 
 		vtx.reserve(p.drawCnt);
 		float v1, v2;
 		for (unsigned int i{}; i < p.drawCnt; ++i)
 		{
 			ifs >> v1 >> v2;
-			vtx.emplace_back(glm::vec2{ v1, v2 });
+			vtx.emplace_back(Vec2f{ v1, v2 });
 		}
 		ifs.close();
 
-		unsigned int sizeofVtxArray = p.drawCnt * sizeof(glm::vec2);
+		unsigned int sizeofVtxArray = p.drawCnt * sizeof(Vec2f);
 
 		glCreateBuffers(1, &p.vboid);
 		glNamedBufferStorage(p.vboid, sizeofVtxArray, vtx.data(), GL_DYNAMIC_STORAGE_BIT);
@@ -401,17 +422,17 @@ namespace Carmicah
 		glCreateVertexArrays(1, &p.vaoid);
 		glEnableVertexArrayAttrib(p.vaoid, 0); // VAO's vertex attribute index is 0 (vert)
 		glVertexArrayVertexBuffer(p.vaoid, 0, // vertex buffer binding point
-			p.vboid, 0, sizeof(glm::vec2));
+			p.vboid, 0, sizeof(Vec2f));
 		glVertexArrayAttribFormat(p.vaoid, 0, 2, GL_FLOAT, GL_FALSE, 0);
 		glVertexArrayAttribBinding(p.vaoid, 0, 0);
 
-		mPrimitiveMaps.insert(std::make_pair(objName, p));
+		//mPrimitiveMaps.insert(std::make_pair(objName, p));
+		AddAsset(objName, p);
 	}
 
 	void AssetManager::LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile)
 	{
-		auto foundTexture = mTextureMaps.find(textureName);
-		if (foundTexture != mTextureMaps.end())
+		if (AssetExist<Texture>(textureName))
 		{
 			std::cerr << "Texture:" << textureName << " Already Exists";
 			return;
@@ -441,7 +462,8 @@ namespace Carmicah
 		glTextureSubImage2D(texture.t, 0, 0, 0, texture.width, texture.height, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		stbi_image_free(data);
 		//glPixelStorei(GL_UNPACK_ALIGNMENT, ); if width * bpt is not multiple of 4
-		mTextureMaps.insert(std::make_pair(textureName, texture));
+		//mTextureMaps.insert(std::make_pair(textureName, texture));
+		AddAsset(textureName, texture);
 	}
 
 	void AssetManager::InitFontType()
@@ -455,14 +477,14 @@ namespace Carmicah
 
 	void AssetManager::LoadFont(const std::string& fontName, const std::string& fontLoc, const unsigned int& fontHeight)
 	{
-		auto foundFontTex = mFontMaps.find(fontName);
-		if (foundFontTex != mFontMaps.end())
+		if (AssetExist<Font>(fontName))
 		{
+			// TODO: Change to CM Error
 			std::cerr << "Font: " << fontName << " Already Exists";
 			return;
 		}
 
-		std::array<Carmicah::FontChar, 128> newFont;
+		std::array<Font::FontChar, 128> newFont;
 
 		FT_Face fontFace;
 		if (FT_New_Face(mFTLib, fontLoc.c_str(), 0, &fontFace))
@@ -480,7 +502,7 @@ namespace Carmicah
 				std::cerr << "Failed to load FreeType Glyph: " <<fontName << "(" << c << ")" << std::endl;
 				continue;
 			}
-			Carmicah::FontChar fc;
+			Font::FontChar fc;
 			fc.width = fontFace->glyph->bitmap.width;
 			fc.height = fontFace->glyph->bitmap.rows;
 			fc.xBearing = fontFace->glyph->bitmap_left;
@@ -489,6 +511,10 @@ namespace Carmicah
 
 			glCreateTextures(GL_TEXTURE_2D, 1, &fc.texID);
 			glTextureStorage2D(fc.texID, 1, GL_R8, fc.width, fc.height);
+			// RAINNE: Smthing going on here idk
+			// type = 0x33356, Severity = 0x37190
+			// message = GL_INVALID_VALUE error generated.
+			// <levels>, <width> and <height> must be 1 or greater.
 			glTextureSubImage2D(fc.texID, 0, 0, 0, fc.width, fc.height, GL_RED, GL_UNSIGNED_BYTE, fontFace->glyph->bitmap.buffer);
 
 			glTextureParameterf(fc.texID, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -498,10 +524,12 @@ namespace Carmicah
 
 			newFont[c] = std::move(fc);
 		}
-
+		Font fontObj;
+		fontObj.mFontMaps = std::move(newFont);
 		FT_Done_Face(fontFace);
-
-		mFontMaps.insert(std::make_pair(fontName, std::move(newFont)));
+		//mFontMaps.insert(std::make_pair(fontName, std::move(newFont)));
+		// TODO: change to use move
+		AddAsset(fontName, fontObj);
 	}
 
 
@@ -585,11 +613,16 @@ namespace Carmicah
 
 	bool AssetManager::GetScene(std::string scene, std::string& filePath)
 	{
-		if (mSceneFiles.count(scene) != 0)
+		if (AssetExist<Scene>(scene))
 		{
-			filePath = mSceneFiles[scene];
+			filePath = GetAsset<Scene>(scene).sceneFile;
 			return true;
 		}
+		//if (mSceneFiles.count(scene) != 0)
+		//{
+		//	filePath = mSceneFiles[scene];
+		//	return true;
+		//}
 		else
 		{
 			CM_CORE_ERROR("Scene not found");

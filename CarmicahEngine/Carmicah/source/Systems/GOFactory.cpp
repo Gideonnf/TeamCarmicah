@@ -108,10 +108,10 @@ namespace Carmicah
 	GameObject GOFactory::CreatePrefab(std::string prefab)
 	{
 		GameObject newGO = CreateGO(prefab);
-		if (AssetManager::GetInstance()->mPrefabFiles.count(prefab) > 0)
+		if (AssetManager::GetInstance()->AssetExist<Prefab>(prefab))
 		{
 			// Loop through the components within asset manager
-			for (auto& component : AssetManager::GetInstance()->mPrefabFiles[prefab].mComponents)
+			for (auto& component : AssetManager::GetInstance()->GetAsset<Prefab>(prefab).mComponents)
 			{
 				AttachComponents(newGO, component);
 				// Same if checks as component manager, but we're adding components here instead of deserializing
@@ -122,6 +122,21 @@ namespace Carmicah
 			//TODO: Decide if this should assert or give an error warning and return an empty GO instead
 			assert("Prefab does not exist");
 		}
+
+		//if (AssetManager::GetInstance()->mPrefabFiles.count(prefab) > 0)
+		//{
+		//	// Loop through the components within asset manager
+		//	for (auto& component : AssetManager::GetInstance()->mPrefabFiles[prefab].mComponents)
+		//	{
+		//		AttachComponents(newGO, component);
+		//		// Same if checks as component manager, but we're adding components here instead of deserializing
+		//	}
+		//}
+		//else
+		//{
+		//	//TODO: Decide if this should assert or give an error warning and return an empty GO instead
+		//	assert("Prefab does not exist");
+		//}
 
 		return newGO;
 	}

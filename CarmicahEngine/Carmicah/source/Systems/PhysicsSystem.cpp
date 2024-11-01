@@ -41,10 +41,10 @@ namespace Carmicah
 		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
 		auto& transform = componentManager->GetComponent<Transform>(obj);
 
-		rigidbody.posPrev.x = transform.xPos;
-		rigidbody.posPrev.y = transform.yPos;
+		rigidbody.posPrev.x = transform.pos.x;
+		rigidbody.posPrev.y = transform.pos.y;
 
-		rigidbody.zposPrev = transform.zPos;
+		rigidbody.zposPrev = transform.depth;
 	}
 
 	/**
@@ -69,8 +69,8 @@ namespace Carmicah
 
 			rigidbody.velocity.y += rigidbody.gravity * deltaTime;
 
-			transform.xPos += rigidbody.velocity.x * deltaTime;
-			transform.yPos += rigidbody.velocity.y * deltaTime;
+			transform.pos.x += rigidbody.velocity.x * deltaTime;
+			transform.pos.y += rigidbody.velocity.y * deltaTime;
 
 			if (rigidbody.velocity.x > 0) 
 			{
@@ -95,12 +95,12 @@ namespace Carmicah
 		{
 			if (rigidbody.velocity.x != 0)
 			{
-				transform.xPos += rigidbody.velocity.x * deltaTime;
+				transform.pos.x += rigidbody.velocity.x * deltaTime;
 			}
 
 			if (rigidbody.velocity.y != 0)
 			{
-				transform.yPos += rigidbody.velocity.y * deltaTime;
+				transform.pos.y += rigidbody.velocity.y * deltaTime;
 			}
 
 		}

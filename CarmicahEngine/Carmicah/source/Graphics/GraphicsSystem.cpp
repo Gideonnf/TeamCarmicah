@@ -13,9 +13,6 @@ DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/matrix_transform_2d.hpp>
 #include "Graphics/GraphicsSystem.h"
 
 #include <ECS/ECSTypes.h>
@@ -39,41 +36,37 @@ namespace Carmicah
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Renderer>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<GraphicsSystem>(mSignature);
-
-		auto shdrRef = AssetManager::GetInstance()->mShaderPgms.find(AssetManager::GetInstance()->enConfig.defaultShader);
-		if (shdrRef != AssetManager::GetInstance()->mShaderPgms.end())
-			mCurrShader = shdrRef->second;
-		else
-			CM_CORE_ERROR("GraphicsSystem failed to load Shader");
+		auto& shdrRef = AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.defaultShader);
+		mCurrShader = shdrRef.s;
 	}
 
 	void GraphicsSystem::SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam)
 	{
 		auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 		currCam.notUpdated = false;
-		currCam.xScale = 1.f / static_cast<float>(camWidth);
-		currCam.yScale = 1.f / static_cast<float>(camHeight);
+		currCam.scale.x = 1.f / static_cast<float>(camWidth);
+		currCam.scale.y = 1.f / static_cast<float>(camHeight);
 	}
 
 	void GraphicsSystem::Render(Entity& cam)
 	{
 		glClearColor(0.75294f, 1.f, 0.93333f, 1.f); // Gideon's favourite
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glUseProgram(mCurrShader);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
 
 		// Handle Camera Transform
 		auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 		if (!currCam.notUpdated)
 		{
 			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
-			currCam.camSpace = glm::mat3(1);
 			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-			currCam.camSpace = glm::scale(currCam.camSpace, glm::vec2{ camTrans.xScale, camTrans.yScale });
-			currCam.camSpace = glm::rotate(currCam.camSpace, glm::radians(-camTrans.rot));
-			currCam.camSpace = glm::translate(currCam.camSpace, glm::vec2{ -camTrans.xPos, -camTrans.yPos });
+			Mtx33Identity(currCam.camSpace);
+			currCam.camSpace.scaleThis(camTrans.scale.x, camTrans.scale.y).rotDegThis(-camTrans.rot).translateThis(-camTrans.pos.x, -camTrans.pos.y);
 		}
 
 		for (auto& entity : mEntitiesSet)
@@ -83,10 +76,8 @@ namespace Carmicah
 			// Handle Entities transform
 			if (!transform.notUpdated)
 			{
-				transform.worldSpace = glm::mat3(1.f);
-				transform.worldSpace = glm::translate(transform.worldSpace, glm::vec2{ transform.xPos, transform.yPos});
-				transform.worldSpace = glm::rotate(transform.worldSpace, glm::radians(transform.rot));
-				transform.worldSpace = glm::scale(transform.worldSpace, glm::vec2{ transform.xScale, transform.yScale});
+				Mtx33Identity(transform.worldSpace);
+				transform.worldSpace.translateThis(transform.pos.x, transform.pos.y).rotDegThis(transform.rot).scaleThis(transform.scale.x, transform.scale.y);
 				transform.camSpace = currCam.camSpace * transform.worldSpace;
 			}
 			else if (!currCam.notUpdated)
@@ -97,64 +88,42 @@ namespace Carmicah
 
 			// Get Components
 			Renderer& renderer = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
-			auto tryPrimitive{ AssetManager::GetInstance()->mPrimitiveMaps.find(renderer.model) };
-			Primitive* p;
-			if (tryPrimitive == AssetManager::GetInstance()->mPrimitiveMaps.end())
-			{
-				std::stringstream ss;
-				ss << "Renderer Model not found: " << renderer.model << std::endl;
-				CM_CORE_ERROR(ss.str());
-				p = &AssetManager::GetInstance()->mPrimitiveMaps.begin()->second;
-			}
-			else
-				p = &tryPrimitive->second;
+			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(renderer.model) };
 
 			// Set Uniforms
 			GLint uniformLoc{};
-			if (uniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(transform.camSpace));
+			if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, transform.camSpace.m);
 
-			//if (uniformExists(mCurrShader, "uTex2d", uniformLoc)) // Only if multiple textures
+			//if (UniformExists(mCurrShader, "uTex2d", uniformLoc)) // Only if multiple textures
 			//	glUniform1i(uniformLoc, 0);
 
-			if (uniformExists(mCurrShader, "uAnimationMult", uniformLoc))
-			{
-				if (renderer.texureMat == glm::mat3(0))
-				{
-					std::stringstream ss;
-					ss << "Renderer Texture Matrix empty, defaulting to 1";
-					CM_CORE_WARN(ss.str());
-					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(glm::mat3(1)));
-				}
-				else
-					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(renderer.texureMat));
-			}
+			if (UniformExists(mCurrShader, "uDepth", uniformLoc))
+				glUniform1f(uniformLoc, CalcDepth(transform.depth));
 
-			glBindVertexArray(p->vaoid);
+			if (UniformExists(mCurrShader, "uID", uniformLoc))
+				glUniform1ui(uniformLoc, entity);
+
+			if (UniformExists(mCurrShader, "uAnimationMult", uniformLoc))
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, renderer.textureMat.m);
+
+			glBindVertexArray(p.vaoid);
 
 			// Error Checking if texture no exists
-			auto tryTex = AssetManager::GetInstance()->mTextureMaps.find(renderer.texture);
-			if (tryTex == AssetManager::GetInstance()->mTextureMaps.end())
-			{
-				std::stringstream ss;
-				ss << "Texture not found" << renderer.texture << std::endl;
-				CM_CORE_ERROR(ss.str());
-				glBindTextureUnit(0, AssetManager::GetInstance()->mTextureMaps.begin()->second.t);
-			}
-			else
-				glBindTextureUnit(0, tryTex->second.t);
+			auto& tryTex = AssetManager::GetInstance()->GetAsset<Texture>(renderer.texture);
+			glBindTextureUnit(0, tryTex.t);
 
-			switch (p->drawMode)
+			switch (p.drawMode)
 			{
 			case GL_LINE_LOOP:
 				glLineWidth(2.f);
-				glDrawArrays(GL_LINE_LOOP, 0, p->drawCnt);
+				glDrawArrays(GL_LINE_LOOP, 0, p.drawCnt);
 				break;
 			case GL_TRIANGLES:
-				glDrawElements(GL_TRIANGLES, p->drawCnt, GL_UNSIGNED_SHORT, NULL);
+				glDrawElements(GL_TRIANGLES, p.drawCnt, GL_UNSIGNED_SHORT, NULL);
 				break;
 			case GL_TRIANGLE_FAN:
-				glDrawArrays(GL_TRIANGLE_FAN, 0, p->drawCnt);
+				glDrawArrays(GL_TRIANGLE_FAN, 0, p.drawCnt);
 				break;
 			}
 		}
