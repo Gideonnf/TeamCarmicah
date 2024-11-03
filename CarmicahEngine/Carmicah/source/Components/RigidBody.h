@@ -18,7 +18,7 @@ DigiPen Institute of Technology is prohibited.
 
 #include <Math/Vec2.h>
 #include <string>
-#include "Systems/ForcesManager.h"
+#include "Physics/ForcesManager.h"
 #include "BaseComponent.h"
 
 namespace Carmicah
@@ -49,7 +49,8 @@ namespace Carmicah
         {
             velocity.x = static_cast<float>(component["velocityX"].GetDouble());
             velocity.y = static_cast<float>(component["velocityY"].GetDouble());
-            angularVelocity = static_cast<float>(component["angularVelocity"].GetDouble());
+            if (component.HasMember("AngularVelocity"))
+                angularVelocity = static_cast<float>(component["angularVelocity"].GetDouble());
             posPrev.x = static_cast<float>(component["posPrevX"].GetDouble());
             posPrev.y = static_cast<float>(component["posPrevY"].GetDouble());
             mass = static_cast<float>(component["mass"].GetDouble());

@@ -12,7 +12,7 @@ Reproduction or disclosure of this file or its contents without the prior writte
 DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
-#include "Systems/PhysicsSystem.h"
+#include "PhysicsSystem.h"
 #include <ECS/ECSTypes.h>
 #include "Components/Transform.h"
 #include "Components/RigidBody.h"
@@ -74,8 +74,8 @@ namespace Carmicah
 
 		if (rigidbody.objectType == "Dynamic")
 		{
-			transform.xPos = transform.xPos + rigidbody.velocity.x * deltaTime;
-			transform.yPos = transform.yPos + rigidbody.velocity.y * deltaTime;
+			transform.pos.x = transform.pos.x + rigidbody.velocity.x * deltaTime;
+			transform.pos.y = transform.pos.y + rigidbody.velocity.y * deltaTime;
 
 			Vector2D<float> sumForces = rigidbody.forcesManager.GetSumForces();
 
@@ -142,7 +142,7 @@ namespace Carmicah
 		{
 			if (rigidbody.velocity.x != 0)
 			{
-				transform.xPos += rigidbody.velocity.x * deltaTime;
+				transform.pos.x += rigidbody.velocity.x * deltaTime;
 
 			}
 

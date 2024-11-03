@@ -130,10 +130,11 @@
                     "Component Name": "struct Carmicah::RigidBody",
                     "velocityX": 0.0,
                     "velocityY": 0.0,
-                    "posPrevX": 2.8255722522735597,
-                    "posPrevY": 1.8393386602401734,
+                    "posPrevX": 2.0,
+                    "posPrevY": 2.0,
                     "gravity": 0.0,
-                    "zposPrev": 0.0,
+                    "mass": 1.0,
+                    "zposPrev": 1.0,
                     "objectType": "Kinematic"
                 },
                 {
@@ -168,6 +169,7 @@
                     "posPrevX": 4.0,
                     "posPrevY": 0.0,
                     "gravity": 0.0,
+                    "mass": 1.0,
                     "zposPrev": 0.0,
                     "objectType": "Static"
                 },
@@ -223,6 +225,7 @@
                     "velocityY": 0.0,
                     "posPrevX": -3.260096549987793,
                     "posPrevY": 0.0,
+                    "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
                     "objectType": "Dynamic"
@@ -258,6 +261,7 @@
                     "velocityY": 0.0,
                     "posPrevX": -2.739903688430786,
                     "posPrevY": 0.0,
+                    "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
                     "objectType": "Dynamic"

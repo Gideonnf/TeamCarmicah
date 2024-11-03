@@ -15,7 +15,7 @@ DigiPen Institute of Technology is prohibited.
 
 #include "pch.h"
 #include "Systems/CollisionSystem.h"
-#include "Systems/PhysicsSystem.h"
+#include "../Physics/PhysicsSystem.h"
 #include "Systems/GOFactory.h"
 #include <ECS/ECSTypes.h>
 #include <ECS/GameObject.h>

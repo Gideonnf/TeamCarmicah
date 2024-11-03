@@ -29,7 +29,7 @@
 #include "Graphics/ColliderRenderSystem.h"
 #include "Graphics/RigidbodyRendererSystem.h"
 #include "Systems/CollisionSystem.h"
-#include "Systems/PhysicsSystem.h"
+#include "Physics/PhysicsSystem.h"
 #include "Systems/SoundSystem.h"
 #include "Systems/TransformSystem.h"
 

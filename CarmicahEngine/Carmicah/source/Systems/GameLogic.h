@@ -17,7 +17,7 @@ DigiPen Institute of Technology is prohibited.
 
 #include "SceneSystem.h"
 #include "SoundSystem.h"
-#include "PhysicsSystem.h"
+#include "../Physics/PhysicsSystem.h"
 #include "../ECS/GameObject.h"
 #include <GLFW/glfw3.h>
 #include "../ECS/BaseSystem.h"

@@ -12,10 +12,10 @@ Reproduction or disclosure of this file or its contents without the prior writte
 DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
-#include "Systems/PhysicsSystem.h"
+#include "Physics/PhysicsSystem.h"
 #include <ECS/ECSTypes.h>
 #include "Components/Transform.h"
-#include "Systems/ForcesManager.h"
+#include "Physics/ForcesManager.h"
 #include "Components/RigidBody.h"
 #include "Components/Collider2D.h"
 #include "Systems/GOFactory.h"
