@@ -41,6 +41,9 @@
     <ClInclude Include="source\Components\Collider2D.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="source\Components\Forces.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="source\Components\Renderer.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -150,6 +153,9 @@
     <ClInclude Include="source\Systems\CollisionSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
+    <ClInclude Include="source\Systems\ForcesManager.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
     <ClInclude Include="source\Systems\GOFactory.h">
       <Filter>Systems</Filter>
     </ClInclude>
@@ -241,6 +247,9 @@
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="source\Systems\CollisionSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Systems\ForcesManager.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="source\Systems\GOFactory.cpp">
