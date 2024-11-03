@@ -125,7 +125,7 @@ namespace Carmicah
 			// If the original parent is not the scene
 			// means it has a new parent that isnt the scene
 			// so it isnt calculating world position
-			else if (entityTransform.parent != 0)
+			else if (castedMsg->mParentID != 0)
 			{
 				CalculateTransform(castedMsg->mEntityID, castedMsg->mParentID);
 			}
