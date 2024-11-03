@@ -27,6 +27,8 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+	const float FIXED_DELTA_TIME = 0.01667f; // Fixed time step for 60 FPS
+
 	/**
 	 * @brief Updates the previous position (both x and y) of an object based on its current transform.
 	 *
@@ -63,7 +65,9 @@ namespace Carmicah
 		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
 		auto& transform = componentManager->GetComponent<Transform>(obj);
 
-		float deltaTime = (float)CarmicahTimer::GetDt();
+		//float deltaTime = (float)CarmicahTimer::GetDt();
+
+		float deltaTime = FIXED_DELTA_TIME;
 
 		rigidbody.forcesManager.UpdateForces(deltaTime);
 
@@ -80,6 +84,7 @@ namespace Carmicah
 			// Apply damping when there are no active forces
 			const float dampingFactor = 0.99f; // Adjust as necessary
 			const float maxVelocity = 50.0f;
+			const float velocityThreshold = 0.10f;
 
 			if (sumForces.x == 0 && sumForces.y == 0)
 			{
@@ -87,6 +92,16 @@ namespace Carmicah
 				rigidbody.velocity.x *= dampingFactor;
 				rigidbody.velocity.y *= dampingFactor;
 
+				// Check for near-zero velocities
+				if (std::abs(rigidbody.velocity.x) < velocityThreshold) {
+					rigidbody.velocity.x = 0;
+				}
+				if (std::abs(rigidbody.velocity.y) < velocityThreshold) {
+					rigidbody.velocity.y = 0;
+				}
+
+				const float angularDampingFactor = 0.99f; // Adjust as necessary
+				rigidbody.angularVelocity *= angularDampingFactor;
 			}
 
 
@@ -97,37 +112,38 @@ namespace Carmicah
 
 			rigidbody.velocity.y = rigidbody.velocity.y + rigidbody.acceleration.y * deltaTime;
 
-			if (Vector2DDotProduct(rigidbody.velocity, rigidbody.velocity) > 50.0f * 50.0f)
+			if (Vector2DDotProduct(rigidbody.velocity, rigidbody.velocity) > maxVelocity * maxVelocity)
 			{
 				Vector2DNormalize(rigidbody.velocity, rigidbody.velocity);
-				rigidbody.velocity = rigidbody.velocity * (50.0f * 50.0f);
+				rigidbody.velocity = rigidbody.velocity * (maxVelocity * maxVelocity);
 			}
 
+			//transform.rot += 5.0f + rigidbody.angularVelocity * deltaTime;
 
-			if (rigidbody.velocity.x > 0) 
-			{
-				transform.rot += 50.0f * deltaTime;
-
-				if (transform.rot > 360.0f)
-				{
-					transform.rot -= 360.0f;
-				}
-			}
-			else {
-				
-				transform.rot -= 50.0f * deltaTime;
-				if (transform.rot < -360.0f) 
-				{
-					transform.rot += 360.0f;
-				}
-
-			}
+			//// Update rotation direction based on velocity
+			//if (rigidbody.velocity.x > 0)
+			//{
+			//	transform.rot += 50.0f * deltaTime; // Optional additional rotation logic
+			//	if (transform.rot > 360.0f)
+			//	{
+			//		transform.rot -= 360.0f;
+			//	}
+			//}
+			//else
+			//{
+			//	transform.rot -= 50.0f * deltaTime; // Optional additional rotation logic
+			//	if (transform.rot < -360.0f)
+			//	{
+			//		transform.rot += 360.0f;
+			//	}
+			//}
 		}
 		else if (rigidbody.objectType == "Kinematic")
 		{
 			if (rigidbody.velocity.x != 0)
 			{
 				transform.xPos += rigidbody.velocity.x * deltaTime;
+
 			}
 
 			if (rigidbody.velocity.y != 0)
@@ -165,12 +181,26 @@ namespace Carmicah
 	{
 
 
-		for (auto entity : mEntitiesSet)
+		/*for (auto entity : mEntitiesSet)
 		{
 
 			UpdatePosition(entity);
 			Integrate(entity);
 
+		}*/
+
+		static float accumulatedTime = 0.0f;
+		float deltaTime = (float)CarmicahTimer::GetDt(); // Get the actual elapsed time
+		accumulatedTime += deltaTime;
+
+		while (accumulatedTime >= FIXED_DELTA_TIME)
+		{
+			for (auto entity : mEntitiesSet)
+			{
+				UpdatePosition(entity);
+				Integrate(entity); // Use fixed delta time
+			}
+			accumulatedTime -= FIXED_DELTA_TIME; // Decrease accumulated time
 		}
 	}
 

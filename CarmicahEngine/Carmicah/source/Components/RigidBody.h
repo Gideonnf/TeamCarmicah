@@ -26,11 +26,16 @@ namespace Carmicah
     struct RigidBody : BaseComponent<RigidBody>
     {
         Vector2D<float> velocity;
+        float angularVelocity;
         Vector2D<float> posPrev;
         
         Vector2D<float> acceleration;
 
+        float angularAcceleration;
+
         float mass;
+
+        float inertiaMass;
 
         float gravity;
 
@@ -44,6 +49,7 @@ namespace Carmicah
         {
             velocity.x = static_cast<float>(component["velocityX"].GetDouble());
             velocity.y = static_cast<float>(component["velocityY"].GetDouble());
+            angularVelocity = static_cast<float>(component["angularVelocity"].GetDouble());
             posPrev.x = static_cast<float>(component["posPrevX"].GetDouble());
             posPrev.y = static_cast<float>(component["posPrevY"].GetDouble());
             mass = static_cast<float>(component["mass"].GetDouble());
@@ -59,6 +65,8 @@ namespace Carmicah
 			writer.Double(velocity.x);
 			writer.String("velocityY");
 			writer.Double(velocity.y);
+            writer.String("angularVelocity");
+            writer.Double(angularVelocity);
 			writer.String("posPrevX");
 			writer.Double(posPrev.x);
 			writer.String("posPrevY");

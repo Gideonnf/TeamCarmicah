@@ -35,7 +35,7 @@ namespace Carmicah
 
         Vector2D<float> GetForceVector() const;
 
-        //bool ActivateForce(bool state);
+        bool ActivateForce(bool state);
 
         float SetLifeTime(float lifeTimeValue);
 
@@ -51,6 +51,12 @@ namespace Carmicah
 
         public:
         void AddLinearForce(LinearDirectionalForce& force);
+
+        // Getter for linearForces
+        std::vector<LinearDirectionalForce>& GetLinearForces() 
+        {
+            return linearForces; // Return a const reference to avoid copying
+        }
 
 		void UpdateForces(float deltaTime);
 

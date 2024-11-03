@@ -39,10 +39,10 @@ namespace Carmicah
 		return this->lifetime = lifeTimeValue;
 	}
 
-	/*bool LinearDirectionalForce::ActivateForce(bool state)
+	bool LinearDirectionalForce::ActivateForce(bool state)
 	{
 		return isActive = state;
-	}*/
+	}
 
 	void LinearDirectionalForce::Update(float deltaTime)
 	{
@@ -81,6 +81,8 @@ namespace Carmicah
 				force.Update(deltaTime);
 				
 				accumulatedForce += force.GetForceVector();
+
+				//std::cout << accumulatedForce << std::endl;
 
 			}
 			else 
