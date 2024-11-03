@@ -49,7 +49,7 @@ namespace Carmicah
 
 		virtual void ReceiveMessage(Message* msg) {};
 
-		void SendMessage(Message* msg) 
+		void SendSysMessage(Message* msg) 
 		{
 			for (auto const& system : mSystemObservers)
 			{

@@ -24,10 +24,24 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+    //CarmicahTime* CarmicahTimer = NULL;
+
+    //CarmicahTime::CarmicahTime()
+    //{
+    //    if (CarmicahTimer == NULL)
+    //        CarmicahTimer = this;
+    //}
+
+    //CarmicahTime::~CarmicahTime()
+    //{
+
+    //}
+
     // Call this instead of constructor
     // cause singleton cant define two constructors
     void CarmicahTime::Init()
     {
+        //this->mFixedDeltaTime = 0.01667f;
         mUpdateInterval = 0.5;
     }
 
@@ -128,83 +142,4 @@ namespace Carmicah
         return static_cast<double>(mGPUTime) / 1000000.0; // Convert nanoseconds to milliseconds
     }
 
-    // CarmicahTimer namespace implementation
-    namespace CarmicahTimer
-    {
-        // Singleton instance
-        void StartTime()
-        {
-            gCTimer.InitTime();
-        }
-
-        void UpdateElapsedTime()
-        {
-            gCTimer.UpdateTime();
-        }
-
-        double GetDt()
-        {
-            return gCTimer.GetDeltaTime();
-        }
-
-        double GetFPS()
-        {
-            return gCTimer.FPS();
-        }
-
-        void StartSystemTimer(const std::string& systemName)
-        {
-            gCTimer.StartSystemTimer(systemName);
-        }
-
-        void StopSystemTimer(const std::string& systemName)
-        {
-            gCTimer.StopSystemTimer(systemName);
-        }
-
-        void StartLoopTimer()
-        {
-            gCTimer.StartLoopTimer();
-        }
-
-        void StopLoopTimer()
-        {
-            gCTimer.StopLoopTimer();
-        }
-
-        void CalculateSystemPercentages()
-        {
-            gCTimer.CalculateSystemPercentages();
-        }
-
-        const std::unordered_map<std::string, double>& GetSystemPercentages()
-        {
-            return gCTimer.GetSystemPercentages();
-        }
-
-        double GetTotalLoopTime()
-        {
-            return gCTimer.GetTotalLoopTime();
-        }
-
-        void InitGPUProfiling()
-        {
-            gCTimer.InitGPUProfiling();
-        }
-
-        void StartGPUTimer()
-        {
-            gCTimer.StartGPUTimer();
-        }
-
-        void StopGPUTimer()
-        {
-            gCTimer.StopGPUTimer();
-        }
-
-        double GetGPUTime()
-        {
-            return gCTimer.GetGPUTime();
-        }
-    }
 }

@@ -34,8 +34,9 @@ typedef unsigned long long GLuint64;
 //                 It also contains functions to start and stop GPU timers and calculate the time taken by the GPU.
 namespace Carmicah
 {
+    const float FIXED_DELTA_TIME = 0.01667f; // Fixed time step for 60 FPS
 // Class to keep track of the time in the engine 
-    class CarmicahTime : public Singleton<CarmicahTime> // Inherit from Singleton
+    class CarmicahTime : public Singleton<CarmicahTime>// Inherit from Singleton
     {
     private:
 
@@ -55,9 +56,11 @@ namespace Carmicah
         GLuint mGPUQueryEnd;
         GLuint64 mGPUTime;
 
+        //Fixed DT implementation
+        //double mFixedDeltaTime;
+        bool mIsFixedDT;
+
     public:
-        //CarmicahTime(); // public constructor
-        //~CarmicahTime(); // Public destructor
         void Init();
         void InitTime();
         void UpdateTime();
@@ -71,33 +74,48 @@ namespace Carmicah
         void StopGPUTimer();
         double GetGPUTime() const;
         double FPS() const { return mCurrentFPS; }
-        double GetDeltaTime() const { return mDeltaTime; }
+        double GetDeltaTime() const 
+        { 
+            if (mIsFixedDT)
+                return FIXED_DELTA_TIME;
+
+            return mDeltaTime;
+        }
         const std::unordered_map<std::string, double>& GetSystemPercentages() const { return mSystemPercentages; }
         double GetTotalLoopTime() const { return mTotalLoopTime; }
-    };
 
+        bool IsFixedDT()
+        {
+            return mIsFixedDT;
+        }
+
+        void SetFixedDT(bool flag)
+        {
+            mIsFixedDT = flag;
+        }
+    };
     // Global accessor
-    static CarmicahTime& gCTimer = *CarmicahTime::GetInstance();
+    //static CarmicahTime& gCTimer = *CarmicahTime::GetInstance();
 
 // Namespace for static functions
-    namespace CarmicahTimer
-    {
-        void StartTime();
-        void UpdateElapsedTime();
-        double GetDt();
-        double GetFPS();
-        void StartSystemTimer(const std::string& systemName);
-        void StopSystemTimer(const std::string& systemName);
-        void StartLoopTimer();
-        void StopLoopTimer();
-        void CalculateSystemPercentages();
-        const std::unordered_map<std::string, double>& GetSystemPercentages();
-        double GetTotalLoopTime();
-        void InitGPUProfiling();
-        void StartGPUTimer();
-        void StopGPUTimer();
-        double GetGPUTime();
-    }
+    //namespace CarmicahTimer
+    //{
+    //    void StartTime();
+    //    void UpdateElapsedTime();
+    //    double GetDt();
+    //    double GetFPS();
+    //    void StartSystemTimer(const std::string& systemName);
+    //    void StopSystemTimer(const std::string& systemName);
+    //    void StartLoopTimer();
+    //    void StopLoopTimer();
+    //    void CalculateSystemPercentages();
+    //    const std::unordered_map<std::string, double>& GetSystemPercentages();
+    //    double GetTotalLoopTime();
+    //    void InitGPUProfiling();
+    //    void StartGPUTimer();
+    //    void StopGPUTimer();
+    //    double GetGPUTime();
+    //}
 }
 
 #endif

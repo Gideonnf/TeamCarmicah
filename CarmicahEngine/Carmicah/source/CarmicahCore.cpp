@@ -128,8 +128,8 @@ namespace Carmicah
             return -1;
         }*/
 
-        CarmicahTimer::StartTime();
-        CarmicahTimer::InitGPUProfiling();
+        CarmicahTime::GetInstance()->InitTime();
+        CarmicahTime::GetInstance()->InitGPUProfiling();
 
         glViewport(0, 0, (GLsizei)Width, (GLsizei)Height);
 
@@ -189,6 +189,8 @@ namespace Carmicah
         //int objectCount = 0;
         //phySystem->Update();
         
+        CarmicahTime::GetInstance()->SetFixedDT(false);
+        float accumulatedTime = 0.0f;
 
        // Editor Editor;
         editorSys->Init(window);
@@ -196,9 +198,9 @@ namespace Carmicah
         SceneToImgui::GetInstance()->CreateFramebuffer(bufferWidth, bufferHeight);
 
         while (!glfwWindowShouldClose(window)) {
-            CarmicahTimer::StartLoopTimer();
+            CarmicahTime::GetInstance()->StartLoopTimer();
             glfwPollEvents();
-            std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS())) + " - Scene : " + gameSystem->GetCurrScene();
+            std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTime::GetInstance()->FPS())) + " - Scene : " + gameSystem->GetCurrScene();
             glfwSetWindowTitle(window, title.c_str());
 
             if (gameSystem->mNextState == SceneState::EXIT)
@@ -216,71 +218,121 @@ namespace Carmicah
                 //phySystem->Update();
                 gameLogic->Update(window);
                 //gameLogic.Update();
-                //phySystem->Update();
-                #ifdef CM_DEBUG
-                if (phySystem->mDebugPhysics) {
-                    // Handle WASD movement during debugPhysics mode
-                    if (phySystem->mToggleUpdate)
+
+                if (CarmicahTime::GetInstance()->IsFixedDT())
+                {
+                    accumulatedTime += CarmicahTime::GetInstance()->GetDeltaTime();
+
+                    while (accumulatedTime >= CarmicahTime::GetInstance()->GetDeltaTime())
                     {
-                        phySystem->mToggleUpdate = false;
-                        CarmicahTimer::StartSystemTimer("CollisionSystem");
-                        colSystem->Update();
-                        CarmicahTimer::StopSystemTimer("CollisionSystem");
+                        //phySystem->Update();
+#ifdef CM_DEBUG
+                        if (phySystem->mDebugPhysics) {
+                            // Handle WASD movement during debugPhysics mode
+                            if (phySystem->mToggleUpdate)
+                            {
+                                phySystem->mToggleUpdate = false;
+                                CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
+                                colSystem->Update();
+                                CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 
-                        CarmicahTimer::StartSystemTimer("PhysicsSystem");
+                                CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
+                                phySystem->Update();
+                                CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
+
+                            }
+                        }
+                        else {
+                            CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
+                            colSystem->Update();
+                            CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
+                            CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
+                            phySystem->Update();
+                            CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
+
+                        }
+#endif
+
+#ifdef CM_RELEASE
+                        CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                         phySystem->Update();
-                        CarmicahTimer::StopSystemTimer("PhysicsSystem");
+                        CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
 
+                        CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
+                        colSystem->Update();
+                        CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
+#endif
+                        accumulatedTime -= CarmicahTime::GetInstance()->GetDeltaTime();
                     }
                 }
-                else {
-                    CarmicahTimer::StartSystemTimer("CollisionSystem");
-                    colSystem->Update();
-                    CarmicahTimer::StopSystemTimer("CollisionSystem");
-                    CarmicahTimer::StartSystemTimer("PhysicsSystem");
+                else
+                {
+                    //phySystem->Update();
+#ifdef CM_DEBUG
+                    if (phySystem->mDebugPhysics) {
+                        // Handle WASD movement during debugPhysics mode
+                        if (phySystem->mToggleUpdate)
+                        {
+                            phySystem->mToggleUpdate = false;
+                            CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
+                            colSystem->Update();
+                            CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
+
+                            CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
+                            phySystem->Update();
+                            CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
+
+                        }
+                    }
+                    else {
+                        CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
+                        colSystem->Update();
+                        CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
+                        CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
+                        phySystem->Update();
+                        CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
+
+                    }
+#endif
+
+#ifdef CM_RELEASE
+                    CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                     phySystem->Update();
-                    CarmicahTimer::StopSystemTimer("PhysicsSystem");
+                    CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
 
-                 }
+                    CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
+                    colSystem->Update();
+                    CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
+#endif               
+                }
 
-                #endif
 
-                #ifdef CM_RELEASE
-                CarmicahTimer::StartSystemTimer("PhysicsSystem");
-                phySystem->Update();
-                CarmicahTimer::StopSystemTimer("PhysicsSystem");
-
-                CarmicahTimer::StartSystemTimer("CollisionSystem");
-                colSystem->Update();
-                CarmicahTimer::StopSystemTimer("CollisionSystem");
-                #endif
-
-                CarmicahTimer::StartSystemTimer("AnimationSystem");
+                CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
                 aniSystem->Update();
-                CarmicahTimer::StopSystemTimer("AnimationSystem");
+                CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
 
-                CarmicahTimer::StartSystemTimer("SoundSystem");
+                CarmicahTime::GetInstance()->StartSystemTimer("SoundSystem");
                 souSystem->Update();
-                CarmicahTimer::StopSystemTimer("SoundSystem");
-                CarmicahTimer::StartGPUTimer();
-                CarmicahTimer::StopGPUTimer();
+                CarmicahTime::GetInstance()->StopSystemTimer("SoundSystem");
+                CarmicahTime::GetInstance()->StartGPUTimer();
+                CarmicahTime::GetInstance()->StopGPUTimer();
 
 
                // glfwMakeContextCurrent(ImGuiWindow);
-                CarmicahTimer::StartSystemTimer("EditorSystem");
+                CarmicahTime::GetInstance()->StartSystemTimer("EditorSystem");
                 editorSys->Update();
                 editorSys->Render(window);
-                CarmicahTimer::StopSystemTimer("EditorSystem");
+                CarmicahTime::GetInstance()->StopSystemTimer("EditorSystem");
 
                 SceneToImgui::GetInstance()->BindFramebuffer();
-                CarmicahTimer::StartSystemTimer("RenderingSystems");
+                CarmicahTime::GetInstance()->StartSystemTimer("RenderingSystems");
                // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
                 transformSystem->Update(); // Update world and local transforms before rendering
                 graSystem->Render(gGOFactory->mainCam);
                 crsSystem->Render(gGOFactory->mainCam);
                 rrsSystem->Render(gGOFactory->mainCam);
                 txtSystem->Render((GLuint)Width, (GLuint)Height);
-                CarmicahTimer::StopSystemTimer("RenderingSystems");
+                CarmicahTime::GetInstance()->StopSystemTimer("RenderingSystems");
                 SceneToImgui::GetInstance()->IDPick();
                 SceneToImgui::GetInstance()->UnbindFramebuffer();
                // glfwMakeContextCurrent(window);
@@ -294,9 +346,9 @@ namespace Carmicah
                 gameSystem->Exit();
             }
 
-            CarmicahTimer::StopLoopTimer();
-            CarmicahTimer::CalculateSystemPercentages();
-            CarmicahTimer::UpdateElapsedTime();
+            CarmicahTime::GetInstance()->StopLoopTimer();
+            CarmicahTime::GetInstance()->CalculateSystemPercentages();
+            CarmicahTime::GetInstance()->UpdateTime();
             inputSystem->UpdatePrevInput();
 
         }

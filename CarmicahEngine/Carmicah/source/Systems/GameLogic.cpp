@@ -104,8 +104,8 @@ namespace Carmicah
         }
         if (Input.IsKeyPressed(Keys::KEY_C) && mainCharacter.IsActive())
         {
-            mainCharacter.GetComponent<Transform>().scale.x += 2.0f * (float)CarmicahTimer::GetDt();
-            mainCharacter.GetComponent<Transform>().scale.y += 2.0f * (float)CarmicahTimer::GetDt();
+            mainCharacter.GetComponent<Transform>().scale.x += 2.0f * (float)CarmicahTime::GetInstance()->GetDeltaTime();
+            mainCharacter.GetComponent<Transform>().scale.y += 2.0f * (float)CarmicahTime::GetInstance()->GetDeltaTime();
 
             //SystemManager::GetInstance()->ChangeScene("Scene2");
         }
@@ -159,7 +159,7 @@ namespace Carmicah
 
         }
 
-        FPSText.GetComponent<TextRenderer>().txt = "FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS()));
+        FPSText.GetComponent<TextRenderer>().txt = "FPS: " + std::to_string(static_cast<int>(CarmicahTime::GetInstance()->FPS()));
 	}
 
     void GameLogic::EntityDestroyed(Entity id)

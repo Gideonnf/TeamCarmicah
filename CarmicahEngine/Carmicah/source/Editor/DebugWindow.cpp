@@ -67,7 +67,7 @@ namespace Carmicah
 			{
 				if (mShowFPS && ImGui::BeginTabItem("FPS Info"))
 				{
-					ImGui::Text("FPS: %f", (static_cast<float>(CarmicahTimer::GetFPS())));
+					ImGui::Text("FPS: %f", (static_cast<float>(CarmicahTime::GetInstance()->FPS())));
 					ImGui::EndTabItem();
 				}
                 if (mShowLogger && ImGui::BeginTabItem("Logger"))
@@ -121,8 +121,8 @@ namespace Carmicah
     //Render the profiling tab for the Debug Window to display the profiling data
     void DebugWindow::RenderProfilingTab()
     {
-        const auto& systemPercentages = CarmicahTimer::GetSystemPercentages();
-        double totalLoopTime = CarmicahTimer::GetTotalLoopTime();
+        const auto& systemPercentages = CarmicahTime::GetInstance()->GetSystemPercentages();
+        double totalLoopTime = CarmicahTime::GetInstance()->GetTotalLoopTime();
 
         ImGui::Text("Total Loop Time: %.3f ms", totalLoopTime * 1000.0);
         ImGui::Separator();
@@ -147,8 +147,8 @@ namespace Carmicah
     //Render the GPU profiling tab for the Debug Window to display the GPU profiling data  
     void DebugWindow::RenderGPUProfilingTab()
     {
-        double gpuTime = CarmicahTimer::GetGPUTime();
-        double totalLoopTime = CarmicahTimer::GetTotalLoopTime();
+        double gpuTime = CarmicahTime::GetInstance()->GetGPUTime();
+        double totalLoopTime = CarmicahTime::GetInstance()->GetTotalLoopTime();
 
         if (totalLoopTime > 0) {
             ImGui::Text("GPU Time: %.3f ms", gpuTime);

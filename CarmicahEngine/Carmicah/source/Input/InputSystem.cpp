@@ -127,7 +127,7 @@ namespace Carmicah
 		// example of sending messages
 		int keyCode = 5;
 		KeyMessage msg(keyCode);
-		SendMessage(&msg);
+		SendSysMessage(&msg);
 
 		// Set up the call backs
 		glfwSetKeyCallback(windowRef, KeyCallback);

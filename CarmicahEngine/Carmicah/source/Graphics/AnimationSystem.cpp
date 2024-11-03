@@ -49,7 +49,7 @@ namespace Carmicah
 				anim.notChangedAnim = true;
 			}
 
-			anim.time += static_cast<float>(CarmicahTimer::GetDt());
+			anim.time += static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
 			if (anim.time > anim.maxTime)
 			{
 				if (++anim.currPiece >= anim.xSlice * anim.ySlice)

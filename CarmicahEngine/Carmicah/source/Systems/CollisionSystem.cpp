@@ -94,7 +94,7 @@ namespace Carmicah
 
 		
 
-		float firstTimeOfCollision = 0.0f, tLast = (float)CarmicahTimer::GetDt();
+		float firstTimeOfCollision = 0.0f, tLast = (float)CarmicahTime::GetInstance()->GetDeltaTime();
 
 		if ((rigidbody1.velocity.x - rigidbody2.velocity.x) < 0) 
 		{

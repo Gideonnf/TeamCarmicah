@@ -323,7 +323,7 @@ namespace Carmicah
 		{
 			SystemManager::GetInstance()->EntityDestroyed(entity);
 			EntityKilledMessage msg(entity);
-			SendMessage(&msg);
+			SendSysMessage(&msg);
 		}
 
 		mDeleteList.clear();
@@ -367,7 +367,7 @@ namespace Carmicah
 		// we need the original parent's transform so that we can convert the entity's local transform
 		// back to world transform
 		UpdateTransformMessage msg(entityID, newParentID);
-		SendMessage(&msg); 
+		SendSysMessage(&msg);
 
 		// Remove entityID from it's current parent
 		// Check if its part of sceneGO
