@@ -266,6 +266,52 @@ namespace Carmicah
 			}
 		}
 
+		// color picker?
+		if (go->HasComponent<TextRenderer>())
+		{
+			TextRenderer& text = go->GetComponent<TextRenderer>();
+			if (ImGui::BeginTable("TextRenderer Table", 2, ImGuiTableFlags_Borders))
+			{
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Text");
+
+				char buffer[256];
+				strncpy(buffer, text.txt.c_str(), sizeof(buffer));
+				buffer[sizeof(buffer) - 1] = '\0';
+
+				ImGui::TableNextColumn();
+				if (ImGui::InputText("##Text", buffer, sizeof(buffer)))
+				{
+					text.txt = buffer;
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Font");
+				ImGui::TableNextColumn();
+				ImGui::Text("%s", text.font.c_str());
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Color");
+
+				// Add RGB color picker
+				float color[3] = { text.colorR, text.colorG, text.colorB };
+				ImGui::TableNextColumn();
+				if (ImGui::ColorEdit3("##Color", color))
+				{
+					// Update the component's color with the selected values
+					text.colorR = color[0];
+					text.colorG = color[1];
+					text.colorB = color[2];
+				}
+
+				ImGui::EndTable();
+			}
+		}
+
+
 	}
 
 	void InspectorWindow::Update()
