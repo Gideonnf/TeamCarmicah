@@ -36,34 +36,20 @@ namespace Carmicah
 	{
 		for (auto& entity : mEntitiesSet)
 		{
-			auto& anim = ComponentManager::GetInstance()->GetComponent<Animation>(entity);
-			auto& rend = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
+			auto& animation = ComponentManager::GetInstance()->GetComponent<Animation>(entity);
 
-			if (!anim.notChangedAnim)
+			animation.time += static_cast<float>(CarmicahTimer::GetDt());
+			if (animation.time > animation.maxTime)
 			{
-				auto& tex = AssetManager::GetInstance()->GetAsset<Texture>(rend.texture);
-				anim.xSlice = tex.xSlices + 1;
-				anim.ySlice = tex.ySlices + 1;
-				anim.time = anim.maxTime;
-				anim.currPiece = anim.xSlice * anim.ySlice;
-				anim.notChangedAnim = true;
-			}
+				AnimAtlas& a{ AssetManager::GetInstance()->GetAsset<AnimAtlas>(animation.animAtlas) };
+				auto& rend = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
 
-			anim.time += static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
-			if (anim.time > anim.maxTime)
-			{
-				if (++anim.currPiece >= anim.xSlice * anim.ySlice)
-					anim.currPiece = 0;
-				anim.time = 0.f;
+				rend.texture = a.anim[animation.currPiece].second;
+				animation.maxTime = a.anim[animation.currPiece].first;
 
-				float xMulti = static_cast<float>(anim.currPiece % anim.xSlice);
-				float yMulti = static_cast<float>(anim.ySlice - (anim.currPiece / anim.xSlice));
-
-				
-				// Animation translates
-				Mtx33Identity(rend.textureMat);
-				Vector2D animScale{ 1.f / static_cast<float>(anim.xSlice), 1.f / static_cast<float>(anim.ySlice) };
-				rend.textureMat.translateThis(xMulti * animScale.x, yMulti * animScale.y).scaleThis(animScale);
+				if (++animation.currPiece >= a.anim.size())
+					animation.currPiece = 0;
+				animation.time = 0.f;
 			}
 		}
 	}

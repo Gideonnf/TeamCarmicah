@@ -21,7 +21,17 @@ namespace Carmicah
 	class BaseGraphicsSystem
 	{
 	protected:
+		enum RENDER_LAYERS
+		{
+			BASE_LAYER = 0,
+			DEBUG_LAYER,
+			UI_LAYER,
+			DEBUG_UI_LAYER,
+			MAX_LAYERS
+		};
+
 		GLuint mCurrShader{};
+		float mFurtherstDepth{ -100.f }, mNearestDepth{ 100.f };
 
 		/*
 		brief
@@ -37,7 +47,7 @@ namespace Carmicah
 		*/
 		bool UniformExists(const GLuint& shdr, const char* str, GLint& ref);
 
-		float CalcDepth(const float& depth);
+		float CalcDepth(const float& depth, const RENDER_LAYERS& layer);
 
 		void RenderPrimitive(const Primitive& p);
 	};

@@ -39,22 +39,22 @@ namespace Carmicah
         glTextureParameterf(picker_id, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, picker_id, 0);
 
-        //glGenRenderbuffers(1, &RBO);
-        //glBindRenderbuffer(GL_RENDERBUFFER, RBO);
-        //glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-        //glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
+        glGenRenderbuffers(1, &RBO);
+        glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
             std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!\n";
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glBindTexture(GL_TEXTURE_2D, 0);
-        //glBindRenderbuffer(GL_RENDERBUFFER, 0);
+        glBindRenderbuffer(GL_RENDERBUFFER, 0);
     }
 
     void SceneToImgui::UnloadFramebuffer()
     {
-        //glDeleteRenderbuffers(1, &RBO);
+        glDeleteRenderbuffers(1, &RBO);
         glDeleteTextures(1, &picker_id);
         glDeleteTextures(1, &texture_id);
         glDeleteFramebuffers(1, &FBO);
@@ -75,25 +75,27 @@ namespace Carmicah
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
-    unsigned int SceneToImgui::IDPick()
+    unsigned int SceneToImgui::IDPick(const int& mouseX, const int& mouseY)
     {
+        GLint prevBinding{};
+        glGetIntegerv(GL_FRAMEBUFFER_BINDING, &prevBinding);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+
         unsigned int goID{};
-        Vec2d in = Input.GetInstance()->GetMousePosition();
-        // TODO: Hard coded
-        Vec2i mp = {std::clamp(static_cast<int>(in.x), 0, 1920), 1080 - std::clamp(static_cast<int>(in.y) - 1, 0, 1080) };
         glNamedFramebufferReadBuffer(FBO, GL_COLOR_ATTACHMENT1);
-        glReadPixels(mp.x, mp.y, 1, 1,
+        glReadPixels(mouseX, mouseY, 1, 1,
             GL_RED_INTEGER, GL_UNSIGNED_INT, &goID);
 
         // basically if ID Dun exists tq
-        //if (t != 0 && t != 1061208237)
-        //{
-        //    std::stringstream ss;
-        //    ss << "ID: " << t << "[" << mp.x << ',' << mp.y << "]";
-        //    CM_CORE_INFO(ss.str());
-        //}
+        if (goID != 0 && goID != 1061208237)
+        {
+            std::stringstream ss;
+            ss << "ID: " << goID << "[" << mouseX << ',' << mouseY << "]";
+            CM_CORE_INFO(ss.str());
+        }
         glReadBuffer(GL_NONE);
-
+        glBindFramebuffer(GL_FRAMEBUFFER, prevBinding);
         return goID;
     }
 
