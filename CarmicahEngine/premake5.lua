@@ -31,7 +31,8 @@ project "Carmicah"
     externalincludedirs 
     {
         "Carmicah/source",
-        "Dependencies/includes" 
+        "Dependencies/includes" ,
+        "Dependencies/bin"
     }
 
     libdirs {
@@ -44,6 +45,11 @@ project "Carmicah"
         "glad",
         "ImGUI",
         "freetype.lib",
+        "libmono-static-sgen.lib",
+        "Ws2_32.lib",
+        "Winmm.lib",
+        "Version.lib",
+        "Bcrypt.lib"
     }
 
     buildoptions { "/wd4003" }
@@ -65,6 +71,7 @@ project "Carmicah"
         postbuildcommands -- copies dll files to Editor's bin (the exe)
         {
             "{COPYDIR} %[Dependencies/lib/**.dll] %[bin/" .. outputdir .. "/Editor]",
+            "{COPYDIR} %[Dependencies/bin/**.dll] %[bin/" .. outputdir .. "/Dependencies/bin]",
             "{COPYDIR} %[Assets/**.**] %[bin/" .. outputdir .. "/Assets]"
         }
 
@@ -222,3 +229,42 @@ project "ImGUI"
     filter "configurations:Release"
         defines { "CM_RELEASE" }
         optimize "On"
+
+project "CarmicahScriptCore"
+    location "CarmicahScriptCore"
+    kind "SharedLib"
+    language "C#"
+    dotnetframework "4.7.2"
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin/" .. outputdir .. "int/%{prj.name}")
+
+    files
+    {
+        "%{prj.name}/Source/**.cs",
+        "%{prj.name}/Properties/**.cs"
+    }
+    
+    externalincludedirs 
+    {
+        "Dependencies/includes"
+    }
+
+
+    libdirs
+    {
+        "Dependencies/lib"
+    }
+
+
+    filter "configurations:Debug"
+        optimize "Off"
+        symbols "Default"
+    
+    filter "configurations:Release"
+        optimize "Off"
+        symbols "Default"
+    
+    filter "configurations:Dist"
+        optimize "Full"
+        symbols "Off"
+   
