@@ -148,6 +148,124 @@ namespace Carmicah
 			}
 		}
 		
+		// render rigibody data
+		if (go->HasComponent<RigidBody>())
+		{
+			RigidBody& rb = go->GetComponent<RigidBody>();
+			if (ImGui::BeginTable("Rigidbody Table", 2, ImGuiTableFlags_Borders))
+			{
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Velocity X");
+				ImGui::TableNextColumn();
+				ImGui::DragFloat("##VelocityX", &rb.velocity.x, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Velocity Y");
+				ImGui::TableNextColumn();
+				ImGui::DragFloat("##VelocityY", &rb.velocity.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Gravity");
+				ImGui::TableNextColumn();
+				ImGui::DragFloat("##Gravity", &rb.gravity, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+
+				ImGui::EndTable();
+			}
+		}
+
+		// render collider data
+		if (go->HasComponent<Collider2D>())
+		{
+			Collider2D& col = go->GetComponent<Collider2D>();
+			if (ImGui::BeginTable("Collider2D Table", 2, ImGuiTableFlags_Borders))
+			{
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Shape");
+				ImGui::TableNextColumn();
+				ImGui::Text("%s", col.shape.c_str());
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Min X");
+				ImGui::TableNextColumn();
+				ImGui::DragFloat("##MinX", &col.min.x, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Min Y");
+				ImGui::TableNextColumn();
+				ImGui::DragFloat("##MinY", &col.min.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Max X");
+				ImGui::TableNextColumn();
+				ImGui::DragFloat("##MaxX", &col.max.x, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Max Y");
+				ImGui::TableNextColumn();
+				ImGui::DragFloat("##MaxY", &col.max.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+
+				ImGui::EndTable();
+			}
+		}
+
+		// show text 
+		if (go->HasComponent<TextRenderer>())
+		{
+			TextRenderer& text = go->GetComponent<TextRenderer>();
+			if (ImGui::BeginTable("TextRenderer Table", 2, ImGuiTableFlags_Borders))
+			{
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Text");
+
+				// Convert std::string to char array buffer
+				char buffer[256];
+				strncpy(buffer, text.txt.c_str(), sizeof(buffer));
+				buffer[sizeof(buffer) - 1] = '\0';  // Ensure null termination
+
+				ImGui::TableNextColumn();
+				if (ImGui::InputText("##Text", buffer, sizeof(buffer)))
+				{
+					// Update the std::string if the user changes the input
+					text.txt = buffer;
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Font");
+				ImGui::TableNextColumn();
+				ImGui::Text("%s", text.font.c_str());
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Color R");
+				ImGui::TableNextColumn();
+				ImGui::DragFloat("##ColorR", &text.colorR, 0.01f, 0.0f, 1.0f, "%.3f");
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Color G");
+				ImGui::TableNextColumn();
+				ImGui::DragFloat("##ColorG", &text.colorG, 0.01f, 0.0f, 1.0f, "%.3f");
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Color B");
+				ImGui::TableNextColumn();
+				ImGui::DragFloat("##ColorB", &text.colorB, 0.01f, 0.0f, 1.0f, "%.3f");
+
+				ImGui::EndTable();
+			}
+		}
+
 	}
 
 	void InspectorWindow::Update()
