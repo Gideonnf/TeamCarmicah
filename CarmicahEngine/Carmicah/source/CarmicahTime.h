@@ -34,6 +34,10 @@ typedef unsigned long long GLuint64;
 //                 It also contains functions to start and stop GPU timers and calculate the time taken by the GPU.
 namespace Carmicah
 {
+    // TODO: Dont use singleton, just change to static functions and static memory to keep track of time
+    // calling ::GetInstance() is a bit annoying
+
+
     const float FIXED_DELTA_TIME = 0.01667f; // Fixed time step for 60 FPS
 // Class to keep track of the time in the engine 
     class CarmicahTime : public Singleton<CarmicahTime>// Inherit from Singleton

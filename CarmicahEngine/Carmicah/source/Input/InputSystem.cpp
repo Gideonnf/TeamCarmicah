@@ -817,7 +817,7 @@ namespace Carmicah
 
 	void InputSystem::ProxySend(Message* msg)
 	{
-		SendMessage(msg);
+		SendSysMessage(msg);
 	}
 
 }

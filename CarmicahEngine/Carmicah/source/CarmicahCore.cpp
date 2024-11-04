@@ -337,7 +337,7 @@ namespace Carmicah
                 rrsSystem->Render(gGOFactory->mainCam);
                 txtSystem->Render((GLuint)Width, (GLuint)Height);
                 CarmicahTime::GetInstance()->StopSystemTimer("RenderingSystems");
-                SceneToImgui::GetInstance()->IDPick();
+                //SceneToImgui::GetInstance()->IDPick();
                 
                 SceneToImgui::GetInstance()->UnbindFramebuffer();
                // glfwMakeContextCurrent(window);
