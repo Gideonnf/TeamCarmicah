@@ -21,6 +21,7 @@ DigiPen Institute of Technology is prohibited.
 #include <string>
 #include <unordered_map>
 #include <any>
+#include "Math/Matrix3x3.h"
 
 namespace Carmicah
 {
@@ -35,15 +36,29 @@ namespace Carmicah
 	{
 		GLuint s;
 	};
+	struct ImageTexture
+	{
+		GLuint t;
+	};
+	struct TextureAtlas
+	{
+		GLuint t;
+		unsigned int slotWidth, slotHeight;
+		struct Slot
+		{
+			unsigned int x, y;
+			bool vacant, checked;
+		};
+		std::vector<Slot> spaces{};
+	};
+	struct AnimAtlas
+	{
+		std::vector<std::pair<float, std::string>> anim;// MaxTime, TextureName
+	};
 	struct Texture
 	{
 		GLuint t;
-		int width;
-		int height;
-		int bpt;
-
-		int xSlices;
-		int ySlices;
+		Mtx3x3f mtx;
 	};
 	struct Font
 	{

@@ -33,8 +33,9 @@ namespace Carmicah
 
 	float BaseGraphicsSystem::CalcDepth(const float& depth, const RENDER_LAYERS& layer)
 	{
-		float trueRange = (mNearestDepth - mFurtherstDepth) * static_cast<float>(MAX_LAYERS);
-		return -((depth * static_cast<float>(layer)) + mNearestDepth) / trueRange;
+		float localRange = (mNearestDepth - mFurtherstDepth);// 2
+		float trueRange = localRange * static_cast<float>(MAX_LAYERS);// 2 * 4 = 8
+		return -(depth + localRange * static_cast<float>(layer) + mNearestDepth) / trueRange;// ([-1~1] + [1,3,5,7]) / 800
 	}
 
 	void BaseGraphicsSystem::RenderPrimitive(const Primitive& p)

@@ -57,6 +57,7 @@ namespace Carmicah
 
 		FT_Library mFTLib;
 		//const unsigned int fontSize{ 36 };
+		const int maxTexSize{ 4096 };
 		// Audio
 		const int maxChannels{ 32 };
 		FMOD::System* mSoundSystem{};
@@ -153,6 +154,8 @@ namespace Carmicah
 		void LoadObject(const std::string& objName, const std::string& modelFile);
 		void LoadDebugObject(const std::string& objName, const std::string& modelFile);
 		void LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile);
+		void AddTextureImage(Texture& t, const std::string& textureName, const int& ver, const int& num);
+		void LoadAnimation(const std::string& animName, const std::string& animFile);
 		void InitFontType();
 		void LoadFont(const std::string& fontName, const std::string& fontLoc, const unsigned int& fontHeight);
 

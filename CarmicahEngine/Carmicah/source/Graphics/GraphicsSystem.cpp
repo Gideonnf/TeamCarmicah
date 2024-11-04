@@ -106,12 +106,11 @@ namespace Carmicah
 			if (UniformExists(mCurrShader, "uID", uniformLoc))
 				glUniform1ui(uniformLoc, entity);
 
-			if (UniformExists(mCurrShader, "uAnimationMult", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, renderer.textureMat.m);
-
-
 			// Error Checking if texture no exists
 			auto& tryTex = AssetManager::GetInstance()->GetAsset<Texture>(renderer.texture);
+
+			if (UniformExists(mCurrShader, "uAnimationMult", uniformLoc))
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, tryTex.mtx.m);
 			glBindTextureUnit(0, tryTex.t);
 
 			RenderPrimitive(p);

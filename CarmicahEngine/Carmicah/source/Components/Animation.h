@@ -16,25 +16,23 @@ DigiPen Institute of Technology is prohibited.
 #include "BaseComponent.h"
 namespace Carmicah
 {
+
     struct Animation : public BaseComponent<Animation>
     {
-        bool notChangedAnim;
+        std::string animAtlas;
         int currPiece;
-        int xSlice;
-        int ySlice;
-        float time;
-        float maxTime;
+        float time, maxTime;
 
         Animation& DeserializeComponent(const rapidjson::Value& component) override
         {
-            maxTime = static_cast<float>(component["timeBetween"].GetDouble());
+            animAtlas = component["Atlas"].GetString();
             return *this;
         }
 
         void SerializeComponent(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer) override
         {
 			writer.String("timeBetween");
-			writer.Double(maxTime);
+			writer.String(animAtlas.c_str());
         }
     };
 }
