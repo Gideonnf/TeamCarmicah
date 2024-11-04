@@ -45,7 +45,9 @@ project "Carmicah"
         "glad",
         "ImGUI",
         "freetype.lib",
-        "mono-2.0-sgen.lib"
+        "mono-2.0-sgen.lib",
+        "libmono-static-sgen.lib",
+        "MonoPosixHelper.lib"
     }
 
     buildoptions { "/wd4003" }
