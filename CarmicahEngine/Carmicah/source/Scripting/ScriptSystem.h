@@ -19,8 +19,9 @@ namespace Carmicah
 
 		char* ReadBytes(const std::string& filepath, uint32_t* outSize);
 		MonoAssembly* LoadCSharpAssembly(const std::string& assemblyPath);
+		void LoadMonoAssembly(const std::string& assemblyPath);
 		void PrintAssemblyTypes(MonoAssembly* assembly);
-		void LoadEntityClasses(MonoAssembly* assembly);
+		void LoadEntityClasses();
 		void LogMonoHeapSize();
 		MonoDomain* mRootDomain;
 		MonoDomain* mAppDomain;
@@ -31,9 +32,9 @@ namespace Carmicah
 		ScriptObject mEntityClass;
 
 		// keep track of every type of entity classes
-		std::unordered_map<std::string, ScriptObject> mEntityClasses;
+		std::unordered_map<std::string, std::shared_ptr<ScriptObject>> mEntityClasses;
 		// keep track of entity to script object
-		std::unordered_map<unsigned int, ScriptObject> mEntityInstances;
+		std::unordered_map<unsigned int, std::shared_ptr<ScriptObject>> mEntityInstances;
 	};
 
 }

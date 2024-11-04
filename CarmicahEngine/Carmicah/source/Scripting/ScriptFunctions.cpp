@@ -73,7 +73,7 @@ namespace Carmicah
 		mGameObjectHasComponentFuncs.clear();
 		// Only these 2 for now
 		RegisterComponent<Transform>();
-		RegisterComponent<RigidBody>();
+		//RegisterComponent<RigidBody>();
 	}
 
 	void ScriptFunctions::RegisterFunctions()

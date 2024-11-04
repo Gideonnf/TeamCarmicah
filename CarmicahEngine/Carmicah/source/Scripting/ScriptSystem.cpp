@@ -5,6 +5,7 @@
 #include <mono/metadata/mono-gc.h>
 #include <mono/jit/jit.h>
 #include <mono/metadata/assembly.h>
+#include "ScriptFunctions.h"
 namespace Carmicah
 {
     ScriptSystem::ScriptSystem()
@@ -24,6 +25,9 @@ namespace Carmicah
     void ScriptSystem::Init()
     {
        InitMono();
+       ScriptFunctions::RegisterFunctions();
+
+
     }
 
     void ScriptSystem::LogMonoHeapSize()
@@ -81,16 +85,15 @@ namespace Carmicah
         }
 
         //mRootDomain = rootDomain;
+        LoadMonoAssembly("../CarmicahScriptCore/CarmicahScriptCore.dll");
 
-        // Create an app domain
-        mAppDomain = mono_domain_create_appdomain("CarmicahAppDomain", nullptr);
-        mono_domain_set(mAppDomain, true);
-        mCoreAssembly = LoadCSharpAssembly("../CarmicahScriptCore/CarmicahScriptCore.dll");
-        mCoreAssemblyImage = mono_assembly_get_image(mCoreAssembly);
+        LoadEntityClasses();
 
-        PrintAssemblyTypes(mCoreAssembly);
+        ScriptFunctions::RegisterComponents();
 
-        //mEntityClass = ScriptObject("Carmicah", "Entity");
+       // PrintAssemblyTypes(mCoreAssembly);
+        // retrieve the main Entity class
+        mEntityClass = ScriptObject("Carmicah", "Entity");
 
         //MonoImage* image = mono_assembly_get_image(mCoreAssembly);
         //MonoClass* monoClass = mono_class_from_name(image, "Carmicah", "Main");
@@ -139,6 +142,28 @@ namespace Carmicah
 
         *outSize = size;
         return buffer;
+    }
+
+    void ScriptSystem::LoadMonoAssembly(const std::string& assemblyPath)
+    {
+        // Create an app domain
+        mAppDomain = mono_domain_create_appdomain("CarmicahAppDomain", nullptr);
+        mono_domain_set(mAppDomain, true);
+        mCoreAssembly = LoadCSharpAssembly(assemblyPath);
+        if (mCoreAssembly == nullptr)
+        {
+            // assert smth here 
+            CM_CORE_ERROR("Unable to load core assembly");
+            assert("Unable to load");
+        }
+
+        mCoreAssemblyImage = mono_assembly_get_image(mCoreAssembly);
+        if (mCoreAssemblyImage == nullptr)
+        {
+            // assert smth here 
+            CM_CORE_ERROR("Unable to load core assembly image");
+            assert("Unable to load");
+        }
     }
 
     MonoAssembly* ScriptSystem::LoadCSharpAssembly(const std::string& assemblyPath)
@@ -191,11 +216,15 @@ namespace Carmicah
         }
     }
 
-    void ScriptSystem::LoadEntityClasses(MonoAssembly* assembly)
+    void ScriptSystem::LoadEntityClasses()
     {
-        MonoImage* image = mono_assembly_get_image(assembly);
+        // clear the map before using it
+        mEntityClasses.clear();
+
+        MonoImage* image = mono_assembly_get_image(mCoreAssembly);
         const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(image, MONO_TABLE_TYPEDEF);
         int32_t numTypes = mono_table_info_get_rows(typeDefinitionsTable);
+        MonoClass* entityClass = mono_class_from_name(image, "Carmicah", "Entity");
 
         for (int32_t i = 0; i < numTypes; i++)
         {
@@ -206,13 +235,24 @@ namespace Carmicah
             const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
 
             MonoClass* monoClass = mono_class_from_name(image, nameSpace, name);
-            MonoClass* entityClass = mono_class_from_name(image, "Carmicah", "Entity");
+
+            // don't reload entity class
+            if (monoClass == entityClass) continue;
+
+            std::string className;
+            if (strlen(nameSpace))
+            {
+                className = fmt::format("{}::{}", nameSpace, name);
+            }
+            else
+                className = name;
 
             bool isEntityScript = mono_class_is_subclass_of(monoClass, entityClass, false);
-          /*  if (isEntityScript)
+            if (isEntityScript)
             {
-                mEntityClasses[]
-            }*/
+                ScriptObject script = ScriptObject(nameSpace, name);
+                mEntityClasses[className] = std::make_shared<ScriptObject>(script);
+            }
 
             printf("%s.%s\n", nameSpace, name);
         }

@@ -11,7 +11,7 @@ namespace Carmicah
         public Entity Entity { get; set; }
     }
 
-    public class TransformComponent : Component
+    public class Transform : Component
     {
         public Vector2 Scale
         {
