@@ -45,11 +45,7 @@ project "Carmicah"
         "glad",
         "ImGUI",
         "freetype.lib",
-        "libmono-static-sgen.lib",
-        "Ws2_32.lib",
-        "Winmm.lib",
-        "Version.lib",
-        "Bcrypt.lib"
+        "mono-2.0-sgen.lib"
     }
 
     buildoptions { "/wd4003" }

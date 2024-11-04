@@ -20,6 +20,7 @@ namespace Carmicah
 		char* ReadBytes(const std::string& filepath, uint32_t* outSize);
 		MonoAssembly* LoadCSharpAssembly(const std::string& assemblyPath);
 		void PrintAssemblyTypes(MonoAssembly* assembly);
+		void LoadEntityClasses(MonoAssembly* assembly);
 		void LogMonoHeapSize();
 		MonoDomain* mRootDomain;
 		MonoDomain* mAppDomain;

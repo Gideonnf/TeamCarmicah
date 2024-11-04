@@ -190,4 +190,32 @@ namespace Carmicah
             printf("%s.%s\n", nameSpace, name);
         }
     }
+
+    void ScriptSystem::LoadEntityClasses(MonoAssembly* assembly)
+    {
+        MonoImage* image = mono_assembly_get_image(assembly);
+        const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(image, MONO_TABLE_TYPEDEF);
+        int32_t numTypes = mono_table_info_get_rows(typeDefinitionsTable);
+
+        for (int32_t i = 0; i < numTypes; i++)
+        {
+            uint32_t cols[MONO_TYPEDEF_SIZE];
+            mono_metadata_decode_row(typeDefinitionsTable, i, cols, MONO_TYPEDEF_SIZE);
+
+            const char* nameSpace = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
+            const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
+
+            MonoClass* monoClass = mono_class_from_name(image, nameSpace, name);
+            MonoClass* entityClass = mono_class_from_name(image, "Carmicah", "Entity");
+
+            bool isEntityScript = mono_class_is_subclass_of(monoClass, entityClass, false);
+          /*  if (isEntityScript)
+            {
+                mEntityClasses[]
+            }*/
+
+            printf("%s.%s\n", nameSpace, name);
+        }
+
+    }
 }
