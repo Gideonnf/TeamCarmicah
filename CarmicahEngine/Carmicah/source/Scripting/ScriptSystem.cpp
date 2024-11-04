@@ -26,6 +26,16 @@ namespace Carmicah
        InitMono();
     }
 
+    void ScriptSystem::LogMonoHeapSize()
+    {
+        // Retrieve the current size of the managed heap in bytes
+        size_t heapSize = mono_gc_get_heap_size();
+
+        // Convert to KB or MB if needed
+        std::cout << "Current Mono managed heap size: " << heapSize << " bytes ("
+            << heapSize / 1024 << " KB)" << std::endl;
+    }
+
     void ScriptSystem::CleanUp()
     {
         if (mAppDomain)
@@ -40,7 +50,8 @@ namespace Carmicah
 
         // Force garbage collection and wait for finalizers in managed code
         //mono_gc_collect(mono_gc_max_generation());
-        
+        // LogMonoHeapSize();
+
         if (mRootDomain)
         {
             // Perform JIT cleanup on the root domain
@@ -59,25 +70,25 @@ namespace Carmicah
     void ScriptSystem::InitMono()
     {
         // while (true) {};
-        //mono_set_assemblies_path("../Dependencies/bin");
+        mono_set_assemblies_path("../Dependencies/bin");
 
-        //mRootDomain = mono_jit_init("CarmicahJITRuntime");
-        //if (mRootDomain == nullptr)
-        //{
-        //    CM_CORE_ERROR("Unable to init mono");
-        //    assert("Failed to init mono jit");
-        //    return;
-        //}
+        mRootDomain = mono_jit_init("CarmicahJITRuntime");
+        if (mRootDomain == nullptr)
+        {
+            CM_CORE_ERROR("Unable to init mono");
+            assert("Failed to init mono jit");
+            return;
+        }
 
-        ////mRootDomain = rootDomain;
+        //mRootDomain = rootDomain;
 
-        //// Create an app domain
-        //mAppDomain = mono_domain_create_appdomain("CarmicahAppDomain", nullptr);
-        //mono_domain_set(mAppDomain, true);
-        //mCoreAssembly = LoadCSharpAssembly("../CarmicahScriptCore/CarmicahScriptCore.dll");
-        //mCoreAssemblyImage = mono_assembly_get_image(mCoreAssembly);
+        // Create an app domain
+        mAppDomain = mono_domain_create_appdomain("CarmicahAppDomain", nullptr);
+        mono_domain_set(mAppDomain, true);
+        mCoreAssembly = LoadCSharpAssembly("../CarmicahScriptCore/CarmicahScriptCore.dll");
+        mCoreAssemblyImage = mono_assembly_get_image(mCoreAssembly);
 
-        //PrintAssemblyTypes(mCoreAssembly);
+        PrintAssemblyTypes(mCoreAssembly);
 
         //mEntityClass = ScriptObject("Carmicah", "Entity");
 

@@ -3,6 +3,7 @@
 #include "../Singleton.h"
 #include <mono/jit/jit.h>
 #include <mono/metadata/assembly.h>
+
 #include "ScriptObject.h"
 
 namespace Carmicah
@@ -15,10 +16,11 @@ namespace Carmicah
 		void Init();
 		void CleanUp();
 		void InitMono();
+
 		char* ReadBytes(const std::string& filepath, uint32_t* outSize);
 		MonoAssembly* LoadCSharpAssembly(const std::string& assemblyPath);
 		void PrintAssemblyTypes(MonoAssembly* assembly);
-
+		void LogMonoHeapSize();
 		MonoDomain* mRootDomain;
 		MonoDomain* mAppDomain;
 		MonoAssembly* mCoreAssembly;
