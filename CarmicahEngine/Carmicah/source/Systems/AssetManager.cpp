@@ -420,6 +420,10 @@ namespace Carmicah
 
 	void AssetManager::LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile)
 	{
+		//int maxTextureSize;
+		//glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
+		//CM_CORE_INFO("Max Texture Size is: " + std::to_string(maxTextureSize));
+
 		if (AssetExist<Texture>(textureName))
 		{
 			CM_CORE_WARN("Texture:" + textureName + " Already Exists");
@@ -477,12 +481,12 @@ namespace Carmicah
 
 		if(bytePerTex == 4) // RGBA
 			glTextureSubImage2D(imageTex.t, 0, 0, 0, texWidth, texHeight, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		//glPixelStorei(GL_UNPACK_ALIGNMENT, ); if width * bpt is not multiple of 4
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);// if width * bpt is not multiple of 4
 		//mTextureMaps.insert(std::make_pair(textureName, texture));
 		stbi_image_free(data);
 
 		if (spriteD.empty())
-			AddTextureImage(texture, textureName, 0, 1);
+			AddTextureImage(texture, textureName);
 		else
 		{
 			for (int i{}; i < spriteD.size(); ++i)
@@ -493,29 +497,31 @@ namespace Carmicah
 				texture.mtx.m[3] = static_cast<float>(spriteD[i].height);
 				texture.mtx.m[4] = static_cast<float>(texWidth);
 				texture.mtx.m[5] = static_cast<float>(texHeight);
-				AddTextureImage(texture, textureName, i, spriteD[i].num);
+				AddTextureImage(texture, textureName, spriteD[i].num, i, i == 0);
 			}
 		}
 	}
 
-	void AssetManager::AddTextureImage(Texture& t, const std::string& textureName, const int& ver, const int& num)
+	void AssetManager::AddTextureImage(Texture& t, const std::string& textureName, const int& num, const int& ver, bool wholeSprite)
 	{
-		if (num == 1)
+		if (num == 0)
 		{
 			AddAsset(textureName, t);
 			return;
 		}
-		float x = t.mtx.m[0] / t.mtx.m[4],
-			y = t.mtx.m[1] / t.mtx.m[5],
-			width = t.mtx.m[2] / t.mtx.m[4],
-			height = t.mtx.m[3] / t.mtx.m[5];
+		float	x		= t.mtx.m[0] / t.mtx.m[4],
+				y		= t.mtx.m[1] / t.mtx.m[5],
+				width	= t.mtx.m[2] / t.mtx.m[4],
+				height	= t.mtx.m[3] / t.mtx.m[5];
 		Mtx33Identity(t.mtx);
-		AddAsset(textureName, t);
+		if(wholeSprite)
+			AddAsset(textureName, t);
 
 		t.mtx.translateThis(x, 1.f - y - height).scaleThis(width, height);
 		for (int i{}; i < num; ++i)
 		{
-			AddAsset(textureName + ' ' + std::to_string(ver) + ' ' + std::to_string(i), t);
+			std::string aaa= textureName + ' ' + std::to_string(ver) + ' ' + std::to_string(i);
+			AddAsset(aaa, t);
 			t.mtx.m[6] += width;
 			if (t.mtx.m[6] + width > 1.f)
 			{
@@ -575,7 +581,8 @@ namespace Carmicah
 			return;
 		}
 
-		std::array<Font::FontChar, 128> newFont;
+		Font fontObj;
+		std::array<std::pair<unsigned char, unsigned int>, 96> fontHeightMap; // to sort by height
 
 		FT_Face fontFace;
 		if (FT_New_Face(mFTLib, fontLoc.c_str(), 0, &fontFace))
@@ -585,45 +592,76 @@ namespace Carmicah
 		}
 		FT_Set_Pixel_Sizes(fontFace, 0, fontHeight);
 
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		for (unsigned char c = 0; c < 128; ++c)
+		for (unsigned char c{fontObj.charOffset}; c < 128; ++c)
 		{
-			// Unprintable 32 control characters
-			if (c < 32)
-				continue;
 			if (FT_Load_Char(fontFace, c, FT_LOAD_RENDER))
 			{
-				std::cerr << "Failed to load FreeType Glyph: " <<fontName << "(" << c << ")" << std::endl;
+				std::cerr << "Failed to load FreeType Glyph: " << fontName << "(" << c << ")" << std::endl;
 				continue;
 			}
-			Font::FontChar fc;
-			fc.width = fontFace->glyph->bitmap.width;
-			fc.height = fontFace->glyph->bitmap.rows;
-			fc.xBearing = fontFace->glyph->bitmap_left;
-			fc.yBearing = fontFace->glyph->bitmap_top;
-			fc.advance = fontFace->glyph->advance.x;
+			int i{ c - fontObj.charOffset };
 
-			glCreateTextures(GL_TEXTURE_2D, 1, &fc.texID);
-			glTextureStorage2D(fc.texID, 1, GL_R8, fc.width, fc.height);
-			// RAINNE: Smthing going on here idk
-			// type = 0x33356, Severity = 0x37190
-			// message = GL_INVALID_VALUE error generated.
-			// <levels>, <width> and <height> must be 1 or greater.
-			glTextureSubImage2D(fc.texID, 0, 0, 0, fc.width, fc.height, GL_RED, GL_UNSIGNED_BYTE, fontFace->glyph->bitmap.buffer);
+			fontObj.mFontMaps[i].width = fontFace->glyph->bitmap.width;
+			fontObj.mFontMaps[i].height = fontFace->glyph->bitmap.rows;
+			fontObj.mFontMaps[i].xBearing = fontFace->glyph->bitmap_left;
+			fontObj.mFontMaps[i].yBearing = fontFace->glyph->bitmap_top;
+			fontObj.mFontMaps[i].advance = fontFace->glyph->advance.x;
 
-			glTextureParameterf(fc.texID, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTextureParameterf(fc.texID, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			glTextureParameterf(fc.texID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTextureParameterf(fc.texID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-			newFont[c] = std::move(fc);
+			fontHeightMap[i] = std::make_pair(c, fontObj.mFontMaps[i].height);
 		}
-		Font fontObj;
-		fontObj.mFontMaps = std::move(newFont);
+
+		std::sort(fontHeightMap.begin(), fontHeightMap.end(), [](const auto& lhs, const auto& rhs) {
+			return lhs.second < rhs.second;
+		});
+
+		ImageTexture imgTex{};
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glCreateTextures(GL_TEXTURE_2D, 1, &imgTex.t);
+		AddAsset(std::to_string(imgTex.t), imgTex);
+		glTextureStorage2D(imgTex.t, 1, GL_R8, maxTexSize, maxTexSize);
+		glTextureParameterf(imgTex.t, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTextureParameterf(imgTex.t, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTextureParameterf(imgTex.t, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameterf(imgTex.t, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		int heightSoFar{}, widthAccumulated{}, heightAccumulated{};
+
+		for (auto& i : fontHeightMap)
+		{
+			if (FT_Load_Char(fontFace, i.first, FT_LOAD_RENDER))
+			{
+				std::cerr << "Failed to load FreeType Glyph: " << fontName << "(" << i.first << ")" << std::endl;
+				continue;
+			}
+
+			int fontArrayNum{ i.first - fontObj.charOffset };
+
+			Font::FontChar& fc = fontObj.mFontMaps[fontArrayNum];
+			if (widthAccumulated > maxTexSize)
+			{
+				widthAccumulated = 0;
+				heightAccumulated += heightSoFar;
+;			}
+			glTextureSubImage2D(imgTex.t, 0, widthAccumulated, heightAccumulated, fc.width, fc.height, GL_RED, GL_UNSIGNED_BYTE, fontFace->glyph->bitmap.buffer);
+			Texture texture{};
+			texture.t = imgTex.t;
+			texture.mtx.m[0] = static_cast<float>(widthAccumulated);
+			texture.mtx.m[1] = static_cast<float>(maxTexSize - heightAccumulated);
+			texture.mtx.m[2] = static_cast<float>(fc.width);
+			texture.mtx.m[3] = static_cast<float>(fc.height);
+			texture.mtx.m[4] = static_cast<float>(maxTexSize);
+			texture.mtx.m[5] = static_cast<float>(maxTexSize);
+			AddTextureImage(texture, fontName, 1, static_cast<int>(i.first));
+			fc.texRef = fontName + ' ' + std::to_string(i.first) + " 0";
+
+			if (fc.height > heightSoFar)
+				heightSoFar = fc.height;
+			widthAccumulated += fc.width;
+		}
+
 		FT_Done_Face(fontFace);
-		//mFontMaps.insert(std::make_pair(fontName, std::move(newFont)));
-		// TODO: change to use move
-		AddAsset(fontName, fontObj);
+		AddAsset(fontName, std::move(fontObj));
 	}
 
 
