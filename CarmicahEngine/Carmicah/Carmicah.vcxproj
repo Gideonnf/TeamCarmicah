@@ -158,6 +158,9 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="source\Messaging\Message.h" />
     <ClInclude Include="source\Physics\ForcesManager.h" />
     <ClInclude Include="source\Physics\PhysicsSystem.h" />
+    <ClInclude Include="source\Scripting\ScriptFunctions.h" />
+    <ClInclude Include="source\Scripting\ScriptObject.h" />
+    <ClInclude Include="source\Scripting\ScriptSystem.h" />
     <ClInclude Include="source\Singleton.h" />
     <ClInclude Include="source\Systems\AssetManager.h" />
     <ClInclude Include="source\Systems\AssetTypes.h" />
@@ -196,6 +199,9 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClCompile Include="source\Input\InputSystem.cpp" />
     <ClCompile Include="source\Physics\ForcesManager.cpp" />
     <ClCompile Include="source\Physics\PhysicsSystem.cpp" />
+    <ClCompile Include="source\Scripting\ScriptFunctions.cpp" />
+    <ClCompile Include="source\Scripting\ScriptObject.cpp" />
+    <ClCompile Include="source\Scripting\ScriptSystem.cpp" />
     <ClCompile Include="source\Systems\AssetManager.cpp" />
     <ClCompile Include="source\Systems\CollisionSystem.cpp" />
     <ClCompile Include="source\Systems\GOFactory.cpp" />

@@ -207,6 +207,17 @@ namespace Carmicah
 		//return mIDToGO[mNameToID[GOName]];
 	}
 
+	GameObject& GOFactory::FetchGO(Entity id)
+	{
+		if (mIDToGO.count(id) <= 0)
+		{
+			CM_CORE_ERROR("GO Doesn't Exist");
+			assert("Doesn't exist");
+		}
+
+		return mIDToGO[id];
+	}
+
 	void GOFactory::AttachComponents(GameObject& obj, std::pair<std::string, std::any> component)
 	{
 		std::string componentName = component.first;
@@ -323,7 +334,7 @@ namespace Carmicah
 		{
 			SystemManager::GetInstance()->EntityDestroyed(entity);
 			EntityKilledMessage msg(entity);
-			SendSysMessage(&msg);
+			SendMessage(&msg);
 		}
 
 		mDeleteList.clear();
@@ -367,7 +378,7 @@ namespace Carmicah
 		// we need the original parent's transform so that we can convert the entity's local transform
 		// back to world transform
 		UpdateTransformMessage msg(entityID, newParentID);
-		SendSysMessage(&msg);
+		SendMessage(&msg); 
 
 		// Remove entityID from it's current parent
 		// Check if its part of sceneGO

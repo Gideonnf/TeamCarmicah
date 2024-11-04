@@ -40,6 +40,7 @@
 #include "CarmicahTime.h"
 #include "Systems/AssetManager.h"
 #include "Editor/SceneToImgui.h"
+#include "Scripting/ScriptSystem.h"
 
 namespace Carmicah
 {
@@ -197,6 +198,7 @@ namespace Carmicah
 
        // Editor Editor;
         editorSys->Init(window);
+        ScriptSystem::GetInstance()->Init();
 
         SceneToImgui::GetInstance()->CreateFramebuffer(bufferWidth, bufferHeight);
 
@@ -365,6 +367,7 @@ namespace Carmicah
         souSystem->Exit();
         colSystem->Exit();
         Serializer.WriteConfig();
+        ScriptSystem::GetInstance()->CleanUp();
 
         glfwTerminate();
         return 0;
