@@ -141,7 +141,7 @@ namespace Carmicah
 			std::string animGO = "Change Animation of " + go->GetName();
 			if (ImGui::Button(animGO.c_str()))
 			{
-				go->GetComponent<Animation>().notChangedAnim = true;
+				//go->GetComponent<Animation>().notChangedAnim = true;
 				go->GetComponent<Renderer>().texture = "Duck";
 				//gGOFactory->Destroy(selectedEntity);
 				//selectedGO = nullptr;

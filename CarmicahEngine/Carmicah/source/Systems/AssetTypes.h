@@ -83,6 +83,34 @@ namespace Carmicah
 		std::unordered_map<std::string, std::any> mComponents;
 	
 		std::vector<Prefab> childList;
+
+		template <typename T>
+		bool HasComponent() const
+		{
+			std::string typeName = typeid(T).name();
+			for (const auto& [name, component] : mComponents)
+			{
+				if (typeName == name)
+				{
+					return true;
+				}
+			}
+			return false;
+
+		}
+
+		template <typename T>
+		T& GetComponent()
+		{
+			std::string typeName = typeid(T).name();
+			auto it = mComponents.find(typeName);
+			if (it != mComponents.end())
+			{
+				return std::any_cast<T&>(it->second);
+			}
+			throw std::runtime_error("Component not found!");
+
+		}
 	};
 	struct Scene
 	{
