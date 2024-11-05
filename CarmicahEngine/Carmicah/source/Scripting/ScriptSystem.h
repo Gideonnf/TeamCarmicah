@@ -31,6 +31,7 @@ namespace Carmicah
 		void LoadEntityClasses();
 		void LogMonoHeapSize();
 		void OnStart(); // Calls the Enter function of all game objects
+		bool HasEntityClass(std::string scriptName);
 
 		// Variables
 		MonoDomain* mRootDomain;

@@ -8,9 +8,9 @@ namespace Carmicah
     {
         public uint mID;
 
-        Entity() { mID = 0; }
+        protected Entity() { mID = 0; }
 
-        Entity(uint id) { mID = id; }
+        protected Entity(uint id) { mID = id; }
 
         public Vector2 Scale
         {

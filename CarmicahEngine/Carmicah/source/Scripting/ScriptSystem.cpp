@@ -39,8 +39,16 @@ namespace Carmicah
     void ScriptSystem::Init()
     {
        InitMono();
+
        ScriptFunctions::RegisterFunctions();
 
+       LoadEntityClasses();
+
+       ScriptFunctions::RegisterComponents();
+
+       // PrintAssemblyTypes(mCoreAssembly);
+        // retrieve the main Entity class
+       mEntityClass = ScriptObject("Carmicah", "Entity");
 
     }
 
@@ -100,14 +108,6 @@ namespace Carmicah
 
         //mRootDomain = rootDomain;
         LoadMonoAssembly("../CarmicahScriptCore/CarmicahScriptCore.dll");
-
-        LoadEntityClasses();
-
-        ScriptFunctions::RegisterComponents();
-
-       // PrintAssemblyTypes(mCoreAssembly);
-        // retrieve the main Entity class
-        mEntityClass = ScriptObject("Carmicah", "Entity");
 
         //MonoImage* image = mono_assembly_get_image(mCoreAssembly);
         //MonoClass* monoClass = mono_class_from_name(image, "Carmicah", "Main");
@@ -230,9 +230,26 @@ namespace Carmicah
         }
     }
 
+    bool ScriptSystem::HasEntityClass(std::string scriptName)
+    {
+        return mEntityClasses.find(scriptName) != mEntityClasses.end();
+    }
+
     void ScriptSystem::OnStart()
     {
+        for (auto& id : mEntitiesSet)
+        {
+            Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(id);
 
+            if (HasEntityClass(scriptComponent.scriptName))
+            {
+                std::shared_ptr<ScriptObject> scriptRef(mEntityClasses[scriptComponent.scriptName]);
+                scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
+                mEntityInstances[id] = scriptRef;
+
+                scriptRef->InvokeOnCreate();
+            }
+        }
     }
 
     void ScriptSystem::LoadEntityClasses()

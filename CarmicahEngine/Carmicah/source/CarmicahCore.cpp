@@ -201,6 +201,7 @@ namespace Carmicah
        // Editor Editor;
         editorSys->Init(window);
         gScriptSystem->Init();
+        gScriptSystem->OnStart();
 
         SceneToImgui::GetInstance()->CreateFramebuffer(bufferWidth, bufferHeight);
 
