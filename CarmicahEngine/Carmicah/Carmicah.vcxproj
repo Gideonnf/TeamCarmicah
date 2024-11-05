@@ -125,6 +125,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="source\Components\Forces.h" />
     <ClInclude Include="source\Components\Renderer.h" />
     <ClInclude Include="source\Components\RigidBody.h" />
+    <ClInclude Include="source\Components\Script.h" />
     <ClInclude Include="source\Components\TextRenderer.h" />
     <ClInclude Include="source\Components\Transform.h" />
     <ClInclude Include="source\Components\UITransform.h" />

@@ -8,8 +8,17 @@
 #include "ScriptFunctions.h"
 namespace Carmicah
 {
+    ScriptSystem* gScriptSystem = NULL;
+
     ScriptSystem::ScriptSystem()
     {
+        mSignature.set(ComponentManager::GetInstance()->GetComponentID<Script>());
+
+        SystemManager::GetInstance()->SetSignature<ScriptSystem>(mSignature);
+
+        if (gScriptSystem == NULL)
+            gScriptSystem = this;
+
          mRootDomain = nullptr;
         mAppDomain = nullptr;
         mCoreAssembly = nullptr;
@@ -20,6 +29,11 @@ namespace Carmicah
     ScriptSystem::~ScriptSystem()
     {
        // CleanUp();
+    }
+
+    void ScriptSystem::EntityDestroyed(Entity id)
+    {
+
     }
 
     void ScriptSystem::Init()
@@ -214,6 +228,11 @@ namespace Carmicah
 
             printf("%s.%s\n", nameSpace, name);
         }
+    }
+
+    void ScriptSystem::OnStart()
+    {
+
     }
 
     void ScriptSystem::LoadEntityClasses()

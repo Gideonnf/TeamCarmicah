@@ -55,7 +55,7 @@ namespace Carmicah
 		// so that we can match the C# equivalent of the component
 		std::string modifiedTypename = fmt::format("Carmicah.{}", structName);
 
-		MonoType* monoType = mono_reflection_type_from_name(modifiedTypename.data(), ScriptSystem::GetInstance()->mCoreAssemblyImage);
+		MonoType* monoType = mono_reflection_type_from_name(modifiedTypename.data(), gScriptSystem->mCoreAssemblyImage);
 		if (!monoType)
 		{
 			CM_CORE_ERROR("Couldn't find component");

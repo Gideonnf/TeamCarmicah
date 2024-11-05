@@ -8,12 +8,12 @@ namespace Carmicah
 {
 	ScriptObject::ScriptObject(const std::string& nameSpace, const std::string& className)
 	{
-		mMonoClass = mono_class_from_name(ScriptSystem::GetInstance()->mCoreAssemblyImage, nameSpace.c_str(), className.c_str());
+		mMonoClass = mono_class_from_name(gScriptSystem->mCoreAssemblyImage, nameSpace.c_str(), className.c_str());
 	}
 
 	void ScriptObject::Instantiate()
 	{
-		mMonoInstance = mono_object_new(ScriptSystem::GetInstance()->mAppDomain, mMonoClass);
+		mMonoInstance = mono_object_new(gScriptSystem->mAppDomain, mMonoClass);
 		mono_runtime_object_init(mMonoInstance);
 
 		//monoInstance = instance;
@@ -24,7 +24,7 @@ namespace Carmicah
 	{
 		Instantiate();
 		// Need to call constructor of entity by getting the entity class thats storing Entity.cs
-		mConstruct = ScriptSystem::GetInstance()->mEntityClass.GetMethod(".ctor", 1);
+		mConstruct = gScriptSystem->mEntityClass.GetMethod(".ctor", 1);
 
 		// These are the other functions that every other script that inherits Entity will have
 		mOnCreate = GetMethod("OnCreate", 0);

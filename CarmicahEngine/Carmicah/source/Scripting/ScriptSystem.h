@@ -1,21 +1,28 @@
 #ifndef SCRIPT_SYSTEM_H
 #define SCRIPT_SYSTEM_H
 #include "../Singleton.h"
+#include "ECS/ComponentManager.h"
+#include "ECS/EntityManager.h"
 #include <mono/jit/jit.h>
 #include <mono/metadata/assembly.h>
-
+#include "ECS/BaseSystem.h"
 #include "ScriptObject.h"
 
 namespace Carmicah
 {
-	class ScriptSystem : public Singleton<ScriptSystem>
+	class ScriptSystem : public BaseSystem
 	{
 	public:
 		ScriptSystem();
 		~ScriptSystem();
+		// System Functions
+		void EntityDestroyed(Entity) override;
+		
+		// Initialising and Clean up
 		void Init();
 		void CleanUp();
 		void InitMono();
+
 
 		char* ReadBytes(const std::string& filepath, uint32_t* outSize);
 		MonoAssembly* LoadCSharpAssembly(const std::string& assemblyPath);
@@ -23,6 +30,9 @@ namespace Carmicah
 		void PrintAssemblyTypes(MonoAssembly* assembly);
 		void LoadEntityClasses();
 		void LogMonoHeapSize();
+		void OnStart(); // Calls the Enter function of all game objects
+
+		// Variables
 		MonoDomain* mRootDomain;
 		MonoDomain* mAppDomain;
 		MonoAssembly* mCoreAssembly;
@@ -37,6 +47,7 @@ namespace Carmicah
 		std::unordered_map<unsigned int, std::shared_ptr<ScriptObject>> mEntityInstances;
 	};
 
+	extern ScriptSystem* gScriptSystem;
 }
 
 #endif

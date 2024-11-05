@@ -20,6 +20,7 @@
 #include "Components/Animation.h"
 #include "Components/TextRenderer.h"
 #include "Components/UITransform.h"
+#include "Components/Script.h"
 #include "Systems/GameLogic.h"
 
 #include "Systems/GOFactory.h"
@@ -134,7 +135,7 @@ namespace Carmicah
         CarmicahTime::GetInstance()->InitGPUProfiling();
 
         glViewport(0, 0, (GLsizei)Width, (GLsizei)Height);
-
+        REGISTER_COMPONENT(Script);
         REGISTER_COMPONENT(Transform);
         REGISTER_COMPONENT(Collider2D);
         REGISTER_COMPONENT(RigidBody);
@@ -145,6 +146,7 @@ namespace Carmicah
 
         auto editorSys = REGISTER_SYSTEM(Editor);
         REGISTER_SYSTEM(GOFactory);
+        REGISTER_SYSTEM(ScriptSystem);
         auto graSystem = REGISTER_SYSTEM(GraphicsSystem);
         auto uigSystem = REGISTER_SYSTEM(UIGraphicsSystem);
         auto txtSystem = REGISTER_SYSTEM(TextSystem);
@@ -198,7 +200,7 @@ namespace Carmicah
 
        // Editor Editor;
         editorSys->Init(window);
-        ScriptSystem::GetInstance()->Init();
+        gScriptSystem->Init();
 
         SceneToImgui::GetInstance()->CreateFramebuffer(bufferWidth, bufferHeight);
 
@@ -367,7 +369,7 @@ namespace Carmicah
         souSystem->Exit();
         colSystem->Exit();
         Serializer.WriteConfig();
-        ScriptSystem::GetInstance()->CleanUp();
+        gScriptSystem->CleanUp();
 
         glfwTerminate();
         return 0;

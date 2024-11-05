@@ -25,6 +25,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Components/TextRenderer.h"
 #include "Components/UITransform.h"
 #include "Components/RigidBody.h"
+#include "Components/Script.h"
 #include "log.h"
 
 namespace Carmicah
@@ -250,6 +251,10 @@ namespace Carmicah
 		else if (componentName == typeid(TextRenderer).name())
 		{
 			obj.AddComponent(std::any_cast<TextRenderer>(componentData));
+		}
+		else if (componentName == typeid(Script).name())
+		{
+			obj.AddComponent(std::any_cast<Script>(componentData));
 		}
 		else
 		{

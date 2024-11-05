@@ -29,6 +29,8 @@ namespace Carmicah
 	class ScriptObject
 	{
 	public:
+		friend class ScriptSystem;
+
 		ScriptObject() = default;
 		ScriptObject(const std::string& nameSpace, const std::string& className);
 
