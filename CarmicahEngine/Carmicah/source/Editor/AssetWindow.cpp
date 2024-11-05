@@ -40,7 +40,8 @@ namespace Carmicah
 		static auto assetManager = AssetManager::GetInstance();
 		auto primitiveMap = assetManager->GetAssetMap<Primitive>();
 		auto shaderMap = assetManager->GetAssetMap<Shader>();
-		auto textureMap = assetManager->GetAssetMap<ImageTexture>();
+		auto imageTextureMap = assetManager->GetAssetMap<ImageTexture>();
+		auto textureMap = assetManager->GetAssetMap<Texture>();
 		auto fontMap = assetManager->GetAssetMap<Font>();
 		//auto audioMap = assetManager->GetAssetMap<Audio>();
 		auto prefabMap = assetManager->GetAssetMap<Prefab>();
@@ -97,6 +98,14 @@ namespace Carmicah
 					name = entry.first + "##texture";
 					if (ImGui::Button(name.c_str()))
 					{
+						Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
+						for (const auto& textureEntry : textureMap->mAssetMap)
+						{
+							if (entry.second == textureEntry.second)
+							{
+								render.texture = textureEntry.first;
+							}
+						}
 
 					}
 					if (ImGui::IsItemHovered())
