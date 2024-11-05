@@ -33,10 +33,14 @@ DigiPen Institute of Technology is prohibited.
 #include "pch.h"
 #include "Input/InputSystem.h"
 #include "Messaging/InputMessage.h"
+#include <ImGUI/imgui.h>
+#include <ImGUI/imgui_impl_glfw.h>
+#include <ImGUI/imgui_impl_opengl3.h>
 #include "Editor/SceneToImgui.h"
 #include "log.h"
 #include "Math/Vec2.h"
 #include "CarmicahTime.h"
+#include "InputSystem.h"
 
 
 namespace Carmicah
@@ -118,10 +122,37 @@ namespace Carmicah
 			// get current pos of cursor
 			Input.SetDragCurrentPos({ xPos, yPos });
 
-			// cout the current mouse pos
-			std::cout << "Dragging to: (" << xPos << ", " << yPos << ")" << std::endl;
+			//// cout the current mouse pos
+			//std::cout << "dragging to: (" << xpos << ", " << ypos << ")" << std::endl;
 		}
 	}
+
+	#pragma region CursorPosCallback
+	//static void CursorPosCallback(GLFWwindow* window, double xPos, double yPos)
+	//{
+	//	UNUSED(window);
+
+	//	// only update mouse position if the cursor is hovering over the Scene window
+	//	if (ImGui::Begin("Scene"))
+	//	{
+	//		if (ImGui::IsWindowHovered())
+	//		{
+	//			Input.SetMousePosition(xPos, yPos);
+
+	//			// if dragging, update the drag current position
+	//			if (Input.IsDragging())
+	//			{
+	//				Input.SetDragCurrentPos({ xPos, yPos });
+	//				std::cout << "Dragging in Scene to: (" << xPos << ", " << yPos << ")" << std::endl;
+	//			}
+	//		}
+	//	}
+	//	// close the Scene window context
+	//	ImGui::End();
+	//}
+
+	#pragma endregion
+
 
 	// Scroll back stuff
 	void ScrollCallback(GLFWwindow* window, double xOffset, double yOffset)

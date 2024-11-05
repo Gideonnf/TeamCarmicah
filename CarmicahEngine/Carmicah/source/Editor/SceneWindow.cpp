@@ -28,24 +28,61 @@ namespace Carmicah
 
 	void SceneWindow::Update()
 	{
-		if (ImGui::Begin(mTitle))
-		{
-			const float windowWidth = ImGui::GetContentRegionAvail().x;
-			const float windowHeight = ImGui::GetContentRegionAvail().y;
+        // Render scene content here if needed
+        if (ImGui::Begin(mTitle))
+        {
+            const float windowWidth = ImGui::GetContentRegionAvail().x;
+            const float windowHeight = ImGui::GetContentRegionAvail().y;
 
-			SceneToImgui::GetInstance()->RescaleFramebuffer(windowWidth, windowHeight);
-			glViewport(0, 0, (GLsizei)windowWidth, (GLsizei)windowHeight);
+            SceneToImgui::GetInstance()->RescaleFramebuffer(windowWidth, windowHeight);
+            glViewport(0, 0, (GLsizei)windowWidth, (GLsizei)windowHeight);
 
-			ImVec2 pos = ImGui::GetCursorScreenPos();
+            // Get the screen position of the Scene window's content area
+            ImVec2 sceneWindowPos = ImGui::GetWindowPos();
 
-			ImGui::GetWindowDrawList()->AddImage(
-				(ImTextureID)(uintptr_t)SceneToImgui::GetInstance()->texture_id,
-				ImVec2(pos.x, pos.y),
-				ImVec2(pos.x + windowWidth, pos.y + windowHeight),
-				ImVec2(0, 1),
-				ImVec2(1, 0)
-			);
-		}
+            ImVec2 pos = ImGui::GetCursorScreenPos();
+
+            ImGui::GetWindowDrawList()->AddImage(
+                (ImTextureID)(uintptr_t)SceneToImgui::GetInstance()->texture_id,
+                ImVec2(pos.x, pos.y),
+                ImVec2(pos.x + windowWidth, pos.y + windowHeight),
+                ImVec2(0, 1),
+                ImVec2(1, 0)
+            );
+
+            //if (ImGui::Begin("Scene"))
+            //{
+                // Check if the mouse is hovering over the Scene window
+                if (ImGui::IsWindowHovered())
+                {
+                    // Get the global mouse position
+                    ImVec2 mousePos = ImGui::GetMousePos();
+
+                    // Calculate mouse position relative to the Scene window's content area
+                    ImVec2 relativeMousePos = { mousePos.x - pos.x, mousePos.y - pos.y };
+
+                    // Ensure the mouse is within the bounds of the Scene content area
+                    if (relativeMousePos.x >= 0 && relativeMousePos.x <= windowWidth &&
+                        relativeMousePos.y >= 0 && relativeMousePos.y <= windowHeight)
+                    {
+                        // Scale the coordinates to 1920x1080
+                        float scaledX = (relativeMousePos.x / windowWidth) * 1920.0f;
+                        float scaledY = (relativeMousePos.y / windowHeight) * 1080.0f;
+
+                        // Update the InputSystem with the relative mouse position
+                        Input.SetMousePosition(scaledX, scaledY);
+
+                        // If dragging, update the drag position within the Scene window
+                        if (Input.IsDragging())
+                        {
+                            Input.SetDragCurrentPos({ scaledX, scaledY });
+                            std::cout << "Dragging in Scene to: (" << scaledX << ", " << scaledY << ")" << std::endl;
+                        }
+                    }
+                }
+            //}
+        }
+ 
 		ImGui::End();
 	}
 }
