@@ -40,7 +40,7 @@ namespace Carmicah
 		static auto assetManager = AssetManager::GetInstance();
 		auto primitiveMap = assetManager->GetAssetMap<Primitive>();
 		auto shaderMap = assetManager->GetAssetMap<Shader>();
-		auto textureMap = assetManager->GetAssetMap<Texture>();
+		auto textureMap = assetManager->GetAssetMap<ImageTexture>();
 		auto fontMap = assetManager->GetAssetMap<Font>();
 		//auto audioMap = assetManager->GetAssetMap<Audio>();
 		auto prefabMap = assetManager->GetAssetMap<Prefab>();
@@ -121,7 +121,11 @@ namespace Carmicah
 					name = entry.first + "##font";
 					if (ImGui::Button(name.c_str()))
 					{
-
+						if(HierarchyWindow::selectedGO->HasComponent<TextRenderer>())
+						{
+							TextRenderer& text = HierarchyWindow::selectedGO->GetComponent<TextRenderer>();
+							text.font = entry.first;
+						}
 					}
 					if (ImGui::IsItemHovered())
 					{

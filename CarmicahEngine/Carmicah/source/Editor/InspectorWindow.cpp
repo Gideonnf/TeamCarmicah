@@ -41,6 +41,10 @@ namespace Carmicah
 
 		componentsToAdd.push_back("      ");
 
+		if (!go->HasComponent<Renderer>())
+		{
+			componentsToAdd.push_back("Renderer");
+		}
 		if (!go->HasComponent<Transform>())
 		{
 			componentsToAdd.push_back("Transform");
@@ -49,10 +53,10 @@ namespace Carmicah
 		{
 			componentsToAdd.push_back("UITransform");
 		}
-		if (!go->HasComponent<Animation>())
+		/*if (!go->HasComponent<Animation>())
 		{
 			componentsToAdd.push_back("Animation");
-		}
+		}*/
 		if (!go->HasComponent<RigidBody>())
 		{
 			componentsToAdd.push_back("RigidBody");
@@ -73,6 +77,12 @@ namespace Carmicah
 		ImGui::SameLine();
 		if(ImGui::Button("Add Component"))
 		{
+			if (selectedComponentToAdd == "Renderer")
+			{
+				go->AddComponent<Renderer>();
+				selectedComponentToAdd = "";
+				selectedIndex = 0;
+			}
 
 			if (selectedComponentToAdd == "Transform")
 			{
@@ -86,12 +96,12 @@ namespace Carmicah
 				selectedComponentToAdd = "";
 				selectedIndex = 0;
 			}
-			if (selectedComponentToAdd == "Animation")
+			/*if (selectedComponentToAdd == "Animation")
 			{
 				go->AddComponent<Animation>();
 				selectedComponentToAdd = "";
 				selectedIndex = 0;
-			}
+			}*/
 			if (selectedComponentToAdd == "RigidBody")
 			{
 				go->AddComponent<RigidBody>();
@@ -135,6 +145,43 @@ namespace Carmicah
 	}
 	template<typename T> void InspectorWindow::InspectorTable(T* go, Entity id)
 	{
+		if (go->HasComponent<Renderer>())
+		{
+			Renderer& render = go->GetComponent<Renderer>();
+			InspectorWindow::RemoveComponentButton<Renderer>(id);
+			if (ImGui::BeginTable("Renderer Table", 2, ImGuiTableFlags_Borders))
+			{
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Model");
+
+				char buffer[256];
+				strncpy(buffer, render.model.c_str(), sizeof(buffer));
+				buffer[sizeof(buffer) - 1] = '\0';
+
+				ImGui::TableNextColumn();
+				if (ImGui::InputText("##Model", buffer, sizeof(buffer)))
+				{
+					render.model = buffer;
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Texture");
+
+				char buffer2[256];
+				strncpy(buffer2, render.texture.c_str(), sizeof(buffer2));
+				buffer2[sizeof(buffer2) - 1] = '\0';
+
+				ImGui::TableNextColumn();
+				if (ImGui::InputText("##Texture", buffer2, sizeof(buffer2)))
+				{
+					render.texture = buffer2;
+				}
+			}
+			ImGui::EndTable();
+		}
+
 		if (go->HasComponent<Transform>())
 		{
 			Transform& selectedTransform = go->GetComponent<Transform>();
@@ -247,19 +294,19 @@ namespace Carmicah
 			ImGui::EndTable();
 		}
 
-		if (go->HasComponent<Animation>())
-		{
-			InspectorWindow::RemoveComponentButton<Animation>(id);
-			std::string animGO = "Change Animation of " + go->GetName();
-			if (ImGui::Button(animGO.c_str()))
-			{
-				//go->GetComponent<Animation>().notChangedAnim = true;
-				go->GetComponent<Renderer>().texture = "Duck";
-				//gGOFactory->Destroy(selectedEntity);
-				//selectedGO = nullptr;
-			}
-			ImGui::NewLine();
-		}
+		//if (go->HasComponent<Animation>())
+		//{
+		//	InspectorWindow::RemoveComponentButton<Animation>(id);
+		//	std::string animGO = "Change Animation of " + go->GetName();
+		//	if (ImGui::Button(animGO.c_str()))
+		//	{
+		//		//go->GetComponent<Animation>().notChangedAnim = true;
+		//		go->GetComponent<Renderer>().texture = "Duck";
+		//		//gGOFactory->Destroy(selectedEntity);
+		//		//selectedGO = nullptr;
+		//	}
+		//	ImGui::NewLine();
+		//}
 		
 		// render rigibody data
 		if (go->HasComponent<RigidBody>())
