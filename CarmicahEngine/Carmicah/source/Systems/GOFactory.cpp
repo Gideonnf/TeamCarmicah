@@ -252,6 +252,8 @@ namespace Carmicah
 	{
 		// Current cheat way is to change the parent to scene
 		// and then remove it from scene's child list
+		//TODO:
+		//Destroying Parent Objects will cause a crash
 		UpdateParent(entity, sceneGO.sceneID);
 
 		sceneGO.children.erase(entity);
