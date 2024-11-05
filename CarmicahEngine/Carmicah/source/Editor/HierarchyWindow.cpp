@@ -169,4 +169,9 @@ namespace Carmicah
 			selectedGO = nullptr;
 		}
 	}
+
+	void HierarchyWindow::ResetHierarchyWindow()
+	{
+		selectedGO = nullptr;
+	}
 }
