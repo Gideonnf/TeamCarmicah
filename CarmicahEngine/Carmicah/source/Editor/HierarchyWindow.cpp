@@ -34,6 +34,7 @@ namespace Carmicah
 	bool HierarchyWindow::mShowScene = true;
 	std::vector<GameObject> createdList;
 	GameObject* HierarchyWindow::selectedGO = nullptr;
+	Prefab* HierarchyWindow::inspectedPrefab = nullptr;
 
 	void HierarchyWindow::GOButton(GameObject& go)
 	{
@@ -50,6 +51,20 @@ namespace Carmicah
 		});
 
 		ImGui::Unindent();
+	}
+
+	void HierarchyWindow::PrefabButton(Prefab& prefab)
+	{
+		if (ImGui::Button(prefab.mName.c_str()))
+		{
+			inspectedPrefab = &prefab;
+		}
+
+		ImGui::Indent();
+		prefab.ForPrefabChildren(prefab, [this](Prefab& childPrefab)
+		{
+			PrefabButton(childPrefab);
+		});
 	}
 
 	void HierarchyWindow::Update()
@@ -89,16 +104,7 @@ namespace Carmicah
 					}
 					if(!backToScene)
 					{
-						ImGui::Text(AssetWindow::selectedPrefab->mName.c_str());
-						if (!AssetWindow::selectedPrefab->HasComponent<Transform>())
-						{
-
-						}
-						else
-						{
-							auto& transform = AssetWindow::selectedPrefab->GetComponent<Transform>();
-							std::cout << transform.children.size() << '\n';
-						}
+						PrefabButton(*AssetWindow::selectedPrefab);
 					}
 				}
 				ImGui::EndChild();
@@ -189,10 +195,5 @@ namespace Carmicah
 		{
 			selectedGO = nullptr;
 		}
-	}
-
-	void HierarchyWindow::ResetSelectedGO()
-	{
-		selectedGO = nullptr;
 	}
 }

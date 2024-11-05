@@ -20,6 +20,7 @@ DigiPen Institute of Technology is prohibited.
 #include "EditorWindow.h"
 #include "AssetWindow.h"
 #include "HierarchyWindow.h"
+#include "InspectorWindow.h"
 #include "../Systems/AssetManager.h"
 #include "Systems/GOFactory.h"
 #include "Components/Transform.h"
@@ -151,7 +152,9 @@ namespace Carmicah
 					if (ImGui::Button(name.c_str()))
 					{
 						selectedPrefab = &prefabMap->mAssetList[entry.second];
+						HierarchyWindow::inspectedPrefab = &prefabMap->mAssetList[entry.second];
 						HierarchyWindow::mShowScene = !HierarchyWindow::mShowScene;
+						HierarchyWindow::selectedGO = nullptr;
 					}
 				}
 				ImGui::Unindent();

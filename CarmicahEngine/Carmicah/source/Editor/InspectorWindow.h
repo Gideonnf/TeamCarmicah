@@ -39,7 +39,9 @@ namespace Carmicah
 		 */
 		void Update() override;
 
-		void GOTable(GameObject* go);
+		template<typename T>
+		void InspectorTable(T* go);
+		void PrefabTable(Prefab* go);
 
 
 	};

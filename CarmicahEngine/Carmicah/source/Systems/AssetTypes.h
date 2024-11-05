@@ -21,6 +21,7 @@ DigiPen Institute of Technology is prohibited.
 #include <string>
 #include <unordered_map>
 #include <any>
+#include <functional>
 #include "Math/Matrix3x3.h"
 
 namespace Carmicah
@@ -99,6 +100,7 @@ namespace Carmicah
 
 		}
 
+
 		template <typename T>
 		T& GetComponent()
 		{
@@ -109,6 +111,23 @@ namespace Carmicah
 				return std::any_cast<T&>(it->second);
 			}
 			throw std::runtime_error("Component not found!");
+
+		}
+
+		std::string GetName() const
+		{
+			return mName;
+		}
+
+		void ForPrefabChildren(Prefab& parentPrefab, const std::function<void(Prefab&)>& func)
+		{
+			if (parentPrefab.childList.size() > 0)
+			{
+				for (auto& child : parentPrefab.childList)
+				{
+					func(child);
+				}
+			}
 
 		}
 	};
