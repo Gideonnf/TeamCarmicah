@@ -54,6 +54,8 @@ namespace Carmicah
 
 	void HierarchyWindow::Update()
 	{
+		static auto assetManager = AssetManager::GetInstance();
+		auto prefabMap = assetManager->GetAssetMap<Prefab>();
 			//static Transform playerTrans{};
 			//static Collider2D playerCollider{ 1.0, 2.0, 3.0, 4.0 };
 			//static Renderer toRender{};
@@ -78,7 +80,26 @@ namespace Carmicah
 				}
 				else if (AssetWindow::selectedPrefab != nullptr)
 				{
-					ImGui::Text(AssetWindow::selectedPrefab->mName.c_str());
+					bool backToScene = false;
+					if (ImGui::Button("Back"))
+					{
+						AssetWindow::selectedPrefab = nullptr;
+						mShowScene = true;
+						backToScene = true;
+					}
+					if(!backToScene)
+					{
+						ImGui::Text(AssetWindow::selectedPrefab->mName.c_str());
+						if (!AssetWindow::selectedPrefab->HasComponent<Transform>())
+						{
+
+						}
+						else
+						{
+							auto& transform = AssetWindow::selectedPrefab->GetComponent<Transform>();
+							std::cout << transform.children.size() << '\n';
+						}
+					}
 				}
 				ImGui::EndChild();
 			}
@@ -170,7 +191,7 @@ namespace Carmicah
 		}
 	}
 
-	void HierarchyWindow::ResetHierarchyWindow()
+	void HierarchyWindow::ResetSelectedGO()
 	{
 		selectedGO = nullptr;
 	}

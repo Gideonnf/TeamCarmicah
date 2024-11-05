@@ -35,7 +35,7 @@ namespace Carmicah
 
 	void AssetWindow::Update()
 	{
-		//Obtainninng all the AssetMaps
+		//Obtaining all the AssetMaps
 		static auto assetManager = AssetManager::GetInstance();
 		auto primitiveMap = assetManager->GetAssetMap<Primitive>();
 		auto shaderMap = assetManager->GetAssetMap<Shader>();

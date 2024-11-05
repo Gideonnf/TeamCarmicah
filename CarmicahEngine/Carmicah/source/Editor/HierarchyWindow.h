@@ -49,7 +49,7 @@ namespace Carmicah
 
 		void GOButton(GameObject& go);
 
-		void ResetHierarchyWindow();
+		void ResetSelectedGO();
 
 	};
 }
