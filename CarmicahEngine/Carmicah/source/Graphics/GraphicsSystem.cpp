@@ -54,6 +54,8 @@ namespace Carmicah
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glUseProgram(mCurrShader);
+		if (mCurrShader == 0)
+			return;
 		// Just did discard instead, cuz this stopped working
 		//glEnable(GL_BLEND);
 		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -62,31 +64,20 @@ namespace Carmicah
 		glDepthFunc(GL_LESS);
 
 		// Handle Camera Transform
-		auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-		if (!currCam.notUpdated)
 		{
+			auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
 			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-			Mtx33Identity(currCam.camSpace);
-			currCam.camSpace.scaleThis(camTrans.scale.x, camTrans.scale.y).rotDegThis(-camTrans.rot).translateThis(-camTrans.pos.x, -camTrans.pos.y);
+			Mtx3x3f camSpace{};
+			camSpace.scaleThis(camTrans.scale.x, camTrans.scale.y).rotDegThis(-camTrans.rot).translateThis(-camTrans.pos.x, -camTrans.pos.y);
+			GLint uniformLoc{};
+			if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
 		}
 
 		for (auto& entity : mEntitiesSet)
 		{
 			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
-
-			// Handle Entities transform
-			if (!transform.notUpdated)
-			{
-				//Mtx33Identity(transform.worldSpace);
-				//transform.worldSpace.translateThis(transform.pos.x, transform.pos.y).rotDegThis(transform.rot).scaleThis(transform.scale.x, transform.scale.y);
-				transform.camSpace = currCam.camSpace * transform.worldSpace;
-			}
-			else if (!currCam.notUpdated)
-				transform.camSpace = currCam.camSpace * transform.worldSpace;
-
-			if (mCurrShader == 0)
-				continue;
 
 			// Get Components
 			Renderer& renderer = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
@@ -95,7 +86,7 @@ namespace Carmicah
 			// Set Uniforms
 			GLint uniformLoc{};
 			if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, transform.camSpace.m);
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, transform.worldSpace.m);
 
 			//if (UniformExists(mCurrShader, "uTex2d", uniformLoc)) // Only if multiple textures
 			//	glUniform1i(uniformLoc, 0);
