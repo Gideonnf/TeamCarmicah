@@ -119,6 +119,11 @@ namespace Carmicah
 			return mName;
 		}
 
+		unsigned int GetID() const
+		{
+			return mPrefabID;
+		}
+
 		void ForPrefabChildren(Prefab& parentPrefab, const std::function<void(Prefab&)>& func)
 		{
 			if (parentPrefab.childList.size() > 0)

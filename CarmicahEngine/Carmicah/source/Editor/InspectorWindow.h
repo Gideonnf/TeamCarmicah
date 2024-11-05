@@ -40,8 +40,11 @@ namespace Carmicah
 		void Update() override;
 
 		template<typename T>
-		void InspectorTable(T* go);
-		void PrefabTable(Prefab* go);
+		void InspectorTable(T* go, Entity id);
+
+		void AddComponentButton(Entity go);
+		template<typename T>
+		void RemoveComponentButton(Entity go);
 
 
 	};
