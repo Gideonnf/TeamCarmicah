@@ -33,6 +33,7 @@ DigiPen Institute of Technology is prohibited.
 #include "pch.h"
 #include "Input/InputSystem.h"
 #include "Messaging/InputMessage.h"
+#include "Editor/SceneToImgui.h"
 #include "log.h"
 #include "Math/Vec2.h"
 #include "CarmicahTime.h"
@@ -82,16 +83,26 @@ namespace Carmicah
 			Input.SetDragStartPos(Input.GetMousePosition());
 		}
 		// stop dragging when button is released
-		else if (action == GLFW_RELEASE && Input.IsDragging() 
-				/*&& (Input.GetMousePosition().x != Input.GetDragCurrentPos().x || Input.GetMousePosition().y != Input.GetDragCurrentPos().y)*/)
+		else if (action == GLFW_RELEASE)
 		{
-			// set bool to false and get dragEndPos
-			Input.SetDragging(false);
-			Input.SetDragEndPos(Input.GetMousePosition());
+			Vec2d mousePosD = Input.GetInstance()->GetMousePosition();
+			// TODO: Hard coded
+			Vec2i mousePosI = { std::clamp(static_cast<int>(mousePosD.x), 0, 1920), 1080 - std::clamp(static_cast<int>(mousePosD.y) - 1, 0, 1080) };
 
-			// see where drag started and ended
-			std::cout << "Drag started and ended at: (" << Input.GetDragStartPos().x << ", " << Input.GetDragStartPos().y << ") to ("
-				<< Input.GetDragEndPos().x << ", " << Input.GetDragEndPos().y << ")" << std::endl;
+			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(mousePosI.x, mousePosI.y));
+			Input.ProxySend(&msg);
+
+			if (Input.IsDragging())
+				/*&& (Input.GetMousePosition().x != Input.GetDragCurrentPos().x || Input.GetMousePosition().y != Input.GetDragCurrentPos().y)*/
+			{
+				// set bool to false and get dragEndPos
+				Input.SetDragging(false);
+				Input.SetDragEndPos(Input.GetMousePosition());
+
+				// see where drag started and ended
+				std::cout << "Drag started and ended at: (" << Input.GetDragStartPos().x << ", " << Input.GetDragStartPos().y << ") to ("
+					<< Input.GetDragEndPos().x << ", " << Input.GetDragEndPos().y << ")" << std::endl;
+			}
 		}
 	}
 
@@ -105,7 +116,7 @@ namespace Carmicah
 		if (Input.IsDragging())
 		{
 			// get current pos of cursor
-			Input.SetDragCurrentPos( {xPos, yPos} );
+			Input.SetDragCurrentPos({ xPos, yPos });
 
 			// cout the current mouse pos
 			std::cout << "Dragging to: (" << xPos << ", " << yPos << ")" << std::endl;
@@ -127,7 +138,7 @@ namespace Carmicah
 		// example of sending messages
 		int keyCode = 5;
 		KeyMessage msg(keyCode);
-		SendMessage(&msg);
+		SendSysMessage(&msg);
 
 		// Set up the call backs
 		glfwSetKeyCallback(windowRef, KeyCallback);
@@ -143,7 +154,7 @@ namespace Carmicah
 		{
 			CM_CORE_ERROR("Error: Input system not initalized.");
 		}
-		
+
 	}
 
 	void InputSystem::UpdatePrevInput()
@@ -804,5 +815,9 @@ namespace Carmicah
 		}
 	}*/
 
+	void InputSystem::ProxySend(Message* msg)
+	{
+		SendSysMessage(msg);
+	}
 
 }

@@ -22,6 +22,9 @@
     <Filter Include="Messaging">
       <UniqueIdentifier>{E3A043D9-4F0B-F84F-9849-A9F504F3D5A4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{888B590D-F46A-D8A8-FD82-637F69E13E0A}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Systems">
       <UniqueIdentifier>{1DDE831B-89BD-02B7-92D5-8D8DFE336918}</UniqueIdentifier>
     </Filter>
@@ -39,6 +42,9 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="source\Components\Collider2D.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Components\Forces.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="source\Components\Renderer.h">
@@ -119,6 +125,9 @@
     <ClInclude Include="source\Graphics\TextSystem.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="source\Graphics\UIGraphicsSystem.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="source\Input\InputSystem.h">
       <Filter>Input</Filter>
     </ClInclude>
@@ -137,8 +146,17 @@
     <ClInclude Include="source\Messaging\Message.h">
       <Filter>Messaging</Filter>
     </ClInclude>
+    <ClInclude Include="source\Physics\ForcesManager.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Physics\PhysicsSystem.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
     <ClInclude Include="source\Singleton.h" />
     <ClInclude Include="source\Systems\AssetManager.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Systems\AssetTypes.h">
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="source\Systems\CollisionSystem.h">
@@ -148,9 +166,6 @@
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="source\Systems\GameLogic.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Systems\PhysicsSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="source\Systems\SceneSystem.h">
@@ -225,8 +240,17 @@
     <ClCompile Include="source\Graphics\TextSystem.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="source\Graphics\UIGraphicsSystem.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="source\Input\InputSystem.cpp">
       <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Physics\ForcesManager.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Physics\PhysicsSystem.cpp">
+      <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="source\Systems\AssetManager.cpp">
       <Filter>Systems</Filter>
@@ -238,9 +262,6 @@
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="source\Systems\GameLogic.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Systems\PhysicsSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="source\Systems\SceneSystem.cpp">

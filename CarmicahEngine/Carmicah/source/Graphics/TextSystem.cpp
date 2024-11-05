@@ -83,21 +83,12 @@ namespace Carmicah
 				if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
 					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, charTransform.m);
 
-				glBindVertexArray(p.vaoid);
+				if (UniformExists(mCurrShader, "uDepth", uniformLoc))
+					glUniform1f(uniformLoc, CalcDepth(UITrans.depth, RENDER_LAYERS::UI_LAYER));
+
 				glBindTextureUnit(0, ch.texID);
-				switch (p.drawMode)
-				{
-				case GL_LINE_LOOP:
-					glLineWidth(2.f);
-					glDrawArrays(GL_LINE_LOOP, 0, p.drawCnt);
-					break;
-				case GL_TRIANGLES:
-					glDrawElements(GL_TRIANGLES, p.drawCnt, GL_UNSIGNED_SHORT, NULL);
-					break;
-				case GL_TRIANGLE_FAN:
-					glDrawArrays(GL_TRIANGLE_FAN, 0, p.drawCnt);
-					break;
-				}
+
+				RenderPrimitive(p);
 
 				// now advance cursors for next glyph (note that advance is number of 1/64 pixels)
 				xTrack += (ch.advance >> 7) * UITrans.scale.x * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)

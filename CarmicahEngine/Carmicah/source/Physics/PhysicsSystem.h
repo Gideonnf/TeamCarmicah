@@ -27,7 +27,7 @@ namespace Carmicah
 
 		void Exit();
 
-		void ApplyForce(Entity& obj);
+		void Integrate(Entity& obj);
 
 		void UpdatePosition(Entity& obj);
 

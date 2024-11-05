@@ -16,6 +16,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/SerializerSystem.h"
 #include "log.h"
 #include "Systems/GOFactory.h"
+#include "AssetManager.h"
 
 namespace Carmicah
 {
@@ -161,6 +162,8 @@ namespace Carmicah
 		// Get the name of the prefab
 		prefab.mName = std::string(doc["GameObject"].GetString());
 
+		CM_CORE_INFO("Creating prefab with name: " + prefab.mName);
+
 		// get the ID attached to the prefab
 		prefab.mPrefabID = static_cast<Entity>(doc["ID"].GetInt());
 
@@ -182,10 +185,54 @@ namespace Carmicah
 			prefab.mComponents.insert({ componentName, component });
 		}
 
+		if (doc.HasMember("Children"))
+		{
+			const rapidjson::Value& childrenList = doc["Children"];
+			for (rapidjson::Value::ConstValueIterator it = childrenList.Begin(); it != childrenList.End(); ++it)
+			{
+				prefab.childList.push_back(GetChildren(*it));
+			}
+		}
+
+
 		//const Value go = doc;
 		return prefab;
 	}
 
+	Prefab SerializerSystem::GetChildren(const rapidjson::Value& doc)
+	{
+		Prefab prefab{};
+		// Get the name of the prefab
+		prefab.mName = std::string(doc["GameObject"].GetString());
 
+		// get the ID attached to the prefab
+		prefab.mPrefabID = static_cast<Entity>(doc["ID"].GetInt());
+
+		CM_CORE_INFO("Creating prefab child with name: " + prefab.mName);
+
+		// Loop through the components and store it into the map
+		const rapidjson::Value& componentList = doc["Components"];
+		for (rapidjson::Value::ConstValueIterator it = componentList.Begin(); it != componentList.End(); ++it)
+		{
+			std::string componentName = (*it)["Component Name"].GetString();
+			// Retrieve component data as an std::any object as there can be multiple types of components
+			std::any component = ComponentManager::GetInstance()->DeserializePrefabComponent(*it);
+
+			// Insert it into the component map
+			prefab.mComponents.insert({ componentName, component });
+		}
+
+		if (doc.HasMember("Children"))
+		{
+			const rapidjson::Value& childrenList = doc["Children"];
+			for (rapidjson::Value::ConstValueIterator it = childrenList.Begin(); it != childrenList.End(); ++it)
+			{
+				prefab.childList.push_back(GetChildren(*it));
+			}
+
+		}
+
+		return prefab;
+	}
 
 }

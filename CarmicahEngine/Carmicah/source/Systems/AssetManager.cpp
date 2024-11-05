@@ -22,6 +22,7 @@ DigiPen Institute of Technology is prohibited.
 #include "log.h"
 #include "Systems/SerializerSystem.h"
 #include "Math/Vec2.h"
+#include "Systems/AssetTypes.h"
 
 namespace Carmicah
 {
@@ -54,6 +55,10 @@ namespace Carmicah
 					for (const auto& entry : std::filesystem::directory_iterator(subFile))
 					{
 						std::string fileName = entry.path().stem().string();
+						if (folderName == "Animation")
+						{
+							LoadAnimation(fileName, entry.path().string());
+						}
 						if (folderName == "Audio")
 						{
 							LoadSound(fileName, entry.path().string(), false);
@@ -68,7 +73,7 @@ namespace Carmicah
 
 							if (fileExt == ".png")
 							{
-								const auto testOtherFile = subFile.path() / (fileName + std::string(".ani"));
+								const auto testOtherFile = subFile.path() / (fileName + std::string(".txt"));
 								LoadTexture(fileName, entry.path().string(), testOtherFile.string());
 							}
 						}
@@ -125,7 +130,7 @@ namespace Carmicah
 	void AssetManager::UnloadAll()
 	{
 		// Unload Graphics
-		for (const auto& i : GetAssetMap<Texture>()->mAssetList)
+		for (const auto& i : GetAssetMap<ImageTexture>()->mAssetList)
 		{
 			glDeleteTextures(1, &i.t);
 		}
@@ -145,19 +150,6 @@ namespace Carmicah
 		}
 		GetAssetMap<Shader>()->mAssetMap.clear();
 
-		// TODO: Delete textures
-		//for (const auto& i : mTextureMaps)
-		//	glDeleteTextures(1, &i.second.t);
-		//for (const auto& i : mPrimitiveMaps)
-		//{
-		//	glDeleteVertexArrays(1, &i.second.vaoid);
-		//	glDeleteBuffers(1, &i.second.vboid);
-		//}
-		//for (const auto& i : mShaderPgms)
-		//	glDeleteProgram(i.second);
-		//mTextureMaps.clear();
-		//mPrimitiveMaps.clear();
-		//mShaderPgms.clear();
 		FT_Done_FreeType(mFTLib);
 
 		// Unload Sound
@@ -174,17 +166,14 @@ namespace Carmicah
 		// Shader Exists
 		if (AssetExist<Shader>(shaderName))
 		{
-			// TODO: Change to CM error logger thing
-			std::cerr << "Shader:" << shaderName << " Already Exists";
+			CM_CORE_WARN("Shader:" + shaderName + " Already Exists");
 			auto foundShader = GetAsset<Shader>(shaderName).s;
 			return foundShader;
-			//	return foundShader->second;
 		}
 		std::ifstream vertShaderFile(vertFile, std::ios::binary);
 		if (!vertShaderFile)
 		{
 			assert("Unable to open Vertex Shader File");
-			//std::cerr << "Unable to open Vertex Shader File";
 			return 0;
 		}
 		std::string vertShaderSource;
@@ -199,7 +188,6 @@ namespace Carmicah
 		if (!fragShaderFile)
 		{
 			assert("Unable to open Fragment Shader File");
-			//std::cerr << "Unable to open Fragment Shader File";
 			return 0;
 		}
 		std::string fragShaderSource;
@@ -284,15 +272,14 @@ namespace Carmicah
 
 		if (AssetExist<Primitive>(objName))
 		{
-			// TODO: Change to CM error logger thing
-			std::cerr << "Object:" << objName << " Already Exists";
+			CM_CORE_WARN("Object:" + objName + " Already Exists");
 			return;
 		}
 
 		std::ifstream ifs(modelFile, std::ios::binary);
 		if (!ifs)
 		{
-			std::cerr << "Unable to open Obj:" << modelFile;
+			CM_CORE_ERROR("Unable to open Obj:" + modelFile);
 			return;
 		}
 		Primitive p;// GL_TRIANGLES, GL_TRIANGLE_FAN, GL_TRIANGLE_STRIP
@@ -301,7 +288,8 @@ namespace Carmicah
 		ifs >> p.drawMode >> numVert >> p.drawCnt;
 		if (p.drawMode == 0)
 		{
-			std::cerr << "Error reading obj file";
+			CM_CORE_ERROR("Error reading obj file");
+			ifs.close();
 			return;
 		}
 
@@ -381,8 +369,7 @@ namespace Carmicah
 	{
 		if (AssetExist<Primitive>(objName))
 		{
-			// TODO: Change to CM error logger thing
-			std::cerr << "Object:" << objName << " Already Exists";
+			CM_CORE_WARN("Object:" + objName + " Already Exists");
 			return;
 		}
 
@@ -390,7 +377,7 @@ namespace Carmicah
 		std::ifstream ifs(modelFile, std::ios::binary);
 		if (!ifs)
 		{
-			std::cerr << "Unable to open Obj:" << modelFile;
+			CM_CORE_ERROR("Unable to open Obj:" + modelFile);
 			return;
 		}
 		Primitive p;
@@ -398,7 +385,8 @@ namespace Carmicah
 		ifs >> p.drawCnt;
 		if (p.drawCnt == 0)
 		{
-			std::cerr << "Error reading debug obj file";
+			CM_CORE_ERROR("Error reading debug obj file");
+			ifs.close();
 			return;
 		}
 
@@ -434,36 +422,140 @@ namespace Carmicah
 	{
 		if (AssetExist<Texture>(textureName))
 		{
-			std::cerr << "Texture:" << textureName << " Already Exists";
+			CM_CORE_WARN("Texture:" + textureName + " Already Exists");
 			return;
 		}
 
-		Texture texture;
+		Texture texture{};
+		ImageTexture imageTex{};
+		int texWidth{}, texHeight{}, bytePerTex{};
+
+		stbi_uc* data = stbi_load(textureFile.c_str(), &texWidth, &texHeight, &bytePerTex, 0);
+		if (!data)// || texWidth > maxTexSize || texHeight > maxTexSize)
+		{
+			CM_CORE_ERROR("Unable to open texture file");
+			stbi_image_free(data);
+			return;
+		}
+
+		// Read if the sprite needs to be divided
+		struct spriteDetails
+		{
+			int x, y, width, height, num;
+		};
+		std::vector<spriteDetails> spriteD;
+
 		std::ifstream ssDets{ spriteSheetFile, std::ios::binary };
 		if (ssDets)
 		{
-			ssDets >> texture.xSlices >> texture.ySlices;
+			std::string tempS;
+			char tempC;
+
+			spriteDetails t;
+
+			while (!ssDets.eof())
+			{
+				ssDets >> tempS >> tempS >> t.x >> tempC >> t.y;
+				ssDets >> t.width >> t.height;
+				ssDets >> t.num;
+
+				if (!ssDets.eof())
+					spriteD.push_back(t);
+
+				ssDets >> tempS;
+			}
 			ssDets.close();
 		}
 
-		stbi_uc* data = stbi_load(textureFile.c_str(), &texture.width, &texture.height, &texture.bpt, 0);
-		if (!data)
-		{
-			std::cerr << "Unable to open texture file\n";
-			exit(EXIT_FAILURE);
-		}
+		glCreateTextures(GL_TEXTURE_2D, 1, &imageTex.t);
+		glTextureStorage2D(imageTex.t, 1, GL_RGBA8, texWidth, texHeight);
+		AddAsset(std::to_string(imageTex.t), imageTex);
+		texture.t = imageTex.t;
 
-		glCreateTextures(GL_TEXTURE_2D, 1, &texture.t);
-		glTextureStorage2D(texture.t, 1, GL_RGBA8, texture.width, texture.height);
+		glTextureParameterf(imageTex.t, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTextureParameterf(imageTex.t, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		glTextureParameterf(texture.t, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTextureParameterf(texture.t, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-		glTextureSubImage2D(texture.t, 0, 0, 0, texture.width, texture.height, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		stbi_image_free(data);
+		if(bytePerTex == 4) // RGBA
+			glTextureSubImage2D(imageTex.t, 0, 0, 0, texWidth, texHeight, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		//glPixelStorei(GL_UNPACK_ALIGNMENT, ); if width * bpt is not multiple of 4
 		//mTextureMaps.insert(std::make_pair(textureName, texture));
-		AddAsset(textureName, texture);
+		stbi_image_free(data);
+
+		if (spriteD.empty())
+			AddTextureImage(texture, textureName, 0, 1);
+		else
+		{
+			for (int i{}; i < spriteD.size(); ++i)
+			{
+				texture.mtx.m[0] = static_cast<float>(spriteD[i].x);
+				texture.mtx.m[1] = static_cast<float>(spriteD[i].y);
+				texture.mtx.m[2] = static_cast<float>(spriteD[i].width);
+				texture.mtx.m[3] = static_cast<float>(spriteD[i].height);
+				texture.mtx.m[4] = static_cast<float>(texWidth);
+				texture.mtx.m[5] = static_cast<float>(texHeight);
+				AddTextureImage(texture, textureName, i, spriteD[i].num);
+			}
+		}
+	}
+
+	void AssetManager::AddTextureImage(Texture& t, const std::string& textureName, const int& ver, const int& num)
+	{
+		if (num == 1)
+		{
+			AddAsset(textureName, t);
+			return;
+		}
+		float x = t.mtx.m[0] / t.mtx.m[4],
+			y = t.mtx.m[1] / t.mtx.m[5],
+			width = t.mtx.m[2] / t.mtx.m[4],
+			height = t.mtx.m[3] / t.mtx.m[5];
+		Mtx33Identity(t.mtx);
+		AddAsset(textureName, t);
+
+		t.mtx.translateThis(x, 1.f - y - height).scaleThis(width, height);
+		for (int i{}; i < num; ++i)
+		{
+			AddAsset(textureName + ' ' + std::to_string(ver) + ' ' + std::to_string(i), t);
+			t.mtx.m[6] += width;
+			if (t.mtx.m[6] + width > 1.f)
+			{
+				t.mtx.m[6] = 0.f;
+				t.mtx.m[7] -= height;
+			}
+		}
+
+	}
+
+	void AssetManager::LoadAnimation(const std::string& animName, const std::string& animFile)
+	{
+		if (AssetExist<AnimAtlas>(animName))
+		{
+			CM_CORE_WARN("Animation:" + animName + " Already Exists");
+			return;
+		}
+
+
+		std::ifstream ifs(animFile, std::ios::binary);
+		if (!ifs)
+		{
+			CM_CORE_ERROR("Unable to open Animation:" + animFile);
+			return;
+		}
+		AnimAtlas a;
+		std::string texName{}, texTime{};
+		while (true)
+		{
+			std::getline(ifs, texName);
+			if (texName.back() == '\r')
+				texName.pop_back();
+			std::getline(ifs, texTime);
+
+			a.anim.emplace_back(std::make_pair(std::stof(texTime), texName));
+			if (ifs.eof())
+				break;
+		}
+		ifs.close();
+		AddAsset<AnimAtlas>(animName, a);
 	}
 
 	void AssetManager::InitFontType()
@@ -479,8 +571,7 @@ namespace Carmicah
 	{
 		if (AssetExist<Font>(fontName))
 		{
-			// TODO: Change to CM Error
-			std::cerr << "Font: " << fontName << " Already Exists";
+			CM_CORE_WARN("Font: " + fontName + " Already Exists");
 			return;
 		}
 
@@ -489,7 +580,7 @@ namespace Carmicah
 		FT_Face fontFace;
 		if (FT_New_Face(mFTLib, fontLoc.c_str(), 0, &fontFace))
 		{
-			std::cerr << "Error with Free Type Face: " << fontName << std::endl;
+			CM_CORE_ERROR("Error with Free Type Face: " + fontName);
 			return;
 		}
 		FT_Set_Pixel_Sizes(fontFace, 0, fontHeight);
@@ -497,6 +588,9 @@ namespace Carmicah
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		for (unsigned char c = 0; c < 128; ++c)
 		{
+			// Unprintable 32 control characters
+			if (c < 32)
+				continue;
 			if (FT_Load_Char(fontFace, c, FT_LOAD_RENDER))
 			{
 				std::cerr << "Failed to load FreeType Glyph: " <<fontName << "(" << c << ")" << std::endl;

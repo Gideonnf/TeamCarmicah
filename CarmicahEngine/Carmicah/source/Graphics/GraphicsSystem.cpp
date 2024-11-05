@@ -54,8 +54,10 @@ namespace Carmicah
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glUseProgram(mCurrShader);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		// Just did discard instead, cuz this stopped working
+		//glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		// Needs RBO to depth test
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 
@@ -99,33 +101,19 @@ namespace Carmicah
 			//	glUniform1i(uniformLoc, 0);
 
 			if (UniformExists(mCurrShader, "uDepth", uniformLoc))
-				glUniform1f(uniformLoc, CalcDepth(transform.depth));
+				glUniform1f(uniformLoc, CalcDepth(transform.depth, RENDER_LAYERS::BASE_LAYER));
 
 			if (UniformExists(mCurrShader, "uID", uniformLoc))
 				glUniform1ui(uniformLoc, entity);
 
-			if (UniformExists(mCurrShader, "uAnimationMult", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, renderer.textureMat.m);
-
-			glBindVertexArray(p.vaoid);
-
 			// Error Checking if texture no exists
 			auto& tryTex = AssetManager::GetInstance()->GetAsset<Texture>(renderer.texture);
+
+			if (UniformExists(mCurrShader, "uAnimationMult", uniformLoc))
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, tryTex.mtx.m);
 			glBindTextureUnit(0, tryTex.t);
 
-			switch (p.drawMode)
-			{
-			case GL_LINE_LOOP:
-				glLineWidth(2.f);
-				glDrawArrays(GL_LINE_LOOP, 0, p.drawCnt);
-				break;
-			case GL_TRIANGLES:
-				glDrawElements(GL_TRIANGLES, p.drawCnt, GL_UNSIGNED_SHORT, NULL);
-				break;
-			case GL_TRIANGLE_FAN:
-				glDrawArrays(GL_TRIANGLE_FAN, 0, p.drawCnt);
-				break;
-			}
+			RenderPrimitive(p);
 		}
 
 		glBindTextureUnit(0, 0);

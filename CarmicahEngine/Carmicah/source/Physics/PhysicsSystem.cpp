@@ -12,10 +12,11 @@ Reproduction or disclosure of this file or its contents without the prior writte
 DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
-#include "Systems/PhysicsSystem.h"
+#include "PhysicsSystem.h"
 #include <ECS/ECSTypes.h>
 #include "Components/Transform.h"
 #include "Components/RigidBody.h"
+#include "Components/Forces.h"
 #include "Components/Collider2D.h"
 #include "Systems/GOFactory.h"
 #include "Systems/CollisionSystem.h"
@@ -26,6 +27,8 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+	//const float FIXED_DELTA_TIME = 0.01667f; // Fixed time step for 60 FPS
+
 	/**
 	 * @brief Updates the previous position (both x and y) of an object based on its current transform.
 	 *
@@ -56,46 +59,91 @@ namespace Carmicah
 	 *
 	 * @param obj The entity on which the force is applied.
 	 */
-	void PhysicsSystem::ApplyForce(Entity& obj)
+	void PhysicsSystem::Integrate(Entity& obj)
 	{
 		auto* componentManager = ComponentManager::GetInstance();
 		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
 		auto& transform = componentManager->GetComponent<Transform>(obj);
 
-		float deltaTime = (float)CarmicahTimer::GetDt();
+		//float deltaTime = (float)CarmicahTimer::GetDt();
+
+		float deltaTime = CarmicahTime::GetInstance()->GetDeltaTime();
+
+		rigidbody.forcesManager.UpdateForces(deltaTime);
+
 
 		if (rigidbody.objectType == "Dynamic")
 		{
+			transform.pos.x = transform.pos.x + rigidbody.velocity.x * deltaTime;
+			transform.pos.y = transform.pos.y + rigidbody.velocity.y * deltaTime;
 
-			rigidbody.velocity.y += rigidbody.gravity * deltaTime;
+			Vector2D<float> sumForces = rigidbody.forcesManager.GetSumForces();
 
-			transform.pos.x += rigidbody.velocity.x * deltaTime;
-			transform.pos.y += rigidbody.velocity.y * deltaTime;
 
-			if (rigidbody.velocity.x > 0) 
+
+			// Apply damping when there are no active forces
+			const float dampingFactor = 0.99f; // Adjust as necessary
+			const float maxVelocity = 50.0f;
+			const float velocityThreshold = 0.10f;
+
+			if (sumForces.x == 0 && sumForces.y == 0)
 			{
-				transform.rot += 50.0f * deltaTime;
 
-				if (transform.rot > 360.0f)
-				{
-					transform.rot -= 360.0f;
+				rigidbody.velocity.x *= dampingFactor;
+				rigidbody.velocity.y *= dampingFactor;
+
+				// Check for near-zero velocities
+				if (std::abs(rigidbody.velocity.x) < velocityThreshold) {
+					rigidbody.velocity.x = 0;
 				}
-			}
-			else {
-				
-				transform.rot -= 50.0f * deltaTime;
-				if (transform.rot < -360.0f) 
-				{
-					transform.rot += 360.0f;
+				if (std::abs(rigidbody.velocity.y) < velocityThreshold) {
+					rigidbody.velocity.y = 0;
 				}
 
+				const float angularDampingFactor = 0.99f; // Adjust as necessary
+				rigidbody.angularVelocity *= angularDampingFactor;
 			}
+
+
+			rigidbody.acceleration.x = sumForces.x * (1/rigidbody.mass) + rigidbody.gravity;
+			rigidbody.acceleration.y = sumForces.y * (1 / rigidbody.mass) + rigidbody.gravity;
+
+			rigidbody.velocity.x = rigidbody.velocity.x + rigidbody.acceleration.x * deltaTime;
+
+			rigidbody.velocity.y = rigidbody.velocity.y + rigidbody.acceleration.y * deltaTime;
+
+			if (Vector2DDotProduct(rigidbody.velocity, rigidbody.velocity) > maxVelocity * maxVelocity)
+			{
+				Vector2DNormalize(rigidbody.velocity, rigidbody.velocity);
+				rigidbody.velocity = rigidbody.velocity * (maxVelocity * maxVelocity);
+			}
+
+			//transform.rot += 5.0f + rigidbody.angularVelocity * deltaTime;
+
+			//// Update rotation direction based on velocity
+			//if (rigidbody.velocity.x > 0)
+			//{
+			//	transform.rot += 50.0f * deltaTime; // Optional additional rotation logic
+			//	if (transform.rot > 360.0f)
+			//	{
+			//		transform.rot -= 360.0f;
+			//	}
+			//}
+			//else
+			//{
+			//	transform.rot -= 50.0f * deltaTime; // Optional additional rotation logic
+			//	if (transform.rot < -360.0f)
+			//	{
+			//		transform.rot += 360.0f;
+			//	}
+			//}
 		}
 		else if (rigidbody.objectType == "Kinematic")
 		{
 			if (rigidbody.velocity.x != 0)
 			{
 				transform.pos.x += rigidbody.velocity.x * deltaTime;
+
 			}
 
 			if (rigidbody.velocity.y != 0)
@@ -104,6 +152,9 @@ namespace Carmicah
 			}
 
 		}
+
+		//Clear Summed Forces
+		rigidbody.forcesManager.SetSumForces({ 0.0f , 0.0f});
 	}
 	/**
 	 * @brief Initializes the PhysicsSystem by setting its signature and registering it with the SystemManager.
@@ -117,8 +168,6 @@ namespace Carmicah
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
 
 		SystemManager::GetInstance()->SetSignature<PhysicsSystem>(mSignature);
-
-
 
 	}
 
@@ -136,9 +185,23 @@ namespace Carmicah
 		{
 
 			UpdatePosition(entity);
-			ApplyForce(entity);
+			Integrate(entity);
 
 		}
+
+		//static float accumulatedTime = 0.0f;
+		//float deltaTime = (float)CarmicahTimer::GetDt(); // Get the actual elapsed time
+		//accumulatedTime += deltaTime;
+
+		//while (accumulatedTime >= CarmicahTime::GetInstance()->GetDeltaTime())
+		//{
+		//	for (auto entity : mEntitiesSet)
+		//	{
+		//		UpdatePosition(entity);
+		//		Integrate(entity); // Use fixed delta time
+		//	}
+		//	accumulatedTime -= FIXED_DELTA_TIME; // Decrease accumulated time
+		//}
 	}
 
 	/**

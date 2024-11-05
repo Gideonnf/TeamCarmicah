@@ -125,8 +125,9 @@ namespace Carmicah
 
 		if (AssetManager::GetInstance()->AssetExist<Prefab>(prefab))
 		{
+			Prefab& goPrefab = AssetManager::GetInstance()->GetAsset<Prefab>(prefab);
 			// Loop through the components within asset manager
-			for (auto& component : AssetManager::GetInstance()->GetAsset<Prefab>(prefab).mComponents)
+			for (auto& component : goPrefab.mComponents)
 			{
 				AttachComponents(newGO, component);
 				// Same if checks as component manager, but we're adding components here instead of deserializing
@@ -134,6 +135,18 @@ namespace Carmicah
 
 			// Parent it to the scene on creation
 			UpdateParent(newGO.mID, sceneGO.sceneID);
+
+			CM_CORE_INFO("Creating prefab " + newGO.mName + " with ID " + std::to_string(newGO.mID) + " parenting to " + std::to_string(sceneGO.sceneID));
+
+			// Now check for children
+			// Has children
+			if (goPrefab.childList.size() > 0)
+			{
+				for (auto& it : goPrefab.childList)
+				{
+					CreatePrefabChild(it, newGO.mID);
+				}
+			}
 		}
 		else
 		{
@@ -142,6 +155,35 @@ namespace Carmicah
 		}
 
 		return newGO;
+	}
+
+	void GOFactory::CreatePrefabChild(Prefab& prefab, Entity parentID)
+	{
+		GameObject newGO;
+		std::string goName = CreateGOName(prefab.mName);
+		newGO.mID = EntityManager::GetInstance()->CreateEntity();
+		newGO.mName = goName;
+		// Store in two maps. Testing use for fetching GO by name
+		mNameToID.insert(std::make_pair(newGO.mName, newGO.mID));
+		mIDToGO.insert(std::make_pair(newGO.mID, newGO));
+
+		for (auto& component : prefab.mComponents)
+		{
+			AttachComponents(newGO, component);
+		}
+
+		// Set the child to parent the original GO
+		UpdateParent(newGO.mID, parentID);
+		CM_CORE_INFO("Creating prefab child " + newGO.mName + " with ID " + std::to_string(newGO.mID) + " parenting to " + std::to_string(parentID));
+
+		// If there is a child in this prefab also, then go through the process again
+		if (prefab.childList.size() > 0)
+		{
+			for (auto& it : prefab.childList)
+			{
+				CreatePrefabChild(it, newGO.mID);
+			}
+		}
 	}
 
 	void GOFactory::CreateSceneObject(std::string sceneName)
@@ -281,7 +323,7 @@ namespace Carmicah
 		{
 			SystemManager::GetInstance()->EntityDestroyed(entity);
 			EntityKilledMessage msg(entity);
-			SendMessage(&msg);
+			SendSysMessage(&msg);
 		}
 
 		mDeleteList.clear();
@@ -319,6 +361,14 @@ namespace Carmicah
 	void GOFactory::UpdateParent(Entity entityID, Entity newParentID) 
 	{
 		GameObject& go = mIDToGO[entityID];
+
+		// Send msg to UpdateTransform
+		// Important to send here because if parenting back to scene
+		// we need the original parent's transform so that we can convert the entity's local transform
+		// back to world transform
+		UpdateTransformMessage msg(entityID, newParentID);
+		SendSysMessage(&msg);
+
 		// Remove entityID from it's current parent
 		// Check if its part of sceneGO
 		if (sceneGO.children.count(entityID) > 0)
@@ -490,7 +540,6 @@ namespace Carmicah
 		}
 
 	}
-
 #pragma endregion
 
 #pragma region Importing and Exporting

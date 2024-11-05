@@ -24,11 +24,10 @@ DigiPen Institute of Technology is prohibited.
 #include <filesystem>
 #include <unordered_map>
 #include "Singleton.h"
-#include <any>
+#include "Systems/AssetTypes.h"
 
 namespace Carmicah
 {
-
 	// Only used for the map so that theres a base class that can be dynamic casted
 	class IAsset
 	{
@@ -44,94 +43,6 @@ namespace Carmicah
 		std::unordered_map<std::string, unsigned int> mAssetMap;
 	};
 
-#pragma region AssetStructs
-	struct Primitive
-	{
-		GLuint vaoid{};
-		GLuint vboid{};
-		GLenum drawMode{};
-		GLuint drawCnt{};
-	};
-	struct Shader
-	{
-		GLuint s;
-	};
-	struct Texture
-	{
-		GLuint t;
-		int width;
-		int height;
-		int bpt;
-
-		int xSlices;
-		int ySlices;
-	};
-	struct Font
-	{
-		struct FontChar
-		{
-			unsigned int texID, width, height;
-			int			 xBearing, yBearing;
-			long		 advance;
-			//std::array<
-		};
-
-		std::array<FontChar, 128> mFontMaps;
-	};
-	struct Audio
-	{
-		bool isLoop;
-		FMOD::Sound* sound;
-	};
-	struct Prefab
-	{
-		unsigned int mPrefabID;
-		std::string mName;
-		std::unordered_map<std::string, std::any> mComponents;
-
-		template <typename T>
-		bool HasComponent() const
-		{
-			std::string typeName = typeid(T).name();
-			for (const auto& [name, component] : mComponents)
-			{
-				if (typeName == name)
-				{
-					return true;
-				}
-			}
-			return false;
-
-		}
-
-		template <typename T>
-		T& GetComponent()
-		{
-			std::string typeName = typeid(T).name();
-			auto it = mComponents.find(typeName);
-			if (it != mComponents.end())
-			{
-				return std::any_cast<T&>(it->second);
-			}
-			throw std::runtime_error("Component not found!");
-
-		}
-	};
-	struct Scene
-	{
-		std::string sceneFile;
-	};
-	struct EngineConfig
-	{
-		int Width, Height, fontSize;
-		std::string defaultScene;
-		std::string lastScene;
-		std::string defaultShader;
-		std::string fontShader;
-		std::string assetLoc;
-	};
-#pragma endregion AssetStructs
-
 	class AssetManager : public Singleton<AssetManager>
 	{
 	public:
@@ -141,17 +52,12 @@ namespace Carmicah
 		void LoadAll(const char*);
 		void UnloadAll();
 
-		EngineConfig enConfig;
-		std::unordered_map<std::string, std::shared_ptr<IAsset>> mAssetTypeMap;
-		//std::unordered_map<std::string, GLuint> mShaderPgms{};
-		//std::unordered_map<std::string, Texture> mTextureMaps{};
-		//std::unordered_map<std::string, Primitive> mPrimitiveMaps{};
-		//std::unordered_map<std::string, std::string> mSceneFiles{};
-		//std::unordered_map<std::string, Prefab> mPrefabFiles{};
-		//std::unordered_map<std::string, std::array<Carmicah::FontChar, 128>> mFontMaps{};
+		EngineConfig enConfig{};
+		std::unordered_map<std::string, std::shared_ptr<IAsset>> mAssetTypeMap{};
 
 		FT_Library mFTLib;
 		//const unsigned int fontSize{ 36 };
+		const int maxTexSize{ 4096 };
 		// Audio
 		const int maxChannels{ 32 };
 		FMOD::System* mSoundSystem{};
@@ -240,7 +146,6 @@ namespace Carmicah
 		}
 		// TODO: Handle removal of assets
 		// cant rlly be done/tested until editor has ways to delete and add assets
-
 	private:
 
 
@@ -249,6 +154,8 @@ namespace Carmicah
 		void LoadObject(const std::string& objName, const std::string& modelFile);
 		void LoadDebugObject(const std::string& objName, const std::string& modelFile);
 		void LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile);
+		void AddTextureImage(Texture& t, const std::string& textureName, const int& ver, const int& num);
+		void LoadAnimation(const std::string& animName, const std::string& animFile);
 		void InitFontType();
 		void LoadFont(const std::string& fontName, const std::string& fontLoc, const unsigned int& fontHeight);
 

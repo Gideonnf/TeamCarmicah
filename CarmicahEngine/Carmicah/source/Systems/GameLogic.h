@@ -17,7 +17,7 @@ DigiPen Institute of Technology is prohibited.
 
 #include "SceneSystem.h"
 #include "SoundSystem.h"
-#include "PhysicsSystem.h"
+#include "../Physics/PhysicsSystem.h"
 #include "../ECS/GameObject.h"
 #include <GLFW/glfw3.h>
 #include "../ECS/BaseSystem.h"
@@ -33,7 +33,7 @@ namespace Carmicah
 		std::shared_ptr<SoundSystem> soundSystemRef;
 		std::shared_ptr<PhysicsSystem> physicsRef;
 		GameObject mainCharacter;
-
+		GameObject GameObject2;
 		GameObject FPSText;
 
 	public:

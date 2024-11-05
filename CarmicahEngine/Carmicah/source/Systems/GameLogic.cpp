@@ -1,7 +1,7 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  file:        GameLogic.cpp
 
- author:   Gideon Francis(70%)
+ author:    Gideon Francis(70%)
  co-author: Lee Yong Yee (30%)
 
  emails:       g.francis@digipen.edu, l.yongyee@digipen.edu
@@ -53,6 +53,18 @@ namespace Carmicah
         Duck4.SetParent(Duck3);
 
         //wall.SetParent(mainCharacter);
+        gGOFactory->FetchGO("GameObject2", GameObject2);
+
+            LinearDirectionalForce upForce({ 0.0f,-1.0f }, 2.0f, 3.0f, false);
+            LinearDirectionalForce downForce({ 0.0f,1.0f }, 2.0f, 3.0f, false);
+            LinearDirectionalForce rightForce({ 1.0f,0.0f }, 1.0f, 2.0f, false);
+            LinearDirectionalForce leftForce({ -1.0f,0.0f }, 1.0f, 2.0f, true);
+
+            GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(upForce);
+            GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(downForce);
+            GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(rightForce);
+            GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(leftForce);
+
 
         //wall = gGOFactory->FetchGO("wall");
 
@@ -62,6 +74,25 @@ namespace Carmicah
 
 	void GameLogic::Update(GLFWwindow* window)
 	{
+        /*if (GameObject2.GetComponent<RigidBody>().velocity.x == 0 && GameObject2.GetComponent<RigidBody>().forcesManager.GetLinearForces()[2].isActive == false)
+        {
+            std::cout << "Activate Left" << std::endl;
+            if (GameObject2.GetComponent<RigidBody>().forcesManager.GetLinearForces()[3].isActive == false) 
+            {
+                
+                GameObject2.GetComponent<RigidBody>().forcesManager.GetLinearForces()[3].ActivateForce(true);
+
+            }
+        }*/
+        /*else if (GameObject2.GetComponent<RigidBody>().velocity.x == 0 && GameObject2.GetComponent<RigidBody>().forcesManager.GetLinearForces()[3].isActive == false) 
+        {
+            std::cout << "Activate Right" << std::endl;
+            GameObject2.GetComponent<RigidBody>().forcesManager.GetLinearForces()[2].ActivateForce(true);
+        }*/
+
+        /*std::cout << GameObject2.GetComponent<RigidBody>().velocity << std::endl;
+        std::cout << GameObject2.GetComponent<RigidBody>().forcesManager.GetSumForces() << std::endl;*/
+
         UNUSED(window);
         if (Input.IsKeyPressed(Keys::KEY_Z))
         {
@@ -73,8 +104,8 @@ namespace Carmicah
         }
         if (Input.IsKeyPressed(Keys::KEY_C) && mainCharacter.IsActive())
         {
-            mainCharacter.GetComponent<Transform>().scale.x += 2.0f * (float)CarmicahTimer::GetDt();
-            mainCharacter.GetComponent<Transform>().scale.y += 2.0f * (float)CarmicahTimer::GetDt();
+            mainCharacter.GetComponent<Transform>().scale.x += 2.0f * (float)CarmicahTime::GetInstance()->GetDeltaTime();
+            mainCharacter.GetComponent<Transform>().scale.y += 2.0f * (float)CarmicahTime::GetInstance()->GetDeltaTime();
 
             //SystemManager::GetInstance()->ChangeScene("Scene2");
         }
@@ -128,7 +159,7 @@ namespace Carmicah
 
         }
 
-        FPSText.GetComponent<TextRenderer>().txt = "FPS: " + std::to_string(static_cast<int>(CarmicahTimer::GetFPS()));
+        FPSText.GetComponent<TextRenderer>().txt = "FPS: " + std::to_string(static_cast<int>(CarmicahTime::GetInstance()->FPS()));
 	}
 
     void GameLogic::EntityDestroyed(Entity id)

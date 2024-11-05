@@ -21,8 +21,6 @@ namespace Carmicah
 {
 	class GraphicsSystem : public BaseSystem, private BaseGraphicsSystem
 	{
-	private:
-		GLuint mCurrShader{};
 	public:
 		/*
 		brief

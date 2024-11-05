@@ -20,12 +20,15 @@ namespace Carmicah
 {
 	EntityManager::EntityManager()
 	{
+		// entity ID 0 is used for scenes only 
+
+
 		m_EntityCount = 0;
 		// Initialize free entities with the total number of max entities that we can have
 		//mFreeEntities.reserve(MAX_ENTITIES);
-		for (Entity i_Entity = 0; i_Entity < MAX_ENTITIES; ++i_Entity)
+		for (Entity i_Entity = 1; i_Entity < MAX_ENTITIES; ++i_Entity)
 		{
-			// push back so itll go from MAX_ENTITIES at the front to 0 at the back
+			// push back so itll go from MAX_ENTITIES at the front to 1 at the back
 			mFreeEntities.push_back(i_Entity);
 		}
 	}

@@ -238,6 +238,8 @@ namespace Carmicah
 		\exceptions No exceptions thrown.
 		-------------------------------------------------------------------------------------------------*/
 		const char* KeycodeToString(Keys key);
+
+		void ProxySend(Message*);
 	};
 
 	// Just so people can call "Input.IsKeyPressed" 

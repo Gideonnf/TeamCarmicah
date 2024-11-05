@@ -16,21 +16,44 @@ DigiPen Institute of Technology is prohibited.
 #include "Graphics/BaseGraphicsSystem.h"
 #include "log.h"
 
-bool BaseGraphicsSystem::UniformExists(const GLuint& shdr, const char* str, GLint& ref)
+namespace Carmicah
 {
-	ref = glGetUniformLocation(shdr, str);
-	if (ref >= 0)
-		return true;
+	bool BaseGraphicsSystem::UniformExists(const GLuint& shdr, const char* str, GLint& ref)
+	{
+		ref = glGetUniformLocation(shdr, str);
+		if (ref >= 0)
+			return true;
 
-	std::stringstream ss;
-	ss << "Uniform variable: " << str << " dosen't exist!!!\n";
-	CM_CORE_ERROR(ss.str());
+		std::stringstream ss;
+		ss << "Uniform variable: " << str << " dosen't exist!!!\n";
+		CM_CORE_ERROR(ss.str());
 
-	return false;
-}
+		return false;
+	}
 
-float BaseGraphicsSystem::CalcDepth(const float& depth)
-{
-	const float furtherstDepth{ -100.f }, nearestDepth{ 100.f };
-	return -(depth + nearestDepth) / (nearestDepth - furtherstDepth);
+	float BaseGraphicsSystem::CalcDepth(const float& depth, const RENDER_LAYERS& layer)
+	{
+		float localRange = (mNearestDepth - mFurtherstDepth);// 2
+		float trueRange = localRange * static_cast<float>(MAX_LAYERS);// 2 * 4 = 8
+		return -(depth + localRange * static_cast<float>(layer) + mNearestDepth) / trueRange;// ([-1~1] + [1,3,5,7]) / 800
+	}
+
+	void BaseGraphicsSystem::RenderPrimitive(const Primitive& p)
+	{
+		glBindVertexArray(p.vaoid);
+
+		switch (p.drawMode)
+		{
+		case GL_LINE_LOOP:
+			glLineWidth(2.f);
+			glDrawArrays(GL_LINE_LOOP, 0, p.drawCnt);
+			break;
+		case GL_TRIANGLES:
+			glDrawElements(GL_TRIANGLES, p.drawCnt, GL_UNSIGNED_SHORT, NULL);
+			break;
+		case GL_TRIANGLE_FAN:
+			glDrawArrays(GL_TRIANGLE_FAN, 0, p.drawCnt);
+			break;
+		}
+	}
 }

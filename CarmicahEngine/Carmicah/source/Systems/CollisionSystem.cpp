@@ -15,7 +15,7 @@ DigiPen Institute of Technology is prohibited.
 
 #include "pch.h"
 #include "Systems/CollisionSystem.h"
-#include "Systems/PhysicsSystem.h"
+#include "../Physics/PhysicsSystem.h"
 #include "Systems/GOFactory.h"
 #include <ECS/ECSTypes.h>
 #include <ECS/GameObject.h>
@@ -94,7 +94,7 @@ namespace Carmicah
 
 		
 
-		float firstTimeOfCollision = 0.0f, tLast = (float)CarmicahTimer::GetDt();
+		float firstTimeOfCollision = 0.0f, tLast = (float)CarmicahTime::GetInstance()->GetDeltaTime();
 
 		if ((rigidbody1.velocity.x - rigidbody2.velocity.x) < 0) 
 		{
