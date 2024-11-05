@@ -31,16 +31,95 @@ namespace Carmicah
 {
 	InspectorWindow::InspectorWindow() : EditorWindow("Inspector", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
 
+	std::string InspectorWindow::selectedComponentToAdd = "";
 
-	void InspectorWindow::AddComponentButton(Entity go)
+	void InspectorWindow::AddComponentButton(GameObject* go)
 	{
-		
+		std::vector<const char*> componentsToAdd;
+
+		static int selectedIndex;
+
+		componentsToAdd.push_back("      ");
+
+		if (!go->HasComponent<Transform>())
+		{
+			componentsToAdd.push_back("Transform");
+		}
+		if (!go->HasComponent<UITransform>())
+		{
+			componentsToAdd.push_back("UITransform");
+		}
+		if (!go->HasComponent<Animation>())
+		{
+			componentsToAdd.push_back("Animation");
+		}
+		if (!go->HasComponent<RigidBody>())
+		{
+			componentsToAdd.push_back("RigidBody");
+		}
+		if (!go->HasComponent<Collider2D>())
+		{
+			componentsToAdd.push_back("Collider2D");
+		}
+		if (!go->HasComponent<TextRenderer>())
+		{
+			componentsToAdd.push_back("TextRenderer");
+		}
+
+		if (ImGui::Combo("##", &selectedIndex, componentsToAdd.data(),componentsToAdd.size()))
+		{
+			selectedComponentToAdd = componentsToAdd[selectedIndex];
+		}
+		ImGui::SameLine();
+		if(ImGui::Button("Add Component"))
+		{
+
+			if (selectedComponentToAdd == "Transform")
+			{
+				go->AddComponent<Transform>();
+				selectedComponentToAdd = "";
+				selectedIndex = 0;
+			}
+			if (selectedComponentToAdd == "UITransform")
+			{
+				go->AddComponent<UITransform>();
+				selectedComponentToAdd = "";
+				selectedIndex = 0;
+			}
+			if (selectedComponentToAdd == "Animation")
+			{
+				go->AddComponent<Animation>();
+				selectedComponentToAdd = "";
+				selectedIndex = 0;
+			}
+			if (selectedComponentToAdd == "RigidBody")
+			{
+				go->AddComponent<RigidBody>();
+				selectedComponentToAdd = "";
+				selectedIndex = 0;
+			}
+			if (selectedComponentToAdd == "Collider2D")
+			{
+				go->AddComponent<Collider2D>();
+				selectedComponentToAdd = "";
+				selectedIndex = 0;
+			}
+			if (selectedComponentToAdd == "TextRenderer")
+			{
+				go->AddComponent<TextRenderer>();
+				selectedComponentToAdd = "";
+				selectedIndex = 0;
+			}
+		}
 	}
 
 	template <typename T>
 	void InspectorWindow::RemoveComponentButton(Entity go)
 	{
-		std::string buttonLabel = "Remove" + std::string(typeid(T).name()) + "Component";
+		std::string typeName = typeid(T).name();
+		size_t pos = typeName.find_last_of(':');
+		
+		std::string buttonLabel = "Remove " + typeName.substr(pos + 1) + " Component";
 		if(ImGui::Button(buttonLabel.c_str()))
 		{
 			if (!EntityManager::GetInstance()->DoesEntityExist(go))
@@ -179,6 +258,7 @@ namespace Carmicah
 				//gGOFactory->Destroy(selectedEntity);
 				//selectedGO = nullptr;
 			}
+			ImGui::NewLine();
 		}
 		
 		// render rigibody data
@@ -310,13 +390,7 @@ namespace Carmicah
 				ImGui::Text("Selected Game Object: %s", HierarchyWindow::selectedGO->GetName().c_str());
 				Entity selectedEntity = HierarchyWindow::selectedGO->GetID();
 
-				static int selectedIndex = 0;
-				const char* testItems[] = { "A", "B", "C", "D" };
-
-				if (ImGui::Combo("##", &selectedIndex, testItems, IM_ARRAYSIZE(testItems)))
-				{
-
-				}
+				AddComponentButton(HierarchyWindow::selectedGO);
 
 				InspectorTable<GameObject>(HierarchyWindow::selectedGO, selectedEntity);
 

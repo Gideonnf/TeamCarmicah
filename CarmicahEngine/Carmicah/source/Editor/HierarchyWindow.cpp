@@ -99,6 +99,7 @@ namespace Carmicah
 					if (ImGui::Button("Back"))
 					{
 						AssetWindow::selectedPrefab = nullptr;
+						inspectedPrefab = nullptr;
 						mShowScene = true;
 						backToScene = true;
 					}
