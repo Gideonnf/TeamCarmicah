@@ -30,10 +30,16 @@ namespace Carmicah
 		void PrintAssemblyTypes(MonoAssembly* assembly);
 		void LoadEntityClasses();
 		void LogMonoHeapSize();
-		void OnStart(); // Calls the Enter function of all game objects
-		void OnUpdate(float dt);
 		bool HasEntityClass(std::string scriptName);
 
+		/*!
+		OnStart() -> Called when play button is pressed. Loop through all entities and get a reference to their scripts
+		OnUpdate() -> Calls the script's update
+		OnEnd() -> Clears the entity instance map for next play
+		*/
+		void OnStart(); // Calls the Enter function of all game objects
+		void OnUpdate(float dt);
+		void OnEnd();
 		// Variables
 		MonoDomain* mRootDomain;
 		MonoDomain* mAppDomain;

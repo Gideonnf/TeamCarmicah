@@ -35,6 +35,8 @@ namespace Carmicah
     {
         // If an entity is destroyed, remove it from mEntityInstances
         // can also take this part to call ondestroy if we do that
+        // mEntityInstances is usually cleared at the end of playing
+        // but if entity is destroyed in run time then we have to clear it from the map
         for (auto& it : mEntityInstances)
         {
             if (it.first == id)
@@ -271,6 +273,11 @@ namespace Carmicah
         {
             scriptRef->InvokeOnUpdate(dt);
         }
+    }
+
+    void ScriptSystem::OnEnd()
+    {
+        mEntityInstances.clear();
     }
 
     void ScriptSystem::LoadEntityClasses()
