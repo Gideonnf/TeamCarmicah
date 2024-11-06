@@ -62,12 +62,12 @@ namespace Carmicah
 		}
 	}
 
-	static void RigidBody_ApplyForce(unsigned int entityID, Vec2f* dir, float magnitude)
+	static void RigidBody_ApplyForce(unsigned int entityID, Vec2f dir, float magnitude)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		if (go.HasComponent<RigidBody>())
 		{
-			LinearDirectionalForce dirForce(*dir, magnitude, 1.0, false);
+			LinearDirectionalForce dirForce(dir, magnitude, 1.0, false);
 
 			go.GetComponent<RigidBody>().forcesManager.AddLinearForce(dirForce);
 		}
@@ -110,7 +110,7 @@ namespace Carmicah
 		mGameObjectHasComponentFuncs.clear();
 		// Only these 2 for now
 		RegisterComponent<Transform>();
-		//RegisterComponent<RigidBody>();
+		RegisterComponent<RigidBody>();
 	}
 
 	void ScriptFunctions::RegisterFunctions()

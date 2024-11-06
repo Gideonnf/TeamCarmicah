@@ -31,12 +31,12 @@ namespace Carmicah
     {
         public void ApplyForce(Vector2 direction, float magnitude, float lifeTime)
         {
-
+            FunctionCalls.RigidBody_ApplyForceWithTime(Entity.mID,  direction, magnitude,  lifeTime);
         }
 
         public void ApplyForce(Vector2 direction, float magnitude)
         {
-
+            FunctionCalls.RigidBody_ApplyForce(Entity.mID, direction, magnitude);
         }
     }
 }

@@ -31,6 +31,14 @@ namespace Carmicah
             return FunctionCalls.Entity_HasComponent(mID, componentType);
         }
 
+        public T GetComponent<T>() where T : Component, new()
+        {
+            // if theres no component, return null
+            if (!HasComponent<T>()) return null;
+
+            T component = new T() { Entity = this };
+            return component;
+        }
         //public T GetComponent<T>() 
     }
 }

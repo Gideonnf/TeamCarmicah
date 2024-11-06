@@ -15,11 +15,14 @@ namespace Carmicah
 
         }
 
-        void OnUpdate(float ts)
+        void OnUpdate(float dt)
         {
             if (Input.IsKeyPressed(Keys.KEY_W))
             {
+
                 Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+                GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
             }
         }
     }
