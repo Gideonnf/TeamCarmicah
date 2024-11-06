@@ -26,4 +26,17 @@ namespace Carmicah
             }
         }
     }
+
+    public class RigidBody : Component
+    {
+        public void ApplyForce(Vector2 direction, float magnitude, float lifeTime)
+        {
+
+        }
+
+        public void ApplyForce(Vector2 direction, float magnitude)
+        {
+
+        }
+    }
 }

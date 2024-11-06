@@ -228,6 +228,7 @@ namespace Carmicah
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
                 //phySystem->Update();
+                gScriptSystem->OnUpdate(CarmicahTime::GetInstance()->GetDeltaTime());
                 gameLogic->Update(window);
                 //gameLogic.Update();
 

@@ -9,6 +9,7 @@
 #include "../Components/Transform.h"
 #include "../Components/RigidBody.h"
 #include "ScriptSystem.h"
+#include "../Input/InputSystem.h"
 
 namespace Carmicah
 {
@@ -46,6 +47,37 @@ namespace Carmicah
 		return mGameObjectHasComponentFuncs[monoType](go);
 	}
 
+	static void RigidBody_ApplyForceWithTime(unsigned int entityID, Vec2f* dir, float magnitude, float lifeTime)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<RigidBody>())
+		{
+			LinearDirectionalForce dirForce( *dir , magnitude, lifeTime, false);
+
+			go.GetComponent<RigidBody>().forcesManager.AddLinearForce(dirForce);
+		}
+		else
+		{
+			CM_CORE_ERROR("Entity does not have rigidBody");
+		}
+	}
+
+	static void RigidBody_ApplyForce(unsigned int entityID, Vec2f* dir, float magnitude)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<RigidBody>())
+		{
+			LinearDirectionalForce dirForce(*dir, magnitude, 1.0, false);
+
+			go.GetComponent<RigidBody>().forcesManager.AddLinearForce(dirForce);
+		}
+		else
+		{
+			CM_CORE_ERROR("Entity does not have rigidBody");
+		}
+
+	}
+
 	template <typename T>
 	static void RegisterComponent()
 	{
@@ -66,6 +98,11 @@ namespace Carmicah
 
 	}
 
+	static bool IsKeyPressed(Keys keyCode)
+	{
+		return Input.IsKeyPressed(keyCode);
+	}
+
 	void ScriptFunctions::RegisterComponents()
 	{
 		// if we hotload and need to rerun the linking and reinit mono
@@ -78,8 +115,17 @@ namespace Carmicah
 
 	void ScriptFunctions::RegisterFunctions()
 	{
+		// Transform functions
 		ADD_INTERNAL_CALL(Transform_GetScale);
 		ADD_INTERNAL_CALL(Transform_SetScale);
+
+		//Entity functions
 		ADD_INTERNAL_CALL(Entity_HasComponent);
+
+		// Rigidbody functions
+		ADD_INTERNAL_CALL(RigidBody_ApplyForce);
+		ADD_INTERNAL_CALL(RigidBody_ApplyForceWithTime);
+
+		ADD_INTERNAL_CALL(IsKeyPressed);
 	}
 }

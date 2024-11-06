@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarmicahScriptCore.Source;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,10 @@ namespace Carmicah
 
         void OnUpdate(float ts)
         {
-
+            if (Input.IsKeyPressed(Keys.KEY_W))
+            {
+                Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+            }
         }
     }
 }
