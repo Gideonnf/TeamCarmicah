@@ -153,7 +153,7 @@ namespace Carmicah
 		void LoadObject(const std::string& objName, const std::string& modelFile);
 		void LoadDebugObject(const std::string& objName, const std::string& modelFile);
 		void LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile);
-		void AddTextureImage(Texture& t, const std::string& textureName, const int& num = 0, const int& ver = 0, bool wholeSprite = false);
+		void AddTextureImage(Texture& t, const std::string& textureName, const int& num = 0, const std::string& extName = std::string(), bool wholeSprite = false);
 		void LoadAnimation(const std::string& animName, const std::string& animFile);
 		void InitFontType();
 		void LoadFont(const std::string& fontName, const std::string& fontLoc, const unsigned int& fontHeight);

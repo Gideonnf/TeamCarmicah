@@ -445,6 +445,7 @@ namespace Carmicah
 		// Read if the sprite needs to be divided
 		struct spriteDetails
 		{
+			std::string name;
 			int x, y, width, height, num;
 		};
 		std::vector<spriteDetails> spriteD;
@@ -459,8 +460,9 @@ namespace Carmicah
 
 			while (!ssDets.eof())
 			{
-				ssDets >> tempS >> tempS >> t.x >> tempC >> t.y;
-				ssDets >> t.width >> t.height;
+				ssDets >> t.name;
+				ssDets >> tempS >> tempS >> t.x >> tempC >> t.y >> tempC;
+				ssDets >> t.width >> tempC >> t.height;
 				ssDets >> t.num;
 
 				if (!ssDets.eof())
@@ -497,12 +499,12 @@ namespace Carmicah
 				texture.mtx.m[3] = static_cast<float>(spriteD[i].height);
 				texture.mtx.m[4] = static_cast<float>(texWidth);
 				texture.mtx.m[5] = static_cast<float>(texHeight);
-				AddTextureImage(texture, textureName, spriteD[i].num, i, i == 0);
+				AddTextureImage(texture, textureName, spriteD[i].num, std::string("_") + spriteD[i].name, i == 0);
 			}
 		}
 	}
 
-	void AssetManager::AddTextureImage(Texture& t, const std::string& textureName, const int& num, const int& ver, bool wholeSprite)
+	void AssetManager::AddTextureImage(Texture& t, const std::string& textureName, const int& num, const std::string& extName, bool wholeSprite)
 	{
 		if (num == 0)
 		{
@@ -520,7 +522,7 @@ namespace Carmicah
 		t.mtx.translateThis(x, 1.f - y - height).scaleThis(width, height);
 		for (int i{}; i < num; ++i)
 		{
-			std::string aaa= textureName + ' ' + std::to_string(ver) + ' ' + std::to_string(i);
+			std::string aaa= textureName + extName + ' ' + std::to_string(i);
 			AddAsset(aaa, t);
 			t.mtx.m[6] += width;
 			if (t.mtx.m[6] + width > 1.f)
@@ -652,8 +654,8 @@ namespace Carmicah
 			texture.mtx.m[3] = static_cast<float>(fc.height);
 			texture.mtx.m[4] = static_cast<float>(maxTexSize);
 			texture.mtx.m[5] = static_cast<float>(maxTexSize);
-			AddTextureImage(texture, fontName, 1, static_cast<int>(i.first));
-			fc.texRef = fontName + ' ' + std::to_string(i.first) + " 0";
+			AddTextureImage(texture, fontName, 1, std::to_string(i.first));
+			fc.texRef = fontName + std::to_string(i.first) + " 0";
 
 			if (fc.height > heightSoFar)
 				heightSoFar = fc.height;
