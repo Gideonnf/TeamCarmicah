@@ -26,7 +26,7 @@ namespace Carmicah
 	class InspectorWindow : public EditorWindow
 	{
 	private:
-
+		static std::string selectedComponentToAdd;
 	public:
 		/**
 		 * @brief Construct a new Inspector Window object
@@ -38,6 +38,17 @@ namespace Carmicah
 		 *
 		 */
 		void Update() override;
+
+		template<typename T>
+		void InspectorTable(T* go, Entity id);
+
+		template<typename T>
+		void InspectorTable(T* go);
+
+		void AddComponentButton(GameObject* go);
+		template<typename T>
+		void RemoveComponentButton(Entity go);
+
 
 	};
 }
