@@ -33,7 +33,11 @@ namespace Carmicah
 	InspectorWindow::InspectorWindow() : EditorWindow("Inspector", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
 
 	std::string InspectorWindow::selectedComponentToAdd = "";
-
+	/**
+	 * @brief A drop down to select which component to add to the specified go.
+	 * 
+	 * @param go 
+	 */
 	void InspectorWindow::AddComponentButton(GameObject* go)
 	{
 		std::vector<const char*> componentsToAdd;
@@ -136,6 +140,13 @@ namespace Carmicah
 		}
 	}
 
+
+	/**
+	 * @brief Templated Function based on the Component type to remove that component from the specified Entity.
+	 * 
+	 * @tparam T 
+	 * @param go 
+	 */
 	template <typename T>
 	void InspectorWindow::RemoveComponentButton(Entity go)
 	{
@@ -157,6 +168,12 @@ namespace Carmicah
 		}
 	}
 
+	/**
+	 * @brief Templated function for Prefab (Might be changed in future)
+	 * 
+	 * @tparam T 
+	 * @param go 
+	 */
 	template<typename T> void InspectorWindow::InspectorTable(T* go)
 	{
 		static auto assetManager = AssetManager::GetInstance();
@@ -530,6 +547,13 @@ namespace Carmicah
 			}
 		}
 	}
+	/**
+	 * @brief Templated function for GameObjects
+	 * 
+	 * @tparam T 
+	 * @param go 
+	 * @param id 
+	 */
 	template<typename T> void InspectorWindow::InspectorTable(T* go, Entity id)
 	{
 		static auto assetManager = AssetManager::GetInstance();
@@ -903,6 +927,10 @@ namespace Carmicah
 		}
 	}
 
+	/**
+	 * @brief Update function override for the Inspector Window
+	 * 
+	 */
 	void InspectorWindow::Update()
 	{
 		if (ImGui::Begin(mTitle))
