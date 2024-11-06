@@ -416,13 +416,13 @@ namespace Carmicah
 					}
 					case 1:
 					{
-						ImGui::Text("Dynamic");
+						ImGui::Text("Kinematic");
 
 						break;
 					}
 					case 2:
 					{
-						ImGui::Text("Kinematic");
+						ImGui::Text("Dynamic");
 
 						break;
 					}
@@ -440,36 +440,36 @@ namespace Carmicah
 						{
 							switch (i)
 							{
-								case 0:
+							case 0:
+							{
+								if (ImGui::Button("Static"))
 								{
-									if (ImGui::Button("Static"))
-									{
-										rb.objectType = (rbTypes)0;
-										ImGui::CloseCurrentPopup();
-									}
-									break;
+									rb.objectType = rbTypes::STATIC;
+									ImGui::CloseCurrentPopup();
+								}
+								break;
 
-								}
-								case 1:
-								{
-									if (ImGui::Button("Dynamic"))
-									{
-										rb.objectType = (rbTypes)1;
-										ImGui::CloseCurrentPopup();
-									}
-									break;
-								}
-								case 2:
-								{
-									if (ImGui::Button("Kinematic"))
-									{
-										rb.objectType = (rbTypes)2;
-										ImGui::CloseCurrentPopup();
-									}
-									break;
-								}
 							}
-						
+							case 1:
+							{
+								if (ImGui::Button("Kinematic"))
+								{
+									rb.objectType = rbTypes::KINEMATIC;
+									ImGui::CloseCurrentPopup();
+								}
+								break;
+							}
+							case 2:
+							{
+								if (ImGui::Button("Dynamic"))
+								{
+									rb.objectType = rbTypes::DYNAMIC;
+									ImGui::CloseCurrentPopup();
+								}
+								break;
+							}
+							}
+
 						}
 						ImGui::EndPopup();
 					}
@@ -866,13 +866,13 @@ namespace Carmicah
 					}
 					case 1:
 					{
-						ImGui::Text("Dynamic");
+						ImGui::Text("Kinematic");
 
 						break;
 					}
 					case 2:
 					{
-						ImGui::Text("Kinematic");
+						ImGui::Text("Dynamic");
 
 						break;
 					}
@@ -902,18 +902,18 @@ namespace Carmicah
 							}
 							case 1:
 							{
-								if (ImGui::Button("Dynamic"))
+								if (ImGui::Button("Kinematic"))
 								{
-									rb.objectType = rbTypes::DYNAMIC;
+									rb.objectType = rbTypes::KINEMATIC;
 									ImGui::CloseCurrentPopup();
 								}
 								break;
 							}
 							case 2:
 							{
-								if (ImGui::Button("Kinematic"))
+								if (ImGui::Button("Dynamic"))
 								{
-									rb.objectType = rbTypes::KINEMATIC;
+									rb.objectType = rbTypes::DYNAMIC;
 									ImGui::CloseCurrentPopup();
 								}
 								break;
