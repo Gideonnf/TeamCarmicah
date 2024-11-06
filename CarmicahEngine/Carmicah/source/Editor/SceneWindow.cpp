@@ -24,6 +24,9 @@ DigiPen Institute of Technology is prohibited.
 #include "SceneToImgui.h"
 #include "Input/InputSystem.h"
 
+// use SceneWindow for the actual detection of clicks or input over the button. SceneWindow can detect if the mouse is over the button and simply
+// call button->OnPress() or button->OnRelease() as needed. This keeps SceneWindow focused on input detection without delving into button state management.
+
 namespace Carmicah
 {
 	SceneWindow::SceneWindow() : EditorWindow("Scene", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
@@ -77,12 +80,13 @@ namespace Carmicah
                         std::cout << "Dragging in Scene to: (" << scaledX << ", " << scaledY << ")" << std::endl;
                     }
 
-                    // Check if mouse click is within button bounds
-                    if (Input.IsMousePressed(GLFW_MOUSE_BUTTON_LEFT))
+                    // BUTTON CHECKING, if button pressed, tell button its pressed
+                    // check if mouse click is within button bounds
+                    if (Input.IsMousePressed(MOUSE_BUTTON_LEFT))
                     {
-                        // Assuming button's position and size are set (example values)
+						// assuming button's position and size are set (example values), need to make this dynamic
                         ImVec2 buttonPosition = { 960.0f, 540.0f }; // Button center
-                        ImVec2 buttonSize = { 200.0f, 200.0f };    // Button dimensions
+                        ImVec2 buttonSize = { 200.0f, 200.0f };     // Button dimensions
 
                         if (scaledX >= buttonPosition.x - buttonSize.x / 2 &&
                             scaledX <= buttonPosition.x + buttonSize.x / 2 &&
@@ -90,10 +94,11 @@ namespace Carmicah
                             scaledY <= buttonPosition.y + buttonSize.y / 2)
                         {
                             // Trigger button press/release logic
-                            Button::OnPress();
+                    
+                            Button::Button::OnPress();
                         }
                     }
-                    else if (Input.IsMouseReleased(GLFW_MOUSE_BUTTON_LEFT))
+                    else if (Input.IsMouseReleased(MOUSE_BUTTON_LEFT))
                     {
                         Button::OnRelease();
                     }

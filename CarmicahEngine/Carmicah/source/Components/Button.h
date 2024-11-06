@@ -51,7 +51,7 @@ namespace Carmicah
 		void onPress()
 		{
 			isPressed = true; // set to pressed
-            Renderer.texture = ButtonPress;
+            Renderer::texture = ButtonPress;
 
             // need to put logic to switch texture here
 		}
@@ -60,7 +60,7 @@ namespace Carmicah
         void onRelease()
         {
 			isPressed = false; // set to unpressed
-			Renderer.texture = ButtonOG;
+			Renderer::texture = ButtonOG;
 
             // revert to og texture here
         }
