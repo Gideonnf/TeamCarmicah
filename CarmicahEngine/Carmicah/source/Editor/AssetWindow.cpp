@@ -6,7 +6,7 @@
 
  email:			n.lai@digipen.edu
 
- brief:
+ brief:	This file defines AssetWindow class which allows users to interact and manage assets.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
@@ -34,6 +34,10 @@ namespace Carmicah
 
 	Prefab* AssetWindow::selectedPrefab = nullptr;
 
+	/**
+	 * @brief Update function for the AssetWindow
+	 * 
+	 */
 	void AssetWindow::Update()
 	{
 		//Obtaining all the AssetMaps

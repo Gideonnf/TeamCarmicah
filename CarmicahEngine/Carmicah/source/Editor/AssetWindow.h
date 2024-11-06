@@ -1,12 +1,13 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:			InspectorWindow.h
+ file:			AssetWindow.h
 
  author:		Nicholas Lai (100%)
  co-author(s):
 
  email:			n.lai@digipen.edu
 
- brief:
+ brief:			This file defines AssetWindow class which allows users to interact and manage assets.
+
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of

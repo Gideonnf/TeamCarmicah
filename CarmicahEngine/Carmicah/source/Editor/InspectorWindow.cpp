@@ -6,7 +6,9 @@
 
  email:			n.lai@digipen.edu
 
- brief:
+ brief: 		This file implements the InspectorWindow class, which provides an interface for inspecting and modifying the properties of game objects and their components. 
+                The functionality is similar to Unity's Inspector, allowing users to interact with and edit properties such as transforms, scripts, and custom components in the editor.
+                This window dynamically updates to reflect the selected game object and offers various tools for inspecting and editing the object’s state.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
