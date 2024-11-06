@@ -13,5 +13,10 @@ namespace CarmicahScriptCore.Source
         {
             return FunctionCalls.IsKeyPressed(keyCode);
         }
+
+        public static bool IsKeyHold(Keys keyCode)
+        {
+            return FunctionCalls.IsKeyHold(keyCode);
+        }
     }
 }

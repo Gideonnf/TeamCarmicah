@@ -67,7 +67,7 @@ namespace Carmicah
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		if (go.HasComponent<RigidBody>())
 		{
-			LinearDirectionalForce dirForce(dir, magnitude, 1.0f);
+			LinearDirectionalForce dirForce(dir, magnitude, 0.0f);
 
 			go.GetComponent<RigidBody>().forcesManager.AddLinearForce(dirForce);
 		}
@@ -103,6 +103,11 @@ namespace Carmicah
 		return Input.IsKeyPressed(keyCode);
 	}
 
+	static bool IsKeyHold(Keys keyCode)
+	{
+		return Input.IsKeyHold(keyCode);
+	}
+
 	void ScriptFunctions::RegisterComponents()
 	{
 		// if we hotload and need to rerun the linking and reinit mono
@@ -126,6 +131,8 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);
 		ADD_INTERNAL_CALL(RigidBody_ApplyForceWithTime);
 
+		// input functions
 		ADD_INTERNAL_CALL(IsKeyPressed);
+		ADD_INTERNAL_CALL(IsKeyHold);
 	}
 }

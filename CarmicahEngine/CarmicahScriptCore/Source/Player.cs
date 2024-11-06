@@ -17,13 +17,35 @@ namespace Carmicah
 
         void OnUpdate(float dt)
         {
-            if (Input.IsKeyPressed(Keys.KEY_W))
+            if (Input.IsKeyHold(Keys.KEY_W))
             {
 
-                Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+                //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
 
                 GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
             }
+            if (Input.IsKeyHold(Keys.KEY_A))
+            {
+
+                //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+                GetComponent<RigidBody>().ApplyForce(new Vector2(-1, 0), 2.0f);
+            }
+            if (Input.IsKeyHold(Keys.KEY_S))
+            {
+
+                //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+                GetComponent<RigidBody>().ApplyForce(new Vector2(0, -1), 2.0f);
+            }
+            if (Input.IsKeyHold(Keys.KEY_D))
+            {
+
+                //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+                GetComponent<RigidBody>().ApplyForce(new Vector2(1,0), 2.0f);
+            }
+
         }
     }
 }
