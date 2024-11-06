@@ -33,7 +33,19 @@ namespace Carmicah
 
     void ScriptSystem::EntityDestroyed(Entity id)
     {
+        // If an entity is destroyed, remove it from mEntityInstances
+        // can also take this part to call ondestroy if we do that
+        for (auto& it : mEntityInstances)
+        {
+            if (it.first == id)
+            {
+                // can call ondestroy here maybe if we do that
 
+                // erase it from the map
+                mEntityInstances.erase(it.first);
+                break;
+            }
+        }
     }
 
     void ScriptSystem::Init()
@@ -254,6 +266,7 @@ namespace Carmicah
 
     void ScriptSystem::OnUpdate(float dt)
     {
+        // Loop through all entity instances
         for (const auto& [id, scriptRef] : mEntityInstances)
         {
             scriptRef->InvokeOnUpdate(dt);
