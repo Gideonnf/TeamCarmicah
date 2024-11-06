@@ -39,6 +39,7 @@ namespace Carmicah
 		MonoMethod* GetMethod(const std::string& name, int parameterCount);
 		MonoObject* InvokeMethod(MonoMethod* method, void** params = nullptr);
 
+		void InvokeOnConstruct(unsigned int id);
 		void InvokeOnCreate();
 		void InvokeOnUpdate(float dt);
 	private:

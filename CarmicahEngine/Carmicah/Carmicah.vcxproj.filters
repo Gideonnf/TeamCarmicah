@@ -56,6 +56,9 @@
     <ClInclude Include="source\Components\RigidBody.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="source\Components\Script.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="source\Components\TextRenderer.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -194,9 +197,6 @@
     </ClInclude>
     <ClInclude Include="source\log.h" />
     <ClInclude Include="source\pch.h" />
-    <ClInclude Include="source\Components\Script.h">
-      <Filter>Components</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />

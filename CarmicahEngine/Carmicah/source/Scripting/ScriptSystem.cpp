@@ -246,9 +246,17 @@ namespace Carmicah
                 std::shared_ptr<ScriptObject> scriptRef(mEntityClasses[scriptComponent.scriptName]);
                 scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
                 mEntityInstances[id] = scriptRef;
-
+                scriptRef->InvokeOnConstruct(id);
                 scriptRef->InvokeOnCreate();
             }
+        }
+    }
+
+    void ScriptSystem::OnUpdate(float dt)
+    {
+        for (const auto& [id, scriptRef] : mEntityInstances)
+        {
+            scriptRef->InvokeOnUpdate(dt);
         }
     }
 
@@ -278,7 +286,7 @@ namespace Carmicah
             std::string className;
             if (strlen(nameSpace))
             {
-                className = fmt::format("{}::{}", nameSpace, name);
+                className = fmt::format("{}.{}", nameSpace, name);
             }
             else
                 className = name;

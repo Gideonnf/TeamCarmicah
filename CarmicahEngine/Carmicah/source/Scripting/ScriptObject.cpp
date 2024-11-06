@@ -33,6 +33,17 @@ namespace Carmicah
 
 	}
 
+	void ScriptObject::InvokeOnConstruct(unsigned int id)
+	{
+		if (mConstruct)
+		{
+			// Invoke constructor when setting up entity
+			void* param = &id;
+			InvokeMethod(mConstruct, &param);
+
+		}
+	}
+
 	void ScriptObject::InvokeOnCreate()
 	{
 		if (mOnCreate)

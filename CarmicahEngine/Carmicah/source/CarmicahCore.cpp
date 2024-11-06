@@ -201,6 +201,10 @@ namespace Carmicah
        // Editor Editor;
         editorSys->Init(window);
         gScriptSystem->Init();
+        GameObject mainCharacter;
+        gGOFactory->FetchGO("mainCharacter", mainCharacter);
+        mainCharacter.AddComponent<Script>();
+        mainCharacter.GetComponent<Script>().scriptName = "Carmicah.Player";
         gScriptSystem->OnStart();
 
         SceneToImgui::GetInstance()->CreateFramebuffer(bufferWidth, bufferHeight);
