@@ -423,6 +423,7 @@ namespace Carmicah
 	template<typename T> void InspectorWindow::InspectorTable(T* go, Entity id)
 	{
 		static auto assetManager = AssetManager::GetInstance();
+		auto primitiveMap = assetManager->GetAssetMap<Primitive>();
 		auto textureMap = assetManager->GetAssetMap<Texture>();
 		auto fontMap = assetManager->GetAssetMap<Font>();
 
@@ -438,12 +439,26 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("Model");
 
-					char buffer[256];
-					strncpy(buffer, render.model.c_str(), sizeof(buffer));
-					buffer[sizeof(buffer) - 1] = '\0';
-
 					ImGui::TableNextColumn();
-					ImGui::Text(render.model.c_str());
+					ImGui::Text("%s", render.model.c_str());
+					ImGui::SameLine();
+					if (ImGui::Button("v##"))
+					{
+						ImGui::OpenPopup("Model Select");
+					}
+
+					if (ImGui::BeginPopup("Model Select"))
+					{
+						for (const auto& entry : primitiveMap->mAssetMap)
+						{
+							if (ImGui::Button(entry.first.c_str()))
+							{
+								render.model = entry.first;
+								ImGui::CloseCurrentPopup();
+							}
+						}
+						ImGui::EndPopup();
+					}
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
