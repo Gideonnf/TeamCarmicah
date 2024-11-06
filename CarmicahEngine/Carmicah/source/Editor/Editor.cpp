@@ -18,6 +18,7 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui_impl_glfw.h>
 #include <ImGUI/imgui_impl_opengl3.h>
 #include <ImGUI/imgui_internal.h>
+#include "../Input/InputSystem.h"
 
 
 namespace Carmicah
@@ -159,6 +160,13 @@ namespace Carmicah
 			{
 				window->Update();
 			}
+		}
+
+		//TODO: Get nic to make the play and stop button
+		if (Input.IsKeyPressed(KEY_SPACEBAR))
+		{
+			RuntimeStartMessage msg;
+			SendSysMessage(&msg);
 		}
 	}
 
