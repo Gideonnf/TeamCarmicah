@@ -26,6 +26,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
 #include "Components/UITransform.h"
+#include "Scripting/ScriptSystem.h"
 
 namespace Carmicah
 {
@@ -68,6 +69,11 @@ namespace Carmicah
 		if (!go->HasComponent<TextRenderer>())
 		{
 			componentsToAdd.push_back("TextRenderer");
+		}
+
+		if (!go->HasComponent<Script>())
+		{
+			componentsToAdd.push_back("Script");
 		}
 
 		if (ImGui::Combo("##", &selectedIndex, componentsToAdd.data(),componentsToAdd.size()))
@@ -120,6 +126,13 @@ namespace Carmicah
 				selectedComponentToAdd = "";
 				selectedIndex = 0;
 			}
+
+			if (selectedComponentToAdd == "Script")
+			{
+				go->AddComponent<Script>();
+				selectedComponentToAdd = "";
+				selectedIndex = 0;
+			}
 		}
 	}
 
@@ -146,150 +159,188 @@ namespace Carmicah
 
 	template<typename T> void InspectorWindow::InspectorTable(T* go)
 	{
+		static auto assetManager = AssetManager::GetInstance();
+		auto primitiveMap = assetManager->GetAssetMap<Primitive>();
+		auto textureMap = assetManager->GetAssetMap<Texture>();
+		auto fontMap = assetManager->GetAssetMap<Font>();
+
 		if (go->HasComponent<Renderer>())
 		{
 			Renderer& render = go->GetComponent<Renderer>();
-			if (ImGui::BeginTable("Renderer Table", 2, ImGuiTableFlags_Borders))
+			if (ImGui::CollapsingHeader("Renderer Settings", ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Model");
-
-				char buffer[256];
-				strncpy(buffer, render.model.c_str(), sizeof(buffer));
-				buffer[sizeof(buffer) - 1] = '\0';
-
-				ImGui::TableNextColumn();
-				if (ImGui::InputText("##Model", buffer, sizeof(buffer, ImGuiInputTextFlags_EnterReturnsTrue)))
+				//InspectorWindow::RemoveComponentButton<Renderer>(id);
+				if (ImGui::BeginTable("Renderer Table", 2, ImGuiTableFlags_Borders))
 				{
-					render.model = buffer;
-				}
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Model");
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Texture");
+					ImGui::TableNextColumn();
+					ImGui::Text("%s", render.model.c_str());
+					ImGui::SameLine();
+					if (ImGui::Button("v##"))
+					{
+						ImGui::OpenPopup("Model Select");
+					}
 
-				char buffer2[256];
-				strncpy(buffer2, render.texture.c_str(), sizeof(buffer2));
-				buffer2[sizeof(buffer2) - 1] = '\0';
+					if (ImGui::BeginPopup("Model Select"))
+					{
+						for (const auto& entry : primitiveMap->mAssetMap)
+						{
+							if (ImGui::Button(entry.first.c_str()))
+							{
+								render.model = entry.first;
+								ImGui::CloseCurrentPopup();
+							}
+						}
+						ImGui::EndPopup();
+					}
 
-				ImGui::TableNextColumn();
-				if (ImGui::InputText("##Texture", buffer2, sizeof(buffer2),ImGuiInputTextFlags_EnterReturnsTrue))
-				{
-					render.texture = buffer2;
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Texture");
+					ImGui::TableNextColumn();
+					ImGui::Text("%s", render.texture.c_str());
+					ImGui::SameLine();
+					if (ImGui::Button("v"))
+					{
+						ImGui::OpenPopup("Texture Select");
+					}
+
+					if (ImGui::BeginPopup("Texture Select"))
+					{
+						for (const auto& entry : textureMap->mAssetMap)
+						{
+							if (ImGui::Button(entry.first.c_str()))
+							{
+								render.texture = entry.first;
+								ImGui::CloseCurrentPopup();
+							}
+						}
+						ImGui::EndPopup();
+					}
+					ImGui::EndTable();
 				}
 			}
-			ImGui::EndTable();
 		}
 
 		if (go->HasComponent<Transform>())
 		{
 			Transform& selectedTransform = go->GetComponent<Transform>();
-			if (ImGui::BeginTable("Transform Table", 2, ImGuiTableFlags_Borders))
+			//InspectorWindow::RemoveComponentButton<Transform>(id);
+			if (ImGui::CollapsingHeader("Transform Settings", ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				//Column Headers
-				ImGui::TableNextColumn();
-				ImGui::Text("Attribute");
-				ImGui::TableNextColumn();
-				ImGui::Text("Value");
+				if (ImGui::BeginTable("Transform Table", 2, ImGuiTableFlags_Borders))
+				{
+					//Column Headers
+					ImGui::TableNextColumn();
+					ImGui::Text("Attribute");
+					ImGui::TableNextColumn();
+					ImGui::Text("Value");
 
-				//Position (X,Y,Z)
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("xPos");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##xPos", &selectedTransform.pos.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					//Position (X,Y,Z)
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("xPos");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##xPos", &selectedTransform.pos.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("yPos");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##yPos", &selectedTransform.pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("yPos");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##yPos", &selectedTransform.pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Depth");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##zPos", &selectedTransform.depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Depth");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##zPos", &selectedTransform.depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
-				// Rotation
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Rotation");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##rot", &selectedTransform.rot, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					// Rotation
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Rotation");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##rot", &selectedTransform.rot, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
-				// Scale (xScale, yScale)
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("xScale");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##xScale", &selectedTransform.scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					// Scale (xScale, yScale)
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("xScale");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##xScale", &selectedTransform.scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("yScale");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##yScale", &selectedTransform.scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("yScale");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##yScale", &selectedTransform.scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::EndTable();
+				}
 			}
-			ImGui::EndTable();
 		}
 		else if (go->HasComponent<UITransform>())
 		{
 			UITransform& selectedUITransform = go->GetComponent<UITransform>();
-			if (ImGui::BeginTable("UI Transform Table", 2, ImGuiTableFlags_Borders))
+			//InspectorWindow::RemoveComponentButton<UITransform>(id);
+			if (ImGui::CollapsingHeader("UI Transform Settings", ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				//Column Headers
-				ImGui::TableNextColumn();
-				ImGui::Text("Attribute");
-				ImGui::TableNextColumn();
-				ImGui::Text("Value");
+				if (ImGui::BeginTable("UI Transform Table", 2, ImGuiTableFlags_Borders))
+				{
+					//Column Headers
+					ImGui::TableNextColumn();
+					ImGui::Text("Attribute");
+					ImGui::TableNextColumn();
+					ImGui::Text("Value");
 
-				// Position x and y
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("xPos");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##xPos", &selectedUITransform.pos.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					// Position x and y
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("xPos");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##xPos", &selectedUITransform.pos.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("yPos");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##yPos", &selectedUITransform.pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("yPos");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##yPos", &selectedUITransform.pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Depth");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##Depth", &selectedUITransform.depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Depth");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##Depth", &selectedUITransform.depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
-				// Scale (xScale, yScale)
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("xScale");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##xScale", &selectedUITransform.scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					// Scale (xScale, yScale)
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("xScale");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##xScale", &selectedUITransform.scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("yScale");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##yScale", &selectedUITransform.scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("yScale");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##yScale", &selectedUITransform.scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
-				//ImGui::TableNextRow();
-				//ImGui::TableNextColumn();
-				//ImGui::Text("Update Object");
-				//ImGui::TableNextColumn();
-				//std::string UpdateGO = "Update " + selectedGO->GetName();
-				//if (ImGui::Button(UpdateGO.c_str()))
-				//{
-				//	
-				//	//gGOFactory->Destroy(selectedEntity);
-				//	//selectedGO = nullptr;
-				//}
+					//ImGui::TableNextRow();
+					//ImGui::TableNextColumn();
+					//ImGui::Text("Update Object");
+					//ImGui::TableNextColumn();
+					//std::string UpdateGO = "Update " + selectedGO->GetName();
+					//if (ImGui::Button(UpdateGO.c_str()))
+					//{
+					//	
+					//	//gGOFactory->Destroy(selectedEntity);
+					//	//selectedGO = nullptr;
+					//}
+					ImGui::EndTable();
+				}
 			}
-			ImGui::EndTable();
 		}
 
 		//if (go->HasComponent<Animation>())
@@ -310,27 +361,31 @@ namespace Carmicah
 		if (go->HasComponent<RigidBody>())
 		{
 			RigidBody& rb = go->GetComponent<RigidBody>();
-			if (ImGui::BeginTable("Rigidbody Table", 2, ImGuiTableFlags_Borders))
+			if (ImGui::CollapsingHeader("Rigid Body Settings", ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Velocity X");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##VelocityX", &rb.velocity.x, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+				//InspectorWindow::RemoveComponentButton<RigidBody>(id);
+				if (ImGui::BeginTable("Rigidbody Table", 2, ImGuiTableFlags_Borders))
+				{
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Velocity X");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##VelocityX", &rb.velocity.x, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Velocity Y");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##VelocityY", &rb.velocity.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Velocity Y");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##VelocityY", &rb.velocity.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Gravity");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##Gravity", &rb.gravity, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Gravity");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##Gravity", &rb.gravity, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
-				ImGui::EndTable();
+					ImGui::EndTable();
+				}
 			}
 		}
 
@@ -338,85 +393,140 @@ namespace Carmicah
 		if (go->HasComponent<Collider2D>())
 		{
 			Collider2D& col = go->GetComponent<Collider2D>();
-			if (ImGui::BeginTable("Collider2D Table", 2, ImGuiTableFlags_Borders))
+			if (ImGui::CollapsingHeader("Collider Settings", ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Shape");
-				ImGui::TableNextColumn();
-				ImGui::Text("%s", col.shape.c_str());
+				//InspectorWindow::RemoveComponentButton<Collider2D>(id);
+				if (ImGui::BeginTable("Collider2D Table", 2, ImGuiTableFlags_Borders))
+				{
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Shape");
+					ImGui::TableNextColumn();
+					ImGui::Text("%s", col.shape.c_str());
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Min X");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##MinX", &col.min.x, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Min X");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##MinX", &col.min.x, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Min Y");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##MinY", &col.min.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Min Y");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##MinY", &col.min.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Max X");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##MaxX", &col.max.x, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Max X");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##MaxX", &col.max.x, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Max Y");
-				ImGui::TableNextColumn();
-				ImGui::DragFloat("##MaxY", &col.max.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Max Y");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##MaxY", &col.max.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
-				ImGui::EndTable();
+					ImGui::EndTable();
+				}
 			}
 		}
 
 		// show text 
-		// color picker?
+		// color picker
 		if (go->HasComponent<TextRenderer>())
 		{
 			TextRenderer& text = go->GetComponent<TextRenderer>();
-			if (ImGui::BeginTable("TextRenderer Table", 2, ImGuiTableFlags_Borders))
+			if (ImGui::CollapsingHeader("Text Renderer Settings", ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Text");
-
-				char buffer[256];
-				strncpy(buffer, text.txt.c_str(), sizeof(buffer));
-				buffer[sizeof(buffer) - 1] = '\0';
-
-				ImGui::TableNextColumn();
-				if (ImGui::InputText("##Text", buffer, sizeof(buffer)))
+				//InspectorWindow::RemoveComponentButton<TextRenderer>(id);
+				if (ImGui::BeginTable("TextRenderer Table", 2, ImGuiTableFlags_Borders))
 				{
-					text.txt = buffer;
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Text");
+
+					char buffer[256];
+					strncpy(buffer, text.txt.c_str(), sizeof(buffer));
+					buffer[sizeof(buffer) - 1] = '\0';
+
+					ImGui::TableNextColumn();
+					if (ImGui::InputText("##Text", buffer, sizeof(buffer)))
+					{
+						text.txt = buffer;
+					}
+
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Font");
+					ImGui::TableNextColumn();
+					ImGui::Text("%s", text.font.c_str());
+					ImGui::SameLine();
+					if (ImGui::Button("v"))
+					{
+						ImGui::OpenPopup("Font Select");
+					}
+
+					if (ImGui::BeginPopup("Font Select"))
+					{
+						for (const auto& entry : fontMap->mAssetMap)
+						{
+							if (ImGui::Button(entry.first.c_str()))
+							{
+								text.font = entry.first;
+								ImGui::CloseCurrentPopup();
+							}
+						}
+						ImGui::EndPopup();
+					}
+
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Color");
+
+					// Add RGB color picker
+					float color[3] = { text.colorR, text.colorG, text.colorB };
+					ImGui::TableNextColumn();
+					if (ImGui::ColorEdit3("##Color", color))
+					{
+						// Update the component's color with the selected values
+						text.colorR = color[0];
+						text.colorG = color[1];
+						text.colorB = color[2];
+					}
+
+					ImGui::EndTable();
+				}
+			}
+		}
+
+		if (go->HasComponent<Script>())
+		{
+			Script& script = go->GetComponent<Script>();
+			if (ImGui::CollapsingHeader("Script Settings", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				//InspectorWindow::RemoveComponentButton<Script>(id);
+				ImGui::Text(script.scriptName.c_str());
+				ImGui::SameLine();
+				if (ImGui::Button("v#####"))
+				{
+					ImGui::OpenPopup("Script Select");
 				}
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Font");
-				ImGui::TableNextColumn();
-				ImGui::Text("%s", text.font.c_str());
-
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Color");
-
-				// Add RGB color picker
-				float color[3] = { text.colorR, text.colorG, text.colorB };
-				ImGui::TableNextColumn();
-				if (ImGui::ColorEdit3("##Color", color))
+				if (ImGui::BeginPopup("Script Select"))
 				{
-					// Update the component's color with the selected values
-					text.colorR = color[0];
-					text.colorG = color[1];
-					text.colorB = color[2];
+					for (const auto& entry : gScriptSystem->mEntityClasses)
+					{
+						if (ImGui::Button(entry.first.c_str()))
+						{
+							script.scriptName = entry.first;
+							ImGui::CloseCurrentPopup();
+						}
+					}
+					ImGui::EndPopup();
 				}
 
-				ImGui::EndTable();
 			}
 		}
 	}
@@ -764,7 +874,34 @@ namespace Carmicah
 			}
 		}
 
+		if (go->HasComponent<Script>())
+		{
+			Script& script = go->GetComponent<Script>();
+			if (ImGui::CollapsingHeader("Script Settings", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				InspectorWindow::RemoveComponentButton<Script>(id);
+				ImGui::Text(script.scriptName.c_str());
+				ImGui::SameLine();
+				if (ImGui::Button("v#####"))
+				{
+					ImGui::OpenPopup("Script Select");
+				}
 
+				if (ImGui::BeginPopup("Script Select"))
+				{
+					for (const auto& entry : gScriptSystem->mEntityClasses)
+					{
+						if (ImGui::Button(entry.first.c_str()))
+						{
+							script.scriptName = entry.first;
+							ImGui::CloseCurrentPopup();
+						}
+					}
+					ImGui::EndPopup();
+				}
+
+			}
+		}
 	}
 
 	void InspectorWindow::Update()
