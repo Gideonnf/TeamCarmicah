@@ -19,6 +19,7 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui.h>
 #include "EditorWindow.h"
 #include "ECS/GameObject.h"
+#include "../Systems/AssetManager.h"
 
 
 namespace Carmicah
@@ -28,6 +29,8 @@ namespace Carmicah
 	private:
 
 	public:
+		static Prefab* selectedPrefab;
+
 		/**
 		 * @brief Construct a new Asset Window object
 		 *

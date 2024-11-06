@@ -82,7 +82,7 @@ namespace Carmicah
 		std::string CreateGOName(std::string goName);
 
 		//Used for updating the sceneGO if the entity's parent was changed so that scene hierarchy can update
-		void UpdateParent(Entity entityID, Entity parentID);
+		void UpdateParent(Entity entityID, Entity parentID, bool toDelete = false);
 
 #pragma endregion
 

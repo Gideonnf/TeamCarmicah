@@ -19,8 +19,8 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui_impl_opengl3.h>
 #include "EditorWindow.h"
 #include "HierarchyWindow.h"
+#include "AssetWindow.h"
 #include "Systems/GOFactory.h"
-#include "Systems/AssetManager.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
@@ -31,8 +31,10 @@ DigiPen Institute of Technology is prohibited.
 namespace Carmicah
 {
 	HierarchyWindow::HierarchyWindow() : EditorWindow("Hierarchy", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
+	bool HierarchyWindow::mShowScene = true;
 	std::vector<GameObject> createdList;
 	GameObject* HierarchyWindow::selectedGO = nullptr;
+	Prefab* HierarchyWindow::inspectedPrefab = nullptr;
 
 	void HierarchyWindow::GOButton(GameObject& go)
 	{
@@ -51,8 +53,24 @@ namespace Carmicah
 		ImGui::Unindent();
 	}
 
+	void HierarchyWindow::PrefabButton(Prefab& prefab)
+	{
+		if (ImGui::Button(prefab.mName.c_str()))
+		{
+			inspectedPrefab = &prefab;
+		}
+
+		ImGui::Indent();
+		prefab.ForPrefabChildren(prefab, [this](Prefab& childPrefab)
+		{
+			PrefabButton(childPrefab);
+		});
+	}
+
 	void HierarchyWindow::Update()
 	{
+		static auto assetManager = AssetManager::GetInstance();
+		auto prefabMap = assetManager->GetAssetMap<Prefab>();
 			//static Transform playerTrans{};
 			//static Collider2D playerCollider{ 1.0, 2.0, 3.0, 4.0 };
 			//static Renderer toRender{};
@@ -67,141 +85,31 @@ namespace Carmicah
 							selectedGO = &go;
 						}
 					});*/
-				gGOFactory->ForAllSceneGOs([this](GameObject& go)
-					{
-						GOButton(go);
+				if(mShowScene && AssetWindow::selectedPrefab == nullptr)
+				{
+					gGOFactory->ForAllSceneGOs([this](GameObject& go)
+						{
+							GOButton(go);
 
-					});
+						});
+				}
+				else if (AssetWindow::selectedPrefab != nullptr)
+				{
+					bool backToScene = false;
+					if (ImGui::Button("Back"))
+					{
+						AssetWindow::selectedPrefab = nullptr;
+						inspectedPrefab = nullptr;
+						mShowScene = true;
+						backToScene = true;
+					}
+					if(!backToScene)
+					{
+						PrefabButton(*AssetWindow::selectedPrefab);
+					}
+				}
 				ImGui::EndChild();
 			}
-			if (selectedGO != nullptr)
-			{
-				ImGui::Text("Selected Game Object: %s", selectedGO->GetName().c_str());
-				Entity selectedEntity = selectedGO->GetID();
-				if (selectedGO->HasComponent<Transform>())
-				{
-					Transform& selectedTransform = selectedGO->GetComponent<Transform>();
-					if (ImGui::BeginTable("Transform Table", 2, ImGuiTableFlags_Borders))
-					{
-						//Column Headers
-						ImGui::TableNextColumn();
-						ImGui::Text("Attribute");
-						ImGui::TableNextColumn();
-						ImGui::Text("Value");
-
-						//Position (X,Y,Z)
-						ImGui::TableNextRow();
-						ImGui::TableNextColumn();
-						ImGui::Text("xPos");
-						ImGui::TableNextColumn();
-						ImGui::InputFloat("##xPos", &selectedTransform.pos.x);
-
-						ImGui::TableNextRow();
-						ImGui::TableNextColumn();
-						ImGui::Text("yPos");
-						ImGui::TableNextColumn();
-						ImGui::InputFloat("##yPos", &selectedTransform.pos.y);
-
-						ImGui::TableNextRow();
-						ImGui::TableNextColumn();
-						ImGui::Text("zPos");
-						ImGui::TableNextColumn();
-						ImGui::InputFloat("##zPos", &selectedTransform.depth);
-
-						// Rotation
-						ImGui::TableNextRow();
-						ImGui::TableNextColumn();
-						ImGui::Text("Rotation");
-						ImGui::TableNextColumn();
-						ImGui::InputFloat("##rot", &selectedTransform.rot);
-
-						// Scale (xScale, yScale)
-						ImGui::TableNextRow();
-						ImGui::TableNextColumn();
-						ImGui::Text("xScale");
-						ImGui::TableNextColumn();
-						ImGui::InputFloat("##xScale", &selectedTransform.scale.x);
-
-						ImGui::TableNextRow();
-						ImGui::TableNextColumn();
-						ImGui::Text("yScale");
-						ImGui::TableNextColumn();
-						ImGui::InputFloat("##yScale", &selectedTransform.scale.y);
-					}
-					ImGui::EndTable();
-				}
-				else if (selectedGO->HasComponent<UITransform>())
-				{
-					UITransform& selectedUITransform = selectedGO->GetComponent<UITransform>();
-					if (ImGui::BeginTable("UI Transform Table", 2, ImGuiTableFlags_Borders))
-					{
-						//Column Headers
-						ImGui::TableNextColumn();
-						ImGui::Text("Attribute");
-						ImGui::TableNextColumn();
-						ImGui::Text("Value");
-
-						// Position x and y
-						ImGui::TableNextRow();
-						ImGui::TableNextColumn();
-						ImGui::Text("xPos");
-						ImGui::TableNextColumn();
-						ImGui::InputFloat("##xPos", &selectedUITransform.pos.x);
-
-						ImGui::TableNextRow();
-						ImGui::TableNextColumn();
-						ImGui::Text("yPos");
-						ImGui::TableNextColumn();
-						ImGui::InputFloat("##yPos", &selectedUITransform.pos.y);
-
-						// Scale (xScale, yScale)
-						ImGui::TableNextRow();
-						ImGui::TableNextColumn();
-						ImGui::Text("xScale");
-						ImGui::TableNextColumn();
-						ImGui::InputFloat("##xScale", &selectedUITransform.scale.x);
-
-						ImGui::TableNextRow();
-						ImGui::TableNextColumn();
-						ImGui::Text("yScale");
-						ImGui::TableNextColumn();
-						ImGui::InputFloat("##yScale", &selectedUITransform.scale.y);
-
-						//ImGui::TableNextRow();
-						//ImGui::TableNextColumn();
-						//ImGui::Text("Update Object");
-						//ImGui::TableNextColumn();
-						//std::string UpdateGO = "Update " + selectedGO->GetName();
-						//if (ImGui::Button(UpdateGO.c_str()))
-						//{
-						//	
-						//	//gGOFactory->Destroy(selectedEntity);
-						//	//selectedGO = nullptr;
-						//}
-					}
-					ImGui::EndTable();
-				}
-				
-				if (selectedGO->HasComponent<Animation>())
-				{
-					std::string animGO = "Change Animation of " + selectedGO->GetName();
-					if (ImGui::Button(animGO.c_str()))
-					{
-						selectedGO->GetComponent<Animation>().animAtlas = "MC_Walk";
-						selectedGO->GetComponent<Renderer>().texture = "MC_Walk";
-						//gGOFactory->Destroy(selectedEntity);
-						//selectedGO = nullptr;
-					}
-				}
-
-				std::string destroyGO = "Destroy " + selectedGO->GetName();
-				if(ImGui::Button(destroyGO.c_str()))
-				{
-					gGOFactory->Destroy(selectedEntity);
-					selectedGO = nullptr;
-				}
-			}
-
 			static char goName[256] = "Duck";
 			ImGui::Text("Game Object Name: ");
 			ImGui::SameLine();
@@ -266,7 +174,10 @@ namespace Carmicah
 			std::string goCloneButton = "Clone GO";
 			if (ImGui::Button(goCloneButton.c_str()))
 			{
-				gGOFactory->CloneGO(*selectedGO);
+				if(selectedGO != nullptr)
+				{
+					gGOFactory->CloneGO(*selectedGO);
+				}
 				//gGOFactory->CreateGO();
 			}
 
