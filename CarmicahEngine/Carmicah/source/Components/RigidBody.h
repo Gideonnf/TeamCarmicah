@@ -53,6 +53,8 @@ namespace Carmicah
 
         rbTypes objectType;
 
+        RigidBody() : velocity{ 0, 0 }, angularVelocity{ 0 }, mass{ 1 }, gravity{ 0.0f }, objectType{ rbTypes::STATIC } {}
+
         RigidBody& DeserializeComponent(const rapidjson::Value& component) override
         {
             velocity.x = static_cast<float>(component["velocityX"].GetDouble());

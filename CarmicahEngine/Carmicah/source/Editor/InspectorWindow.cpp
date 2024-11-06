@@ -849,6 +849,12 @@ namespace Carmicah
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
+					ImGui::Text("Mass");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##Mass", &rb.mass, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
 					ImGui::Text("Gravity");
 					ImGui::TableNextColumn();
 					ImGui::DragFloat("##Gravity", &rb.gravity, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
