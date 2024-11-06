@@ -39,11 +39,6 @@ namespace Carmicah
 		return this->lifetime = lifeTimeValue;
 	}
 
-	bool LinearDirectionalForce::ActivateForce(bool state)
-	{
-		return isActive = state;
-	}
-
 	void LinearDirectionalForce::Update(float deltaTime)
 	{
 		age += deltaTime;
@@ -66,9 +61,13 @@ namespace Carmicah
 
 	}
 
+	void ForcesManager::RemoveLinearForce()
+	{
+		
+	}
+
 	void ForcesManager::UpdateForces(float deltaTime)
 	{
-		//auto* componentManager = ComponentManager::GetInstance();
 
 		// Clear accumulated force before recalculating
 		accumulatedForce = { 0.0f, 0.0f };
@@ -82,17 +81,19 @@ namespace Carmicah
 				
 				accumulatedForce += force.GetForceVector();
 
-				//std::cout << accumulatedForce << std::endl;
-
-			}
-			else 
-			{
-				//SetSumForces({ 0.0f,0.0f });
 			}
 
 		}
 
-		
+		for (auto& force : dragForces)
+		{
+			if (force.isActive == true) 
+			{
+				force.Update(deltaTime);
+
+				//accumulatedForce += 
+			}
+		}
 		
 	}
 
@@ -105,22 +106,5 @@ namespace Carmicah
 	{
 		return accumulatedForce = value;
 	}
-
-	/*void ForcesManager::ApplyForces(Entity& obj, Vector2D<float>& velocity) 
-	{
-		auto* componentManager = ComponentManager::GetInstance();
-		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
-
-		if (force.dragForce.isActive) 
-		{
-			force.dragForce.Update(1.0f, rigidbody.velocity);
-
-		}
-
-		if (force.linearForce.isActive) 
-		{
-			rigidbody.velocity += force.linearForce.GetForceVector();
-		}
-	}*/
 
 }

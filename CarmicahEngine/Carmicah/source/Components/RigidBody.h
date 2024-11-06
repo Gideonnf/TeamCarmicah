@@ -70,10 +70,9 @@ namespace Carmicah
                     float magnitude = static_cast<float>((*it)["magnitude"].GetDouble());
                     float lifeTime = static_cast<float>((*it)["lifetime"].GetDouble());
                     float age = static_cast<float>((*it)["age"].GetDouble());
-                    bool active = static_cast<float>((*it)["active"].GetBool());
 
                     // Add it to this shit
-                    LinearDirectionalForce newForce{ dir, magnitude, lifeTime, active };
+                    LinearDirectionalForce newForce{ dir, magnitude, lifeTime};
                     forcesManager.AddLinearForce(newForce);
                 }
             }
@@ -120,8 +119,6 @@ namespace Carmicah
                     writer.Double(it.lifetime);
                     writer.String("age");
                     writer.Double(it.age);
-                    writer.String("active");
-                    writer.Bool(it.isActive);
 
                     writer.EndObject();
                 }

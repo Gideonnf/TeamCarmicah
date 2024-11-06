@@ -138,20 +138,6 @@ namespace Carmicah
 			//	}
 			//}
 		}
-		/*else if (rigidbody.objectType == "Kinematic")
-		{
-			if (rigidbody.velocity.x != 0)
-			{
-				transform.pos.x += rigidbody.velocity.x * deltaTime;
-
-			}
-
-			if (rigidbody.velocity.y != 0)
-			{
-				transform.pos.y += rigidbody.velocity.y * deltaTime;
-			}
-
-		}*/
 
 		//Clear Summed Forces
 		rigidbody.forcesManager.SetSumForces({ 0.0f , 0.0f});
