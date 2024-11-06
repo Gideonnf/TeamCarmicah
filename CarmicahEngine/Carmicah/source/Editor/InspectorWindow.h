@@ -39,13 +39,35 @@ namespace Carmicah
 		 */
 		void Update() override;
 
+		/**
+		 * @brief Function that creates the inspector table
+		 * 
+		 * @tparam T 
+		 * @param go 
+		 * @param id 
+		 */
 		template<typename T>
 		void InspectorTable(T* go, Entity id);
-
+		/**
+		 * @brief Function Overload that creates inspector table
+		 * 
+		 * @tparam T 
+		 * @param go 
+		 */
 		template<typename T>
 		void InspectorTable(T* go);
-
+		/**
+		 * @brief Function that creates and facilitates adding component
+		 * 
+		 * @param go 
+		 */
 		void AddComponentButton(GameObject* go);
+		/**
+		 * @brief Function  that facilitates removing a component from a  gameobject.
+		 * 
+		 * @tparam T 
+		 * @param go 
+		 */
 		template<typename T>
 		void RemoveComponentButton(Entity go);
 
