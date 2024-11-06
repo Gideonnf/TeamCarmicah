@@ -48,9 +48,20 @@ namespace Carmicah
 			age = 0.0f;
 			std::cout << "Force with " << unitDirection.x << ", " << unitDirection.y << std::endl;
 			isActive = false;
-			
 		}
 	}
+
+	Vector2D<float> DragForce::CalculateDragForce(const Vector2D<float>& currentVelocity) const
+	{
+		Vector2D<float> result;
+
+		// Assuming directionalDrag is a constant that includes fluid density and area
+		result.x = -currentVelocity.x * directionalDrag;
+		result.y = -currentVelocity.y * directionalDrag;
+
+		return result;
+	}
+
 
 	void ForcesManager::AddLinearForce(LinearDirectionalForce& force) 
 	{
@@ -61,9 +72,22 @@ namespace Carmicah
 
 	}
 
-	void ForcesManager::RemoveLinearForce()
+	void ForcesManager::SetCurrentVelocity(const Vector2D<float>& velocity) 
 	{
-		
+		objectVelocity = velocity;
+	}
+
+
+
+	void ForcesManager::RemoveForce()
+	{
+		// Remove all inactive linear forces
+		linearForces.erase(
+			std::remove_if(linearForces.begin(), linearForces.end(),
+				[](const LinearDirectionalForce& force) { return !force.isActive; }),
+			linearForces.end()
+		);
+
 	}
 
 	void ForcesManager::UpdateForces(float deltaTime)
@@ -83,21 +107,17 @@ namespace Carmicah
 
 			}
 
+
 		}
 
-		for (auto& force : dragForces)
-		{
-			if (force.isActive == true) 
-			{
-				force.Update(deltaTime);
+		accumulatedForce += dragForce.CalculateDragForce(objectVelocity);
+				
 
-				//accumulatedForce += 
-			}
-		}
+		RemoveForce();
 		
 	}
 
-	Vector2D<float> ForcesManager::GetSumForces() 
+	Vector2D<float> ForcesManager::GetSumForces() const 
 	{
 		return accumulatedForce;
 	}
