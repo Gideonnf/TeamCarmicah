@@ -67,12 +67,12 @@ namespace Carmicah
 
 		//float deltaTime = (float)CarmicahTimer::GetDt();
 
-		float deltaTime = CarmicahTime::GetInstance()->GetDeltaTime();
+		double deltaTime = CarmicahTime::GetInstance()->GetDeltaTime();
 
 		rigidbody.forcesManager.UpdateForces(deltaTime);
 
 
-		if (rigidbody.objectType == "Dynamic")
+		if (rigidbody.objectType == "Dynamic" || rigidbody.objectType == "Kinematic")
 		{
 			transform.pos.x = transform.pos.x + rigidbody.velocity.x * deltaTime;
 			transform.pos.y = transform.pos.y + rigidbody.velocity.y * deltaTime;
@@ -138,7 +138,7 @@ namespace Carmicah
 			//	}
 			//}
 		}
-		else if (rigidbody.objectType == "Kinematic")
+		/*else if (rigidbody.objectType == "Kinematic")
 		{
 			if (rigidbody.velocity.x != 0)
 			{
@@ -151,7 +151,7 @@ namespace Carmicah
 				transform.pos.y += rigidbody.velocity.y * deltaTime;
 			}
 
-		}
+		}*/
 
 		//Clear Summed Forces
 		rigidbody.forcesManager.SetSumForces({ 0.0f , 0.0f});

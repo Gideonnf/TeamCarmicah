@@ -57,8 +57,8 @@ namespace Carmicah
 
             LinearDirectionalForce upForce({ 0.0f,-1.0f }, 2.0f, 3.0f, false);
             LinearDirectionalForce downForce({ 0.0f,1.0f }, 2.0f, 3.0f, false);
-            LinearDirectionalForce rightForce({ 1.0f,0.0f }, 1.0f, 2.0f, false);
-            LinearDirectionalForce leftForce({ -1.0f,0.0f }, 1.0f, 2.0f, true);
+            LinearDirectionalForce rightForce({ 1.0f,0.0f }, 1.0f, 2.0f, true);
+            LinearDirectionalForce leftForce({ -1.0f,0.0f }, 1.0f, 2.0f, false);
 
             GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(upForce);
             GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(downForce);
@@ -135,7 +135,7 @@ namespace Carmicah
 
         if (mainCharacter.IsActive())
         {
-            if (physicsRef->mDebugPhysics ? Input.IsKeyPressed(Keys::KEY_D) : Input.IsKeyHold(Keys::KEY_D))
+           /* if (physicsRef->mDebugPhysics ? Input.IsKeyPressed(Keys::KEY_D) : Input.IsKeyHold(Keys::KEY_D))
             {
                 mainCharacter.GetComponent<RigidBody>().velocity.x = 5.0f;
             }
@@ -155,7 +155,7 @@ namespace Carmicah
             {
                 mainCharacter.GetComponent<RigidBody>().velocity.x = 0.0f;
                 mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
-            }
+            }*/
 
         }
 

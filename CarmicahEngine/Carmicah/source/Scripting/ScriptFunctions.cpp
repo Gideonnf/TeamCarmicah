@@ -67,7 +67,7 @@ namespace Carmicah
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		if (go.HasComponent<RigidBody>())
 		{
-			LinearDirectionalForce dirForce(dir, magnitude, 1.0, false);
+			LinearDirectionalForce dirForce(dir, magnitude, 1.0f, true);
 
 			go.GetComponent<RigidBody>().forcesManager.AddLinearForce(dirForce);
 		}

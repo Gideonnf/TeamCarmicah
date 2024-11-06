@@ -18,7 +18,7 @@ DigiPen Institute of Technology is prohibited.
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "CarmicahTime.h"
-
+#include "log.h"
 //brief:			This DebugWindow class is a derived class from EditorWindow.
 //                 It currently provides an FPS tracker, a console log and profiler for tracking purposes.
 
@@ -60,6 +60,9 @@ namespace Carmicah
         mDeltaTime = currTime - mPrevTime;
         mPrevTime = currTime;
         mUpdateTimer += mDeltaTime;
+
+
+        //CM_CORE_INFO("Delta time: {}", mDeltaTime);
 
         if (mUpdateTimer >= mUpdateInterval)
         {
