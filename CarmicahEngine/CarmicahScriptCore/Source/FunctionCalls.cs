@@ -23,5 +23,7 @@ namespace Carmicah
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool IsKeyPressed(Keys keyCode);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static bool IsKeyHold(Keys keyCode);
     }
 }

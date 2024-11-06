@@ -47,9 +47,6 @@
     <ClInclude Include="source\Components\Collider2D.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="source\Components\Forces.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="source\Components\Renderer.h">
       <Filter>Components</Filter>
     </ClInclude>
