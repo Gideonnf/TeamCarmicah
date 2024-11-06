@@ -42,6 +42,9 @@ namespace Carmicah
 		template<typename T>
 		void InspectorTable(T* go, Entity id);
 
+		template<typename T>
+		void InspectorTable(T* go);
+
 		void AddComponentButton(GameObject* go);
 		template<typename T>
 		void RemoveComponentButton(Entity go);
