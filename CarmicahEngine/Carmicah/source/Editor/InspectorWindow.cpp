@@ -403,6 +403,77 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::DragFloat("##Gravity", &rb.gravity, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Rigidbody Type");
+					ImGui::TableNextColumn();
+					switch (rb.objectType)
+					{
+					case 0:
+					{
+						ImGui::Text("Static");
+						break;
+					}
+					case 1:
+					{
+						ImGui::Text("Dynamic");
+
+						break;
+					}
+					case 2:
+					{
+						ImGui::Text("Kinematic");
+
+						break;
+					}
+					}
+					/*ImGui::Text("%s", text.font.c_str());*/
+					ImGui::SameLine();
+					if (ImGui::Button("v"))
+					{
+						ImGui::OpenPopup("ObjectType");
+					}
+
+					if (ImGui::BeginPopup("ObjectType"))
+					{
+						for (int i = 0; i < rbTypes::MAX_TYPES; ++i)
+						{
+							switch (i)
+							{
+								case 0:
+								{
+									if (ImGui::Button("Static"))
+									{
+										rb.objectType = (rbTypes)0;
+										ImGui::CloseCurrentPopup();
+									}
+									break;
+
+								}
+								case 1:
+								{
+									if (ImGui::Button("Dynamic"))
+									{
+										rb.objectType = (rbTypes)1;
+										ImGui::CloseCurrentPopup();
+									}
+									break;
+								}
+								case 2:
+								{
+									if (ImGui::Button("Kinematic"))
+									{
+										rb.objectType = (rbTypes)2;
+										ImGui::CloseCurrentPopup();
+									}
+									break;
+								}
+							}
+						
+						}
+						ImGui::EndPopup();
+					}
+
 					ImGui::EndTable();
 				}
 			}
@@ -781,6 +852,77 @@ namespace Carmicah
 					ImGui::Text("Gravity");
 					ImGui::TableNextColumn();
 					ImGui::DragFloat("##Gravity", &rb.gravity, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Rigidbody Type");
+					ImGui::TableNextColumn();
+					switch (rb.objectType)
+					{
+					case 0:
+					{
+						ImGui::Text("Static");
+						break;
+					}
+					case 1:
+					{
+						ImGui::Text("Dynamic");
+
+						break;
+					}
+					case 2:
+					{
+						ImGui::Text("Kinematic");
+
+						break;
+					}
+					}
+					/*ImGui::Text("%s", text.font.c_str());*/
+					ImGui::SameLine();
+					if (ImGui::Button("v"))
+					{
+						ImGui::OpenPopup("ObjectType");
+					}
+
+					if (ImGui::BeginPopup("ObjectType"))
+					{
+						for (int i = 0; i < rbTypes::MAX_TYPES; ++i)
+						{
+							switch (i)
+							{
+							case 0:
+							{
+								if (ImGui::Button("Static"))
+								{
+									rb.objectType = rbTypes::STATIC;
+									ImGui::CloseCurrentPopup();
+								}
+								break;
+
+							}
+							case 1:
+							{
+								if (ImGui::Button("Dynamic"))
+								{
+									rb.objectType = rbTypes::DYNAMIC;
+									ImGui::CloseCurrentPopup();
+								}
+								break;
+							}
+							case 2:
+							{
+								if (ImGui::Button("Kinematic"))
+								{
+									rb.objectType = rbTypes::KINEMATIC;
+									ImGui::CloseCurrentPopup();
+								}
+								break;
+							}
+							}
+
+						}
+						ImGui::EndPopup();
+					}
 
 					ImGui::EndTable();
 				}

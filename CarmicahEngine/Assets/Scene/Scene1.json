@@ -135,7 +135,7 @@
                     "gravity": 0.0,
                     "mass": 1.0,
                     "zposPrev": 1.0,
-                    "objectType": "Kinematic"
+                    "objectType": 1
                 },
               {
                 "Component Name": "struct Carmicah::Renderer",
@@ -171,7 +171,7 @@
                     "gravity": 0.0,
                     "mass": 1.0,
                     "zposPrev": 0.0,
-                    "objectType": "Static"
+                    "objectType": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -228,7 +228,7 @@
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
-                    "objectType": "Dynamic"
+                    "objectType": 2
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -264,7 +264,7 @@
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
-                    "objectType": "Dynamic"
+                    "objectType": 2
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",

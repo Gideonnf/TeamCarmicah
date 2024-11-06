@@ -23,6 +23,14 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+    enum rbTypes
+    {
+        STATIC = 0,
+        KINEMATIC,
+        DYNAMIC,
+        MAX_TYPES
+    };
+
     struct RigidBody : BaseComponent<RigidBody>
     {
         Vector2D<float> velocity;
@@ -43,7 +51,7 @@ namespace Carmicah
 
         float zposPrev;
 
-        std::string objectType;
+        rbTypes objectType;
 
         RigidBody& DeserializeComponent(const rapidjson::Value& component) override
         {
@@ -56,7 +64,7 @@ namespace Carmicah
             mass = static_cast<float>(component["mass"].GetDouble());
             gravity = static_cast<float>(component["gravity"].GetDouble());
             zposPrev = static_cast<float>(component["zposPrev"].GetDouble());
-            objectType = (component["objectType"].GetString());
+            objectType = static_cast<rbTypes>(component["objectType"].GetInt());
 
             // If it has linear forces that is applied
             if (component.HasMember("linearForces"))
@@ -99,7 +107,7 @@ namespace Carmicah
 			writer.String("zposPrev");
 			writer.Double(zposPrev);
             writer.String("objectType");
-			writer.String(objectType.c_str());
+			writer.Int((int)objectType);
             if (forcesManager.GetLinearForces().size() > 0)
             {
                 // TODO: Check with yy if she wants non-active forces to be serialized

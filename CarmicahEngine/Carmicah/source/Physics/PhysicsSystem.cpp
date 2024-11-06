@@ -75,8 +75,12 @@ namespace Carmicah
 
 
 		Vector2D<float> sumForces = rigidbody.forcesManager.GetSumForces();
+		//if (rigidbody.objectType == "")
+		//{
+		//	CM_CORE_ERROR("Rigid body has no type");
+		//}
 
-		if (rigidbody.objectType == "Dynamic" || rigidbody.objectType == "Kinematic")
+		if (rigidbody.objectType == rbTypes::DYNAMIC|| rigidbody.objectType == rbTypes::KINEMATIC)
 		{
 			transform.pos.x = transform.pos.x + rigidbody.velocity.x * deltaTime;
 			transform.pos.y = transform.pos.y + rigidbody.velocity.y * deltaTime;
