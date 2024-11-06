@@ -97,9 +97,7 @@ namespace Carmicah
 				}
 			}
 			return false;
-
 		}
-
 
 		template <typename T>
 		T& GetComponent()
@@ -133,6 +131,11 @@ namespace Carmicah
 					func(child);
 				}
 			}
+
+		}
+	
+		void SerializePrefab()
+		{
 
 		}
 	};

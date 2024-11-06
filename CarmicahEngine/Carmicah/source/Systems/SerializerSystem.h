@@ -65,6 +65,7 @@ namespace Carmicah
 		*/
 		bool DeserializeScene(std::string);
 		bool SerializeScene(std::string);
+		void SerializePrefab(Prefab);
 		Prefab DeserializePrefab(std::string);
 		Prefab GetChildren(const rapidjson::Value& doc);
 

@@ -137,6 +137,25 @@ namespace Carmicah
 		return true;
 	}
 
+	void SerializerSystem::SerializePrefab(Prefab prefab)
+	{
+		// Get the file path to the asset
+		std::string filePath = AssetManager::GetInstance()->enConfig.assetLoc + "/" + prefab.mName;
+		std::ofstream ofs{ filePath, std::ios::binary };
+		if (!ofs)
+		{
+			CM_CORE_ERROR("Unable to open prefab file");
+			//return false;
+		}
+
+		OStreamWrapper osw(ofs);
+		PrettyWriter<OStreamWrapper> writer(osw);
+		// Serialize prefab
+
+
+		ofs.close();
+	}
+
 	Prefab SerializerSystem::DeserializePrefab(std::string prefabFile)
 	{
 		std::ifstream ifs{ prefabFile, std::ios::binary };
