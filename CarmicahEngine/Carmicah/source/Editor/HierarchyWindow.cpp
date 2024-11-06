@@ -28,10 +28,6 @@ DigiPen Institute of Technology is prohibited.
 #include "SceneToImgui.h"
 #include <random>
 
-// put new png from BFA into assets/images
-// go edit json file to include name of png, fill out the 3 components necessary
-// depth is suppoed to be -100 to 100
-
 
 namespace Carmicah
 {

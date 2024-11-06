@@ -336,6 +336,33 @@
                 }
             ],
             "Children": []
+        },
+        {
+            "GameObject": "TemporaryButton",
+            "ID": 14,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 960.0,
+                    "yPos": 540.0,
+                    "depth": 0.0,
+                    "xScale": 200.0,
+                    "yScale": 200.0,
+                    "rot": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "ButtonOG"
+                },
+                {
+                    "Component Name": "struct Carmicah::Button",
+                    "ButtonName": "Button Prototype",
+                    "ButtonImage": "ButtonPress",
+                    "isPressed": false
+                }
+            ],
+            "Children": []
         }
     ]
 }
