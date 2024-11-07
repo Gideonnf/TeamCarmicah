@@ -8,26 +8,29 @@ namespace Carmicah
 {
     public class MouseAI : Entity
     {
-        StateMachine mouseSM;
+     //   StateMachine mouseSM;
 
         void OnCreate()
         {
-            MouseChase chaseState = new MouseChase("MouseChase");
-            MouseChase deadState = new MouseChase("MouseDead");
+            //MouseChase chaseState = new MouseChase("MouseChase");
+            //MouseChase deadState = new MouseChase("MouseDead");
 
-            mouseSM.AddState(chaseState);
-            mouseSM.AddState(deadState);
+            //mouseSM.AddState(chaseState);
+            //mouseSM.AddState(deadState);
         }
 
         void OnUpdate(float dt)
         {
-            mouseSM.Update(ref mouseSM);
+            //mouseSM.Update(ref mouseSM);
+            Entity player = FindEntityWithName("mainChracter");
+            Console.WriteLine($"Player.OnCreate - {player.mID}");
 
-            // If its dead, kill it
-            if (mouseSM.GetCurrentState() == "MouseDead")
-            {
-                // kill it
-            }
+
+            //// If its dead, kill it
+            //if (mouseSM.GetCurrentState() == "MouseDead")
+            //{
+            //    // kill it
+            //}
         }
 
     }

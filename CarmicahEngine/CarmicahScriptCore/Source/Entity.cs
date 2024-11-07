@@ -10,7 +10,7 @@ namespace Carmicah
 
         protected Entity() { mID = 0; }
 
-        protected Entity(uint id) { mID = id; }
+        internal Entity(uint id) { mID = id; }
 
         public Vector2 Scale
         {
@@ -25,6 +25,20 @@ namespace Carmicah
             }
         }
 
+        public Vector2 Position
+        {
+            get
+            {
+                FunctionCalls.Transform_GetPosition(mID, out Vector2 position);
+                return position;
+            }
+            set
+            {
+                FunctionCalls.Transform_SetPosition(mID, ref value);
+            }
+        }
+
+
         public bool HasComponent<T>() where T : Component, new()
         {
             Type componentType = typeof(T);
@@ -38,6 +52,15 @@ namespace Carmicah
 
             T component = new T() { Entity = this };
             return component;
+        }
+
+        public Entity FindEntityWithName(string name)
+        {
+            uint entityID = 0;
+            if (entityID == 0)
+                return null;
+
+            return new Entity(entityID);
         }
         //public T GetComponent<T>() 
     }

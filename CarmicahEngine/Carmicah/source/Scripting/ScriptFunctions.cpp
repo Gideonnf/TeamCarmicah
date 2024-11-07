@@ -47,6 +47,18 @@ namespace Carmicah
 		return mGameObjectHasComponentFuncs[monoType](go);
 	}
 
+	static unsigned int Entity_FindEntityWithName(MonoString* name)
+	{
+		char* cStrName = mono_string_to_utf8(name);
+
+		GameObject go{};
+		gGOFactory->FetchGO(cStrName, go);
+
+		mono_free(cStrName);
+
+		return go.GetID();
+	}
+
 	static void RigidBody_ApplyForceWithTime(unsigned int entityID, Vec2f* dir, float magnitude, float lifeTime)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -138,9 +150,9 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Transform_GetPosition);
 		ADD_INTERNAL_CALL(Transform_SetPosition);
 
-
 		//Entity functions
 		ADD_INTERNAL_CALL(Entity_HasComponent);
+		ADD_INTERNAL_CALL(Entity_FindEntityWithName);
 
 		// Rigidbody functions
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);
