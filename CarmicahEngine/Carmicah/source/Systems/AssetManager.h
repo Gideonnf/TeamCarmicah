@@ -162,7 +162,9 @@ namespace Carmicah
 
 		// Sound Assets
 		void InitSound();
-		void LoadSound(const std::string& soundName, std::string const& soundFile, bool b_isLoop);
+		//void LoadSound(const std::string& soundName, std::string const& soundFile, bool b_isLoop);
+		void LoadSound(const std::string& soundName, const std::string& soundFile, bool isLoop, float defaultVolume = 1.0f);
+
 
 	};
 }

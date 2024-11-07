@@ -22,6 +22,7 @@ DigiPen Institute of Technology is prohibited.
 #include <unordered_map>
 #include <string>
 #include "Singleton.h"
+#include <deque>
 
 // Forward declare GLuint and GLuint64
 typedef unsigned int GLuint;
@@ -39,6 +40,19 @@ namespace Carmicah
 
 
     const float FIXED_DELTA_TIME = 0.01667f; // Fixed time step for 60 FPS
+    struct SystemTimingData {
+        double startTime;
+        double duration;
+        double percentage;
+    };
+
+    struct FrameData {
+        double frameTime;
+        std::unordered_map<std::string, SystemTimingData> systemTimings;
+        double cpuUsage;
+        double gpuTime;
+    };
+
 // Class to keep track of the time in the engine 
     class CarmicahTime : public Singleton<CarmicahTime>// Inherit from Singleton
     {
@@ -51,11 +65,15 @@ namespace Carmicah
         double mCurrentFPS;
         double mDeltaTime;
         double mPrevTime;
+
+        // Profiling variables
         std::unordered_map<std::string, std::chrono::steady_clock::time_point> mSystemStartTimes;
         std::unordered_map<std::string, double> mSystemTimes;
         std::unordered_map<std::string, double> mSystemPercentages;
         double mTotalLoopTime;
         std::chrono::steady_clock::time_point mLoopStartTime;
+
+        // GPU Profiling variables
         GLuint mGPUQueryStart;
         GLuint mGPUQueryEnd;
         GLuint64 mGPUTime;
@@ -63,6 +81,12 @@ namespace Carmicah
         //Fixed DT implementation
         //double mFixedDeltaTime;
         bool mIsFixedDT;
+        //Frame History
+        std::deque<FrameData> mFrameHistory;
+        static const size_t MAX_FRAME_HISTORY = 300; //Should be enough to show a few seconds of history
+
+        double mCPUUsage{ 0.0 }; // Add CPU usage tracking
+
 
     public:
         void Init();
@@ -76,7 +100,13 @@ namespace Carmicah
         void InitGPUProfiling();
         void StartGPUTimer();
         void StopGPUTimer();
+
+        // New methods
+        const std::deque<FrameData>& GetFrameHistory() const { return mFrameHistory; }
+        void UpdateFrameData();
         double GetGPUTime() const;
+
+        // Existing getters
         double FPS() const { return mCurrentFPS; }
         double GetDeltaTime() const 
         { 
@@ -87,6 +117,14 @@ namespace Carmicah
         }
         const std::unordered_map<std::string, double>& GetSystemPercentages() const { return mSystemPercentages; }
         double GetTotalLoopTime() const { return mTotalLoopTime; }
+        double GetGPUTime() const;
+
+        void UpdateCPUUsage();
+        double GetCPUUsage() const { return mCPUUsage; }
+        void UpdateCPUUsage(); // New method to update CPU usage
+
+
+    };
 
         bool IsFixedDT()
         {

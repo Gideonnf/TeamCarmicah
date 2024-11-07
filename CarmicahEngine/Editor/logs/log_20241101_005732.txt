@@ -1,0 +1,19 @@
+2024-11-01 00:57:32 Core Logger Initialized
+2024-11-01 00:57:32 Client Logger Initialized
+2024-11-01 00:57:33 Component Created with namestruct Carmicah::Transform
+2024-11-01 00:57:33 Component Created with namestruct Carmicah::Collider2D
+2024-11-01 00:57:33 Component Created with namestruct Carmicah::RigidBody
+2024-11-01 00:57:33 Component Created with namestruct Carmicah::Renderer
+2024-11-01 00:57:33 Component Created with namestruct Carmicah::Animation
+2024-11-01 00:57:33 Component Created with namestruct Carmicah::TextRenderer
+2024-11-01 00:57:33 Component Created with namestruct Carmicah::UITransform
+2024-11-01 00:57:34 Creating a new game object with name: BackgroundGO and id: 1
+2024-11-01 00:57:34 Creating a new game object with name: SpriteChangeObject and id: 2
+2024-11-01 00:57:34 Creating a new game object with name: MainCamera and id: 3
+2024-11-01 00:57:34 Creating a new game object with name: GameObject and id: 4
+2024-11-01 00:57:34 Creating a new game object with name: FPSText and id: 5
+2024-11-01 00:57:34 Creating a new game object with name: mainCharacter and id: 6
+2024-11-01 00:57:34 Creating a new game object with name: wall and id: 7
+2024-11-01 00:57:34 Creating a new game object with name: GameObject2 and id: 9
+2024-11-01 00:57:34 Creating a new game object with name: GameObject3 and id: 10
+2024-11-01 00:57:34 Creating a new game object with name: Duck and id: 11
