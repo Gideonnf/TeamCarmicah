@@ -19,7 +19,7 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui_impl_opengl3.h>
 #include <ImGUI/imgui_internal.h>
 #include "../Input/InputSystem.h"
-
+#include "../Systems/GOFactory.h"
 
 namespace Carmicah
 {
@@ -198,6 +198,14 @@ namespace Carmicah
 		for (auto& window : mWindows)
 		{
 			window->EntityDestroyed(id);
+		}
+	}
+
+	void Editor::ReceiveMessage(Message* msg)
+	{
+		if (msg->mMsgType == MSG_EDITORENTITY)
+		{
+			HierarchyWindow::selectedGO = &gGOFactory->FetchGO(dynamic_cast<EditorEntityPicked*>(msg)->mEntityID);
 		}
 	}
 }

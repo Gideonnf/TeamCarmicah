@@ -71,9 +71,9 @@ namespace Carmicah
 
 	void ButtonSystem::ReceiveMessage(Message* msg)
 	{
-		if (msg->mMsgType == MSG_ENTITYPICKED)
+		if (msg->mMsgType == MSG_BUTTONENTITY)
 		{
-			auto castedMsg = dynamic_cast<EntityPickedMessage*>(msg);
+			auto castedMsg = dynamic_cast<ButtonClicked*>(msg);
 			for (auto it : mEntitiesSet)
 			{
 				if (it == castedMsg->mEntityID)

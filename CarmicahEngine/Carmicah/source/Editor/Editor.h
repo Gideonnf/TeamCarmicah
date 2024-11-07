@@ -68,6 +68,8 @@ namespace Carmicah
 		 */
 		void EntityDestroyed(Entity id) override;
 
+		void ReceiveMessage(Message* msg) override;
+
 	private:
 
 		std::vector<std::unique_ptr<EditorWindow>> mWindows;
