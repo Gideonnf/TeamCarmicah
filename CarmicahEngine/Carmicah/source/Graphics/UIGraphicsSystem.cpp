@@ -47,6 +47,13 @@ namespace Carmicah
 		if (mCurrShader == 0)
 			return;
 
+		{
+			Mtx3x3f identityMtx{};
+			GLint uniformLoc{};
+			if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
+				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, identityMtx.m);
+		}
+
 		for (auto& entity : mEntitiesSet)
 		{
 			auto& transform = ComponentManager::GetInstance()->GetComponent<UITransform>(entity);
