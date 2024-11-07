@@ -37,6 +37,8 @@ namespace Carmicah
 		void Update();
 		void Exit();
 
+		void ReceiveMessage(Message* msg) override;
+
 		// button functions
 		void OnPress(std::string name);
 		void OnRelease(std::string name);

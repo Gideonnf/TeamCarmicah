@@ -31,42 +31,60 @@ namespace Carmicah
 
 	void ButtonSystem::Update()
 	{
-		auto* componentManager = ComponentManager::GetInstance();
+		//auto* componentManager = ComponentManager::GetInstance();
 
-		for (const auto& entity : mEntitiesSet)
-		{
-			// retrieve the Button component for the entity
-			auto& button = componentManager->GetComponent<Button>(entity);
-			auto& buttonRenderer = componentManager->GetComponent<Renderer>(entity);
-			if (Input.IsKeyHold(Keys::KEY_B))
-			{
-				buttonRenderer.texture = button.ButtonImagePressed;
-			}
-			else
-			{
-				buttonRenderer.texture = button.ButtonImage;
-			}
+		//for (const auto& entity : mEntitiesSet)
+		//{
+		//	// retrieve the Button component for the entity
+		//	auto& button = componentManager->GetComponent<Button>(entity);
+		//	auto& buttonRenderer = componentManager->GetComponent<Renderer>(entity);
+		//	if (Input.IsKeyHold(Keys::KEY_B))
+		//	{
+		//		buttonRenderer.texture = button.ButtonImagePressed;
+		//	}
+		//	else
+		//	{
+		//		buttonRenderer.texture = button.ButtonImage;
+		//	}
 
-			// check if mouse is over button	
-			//bool isMouseOverButton = Input.IsMouseOver(button.GetPosition(), button.GetSize());
-			//bool isMousePressed = Input.IsMousePressed(MOUSE_BUTTON_LEFT);
-			//bool isMouseReleased = Input.IsMouseReleased(MOUSE_BUTTON_LEFT);
+		//	// check if mouse is over button	
+		//	//bool isMouseOverButton = Input.IsMouseOver(button.GetPosition(), button.GetSize());
+		//	//bool isMousePressed = Input.IsMousePressed(MOUSE_BUTTON_LEFT);
+		//	//bool isMouseReleased = Input.IsMouseReleased(MOUSE_BUTTON_LEFT);
 
-			//if (isMouseOverButton && isMousePressed && !button.isPressed)
-			//{
-			//	OnPress(button.ButtonOG);  // pass the button name or identifier
-			//}
-			//else if (isMouseOverButton && isMouseReleased && button.isPressed)
-			//{
-			//	OnRelease(button.ButtonOG);
-			//}
-		}
+		//	//if (isMouseOverButton && isMousePressed && !button.isPressed)
+		//	//{
+		//	//	OnPress(button.ButtonOG);  // pass the button name or identifier
+		//	//}
+		//	//else if (isMouseOverButton && isMouseReleased && button.isPressed)
+		//	//{
+		//	//	OnRelease(button.ButtonOG);
+		//	//}
+		//}
 	}
 
 
 	void ButtonSystem::Exit()
 	{
 		mEntitiesSet.clear(); // clear all buttons
+	}
+
+	void ButtonSystem::ReceiveMessage(Message* msg)
+	{
+		if (msg->mMsgType == MSG_ENTITYPICKED)
+		{
+			auto castedMsg = dynamic_cast<EntityPickedMessage*>(msg);
+			for (auto it : mEntitiesSet)
+			{
+				if (it == castedMsg->mEntityID)
+				{
+					auto& button = ComponentManager::GetInstance()->GetComponent<Button>(castedMsg->mEntityID);
+					auto& buttonRenderer = ComponentManager::GetInstance()->GetComponent<Renderer>(castedMsg->mEntityID);
+					buttonRenderer.texture = button.ButtonImagePressed;
+
+				}
+			}
+		}
 	}
 
 	// OnPress and OnRelease takes in the name of the current button being pressed 
