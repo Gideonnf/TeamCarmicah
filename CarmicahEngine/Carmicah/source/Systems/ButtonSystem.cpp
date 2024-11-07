@@ -52,32 +52,6 @@ namespace Carmicah
 				OnRelease(button.ButtonOG);
 			}
 		}
-
-		//// loop through container of buttons 
-		//for (auto& [name, buttonAny] : buttons)
-		//{
-		//	// cast stored button to actual Button type
-		//	Button* button = std::any_cast<Button>(&buttonAny);
-		//	std::cout << "heLOOOOOOOOOO" << std::endl;
-		//	if (button)
-		//	{
-		//		// check if mouse is over button	
-		//		bool isMouseOverButton = Input.IsMouseOver(button->GetPosition(), button->GetSize());
-		//		std::cout << isMouseOverButton << std::endl;
-		//		bool isMousePressed = Input.IsMousePressed(MOUSE_BUTTON_LEFT);
-		//		bool isMouseReleased = Input.IsMouseReleased(MOUSE_BUTTON_LEFT);
-		//		// check if mouse is over button and if the button is pressed
-		//		if (isMouseOverButton && isMousePressed && !button->isPressed)
-		//		{
-		//			OnPress(name);
-		//		}
-		//		// check if mouse is over button and if the button is released
-		//		else if (isMouseOverButton && isMouseReleased && button->isPressed)
-		//		{
-		//			OnRelease(name);
-		//		}
-		//	}
-		//}
 	}
 
 
