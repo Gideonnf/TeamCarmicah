@@ -221,7 +221,14 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("Rotation");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##rot", &selectedTransform.rot, 1.0f, -FLT_MAX, FLT_MAX, "%.3f");
+					if (ImGui::DragFloat("##rot", &selectedTransform.rot, 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
+					{
+
+						// Wrap the rotation value between 0 and 360 degrees
+						selectedTransform.rot = fmodf(selectedTransform.rot, 360.0f);
+						if (selectedTransform.rot < 0.0f)
+							selectedTransform.rot += 360.0f;
+					}
 
 					// Scale (xScale, yScale)
 					ImGui::TableNextRow();
@@ -672,7 +679,14 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("Rotation");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##rot", &selectedTransform.rot, 1.0f, -FLT_MAX, FLT_MAX, "%.3f");
+					if(ImGui::DragFloat("##rot", &selectedTransform.rot, 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
+					{
+
+						// Wrap the rotation value between 0 and 360 degrees
+						selectedTransform.rot = fmodf(selectedTransform.rot, 360.0f);
+						if (selectedTransform.rot < 0.0f)
+							selectedTransform.rot += 360.0f;
+					}
 
 					// Scale (xScale, yScale)
 					ImGui::TableNextRow();

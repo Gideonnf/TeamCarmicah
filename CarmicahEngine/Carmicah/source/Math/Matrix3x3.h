@@ -95,7 +95,7 @@ namespace Carmicah
 		 /**************************************************************************/
 		Matrix3x3& operator *= (const Matrix3x3& rhs)
 		{
-			Matrix3x3 result;
+			Matrix3x3<T> result;
 
 			result.m00 = m00 * rhs.m00 + m10 * rhs.m01 + m20 * rhs.m02;
 			result.m10 = m00 * rhs.m10 + m10 * rhs.m11 + m20 * rhs.m12;
@@ -302,7 +302,7 @@ namespace Carmicah
 	/**************************************************************************/
 	template <typename T> void Mtx33Inverse(Matrix3x3<T>* pResult, T* determinant, const Matrix3x3<T>& pMtx)
 	{
-		Matrix3x3 cofactor = { pMtx.m11 * pMtx.m22 - pMtx.m12 * pMtx.m21,
+		Matrix3x3<T> cofactor = { pMtx.m11 * pMtx.m22 - pMtx.m12 * pMtx.m21,
 							 -(pMtx.m10 * pMtx.m22 - pMtx.m12 * pMtx.m20),
 							 pMtx.m10 * pMtx.m21 - pMtx.m11 * pMtx.m20,
 							 -(pMtx.m01 * pMtx.m22 - pMtx.m02 * pMtx.m21),
@@ -311,7 +311,7 @@ namespace Carmicah
 							 pMtx.m01 * pMtx.m12 - pMtx.m02 * pMtx.m11,
 							 -(pMtx.m00 * pMtx.m12 - pMtx.m02 * pMtx.m10),
 							 pMtx.m00 * pMtx.m11 - pMtx.m01 * pMtx.m10 };
-		Matrix3x3 adjoint;
+		Matrix3x3<T> adjoint;
 		Mtx33Transpose(adjoint, cofactor);
 
 		(*determinant) = (pMtx.m00 * pMtx.m11 * pMtx.m22 + pMtx.m10 * pMtx.m21 * pMtx.m02 + pMtx.m20 * pMtx.m01 * pMtx.m12)
@@ -319,7 +319,7 @@ namespace Carmicah
 
 		if (*determinant == 0.f)
 		{
-			*pResult = Matrix3x3{};
+			*pResult = Matrix3x3<T>{};
 		}
 		else
 		{
