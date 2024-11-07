@@ -24,6 +24,8 @@ namespace Carmicah
 {
 	//const char* sceneLoc{ "../Assets/Scene/" };
 
+	SceneSystem::SceneSystem() : mNextState{ SceneState::INITIALISING }, mRuntime{ false } {}
+
 	void SceneSystem::Init()
 	{
 		mCurrScene = mNextScene;
@@ -41,7 +43,7 @@ namespace Carmicah
 		//gGOFactory->ImportGOs(mCurrScene);
 		if (SerializerSystem::GetInstance()->DeserializeScene(sceneFile))
 		{
-			mNextState = mCurrState = SceneState::RUNTIME;
+			mNextState = mCurrState = SceneState::EDITOR;
 		}
 		else
 		{
@@ -69,36 +71,45 @@ namespace Carmicah
 	void SceneSystem::ChangeScene(std::string nextScene)
 	{
 		// technically dont have to check here since i check in init
-		std::string sceneFile;
-		if (AssetManager::GetInstance()->GetScene(nextScene, sceneFile))
-		{
-			if (nextScene == mCurrScene)
-			{
-				mNextState = RELOAD;
-			}
-			else
-			{
-				// Change scene
-				mNextState = CHANGESCENE;
 
-				mNextScene = nextScene;
-			}
+		mNextState = INITIALISING;
+		std::string sceneFile;
+		// only check for a new scene file if we're changing to a new scene
+		if ((nextScene != mCurrScene) && AssetManager::GetInstance()->GetScene(nextScene, sceneFile))
+		{
+			mNextScene = nextScene;
 		}
 		else
 		{
 			CM_CORE_ERROR("Unable to change scene.");
 		}
+
+		//if (AssetManager::GetInstance()->GetScene(nextScene, sceneFile))
+		//{
+		//	if (nextScene == mCurrScene)
+		//	{
+		//		mNextState = RELOAD;
+		//	}
+		//	else
+		//	{
+		//		// Change scene
+		//		mNextState = CHANGESCENE;
+
+		//		mNextScene = nextScene;
+		//	}
+		//}
+
 	}
 
 	void SceneSystem::Exit()
 	{
 		// initialize the next scene
-		if (mNextState == CHANGESCENE || mNextState == RELOAD)
-			mNextState = INITIALISING;
-		else
-			mNextState = EXIT;
+		//if (mNextState == CHANGESCENE || mNextState == RELOAD)
+		//	mNextState = INITIALISING;
+		//else
+		//	mNextState = EXIT;
 
-		//mState = EXIT;
+		//mState = EXIT;wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 		if (mCurrScene != "DefaultScene")
 		{
 			std::string sceneFile;
@@ -108,11 +119,43 @@ namespace Carmicah
 		//gGOFactory->ExportGOs(sceneLoc + mCurrScene + ".json"); // Dont save objects for now
 		gGOFactory->DestroyAll();
 		gGOFactory->UpdateDestroyed();
+
+		//mNextState = mCurrState = SceneState::RUNTIME;
 	}
 
 	void SceneSystem::ReceiveMessage(Message* msg)
 	{
-		UNUSED(msg);
+		//UNUSED(msg);
+		// Check what time of msg
+		if (msg->mMsgType == MSG_RUNTIME)
+		{
+			// Cast it
+		
+			// currently playing but going to stop
+			if (mRuntime)
+			{
+				mRuntime = false;
+				ChangeScene(mCurrScene);
+			}
+			else
+			{
+				mRuntime = true;
+				mNextState = SceneState::ONSTART;
+			}
+
+			//if (isRuntime == false && (mRuntime != isRuntime))
+			//{
+			//	// reload the scene
+			//	ChangeScene(mCurrScene);
+			//}
+			//// currently not playing but going to play
+			//else if (isRuntime == true && (mRuntime != isRuntime))
+			//{
+			//	mNextState = SceneState::ONSTART;
+			//}
+
+			//mRuntime = isRuntime;
+		}
 		// Can use this for scene changing
 		// Call exit
 		// Call init to import new GOs

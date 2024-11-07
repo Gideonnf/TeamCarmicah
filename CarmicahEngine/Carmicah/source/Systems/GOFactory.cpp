@@ -25,6 +25,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Components/TextRenderer.h"
 #include "Components/UITransform.h"
 #include "Components/RigidBody.h"
+#include "Components/Script.h"
 #include "log.h"
 
 namespace Carmicah
@@ -207,6 +208,17 @@ namespace Carmicah
 		//return mIDToGO[mNameToID[GOName]];
 	}
 
+	GameObject& GOFactory::FetchGO(Entity id)
+	{
+		if (mIDToGO.count(id) <= 0)
+		{
+			CM_CORE_ERROR("GO Doesn't Exist");
+			assert("Doesn't exist");
+		}
+
+		return mIDToGO[id];
+	}
+
 	void GOFactory::AttachComponents(GameObject& obj, std::pair<std::string, std::any> component)
 	{
 		std::string componentName = component.first;
@@ -240,6 +252,10 @@ namespace Carmicah
 		{
 			obj.AddComponent(std::any_cast<TextRenderer>(componentData));
 		}
+		else if (componentName == typeid(Script).name())
+		{
+			obj.AddComponent(std::any_cast<Script>(componentData));
+		}
 		else
 		{
 			// incase someone added a component and forgot to write here
@@ -250,11 +266,8 @@ namespace Carmicah
 
 	void GOFactory::EntityDestroyed(Entity entity)
 	{
-		// Current cheat way is to change the parent to scene
-		// and then remove it from scene's child list
-		UpdateParent(entity, sceneGO.sceneID);
-
-		sceneGO.children.erase(entity);
+		// can't do here cause if the parent is deleted before the child, calling parent transform to remove child will break
+		//UpdateParent(entity, sceneGO.sceneID, true);
 
 		// erase from the maps
 		mNameToID.erase(mIDToGO[entity].mName);
@@ -281,6 +294,9 @@ namespace Carmicah
 	{
 		GameObject& go = mIDToGO[entity];
 
+		// Remove it from the parent since its being destroyed
+		UpdateParent(entity, sceneGO.sceneID, true);
+
 		// Check if has any children
 		if (go.HasComponent<Transform>())
 		{
@@ -291,6 +307,7 @@ namespace Carmicah
 					// Recall the function so any children within that child is also inserted
 					// NOTE: I have only tested this with 1 layer of parent-child, so if it dies next time, cehck this part 
 					mDeleteList.insert(DestroyEntity(id));
+
 				}
 			}
 		}
@@ -358,16 +375,10 @@ namespace Carmicah
 	/// </summary>
 	/// <param name="entityID">Current Entity ID</param>
 	/// <param name="newParentID">The new parent ID</param>
-	void GOFactory::UpdateParent(Entity entityID, Entity newParentID) 
+	/// <param name="toDelete"> If the object is being deleted, only need to remove from parent instead </param>
+	void GOFactory::UpdateParent(Entity entityID, Entity newParentID, bool toDelete) 
 	{
 		GameObject& go = mIDToGO[entityID];
-
-		// Send msg to UpdateTransform
-		// Important to send here because if parenting back to scene
-		// we need the original parent's transform so that we can convert the entity's local transform
-		// back to world transform
-		UpdateTransformMessage msg(entityID, newParentID);
-		SendSysMessage(&msg);
 
 		// Remove entityID from it's current parent
 		// Check if its part of sceneGO
@@ -378,6 +389,17 @@ namespace Carmicah
 		// Find out what is the current parent
 		else
 		{
+			// if not deleting then we need to update the transform based on the new parent's
+			if (!toDelete)
+			{
+				// Send msg to UpdateTransform
+				// Important to send here because if parenting back to scene
+				// we need the original parent's transform so that we can convert the entity's local transform
+				// back to world transform
+				UpdateTransformMessage msg(entityID, newParentID);
+				SendSysMessage(&msg);
+			}
+
 			Entity* parentID = nullptr;
 			// Get the old parent ID
 			if (go.HasComponent<Transform>())
@@ -425,58 +447,61 @@ namespace Carmicah
 			}
 		}
 
-		//Change the parent after removing from the old parent
-	
-		// If its being parented to the scene
-		if (newParentID == sceneGO.sceneID)
+		// Only need to change to a new parent/update parent's child if its not being deleted from the scene
+		if (!toDelete)
 		{
-			sceneGO.children.insert(entityID);
-			if (ComponentManager::GetInstance()->HasComponent<Transform>(entityID))
+			//Change the parent after removing from the old parent
+			// If its being parented to the scene
+			if (newParentID == sceneGO.sceneID)
 			{
-				// Get the transform
-				BaseTransform<Transform>& entityTransform = static_cast<BaseTransform<Transform>&>(ComponentManager::GetInstance()->GetComponent<Transform>(entityID));
-				// Change the parent
-				entityTransform.parent = sceneGO.sceneID;
-			}
-			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(entityID))
-			{
-				// Get the transform
-				BaseTransform<UITransform>& entityTransform = static_cast<BaseTransform<UITransform>&>(ComponentManager::GetInstance()->GetComponent<UITransform>(entityID));
-				// Change the parent
-				entityTransform.parent = sceneGO.sceneID;
-			}
+				sceneGO.children.insert(entityID);
+				if (ComponentManager::GetInstance()->HasComponent<Transform>(entityID))
+				{
+					// Get the transform
+					BaseTransform<Transform>& entityTransform = static_cast<BaseTransform<Transform>&>(ComponentManager::GetInstance()->GetComponent<Transform>(entityID));
+					// Change the parent
+					entityTransform.parent = sceneGO.sceneID;
+				}
+				else if (ComponentManager::GetInstance()->HasComponent<UITransform>(entityID))
+				{
+					// Get the transform
+					BaseTransform<UITransform>& entityTransform = static_cast<BaseTransform<UITransform>&>(ComponentManager::GetInstance()->GetComponent<UITransform>(entityID));
+					// Change the parent
+					entityTransform.parent = sceneGO.sceneID;
+				}
 
-		}
-		// If it isnt then have to find the new parent
-		else
-		{
-			// Change the current transform parent ID
-			if (go.HasComponent<Transform>())
-			{
-				// Change the parent
-				go.GetComponent<Transform>().parent = newParentID;
 			}
-			else if (go.HasComponent<UITransform>())
+			// If it isnt then have to find the new parent
+			else
 			{
-				// Change the parent
-				go.GetComponent<UITransform>().parent = newParentID;
-			}
+				// Change the current transform parent ID
+				if (go.HasComponent<Transform>())
+				{
+					// Change the parent
+					go.GetComponent<Transform>().parent = newParentID;
+				}
+				else if (go.HasComponent<UITransform>())
+				{
+					// Change the parent
+					go.GetComponent<UITransform>().parent = newParentID;
+				}
 
-			if (ComponentManager::GetInstance()->HasComponent<Transform>(newParentID))
-			{
-				// Get the transform
-				Transform& parentTransform =ComponentManager::GetInstance()->GetComponent<Transform>(newParentID);
-				// Add to the child list
-				parentTransform.children.push_back(entityID);
+				if (ComponentManager::GetInstance()->HasComponent<Transform>(newParentID))
+				{
+					// Get the transform
+					Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(newParentID);
+					// Add to the child list
+					parentTransform.children.push_back(entityID);
 
-				CM_CORE_INFO("Parenting entity: " + std::to_string(entityID) + " to " + std::to_string(newParentID));
-			}
-			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
-			{
-				// Get the transform
-				UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(newParentID);
-				// Add to the child list
-				parentTransform.children.push_back(entityID);
+					CM_CORE_INFO("Parenting entity: " + std::to_string(entityID) + " to " + std::to_string(newParentID));
+				}
+				else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
+				{
+					// Get the transform
+					UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(newParentID);
+					// Add to the child list
+					parentTransform.children.push_back(entityID);
+				}
 			}
 		}
 	}

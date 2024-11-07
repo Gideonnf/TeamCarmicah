@@ -26,9 +26,11 @@ namespace Carmicah
 	{
 		BLANKSTATE,
 		INITIALISING,
-		CHANGESCENE,
+	//	CHANGESCENE,
+		ONSTART,
+		EDITOR,
 		RUNTIME,
-		RELOAD,
+		//RELOAD,
 		EXIT
 	};
 
@@ -38,8 +40,11 @@ namespace Carmicah
 		std::string mCurrScene;
 		std::string mNextScene;
 	public:
+		SceneSystem();
+
 		SceneState mCurrState;
 		SceneState mNextState;
+		bool mRuntime;
 
 		//GameCore(std::string scene) : mScene(scene) {}
 		void Init();

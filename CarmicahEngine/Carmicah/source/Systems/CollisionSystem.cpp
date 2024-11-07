@@ -221,7 +221,7 @@ namespace Carmicah
 
 
 		// Handle dynamic vs static collision
-		if (rigidbody1.objectType == "Dynamic" && rigidbody2.objectType == "Static" )
+		if (rigidbody1.objectType == rbTypes::DYNAMIC && rigidbody2.objectType == rbTypes::STATIC)
 		{
 			
 			// Update position based on the first time of collision (tFirst)
@@ -235,7 +235,7 @@ namespace Carmicah
 			gGOFactory->Destroy(obj1);
 
 		}
-		else if (rigidbody1.objectType == "Dynamic" && rigidbody2.objectType == "Dynamic")
+		else if (rigidbody1.objectType == rbTypes::DYNAMIC && rigidbody2.objectType == rbTypes::KINEMATIC)
 		{
 			transform1.pos.x = rigidbody1.velocity.x * tFirst + rigidbody1.posPrev.x;
 			transform1.pos.y = rigidbody1.velocity.y * tFirst + rigidbody1.posPrev.y;
@@ -252,7 +252,7 @@ namespace Carmicah
 			rigidbody2.velocity.y = 0;
 
 		}
-		else if (rigidbody1.objectType == "Kinematic" && rigidbody2.objectType == "Static")
+		else if (rigidbody1.objectType == rbTypes::KINEMATIC && rigidbody2.objectType == rbTypes::STATIC)
 		{
 			// Update position based on the first time of collision (tFirst)
 			transform1.pos.x = rigidbody1.velocity.x * tFirst + rigidbody1.posPrev.x;
@@ -337,7 +337,7 @@ namespace Carmicah
 			Entity entity1 = *it1;
 			auto& rigidbody1 = componentManager->GetComponent<RigidBody>(entity1);
 
-			if (rigidbody1.objectType == "Dynamic")
+			if (rigidbody1.objectType == rbTypes::DYNAMIC)
 			{
 				for (auto it2 = mEntitiesSet.begin(); it2 != mEntitiesSet.end(); ++it2) 
 				{
@@ -350,7 +350,7 @@ namespace Carmicah
 
 					auto& rigidbody2 = componentManager->GetComponent<RigidBody>(entity2);
 
-					if (rigidbody2.objectType == "Static") 
+					if (rigidbody2.objectType == rbTypes::STATIC)
 					{
 						StaticDynamicCollisionCheck(entity1, entity2);
 					}
@@ -364,7 +364,7 @@ namespace Carmicah
 					}
 				}
 			}
-			else if (rigidbody1.objectType == "Kinematic") 
+			else if (rigidbody1.objectType == rbTypes::KINEMATIC)
 			{
 				for (auto it2 = mEntitiesSet.begin(); it2 != mEntitiesSet.end(); ++it2)
 				{
@@ -377,7 +377,7 @@ namespace Carmicah
 
 					auto& rigidbody2 = componentManager->GetComponent<RigidBody>(entity2);
 
-					if (rigidbody2.objectType == "Static")
+					if (rigidbody2.objectType == rbTypes::STATIC)
 					{
 						StaticDynamicCollisionCheck(entity1, entity2);
 					}

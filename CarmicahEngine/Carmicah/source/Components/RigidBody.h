@@ -23,6 +23,14 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+    enum rbTypes
+    {
+        STATIC = 0,
+        KINEMATIC,
+        DYNAMIC,
+        MAX_TYPES
+    };
+
     struct RigidBody : BaseComponent<RigidBody>
     {
         Vector2D<float> velocity;
@@ -43,7 +51,9 @@ namespace Carmicah
 
         float zposPrev;
 
-        std::string objectType;
+        rbTypes objectType;
+
+        RigidBody() : velocity{ 0, 0 }, angularVelocity{ 0 }, mass{ 1 }, gravity{ 0.0f }, objectType{ rbTypes::STATIC } {}
 
         RigidBody& DeserializeComponent(const rapidjson::Value& component) override
         {
@@ -56,7 +66,7 @@ namespace Carmicah
             mass = static_cast<float>(component["mass"].GetDouble());
             gravity = static_cast<float>(component["gravity"].GetDouble());
             zposPrev = static_cast<float>(component["zposPrev"].GetDouble());
-            objectType = (component["objectType"].GetString());
+            objectType = static_cast<rbTypes>(component["objectType"].GetInt());
 
             // If it has linear forces that is applied
             if (component.HasMember("linearForces"))
@@ -70,10 +80,9 @@ namespace Carmicah
                     float magnitude = static_cast<float>((*it)["magnitude"].GetDouble());
                     float lifeTime = static_cast<float>((*it)["lifetime"].GetDouble());
                     float age = static_cast<float>((*it)["age"].GetDouble());
-                    bool active = static_cast<float>((*it)["active"].GetBool());
 
                     // Add it to this shit
-                    LinearDirectionalForce newForce{ dir, magnitude, lifeTime, active };
+                    LinearDirectionalForce newForce{ dir, magnitude, lifeTime};
                     forcesManager.AddLinearForce(newForce);
                 }
             }
@@ -100,7 +109,7 @@ namespace Carmicah
 			writer.String("zposPrev");
 			writer.Double(zposPrev);
             writer.String("objectType");
-			writer.String(objectType.c_str());
+			writer.Int((int)objectType);
             if (forcesManager.GetLinearForces().size() > 0)
             {
                 // TODO: Check with yy if she wants non-active forces to be serialized
@@ -120,8 +129,6 @@ namespace Carmicah
                     writer.Double(it.lifetime);
                     writer.String("age");
                     writer.Double(it.age);
-                    writer.String("active");
-                    writer.Bool(it.isActive);
 
                     writer.EndObject();
                 }

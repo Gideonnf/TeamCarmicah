@@ -28,14 +28,12 @@ namespace Carmicah
         float magnitude; //How strong the force is
         float lifetime;
         float age = 0.0f;
-        bool isActive;
+        bool isActive = true;
         
-        LinearDirectionalForce(Vector2D<float> direction, float mag, float life, bool state)
-            : unitDirection(direction), magnitude(mag), lifetime(life), isActive(state) {}
+        LinearDirectionalForce(Vector2D<float> direction, float mag, float life)
+            : unitDirection(direction), magnitude(mag), lifetime(life) {}
 
         Vector2D<float> GetForceVector() const;
-
-        bool ActivateForce(bool state);
 
         float SetLifeTime(float lifeTimeValue);
 
@@ -43,14 +41,37 @@ namespace Carmicah
 
     };
 
+    struct DragForce 
+    {
+        float directionalDrag;
+        float rotationalDrag;
+
+        bool isActive;
+
+        DragForce(float directDrag, float rotDrag)
+            : directionalDrag(directDrag), rotationalDrag(rotDrag), isActive(true) {}
+
+        Vector2D<float> CalculateDragForce(const Vector2D<float>& currentVelocity) const;
+
+    };
+
 	class ForcesManager
 	{
         std::vector<LinearDirectionalForce> linearForces;
-
+        DragForce dragForce;
+        
+        Vector2D<float> objectVelocity;
         Vector2D<float> accumulatedForce;
 
         public:
+
+        ForcesManager() : dragForce(0.9f, 0.0f) {}  // Adjust initial values as needed
+
         void AddLinearForce(LinearDirectionalForce& force);
+
+        void SetCurrentVelocity(const Vector2D<float>& velocity);
+
+        void RemoveForce();
 
         // Getter for linearForces
         std::vector<LinearDirectionalForce>& GetLinearForces() 
@@ -60,7 +81,7 @@ namespace Carmicah
 
 		void UpdateForces(float deltaTime);
 
-        Vector2D<float> GetSumForces();
+        Vector2D<float> GetSumForces() const;
 
         Vector2D<float> SetSumForces(Vector2D<float> value);
 		//void ApplyForces(Entity& obj, Vector2D<float>& velocity);

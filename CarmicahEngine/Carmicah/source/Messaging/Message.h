@@ -25,7 +25,8 @@ namespace Carmicah
 		MSG_MOUSEPRESS,
 		MSG_ENTITYKILLED,
 		MSG_UPDATETRANSFORM,
-        MSG_ENTITYPICKED
+        MSG_ENTITYPICKED,
+		MSG_RUNTIME
 	};
 
 	namespace
@@ -64,6 +65,13 @@ namespace Carmicah
 	public:
 		Entity mEntityID;
 		EntityPickedMessage(Entity id) : Message(MSG_ENTITYPICKED), mEntityID(id) {}
+	};
+
+	class RuntimeStartMessage : public Message
+	{
+	public:
+		//bool mRuntime;
+		RuntimeStartMessage() : Message(MSG_RUNTIME) {}
 	};
 
 }

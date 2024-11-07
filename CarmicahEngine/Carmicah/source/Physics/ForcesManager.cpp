@@ -39,11 +39,6 @@ namespace Carmicah
 		return this->lifetime = lifeTimeValue;
 	}
 
-	bool LinearDirectionalForce::ActivateForce(bool state)
-	{
-		return isActive = state;
-	}
-
 	void LinearDirectionalForce::Update(float deltaTime)
 	{
 		age += deltaTime;
@@ -53,9 +48,20 @@ namespace Carmicah
 			age = 0.0f;
 			std::cout << "Force with " << unitDirection.x << ", " << unitDirection.y << std::endl;
 			isActive = false;
-			
 		}
 	}
+
+	Vector2D<float> DragForce::CalculateDragForce(const Vector2D<float>& currentVelocity) const
+	{
+		Vector2D<float> result;
+
+		// Assuming directionalDrag is a constant that includes fluid density and area
+		result.x = -currentVelocity.x * directionalDrag;
+		result.y = -currentVelocity.y * directionalDrag;
+
+		return result;
+	}
+
 
 	void ForcesManager::AddLinearForce(LinearDirectionalForce& force) 
 	{
@@ -66,9 +72,26 @@ namespace Carmicah
 
 	}
 
+	void ForcesManager::SetCurrentVelocity(const Vector2D<float>& velocity) 
+	{
+		objectVelocity = velocity;
+	}
+
+
+
+	void ForcesManager::RemoveForce()
+	{
+		// Remove all inactive linear forces
+		linearForces.erase(
+			std::remove_if(linearForces.begin(), linearForces.end(),
+				[](const LinearDirectionalForce& force) { return !force.isActive; }),
+			linearForces.end()
+		);
+
+	}
+
 	void ForcesManager::UpdateForces(float deltaTime)
 	{
-		//auto* componentManager = ComponentManager::GetInstance();
 
 		// Clear accumulated force before recalculating
 		accumulatedForce = { 0.0f, 0.0f };
@@ -82,21 +105,19 @@ namespace Carmicah
 				
 				accumulatedForce += force.GetForceVector();
 
-				//std::cout << accumulatedForce << std::endl;
+			}
 
-			}
-			else 
-			{
-				//SetSumForces({ 0.0f,0.0f });
-			}
 
 		}
 
-		
+		accumulatedForce += dragForce.CalculateDragForce(objectVelocity);
+				
+
+		RemoveForce();
 		
 	}
 
-	Vector2D<float> ForcesManager::GetSumForces() 
+	Vector2D<float> ForcesManager::GetSumForces() const 
 	{
 		return accumulatedForce;
 	}
@@ -105,22 +126,5 @@ namespace Carmicah
 	{
 		return accumulatedForce = value;
 	}
-
-	/*void ForcesManager::ApplyForces(Entity& obj, Vector2D<float>& velocity) 
-	{
-		auto* componentManager = ComponentManager::GetInstance();
-		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
-
-		if (force.dragForce.isActive) 
-		{
-			force.dragForce.Update(1.0f, rigidbody.velocity);
-
-		}
-
-		if (force.linearForce.isActive) 
-		{
-			rigidbody.velocity += force.linearForce.GetForceVector();
-		}
-	}*/
 
 }

@@ -69,6 +69,7 @@ namespace Carmicah
 		void CreatePrefabChild(Prefab& prefab, Entity parentID);
 		void CreateSceneObject(std::string sceneName);
 		void FetchGO(std::string GOName, GameObject& go);
+		GameObject& FetchGO(Entity id);
 		void AttachComponents(GameObject& obj, std::pair<std::string, std::any> component );
 		void EntityDestroyed(Entity) override;
 		void Destroy(Entity);
@@ -81,7 +82,7 @@ namespace Carmicah
 		std::string CreateGOName(std::string goName);
 
 		//Used for updating the sceneGO if the entity's parent was changed so that scene hierarchy can update
-		void UpdateParent(Entity entityID, Entity parentID);
+		void UpdateParent(Entity entityID, Entity parentID, bool toDelete = false);
 
 #pragma endregion
 

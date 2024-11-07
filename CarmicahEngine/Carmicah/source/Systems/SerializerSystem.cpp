@@ -137,6 +137,90 @@ namespace Carmicah
 		return true;
 	}
 
+	void SerializerSystem::SerializePrefab(Prefab prefab)
+	{
+		// Get the file path to the asset
+		std::string filePath = AssetManager::GetInstance()->enConfig.assetLoc + "/Prefabs/" + prefab.mName + ".json";
+		std::ofstream ofs{ filePath, std::ios::binary };
+		if (!ofs)
+		{
+			CM_CORE_ERROR("Unable to open prefab file");
+			//return false;
+		}
+
+		OStreamWrapper osw(ofs);
+		PrettyWriter<OStreamWrapper> writer(osw);
+		// Serialize prefab
+		WritePrefab(prefab, writer);
+
+		ofs.close();
+	}
+
+	void SerializerSystem::WritePrefab(Prefab prefab, rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer)
+	{
+		writer.StartObject();
+		
+		writer.String("GameObject");
+		writer.String(prefab.mName.c_str(), static_cast<rapidjson::SizeType>(prefab.mName.length()));
+		
+		writer.String("ID");
+		writer.Int(prefab.mPrefabID);
+		
+		writer.String("Components");
+		writer.StartArray();
+			for (const auto& [name, component] : prefab.mComponents)
+			{
+				writer.StartObject();
+				writer.String("Component Name");
+				writer.String(name.c_str(), static_cast<rapidjson::SizeType>(name.length()));
+				if (name == typeid(Transform).name())
+				{
+					std::any_cast<Transform>(component).SerializeComponent(writer);
+				}
+				if (name == typeid(UITransform).name())
+				{
+					std::any_cast<UITransform>(component).SerializeComponent(writer);
+				}
+				if (name == typeid(Renderer).name())
+				{
+					std::any_cast<Renderer>(component).SerializeComponent(writer);
+				}
+				if (name == typeid(Collider2D).name())
+				{
+					std::any_cast<Collider2D>(component).SerializeComponent(writer);
+				}
+				if (name == typeid(RigidBody).name())
+				{
+					std::any_cast<RigidBody>(component).SerializeComponent(writer);
+				}
+				if (name == typeid(Script).name())
+				{
+					std::any_cast<Script>(component).SerializeComponent(writer);
+				}
+				if (name == typeid(TextRenderer).name())
+				{
+					std::any_cast<TextRenderer>(component).SerializeComponent(writer);
+				}
+				writer.EndObject();
+			}
+		writer.EndArray();
+
+		if (prefab.childList.size() > 0)
+		{
+			writer.String("Children");
+			writer.StartArray();
+			for (auto it : prefab.childList)
+			{
+				// write each child
+				// this will write the child of the child also
+				WritePrefab(it, writer);
+			}
+			writer.EndArray();
+		}
+
+		writer.EndObject();
+	}
+
 	Prefab SerializerSystem::DeserializePrefab(std::string prefabFile)
 	{
 		std::ifstream ifs{ prefabFile, std::ios::binary };
