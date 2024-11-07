@@ -20,6 +20,7 @@ DigiPen Institute of Technology is prohibited.
 #include "BaseComponent.h"
 #include "../Components/Renderer.h"
 #include <string>
+#include <cmath>
 #include "Math/Vec2.h"
 #include "Math/Matrix3x3.h"
 
@@ -36,12 +37,20 @@ namespace Carmicah
 		std::string ButtonOG;   // stores the name of the original texture
 		std::string ButtonPress;    // stores the name of the new image when its pressed
         bool isPressed{ false }; // track if button is currently pressed
+        Vec2d position;  // New member for position
+        Vec2d size;      // New member for size
 
         Button& DeserializeComponent(const rapidjson::Value& component) override
         {
             ButtonOG = component["ButtonOG"].GetString();
             ButtonPress = component["ButtonPress"].GetString();
 			isPressed = false; // start as unpressed
+
+            // Deserialize position and size from JSON
+            position.x = component["xPos"].GetFloat();
+            position.y = component["yPos"].GetFloat();
+            size.x = component["xScale"].GetFloat();
+            size.y = component["yScale"].GetFloat();
             return *this;
         }
 
@@ -53,27 +62,8 @@ namespace Carmicah
             writer.String(ButtonPress.c_str());
         }
 
-		// call this function when button is pressed
-		void onPress()
-		{
-			isPressed = true; // set to pressed
-			if (isPressed)  // check that the button is pressed
-            {
-				std::cout << "Button is pressed" << std::endl;
-            }
-            
-            // logic to switch texture here
-            //Renderer::texture = ButtonPress;
-		}
-
-		// call this function when button is released
-        void onRelease()
-        {
-			isPressed = false; // set to unpressed
-
-            // revert to og texture here
-			//Renderer::texture = ButtonOG;
-        }
+        Vec2d GetPosition() const { return position; }
+        Vec2d GetSize() const { return size; }
     };
 }
 

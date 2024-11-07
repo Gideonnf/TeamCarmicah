@@ -13,89 +13,79 @@ Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
 DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-#ifndef ASSET_TYPES_H
-#define ASSET_TYPES_H
+#ifndef BUTTON_SYSTEM_H
+#define BUTTON_SYSTEM_H
 
 #include <GLFW/glfw3.h>
 #include <FMOD/fmod.hpp>
+#include "ECS/BaseSystem.h"
+#include "../Components/Button.h"
 #include <string>
 #include <unordered_map>
 #include <any>
-#include "Math/Matrix3x3.h"
 
 namespace Carmicah
 {
-	struct Primitive
+	class ButtonSystem : public BaseSystem
 	{
-		GLuint vaoid{};
-		GLuint vboid{};
-		GLenum drawMode{};
-		GLuint drawCnt{};
-	};
-	struct Shader
-	{
-		GLuint s;
-	};
-	struct ImageTexture
-	{
-		GLuint t;
-	};
-	struct TextureAtlas
-	{
-		GLuint t;
-		unsigned int slotWidth, slotHeight;
-		struct Slot
-		{
-			unsigned int x, y;
-			bool vacant, checked;
-		};
-		std::vector<Slot> spaces{};
-	};
-	struct AnimAtlas
-	{
-		std::vector<std::pair<float, std::string>> anim;// MaxTime, TextureName
-	};
-	struct Texture
-	{
-		GLuint t;
-		Mtx3x3f mtx;
-	};
-	struct Font
-	{
-		struct FontChar
-		{
-			unsigned int texID, width, height;
-			int			 xBearing, yBearing;
-			long		 advance;
-		};
+	private:
+		std::unordered_map<std::string, std::any> buttons; // container for all button components managed by this system
 
-		std::array<FontChar, 128> mFontMaps;
-	};
-	struct Audio
-	{
-		bool isLoop;
-		FMOD::Sound* sound;
-	};
-	struct Prefab
-	{
-		unsigned int mPrefabID;
-		std::string mName;
-		std::unordered_map<std::string, std::any> mComponents;
-	
-		std::vector<Prefab> childList;
-	};
-	struct Scene
-	{
-		std::string sceneFile;
-	};
-	struct EngineConfig
-	{
-		int Width, Height, fontSize;
-		std::string defaultScene;
-		std::string lastScene;
-		std::string defaultShader;
-		std::string fontShader;
-		std::string assetLoc;
+	public:
+		// running the button system
+		void Init();
+		void Update();
+		void Exit();
+
+		// button functions
+		void OnPress(std::string name);
+		void OnRelease(std::string name);
+		void AddButton(std::string name, std::any button);
+		void RemoveButton(std::string name);
+		//void OnHover(std::string name);
+
+		//void OnUnhover(std::string name);
+		//void OnClick(std::string name);
+		//void OnDoubleClick(std::string name);
+		//void OnLongPress(std::string name);
+		//void OnDrag(std::string name);
+		//void OnDrop(std::string name);
+		//void OnScroll(std::string name);
+		//void OnRightClick(std::string name);
+		//void OnMiddleClick(std::string name);
+		//void OnRightDoubleClick(std::string name);
+		//void OnMiddleDoubleClick(std::string name);
+		//void OnRightLongPress(std::string name);
+		//void OnMiddleLongPress(std::string name);
+		//void OnRightDrag(std::string name);
+		//void OnMiddleDrag(std::string name);
+		//void OnRightDrop(std::string name);
+		//void OnMiddleDrop(std::string name);
+		//void OnRightScroll(std::string name);
+		//void OnMiddleScroll(std::string name);
+		//void OnRightHover(std::string name);
+		//void OnMiddleHover(std::string name);
+		//void OnRightUnhover(std::string name);
+		//void OnMiddleUnhover(std::string name);
+		//void OnRightPress(std::string name);
+		//void OnMiddlePress(std::string name);
+		//void OnRightRelease(std::string name);
+		//void OnMiddleRelease(std::string name);
+		//void OnRightClick(std::string name);
+		//void OnMiddleClick(std::string name);
+		//void OnRightDoubleClick(std::string name);
+		//void OnMiddleDoubleClick(std::string name);
+		//void OnRightLongPress(std::string name);
+		//void OnMiddleLongPress(std::string name);
+		//void OnRightDrag(std::string name);
+		//void OnMiddleDrag(std::string name);
+		//void OnRightDrop(std::string name);
+		//void OnMiddleDrop(std::string name);
+		//void OnRightScroll(std::string name);
+		//void OnMiddleScroll(std::string name);
+		//void OnRightHover(std::string name);
+		//void OnMiddleHover(std::string name);
+		//void OnRightUnhover(std::string name);
 	};
 }
 

@@ -223,6 +223,22 @@ namespace Carmicah
 		return KeyStates::HOLD == mMouseMap[(int)button];
 	}
 
+	bool IsMouseOver(Vec2d& position, Vec2d& size)
+	{
+		// get current mouse position
+		Vec2d mousePos = Input.GetMousePosition();
+
+		// define button boundaries
+		float left = position.x - (size.x * 0.5f);
+		float right = position.x + (size.x * 0.5f);
+		float bottom = position.y - (size.y * 0.5f);
+		float top = position.y + (size.y * 0.5f);
+
+		// check if mouse position is within button boundaries
+		return (mousePos.x >= left && mousePos.x <= right &&
+			mousePos.y >= bottom && mousePos.y <= top);
+	}
+
 	Vector2D<double> InputSystem::GetMousePosition()
 	{
 		return mMousePos;

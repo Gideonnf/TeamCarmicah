@@ -33,6 +33,7 @@
 #include "Physics/PhysicsSystem.h"
 #include "Systems/SoundSystem.h"
 #include "Systems/TransformSystem.h"
+#include "Systems/ButtonSystem.h"
 
 #include "Input/InputSystem.h"
 #include "Systems/SceneSystem.h"
@@ -151,6 +152,7 @@ namespace Carmicah
         auto crsSystem = REGISTER_SYSTEM(ColliderRenderSystem);
         auto rrsSystem = REGISTER_SYSTEM(RigidbodyRendererSystem);
         auto colSystem = REGISTER_SYSTEM(CollisionSystem);
+        auto butSystem = REGISTER_SYSTEM(ButtonSystem);
         auto phySystem = REGISTER_SYSTEM(PhysicsSystem);
         auto inputSystem = REGISTER_SYSTEM(InputSystem);
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
