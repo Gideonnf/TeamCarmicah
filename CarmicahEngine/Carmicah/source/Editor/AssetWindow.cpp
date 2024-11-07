@@ -22,6 +22,7 @@ DigiPen Institute of Technology is prohibited.
 #include "HierarchyWindow.h"
 #include "InspectorWindow.h"
 #include "../Systems/AssetManager.h"
+#include "../Systems/SceneSystem.h"
 #include "Systems/GOFactory.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
@@ -30,7 +31,7 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	AssetWindow::AssetWindow() : EditorWindow("Asset", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
+	AssetWindow::AssetWindow() : EditorWindow("Asset Browser", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
 
 	Prefab* AssetWindow::selectedPrefab = nullptr;
 
@@ -42,6 +43,7 @@ namespace Carmicah
 	{
 		//Obtaining all the AssetMaps
 		static auto assetManager = AssetManager::GetInstance();
+		static auto systemManager = SystemManager::GetInstance();
 		auto primitiveMap = assetManager->GetAssetMap<Primitive>();
 		auto shaderMap = assetManager->GetAssetMap<Shader>();
 		auto imageTextureMap = assetManager->GetAssetMap<ImageTexture>();
@@ -49,6 +51,7 @@ namespace Carmicah
 		auto fontMap = assetManager->GetAssetMap<Font>();
 		//auto audioMap = assetManager->GetAssetMap<Audio>();
 		auto prefabMap = assetManager->GetAssetMap<Prefab>();
+		auto sceneMap = assetManager->GetAssetMap<Scene>();
 
 		if (ImGui::Begin(mTitle))
 		{
@@ -71,7 +74,7 @@ namespace Carmicah
 				}
 				ImGui::Unindent();
 			}
-			if (ImGui::CollapsingHeader("Shader"))
+			/*if (ImGui::CollapsingHeader("Shader"))
 			{
 				ImGui::Indent();
 				for (const auto& entry : shaderMap->mAssetMap)
@@ -91,7 +94,7 @@ namespace Carmicah
 					}
 				}
 				ImGui::Unindent();
-			}
+			}*/
 
 			if (ImGui::CollapsingHeader("Texture"))
 			{
@@ -175,6 +178,19 @@ namespace Carmicah
 					}
 				}
 				ImGui::Unindent();
+			}
+
+			if (ImGui::CollapsingHeader("Scene"))
+			{
+				for (const auto& entry : sceneMap->mAssetMap)
+				{
+					name = entry.first + "##Scene";
+
+					if (ImGui::Button(name.c_str()))
+					{
+						systemManager->ChangeScene(entry.first);
+					}
+				}
 			}
 		}
 		ImGui::End();
