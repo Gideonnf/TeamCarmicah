@@ -66,6 +66,7 @@ namespace Carmicah
 		bool DeserializeScene(std::string);
 		bool SerializeScene(std::string);
 		void SerializePrefab(Prefab);
+		void WritePrefab(Prefab, rapidjson::PrettyWriter<rapidjson::OStreamWrapper>&);
 		Prefab DeserializePrefab(std::string);
 		Prefab GetChildren(const rapidjson::Value& doc);
 
