@@ -1,3 +1,3 @@
-Top left: 0 x 0
-359 383
+Duck
+Top left: 0 x 0, 359 x 383
 4 sprites

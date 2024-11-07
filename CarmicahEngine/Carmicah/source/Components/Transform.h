@@ -13,7 +13,6 @@ namespace Carmicah
 
         Matrix3x3<float> worldSpace;
         Matrix3x3<float> localSpace;
-        Matrix3x3<float> camSpace;
 
         Transform& DeserializeComponent(const rapidjson::Value& component) override
         {           
