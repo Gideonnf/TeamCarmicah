@@ -45,17 +45,17 @@ namespace Carmicah
 
     void DebugWindow::RenderProfilingTab()
     {
-        const auto& systemPercentages = CarmicahTimer::GetSystemPercentages();
-        double totalLoopTime = CarmicahTimer::GetTotalLoopTime();
+        const auto& systemPercentages = CarmicahTime::GetInstance()->GetSystemPercentages();
+        double totalLoopTime = CarmicahTime::GetInstance()->GetTotalLoopTime();
 
         // Performance Overview Section
         ImGui::BeginChild("Performance Overview", ImVec2(0, 60), true);
         {
-            ImGui::Text("Frame Time: %.2f ms", CarmicahTimer::GetDt() * 1000.0);
+            ImGui::Text("Frame Time: %.2f ms", CarmicahTime::GetInstance()->GetDeltaTime() * 1000.0);
             ImGui::SameLine(200);
-            ImGui::Text("FPS: %.1f", CarmicahTimer::GetFPS());
+            ImGui::Text("FPS: %.1f", CarmicahTime::GetInstance()->FPS());
 
-            ImGui::Text("GPU Time: %.2f ms", CarmicahTimer::GetGPUTime());
+            ImGui::Text("GPU Time: %.2f ms", CarmicahTime::GetInstance()->GetGPUTime());
             ImGui::SameLine(200);
             ImGui::Text("Total Loop Time: %.2f ms", totalLoopTime * 1000.0);
         }

@@ -78,6 +78,7 @@ namespace Carmicah
 	{
 		bool isLoop;
 		FMOD::Sound* sound;
+		float defaultVolume;
 	};
 	struct Prefab
 	{

@@ -117,14 +117,9 @@ namespace Carmicah
         }
         const std::unordered_map<std::string, double>& GetSystemPercentages() const { return mSystemPercentages; }
         double GetTotalLoopTime() const { return mTotalLoopTime; }
-        double GetGPUTime() const;
 
-        void UpdateCPUUsage();
         double GetCPUUsage() const { return mCPUUsage; }
         void UpdateCPUUsage(); // New method to update CPU usage
-
-
-    };
 
         bool IsFixedDT()
         {
@@ -135,6 +130,7 @@ namespace Carmicah
         {
             mIsFixedDT = flag;
         }
+
     };
     // Global accessor
     //static CarmicahTime& gCTimer = *CarmicahTime::GetInstance();

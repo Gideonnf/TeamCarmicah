@@ -53,9 +53,9 @@ namespace Carmicah
 
 		void Update() {
 			const std::string systemName = typeid(*this).name();
-			CarmicahTimer::StartSystemTimer(systemName);
+			CarmicahTime::GetInstance()->StartSystemTimer(systemName);
 			OnUpdate();
-			CarmicahTimer::StopSystemTimer(systemName);
+			CarmicahTime::GetInstance()->StopSystemTimer(systemName);
 		}
 
 		void SendSysMessage(Message* msg) 
