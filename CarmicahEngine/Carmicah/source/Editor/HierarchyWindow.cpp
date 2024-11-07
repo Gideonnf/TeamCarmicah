@@ -28,6 +28,7 @@ DigiPen Institute of Technology is prohibited.
 #include "SceneToImgui.h"
 #include <random>
 
+
 namespace Carmicah
 {
 	HierarchyWindow::HierarchyWindow() : EditorWindow("Hierarchy", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }

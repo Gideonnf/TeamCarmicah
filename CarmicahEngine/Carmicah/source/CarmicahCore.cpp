@@ -34,6 +34,7 @@
 #include "Physics/PhysicsSystem.h"
 #include "Systems/SoundSystem.h"
 #include "Systems/TransformSystem.h"
+#include "Systems/ButtonSystem.h"
 
 #include "Input/InputSystem.h"
 #include "Systems/SceneSystem.h"
@@ -136,6 +137,7 @@ namespace Carmicah
         CarmicahTime::GetInstance()->InitGPUProfiling();
 
         glViewport(0, 0, (GLsizei)Width, (GLsizei)Height);
+        REGISTER_COMPONENT(Button);
         REGISTER_COMPONENT(Script);
         REGISTER_COMPONENT(Transform);
         REGISTER_COMPONENT(Collider2D);
@@ -157,6 +159,7 @@ namespace Carmicah
         auto crsSystem = REGISTER_SYSTEM(ColliderRenderSystem);
         auto rrsSystem = REGISTER_SYSTEM(RigidbodyRendererSystem);
         auto colSystem = REGISTER_SYSTEM(CollisionSystem);
+        auto butSystem = REGISTER_SYSTEM(ButtonSystem);
         auto phySystem = REGISTER_SYSTEM(PhysicsSystem);
         auto inputSystem = REGISTER_SYSTEM(InputSystem);
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
@@ -170,6 +173,7 @@ namespace Carmicah
         uigSystem->Init(Width, Height);
         txtSystem->Init();
         aniSystem->Init();
+        butSystem->Init();
         crsSystem->Init();
         phySystem->Init();
         colSystem->Init(); // Set the signature
@@ -178,6 +182,8 @@ namespace Carmicah
 
         // Add goFactory to input system's messaging so that it can send msg to it
         inputSystem->BindSystem(gGOFactory);
+        // TODO: Make this easier to write for people
+        inputSystem->BindSystem(std::static_pointer_cast<BaseSystem>(butSystem).get());
 
         // Add transform system into gGOFactory's observer so that it can send msg to it
         gGOFactory->BindSystem(std::static_pointer_cast<BaseSystem>(transformSystem).get());
@@ -386,6 +392,9 @@ namespace Carmicah
                 txtSystem->Render((GLuint)Width, (GLuint)Height);
                 CarmicahTime::GetInstance()->StopSystemTimer("RenderingSystems");
                 //SceneToImgui::GetInstance()->IDPick();
+
+                // I WILL UPDAAATEEE BUTTONSYSTEM HERE OKKKKAAYYYY, PLS DONT CRASH CRYING EMOJI
+				butSystem->Update();
                 
                 SceneToImgui::GetInstance()->UnbindFramebuffer();
                // glfwMakeContextCurrent(window);
@@ -414,6 +423,7 @@ namespace Carmicah
         editorSys->Exit();
         souSystem->Exit();
         colSystem->Exit();
+		butSystem->Exit();
         Serializer.WriteConfig();
         gScriptSystem->CleanUp();
 

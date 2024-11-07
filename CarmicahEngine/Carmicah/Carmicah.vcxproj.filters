@@ -44,6 +44,9 @@
     <ClInclude Include="source\Components\BaseTransform.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="source\Components\Button.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="source\Components\Collider2D.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -171,6 +174,9 @@
     <ClInclude Include="source\Systems\AssetTypes.h">
       <Filter>Systems</Filter>
     </ClInclude>
+    <ClInclude Include="source\Systems\ButtonSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
     <ClInclude Include="source\Systems\CollisionSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
@@ -276,7 +282,13 @@
     <ClCompile Include="source\Systems\AssetManager.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
+    <ClCompile Include="source\Systems\ButtonSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
     <ClCompile Include="source\Systems\CollisionSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Systems\GOFactory.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="source\Systems\GameLogic.cpp">
@@ -296,8 +308,5 @@
     </ClCompile>
     <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\pch.cpp" />
-    <ClCompile Include="source\Systems\GOFactory.cpp">
-      <Filter>Scripting</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
