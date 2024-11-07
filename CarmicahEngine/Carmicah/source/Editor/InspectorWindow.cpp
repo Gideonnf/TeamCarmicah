@@ -1,8 +1,8 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  file:			InspectorWindow.cpp
 
- author:		Nicholas Lai (100%)
- co-author(s):
+ author:		Nicholas Lai (70%)
+ co-author(s):	Micah Lim (30%)
 
  email:			n.lai@digipen.edu
 

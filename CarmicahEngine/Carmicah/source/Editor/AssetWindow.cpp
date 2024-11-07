@@ -2,11 +2,14 @@
  file:			AssetWindow.cpp
 
  author:		Nicholas Lai (100%)
- co-author(s):
+ co-author(s):	
 
  email:			n.lai@digipen.edu
 
  brief:	This file defines AssetWindow class which allows users to interact and manage assets.
+		Prefabs can be selected from this window.
+		Drag-drop functionality for textures to replace the textures of current GameObjects.
+		Clicking on fonts to change fonts for GOs with TextRenderer.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
