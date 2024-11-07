@@ -185,6 +185,9 @@
     <ClInclude Include="source\Components\Button.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="source\Systems\ButtonSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />
@@ -281,5 +284,8 @@
     </ClCompile>
     <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\pch.cpp" />
+    <ClCompile Include="source\Systems\ButtonSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

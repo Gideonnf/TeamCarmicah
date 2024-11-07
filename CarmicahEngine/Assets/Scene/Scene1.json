@@ -357,7 +357,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonName": "Button Prototype",
+                    "ButtonName": "ButtonOG",
                     "ButtonImage": "ButtonPress",
                     "isPressed": false
                 }

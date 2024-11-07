@@ -20,12 +20,10 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui_impl_opengl3.h>
 #include "EditorWindow.h"
 #include "SceneWindow.h"
-#include "Button.h"
+#include "../Components/Button.h"
 #include "SceneToImgui.h"
 #include "Input/InputSystem.h"
 
-// use SceneWindow for the actual detection of clicks or input over the button. SceneWindow can detect if the mouse is over the button and simply
-// call button->OnPress() or button->OnRelease() as needed. This keeps SceneWindow focused on input detection without delving into button state management.
 
 namespace Carmicah
 {
@@ -94,13 +92,14 @@ namespace Carmicah
                             scaledY <= buttonPosition.y + buttonSize.y / 2)
                         {
                             // Trigger button press/release logic
-                    
-                            Button::Button::OnPress();
+							Button* button = new Button();
+							button->onPress();
                         }
                     }
                     else if (Input.IsMouseReleased(MOUSE_BUTTON_LEFT))
                     {
-                        Button::OnRelease();
+						Button* button = new Button();
+						button->onRelease();
                     }
                 }
             }

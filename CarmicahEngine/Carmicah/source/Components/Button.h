@@ -18,10 +18,16 @@ DigiPen Institute of Technology is prohibited.
 #define BUTTON_COMPONENT_H
 
 #include "BaseComponent.h"
-#include "Renderer.h"
+#include "../Components/Renderer.h"
 #include <string>
 #include "Math/Vec2.h"
 #include "Math/Matrix3x3.h"
+
+// use SceneWindow for the actual detection of clicks or input over the button. 
+// SceneWindow can detect if the mouse is over the button and simply
+// call button->OnPress() or button->OnRelease() as needed. 
+// This keeps SceneWindow focused on input detection without delving into button state management.
+// Button will manage its own state and texture switching.
 
 namespace Carmicah
 {
@@ -51,18 +57,22 @@ namespace Carmicah
 		void onPress()
 		{
 			isPressed = true; // set to pressed
-            Renderer::texture = ButtonPress;
-
-            // need to put logic to switch texture here
+			if (isPressed)  // check that the button is pressed
+            {
+				std::cout << "Button is pressed" << std::endl;
+            }
+            
+            // logic to switch texture here
+            //Renderer::texture = ButtonPress;
 		}
 
 		// call this function when button is released
         void onRelease()
         {
 			isPressed = false; // set to unpressed
-			Renderer::texture = ButtonOG;
 
             // revert to og texture here
+			//Renderer::texture = ButtonOG;
         }
     };
 }
