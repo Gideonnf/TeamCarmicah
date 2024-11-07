@@ -1,6 +1,6 @@
 /* file documentation -----------------------------------------------------------------------------
 \file		InputSystem.hpp
-\author     Micah Lim, (micahshengyao.lim)
+\author     Micah Lim (100%)
 \course     CSD 2400
 \date		240924
 

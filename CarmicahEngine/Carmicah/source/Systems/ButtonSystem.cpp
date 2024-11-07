@@ -1,3 +1,23 @@
+/* file documentation -----------------------------------------------------------------------------
+\file       ButtonSystem.cpp
+\author     Micah Lim (100%)
+\course     CSD 2400
+\date       071124
+
+\brief      Implementation of the ButtonSystem class, which manages button components in the game
+			engine, including detecting button presses and releases.
+
+\functions  - ButtonSystem::Init: Initializes the button system and sets up entity signatures.
+			- ButtonSystem::Update: Updates button states based on input detection.
+			- ButtonSystem::Exit: Clears registered entities and releases resources.
+			- ButtonSystem::OnPress: Handles logic for button press events.
+			- ButtonSystem::OnRelease: Handles logic for button release events.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-------------------------------------------------------------------------------------------------*/
+
 
 #include "pch.h"
 #include <ECS/ECSTypes.h>
@@ -12,8 +32,19 @@
 #include "ButtonSystem.h"
 #include <algorithm>
 
+
 namespace Carmicah
 {
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Initializes the ButtonSystem, setting up necessary entity signatures for button
+				components.
+
+	\param      [in, out] Init
+				Initializes the button system components and registers necessary signatures.
+
+	\return     void
+	-------------------------------------------------------------------------------------------------*/
 	void ButtonSystem::Init()
 	{
 		// Set the signature of the system
@@ -29,6 +60,14 @@ namespace Carmicah
 	}
 
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Updates the ButtonSystem, detecting button states and processing input events.
+
+	\param      [in, out] Update
+				Checks for button press and release events and updates button states accordingly.
+
+	\return     void
+	-------------------------------------------------------------------------------------------------*/
 	void ButtonSystem::Update()
 	{
 		auto* componentManager = ComponentManager::GetInstance();
@@ -55,15 +94,32 @@ namespace Carmicah
 	}
 
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Cleans up and clears the registered entities in the ButtonSystem.
+
+	\param      [in, out] Exit
+				Releases resources and clears entities registered within the button system.
+
+	\return     void
+	-------------------------------------------------------------------------------------------------*/
 	void ButtonSystem::Exit()
 	{
 		mEntitiesSet.clear(); // clear all buttons
 	}
 
-	// OnPress and OnRelease takes in the name of the current button being pressed 
-	// and then handles the logic for when the button is pressed
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Handles logic for when a specific button is pressed.
+
+	\param      [in] name
+				The name of the button that was pressed.
+
+	\return     void
+	-------------------------------------------------------------------------------------------------*/
 	void ButtonSystem::OnPress(std::string name)
 	{
+		// OnPress and OnRelease takes in the name of the current button being pressed 
+		// and then handles the logic for when the button is pressed
 		auto* componentManager = ComponentManager::GetInstance();
 
 		for (const auto& entity : mEntitiesSet)
@@ -79,7 +135,15 @@ namespace Carmicah
 		}
 	}
 
-	// call this function when button is released
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Handles logic for when a specific button is released.
+
+	\param      [in] name
+				The name of the button that was released.
+
+	\return     void
+	-------------------------------------------------------------------------------------------------*/
 	void ButtonSystem::OnRelease(std::string name)
 	{
 		auto* componentManager = ComponentManager::GetInstance();
@@ -96,5 +160,6 @@ namespace Carmicah
 			}
 		}
 	}
+
 
 }

@@ -1,8 +1,8 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  file:			SceneWindow.cpp
 
- author:		Nicholas Lai (100%)
- co-author(s):
+ author:		Nicholas Lai (90%)
+ co-author(s):  Micah Lim (10%)
 
  email:			n.lai@digipen.edu
 
@@ -77,30 +77,6 @@ namespace Carmicah
                         Input.SetDragCurrentPos({ scaledX, scaledY });
                         std::cout << "Dragging in Scene to: (" << scaledX << ", " << scaledY << ")" << std::endl;
                     }
-
-      //              // BUTTON CHECKING, if button pressed, tell button its pressed
-      //              // check if mouse click is within button bounds
-      //              if (Input.IsMousePressed(MOUSE_BUTTON_LEFT))
-      //              {
-						//// assuming button's position and size are set (example values), need to make this dynamic
-      //                  ImVec2 buttonPosition = { 960.0f, 540.0f }; // Button center
-      //                  ImVec2 buttonSize = { 200.0f, 200.0f };     // Button dimensions
-
-      //                  if (scaledX >= buttonPosition.x - buttonSize.x / 2 &&
-      //                      scaledX <= buttonPosition.x + buttonSize.x / 2 &&
-      //                      scaledY >= buttonPosition.y - buttonSize.y / 2 &&
-      //                      scaledY <= buttonPosition.y + buttonSize.y / 2)
-      //                  {
-      //                      // Trigger button press/release logic
-						//	Button* button = new Button();
-						//	button->onPress();
-      //                  }
-      //              }
-      //              else if (Input.IsMouseReleased(MOUSE_BUTTON_LEFT))
-      //              {
-						//Button* button = new Button();
-						//button->onRelease();
-      //              }
                 }
             }
         }

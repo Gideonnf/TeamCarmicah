@@ -1,37 +1,29 @@
 /* file documentation -----------------------------------------------------------------------------
-\file		InputSystem.cpp
-\author     Micah Lim, (micahshengyao.lim)
+\file       InputSystem.cpp
+\author     Micah Lim (80%), Gideon Francis (20%)
 \course     CSD 2400
-\date		240924
+\date       240924
 
-\brief      This file implements the input system for handling keyboard and mouse input in a game engine.
-			It includes methods for tracking key and mouse states, detecting key presses/releases,
-			and managing drag events with the mouse. Additionally, it integrates callbacks for input
-			handling using the GLFW library.
+\brief      Implements the InputSystem class, managing keyboard and mouse input, including key
+			presses, mouse clicks, and drag events. Integrates with GLFW for callback handling.
 
-\functions  - KeyCallback: Handles keyboard input, including key press and release detection.
-			- MouseCallback: Handles mouse button input, including drag events.
-			- CursorPosCallback: Tracks the mouse cursor's position and manages dragging logic.
-			- ScrollCallback: Handles mouse scroll input (currently unused).
-			- InputSystem::Init: Initializes the input system with a reference to the GLFW window.
-			- InputSystem::Update: Updates the input system's state.
-			- InputSystem::UpdatePrevInput: Updates the previous key state for tracking.
-			- InputSystem::IsKeyPressed/IsKeyReleased/IsKeyHold: Checks the current key states.
-			- InputSystem::IsMousePressed/IsMouseReleased/IsMouseHold: Checks the current mouse button states.
-			- InputSystem::SetMousePosition/GetMousePosition: Sets or retrieves the current mouse position.
-			- InputSystem::SetDragging/IsDragging: Manages drag state and tracking of start, current, and end positions.
-			- InputSystem::UpdateKeyMap: Updates the key state map.
-			- InputSystem::UpdateMouseMap: Updates the mouse button state map.
-			- InputSystem::KeycodeToString: Converts keycodes to string names.
+\functions  - KeyCallback: Detects key press and release events.
+			- MouseCallback: Detects mouse button events and initiates drag tracking.
+			- CursorPosCallback: Updates the mouse position and tracks drag movement.
+			- ScrollCallback: Handles mouse scroll events (currently unused).
+			- InputSystem::Init: Initializes input handling for a given GLFW window.
+			- InputSystem::Update: Refreshes input states.
+			- InputSystem::IsKeyPressed/IsKeyReleased/IsKeyHold: Checks for specific key states.
+			- InputSystem::IsMousePressed/IsMouseReleased/IsMouseHold: Checks for specific mouse button states.
+			- InputSystem::GetMousePosition/SetMousePosition: Gets and sets the mouse position.
+			- InputSystem::IsDragging/SetDragging: Manages dragging state.
+			- KeycodeToString: Converts a key code to a readable string.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
 DigiPen Institute of Technology is prohibited.
 -------------------------------------------------------------------------------------------------*/
 
-// put new png from BFA into assets/images
-// go edit json file to include name of png, fill out the 3 components necessary
-// depth is suppoed to be -100 to 100
 
 #include "pch.h"
 #include "Input/InputSystem.h"
@@ -51,6 +43,9 @@ namespace Carmicah
 	std::array<bool, (int)GLFW_KEY_LAST> mKeyCurrentState{};
 	std::array<bool, (int)GLFW_KEY_LAST> mKeyPreviousState{};
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Callback function to handle keyboard input events, such as key presses and releases.
+	-------------------------------------------------------------------------------------------------*/
 	void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
 		UNUSED(scancode);
@@ -74,6 +69,9 @@ namespace Carmicah
 		}
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Callback function to handle mouse button input events, such as press and release.
+	-------------------------------------------------------------------------------------------------*/
 	void MouseCallback(GLFWwindow* window, int button, int action, int mods)
 	{
 		UNUSED(mods);
@@ -113,6 +111,9 @@ namespace Carmicah
 		}
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Callback function to handle cursor input events, such as press and release.
+	-------------------------------------------------------------------------------------------------*/
 	static void CursorPosCallback(GLFWwindow* window, double xPos, double yPos)
 	{
 		UNUSED(window);
@@ -130,8 +131,9 @@ namespace Carmicah
 		}
 	}
 
-
-	// Scroll back stuff
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Initializes the InputSystem for a specific GLFW window.
+	-------------------------------------------------------------------------------------------------*/
 	void ScrollCallback(GLFWwindow* window, double xOffset, double yOffset)
 	{
 		UNUSED(window);
@@ -139,6 +141,9 @@ namespace Carmicah
 		UNUSED(yOffset);
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Initializes the InputSystem for a specific GLFW window.
+	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::Init(GLFWwindow* ref)
 	{
 		windowRef = ref;
@@ -156,6 +161,9 @@ namespace Carmicah
 		//GLFW_MOUSE_BUTTON_LEFT;
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Updates the state of the input system.
+	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::Update()
 	{
 		if (windowRef == nullptr)
@@ -165,28 +173,43 @@ namespace Carmicah
 
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Updates the previous key state for tracking purposes.
+	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::UpdatePrevInput()
 	{
 		mKeyPreviousState = mKeyCurrentState;
 	}
 
-	// key press should only return true once until its released and pressed again
-	// so a map is used to keep track of that
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified key is currently pressed.
+	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::IsKeyPressed(Keys key)
 	{
+		// key press should only return true once until its released and pressed again
+		// so a map is used to keep track of that
 		return mKeyCurrentState[(int)key] && !mKeyPreviousState[(int)key];
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified key is currently released.
+	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::IsKeyReleased(Keys key)
 	{
 		return !mKeyCurrentState[(int)key] && mKeyPreviousState[(int)key];
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified key is being held down.
+	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::IsKeyHold(Keys key)
 	{
 		return mKeyCurrentState[(int)key];
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified key was pressed in a previous state (currently unused).
+	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::WasKeyPressed(Keys key)
 	{
 		UNUSED(key);
@@ -194,6 +217,9 @@ namespace Carmicah
 		return false;
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified key was released in a previous state (currently unused).
+	-------------------------------------------------------------------------------------------------*/
 	bool  InputSystem::WasKeyReleased(Keys key)
 	{
 		UNUSED(key);
@@ -201,6 +227,9 @@ namespace Carmicah
 		return false;
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified key was held down in a previous state (currently unused).
+	-------------------------------------------------------------------------------------------------*/
 	bool  InputSystem::WasKeyHold(Keys key)
 	{
 		UNUSED(key);
@@ -208,21 +237,33 @@ namespace Carmicah
 		return false;
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified mouse button is currently pressed.
+	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::IsMousePressed(MouseButtons button)
 	{
 		return KeyStates::PRESSED == mMouseMap[(int)button];
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified mouse button is currently released.
+	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::IsMouseReleased(MouseButtons button)
 	{
 		return KeyStates::RELEASE == mMouseMap[(int)button];
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified mouse button is being held down.
+	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::IsMouseHold(MouseButtons button)
 	{
 		return KeyStates::HOLD == mMouseMap[(int)button];
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if the mouse is currently positioned over a given area.
+	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::IsMouseOver(Vec2d& position, Vec2d& size)
 	{
 		// get current mouse position
@@ -239,69 +280,106 @@ namespace Carmicah
 			mousePos.y >= bottom && mousePos.y <= top);
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Retrieves the current mouse position.
+	-------------------------------------------------------------------------------------------------*/
 	Vector2D<double> InputSystem::GetMousePosition()
 	{
 		return mMousePos;
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Retrieves the current X-coordinate of the mouse position.
+	-------------------------------------------------------------------------------------------------*/
 	double InputSystem::GetMouseX()
 	{
 		return mMousePos.x;
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Retrieves the current Y-coordinate of the mouse position.
+	-------------------------------------------------------------------------------------------------*/
 	double InputSystem::GetMouseY()
 	{
 		return mMousePos.y;
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Sets the mouse position to specific X and Y coordinates.
+	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::SetMousePosition(double xPos, double yPos)
 	{
 		mMousePos.x = xPos;
 		mMousePos.y = yPos;
 	}
 
-	// new methods for drag tracking
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if the mouse is currently in a dragging state.
+	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::IsDragging() const
 	{
 		return isDragging;
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Retrieves the starting position of a drag event.
+	-------------------------------------------------------------------------------------------------*/
 	Vector2D<double> InputSystem::GetDragStartPos() const
 	{
 		return dragStartPos;
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Retrieves the ending position of a drag event.
+	-------------------------------------------------------------------------------------------------*/
 	Vector2D<double> InputSystem::GetDragEndPos() const
 	{
 		return dragEndPos;
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Retrieves the current position during a drag event.
+	-------------------------------------------------------------------------------------------------*/
 	Vector2D<double> InputSystem::GetDragCurrentPos() const
 	{
 		return dragCurrentPos;
 	}
 
-	// setter methods for drag tracking
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Sets the dragging state to true or false.
+	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::SetDragging(bool dragging)
 	{
 		isDragging = dragging;
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Sets the starting position of a drag event.
+	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::SetDragStartPos(const Vector2D<double>& pos)
 	{
 		dragStartPos = pos;
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Sets the ending position of a drag event.
+	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::SetDragEndPos(const Vector2D<double>& pos)
 	{
 		dragEndPos = pos;
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Sets the current position during a drag event.
+	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::SetDragCurrentPos(const Vector2D<double>& pos)
 	{
 		dragCurrentPos = pos;
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Updates the key state map for tracking key presses and releases.
+	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::UpdateKeyMap(int key, KeyStates state)
 	{
 		mKeyMap[key] = state;
@@ -316,6 +394,9 @@ namespace Carmicah
 		}
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Updates the mouse button state map for tracking button presses and releases.
+	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::UpdateMouseMap(int key, KeyStates state)
 	{
 		mMouseMap[key] = state;
@@ -333,14 +414,20 @@ namespace Carmicah
 		//std::cout << "Mouse State : " << state << " For : " << key << std::endl;
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Sends a message through the system proxy.
+	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::ProxySend(Message* msg)
 	{
 		SendSysMessage(msg);
 	}
 
-	// convert keycode to string (switch version)
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Converts a keycode to a human-readable string representation.
+	-------------------------------------------------------------------------------------------------*/
 	const char* InputSystem::KeycodeToString(Keys key)
 	{
+		// convert keycode to string (switch version)
 		switch (key)
 		{
 		// Misc Keys
