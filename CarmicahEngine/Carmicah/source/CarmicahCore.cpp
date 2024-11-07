@@ -66,16 +66,17 @@ namespace Carmicah
             [](GLenum source, GLenum type, GLuint id, GLenum severity,
             GLsizei length, const GLchar* msg, const void* uParam)
             {
+                std::stringstream ss;
+                ss << "GL: ";
+                if (ex)
+                    ss << " type = 0x" << type << ", Severity = 0x" << severity << ", ";
+                ss << msg << std::endl;
                 if (type == GL_DEBUG_TYPE_ERROR)
                 {
-                    std::stringstream ss;
-                    ss << "GL: ";
-                    if (ex)
-                        ss << " type = 0x" << type << ", Severity = 0x" << severity << ", ";
-                    ss << "msg = " << msg << std::endl;
-
                     CM_ERROR(ss.str());
                 }
+                else
+                    //CM_CORE_WARN(ss.str());
                 if (uParam || source || length || id) // TODO: It's Just removing warnings idfk how to remove this warnings
                     ex = ex;
             },

@@ -39,7 +39,6 @@ namespace Carmicah
 	{
 		std::filesystem::path directoryPath = assetPath;
 
-		
 		InitTexture();
 		InitSound();
 		InitFontType();
@@ -82,6 +81,7 @@ namespace Carmicah
 						}
 						else if (folderName == "Meshes")
 						{
+
 							std::string fileExt = entry.path().extension().string();
 							if (fileExt == ".o")
 							{
@@ -363,11 +363,7 @@ namespace Carmicah
 
 	void AssetManager::InitTexture()
 	{
-		//glCreateTextures(GL_TEXTURE_2D_ARRAY, 1, &mArrayTex);
-		//glTextureStorage3D(mArrayTex, 1, GL_RGBA8, maxTexSize, maxTexSize, enConfig.maxNumTextures);
-
-		glGenTextures(1, &mArrayTex);
-		glActiveTexture(GL_TEXTURE0);
+		glCreateTextures(GL_TEXTURE_2D_ARRAY, 1, &mArrayTex);
 		glBindTexture(GL_TEXTURE_2D_ARRAY, mArrayTex);
 
 		glTexStorage3D(GL_TEXTURE_2D_ARRAY,
@@ -377,10 +373,9 @@ namespace Carmicah
 			enConfig.maxNumTextures		//Number of layers
 		);
 
-		//glTextureParameterf(mArrayTex, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		//glTextureParameterf(mArrayTex, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTextureParameterf(mArrayTex, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTextureParameterf(mArrayTex, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		glBindTexture(GL_TEXTURE_2D_ARRAY, mArrayTex);
 	}
 
 	void AssetManager::LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile)

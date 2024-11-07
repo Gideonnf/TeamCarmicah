@@ -148,7 +148,7 @@ namespace Carmicah
 		auto& tryTex = AssetManager::GetInstance()->GetAsset<Texture>(renderer.texture);
 
 		std::vector<vtxTexd2D> temp;
-		temp.reserve(4);
+		temp.reserve(p.vtx.size());
 		for (unsigned int i{}; i < p.vtx.size(); ++i)
 		{
 			vtxTexd2D tt;
@@ -166,6 +166,8 @@ namespace Carmicah
 
 	void BaseGraphicsSystem::BatchRender()
 	{
+		glBindTexture(GL_TEXTURE_2D_ARRAY, AssetManager::GetInstance()->mArrayTex);
+
 		for (auto& i : mBufferData)
 		{
 			glBindVertexArray(i.vao);
