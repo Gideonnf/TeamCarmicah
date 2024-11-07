@@ -46,7 +46,7 @@ namespace Carmicah
 		static auto systemManager = SystemManager::GetInstance();
 		auto primitiveMap = assetManager->GetAssetMap<Primitive>();
 		auto shaderMap = assetManager->GetAssetMap<Shader>();
-		auto imageTextureMap = assetManager->GetAssetMap<ImageTexture>();
+		//auto imageTextureMap = assetManager->GetAssetMap<ImageTexture>();
 		auto textureMap = assetManager->GetAssetMap<Texture>();
 		auto fontMap = assetManager->GetAssetMap<Font>();
 		//auto audioMap = assetManager->GetAssetMap<Audio>();
