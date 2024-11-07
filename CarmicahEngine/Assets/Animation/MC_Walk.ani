@@ -1,16 +1,16 @@
-MC_SpriteSheet_Walk 0
+MC_Walk 0 0
 0.5
-MC_SpriteSheet_Walk 1
+MC_Walk 0 1
 0.5
-MC_SpriteSheet_Walk 2
+MC_Walk 0 2
 0.5
-MC_SpriteSheet_Walk 3
+MC_Walk 0 3
 0.5
-MC_SpriteSheet_Walk 4
+MC_Walk 0 4
 0.5
-MC_SpriteSheet_Walk 5
+MC_Walk 0 5
 0.5
-MC_SpriteSheet_Walk 6
+MC_Walk 0 6
 0.5
-MC_SpriteSheet_Walk 7
+MC_Walk 0 7
 0.5

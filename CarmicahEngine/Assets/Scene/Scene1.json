@@ -38,12 +38,12 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Count_Count 0"
+                    "texture": "Count 0 0"
                 },
-              {
-                "Component Name": "struct Carmicah::Animation",
-                "Atlas": "MC_Idle"
-              }
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas" : "Count"
+                }
             ],
             "Children": []
         },

@@ -40,19 +40,9 @@ namespace Carmicah
 			return;
 		glUseProgram(mCurrShader);
 
-		{
-			auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
-			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-			Mtx3x3f camSpace{};
-			camSpace.scaleThis(camTrans.scale.x, camTrans.scale.y).rotDegThis(-camTrans.rot).translateThis(-camTrans.pos.x, -camTrans.pos.y);
-			GLint uniformLoc{};
-			if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
-		}
-
 		for (auto& entity : mEntitiesSet)
 		{
+			auto& camera = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);
 			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(collider.shape)};
 
@@ -60,6 +50,7 @@ namespace Carmicah
 			Matrix3x3<float> trans{};
 			trans.translateThis((collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f)
 				.scaleThis(collider.max.x - collider.min.x, collider.max.y - collider.min.y);
+			trans = camera.camSpace * trans;
 
 			GLint uniformLoc;
 			if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))

@@ -41,6 +41,17 @@ namespace Carmicah
 	{
 		GLuint t;
 	};
+	struct TextureAtlas
+	{
+		GLuint t;
+		unsigned int slotWidth, slotHeight;
+		struct Slot
+		{
+			unsigned int x, y;
+			bool vacant, checked;
+		};
+		std::vector<Slot> spaces{};
+	};
 	struct AnimAtlas
 	{
 		std::vector<std::pair<float, std::string>> anim;// MaxTime, TextureName
@@ -54,14 +65,12 @@ namespace Carmicah
 	{
 		struct FontChar
 		{
-			std::string	 texRef{};
-			unsigned int width{}, height{};
-			int			 xBearing{}, yBearing{};
-			long		 advance{};
+			unsigned int texID, width, height;
+			int			 xBearing, yBearing;
+			long		 advance;
 		};
-		const unsigned char charOffset{ 32 }; // first 32 characters are not visable
 
-		std::array<FontChar, 96> mFontMaps{};
+		std::array<FontChar, 128> mFontMaps;
 	};
 	struct Audio
 	{
