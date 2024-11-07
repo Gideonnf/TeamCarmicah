@@ -80,8 +80,18 @@ namespace Carmicah
 				{
 					auto& button = ComponentManager::GetInstance()->GetComponent<Button>(castedMsg->mEntityID);
 					auto& buttonRenderer = ComponentManager::GetInstance()->GetComponent<Renderer>(castedMsg->mEntityID);
-					buttonRenderer.texture = button.ButtonImagePressed;
+					if (button.isPressed)
+					{
+						buttonRenderer.texture = button.ButtonImagePressed;
+						OnPress(button);
+					}
+					else
+					{
+						buttonRenderer.texture = button.ButtonImage;
+						OnRelease(button);
+					}
 
+					button.isPressed = !button.isPressed;
 				}
 			}
 		}
@@ -89,7 +99,7 @@ namespace Carmicah
 
 	// OnPress and OnRelease takes in the name of the current button being pressed 
 	// and then handles the logic for when the button is pressed
-	void ButtonSystem::OnPress(std::string name)
+	void ButtonSystem::OnPress(Button& buttonComponent)
 	{
 		//auto* componentManager = ComponentManager::GetInstance();
 
@@ -107,7 +117,7 @@ namespace Carmicah
 	}
 
 	// call this function when button is released
-	void ButtonSystem::OnRelease(std::string name)
+	void ButtonSystem::OnRelease(Button& buttonComponent)
 	{
 		//auto* componentManager = ComponentManager::GetInstance();
 

@@ -88,6 +88,13 @@ namespace Carmicah
 
 			// get and set where it started dragging from
 			Input.SetDragStartPos(Input.GetMousePosition());
+
+			Vec2d mousePosD = Input.GetInstance()->GetMousePosition();
+			Vec2i mousePosI = { std::clamp(static_cast<int>(mousePosD.x), 0, 1920), 1080 - std::clamp(static_cast<int>(mousePosD.y) - 1, 0, 1080) };
+
+			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(mousePosI.x, mousePosI.y));
+
+			Input.ProxySend(&msg);
 		}
 		// stop dragging when button is released
 		else if (action == GLFW_RELEASE)
@@ -97,6 +104,7 @@ namespace Carmicah
 			Vec2i mousePosI = { std::clamp(static_cast<int>(mousePosD.x), 0, 1920), 1080 - std::clamp(static_cast<int>(mousePosD.y) - 1, 0, 1080) };
 
 			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(mousePosI.x, mousePosI.y));
+
 			Input.ProxySend(&msg);
 
 			if (Input.IsDragging())
