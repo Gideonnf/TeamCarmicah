@@ -89,24 +89,34 @@ namespace Carmicah
 			// get and set where it started dragging from
 			Input.SetDragStartPos(Input.GetMousePosition());
 
-			Vec2d mousePosD = Input.GetInstance()->GetMousePosition();
+			Vec2d mousePosD = Input.GetMousePosition();
+			//if (mousePosD.x >= 0 && mousePosD.x <= 1920 && mousePosD.y >= 0 && mousePosD.x <= 1080)
+			//{
+
 			Vec2i mousePosI = { std::clamp(static_cast<int>(mousePosD.x), 0, 1920), 1080 - std::clamp(static_cast<int>(mousePosD.y) - 1, 0, 1080) };
+			//CM_CORE_INFO("BEFORE: X POS {}, Y POS {}", mousePosD.x, mousePosD.y);
+			//CM_CORE_INFO("SCENE: POS {},{}, SIZE {}, {}", SceneWindow::sceneWindowPos.x, SceneWindow::sceneWindowPos.y, SceneWindow::sceneWindowSize.x, SceneWindow::sceneWindowSize.y);
+			//CM_CORE_INFO("AFTER: X POS {}, Y POS {}", mousePosI.x, mousePosI.y);
 
 			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(mousePosI.x, mousePosI.y));
 
 			Input.ProxySend(&msg);
+			//}
+
 		}
 		// stop dragging when button is released
 		else if (action == GLFW_RELEASE)
 		{
-			Vec2d mousePosD = Input.GetInstance()->GetMousePosition();
+			Vec2d mousePosD = Input.GetMousePosition();
 			// TODO: Hard coded
-			Vec2i mousePosI = { std::clamp(static_cast<int>(mousePosD.x), 0, 1920), 1080 - std::clamp(static_cast<int>(mousePosD.y) - 1, 0, 1080) };
+			if (mousePosD.x >= 0 && mousePosD.x <= 1920 && mousePosD.y >= 0 && mousePosD.x <= 1080)
+			{
+				Vec2i mousePosI = { std::clamp(static_cast<int>(mousePosD.x), 0, 1920), 1080 - std::clamp(static_cast<int>(mousePosD.y) - 1, 0, 1080) };
 
-			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(mousePosI.x, mousePosI.y));
+				EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(mousePosI.x, mousePosI.y));
 
-			Input.ProxySend(&msg);
-
+				Input.ProxySend(&msg);
+			}
 			if (Input.IsDragging())
 				/*&& (Input.GetMousePosition().x != Input.GetDragCurrentPos().x || Input.GetMousePosition().y != Input.GetDragCurrentPos().y)*/
 			{
@@ -115,8 +125,8 @@ namespace Carmicah
 				Input.SetDragEndPos(Input.GetMousePosition());
 
 				// see where drag started and ended
-				std::cout << "Drag started and ended at: (" << Input.GetDragStartPos().x << ", " << Input.GetDragStartPos().y << ") to ("
-					<< Input.GetDragEndPos().x << ", " << Input.GetDragEndPos().y << ")" << std::endl;
+				/*std::cout << "Drag started and ended at: (" << Input.GetDragStartPos().x << ", " << Input.GetDragStartPos().y << ") to ("
+					<< Input.GetDragEndPos().x << ", " << Input.GetDragEndPos().y << ")" << std::endl;*/
 			}
 		}
 	}
@@ -124,6 +134,8 @@ namespace Carmicah
 	static void CursorPosCallback(GLFWwindow* window, double xPos, double yPos)
 	{
 		UNUSED(window);
+		// NOTE: SetMousePos is being used in SceneWindow for wrapping position of the cursor so that the mouse pos can pick accurately 
+		// since IMGUI makes the whole window 1920 by 1080 but we have to treat the scene as 1920 by 1080
 		Input.SetMousePosition(xPos, yPos);
 		//std::cout << "Mouse current pos: " << xPos << ", " << yPos << std::endl;
 

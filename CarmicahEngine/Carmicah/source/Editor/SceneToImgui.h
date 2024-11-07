@@ -27,6 +27,7 @@ namespace Carmicah
 		GLuint texture_id{};
 		GLuint picker_id{};
 		std::string currentScene{};
+		bool IsHovering;
 
 		void CreateFramebuffer(int width, int height);
 		void UnloadFramebuffer();

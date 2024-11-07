@@ -205,7 +205,8 @@ namespace Carmicah
 	{
 		if (msg->mMsgType == MSG_EDITORENTITY)
 		{
-			HierarchyWindow::selectedGO = &gGOFactory->FetchGO(dynamic_cast<EditorEntityPicked*>(msg)->mEntityID);
+			if (dynamic_cast<EditorEntityPicked*>(msg)->mEntityID != 0)
+				HierarchyWindow::selectedGO = &gGOFactory->FetchGO(dynamic_cast<EditorEntityPicked*>(msg)->mEntityID);
 		}
 	}
 }
