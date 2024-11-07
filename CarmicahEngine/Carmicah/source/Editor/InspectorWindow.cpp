@@ -60,10 +60,10 @@ namespace Carmicah
 		{
 			componentsToAdd.push_back("UITransform");
 		}
-		/*if (!go->HasComponent<Animation>())
+		if (!go->HasComponent<Animation>())
 		{
 			componentsToAdd.push_back("Animation");
-		}*/
+		}
 		if (!go->HasComponent<RigidBody>())
 		{
 			componentsToAdd.push_back("RigidBody");
@@ -108,12 +108,12 @@ namespace Carmicah
 				selectedComponentToAdd = "";
 				selectedIndex = 0;
 			}
-			/*if (selectedComponentToAdd == "Animation")
+			if (selectedComponentToAdd == "Animation")
 			{
 				go->AddComponent<Animation>();
 				selectedComponentToAdd = "";
 				selectedIndex = 0;
-			}*/
+			}
 			if (selectedComponentToAdd == "RigidBody")
 			{
 				go->AddComponent<RigidBody>();
