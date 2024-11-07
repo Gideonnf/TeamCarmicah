@@ -221,7 +221,7 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("Rotation");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##rot", &selectedTransform.rot, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##rot", &selectedTransform.rot, 1.0f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					// Scale (xScale, yScale)
 					ImGui::TableNextRow();
@@ -672,7 +672,7 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("Rotation");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##rot", &selectedTransform.rot, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##rot", &selectedTransform.rot, 1.0f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					// Scale (xScale, yScale)
 					ImGui::TableNextRow();
