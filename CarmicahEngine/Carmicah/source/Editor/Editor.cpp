@@ -100,7 +100,7 @@ namespace Carmicah
 				ImGuiID dockLeft = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Left, 0.25f, nullptr, &dockMain);
 				ImGuiID dockRight = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Right, 0.25f, nullptr,&dockMain);
 				// Dock your windows into the split areas
-				ImGui::DockBuilderDockWindow("Asset", dockBottom);
+				ImGui::DockBuilderDockWindow("Asset Browser", dockBottom);
 				ImGui::DockBuilderDockWindow("Debug", dockBottom);
 				ImGui::DockBuilderDockWindow("Scene", dockMain);
 				ImGui::DockBuilderDockWindow("Inspector", dockRight);

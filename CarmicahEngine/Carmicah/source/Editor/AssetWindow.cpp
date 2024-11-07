@@ -22,6 +22,7 @@ DigiPen Institute of Technology is prohibited.
 #include "HierarchyWindow.h"
 #include "InspectorWindow.h"
 #include "../Systems/AssetManager.h"
+#include "../Systems/SceneSystem.h"
 #include "Systems/GOFactory.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
@@ -30,7 +31,7 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	AssetWindow::AssetWindow() : EditorWindow("Asset", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
+	AssetWindow::AssetWindow() : EditorWindow("Asset Browser", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
 
 	Prefab* AssetWindow::selectedPrefab = nullptr;
 
@@ -42,13 +43,15 @@ namespace Carmicah
 	{
 		//Obtaining all the AssetMaps
 		static auto assetManager = AssetManager::GetInstance();
+		static auto systemManager = SystemManager::GetInstance();
 		auto primitiveMap = assetManager->GetAssetMap<Primitive>();
 		auto shaderMap = assetManager->GetAssetMap<Shader>();
-		auto imageTextureMap = assetManager->GetAssetMap<ImageTexture>();
+		//auto imageTextureMap = assetManager->GetAssetMap<ImageTexture>();
 		auto textureMap = assetManager->GetAssetMap<Texture>();
 		auto fontMap = assetManager->GetAssetMap<Font>();
 		//auto audioMap = assetManager->GetAssetMap<Audio>();
 		auto prefabMap = assetManager->GetAssetMap<Prefab>();
+		auto sceneMap = assetManager->GetAssetMap<Scene>();
 
 		if (ImGui::Begin(mTitle))
 		{
@@ -71,7 +74,7 @@ namespace Carmicah
 				}
 				ImGui::Unindent();
 			}
-			if (ImGui::CollapsingHeader("Shader"))
+			/*if (ImGui::CollapsingHeader("Shader"))
 			{
 				ImGui::Indent();
 				for (const auto& entry : shaderMap->mAssetMap)
@@ -91,7 +94,7 @@ namespace Carmicah
 					}
 				}
 				ImGui::Unindent();
-			}
+			}*/
 
 			if (ImGui::CollapsingHeader("Texture"))
 			{
@@ -102,16 +105,30 @@ namespace Carmicah
 					name = entry.first + "##texture";
 					if (ImGui::Button(name.c_str()))
 					{
-						Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
-						for (const auto& textureEntry : textureMap->mAssetMap)
+						if(HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Renderer>())
 						{
-							if (entry.second == textureEntry.second)
+							Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
+							for (const auto& textureEntry : textureMap->mAssetMap)
 							{
-								render.texture = textureEntry.first;
+								if (entry.second == textureEntry.second)
+								{
+									render.texture = textureEntry.first;
+								}
 							}
 						}
-
 					}
+
+					if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+					{
+						ImGui::SetDragDropPayload("TEXTURE_PAYLOAD", &entry.first, sizeof(entry.first));
+						ImVec2 dragSize(50, 50);
+						GLuint dragID = textureMap->mAssetList[entry.second].t;
+						ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(dragID)), dragSize);
+						ImGui::Text("Dragging %s", entry.first.c_str());
+
+						ImGui::EndDragDropSource();
+					}
+
 					if (ImGui::IsItemHovered())
 					{
 						ImGui::BeginTooltip();
@@ -134,7 +151,7 @@ namespace Carmicah
 					name = entry.first + "##font";
 					if (ImGui::Button(name.c_str()))
 					{
-						if(HierarchyWindow::selectedGO->HasComponent<TextRenderer>())
+						if(HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<TextRenderer>())
 						{
 							TextRenderer& text = HierarchyWindow::selectedGO->GetComponent<TextRenderer>();
 							text.font = entry.first;
@@ -175,6 +192,19 @@ namespace Carmicah
 					}
 				}
 				ImGui::Unindent();
+			}
+
+			if (ImGui::CollapsingHeader("Scene"))
+			{
+				for (const auto& entry : sceneMap->mAssetMap)
+				{
+					name = entry.first + "##Scene";
+
+					if (ImGui::Button(name.c_str()))
+					{
+						systemManager->ChangeScene(entry.first);
+					}
+				}
 			}
 		}
 		ImGui::End();

@@ -130,14 +130,22 @@ namespace Carmicah
 		Matrix3x3& scaleThis(T x, T y)
 		{
 			m[0] *= x;
+			m[1] *= x;
+			m[2] *= x;
+			m[3] *= y;
 			m[4] *= y;
+			m[5] *= y;
 			return *this;
 		}
 
 		Matrix3x3& scaleThis(Vector2D<T> other)
 		{
 			m[0] *= other.x;
+			m[1] *= other.x;
+			m[2] *= other.y;
+			m[3] *= other.y;
 			m[4] *= other.y;
+			m[5] *= other.y;
 			return *this;
 		}
 
@@ -256,7 +264,11 @@ namespace Carmicah
 	template <typename T> void Mtx33Scale(Matrix3x3<T>& pResult, T x, T y)
 	{
 		pResult.m00 = x;
+		pResult.m01 = x;
+		pResult.m02 = x;
+		pResult.m10 = y;
 		pResult.m11 = y;
+		pResult.m12 = y;
 	}
 
 	template <typename T> void Mtx33RotRad(Matrix3x3<T>& pResult, T angle)
