@@ -141,6 +141,10 @@
                 "Component Name": "struct Carmicah::Renderer",
                 "model": "Square",
                 "texture": "MC_Walk 0 0"
+              },
+              {
+                "Component Name": "struct Carmicah::Animation",
+                "Atlas" : "MC_Idle"
               }
             ],
             "Children": []

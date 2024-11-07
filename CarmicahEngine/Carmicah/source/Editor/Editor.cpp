@@ -163,10 +163,11 @@ namespace Carmicah
 		}
 
 		//TODO: Get nic to make the play and stop button
-		if (Input.IsKeyPressed(KEY_SPACEBAR))
+		if (SceneWindow::mChangeState)
 		{
 			RuntimeStartMessage msg;
 			SendSysMessage(&msg);
+			SceneWindow::mChangeState = false;
 		}
 	}
 

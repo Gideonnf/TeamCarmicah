@@ -25,6 +25,19 @@ namespace Carmicah
                 FunctionCalls.Transform_SetScale(Entity.mID, ref value);
             }
         }
+
+        public Vector2 Position
+        {
+            get
+            {
+                FunctionCalls.Transform_GetPosition(Entity.mID, out Vector2 position);
+                return position;
+            }
+            set
+            {
+                FunctionCalls.Transform_SetPosition(Entity.mID, ref value);
+            }
+        }
     }
 
     public class RigidBody : Component
