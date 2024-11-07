@@ -56,7 +56,8 @@ namespace Carmicah
 
         public Entity FindEntityWithName(string name)
         {
-            uint entityID = 0;
+            uint entityID = FunctionCalls.Entity_FindEntityWithName(name);
+            
             if (entityID == 0)
                 return null;
 

@@ -257,10 +257,10 @@ namespace Carmicah
                 GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(rightForce);
 
 
-                GameObject mainCharacter;
-                gGOFactory->FetchGO("mainCharacter", mainCharacter);
-                mainCharacter.AddComponent<Script>();
-                mainCharacter.GetComponent<Script>().scriptName = "Carmicah.Player";
+                //GameObject mainCharacter;
+                //gGOFactory->FetchGO("mainCharacter", mainCharacter);
+                //mainCharacter.AddComponent<Script>();
+                //mainCharacter.GetComponent<Script>().scriptName = "Carmicah.Player";
 
                 //gameLogic->Init(); // refetch the objects needed
             }
