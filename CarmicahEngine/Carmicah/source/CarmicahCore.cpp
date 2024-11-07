@@ -61,6 +61,7 @@ namespace Carmicah
     {
         static bool ex = extraDetails;
         glEnable(GL_DEBUG_OUTPUT);
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
         glDebugMessageCallback(
             [](GLenum source, GLenum type, GLuint id, GLenum severity,
             GLsizei length, const GLchar* msg, const void* uParam)
@@ -161,10 +162,10 @@ namespace Carmicah
         // TODO: Shift this all into system constructors to clean up core.cpp
         transformSystem->Init();
         graSystem->Init();
-        uigSystem->Init(Width, Height);
-        txtSystem->Init();
+        //uigSystem->Init(Width, Height);
+        //txtSystem->Init();
         aniSystem->Init();
-        crsSystem->Init();
+        //crsSystem->Init();
         phySystem->Init();
         colSystem->Init(); // Set the signature
         rrsSystem->Init();
@@ -332,10 +333,10 @@ namespace Carmicah
                // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
                 transformSystem->Update(); // Update world and local transforms before rendering
                 graSystem->Render(gGOFactory->mainCam);
-                uigSystem->Render();
-                crsSystem->Render(gGOFactory->mainCam);
-                rrsSystem->Render(gGOFactory->mainCam);
-                txtSystem->Render((GLuint)Width, (GLuint)Height);
+                //uigSystem->Render();
+                //crsSystem->Render(gGOFactory->mainCam);
+                //rrsSystem->Render(gGOFactory->mainCam);
+                //txtSystem->Render((GLuint)Width, (GLuint)Height);
                 CarmicahTime::GetInstance()->StopSystemTimer("RenderingSystems");
                 //SceneToImgui::GetInstance()->IDPick();
                 

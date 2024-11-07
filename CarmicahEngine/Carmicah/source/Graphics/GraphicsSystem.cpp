@@ -36,8 +36,9 @@ namespace Carmicah
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Renderer>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<GraphicsSystem>(mSignature);
-		auto& shdrRef = AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.defaultShader);
-		mCurrShader = shdrRef.s;
+		BaseGraphicsSystem::Init();
+
+		GenBatch(AssetManager::GetInstance()->GetAsset<Primitive>("Square"), true);
 	}
 
 	void GraphicsSystem::SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam)
@@ -53,9 +54,9 @@ namespace Carmicah
 		glClearColor(0.75294f, 1.f, 0.93333f, 1.f); // Gideon's favourite
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glUseProgram(mCurrShader);
 		if (mCurrShader == 0)
 			return;
+		glUseProgram(mCurrShader);
 		// Just did discard instead, cuz this stopped working
 		//glEnable(GL_BLEND);
 		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -74,38 +75,23 @@ namespace Carmicah
 			if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
 		}
-
-		for (auto& entity : mEntitiesSet)
+		// Add new Data
+		if (mEntityBufferLoc.size() != mEntitiesSet.size())
 		{
-			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
+			for (auto& entity : mEntitiesSet)
+			{
+				auto& e{ mEntityBufferLoc.find(entity) };
+				if (e != mEntityBufferLoc.end())
+					continue;
+				EntityData ed{};
+				ed.posInMemory = mEntityBufferIDTrack++;
 
-			// Get Components
-			Renderer& renderer = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
-			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(renderer.model) };
-
-			// Set Uniforms
-			GLint uniformLoc{};
-			if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, transform.worldSpace.m);
-
-			//if (UniformExists(mCurrShader, "uTex2d", uniformLoc)) // Only if multiple textures
-			//	glUniform1i(uniformLoc, 0);
-
-			if (UniformExists(mCurrShader, "uDepth", uniformLoc))
-				glUniform1f(uniformLoc, CalcDepth(transform.depth, RENDER_LAYERS::BASE_LAYER));
-
-			if (UniformExists(mCurrShader, "uID", uniformLoc))
-				glUniform1ui(uniformLoc, entity);
-
-			// Error Checking if texture no exists
-			auto& tryTex = AssetManager::GetInstance()->GetAsset<Texture>(renderer.texture);
-
-			if (UniformExists(mCurrShader, "uAnimationMult", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, tryTex.mtx.m);
-			glBindTextureUnit(0, tryTex.t);
-
-			RenderPrimitive(p);
+				EditBatchData(entity, ed.posInMemory);
+				mEntityBufferLoc.emplace(entity, ed);
+			}
 		}
+
+		BatchRender();
 
 		glBindTextureUnit(0, 0);
 		glBindVertexArray(0);

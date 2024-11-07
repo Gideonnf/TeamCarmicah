@@ -15,12 +15,15 @@ DigiPen Institute of Technology is prohibited.
 #define BASE_GRAPHICS_SYSTEM
 
 #include "Systems/AssetTypes.h"
+#include "Math/Vec2.h"
 
 namespace Carmicah
 {
 	class BaseGraphicsSystem
 	{
 	protected:
+#pragma region Structs
+		// Rendering layers
 		enum RENDER_LAYERS
 		{
 			BASE_LAYER = 0,
@@ -30,8 +33,39 @@ namespace Carmicah
 			MAX_LAYERS
 		};
 
-		GLuint mCurrShader{};
-		float mFurtherstDepth{ -100.f }, mNearestDepth{ 100.f };
+		// Batch Rendering details
+		struct DrawElemCmd
+		{
+			GLuint vtxCnt{}, instanceCnt{}, firstIdx{}, baseVtx{}, baseInstance{};
+		};
+
+		struct vtxTexd2D
+		{
+			Vec2f pos{};
+			Vec2f uv{};
+			float depth{};
+			unsigned int ids[2]{ };// Entity id,  Tex id
+		};
+
+		struct vtx2D
+		{
+			Vec2f pos{};
+			float depth{};
+		};
+
+		struct EntityData
+		{
+			bool isActive{};
+			unsigned int posInMemory{};
+		};
+#pragma endregion
+
+		GLuint mCurrShader{}, mBatchSize{}, mEntityBufferIDTrack{};
+		float mFurtherstDepth{}, mNearestDepth{};
+		std::vector<BatchBuffer> mBufferData{};
+		std::map<unsigned int, EntityData> mEntityBufferLoc{};
+
+		virtual void Init(bool isDebug = false);
 
 		/*
 		brief
@@ -49,7 +83,13 @@ namespace Carmicah
 
 		float CalcDepth(const float& depth, const RENDER_LAYERS& layer);
 
-		void RenderPrimitive(const Primitive& p);
+		void GenBatch(const Primitive& p, bool hasTex);
+
+		void EditBatchData(const unsigned int& entity, const unsigned int& pos);
+
+		void BatchRender();
+
+		//void RenderPrimitive(const Primitive& p);
 	};
 }
 #endif

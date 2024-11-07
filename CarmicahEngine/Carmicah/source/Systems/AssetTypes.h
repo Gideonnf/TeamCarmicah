@@ -27,24 +27,41 @@ namespace Carmicah
 {
 	struct Primitive
 	{
-		GLuint vaoid{};
-		GLuint vboid{};
+		std::vector<Vec2f> vtx;
+		std::vector<Vec2f> texCoord;
+		std::vector<GLushort> idx;
 		GLenum drawMode{};
 		GLuint drawCnt{};
+	};
+	struct DebugPrimitive
+	{
+		std::vector<Vec2f> vtx;
+		GLenum drawMode{};
+		GLuint drawCnt{};
+	};
+	struct BatchBuffer
+	{
+		GLuint vao{}, vbo{}, ebo{}, ibo{};
+		const Primitive* pRef;
 	};
 	struct Shader
 	{
 		GLuint s;
 	};
-	struct ImageTexture
-	{
-		GLuint t;
-	};
+	//struct ImageTexture
+	//{
+	//	GLuint t;
+	//};
 	struct AnimAtlas
 	{
 		std::vector<std::pair<float, std::string>> anim;// MaxTime, TextureName
 	};
 	struct Texture
+	{
+		GLuint t;
+		Mtx3x3f mtx;
+	};
+	struct FontTexture
 	{
 		GLuint t;
 		Mtx3x3f mtx;
@@ -81,12 +98,12 @@ namespace Carmicah
 	};
 	struct EngineConfig
 	{
-		int Width, Height, fontSize;
-		std::string defaultScene;
-		std::string lastScene;
-		std::string defaultShader;
-		std::string fontShader;
-		std::string assetLoc;
+		int Width{}, Height{}, fontSize{}, maxNumTextures{}, batchRenderSize{};
+		float maxImgDepth{}, minImgDepth{};
+		std::string defaultScene{};
+		std::string lastScene{};
+		std::string defaultShader{};
+		std::string assetLoc{};
 	};
 }
 

@@ -33,8 +33,7 @@ namespace Carmicah
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<RigidbodyRendererSystem>(mSignature);
-		auto& shdrRef = AssetManager::GetInstance()->GetAsset<Shader>("debug");
-		mCurrShader = shdrRef.s;
+		BaseGraphicsSystem::Init(true);
 	}
 
 	void RigidbodyRendererSystem::Render(Entity& cam)
@@ -81,7 +80,7 @@ namespace Carmicah
 			if (UniformExists(mCurrShader, "uDepth", uniformLoc))
 				glUniform1f(uniformLoc, CalcDepth(transform.depth, RENDER_LAYERS::DEBUG_LAYER));
 
-			RenderPrimitive(p);
+			//RenderPrimitive(p);
 		}
 
 		glBindVertexArray(0);

@@ -1,16 +1,19 @@
 #version 460 core
 
-layout (location=0) in vec2 vTexCoord;
+layout (location=0)		in vec2				vTexCoord;
+layout (location=1)		flat in uvec2		vID;
 
-layout (location=0) out vec4 fFragColor; // location 0 is default GL_BACK_LEFT color buffer
-layout (location=1) out unsigned int fGID;
+layout (location=0)		out vec4			fFragColor; // location 0 is default GL_BACK_LEFT color buffer
+layout (location=1)		out unsigned int	fGID;
 
-uniform sampler2D		uTex2d;
-uniform unsigned int	uID;
+layout (binding = 0) uniform sampler2DArray 	uTex;
 
 void main(void){
-	fFragColor = texture(uTex2d, vTexCoord);
-	if(fFragColor.a < 0.00001)
+	fFragColor = texture(uTex, vec3(vTexCoord.xy, vID.y) );
+
+	// Simple backup Blend test
+	if(fFragColor.a < 0.000001)
 		discard;
-	fGID = uID;
+
+	fGID = vID.x;
 }

@@ -30,8 +30,7 @@ namespace Carmicah
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Collider2D>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<ColliderRenderSystem>(mSignature);
-		auto shdrRef = AssetManager::GetInstance()->GetAsset<Shader>("debug");
-		mCurrShader = shdrRef.s;
+		BaseGraphicsSystem::Init(true);
 	}
 
 	void ColliderRenderSystem::Render(Entity& cam)
@@ -69,7 +68,7 @@ namespace Carmicah
 				glUniform1f(uniformLoc, CalcDepth(mNearestDepth, RENDER_LAYERS::DEBUG_LAYER));
 
 
-			RenderPrimitive(p);
+			//RenderPrimitive(p);
 		}
 
 		glBindVertexArray(0);

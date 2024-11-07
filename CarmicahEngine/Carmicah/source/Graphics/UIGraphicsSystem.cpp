@@ -43,9 +43,9 @@ namespace Carmicah
 
 	void UIGraphicsSystem::Render()
 	{
-		glUseProgram(mCurrShader);
 		if (mCurrShader == 0)
 			return;
+		glUseProgram(mCurrShader);
 
 		{
 			Mtx3x3f identityMtx{};
@@ -83,7 +83,7 @@ namespace Carmicah
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, tryTex.mtx.m);
 			glBindTextureUnit(0, tryTex.t);
 
-			RenderPrimitive(p);
+			//RenderPrimitive(p);
 		}
 
 		glBindTextureUnit(0, 0);

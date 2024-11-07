@@ -33,8 +33,7 @@ namespace Carmicah
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<TextSystem>(mSignature);
 
-		auto& shdrRef = AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.fontShader);
-		mCurrShader = shdrRef.s;
+		BaseGraphicsSystem::Init();
 	}
 
 	void TextSystem::Render(GLuint canvasWidth, GLuint canvasHeight)
@@ -94,7 +93,7 @@ namespace Carmicah
 				if (UniformExists(mCurrShader, "uTexMulti", uniformLoc))
 					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, t.mtx.m);
 
-				RenderPrimitive(p);
+				//RenderPrimitive(p);
 
 				// now advance cursors for next glyph (note that advance is number of 1/64 pixels)
 				xTrack += (ch.advance >> 7) * UITrans.scale.x * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
