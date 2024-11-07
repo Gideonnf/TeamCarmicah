@@ -105,16 +105,30 @@ namespace Carmicah
 					name = entry.first + "##texture";
 					if (ImGui::Button(name.c_str()))
 					{
-						Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
-						for (const auto& textureEntry : textureMap->mAssetMap)
+						if(HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Renderer>())
 						{
-							if (entry.second == textureEntry.second)
+							Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
+							for (const auto& textureEntry : textureMap->mAssetMap)
 							{
-								render.texture = textureEntry.first;
+								if (entry.second == textureEntry.second)
+								{
+									render.texture = textureEntry.first;
+								}
 							}
 						}
-
 					}
+
+					if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+					{
+						ImGui::SetDragDropPayload("TEXTURE_PAYLOAD", &entry.first, sizeof(entry.first));
+						ImVec2 dragSize(50, 50);
+						GLuint dragID = textureMap->mAssetList[entry.second].t;
+						ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(dragID)), dragSize);
+						ImGui::Text("Dragging %s", entry.first.c_str());
+
+						ImGui::EndDragDropSource();
+					}
+
 					if (ImGui::IsItemHovered())
 					{
 						ImGui::BeginTooltip();
@@ -137,7 +151,7 @@ namespace Carmicah
 					name = entry.first + "##font";
 					if (ImGui::Button(name.c_str()))
 					{
-						if(HierarchyWindow::selectedGO->HasComponent<TextRenderer>())
+						if(HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<TextRenderer>())
 						{
 							TextRenderer& text = HierarchyWindow::selectedGO->GetComponent<TextRenderer>();
 							text.font = entry.first;

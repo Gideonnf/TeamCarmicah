@@ -896,6 +896,16 @@ namespace Carmicah
 					ImGui::Text("Texture");
 					ImGui::TableNextColumn();
 					ImGui::Text("%s", render.texture.c_str());
+					if (ImGui::BeginDragDropTarget())
+					{
+						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TEXTURE_PAYLOAD"))
+						{
+							std::string textureName = *(const std::string*)payload->Data;
+							render.texture = textureName;
+						}
+
+						ImGui::EndDragDropTarget();
+					}
 					ImGui::SameLine();
 					if (ImGui::Button("v##."))
 					{
