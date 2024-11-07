@@ -136,6 +136,7 @@ namespace Carmicah
         CarmicahTime::GetInstance()->InitGPUProfiling();
 
         glViewport(0, 0, (GLsizei)Width, (GLsizei)Height);
+        REGISTER_COMPONENT(Button);
         REGISTER_COMPONENT(Script);
         REGISTER_COMPONENT(Transform);
         REGISTER_COMPONENT(Collider2D);
@@ -386,6 +387,9 @@ namespace Carmicah
                 txtSystem->Render((GLuint)Width, (GLuint)Height);
                 CarmicahTime::GetInstance()->StopSystemTimer("RenderingSystems");
                 //SceneToImgui::GetInstance()->IDPick();
+
+                // I WILL UPDAAATEEE BUTTONSYSTEM HERE OKKKKAAYYYY, PLS DONT CRASH CRYING EMOJI
+				butSystem->Update();
                 
                 SceneToImgui::GetInstance()->UnbindFramebuffer();
                // glfwMakeContextCurrent(window);

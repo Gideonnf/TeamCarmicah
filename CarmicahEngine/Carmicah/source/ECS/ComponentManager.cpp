@@ -159,6 +159,12 @@ namespace Carmicah
 			component = componentData;
 
 		}
+		else if (componentName == typeid(Button).name())
+		{
+			Button componentData{}; // Default initialize
+			componentData.DeserializeComponent(val);
+			component = componentData;
+		}
 		else
 		{
 			// incase someone added a component and forgot to write here
