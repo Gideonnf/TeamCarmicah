@@ -166,6 +166,7 @@ namespace Carmicah
         uigSystem->Init(Width, Height);
         txtSystem->Init();
         aniSystem->Init();
+        butSystem->Init();
         crsSystem->Init();
         phySystem->Init();
         colSystem->Init(); // Set the signature
@@ -366,6 +367,7 @@ namespace Carmicah
         editorSys->Exit();
         souSystem->Exit();
         colSystem->Exit();
+		butSystem->Exit();
         Serializer.WriteConfig();
 
         glfwTerminate();

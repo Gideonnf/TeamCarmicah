@@ -28,8 +28,8 @@ namespace Carmicah
 {
 	class ButtonSystem : public BaseSystem
 	{
-	private:
-		std::unordered_map<std::string, std::any> buttons; // container for all button components managed by this system
+	//private:
+	//	std::unordered_map<std::string, std::any> buttons; // container for all button components managed by this system
 
 	public:
 		// running the button system
@@ -40,10 +40,9 @@ namespace Carmicah
 		// button functions
 		void OnPress(std::string name);
 		void OnRelease(std::string name);
-		void AddButton(std::string name, std::any button);
-		void RemoveButton(std::string name);
-		//void OnHover(std::string name);
 
+		#pragma region Potential Button Functions
+		//void OnHover(std::string name);
 		//void OnUnhover(std::string name);
 		//void OnClick(std::string name);
 		//void OnDoubleClick(std::string name);
@@ -86,6 +85,7 @@ namespace Carmicah
 		//void OnRightHover(std::string name);
 		//void OnMiddleHover(std::string name);
 		//void OnRightUnhover(std::string name);
+		#pragma endregion
 	};
 }
 
