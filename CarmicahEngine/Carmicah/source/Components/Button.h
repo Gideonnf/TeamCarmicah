@@ -34,36 +34,31 @@ namespace Carmicah
 {
     struct Button : BaseComponent<Button>
     {
-		std::string ButtonOG;   // stores the name of the original texture
-		std::string ButtonPress;    // stores the name of the new image when its pressed
+		std::string ButtonImage;   // stores the name of the original texture
+		std::string ButtonImagePressed;    // stores the name of the new image when its pressed
         bool isPressed{ false }; // track if button is currently pressed
-        Vec2d position;  // New member for position
-        Vec2d size;      // New member for size
 
         Button& DeserializeComponent(const rapidjson::Value& component) override
         {
-            ButtonOG = component["ButtonOG"].GetString();
-            ButtonPress = component["ButtonPress"].GetString();
-			isPressed = false; // start as unpressed
+            ButtonImage = component["ButtonImage"].GetString();
+            ButtonImagePressed = component["ButtonImagePressed"].GetString();
+			//isPressed = false; // start as unpressed
 
             // Deserialize position and size from JSON
-            position.x = component["xPos"].GetFloat();
-            position.y = component["yPos"].GetFloat();
-            size.x = component["xScale"].GetFloat();
-            size.y = component["yScale"].GetFloat();
+
             return *this;
         }
 
         void SerializeComponent(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer) override
         {
-            writer.String("ButtonOG");
-            writer.String(ButtonOG.c_str());
-            writer.String("ButtonPress");
-            writer.String(ButtonPress.c_str());
+            writer.String("ButtonImage");
+            writer.String(ButtonImage.c_str());
+            writer.String("ButtonImagePressed");
+            writer.String(ButtonImagePressed.c_str());
         }
 
-        Vec2d GetPosition() const { return position; }
-        Vec2d GetSize() const { return size; }
+        //Vec2d GetPosition() const { return position; }
+        //Vec2d GetSize() const { return size; }
     };
 }
 

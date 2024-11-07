@@ -256,6 +256,10 @@ namespace Carmicah
 		{
 			obj.AddComponent(std::any_cast<Script>(componentData));
 		}
+		else if (componentName == typeid(Button).name())
+		{
+			obj.AddComponent(std::any_cast<Button>(componentData));
+		}
 		else
 		{
 			// incase someone added a component and forgot to write here

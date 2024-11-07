@@ -37,20 +37,29 @@ namespace Carmicah
 		{
 			// retrieve the Button component for the entity
 			auto& button = componentManager->GetComponent<Button>(entity);
+			auto& buttonRenderer = componentManager->GetComponent<Renderer>(entity);
+			if (Input.IsKeyHold(Keys::KEY_B))
+			{
+				buttonRenderer.texture = button.ButtonImagePressed;
+			}
+			else
+			{
+				buttonRenderer.texture = button.ButtonImage;
+			}
 
 			// check if mouse is over button	
-			bool isMouseOverButton = Input.IsMouseOver(button.GetPosition(), button.GetSize());
-			bool isMousePressed = Input.IsMousePressed(MOUSE_BUTTON_LEFT);
-			bool isMouseReleased = Input.IsMouseReleased(MOUSE_BUTTON_LEFT);
+			//bool isMouseOverButton = Input.IsMouseOver(button.GetPosition(), button.GetSize());
+			//bool isMousePressed = Input.IsMousePressed(MOUSE_BUTTON_LEFT);
+			//bool isMouseReleased = Input.IsMouseReleased(MOUSE_BUTTON_LEFT);
 
-			if (isMouseOverButton && isMousePressed && !button.isPressed)
-			{
-				OnPress(button.ButtonOG);  // pass the button name or identifier
-			}
-			else if (isMouseOverButton && isMouseReleased && button.isPressed)
-			{
-				OnRelease(button.ButtonOG);
-			}
+			//if (isMouseOverButton && isMousePressed && !button.isPressed)
+			//{
+			//	OnPress(button.ButtonOG);  // pass the button name or identifier
+			//}
+			//else if (isMouseOverButton && isMouseReleased && button.isPressed)
+			//{
+			//	OnRelease(button.ButtonOG);
+			//}
 		}
 	}
 
@@ -64,37 +73,37 @@ namespace Carmicah
 	// and then handles the logic for when the button is pressed
 	void ButtonSystem::OnPress(std::string name)
 	{
-		auto* componentManager = ComponentManager::GetInstance();
+		//auto* componentManager = ComponentManager::GetInstance();
 
-		for (const auto& entity : mEntitiesSet)
-		{
-			auto& button = componentManager->GetComponent<Button>(entity);
-			if (button.ButtonOG == name)
-			{
-				button.isPressed = true;
-				std::cout << "button pressed" << std::endl;
-				//button.SetTexture(button.ButtonPress); // need to create the SetTexture function
-				//std::cout << "Button " << name << " pressed" << std::endl;
-			}
-		}
+		//for (const auto& entity : mEntitiesSet)
+		//{
+		//	auto& button = componentManager->GetComponent<Button>(entity);
+		//	if (button.ButtonOG == name)
+		//	{
+		//		button.isPressed = true;
+		//		std::cout << "button pressed" << std::endl;
+		//		//button.SetTexture(button.ButtonPress); // need to create the SetTexture function
+		//		////std::cout << "Button " << name << " pressed" << std::endl;
+		//	}
+		//}
 	}
 
 	// call this function when button is released
 	void ButtonSystem::OnRelease(std::string name)
 	{
-		auto* componentManager = ComponentManager::GetInstance();
+		//auto* componentManager = ComponentManager::GetInstance();
 
-		for (const auto& entity : mEntitiesSet)
-		{
-			auto& button = componentManager->GetComponent<Button>(entity);
-			if (button.ButtonOG == name)
-			{
-				button.isPressed = false;
-				std::cout << "button released" << std::endl;
-				//button.SetTexture(button.ButtonOG); // need to create the SetTexture function
-				//std::cout << "Button " << name << " released" << std::endl;
-			}
-		}
+		//for (const auto& entity : mEntitiesSet)
+		//{
+		//	auto& button = componentManager->GetComponent<Button>(entity);
+		//	if (button.ButtonOG == name)
+		//	{
+		//		button.isPressed = false;
+		//		std::cout << "button released" << std::endl;
+		//		//button.SetTexture(button.ButtonOG); // need to create the SetTexture function
+		//		//std::cout << "Button " << name << " released" << std::endl;
+		//	}
+		//}
 	}
 
 }
