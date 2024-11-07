@@ -20,7 +20,9 @@ DigiPen Institute of Technology is prohibited.
 #include <GLFW/glfw3.h>
 #include <ImGUI/imgui.h>
 #include "EditorWindow.h"
+#include "Editor.h"
 #include "log.h"
+#include "../ECS/BaseSystem.h"
 
 namespace Carmicah
 {
@@ -30,6 +32,10 @@ namespace Carmicah
 
 
 	public:
+
+		static bool mIsPlaying;
+		static bool mChangeState;
+
 		/**
 		 * @brief Construct a new Scene Window object
 		 * 
