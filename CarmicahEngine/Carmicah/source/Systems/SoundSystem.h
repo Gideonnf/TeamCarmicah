@@ -65,6 +65,8 @@ namespace Carmicah
         void PauseResumeSound(const std::string& soundName, SoundChannel channel);
         void PauseResumeChannel(SoundChannel channel);
 
+        void ReceiveMessage(Message* msg) override;
+
         const char* defaultBGM{ "bouken" };
         const char* buttonBGM{ "buttonclick" };
     };

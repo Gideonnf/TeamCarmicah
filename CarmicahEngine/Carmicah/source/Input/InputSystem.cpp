@@ -101,6 +101,9 @@ namespace Carmicah
 			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(mousePosI.x, mousePosI.y));
 
 			Input.ProxySend(&msg);
+
+			PlaySFXMsg msg("sound file here");
+			Input.SendSysMessage(&msg);
 			//}
 
 		}
@@ -182,6 +185,7 @@ namespace Carmicah
 		{
 			CM_CORE_ERROR("Error: Input system not initalized.");
 		}
+
 
 	}
 
