@@ -1,11 +1,11 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:        PhysicsSystem.h
+ file:        ForcesManager.h
 
  author:	   Lee Yong Yee(100%)
 
  email:        l.yongyee@digipen.edu
 
- brief:        Contains the Class declaration of the Physics System as well its public functions
+ brief:        Contains the struct declaration for each type of force and the class declaration of the forces manager as well its public functions
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
@@ -19,9 +19,10 @@ DigiPen Institute of Technology is prohibited.
 #include <vector>
 
 
-//berif:         This class is a system that handles the physics of all the game objects
+
 namespace Carmicah
 {
+    //brief:         This struct contains the properties of linear forces that will applied for each dynamic and kinematic object
     struct LinearDirectionalForce
     {
         Vector2D<float> unitDirection; //What direction object is going in
@@ -41,6 +42,7 @@ namespace Carmicah
 
     };
 
+    //brief:         This struct contains the properties of drag forces for each dynamic and kinematic object
     struct DragForce 
     {
         float directionalDrag;
@@ -55,6 +57,7 @@ namespace Carmicah
 
     };
 
+    //brief:         This class is a manager that handles the forces of each game object
 	class ForcesManager
 	{
         std::vector<LinearDirectionalForce> linearForces;
@@ -84,7 +87,6 @@ namespace Carmicah
         Vector2D<float> GetSumForces() const;
 
         Vector2D<float> SetSumForces(Vector2D<float> value);
-		//void ApplyForces(Entity& obj, Vector2D<float>& velocity);
 	};
 }
 

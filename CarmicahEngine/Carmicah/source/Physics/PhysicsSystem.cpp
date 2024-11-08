@@ -26,8 +26,6 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	//const float FIXED_DELTA_TIME = 0.01667f; // Fixed time step for 60 FPS
-
 	/**
 	 * @brief Updates the previous position (both x and y) of an object based on its current transform.
 	 *
@@ -66,7 +64,7 @@ namespace Carmicah
 
 		//float deltaTime = (float)CarmicahTimer::GetDt();
 
-		double deltaTime = CarmicahTime::GetInstance()->GetDeltaTime();
+		float deltaTime = (float)CarmicahTime::GetInstance()->GetDeltaTime();
 
 		rigidbody.forcesManager.SetCurrentVelocity(rigidbody.velocity);
 
@@ -94,25 +92,6 @@ namespace Carmicah
 			rigidbody.velocity.y = rigidbody.velocity.y + rigidbody.acceleration.y * deltaTime;
 
 
-			//transform.rot += 5.0f + rigidbody.angularVelocity * deltaTime;
-
-			//// Update rotation direction based on velocity
-			//if (rigidbody.velocity.x > 0)
-			//{
-			//	transform.rot += 50.0f * deltaTime; // Optional additional rotation logic
-			//	if (transform.rot > 360.0f)
-			//	{
-			//		transform.rot -= 360.0f;
-			//	}
-			//}
-			//else
-			//{
-			//	transform.rot -= 50.0f * deltaTime; // Optional additional rotation logic
-			//	if (transform.rot < -360.0f)
-			//	{
-			//		transform.rot += 360.0f;
-			//	}
-			//}
 
 		}
 
@@ -152,19 +131,6 @@ namespace Carmicah
 
 		}
 
-		//static float accumulatedTime = 0.0f;
-		//float deltaTime = (float)CarmicahTimer::GetDt(); // Get the actual elapsed time
-		//accumulatedTime += deltaTime;
-
-		//while (accumulatedTime >= CarmicahTime::GetInstance()->GetDeltaTime())
-		//{
-		//	for (auto entity : mEntitiesSet)
-		//	{
-		//		UpdatePosition(entity);
-		//		Integrate(entity); // Use fixed delta time
-		//	}
-		//	accumulatedTime -= FIXED_DELTA_TIME; // Decrease accumulated time
-		//}
 	}
 
 	/**

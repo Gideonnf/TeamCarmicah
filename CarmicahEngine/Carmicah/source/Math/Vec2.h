@@ -24,7 +24,7 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	const float PI = 3.14159265358979323846;
+	const float PI = 3.14159265358979323846f;
 
 	template<typename T> class Vector2D
 	{
