@@ -52,6 +52,23 @@ namespace Carmicah
 		if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
 			glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, screenMtx.m);
 		
+		if (mEntitiesSet.size() < mEntityBufferLoc.size())
+		{
+			for (auto& entity : mEntityBufferLoc)
+			{
+				auto e{ mEntitiesSet.find(entity.first) };
+				if (e != mEntitiesSet.end())
+					continue;
+				entity.second.isActive = false;
+				std::vector<vtx2D> temp;
+				temp.resize(6);
+
+				glNamedBufferSubData(mBufferData[0].vbo, sizeof(vtx2D) * 6 * entity.second.posInMemory, sizeof(vtx2D) * 6, temp.data());
+				mEntityBufferLoc.erase(entity.first);
+				break;
+			}
+		}
+
 
 		for (auto& entity : mEntityBufferLoc)
 		{
@@ -69,18 +86,20 @@ namespace Carmicah
 		// Add new Data
 		if (mEntityBufferLoc.size() != mEntitiesSet.size())
 		{
-			for (auto& entity : mEntitiesSet)
-			{
-				auto e{ mEntityBufferLoc.find(entity) };
-				if (e != mEntityBufferLoc.end())
-					continue;
-				EntityData ed{};
-				ed.isActive = true;
-				ed.posInMemory = mEntityBufferIDTrack++;
 
-				EditBatchData(entity, ed.posInMemory, false, UI_LAYER);
-				mEntityBufferLoc.emplace(entity, ed);
-			}
+				for (auto& entity : mEntitiesSet)
+				{
+					auto e{ mEntityBufferLoc.find(entity) };
+					if (e != mEntityBufferLoc.end())
+						continue;
+					EntityData ed{};
+					ed.isActive = true;
+					ed.posInMemory = mEntityBufferIDTrack++;
+
+					EditBatchData(entity, ed.posInMemory, false, UI_LAYER);
+					mEntityBufferLoc.emplace(entity, ed);
+				}
+
 		}
 
 		BatchRender();

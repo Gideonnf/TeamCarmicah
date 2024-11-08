@@ -52,6 +52,24 @@ namespace Carmicah
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
 		}
 
+		if (mEntitiesSet.size() < mEntityBufferLoc.size())
+		{
+			for (auto& entity : mEntityBufferLoc)
+			{
+				auto e{ mEntitiesSet.find(entity.first) };
+				if (e != mEntitiesSet.end())
+					continue;
+				entity.second.isActive = false;
+				std::vector<vtx2D> temp;
+				temp.resize(4);
+
+				glNamedBufferSubData(mBufferData[0].vbo, sizeof(vtx2D) * 4 * entity.second.posInMemory, sizeof(vtx2D) * 4, temp.data());
+				mEntityBufferLoc.erase(entity.first);
+				break;
+			}
+		}
+
+
 		for (auto& entity : mEntityBufferLoc)
 		{
 			if (!entity.second.isActive)
@@ -70,6 +88,7 @@ namespace Carmicah
 		// Add new Data
 		if (mEntityBufferLoc.size() != mEntitiesSet.size())
 		{
+
 			for (auto& entity : mEntitiesSet)
 			{
 				auto e{ mEntityBufferLoc.find(entity) };
