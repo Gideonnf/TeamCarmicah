@@ -172,6 +172,11 @@ namespace Carmicah
 
 	void BaseGraphicsSystem::EditBatchData(const unsigned int& entity, const unsigned int& pos, bool worldSpace, RENDER_LAYERS layer)
 	{
+		if (!ComponentManager::GetInstance()->HasComponent<Renderer>(entity))
+		{
+			DeleteBatchData(entity, pos, false, 4);
+			return;
+		}
 		auto& renderer = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
 		auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(renderer.model) };
 		auto& tryTex = AssetManager::GetInstance()->GetAsset<Texture>(renderer.texture);
@@ -211,6 +216,12 @@ namespace Carmicah
 
 	void BaseGraphicsSystem::EditDebugBatchData(const unsigned int& entity, const unsigned int& pos, const BasePrimitive& primitive, Mtx3x3f& mtx, bool worldSpace, RENDER_LAYERS layer)
 	{
+		if (!ComponentManager::GetInstance()->HasComponent<Renderer>(entity))
+		{
+			DeleteBatchData(entity, pos, true, primitive.drawCnt);
+			return;
+		}
+
 		float depth{};
 		Mtx3x3f wSpace{};
 		if (worldSpace)
@@ -237,6 +248,25 @@ namespace Carmicah
 
 		glNamedBufferSubData(mBufferData[0].vbo, sizeof(vtx2D) * primitive.drawCnt * pos, sizeof(vtx2D) * primitive.drawCnt, temp.data());
 
+	}
+
+	void BaseGraphicsSystem::DeleteBatchData(const unsigned int& entity, const unsigned int& pos, bool isDebug, int vtxSize)
+	{
+		mEntityBufferLoc.find(entity)->second.isActive = false;
+		if (!isDebug)
+		{
+			std::vector<vtxTexd2D> temp;
+			temp.resize(vtxSize);
+
+			glNamedBufferSubData(mBufferData[0].vbo, sizeof(vtxTexd2D) * vtxSize * pos, sizeof(vtxTexd2D) * vtxSize, temp.data());
+		}
+		else
+		{
+			std::vector<vtx2D> temp;
+			temp.resize(vtxSize);
+
+			glNamedBufferSubData(mBufferData[0].vbo, sizeof(vtx2D) * vtxSize * pos, sizeof(vtxTexd2D) * vtxSize, temp.data());
+		}
 	}
 
 	void BaseGraphicsSystem::BatchRender()

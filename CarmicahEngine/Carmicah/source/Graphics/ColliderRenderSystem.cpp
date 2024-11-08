@@ -36,6 +36,15 @@ namespace Carmicah
 		GenDebugBatch(*primitive);
 	}
 
+	void ColliderRenderSystem::EntityDestroyed(Entity id)
+	{
+		auto test = mEntityBufferLoc.find(id);
+		if (test != mEntityBufferLoc.end())
+			DeleteBatchData(id, test->second.posInMemory, false, 4);
+	}
+
+
+
 	void ColliderRenderSystem::Render(Entity& cam)
 	{
 		if (mCurrShader == 0)
@@ -51,24 +60,6 @@ namespace Carmicah
 			if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
 		}
-
-		if (mEntitiesSet.size() < mEntityBufferLoc.size())
-		{
-			for (auto& entity : mEntityBufferLoc)
-			{
-				auto e{ mEntitiesSet.find(entity.first) };
-				if (e != mEntitiesSet.end())
-					continue;
-				entity.second.isActive = false;
-				std::vector<vtx2D> temp;
-				temp.resize(4);
-
-				glNamedBufferSubData(mBufferData[0].vbo, sizeof(vtx2D) * 4 * entity.second.posInMemory, sizeof(vtx2D) * 4, temp.data());
-				mEntityBufferLoc.erase(entity.first);
-				break;
-			}
-		}
-
 
 		for (auto& entity : mEntityBufferLoc)
 		{
