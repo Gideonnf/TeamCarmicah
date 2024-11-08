@@ -36,11 +36,11 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Count_Count 5"
+                    "texture": "Count_Count 4"
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "timeBetween": 0.8508535027503967,
+                    "timeBetween": 0.8829825520515442,
                     "Atlas": "Count"
                 }
             ],
@@ -124,7 +124,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Idle 8"
+                    "texture": "MC_SpriteSheet_Idle 5"
                 },
                 {
                     "Component Name": "struct Script",
@@ -148,7 +148,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "timeBetween": 0.1835351139307022,
+                    "timeBetween": 0.03307820111513138,
                     "Atlas": "MC_Idle"
                 }
             ],
@@ -370,21 +370,21 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "Bullet",
-                    "ButtonImagePressed": "Bullet2"
+                    "ButtonImage": "settingButton",
+                    "ButtonImagePressed": "backButton"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Bullet"
+                    "texture": "settingButton"
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 1787.300048828125,
-                    "yPos": 950.0,
+                    "yPos": 1010.0,
                     "depth": 1.0,
-                    "xScale": 200.0,
-                    "yScale": 200.0
+                    "xScale": 800.0,
+                    "yScale": 600.0
                 }
             ]
         },
