@@ -38,6 +38,7 @@ namespace Carmicah
 
 	void SceneWindow::Update()
 	{
+        
 		if (ImGui::Begin(mTitle))
 		{
 			if (!mIsPlaying)
@@ -73,7 +74,8 @@ namespace Carmicah
                 ImVec2(0, 1),
                 ImVec2(1, 0)
             );
-
+            
+            SceneToImgui::GetInstance()->IsHovering = ImGui::IsWindowHovered();
             // check if the mouse is hovering over the Scene window
             if (ImGui::IsWindowHovered())
             {
@@ -98,7 +100,7 @@ namespace Carmicah
                     if (Input.IsDragging())
                     {
                         Input.SetDragCurrentPos({ scaledX, scaledY });
-                        std::cout << "Dragging in Scene to: (" << scaledX << ", " << scaledY << ")" << std::endl;
+                       // std::cout << "Dragging in Scene to: (" << scaledX << ", " << scaledY << ")" << std::endl;
                     }
                 }
             }

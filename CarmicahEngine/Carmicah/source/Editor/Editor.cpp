@@ -19,7 +19,7 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui_impl_opengl3.h>
 #include <ImGUI/imgui_internal.h>
 #include "../Input/InputSystem.h"
-
+#include "../Systems/GOFactory.h"
 
 namespace Carmicah
 {
@@ -100,7 +100,7 @@ namespace Carmicah
 				ImGuiID dockLeft = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Left, 0.25f, nullptr, &dockMain);
 				ImGuiID dockRight = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Right, 0.25f, nullptr,&dockMain);
 				// Dock your windows into the split areas
-				ImGui::DockBuilderDockWindow("Asset", dockBottom);
+				ImGui::DockBuilderDockWindow("Asset Browser", dockBottom);
 				ImGui::DockBuilderDockWindow("Debug", dockBottom);
 				ImGui::DockBuilderDockWindow("Scene", dockMain);
 				ImGui::DockBuilderDockWindow("Inspector", dockRight);
@@ -198,6 +198,15 @@ namespace Carmicah
 		for (auto& window : mWindows)
 		{
 			window->EntityDestroyed(id);
+		}
+	}
+
+	void Editor::ReceiveMessage(Message* msg)
+	{
+		if (msg->mMsgType == MSG_EDITORENTITY)
+		{
+			if (dynamic_cast<EditorEntityPicked*>(msg)->mEntityID != 0)
+				HierarchyWindow::selectedGO = &gGOFactory->FetchGO(dynamic_cast<EditorEntityPicked*>(msg)->mEntityID);
 		}
 	}
 }

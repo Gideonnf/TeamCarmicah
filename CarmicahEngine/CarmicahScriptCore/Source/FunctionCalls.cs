@@ -31,5 +31,9 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Transform_SetPosition(uint entityID, ref Vector2 position);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static uint Entity_FindEntityWithName(string name);
+
     }
 }

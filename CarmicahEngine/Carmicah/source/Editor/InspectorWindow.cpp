@@ -1,8 +1,8 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  file:			InspectorWindow.cpp
 
- author:		Nicholas Lai (100%)
- co-author(s):
+ author:		Nicholas Lai (70%)
+ co-author(s):	Micah Lim (30%)
 
  email:			n.lai@digipen.edu
 
@@ -60,10 +60,10 @@ namespace Carmicah
 		{
 			componentsToAdd.push_back("UITransform");
 		}
-		/*if (!go->HasComponent<Animation>())
+		if (!go->HasComponent<Animation>())
 		{
 			componentsToAdd.push_back("Animation");
-		}*/
+		}
 		if (!go->HasComponent<RigidBody>())
 		{
 			componentsToAdd.push_back("RigidBody");
@@ -72,15 +72,19 @@ namespace Carmicah
 		{
 			componentsToAdd.push_back("Collider2D");
 		}
+		if (!go->HasComponent<Button>())
+		{
+			componentsToAdd.push_back("Button");
+		}
 		if (!go->HasComponent<TextRenderer>())
 		{
 			componentsToAdd.push_back("TextRenderer");
 		}
-
 		if (!go->HasComponent<Script>())
 		{
 			componentsToAdd.push_back("Script");
 		}
+		
 
 		if (ImGui::Combo("##", &selectedIndex, componentsToAdd.data(),componentsToAdd.size()))
 		{
@@ -108,12 +112,12 @@ namespace Carmicah
 				selectedComponentToAdd = "";
 				selectedIndex = 0;
 			}
-			/*if (selectedComponentToAdd == "Animation")
+			if (selectedComponentToAdd == "Animation")
 			{
 				go->AddComponent<Animation>();
 				selectedComponentToAdd = "";
 				selectedIndex = 0;
-			}*/
+			}
 			if (selectedComponentToAdd == "RigidBody")
 			{
 				go->AddComponent<RigidBody>();
@@ -132,7 +136,12 @@ namespace Carmicah
 				selectedComponentToAdd = "";
 				selectedIndex = 0;
 			}
-
+			if (selectedComponentToAdd == "Button")
+			{
+				go->AddComponent<Button>();
+				selectedComponentToAdd = "";
+				selectedIndex = 0;
+			}
 			if (selectedComponentToAdd == "Script")
 			{
 				go->AddComponent<Script>();
@@ -182,6 +191,8 @@ namespace Carmicah
 		auto primitiveMap = assetManager->GetAssetMap<Primitive>();
 		auto textureMap = assetManager->GetAssetMap<Texture>();
 		auto fontMap = assetManager->GetAssetMap<Font>();
+		auto animMap = assetManager->GetAssetMap<AnimAtlas>();
+		auto buttonMap = assetManager->GetAssetMap<Button>();
 
 		if (go->HasComponent<Transform>())
 		{
@@ -223,11 +234,12 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					if (ImGui::DragFloat("##rot", &selectedTransform.rot, 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
 					{
-
 						// Wrap the rotation value between 0 and 360 degrees
 						selectedTransform.rot = fmodf(selectedTransform.rot, 360.0f);
 						if (selectedTransform.rot < 0.0f)
+						{
 							selectedTransform.rot += 360.0f;
+						}
 					}
 
 					// Scale (xScale, yScale)
@@ -323,7 +335,7 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("%s", render.model.c_str());
 					ImGui::SameLine();
-					if (ImGui::Button("v##"))
+					if (ImGui::Button("v"))
 					{
 						ImGui::OpenPopup("Model Select");
 					}
@@ -347,7 +359,7 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("%s", render.texture.c_str());
 					ImGui::SameLine();
-					if (ImGui::Button("v"))
+					if (ImGui::Button("v##."))
 					{
 						ImGui::OpenPopup("Texture Select");
 					}
@@ -368,20 +380,49 @@ namespace Carmicah
 				}
 			}
 		}
+		if (go->HasComponent<Animation>())
+		{
+			Animation& anim = go->GetComponent<Animation>();
+			if (ImGui::CollapsingHeader("Animation Settings", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				//InspectorWindow::RemoveComponentButton<Animation>(id);
 
-		//if (go->HasComponent<Animation>())
-		//{
-		//	InspectorWindow::RemoveComponentButton<Animation>(id);
-		//	std::string animGO = "Change Animation of " + go->GetName();
-		//	if (ImGui::Button(animGO.c_str()))
-		//	{
-		//		//go->GetComponent<Animation>().notChangedAnim = true;
-		//		go->GetComponent<Renderer>().texture = "Duck";
-		//		//gGOFactory->Destroy(selectedEntity);
-		//		//selectedGO = nullptr;
-		//	}
-		//	ImGui::NewLine();
-		//}
+				if (ImGui::BeginTable("Animation Table", 2, ImGuiTableFlags_Borders))
+				{
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Animation");
+
+					ImGui::TableNextColumn();
+					ImGui::Text("%s", anim.animAtlas.c_str());
+					ImGui::SameLine();
+					if (ImGui::Button("v##"))
+					{
+						ImGui::OpenPopup("Animation Select");
+					}
+
+					if (ImGui::BeginPopup("Animation Select"))
+					{
+						for (const auto& entry : animMap->mAssetMap)
+						{
+							if (ImGui::Button(entry.first.c_str()))
+							{
+								anim.animAtlas = entry.first;
+								ImGui::CloseCurrentPopup();
+							}
+						}
+						ImGui::EndPopup();
+					}
+
+					/*ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("MaxTime");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##MaxTime", &anim.maxTime, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");*/
+					ImGui::EndTable();
+				}
+			}
+		}
 
 		// render rigibody data
 		if (go->HasComponent<RigidBody>())
@@ -403,6 +444,12 @@ namespace Carmicah
 					ImGui::Text("Velocity Y");
 					ImGui::TableNextColumn();
 					ImGui::DragFloat("##VelocityY", &rb.velocity.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Mass");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##Mass", &rb.mass, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
@@ -436,7 +483,7 @@ namespace Carmicah
 					}
 					/*ImGui::Text("%s", text.font.c_str());*/
 					ImGui::SameLine();
-					if (ImGui::Button("v"))
+					if (ImGui::Button("v###"))
 					{
 						ImGui::OpenPopup("ObjectType");
 					}
@@ -560,7 +607,7 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("%s", text.font.c_str());
 					ImGui::SameLine();
-					if (ImGui::Button("v"))
+					if (ImGui::Button("v####"))
 					{
 						ImGui::OpenPopup("Font Select");
 					}
@@ -598,6 +645,48 @@ namespace Carmicah
 			}
 		}
 
+		if (go->HasComponent<Button>())
+		{
+			Button& butt = go->GetComponent<Button>();
+			if (ImGui::CollapsingHeader("Button Settings", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				//InspectorWindow::RemoveComponentButton<Button>(id);
+				if (ImGui::BeginTable("Button Table", 2, ImGuiTableFlags_Borders))
+				{
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Pressed Image");
+					ImGui::TableNextColumn();
+					ImGui::Text(butt.ButtonImagePressed.c_str());
+					ImGui::SameLine();
+					if (ImGui::Button("v#####"))
+					{
+						ImGui::OpenPopup("Pressed Image Select");
+					}
+					if (ImGui::BeginPopup("Pressed Image Select"))
+					{
+						for (const auto& entry : textureMap->mAssetMap)
+						{
+							if (ImGui::Button(entry.first.c_str()))
+							{
+								butt.ButtonImagePressed = entry.first;
+								ImGui::CloseCurrentPopup();
+							}
+						}
+						ImGui::EndPopup();
+					}
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("isPressed = %s", butt.isPressed ? "true" : "false");
+					ImGui::TableNextColumn();
+					if (ImGui::Button("Toggle Pressed State"))
+					{
+						butt.isPressed = !butt.isPressed;
+					}
+					ImGui::EndTable();
+				}
+			}
+		}
 		if (go->HasComponent<Script>())
 		{
 			Script& script = go->GetComponent<Script>();
@@ -640,6 +729,8 @@ namespace Carmicah
 		auto primitiveMap = assetManager->GetAssetMap<Primitive>();
 		auto textureMap = assetManager->GetAssetMap<Texture>();
 		auto fontMap = assetManager->GetAssetMap<Font>();
+		auto animMap = assetManager->GetAssetMap<AnimAtlas>();
+		auto buttonMap = assetManager->GetAssetMap<Button>();
 
 		if (go->HasComponent<Transform>())
 		{
@@ -681,11 +772,12 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					if(ImGui::DragFloat("##rot", &selectedTransform.rot, 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
 					{
-
 						// Wrap the rotation value between 0 and 360 degrees
 						selectedTransform.rot = fmodf(selectedTransform.rot, 360.0f);
 						if (selectedTransform.rot < 0.0f)
+						{
 							selectedTransform.rot += 360.0f;
+						}
 					}
 
 					// Scale (xScale, yScale)
@@ -781,7 +873,7 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("%s", render.model.c_str());
 					ImGui::SameLine();
-					if (ImGui::Button("v##"))
+					if (ImGui::Button("v"))
 					{
 						ImGui::OpenPopup("Model Select");
 					}
@@ -804,8 +896,18 @@ namespace Carmicah
 					ImGui::Text("Texture");
 					ImGui::TableNextColumn();
 					ImGui::Text("%s", render.texture.c_str());
+					if (ImGui::BeginDragDropTarget())
+					{
+						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TEXTURE_PAYLOAD"))
+						{
+							std::string textureName = *(const std::string*)payload->Data;
+							render.texture = textureName;
+						}
+
+						ImGui::EndDragDropTarget();
+					}
 					ImGui::SameLine();
-					if (ImGui::Button("v"))
+					if (ImGui::Button("v##."))
 					{
 						ImGui::OpenPopup("Texture Select");
 					}
@@ -826,19 +928,49 @@ namespace Carmicah
 				}
 			}
 		}
-		//if (go->HasComponent<Animation>())
-		//{
-		//	InspectorWindow::RemoveComponentButton<Animation>(id);
-		//	std::string animGO = "Change Animation of " + go->GetName();
-		//	if (ImGui::Button(animGO.c_str()))
-		//	{
-		//		//go->GetComponent<Animation>().notChangedAnim = true;
-		//		go->GetComponent<Renderer>().texture = "Duck";
-		//		//gGOFactory->Destroy(selectedEntity);
-		//		//selectedGO = nullptr;
-		//	}
-		//	ImGui::NewLine();
-		//}
+		if (go->HasComponent<Animation>())
+		{
+			Animation& anim = go->GetComponent<Animation>();
+			if (ImGui::CollapsingHeader("Animation Settings", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				InspectorWindow::RemoveComponentButton<Animation>(id);
+
+				if (ImGui::BeginTable("Animation Table", 2, ImGuiTableFlags_Borders))
+				{
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Animation");
+
+					ImGui::TableNextColumn();
+					ImGui::Text("%s", anim.animAtlas.c_str());
+					ImGui::SameLine();
+					if (ImGui::Button("v##"))
+					{
+						ImGui::OpenPopup("Animation Select");
+					}
+
+					if (ImGui::BeginPopup("Animation Select"))
+					{
+						for (const auto& entry : animMap->mAssetMap)
+						{
+							if (ImGui::Button(entry.first.c_str()))
+							{
+								anim.animAtlas = entry.first;
+								ImGui::CloseCurrentPopup();
+							}
+						}
+						ImGui::EndPopup();
+					}
+
+					/*ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("MaxTime");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##MaxTime", &anim.maxTime, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");*/
+					ImGui::EndTable();
+				}
+			}
+		}
 		
 		// render rigibody data
 		if (go->HasComponent<RigidBody>())
@@ -899,7 +1031,7 @@ namespace Carmicah
 					}
 					/*ImGui::Text("%s", text.font.c_str());*/
 					ImGui::SameLine();
-					if (ImGui::Button("v"))
+					if (ImGui::Button("v###"))
 					{
 						ImGui::OpenPopup("ObjectType");
 					}
@@ -1023,7 +1155,7 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("%s", text.font.c_str());
 					ImGui::SameLine();
-					if (ImGui::Button("v"))
+					if (ImGui::Button("v####"))
 					{
 						ImGui::OpenPopup("Font Select");
 					}
@@ -1061,6 +1193,48 @@ namespace Carmicah
 			}
 		}
 
+		if (go->HasComponent<Button>())
+		{
+			Button& butt = go->GetComponent<Button>();
+			if (ImGui::CollapsingHeader("Button Settings", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				InspectorWindow::RemoveComponentButton<Button>(id);
+				if (ImGui::BeginTable("Button Table", 2, ImGuiTableFlags_Borders))
+				{
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Pressed Image");
+					ImGui::TableNextColumn();
+					ImGui::Text(butt.ButtonImagePressed.c_str());
+					ImGui::SameLine();
+					if (ImGui::Button("v#####"))
+					{
+						ImGui::OpenPopup("Pressed Image Select");
+					}
+					if (ImGui::BeginPopup("Pressed Image Select"))
+					{
+						for (const auto& entry : textureMap->mAssetMap)
+						{
+							if (ImGui::Button(entry.first.c_str()))
+							{
+								butt.ButtonImagePressed = entry.first;
+								ImGui::CloseCurrentPopup();
+							}
+						}
+						ImGui::EndPopup();
+					}
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("isPressed = %s", butt.isPressed ? "true" : "false");
+					ImGui::TableNextColumn();
+					if (ImGui::Button("Toggle Pressed State"))
+					{
+						butt.isPressed = !butt.isPressed;
+					}
+					ImGui::EndTable();
+				}
+			}
+		}
 		if (go->HasComponent<Script>())
 		{
 			Script& script = go->GetComponent<Script>();
@@ -1126,17 +1300,6 @@ namespace Carmicah
 				if (ImGui::Button("Save Prefab"))
 				{
 					Serializer.SerializePrefab(*AssetWindow::selectedPrefab);
-					/*?????????????????????????
-?????????????????????????
-?????????????????????????
-?????????????????????????
-?????????????????????????
-?????????????????????????
-?????????????????????????
-?????????????????????????
-?????????????????????????
-?????????????????????????
-?????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????*/
 				}
 
 

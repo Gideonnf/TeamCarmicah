@@ -142,19 +142,21 @@ namespace Carmicah
 				mRuntime = true;
 				mNextState = SceneState::ONSTART;
 			}
+		}
 
-			//if (isRuntime == false && (mRuntime != isRuntime))
-			//{
-			//	// reload the scene
-			//	ChangeScene(mCurrScene);
-			//}
-			//// currently not playing but going to play
-			//else if (isRuntime == true && (mRuntime != isRuntime))
-			//{
-			//	mNextState = SceneState::ONSTART;
-			//}
-
-			//mRuntime = isRuntime;
+		// Forward it to editor or button depending on current state
+		if (msg->mMsgType == MSG_ENTITYPICKED)
+		{
+			if (mRuntime)
+			{
+				ButtonClicked newMsg(dynamic_cast<EntityPickedMessage*>(msg)->mEntityID);
+				SendSysMessage(&newMsg);
+			}
+			else
+			{
+				EditorEntityPicked newMsg(dynamic_cast<EntityPickedMessage*>(msg)->mEntityID);
+				SendSysMessage(&newMsg);
+			}
 		}
 		// Can use this for scene changing
 		// Call exit

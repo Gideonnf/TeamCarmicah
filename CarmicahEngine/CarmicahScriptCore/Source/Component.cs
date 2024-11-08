@@ -8,7 +8,7 @@ namespace Carmicah
 {
     public abstract class Component
     {
-        public Entity Entity { get; set; }
+        public Entity Entity { get; internal set; }
     }
 
     public class Transform : Component

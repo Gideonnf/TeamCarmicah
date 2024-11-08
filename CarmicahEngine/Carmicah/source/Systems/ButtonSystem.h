@@ -40,9 +40,11 @@ namespace Carmicah
 		void Update();
 		void Exit();
 
+		void ReceiveMessage(Message* msg) override;
+
 		// button functions
-		void OnPress(std::string name);
-		void OnRelease(std::string name);
+		void OnPress(Button&);
+		void OnRelease(Button&);
 
 		#pragma region Potential Button Functions
 		//void OnHover(std::string name);

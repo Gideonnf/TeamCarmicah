@@ -77,26 +77,31 @@ namespace Carmicah
 
     unsigned int SceneToImgui::IDPick(const int& mouseX, const int& mouseY)
     {
-        GLint prevBinding{};
-        glGetIntegerv(GL_FRAMEBUFFER_BINDING, &prevBinding);
-
-        glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-
-        unsigned int goID{};
-        glNamedFramebufferReadBuffer(FBO, GL_COLOR_ATTACHMENT1);
-        glReadPixels(mouseX, mouseY, 1, 1,
-            GL_RED_INTEGER, GL_UNSIGNED_INT, &goID);
-
-        // basically if ID Dun exists tq
-        if (goID != 0 && goID != 1061208237)
+        if (IsHovering)
         {
-            std::stringstream ss;
-            ss << "ID: " << goID << "[" << mouseX << ',' << mouseY << "]";
-            CM_CORE_INFO(ss.str());
+            GLint prevBinding{};
+            glGetIntegerv(GL_FRAMEBUFFER_BINDING, &prevBinding);
+
+            glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+
+            unsigned int goID{};
+            glNamedFramebufferReadBuffer(FBO, GL_COLOR_ATTACHMENT1);
+            glReadPixels(mouseX, mouseY, 1, 1,
+                GL_RED_INTEGER, GL_UNSIGNED_INT, &goID);
+
+            // basically if ID Dun exists tq
+            if (goID != 0 && goID != 1061208237)
+            {
+                std::stringstream ss;
+                ss << "ID: " << goID << "[" << mouseX << ',' << mouseY << "]";
+                CM_CORE_INFO(ss.str());
+            }
+            glReadBuffer(GL_NONE);
+            glBindFramebuffer(GL_FRAMEBUFFER, prevBinding);
+            return goID;
         }
-        glReadBuffer(GL_NONE);
-        glBindFramebuffer(GL_FRAMEBUFFER, prevBinding);
-        return goID;
+
+        return 0;
     }
 
 

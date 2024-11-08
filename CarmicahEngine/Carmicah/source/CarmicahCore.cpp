@@ -161,7 +161,7 @@ namespace Carmicah
         auto colSystem = REGISTER_SYSTEM(CollisionSystem);
         auto butSystem = REGISTER_SYSTEM(ButtonSystem);
         auto phySystem = REGISTER_SYSTEM(PhysicsSystem);
-        auto inputSystem = REGISTER_SYSTEM(InputSystem);
+        REGISTER_SYSTEM(InputSystem);
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);
        // auto gameLogic = REGISTER_SYSTEM(GameLogic);
@@ -181,14 +181,18 @@ namespace Carmicah
         souSystem->Init(false);
 
         // Add goFactory to input system's messaging so that it can send msg to it
-        inputSystem->BindSystem(gGOFactory);
-
+        Input.BindSystem(gGOFactory);
+        // TODO: Make this easier to write for people
+       Input.BindSystem(std::static_pointer_cast<BaseSystem>(gameSystem).get());
+       gameSystem->BindSystem(std::static_pointer_cast<BaseSystem>(editorSys).get());
+       gameSystem->BindSystem(std::static_pointer_cast<BaseSystem>(butSystem).get());
         // Add transform system into gGOFactory's observer so that it can send msg to it
         gGOFactory->BindSystem(std::static_pointer_cast<BaseSystem>(transformSystem).get());
         // Add Scene system into editor's observer
         editorSys->BindSystem(std::static_pointer_cast<BaseSystem>(gameSystem).get());
 
-        inputSystem->Init(window);
+        //glfwSetWindowUserPointer(window, inputSystem.get());
+        Input.Init(window);
         gameSystem->SetScene("Scene1");
         gameSystem->Init(); // Load all GOs from scene file
 
@@ -253,10 +257,10 @@ namespace Carmicah
                 GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(rightForce);
 
 
-                GameObject mainCharacter;
-                gGOFactory->FetchGO("mainCharacter", mainCharacter);
-                mainCharacter.AddComponent<Script>();
-                mainCharacter.GetComponent<Script>().scriptName = "Carmicah.Player";
+                //GameObject mainCharacter;
+                //gGOFactory->FetchGO("mainCharacter", mainCharacter);
+                //mainCharacter.AddComponent<Script>();
+                //mainCharacter.GetComponent<Script>().scriptName = "Carmicah.Player";
 
                 //gameLogic->Init(); // refetch the objects needed
             }
@@ -411,7 +415,7 @@ namespace Carmicah
             CarmicahTime::GetInstance()->StopLoopTimer();
             CarmicahTime::GetInstance()->CalculateSystemPercentages();
             CarmicahTime::GetInstance()->UpdateTime();
-            inputSystem->UpdatePrevInput();
+            Input.UpdatePrevInput();
 
         }
 

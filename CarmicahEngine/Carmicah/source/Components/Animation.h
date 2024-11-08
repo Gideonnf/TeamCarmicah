@@ -32,6 +32,8 @@ namespace Carmicah
         void SerializeComponent(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer) override
         {
 			writer.String("timeBetween");
+            writer.Double(time);
+            writer.String("Atlas");
 			writer.String(animAtlas.c_str());
         }
     };
