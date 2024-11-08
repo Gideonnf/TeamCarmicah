@@ -64,7 +64,7 @@ namespace Carmicah
 		};
 #pragma endregion
 
-		GLuint mCurrShader{}, mBatchSize{}, mEntityBufferIDTrack{};
+		GLuint mCurrShader{}, mBatchSize{}, mEntityBufferIDTrack{}, mActiveEntityCount{};
 		float mFurtherstDepth{}, mNearestDepth{};
 		std::vector<BatchBuffer> mBufferData{};
 		std::unordered_map<unsigned int, EntityData> mEntityBufferLoc{};
@@ -158,6 +158,8 @@ namespace Carmicah
 			number of vertices to delete
 		***************************************************************************/
 		void DeleteBatchData(const unsigned int& entity, const unsigned int& pos, bool isDebug, int vtxSize);
+
+		void ToggleActiveEntity(EntityData& entity, bool setActive);
 
 		/*!*************************************************************************
 		brief

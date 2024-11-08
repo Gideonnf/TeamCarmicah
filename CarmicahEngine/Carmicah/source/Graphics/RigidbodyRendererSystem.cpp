@@ -93,13 +93,19 @@ namespace Carmicah
 
 
 		// Add new Data
-		if (mEntityBufferLoc.size() != mEntitiesSet.size())
+		if (mActiveEntityCount != mEntitiesSet.size())
 		{
 			for (auto& entity : mEntitiesSet)
 			{
 				auto e{ mEntityBufferLoc.find(entity) };
 				if (e != mEntityBufferLoc.end())
+				{
+					if (!e->second.isActive)
+					{
+						ToggleActiveEntity(e->second, true);
+					}
 					continue;
+				}
 
 				auto& rigidbody = ComponentManager::GetInstance()->GetComponent<RigidBody>(entity);
 				if (fabs(rigidbody.velocity.x) < std::numeric_limits<float>::epsilon() &&
@@ -107,7 +113,7 @@ namespace Carmicah
 					continue;
 
 				EntityData ed{};
-				ed.isActive = true;
+				ToggleActiveEntity(ed, true);
 				ed.posInMemory = mEntityBufferIDTrack++;
 
 				auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);

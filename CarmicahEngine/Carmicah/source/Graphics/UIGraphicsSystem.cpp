@@ -56,11 +56,11 @@ namespace Carmicah
 		if (mCurrShader == 0)
 			return;
 		glUseProgram(mCurrShader);
-		
+
 		GLint uniformLoc{};
 		if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
 			glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, screenMtx.m);
-		
+
 
 		for (auto& entity : mEntityBufferLoc)
 		{
@@ -76,23 +76,30 @@ namespace Carmicah
 		}
 
 		// Add new Data
-		if (mEntityBufferLoc.size() != mEntitiesSet.size())
+		if (mActiveEntityCount != mEntitiesSet.size())
 		{
 
-				for (auto& entity : mEntitiesSet)
+			for (auto& entity : mEntitiesSet)
+			{
+				auto e{ mEntityBufferLoc.find(entity) };
+				if (e != mEntityBufferLoc.end())
 				{
-					auto e{ mEntityBufferLoc.find(entity) };
-					if (e != mEntityBufferLoc.end())
-						continue;
-					EntityData ed{};
-					ed.isActive = true;
-					ed.posInMemory = mEntityBufferIDTrack++;
-
-					EditBatchData(entity, ed.posInMemory, false, UI_LAYER);
-					mEntityBufferLoc.emplace(entity, ed);
+					if (!e->second.isActive)
+					{
+						ToggleActiveEntity(e->second, true);
+					}
+					continue;
 				}
+				EntityData ed{};
+				ToggleActiveEntity(ed, true);
+				ed.posInMemory = mEntityBufferIDTrack++;
+
+				EditBatchData(entity, ed.posInMemory, false, UI_LAYER);
+				mEntityBufferLoc.emplace(entity, ed);
+			}
 
 		}
+	
 
 		BatchRender();
 

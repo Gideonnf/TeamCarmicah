@@ -77,16 +77,22 @@ namespace Carmicah
 
 
 		// Add new Data
-		if (mEntityBufferLoc.size() != mEntitiesSet.size())
+		if (mActiveEntityCount != mEntitiesSet.size())
 		{
 
 			for (auto& entity : mEntitiesSet)
 			{
 				auto e{ mEntityBufferLoc.find(entity) };
 				if (e != mEntityBufferLoc.end())
+				{
+					if (!e->second.isActive)
+					{
+						ToggleActiveEntity(e->second, true);
+					}
 					continue;
+				}
 				EntityData ed{};
-				ed.isActive = true;
+				ToggleActiveEntity(ed, true);
 				ed.posInMemory = mEntityBufferIDTrack++;
 
 				auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);

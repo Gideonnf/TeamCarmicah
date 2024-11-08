@@ -250,9 +250,18 @@ namespace Carmicah
 
 	}
 
+	void BaseGraphicsSystem::ToggleActiveEntity(EntityData& entity, bool setActive)
+	{
+		entity.isActive = setActive;
+		if (setActive)
+			++mActiveEntityCount;
+		else
+			--mActiveEntityCount;
+	}
+
 	void BaseGraphicsSystem::DeleteBatchData(const unsigned int& entity, const unsigned int& pos, bool isDebug, int vtxSize)
 	{
-		mEntityBufferLoc.find(entity)->second.isActive = false;
+		ToggleActiveEntity((mEntityBufferLoc.find(entity)->second), false);
 		if (!isDebug)
 		{
 			std::vector<vtxTexd2D> temp;
