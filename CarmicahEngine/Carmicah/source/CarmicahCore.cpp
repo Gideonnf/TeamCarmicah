@@ -103,11 +103,12 @@ namespace Carmicah
         int Width = AssetManager::GetInstance()->enConfig.Width;
         int Height = AssetManager::GetInstance()->enConfig.Height;
         std::string defaultScene = AssetManager::GetInstance()->enConfig.defaultScene;
-
+        //CM_CORE_INFO("Reached before window creation");
         GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", NULL, NULL);
         int bufferWidth, bufferHeight;
         glfwGetFramebufferSize(window, &bufferWidth, &bufferHeight);
         glfwMakeContextCurrent(window);
+       // CM_CORE_INFO("Reached after window creation");
 
         if (window == NULL)
         {
@@ -145,6 +146,8 @@ namespace Carmicah
         REGISTER_COMPONENT(Animation);
         REGISTER_COMPONENT(TextRenderer);
         REGISTER_COMPONENT(UITransform);
+
+        CM_CORE_INFO("Starting system init");
 
         auto editorSys = REGISTER_SYSTEM(Editor);
         REGISTER_SYSTEM(GOFactory);

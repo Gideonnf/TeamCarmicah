@@ -60,12 +60,16 @@ namespace Carmicah
 			GLint uniformLoc;
 			if (UniformExists(mCurrShader, "uTextColor", uniformLoc))
 				glUniform3f(uniformLoc, txtRenderer.colorR, txtRenderer.colorG, txtRenderer.colorB);
+			{
+				const Texture& t{ AssetManager::GetInstance()->GetAsset<Texture>(foundFontTex.mFontMaps[0].texRef)};
+				glBindTextureUnit(0, t.t);
+			}
+
 
 			// iterate through all characters (alot of it divides by 2 since quad is based on [-1,1])
 			for (auto& c : txtRenderer.txt)
 			{
-				Font::FontChar ch = foundFontTex.mFontMaps[c];
-				//FontChar ch = foundFontTex-second[c];
+				Font::FontChar ch = foundFontTex.mFontMaps[c - foundFontTex.charOffset];
 
 				xTrack += (ch.advance >> 7) * UITrans.scale.x * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
 				Mtx3x3f charTransform{};
@@ -86,7 +90,9 @@ namespace Carmicah
 				if (UniformExists(mCurrShader, "uDepth", uniformLoc))
 					glUniform1f(uniformLoc, CalcDepth(UITrans.depth, RENDER_LAYERS::UI_LAYER));
 
-				glBindTextureUnit(0, ch.texID);
+				const Texture& t{ AssetManager::GetInstance()->GetAsset<Texture>(ch.texRef) };
+				if (UniformExists(mCurrShader, "uTexMulti", uniformLoc))
+					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, t.mtx.m);
 
 				RenderPrimitive(p);
 

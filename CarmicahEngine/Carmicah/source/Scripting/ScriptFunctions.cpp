@@ -78,6 +78,18 @@ namespace Carmicah
 
 	}
 
+	static void Transform_GetPosition(unsigned int entityID, Vec2f* outPos)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		*outPos = go.GetComponent<Transform>().pos;
+	}
+
+	static void Transform_SetPosition(unsigned int entityID, Vec2f* inPos)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		go.GetComponent<Transform>().pos = *inPos;
+	}
+
 	template <typename T>
 	static void RegisterComponent()
 	{
@@ -123,6 +135,9 @@ namespace Carmicah
 		// Transform functions
 		ADD_INTERNAL_CALL(Transform_GetScale);
 		ADD_INTERNAL_CALL(Transform_SetScale);
+		ADD_INTERNAL_CALL(Transform_GetPosition);
+		ADD_INTERNAL_CALL(Transform_SetPosition);
+
 
 		//Entity functions
 		ADD_INTERNAL_CALL(Entity_HasComponent);
@@ -134,5 +149,6 @@ namespace Carmicah
 		// input functions
 		ADD_INTERNAL_CALL(IsKeyPressed);
 		ADD_INTERNAL_CALL(IsKeyHold);
+
 	}
 }

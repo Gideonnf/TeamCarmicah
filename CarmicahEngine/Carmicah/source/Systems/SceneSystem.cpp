@@ -166,4 +166,9 @@ namespace Carmicah
 	{
 		return mCurrScene;
 	}
+
+	bool SceneSystem::IsRuntime() const
+	{
+		return mRuntime;
+	}
 }

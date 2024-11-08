@@ -36,7 +36,7 @@ namespace Carmicah
 		{
 			// Get the name of the system
 			std::string sysName = typeid(T).name();
-
+			CM_CORE_INFO("Making {} system", sysName);
 			auto system = std::make_shared<T>();
 			mSystems.insert({ sysName, system });
 			return system;

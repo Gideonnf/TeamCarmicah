@@ -1,0 +1,58 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Carmicah
+{
+
+    public class MouseChase : State
+    {
+        public MouseChase(string m_stateID) : base(m_stateID) { }
+        Vector2 targetPos;
+
+        public override void Enter()
+        {
+            targetPos = new Vector2(0, 4.0f);
+        }
+
+        public override void Update(ref StateMachine sm)
+        {
+            // Move to the target position
+            //Vector2f dir = targetPos;
+
+            // If the distance to target position is less than equal to like 0.5 or smth
+            // then set the state to dead
+            sm.SetNextState("MouseDead");
+        }
+
+        public override void Exit() 
+        {
+        
+        }
+    }
+
+    public class MouseDead : State
+    {
+        // atm mouse dead wont do anything
+        // its just so i can call destroy gameobject in mouseAI script
+        
+        public MouseDead(string m_stateID) : base(m_stateID) { }
+
+        public override void Enter()
+        {
+
+        }
+
+        public override void Update(ref StateMachine sm)
+        {
+
+        }
+
+        public override void Exit()
+        {
+
+        }
+    }
+}

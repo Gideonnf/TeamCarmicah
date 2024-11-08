@@ -7,8 +7,11 @@ layout (location=0) out vec2 vTexCoord;
 
 uniform float	uDepth;
 uniform mat3	uModel_to_NDC;
+uniform mat3	uTexMulti;
 
 void main(void){
 	gl_Position		= vec4(vec2(uModel_to_NDC * vec3(aVertexPosition, 1.0)), uDepth, 1.0);
-	vTexCoord		= vec2(aTextureCoord.x, 1.0 - aTextureCoord.y);
+	vec2 tt			= vec2(uTexMulti * vec3(aTextureCoord, 1.0));
+	vTexCoord		= vec2(tt.x, -tt.y);
+
 }
