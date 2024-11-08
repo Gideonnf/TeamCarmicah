@@ -43,6 +43,8 @@ namespace Carmicah
 	std::array<bool, (int)GLFW_KEY_LAST> mKeyCurrentState{};
 	std::array<bool, (int)GLFW_KEY_LAST> mKeyPreviousState{};
 
+
+	#pragma region Callback Functions
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Callback function to handle keyboard input events, such as key presses and releases.
 	-------------------------------------------------------------------------------------------------*/
@@ -161,6 +163,10 @@ namespace Carmicah
 		UNUSED(yOffset);
 	}
 
+	#pragma endregion
+
+
+	#pragma region Init & Update
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Initializes the InputSystem for a specific GLFW window.
 	-------------------------------------------------------------------------------------------------*/
@@ -201,6 +207,10 @@ namespace Carmicah
 		mKeyPreviousState = mKeyCurrentState;
 	}
 
+	#pragma endregion
+
+
+	#pragma region Key & Mouse State Methods
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Checks if a specified key is currently pressed.
 	-------------------------------------------------------------------------------------------------*/
@@ -301,13 +311,17 @@ namespace Carmicah
 	}
 
 	/* function documentation--------------------------------------------------------------------------
-	\brief      Retrieves the current mouse position.
+	\brief      Checks if the mouse is currently in a dragging state.
 	-------------------------------------------------------------------------------------------------*/
-	Vector2D<double> InputSystem::GetMousePosition()
+	bool InputSystem::IsDragging() const
 	{
-		return mMousePos;
+		return isDragging;
 	}
 
+	#pragma endregion
+
+
+	#pragma region Mouse Position Getters & Setters
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Retrieves the current X-coordinate of the mouse position.
 	-------------------------------------------------------------------------------------------------*/
@@ -325,6 +339,14 @@ namespace Carmicah
 	}
 
 	/* function documentation--------------------------------------------------------------------------
+	\brief      Retrieves the current mouse position.
+	-------------------------------------------------------------------------------------------------*/
+	Vector2D<double> InputSystem::GetMousePosition()
+	{
+		return mMousePos;
+	}
+
+	/* function documentation--------------------------------------------------------------------------
 	\brief      Sets the mouse position to specific X and Y coordinates.
 	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::SetMousePosition(double xPos, double yPos)
@@ -333,14 +355,10 @@ namespace Carmicah
 		mMousePos.y = yPos;
 	}
 
-	/* function documentation--------------------------------------------------------------------------
-	\brief      Checks if the mouse is currently in a dragging state.
-	-------------------------------------------------------------------------------------------------*/
-	bool InputSystem::IsDragging() const
-	{
-		return isDragging;
-	}
+	#pragma endregion
 
+
+	#pragma region Drag Tracking, Getters & Setters
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Retrieves the starting position of a drag event.
 	-------------------------------------------------------------------------------------------------*/
@@ -363,14 +381,6 @@ namespace Carmicah
 	Vector2D<double> InputSystem::GetDragCurrentPos() const
 	{
 		return dragCurrentPos;
-	}
-
-	/* function documentation--------------------------------------------------------------------------
-	\brief      Sets the dragging state to true or false.
-	-------------------------------------------------------------------------------------------------*/
-	void InputSystem::SetDragging(bool dragging)
-	{
-		isDragging = dragging;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -397,6 +407,18 @@ namespace Carmicah
 		dragCurrentPos = pos;
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Sets the dragging state to true or false.
+	-------------------------------------------------------------------------------------------------*/
+	void InputSystem::SetDragging(bool dragging)
+	{
+		isDragging = dragging;
+	}
+
+	#pragma endregion
+
+
+	#pragma region Key & Mouse Map Update Methods
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Updates the key state map for tracking key presses and releases.
 	-------------------------------------------------------------------------------------------------*/
@@ -433,6 +455,8 @@ namespace Carmicah
 		//std::cout << "in update mouse map" << mMousePressed << std::endl;
 		//std::cout << "Mouse State : " << state << " For : " << key << std::endl;
 	}
+
+	#pragma endregion
 
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Sends a message through the system proxy.

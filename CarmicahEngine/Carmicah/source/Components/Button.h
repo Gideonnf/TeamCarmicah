@@ -38,9 +38,9 @@ namespace Carmicah
 {
     struct Button : BaseComponent<Button>
     {
-		std::string ButtonImage;   // stores the name of the original texture
-		std::string ButtonImagePressed;    // stores the name of the new image when its pressed
-        bool isPressed{ false }; // track if button is currently pressed
+		std::string ButtonImage;        // stores the name of the original texture
+		std::string ButtonImagePressed; // stores the name of the new image when its pressed
+        bool isPressed{ false };        // track if button is currently pressed
 
         Button& DeserializeComponent(const rapidjson::Value& component) override
         {
@@ -48,7 +48,7 @@ namespace Carmicah
             ButtonImagePressed = component["ButtonImagePressed"].GetString();
 			//isPressed = false; // start as unpressed
 
-            // Deserialize position and size from JSON
+            // Deserialize position and size from JSON, use the transfrom component to get position and size
 
             return *this;
         }
