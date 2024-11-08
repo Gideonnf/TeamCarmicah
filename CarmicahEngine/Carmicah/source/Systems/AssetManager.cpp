@@ -39,9 +39,7 @@ namespace Carmicah
 	{
 		std::filesystem::path directoryPath = assetPath;
 
-		//mTextureMaps.insert(std::make_pair("", Texture{})); // Sets No Texture
-		//AddAsset("", Texture{}); // Sets no texture
-
+		InitTexture();
 		InitSound();
 		InitFontType();
 
@@ -59,7 +57,7 @@ namespace Carmicah
 						{
 							LoadAnimation(fileName, entry.path().string());
 						}
-						if (folderName == "Audio")
+						else if (folderName == "Audio")
 						{
 							LoadSound(fileName, entry.path().string(), false, 1.0f); 
 						}
@@ -83,6 +81,7 @@ namespace Carmicah
 						}
 						else if (folderName == "Meshes")
 						{
+
 							std::string fileExt = entry.path().extension().string();
 							if (fileExt == ".o")
 							{
@@ -130,18 +129,15 @@ namespace Carmicah
 	void AssetManager::UnloadAll()
 	{
 		// Unload Graphics
-		for (const auto& i : GetAssetMap<ImageTexture>()->mAssetList)
-		{
-			glDeleteTextures(1, &i.t);
-		}
+		glDeleteTextures(1, &mArrayTex);
 		GetAssetMap<Texture>()->mAssetMap.clear();
-		// Delete primitives
-		for (const auto& i : GetAssetMap<Primitive>()->mAssetList)
+		for (const auto& i : GetAssetMap<BatchBuffer>()->mAssetList)
 		{
-			glDeleteVertexArrays(1, &i.vaoid);
-			glDeleteBuffers(1, &i.vboid);
+			glDeleteVertexArrays(1, &i.vao);
+			glDeleteBuffers(1, &i.vbo);
+			if(i.ebo != std::numeric_limits<GLuint>::max())
+				glDeleteBuffers(1, &i.ebo);
 		}
-		GetAssetMap<Primitive>()->mAssetMap.clear();
 
 		// Delete Shaders
 		for (const auto& i : GetAssetMap<Shader>()->mAssetList)
@@ -209,8 +205,8 @@ namespace Carmicah
 		if (!success)
 		{
 			glGetShaderInfoLog(vertShader, 512, nullptr, infoLog);
+			CM_CORE_WARN("Unable to compile vertex shader:" + std::string(infoLog));
 			assert("Unable to compile vertex shader");
-			//std::cerr << "Unable to compile vertex shader:" << infoLog << std::endl;
 			return 0;
 		}
 		GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -220,8 +216,8 @@ namespace Carmicah
 		if (!success)
 		{
 			glGetShaderInfoLog(fragShader, 512, nullptr, infoLog);
+			CM_CORE_WARN("Unable to compile fragment shader:" + std::string(infoLog));
 			assert("Unable to compile fragment shader");
-			//std::cerr << "Unable to compile fragment shader:" << infoLog << std::endl;
 			return 0;
 		}
 		GLuint shader = glCreateProgram();
@@ -233,8 +229,8 @@ namespace Carmicah
 		if (!success)
 		{
 			glGetShaderInfoLog(shader, 512, nullptr, infoLog);
+			CM_CORE_WARN("Link / Compile Failed:" + std::string(infoLog));
 			assert("Link / Compile failed");
-			//std::cerr << "Link / Compile Failed:" << infoLog << std::endl;
 			return 0;
 		}
 		glValidateProgram(shader);
@@ -242,8 +238,8 @@ namespace Carmicah
 		if (!success)
 		{
 			glGetShaderInfoLog(shader, 512, nullptr, infoLog);
+			CM_CORE_WARN("Validate Failed:" + std::string(infoLog));
 			assert("Validate failed");
-			//std::cerr << "Validate Failed:" << infoLog << std::endl;
 			return 0;
 		}
 		glDeleteShader(vertShader);
@@ -293,68 +289,32 @@ namespace Carmicah
 			return;
 		}
 
-		std::vector<Vec2f> vtx;
-		std::vector<Vec2f> texCoord;
-		std::vector<GLushort> idx;
-
-		vtx.reserve(numVert);
-		texCoord.reserve(numVert);
-		idx.reserve(p.drawCnt);
+		p.vtx.reserve(numVert);
+		p.texCoord.reserve(numVert);
+		p.idx.reserve(p.drawCnt);
 		float v1, v2;
 		for (unsigned int i{}; i < numVert; ++i)
 		{
 			ifs >> v1 >> v2;
-			vtx.emplace_back(Vec2f{ v1, v2 });
+			p.vtx.emplace_back(Vec2f{ v1, v2 });
 		}
 		for (unsigned int i{}; i < numVert; ++i)
 		{
 			ifs >> v1 >> v2;
-			texCoord.emplace_back(Vec2f{ v1, v2 });
+			p.texCoord.emplace_back(Vec2f{ v1, v2 });
 		}
 		// Only save index when following Triangle method
 		if (p.drawMode == GL_TRIANGLES)
 		{
-			GLshort i1;
+			GLushort i1;
 			for (unsigned int i{}; i < p.drawCnt; ++i)
 			{
 				ifs >> i1;
-				idx.emplace_back(i1);
+				p.idx.emplace_back(i1);
 			}
 		}
 		ifs.close();
-
-		unsigned int sizeofVtxArray = numVert * sizeof(Vec2f);
-
-		glCreateBuffers(1, &p.vboid);
-		glNamedBufferStorage(p.vboid, sizeofVtxArray * 2, nullptr, GL_DYNAMIC_STORAGE_BIT);
-		glNamedBufferSubData(p.vboid, 0, sizeofVtxArray, vtx.data());
-		glNamedBufferSubData(p.vboid, sizeofVtxArray, sizeofVtxArray, texCoord.data());
-
-		// Position
-		glCreateVertexArrays(1, &p.vaoid);
-		glEnableVertexArrayAttrib(p.vaoid, 0); // VAO's vertex attribute index is 0 (vert)
-		glVertexArrayVertexBuffer(p.vaoid, 0, // vertex buffer binding point
-			p.vboid, 0, sizeof(Vec2f));
-		glVertexArrayAttribFormat(p.vaoid, 0, 2, GL_FLOAT, GL_FALSE, 0);
-		glVertexArrayAttribBinding(p.vaoid, 0, 0);
-
-		// Texture
-		glEnableVertexArrayAttrib(p.vaoid, 1);
-		glVertexArrayVertexBuffer(p.vaoid, 1, p.vboid, sizeofVtxArray, sizeof(Vec2f));
-		glVertexArrayAttribFormat(p.vaoid, 1, 2, GL_FLOAT, GL_FALSE, 0);
-		glVertexArrayAttribBinding(p.vaoid, 1, 1);
-
-		// Index - only done for following triangle method(?)
-		if (p.drawMode == GL_TRIANGLES)
-		{
-			GLuint eboid;
-			glCreateBuffers(1, &eboid);
-			glNamedBufferStorage(eboid, sizeof(GLushort) * p.drawCnt, idx.data(), GL_DYNAMIC_STORAGE_BIT);
-			glVertexArrayElementBuffer(p.vaoid, eboid);
-		}
-		//glBindVertexArray(0);
-		//mPrimitiveMaps.insert(std::make_pair(objName, p));
-		AddAsset(objName, p);
+		AddAsset(objName, std::move(p));
 	}
 
 	/*
@@ -367,12 +327,11 @@ namespace Carmicah
 	*/
 	void AssetManager::LoadDebugObject(const std::string& objName, const std::string& modelFile)
 	{
-		if (AssetExist<Primitive>(objName))
+		if (AssetExist<BasePrimitive>(objName))
 		{
 			CM_CORE_WARN("Object:" + objName + " Already Exists");
 			return;
 		}
-
 
 		std::ifstream ifs(modelFile, std::ios::binary);
 		if (!ifs)
@@ -380,7 +339,7 @@ namespace Carmicah
 			CM_CORE_ERROR("Unable to open Obj:" + modelFile);
 			return;
 		}
-		Primitive p;
+		BasePrimitive p;
 		p.drawMode = GL_LINE_LOOP;
 		ifs >> p.drawCnt;
 		if (p.drawCnt == 0)
@@ -390,32 +349,33 @@ namespace Carmicah
 			return;
 		}
 
-		std::vector<Vec2f> vtx;
-
-		vtx.reserve(p.drawCnt);
+		p.vtx.reserve(p.drawCnt);
 		float v1, v2;
 		for (unsigned int i{}; i < p.drawCnt; ++i)
 		{
 			ifs >> v1 >> v2;
-			vtx.emplace_back(Vec2f{ v1, v2 });
+			p.vtx.emplace_back(Vec2f{ v1, v2 });
 		}
 		ifs.close();
 
-		unsigned int sizeofVtxArray = p.drawCnt * sizeof(Vec2f);
+		AddAsset(objName, std::move(p));
+	}
 
-		glCreateBuffers(1, &p.vboid);
-		glNamedBufferStorage(p.vboid, sizeofVtxArray, vtx.data(), GL_DYNAMIC_STORAGE_BIT);
+	void AssetManager::InitTexture()
+	{
+		glCreateTextures(GL_TEXTURE_2D_ARRAY, 1, &mArrayTex);
+		glBindTexture(GL_TEXTURE_2D_ARRAY, mArrayTex);
 
-		// Position
-		glCreateVertexArrays(1, &p.vaoid);
-		glEnableVertexArrayAttrib(p.vaoid, 0); // VAO's vertex attribute index is 0 (vert)
-		glVertexArrayVertexBuffer(p.vaoid, 0, // vertex buffer binding point
-			p.vboid, 0, sizeof(Vec2f));
-		glVertexArrayAttribFormat(p.vaoid, 0, 2, GL_FLOAT, GL_FALSE, 0);
-		glVertexArrayAttribBinding(p.vaoid, 0, 0);
+		glTexStorage3D(GL_TEXTURE_2D_ARRAY,
+		    1,							//No mipmaps as textures are 1x1
+		    GL_RGBA8,					//Internal format
+			maxTexSize, maxTexSize,		//width,height
+			enConfig.maxNumTextures		//Number of layers
+		);
 
-		//mPrimitiveMaps.insert(std::make_pair(objName, p));
-		AddAsset(objName, p);
+		glTextureParameterf(mArrayTex, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTextureParameterf(mArrayTex, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
 	}
 
 	void AssetManager::LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile)
@@ -431,17 +391,15 @@ namespace Carmicah
 		}
 
 		Texture texture{};
-		ImageTexture imageTex{};
 		int texWidth{}, texHeight{}, bytePerTex{};
 
 		stbi_uc* data = stbi_load(textureFile.c_str(), &texWidth, &texHeight, &bytePerTex, 0);
-		if (!data)// || texWidth > maxTexSize || texHeight > maxTexSize)
+		if (!data || texWidth > maxTexSize || texHeight > maxTexSize || bytePerTex != 4)
 		{
 			CM_CORE_ERROR("Unable to open texture file");
 			stbi_image_free(data);
 			return;
 		}
-
 		// Read if the sprite needs to be divided
 		struct spriteDetails
 		{
@@ -473,23 +431,22 @@ namespace Carmicah
 			ssDets.close();
 		}
 
-		glCreateTextures(GL_TEXTURE_2D, 1, &imageTex.t);
-		glTextureStorage2D(imageTex.t, 1, GL_RGBA8, texWidth, texHeight);
-		AddAsset(std::to_string(imageTex.t), imageTex);
-		texture.t = imageTex.t;
-
-		glTextureParameterf(imageTex.t, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTextureParameterf(imageTex.t, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-		if (bytePerTex == 4) // RGBA
-			glTextureSubImage2D(imageTex.t, 0, 0, 0, texWidth, texHeight, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		texture.t = currTexPt++;
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);// if width * bpt is not multiple of 4
-		//mTextureMaps.insert(std::make_pair(textureName, texture));
+		glTextureSubImage3D(mArrayTex,
+			0,						// Mipmap
+			0, 0, texture.t,		// x/y/z Offset
+			texWidth, texHeight, 1,	// width, height, depth
+			GL_RGBA, GL_UNSIGNED_BYTE, data);
 		stbi_image_free(data);
 
-		if (spriteD.empty())
-			AddTextureImage(texture, textureName);
-		else
+		
+		
+		texture.mtx.m[0] = texture.mtx.m[1] = 0.f;
+		texture.mtx.m[2] = static_cast<float>(texWidth);
+		texture.mtx.m[3] = static_cast<float>(texHeight);
+		AddTextureImage(texture, textureName);
+		if (!spriteD.empty())
 		{
 			for (int i{}; i < spriteD.size(); ++i)
 			{
@@ -497,33 +454,26 @@ namespace Carmicah
 				texture.mtx.m[1] = static_cast<float>(spriteD[i].y);
 				texture.mtx.m[2] = static_cast<float>(spriteD[i].width);
 				texture.mtx.m[3] = static_cast<float>(spriteD[i].height);
-				texture.mtx.m[4] = static_cast<float>(texWidth);
-				texture.mtx.m[5] = static_cast<float>(texHeight);
-				AddTextureImage(texture, textureName, spriteD[i].num, std::string("_") + spriteD[i].name, i == 0);
+				AddTextureImage(texture, textureName, spriteD[i].num, std::string("_") + spriteD[i].name);
 			}
 		}
 	}
 
-	void AssetManager::AddTextureImage(Texture& t, const std::string& textureName, const int& num, const std::string& extName, bool wholeSprite)
+	void AssetManager::AddTextureImage(Texture& t, const std::string& textureName, const int& num, const std::string& extName)
 	{
-		if (num == 0)
-		{
-			AddAsset(textureName, t);
-			return;
-		}
-		float	x = t.mtx.m[0] / t.mtx.m[4],
-			y = t.mtx.m[1] / t.mtx.m[5],
-			width = t.mtx.m[2] / t.mtx.m[4],
-			height = t.mtx.m[3] / t.mtx.m[5];
+		float	x = t.mtx.m[0] / static_cast<float>(maxTexSize),
+				y = t.mtx.m[1] / static_cast<float>(maxTexSize),
+				width = t.mtx.m[2] / static_cast<float>(maxTexSize),
+				height = t.mtx.m[3] / static_cast<float>(maxTexSize);
 		Mtx33Identity(t.mtx);
-		if (wholeSprite)
-			AddAsset(textureName, t);
 
 		t.mtx.translateThis(x, 1.f - y - height).scaleThis(width, height);
 		for (int i{}; i < num; ++i)
 		{
-			std::string aaa = textureName + extName + ' ' + std::to_string(i);
-			AddAsset(aaa, t);
+			std::string name{ textureName };
+			if(num != 1)
+				name += extName + ' ' + std::to_string(i);
+			AddAsset(name, t);
 			t.mtx.m[6] += width;
 			if (t.mtx.m[6] + width > 1.f)
 			{
@@ -563,7 +513,7 @@ namespace Carmicah
 				break;
 		}
 		ifs.close();
-		AddAsset<AnimAtlas>(animName, a);
+		AddAsset<AnimAtlas>(animName, std::move(a));
 	}
 
 	void AssetManager::InitFontType()
@@ -617,17 +567,13 @@ namespace Carmicah
 			return lhs.second < rhs.second;
 			});
 
-		ImageTexture imgTex{};
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		glCreateTextures(GL_TEXTURE_2D, 1, &imgTex.t);
-		AddAsset(std::to_string(imgTex.t), imgTex);
-		glTextureStorage2D(imgTex.t, 1, GL_R8, maxTexSize, maxTexSize);
-		glTextureParameterf(imgTex.t, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTextureParameterf(imgTex.t, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTextureParameterf(imgTex.t, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTextureParameterf(imgTex.t, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		//glTextureParameterf(currTexPt, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		//glTextureParameterf(currTexPt, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		//glTextureParameterf(currTexPt, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		//glTextureParameterf(currTexPt, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		int heightSoFar{}, widthAccumulated{}, heightAccumulated{};
+		unsigned int heightSoFar{}, widthAccumulated{}, heightAccumulated{};
 
 		for (auto& i : fontHeightMap)
 		{
@@ -640,31 +586,38 @@ namespace Carmicah
 			int fontArrayNum{ i.first - fontObj.charOffset };
 
 			Font::FontChar& fc = fontObj.mFontMaps[fontArrayNum];
-			if (widthAccumulated > maxTexSize)
+			if (widthAccumulated > static_cast<unsigned int>(maxTexSize))
 			{
 				widthAccumulated = 0;
-				heightAccumulated += heightSoFar;
-				;
+				heightAccumulated += heightSoFar;	
 			}
-			glTextureSubImage2D(imgTex.t, 0, widthAccumulated, heightAccumulated, fc.width, fc.height, GL_RED, GL_UNSIGNED_BYTE, fontFace->glyph->bitmap.buffer);
-			Texture texture{};
-			texture.t = imgTex.t;
-			texture.mtx.m[0] = static_cast<float>(widthAccumulated);
-			texture.mtx.m[1] = static_cast<float>(maxTexSize - heightAccumulated);
-			texture.mtx.m[2] = static_cast<float>(fc.width);
-			texture.mtx.m[3] = static_cast<float>(fc.height);
-			texture.mtx.m[4] = static_cast<float>(maxTexSize);
-			texture.mtx.m[5] = static_cast<float>(maxTexSize);
-			AddTextureImage(texture, fontName, 1, std::to_string(i.first));
-			fc.texRef = fontName + std::to_string(i.first) + " 0";
+			glTextureSubImage3D(mArrayTex,
+				0,						// Mipmap
+				widthAccumulated, heightAccumulated, currTexPt,		// x/y/z Offset
+				fc.width, fc.height, 1,	// width, height, depth
+				GL_RED, GL_UNSIGNED_BYTE, fontFace->glyph->bitmap.buffer);
+			FontTexture fontTex{};
+			fontTex.t = currTexPt;
+			float	x		= static_cast<float>(widthAccumulated) / static_cast<float>(maxTexSize),
+					y		= static_cast<float>(maxTexSize - heightAccumulated) / static_cast<float>(maxTexSize),
+					width	= static_cast<float>(fc.width) / static_cast<float>(maxTexSize),
+					height	= static_cast<float>(fc.height) / static_cast<float>(maxTexSize);
+
+			fontTex.mtx.translateThis(x, 1.f - y - height).scaleThis(width, height);
+
+
+			std::string name = fontName + ' ' + std::to_string(i.first);
+			AddAsset<FontTexture>(name, std::move(fontTex));
+			fc.texRef = name;
 
 			if (fc.height > heightSoFar)
 				heightSoFar = fc.height;
 			widthAccumulated += fc.width;
 		}
 
+		++currTexPt;
 		FT_Done_Face(fontFace);
-		AddAsset(fontName, std::move(fontObj));
+		AddAsset<Font>(fontName, std::move(fontObj));
 	}
 
 

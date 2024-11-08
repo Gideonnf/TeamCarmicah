@@ -33,8 +33,11 @@ namespace Carmicah
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<RigidbodyRendererSystem>(mSignature);
-		auto& shdrRef = AssetManager::GetInstance()->GetAsset<Shader>("debug");
-		mCurrShader = shdrRef.s;
+		BaseGraphicsSystem::Init("debug");
+
+		primitive = &AssetManager::GetInstance()->GetAsset<BasePrimitive>(modelName);
+		GenDebugBatch(*primitive);
+
 	}
 
 	void RigidbodyRendererSystem::Render(Entity& cam)
@@ -42,10 +45,8 @@ namespace Carmicah
 		if (mCurrShader == 0)
 			return;
 		glUseProgram(mCurrShader);
-		auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(modelName) };
 
 		{
-			auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
 			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			Mtx3x3f camSpace{};
@@ -55,16 +56,18 @@ namespace Carmicah
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
 		}
 
-		for (auto& entity : mEntitiesSet)
+		for (auto& entity : mEntityBufferLoc)
 		{
-			auto& rigidbody = ComponentManager::GetInstance()->GetComponent<RigidBody>(entity);
+			if (!entity.second.isActive)
+				continue;
+
+			auto& rigidbody = ComponentManager::GetInstance()->GetComponent<RigidBody>(entity.first);
 			if (fabs(rigidbody.velocity.x) < std::numeric_limits<float>::epsilon() &&
 				fabs(rigidbody.velocity.y) < std::numeric_limits<float>::epsilon())
 				continue;
 
-			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
+			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity.first);
 
-			Matrix3x3<float> trans{};
 
 			// Get rotation
 			float rot = std::atan2f(rigidbody.velocity.y, rigidbody.velocity.x);
@@ -72,17 +75,47 @@ namespace Carmicah
 			//float biggerVel = fmaxf(fabs(rigidbody.velocity.x), fabs(rigidbody.velocity.y));
 			//trans.translateThis(transform.pos.x, transform.pos.y).scaleThis(biggerVel, biggerVel).rotRadThis(rot);
 
+			Mtx3x3f trans{};
 			trans.translateThis(transform.pos.x, transform.pos.y).rotRadThis(rot);
 
-			GLint uniformLoc;
-			if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, trans.m);
-
-			if (UniformExists(mCurrShader, "uDepth", uniformLoc))
-				glUniform1f(uniformLoc, CalcDepth(transform.depth, RENDER_LAYERS::DEBUG_LAYER));
-
-			RenderPrimitive(p);
+			EditDebugBatchData(entity.first, entity.second.posInMemory, *primitive, trans, true, DEBUG_LAYER);
 		}
+
+
+		// Add new Data
+		if (mEntityBufferLoc.size() != mEntitiesSet.size())
+		{
+			for (auto& entity : mEntitiesSet)
+			{
+				auto e{ mEntityBufferLoc.find(entity) };
+				if (e != mEntityBufferLoc.end())
+					continue;
+
+				auto& rigidbody = ComponentManager::GetInstance()->GetComponent<RigidBody>(entity);
+				if (fabs(rigidbody.velocity.x) < std::numeric_limits<float>::epsilon() &&
+					fabs(rigidbody.velocity.y) < std::numeric_limits<float>::epsilon())
+					continue;
+
+				EntityData ed{};
+				ed.isActive = true;
+				ed.posInMemory = mEntityBufferIDTrack++;
+
+				auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
+
+
+				// Get rotation
+				float rot = std::atan2f(rigidbody.velocity.y, rigidbody.velocity.x);
+				Mtx3x3f trans{};
+				trans.translateThis(transform.pos.x, transform.pos.y).rotRadThis(rot);
+
+
+				EditDebugBatchData(entity, ed.posInMemory, *primitive, trans, true, DEBUG_LAYER);
+				mEntityBufferLoc.emplace(entity, ed);
+			}
+		}
+
+
+		BatchDebugRender();
 
 		glBindVertexArray(0);
 		glUseProgram(0);

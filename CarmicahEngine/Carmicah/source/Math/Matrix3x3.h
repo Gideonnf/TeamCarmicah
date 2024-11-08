@@ -142,7 +142,7 @@ namespace Carmicah
 		{
 			m[0] *= other.x;
 			m[1] *= other.x;
-			m[2] *= other.y;
+			m[2] *= other.x;
 			m[3] *= other.y;
 			m[4] *= other.y;
 			m[5] *= other.y;

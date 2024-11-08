@@ -17,6 +17,7 @@ DigiPen Institute of Technology is prohibited.
 #ifndef ASSET_MANAGER_H
 #define ASSET_MANAGER_H
 
+#include <assert.h>
 #include <GLFW/glfw3.h>
 #include <freetype/ft2build.h>
 #include FT_FREETYPE_H
@@ -56,6 +57,7 @@ namespace Carmicah
 		std::unordered_map<std::string, std::shared_ptr<IAsset>> mAssetTypeMap{};
 
 		FT_Library mFTLib;
+		GLuint mArrayTex{}, currTexPt{};
 		const int maxTexSize{ 4096 };
 		// Audio
 		const int maxChannels{ 32 };
@@ -74,7 +76,7 @@ namespace Carmicah
 			// Doesnt exist in the map yet
 			if (mAssetTypeMap.count(assetType) == 0)
 			{
-				assert("Asset type does not exist");
+				//assert("Asset type does not exist");
 				//mAssetMap[assetType] = std::make_unique<Asset<T>>();
 			}
 			// cast it to the correct asset type 
@@ -104,7 +106,7 @@ namespace Carmicah
 			else
 			{
 				//CM_CORE_ERROR("Asset being registered more than once");
-				assert("Asset has been registered before");
+				//assert("Asset has been registered before");
 			}
 		}
 
@@ -152,8 +154,9 @@ namespace Carmicah
 		GLuint LoadShader(const std::string& shaderName, const std::string& vertFile, const std::string& fragFile);
 		void LoadObject(const std::string& objName, const std::string& modelFile);
 		void LoadDebugObject(const std::string& objName, const std::string& modelFile);
+		void InitTexture();
 		void LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile);
-		void AddTextureImage(Texture& t, const std::string& textureName, const int& num = 0, const std::string& extName = std::string(), bool wholeSprite = false);
+		void AddTextureImage(Texture& t, const std::string& textureName, const int& num = 1, const std::string& extName = "");
 		void LoadAnimation(const std::string& animName, const std::string& animFile);
 		void InitFontType();
 		void LoadFont(const std::string& fontName, const std::string& fontLoc, const unsigned int& fontHeight);

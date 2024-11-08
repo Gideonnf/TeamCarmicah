@@ -21,22 +21,26 @@ namespace Carmicah
 {
 	class TextSystem : public BaseSystem, private BaseGraphicsSystem
 	{
+	private:
+		Mtx3x3f screenMtx{};
+		int mLastTextNumCount{};
+
 	public:
 		/*
 		brief
 			Sets which components the system references, and load the shader
-		*/
-		void Init();
-
-		/*
-		brief
-			Renders text of objects with text and UITransform Components
 		param[canvasWidth]
 			width of reference canvas
 		param[canvasHeight]
 			height of reference canvas
 		*/
-		void Render(GLuint canvasWidth, GLuint canvasHeight);
+		void Init(const float& canvasWidth, const float& canvasHeight);
+
+		/*
+		brief
+			Renders text of objects with text and UITransform Components
+		*/
+		void Render();
 	};
 }
 #endif

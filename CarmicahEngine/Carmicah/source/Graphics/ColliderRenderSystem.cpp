@@ -30,8 +30,10 @@ namespace Carmicah
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Collider2D>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<ColliderRenderSystem>(mSignature);
-		auto shdrRef = AssetManager::GetInstance()->GetAsset<Shader>("debug");
-		mCurrShader = shdrRef.s;
+		BaseGraphicsSystem::Init("debug");
+
+		primitive = &AssetManager::GetInstance()->GetAsset<BasePrimitive>("DebugSquare");
+		GenDebugBatch(*primitive);
 	}
 
 	void ColliderRenderSystem::Render(Entity& cam)
@@ -41,7 +43,6 @@ namespace Carmicah
 		glUseProgram(mCurrShader);
 
 		{
-			auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
 			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			Mtx3x3f camSpace{};
@@ -51,26 +52,46 @@ namespace Carmicah
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
 		}
 
-		for (auto& entity : mEntitiesSet)
+		for (auto& entity : mEntityBufferLoc)
 		{
-			auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);
-			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(collider.shape)};
+			if (!entity.second.isActive)
+				continue;
 
+			auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity.first);
 
-			Matrix3x3<float> trans{};
+			Mtx3x3f trans{};
 			trans.translateThis((collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f)
 				.scaleThis(collider.max.x - collider.min.x, collider.max.y - collider.min.y);
 
-			GLint uniformLoc;
-			if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, trans.m);
-
-			if (UniformExists(mCurrShader, "uDepth", uniformLoc))
-				glUniform1f(uniformLoc, CalcDepth(mNearestDepth, RENDER_LAYERS::DEBUG_LAYER));
-
-
-			RenderPrimitive(p);
+			EditDebugBatchData(entity.first, entity.second.posInMemory, *primitive, trans, true, DEBUG_LAYER);
 		}
+
+
+		// Add new Data
+		if (mEntityBufferLoc.size() != mEntitiesSet.size())
+		{
+			for (auto& entity : mEntitiesSet)
+			{
+				auto e{ mEntityBufferLoc.find(entity) };
+				if (e != mEntityBufferLoc.end())
+					continue;
+				EntityData ed{};
+				ed.isActive = true;
+				ed.posInMemory = mEntityBufferIDTrack++;
+
+				auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);
+				Mtx3x3f trans{};
+				trans.translateThis((collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f)
+					.scaleThis(collider.max.x - collider.min.x, collider.max.y - collider.min.y);
+
+
+				EditDebugBatchData(entity, ed.posInMemory, *primitive, trans, true, DEBUG_LAYER);
+				mEntityBufferLoc.emplace(entity, ed);
+			}
+		}
+
+
+		BatchDebugRender();
 
 		glBindVertexArray(0);
 		glUseProgram(0);

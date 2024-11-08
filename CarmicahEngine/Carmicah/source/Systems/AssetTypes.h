@@ -26,37 +26,40 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	struct Primitive
+	struct BasePrimitive
 	{
-		GLuint vaoid{};
-		GLuint vboid{};
+		std::vector<Vec2f> vtx;
 		GLenum drawMode{};
 		GLuint drawCnt{};
+	};
+	struct Primitive : BasePrimitive
+	{
+		std::vector<Vec2f> texCoord;
+		std::vector<GLushort> idx;
+	};
+	struct BatchBuffer
+	{
+		GLuint vao{}, vbo{}, ebo{}, ibo{};
+		const BasePrimitive* pRef;
 	};
 	struct Shader
 	{
 		GLuint s;
 	};
-	struct ImageTexture
-	{
-		GLuint t;
-	};
-	struct TextureAtlas
-	{
-		GLuint t;
-		unsigned int slotWidth, slotHeight;
-		struct Slot
-		{
-			unsigned int x, y;
-			bool vacant, checked;
-		};
-		std::vector<Slot> spaces{};
-	};
+	//struct ImageTexture
+	//{
+	//	GLuint t;
+	//};
 	struct AnimAtlas
 	{
 		std::vector<std::pair<float, std::string>> anim;// MaxTime, TextureName
 	};
 	struct Texture
+	{
+		GLuint t;
+		Mtx3x3f mtx;
+	};
+	struct FontTexture
 	{
 		GLuint t;
 		Mtx3x3f mtx;
@@ -148,12 +151,12 @@ namespace Carmicah
 	};
 	struct EngineConfig
 	{
-		int Width, Height, fontSize;
-		std::string defaultScene;
-		std::string lastScene;
-		std::string defaultShader;
-		std::string fontShader;
-		std::string assetLoc;
+		int Width{}, Height{}, fontSize{}, maxNumTextures{}, batchRenderSize{};
+		float maxImgDepth{}, minImgDepth{};
+		std::string defaultScene{};
+		std::string lastScene{};
+		std::string defaultShader{};
+		std::string assetLoc{};
 	};
 }
 

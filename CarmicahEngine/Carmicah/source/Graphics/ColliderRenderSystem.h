@@ -23,6 +23,7 @@ namespace Carmicah
 	{
 	private:
 		const char* shaderName{ "debug" };
+		BasePrimitive* primitive;
 	public:
 		/*
 		brief

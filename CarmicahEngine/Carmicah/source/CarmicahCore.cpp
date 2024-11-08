@@ -64,20 +64,22 @@ namespace Carmicah
     {
         static bool ex = extraDetails;
         glEnable(GL_DEBUG_OUTPUT);
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
         glDebugMessageCallback(
             [](GLenum source, GLenum type, GLuint id, GLenum severity,
             GLsizei length, const GLchar* msg, const void* uParam)
             {
+                std::stringstream ss;
+                ss << "GL: ";
+                if (ex)
+                    ss << " type = 0x" << type << ", Severity = 0x" << severity << ", ";
+                ss << msg << std::endl;
                 if (type == GL_DEBUG_TYPE_ERROR)
                 {
-                    std::stringstream ss;
-                    ss << "GL: ";
-                    if (ex)
-                        ss << " type = 0x" << type << ", Severity = 0x" << severity << ", ";
-                    ss << "msg = " << msg << std::endl;
-
                     CM_ERROR(ss.str());
                 }
+                else
+                    //CM_CORE_WARN(ss.str());
                 if (uParam || source || length || id) // TODO: It's Just removing warnings idfk how to remove this warnings
                     ex = ex;
             },
@@ -105,8 +107,8 @@ namespace Carmicah
         std::string defaultScene = AssetManager::GetInstance()->enConfig.defaultScene;
         //CM_CORE_INFO("Reached before window creation");
         GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", NULL, NULL);
-        int bufferWidth, bufferHeight;
-        glfwGetFramebufferSize(window, &bufferWidth, &bufferHeight);
+        //int bufferWidth, bufferHeight;
+        //glfwGetFramebufferSize(window, &bufferWidth, &bufferHeight);
         glfwMakeContextCurrent(window);
        // CM_CORE_INFO("Reached after window creation");
 
@@ -170,8 +172,8 @@ namespace Carmicah
         // TODO: Shift this all into system constructors to clean up core.cpp
         transformSystem->Init();
         graSystem->Init();
-        uigSystem->Init(Width, Height);
-        txtSystem->Init();
+        uigSystem->Init(static_cast<float>(Width), static_cast<float>(Height));
+        txtSystem->Init(static_cast<float>(Width), static_cast<float>(Height));
         aniSystem->Init();
         butSystem->Init();
         crsSystem->Init();
@@ -217,7 +219,7 @@ namespace Carmicah
 
 
 
-        SceneToImgui::GetInstance()->CreateFramebuffer(bufferWidth, bufferHeight);
+        SceneToImgui::GetInstance()->CreateFramebuffer(Width, Height);
 
         while (!glfwWindowShouldClose(window)) {
             CarmicahTime::GetInstance()->StartLoopTimer();
@@ -377,13 +379,12 @@ namespace Carmicah
 
                 SceneToImgui::GetInstance()->BindFramebuffer();
                 CarmicahTime::GetInstance()->StartSystemTimer("RenderingSystems");
-               // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
                 transformSystem->Update(); // Update world and local transforms before rendering
                 graSystem->Render(gGOFactory->mainCam);
                 uigSystem->Render();
                 crsSystem->Render(gGOFactory->mainCam);
                 rrsSystem->Render(gGOFactory->mainCam);
-                txtSystem->Render((GLuint)Width, (GLuint)Height);
+                txtSystem->Render();
                 CarmicahTime::GetInstance()->StopSystemTimer("RenderingSystems");
                 //SceneToImgui::GetInstance()->IDPick();
 

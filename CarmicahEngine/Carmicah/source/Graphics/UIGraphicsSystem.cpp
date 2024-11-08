@@ -36,55 +36,54 @@ namespace Carmicah
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Renderer>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<UIGraphicsSystem>(mSignature);
-		auto& shdrRef = AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.defaultShader);
-		mCurrShader = shdrRef.s;
+		BaseGraphicsSystem::Init("");
 		screenMtx.translateThis(-1.f, -1.f).scaleThis(2 / screenWidth, 2 / screenHeight);
+
+		GenBatch(AssetManager::GetInstance()->GetAsset<Primitive>("Square"));
 	}
 
 	void UIGraphicsSystem::Render()
 	{
-		glUseProgram(mCurrShader);
 		if (mCurrShader == 0)
 			return;
+		glUseProgram(mCurrShader);
+		
+		GLint uniformLoc{};
+		if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
+			glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, screenMtx.m);
+		
 
+		for (auto& entity : mEntityBufferLoc)
 		{
-			Mtx3x3f identityMtx{};
-			GLint uniformLoc{};
-			if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, identityMtx.m);
+			if (!entity.second.isActive)
+				continue;
+
+			auto& transform = ComponentManager::GetInstance()->GetComponent<UITransform>(entity.first);
+
+			if (transform.notUpdated)
+				continue;
+
+			EditBatchData(entity.first, entity.second.posInMemory, false, UI_LAYER);
 		}
 
-		for (auto& entity : mEntitiesSet)
+		// Add new Data
+		if (mEntityBufferLoc.size() != mEntitiesSet.size())
 		{
-			auto& transform = ComponentManager::GetInstance()->GetComponent<UITransform>(entity);
+			for (auto& entity : mEntitiesSet)
+			{
+				auto e{ mEntityBufferLoc.find(entity) };
+				if (e != mEntityBufferLoc.end())
+					continue;
+				EntityData ed{};
+				ed.isActive = true;
+				ed.posInMemory = mEntityBufferIDTrack++;
 
-			Mtx3x3f localSpace;
-			localSpace = screenMtx * Mtx3x3f::translate(transform.pos.x, transform.pos.y) * Mtx3x3f::scale(transform.scale.x, transform.scale.y);
-
-			// Get Components
-			Renderer& renderer = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
-			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(renderer.model) };
-
-			// Set Uniforms
-			GLint uniformLoc{};
-			if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, localSpace.m);
-
-			if (UniformExists(mCurrShader, "uDepth", uniformLoc))
-				glUniform1f(uniformLoc, CalcDepth(transform.depth, RENDER_LAYERS::UI_LAYER));
-
-			if (UniformExists(mCurrShader, "uID", uniformLoc))
-				glUniform1ui(uniformLoc, entity);
-
-
-			// Error Checking if texture no exists
-			auto& tryTex = AssetManager::GetInstance()->GetAsset<Texture>(renderer.texture);
-			if (UniformExists(mCurrShader, "uAnimationMult", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, tryTex.mtx.m);
-			glBindTextureUnit(0, tryTex.t);
-
-			RenderPrimitive(p);
+				EditBatchData(entity, ed.posInMemory, false, UI_LAYER);
+				mEntityBufferLoc.emplace(entity, ed);
+			}
 		}
+
+		BatchRender();
 
 		glBindTextureUnit(0, 0);
 		glBindVertexArray(0);

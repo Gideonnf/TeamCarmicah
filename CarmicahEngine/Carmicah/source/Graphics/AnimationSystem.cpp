@@ -44,6 +44,9 @@ namespace Carmicah
 				AnimAtlas& a{ AssetManager::GetInstance()->GetAsset<AnimAtlas>(animation.animAtlas) };
 				auto& rend = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
 
+				if (animation.currPiece > a.anim.size())
+					animation.currPiece = 0;
+
 				rend.texture = a.anim[animation.currPiece].second;
 				animation.maxTime = a.anim[animation.currPiece].first;
 

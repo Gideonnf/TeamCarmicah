@@ -25,7 +25,7 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	void TextSystem::Init()
+	void TextSystem::Init(const float& canvasWidth, const float& canvasHeight)
 	{
 		// Set the signature of the system
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<UITransform>());
@@ -33,11 +33,13 @@ namespace Carmicah
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<TextSystem>(mSignature);
 
-		auto& shdrRef = AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.fontShader);
-		mCurrShader = shdrRef.s;
+		BaseGraphicsSystem::Init("font");
+		screenMtx.translateThis(-1.f, -1.f).scaleThis(2 / canvasWidth, 2 / canvasHeight);
+
+		GenBatch(AssetManager::GetInstance()->GetAsset<Primitive>("Square"));
 	}
 
-	void TextSystem::Render(GLuint canvasWidth, GLuint canvasHeight)
+	void TextSystem::Render()
 	{
 		if (mCurrShader == 0)
 			return;
@@ -45,8 +47,9 @@ namespace Carmicah
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		Mtx3x3f projection{};
-		projection.translateThis(-1.f, -1.f).scaleThis(2.f / static_cast<float>(canvasWidth), 2.f / static_cast<float>(canvasHeight));
+		GLint uniformLoc{};
+		if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
+			glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, screenMtx.m);
 
 		for (auto& entity : mEntitiesSet)
 		{
@@ -57,15 +60,15 @@ namespace Carmicah
 
 			float xTrack = UITrans.pos.x, yTrack = UITrans.pos.y;
 
-			GLint uniformLoc;
 			if (UniformExists(mCurrShader, "uTextColor", uniformLoc))
 				glUniform3f(uniformLoc, txtRenderer.colorR, txtRenderer.colorG, txtRenderer.colorB);
-			{
-				const Texture& t{ AssetManager::GetInstance()->GetAsset<Texture>(foundFontTex.mFontMaps[0].texRef)};
-				glBindTextureUnit(0, t.t);
-			}
 
+			// Clear Buffer
+			glClearNamedBufferSubData(mBufferData[0].vbo, GL_RGBA8, 0, sizeof(vtxTexd2D) * 4 * mLastTextNumCount, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+			mLastTextNumCount = 0;
 
+			std::vector<vtxTexd2D> charData;
+			charData.reserve(p.vtx.size() * txtRenderer.txt.size());
 			// iterate through all characters (alot of it divides by 2 since quad is based on [-1,1])
 			for (auto& c : txtRenderer.txt)
 			{
@@ -82,25 +85,30 @@ namespace Carmicah
 					.scaleThis(static_cast<float>(ch.width) * UITrans.scale.x * 0.5f,
 						static_cast<float>(ch.height) * UITrans.scale.y * 0.5f);
 
-				charTransform = projection * charTransform;
+				const FontTexture& t{ AssetManager::GetInstance()->GetAsset<FontTexture>(ch.texRef) };
 
-				if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, charTransform.m);
+				float depth{ CalcDepth(UITrans.depth, UI_LAYER) };
 
-				if (UniformExists(mCurrShader, "uDepth", uniformLoc))
-					glUniform1f(uniformLoc, CalcDepth(UITrans.depth, RENDER_LAYERS::UI_LAYER));
+				for (unsigned int i{}; i < p.vtx.size(); ++i)
+				{
+					vtxTexd2D tt;
+					tt.pos = charTransform * p.vtx[i];
+					tt.ids[0] = entity;
+					tt.ids[1] = t.t;
+					tt.depth = depth;
+					tt.uv = t.mtx * p.texCoord[i];
+					charData.emplace_back(tt);
+				}
 
-				const Texture& t{ AssetManager::GetInstance()->GetAsset<Texture>(ch.texRef) };
-				if (UniformExists(mCurrShader, "uTexMulti", uniformLoc))
-					glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, t.mtx.m);
-
-				RenderPrimitive(p);
+				++mLastTextNumCount;
 
 				// now advance cursors for next glyph (note that advance is number of 1/64 pixels)
 				xTrack += (ch.advance >> 7) * UITrans.scale.x * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
 			}
+			glNamedBufferSubData(mBufferData[0].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * mLastTextNumCount, charData.data());
+			BatchRender();
 		}
-		
+
 		glBindTextureUnit(0, 0);
 		glBindVertexArray(0);
 		glUseProgram(0);

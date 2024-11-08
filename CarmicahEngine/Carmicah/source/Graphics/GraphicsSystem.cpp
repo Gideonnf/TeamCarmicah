@@ -36,8 +36,9 @@ namespace Carmicah
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Renderer>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<GraphicsSystem>(mSignature);
-		auto& shdrRef = AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.defaultShader);
-		mCurrShader = shdrRef.s;
+		BaseGraphicsSystem::Init("");
+
+		GenBatch(AssetManager::GetInstance()->GetAsset<Primitive>("Square"));
 	}
 
 	void GraphicsSystem::SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam)
@@ -53,9 +54,9 @@ namespace Carmicah
 		glClearColor(0.75294f, 1.f, 0.93333f, 1.f); // Gideon's favourite
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glUseProgram(mCurrShader);
 		if (mCurrShader == 0)
 			return;
+		glUseProgram(mCurrShader);
 		// Just did discard instead, cuz this stopped working
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -65,7 +66,6 @@ namespace Carmicah
 
 		// Handle Camera Transform
 		{
-			auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
 			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			Mtx3x3f camSpace{};
@@ -75,37 +75,38 @@ namespace Carmicah
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
 		}
 
-		for (auto& entity : mEntitiesSet)
+		for (auto& entity : mEntityBufferLoc)
 		{
-			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
+			if (!entity.second.isActive)
+				continue;
 
-			// Get Components
-			Renderer& renderer = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
-			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(renderer.model) };
+			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity.first);
 
-			// Set Uniforms
-			GLint uniformLoc{};
-			if (UniformExists(mCurrShader, "uModel_to_NDC", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, transform.worldSpace.m);
+			if (transform.notUpdated)
+				continue;
 
-			//if (UniformExists(mCurrShader, "uTex2d", uniformLoc)) // Only if multiple textures
-			//	glUniform1i(uniformLoc, 0);
-
-			if (UniformExists(mCurrShader, "uDepth", uniformLoc))
-				glUniform1f(uniformLoc, CalcDepth(transform.depth, RENDER_LAYERS::BASE_LAYER));
-
-			if (UniformExists(mCurrShader, "uID", uniformLoc))
-				glUniform1ui(uniformLoc, entity);
-
-			// Error Checking if texture no exists
-			auto& tryTex = AssetManager::GetInstance()->GetAsset<Texture>(renderer.texture);
-
-			if (UniformExists(mCurrShader, "uAnimationMult", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, tryTex.mtx.m);
-			glBindTextureUnit(0, tryTex.t);
-
-			RenderPrimitive(p);
+			EditBatchData(entity.first, entity.second.posInMemory, true, BASE_LAYER);
 		}
+		
+		// Add new Data
+		if (mEntityBufferLoc.size() != mEntitiesSet.size())
+		{
+			for (auto& entity : mEntitiesSet)
+			{
+				auto e{ mEntityBufferLoc.find(entity) };
+				if (e != mEntityBufferLoc.end())
+					continue;
+				EntityData ed{};
+				ed.isActive = true;
+				ed.posInMemory = mEntityBufferIDTrack++;
+
+				EditBatchData(entity, ed.posInMemory, true, BASE_LAYER);
+				mEntityBufferLoc.emplace(entity, ed);
+			}
+		}
+
+
+		BatchRender();
 
 		glBindTextureUnit(0, 0);
 		glBindVertexArray(0);

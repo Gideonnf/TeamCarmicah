@@ -210,8 +210,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
-                    "model": "Circle",
-                    "texture": "Duck"
+                    "model": "Square",
+                    "texture": "sky"
                 }
             ],
             "Children": []
@@ -277,7 +277,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
-                    "model": "Circle",
+                    "model": "Square",
                     "texture": "Duck"
                 },
                 {
@@ -318,7 +318,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
-                    "model": "Circle",
+                    "model": "",
                     "texture": "Duck"
                 }
             ],
@@ -338,7 +338,7 @@
                         },
                         {
                             "Component Name": "struct Carmicah::Renderer",
-                            "model": "Circle",
+                            "model": "Square",
                             "texture": "Duck"
                         }
                     ],
@@ -358,7 +358,7 @@
                                 },
                                 {
                                     "Component Name": "struct Carmicah::Renderer",
-                                    "model": "Circle",
+                                    "model": "Square",
                                     "texture": "Duck"
                                 }
                             ],
@@ -407,7 +407,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
-                    "model": "Circle",
+                    "model": "Square",
                     "texture": "Duck"
                 }
             ],
@@ -428,7 +428,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
-                    "model": "Circle",
+                    "model": "Square",
                     "texture": "Duck"
                 }
             ],
@@ -449,7 +449,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
-                    "model": "Circle",
+                    "model": "Square",
                     "texture": "Duck"
                 }
             ],
@@ -470,7 +470,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
-                    "model": "Circle",
+                    "model": "Square",
                     "texture": "Duck"
                 }
             ],
@@ -491,7 +491,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
-                    "model": "Circle",
+                    "model": "Square",
                     "texture": "Duck"
                 }
             ],
