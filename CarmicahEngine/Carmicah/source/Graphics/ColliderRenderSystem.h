@@ -30,6 +30,8 @@ namespace Carmicah
 		***************************************************************************/
 		void Init();
 
+		void EntityDestroyed(Entity id);
+
 		/*!*************************************************************************
 		brief
 			Renders the Debug line of entities

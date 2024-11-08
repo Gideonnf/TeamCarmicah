@@ -40,6 +40,15 @@ namespace Carmicah
 
 	}
 
+	void RigidbodyRendererSystem::EntityDestroyed(Entity id)
+	{
+		auto test = mEntityBufferLoc.find(id);
+		if (test != mEntityBufferLoc.end())
+			DeleteBatchData(id, test->second.posInMemory, false, 2);
+	}
+
+
+
 	void RigidbodyRendererSystem::Render(Entity& cam)
 	{
 		if (mCurrShader == 0)
@@ -55,6 +64,7 @@ namespace Carmicah
 			if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
 		}
+
 
 		for (auto& entity : mEntityBufferLoc)
 		{

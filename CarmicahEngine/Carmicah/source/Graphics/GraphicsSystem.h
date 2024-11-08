@@ -34,6 +34,9 @@ namespace Carmicah
 		***************************************************************************/
 		void SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam);
 
+
+		void EntityDestroyed(Entity id);
+
 		/*!*************************************************************************
 		brief
 			Renders the entities

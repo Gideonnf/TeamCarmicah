@@ -49,6 +49,13 @@ namespace Carmicah
 		currCam.scale.y = 1.f / static_cast<float>(camHeight);
 	}
 
+	void GraphicsSystem::EntityDestroyed(Entity id)
+	{
+		auto test =  mEntityBufferLoc.find(id);
+		if (test != mEntityBufferLoc.end())
+			DeleteBatchData(id, test->second.posInMemory, false, 4);
+	}
+
 	void GraphicsSystem::Render(Entity& cam)
 	{
 		glClearColor(0.75294f, 1.f, 0.93333f, 1.f); // Gideon's favourite
@@ -74,6 +81,7 @@ namespace Carmicah
 			if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
 		}
+
 
 		for (auto& entity : mEntityBufferLoc)
 		{

@@ -36,6 +36,15 @@ namespace Carmicah
 		GenDebugBatch(*primitive);
 	}
 
+	void ColliderRenderSystem::EntityDestroyed(Entity id)
+	{
+		auto test = mEntityBufferLoc.find(id);
+		if (test != mEntityBufferLoc.end())
+			DeleteBatchData(id, test->second.posInMemory, false, 4);
+	}
+
+
+
 	void ColliderRenderSystem::Render(Entity& cam)
 	{
 		if (mCurrShader == 0)
@@ -70,6 +79,7 @@ namespace Carmicah
 		// Add new Data
 		if (mEntityBufferLoc.size() != mEntitiesSet.size())
 		{
+
 			for (auto& entity : mEntitiesSet)
 			{
 				auto e{ mEntityBufferLoc.find(entity) };

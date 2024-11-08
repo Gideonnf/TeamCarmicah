@@ -36,6 +36,8 @@ namespace Carmicah
 		***************************************************************************/
 		void Init(const float& screenWidth, const float& screenHeight);
 
+		void EntityDestroyed(Entity id);
+
 		/*!*************************************************************************
 		brief
 			Renders the objects based on screen position [0,0] -> (top left)

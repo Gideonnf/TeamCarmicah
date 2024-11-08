@@ -147,6 +147,20 @@ namespace Carmicah
 
 		/*!*************************************************************************
 		brief
+			Clears up the specific Buffer data at the location
+		param[entity]
+			ID of the entity whose data to pass into the Buffer Object
+		param[pos]
+			Location (ID) of where in the Buffer Object to edit
+		param[isDebug]
+			To delete from vtx2D or vtxTexd2D depending on debug delete or not
+		param[vtxSize]
+			number of vertices to delete
+		***************************************************************************/
+		void DeleteBatchData(const unsigned int& entity, const unsigned int& pos, bool isDebug, int vtxSize);
+
+		/*!*************************************************************************
+		brief
 			Batch Render mBatchSize number of Primitives, using indexed rendering, textures & GL_TRIANGLES
 		***************************************************************************/
 		void BatchRender();

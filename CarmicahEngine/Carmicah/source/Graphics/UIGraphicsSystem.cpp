@@ -42,6 +42,15 @@ namespace Carmicah
 		GenBatch(AssetManager::GetInstance()->GetAsset<Primitive>("Square"));
 	}
 
+	void UIGraphicsSystem::EntityDestroyed(Entity id)
+	{
+		auto test = mEntityBufferLoc.find(id);
+		if (test != mEntityBufferLoc.end())
+			DeleteBatchData(id, test->second.posInMemory, false, 4);
+	}
+
+
+
 	void UIGraphicsSystem::Render()
 	{
 		if (mCurrShader == 0)
@@ -69,18 +78,20 @@ namespace Carmicah
 		// Add new Data
 		if (mEntityBufferLoc.size() != mEntitiesSet.size())
 		{
-			for (auto& entity : mEntitiesSet)
-			{
-				auto e{ mEntityBufferLoc.find(entity) };
-				if (e != mEntityBufferLoc.end())
-					continue;
-				EntityData ed{};
-				ed.isActive = true;
-				ed.posInMemory = mEntityBufferIDTrack++;
 
-				EditBatchData(entity, ed.posInMemory, false, UI_LAYER);
-				mEntityBufferLoc.emplace(entity, ed);
-			}
+				for (auto& entity : mEntitiesSet)
+				{
+					auto e{ mEntityBufferLoc.find(entity) };
+					if (e != mEntityBufferLoc.end())
+						continue;
+					EntityData ed{};
+					ed.isActive = true;
+					ed.posInMemory = mEntityBufferIDTrack++;
+
+					EditBatchData(entity, ed.posInMemory, false, UI_LAYER);
+					mEntityBufferLoc.emplace(entity, ed);
+				}
+
 		}
 
 		BatchRender();
