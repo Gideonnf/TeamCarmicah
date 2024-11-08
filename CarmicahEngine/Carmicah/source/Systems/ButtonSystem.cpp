@@ -35,7 +35,6 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Initializes the ButtonSystem, setting up necessary entity signatures for button
 				components.
@@ -125,7 +124,7 @@ namespace Carmicah
 
 	\return     void
 	-------------------------------------------------------------------------------------------------*/
-	void ButtonSystem::OnPress(std::string name)
+	void ButtonSystem::OnPress(Button& buttonComponent)
 	{
 		//auto* componentManager = ComponentManager::GetInstance();
 
@@ -159,6 +158,4 @@ namespace Carmicah
 		//	}
 		//}
 	}
-
-
 }
