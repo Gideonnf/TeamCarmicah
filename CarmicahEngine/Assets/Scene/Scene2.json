@@ -41,7 +41,7 @@
                 {
                     "Component Name": "struct Carmicah::Animation",
                     "timeBetween": 0.8829825520515442,
-                    "Atlas": "Count"
+                    "Atlas": "Bullet"
                 }
             ],
             "Children": []
@@ -206,7 +206,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
-                    "model": "Circle",
+                    "model": "Square",
                     "texture": "Duck"
                 }
             ],

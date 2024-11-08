@@ -1,3 +1,0 @@
-Count
-Top left: 0 x 0, 11 x 11
-9 sprites
