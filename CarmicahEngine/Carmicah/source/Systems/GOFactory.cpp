@@ -91,7 +91,7 @@ namespace Carmicah
 		return go;
 	}
 
-	GameObject GOFactory::CloneGO(GameObject const& go)
+	GameObject GOFactory::CloneGO(GameObject const& go, Entity parentID)
 	{
 		GameObject newGO(go);
 		newGO.mName = CreateGOName(go.mName);
@@ -108,8 +108,27 @@ namespace Carmicah
 		Carmicah::Log::GetCoreLogger()->info("Creating a clone of game object with name: " + newGO.mName + " with id: " + std::to_string(newGO.mID));
 
 		SystemManager::GetInstance()->UpdateSignatures(newGO.mID, EntityManager::GetInstance()->GetSignature(newGO.mID));
+		Transform& newTransform = ComponentManager::GetInstance()->GetComponent<Transform>(newGO.mID);
+		newTransform.children.clear(); // if they copy they'll copy the children list also
 
-		UpdateParent(newGO.mID, sceneGO.sceneID);
+		// Update parent will replace parent so dont have to reseet parent
+		// by default, if creating a new clone the value of parentID is 0,
+		// so it will be parented to the scene unless specified other wies by passing in a parent
+		UpdateParent(newGO.mID, parentID);
+
+		Transform& originalTransform = ComponentManager::GetInstance()->GetComponent<Transform>(go.mID);
+		// Check for children
+		if (originalTransform.children.size() > 0)
+		{
+			// Clone the child and parent it to this
+			for (auto it : originalTransform.children)
+			{
+				GameObject& go = gGOFactory->FetchGO(it);
+				// Clone this go and parent it to the cloned go
+				CloneGO(go, newGO.mID);
+			}
+		}
+
 
 		return newGO;
 	}
