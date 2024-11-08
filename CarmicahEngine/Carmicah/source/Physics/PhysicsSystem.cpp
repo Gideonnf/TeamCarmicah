@@ -16,7 +16,6 @@ DigiPen Institute of Technology is prohibited.
 #include <ECS/ECSTypes.h>
 #include "Components/Transform.h"
 #include "Components/RigidBody.h"
-#include "Components/Forces.h"
 #include "Components/Collider2D.h"
 #include "Systems/GOFactory.h"
 #include "Systems/CollisionSystem.h"
@@ -67,42 +66,24 @@ namespace Carmicah
 
 		//float deltaTime = (float)CarmicahTimer::GetDt();
 
-		float deltaTime = CarmicahTime::GetInstance()->GetDeltaTime();
+		double deltaTime = CarmicahTime::GetInstance()->GetDeltaTime();
+
+		rigidbody.forcesManager.SetCurrentVelocity(rigidbody.velocity);
+
 
 		rigidbody.forcesManager.UpdateForces(deltaTime);
 
 
-		if (rigidbody.objectType == "Dynamic")
+		Vector2D<float> sumForces = rigidbody.forcesManager.GetSumForces();
+		//if (rigidbody.objectType == "")
+		//{
+		//	CM_CORE_ERROR("Rigid body has no type");
+		//}
+
+		if (rigidbody.objectType == rbTypes::DYNAMIC|| rigidbody.objectType == rbTypes::KINEMATIC)
 		{
 			transform.pos.x = transform.pos.x + rigidbody.velocity.x * deltaTime;
 			transform.pos.y = transform.pos.y + rigidbody.velocity.y * deltaTime;
-
-			Vector2D<float> sumForces = rigidbody.forcesManager.GetSumForces();
-
-
-
-			// Apply damping when there are no active forces
-			const float dampingFactor = 0.99f; // Adjust as necessary
-			const float maxVelocity = 50.0f;
-			const float velocityThreshold = 0.10f;
-
-			if (sumForces.x == 0 && sumForces.y == 0)
-			{
-
-				rigidbody.velocity.x *= dampingFactor;
-				rigidbody.velocity.y *= dampingFactor;
-
-				// Check for near-zero velocities
-				if (std::abs(rigidbody.velocity.x) < velocityThreshold) {
-					rigidbody.velocity.x = 0;
-				}
-				if (std::abs(rigidbody.velocity.y) < velocityThreshold) {
-					rigidbody.velocity.y = 0;
-				}
-
-				const float angularDampingFactor = 0.99f; // Adjust as necessary
-				rigidbody.angularVelocity *= angularDampingFactor;
-			}
 
 
 			rigidbody.acceleration.x = sumForces.x * (1/rigidbody.mass) + rigidbody.gravity;
@@ -112,11 +93,6 @@ namespace Carmicah
 
 			rigidbody.velocity.y = rigidbody.velocity.y + rigidbody.acceleration.y * deltaTime;
 
-			if (Vector2DDotProduct(rigidbody.velocity, rigidbody.velocity) > maxVelocity * maxVelocity)
-			{
-				Vector2DNormalize(rigidbody.velocity, rigidbody.velocity);
-				rigidbody.velocity = rigidbody.velocity * (maxVelocity * maxVelocity);
-			}
 
 			//transform.rot += 5.0f + rigidbody.angularVelocity * deltaTime;
 
@@ -137,19 +113,6 @@ namespace Carmicah
 			//		transform.rot += 360.0f;
 			//	}
 			//}
-		}
-		else if (rigidbody.objectType == "Kinematic")
-		{
-			if (rigidbody.velocity.x != 0)
-			{
-				transform.pos.x += rigidbody.velocity.x * deltaTime;
-
-			}
-
-			if (rigidbody.velocity.y != 0)
-			{
-				transform.pos.y += rigidbody.velocity.y * deltaTime;
-			}
 
 		}
 

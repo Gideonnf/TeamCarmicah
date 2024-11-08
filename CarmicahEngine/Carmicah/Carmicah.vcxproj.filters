@@ -25,6 +25,9 @@
     <Filter Include="Physics">
       <UniqueIdentifier>{888B590D-F46A-D8A8-FD82-637F69E13E0A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripting">
+      <UniqueIdentifier>{985A7358-04C5-27CF-4D03-D974B9AC0524}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Systems">
       <UniqueIdentifier>{1DDE831B-89BD-02B7-92D5-8D8DFE336918}</UniqueIdentifier>
     </Filter>
@@ -41,16 +44,19 @@
     <ClInclude Include="source\Components\BaseTransform.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="source\Components\Collider2D.h">
+    <ClInclude Include="source\Components\Button.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="source\Components\Forces.h">
+    <ClInclude Include="source\Components\Collider2D.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="source\Components\Renderer.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="source\Components\RigidBody.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Components\Script.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="source\Components\TextRenderer.h">
@@ -152,11 +158,23 @@
     <ClInclude Include="source\Physics\PhysicsSystem.h">
       <Filter>Physics</Filter>
     </ClInclude>
+    <ClInclude Include="source\Scripting\ScriptFunctions.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Scripting\ScriptObject.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Scripting\ScriptSystem.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
     <ClInclude Include="source\Singleton.h" />
     <ClInclude Include="source\Systems\AssetManager.h">
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="source\Systems\AssetTypes.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Systems\ButtonSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="source\Systems\CollisionSystem.h">
@@ -252,7 +270,19 @@
     <ClCompile Include="source\Physics\PhysicsSystem.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
+    <ClCompile Include="source\Scripting\ScriptFunctions.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Scripting\ScriptObject.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Scripting\ScriptSystem.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
     <ClCompile Include="source\Systems\AssetManager.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Systems\ButtonSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="source\Systems\CollisionSystem.cpp">

@@ -28,6 +28,8 @@ DigiPen Institute of Technology is prohibited.
 #include "Components/TextRenderer.h"
 #include "Components/UITransform.h"
 #include "Components/RigidBody.h"
+#include "Components/Script.h"
+#include "Components/Button.h"
 #include "Singleton.h"
 
 namespace Carmicah

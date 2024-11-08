@@ -59,11 +59,11 @@ namespace Carmicah
 						}
 						else if (folderName == "Audio")
 						{
-							LoadSound(fileName, entry.path().string(), false);
+							LoadSound(fileName, entry.path().string(), false, 1.0f); 
 						}
 						else if (folderName == "BGM")
 						{
-							LoadSound(fileName, entry.path().string(), true);
+							LoadSound(fileName, entry.path().string(), true, 1.0f);  
 						}
 						else if (folderName == "Images")
 						{
@@ -94,8 +94,8 @@ namespace Carmicah
 						}
 						else if (folderName == "Scene")
 						{
-						//	std::cout << entry.path().string() << std::endl;
-							//std::cout << fileName << std::endl;
+							//	std::cout << entry.path().string() << std::endl;
+								//std::cout << fileName << std::endl;
 							Scene newScene{ entry.path().string() };
 							AddAsset<Scene>(fileName, newScene);
 							//mSceneFiles.insert(std::make_pair(fileName, entry.path().string()));
@@ -106,7 +106,7 @@ namespace Carmicah
 							if (fileExt == ".vert")
 							{
 								const auto testOtherFile = subFile.path() / (fileName + std::string(".frag"));
-								if(std::filesystem::exists(testOtherFile))
+								if (std::filesystem::exists(testOtherFile))
 								{
 									LoadShader(fileName, entry.path().string(), testOtherFile.string());
 								}
@@ -122,7 +122,7 @@ namespace Carmicah
 				}
 			}
 		}
-	
+
 		//enConfig = Serializer.LoadConfig(directoryPath)
 	}
 
@@ -403,6 +403,7 @@ namespace Carmicah
 		// Read if the sprite needs to be divided
 		struct spriteDetails
 		{
+			std::string name;
 			int x, y, width, height, num;
 		};
 		std::vector<spriteDetails> spriteD;
@@ -417,8 +418,9 @@ namespace Carmicah
 
 			while (!ssDets.eof())
 			{
-				ssDets >> tempS >> tempS >> t.x >> tempC >> t.y;
-				ssDets >> t.width >> t.height;
+				ssDets >> t.name;
+				ssDets >> tempS >> tempS >> t.x >> tempC >> t.y >> tempC;
+				ssDets >> t.width >> tempC >> t.height;
 				ssDets >> t.num;
 
 				if (!ssDets.eof())
@@ -462,12 +464,12 @@ namespace Carmicah
 			AddAsset(textureName, t);
 			return;
 		}
-		float	x		= t.mtx.m[0] / t.mtx.m[4],
-				y		= t.mtx.m[1] / t.mtx.m[5],
-				width	= t.mtx.m[2] / t.mtx.m[4],
-				height	= t.mtx.m[3] / t.mtx.m[5];
+		float	x = t.mtx.m[0] / t.mtx.m[4],
+			y = t.mtx.m[1] / t.mtx.m[5],
+			width = t.mtx.m[2] / t.mtx.m[4],
+			height = t.mtx.m[3] / t.mtx.m[5];
 		Mtx33Identity(t.mtx);
-		if(wholeSprite)
+		if (wholeSprite)
 			AddAsset(textureName, t);
 
 		t.mtx.translateThis(x, 1.f - y - height).scaleThis(width, height);
@@ -545,7 +547,7 @@ namespace Carmicah
 		}
 		FT_Set_Pixel_Sizes(fontFace, 0, fontHeight);
 
-		for (unsigned char c{fontObj.charOffset}; c < 128; ++c)
+		for (unsigned char c{ fontObj.charOffset }; c < 128; ++c)
 		{
 			if (FT_Load_Char(fontFace, c, FT_LOAD_RENDER))
 			{
@@ -566,7 +568,7 @@ namespace Carmicah
 
 		std::sort(fontHeightMap.begin(), fontHeightMap.end(), [](const auto& lhs, const auto& rhs) {
 			return lhs.second < rhs.second;
-		});
+			});
 
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		//glTextureParameterf(currTexPt, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -590,8 +592,8 @@ namespace Carmicah
 			if (widthAccumulated > static_cast<unsigned int>(maxTexSize))
 			{
 				widthAccumulated = 0;
-				heightAccumulated += heightSoFar;
-;			}
+				heightAccumulated += heightSoFar;	
+			}
 			glTextureSubImage3D(mArrayTex,
 				0,						// Mipmap
 				widthAccumulated, heightAccumulated, currTexPt,		// x/y/z Offset
@@ -647,7 +649,8 @@ namespace Carmicah
 		mSoundSystem->init(maxChannels, FMOD_INIT_NORMAL, NULL);
 	}
 
-	void AssetManager::LoadSound(const std::string& soundName, std::string const& soundFile, bool b_isLoop)
+
+	void AssetManager::LoadSound(const std::string& soundName, const std::string& soundFile, bool isLoop, float defaultVolume)
 	{
 		auto sound = mSoundMap.find(soundName);
 		if (sound != mSoundMap.end())
@@ -661,15 +664,43 @@ namespace Carmicah
 		mSoundSystem->createSound(soundFile.c_str(), eMode, nullptr, &audio.sound);
 		if (audio.sound)
 		{
-			audio.isLoop = b_isLoop;
+			audio.isLoop = isLoop;
+			audio.defaultVolume = defaultVolume;
 			mSoundMap.insert(std::make_pair(soundName, audio));
-			if (b_isLoop)
+			if (isLoop)
 			{
 				audio.sound->setMode(FMOD_LOOP_NORMAL);
 				audio.sound->setLoopCount(-1);
 			}
 		}
 	}
+
+
+
+	//void AssetManager::LoadSound(const std::string& soundName, const std::string& soundFile, bool isLoop, float defaultVolume)
+	//{
+	//	auto sound = mSoundMap.find(soundName);
+	//	if (sound != mSoundMap.end())
+	//	{
+	//		std::cerr << "Sound:" << soundName << " Already Exists";
+	//		return;
+	//	}
+
+	//	FMOD_MODE eMode = FMOD_DEFAULT;
+	//	Audio audio{};
+	//	mSoundSystem->createSound(soundFile.c_str(), eMode, nullptr, &audio.sound);
+	//	if (audio.sound)
+	//	{
+	//		audio.isLoop = isLoop;
+	//		audio.defaultVolume = defaultVolume;
+	//		mSoundMap.insert(std::make_pair(soundName, audio));
+	//		if (isLoop)
+	//		{
+	//			audio.sound->setMode(FMOD_LOOP_NORMAL);
+	//			audio.sound->setLoopCount(-1);
+	//		}
+	//	}
+	//}
 
 	bool AssetManager::GetScene(std::string scene, std::string& filePath)
 	{

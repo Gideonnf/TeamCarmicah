@@ -20,15 +20,17 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui.h>
 #include "EditorWindow.h"
 #include "ECS/GameObject.h"
+#include "../Systems/AssetTypes.h"
 
 namespace Carmicah
 {
 	class HierarchyWindow : public EditorWindow
 	{
 	private:
-	
 	public:
+		static bool mShowScene;
 		static GameObject* selectedGO;
+		static Prefab* inspectedPrefab;
 		/**
 		 * @brief Construct a new Hierarchy Window object
 		 * 
@@ -48,6 +50,9 @@ namespace Carmicah
 
 
 		void GOButton(GameObject& go);
+
+		void PrefabButton(Prefab& prefab);
+
 	};
 }
 

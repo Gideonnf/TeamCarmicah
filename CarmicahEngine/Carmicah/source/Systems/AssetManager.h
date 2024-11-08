@@ -118,7 +118,7 @@ namespace Carmicah
 			if (mAssetTypeMap.count(assetType) == 0)
 			{
 				// If the asset doesn't exist yet, then create it
-				RegisterAsset<T>(); 
+				RegisterAsset<T>();
 			}
 
 			GetAssetMap<T>()->mAssetList.push_back(asset);
@@ -165,7 +165,9 @@ namespace Carmicah
 
 		// Sound Assets
 		void InitSound();
-		void LoadSound(const std::string& soundName, std::string const& soundFile, bool b_isLoop);
+		//void LoadSound(const std::string& soundName, std::string const& soundFile, bool b_isLoop);
+		void LoadSound(const std::string& soundName, const std::string& soundFile, bool isLoop, float defaultVolume = 1.0f);
+
 
 	};
 }

@@ -152,6 +152,19 @@ namespace Carmicah
 
 			//std::any_cast<TextRenderer>(component).DeserializeComponent(val);
 		}
+		else if (componentName == typeid(Script).name())
+		{
+			Script componentData{}; // Default initialize
+			componentData.DeserializeComponent(val);
+			component = componentData;
+
+		}
+		else if (componentName == typeid(Button).name())
+		{
+			Button componentData{}; // Default initialize
+			componentData.DeserializeComponent(val);
+			component = componentData;
+		}
 		else
 		{
 			// incase someone added a component and forgot to write here

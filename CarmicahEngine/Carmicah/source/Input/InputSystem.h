@@ -184,6 +184,7 @@ namespace Carmicah
 		bool IsMousePressed(MouseButtons button);
 		bool IsMouseReleased(MouseButtons button);
 		bool IsMouseHold(MouseButtons button);
+		bool IsMouseOver(Vec2d& position, Vec2d& size);
 
 
 		/* function documentation--------------------------------------------------------------------------

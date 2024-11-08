@@ -95,7 +95,7 @@ namespace Carmicah
 		 /**************************************************************************/
 		Matrix3x3& operator *= (const Matrix3x3& rhs)
 		{
-			Matrix3x3 result;
+			Matrix3x3<T> result;
 
 			result.m00 = m00 * rhs.m00 + m10 * rhs.m01 + m20 * rhs.m02;
 			result.m10 = m00 * rhs.m10 + m10 * rhs.m11 + m20 * rhs.m12;
@@ -130,14 +130,22 @@ namespace Carmicah
 		Matrix3x3& scaleThis(T x, T y)
 		{
 			m[0] *= x;
+			m[1] *= x;
+			m[2] *= x;
+			m[3] *= y;
 			m[4] *= y;
+			m[5] *= y;
 			return *this;
 		}
 
 		Matrix3x3& scaleThis(Vector2D<T> other)
 		{
 			m[0] *= other.x;
+			m[1] *= other.x;
+			m[2] *= other.y;
+			m[3] *= other.y;
 			m[4] *= other.y;
+			m[5] *= other.y;
 			return *this;
 		}
 
@@ -256,7 +264,11 @@ namespace Carmicah
 	template <typename T> void Mtx33Scale(Matrix3x3<T>& pResult, T x, T y)
 	{
 		pResult.m00 = x;
+		pResult.m01 = x;
+		pResult.m02 = x;
+		pResult.m10 = y;
 		pResult.m11 = y;
+		pResult.m12 = y;
 	}
 
 	template <typename T> void Mtx33RotRad(Matrix3x3<T>& pResult, T angle)
@@ -302,7 +314,7 @@ namespace Carmicah
 	/**************************************************************************/
 	template <typename T> void Mtx33Inverse(Matrix3x3<T>* pResult, T* determinant, const Matrix3x3<T>& pMtx)
 	{
-		Matrix3x3 cofactor = { pMtx.m11 * pMtx.m22 - pMtx.m12 * pMtx.m21,
+		Matrix3x3<T> cofactor = { pMtx.m11 * pMtx.m22 - pMtx.m12 * pMtx.m21,
 							 -(pMtx.m10 * pMtx.m22 - pMtx.m12 * pMtx.m20),
 							 pMtx.m10 * pMtx.m21 - pMtx.m11 * pMtx.m20,
 							 -(pMtx.m01 * pMtx.m22 - pMtx.m02 * pMtx.m21),
@@ -311,7 +323,7 @@ namespace Carmicah
 							 pMtx.m01 * pMtx.m12 - pMtx.m02 * pMtx.m11,
 							 -(pMtx.m00 * pMtx.m12 - pMtx.m02 * pMtx.m10),
 							 pMtx.m00 * pMtx.m11 - pMtx.m01 * pMtx.m10 };
-		Matrix3x3 adjoint;
+		Matrix3x3<T> adjoint;
 		Mtx33Transpose(adjoint, cofactor);
 
 		(*determinant) = (pMtx.m00 * pMtx.m11 * pMtx.m22 + pMtx.m10 * pMtx.m21 * pMtx.m02 + pMtx.m20 * pMtx.m01 * pMtx.m12)
@@ -319,7 +331,7 @@ namespace Carmicah
 
 		if (*determinant == 0.f)
 		{
-			*pResult = Matrix3x3{};
+			*pResult = Matrix3x3<T>{};
 		}
 		else
 		{

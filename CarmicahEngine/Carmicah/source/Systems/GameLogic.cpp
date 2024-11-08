@@ -55,15 +55,9 @@ namespace Carmicah
         //wall.SetParent(mainCharacter);
         gGOFactory->FetchGO("GameObject2", GameObject2);
 
-            LinearDirectionalForce upForce({ 0.0f,-1.0f }, 2.0f, 3.0f, false);
-            LinearDirectionalForce downForce({ 0.0f,1.0f }, 2.0f, 3.0f, false);
-            LinearDirectionalForce rightForce({ 1.0f,0.0f }, 1.0f, 2.0f, false);
-            LinearDirectionalForce leftForce({ -1.0f,0.0f }, 1.0f, 2.0f, true);
+        LinearDirectionalForce rightForce({ 1.0f,0.0f }, 1.0f, 2.0f);
 
-            GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(upForce);
-            GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(downForce);
-            GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(rightForce);
-            GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(leftForce);
+        GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(rightForce);
 
 
         //wall = gGOFactory->FetchGO("wall");
@@ -74,24 +68,6 @@ namespace Carmicah
 
 	void GameLogic::Update(GLFWwindow* window)
 	{
-        /*if (GameObject2.GetComponent<RigidBody>().velocity.x == 0 && GameObject2.GetComponent<RigidBody>().forcesManager.GetLinearForces()[2].isActive == false)
-        {
-            std::cout << "Activate Left" << std::endl;
-            if (GameObject2.GetComponent<RigidBody>().forcesManager.GetLinearForces()[3].isActive == false) 
-            {
-                
-                GameObject2.GetComponent<RigidBody>().forcesManager.GetLinearForces()[3].ActivateForce(true);
-
-            }
-        }*/
-        /*else if (GameObject2.GetComponent<RigidBody>().velocity.x == 0 && GameObject2.GetComponent<RigidBody>().forcesManager.GetLinearForces()[3].isActive == false) 
-        {
-            std::cout << "Activate Right" << std::endl;
-            GameObject2.GetComponent<RigidBody>().forcesManager.GetLinearForces()[2].ActivateForce(true);
-        }*/
-
-        /*std::cout << GameObject2.GetComponent<RigidBody>().velocity << std::endl;
-        std::cout << GameObject2.GetComponent<RigidBody>().forcesManager.GetSumForces() << std::endl;*/
 
         UNUSED(window);
         if (Input.IsKeyPressed(Keys::KEY_Z))
@@ -109,18 +85,22 @@ namespace Carmicah
 
             //SystemManager::GetInstance()->ChangeScene("Scene2");
         }
+        if (Input.IsKeyPressed(Keys::KEY_G))
+        {
+
+            soundSystemRef->PlaySoundW(soundSystemRef->buttonBGM, SoundChannel::BGM);
+
+            // SystemManager::GetInstance()->GetSystem<SoundSystem>()->PauseResumeSound
+        }
         if (Input.IsKeyPressed(Keys::KEY_B))
         {
-            soundSystemRef->PauseResumeSound(soundSystemRef->defaultBGM);
-          //  soundSystemRef->PauseResumeSound(soundSystemRef->buttonBGM);
+            soundSystemRef->PauseResumeChannel(SoundChannel::BGM);
+
+            //  soundSystemRef->PauseResumeSound(soundSystemRef->buttonBGM);
 
            // SystemManager::GetInstance()->GetSystem<SoundSystem>()->PauseResumeSound
         }
-        if (Input.IsKeyPressed(Keys::KEY_G))
-        {
-            soundSystemRef->PauseResumeSound(soundSystemRef->buttonBGM);
-            // SystemManager::GetInstance()->GetSystem<SoundSystem>()->PauseResumeSound
-        }
+      
 
         if (Input.IsKeyPressed(Keys::KEY_P))
         {
@@ -135,7 +115,7 @@ namespace Carmicah
 
         if (mainCharacter.IsActive())
         {
-            if (physicsRef->mDebugPhysics ? Input.IsKeyPressed(Keys::KEY_D) : Input.IsKeyHold(Keys::KEY_D))
+           /* if (physicsRef->mDebugPhysics ? Input.IsKeyPressed(Keys::KEY_D) : Input.IsKeyHold(Keys::KEY_D))
             {
                 mainCharacter.GetComponent<RigidBody>().velocity.x = 5.0f;
             }
@@ -155,7 +135,7 @@ namespace Carmicah
             {
                 mainCharacter.GetComponent<RigidBody>().velocity.x = 0.0f;
                 mainCharacter.GetComponent<RigidBody>().velocity.y = 0.0f;
-            }
+            }*/
 
         }
 
