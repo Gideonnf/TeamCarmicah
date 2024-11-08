@@ -175,7 +175,7 @@ namespace Carmicah
                     ImGui::Columns(1);
 
                     // Progress bar showing system load
-                    ImGui::ProgressBar(pair.second / 100.0f, ImVec2(-1, 4), "");
+                    ImGui::ProgressBar((float)pair.second / 100.0f, ImVec2(-1, 4), "");
                 }
                 ImGui::EndChild();
                 ImGui::Spacing();

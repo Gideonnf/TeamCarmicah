@@ -106,7 +106,7 @@ namespace Carmicah
 	static void Sound_PlaySFX(MonoString* name)
 	{
 		char* cStrname = mono_string_to_utf8(name);
-		auto& souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 		souSystem->PlaySound(cStrname, SoundChannel::SFX);
 
 		mono_free(cStrname);

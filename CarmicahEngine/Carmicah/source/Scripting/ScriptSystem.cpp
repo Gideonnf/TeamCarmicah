@@ -173,7 +173,7 @@ namespace Carmicah
 
         std::streampos end = stream.tellg();
         stream.seekg(0, std::ios::beg);
-        uint32_t size = end - stream.tellg();
+        uint32_t size = (uint32_t)(end - stream.tellg());
 
         if (size == 0)
         {

@@ -102,7 +102,8 @@ namespace Carmicah
 	// and then handles the logic for when the button is pressed
 	void ButtonSystem::OnPress(Button& buttonComponent)
 	{
-		auto& souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		UNUSED(buttonComponent);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 		souSystem->PlaySound("buttonclick", SoundChannel::SFX);
 		//auto* componentManager = ComponentManager::GetInstance();
 
@@ -122,7 +123,8 @@ namespace Carmicah
 	// call this function when button is released
 	void ButtonSystem::OnRelease(Button& buttonComponent)
 	{
-		auto& souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		UNUSED(buttonComponent);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 		souSystem->PlaySound("pop", SoundChannel::SFX);
 
 		//auto* componentManager = ComponentManager::GetInstance();

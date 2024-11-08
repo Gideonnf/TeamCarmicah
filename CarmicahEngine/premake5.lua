@@ -46,7 +46,6 @@ project "Carmicah"
         "ImGUI",
         "freetype.lib",
         "mono-2.0-sgen.lib",
-        "libmono-static-sgen.lib",
         "MonoPosixHelper.lib"
     }
 

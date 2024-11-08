@@ -38,6 +38,7 @@ namespace Carmicah
 
 	void ScriptObject::SetUpEntity(Entity entity)
 	{
+		UNUSED(entity);
 		Instantiate();
 		// Need to call constructor of entity by getting the entity class thats storing Entity.cs
 		mConstruct = gScriptSystem->mEntityClass.GetMethod(".ctor", 1);

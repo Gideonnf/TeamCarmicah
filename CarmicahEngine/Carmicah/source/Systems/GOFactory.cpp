@@ -123,9 +123,9 @@ namespace Carmicah
 			// Clone the child and parent it to this
 			for (auto it : originalTransform.children)
 			{
-				GameObject& go = gGOFactory->FetchGO(it);
+				GameObject newGo = gGOFactory->FetchGO(it);
 				// Clone this go and parent it to the cloned go
-				CloneGO(go, newGO.mID);
+				CloneGO(newGo, newGO.mID);
 			}
 		}
 
@@ -647,9 +647,9 @@ namespace Carmicah
 				writer.String("Children");
 				writer.StartArray();
 
-				for (auto& id : obj.GetComponent<Transform>().children)
+				for (auto id2 : obj.GetComponent<Transform>().children)
 				{
-					ExportEntity(writer, id);
+					ExportEntity(writer, id2);
 				}
 
 				writer.EndArray();
@@ -659,9 +659,9 @@ namespace Carmicah
 				writer.String("Children");
 				writer.StartArray();
 
-				for (auto& id : obj.GetComponent<UITransform>().children)
+				for (auto id2 : obj.GetComponent<UITransform>().children)
 				{
-					ExportEntity(writer, id);
+					ExportEntity(writer, id2);
 				}
 
 				writer.EndArray();

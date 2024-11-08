@@ -257,10 +257,10 @@ namespace Carmicah
 		Vec2d mousePos = Input.GetMousePosition();
 
 		// define button boundaries
-		float left = position.x - (size.x * 0.5f);
-		float right = position.x + (size.x * 0.5f);
-		float bottom = position.y - (size.y * 0.5f);
-		float top = position.y + (size.y * 0.5f);
+		float left = (float)(position.x - (size.x * 0.5f));
+		float right = (float)(position.x + (size.x * 0.5f));
+		float bottom = (float)(position.y - (size.y * 0.5f));
+		float top = (float)(position.y + (size.y * 0.5f));
 
 		// check if mouse position is within button boundaries
 		return (mousePos.x >= left && mousePos.x <= right &&

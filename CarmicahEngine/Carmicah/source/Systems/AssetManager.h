@@ -124,7 +124,7 @@ namespace Carmicah
 			GetAssetMap<T>()->mAssetList.push_back(asset);
 			// The map is name -> index
 			// where index is where the asset belongs in mAssetList
-			GetAssetMap<T>()->mAssetMap[name] = GetAssetMap<T>()->mAssetList.size() - 1;
+			GetAssetMap<T>()->mAssetMap[name] = (unsigned int)GetAssetMap<T>()->mAssetList.size() - 1;
 		}
 
 		template <typename T>
