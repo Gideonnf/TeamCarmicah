@@ -26,6 +26,11 @@ namespace Carmicah
         std::string model;
         std::string texture;
 
+        Renderer() : model("Square"), texture ("Default")
+        {
+            
+        }
+
         Renderer& DeserializeComponent(const rapidjson::Value& component) override
         {
             model = component["model"].GetString();

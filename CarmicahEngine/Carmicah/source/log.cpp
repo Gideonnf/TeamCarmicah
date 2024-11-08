@@ -119,6 +119,7 @@ namespace Carmicah
             crashLogFile << std::endl;
         }
         catch (const std::exception& e) {
+            UNUSED(e);
             if (sCoreLogger) {
                 CM_CORE_ERROR("Failed to initialize crash logging: {}", e.what());
             }

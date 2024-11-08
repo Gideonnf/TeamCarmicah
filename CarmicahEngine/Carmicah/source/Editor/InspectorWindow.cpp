@@ -916,6 +916,7 @@ namespace Carmicah
 					{
 						for (const auto& entry : textureMap->mAssetMap)
 						{
+							if (entry.first.empty()) continue; // TODO: Find out why "" is being added to asset map
 							if (ImGui::Button(entry.first.c_str()))
 							{
 								render.texture = entry.first;

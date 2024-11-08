@@ -412,6 +412,17 @@ namespace Carmicah
 		// Find out what is the current parent
 		else
 		{
+			
+			// Handle UI Trasnform uniquely for now
+			if (go.HasComponent<UITransform>())
+			{
+				sceneGO.children.insert(go.mID);
+				go.GetComponent<UITransform>().parent = newParentID;
+
+				// UI Transform for now can only add directly to scene
+				return;
+			}
+
 			// if not deleting then we need to update the transform based on the new parent's
 			if (!toDelete)
 			{

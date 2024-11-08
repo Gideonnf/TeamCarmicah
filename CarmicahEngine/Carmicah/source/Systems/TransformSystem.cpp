@@ -127,31 +127,40 @@ namespace Carmicah
 			// Update the local transform based on parent position
 
 			// Update scale
-			Transform& entityTransform = ComponentManager::GetInstance()->GetComponent<Transform>(castedMsg->mEntityID);
+			if (ComponentManager::GetInstance()->HasComponent<Transform>(castedMsg->mEntityID))
+			{
+				Transform& entityTransform = ComponentManager::GetInstance()->GetComponent<Transform>(castedMsg->mEntityID);
 
-			// Its being parented back to the scene
-			// so we have to use its old's parent ID and reset it
-			// if the entity transform parent is already 0, that meants its already in world pos
-			// so no calculation needed
-			if (castedMsg->mParentID == 0 && entityTransform.parent != 0)
-			{
-				CalculateTransform(castedMsg->mEntityID, entityTransform.parent, true);
-			}
-			// If the original parent is not the scene
-			// means it has a new parent that isnt the scene
-			// so it isnt calculating world position
-			else if (castedMsg->mParentID != 0)
-			{
-				CalculateTransform(castedMsg->mEntityID, castedMsg->mParentID);
-			}
-
-			// It has children
-			if (entityTransform.children.size() > 0)
-			{
-				for (auto& it : entityTransform.children)
+				// Its being parented back to the scene
+				// so we have to use its old's parent ID and reset it
+				// if the entity transform parent is already 0, that meants its already in world pos
+				// so no calculation needed
+				if (castedMsg->mParentID == 0 && entityTransform.parent != 0)
 				{
-					CalculateChildren(it, castedMsg->mEntityID);
+					CalculateTransform(castedMsg->mEntityID, entityTransform.parent, true);
 				}
+				// If the original parent is not the scene
+				// means it has a new parent that isnt the scene
+				// so it isnt calculating world position
+				else if (castedMsg->mParentID != 0)
+				{
+					CalculateTransform(castedMsg->mEntityID, castedMsg->mParentID);
+				}
+
+				// It has children
+				if (entityTransform.children.size() > 0)
+				{
+					for (auto& it : entityTransform.children)
+					{
+						CalculateChildren(it, castedMsg->mEntityID);
+					}
+				}
+			}
+			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(castedMsg->mEntityID))
+			{
+				UITransform& entityTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(castedMsg->mEntityID);
+
+				entityTransform.parent = castedMsg->mParentID;
 			}
 		}
 	}
