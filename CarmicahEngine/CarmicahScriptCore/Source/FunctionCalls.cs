@@ -35,5 +35,8 @@ namespace Carmicah
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static uint Entity_FindEntityWithName(string name);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]  
+        internal extern static void Sound_PlaySFX(string soundName);
+
     }
 }

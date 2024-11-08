@@ -666,7 +666,7 @@ namespace Carmicah
 			mSoundMap.insert(std::make_pair(soundName, audio));
 			if (isLoop)
 			{
-				audio.sound->setMode(FMOD_LOOP_NORMAL);
+				audio.sound->setMode(FMOD_LOOP_OFF);
 				audio.sound->setLoopCount(-1);
 			}
 		}

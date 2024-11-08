@@ -10,6 +10,7 @@
 #include "../Components/RigidBody.h"
 #include "ScriptSystem.h"
 #include "../Input/InputSystem.h"
+#include "../Systems/SoundSystem.h"
 
 namespace Carmicah
 {
@@ -57,6 +58,15 @@ namespace Carmicah
 		mono_free(cStrName);
 
 		return go.GetID();
+	}
+
+	static void Sound_PlaySFX(MonoString* name)
+	{
+		char* cStrname = mono_string_to_utf8(name);
+		auto& souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->PlaySound(cStrname, SoundChannel::SFX);
+
+		mono_free(cStrname);
 	}
 
 	static void RigidBody_ApplyForceWithTime(unsigned int entityID, Vec2f* dir, float magnitude, float lifeTime)
@@ -132,6 +142,8 @@ namespace Carmicah
 		return Input.IsKeyHold(keyCode);
 	}
 
+
+
 	void ScriptFunctions::RegisterComponents()
 	{
 		// if we hotload and need to rerun the linking and reinit mono
@@ -162,5 +174,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(IsKeyPressed);
 		ADD_INTERNAL_CALL(IsKeyHold);
 
+		// Sound
+		ADD_INTERNAL_CALL(Sound_PlaySFX);
 	}
 }

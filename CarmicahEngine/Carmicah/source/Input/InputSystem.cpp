@@ -102,8 +102,8 @@ namespace Carmicah
 
 			Input.ProxySend(&msg);
 
-			PlaySFXMsg msg("sound file here");
-			Input.SendSysMessage(&msg);
+			/*PlaySFXMsg msg("sound file here");
+			Input.SendSysMessage(&msg);*/
 			//}
 
 		}
