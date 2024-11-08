@@ -57,13 +57,13 @@ namespace Carmicah
             FMOD::Channel* fmodChannel;
             AssetManager::GetInstance()->mSoundSystem->playSound(it->second.sound, nullptr, true, &fmodChannel);
 
-            float actualVolume = (volume >= 0) ? volume : it->second.defaultVolume;
-            actualVolume *= mChannelVolumes[channel];
+           /* float actualVolume = (volume >= 0) ? volume : it->second.defaultVolume;
+            actualVolume *= mChannelVolumes[channel];*/
 
-            fmodChannel->setVolume(actualVolume);
+            fmodChannel->setVolume(1.0f);
 
 
-            PlayingSound playingSound{ fmodChannel, actualVolume };
+            PlayingSound playingSound{ fmodChannel, 1.0f };
             mChannelMap[channel][soundName] = playingSound;
         }
     }
@@ -175,7 +175,7 @@ namespace Carmicah
             {
                 bool isPlaying = false;
                 it->second.channel->isPlaying(&isPlaying);
-                if (isPlaying)
+                if (!isPlaying)
                 {
                     it = channelPair.second.erase(it);
                 }
