@@ -48,9 +48,25 @@ namespace Carmicah
 	{
 	public:
 
+		/*!*************************************************************************
+		brief
+			Loads the config data from
+		param[assetPath]
+			Location of the config file to read data from
+		***************************************************************************/
 		void LoadConfig(const std::string& configPath);
-		// Data
-		void LoadAll(const char*);
+		//----------------------------  Data  ----------------------------
+		/*!*************************************************************************
+		brief
+			Tries to load all data from the Asset filePath
+		param[assetPath]
+			Asset Path to load data from
+		***************************************************************************/
+		void LoadAll(const char* assetPath);
+		/*!*************************************************************************
+		brief
+			Unloads and frees data held by the AssetManager
+		***************************************************************************/
 		void UnloadAll();
 
 		EngineConfig enConfig{};
@@ -58,16 +74,30 @@ namespace Carmicah
 
 		FT_Library mFTLib;
 		GLuint mArrayTex{}, currTexPt{};
-		const int maxTexSize{ 4096 };
 		// Audio
 		const int maxChannels{ 32 };
 		FMOD::System* mSoundSystem{};
 		std::unordered_map<std::string, FMOD::Channel*> mChannelMap;
 		std::unordered_map<std::string, Audio> mSoundMap{};
 
-
+		/*!*************************************************************************
+		brief
+			Gets the Scene data from the fileName
+		param[name]
+			Name of the scene to save as
+		param[name]
+			filepath to get the scene data from
+		return
+			If the scene exists
+		***************************************************************************/
 		bool GetScene(std::string scene, std::string& filePath);
 
+		/*!*************************************************************************
+		brief
+			Gets the AssetMap
+		return
+			Shared Pointer to the AssetType
+		***************************************************************************/
 		template <typename T>
 		std::shared_ptr<AssetType<T>> GetAssetMap()
 		{
@@ -83,6 +113,14 @@ namespace Carmicah
 			return std::static_pointer_cast<AssetType<T>>(mAssetTypeMap[assetType]);
 		}
 
+		/*!*************************************************************************
+		brief
+			Gets the Asset from the AssetMap
+		param[name]
+			Name of the asset to get
+		return
+			The Asset Reference gotten
+		***************************************************************************/
 		template <typename T>
 		T& GetAsset(std::string name)
 		{
@@ -94,6 +132,10 @@ namespace Carmicah
 			return GetAssetMap<T>()->mAssetList[GetAssetMap<T>()->mAssetMap[name]];
 		}
 
+		/*!*************************************************************************
+		brief
+			Registers the Asset (Creates a key for the asset into the map)
+		***************************************************************************/
 		template <typename T>
 		void RegisterAsset()
 		{
@@ -110,6 +152,14 @@ namespace Carmicah
 			}
 		}
 
+		/*!*************************************************************************
+		brief
+			Adds the Asset into the Asset Map
+		param[name]
+			Name of the asset to add
+		param[asset]
+			Asset reference to add into the Asset Map
+		***************************************************************************/
 		template <typename T>
 		void AddAsset(std::string name, T& asset)
 		{
@@ -127,6 +177,14 @@ namespace Carmicah
 			GetAssetMap<T>()->mAssetMap[name] = GetAssetMap<T>()->mAssetList.size() - 1;
 		}
 
+		/*!*************************************************************************
+		brief
+			Checks if the asset exists based on the name
+		param[name]
+			Name of the asset to check
+		return
+			If the asset exists
+		***************************************************************************/
 		template <typename T>
 		bool AssetExist(std::string name)
 		{
@@ -150,22 +208,122 @@ namespace Carmicah
 	private:
 
 
-		// Graphics Assets
+		//----------------------------  Graphics  ----------------------------
+		/*!*************************************************************************
+		brief
+			Loads the shader and saves it as an asset
+		param[shaderName]
+			Name of the shader to create
+		param[vertFile]
+			File to generate vertex shader from
+		param[fragFile]
+			File to generate fragment shader from
+		return
+			Generated Shader ID
+		***************************************************************************/
 		GLuint LoadShader(const std::string& shaderName, const std::string& vertFile, const std::string& fragFile);
+		/*!*************************************************************************
+		brief
+			Loads the Object from object file and saves it as an asset
+		param[objName]
+			Name of the Object to create
+		param[modelFile]
+			File to read the Object data from
+		***************************************************************************/
 		void LoadObject(const std::string& objName, const std::string& modelFile);
+		/*!*************************************************************************
+		brief
+			Loads the Debug Object from debug object file and saves it as an asset
+		param[objName]
+			Name of the Debug Object to create
+		param[modelFile]
+			File to read the Debug Object data from
+		***************************************************************************/
 		void LoadDebugObject(const std::string& objName, const std::string& modelFile);
+		/*!*************************************************************************
+		brief
+			Initialises the 2D_Array of textures using enConfig.maxTexSize (width/height), and enConfig.maxNumTextures
+		***************************************************************************/
 		void InitTexture();
+		/*!*************************************************************************
+		brief
+			Loads the Image from the provided file, and an optional SpriteSheetFile and saves it as an Texture asset
+		param[textureName]
+			Name of the Texture to create
+		param[textureFile]
+			File to read the Image from
+		param[spriteSheetFile]
+			File to read SpriteSheet data from (if any)
+		***************************************************************************/
 		void LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile);
+		/*!*************************************************************************
+		brief
+			Splits the texture into multiple smaller textures (using the same ID, but using different Transfomation matrix to access the specific part of the Texture)
+		param[t]
+			Texture ID, and addition information passed in through the matrix in the Texture obj
+		param[textureName]
+			Base name of the texture to create
+		param[num]
+			Number of textures to split the texture into
+		param[extName]
+			Extension for the name when spliting the texture (added to the back of the textureName for readability) [ONLY IF NUM > 1]
+		***************************************************************************/
 		void AddTextureImage(Texture& t, const std::string& textureName, const int& num = 1, const std::string& extName = "");
+		/*!*************************************************************************
+		brief
+			Load the Animation Atlas with reference to Texture Names, and time for the the animation should spend in that texture
+		param[animName]
+			Name of the Animation Object to create
+		param[animFile]
+			File to read the Animation Atlas from
+		***************************************************************************/
 		void LoadAnimation(const std::string& animName, const std::string& animFile);
+		/*!*************************************************************************
+		brief
+			Initializes the FreeType Font Library
+		***************************************************************************/
 		void InitFontType();
+		/*!*************************************************************************
+		brief
+			Loads the font from the given Font File and Font Height(quality) into a Font object (Single Texture)
+		param[fontName]
+			Font name to store as
+		param[fontLoc]
+			File to read the .ttf font from
+		param[fontHeight]
+			The height of the font to generate
+		***************************************************************************/
 		void LoadFont(const std::string& fontName, const std::string& fontLoc, const unsigned int& fontHeight);
 
+		/*!*************************************************************************
+		brief
+			Calculates and saves a generated circle vertex data into a text file (using my mesh reading specifications)
+		param[numSlices]
+			The number of slices of the circle to calculate
+		param[modelFile]
+			File name to save the circle's data in
+		***************************************************************************/
 		void ExportCircle(int numSlices, const std::string& modelFile);
 
-		// Sound Assets
+
+		//----------------------------  Sound Assets  ----------------------------
+		/*!*************************************************************************
+		brief
+			Initializes the FMod Sound System
+		***************************************************************************/
 		void InitSound();
-		//void LoadSound(const std::string& soundName, std::string const& soundFile, bool b_isLoop);
+		/*!*************************************************************************
+		brief
+			Loads a sound from the Sound File
+		param[soundName]
+			Name of the sound to save as
+		param[soundFile]
+			File name to load the sound data from
+		param[isLoop]
+			Set if the sound will loop
+		param[defaultVolume]
+			Sets the volume of the sound
+		***************************************************************************/
 		void LoadSound(const std::string& soundName, const std::string& soundFile, bool isLoop, float defaultVolume = 1.0f);
 
 

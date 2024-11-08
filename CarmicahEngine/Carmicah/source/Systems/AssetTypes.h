@@ -151,11 +151,11 @@ namespace Carmicah
 	};
 	struct EngineConfig
 	{
-		int Width{}, Height{}, fontSize{}, maxNumTextures{}, batchRenderSize{};
+		int Width{}, Height{}, fontSize{}, maxNumTextures{}, batchRenderSize{}, maxTexSize{};
 		float maxImgDepth{}, minImgDepth{};
 		std::string defaultScene{};
 		std::string lastScene{};
-		std::string defaultShader{};
+		std::string defaultShader{}, debugShader{}, fontShader{};
 		std::string assetLoc{};
 	};
 }

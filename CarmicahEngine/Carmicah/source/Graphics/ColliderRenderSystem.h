@@ -22,21 +22,20 @@ namespace Carmicah
 	class ColliderRenderSystem : public BaseSystem, private BaseGraphicsSystem
 	{
 	private:
-		const char* shaderName{ "debug" };
 		BasePrimitive* primitive;
 	public:
-		/*
+		/*!*************************************************************************
 		brief
 			Sets which components the system references, and load the shader
-		*/
+		***************************************************************************/
 		void Init();
 
-		/*
+		/*!*************************************************************************
 		brief
 			Renders the Debug line of entities
 		param[cam]
 			camera dimensions and position to reference
-		*/
+		***************************************************************************/
 		void Render(Entity& cam);
 	};
 }

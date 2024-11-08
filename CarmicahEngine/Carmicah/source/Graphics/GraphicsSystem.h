@@ -22,24 +22,24 @@ namespace Carmicah
 	class GraphicsSystem : public BaseSystem, private BaseGraphicsSystem
 	{
 	public:
-		/*
+		/*!*************************************************************************
 		brief
 			Sets which components the system references, and load the shader
-		*/
+		***************************************************************************/
 		void Init();
 
-		/*
+		/*!*************************************************************************
 		brief
-			Sets the data of the camera based on screen size
-		*/
+			Force sets the data of the camera based on screen size
+		***************************************************************************/
 		void SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam);
 
-		/*
+		/*!*************************************************************************
 		brief
-			Renders the Debug line of entities
+			Renders the entities
 		param[cam]
 			camera dimensions and position to reference
-		*/
+		***************************************************************************/
 		void Render(Entity& cam);
 
 	};

@@ -33,7 +33,7 @@ namespace Carmicah
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<TextSystem>(mSignature);
 
-		BaseGraphicsSystem::Init("font");
+		BaseGraphicsSystem::Init(AssetManager::GetInstance()->enConfig.fontShader);
 		screenMtx.translateThis(-1.f, -1.f).scaleThis(2 / canvasWidth, 2 / canvasHeight);
 
 		GenBatch(AssetManager::GetInstance()->GetAsset<Primitive>("Square"));

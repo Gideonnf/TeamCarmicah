@@ -43,11 +43,14 @@ namespace Carmicah
 		enConfig.Height = config["Height"].GetInt();
 		enConfig.defaultScene = config["Default Scene"].GetString();
 		enConfig.defaultShader = config["Default Shader"].GetString();
+		enConfig.debugShader = config["Debug Shader"].GetString();
+		enConfig.fontShader = config["Font Shader"].GetString();
 		enConfig.assetLoc = config["Asset Loc"].GetString();
 		enConfig.fontSize = config["Font Size"].GetInt();
 		enConfig.minImgDepth = static_cast<float>(config["Image Min Depth"].GetDouble());
 		enConfig.maxImgDepth = static_cast<float>(config["Image Max Depth"].GetDouble());
 		enConfig.maxNumTextures = config["Max Textures"].GetInt();
+		enConfig.maxTexSize = config["Max Texture Size"].GetInt();
 		enConfig.batchRenderSize = config["Batch Render Size"].GetInt();
 
 		
@@ -83,6 +86,12 @@ namespace Carmicah
 		writer.String("Default Shader");
 		writer.String(enConfig.defaultShader.c_str(), static_cast<SizeType>(enConfig.defaultShader.length()));
 
+		writer.String("Debug Shader");
+		writer.String(enConfig.debugShader.c_str(), static_cast<SizeType>(enConfig.debugShader.length()));
+
+		writer.String("Font Shader");
+		writer.String(enConfig.fontShader.c_str(), static_cast<SizeType>(enConfig.fontShader.length()));
+
 		writer.String("Font Size");
 		writer.Int(enConfig.fontSize);
 
@@ -97,6 +106,9 @@ namespace Carmicah
 
 		writer.String("Max Textures");
 		writer.Int(enConfig.maxNumTextures);
+
+		writer.String("Max Texture Size");
+		writer.Int(enConfig.maxTexSize);
 
 		writer.String("Batch Render Size");
 		writer.Int(enConfig.batchRenderSize);

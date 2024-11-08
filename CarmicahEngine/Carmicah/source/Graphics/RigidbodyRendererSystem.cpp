@@ -33,9 +33,9 @@ namespace Carmicah
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<RigidbodyRendererSystem>(mSignature);
-		BaseGraphicsSystem::Init("debug");
+		BaseGraphicsSystem::Init(AssetManager::GetInstance()->enConfig.debugShader);
 
-		primitive = &AssetManager::GetInstance()->GetAsset<BasePrimitive>(modelName);
+		primitive = &AssetManager::GetInstance()->GetAsset<BasePrimitive>("DebugLine");
 		GenDebugBatch(*primitive);
 
 	}

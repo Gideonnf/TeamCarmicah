@@ -30,7 +30,7 @@ namespace Carmicah
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Collider2D>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<ColliderRenderSystem>(mSignature);
-		BaseGraphicsSystem::Init("debug");
+		BaseGraphicsSystem::Init(AssetManager::GetInstance()->enConfig.debugShader);
 
 		primitive = &AssetManager::GetInstance()->GetAsset<BasePrimitive>("DebugSquare");
 		GenDebugBatch(*primitive);

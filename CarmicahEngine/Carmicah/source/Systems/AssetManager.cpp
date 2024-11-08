@@ -369,7 +369,7 @@ namespace Carmicah
 		glTexStorage3D(GL_TEXTURE_2D_ARRAY,
 		    1,							//No mipmaps as textures are 1x1
 		    GL_RGBA8,					//Internal format
-			maxTexSize, maxTexSize,		//width,height
+			enConfig.maxTexSize, enConfig.maxTexSize,		//width,height
 			enConfig.maxNumTextures		//Number of layers
 		);
 
@@ -394,7 +394,7 @@ namespace Carmicah
 		int texWidth{}, texHeight{}, bytePerTex{};
 
 		stbi_uc* data = stbi_load(textureFile.c_str(), &texWidth, &texHeight, &bytePerTex, 0);
-		if (!data || texWidth > maxTexSize || texHeight > maxTexSize || bytePerTex != 4)
+		if (!data || texWidth > enConfig.maxTexSize || texHeight > enConfig.maxTexSize || bytePerTex != 4)
 		{
 			CM_CORE_ERROR("Unable to open texture file");
 			stbi_image_free(data);
@@ -461,10 +461,10 @@ namespace Carmicah
 
 	void AssetManager::AddTextureImage(Texture& t, const std::string& textureName, const int& num, const std::string& extName)
 	{
-		float	x = t.mtx.m[0] / static_cast<float>(maxTexSize),
-				y = t.mtx.m[1] / static_cast<float>(maxTexSize),
-				width = t.mtx.m[2] / static_cast<float>(maxTexSize),
-				height = t.mtx.m[3] / static_cast<float>(maxTexSize);
+		float	x = t.mtx.m[0] / static_cast<float>(enConfig.maxTexSize),
+				y = t.mtx.m[1] / static_cast<float>(enConfig.maxTexSize),
+				width = t.mtx.m[2] / static_cast<float>(enConfig.maxTexSize),
+				height = t.mtx.m[3] / static_cast<float>(enConfig.maxTexSize);
 		Mtx33Identity(t.mtx);
 
 		t.mtx.translateThis(x, 1.f - y - height).scaleThis(width, height);
@@ -586,7 +586,7 @@ namespace Carmicah
 			int fontArrayNum{ i.first - fontObj.charOffset };
 
 			Font::FontChar& fc = fontObj.mFontMaps[fontArrayNum];
-			if (widthAccumulated > static_cast<unsigned int>(maxTexSize))
+			if (widthAccumulated > static_cast<unsigned int>(enConfig.maxTexSize))
 			{
 				widthAccumulated = 0;
 				heightAccumulated += heightSoFar;	
@@ -598,10 +598,10 @@ namespace Carmicah
 				GL_RED, GL_UNSIGNED_BYTE, fontFace->glyph->bitmap.buffer);
 			FontTexture fontTex{};
 			fontTex.t = currTexPt;
-			float	x		= static_cast<float>(widthAccumulated) / static_cast<float>(maxTexSize),
-					y		= static_cast<float>(maxTexSize - heightAccumulated) / static_cast<float>(maxTexSize),
-					width	= static_cast<float>(fc.width) / static_cast<float>(maxTexSize),
-					height	= static_cast<float>(fc.height) / static_cast<float>(maxTexSize);
+			float	x		= static_cast<float>(widthAccumulated) / static_cast<float>(enConfig.maxTexSize),
+					y		= static_cast<float>(enConfig.maxTexSize - heightAccumulated) / static_cast<float>(enConfig.maxTexSize),
+					width	= static_cast<float>(fc.width) / static_cast<float>(enConfig.maxTexSize),
+					height	= static_cast<float>(fc.height) / static_cast<float>(enConfig.maxTexSize);
 
 			fontTex.mtx.translateThis(x, 1.f - y - height).scaleThis(width, height);
 

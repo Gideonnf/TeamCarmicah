@@ -1,3 +1,16 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			BaseTransform.h
+
+ author:		Won Yu Xuan Rainne(100%)
+
+ email:			won.m@digipen.edu
+
+ brief:			Keeps track of transform data shared by both UI Objects, and WorldSpace Objects
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #ifndef BASE_TRANSFORM_H
 #define BASE_TRANSFORM_H
 

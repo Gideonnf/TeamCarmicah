@@ -1,4 +1,16 @@
-#pragma once
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			Transform.h
+
+ author:		Won Yu Xuan Rainne(100%)
+
+ email:			won.m@digipen.edu
+
+ brief:			Keeps track of the transform data in worldspace
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 
