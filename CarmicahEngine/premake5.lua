@@ -46,8 +46,8 @@ project "Carmicah"
         "glad",
         "ImGUI",
         "freetype.lib",
-        "mono-2.0-sgen.lib",
-        "MonoPosixHelper.lib"
+        "fmod_vc.lib",
+        "mono-2.0-sgen.lib"
     }
 
     buildoptions { "/wd4003" }
@@ -78,7 +78,7 @@ project "Carmicah"
         symbols "On"
         links 
         {
-            "fmodL_vc.lib"
+
         }
 
     filter "configurations:Release"
@@ -86,7 +86,7 @@ project "Carmicah"
         optimize "On"
         links 
         {
-            "fmod_vc.lib"
+
         }
 
 project "Editor"
@@ -240,17 +240,6 @@ project "CarmicahScriptCore"
     {
         "%{prj.name}/Source/**.cs",
         "%{prj.name}/Properties/**.cs"
-    }
-    
-    externalincludedirs 
-    {
-        "Dependencies/includes"
-    }
-
-
-    libdirs
-    {
-        "Dependencies/lib"
     }
 
 

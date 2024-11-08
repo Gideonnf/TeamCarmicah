@@ -54,7 +54,7 @@ namespace Carmicah
         void Update();
         void Exit();
 
-        void PlaySound(const std::string& soundName, SoundChannel channel, float volume = -1.0f);
+        void PlaySound(const std::string& soundName, SoundChannel channel, float volume = 1.0f);
         void StopSound(const std::string& soundName, SoundChannel channel);
         void StopAllSoundsInChannel(SoundChannel channel);
         void StopAllSounds();
