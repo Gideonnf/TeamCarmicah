@@ -159,6 +159,14 @@ namespace Carmicah
 		***************************************************************************/
 		void DeleteBatchData(const unsigned int& entity, const unsigned int& pos, bool isDebug, int vtxSize);
 
+		/*!*************************************************************************
+		brief
+			Getter and Setter for Toggling Entity Data
+		param[entity]
+			The id to set
+		param[setActive]
+			Sets that position in buffer to be active or deactive
+		***************************************************************************/
 		void ToggleActiveEntity(EntityData& entity, bool setActive);
 
 		/*!*************************************************************************
