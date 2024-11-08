@@ -184,6 +184,18 @@ namespace Carmicah
         }
     }
 
+    void SoundSystem::ReceiveMessage(Message* msg)
+    {
+        if (msg->mMsgType == MSG_PLAYSFX)
+        {
+            dynamic_cast<PlaySFXMsg*>(msg)->fileName;
+        }
+        else if (msg->mMsgType == MSG_PLAYBGM)
+        {
+
+        }
+    }
+
     void SoundSystem::Exit()
     {
         StopAllSounds();

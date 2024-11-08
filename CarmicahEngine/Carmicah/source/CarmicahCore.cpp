@@ -186,6 +186,9 @@ namespace Carmicah
         Input.BindSystem(gGOFactory);
         // TODO: Make this easier to write for people
        Input.BindSystem(std::static_pointer_cast<BaseSystem>(gameSystem).get());
+
+       Input.BindSystem(std::static_pointer_cast<BaseSystem>(souSystem).get());
+
        gameSystem->BindSystem(std::static_pointer_cast<BaseSystem>(editorSys).get());
        gameSystem->BindSystem(std::static_pointer_cast<BaseSystem>(butSystem).get());
         // Add transform system into gGOFactory's observer so that it can send msg to it
