@@ -102,8 +102,8 @@ namespace Carmicah
 
 			Input.ProxySend(&msg);
 
-			/*PlaySFXMsg msg("sound file here");
-			Input.SendSysMessage(&msg);*/
+			//PlaySFXMsg msgSFX("buttonclick");
+			//Input.SendSysMessage(&msgSFX);
 			//}
 
 		}
@@ -112,14 +112,18 @@ namespace Carmicah
 		{
 			Vec2d mousePosD = Input.GetMousePosition();
 			// TODO: Hard coded
-			if (mousePosD.x >= 0 && mousePosD.x <= 1920 && mousePosD.y >= 0 && mousePosD.x <= 1080)
-			{
-				Vec2i mousePosI = { std::clamp(static_cast<int>(mousePosD.x), 0, 1920), 1080 - std::clamp(static_cast<int>(mousePosD.y) - 1, 0, 1080) };
 
-				EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(mousePosI.x, mousePosI.y));
+			Vec2i mousePosI = { std::clamp(static_cast<int>(mousePosD.x), 0, 1920), 1080 - std::clamp(static_cast<int>(mousePosD.y) - 1, 0, 1080) };
 
-				Input.ProxySend(&msg);
-			}
+			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(mousePosI.x, mousePosI.y));
+
+			Input.ProxySend(&msg);
+
+			//PlaySFXMsg msgSFX("pop");
+			//Input.SendSysMessage(&msgSFX);
+
+
+
 			if (Input.IsDragging())
 				/*&& (Input.GetMousePosition().x != Input.GetDragCurrentPos().x || Input.GetMousePosition().y != Input.GetDragCurrentPos().y)*/
 			{
