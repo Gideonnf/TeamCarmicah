@@ -21,7 +21,8 @@ project "Carmicah"
 
     defines { 
         "_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS", 
-        "NOMINMAX"  -- Prevent <windows.h> from defining min/max macros
+        "NOMINMAX",  -- Prevent <windows.h> from defining min/max macros
+        "_CRT_SECURE_NO_WARNINGS"
     }
     files 
     {

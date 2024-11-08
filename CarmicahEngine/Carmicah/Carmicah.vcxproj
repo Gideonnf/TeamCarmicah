@@ -59,7 +59,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NOMINMAX;CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;STB_IMAGE_IMPLEMENTATION;CM_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NOMINMAX;_CRT_SECURE_NO_WARNINGS;CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;STB_IMAGE_IMPLEMENTATION;CM_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -88,7 +88,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Debug-x86_64\Assets"</Command>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NOMINMAX;CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;STB_IMAGE_IMPLEMENTATION;CM_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NOMINMAX;_CRT_SECURE_NO_WARNINGS;CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;STB_IMAGE_IMPLEMENTATION;CM_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
