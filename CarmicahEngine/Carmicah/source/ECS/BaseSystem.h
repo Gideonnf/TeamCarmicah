@@ -56,6 +56,8 @@ namespace Carmicah
         ***************************************************************************/
 		virtual void EntityDestroyed(Entity id) {};
 
+		virtual void EntityAdded(Entity id) {};
+
 		virtual void ReceiveMessage(Message* msg) {};
 
 		virtual void OnUpdate() {}; // New virtual method for actual update logic
