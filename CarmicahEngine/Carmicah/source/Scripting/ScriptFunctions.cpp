@@ -1,3 +1,18 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:        ScriptFunctions.cpp
+
+ author:   Gideon Francis
+
+ email:       g.francis@digipen.edu
+
+ brief:       Contains the static functions that are meant to be linked to mono c# so that c# scripts can call. Function Names have to match 
+				the C# equivalent so that it can bind
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 #include <pch.h>
 #include "ScriptFunctions.h"
 #include "../Math/Vec2.h"
@@ -16,8 +31,15 @@ namespace Carmicah
 {
 
 	static std::unordered_map<MonoType*, std::function<bool(GameObject)>> mGameObjectHasComponentFuncs;
+
+	// Define to make it easier to add internal function calls
 #define ADD_INTERNAL_CALL(Name) mono_add_internal_call("Carmicah.FunctionCalls::" #Name, Name)
 
+	/// <summary>
+	/// Get the transform scale
+	/// </summary>
+	/// <param name="entityID"> ID of entity</param>
+	/// <param name="outScale"> Scale of the entity</param>
 	static void Transform_GetScale(unsigned int entityID, Vec2f* outScale)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -25,13 +47,25 @@ namespace Carmicah
 		*outScale = go.GetComponent<Transform>().scale;
 	}
 
+	/// <summary>
+	/// Set the transform's scale
+	/// </summary>
+	/// <param name="entityID">ID of entity</param>
+	/// <param name="inScale"> Take in a vec2f to set the scale with</param>
 	static void Transform_SetScale(unsigned int entityID, Vec2f* inScale)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
 
 		go.GetComponent<Transform>().scale = *inScale;
 	}
-
+	
+	/// <summary>
+	/// Check if an entity has a component, acts as the internal call to C# side so that C# can check what component it has
+	/// Only checks against the components registered in RegisterComponents
+	/// </summary>
+	/// <param name="entityID">ID of entity</param>
+	/// <param name="componentType">Type of component to check</param>
+	/// <returns></returns>
 	static bool Entity_HasComponent(unsigned int entityID, MonoReflectionType* componentType)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -48,6 +82,11 @@ namespace Carmicah
 		return mGameObjectHasComponentFuncs[monoType](go);
 	}
 
+	/// <summary>
+	/// Fetches an entity based off their name by checking against registry in gGOFactory
+	/// </summary>
+	/// <param name="name"> Name of entity to find</param>
+	/// <returns>ID of the entity</returns>
 	static unsigned int Entity_FindEntityWithName(MonoString* name)
 	{
 		char* cStrName = mono_string_to_utf8(name);
@@ -60,6 +99,10 @@ namespace Carmicah
 		return go.GetID();
 	}
 
+	/// <summary>
+	/// Internal function call to play sound effects between C# and C++
+	/// </summary>
+	/// <param name="name">Name of the sound file to play</param>
 	static void Sound_PlaySFX(MonoString* name)
 	{
 		char* cStrname = mono_string_to_utf8(name);
@@ -69,6 +112,13 @@ namespace Carmicah
 		mono_free(cStrname);
 	}
 
+	/// <summary>
+	/// One way to apply linear force. Takes time into consideration
+	/// </summary>
+	/// <param name="entityID">ID of the entity</param>
+	/// <param name="dir">Direction of the force</param>
+	/// <param name="magnitude">Magnitude of the force</param>
+	/// <param name="lifeTime">How long it will be applied for</param>
 	static void RigidBody_ApplyForceWithTime(unsigned int entityID, Vec2f* dir, float magnitude, float lifeTime)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -84,6 +134,12 @@ namespace Carmicah
 		}
 	}
 
+	/// <summary>
+	/// Another way to apply a force. Applies it as a single pulse where life time is 0
+	/// </summary>
+	/// <param name="entityID">ID of the entity</param>
+	/// <param name="dir">Direction of the force</param>
+	/// <param name="magnitude">Force of the magnitude</param>
 	static void RigidBody_ApplyForce(unsigned int entityID, Vec2f dir, float magnitude)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -100,18 +156,32 @@ namespace Carmicah
 
 	}
 
+	/// <summary>
+	/// Get the position of the entity
+	/// </summary>
+	/// <param name="entityID">ID of the entity to check fr</param>
+	/// <param name="outPos"> Out vector2 posiion</param>
 	static void Transform_GetPosition(unsigned int entityID, Vec2f* outPos)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		*outPos = go.GetComponent<Transform>().pos;
 	}
 
+	/// <summary>
+	/// Set the position of hte transform
+	/// </summary>
+	/// <param name="entityID"> ID of the entity</param>
+	/// <param name="inPos"> Vector2 pos to set with</param>
 	static void Transform_SetPosition(unsigned int entityID, Vec2f* inPos)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		go.GetComponent<Transform>().pos = *inPos;
 	}
 
+	/// <summary>
+	/// Registers a component to C# mono side
+	/// </summary>
+	/// <typeparam name="T">Type of the component</typeparam>
 	template <typename T>
 	static void RegisterComponent()
 	{
@@ -132,18 +202,29 @@ namespace Carmicah
 
 	}
 
+	/// <summary>
+	/// Interface for checking if key is pressed
+	/// </summary>
+	/// <param name="keyCode">Key code to check with</param>
+	/// <returns>True or false</returns>
 	static bool IsKeyPressed(Keys keyCode)
 	{
 		return Input.IsKeyPressed(keyCode);
 	}
 
+	/// <summary>
+	/// Interface for checking if key hold
+	/// </summary>
+	/// <param name="keyCode">Key code to check with</param>
+	/// <returns><Returns true or false/returns>
 	static bool IsKeyHold(Keys keyCode)
 	{
 		return Input.IsKeyHold(keyCode);
 	}
 
-
-
+	/// <summary>
+	/// Register the component. Clear the map before registering
+	/// </summary>
 	void ScriptFunctions::RegisterComponents()
 	{
 		// if we hotload and need to rerun the linking and reinit mono
@@ -154,6 +235,9 @@ namespace Carmicah
 		RegisterComponent<RigidBody>();
 	}
 
+	/// <summary>
+	/// Register functions to C# side by using the internal mono call
+	/// </summary>
 	void ScriptFunctions::RegisterFunctions()
 	{
 		// Transform functions

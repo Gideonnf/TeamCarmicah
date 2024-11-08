@@ -1,3 +1,19 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:        ScriptObject.cpp
+
+ author:   Gideon Francis
+
+ email:       g.francis@digipen.edu
+
+ brief:      Script object. Holds the equivalent c# script, references to the standard OnCreate, OnUpdate and OnConstruct functions.
+				Used as a shared_ptr in scriptSystem.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
 #include <pch.h>
 #include <mono/jit/jit.h>
 #include <mono/metadata/assembly.h>

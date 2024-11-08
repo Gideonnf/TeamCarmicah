@@ -53,7 +53,7 @@ namespace Carmicah
         if (it != AssetManager::GetInstance()->mSoundMap.end())
         {
             FMOD::Channel* fmodChannel;
-            AssetManager::GetInstance()->mSoundSystem->playSound(it->second.sound, nullptr, false, &fmodChannel);
+            AssetManager::GetInstance()->mSoundSystem->playSound(it->second.sound, nullptr, true, &fmodChannel);
 
             float actualVolume = (volume >= 0) ? volume : it->second.defaultVolume;
             actualVolume *= mChannelVolumes[channel];
@@ -64,20 +64,6 @@ namespace Carmicah
             mChannelMap[channel][soundName] = playingSound;
         }
     }
-
-    void SoundSystem::PlaySoundOnce(const std::string& soundName, SoundChannel channel, float volume)
-    {
-        auto it = mChannelMap.find(channel);
-        if (it != mChannelMap.end())
-        {
-            if (it->second.find(soundName) == it->second.end())
-            {
-                PlaySound(soundName, channel, volume);
-            }
-        }
-    }
-
-
 
     void SoundSystem::StopSound(const std::string& soundName, SoundChannel channel)
     {
@@ -186,7 +172,7 @@ namespace Carmicah
             {
                 bool isPlaying = false;
                 it->second.channel->isPlaying(&isPlaying);
-                if (!isPlaying)
+                if (isPlaying)
                 {
                     it = channelPair.second.erase(it);
                 }

@@ -45,6 +45,15 @@ namespace Carmicah
 			mSystemObservers.insert(system);
 		}
 
+
+        /*!*************************************************************************
+        \brief
+        	
+        
+        \param[in] id
+        	
+        
+        ***************************************************************************/
 		virtual void EntityDestroyed(Entity id) {};
 
 		virtual void ReceiveMessage(Message* msg) {};
