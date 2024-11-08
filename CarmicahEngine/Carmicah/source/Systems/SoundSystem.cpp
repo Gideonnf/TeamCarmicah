@@ -44,6 +44,8 @@ namespace Carmicah
             PlaySound(defaultBGM, SoundChannel::BGM, 0.3f);
         }
 
+
+
         SystemManager::GetInstance()->SetSignature<SoundSystem>(mSignature);
     }
 
@@ -59,6 +61,7 @@ namespace Carmicah
             actualVolume *= mChannelVolumes[channel];
 
             fmodChannel->setVolume(actualVolume);
+
 
             PlayingSound playingSound{ fmodChannel, actualVolume };
             mChannelMap[channel][soundName] = playingSound;
@@ -186,14 +189,15 @@ namespace Carmicah
 
     void SoundSystem::ReceiveMessage(Message* msg)
     {
-        if (msg->mMsgType == MSG_PLAYSFX)
-        {
-            dynamic_cast<PlaySFXMsg*>(msg)->fileName;
-        }
-        else if (msg->mMsgType == MSG_PLAYBGM)
-        {
+        UNUSED(msg);
+        //if (msg->mMsgType == MSG_PLAYSFX)
+        //{
+        //    dynamic_cast<PlaySFXMsg*>(msg)->fileName;
+        //}
+        //else if (msg->mMsgType == MSG_PLAYBGM)
+        //{
 
-        }
+        //}
     }
 
     void SoundSystem::Exit()
