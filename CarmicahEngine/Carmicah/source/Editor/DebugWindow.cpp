@@ -21,15 +21,26 @@ DigiPen Institute of Technology is prohibited.
 #include "DebugWindow.h"
 #include "CarmicahTime.h"
 
+
+/*
+@beief: This function is used to get the color of the system based on the system name.
+@param: const std::string& systemName
+@return: ImU32
+The function returns the color of the system based on the system name.
+*/
 namespace Carmicah
 {
-    DebugWindow::DebugWindow() : EditorWindow("Debug", ImVec2(900, 300), ImVec2(0, 0)),
-        mShowPerformance(true), mShowLogger(true){
+    DebugWindow::DebugWindow()
+        : EditorWindow("Debug", ImVec2(900, 300), ImVec2(0, 0))
+        , mShowPerformance(true)
+        , mShowLogger(true)
+    {
         mIsVisible = true;
     }
 
-    ImU32 GetSystemColor(const std::string& systemName) {
-        // Simple string hash function
+    ImU32 DebugWindow::GetSystemColor(const std::string& systemName)
+    {
+        // Simple string hash function for consistent colors
         std::size_t hash = 0;
         for (char c : systemName) {
             hash = (hash * 31) + c;
@@ -43,25 +54,33 @@ namespace Carmicah
         return IM_COL32(r, g, b, 255);
     }
 
-    void DebugWindow::RenderProfilingTab()
+    // Render the performance overview section
+    void DebugWindow::RenderPerformanceOverview()
+    {
+        ImGui::BeginChild("Performance Overview", ImVec2(0, 60), true);
+        {
+            float frameTime = static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime() * 1000.0);
+            float fps = static_cast<float>(CarmicahTime::GetInstance()->FPS());
+            float gpuTime = static_cast<float>(CarmicahTime::GetInstance()->GetGPUTime());
+            float totalLoopTime = static_cast<float>(CarmicahTime::GetInstance()->GetTotalLoopTime() * 1000.0);
+
+            ImGui::Text("Frame Time: %.2f ms", frameTime);
+            ImGui::SameLine(200);
+            ImGui::Text("FPS: %.1f", fps);
+
+            ImGui::Text("GPU Time: %.2f ms", gpuTime);
+            ImGui::SameLine(200);
+            ImGui::Text("Total Loop Time: %.2f ms", totalLoopTime);
+        }
+        ImGui::EndChild();
+    }
+
+    // Render the system timeline section
+    void DebugWindow::RenderSystemTimeline()
     {
         const auto& systemPercentages = CarmicahTime::GetInstance()->GetSystemPercentages();
         double totalLoopTime = CarmicahTime::GetInstance()->GetTotalLoopTime();
 
-        // Performance Overview Section
-        ImGui::BeginChild("Performance Overview", ImVec2(0, 60), true);
-        {
-            ImGui::Text("Frame Time: %.2f ms", CarmicahTime::GetInstance()->GetDeltaTime() * 1000.0);
-            ImGui::SameLine(200);
-            ImGui::Text("FPS: %.1f", CarmicahTime::GetInstance()->FPS());
-
-            ImGui::Text("GPU Time: %.2f ms", CarmicahTime::GetInstance()->GetGPUTime());
-            ImGui::SameLine(200);
-            ImGui::Text("Total Loop Time: %.2f ms", totalLoopTime * 1000.0);
-        }
-        ImGui::EndChild();
-
-        // System Timeline
         ImGui::Text("System Timeline");
         ImGui::BeginChild("Timeline", ImVec2(0, 100), true);
         {
@@ -115,26 +134,82 @@ namespace Carmicah
             }
         }
         ImGui::EndChild();
+    }
 
-        // System Stats Table
+    // Render the system statistics section
+    void DebugWindow::RenderSystemStatistics()
+    {
+        const auto& systemPercentages = CarmicahTime::GetInstance()->GetSystemPercentages();
+        double totalLoopTime = CarmicahTime::GetInstance()->GetTotalLoopTime();
+
         ImGui::Text("System Statistics");
-        if (ImGui::BeginTable("System Stats", 3, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
-            ImGui::TableSetupColumn("System");
-            ImGui::TableSetupColumn("Time (ms)");
-            ImGui::TableSetupColumn("% of Frame");
-            ImGui::TableHeadersRow();
-
+        ImGui::BeginChild("System Stats", ImVec2(0, 300), true);
+        {
+            const float columnWidth = ImGui::GetContentRegionAvail().x - 20;
             for (const auto& pair : systemPercentages) {
-                ImGui::TableNextRow();
-                ImGui::TableNextColumn();
-                ImGui::Text("%s", pair.first.c_str());
-                ImGui::TableNextColumn();
-                ImGui::Text("%.3f", totalLoopTime * (pair.second / 100.0) * 1000.0);
-                ImGui::TableNextColumn();
-                ImGui::Text("%.1f%%", pair.second);
+                // Create a bordered box for each system
+                ImGui::BeginChild(pair.first.c_str(), ImVec2(columnWidth, 60), true);
+                {
+                    // System Name with colored indicator
+
+                    ImU32 color = GetSystemColor(pair.first);
+                    ImGui::ColorButton("##color", ImColor(color), ImGuiColorEditFlags_NoTooltip, ImVec2(16, 16));
+                    ImGui::SameLine();
+                    ImGui::Text("%s", pair.first.c_str());
+
+                    // Performance metrics in two columns
+                    ImGui::Columns(2, nullptr, false);
+
+                    ImGui::Text("Time:");
+                    ImGui::SameLine();
+                    ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.0f, 1.0f), "%.3f ms",
+                        totalLoopTime * (pair.second / 100.0) * 1000.0);
+
+                    ImGui::NextColumn();
+
+                    ImGui::Text("Load:");
+                    ImGui::SameLine();
+                    ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.5f, 1.0f), "%.1f%%",
+                        pair.second);
+
+                    ImGui::Columns(1);
+
+                    // Progress bar showing system load
+                    ImGui::ProgressBar(pair.second / 100.0f, ImVec2(-1, 4), "");
+                }
+                ImGui::EndChild();
+                ImGui::Spacing();
             }
-            ImGui::EndTable();
         }
+        ImGui::EndChild();
+    }
+
+    void DebugWindow::RenderLoggerTab()
+    {
+        static bool autoScroll = true;
+        const auto& logMessages = Carmicah::Log::getLogs();
+
+        ImGui::BeginChild("Logs", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
+        for (const auto& msg : logMessages)
+        {
+            ImGui::TextUnformatted(msg.c_str());
+        }
+        if (autoScroll)
+        {
+            ImGui::SetScrollHereY(1.0f);
+        }
+        if (ImGui::GetScrollY() < ImGui::GetScrollMaxY())
+        {
+            autoScroll = false;
+        }
+        ImGui::EndChild();
+    }
+
+    void DebugWindow::RenderProfilingTab()
+    {
+        RenderPerformanceOverview();
+        RenderSystemTimeline();
+        RenderSystemStatistics();
     }
 
     void DebugWindow::Update()
@@ -162,24 +237,7 @@ namespace Carmicah
 
                 if (mShowLogger && ImGui::BeginTabItem("Logger"))
                 {
-                    // Keep the auto-scroll behavior
-                    static bool autoScroll = true;
-                    const auto& logMessages = Carmicah::Log::getLogs();
-
-                    ImGui::BeginChild("Logs", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
-                    for (const auto& msg : logMessages)
-                    {
-                        ImGui::TextUnformatted(msg.c_str());
-                    }
-                    if (autoScroll)
-                    {
-                        ImGui::SetScrollHereY(1.0f);
-                    }
-                    if (ImGui::GetScrollY() < ImGui::GetScrollMaxY())
-                    {
-                        autoScroll = false;
-                    }
-                    ImGui::EndChild();
+                    RenderLoggerTab();
                     ImGui::EndTabItem();
                 }
                 ImGui::EndTabBar();
