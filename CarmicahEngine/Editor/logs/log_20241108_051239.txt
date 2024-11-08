@@ -1,0 +1,82 @@
+2024-11-08 05:12:39 Log system initialized. Writing to logs/log_20241108_051239.txt
+2024-11-08 05:12:39 Core Logger Initialized
+2024-11-08 05:12:39 Client Logger Initialized
+2024-11-08 05:12:39 Component Created with namestruct Carmicah::Button
+2024-11-08 05:12:39 Component Created with namestruct Script
+2024-11-08 05:12:39 Component Created with namestruct Carmicah::Transform
+2024-11-08 05:12:39 Component Created with namestruct Carmicah::Collider2D
+2024-11-08 05:12:39 Component Created with namestruct Carmicah::RigidBody
+2024-11-08 05:12:39 Component Created with namestruct Carmicah::Renderer
+2024-11-08 05:12:39 Component Created with namestruct Carmicah::Animation
+2024-11-08 05:12:39 Component Created with namestruct Carmicah::TextRenderer
+2024-11-08 05:12:39 Component Created with namestruct Carmicah::UITransform
+2024-11-08 05:12:39 Starting system init
+2024-11-08 05:12:39 Making class Carmicah::Editor system
+2024-11-08 05:12:39 Making class Carmicah::GOFactory system
+2024-11-08 05:12:39 Making class Carmicah::ScriptSystem system
+2024-11-08 05:12:39 Making class Carmicah::GraphicsSystem system
+2024-11-08 05:12:39 Making class Carmicah::UIGraphicsSystem system
+2024-11-08 05:12:39 Making class Carmicah::TextSystem system
+2024-11-08 05:12:39 Making class Carmicah::AnimationSystem system
+2024-11-08 05:12:39 Making class Carmicah::ColliderRenderSystem system
+2024-11-08 05:12:39 Making class Carmicah::RigidbodyRendererSystem system
+2024-11-08 05:12:39 Making class Carmicah::CollisionSystem system
+2024-11-08 05:12:39 Making class Carmicah::ButtonSystem system
+2024-11-08 05:12:39 Making class Carmicah::PhysicsSystem system
+2024-11-08 05:12:39 Making class Carmicah::InputSystem system
+2024-11-08 05:12:39 Making class Carmicah::SoundSystem system
+2024-11-08 05:12:39 Making class Carmicah::SceneSystem system
+2024-11-08 05:12:39 Making class Carmicah::TransformSystem system
+2024-11-08 05:12:41 Creating prefab with name: 2DGameObject
+2024-11-08 05:12:41 Creating prefab with name: Duck
+2024-11-08 05:12:41 Creating prefab with name: Duck2
+2024-11-08 05:12:41 Creating prefab child with name: Duck3
+2024-11-08 05:12:41 Creating prefab child with name: Duck4
+2024-11-08 05:12:41 Creating prefab with name: UIGameObject
+2024-11-08 05:12:41 Creating a new game object with name: BackgroundGO and id: 1
+2024-11-08 05:12:41 Creating a new game object with name: SpriteChangeObject and id: 2
+2024-11-08 05:12:41 Creating a new game object with name: MainCamera and id: 3
+2024-11-08 05:12:41 Creating a new game object with name: GameObject and id: 4
+2024-11-08 05:12:41 Creating a new game object with name: FPSText and id: 5
+2024-11-08 05:12:41 Creating a new game object with name: mainCharacter and id: 6
+2024-11-08 05:12:41 Creating a new game object with name: wall and id: 7
+2024-11-08 05:12:41 Creating a new game object with name: Duck2 and id: 8
+2024-11-08 05:12:41 Creating a new game object with name: GameObject2 and id: 9
+2024-11-08 05:12:41 Creating a new game object with name: MouseGO and id: 10
+2024-11-08 05:12:41 Creating a new game object with name: Duck and id: 11
+2024-11-08 05:12:41 Creating a new game object with name: Duck3 and id: 12
+2024-11-08 05:12:41 Creating a new game object with name: Duck4 and id: 13
+2024-11-08 05:12:41 Creating a new game object with name: TemporaryButton and id: 14
+2024-11-08 05:12:41 Creating a new game object with name: Duck2_1 and id: 15
+2024-11-08 05:12:41 Creating a new game object with name: Duck2_2 and id: 16
+2024-11-08 05:12:41 Creating a new game object with name: Duck2_3 and id: 17
+2024-11-08 05:12:41 Creating a new game object with name: Duck2_4 and id: 18
+2024-11-08 05:12:41 Creating a new game object with name: Duck2_5 and id: 19
+2024-11-08 05:12:41 Test
+2024-11-08 05:12:41 GL: msg = GL_INVALID_VALUE error generated. Width and height must not be negative.
+
+2024-11-08 05:12:50 ID: 1[963,592]
+2024-11-08 05:12:50 ID: 1[963,592]
+2024-11-08 05:12:52 ID: 1[521,1012]
+2024-11-08 05:12:52 GameObject does not exist
+2024-11-08 05:12:57 ID: 1[521,1012]
+2024-11-08 05:12:57 Unable to change scene.
+2024-11-08 05:12:57 Creating a new game object with name: BackgroundGO and id: 1
+2024-11-08 05:12:57 Creating a new game object with name: SpriteChangeObject and id: 2
+2024-11-08 05:12:57 Creating a new game object with name: MainCamera and id: 3
+2024-11-08 05:12:57 Creating a new game object with name: GameObject and id: 4
+2024-11-08 05:12:57 Creating a new game object with name: FPSText and id: 5
+2024-11-08 05:12:57 Creating a new game object with name: mainCharacter and id: 6
+2024-11-08 05:12:57 Creating a new game object with name: wall and id: 7
+2024-11-08 05:12:57 Creating a new game object with name: Duck2 and id: 8
+2024-11-08 05:12:57 Creating a new game object with name: GameObject2 and id: 9
+2024-11-08 05:12:57 Creating a new game object with name: MouseGO and id: 10
+2024-11-08 05:12:57 Creating a new game object with name: Duck and id: 11
+2024-11-08 05:12:57 Creating a new game object with name: Duck3 and id: 12
+2024-11-08 05:12:57 Creating a new game object with name: Duck4 and id: 13
+2024-11-08 05:12:57 Creating a new game object with name: TemporaryButton and id: 14
+2024-11-08 05:12:57 Creating a new game object with name: Duck2_1 and id: 15
+2024-11-08 05:12:57 Creating a new game object with name: Duck2_2 and id: 16
+2024-11-08 05:12:57 Creating a new game object with name: Duck2_3 and id: 17
+2024-11-08 05:12:57 Creating a new game object with name: Duck2_4 and id: 18
+2024-11-08 05:12:57 Creating a new game object with name: Duck2_5 and id: 19

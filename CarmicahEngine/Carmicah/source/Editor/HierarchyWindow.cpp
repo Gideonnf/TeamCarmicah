@@ -126,43 +126,6 @@ namespace Carmicah
 				//newObj.AddComponent<Renderer>(toRender);
 			}
 
-			if (ImGui::Button("Create 2500 Game Objects"))
-			{
-				std::random_device rd;
-				std::mt19937 gen(rd());
-				std::uniform_real_distribution<float> distrib(-10.0f, 10.0f);
-				std::uniform_real_distribution<float> rotDistrib(-360.f, 360.f);
-				for (int i = 0; i < 2500; ++i)
-				{
-					GameObject newObj = gGOFactory->CreatePrefab(goName);
-					float random_xPos = distrib(gen);
-					float random_yPos = distrib(gen);
-					float random_rot = rotDistrib(gen);
-
-					newObj.GetComponent<Transform>().pos.x = random_xPos;
-					newObj.GetComponent<Transform>().pos.y = random_yPos;
-					newObj.GetComponent<Transform>().rot = random_rot;
-
-					createdList.push_back(newObj);
-				}
-			}
-
-			if (ImGui::Button("Destroy all 2500 Game Objects"))
-			{
-				for (auto& obj : createdList)
-				{
-					if (selectedGO != nullptr && obj.GetID() == selectedGO->GetID())
-					{
-						selectedGO = nullptr;
-					}
-					obj.Destroy();
-					//gGOFactory->Destroy(obj.GetID());
-				}
-
-				createdList.clear();
-				//gGOFactory->DestroyAll();
-			}
-
 			std::string buttonName = "Save current scene: " + SceneToImgui::GetInstance()->currentScene;
 			if (ImGui::Button(buttonName.c_str()))
 			{

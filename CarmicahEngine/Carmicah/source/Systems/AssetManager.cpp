@@ -61,11 +61,11 @@ namespace Carmicah
 						}
 						if (folderName == "Audio")
 						{
-							LoadSound(fileName, entry.path().string(), false);
+							LoadSound(fileName, entry.path().string(), false, 1.0f); 
 						}
 						else if (folderName == "BGM")
 						{
-							LoadSound(fileName, entry.path().string(), true);
+							LoadSound(fileName, entry.path().string(), true, 1.0f);  
 						}
 						else if (folderName == "Images")
 						{
@@ -693,7 +693,8 @@ namespace Carmicah
 		mSoundSystem->init(maxChannels, FMOD_INIT_NORMAL, NULL);
 	}
 
-	void AssetManager::LoadSound(const std::string& soundName, std::string const& soundFile, bool b_isLoop)
+
+	void AssetManager::LoadSound(const std::string& soundName, const std::string& soundFile, bool isLoop, float defaultVolume)
 	{
 		auto sound = mSoundMap.find(soundName);
 		if (sound != mSoundMap.end())
@@ -707,15 +708,43 @@ namespace Carmicah
 		mSoundSystem->createSound(soundFile.c_str(), eMode, nullptr, &audio.sound);
 		if (audio.sound)
 		{
-			audio.isLoop = b_isLoop;
+			audio.isLoop = isLoop;
+			audio.defaultVolume = defaultVolume;
 			mSoundMap.insert(std::make_pair(soundName, audio));
-			if (b_isLoop)
+			if (isLoop)
 			{
 				audio.sound->setMode(FMOD_LOOP_NORMAL);
 				audio.sound->setLoopCount(-1);
 			}
 		}
 	}
+
+
+
+	//void AssetManager::LoadSound(const std::string& soundName, const std::string& soundFile, bool isLoop, float defaultVolume)
+	//{
+	//	auto sound = mSoundMap.find(soundName);
+	//	if (sound != mSoundMap.end())
+	//	{
+	//		std::cerr << "Sound:" << soundName << " Already Exists";
+	//		return;
+	//	}
+
+	//	FMOD_MODE eMode = FMOD_DEFAULT;
+	//	Audio audio{};
+	//	mSoundSystem->createSound(soundFile.c_str(), eMode, nullptr, &audio.sound);
+	//	if (audio.sound)
+	//	{
+	//		audio.isLoop = isLoop;
+	//		audio.defaultVolume = defaultVolume;
+	//		mSoundMap.insert(std::make_pair(soundName, audio));
+	//		if (isLoop)
+	//		{
+	//			audio.sound->setMode(FMOD_LOOP_NORMAL);
+	//			audio.sound->setLoopCount(-1);
+	//		}
+	//	}
+	//}
 
 	bool AssetManager::GetScene(std::string scene, std::string& filePath)
 	{

@@ -49,6 +49,15 @@ namespace Carmicah
 
 		virtual void ReceiveMessage(Message* msg) {};
 
+		virtual void OnUpdate() {}; // New virtual method for actual update logic
+
+		void Update() {
+			const std::string systemName = typeid(*this).name();
+			CarmicahTime::GetInstance()->StartSystemTimer(systemName);
+			OnUpdate();
+			CarmicahTime::GetInstance()->StopSystemTimer(systemName);
+		}
+
 		void SendSysMessage(Message* msg) 
 		{
 			for (auto const& system : mSystemObservers)
