@@ -9,7 +9,7 @@ layout (location=1)		out unsigned int	fGID;
 layout (binding = 0) uniform sampler2DArray 	uTex;
 
 void main(void){
-	fFragColor = texture(uTex, vec3(vTexCoord.xy, vID.y) );
+	fFragColor = texture(uTex, vec3(vTexCoord, vID.y) );
 
 	// Simple backup Blend test
 	if(fFragColor.a < 0.000001)

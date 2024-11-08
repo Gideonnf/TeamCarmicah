@@ -107,8 +107,8 @@ namespace Carmicah
         std::string defaultScene = AssetManager::GetInstance()->enConfig.defaultScene;
         //CM_CORE_INFO("Reached before window creation");
         GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", NULL, NULL);
-        int bufferWidth, bufferHeight;
-        glfwGetFramebufferSize(window, &bufferWidth, &bufferHeight);
+        //int bufferWidth, bufferHeight;
+        //glfwGetFramebufferSize(window, &bufferWidth, &bufferHeight);
         glfwMakeContextCurrent(window);
        // CM_CORE_INFO("Reached after window creation");
 
@@ -219,7 +219,7 @@ namespace Carmicah
 
 
 
-        SceneToImgui::GetInstance()->CreateFramebuffer(bufferWidth, bufferHeight);
+        SceneToImgui::GetInstance()->CreateFramebuffer(Width, Height);
 
         while (!glfwWindowShouldClose(window)) {
             CarmicahTime::GetInstance()->StartLoopTimer();

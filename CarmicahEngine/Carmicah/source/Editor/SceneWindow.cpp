@@ -57,14 +57,13 @@ namespace Carmicah
 					mChangeState = true;
 				}
 			}
-			const float windowWidth = ImGui::GetContentRegionAvail().x;
-			const float windowHeight = ImGui::GetContentRegionAvail().y;
+			const float windowWidth =   std::clamp(ImGui::GetContentRegionAvail().x, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Width));
+			const float windowHeight =  std::clamp(ImGui::GetContentRegionAvail().y, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Height));
 
             SceneToImgui::GetInstance()->RescaleFramebuffer(windowWidth, windowHeight);
             glViewport(0, 0, (GLsizei)windowWidth, (GLsizei)windowHeight);
 
             // get screen position of the Scene window's content area
-            ImVec2 sceneWindowPos = ImGui::GetWindowPos();
             ImVec2 pos = ImGui::GetCursorScreenPos();
 
             ImGui::GetWindowDrawList()->AddImage(

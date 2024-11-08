@@ -440,9 +440,13 @@ namespace Carmicah
 			GL_RGBA, GL_UNSIGNED_BYTE, data);
 		stbi_image_free(data);
 
-		if (spriteD.empty())
-			AddTextureImage(texture, textureName);
-		else
+		
+		
+		texture.mtx.m[0] = texture.mtx.m[1] = 0.f;
+		texture.mtx.m[2] = static_cast<float>(texWidth);
+		texture.mtx.m[3] = static_cast<float>(texHeight);
+		AddTextureImage(texture, textureName);
+		if (!spriteD.empty())
 		{
 			for (int i{}; i < spriteD.size(); ++i)
 			{
@@ -450,32 +454,25 @@ namespace Carmicah
 				texture.mtx.m[1] = static_cast<float>(spriteD[i].y);
 				texture.mtx.m[2] = static_cast<float>(spriteD[i].width);
 				texture.mtx.m[3] = static_cast<float>(spriteD[i].height);
-				texture.mtx.m[4] = static_cast<float>(texWidth);
-				texture.mtx.m[5] = static_cast<float>(texHeight);
-				AddTextureImage(texture, textureName, spriteD[i].num, i, i == 0);
+				AddTextureImage(texture, textureName, spriteD[i].num, std::string("_") + spriteD[i].name);
 			}
 		}
 	}
 
-	void AssetManager::AddTextureImage(Texture& t, const std::string& textureName, const int& num, const int& ver, bool wholeSprite)
+	void AssetManager::AddTextureImage(Texture& t, const std::string& textureName, const int& num, const std::string& extName)
 	{
-		if (num == 0)
-		{
-			AddAsset(textureName, t);
-			return;
-		}
-		float	x = t.mtx.m[0] / t.mtx.m[4],
-			y = t.mtx.m[1] / t.mtx.m[5],
-			width = t.mtx.m[2] / t.mtx.m[4],
-			height = t.mtx.m[3] / t.mtx.m[5];
+		float	x = t.mtx.m[0] / static_cast<float>(maxTexSize),
+				y = t.mtx.m[1] / static_cast<float>(maxTexSize),
+				width = t.mtx.m[2] / static_cast<float>(maxTexSize),
+				height = t.mtx.m[3] / static_cast<float>(maxTexSize);
 		Mtx33Identity(t.mtx);
-		if (wholeSprite)
-			AddAsset(textureName, t);
 
 		t.mtx.translateThis(x, 1.f - y - height).scaleThis(width, height);
 		for (int i{}; i < num; ++i)
 		{
-			std::string name = textureName + ' ' + std::to_string(ver) + ' ' + std::to_string(i);
+			std::string name{ textureName };
+			if(num != 1)
+				name += extName + ' ' + std::to_string(i);
 			AddAsset(name, t);
 			t.mtx.m[6] += width;
 			if (t.mtx.m[6] + width > 1.f)
