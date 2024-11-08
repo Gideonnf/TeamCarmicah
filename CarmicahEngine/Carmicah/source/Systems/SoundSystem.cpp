@@ -65,6 +65,18 @@ namespace Carmicah
         }
     }
 
+    void SoundSystem::PlaySoundOnce(const std::string& soundName, SoundChannel channel, float volume)
+    {
+        auto it = mChannelMap.find(channel);
+        if (it != mChannelMap.end())
+        {
+            if (it->second.find(soundName) == it->second.end())
+            {
+                PlaySound(soundName, channel, volume);
+            }
+        }
+    }
+
 
 
     void SoundSystem::StopSound(const std::string& soundName, SoundChannel channel)

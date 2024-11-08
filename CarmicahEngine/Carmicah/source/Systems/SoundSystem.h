@@ -69,6 +69,9 @@ namespace Carmicah
 
         const char* defaultBGM{ "bouken" };
         const char* buttonBGM{ "buttonclick" };
+
+        //Play sound once 
+            void PlaySoundOnce(const std::string& soundName, SoundChannel channel, float volume = -1.0f);
     };
 }
 
