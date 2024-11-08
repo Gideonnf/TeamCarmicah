@@ -25,24 +25,21 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	struct Primitive
+	struct BasePrimitive
 	{
 		std::vector<Vec2f> vtx;
-		std::vector<Vec2f> texCoord;
-		std::vector<GLushort> idx;
 		GLenum drawMode{};
 		GLuint drawCnt{};
 	};
-	struct DebugPrimitive
+	struct Primitive : BasePrimitive
 	{
-		std::vector<Vec2f> vtx;
-		GLenum drawMode{};
-		GLuint drawCnt{};
+		std::vector<Vec2f> texCoord;
+		std::vector<GLushort> idx;
 	};
 	struct BatchBuffer
 	{
 		GLuint vao{}, vbo{}, ebo{}, ibo{};
-		const Primitive* pRef;
+		const BasePrimitive* pRef;
 	};
 	struct Shader
 	{

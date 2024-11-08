@@ -16,6 +16,7 @@ DigiPen Institute of Technology is prohibited.
 
 #include "Systems/AssetTypes.h"
 #include "Math/Vec2.h"
+#include "Math/Matrix3x3.h"
 
 namespace Carmicah
 {
@@ -65,7 +66,7 @@ namespace Carmicah
 		std::vector<BatchBuffer> mBufferData{};
 		std::map<unsigned int, EntityData> mEntityBufferLoc{};
 
-		virtual void Init(bool isDebug = false);
+		virtual void Init(std::string shdr);
 
 		/*
 		brief
@@ -83,11 +84,17 @@ namespace Carmicah
 
 		float CalcDepth(const float& depth, const RENDER_LAYERS& layer);
 
-		void GenBatch(const Primitive& p, bool hasTex);
+		void GenBatch(const Primitive& p);
 
-		void EditBatchData(const unsigned int& entity, const unsigned int& pos);
+		void GenDebugBatch(const BasePrimitive& p);
+
+		void EditBatchData(const unsigned int& entity, const unsigned int& pos, bool worldSpace, RENDER_LAYERS layer);
+
+		void EditDebugBatchData(const unsigned int& entity, const unsigned int& pos, const BasePrimitive& primitive, Mtx3x3f& mtx, bool worldSpace, RENDER_LAYERS layer);
 
 		void BatchRender();
+
+		void BatchDebugRender();
 
 		//void RenderPrimitive(const Primitive& p);
 	};

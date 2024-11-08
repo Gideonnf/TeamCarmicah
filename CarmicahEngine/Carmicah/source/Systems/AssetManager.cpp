@@ -327,7 +327,7 @@ namespace Carmicah
 	*/
 	void AssetManager::LoadDebugObject(const std::string& objName, const std::string& modelFile)
 	{
-		if (AssetExist<DebugPrimitive>(objName))
+		if (AssetExist<BasePrimitive>(objName))
 		{
 			CM_CORE_WARN("Object:" + objName + " Already Exists");
 			return;
@@ -339,7 +339,7 @@ namespace Carmicah
 			CM_CORE_ERROR("Unable to open Obj:" + modelFile);
 			return;
 		}
-		DebugPrimitive p;
+		BasePrimitive p;
 		p.drawMode = GL_LINE_LOOP;
 		ifs >> p.drawCnt;
 		if (p.drawCnt == 0)

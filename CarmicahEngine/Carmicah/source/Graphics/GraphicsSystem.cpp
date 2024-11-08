@@ -36,9 +36,9 @@ namespace Carmicah
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Renderer>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<GraphicsSystem>(mSignature);
-		BaseGraphicsSystem::Init();
+		BaseGraphicsSystem::Init("");
 
-		GenBatch(AssetManager::GetInstance()->GetAsset<Primitive>("Square"), true);
+		GenBatch(AssetManager::GetInstance()->GetAsset<Primitive>("Square"));
 	}
 
 	void GraphicsSystem::SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam)
@@ -58,15 +58,14 @@ namespace Carmicah
 			return;
 		glUseProgram(mCurrShader);
 		// Just did discard instead, cuz this stopped working
-		//glEnable(GL_BLEND);
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		// Needs RBO to depth test
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 
 		// Handle Camera Transform
 		{
-			auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
 			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			Mtx3x3f camSpace{};
@@ -75,21 +74,37 @@ namespace Carmicah
 			if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
 		}
+
+		for (auto& entity : mEntityBufferLoc)
+		{
+			if (!entity.second.isActive)
+				continue;
+
+			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity.first);
+
+			if (transform.notUpdated)
+				continue;
+
+			EditBatchData(entity.first, entity.second.posInMemory, true, BASE_LAYER);
+		}
+		
 		// Add new Data
 		if (mEntityBufferLoc.size() != mEntitiesSet.size())
 		{
 			for (auto& entity : mEntitiesSet)
 			{
-				auto& e{ mEntityBufferLoc.find(entity) };
+				auto e{ mEntityBufferLoc.find(entity) };
 				if (e != mEntityBufferLoc.end())
 					continue;
 				EntityData ed{};
+				ed.isActive = true;
 				ed.posInMemory = mEntityBufferIDTrack++;
 
-				EditBatchData(entity, ed.posInMemory);
+				EditBatchData(entity, ed.posInMemory, true, BASE_LAYER);
 				mEntityBufferLoc.emplace(entity, ed);
 			}
 		}
+
 
 		BatchRender();
 
