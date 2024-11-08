@@ -24,27 +24,13 @@ DigiPen Institute of Technology is prohibited.
 
 
 //breif:         This class is a system that handles the sound effects and background music of the game
+
 namespace Carmicah
 {
-    enum class SoundChannel
-    {
-        BGM,
-        SFX,
-        UI,
-        VOICE
-    };
-
-    struct PlayingSound
-    {
-        FMOD::Channel* channel;
-        float volume;
-    };
-
     class SoundSystem : public BaseSystem
     {
     private:
-        std::unordered_map<SoundChannel, std::unordered_map<std::string, PlayingSound>> mChannelMap;
-        std::unordered_map<SoundChannel, float> mChannelVolumes;
+        std::unordered_map<std::string, FMOD::Channel*> channelMap;
 
     public:
         SoundSystem();
@@ -54,24 +40,15 @@ namespace Carmicah
         void Update();
         void Exit();
 
-        void PlaySound(const std::string& soundName, SoundChannel channel, float volume = 1.0f);
-        void StopSound(const std::string& soundName, SoundChannel channel);
-        void StopAllSoundsInChannel(SoundChannel channel);
+        void PlaySound(const std::string& soundName, float volume = 1.0f);
+        void StopSound(const std::string& soundName);
+        void SetVolume(const std::string& soundName, float volume);
         void StopAllSounds();
+        void PauseResumeSound(const std::string& soundName);
 
-        void SetSoundVolume(const std::string& soundName, SoundChannel channel, float volume);
-        void SetChannelVolume(SoundChannel channel, float volume);
-
-        void PauseResumeSound(const std::string& soundName, SoundChannel channel);
-        void PauseResumeChannel(SoundChannel channel);
-
-        void ReceiveMessage(Message* msg) override;
 
         const char* defaultBGM{ "bouken" };
         const char* buttonBGM{ "buttonclick" };
-
-        //Play sound once 
-            void PlaySoundOnce(const std::string& soundName, SoundChannel channel, float volume = -1.0f);
     };
 }
 

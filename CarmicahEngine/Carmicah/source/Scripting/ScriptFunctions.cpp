@@ -107,7 +107,7 @@ namespace Carmicah
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySound(cStrname, SoundChannel::SFX);
+		souSystem->PlaySound(cStrname, 0.4f);
 
 		mono_free(cStrname);
 	}

@@ -22,26 +22,31 @@ DigiPen Institute of Technology is prohibited.
 #include "ECS/ComponentManager.h"
 #include "Systems/AssetManager.h"
 
+
+//brief:         This class is a system that handles the sound effects and background music of the game
+
 namespace Carmicah
 {
-    SoundSystem::SoundSystem()
-    {
-        for (int i = 0; i < 4; ++i)
-        {
-            mChannelVolumes[static_cast<SoundChannel>(i)] = 1.0f;
-        }
-    }
+    SoundSystem::SoundSystem() {}
 
     SoundSystem::~SoundSystem()
     {
         Exit();
     }
 
+    //This is the signature of the sound system which is used to determine if an entity should be processed by the system
     void SoundSystem::Init(bool playDefaultBGM)
     {
+
+        // Play default BGM
         if (playDefaultBGM)
         {
-            PlaySound(defaultBGM, SoundChannel::BGM, 0.3f);
+            PlaySound(defaultBGM, 0.3f);
+        }
+
+        if (playDefaultBGM)
+        {
+            PlaySound(buttonBGM, 0.5f);
         }
 
 
@@ -49,159 +54,90 @@ namespace Carmicah
         SystemManager::GetInstance()->SetSignature<SoundSystem>(mSignature);
     }
 
-    void SoundSystem::PlaySound(const std::string& soundName, SoundChannel channel, float volume)
+
+    //This function is used to play a sound file from the sound system
+    void SoundSystem::PlaySound(const std::string& soundName, float volume)
     {
         auto it = AssetManager::GetInstance()->mSoundMap.find(soundName);
         if (it != AssetManager::GetInstance()->mSoundMap.end())
         {
-            FMOD::Channel* fmodChannel;
-            AssetManager::GetInstance()->mSoundSystem->playSound(it->second.sound, nullptr, true, &fmodChannel);
-
-           /* float actualVolume = (volume >= 0) ? volume : it->second.defaultVolume;
-            actualVolume *= mChannelVolumes[channel];*/
-
-            fmodChannel->setVolume(1.0f);
-
-
-            PlayingSound playingSound{ fmodChannel, 1.0f };
-            mChannelMap[channel][soundName] = playingSound;
+            FMOD::Channel* channel;
+            AssetManager::GetInstance()->mSoundSystem->playSound(it->second.sound, nullptr, false, &channel);
+            channel->setVolume(volume);
+            channelMap[soundName] = channel;
         }
     }
 
-    void SoundSystem::StopSound(const std::string& soundName, SoundChannel channel)
+    //This function is used to stop a sound file from playing
+    void SoundSystem::StopSound(const std::string& soundName)
     {
-        auto channelIt = mChannelMap.find(channel);
-        if (channelIt != mChannelMap.end())
+        auto it = channelMap.find(soundName);
+        if (it != channelMap.end())
         {
-            auto soundIt = channelIt->second.find(soundName);
-            if (soundIt != channelIt->second.end())
-            {
-                soundIt->second.channel->stop();
-                channelIt->second.erase(soundIt);
-            }
+            it->second->stop();
+            channelMap.erase(it);
         }
     }
 
-    void SoundSystem::StopAllSoundsInChannel(SoundChannel channel)
+    //This function is used to set the volume of a sound file that is currently playing
+    void SoundSystem::SetVolume(const std::string& soundName, float volume)
     {
-        auto channelIt = mChannelMap.find(channel);
-        if (channelIt != mChannelMap.end())
+        auto it = channelMap.find(soundName);
+        if (it != channelMap.end())
         {
-            for (auto& soundPair : channelIt->second)
-            {
-                soundPair.second.channel->stop();
-            }
-            channelIt->second.clear();
+            it->second->setVolume(volume);
         }
     }
 
+    //This function is used to stop all sound files from playing in the sound system
     void SoundSystem::StopAllSounds()
     {
-        for (auto& channelPair : mChannelMap)
+        for (auto& pair : channelMap)
         {
-            for (auto& soundPair : channelPair.second)
-            {
-                soundPair.second.channel->stop();
-            }
-            channelPair.second.clear();
+            pair.second->stop();
         }
+        channelMap.clear();
     }
 
-    void SoundSystem::SetSoundVolume(const std::string& soundName, SoundChannel channel, float volume)
+    //This function is used to pause or resume a sound file that is currently playing in the sound system
+    void SoundSystem::PauseResumeSound(const std::string& soundName)
     {
-        auto channelIt = mChannelMap.find(channel);
-        if (channelIt != mChannelMap.end())
+        auto it = channelMap.find(soundName);
+        if (it != channelMap.end())
         {
-            auto soundIt = channelIt->second.find(soundName);
-            if (soundIt != channelIt->second.end())
-            {
-                soundIt->second.volume = volume;
-                float actualVolume = volume * mChannelVolumes[channel];
-                soundIt->second.channel->setVolume(actualVolume);
-            }
+            bool paused;
+            it->second->getPaused(&paused);
+            it->second->setPaused(!paused);
         }
     }
 
-    void SoundSystem::SetChannelVolume(SoundChannel channel, float volume)
-    {
-        mChannelVolumes[channel] = volume;
-        auto channelIt = mChannelMap.find(channel);
-        if (channelIt != mChannelMap.end())
-        {
-            for (auto& soundPair : channelIt->second)
-            {
-                float actualVolume = soundPair.second.volume * volume;
-                soundPair.second.channel->setVolume(actualVolume);
-            }
-        }
-    }
-
-    void SoundSystem::PauseResumeSound(const std::string& soundName, SoundChannel channel)
-    {
-        auto channelIt = mChannelMap.find(channel);
-        if (channelIt != mChannelMap.end())
-        {
-            auto soundIt = channelIt->second.find(soundName);
-            if (soundIt != channelIt->second.end())
-            {
-                bool paused;
-                soundIt->second.channel->getPaused(&paused);
-                soundIt->second.channel->setPaused(!paused);
-            }
-        }
-    }
-
-    void SoundSystem::PauseResumeChannel(SoundChannel channel)
-    {
-        auto channelIt = mChannelMap.find(channel);
-        if (channelIt != mChannelMap.end())
-        {
-            for (auto& soundPair : channelIt->second)
-            {
-                bool paused;
-                soundPair.second.channel->getPaused(&paused);
-                soundPair.second.channel->setPaused(!paused);
-            }
-        }
-    }
-
+    //This function is used to update the sound system and remove any stopped channels
     void SoundSystem::Update()
     {
         AssetManager::GetInstance()->mSoundSystem->update();
 
-        for (auto& channelPair : mChannelMap)
+        // Remove stopped channels
+        for (auto it = channelMap.begin(); it != channelMap.end();)
         {
-            for (auto it = channelPair.second.begin(); it != channelPair.second.end();)
+            // If channel stops playing, remove from list
+            bool isPlaying = false;
+            it->second->isPlaying(&isPlaying);
+            if (!isPlaying)
             {
-                bool isPlaying = false;
-                it->second.channel->isPlaying(&isPlaying);
-                if (!isPlaying)
-                {
-                    it = channelPair.second.erase(it);
-                }
-                else
-                {
-                    ++it;
-                }
+                it = channelMap.erase(it);
+            }
+            // If channel is still playing, increment iterator
+            else
+            {
+                ++it;
             }
         }
     }
 
-    void SoundSystem::ReceiveMessage(Message* msg)
-    {
-        UNUSED(msg);
-        //if (msg->mMsgType == MSG_PLAYSFX)
-        //{
-        //    dynamic_cast<PlaySFXMsg*>(msg)->fileName;
-        //}
-        //else if (msg->mMsgType == MSG_PLAYBGM)
-        //{
-
-        //}
-    }
-
+    //This function is used to exit the sound system and release all resources used by the sound system
     void SoundSystem::Exit()
     {
+        // Stop all sounds
         StopAllSounds();
     }
 }

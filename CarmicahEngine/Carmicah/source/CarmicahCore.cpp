@@ -261,6 +261,7 @@ namespace Carmicah
             // If the next state was set to ONSTART, means sceneSystem received a play messag
             if (gameSystem->mNextState == SceneState::ONSTART)
             {
+                //souSystem->PlaySound(souSystem->buttonBGM, 0.4f);
                 gScriptSystem->OnStart();
                 // go to run time after starting up all script objects
                 gameSystem->mNextState = gameSystem->mCurrState = SceneState::RUNTIME;
@@ -405,6 +406,7 @@ namespace Carmicah
             // only for anything else but that
             if ((gameSystem->mNextState != gameSystem->mCurrState) && gameSystem->mNextState != SceneState::ONSTART )
             {
+                souSystem->StopAllSounds();
                 gameSystem->Exit();
             }
 
