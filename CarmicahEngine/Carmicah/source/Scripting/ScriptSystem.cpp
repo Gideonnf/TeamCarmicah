@@ -1,3 +1,20 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:        ScriptSystem.cpp
+
+ author:   Gideon Francis
+
+ email:       g.francis@digipen.edu
+
+ brief:      Script System. cpp file containing the function definitions for the script System.
+                Initialises C# mono and cleans it up when its done. Load the mono assembly for the C# Project. Holds a map
+                of all the entity classes and the instances of entities
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
 #include "pch.h"
 #include "ScriptSystem.h"
 #include "../log.h"
@@ -156,7 +173,7 @@ namespace Carmicah
 
         std::streampos end = stream.tellg();
         stream.seekg(0, std::ios::beg);
-        uint32_t size = end - stream.tellg();
+        uint32_t size = (uint32_t)(end - stream.tellg());
 
         if (size == 0)
         {
@@ -180,7 +197,7 @@ namespace Carmicah
         mCoreAssembly = LoadCSharpAssembly(assemblyPath);
         if (mCoreAssembly == nullptr)
         {
-            // assert smth here 
+            // assert smth here HasEntityClass
             CM_CORE_ERROR("Unable to load core assembly");
             assert("Unable to load");
         }

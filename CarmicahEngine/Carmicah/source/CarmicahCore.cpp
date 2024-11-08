@@ -67,13 +67,13 @@ namespace Carmicah
         glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
         glDebugMessageCallback(
             [](GLenum source, GLenum type, GLuint id, GLenum severity,
-            GLsizei length, const GLchar* msg, const void* uParam)
+            GLsizei length, const GLchar* msg2, const void* uParam)
             {
                 std::stringstream ss;
                 ss << "GL: ";
                 if (ex)
                     ss << " type = 0x" << type << ", Severity = 0x" << severity << ", ";
-                ss << msg << std::endl;
+                ss << msg2 << std::endl;
                 if (type == GL_DEBUG_TYPE_ERROR)
                 {
                     CM_ERROR(ss.str());
@@ -186,6 +186,9 @@ namespace Carmicah
         Input.BindSystem(gGOFactory);
         // TODO: Make this easier to write for people
        Input.BindSystem(std::static_pointer_cast<BaseSystem>(gameSystem).get());
+
+       Input.BindSystem(std::static_pointer_cast<BaseSystem>(souSystem).get());
+
        gameSystem->BindSystem(std::static_pointer_cast<BaseSystem>(editorSys).get());
        gameSystem->BindSystem(std::static_pointer_cast<BaseSystem>(butSystem).get());
         // Add transform system into gGOFactory's observer so that it can send msg to it
@@ -210,8 +213,8 @@ namespace Carmicah
         //int objectCount = 0;
         //phySystem->Update();
         
-        CarmicahTime::GetInstance()->SetFixedDT(false);
-        float accumulatedTime = 0.0f;
+        CarmicahTime::GetInstance()->SetFixedDT(true);
+        double accumulatedTime = 0.0;
 
        // Editor Editor;
         editorSys->Init(window);
@@ -267,7 +270,7 @@ namespace Carmicah
                 if (gameSystem->mCurrState == SceneState::RUNTIME)
                 {
 
-                    gScriptSystem->OnUpdate(CarmicahTime::GetInstance()->GetDeltaTime());
+                    gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->GetDeltaTime());
                     //gameLogic->Update(window);
                     if (CarmicahTime::GetInstance()->IsFixedDT())
                     {
@@ -370,6 +373,9 @@ namespace Carmicah
 
                // glfwMakeContextCurrent(ImGuiWindow);
                 CarmicahTime::GetInstance()->StartSystemTimer("EditorSystem");
+                GameObject fps;
+                gGOFactory->FetchGO("FPSText", fps);
+                fps.GetComponent<TextRenderer>().txt = std::to_string((int)CarmicahTime::GetInstance()->FPS());
                 editorSys->Update();
                 editorSys->Render(window);
                 CarmicahTime::GetInstance()->StopSystemTimer("EditorSystem");

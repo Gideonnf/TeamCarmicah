@@ -1,3 +1,18 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:        TransformSystem.cpp
+
+ author:   Gideon Francis
+
+ email:       g.francis@digipen.edu
+
+ brief:     Transform System. Header file that contains the function declarations of the transform system. Incharge of updating the transform
+				of entities when parenting/unparenting between entities and scene
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 #include "pch.h"
 #include "TransformSystem.h"
 #include "ECS/SystemManager.h"

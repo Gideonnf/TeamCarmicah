@@ -1,3 +1,16 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			Collider2D.h
+
+ author:		Lee Yong Yee(100%)
+
+ email:			l.yongyee@digipen.edu
+
+ brief:			Keeps track of Rendering specific details such as the model being used, texture, and a mat3 for accessing parts of the texture
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #pragma once
 #ifndef COLLIDER2D_H
 #define COLLIDER2D_H

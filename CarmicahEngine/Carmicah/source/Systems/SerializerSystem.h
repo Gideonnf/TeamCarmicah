@@ -57,17 +57,41 @@ namespace Carmicah
 		*/
 		void WriteConfig();
 
-		/*
-		brief
-			Loads the scene
-		return
-			success
-		*/
+		/// <summary>
+		/// Deserialize the scene and load all the entities in it
+		/// </summary>
+		/// <param name="">Name of the scene to deserialize</param>
+		/// <returns>true if deserialize, false if cant</returns>
 		bool DeserializeScene(std::string);
+		/// <summary>
+		/// Serialize the scene/Save the scene.
+		/// </summary>
+		/// <param name="">Name of the scene to write into</param>
+		/// <returns>True or false depending on success</returns>
 		bool SerializeScene(std::string);
+		/// <summary>
+		/// Serialize the prefab if user made any changes to it in the editor
+		/// </summary>
+		/// <param name="">Name of the prefab</param>
 		void SerializePrefab(Prefab);
+		/// <summary>
+		/// Used for recursively writing the prefab into the ostream wrapper. Goes to the children and recursively calls itself
+		/// until it serializes all the children, children of children, etc
+		/// </summary>
+		/// <param name="">Prefab that is being saved</param>
+		/// <param name="">Wrapper to write into</param>
 		void WritePrefab(Prefab, rapidjson::PrettyWriter<rapidjson::OStreamWrapper>&);
+		/// <summary>
+		/// Deserialize the prefab and store it as a prefab type that can be used to create prefabs by GOFactory
+		/// </summary>
+		/// <param name="">Name of the prefab file</param>
+		/// <returns>Returns the prefab after deserializing</returns>
 		Prefab DeserializePrefab(std::string);
+		/// <summary>
+		/// To dig into the children of prefabs, and the children of the children, etc
+		/// </summary>
+		/// <param name="doc">Document to deserialize from</param>
+		/// <returns>the prefab after deserializing</returns>
 		Prefab GetChildren(const rapidjson::Value& doc);
 
 	};

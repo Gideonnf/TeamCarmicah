@@ -28,7 +28,9 @@ namespace Carmicah
         MSG_ENTITYPICKED,
 		MSG_RUNTIME,
 		MSG_EDITORENTITY,
-		MSG_BUTTONENTITY
+		MSG_BUTTONENTITY,
+		MSG_PLAYBGM,
+		MSG_PLAYSFX
 	};
 
 	namespace
@@ -91,6 +93,19 @@ namespace Carmicah
 		RuntimeStartMessage() : Message(MSG_RUNTIME) {}
 	};
 
+	class PlayBGMMsg : public Message
+	{
+	public:
+		std::string fileName;
+		PlayBGMMsg(std::string file) : Message(MSG_PLAYBGM), fileName(file) {}
+	};
+
+	class PlaySFXMsg : public Message
+	{
+	public:
+		std::string fileName;
+		PlaySFXMsg(std::string file) : Message(MSG_PLAYSFX), fileName(file) {}
+	};
 }
 
 #endif

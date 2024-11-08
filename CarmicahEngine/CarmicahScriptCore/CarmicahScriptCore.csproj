@@ -42,6 +42,7 @@
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Camera.cs" />
     <Compile Include="Source\Component.cs" />
     <Compile Include="Source\Entity.cs" />
     <Compile Include="Source\FunctionCalls.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="Source\MouseAI.cs" />
     <Compile Include="Source\MouseState.cs" />
     <Compile Include="Source\Player.cs" />
+    <Compile Include="Source\Sound.cs" />
     <Compile Include="Source\StateMachine.cs" />
     <Compile Include="Source\Vector2.cs" />
   </ItemGroup>

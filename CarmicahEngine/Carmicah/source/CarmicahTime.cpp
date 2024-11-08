@@ -1,9 +1,10 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  file:			DebugWindow.cpp
 
- author:		YANG YUJIE 100%
+ author:		YANG YUJIE 80%
+ co-author:     Lee Yong Yee 20%
 
- email:			y.yujie@digipen.edu
+ emails:			y.yujie@digipen.edu, l.yongyee@digipen.edu
 
  brief:         This file contains the implementation of the DebugWindow class
 				DebugWindow is a singleton class that is used to display debug information

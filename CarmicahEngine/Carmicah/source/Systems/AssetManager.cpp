@@ -314,7 +314,7 @@ namespace Carmicah
 			}
 		}
 		ifs.close();
-		AddAsset(objName, std::move(p));
+		AddAsset(objName, p);
 	}
 
 	/*
@@ -358,7 +358,7 @@ namespace Carmicah
 		}
 		ifs.close();
 
-		AddAsset(objName, std::move(p));
+		AddAsset(objName, p);
 	}
 
 	void AssetManager::InitTexture()
@@ -513,7 +513,7 @@ namespace Carmicah
 				break;
 		}
 		ifs.close();
-		AddAsset<AnimAtlas>(animName, std::move(a));
+		AddAsset<AnimAtlas>(animName, a);
 	}
 
 	void AssetManager::InitFontType()
@@ -607,7 +607,7 @@ namespace Carmicah
 
 
 			std::string name = fontName + ' ' + std::to_string(i.first);
-			AddAsset<FontTexture>(name, std::move(fontTex));
+			AddAsset<FontTexture>(name,fontTex);
 			fc.texRef = name;
 
 			if (fc.height > heightSoFar)
@@ -617,7 +617,7 @@ namespace Carmicah
 
 		++currTexPt;
 		FT_Done_Face(fontFace);
-		AddAsset<Font>(fontName, std::move(fontObj));
+		AddAsset<Font>(fontName, fontObj);
 	}
 
 
@@ -666,7 +666,7 @@ namespace Carmicah
 			mSoundMap.insert(std::make_pair(soundName, audio));
 			if (isLoop)
 			{
-				audio.sound->setMode(FMOD_LOOP_NORMAL);
+				audio.sound->setMode(FMOD_LOOP_OFF);
 				audio.sound->setLoopCount(-1);
 			}
 		}

@@ -86,7 +86,7 @@ namespace Carmicah
 		}
 		
 
-		if (ImGui::Combo("##", &selectedIndex, componentsToAdd.data(),componentsToAdd.size()))
+		if (ImGui::Combo("##", &selectedIndex, componentsToAdd.data(), (int)componentsToAdd.size()))
 		{
 			selectedComponentToAdd = componentsToAdd[selectedIndex];
 		}
@@ -334,24 +334,24 @@ namespace Carmicah
 
 					ImGui::TableNextColumn();
 					ImGui::Text("%s", render.model.c_str());
-					ImGui::SameLine();
-					if (ImGui::Button("v"))
-					{
-						ImGui::OpenPopup("Model Select");
-					}
+					//ImGui::SameLine();
+					//if (ImGui::Button("v"))
+					//{
+					//	ImGui::OpenPopup("Model Select");
+					//}
 
-					if (ImGui::BeginPopup("Model Select"))
-					{
-						for (const auto& entry : primitiveMap->mAssetMap)
-						{
-							if (ImGui::Button(entry.first.c_str()))
-							{
-								render.model = entry.first;
-								ImGui::CloseCurrentPopup();
-							}
-						}
-						ImGui::EndPopup();
-					}
+					//if (ImGui::BeginPopup("Model Select"))
+					//{
+					//	for (const auto& entry : primitiveMap->mAssetMap)
+					//	{
+					//		if (ImGui::Button(entry.first.c_str()))
+					//		{
+					//			render.model = entry.first;
+					//			ImGui::CloseCurrentPopup();
+					//		}
+					//	}
+					//	ImGui::EndPopup();
+					//}
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
@@ -592,7 +592,7 @@ namespace Carmicah
 					ImGui::Text("Text");
 
 					char buffer[256];
-					strncpy(buffer, text.txt.c_str(), sizeof(buffer));
+					strncpy_s(buffer, text.txt.c_str(), sizeof(buffer));
 					buffer[sizeof(buffer) - 1] = '\0';
 
 					ImGui::TableNextColumn();
@@ -872,7 +872,7 @@ namespace Carmicah
 
 					ImGui::TableNextColumn();
 					ImGui::Text("%s", render.model.c_str());
-					ImGui::SameLine();
+					/*ImGui::SameLine();
 					if (ImGui::Button("v"))
 					{
 						ImGui::OpenPopup("Model Select");
@@ -889,7 +889,7 @@ namespace Carmicah
 							}
 						}
 						ImGui::EndPopup();
-					}
+					}*/
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
@@ -1140,7 +1140,8 @@ namespace Carmicah
 					ImGui::Text("Text");
 
 					char buffer[256];
-					strncpy(buffer, text.txt.c_str(), sizeof(buffer));
+					
+					strncpy_s(buffer, text.txt.c_str(), sizeof(buffer));
 					buffer[sizeof(buffer) - 1] = '\0';
 
 					ImGui::TableNextColumn();
@@ -1294,7 +1295,7 @@ namespace Carmicah
 			{
 				ImGui::Text("Selected Prefab: %s", HierarchyWindow::inspectedPrefab->GetName().c_str());
 				Entity selectedPrefabID = HierarchyWindow::inspectedPrefab->GetID();
-
+				UNUSED(selectedPrefabID);
 				InspectorTable<Prefab>(HierarchyWindow::inspectedPrefab);
 
 				if (ImGui::Button("Save Prefab"))

@@ -53,7 +53,7 @@ namespace Carmicah
         if (it != AssetManager::GetInstance()->mSoundMap.end())
         {
             FMOD::Channel* fmodChannel;
-            AssetManager::GetInstance()->mSoundSystem->playSound(it->second.sound, nullptr, false, &fmodChannel);
+            AssetManager::GetInstance()->mSoundSystem->playSound(it->second.sound, nullptr, true, &fmodChannel);
 
             float actualVolume = (volume >= 0) ? volume : it->second.defaultVolume;
             actualVolume *= mChannelVolumes[channel];
@@ -172,7 +172,7 @@ namespace Carmicah
             {
                 bool isPlaying = false;
                 it->second.channel->isPlaying(&isPlaying);
-                if (!isPlaying)
+                if (isPlaying)
                 {
                     it = channelPair.second.erase(it);
                 }
@@ -181,6 +181,18 @@ namespace Carmicah
                     ++it;
                 }
             }
+        }
+    }
+
+    void SoundSystem::ReceiveMessage(Message* msg)
+    {
+        if (msg->mMsgType == MSG_PLAYSFX)
+        {
+            dynamic_cast<PlaySFXMsg*>(msg)->fileName;
+        }
+        else if (msg->mMsgType == MSG_PLAYBGM)
+        {
+
         }
     }
 
