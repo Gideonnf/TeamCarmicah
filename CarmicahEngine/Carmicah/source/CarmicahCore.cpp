@@ -208,7 +208,7 @@ namespace Carmicah
         //int objectCount = 0;
         //phySystem->Update();
         
-        CarmicahTime::GetInstance()->SetFixedDT(false);
+        CarmicahTime::GetInstance()->SetFixedDT(true);
         float accumulatedTime = 0.0f;
 
        // Editor Editor;
@@ -368,6 +368,9 @@ namespace Carmicah
 
                // glfwMakeContextCurrent(ImGuiWindow);
                 CarmicahTime::GetInstance()->StartSystemTimer("EditorSystem");
+                GameObject fps;
+                gGOFactory->FetchGO("FPSText", fps);
+                fps.GetComponent<TextRenderer>().txt = std::to_string((int)CarmicahTime::GetInstance()->FPS());
                 editorSys->Update();
                 editorSys->Render(window);
                 CarmicahTime::GetInstance()->StopSystemTimer("EditorSystem");
