@@ -69,7 +69,7 @@ namespace Carmicah
 
 			auto& transform = ComponentManager::GetInstance()->GetComponent<UITransform>(entity.first);
 
-			if (transform.notUpdated)
+			if (!transform.Updated())
 				continue;
 
 			EditBatchData(entity.first, entity.second.posInMemory, false, UI_LAYER);

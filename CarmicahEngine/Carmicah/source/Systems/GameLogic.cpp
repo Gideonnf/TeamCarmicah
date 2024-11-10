@@ -80,8 +80,8 @@ namespace Carmicah
         }
         if (Input.IsKeyPressed(Keys::KEY_C) && mainCharacter.IsActive())
         {
-            mainCharacter.GetComponent<Transform>().scale.x += 2.0f * (float)CarmicahTime::GetInstance()->GetDeltaTime();
-            mainCharacter.GetComponent<Transform>().scale.y += 2.0f * (float)CarmicahTime::GetInstance()->GetDeltaTime();
+            mainCharacter.GetComponent<Transform>().ScaleXAdd(2.0f * (float)CarmicahTime::GetInstance()->GetDeltaTime());
+            mainCharacter.GetComponent<Transform>().ScaleYAdd(2.0f * (float)CarmicahTime::GetInstance()->GetDeltaTime());
 
             //SystemManager::GetInstance()->ChangeScene("Scene2");
         }

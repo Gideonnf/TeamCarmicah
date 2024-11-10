@@ -186,14 +186,14 @@ namespace Carmicah
 		if (worldSpace)
 		{
 			auto& t = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
-			depth = t.depth;
+			depth = t.Depth();
 			wSpace = t.worldSpace;
 		}
 		else
 		{
 			auto& t = ComponentManager::GetInstance()->GetComponent<UITransform>(entity);
-			depth = t.depth;
-			wSpace.translateThis(t.pos.x,t.pos.y).scaleThis(t.scale.x,t.scale.y);
+			depth = t.Depth();
+			wSpace.translateThis(t.Pos()).scaleThis(t.Scale());
 		}
 		depth = CalcDepth(depth, layer);
 
@@ -227,12 +227,12 @@ namespace Carmicah
 		if (worldSpace)
 		{
 			auto& t = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
-			depth = t.depth;
+			depth = t.Depth();
 		}
 		else
 		{
 			auto& t = ComponentManager::GetInstance()->GetComponent<UITransform>(entity);
-			depth = t.depth;
+			depth = t.Depth();
 		}
 		depth = CalcDepth(depth, layer);
 

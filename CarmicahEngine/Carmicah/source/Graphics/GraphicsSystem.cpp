@@ -44,9 +44,7 @@ namespace Carmicah
 	void GraphicsSystem::SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam)
 	{
 		auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-		currCam.notUpdated = false;
-		currCam.scale.x = 1.f / static_cast<float>(camWidth);
-		currCam.scale.y = 1.f / static_cast<float>(camHeight);
+		currCam.Scale(1.f / static_cast<float>(camWidth), 1.f / static_cast<float>(camHeight));
 	}
 
 	void GraphicsSystem::EntityDestroyed(Entity id)
@@ -76,7 +74,7 @@ namespace Carmicah
 			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
 			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			Mtx3x3f camSpace{};
-			camSpace.scaleThis(camTrans.scale.x, camTrans.scale.y).rotDegThis(-camTrans.rot).translateThis(-camTrans.pos.x, -camTrans.pos.y);
+			camSpace.scaleThis(camTrans.Scale()).rotDegThis(-camTrans.Rot()).translateThis(-camTrans.Pos());
 			GLint uniformLoc{};
 			if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
@@ -90,7 +88,7 @@ namespace Carmicah
 
 			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity.first);
 
-			if (transform.notUpdated)
+			if (!transform.Updated())
 				continue;
 
 			EditBatchData(entity.first, entity.second.posInMemory, true, BASE_LAYER);
