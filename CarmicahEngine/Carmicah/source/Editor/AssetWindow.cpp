@@ -135,7 +135,7 @@ namespace Carmicah
 					if (ImGui::IsItemHovered())
 					{
 						ImGui::BeginTooltip();
-						ImVec2 textureSize(100, 100);
+						ImVec2 textureSize(1920, 1080);
 						GLuint textureID = textureMap->mAssetList[entry.second].t;
 						ImGui::Text("Texture!");
 						ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(textureID)), textureSize);
