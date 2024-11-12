@@ -146,6 +146,10 @@ namespace Carmicah
 		if (AssetManager::GetInstance()->AssetExist<Prefab>(prefab))
 		{
 			Prefab& goPrefab = AssetManager::GetInstance()->GetAsset<Prefab>(prefab);
+
+			// Since this entity is being made from this prefab, add it to the prefab EntityWatcher
+			goPrefab.entityWatcher.push_back(newGO.mID);
+
 			// Loop through the components within asset manager
 			for (auto& component : goPrefab.mComponents)
 			{
@@ -186,6 +190,8 @@ namespace Carmicah
 		// Store in two maps. Testing use for fetching GO by name
 		mNameToID.insert(std::make_pair(newGO.mName, newGO.mID));
 		mIDToGO.insert(std::make_pair(newGO.mID, newGO));
+
+		prefab.entityWatcher.push_back(newGO.mID);
 
 		for (auto& component : prefab.mComponents)
 		{
@@ -745,6 +751,19 @@ namespace Carmicah
 		if (msg->mMsgType == MSG_KEYPRESS)
 		{			
 			Carmicah::Log::GetCoreLogger()->info("Msg Recevied in GOFactory containing :" + std::to_string(static_cast<KeyMessage*>(msg)->mKeypress));
+		}
+
+		// If a prefab was modified
+		if (msg->mMsgType == MSG_MODIFYPREFAB)
+		{
+			// loop through to see which entities have to be updated
+			auto casted_msg = dynamic_cast<ModifyPrefabMsg*>(msg);
+
+			// Loop through which entities are using this prefab
+			for (auto it : casted_msg->prefabRef.entityWatcher)
+			{
+
+			}
 		}
 	}
 

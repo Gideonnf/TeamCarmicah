@@ -23,6 +23,7 @@ DigiPen Institute of Technology is prohibited.
 #include <any>
 #include <functional>
 #include "Math/Matrix3x3.h"
+#include "../ECS/ECSTypes.h"
 
 namespace Carmicah
 {
@@ -91,6 +92,17 @@ namespace Carmicah
 	
 		std::vector<Prefab> childList;
 
+		/*
+			Each prefab keep track of which entity it is watching
+			A parent prefab will keep track of the parent object
+			A child prefab will keep track of the child object
+
+			that way if only the child is modified, then only the child prefab has to be changed
+			reduce the numebr of loops and checks it has to go through
+		*/
+		// Keep track of entities made using this prefab
+		std::vector<Entity> entityWatcher;
+
 		template <typename T>
 		bool HasComponent() const
 		{
@@ -118,32 +130,11 @@ namespace Carmicah
 
 		}
 
-		std::string GetName() const
-		{
-			return mName;
-		}
+		std::string GetName() const;
 
-		unsigned int GetID() const
-		{
-			return mPrefabID;
-		}
+		unsigned int GetID() const;
 
-		void ForPrefabChildren(Prefab& parentPrefab, const std::function<void(Prefab&)>& func)
-		{
-			if (parentPrefab.childList.size() > 0)
-			{
-				for (auto& child : parentPrefab.childList)
-				{
-					func(child);
-				}
-			}
-
-		}
-	
-		void SerializePrefab()
-		{
-
-		}
+		void ForPrefabChildren(Prefab& parentPrefab, const std::function<void(Prefab&)>& func);
 	};
 	struct Scene
 	{
