@@ -1,6 +1,6 @@
 {
 "GameObject": "UI_Default",
-"ID": 0,
+"ID": 6,
 "Components": [
     {
         "Component Name": "struct Carmicah::UITransform",

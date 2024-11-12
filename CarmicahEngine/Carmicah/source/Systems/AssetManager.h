@@ -325,8 +325,6 @@ namespace Carmicah
 			Sets the volume of the sound
 		***************************************************************************/
 		void LoadSound(const std::string& soundName, const std::string& soundFile, bool isLoop, float defaultVolume = 1.0f);
-
-
 	};
 }
 #endif

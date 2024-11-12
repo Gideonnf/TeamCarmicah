@@ -205,6 +205,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClCompile Include="source\Scripting\ScriptObject.cpp" />
     <ClCompile Include="source\Scripting\ScriptSystem.cpp" />
     <ClCompile Include="source\Systems\AssetManager.cpp" />
+    <ClCompile Include="source\Systems\AssetTypes.cpp" />
     <ClCompile Include="source\Systems\ButtonSystem.cpp" />
     <ClCompile Include="source\Systems\CollisionSystem.cpp" />
     <ClCompile Include="source\Systems\GOFactory.cpp" />

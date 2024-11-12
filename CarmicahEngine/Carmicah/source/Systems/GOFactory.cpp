@@ -146,15 +146,24 @@ namespace Carmicah
 		if (AssetManager::GetInstance()->AssetExist<Prefab>(prefab))
 		{
 			Prefab& goPrefab = AssetManager::GetInstance()->GetAsset<Prefab>(prefab);
-
 			// Since this entity is being made from this prefab, add it to the prefab EntityWatcher
-			goPrefab.entityWatcher.push_back(newGO.mID);
+			//goPrefab.entityWatcher.push_back(newGO.mID);
 
 			// Loop through the components within asset manager
 			for (auto& component : goPrefab.mComponents)
 			{
 				AttachComponents(newGO, component);
 				// Same if checks as component manager, but we're adding components here instead of deserializing
+			}
+
+			// update prefab Reference
+			if (newGO.HasComponent<Transform>())
+			{
+				newGO.GetComponent<Transform>().mPrefabRef = goPrefab.mPrefabID;
+			}
+			else if (newGO.HasComponent<UITransform>())
+			{
+				newGO.GetComponent<UITransform>().mPrefabRef = goPrefab.mPrefabID;
 			}
 
 			// Parent it to the scene on creation
@@ -191,11 +200,19 @@ namespace Carmicah
 		mNameToID.insert(std::make_pair(newGO.mName, newGO.mID));
 		mIDToGO.insert(std::make_pair(newGO.mID, newGO));
 
-		prefab.entityWatcher.push_back(newGO.mID);
-
 		for (auto& component : prefab.mComponents)
 		{
 			AttachComponents(newGO, component);
+		}
+
+		// update prefab Reference
+		if (newGO.HasComponent<Transform>())
+		{
+			newGO.GetComponent<Transform>().mPrefabRef = prefab.mPrefabID;
+		}
+		else if (newGO.HasComponent<UITransform>())
+		{
+			newGO.GetComponent<UITransform>().mPrefabRef = prefab.mPrefabID;
 		}
 
 		// Set the child to parent the original GO
@@ -760,10 +777,10 @@ namespace Carmicah
 			auto casted_msg = dynamic_cast<ModifyPrefabMsg*>(msg);
 
 			// Loop through which entities are using this prefab
-			for (auto it : casted_msg->prefabRef.entityWatcher)
-			{
+			//for (auto it : casted_msg->prefabRef.entityWatcher)
+			//{
 
-			}
+			//}
 		}
 	}
 

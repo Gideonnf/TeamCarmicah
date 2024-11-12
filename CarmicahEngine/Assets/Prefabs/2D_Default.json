@@ -1,6 +1,6 @@
 {
 "GameObject": "2D_Default",
-"ID": 0,
+"ID": 5,
 "Components": [
     {
         "Component Name": "struct Carmicah::Transform",

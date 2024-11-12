@@ -230,16 +230,16 @@ namespace Carmicah
 			}
 		writer.EndArray();
 
-		writer.String("EntityWatcher");
-		writer.StartArray();
-		for (auto it : prefab.entityWatcher)
-		{
-			// TODO: I dont know if i should be storing each entity as an object. can try without if the system works next time
-			writer.StartObject();
-			writer.Int(it);
-			writer.EndObject();
-		}
-		writer.EndArray();
+		//writer.String("EntityWatcher");
+		//writer.StartArray();
+		//for (auto it : prefab.entityWatcher)
+		//{
+		//	// TODO: I dont know if i should be storing each entity as an object. can try without if the system works next time
+		//	writer.StartObject();
+		//	writer.Int(it);
+		//	writer.EndObject();
+		//}
+		//writer.EndArray();
 
 		if (prefab.childList.size() > 0)
 		{

@@ -33,16 +33,19 @@ namespace Carmicah
 		GLenum drawMode{};
 		GLuint drawCnt{};
 	};
+	
 	struct Primitive : BasePrimitive
 	{
 		std::vector<Vec2f> texCoord;
 		std::vector<GLushort> idx;
 	};
+	
 	struct BatchBuffer
 	{
 		GLuint vao{}, vbo{}, ebo{}, ibo{};
 		const BasePrimitive* pRef;
 	};
+	
 	struct Shader
 	{
 		GLuint s;
@@ -55,16 +58,19 @@ namespace Carmicah
 	{
 		std::vector<std::pair<float, std::string>> anim;// MaxTime, TextureName
 	};
+	
 	struct Texture
 	{
 		GLuint t;
 		Mtx3x3f mtx;
 	};
+	
 	struct FontTexture
 	{
 		GLuint t;
 		Mtx3x3f mtx;
 	};
+	
 	struct Font
 	{
 		struct FontChar
@@ -78,12 +84,14 @@ namespace Carmicah
 
 		std::array<FontChar, 96> mFontMaps{};
 	};
+	
 	struct Audio
 	{
 		bool isLoop;
 		FMOD::Sound* sound;
 		float defaultVolume;
 	};
+
 	struct Prefab
 	{
 		unsigned int mPrefabID;
@@ -101,7 +109,7 @@ namespace Carmicah
 			reduce the numebr of loops and checks it has to go through
 		*/
 		// Keep track of entities made using this prefab
-		std::vector<Entity> entityWatcher;
+		//std::vector<Entity> entityWatcher;
 
 		template <typename T>
 		bool HasComponent() const

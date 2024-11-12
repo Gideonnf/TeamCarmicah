@@ -308,5 +308,6 @@
     </ClCompile>
     <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\pch.cpp" />
+    <ClCompile Include="source\Systems\AssetTypes.cpp" />
   </ItemGroup>
 </Project>
