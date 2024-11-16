@@ -1302,6 +1302,8 @@ namespace Carmicah
 				if (ImGui::Button("Save Prefab"))
 				{
 					Serializer.SerializePrefab(*AssetWindow::selectedPrefab);
+					ModifyPrefabMsg msg(*AssetWindow::selectedPrefab);
+					mMessages.push_back(std::make_shared<ModifyPrefabMsg>(msg));
 				}
 
 

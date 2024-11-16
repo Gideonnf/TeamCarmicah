@@ -23,6 +23,7 @@ DigiPen Institute of Technology is prohibited.
 #include "AssetWindow.h"
 #include "SceneWindow.h"
 #include "../ECS/BaseSystem.h"
+#include "../Messaging/Message.h"
 
 namespace Carmicah
 {

@@ -775,6 +775,7 @@ namespace Carmicah
 		{
 			// loop through to see which entities have to be updated
 			auto casted_msg = dynamic_cast<ModifyPrefabMsg*>(msg);
+			CM_CORE_INFO(std::to_string(casted_msg->mID));
 
 			// Loop through which entities are using this prefab
 			//for (auto it : casted_msg->prefabRef.entityWatcher)
