@@ -17,7 +17,21 @@ namespace Carmicah
 
 		void ReceiveMessage(Message* msg) override;
 
-	
+		template<typename T>
+		void UpdateComponent(std::pair<const std::string, std::any>& component, Entity entityID)
+		{
+			std::string componentName = component.first;
+			std::any componentData = component.second;
+
+			if (componentName == typeid(T).name())
+			{
+				T prefabComponentData = std::any_cast<T>(componentData);
+				T& entityComponentData = ComponentManager::GetInstance()->GetComponent<T>(entityID);
+
+				// change the component data
+				entityComponentData = prefabComponentData;
+			}
+		}
 	};
 }
 

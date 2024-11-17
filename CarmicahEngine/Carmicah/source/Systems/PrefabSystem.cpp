@@ -40,11 +40,12 @@ namespace Carmicah
 					// loop through the components that it has
 					for (auto& component : casted_msg->prefabRef.mComponents)
 					{
-						std::string componentName = component.first;
-						std::any componentData = component.second;
-
 						// Dont check for transform
-						
+						// test with these components first
+						UpdateComponent<Script>(component, entity);
+						UpdateComponent<TextRenderer>(component, entity);
+						UpdateComponent<RigidBody>(component, entity);
+
 					}
 				}
 			}
