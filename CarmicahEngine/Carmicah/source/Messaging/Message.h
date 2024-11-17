@@ -32,6 +32,7 @@ namespace Carmicah
 		MSG_BUTTONENTITY,
 		MSG_PLAYBGM,
 		MSG_PLAYSFX,
+		MSG_NEWPREFAB,
 		MSG_MODIFYPREFAB
 	};
 
@@ -114,6 +115,14 @@ namespace Carmicah
 	public:
 		Prefab& prefabRef;
 		ModifyPrefabMsg(Prefab& prefab) : Message(MSG_MODIFYPREFAB), prefabRef(prefab) {}
+	};
+
+	class NewPrefabMsg : public Message
+	{
+	public:
+		Entity entityID;
+		unsigned int prefabID;
+		NewPrefabMsg(Entity id, unsigned int pId) : Message(MSG_NEWPREFAB), entityID(id), prefabID(pId) {}
 	};
 }
 

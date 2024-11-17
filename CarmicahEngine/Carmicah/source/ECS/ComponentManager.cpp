@@ -165,6 +165,12 @@ namespace Carmicah
 			componentData.DeserializeComponent(val);
 			component = componentData;
 		}
+		else if (componentName == typeid(PrefabData).name())
+		{
+			PrefabData componentData{};
+			componentData.DeserializeComponent(val);
+			component = componentData;
+		}
 		else
 		{
 			// incase someone added a component and forgot to write here

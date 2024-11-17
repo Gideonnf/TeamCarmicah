@@ -26,6 +26,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Components/UITransform.h"
 #include "Components/RigidBody.h"
 #include "Components/Script.h"
+#include "Components/Prefab.h"
 #include "log.h"
 
 namespace Carmicah
@@ -155,16 +156,18 @@ namespace Carmicah
 				AttachComponents(newGO, component);
 				// Same if checks as component manager, but we're adding components here instead of deserializing
 			}
+			// Add the prefab component since this is a prefab obj
+			newGO.AddComponent<PrefabData>();
 
 			// update prefab Reference
-			if (newGO.HasComponent<Transform>())
+		// update prefab Reference
+			if (newGO.HasComponent<PrefabData>())
 			{
-				newGO.GetComponent<Transform>().mPrefabRef = goPrefab.mPrefabID;
+				newGO.GetComponent<PrefabData>().mPrefabRef = goPrefab.mPrefabID;
 			}
-			else if (newGO.HasComponent<UITransform>())
-			{
-				newGO.GetComponent<UITransform>().mPrefabRef = goPrefab.mPrefabID;
-			}
+
+			NewPrefabMsg msg(newGO.mID, goPrefab.mPrefabID);
+			SendSysMessage(&msg);
 
 			// Parent it to the scene on creation
 			UpdateParent(newGO.mID, sceneGO.sceneID);
@@ -204,17 +207,17 @@ namespace Carmicah
 		{
 			AttachComponents(newGO, component);
 		}
+		// Add the prefab component since this is a prefab obj
+		newGO.AddComponent<PrefabData>();
 
 		// update prefab Reference
-		if (newGO.HasComponent<Transform>())
+		if (newGO.HasComponent<PrefabData>())
 		{
-			newGO.GetComponent<Transform>().mPrefabRef = prefab.mPrefabID;
-		}
-		else if (newGO.HasComponent<UITransform>())
-		{
-			newGO.GetComponent<UITransform>().mPrefabRef = prefab.mPrefabID;
+			newGO.GetComponent<PrefabData>().mPrefabRef = prefab.mPrefabID;
 		}
 
+		NewPrefabMsg msg(newGO.mID, prefab.mPrefabID);
+		SendSysMessage(&msg);
 		// Set the child to parent the original GO
 		UpdateParent(newGO.mID, parentID);
 		CM_CORE_INFO("Creating prefab child " + newGO.mName + " with ID " + std::to_string(newGO.mID) + " parenting to " + std::to_string(parentID));
@@ -301,6 +304,10 @@ namespace Carmicah
 		else if (componentName == typeid(Button).name())
 		{
 			obj.AddComponent(std::any_cast<Button>(componentData));
+		}
+		else if (componentName == typeid(PrefabData).name())
+		{
+			obj.AddComponent(std::any_cast<PrefabData>(componentData));
 		}
 		else
 		{
@@ -771,18 +778,18 @@ namespace Carmicah
 		}
 
 		// If a prefab was modified
-		if (msg->mMsgType == MSG_MODIFYPREFAB)
-		{
-			// loop through to see which entities have to be updated
-			auto casted_msg = dynamic_cast<ModifyPrefabMsg*>(msg);
-			CM_CORE_INFO(std::to_string(casted_msg->mID));
+		//if (msg->mMsgType == MSG_MODIFYPREFAB)
+		//{
+		//	// loop through to see which entities have to be updated
+		//	auto casted_msg = dynamic_cast<ModifyPrefabMsg*>(msg);
+		//	CM_CORE_INFO(std::to_string(casted_msg->mID));
 
-			// Loop through which entities are using this prefab
-			//for (auto it : casted_msg->prefabRef.entityWatcher)
-			//{
+		//	// Loop through which entities are using this prefab
+		//	//for (auto it : casted_msg->prefabRef.entityWatcher)
+		//	//{
 
-			//}
-		}
+		//	//}
+		//}
 	}
 
 	

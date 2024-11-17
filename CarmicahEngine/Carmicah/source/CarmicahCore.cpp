@@ -21,6 +21,8 @@
 #include "Components/TextRenderer.h"
 #include "Components/UITransform.h"
 #include "Components/Script.h"
+#include "Components/Prefab.h"
+
 #include "Systems/GameLogic.h"
 
 #include "Systems/GOFactory.h"
@@ -35,6 +37,7 @@
 #include "Systems/SoundSystem.h"
 #include "Systems/TransformSystem.h"
 #include "Systems/ButtonSystem.h"
+#include "Systems/PrefabSystem.h"
 
 #include "Input/InputSystem.h"
 #include "Systems/SceneSystem.h"
@@ -148,6 +151,7 @@ namespace Carmicah
         REGISTER_COMPONENT(Animation);
         REGISTER_COMPONENT(TextRenderer);
         REGISTER_COMPONENT(UITransform);
+        REGISTER_COMPONENT(PrefabData);
 
         CM_CORE_INFO("Starting system init");
 
@@ -166,6 +170,7 @@ namespace Carmicah
         REGISTER_SYSTEM(InputSystem);
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);
+        auto prefabSystem = REGISTER_SYSTEM(PrefabSystem);
        // auto gameLogic = REGISTER_SYSTEM(GameLogic);
         auto transformSystem = REGISTER_SYSTEM(TransformSystem);
         AssetManager::GetInstance()->LoadAll(AssetManager::GetInstance()->enConfig.assetLoc.c_str());
@@ -181,6 +186,7 @@ namespace Carmicah
         colSystem->Init(); // Set the signature
         rrsSystem->Init();
         souSystem->Init(true);
+        
 
         // Add goFactory to input system's messaging so that it can send msg to it
         Input.BindSystem(gGOFactory);
@@ -192,9 +198,10 @@ namespace Carmicah
        gameSystem->BindSystem(butSystem);
         // Add transform system into gGOFactory's observer so that it can send msg to it
         gGOFactory->BindSystem(transformSystem);
+        gGOFactory->BindSystem(prefabSystem);
         // Add Scene system into editor's observer
         editorSys->BindSystem(gameSystem);
-        editorSys->BindSystem(gGOFactory);
+        editorSys->BindSystem(prefabSystem);
 
         //glfwSetWindowUserPointer(window, inputSystem.get());
         Input.Init(window);

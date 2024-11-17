@@ -226,6 +226,10 @@ namespace Carmicah
 				{
 					std::any_cast<TextRenderer>(component).SerializeComponent(writer);
 				}
+				if (name == typeid(PrefabData).name())
+				{
+					std::any_cast<PrefabData>(component).SerializeComponent(writer);
+				}
 				writer.EndObject();
 			}
 		writer.EndArray();

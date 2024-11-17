@@ -30,7 +30,6 @@ namespace Carmicah
 
         Entity parent; // Hold 0 if no parent
         std::vector<Entity> children;
-        unsigned int mPrefabRef; // Keep a ref to which prefab it was made from if any. If none then 0
 
 
         void DeserializeComponentBuffer(const rapidjson::Value& component)
