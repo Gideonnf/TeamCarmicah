@@ -94,83 +94,17 @@ namespace Carmicah
 
 	std::any ComponentManager::DeserializePrefabComponent(const rapidjson::Value& val)
 	{
-		const std::string& componentName = val["Component Name"].GetString();
 		std::any component;
-		if (componentName == typeid(Transform).name())
-		{
-			Transform componentData{}; // Default initialize
-			componentData.DeserializeComponent(val);
-			component = componentData;
-
-			//component = std::any_cast<Transform>(component).DeserializeComponent(val);
-		}
-		else if (componentName == typeid(Collider2D).name())
-		{
-			Collider2D componentData{}; // Default initialize
-			componentData.DeserializeComponent(val);
-			component = componentData;
-
-			//component = std::any_cast<Collider2D>(component).
-		}
-		else if (componentName == typeid(Animation).name())
-		{
-			Animation componentData{}; // Default initialize
-			componentData.DeserializeComponent(val);
-			component = componentData;
-
-			//std::any_cast<Animation>(component).DeserializeComponent(val);
-		}
-		else if (componentName == typeid(Renderer).name())
-		{
-			Renderer componentData{}; // Default initialize
-			componentData.DeserializeComponent(val);
-			component = componentData;
-
-			//std::any_cast<Renderer>(component).DeserializeComponent(val);
-		}
-		else if (componentName == typeid(RigidBody).name())
-		{
-			RigidBody componentData{}; // Default initialize
-			componentData.DeserializeComponent(val);
-			component = componentData;
-
-			//std::any_cast<RigidBody>(component).DeserializeComponent(val);
-		}
-		else if (componentName == typeid(UITransform).name())
-		{
-			UITransform componentData{}; // Default initialize
-			componentData.DeserializeComponent(val);
-			component = componentData;
-
-			//std::any_cast<UITransform>(component).DeserializeComponent(val);
-		}
-		else if (componentName == typeid(TextRenderer).name())
-		{
-			TextRenderer componentData{}; // Default initialize
-			componentData.DeserializeComponent(val);
-			component = componentData;
-
-			//std::any_cast<TextRenderer>(component).DeserializeComponent(val);
-		}
-		else if (componentName == typeid(Script).name())
-		{
-			Script componentData{}; // Default initialize
-			componentData.DeserializeComponent(val);
-			component = componentData;
-
-		}
-		else if (componentName == typeid(Button).name())
-		{
-			Button componentData{}; // Default initialize
-			componentData.DeserializeComponent(val);
-			component = componentData;
-		}
-		else if (componentName == typeid(PrefabData).name())
-		{
-			PrefabData componentData{};
-			componentData.DeserializeComponent(val);
-			component = componentData;
-		}
+		if (DeserializeComponent<Transform>(val, component)) return component;
+		else if (DeserializeComponent<Collider2D>(val, component)) return component;
+		else if (DeserializeComponent<Animation>(val, component)) return component;
+		else if (DeserializeComponent<Renderer>(val, component)) return component;
+		else if (DeserializeComponent<RigidBody>(val, component)) return component;
+		else if (DeserializeComponent<UITransform>(val, component)) return component;
+		else if (DeserializeComponent<TextRenderer>(val, component)) return component;
+		else if (DeserializeComponent<Script>(val, component)) return component;
+		else if (DeserializeComponent<Button>(val, component)) return component;
+		else if (DeserializeComponent<PrefabData>(val, component)) return component;
 		else
 		{
 			// incase someone added a component and forgot to write here

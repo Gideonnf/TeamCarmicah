@@ -264,57 +264,23 @@ namespace Carmicah
 		return mIDToGO[id];
 	}
 
+
+
 	void GOFactory::AttachComponents(GameObject& obj, std::pair<std::string, std::any> component)
 	{
 		std::string componentName = component.first;
 		std::any componentData = component.second;
 
-		if (componentName == typeid(Transform).name())
-		{
-			obj.AddComponent(std::any_cast<Transform>(componentData));
-		}
-		else if (componentName == typeid(Collider2D).name())
-		{
-			obj.AddComponent(std::any_cast<Collider2D>(componentData));
-		}
-		else if (componentName == typeid(Animation).name())
-		{
-			obj.AddComponent(std::any_cast<Animation>(componentData));
-		}
-		else if (componentName == typeid(Renderer).name())
-		{
-			obj.AddComponent(std::any_cast<Renderer>(componentData));
-		}
-		else if (componentName == typeid(RigidBody).name())
-		{
-			obj.AddComponent(std::any_cast<RigidBody>(componentData));
-		}
-		else if (componentName == typeid(UITransform).name())
-		{
-			obj.AddComponent(std::any_cast<UITransform>(componentData));
-		}
-		else if (componentName == typeid(TextRenderer).name())
-		{
-			obj.AddComponent(std::any_cast<TextRenderer>(componentData));
-		}
-		else if (componentName == typeid(Script).name())
-		{
-			obj.AddComponent(std::any_cast<Script>(componentData));
-		}
-		else if (componentName == typeid(Button).name())
-		{
-			obj.AddComponent(std::any_cast<Button>(componentData));
-		}
-		else if (componentName == typeid(PrefabData).name())
-		{
-			obj.AddComponent(std::any_cast<PrefabData>(componentData));
-		}
-		else
-		{
-			// incase someone added a component and forgot to write here
-			assert("Component does not have a deserialize function");
-		}
-
+		AddComponent<Transform>(obj, componentName, componentData);
+		AddComponent<UITransform>(obj, componentName, componentData);
+		AddComponent<Collider2D>(obj, componentName, componentData);
+		AddComponent<Animation>(obj, componentName, componentData);
+		AddComponent<Renderer>(obj, componentName, componentData);
+		AddComponent<RigidBody>(obj, componentName, componentData);
+		AddComponent<TextRenderer>(obj, componentName, componentData);
+		AddComponent<Script>(obj, componentName, componentData);
+		AddComponent<Button>(obj, componentName, componentData);
+		AddComponent<PrefabData>(obj, componentName, componentData);
 	}
 
 	void GOFactory::EntityDestroyed(Entity entity)

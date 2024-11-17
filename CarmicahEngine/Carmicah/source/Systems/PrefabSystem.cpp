@@ -37,7 +37,15 @@ namespace Carmicah
 				// Loop through the entities that are made with the prefab
 				for (auto entity : mPrefabMap[casted_msg->prefabRef.mPrefabID])
 				{
+					// loop through the components that it has
+					for (auto& component : casted_msg->prefabRef.mComponents)
+					{
+						std::string componentName = component.first;
+						std::any componentData = component.second;
 
+						// Dont check for transform
+						
+					}
 				}
 			}
 			//CM_CORE_INFO(std::to_string(casted_msg->mID));
