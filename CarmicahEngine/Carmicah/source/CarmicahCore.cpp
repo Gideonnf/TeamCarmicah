@@ -173,6 +173,7 @@ namespace Carmicah
         auto prefabSystem = REGISTER_SYSTEM(PrefabSystem);
        // auto gameLogic = REGISTER_SYSTEM(GameLogic);
         auto transformSystem = REGISTER_SYSTEM(TransformSystem);
+        AssetManager::GetInstance()->Init(prefabSystem);
         AssetManager::GetInstance()->LoadAll(AssetManager::GetInstance()->enConfig.assetLoc.c_str());
         // TODO: Shift this all into system constructors to clean up core.cpp
         transformSystem->Init();
