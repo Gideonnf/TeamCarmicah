@@ -166,7 +166,7 @@ namespace Carmicah
 				newGO.GetComponent<PrefabData>().mPrefabRef = goPrefab.mPrefabID;
 			}
 
-			NewPrefabMsg msg(newGO.mID, goPrefab.mPrefabID);
+			NewPrefabGOMsg msg(newGO.mID, goPrefab.mPrefabID);
 			SendSysMessage(&msg);
 
 			// Parent it to the scene on creation
@@ -216,7 +216,7 @@ namespace Carmicah
 			newGO.GetComponent<PrefabData>().mPrefabRef = prefab.mPrefabID;
 		}
 
-		NewPrefabMsg msg(newGO.mID, prefab.mPrefabID);
+		NewPrefabGOMsg msg(newGO.mID, prefab.mPrefabID);
 		SendSysMessage(&msg);
 		// Set the child to parent the original GO
 		UpdateParent(newGO.mID, parentID);
@@ -263,8 +263,6 @@ namespace Carmicah
 
 		return mIDToGO[id];
 	}
-
-
 
 	void GOFactory::AttachComponents(GameObject& obj, std::pair<std::string, std::any> component)
 	{

@@ -15,12 +15,44 @@ namespace Carmicah
 	{
 
 	}
+
+	
+	void PrefabSystem::AddPrefab(Prefab goPrefab)
+	{
+		if (goPrefab.mPrefabID == mFreePrefabIDs.front())
+		{
+			mFreePrefabIDs.pop_front();
+		}
+		else
+		{
+			for (auto it = mFreePrefabIDs.begin(); it != mFreePrefabIDs.end(); ++it)
+			{
+				if (*it == goPrefab.mPrefabID)
+				{
+					mFreePrefabIDs.erase(it);
+					break;
+				}
+			}
+		}
+	}
+
+	unsigned int PrefabSystem::NewPrefab()
+	{
+		unsigned int newID = mFreePrefabIDs.front();
+		mFreePrefabIDs.pop_front();
+		return newID;
+	}
+
+	void PrefabSystem::SavePrefab(GameObject& go)
+	{
+		// Write a new prefab here
+	}
 	
 	void PrefabSystem::ReceiveMessage(Message* msg)
 	{
-		if (msg->mMsgType == MSG_NEWPREFAB)
+		if (msg->mMsgType == MSG_NEWPREFABGO)
 		{
-			auto casted_msg = dynamic_cast<NewPrefabMsg*>(msg);
+			auto casted_msg = dynamic_cast<NewPrefabGOMsg*>(msg);
 			// Add the entity id to the map
 			mPrefabMap[casted_msg->prefabID].push_back(casted_msg->entityID);
 		}
@@ -56,6 +88,13 @@ namespace Carmicah
 			//{
 
 			//}
+		}
+	
+		if (msg->mMsgType == MSG_NEWPREFAB)
+		{
+			auto casted_msg = dynamic_cast<NewPrefabMsg*>(msg);
+
+			SavePrefab(casted_msg->goPrefab);
 		}
 	}
 

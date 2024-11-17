@@ -26,6 +26,11 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+	void AssetManager::Init(std::shared_ptr<PrefabSystem> prefabRef)
+	{
+		prefabPtr = prefabRef;
+	}
+
 	void AssetManager::LoadConfig(const std::string& configPath)
 	{
 		std::filesystem::path directoryPath = configPath;
@@ -115,6 +120,9 @@ namespace Carmicah
 						else if (folderName == "Prefabs")
 						{
 							Prefab goPrefab = Serializer.DeserializePrefab(entry.path().string());
+							
+							prefabPtr->AddPrefab(goPrefab);
+
 							AddAsset<Prefab>(fileName, goPrefab);
 							//mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
 						}
