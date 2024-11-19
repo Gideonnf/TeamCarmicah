@@ -180,7 +180,7 @@ namespace Carmicah
         phySystem->Init();
         colSystem->Init(); // Set the signature
         rrsSystem->Init();
-        souSystem->Init(true);
+        souSystem->Init(false);
 
         // Add goFactory to input system's messaging so that it can send msg to it
         Input.BindSystem(gGOFactory);

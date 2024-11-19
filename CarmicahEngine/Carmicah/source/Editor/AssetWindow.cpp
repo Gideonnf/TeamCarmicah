@@ -135,10 +135,15 @@ namespace Carmicah
 					if (ImGui::IsItemHovered())
 					{
 						ImGui::BeginTooltip();
-						ImVec2 textureSize(1920, 1080);
-						GLuint textureID = textureMap->mAssetList[entry.second].t;
+						Mtx3x3f matrix = textureMap->mAssetList[entry.second].mtx;
+						GLuint textureID = assetManager->mArrayTex;
+						Vec2f uv0(0, 0);
+						Vec2f uv1(1, 1);
+						uv0 = matrix * uv0;
+						uv1 = matrix * uv1;
+						//ImVec2 uv1;
 						ImGui::Text("Texture!");
-						ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(textureID)), textureSize);
+						ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(textureID)),ImVec2(200,200), ImVec2(uv0.x, uv0.y), ImVec2(uv1.x, uv1.y));
 						ImGui::EndTooltip();
 					}
 				}

@@ -38,7 +38,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Count_Count 3"
+                    "texture": "Bullet"
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
@@ -87,7 +87,7 @@
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot" : 0.0
+                    "rot": 0.0
                 }
             ]
         },
@@ -99,7 +99,7 @@
                     "Component Name": "struct Carmicah::TextRenderer",
                     "model": "Square",
                     "font": "comic",
-                    "text": "81",
+                    "text": "59",
                     "colorR": 1.0,
                     "colorG": 0.0,
                     "colorB": 0.0
@@ -111,8 +111,7 @@
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot" : 0.0
-
+                    "rot": 0.0
                 }
             ]
         },
@@ -132,7 +131,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Idle 5"
+                    "texture": "MC_SpriteSheet_Idle 10"
                 },
                 {
                     "Component Name": "struct Script",
@@ -253,6 +252,27 @@
                     "zposPrev": 0.0,
                     "objectType": 2,
                     "linearForces": [
+                        {
+                            "unitDirX": 1.0,
+                            "unitDirY": 0.0,
+                            "magnitude": 1.0,
+                            "lifetime": 2.0,
+                            "age": 0.0
+                        },
+                        {
+                            "unitDirX": 1.0,
+                            "unitDirY": 0.0,
+                            "magnitude": 1.0,
+                            "lifetime": 2.0,
+                            "age": 0.0
+                        },
+                        {
+                            "unitDirX": 1.0,
+                            "unitDirY": 0.0,
+                            "magnitude": 1.0,
+                            "lifetime": 2.0,
+                            "age": 0.0
+                        },
                         {
                             "unitDirX": 1.0,
                             "unitDirY": 0.0,
@@ -399,7 +419,7 @@
                     "depth": 1.0,
                     "xScale": 200.0,
                     "yScale": 100.0,
-                    "rot" : 0.0
+                    "rot": 0.0
                 }
             ]
         },
@@ -433,14 +453,30 @@
                     "xPos": 6.150000095367432,
                     "yPos": 1.7000000476837159,
                     "depth": 0.0,
-                    "xScale": 0.4000000059604645,
-                    "yScale": 0.4000000059604645,
+                    "xScale": 2.3499999046325685,
+                    "yScale": 2.9000000953674318,
                     "rot": -125.0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "Duck"
+                },
+                {
+                    "Component Name": "struct Carmicah::Collider2D",
+                    "shape": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::RigidBody",
+                    "velocityX": 1.100000023841858,
+                    "velocityY": 3.799999952316284,
+                    "angularVelocity": 0.0,
+                    "posPrevX": 0.0,
+                    "posPrevY": 0.0,
+                    "mass": 1.0,
+                    "gravity": 0.0,
+                    "zposPrev": -107374176.0,
+                    "objectType": 1
                 }
             ],
             "Children": []
