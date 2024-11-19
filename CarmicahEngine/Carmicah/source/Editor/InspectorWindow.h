@@ -75,14 +75,14 @@ namespace Carmicah
 
 		//TODO: IF IT WORKS< APPLY IT FOR EVERYTHIGN ELSE
 		template <typename T>
-		void CheckForComponentChange(GameObject& go, T& newComponent)
+		void CheckForComponentChange(GameObject& go, T& newComponent, bool modified)
 		{
 			// Only used for prefab game objects
 			if (go.HasComponent<T>() && go.HasComponent<PrefabData>())
 			{
 				T& component = go.GetComponent<T>();
 				// change in the component
-				if (component != newComponent)
+				if (modified)
 				{
 					go.GetComponent<PrefabData>().mComponentsModified.push_back(typeid(T).name());
 				}

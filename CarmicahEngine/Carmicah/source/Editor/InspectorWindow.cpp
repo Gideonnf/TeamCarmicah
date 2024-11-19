@@ -862,7 +862,7 @@ namespace Carmicah
 
 		if (go->HasComponent<Renderer>())
 		{
-			Renderer render = go->GetComponent<Renderer>();
+			Renderer& render = go->GetComponent<Renderer>();
 			if (ImGui::CollapsingHeader("Renderer Settings", ImGuiTreeNodeFlags_DefaultOpen))
 			{
 				InspectorWindow::RemoveComponentButton<Renderer>(id);
@@ -874,6 +874,7 @@ namespace Carmicah
 
 					ImGui::TableNextColumn();
 					ImGui::Text("%s", render.model.c_str());
+					
 					/*ImGui::SameLine();
 					if (ImGui::Button("v"))
 					{
@@ -892,7 +893,7 @@ namespace Carmicah
 						}
 						ImGui::EndPopup();
 					}*/
-
+					
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Texture");
@@ -931,7 +932,7 @@ namespace Carmicah
 				}
 			}
 
-			CheckForComponentChange<Renderer>(*go, render);
+			//CheckForComponentChange<Renderer>(*go, render);
 		}
 		if (go->HasComponent<Animation>())
 		{
@@ -981,6 +982,7 @@ namespace Carmicah
 		if (go->HasComponent<RigidBody>())
 		{
 			RigidBody rb = go->GetComponent<RigidBody>();
+			bool modified = false;
 			if (ImGui::CollapsingHeader("Rigid Body Settings", ImGuiTreeNodeFlags_DefaultOpen))
 			{
 				InspectorWindow::RemoveComponentButton<RigidBody>(id);
@@ -990,25 +992,25 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("Velocity X");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##VelocityX", &rb.velocity.x, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+					modified |= ImGui::DragFloat("##VelocityX", &rb.velocity.x, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Velocity Y");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##VelocityY", &rb.velocity.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+					modified |= ImGui::DragFloat("##VelocityY", &rb.velocity.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Mass");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##Mass", &rb.mass, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+					modified |= ImGui::DragFloat("##Mass", &rb.mass, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Gravity");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##Gravity", &rb.gravity, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+					modified |= ImGui::DragFloat("##Gravity", &rb.gravity, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
@@ -1051,6 +1053,7 @@ namespace Carmicah
 							{
 								if (ImGui::Button("Static"))
 								{
+									modified = true;
 									rb.objectType = rbTypes::STATIC;
 									ImGui::CloseCurrentPopup();
 								}
@@ -1061,6 +1064,7 @@ namespace Carmicah
 							{
 								if (ImGui::Button("Kinematic"))
 								{
+									modified = true;
 									rb.objectType = rbTypes::KINEMATIC;
 									ImGui::CloseCurrentPopup();
 								}
@@ -1070,6 +1074,7 @@ namespace Carmicah
 							{
 								if (ImGui::Button("Dynamic"))
 								{
+									modified = true;
 									rb.objectType = rbTypes::DYNAMIC;
 									ImGui::CloseCurrentPopup();
 								}
@@ -1085,7 +1090,7 @@ namespace Carmicah
 				}
 			}
 
-			CheckForComponentChange<RigidBody>(*go, rb);
+			CheckForComponentChange<RigidBody>(*go, rb, modified);
 		}
 
 		// render collider data
@@ -1290,19 +1295,19 @@ namespace Carmicah
 
 				InspectorTable<GameObject>(HierarchyWindow::selectedGO, selectedEntity);
 
-				std::string destroyGO = "Destroy " + HierarchyWindow::selectedGO->GetName();
-				if (ImGui::Button(destroyGO.c_str()))
-				{
-					gGOFactory->Destroy(selectedEntity);
-					HierarchyWindow::selectedGO = nullptr;
-				}
-
 				std::string saveGO = "Create " + HierarchyWindow::selectedGO->GetName() + " as a Prefab";
 				if (ImGui::Button(saveGO.c_str()))
 				{
 					NewPrefabMsg msg(HierarchyWindow::selectedGO->GetID());
 					mMessages.push_back(std::make_shared<NewPrefabMsg>(msg));
 					//gGOFactory->Destroy(selectedEntity);
+					//HierarchyWindow::selectedGO = nullptr;
+				}
+
+				std::string destroyGO = "Destroy " + HierarchyWindow::selectedGO->GetName();
+				if (ImGui::Button(destroyGO.c_str()))
+				{
+					gGOFactory->Destroy(selectedEntity);
 					HierarchyWindow::selectedGO = nullptr;
 				}
 			}

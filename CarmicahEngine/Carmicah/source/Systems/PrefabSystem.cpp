@@ -156,6 +156,13 @@ namespace Carmicah
 					// loop through the components that it has
 					for (auto& component : casted_msg->prefabRef.mComponents)
 					{
+						PrefabData& prefData = ComponentManager::GetInstance()->GetComponent<PrefabData>(entity);
+
+						// If the component was modified by the user, then skip that component
+						if (std::find(prefData.mComponentsModified.begin(), prefData.mComponentsModified.end(), component.first) != prefData.mComponentsModified.end())
+						{
+							continue;
+						}
 						// Dont check for transform
 						// test with these components first
 						UpdateComponent<Script>(component, entity);

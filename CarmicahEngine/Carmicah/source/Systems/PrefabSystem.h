@@ -46,7 +46,9 @@ namespace Carmicah
 			std::string componentName = component.first;
 			std::any componentData = component.second;
 
-			if (componentName == typeid(T).name())
+			// Check if its the correct component to be modified
+			// Check if it has the component incase the player removed it
+			if (componentName == typeid(T).name() && ComponentManager::GetInstance()->HasComponent<T>(entityID))
 			{
 				T prefabComponentData = std::any_cast<T>(componentData);
 				T& entityComponentData = ComponentManager::GetInstance()->GetComponent<T>(entityID);
