@@ -16,8 +16,7 @@
                     "yPos": 540.0,
                     "depth": -500.0,
                     "xScale": 1920.0,
-                    "yScale": 1080.0,
-                    "rot" : 0.0
+                    "yScale": 1080.0
                 }
             ]
         },
@@ -82,8 +81,7 @@
                     "yPos": 0.0,
                     "depth": 0.0,
                     "xScale": 1.0,
-                    "yScale": 1.0,
-                    "rot" : 0.0
+                    "yScale": 1.0
                 }
             ]
         },
@@ -106,8 +104,7 @@
                     "yPos": 1062.0,
                     "depth": 0.0,
                     "xScale": 1.0,
-                    "yScale": 1.0,
-                    "rot" : 0.0
+                    "yScale": 1.0
                 }
             ]
         },
@@ -281,8 +278,7 @@
                     "yPos": 1010.0,
                     "depth": 1.0,
                     "xScale": 800.0,
-                    "yScale": 600.0,
-                    "rot" : 0.0
+                    "yScale": 600.0
                 }
             ]
         }
