@@ -26,6 +26,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Components/UITransform.h"
 #include "Components/RigidBody.h"
 #include "Components/Script.h"
+#include "Components/Prefab.h"
 #include "log.h"
 
 namespace Carmicah
@@ -146,12 +147,27 @@ namespace Carmicah
 		if (AssetManager::GetInstance()->AssetExist<Prefab>(prefab))
 		{
 			Prefab& goPrefab = AssetManager::GetInstance()->GetAsset<Prefab>(prefab);
+			// Since this entity is being made from this prefab, add it to the prefab EntityWatcher
+			//goPrefab.entityWatcher.push_back(newGO.mID);
+
 			// Loop through the components within asset manager
 			for (auto& component : goPrefab.mComponents)
 			{
 				AttachComponents(newGO, component);
 				// Same if checks as component manager, but we're adding components here instead of deserializing
 			}
+			// Add the prefab component since this is a prefab obj
+			newGO.AddComponent<PrefabData>();
+
+			// update prefab Reference
+		// update prefab Reference
+			if (newGO.HasComponent<PrefabData>())
+			{
+				newGO.GetComponent<PrefabData>().mPrefabRef = goPrefab.mPrefabID;
+			}
+
+			NewPrefabGOMsg msg(newGO.mID, goPrefab.mPrefabID);
+			SendSysMessage(&msg);
 
 			// Parent it to the scene on creation
 			UpdateParent(newGO.mID, sceneGO.sceneID);
@@ -191,7 +207,17 @@ namespace Carmicah
 		{
 			AttachComponents(newGO, component);
 		}
+		// Add the prefab component since this is a prefab obj
+		newGO.AddComponent<PrefabData>();
 
+		// update prefab Reference
+		if (newGO.HasComponent<PrefabData>())
+		{
+			newGO.GetComponent<PrefabData>().mPrefabRef = prefab.mPrefabID;
+		}
+
+		NewPrefabGOMsg msg(newGO.mID, prefab.mPrefabID);
+		SendSysMessage(&msg);
 		// Set the child to parent the original GO
 		UpdateParent(newGO.mID, parentID);
 		CM_CORE_INFO("Creating prefab child " + newGO.mName + " with ID " + std::to_string(newGO.mID) + " parenting to " + std::to_string(parentID));
@@ -243,48 +269,16 @@ namespace Carmicah
 		std::string componentName = component.first;
 		std::any componentData = component.second;
 
-		if (componentName == typeid(Transform).name())
-		{
-			obj.AddComponent(std::any_cast<Transform>(componentData));
-		}
-		else if (componentName == typeid(Collider2D).name())
-		{
-			obj.AddComponent(std::any_cast<Collider2D>(componentData));
-		}
-		else if (componentName == typeid(Animation).name())
-		{
-			obj.AddComponent(std::any_cast<Animation>(componentData));
-		}
-		else if (componentName == typeid(Renderer).name())
-		{
-			obj.AddComponent(std::any_cast<Renderer>(componentData));
-		}
-		else if (componentName == typeid(RigidBody).name())
-		{
-			obj.AddComponent(std::any_cast<RigidBody>(componentData));
-		}
-		else if (componentName == typeid(UITransform).name())
-		{
-			obj.AddComponent(std::any_cast<UITransform>(componentData));
-		}
-		else if (componentName == typeid(TextRenderer).name())
-		{
-			obj.AddComponent(std::any_cast<TextRenderer>(componentData));
-		}
-		else if (componentName == typeid(Script).name())
-		{
-			obj.AddComponent(std::any_cast<Script>(componentData));
-		}
-		else if (componentName == typeid(Button).name())
-		{
-			obj.AddComponent(std::any_cast<Button>(componentData));
-		}
-		else
-		{
-			// incase someone added a component and forgot to write here
-			assert("Component does not have a deserialize function");
-		}
-
+		AddComponent<Transform>(obj, componentName, componentData);
+		AddComponent<UITransform>(obj, componentName, componentData);
+		AddComponent<Collider2D>(obj, componentName, componentData);
+		AddComponent<Animation>(obj, componentName, componentData);
+		AddComponent<Renderer>(obj, componentName, componentData);
+		AddComponent<RigidBody>(obj, componentName, componentData);
+		AddComponent<TextRenderer>(obj, componentName, componentData);
+		AddComponent<Script>(obj, componentName, componentData);
+		AddComponent<Button>(obj, componentName, componentData);
+		AddComponent<PrefabData>(obj, componentName, componentData);
 	}
 
 	void GOFactory::EntityDestroyed(Entity entity)
@@ -746,6 +740,20 @@ namespace Carmicah
 		{			
 			Carmicah::Log::GetCoreLogger()->info("Msg Recevied in GOFactory containing :" + std::to_string(static_cast<KeyMessage*>(msg)->mKeypress));
 		}
+
+		// If a prefab was modified
+		//if (msg->mMsgType == MSG_MODIFYPREFAB)
+		//{
+		//	// loop through to see which entities have to be updated
+		//	auto casted_msg = dynamic_cast<ModifyPrefabMsg*>(msg);
+		//	CM_CORE_INFO(std::to_string(casted_msg->mID));
+
+		//	// Loop through which entities are using this prefab
+		//	//for (auto it : casted_msg->prefabRef.entityWatcher)
+		//	//{
+
+		//	//}
+		//}
 	}
 
 	

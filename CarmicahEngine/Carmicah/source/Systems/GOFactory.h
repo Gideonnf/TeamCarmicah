@@ -84,6 +84,15 @@ namespace Carmicah
 		//Used for updating the sceneGO if the entity's parent was changed so that scene hierarchy can update
 		void UpdateParent(Entity entityID, Entity parentID, bool toDelete = false);
 
+		template<typename T>
+		void AddComponent(GameObject& obj, std::string componentName, std::any componentData)
+		{
+			if (componentName == typeid(T).name())
+			{
+				obj.AddComponent(std::any_cast<T>(componentData));
+			}
+		}
+
 #pragma endregion
 
 		// FOR TESTING

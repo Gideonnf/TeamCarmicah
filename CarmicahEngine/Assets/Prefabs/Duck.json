@@ -1,6 +1,6 @@
 {
 "GameObject": "Duck",
-"ID": 0,
+"ID": 4,
 "Components": [
     {
         "Component Name": "struct Carmicah::Transform",

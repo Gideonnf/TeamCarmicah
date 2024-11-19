@@ -17,7 +17,7 @@ DigiPen Institute of Technology is prohibited.
 
 #include <GLFW/glfw3.h>
 #include <ImGUI/imgui.h>
-#include "../ECS/BaseSystem.h"
+#include "../ECS/BaseSystem.h" // why does editor window need base system included
 
 namespace Carmicah
 {
@@ -29,6 +29,8 @@ namespace Carmicah
 		ImVec2 mSize;
 		ImVec2 mPos;
 		bool mIsVisible;
+		std::vector<std::shared_ptr<Message>> mMessages;
+
 	public:
 		/**
 		 * @brief Construct a new Editor Window object
