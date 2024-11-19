@@ -86,10 +86,10 @@ namespace Carmicah
 				{
 					go.GetComponent<PrefabData>().mComponentsModified.push_back(typeid(T).name());
 				}
+				// Update the component after
+				component = newComponent;
 			}
 
-			// Update the component after
-			go.GetComponent<T>() = newComponent;
 		}
 
 	};
