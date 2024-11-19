@@ -21,14 +21,15 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui_impl_opengl3.h>
 #include "EditorWindow.h"
 #include "AssetWindow.h"
-#include "InspectorWindow.h"
-#include "HierarchyWindow.h"
-#include "Systems/GOFactory.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
 #include "Components/UITransform.h"
 #include "Scripting/ScriptSystem.h"
+#include "Components/Prefab.h"
+#include "InspectorWindow.h"
+#include "HierarchyWindow.h"
+#include "Systems/GOFactory.h"
 
 namespace Carmicah
 {
@@ -178,6 +179,7 @@ namespace Carmicah
 			EntityManager::GetInstance()->RemoveComponent<T>(go);
 		}
 	}
+
 
 	/**
 	 * @brief Templated function for Prefab (Might be changed in future)
@@ -860,7 +862,7 @@ namespace Carmicah
 
 		if (go->HasComponent<Renderer>())
 		{
-			Renderer& render = go->GetComponent<Renderer>();
+			Renderer render = go->GetComponent<Renderer>();
 			if (ImGui::CollapsingHeader("Renderer Settings", ImGuiTreeNodeFlags_DefaultOpen))
 			{
 				InspectorWindow::RemoveComponentButton<Renderer>(id);
@@ -928,6 +930,8 @@ namespace Carmicah
 					ImGui::EndTable();
 				}
 			}
+
+			CheckForComponentChange<Renderer>(*go, render);
 		}
 		if (go->HasComponent<Animation>())
 		{
@@ -976,7 +980,7 @@ namespace Carmicah
 		// render rigibody data
 		if (go->HasComponent<RigidBody>())
 		{
-			RigidBody& rb = go->GetComponent<RigidBody>();
+			RigidBody rb = go->GetComponent<RigidBody>();
 			if (ImGui::CollapsingHeader("Rigid Body Settings", ImGuiTreeNodeFlags_DefaultOpen))
 			{
 				InspectorWindow::RemoveComponentButton<RigidBody>(id);
@@ -1080,6 +1084,8 @@ namespace Carmicah
 					ImGui::EndTable();
 				}
 			}
+
+			CheckForComponentChange<RigidBody>(*go, rb);
 		}
 
 		// render collider data

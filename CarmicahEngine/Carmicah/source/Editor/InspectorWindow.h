@@ -73,6 +73,24 @@ namespace Carmicah
 		template<typename T>
 		void RemoveComponentButton(Entity go);
 
+		//TODO: IF IT WORKS< APPLY IT FOR EVERYTHIGN ELSE
+		template <typename T>
+		void CheckForComponentChange(GameObject& go, T& newComponent)
+		{
+			// Only used for prefab game objects
+			if (go.HasComponent<T>() && go.HasComponent<PrefabData>())
+			{
+				T& component = go.GetComponent<T>();
+				// change in the component
+				if (component != newComponent)
+				{
+					go.GetComponent<PrefabData>().mComponentsModified.push_back(typeid(T).name());
+				}
+			}
+
+			// Update the component after
+			go.GetComponent<T>() = newComponent;
+		}
 
 	};
 }
