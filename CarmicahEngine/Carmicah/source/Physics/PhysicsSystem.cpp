@@ -41,10 +41,10 @@ namespace Carmicah
 		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
 		auto& transform = componentManager->GetComponent<Transform>(obj);
 
-		rigidbody.posPrev.x = transform.pos.x;
-		rigidbody.posPrev.y = transform.pos.y;
+		rigidbody.posPrev.x = transform.Pos().x;
+		rigidbody.posPrev.y = transform.Pos().y;
 
-		rigidbody.zposPrev = transform.depth;
+		rigidbody.zposPrev = transform.Depth();
 	}
 
 	/**
@@ -80,8 +80,8 @@ namespace Carmicah
 
 		if (rigidbody.objectType == rbTypes::DYNAMIC|| rigidbody.objectType == rbTypes::KINEMATIC)
 		{
-			transform.pos.x = transform.pos.x + rigidbody.velocity.x * deltaTime;
-			transform.pos.y = transform.pos.y + rigidbody.velocity.y * deltaTime;
+			transform.PosXAdd(rigidbody.velocity.x * deltaTime);
+			transform.PosYAdd(rigidbody.velocity.y * deltaTime);
 
 
 			rigidbody.acceleration.x = sumForces.x * (1/rigidbody.mass) + rigidbody.gravity;

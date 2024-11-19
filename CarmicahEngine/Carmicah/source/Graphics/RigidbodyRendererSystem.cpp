@@ -59,7 +59,7 @@ namespace Carmicah
 			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
 			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			Mtx3x3f camSpace{};
-			camSpace.scaleThis(camTrans.scale.x, camTrans.scale.y).rotDegThis(-camTrans.rot).translateThis(-camTrans.pos.x, -camTrans.pos.y);
+			camSpace.scaleThis(camTrans.Scale()).rotDegThis(-camTrans.Rot()).translateThis(-camTrans.Pos());
 			GLint uniformLoc{};
 			if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
@@ -86,7 +86,7 @@ namespace Carmicah
 			//trans.translateThis(transform.pos.x, transform.pos.y).scaleThis(biggerVel, biggerVel).rotRadThis(rot);
 
 			Mtx3x3f trans{};
-			trans.translateThis(transform.pos.x, transform.pos.y).rotRadThis(rot);
+			trans.translateThis(transform.Pos()).rotRadThis(rot);
 
 			EditDebugBatchData(entity.first, entity.second.posInMemory, *primitive, trans, true, DEBUG_LAYER);
 		}
@@ -122,7 +122,7 @@ namespace Carmicah
 				// Get rotation
 				float rot = std::atan2f(rigidbody.velocity.y, rigidbody.velocity.x);
 				Mtx3x3f trans{};
-				trans.translateThis(transform.pos.x, transform.pos.y).rotRadThis(rot);
+				trans.translateThis(transform.Pos()).rotRadThis(rot);
 
 
 				EditDebugBatchData(entity, ed.posInMemory, *primitive, trans, true, DEBUG_LAYER);
