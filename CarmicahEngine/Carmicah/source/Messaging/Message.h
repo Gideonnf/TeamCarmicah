@@ -129,8 +129,8 @@ namespace Carmicah
 	class NewPrefabMsg : public Message
 	{
 	public:
-		GameObject& goPrefab;
-		NewPrefabMsg(GameObject& go) : Message(MSG_NEWPREFAB), goPrefab(go) {}
+		Entity goEntity;
+		NewPrefabMsg(Entity go) : Message(MSG_NEWPREFAB), goEntity(go) {}
 	};
 }
 

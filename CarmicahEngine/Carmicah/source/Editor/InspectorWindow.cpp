@@ -1290,6 +1290,15 @@ namespace Carmicah
 					gGOFactory->Destroy(selectedEntity);
 					HierarchyWindow::selectedGO = nullptr;
 				}
+
+				std::string saveGO = "Create " + HierarchyWindow::selectedGO->GetName() + " as a Prefab";
+				if (ImGui::Button(saveGO.c_str()))
+				{
+					NewPrefabMsg msg(HierarchyWindow::selectedGO->GetID());
+					mMessages.push_back(std::make_shared<NewPrefabMsg>(msg));
+					//gGOFactory->Destroy(selectedEntity);
+					HierarchyWindow::selectedGO = nullptr;
+				}
 			}
 
 			if (HierarchyWindow::inspectedPrefab != nullptr)
@@ -1299,7 +1308,7 @@ namespace Carmicah
 				UNUSED(selectedPrefabID);
 				InspectorTable<Prefab>(HierarchyWindow::inspectedPrefab);
 
-				if (ImGui::Button("Save Prefab"))
+				if (ImGui::Button("Save Changes to Prefab"))
 				{
 					Serializer.SerializePrefab(*AssetWindow::selectedPrefab);
 					ModifyPrefabMsg msg(*AssetWindow::selectedPrefab);

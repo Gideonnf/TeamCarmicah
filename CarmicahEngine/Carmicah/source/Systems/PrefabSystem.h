@@ -3,9 +3,12 @@
 #include "ECS/BaseSystem.h"
 #include "../Components/Prefab.h"
 #include "../ECS/GameObject.h"
+#include "AssetTypes.h"
 
 namespace Carmicah
 {
+	const unsigned int MAX_PREFABS = 100;
+
 	class PrefabSystem : public BaseSystem
 	{
 	private:
@@ -22,7 +25,20 @@ namespace Carmicah
 
 		unsigned int NewPrefab();
 
-		void SavePrefab(GameObject& go);
+		void SavePrefab(Entity id);
+
+		Prefab MakePrefab(GameObject& go);
+
+		template<typename T>
+		bool MakeAny(std::string componentName, GameObject& go, std::any& component)
+		{
+			if (componentName == typeid(T).name() && go.HasComponent<T>())
+			{
+				component = go.GetComponent<T>();
+				return true;
+			}
+			return false;
+		}
 
 		template<typename T>
 		void UpdateComponent(std::pair<const std::string, std::any>& component, Entity entityID)
