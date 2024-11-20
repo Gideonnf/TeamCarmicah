@@ -34,13 +34,13 @@ namespace Carmicah
 			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
 
 			// Handle Entities transform
-			if (!transform.notUpdated)
+			if (transform.Updated())
 			{
 				// if no parent
 				if (transform.parent == 0)
 				{
 					Mtx33Identity(transform.worldSpace);
-					transform.worldSpace.translateThis(transform.pos.x, transform.pos.y).rotDegThis(transform.rot).scaleThis(transform.scale.x, transform.scale.y);
+					transform.worldSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
 					transform.localSpace = transform.worldSpace; // if no parent, local and world is the same
 				}
 				// have parent
@@ -49,7 +49,7 @@ namespace Carmicah
 					// get parent's transform
 					Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(transform.parent);
 					Mtx33Identity(transform.localSpace);
-					transform.localSpace.translateThis(transform.pos.x, transform.pos.y).rotDegThis(transform.rot).scaleThis(transform.scale.x, transform.scale.y);
+					transform.localSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
 					transform.worldSpace = parentTransform.worldSpace * transform.localSpace;
 				}
 			}
@@ -64,38 +64,35 @@ namespace Carmicah
 		if (ToWorld)
 		{
 			// Get back world transform pos
-			entityTransform.pos.x = parentTransform.pos.x + entityTransform.pos.x;
+			entityTransform.PosX(parentTransform.Pos().x + entityTransform.Pos().x);
 
 			// get back world transform rot
-			entityTransform.rot = parentTransform.rot + entityTransform.rot;
+			entityTransform.Rot(parentTransform.Rot() + entityTransform.Rot());
 
 			// get back world transform scale
-			entityTransform.scale.x = parentTransform.scale.x * entityTransform.scale.x;
-			entityTransform.scale.y = parentTransform.scale.y * entityTransform.scale.y;
+			entityTransform.Scale(parentTransform.Scale().x * entityTransform.Scale().x, parentTransform.Scale().y * entityTransform.Scale().y);
 
 		}
 		else
 		{
 			// get the change in position
-			float deltaX = entityTransform.pos.x - parentTransform.pos.x;
-			float deltaY = entityTransform.pos.y - parentTransform.pos.y;
+			float deltaX = entityTransform.Pos().x - parentTransform.Pos().x;
+			float deltaY = entityTransform.Pos().y - parentTransform.Pos().y;
 
 			// convert parent rot to radians
-			float rad = parentTransform.rot * (PI / 180.0f);
+			float rad = parentTransform.Rot() * (PI / 180.0f);
 
 			float cosTheta = cos(rad);
 			float sinTheta = sin(rad);
 
 			// Calculate the new transform position
-			entityTransform.pos.x = deltaX * cosTheta + deltaY * sinTheta;
-			entityTransform.pos.y = -deltaX * sinTheta + deltaY * cosTheta;
+			entityTransform.Pos(deltaX * cosTheta + deltaY * sinTheta, -deltaX * sinTheta + deltaY * cosTheta);
 
 			//entityTransform.scale /= parentTransform.scale; // doesntw ork for some reason
-			entityTransform.scale.x = entityTransform.scale.x / parentTransform.scale.x;
-			entityTransform.scale.y = entityTransform.scale.y / parentTransform.scale.y;
+			entityTransform.Scale(entityTransform.Scale().x / parentTransform.Scale().x, entityTransform.Scale().y / parentTransform.Scale().y);
 
 			// calculate the new rotation
-			entityTransform.rot = entityTransform.rot - parentTransform.rot;
+			entityTransform.Rot(entityTransform.Rot() - parentTransform.Rot());
 		}
 	}
 

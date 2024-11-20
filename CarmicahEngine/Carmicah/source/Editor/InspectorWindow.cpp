@@ -213,32 +213,32 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("xPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xPos", &selectedTransform.pos.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##xPos", &selectedTransform.GetPos().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yPos", &selectedTransform.pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##yPos", &selectedTransform.GetPos().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Depth");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##zPos", &selectedTransform.depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##zPos", &selectedTransform.GetDepth(), 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					// Rotation
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Rotation");
 					ImGui::TableNextColumn();
-					if (ImGui::DragFloat("##rot", &selectedTransform.rot, 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
+					if (ImGui::DragFloat("##rot", &selectedTransform.GetRot(), 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
 					{
 						// Wrap the rotation value between 0 and 360 degrees
-						selectedTransform.rot = fmodf(selectedTransform.rot, 360.0f);
-						if (selectedTransform.rot < 0.0f)
+						selectedTransform.Rot(fmodf(selectedTransform.Rot(), 360.0f));
+						if (selectedTransform.Rot() < 0.0f)
 						{
-							selectedTransform.rot += 360.0f;
+							selectedTransform.GetRot() += 360.0f;
 						}
 					}
 
@@ -247,13 +247,13 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("xScale");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xScale", &selectedTransform.scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##xScale", &selectedTransform.GetScale().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yScale");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yScale", &selectedTransform.scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##yScale", &selectedTransform.GetScale().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 					ImGui::EndTable();
 				}
 			}
@@ -277,32 +277,32 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("xPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xPos", &selectedUITransform.pos.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##xPos", &selectedUITransform.GetPos().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yPos", &selectedUITransform.pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##yPos", &selectedUITransform.GetPos().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Depth");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##Depth", &selectedUITransform.depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##Depth", &selectedUITransform.GetDepth(), 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					// Scale (xScale, yScale)
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("xScale");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xScale", &selectedUITransform.scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##xScale", &selectedUITransform.GetScale().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yScale");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yScale", &selectedUITransform.scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##yScale", &selectedUITransform.GetScale().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					//ImGui::TableNextRow();
 					//ImGui::TableNextColumn();
@@ -751,32 +751,32 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("xPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xPos", &selectedTransform.pos.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##xPos", &selectedTransform.GetPos().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yPos", &selectedTransform.pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##yPos", &selectedTransform.GetPos().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Depth");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##zPos", &selectedTransform.depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##zPos", &selectedTransform.GetDepth(), 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					// Rotation
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Rotation");
 					ImGui::TableNextColumn();
-					if(ImGui::DragFloat("##rot", &selectedTransform.rot, 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
+					if(ImGui::DragFloat("##rot", &selectedTransform.GetRot(), 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
 					{
 						// Wrap the rotation value between 0 and 360 degrees
-						selectedTransform.rot = fmodf(selectedTransform.rot, 360.0f);
-						if (selectedTransform.rot < 0.0f)
+						selectedTransform.Rot(fmodf(selectedTransform.Rot(), 360.0f));
+						if (selectedTransform.Rot() < 0.0f)
 						{
-							selectedTransform.rot += 360.0f;
+							selectedTransform.GetRot() += 360.0f;
 						}
 					}
 
@@ -785,13 +785,13 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("xScale");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xScale", &selectedTransform.scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##xScale", &selectedTransform.GetScale().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yScale");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yScale", &selectedTransform.scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##yScale", &selectedTransform.GetScale().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 					ImGui::EndTable();
 				}
 			}
@@ -815,32 +815,32 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("xPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xPos", &selectedUITransform.pos.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##xPos", &selectedUITransform.GetPos().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yPos", &selectedUITransform.pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##yPos", &selectedUITransform.GetPos().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Depth");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##Depth", &selectedUITransform.depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##Depth", &selectedUITransform.GetDepth(), 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					// Scale (xScale, yScale)
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("xScale");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xScale", &selectedUITransform.scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##xScale", &selectedUITransform.GetScale().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yScale");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yScale", &selectedUITransform.scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##yScale", &selectedUITransform.GetScale().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					//ImGui::TableNextRow();
 					//ImGui::TableNextColumn();

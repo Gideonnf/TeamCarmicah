@@ -58,7 +58,7 @@ namespace Carmicah
 			auto& foundFontTex{ AssetManager::GetInstance()->GetAsset<Font>(txtRenderer.font) };
 			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(txtRenderer.model) };
 
-			float xTrack = UITrans.pos.x, yTrack = UITrans.pos.y;
+			float xTrack = UITrans.Pos().x, yTrack = UITrans.Pos().y;
 
 			if (UniformExists(mCurrShader, "uTextColor", uniformLoc))
 				glUniform3f(uniformLoc, txtRenderer.colorR, txtRenderer.colorG, txtRenderer.colorB);
@@ -74,20 +74,20 @@ namespace Carmicah
 			{
 				Font::FontChar ch = foundFontTex.mFontMaps[c - foundFontTex.charOffset];
 
-				xTrack += (ch.advance >> 7) * UITrans.scale.x * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
+				xTrack += (ch.advance >> 7) * UITrans.Scale().x * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
 				Mtx3x3f charTransform{};
 
 				// scale is multiplied by 0.5f since the mesh is from -0.5 to 0.5
 				charTransform
 					.translateThis(
-					xTrack + static_cast<float>(ch.xBearing) * UITrans.scale.x * 0.5f,
-					yTrack - (static_cast<float>(ch.height >> 1) - static_cast<float>(ch.yBearing)) * UITrans.scale.y * 0.5f)
-					.scaleThis(static_cast<float>(ch.width) * UITrans.scale.x * 0.5f,
-						static_cast<float>(ch.height) * UITrans.scale.y * 0.5f);
+					xTrack + static_cast<float>(ch.xBearing) * UITrans.Scale().x * 0.5f,
+					yTrack - (static_cast<float>(ch.height >> 1) - static_cast<float>(ch.yBearing)) * UITrans.Scale().y * 0.5f)
+					.scaleThis(static_cast<float>(ch.width) * UITrans.Scale().x * 0.5f,
+						static_cast<float>(ch.height) * UITrans.Scale().y * 0.5f);
 
 				const FontTexture& t{ AssetManager::GetInstance()->GetAsset<FontTexture>(ch.texRef) };
 
-				float depth{ CalcDepth(UITrans.depth, UI_LAYER) };
+				float depth{ CalcDepth(UITrans.Depth(), UI_LAYER)};
 
 				for (unsigned int i{}; i < p.vtx.size(); ++i)
 				{
@@ -103,7 +103,7 @@ namespace Carmicah
 				++mLastTextNumCount;
 
 				// now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-				xTrack += (ch.advance >> 7) * UITrans.scale.x * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
+				xTrack += (ch.advance >> 7) * UITrans.Scale().x * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
 			}
 			glNamedBufferSubData(mBufferData[0].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * mLastTextNumCount, charData.data());
 			BatchRender();

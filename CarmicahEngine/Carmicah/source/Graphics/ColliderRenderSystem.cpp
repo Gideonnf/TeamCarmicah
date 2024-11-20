@@ -55,7 +55,7 @@ namespace Carmicah
 			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
 			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 			Mtx3x3f camSpace{};
-			camSpace.scaleThis(camTrans.scale.x, camTrans.scale.y).rotDegThis(-camTrans.rot).translateThis(-camTrans.pos.x, -camTrans.pos.y);
+			camSpace.scaleThis(camTrans.Scale()).rotDegThis(-camTrans.Rot()).translateThis(-camTrans.Pos());
 			GLint uniformLoc{};
 			if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
 				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
