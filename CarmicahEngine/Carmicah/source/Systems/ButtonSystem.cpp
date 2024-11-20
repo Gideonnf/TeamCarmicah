@@ -104,7 +104,7 @@ namespace Carmicah
 	{
 		UNUSED(buttonComponent);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySound("buttonclick", 0.5f);
+		souSystem->PlaySound("buttonclick", SoundCategory::UI, 0.5f);
 		//auto* componentManager = ComponentManager::GetInstance();
 
 		//for (const auto& entity : mEntitiesSet)
@@ -125,7 +125,7 @@ namespace Carmicah
 	{
 		UNUSED(buttonComponent);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySound("pop", 0.5f);
+		souSystem->PlaySound("pop", SoundCategory::UI, 0.5f);
 
 		//auto* componentManager = ComponentManager::GetInstance();
 
