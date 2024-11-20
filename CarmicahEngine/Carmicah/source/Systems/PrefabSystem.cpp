@@ -54,6 +54,12 @@ namespace Carmicah
 	void PrefabSystem::SavePrefab(Entity id)
 	{
 		GameObject& go = gGOFactory->FetchGO(id);
+
+		// Check if prefab exist already. Don't want to recreate prefabs if not needed
+		if (AssetManager::GetInstance()->AssetExist<Prefab>(go.GetName()))
+		{
+			return;
+		}
 		// Write a new prefab here
 		Prefab& newPrefab = MakePrefab(go);
 		//Add to asset manager's prefab list
@@ -66,6 +72,7 @@ namespace Carmicah
 	{
 		Prefab newPrefab;
 		newPrefab.mName = go.GetName();
+
 		newPrefab.mPrefabID = NewPrefab();
 
 		// Create the mComponent list of the prefab
@@ -127,6 +134,14 @@ namespace Carmicah
 					newPrefab.childList.push_back(MakePrefab(childGO));
 				}
 			}
+		}
+
+		// if it doesnt have prefab component, then add it and make it a prefab
+		if (!go.HasComponent<PrefabData>())
+		{
+			go.AddComponent<PrefabData>();
+			go.GetComponent<PrefabData>().mPrefabRef = newPrefab.mPrefabID;
+			mPrefabMap[newPrefab.mPrefabID].push_back(go.GetID());
 		}
 
 		return newPrefab;

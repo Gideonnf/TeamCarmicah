@@ -223,8 +223,6 @@ namespace Carmicah
 		glGetShaderiv(fragShader, GL_COMPILE_STATUS, &success);
 		if (!success)
 		{
-			// NOTE: Shader is failing to compile fragment shader
-			// so i cant see anything on the screen
 			glGetShaderInfoLog(fragShader, 512, nullptr, infoLog);
 			CM_CORE_WARN("Unable to compile fragment shader:" + std::string(infoLog));
 			assert("Unable to compile fragment shader");
