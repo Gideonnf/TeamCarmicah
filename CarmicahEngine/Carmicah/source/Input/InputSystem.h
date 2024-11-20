@@ -101,6 +101,8 @@ namespace Carmicah
 
 		void UpdateKeyMap(int key, KeyStates state);
 		void UpdateMouseMap(int key, KeyStates state);
+		void ResetKeyStates();
+		void ResetMouseStates();
 
 #pragma endregion
 
@@ -132,7 +134,7 @@ namespace Carmicah
 
 		void ProxySend(Message*);
 
-		const char* KeycodeToString(Keys key);
+		const char* KeycodeToString(int key);
 	};
 
 	static InputSystem& Input = *InputSystem::GetInstance(); // so people can call "Input.IsKeyPressed" 

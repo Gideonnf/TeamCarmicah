@@ -111,6 +111,19 @@ namespace Carmicah
         }
     }
 
+    /* function documentation--------------------------------------------------------------------------
+	\brief      Used to pause/resume all sound files that are currently playing in the sound system.
+    -------------------------------------------------------------------------------------------------*/
+    void SoundSystem::PauseResumeAllSounds()
+	{
+		for (auto& pair : channelMap)
+		{
+			bool paused;
+			pair.second->getPaused(&paused);
+			pair.second->setPaused(!paused);
+		}
+	}
+
     //This function is used to update the sound system and remove any stopped channels
     void SoundSystem::Update()
     {

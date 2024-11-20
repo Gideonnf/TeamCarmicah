@@ -45,6 +45,7 @@ namespace Carmicah
         void SetVolume(const std::string& soundName, float volume);
         void StopAllSounds();
         void PauseResumeSound(const std::string& soundName);
+		void PauseResumeAllSounds();
 
 
         const char* defaultBGM{ "bouken" };
