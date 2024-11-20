@@ -26,6 +26,11 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+	void AssetManager::Init(std::shared_ptr<PrefabSystem> prefabRef)
+	{
+		prefabPtr = prefabRef;
+	}
+
 	void AssetManager::LoadConfig(const std::string& configPath)
 	{
 		std::filesystem::path directoryPath = configPath;
@@ -115,6 +120,9 @@ namespace Carmicah
 						else if (folderName == "Prefabs")
 						{
 							Prefab goPrefab = Serializer.DeserializePrefab(entry.path().string());
+							
+							prefabPtr->AddPrefab(goPrefab);
+
 							AddAsset<Prefab>(fileName, goPrefab);
 							//mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
 						}
@@ -215,6 +223,8 @@ namespace Carmicah
 		glGetShaderiv(fragShader, GL_COMPILE_STATUS, &success);
 		if (!success)
 		{
+			// NOTE: Shader is failing to compile fragment shader
+			// so i cant see anything on the screen
 			glGetShaderInfoLog(fragShader, 512, nullptr, infoLog);
 			CM_CORE_WARN("Unable to compile fragment shader:" + std::string(infoLog));
 			assert("Unable to compile fragment shader");

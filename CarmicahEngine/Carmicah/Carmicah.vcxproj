@@ -123,6 +123,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="source\Components\BaseTransform.h" />
     <ClInclude Include="source\Components\Button.h" />
     <ClInclude Include="source\Components\Collider2D.h" />
+    <ClInclude Include="source\Components\Prefab.h" />
     <ClInclude Include="source\Components\Renderer.h" />
     <ClInclude Include="source\Components\RigidBody.h" />
     <ClInclude Include="source\Components\Script.h" />
@@ -169,6 +170,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="source\Systems\CollisionSystem.h" />
     <ClInclude Include="source\Systems\GOFactory.h" />
     <ClInclude Include="source\Systems\GameLogic.h" />
+    <ClInclude Include="source\Systems\PrefabSystem.h" />
     <ClInclude Include="source\Systems\SceneSystem.h" />
     <ClInclude Include="source\Systems\SerializerSystem.h" />
     <ClInclude Include="source\Systems\SoundSystem.h" />
@@ -205,10 +207,12 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClCompile Include="source\Scripting\ScriptObject.cpp" />
     <ClCompile Include="source\Scripting\ScriptSystem.cpp" />
     <ClCompile Include="source\Systems\AssetManager.cpp" />
+    <ClCompile Include="source\Systems\AssetTypes.cpp" />
     <ClCompile Include="source\Systems\ButtonSystem.cpp" />
     <ClCompile Include="source\Systems\CollisionSystem.cpp" />
     <ClCompile Include="source\Systems\GOFactory.cpp" />
     <ClCompile Include="source\Systems\GameLogic.cpp" />
+    <ClCompile Include="source\Systems\PrefabSystem.cpp" />
     <ClCompile Include="source\Systems\SceneSystem.cpp" />
     <ClCompile Include="source\Systems\SerializerSystem.cpp" />
     <ClCompile Include="source\Systems\SoundSystem.cpp" />

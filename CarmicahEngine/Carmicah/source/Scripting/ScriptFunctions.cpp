@@ -44,7 +44,7 @@ namespace Carmicah
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
 
-		*outScale = go.GetComponent<Transform>().scale;
+		*outScale = go.GetComponent<Transform>().Scale();
 	}
 
 	/// <summary>
@@ -56,7 +56,7 @@ namespace Carmicah
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
 
-		go.GetComponent<Transform>().scale = *inScale;
+		go.GetComponent<Transform>().Scale(*inScale);
 	}
 	
 	/// <summary>
@@ -211,7 +211,7 @@ namespace Carmicah
 	static void Transform_GetPosition(unsigned int entityID, Vec2f* outPos)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
-		*outPos = go.GetComponent<Transform>().pos;
+		*outPos = go.GetComponent<Transform>().Pos();
 	}
 
 	/// <summary>
@@ -222,7 +222,7 @@ namespace Carmicah
 	static void Transform_SetPosition(unsigned int entityID, Vec2f* inPos)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
-		go.GetComponent<Transform>().pos = *inPos;
+		go.GetComponent<Transform>().Pos(*inPos);
 	}
 
 	/// <summary>

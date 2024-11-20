@@ -159,6 +159,20 @@ namespace Carmicah
 			if(window->mIsVisible)
 			{
 				window->Update();
+
+				// Check for messages
+				if (window->mMessages.size() > 0)
+				{
+					// Go through any messages the window has
+					for (auto msg : window->mMessages)
+					{
+						// send it 
+						SendSysMessage(msg.get());
+					}
+
+					// Clear the messages after
+					window->mMessages.clear();
+				}
 			}
 		}
 

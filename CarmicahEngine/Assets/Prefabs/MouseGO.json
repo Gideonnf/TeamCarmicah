@@ -1,0 +1,40 @@
+{
+    "GameObject": "MouseGO",
+    "ID": 2,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Transform",
+            "xPos": -1.7399036884307862,
+            "yPos": 0.0,
+            "depth": 0.0,
+            "xScale": 1.2000000476837159,
+            "yScale": 1.2000000476837159,
+            "rot": -84.00611877441406
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Duck"
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.MouseAI"
+        },
+        {
+            "Component Name": "struct Carmicah::Collider2D",
+            "shape": "DebugSquare"
+        },
+        {
+            "Component Name": "struct Carmicah::RigidBody",
+            "velocityX": 0.0,
+            "velocityY": 0.0,
+            "angularVelocity": 0.0,
+            "posPrevX": -2.739903688430786,
+            "posPrevY": 0.0,
+            "mass": 1.0,
+            "gravity": 0.0,
+            "zposPrev": 0.0,
+            "objectType": 0
+        }
+    ]
+}

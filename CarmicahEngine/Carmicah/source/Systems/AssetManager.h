@@ -26,6 +26,7 @@ DigiPen Institute of Technology is prohibited.
 #include <unordered_map>
 #include "Singleton.h"
 #include "Systems/AssetTypes.h"
+#include "PrefabSystem.h"
 
 namespace Carmicah
 {
@@ -47,6 +48,7 @@ namespace Carmicah
 	class AssetManager : public Singleton<AssetManager>
 	{
 	public:
+		void Init(std::shared_ptr<PrefabSystem> prefabRef);
 
 		/*!*************************************************************************
 		brief
@@ -79,6 +81,7 @@ namespace Carmicah
 		FMOD::System* mSoundSystem{};
 		std::unordered_map<std::string, FMOD::Channel*> mChannelMap;
 		std::unordered_map<std::string, Audio> mSoundMap{};
+		std::shared_ptr<PrefabSystem> prefabPtr;
 
 		/*!*************************************************************************
 		brief
@@ -325,8 +328,6 @@ namespace Carmicah
 			Sets the volume of the sound
 		***************************************************************************/
 		void LoadSound(const std::string& soundName, const std::string& soundFile, bool isLoop, float defaultVolume = 1.0f);
-
-
 	};
 }
 #endif

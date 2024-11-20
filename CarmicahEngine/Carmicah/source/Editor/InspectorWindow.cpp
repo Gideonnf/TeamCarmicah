@@ -21,14 +21,15 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui_impl_opengl3.h>
 #include "EditorWindow.h"
 #include "AssetWindow.h"
-#include "InspectorWindow.h"
-#include "HierarchyWindow.h"
-#include "Systems/GOFactory.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
 #include "Components/Renderer.h"
 #include "Components/UITransform.h"
 #include "Scripting/ScriptSystem.h"
+#include "Components/Prefab.h"
+#include "InspectorWindow.h"
+#include "HierarchyWindow.h"
+#include "Systems/GOFactory.h"
 
 namespace Carmicah
 {
@@ -179,6 +180,7 @@ namespace Carmicah
 		}
 	}
 
+
 	/**
 	 * @brief Templated function for Prefab (Might be changed in future)
 	 * 
@@ -213,32 +215,32 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("xPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xPos", &selectedTransform.pos.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##xPos", &selectedTransform.GetPos().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yPos", &selectedTransform.pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##yPos", &selectedTransform.GetPos().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Depth");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##zPos", &selectedTransform.depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##zPos", &selectedTransform.GetDepth(), 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					// Rotation
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Rotation");
 					ImGui::TableNextColumn();
-					if (ImGui::DragFloat("##rot", &selectedTransform.rot, 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
+					if (ImGui::DragFloat("##rot", &selectedTransform.GetRot(), 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
 					{
 						// Wrap the rotation value between 0 and 360 degrees
-						selectedTransform.rot = fmodf(selectedTransform.rot, 360.0f);
-						if (selectedTransform.rot < 0.0f)
+						selectedTransform.Rot(fmodf(selectedTransform.Rot(), 360.0f));
+						if (selectedTransform.Rot() < 0.0f)
 						{
-							selectedTransform.rot += 360.0f;
+							selectedTransform.GetRot() += 360.0f;
 						}
 					}
 
@@ -247,13 +249,13 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("xScale");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xScale", &selectedTransform.scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##xScale", &selectedTransform.GetScale().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yScale");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yScale", &selectedTransform.scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##yScale", &selectedTransform.GetScale().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 					ImGui::EndTable();
 				}
 			}
@@ -277,32 +279,32 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("xPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xPos", &selectedUITransform.pos.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##xPos", &selectedUITransform.GetPos().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yPos", &selectedUITransform.pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##yPos", &selectedUITransform.GetPos().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Depth");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##Depth", &selectedUITransform.depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##Depth", &selectedUITransform.GetDepth(), 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					// Scale (xScale, yScale)
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("xScale");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xScale", &selectedUITransform.scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##xScale", &selectedUITransform.GetScale().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yScale");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yScale", &selectedUITransform.scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##yScale", &selectedUITransform.GetScale().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					//ImGui::TableNextRow();
 					//ImGui::TableNextColumn();
@@ -751,32 +753,32 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("xPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xPos", &selectedTransform.pos.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##xPos", &selectedTransform.GetPos().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yPos", &selectedTransform.pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##yPos", &selectedTransform.GetPos().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Depth");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##zPos", &selectedTransform.depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##zPos", &selectedTransform.GetDepth(), 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					// Rotation
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Rotation");
 					ImGui::TableNextColumn();
-					if(ImGui::DragFloat("##rot", &selectedTransform.rot, 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
+					if(ImGui::DragFloat("##rot", &selectedTransform.GetRot(), 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
 					{
 						// Wrap the rotation value between 0 and 360 degrees
-						selectedTransform.rot = fmodf(selectedTransform.rot, 360.0f);
-						if (selectedTransform.rot < 0.0f)
+						selectedTransform.Rot(fmodf(selectedTransform.Rot(), 360.0f));
+						if (selectedTransform.Rot() < 0.0f)
 						{
-							selectedTransform.rot += 360.0f;
+							selectedTransform.GetRot() += 360.0f;
 						}
 					}
 
@@ -785,13 +787,13 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("xScale");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xScale", &selectedTransform.scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##xScale", &selectedTransform.GetScale().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yScale");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yScale", &selectedTransform.scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##yScale", &selectedTransform.GetScale().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 					ImGui::EndTable();
 				}
 			}
@@ -815,32 +817,32 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("xPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xPos", &selectedUITransform.pos.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##xPos", &selectedUITransform.GetPos().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yPos", &selectedUITransform.pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##yPos", &selectedUITransform.GetPos().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Depth");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##Depth", &selectedUITransform.depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##Depth", &selectedUITransform.GetDepth(), 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					// Scale (xScale, yScale)
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("xScale");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xScale", &selectedUITransform.scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##xScale", &selectedUITransform.GetScale().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yScale");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yScale", &selectedUITransform.scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##yScale", &selectedUITransform.GetScale().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					//ImGui::TableNextRow();
 					//ImGui::TableNextColumn();
@@ -872,6 +874,7 @@ namespace Carmicah
 
 					ImGui::TableNextColumn();
 					ImGui::Text("%s", render.model.c_str());
+					
 					/*ImGui::SameLine();
 					if (ImGui::Button("v"))
 					{
@@ -890,7 +893,7 @@ namespace Carmicah
 						}
 						ImGui::EndPopup();
 					}*/
-
+					
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Texture");
@@ -928,6 +931,8 @@ namespace Carmicah
 					ImGui::EndTable();
 				}
 			}
+
+			//CheckForComponentChange<Renderer>(*go, render);
 		}
 		if (go->HasComponent<Animation>())
 		{
@@ -976,7 +981,8 @@ namespace Carmicah
 		// render rigibody data
 		if (go->HasComponent<RigidBody>())
 		{
-			RigidBody& rb = go->GetComponent<RigidBody>();
+			RigidBody rb = go->GetComponent<RigidBody>();
+			bool modified = false;
 			if (ImGui::CollapsingHeader("Rigid Body Settings", ImGuiTreeNodeFlags_DefaultOpen))
 			{
 				InspectorWindow::RemoveComponentButton<RigidBody>(id);
@@ -986,25 +992,25 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("Velocity X");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##VelocityX", &rb.velocity.x, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+					modified |= ImGui::DragFloat("##VelocityX", &rb.velocity.x, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Velocity Y");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##VelocityY", &rb.velocity.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+					modified |= ImGui::DragFloat("##VelocityY", &rb.velocity.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Mass");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##Mass", &rb.mass, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+					modified |= ImGui::DragFloat("##Mass", &rb.mass, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Gravity");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##Gravity", &rb.gravity, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+					modified |= ImGui::DragFloat("##Gravity", &rb.gravity, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
@@ -1047,6 +1053,7 @@ namespace Carmicah
 							{
 								if (ImGui::Button("Static"))
 								{
+									modified = true;
 									rb.objectType = rbTypes::STATIC;
 									ImGui::CloseCurrentPopup();
 								}
@@ -1057,6 +1064,7 @@ namespace Carmicah
 							{
 								if (ImGui::Button("Kinematic"))
 								{
+									modified = true;
 									rb.objectType = rbTypes::KINEMATIC;
 									ImGui::CloseCurrentPopup();
 								}
@@ -1066,6 +1074,7 @@ namespace Carmicah
 							{
 								if (ImGui::Button("Dynamic"))
 								{
+									modified = true;
 									rb.objectType = rbTypes::DYNAMIC;
 									ImGui::CloseCurrentPopup();
 								}
@@ -1080,6 +1089,8 @@ namespace Carmicah
 					ImGui::EndTable();
 				}
 			}
+
+			CheckForComponentChange<RigidBody>(*go, rb, modified);
 		}
 
 		// render collider data
@@ -1284,6 +1295,15 @@ namespace Carmicah
 
 				InspectorTable<GameObject>(HierarchyWindow::selectedGO, selectedEntity);
 
+				std::string saveGO = "Create " + HierarchyWindow::selectedGO->GetName() + " as a Prefab";
+				if (ImGui::Button(saveGO.c_str()))
+				{
+					NewPrefabMsg msg(HierarchyWindow::selectedGO->GetID());
+					mMessages.push_back(std::make_shared<NewPrefabMsg>(msg));
+					//gGOFactory->Destroy(selectedEntity);
+					//HierarchyWindow::selectedGO = nullptr;
+				}
+
 				std::string destroyGO = "Destroy " + HierarchyWindow::selectedGO->GetName();
 				if (ImGui::Button(destroyGO.c_str()))
 				{
@@ -1299,9 +1319,11 @@ namespace Carmicah
 				UNUSED(selectedPrefabID);
 				InspectorTable<Prefab>(HierarchyWindow::inspectedPrefab);
 
-				if (ImGui::Button("Save Prefab"))
+				if (ImGui::Button("Save Changes to Prefab"))
 				{
 					Serializer.SerializePrefab(*AssetWindow::selectedPrefab);
+					ModifyPrefabMsg msg(*AssetWindow::selectedPrefab);
+					mMessages.push_back(std::make_shared<ModifyPrefabMsg>(msg));
 				}
 
 
