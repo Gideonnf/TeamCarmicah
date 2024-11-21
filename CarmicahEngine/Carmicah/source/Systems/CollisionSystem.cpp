@@ -26,6 +26,7 @@ DigiPen Institute of Technology is prohibited.
 #include "ECS/ComponentManager.h"
 #include "CarmicahTime.h"
 #include <algorithm>
+#include <cmath>
 
 namespace Carmicah
 {
@@ -57,29 +58,111 @@ namespace Carmicah
 	}
 
 
-	void CollisionSystem::GetOBBVertices(std::vector<Vec2f>& vertices, Entity& obj) const
+	void CollisionSystem::GetOBBVertices(Entity& obj)
 	{
 
 		auto* componentManager = ComponentManager::GetInstance();
 		auto& transform = componentManager->GetComponent<Transform>(obj);
-		auto& AABB = componentManager->GetComponent<Collider2D>(obj);
+		auto& collider = componentManager->GetComponent<Collider2D>(obj);
 
-		float halfWidth = Scale().x * 0.5f;
-		float halfHeight = Scale().y * 0.5f;
+		float halfWidth = transform.Scale().x * 0.5f;
+		float halfHeight = transform.Scale().y * 0.5f;
 
-		float angleInRadians = Rot() * (M_PI / 180.0f); // Convert to radians
+
+
+		float angleInRadians = transform.Rot() * (PI / 180.0f); // Convert to radians
 		float cosTheta = cos(angleInRadians);
 		float sinTheta = sin(angleInRadians);
 
-		vertices.push_back(Pos() + Vec2f(-halfWidth * cosTheta - -halfHeight * sinTheta,
+		collider.objVert.push_back(transform.Pos() + Vec2f(-halfWidth * cosTheta - -halfHeight * sinTheta,
 			-halfWidth * sinTheta + -halfHeight * cosTheta));
-		vertices.push_back(Pos() + Vec2f(halfWidth * cosTheta - -halfHeight * sinTheta,
+		collider.objVert.push_back(transform.Pos() + Vec2f(halfWidth * cosTheta - -halfHeight * sinTheta,
 			halfWidth * sinTheta + -halfHeight * cosTheta));
-		vertices.push_back(Pos() + Vec2f(halfWidth * cosTheta - halfHeight * sinTheta,
+		collider.objVert.push_back(transform.Pos() + Vec2f(halfWidth * cosTheta - halfHeight * sinTheta,
 			halfWidth * sinTheta + halfHeight * cosTheta));
-		vertices.push_back(Pos() + Vec2f(-halfWidth * cosTheta - halfHeight * sinTheta,
+		collider.objVert.push_back(transform.Pos() + Vec2f(-halfWidth * cosTheta - halfHeight * sinTheta,
 			-halfWidth * sinTheta + halfHeight * cosTheta));
 	}
+
+	void CollisionSystem::CalculateEdges(Entity& obj)
+	{
+		auto* componentManager = ComponentManager::GetInstance();
+		auto& transform = componentManager->GetComponent<Transform>(obj);
+		auto& collider = componentManager->GetComponent<Collider2D>(obj);
+
+		for (size_t i = 0; i < collider.objVert.size(); i++)
+		{
+			Vec2f edge;
+
+			edge = collider.objVert[i + 1] - collider.objVert[i];
+
+			collider.objEdges.push_back(edge);
+		}
+	}
+
+	void CollisionSystem::ComputeProjInterval(Entity& obj, Vec2f edgeNormal, float& min, float& max)
+	{
+		auto* componentManager = ComponentManager::GetInstance();
+		auto& transform = componentManager->GetComponent<Transform>(obj);
+		auto& collider = componentManager->GetComponent<Collider2D>(obj);
+
+		min = max = edgeNormal.dot(collider.objEdges[0]);
+
+		for (size_t i = 1; i < collider.objEdges.size(); i++)
+		{
+			float value = edgeNormal.dot(collider.objEdges[i]);
+
+			if (value < min) 
+			{
+				min = value;
+			}
+			else if (value > max)
+			{
+				max = value;
+			}
+		}
+	}
+
+	bool CollisionSystem::TestIntersection(Entity& obj1, Entity& obj2) 
+	{
+		auto* componentManager = ComponentManager::GetInstance();
+		auto& transform1 = componentManager->GetComponent<Transform>(obj1);
+		auto& collider1 = componentManager->GetComponent<Collider2D>(obj1);
+		auto& transform2 = componentManager->GetComponent<Transform>(obj2);
+		auto& collider2 = componentManager->GetComponent<Collider2D>(obj2);
+
+		//Test edges normals of obj1 for separation
+		for (size_t i = 0; i < collider1.objEdges.size(); i++) 
+		{
+			Vec2f edgeNormal(collider1.objEdges[i].y,-collider1.objEdges[i].x);
+			float min0, max0, min1, max1;
+			ComputeProjInterval(obj1, edgeNormal, min0, max0);
+			ComputeProjInterval(obj2, edgeNormal, min1, max1);
+			if (max0 < min1 || max1 < min0)
+			{
+				return false;
+			}
+
+			
+		}
+
+		for (size_t i = 0; i < collider2.objEdges.size(); i++)
+		{
+			Vec2f edgeNormal( collider2.objEdges[i].y,-collider2.objEdges[i].x );
+			float min0, max0, min1, max1;
+			ComputeProjInterval(obj1, edgeNormal, min0, max0);
+			ComputeProjInterval(obj2, edgeNormal, min1, max1);
+			if (max0 < min1 || max1 < min0)
+			{
+				return false;
+			}
+
+
+		}
+
+		return true;
+	}
+
 	/**
 	 * @brief Checks for collision between two entities using their AABB and velocities.
 	 *
@@ -343,6 +426,10 @@ namespace Carmicah
 			{
 				CollisionResponse(obj1, obj2, firstTimeOfCollision);
 			}
+			if (TestIntersection(obj1, obj2) == true)
+			{
+				CollisionResponse(obj1, obj2, firstTimeOfCollision);
+			}
 		}
 
 	}
@@ -377,11 +464,17 @@ namespace Carmicah
 					if (rigidbody2.objectType == rbTypes::STATIC)
 					{
 						StaticDynamicCollisionCheck(entity1, entity2);
+						//TestIntersection(entity1, entity2);
 					}
 					else
 					{
 						float firstTimeOfCollision = 0.0f;
-						if (CollisionIntersect(entity1, entity2, firstTimeOfCollision)) 
+						/*if (CollisionIntersect(entity1, entity2, firstTimeOfCollision)) 
+						{
+							CollisionResponse(entity1, entity2, firstTimeOfCollision);
+						}*/
+
+						if (TestIntersection(entity1, entity2))
 						{
 							CollisionResponse(entity1, entity2, firstTimeOfCollision);
 						}
@@ -404,11 +497,16 @@ namespace Carmicah
 					if (rigidbody2.objectType == rbTypes::STATIC)
 					{
 						StaticDynamicCollisionCheck(entity1, entity2);
+						//TestIntersection(entity1, entity2);
 					}
 					else
 					{
 						float firstTimeOfCollision = 0.0f;
-						if (CollisionIntersect(entity1, entity2, firstTimeOfCollision))
+						/*if (CollisionIntersect(entity1, entity2, firstTimeOfCollision))
+						{
+							CollisionResponse(entity1, entity2, firstTimeOfCollision);
+						}*/
+						if (TestIntersection(entity1, entity2))
 						{
 							CollisionResponse(entity1, entity2, firstTimeOfCollision);
 						}
@@ -443,6 +541,8 @@ namespace Carmicah
 		{
 
 			UpdateAABB(entity);
+			GetOBBVertices(entity);
+			CalculateEdges(entity);
 		}
 
 		CollisionCheck();

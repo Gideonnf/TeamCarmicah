@@ -13,6 +13,7 @@ DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #pragma once
 #include "ECS/BaseSystem.h"
+#include "../Math/Vec2.h"
 
 namespace Carmicah
 {
@@ -23,7 +24,13 @@ namespace Carmicah
 
 		void UpdateAABB(Entity& obj);
 
-		void GetOBBVertices(std::vector<Vec2f>& vertices, Entity& obj) const;
+		void GetOBBVertices(Entity& obj);
+
+		void CalculateEdges(Entity& obj);
+
+		void ComputeProjInterval(Entity& obj, Vec2f edgeNormal, float& min, float& max);
+
+		bool TestIntersection(Entity& obj1, Entity& obj2);
 
 		bool CollisionIntersect(Entity& obj1, Entity& obj2, float firstTimeOfCollision);
 
