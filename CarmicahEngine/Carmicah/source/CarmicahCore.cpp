@@ -244,19 +244,19 @@ namespace Carmicah
             }
 
             // Reload/initialize the scene here
-            if (gameSystem->mNextState == SceneState::INITIALISING )
+            if (gameSystem->mNextState == SceneState::INITIALISING || gameSystem->mNextState == SceneState::RELOAD)
             {
                 gameSystem->Init();
 
                 // FOR TESTING OF GOs MANUALLY
                     
                 //wall.SetParent(mainCharacter);
-                GameObject GameObject2;
-                gGOFactory->FetchGO("GameObject2", GameObject2);
+                //GameObject GameObject2;
+                //gGOFactory->FetchGO("GameObject2", GameObject2);
 
-                LinearDirectionalForce rightForce({ 1.0f,0.0f }, 1.0f, 2.0f);
+                //LinearDirectionalForce rightForce({ 1.0f,0.0f }, 1.0f, 2.0f);
 
-                GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(rightForce);
+                //GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(rightForce);
 
 
                 //GameObject mainCharacter;
