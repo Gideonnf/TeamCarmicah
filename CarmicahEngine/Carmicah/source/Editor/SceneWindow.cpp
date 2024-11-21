@@ -33,6 +33,7 @@ namespace Carmicah
 
 	bool SceneWindow::mIsPlaying = false;
 	bool SceneWindow::mChangeState = false;
+    bool SceneWindow::mIsPaused = false;
 
 	SceneWindow::SceneWindow() : EditorWindow("Scene", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
 
@@ -46,6 +47,7 @@ namespace Carmicah
 				if (ImGui::Button("Play"))
 				{
 					mIsPlaying = !mIsPlaying;
+                    mIsPaused = false;
 					mChangeState = true;
 				}
 			}
@@ -60,7 +62,7 @@ namespace Carmicah
             ImGui::SameLine();
             if (ImGui::Button("Pause"))
             {
-
+                mIsPaused = !mIsPaused;
             }
 
 			const float windowWidth =   std::clamp(ImGui::GetContentRegionAvail().x, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Width));

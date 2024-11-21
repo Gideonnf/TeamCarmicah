@@ -34,6 +34,7 @@ namespace Carmicah
 	public:
 
 		static bool mIsPlaying;
+		static bool mIsPaused;
 		static bool mChangeState;
 
 		/**
