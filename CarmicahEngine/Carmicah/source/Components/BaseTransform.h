@@ -31,6 +31,140 @@ namespace Carmicah
         Entity parent; // Hold 0 if no parent
         std::vector<Entity> children;
 
+<<<<<<< Updated upstream
+=======
+#pragma region Getter Setters
+        const Vec2f& Pos() const
+        {
+            return pos;
+        }
+        Vec2f& GetPos()
+        {
+            notUpdated = false;
+            return pos;
+        }
+        void Pos(const Vec2f& rhs)
+        {
+            Pos(rhs.x, rhs.y);
+        }
+        void PosX(const float& rhs)
+        {
+            Pos(rhs, pos.y);
+        }
+        void PosXAdd(const float& rhs)
+        {
+            Pos(pos.x + rhs, pos.y);
+        }
+        void PosY(const float& rhs)
+        {
+            Pos(pos.x, rhs);
+        }
+        void PosYAdd(const float& rhs)
+        {
+            Pos(pos.x, pos.y + rhs);
+        }
+        void Pos(const float& x, const float& y)
+        {
+            pos.x = x;
+            pos.y = y;
+            notUpdated = false;
+        }
+        const Vec2f& Scale() const
+        {
+            return scale;
+        }
+        Vec2f& GetScale()
+        {
+            notUpdated = false;
+            return scale;
+        }
+        void Scale(const Vec2f& rhs)
+        {
+            Scale(rhs.x, rhs.y);
+        }
+        void ScaleX(const float& rhs)
+        {
+            Scale(rhs, scale.y);
+        }
+        void ScaleXAdd(const float& rhs)
+        {
+            Scale(scale.x + rhs, scale.y);
+        }
+        void ScaleY(const float& rhs)
+        {
+            Scale(scale.x, rhs);
+        }
+        void ScaleYAdd(const float& rhs)
+        {
+            Scale(scale.x, scale.y + rhs);
+        }
+        void Scale(const float& x, const float& y)
+        {
+            scale.x = x;
+            scale.y = y;
+            notUpdated = false;
+        }
+        
+        const float& Depth() const
+        {
+            return depth;
+        }
+        float& GetDepth()
+        {
+            notUpdated = false;
+            return depth;
+        }
+        void Depth(float d)
+        {
+            depth = d;
+            notUpdated = false;
+        }
+        const float& Rot() const
+        {
+            return rot;
+        }
+        float& GetRot()
+        {
+            notUpdated = false;
+            return rot;
+        }
+        void Rot(float d)
+        {
+            rot = d;
+            notUpdated = false;
+        }
+
+        void GetOBBVertices(std::vector<Vec2f>& vertices) const
+        {
+            float halfWidth = Scale().x * 0.5f;
+            float halfHeight = Scale().y * 0.5f;
+
+            float angleInRadians = Rot() * (M_PI / 180.0f); // Convert to radians
+            float cosTheta = cos(angleInRadians);
+            float sinTheta = sin(angleInRadians);
+
+            vertices.push_back(Pos() + Vec2f(-halfWidth * cosTheta - -halfHeight * sinTheta,
+                -halfWidth * sinTheta + -halfHeight * cosTheta));
+            vertices.push_back(Pos() + Vec2f(halfWidth * cosTheta - -halfHeight * sinTheta,
+                halfWidth * sinTheta + -halfHeight * cosTheta));
+            vertices.push_back(Pos() + Vec2f(halfWidth * cosTheta - halfHeight * sinTheta,
+                halfWidth * sinTheta + halfHeight * cosTheta));
+            vertices.push_back(Pos() + Vec2f(-halfWidth * cosTheta - halfHeight * sinTheta,
+                -halfWidth * sinTheta + halfHeight * cosTheta));
+        }
+
+        const bool& Updated() const
+        {
+            return !notUpdated;
+        }
+
+        void ResetUpdate()
+        {
+            notUpdated = true;
+        }
+#pragma endregion
+
+>>>>>>> Stashed changes
 
         void DeserializeComponentBuffer(const rapidjson::Value& component)
         {
