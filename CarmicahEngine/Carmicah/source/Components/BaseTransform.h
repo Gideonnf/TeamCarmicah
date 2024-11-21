@@ -22,17 +22,18 @@ namespace Carmicah
     template <typename T>
     struct BaseTransform : BaseComponent<T>
     {
-        Vec2f pos;
-        Vec2f scale;
-        float depth;
+    protected:
+        Vec2f pos{};
+        Vec2f scale{};
+        float rot;
+        float depth{};
 
-        bool notUpdated;
+        bool notUpdated{};
+    public:
 
         Entity parent; // Hold 0 if no parent
         std::vector<Entity> children;
 
-<<<<<<< Updated upstream
-=======
 #pragma region Getter Setters
         const Vec2f& Pos() const
         {
@@ -104,7 +105,6 @@ namespace Carmicah
             scale.y = y;
             notUpdated = false;
         }
-        
         const float& Depth() const
         {
             return depth;
@@ -145,7 +145,6 @@ namespace Carmicah
         }
 #pragma endregion
 
->>>>>>> Stashed changes
 
         void DeserializeComponentBuffer(const rapidjson::Value& component)
         {
@@ -154,6 +153,7 @@ namespace Carmicah
             depth = static_cast<float>(component["depth"].GetDouble());
             scale.x = static_cast<float>(component["xScale"].GetDouble());
             scale.y = static_cast<float>(component["yScale"].GetDouble());
+            rot = static_cast<float>(component["rot"].GetDouble());
         }
 
         virtual void SerializeComponent(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer) override
@@ -168,6 +168,8 @@ namespace Carmicah
             writer.Double(scale.x);
             writer.String("yScale");
             writer.Double(scale.y);
+            writer.String("rot");
+            writer.Double(rot);
 
         }
     };
