@@ -47,6 +47,7 @@ namespace Carmicah
 		InitTexture();
 		InitSound();
 		InitFontType();
+		fileWatcher.Init(assetPath);
 
 		if (std::filesystem::exists(directoryPath) && std::filesystem::is_directory(directoryPath))
 		{

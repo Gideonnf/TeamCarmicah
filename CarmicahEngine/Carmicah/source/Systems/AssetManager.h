@@ -27,6 +27,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Singleton.h"
 #include "Systems/AssetTypes.h"
 #include "PrefabSystem.h"
+#include "FileWatcher.h"
 
 namespace Carmicah
 {
@@ -65,12 +66,16 @@ namespace Carmicah
 			Asset Path to load data from
 		***************************************************************************/
 		void LoadAll(const char* assetPath);
+
+		bool LoadAsset(File const& file);
+
 		/*!*************************************************************************
 		brief
 			Unloads and frees data held by the AssetManager
 		***************************************************************************/
 		void UnloadAll();
 
+		FileWatcher fileWatcher;
 		EngineConfig enConfig{};
 		std::unordered_map<std::string, std::shared_ptr<IAsset>> mAssetTypeMap{};
 
