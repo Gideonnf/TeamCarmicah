@@ -56,6 +56,30 @@ namespace Carmicah
 		AABB.max.y = (transform.scale.y * 0.5f) + transform.pos.y;
 	}
 
+
+	void CollisionSystem::GetOBBVertices(std::vector<Vec2f>& vertices, Entity& obj) const
+	{
+
+		auto* componentManager = ComponentManager::GetInstance();
+		auto& transform = componentManager->GetComponent<Transform>(obj);
+		auto& AABB = componentManager->GetComponent<Collider2D>(obj);
+
+		float halfWidth = Scale().x * 0.5f;
+		float halfHeight = Scale().y * 0.5f;
+
+		float angleInRadians = Rot() * (M_PI / 180.0f); // Convert to radians
+		float cosTheta = cos(angleInRadians);
+		float sinTheta = sin(angleInRadians);
+
+		vertices.push_back(Pos() + Vec2f(-halfWidth * cosTheta - -halfHeight * sinTheta,
+			-halfWidth * sinTheta + -halfHeight * cosTheta));
+		vertices.push_back(Pos() + Vec2f(halfWidth * cosTheta - -halfHeight * sinTheta,
+			halfWidth * sinTheta + -halfHeight * cosTheta));
+		vertices.push_back(Pos() + Vec2f(halfWidth * cosTheta - halfHeight * sinTheta,
+			halfWidth * sinTheta + halfHeight * cosTheta));
+		vertices.push_back(Pos() + Vec2f(-halfWidth * cosTheta - halfHeight * sinTheta,
+			-halfWidth * sinTheta + halfHeight * cosTheta));
+	}
 	/**
 	 * @brief Checks for collision between two entities using their AABB and velocities.
 	 *

@@ -134,25 +134,6 @@ namespace Carmicah
             notUpdated = false;
         }
 
-        void GetOBBVertices(std::vector<Vec2f>& vertices) const
-        {
-            float halfWidth = Scale().x * 0.5f;
-            float halfHeight = Scale().y * 0.5f;
-
-            float angleInRadians = Rot() * (M_PI / 180.0f); // Convert to radians
-            float cosTheta = cos(angleInRadians);
-            float sinTheta = sin(angleInRadians);
-
-            vertices.push_back(Pos() + Vec2f(-halfWidth * cosTheta - -halfHeight * sinTheta,
-                -halfWidth * sinTheta + -halfHeight * cosTheta));
-            vertices.push_back(Pos() + Vec2f(halfWidth * cosTheta - -halfHeight * sinTheta,
-                halfWidth * sinTheta + -halfHeight * cosTheta));
-            vertices.push_back(Pos() + Vec2f(halfWidth * cosTheta - halfHeight * sinTheta,
-                halfWidth * sinTheta + halfHeight * cosTheta));
-            vertices.push_back(Pos() + Vec2f(-halfWidth * cosTheta - halfHeight * sinTheta,
-                -halfWidth * sinTheta + halfHeight * cosTheta));
-        }
-
         const bool& Updated() const
         {
             return !notUpdated;

@@ -23,6 +23,8 @@ namespace Carmicah
 
 		void UpdateAABB(Entity& obj);
 
+		void GetOBBVertices(std::vector<Vec2f>& vertices, Entity& obj) const;
+
 		bool CollisionIntersect(Entity& obj1, Entity& obj2, float firstTimeOfCollision);
 
 		void CollisionResponse(Entity& obj1, Entity& obj2, float tFirst);
