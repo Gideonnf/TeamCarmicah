@@ -133,6 +133,10 @@ namespace Carmicah
             rot = d;
             notUpdated = false;
         }
+        void RotAdd(const float& rhs)
+        {
+            Rot(rot + rhs);
+        }
 
         const bool& Updated() const
         {
