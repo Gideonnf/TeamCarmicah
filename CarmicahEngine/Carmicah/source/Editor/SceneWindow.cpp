@@ -103,11 +103,11 @@ namespace Carmicah
                     relativeMousePos.y >= 0 && relativeMousePos.y <= windowHeight)
                 {
                     // scale the coordinates to 1920x1080
-                    float scaledX = (relativeMousePos.x / windowWidth) * 1920.0f;
-                    float scaledY = (relativeMousePos.y / windowHeight) * 1080.0f;
+                    double scaledX = (relativeMousePos.x / windowWidth) * 1920.0f;
+                    double scaledY = (relativeMousePos.y / windowHeight) * 1080.0f;
 
-                    static float worldDeltaX = 0.f;
-                    static float worldDeltaY = 0.f;
+                    static double worldDeltaX = 0.f;
+                    static double worldDeltaY = 0.f;
 
 
                     //std::cout << "World Pos = " << worldX << "," << worldY << std::endl;
@@ -117,16 +117,21 @@ namespace Carmicah
 
                     if (Input.IsMousePressed(MOUSE_BUTTON_LEFT))
                     {
-                        Vec2d startDrag(scaledX, scaledY);
-                        Input.SetDragStartPos(startDrag);
+                        std::cout << "Print Once" << std::endl;
+                        /*Vec2d startDrag(scaledX, scaledY);
+                        Input.SetDragStartPos(startDrag);*/
                     }
+
 
                     // if dragging, update the drag position within the Scene window
                     if (Input.IsDragging())
                     {
                         Input.SetDragCurrentPos({ scaledX, scaledY });
+                        
                         Vec2d startDragPos = Input.GetDragStartPos();
+                        std::cout << "Start Pos: " << startDragPos << std::endl;
                         Vec2d currentMousePos = Input.GetDragCurrentPos();
+                        std::cout << "Current Pos: " << currentMousePos << std::endl;
                         Vec2d delta(currentMousePos.x - startDragPos.x, currentMousePos.y - startDragPos.y);
 
                         Transform& cameraTransform = camera.GetComponent<Transform>();
@@ -135,28 +140,29 @@ namespace Carmicah
 
                         //std::cout << "Camera Scale = " << cameraTransform.GetScale().x << "," << cameraTransform.GetScale().y << std::endl;
 
-                        float worldDeltaX = (delta.x / windowWidth) / cameraTransform.GetScale().x;
-                        float worldDeltaY = -(delta.y / windowHeight) / cameraTransform.GetScale().y;
+                        double worldDeltaX = (delta.x / windowWidth) / cameraTransform.GetScale().x;
+                        double worldDeltaY = -(delta.y / windowHeight) / cameraTransform.GetScale().y;
 
                         if(worldDeltaX != 0.0f || worldDeltaY != 0.0f)
                         {
-                            std::cout << "World Delta = " << worldDeltaX << "," << worldDeltaY << std::endl;
+                            //std::cout << "World Delta = " << worldDeltaX << "," << worldDeltaY << std::endl;
                         }
                         Input.SetDragStartPos(currentMousePos);
 
 
-
+                        
                         if (HierarchyWindow::selectedGO != nullptr)
                         {
-                            if(HierarchyWindow::selectedGO->HasComponent<Transform>())
+                            if (HierarchyWindow::selectedGO->HasComponent<Transform>())
                             {
                                 Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
 
                                 selectedTransform.GetPos().x += worldDeltaX;
                                 selectedTransform.GetPos().y += worldDeltaY;
-                           
+
                             }
                         }
+                        
                     }
                 }
             }
