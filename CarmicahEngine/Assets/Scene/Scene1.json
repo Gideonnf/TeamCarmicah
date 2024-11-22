@@ -7,8 +7,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 4.0,
-                    "yPos": 4.0,
+                    "xPos": 0.0,
+                    "yPos": 0.0,
                     "depth": -100.0,
                     "xScale": 40.0,
                     "yScale": 40.0,
@@ -38,7 +38,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Count_Count 3"
+                    "texture": "Bullet"
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
@@ -53,8 +53,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 4.0,
-                    "yPos": 4.0,
+                    "xPos": 0.0,
+                    "yPos": 0.0,
                     "depth": 0.0,
                     "xScale": 0.05263157933950424,
                     "yScale": 0.10000000149011612,
@@ -99,7 +99,7 @@
                     "Component Name": "struct Carmicah::TextRenderer",
                     "model": "Square",
                     "font": "comic",
-                    "text": "81",
+                    "text": "59",
                     "colorR": 1.0,
                     "colorG": 0.0,
                     "colorB": 0.0
@@ -121,8 +121,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -3.2239999771118166,
-                    "yPos": 9.638999938964844,
+                    "xPos": 0.0,
+                    "yPos": 0.0,
                     "depth": 0.0,
                     "xScale": 2.0,
                     "yScale": 2.0,
@@ -131,7 +131,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Idle 5"
+                    "texture": "MC_SpriteSheet_Idle 1"
                 },
                 {
                     "Component Name": "struct Script",
@@ -252,6 +252,20 @@
                     "zposPrev": 0.0,
                     "objectType": 2,
                     "linearForces": [
+                        {
+                            "unitDirX": 1.0,
+                            "unitDirY": 0.0,
+                            "magnitude": 1.0,
+                            "lifetime": 2.0,
+                            "age": 0.0
+                        },
+                        {
+                            "unitDirX": 1.0,
+                            "unitDirY": 0.0,
+                            "magnitude": 1.0,
+                            "lifetime": 2.0,
+                            "age": 0.0
+                        },
                         {
                             "unitDirX": 1.0,
                             "unitDirY": 0.0,

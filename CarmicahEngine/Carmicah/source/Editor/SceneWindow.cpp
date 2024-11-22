@@ -21,8 +21,10 @@ DigiPen Institute of Technology is prohibited.
 #include "../ECS/BaseSystem.h"
 #include "EditorWindow.h"
 #include "SceneWindow.h"
+#include "Components/Transform.h"
 #include "../Components/Button.h"
 #include "SceneToImgui.h"
+#include "Systems/GOFactory.h"
 #include "../Systems/SceneSystem.h"
 #include "../Messaging/Message.h"
 #include "Input/InputSystem.h"
@@ -68,6 +70,8 @@ namespace Carmicah
 			const float windowWidth =   std::clamp(ImGui::GetContentRegionAvail().x, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Width));
 			const float windowHeight =  std::clamp(ImGui::GetContentRegionAvail().y, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Height));
 
+            //std::cout << windowWidth << "," << windowHeight << std::endl;
+
             SceneToImgui::GetInstance()->RescaleFramebuffer(windowWidth, windowHeight);
             glViewport(0, 0, (GLsizei)windowWidth, (GLsizei)windowHeight);
 
@@ -100,39 +104,54 @@ namespace Carmicah
                     float scaledX = (relativeMousePos.x / windowWidth) * 1920.0f;
                     float scaledY = (relativeMousePos.y / windowHeight) * 1080.0f;
 
+                    float worldX = (relativeMousePos.x / windowWidth) * 2.0f - 1.0f;
+                    float worldY = -((relativeMousePos.y / windowHeight) * 2.0f - 1.0f);
+
+                    static float worldDeltaX = 0.f;
+                    static float worldDeltaY = 0.f;
+
+                    worldX *= 1920.0f / 2;
+                    worldY *= 1080.0f / 2;
+
+                    //std::cout << "World Pos = " << worldX << "," << worldY << std::endl;
+
                     // update InputSystem with the relative mouse position
                     Input.SetMousePosition(scaledX, scaledY);
+
+                    if (Input.IsMousePressed(MOUSE_BUTTON_LEFT))
+                    {
+                        Vec2d startDrag(scaledX, scaledY);
+                        Input.SetDragStartPos(startDrag);
+                    }
 
                     // if dragging, update the drag position within the Scene window
                     if (Input.IsDragging())
                     {
                         Input.SetDragCurrentPos({ scaledX, scaledY });
-                       // std::cout << "Dragging in Scene to: (" << scaledX << ", " << scaledY << ")" << std::endl;
+                        Vec2d startDragPos = Input.GetDragStartPos();
+                        Vec2d currentMousePos = Input.GetDragCurrentPos();
+                        Vec2d delta(currentMousePos.x - startDragPos.x, currentMousePos.y - startDragPos.y);
+
+                        float worldDeltaX = ((delta.x / windowWidth) * 1920.0f) / 100;
+                        float worldDeltaY = -((delta.y / windowHeight) * 1080.0f) / 100;
+
+                        Input.SetDragStartPos(currentMousePos);
+                        std::cout << "World Delta = " << worldDeltaX << "," << worldDeltaY << std::endl;
+
+
+
+                        if (HierarchyWindow::selectedGO != nullptr)
+                        {
+                            if(HierarchyWindow::selectedGO->HasComponent<Transform>())
+                            {
+                                Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
+
+                                selectedTransform.GetPos().x += worldDeltaX;
+                                selectedTransform.GetPos().y += worldDeltaY;
+                           
+                            }
+                        }
                     }
-
-      //              // BUTTON CHECKING, if button pressed, tell button its pressed
-      //              // check if mouse click is within button bounds
-      //              if (Input.IsMousePressed(MOUSE_BUTTON_LEFT))
-      //              {
-						//// assuming button's position and size are set (example values), need to make this dynamic
-      //                  ImVec2 buttonPosition = { 960.0f, 540.0f }; // Button center
-      //                  ImVec2 buttonSize = { 200.0f, 200.0f };     // Button dimensions
-
-      //                  if (scaledX >= buttonPosition.x - buttonSize.x / 2 &&
-      //                      scaledX <= buttonPosition.x + buttonSize.x / 2 &&
-      //                      scaledY >= buttonPosition.y - buttonSize.y / 2 &&
-      //                      scaledY <= buttonPosition.y + buttonSize.y / 2)
-      //                  {
-      //                      // Trigger button press/release logic
-						//	Button* button = new Button();
-						//	button->onPress();
-      //                  }
-      //              }
-      //              else if (Input.IsMouseReleased(MOUSE_BUTTON_LEFT))
-      //              {
-						//Button* button = new Button();
-						//button->onRelease();
-      //              }
                 }
             }
         }
