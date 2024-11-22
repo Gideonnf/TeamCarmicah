@@ -17,18 +17,42 @@ DigiPen Institute of Technology is prohibited.
 #include <string>
 #include "BaseComponent.h"
 #include "Math/Vec2.h"
-#include "Math/Matrix3x3.h"
 
 namespace Carmicah
 {
     struct Renderer : BaseComponent<Renderer>
     {
-        std::string model;
+    protected:
         std::string texture;
+        bool notUpdated;
 
-        Renderer() : model("Square"), texture ("Default")
+    public:
+        std::string model;
+
+        Renderer() : texture("Default"), model("Square"), notUpdated(false)
         {
             
+        }
+
+        const std::string& Texture() const
+        {
+            return texture;
+        }
+        std::string& GetTexture()
+        {
+            notUpdated = false;
+            return texture;
+        }
+        void Texture(std::string o)
+        {
+            texture = o;
+            notUpdated = false;
+        }
+        bool Updated()
+        {
+            bool ret = notUpdated;
+            notUpdated = true;
+            return !ret;
         }
 
         Renderer& DeserializeComponent(const rapidjson::Value& component) override

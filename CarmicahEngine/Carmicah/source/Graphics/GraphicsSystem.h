@@ -39,11 +39,9 @@ namespace Carmicah
 
 		/*!*************************************************************************
 		brief
-			Renders the entities
-		param[cam]
-			camera dimensions and position to reference
+			Updates the entities position in buffer
 		***************************************************************************/
-		void Render(Entity& cam);
+		void Update();
 
 	};
 }

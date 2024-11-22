@@ -36,9 +36,7 @@ namespace Carmicah
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Renderer>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<GraphicsSystem>(mSignature);
-		BaseGraphicsSystem::Init("");
-
-		GenBatch(AssetManager::GetInstance()->GetAsset<Primitive>("Square"));
+		BaseGraphicsSystem::Init(AssetManager::GetInstance()->enConfig.defaultShader);
 	}
 
 	void GraphicsSystem::SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam)
@@ -51,47 +49,30 @@ namespace Carmicah
 	{
 		auto test =  mEntityBufferLoc.find(id);
 		if (test != mEntityBufferLoc.end())
-			DeleteBatchData(id, test->second.posInMemory, false, 4);
+			DeleteBatchData(id);
 	}
 
-	void GraphicsSystem::Render(Entity& cam)
+	void GraphicsSystem::Update()
 	{
-		glClearColor(0.75294f, 1.f, 0.93333f, 1.f); // Gideon's favourite
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		if (mCurrShader == 0)
-			return;
-		glUseProgram(mCurrShader);
-		// Just did discard instead, cuz this stopped working
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		// Needs RBO to depth test
-		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LESS);
-
-		// Handle Camera Transform
+		for (std::unordered_map<unsigned int, EntityData>::iterator entity = mEntityBufferLoc.begin(); entity != mEntityBufferLoc.end();)
 		{
-			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
-			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-			Mtx3x3f camSpace{};
-			camSpace.scaleThis(camTrans.Scale()).rotDegThis(-camTrans.Rot()).translateThis(-camTrans.Pos());
-			GLint uniformLoc{};
-			if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
-		}
-
-
-		for (auto& entity : mEntityBufferLoc)
-		{
-			if (!entity.second.isActive)
+			if (!ComponentManager::GetInstance()->HasComponent<Renderer>(entity->first))
+			{
+				DeleteBatchData(entity->first);
+				entity = mEntityBufferLoc.erase(entity);
 				continue;
+			}
 
-			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity.first);
+			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity->first);
 
-			if (!transform.Updated())
+			if (!transform.Updated() && !ComponentManager::GetInstance()->GetComponent<Renderer>(entity->first).Updated())
+			{
+				++entity;
 				continue;
+			}
 
-			EditBatchData(entity.first, entity.second.posInMemory, true, BASE_LAYER);
+			EditBatchData(entity->first, true, BASE_LAYER);
+			++entity;
 		}
 		
 		// Add new Data
@@ -99,30 +80,14 @@ namespace Carmicah
 		{
 			for (auto& entity : mEntitiesSet)
 			{
-				auto e{ mEntityBufferLoc.find(entity) };
-				if (e != mEntityBufferLoc.end())
-				{
-					if (!e->second.isActive)
-					{
-						ToggleActiveEntity(e->second, true);
-					}
+				// if entity is active -> skip
+				if (mEntityBufferLoc.find(entity) != mEntityBufferLoc.end())
 					continue;
-				}
-				EntityData ed{};
-				ToggleActiveEntity(ed, true);
-				ed.posInMemory = mEntityBufferIDTrack++;
 
-				EditBatchData(entity, ed.posInMemory, true, BASE_LAYER);
-				mEntityBufferLoc.emplace(entity, ed);
+				SetNewEntity(entity, ComponentManager::GetInstance()->GetComponent<Renderer>(entity).model, 0, true, false);
+				EditBatchData(entity, true, BASE_LAYER);
 			}
 		}
-
-
-		BatchRender();
-
-		glBindTextureUnit(0, 0);
-		glBindVertexArray(0);
-		glUseProgram(0);
 	}
 
 }

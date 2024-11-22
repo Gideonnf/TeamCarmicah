@@ -32,6 +32,10 @@ namespace Carmicah
 		/// If any entities are updated, then recalculate their local and world space matrix transform used in graphics
 		/// </summary>
 		void Update();
+		/// <summary>
+		/// If any entities are updated, then reset their update flag
+		/// </summary>
+		void PostUpdate();
 
 		/// <summary>
 		/// Used to receive messages by the System Manager when sent a message from other systems

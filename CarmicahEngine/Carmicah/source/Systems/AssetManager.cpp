@@ -23,6 +23,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/SerializerSystem.h"
 #include "Math/Vec2.h"
 #include "Systems/AssetTypes.h"
+#include "Graphics/RenderHelper.h"
 
 namespace Carmicah
 {
@@ -30,6 +31,7 @@ namespace Carmicah
 	{
 		prefabPtr = prefabRef;
 	}
+	GLuint BasePrimitive::uidCount = 0;
 
 	void AssetManager::LoadConfig(const std::string& configPath)
 	{
@@ -284,12 +286,15 @@ namespace Carmicah
 		// Unload Graphics
 		glDeleteTextures(1, &mArrayTex);
 		GetAssetMap<Texture>()->mAssetMap.clear();
-		for (const auto& i : GetAssetMap<BatchBuffer>()->mAssetList)
+		for (const auto& i : RenderHelper::GetInstance()->mBufferMap)
 		{
-			glDeleteVertexArrays(1, &i.vao);
-			glDeleteBuffers(1, &i.vbo);
-			if(i.ebo != std::numeric_limits<GLuint>::max())
-				glDeleteBuffers(1, &i.ebo);
+			for (const auto& ii : i.second.buffer)
+			{
+				glDeleteVertexArrays(1, &ii.vao);
+				glDeleteBuffers(1, &ii.vbo);
+			}
+			glDeleteBuffers(1, &i.second.ebo);
+			glDeleteBuffers(1, &i.second.ibo);
 		}
 
 		// Delete Shaders
@@ -432,6 +437,7 @@ namespace Carmicah
 			return;
 		}
 		Primitive p;// GL_TRIANGLES, GL_TRIANGLE_FAN, GL_TRIANGLE_STRIP
+		p.uid = p.uidCount++;
 		// No error checking, just fastest way to read data
 		unsigned int numVert;
 		ifs >> p.drawMode >> numVert >> p.drawCnt;
@@ -493,6 +499,7 @@ namespace Carmicah
 			return;
 		}
 		BasePrimitive p;
+		p.uid = p.uidCount++;
 		p.drawMode = GL_LINE_LOOP;
 		ifs >> p.drawCnt;
 		if (p.drawCnt == 0)

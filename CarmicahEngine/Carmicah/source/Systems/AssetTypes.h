@@ -29,6 +29,8 @@ namespace Carmicah
 {
 	struct BasePrimitive
 	{
+		static GLuint uidCount;
+		GLuint uid;
 		std::vector<Vec2f> vtx;
 		GLenum drawMode{};
 		GLuint drawCnt{};
@@ -39,11 +41,19 @@ namespace Carmicah
 		std::vector<Vec2f> texCoord;
 		std::vector<GLushort> idx;
 	};
-	
-	struct BatchBuffer
+	struct BatchBuffer						// Used exclusively in BaseGraphicsSystem, but Data is cleared from AssetManager
 	{
-		GLuint vao{}, vbo{}, ebo{}, ibo{};
-		const BasePrimitive* pRef;
+		struct BBuffer
+		{
+			GLuint vao{}, vbo{};
+		};
+
+		GLuint ebo{}, ibo{};				// Indexing Helpers
+		unsigned int objCount{};			// Keeps track of the Last "open space"
+		bool isDebug{};						// Keep track of which render method to use
+		const BasePrimitive* pRef;			// Primitive Ref for this buffer
+		std::queue<unsigned int> freeData;	// Keeps track of any opened up slots in the buffer
+		std::vector<BBuffer> buffer;		// Access the buffer directly
 	};
 	
 	struct Shader

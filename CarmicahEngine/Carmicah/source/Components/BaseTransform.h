@@ -138,11 +138,14 @@ namespace Carmicah
             Rot(rot + rhs);
         }
 
-        const bool& Updated() const
+        bool Updated()
         {
             return !notUpdated;
         }
-
+        void Update()
+        {
+            notUpdated = false;
+        }
         void ResetUpdate()
         {
             notUpdated = true;

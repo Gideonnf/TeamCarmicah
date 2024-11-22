@@ -59,31 +59,22 @@ namespace Carmicah
 		// Data store for finding out the bufferLocation which is linked to the entity of Primitive / BasePrimitive Type
 		struct EntityData
 		{
-			bool isActive{};
+			BatchBuffer* mBufferData{};
 			unsigned int posInMemory{};
 		};
 #pragma endregion
 
-		GLuint mCurrShader{}, mBatchSize{}, mEntityBufferIDTrack{}, mActiveEntityCount{};
+		GLuint mCurrShader{}, mActiveEntityCount{};
 		float mFurtherstDepth{}, mNearestDepth{};
-		std::vector<BatchBuffer> mBufferData{};
-		std::unordered_map<unsigned int, EntityData> mEntityBufferLoc{};
-
-		virtual void Init(std::string shdr);
-
+		std::unordered_map<unsigned int, EntityData> mEntityBufferLoc{}; // copy of mEntitySet for use of tracking valid entities
 		/*!*************************************************************************
 		brief
-			Checks if uniform exists in the shader
+			Inits basic data for the different graphics systems
 		param[shdr]
-			shader reference
-		param[str]
-			name to check
-		param[ref]
-			the uniform reference to return
-		return
-			if the check succeeded
+			name of shader to use
 		***************************************************************************/
-		bool UniformExists(const GLuint& shdr, const char* str, GLint& ref);
+		virtual void Init(const std::string& shdr);
+
 
 		/*!*************************************************************************
 		brief
@@ -97,45 +88,39 @@ namespace Carmicah
 		***************************************************************************/
 		float CalcDepth(const float& depth, const RENDER_LAYERS& layer);
 
-		/*!*************************************************************************
-		brief
-			Generates a Vertex Buffer and accompanying data to fill mBatchSize number of Primitives (with textures)
-		param[p]
-			the primitive data to use to generate Batch Buffer Object & details
-		***************************************************************************/
-		void GenBatch(const Primitive& p);
+		void SetNewEntity(const unsigned int& entity, const std::string& primitiveName, const unsigned int& id, bool worldSpace, bool isDebug);
 
 		/*!*************************************************************************
 		brief
-			Generates a Vertex Buffer and accompanying data to fill mBatchSize number of BasePrimitives (no textures)
-		param[p]
+			Generates a Vertex Buffer and accompanying data to fill mBatchSize number of Primitives(with tex)/ BasePrimitives(no tex)
+			** Does not generates a new batch if current batch is filled **
+			** Not meant for objects with transparency **
+		param[primitiveName]
 			the primitive data to use to generate Batch Buffer Object & details
+		param[isDebug]
+			toggle to generate a new batch of rendering for BasePrimitive objects
+		param[isForced]
+			force generate a new batch of primitives, reduce checks
 		***************************************************************************/
-		void GenDebugBatch(const BasePrimitive& p);
+		void GenBatch(const std::string& primitiveName, unsigned int id, bool worldSpace, bool isDebug, bool isForced = false);
 
 		/*!*************************************************************************
 		brief
 			Edits the data for a specific Entity located inside the Batch Buffer Data
 		param[entity]
 			ID of the entity whose data to pass into the Buffer Object
-		param[pos]
-			Location (ID) of where in the Buffer Object to edit
 		param[worldSpace]
 			Boolean value for finding the Transform / UITransform data of the entity
 		param[layer]
 			The layer that the object should be rendered at, so that depth can be properly calculated relative to other objects
 		***************************************************************************/
-		void EditBatchData(const unsigned int& entity, const unsigned int& pos, bool worldSpace, RENDER_LAYERS layer);
+		void EditBatchData(const unsigned int& entity, bool worldSpace, RENDER_LAYERS layer);
 
 		/*!*************************************************************************
 		brief
 			Edits the data for a specific Entity with Debug Primitives located inside the Batch Buffer Data
 		param[entity]
 			ID of the entity whose data to pass into the Buffer Object
-		param[pos]
-			Location (ID) of where in the Buffer Object to edit
-		param[primitive]
-			BasePrimitive data to use for editing the Buffer Data
 		param[mtx]
 			calculated matrix to use for multiplication against the vertex of the BasePrimitive
 		param[worldSpace]
@@ -143,21 +128,17 @@ namespace Carmicah
 		param[layer]
 			The layer that the object should be rendered at, so that depth can be properly calculated relative to other objects
 		***************************************************************************/
-		void EditDebugBatchData(const unsigned int& entity, const unsigned int& pos, const BasePrimitive& primitive, Mtx3x3f& mtx, bool worldSpace, RENDER_LAYERS layer);
+		void EditDebugBatchData(const unsigned int& entity, Mtx3x3f& mtx, bool worldSpace, RENDER_LAYERS layer);
 
 		/*!*************************************************************************
 		brief
 			Clears up the specific Buffer data at the location
 		param[entity]
 			ID of the entity whose data to pass into the Buffer Object
-		param[pos]
-			Location (ID) of where in the Buffer Object to edit
-		param[isDebug]
-			To delete from vtx2D or vtxTexd2D depending on debug delete or not
-		param[vtxSize]
-			number of vertices to delete
+		param[eraseFromMap]
+			to remove from the map in this function
 		***************************************************************************/
-		void DeleteBatchData(const unsigned int& entity, const unsigned int& pos, bool isDebug, int vtxSize);
+		void DeleteBatchData(const unsigned int& entity, bool eraseFromMap = false);
 
 		/*!*************************************************************************
 		brief
@@ -168,18 +149,6 @@ namespace Carmicah
 			Sets that position in buffer to be active or deactive
 		***************************************************************************/
 		void ToggleActiveEntity(EntityData& entity, bool setActive);
-
-		/*!*************************************************************************
-		brief
-			Batch Render mBatchSize number of Primitives, using indexed rendering, textures & GL_TRIANGLES
-		***************************************************************************/
-		void BatchRender();
-
-		/*!*************************************************************************
-		brief
-			Batch Render mBatchSize number of BasicPrimitives, using indexed rendering & GL_LINE_LOOP
-		***************************************************************************/
-		void BatchDebugRender();
 
 		/*!*************************************************************************
 

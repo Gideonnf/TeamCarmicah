@@ -32,85 +32,67 @@ namespace Carmicah
 		SystemManager::GetInstance()->SetSignature<ColliderRenderSystem>(mSignature);
 		BaseGraphicsSystem::Init(AssetManager::GetInstance()->enConfig.debugShader);
 
-		primitive = &AssetManager::GetInstance()->GetAsset<BasePrimitive>("DebugSquare");
-		GenDebugBatch(*primitive);
+		primitive = "DebugSquare";
 	}
 
 	void ColliderRenderSystem::EntityDestroyed(Entity id)
 	{
 		auto test = mEntityBufferLoc.find(id);
 		if (test != mEntityBufferLoc.end())
-			DeleteBatchData(id, test->second.posInMemory, false, 4);
+			DeleteBatchData(id);
 	}
 
 
 
-	void ColliderRenderSystem::Render(Entity& cam)
+	void ColliderRenderSystem::Update()
 	{
-		if (mCurrShader == 0)
-			return;
-		glUseProgram(mCurrShader);
-
+		for (std::unordered_map<unsigned int, EntityData>::iterator entity = mEntityBufferLoc.begin(); entity != mEntityBufferLoc.end();)
 		{
-			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
-			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-			Mtx3x3f camSpace{};
-			camSpace.scaleThis(camTrans.Scale()).rotDegThis(-camTrans.Rot()).translateThis(-camTrans.Pos());
-			GLint uniformLoc{};
-			if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
-		}
-
-		for (auto& entity : mEntityBufferLoc)
-		{
-			if (!entity.second.isActive)
+			if (!ComponentManager::GetInstance()->HasComponent<Collider2D>(entity->first))
+			{
+				DeleteBatchData(entity->first);
+				entity = mEntityBufferLoc.erase(entity);
 				continue;
+			}
 
-			auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity.first);
-			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity.first);
+			if (ComponentManager::GetInstance()->HasComponent<Transform>(entity->first))
+			{
+				auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity->first);
 
-			Mtx3x3f trans{};
-			trans.translateThis((collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f)
-				.scaleThis(collider.max.x - collider.min.x, collider.max.y - collider.min.y);
+				if (!transform.Updated())
+				{
+					++entity;
+					continue;
+				}
 
-			EditDebugBatchData(entity.first, entity.second.posInMemory, *primitive, trans, true, DEBUG_LAYER);
+				auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity->first);
+				Mtx3x3f trans{};
+				trans.translateThis((collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f)
+					.rotDegThis(transform.GetRot())
+					.scaleThis(collider.max.x - collider.min.x, collider.max.y - collider.min.y);
+
+				EditDebugBatchData(entity->first, trans, true, DEBUG_LAYER);
+			}
+			++entity;
 		}
-
 
 		// Add new Data
 		if (mActiveEntityCount != mEntitiesSet.size())
 		{
-
 			for (auto& entity : mEntitiesSet)
 			{
-				auto e{ mEntityBufferLoc.find(entity) };
-				if (e != mEntityBufferLoc.end())
-				{
-					if (!e->second.isActive)
-					{
-						ToggleActiveEntity(e->second, true);
-					}
+				// if entity is active -> skip
+				if (mEntityBufferLoc.find(entity) != mEntityBufferLoc.end())
 					continue;
-				}
-				EntityData ed{};
-				ToggleActiveEntity(ed, true);
-				ed.posInMemory = mEntityBufferIDTrack++;
 
 				auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);
 				Mtx3x3f trans{};
 				trans.translateThis((collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f)
 					.scaleThis(collider.max.x - collider.min.x, collider.max.y - collider.min.y);
 
-
-				EditDebugBatchData(entity, ed.posInMemory, *primitive, trans, true, DEBUG_LAYER);
-				mEntityBufferLoc.emplace(entity, ed);
+				SetNewEntity(entity, primitive, 0, true, true);
+				EditDebugBatchData(entity, trans, true, DEBUG_LAYER);
 			}
 		}
-
-
-		BatchDebugRender();
-
-		glBindVertexArray(0);
-		glUseProgram(0);
 	}
 }

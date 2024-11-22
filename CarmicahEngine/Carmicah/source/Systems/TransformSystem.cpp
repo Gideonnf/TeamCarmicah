@@ -56,6 +56,15 @@ namespace Carmicah
 		}
 	}
 
+	void TransformSystem::PostUpdate()
+	{
+		for (auto& entity : mEntitiesSet)
+		{
+			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
+			transform.ResetUpdate();
+		}
+	}
+
 	void TransformSystem::CalculateTransform(Entity entityID, Entity parentID, bool ToWorld)
 	{
 		Transform& entityTransform = ComponentManager::GetInstance()->GetComponent<Transform>(entityID);
