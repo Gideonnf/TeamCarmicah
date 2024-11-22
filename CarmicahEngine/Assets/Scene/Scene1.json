@@ -38,7 +38,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Bullet"
+                    "texture": "Bullet2"
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
@@ -99,7 +99,7 @@
                     "Component Name": "struct Carmicah::TextRenderer",
                     "model": "Square",
                     "font": "comic",
-                    "text": "59",
+                    "text": "60",
                     "colorR": 1.0,
                     "colorG": 0.0,
                     "colorB": 0.0
@@ -131,7 +131,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Idle 1"
+                    "texture": "MC_SpriteSheet_Idle 10"
                 },
                 {
                     "Component Name": "struct Script",
@@ -517,6 +517,96 @@
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "Duck"
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "mainCharacter_1",
+            "ID": 20,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 5.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 2.0,
+                    "yScale": 2.0,
+                    "rot": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "MC_SpriteSheet_Idle 10"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.Player"
+                },
+                {
+                    "Component Name": "struct Carmicah::Collider2D",
+                    "shape": "DebugSquare"
+                },
+                {
+                    "Component Name": "struct Carmicah::RigidBody",
+                    "velocityX": 0.0,
+                    "velocityY": 0.0,
+                    "angularVelocity": 0.0,
+                    "posPrevX": 2.0,
+                    "posPrevY": 2.0,
+                    "mass": 1.0,
+                    "gravity": 0.0,
+                    "zposPrev": 1.0,
+                    "objectType": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "MC_Idle"
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "mainCharacter_2",
+            "ID": 21,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 3.0,
+                    "depth": 0.0,
+                    "xScale": 2.0,
+                    "yScale": 2.0,
+                    "rot": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "MC_SpriteSheet_Idle 10"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.Player"
+                },
+                {
+                    "Component Name": "struct Carmicah::Collider2D",
+                    "shape": "DebugSquare"
+                },
+                {
+                    "Component Name": "struct Carmicah::RigidBody",
+                    "velocityX": 0.0,
+                    "velocityY": 0.0,
+                    "angularVelocity": 0.0,
+                    "posPrevX": 2.0,
+                    "posPrevY": 2.0,
+                    "mass": 1.0,
+                    "gravity": 0.0,
+                    "zposPrev": 1.0,
+                    "objectType": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "MC_Idle"
                 }
             ],
             "Children": []

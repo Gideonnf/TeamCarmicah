@@ -92,6 +92,8 @@ namespace Carmicah
             {
                 // get global mouse position
                 ImVec2 mousePos = ImGui::GetMousePos();
+                GameObject camera;
+                gGOFactory->FetchGO("MainCamera", camera);
 
                 // calc mouse position relative to the Scene window's content area
                 ImVec2 relativeMousePos = { mousePos.x - pos.x, mousePos.y - pos.y };
@@ -104,14 +106,9 @@ namespace Carmicah
                     float scaledX = (relativeMousePos.x / windowWidth) * 1920.0f;
                     float scaledY = (relativeMousePos.y / windowHeight) * 1080.0f;
 
-                    float worldX = (relativeMousePos.x / windowWidth) * 2.0f - 1.0f;
-                    float worldY = -((relativeMousePos.y / windowHeight) * 2.0f - 1.0f);
-
                     static float worldDeltaX = 0.f;
                     static float worldDeltaY = 0.f;
 
-                    worldX *= 1920.0f / 2;
-                    worldY *= 1080.0f / 2;
 
                     //std::cout << "World Pos = " << worldX << "," << worldY << std::endl;
 
@@ -132,11 +129,20 @@ namespace Carmicah
                         Vec2d currentMousePos = Input.GetDragCurrentPos();
                         Vec2d delta(currentMousePos.x - startDragPos.x, currentMousePos.y - startDragPos.y);
 
-                        float worldDeltaX = ((delta.x / windowWidth) * 1920.0f) / 100;
-                        float worldDeltaY = -((delta.y / windowHeight) * 1080.0f) / 100;
+                        Transform& cameraTransform = camera.GetComponent<Transform>();
+
+                        //std::cout << "Delta = " << delta.x << "," << delta.y << std::endl;
+
+                        //std::cout << "Camera Scale = " << cameraTransform.GetScale().x << "," << cameraTransform.GetScale().y << std::endl;
+
+                        float worldDeltaX = (delta.x / windowWidth) * 1920.0f * 0.01;
+                        float worldDeltaY = -(delta.y / windowHeight) * 1080.0f * 0.01;
 
                         Input.SetDragStartPos(currentMousePos);
-                        std::cout << "World Delta = " << worldDeltaX << "," << worldDeltaY << std::endl;
+                        if(worldDeltaX != 0.0f || worldDeltaY != 0.0f)
+                        {
+                            std::cout << "World Delta = " << worldDeltaX << "," << worldDeltaY << std::endl;
+                        }
 
 
 
