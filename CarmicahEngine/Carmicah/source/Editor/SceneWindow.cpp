@@ -153,7 +153,7 @@ namespace Carmicah
                             std::cout << "Delta = " << delta.x << "," << delta.y << std::endl;
                             std::cout << "World Delta = " << worldDeltaX << "," << worldDeltaY << std::endl;
                         }
-                        //Input.SetDragStartPos(currentMousePos);
+                        Input.SetDragStartPos(currentMousePos);
 
 
                         
@@ -163,8 +163,8 @@ namespace Carmicah
                             {
                                 Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
 
-                                //selectedTransform.GetPos().x += worldDeltaX;
-                                //selectedTransform.GetPos().y += worldDeltaY;
+                                selectedTransform.GetPos().x += worldDeltaX;
+                                selectedTransform.GetPos().y += worldDeltaY;
 
                             }
                         }
