@@ -811,6 +811,9 @@ namespace Carmicah
 
 		FMOD_MODE eMode = FMOD_DEFAULT;
 		Audio audio{};
+		if (isLoop) {
+			eMode |= FMOD_LOOP_NORMAL;
+		}
 		mSoundSystem->createSound(soundFile.c_str(), eMode, nullptr, &audio.sound);
 		if (audio.sound)
 		{

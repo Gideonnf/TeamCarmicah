@@ -57,6 +57,12 @@ namespace Carmicah
 					mChangeState = true;
 				}
 			}
+            ImGui::SameLine();
+            if (ImGui::Button("Pause"))
+            {
+
+            }
+
 			const float windowWidth =   std::clamp(ImGui::GetContentRegionAvail().x, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Width));
 			const float windowHeight =  std::clamp(ImGui::GetContentRegionAvail().y, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Height));
 
