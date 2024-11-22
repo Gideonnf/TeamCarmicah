@@ -48,17 +48,97 @@ namespace Carmicah
 		InitSound();
 		InitFontType();
 		fileWatcher.Init(assetPath);
+		fileWatcher.Update();
+		//if (std::filesystem::exists(directoryPath) && std::filesystem::is_directory(directoryPath))
+		//{
+		//	for (const auto& subFile : std::filesystem::directory_iterator(directoryPath))
+		//	{
+		//		if (std::filesystem::exists(subFile) && std::filesystem::is_directory(subFile))
+		//		{
+		//			std::string folderName = subFile.path().filename().string();
+		//			for (const auto& entry : std::filesystem::directory_iterator(subFile))
+		//			{
+		//				std::string fileName = entry.path().stem().string();
+		//				if (folderName == "Animation")
+		//				{
+		//					LoadAnimation(fileName, entry.path().string());
+		//				}
+		//				else if (folderName == "Audio")
+		//				{
+		//					LoadSound(fileName, entry.path().string(), false, 1.0f); 
+		//				}
+		//				else if (folderName == "BGM")
+		//				{
+		//					LoadSound(fileName, entry.path().string(), true, 1.0f);  
+		//				}
+		//				else if (folderName == "Images")
+		//				{
+		//					std::string fileExt = entry.path().extension().string();
 
-		if (std::filesystem::exists(directoryPath) && std::filesystem::is_directory(directoryPath))
-		{
-			for (const auto& subFile : std::filesystem::directory_iterator(directoryPath))
-			{
-				if (std::filesystem::exists(subFile) && std::filesystem::is_directory(subFile))
-				{
-					std::string folderName = subFile.path().filename().string();
-					for (const auto& entry : std::filesystem::directory_iterator(subFile))
-					{
-						std::string fileName = entry.path().stem().string();
+		//					if (fileExt == ".png")
+		//					{
+		//						const auto testOtherFile = subFile.path() / (fileName + std::string(".txt"));
+		//						LoadTexture(fileName, entry.path().string(), testOtherFile.string());
+		//					}
+		//				}
+		//				else if (folderName == "Fonts")
+		//				{
+		//					LoadFont(fileName, entry.path().string(), enConfig.fontSize);
+		//				}
+		//				else if (folderName == "Meshes")
+		//				{
+
+		//					std::string fileExt = entry.path().extension().string();
+		//					if (fileExt == ".o")
+		//					{
+		//						LoadObject(fileName, entry.path().string());
+		//					}
+		//					else if (fileExt == ".do")
+		//					{
+		//						LoadDebugObject("Debug" + fileName, entry.path().string());
+		//					}
+		//				}
+		//				else if (folderName == "Scene")
+		//				{
+		//					//	std::cout << entry.path().string() << std::endl;
+		//						//std::cout << fileName << std::endl;
+		//					Scene newScene{ entry.path().string() };
+		//					AddAsset<Scene>(fileName, newScene);
+		//					//mSceneFiles.insert(std::make_pair(fileName, entry.path().string()));
+		//				}
+		//				else if (folderName == "Shaders")
+		//				{
+		//					std::string fileExt = entry.path().extension().string();
+		//					if (fileExt == ".vert")
+		//					{
+		//						const auto testOtherFile = subFile.path() / (fileName + std::string(".frag"));
+		//						if (std::filesystem::exists(testOtherFile))
+		//						{
+		//							LoadShader(fileName, entry.path().string(), testOtherFile.string());
+		//						}
+		//					}
+		//				}
+		//				else if (folderName == "Prefabs")
+		//				{
+		//					Prefab goPrefab = Serializer.DeserializePrefab(entry.path().string());
+		//					
+		//					prefabPtr->AddPrefab(goPrefab);
+
+		//					AddAsset<Prefab>(fileName, goPrefab);
+		//					//mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
+
+		//enConfig = Serializer.LoadConfig(directoryPath)
+	}
+
+	bool AssetManager::LoadAsset(File const& file)
+	{
+		/*
+			std::string fileName = entry.path().stem().string();
 						if (folderName == "Animation")
 						{
 							LoadAnimation(fileName, entry.path().string());
@@ -127,12 +207,65 @@ namespace Carmicah
 							AddAsset<Prefab>(fileName, goPrefab);
 							//mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
 						}
-					}
-				}
+		
+		*/
+		std::string fileName = file.fileEntry.path().stem().string();
+		std::string fileExt = file.fileEntry.path().extension().string();
+		if (fileExt == ".ani")
+		{
+			LoadAnimation(fileName, file.fileEntry.path().string());
+		}
+		else if (fileExt == ".wav" || fileExt == ".mp3")
+		{
+			LoadSound(fileName, file.fileEntry.path().string(), false, 1.0f);
+		}
+		else if (fileExt == ".ttf")
+		{
+			LoadFont(fileName, file.fileEntry.path().string(), enConfig.fontSize);
+		}
+		else if (fileExt == ".png")
+		{
+			const auto spriteSheet = file.fileEntry.path().parent_path() / (file.fileEntry.path().stem().string() + std::string(".txt"));
+
+			if (fileWatcher.fileMap.count(spriteSheet.string()) != 0)
+			{
+				fileWatcher.fileMap[spriteSheet.string()].fileStatus = FILE_OK;
+			}
+			LoadTexture(fileName, file.fileEntry.path().string(), spriteSheet.string());
+		}
+		else if (fileExt == ".o")
+		{
+			LoadObject(fileName, file.fileEntry.path().string());
+		}
+		else if (fileExt == ".do")
+		{
+			LoadDebugObject("Debug" + fileName, file.fileEntry.path().string());
+		}
+		else if (fileExt == ".scene")
+		{
+			Scene newScene{ file.fileEntry.path().string() };
+			AddAsset<Scene>(fileName, newScene);
+		}
+		else if (fileExt == ".prefab")
+		{
+			Prefab goPrefab = Serializer.DeserializePrefab(file.fileEntry.path().string());
+
+			prefabPtr->AddPrefab(goPrefab);
+
+			AddAsset<Prefab>(fileName, goPrefab);
+			//mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
+		}
+		if (fileExt == ".vert")
+		{
+			const auto fragShader = file.fileEntry.path().parent_path() / (file.fileEntry.path().stem().string() + std::string(".frag")); // std::string(".frag");
+			if (std::filesystem::exists(fragShader))
+			{
+				fileWatcher.fileMap[fragShader.string()].fileStatus = FILE_OK;
+
+				LoadShader(fileName, file.fileEntry.path().string(), fragShader.string());
 			}
 		}
-
-		//enConfig = Serializer.LoadConfig(directoryPath)
+		return false;
 	}
 
 	void AssetManager::UnloadAll()

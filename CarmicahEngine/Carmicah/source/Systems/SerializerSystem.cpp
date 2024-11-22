@@ -165,7 +165,7 @@ namespace Carmicah
 	void SerializerSystem::SerializePrefab(Prefab prefab)
 	{
 		// Get the file path to the asset
-		std::string filePath = AssetManager::GetInstance()->enConfig.assetLoc + "/Prefabs/" + prefab.mName + ".json";
+		std::string filePath = AssetManager::GetInstance()->enConfig.assetLoc + "/Prefabs/" + prefab.mName + ".prefab";
 		std::ofstream ofs{ filePath, std::ios::binary };
 		if (!ofs)
 		{

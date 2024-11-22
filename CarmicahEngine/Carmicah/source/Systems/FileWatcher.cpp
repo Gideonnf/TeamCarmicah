@@ -1,6 +1,6 @@
 #include <pch.h>
 #include "FileWatcher.h"
-
+#include "AssetManager.h"
 namespace Carmicah
 {
 	void FileWatcher::Init(std::string filePath)
@@ -15,8 +15,9 @@ namespace Carmicah
 
 				newFile.fileName = file.path().string();
 				newFile.time = std::filesystem::last_write_time(file);
-				newFile.fileStatus = FILE_OK;
+				newFile.fileStatus = FILE_CREATED;
 				fileMap[file.path().string()] = newFile;
+				std::string fileExt = file.path().extension().string();
 
 			}
 		}
@@ -37,6 +38,21 @@ namespace Carmicah
 				it->second.fileStatus = FILE_DELETED;
 
 				//it = fileMap.erase(it);
+			}
+		}
+
+		for (auto it : fileMap)
+		{
+			if (it.second.fileStatus == FILE_CREATED)
+			{
+				if (AssetManager::GetInstance()->LoadAsset(it.second))
+				{
+					it.second.fileStatus = FILE_OK;
+				}
+			}
+			else if (it.second.fileStatus == FILE_MODIFIED)
+			{
+
 			}
 		}
 

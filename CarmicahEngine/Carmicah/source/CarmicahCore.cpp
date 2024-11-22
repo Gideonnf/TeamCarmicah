@@ -175,6 +175,7 @@ namespace Carmicah
         auto transformSystem = REGISTER_SYSTEM(TransformSystem);
         AssetManager::GetInstance()->Init(prefabSystem);
         AssetManager::GetInstance()->LoadAll(AssetManager::GetInstance()->enConfig.assetLoc.c_str());
+        //AssetManager::GetInstance()->fileWatcher.Update();
         // TODO: Shift this all into system constructors to clean up core.cpp
         transformSystem->Init();
         graSystem->Init();
@@ -387,6 +388,7 @@ namespace Carmicah
                 fps.GetComponent<TextRenderer>().txt = std::to_string((int)CarmicahTime::GetInstance()->FPS());
                 editorSys->Update();
                 editorSys->Render(window);
+                AssetManager::GetInstance()->fileWatcher.Update();
                 CarmicahTime::GetInstance()->StopSystemTimer("EditorSystem");
 
                 SceneToImgui::GetInstance()->BindFramebuffer();
