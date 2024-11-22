@@ -255,7 +255,7 @@ namespace Carmicah
 			AddAsset<Prefab>(fileName, goPrefab);
 			//mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
 		}
-		if (fileExt == ".vert")
+		else if (fileExt == ".vert")
 		{
 			const auto fragShader = file.fileEntry.path().parent_path() / (file.fileEntry.path().stem().string() + std::string(".frag")); // std::string(".frag");
 			if (std::filesystem::exists(fragShader))
@@ -265,7 +265,18 @@ namespace Carmicah
 				LoadShader(fileName, file.fileEntry.path().string(), fragShader.string());
 			}
 		}
-		return false;
+		else if (fileExt == ".json")
+		{
+			// dont do anything with json for now
+			// only engine config uses it but carmicahCore loads it with:
+			// AssetManager::GetInstance()->LoadConfig("../Assets/config.json");
+		}
+		else
+		{
+			CM_CORE_ERROR("Extension doesn't exist");
+			return false;
+		}
+		return true;
 	}
 
 	void AssetManager::UnloadAll()

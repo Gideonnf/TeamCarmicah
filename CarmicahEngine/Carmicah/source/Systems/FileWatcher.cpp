@@ -9,15 +9,18 @@ namespace Carmicah
 		{
 			if (!std::filesystem::is_directory(file))
 			{
-				File newFile;
-				newFile.fileEntry = file;
-			//	auto test = std::filesystem::directory_iterator(file);
+			//	File newFile;
+			//	newFile.fileEntry = file;
+			////	auto test = std::filesystem::directory_iterator(file);
 
-				newFile.fileName = file.path().string();
-				newFile.time = std::filesystem::last_write_time(file);
-				newFile.fileStatus = FILE_CREATED;
-				fileMap[file.path().string()] = newFile;
-				std::string fileExt = file.path().extension().string();
+			//	newFile.fileName = file.path().string();
+			//	newFile.time = std::filesystem::last_write_time(file);
+			//	newFile.fileStatus = FILE_CREATED;
+			//	fileMap[file.path().string()] = newFile;
+
+				fileMap.insert({ file.path().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED) });
+
+				//std::string fileExt = file.path().extension().string();
 
 			}
 		}
@@ -28,7 +31,7 @@ namespace Carmicah
 	void FileWatcher::Update()
 	{
 		// Check if any files were deleted
-		for (auto it = fileMap.begin(); it != fileMap.end(); ++it)
+		for (auto& it = fileMap.begin(); it != fileMap.end(); ++it)
 		{
 			// The file no longer exist
 			if (!std::filesystem::exists(it->first))
@@ -39,18 +42,14 @@ namespace Carmicah
 
 				//it = fileMap.erase(it);
 			}
-		}
-
-		for (auto it : fileMap)
-		{
-			if (it.second.fileStatus == FILE_CREATED)
+			if (it->second.fileStatus == FILE_CREATED)
 			{
-				if (AssetManager::GetInstance()->LoadAsset(it.second))
+				if (AssetManager::GetInstance()->LoadAsset(it->second))
 				{
-					it.second.fileStatus = FILE_OK;
+					it->second.fileStatus = FILE_OK;
 				}
 			}
-			else if (it.second.fileStatus == FILE_MODIFIED)
+			else if (it->second.fileStatus == FILE_MODIFIED)
 			{
 
 			}

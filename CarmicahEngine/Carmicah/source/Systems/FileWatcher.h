@@ -9,6 +9,7 @@ namespace Carmicah
 		FILE_CREATED,
 		FILE_MODIFIED,
 		FILE_DELETED,
+		FILE_IGNORE,
 		FILE_OK
 	};
 
@@ -18,6 +19,11 @@ namespace Carmicah
 		std::string fileName;
 		std::filesystem::file_time_type time;
 		FileStatus fileStatus;
+
+		File() : fileStatus(FILE_IGNORE) {}
+
+		File(std::filesystem::directory_entry entry, std::string name, std::filesystem::file_time_type ttype, FileStatus status) :
+			fileEntry(entry), fileName(name), time(ttype), fileStatus(status) {}
 	};
 
 	class FileWatcher
