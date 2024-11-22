@@ -235,7 +235,7 @@ namespace Carmicah
 
         while (!glfwWindowShouldClose(window)) {
             CarmicahTime::GetInstance()->StartLoopTimer();
-            glfwPollEvents();
+            glfwPollEvents(); // this takes 20% of engine run time
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTime::GetInstance()->FPS())) + " - Scene : " + gameSystem->GetCurrScene();
             glfwSetWindowTitle(window, title.c_str());
 
@@ -383,9 +383,9 @@ namespace Carmicah
 
                // glfwMakeContextCurrent(ImGuiWindow);
                 CarmicahTime::GetInstance()->StartSystemTimer("EditorSystem");
-                GameObject fps;
-                gGOFactory->FetchGO("FPSText", fps);
-                fps.GetComponent<TextRenderer>().txt = std::to_string((int)CarmicahTime::GetInstance()->FPS());
+                //GameObject fps;
+               // gGOFactory->FetchGO("FPSText", fps);
+                //fps.GetComponent<TextRenderer>().txt = std::to_string((int)CarmicahTime::GetInstance()->FPS());
                 editorSys->Update();
                 editorSys->Render(window);
                 AssetManager::GetInstance()->fileWatcher.Update();
