@@ -67,6 +67,7 @@ namespace Carmicah
 				continue;
 
 			auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity.first);
+			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity.first);
 
 			Mtx3x3f trans{};
 			trans.translateThis((collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f)
