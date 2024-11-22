@@ -38,7 +38,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Bullet"
+                    "texture": "Bullet2"
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
@@ -131,7 +131,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Walk 1"
+                    "texture": "MC_SpriteSheet_Walk 2"
                 },
                 {
                     "Component Name": "struct Script",
@@ -281,10 +281,6 @@
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "Duck"
-                },
-                {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.MouseAI"
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",
