@@ -135,14 +135,14 @@ namespace Carmicah
 
                         //std::cout << "Camera Scale = " << cameraTransform.GetScale().x << "," << cameraTransform.GetScale().y << std::endl;
 
-                        float worldDeltaX = (delta.x / windowWidth) * 1920.0f * 0.01;
-                        float worldDeltaY = -(delta.y / windowHeight) * 1080.0f * 0.01;
+                        float worldDeltaX = (delta.x / windowWidth) / cameraTransform.GetScale().x;
+                        float worldDeltaY = -(delta.y / windowHeight) / cameraTransform.GetScale().y;
 
-                        Input.SetDragStartPos(currentMousePos);
                         if(worldDeltaX != 0.0f || worldDeltaY != 0.0f)
                         {
                             std::cout << "World Delta = " << worldDeltaX << "," << worldDeltaY << std::endl;
                         }
+                        Input.SetDragStartPos(currentMousePos);
 
 
 
