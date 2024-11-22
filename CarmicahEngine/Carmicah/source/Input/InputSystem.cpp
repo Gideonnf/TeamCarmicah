@@ -207,7 +207,7 @@ namespace Carmicah
 		mKeyPreviousState = mKeyCurrentState;
 	}
 
-	#pragma endregion
+#pragma endregion
 
 
 	#pragma region Key & Mouse State Methods
@@ -415,7 +415,7 @@ namespace Carmicah
 		isDragging = dragging;
 	}
 
-	#pragma endregion
+#pragma endregion
 
 
 	#pragma region Key & Mouse Map Update Methods
@@ -456,8 +456,10 @@ namespace Carmicah
 		//std::cout << "Mouse State : " << state << " For : " << key << std::endl;
 	}
 
-	#pragma endregion
+#pragma endregion
 
+
+	#pragma region ProxySend & Keycode Functions	
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Sends a message through the system proxy.
 	-------------------------------------------------------------------------------------------------*/
@@ -474,7 +476,7 @@ namespace Carmicah
 		// convert keycode to string (switch version)
 		switch (key)
 		{
-		// Misc Keys
+			// Misc Keys
 		case KEY_BACKSPACE:
 			return "backspace";
 		case KEY_TAB:
@@ -512,7 +514,7 @@ namespace Carmicah
 		case KEY_WINDOWS_KEY:
 			return "windows_key";
 
-		// Arrow Keys
+			// Arrow Keys
 		case KEY_ARROW_LEFT:
 			return "arrow_left";
 		case KEY_ARROW_UP:
@@ -522,7 +524,7 @@ namespace Carmicah
 		case KEY_ARROW_DOWN:
 			return "arrow_down";
 
-		// Volume Keys
+			// Volume Keys
 		case KEY_VOLUME_MUTE:
 			return "volume_mute";
 		case KEY_VOLUME_DOWN:
@@ -530,7 +532,7 @@ namespace Carmicah
 		case KEY_VOLUME_UP:
 			return "volume_up";
 
-		// Track Keys
+			// Track Keys
 		case KEY_TRACK_NEXT:
 			return "track_next";
 		case KEY_TRACK_PREVIOUS:
@@ -540,7 +542,7 @@ namespace Carmicah
 		case KEY_TRACK_PLAYORPAUSE:
 			return "track_playorpause";
 
-		// Number Keys
+			// Number Keys
 		case KEY_0:
 			return "0";
 		case KEY_1:
@@ -562,7 +564,7 @@ namespace Carmicah
 		case KEY_9:
 			return "9";
 
-		// Alphabet Keys
+			// Alphabet Keys
 		case KEY_A:
 			return "A";
 		case KEY_B:
@@ -616,7 +618,7 @@ namespace Carmicah
 		case KEY_Z:
 			return "Z";
 
-		// Function Keys
+			// Function Keys
 		case KEY_F01:
 			return "F1";
 		case KEY_F02:
@@ -646,5 +648,7 @@ namespace Carmicah
 			return "undefined";
 		}
 	}
+
+	#pragma endregion
 
 }

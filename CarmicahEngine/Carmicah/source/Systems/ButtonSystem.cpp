@@ -18,7 +18,6 @@ Reproduction or disclosure of this file or its contents without the prior writte
 DigiPen Institute of Technology is prohibited.
 -------------------------------------------------------------------------------------------------*/
 
-
 #include "pch.h"
 #include <ECS/ECSTypes.h>
 #include <ECS/GameObject.h>
@@ -30,17 +29,17 @@ DigiPen Institute of Technology is prohibited.
 #include "CarmicahTime.h"
 #include "../Input/InputSystem.h"
 #include "ButtonSystem.h"
+#include "SoundSystem.h"
 #include <algorithm>
-
 
 namespace Carmicah
 {
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Initializes the ButtonSystem, setting up necessary entity signatures for button
-				components.
+			components.
 
 	\param      [in, out] Init
-				Initializes the button system components and registers necessary signatures.
+			Initializes the button system components and registers necessary signatures.
 
 	\return     void
 	-------------------------------------------------------------------------------------------------*/
@@ -116,6 +115,37 @@ namespace Carmicah
 	}
 
 
+
+	void ButtonSystem::ReceiveMessage(Message* msg)
+	{
+		if (msg->mMsgType == MSG_BUTTONENTITY)
+		{
+			auto castedMsg = dynamic_cast<ButtonClicked*>(msg);
+			for (auto it : mEntitiesSet)
+			{
+				if (it == castedMsg->mEntityID)
+				{
+					auto& button = ComponentManager::GetInstance()->GetComponent<Button>(castedMsg->mEntityID);
+					auto& buttonRenderer = ComponentManager::GetInstance()->GetComponent<Renderer>(castedMsg->mEntityID);
+					if (button.isPressed)
+					{
+						buttonRenderer.texture = button.ButtonImagePressed;
+						OnPress(button);
+					}
+					else
+					{
+						buttonRenderer.texture = button.ButtonImage;
+						OnRelease(button);
+					}
+
+					button.isPressed = !button.isPressed;
+				}
+			}
+		}
+	}
+
+
+
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Handles logic for when a specific button is pressed.
 
@@ -126,6 +156,9 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	void ButtonSystem::OnPress(Button& buttonComponent)
 	{
+		UNUSED(buttonComponent);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->PlaySound("buttonclick", 0.5f);
 		//auto* componentManager = ComponentManager::GetInstance();
 
 		//for (const auto& entity : mEntitiesSet)
@@ -141,9 +174,21 @@ namespace Carmicah
 		//}
 	}
 
-	// call this function when button is released
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Handles logic for when a specific button is released.
+
+	\param      [in] name
+				The name of the button that was pressed.
+
+	\return     void
+	-------------------------------------------------------------------------------------------------*/
 	void ButtonSystem::OnRelease(Button& buttonComponent)
 	{
+		UNUSED(buttonComponent);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->PlaySound("pop", 0.5f);
+
 		//auto* componentManager = ComponentManager::GetInstance();
 
 		//for (const auto& entity : mEntitiesSet)
@@ -158,4 +203,5 @@ namespace Carmicah
 		//	}
 		//}
 	}
+
 }

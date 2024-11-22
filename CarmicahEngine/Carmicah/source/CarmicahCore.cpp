@@ -21,6 +21,8 @@
 #include "Components/TextRenderer.h"
 #include "Components/UITransform.h"
 #include "Components/Script.h"
+#include "Components/Prefab.h"
+
 #include "Systems/GameLogic.h"
 
 #include "Systems/GOFactory.h"
@@ -35,6 +37,7 @@
 #include "Systems/SoundSystem.h"
 #include "Systems/TransformSystem.h"
 #include "Systems/ButtonSystem.h"
+#include "Systems/PrefabSystem.h"
 
 #include "Input/InputSystem.h"
 #include "Systems/SceneSystem.h"
@@ -148,6 +151,7 @@ namespace Carmicah
         REGISTER_COMPONENT(Animation);
         REGISTER_COMPONENT(TextRenderer);
         REGISTER_COMPONENT(UITransform);
+        REGISTER_COMPONENT(PrefabData);
 
         CM_CORE_INFO("Starting system init");
 
@@ -166,9 +170,12 @@ namespace Carmicah
         REGISTER_SYSTEM(InputSystem);
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);
+        auto prefabSystem = REGISTER_SYSTEM(PrefabSystem);
        // auto gameLogic = REGISTER_SYSTEM(GameLogic);
         auto transformSystem = REGISTER_SYSTEM(TransformSystem);
+        AssetManager::GetInstance()->Init(prefabSystem);
         AssetManager::GetInstance()->LoadAll(AssetManager::GetInstance()->enConfig.assetLoc.c_str());
+        //AssetManager::GetInstance()->fileWatcher.Update();
         // TODO: Shift this all into system constructors to clean up core.cpp
         transformSystem->Init();
         graSystem->Init();
@@ -181,20 +188,22 @@ namespace Carmicah
         colSystem->Init(); // Set the signature
         rrsSystem->Init();
         souSystem->Init(true);
+        
 
         // Add goFactory to input system's messaging so that it can send msg to it
         Input.BindSystem(gGOFactory);
-        // TODO: Make this easier to write for people
-       Input.BindSystem(std::static_pointer_cast<BaseSystem>(gameSystem).get());
+       Input.BindSystem(gameSystem);
 
-       Input.BindSystem(std::static_pointer_cast<BaseSystem>(souSystem).get());
+       Input.BindSystem(souSystem);
 
-       gameSystem->BindSystem(std::static_pointer_cast<BaseSystem>(editorSys).get());
-       gameSystem->BindSystem(std::static_pointer_cast<BaseSystem>(butSystem).get());
+       gameSystem->BindSystem(editorSys);
+       gameSystem->BindSystem(butSystem);
         // Add transform system into gGOFactory's observer so that it can send msg to it
-        gGOFactory->BindSystem(std::static_pointer_cast<BaseSystem>(transformSystem).get());
+        gGOFactory->BindSystem(transformSystem);
+        gGOFactory->BindSystem(prefabSystem);
         // Add Scene system into editor's observer
-        editorSys->BindSystem(std::static_pointer_cast<BaseSystem>(gameSystem).get());
+        editorSys->BindSystem(gameSystem);
+        editorSys->BindSystem(prefabSystem);
 
         //glfwSetWindowUserPointer(window, inputSystem.get());
         Input.Init(window);
@@ -236,19 +245,19 @@ namespace Carmicah
             }
 
             // Reload/initialize the scene here
-            if (gameSystem->mNextState == SceneState::INITIALISING )
+            if (gameSystem->mNextState == SceneState::INITIALISING || gameSystem->mNextState == SceneState::RELOAD)
             {
                 gameSystem->Init();
 
                 // FOR TESTING OF GOs MANUALLY
                     
                 //wall.SetParent(mainCharacter);
-                GameObject GameObject2;
-                gGOFactory->FetchGO("GameObject2", GameObject2);
+                //GameObject GameObject2;
+                //gGOFactory->FetchGO("GameObject2", GameObject2);
 
-                LinearDirectionalForce rightForce({ 1.0f,0.0f }, 1.0f, 2.0f);
+                //LinearDirectionalForce rightForce({ 1.0f,0.0f }, 1.0f, 2.0f);
 
-                GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(rightForce);
+                //GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(rightForce);
 
 
                 //GameObject mainCharacter;
@@ -379,6 +388,7 @@ namespace Carmicah
                 fps.GetComponent<TextRenderer>().txt = std::to_string((int)CarmicahTime::GetInstance()->FPS());
                 editorSys->Update();
                 editorSys->Render(window);
+                AssetManager::GetInstance()->fileWatcher.Update();
                 CarmicahTime::GetInstance()->StopSystemTimer("EditorSystem");
 
                 SceneToImgui::GetInstance()->BindFramebuffer();

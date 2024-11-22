@@ -55,64 +55,68 @@ namespace Carmicah
 		Vector2D<double> dragStartPos;
 		Vector2D<double> dragEndPos;
 		Vector2D<double> dragCurrentPos;
-		
+
 
 	public:
 		InputSystem() : windowRef(nullptr), mMousePressed(false), mMouseTick(0) {}
 		~InputSystem() {};
 
 		// Not using the inherited singleton template class cause we want the base system inheritance
-		static InputSystem* GetInstance() 
+		static InputSystem* GetInstance()
 		{
 			static InputSystem instance;
 			return &instance;
 		}
-		
 
-		#pragma region Init & Update
+
+#pragma region Init & Update
+
 		void Init(GLFWwindow* ref);
 		void Update();
 		void UpdatePrevInput();
 
-		#pragma endregion
+#pragma endregion
 
 
-		#pragma region Key & Mouse State Methods
-		
-		bool IsKeyPressed	(Keys key); 
-		bool IsKeyReleased	(Keys key);
-		bool IsKeyHold		(Keys key);
+#pragma region Key & Mouse State Methods
 
-		bool WasKeyPressed	(Keys key);
-		bool WasKeyReleased	(Keys key);
-		bool WasKeyHold		(Keys key);
+		bool IsKeyPressed(Keys key);
+		bool IsKeyReleased(Keys key);
+		bool IsKeyHold(Keys key);
 
-		bool IsMousePressed	(MouseButtons button);
+		bool WasKeyPressed(Keys key);
+		bool WasKeyReleased(Keys key);
+		bool WasKeyHold(Keys key);
+
+		bool IsMousePressed(MouseButtons button);
 		bool IsMouseReleased(MouseButtons button);
-		bool IsMouseHold	(MouseButtons button);
-		bool IsMouseOver	(Vec2d& position, Vec2d& size);
+		bool IsMouseHold(MouseButtons button);
+		bool IsMouseOver(Vec2d& position, Vec2d& size);
 		bool IsDragging() const;
 
-		#pragma endregion
+#pragma endregion
 
 
-		#pragma region Key & Mouse Map Update Methods
+#pragma region Key & Mouse Map Update Methods
+
 		void UpdateKeyMap(int key, KeyStates state);
 		void UpdateMouseMap(int key, KeyStates state);
 
-		#pragma endregion
+#pragma endregion
 
 
-		#pragma region Mouse Position Getters
+#pragma region Mouse Position Getters
+
 		double GetMouseX();
 		double GetMouseY();
 		Vector2D<double> GetMousePosition();
 		void SetMousePosition(double xPos, double yPos);
 
-		#pragma endregion
+#pragma endregion
 
 
-		#pragma region Drag Tracking, Getters & Setters
+#pragma region Drag Tracking, Getters & Setters
+
 		void SetDragging(bool dragging);
 
 		void SetDragStartPos(const Vector2D<double>& pos);
@@ -123,7 +127,7 @@ namespace Carmicah
 		Vector2D<double> GetDragEndPos() const;
 		Vector2D<double> GetDragCurrentPos() const;
 
-		#pragma endregion
+#pragma endregion
 
 
 		void ProxySend(Message*);

@@ -120,7 +120,7 @@ namespace Carmicah
 			{
 				//static std::string name(goName);
 				GameObject newObj = gGOFactory->CreatePrefab(goName);
-				newObj.GetComponent<Transform>().pos.x += 2.0;
+				newObj.GetComponent<Transform>().PosXAdd(2.0);
 				//newObj.AddComponent<Transform>(playerTrans);
 				////newObj.AddComponent<Collider2D>(playerCollider);
 				//newObj.AddComponent<Renderer>(toRender);

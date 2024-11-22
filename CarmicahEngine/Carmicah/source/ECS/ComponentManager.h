@@ -30,6 +30,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Components/RigidBody.h"
 #include "Components/Script.h"
 #include "Components/Button.h"
+#include "Components/Prefab.h"
 #include "Singleton.h"
 
 namespace Carmicah
@@ -282,11 +283,11 @@ namespace Carmicah
         /*!*************************************************************************
         \brief
         	Get the Component Array object
+		    Used to get the component for inserting in new entity data
         
-        \return template<typename T>
-        	
+       \template<typename T>
+        	Type of the class
         ***************************************************************************/
-		// Used to get the component for inserting in new entity data
 		template<typename T>
 		std::shared_ptr<Component<T>> GetComponentArray()
 		{
@@ -304,7 +305,38 @@ namespace Carmicah
 			return NULL;
 		}
 
+        /*!*************************************************************************
+        \brief
+           Templated so that I don't have to write 4 lines per if/else if statements for every component
+           without RTTR, I have to manually check each component
+        \return template<typename T>
+
+        ***************************************************************************/
+        template<typename T>
+        bool DeserializeComponent(const rapidjson::Value& val, std::any& component)
+        {
+           // std::any component;
+            const std::string& componentName = val["Component Name"].GetString();
+
+            if (componentName == typeid(T).name())
+            {
+                T componentData{}; // Default initialize
+                componentData.DeserializeComponent(val);
+                component = componentData;
+                return true;
+                //component = std::any_cast<Transform>(component).DeserializeComponent(val);
+            }
+            return false;
+        }
+
+        /*!*************************************************************************
+        \brief
+           Deserialize components and return it as an std::any so that I can store it in prefab data
+           as std::any
+        ***************************************************************************/
 		std::any DeserializePrefabComponent(const rapidjson::Value& val);
+
+
 
 	};
 

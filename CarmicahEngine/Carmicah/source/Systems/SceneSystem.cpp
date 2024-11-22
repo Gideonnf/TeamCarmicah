@@ -28,34 +28,46 @@ namespace Carmicah
 
 	void SceneSystem::Init()
 	{
-		mCurrScene = mNextScene;
-		std::string sceneFile;
-
-		if (!AssetManager::GetInstance()->GetScene(mCurrScene, sceneFile))
+		if (mNextState == INITIALISING)
 		{
-			// Loading scene failed, open default scene
-			CM_CORE_ERROR("Can't get next scene file, opening default scene");
-			AssetManager::GetInstance()->GetScene("DefaultScene", sceneFile);
-			mCurrScene = mNextScene = "DefaultScene";
-		}
+			mCurrScene = mNextScene;
+			std::string sceneFile;
+
+			if (!AssetManager::GetInstance()->GetScene(mCurrScene, sceneFile))
+			{
+				// Loading scene failed, open default scene
+				CM_CORE_ERROR("Can't get next scene file, opening default scene");
+				AssetManager::GetInstance()->GetScene("DefaultScene", sceneFile);
+				mCurrScene = mNextScene = "DefaultScene";
+			}
 
 		
-		//gGOFactory->ImportGOs(mCurrScene);
-		if (SerializerSystem::GetInstance()->DeserializeScene(sceneFile))
-		{
-			mNextState = mCurrState = SceneState::EDITOR;
-		}
-		else
-		{
-			// deserializing scene failed so use default scene
-			CM_CORE_ERROR("Can't get deserialize scene file, opening default scene");
+			//gGOFactory->ImportGOs(mCurrScene);
+			if (SerializerSystem::GetInstance()->DeserializeScene(sceneFile))
+			{
+				mNextState = mCurrState = SceneState::EDITOR;
+			}
+			else
+			{
+				// deserializing scene failed so use default scene
+				CM_CORE_ERROR("Can't get deserialize scene file, opening default scene");
 
-			AssetManager::GetInstance()->GetScene("DefaultScene", sceneFile);
-			mCurrScene = mNextScene = "DefaultScene";
-			SerializerSystem::GetInstance()->DeserializeScene(sceneFile);
+				AssetManager::GetInstance()->GetScene("DefaultScene", sceneFile);
+				mCurrScene = mNextScene = "DefaultScene";
+				SerializerSystem::GetInstance()->DeserializeScene(sceneFile);
+			}
+			// For transferring curr scene to imgui for now. TODO: Better implementation
+			SceneToImgui::GetInstance()->currentScene = mCurrScene;
+
 		}
-		// For transferring curr scene to imgui for now. TODO: Better implementation
-		SceneToImgui::GetInstance()->currentScene = mCurrScene;
+		else if (mNextState == RELOAD)
+		{
+			if (SerializerSystem::GetInstance()->DeserializeScene(mCurrScene + "_temp"))
+			{
+				mNextState = mCurrState = SceneState::EDITOR;
+				remove((mCurrScene + "_temp").c_str());
+			}
+		}
 	}
 
 	/// <summary>
@@ -101,6 +113,12 @@ namespace Carmicah
 
 	}
 
+	void SceneSystem::ResetScene()
+	{
+		mNextState = INITIALISING;
+		
+	}
+
 	void SceneSystem::Exit()
 	{
 		// initialize the next scene
@@ -135,12 +153,19 @@ namespace Carmicah
 			if (mRuntime)
 			{
 				mRuntime = false;
-				ChangeScene(mCurrScene);
+				mNextState = SceneState::RELOAD;
+				//ResetScene();
+				//ChangeScene(mCurrScene);
 			}
 			else
 			{
 				mRuntime = true;
 				mNextState = SceneState::ONSTART;
+				// Serialize the temp scene
+				// Currently this is writing into editor folder for some reason
+				// i mean i know why cause the path isnt the full asset folder path
+				// but might be able to change to using just jsonwriter without making a file to store temporary scenes
+				SerializerSystem::GetInstance()->SerializeScene(mCurrScene + "_temp");
 			}
 		}
 
