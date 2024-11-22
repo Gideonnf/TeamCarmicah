@@ -35,49 +35,45 @@ namespace Carmicah
 		SystemManager::GetInstance()->SetSignature<RigidbodyRendererSystem>(mSignature);
 		BaseGraphicsSystem::Init(AssetManager::GetInstance()->enConfig.debugShader);
 
-		primitive = &AssetManager::GetInstance()->GetAsset<BasePrimitive>("DebugLine");
-		GenDebugBatch(*primitive);
-
+		primitive = "DebugLine";
 	}
 
 	void RigidbodyRendererSystem::EntityDestroyed(Entity id)
 	{
 		auto test = mEntityBufferLoc.find(id);
 		if (test != mEntityBufferLoc.end())
-			DeleteBatchData(id, test->second.posInMemory, false, 2);
+			DeleteBatchData(id);
 	}
 
 
 
-	void RigidbodyRendererSystem::Render(Entity& cam)
+	void RigidbodyRendererSystem::Render()
 	{
-		if (mCurrShader == 0)
-			return;
-		glUseProgram(mCurrShader);
-
+		for (std::unordered_map<unsigned int, EntityData>::iterator entity = mEntityBufferLoc.begin(); entity != mEntityBufferLoc.end();)
 		{
-			//mainCam.scale = glm::vec2{ 1.0 / static_cast<float>(width), 1.0 / static_cast<float>(height) };
-			auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-			Mtx3x3f camSpace{};
-			camSpace.scaleThis(camTrans.Scale()).rotDegThis(-camTrans.Rot()).translateThis(-camTrans.Pos());
-			GLint uniformLoc{};
-			if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
-				glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
-		}
-
-
-		for (auto& entity : mEntityBufferLoc)
-		{
-			if (!entity.second.isActive)
+			if (!ComponentManager::GetInstance()->HasComponent<RigidBody>(entity->first))
+			{
+				DeleteBatchData(entity->first);
+				entity = mEntityBufferLoc.erase(entity);
 				continue;
+			}
 
-			auto& rigidbody = ComponentManager::GetInstance()->GetComponent<RigidBody>(entity.first);
+			auto& rigidbody = ComponentManager::GetInstance()->GetComponent<RigidBody>(entity->first);
 			if (fabs(rigidbody.velocity.x) < std::numeric_limits<float>::epsilon() &&
 				fabs(rigidbody.velocity.y) < std::numeric_limits<float>::epsilon())
+			{
+				DeleteBatchData(entity->first);
+				entity = mEntityBufferLoc.erase(entity);
 				continue;
+			}
 
-			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity.first);
+			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity->first);
 
+			if (!transform.Updated())
+			{
+				++entity;
+				continue;
+			}
 
 			// Get rotation
 			float rot = std::atan2f(rigidbody.velocity.y, rigidbody.velocity.x);
@@ -88,7 +84,8 @@ namespace Carmicah
 			Mtx3x3f trans{};
 			trans.translateThis(transform.Pos()).rotRadThis(rot);
 
-			EditDebugBatchData(entity.first, entity.second.posInMemory, *primitive, trans, true, DEBUG_LAYER);
+			EditDebugBatchData(entity->first, trans, true, DEBUG_LAYER);
+			++entity;
 		}
 
 
@@ -97,43 +94,24 @@ namespace Carmicah
 		{
 			for (auto& entity : mEntitiesSet)
 			{
-				auto e{ mEntityBufferLoc.find(entity) };
-				if (e != mEntityBufferLoc.end())
-				{
-					if (!e->second.isActive)
-					{
-						ToggleActiveEntity(e->second, true);
-					}
+				// if entity is active -> skip
+				if (mEntityBufferLoc.find(entity) != mEntityBufferLoc.end())
 					continue;
-				}
 
 				auto& rigidbody = ComponentManager::GetInstance()->GetComponent<RigidBody>(entity);
 				if (fabs(rigidbody.velocity.x) < std::numeric_limits<float>::epsilon() &&
 					fabs(rigidbody.velocity.y) < std::numeric_limits<float>::epsilon())
 					continue;
 
-				EntityData ed{};
-				ToggleActiveEntity(ed, true);
-				ed.posInMemory = mEntityBufferIDTrack++;
-
 				auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
-
-
 				// Get rotation
 				float rot = std::atan2f(rigidbody.velocity.y, rigidbody.velocity.x);
 				Mtx3x3f trans{};
 				trans.translateThis(transform.Pos()).rotRadThis(rot);
 
-
-				EditDebugBatchData(entity, ed.posInMemory, *primitive, trans, true, DEBUG_LAYER);
-				mEntityBufferLoc.emplace(entity, ed);
+				SetNewEntity(entity, primitive, 0, true, true);
+				EditDebugBatchData(entity, trans, true, DEBUG_LAYER);
 			}
 		}
-
-
-		BatchDebugRender();
-
-		glBindVertexArray(0);
-		glUseProgram(0);
 	}
 }

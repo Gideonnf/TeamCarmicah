@@ -30,6 +30,7 @@
 #include "Graphics/AnimationSystem.h"
 #include "Graphics/ColliderRenderSystem.h"
 #include "Graphics/RigidbodyRendererSystem.h"
+#include "Graphics/RenderHelper.h"
 #include "Systems/CollisionSystem.h"
 #include "Physics/PhysicsSystem.h"
 #include "Systems/SoundSystem.h"
@@ -171,9 +172,10 @@ namespace Carmicah
         AssetManager::GetInstance()->LoadAll(AssetManager::GetInstance()->enConfig.assetLoc.c_str());
         // TODO: Shift this all into system constructors to clean up core.cpp
         transformSystem->Init();
+        RenderHelper::GetInstance()->InitScreenDimension(static_cast<float>(Width), static_cast<float>(Height));
         graSystem->Init();
-        uigSystem->Init(static_cast<float>(Width), static_cast<float>(Height));
-        txtSystem->Init(static_cast<float>(Width), static_cast<float>(Height));
+        uigSystem->Init();
+        txtSystem->Init();
         aniSystem->Init();
         butSystem->Init();
         crsSystem->Init();
@@ -383,11 +385,13 @@ namespace Carmicah
                 SceneToImgui::GetInstance()->BindFramebuffer();
                 CarmicahTime::GetInstance()->StartSystemTimer("RenderingSystems");
                 transformSystem->Update(); // Update world and local transforms before rendering
-                graSystem->Render(gGOFactory->mainCam);
-                uigSystem->Render();
-                crsSystem->Render(gGOFactory->mainCam);
-                rrsSystem->Render(gGOFactory->mainCam);
-                txtSystem->Render();
+                graSystem->Update();
+                uigSystem->Update();
+                crsSystem->Update();
+                rrsSystem->Render();
+                //txtSystem->Render();
+                transformSystem->PostUpdate();
+                RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
                 CarmicahTime::GetInstance()->StopSystemTimer("RenderingSystems");
                 //SceneToImgui::GetInstance()->IDPick();
 

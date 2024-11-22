@@ -115,7 +115,7 @@ namespace Carmicah
 							{
 								if (entry.second == textureEntry.second)
 								{
-									render.texture = textureEntry.first;
+									render.Texture(textureEntry.first);
 								}
 							}
 						}

@@ -22,7 +22,7 @@ namespace Carmicah
 	class ColliderRenderSystem : public BaseSystem, private BaseGraphicsSystem
 	{
 	private:
-		BasePrimitive* primitive;
+		std::string primitive;
 	public:
 		/*!*************************************************************************
 		brief
@@ -38,7 +38,7 @@ namespace Carmicah
 		param[cam]
 			camera dimensions and position to reference
 		***************************************************************************/
-		void Render(Entity& cam);
+		void Update();
 	};
 }
 

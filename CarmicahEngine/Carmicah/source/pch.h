@@ -12,6 +12,7 @@
 #include <map>
 #include <unordered_map>
 #include <bitset>
+#include <algorithm>
 #include "CarmicahCore.h"
 #include "CarmicahTime.h"
 

@@ -22,19 +22,16 @@ namespace Carmicah
 	class TextSystem : public BaseSystem, private BaseGraphicsSystem
 	{
 	private:
-		Mtx3x3f screenMtx{};		// Calculated Screen Matrix multiplier to use for text systems
-		int mLastTextNumCount{};	// Count of the number of quads used for the previous text, to reset this amount of data
+		void ClearText(const Entity& e, unsigned int startPos = 0, unsigned int endPos = 0);
 
 	public:
 		/*!*************************************************************************
 		brief
 			Sets which components the system references, and load the shader
-		param[canvasWidth]
-			width of reference canvas
-		param[canvasHeight]
-			height of reference canvas
 		***************************************************************************/
-		void Init(const float& canvasWidth, const float& canvasHeight);
+		void Init();
+
+		void EntityDestroyed(Entity id);
 
 		/*!*************************************************************************
 		brief

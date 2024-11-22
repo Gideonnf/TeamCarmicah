@@ -328,7 +328,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
-                    "model": "",
+                    "model": "Square",
                     "texture": "Duck"
                 }
             ],

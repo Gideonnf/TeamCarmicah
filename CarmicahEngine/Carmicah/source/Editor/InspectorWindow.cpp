@@ -357,7 +357,7 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("Texture");
 					ImGui::TableNextColumn();
-					ImGui::Text("%s", render.texture.c_str());
+					ImGui::Text("%s", render.Texture().c_str());
 					ImGui::SameLine();
 					if (ImGui::Button("v##."))
 					{
@@ -370,7 +370,7 @@ namespace Carmicah
 						{
 							if (ImGui::Button(entry.first.c_str()))
 							{
-								render.texture = entry.first;
+								render.Texture(entry.first);
 								ImGui::CloseCurrentPopup();
 							}
 						}
@@ -895,13 +895,13 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("Texture");
 					ImGui::TableNextColumn();
-					ImGui::Text("%s", render.texture.c_str());
+					ImGui::Text("%s", render.Texture().c_str());
 					if (ImGui::BeginDragDropTarget())
 					{
 						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TEXTURE_PAYLOAD"))
 						{
 							std::string textureName = *(const std::string*)payload->Data;
-							render.texture = textureName;
+							render.Texture(textureName);
 						}
 
 						ImGui::EndDragDropTarget();
@@ -919,7 +919,7 @@ namespace Carmicah
 							if (entry.first.empty()) continue; // TODO: Find out why "" is being added to asset map
 							if (ImGui::Button(entry.first.c_str()))
 							{
-								render.texture = entry.first;
+								render.Texture(entry.first);
 								ImGui::CloseCurrentPopup();
 							}
 						}

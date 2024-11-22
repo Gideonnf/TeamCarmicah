@@ -148,6 +148,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClInclude Include="source\Graphics\BaseGraphicsSystem.h" />
     <ClInclude Include="source\Graphics\ColliderRenderSystem.h" />
     <ClInclude Include="source\Graphics\GraphicsSystem.h" />
+    <ClInclude Include="source\Graphics\RenderHelper.h" />
     <ClInclude Include="source\Graphics\RigidbodyRendererSystem.h" />
     <ClInclude Include="source\Graphics\TextSystem.h" />
     <ClInclude Include="source\Graphics\UIGraphicsSystem.h" />
@@ -195,6 +196,7 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"</Command>
     <ClCompile Include="source\Graphics\BaseGraphicsSystem.cpp" />
     <ClCompile Include="source\Graphics\ColliderRenderSystem.cpp" />
     <ClCompile Include="source\Graphics\GraphicsSystem.cpp" />
+    <ClCompile Include="source\Graphics\RenderHelper.cpp" />
     <ClCompile Include="source\Graphics\RigidbodyRendererSystem.cpp" />
     <ClCompile Include="source\Graphics\TextSystem.cpp" />
     <ClCompile Include="source\Graphics\UIGraphicsSystem.cpp" />
