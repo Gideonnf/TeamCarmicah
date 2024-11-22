@@ -277,7 +277,7 @@ namespace Carmicah
             }
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
-                if (gameSystem->mCurrState == SceneState::RUNTIME)
+                if (gameSystem->mCurrState == SceneState::RUNTIME && SceneWindow::mIsPaused == false)
                 {
 
                     gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->GetDeltaTime());

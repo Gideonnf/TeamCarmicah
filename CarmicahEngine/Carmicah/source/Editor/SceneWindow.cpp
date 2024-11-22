@@ -21,8 +21,10 @@ DigiPen Institute of Technology is prohibited.
 #include "../ECS/BaseSystem.h"
 #include "EditorWindow.h"
 #include "SceneWindow.h"
+#include "Components/Transform.h"
 #include "../Components/Button.h"
 #include "SceneToImgui.h"
+#include "Systems/GOFactory.h"
 #include "../Systems/SceneSystem.h"
 #include "../Messaging/Message.h"
 #include "Input/InputSystem.h"
@@ -33,8 +35,10 @@ namespace Carmicah
 
 	bool SceneWindow::mIsPlaying = false;
 	bool SceneWindow::mChangeState = false;
+    bool SceneWindow::mIsPaused = false;
+    bool SceneWindow::mIsDebug = false;
 
-	SceneWindow::SceneWindow() : EditorWindow("Scene", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
+	SceneWindow::SceneWindow() : EditorWindow("Scene", ImVec2(0, 0), ImVec2(0, 0)) { mIsVisible = true; }
 
 	void SceneWindow::Update()
 	{
@@ -46,6 +50,7 @@ namespace Carmicah
 				if (ImGui::Button("Play"))
 				{
 					mIsPlaying = !mIsPlaying;
+                    mIsPaused = false;
 					mChangeState = true;
 				}
 			}
@@ -60,11 +65,21 @@ namespace Carmicah
             ImGui::SameLine();
             if (ImGui::Button("Pause"))
             {
+                mIsPaused = !mIsPaused;
+            }
 
+            if (Input.IsKeyPressed(KEY_W))
+            {
+                mIsDebug = !mIsDebug;
             }
 
 			const float windowWidth =   std::clamp(ImGui::GetContentRegionAvail().x, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Width));
 			const float windowHeight =  std::clamp(ImGui::GetContentRegionAvail().y, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Height));
+            //ImVec2 availableWindow = ImGui::GetContentRegionAvail();
+
+            //std::cout << availableWindow.x << "," << availableWindow.y << std::endl;
+
+            //std::cout << windowWidth << "," << windowHeight << std::endl;
 
             SceneToImgui::GetInstance()->RescaleFramebuffer(windowWidth, windowHeight);
             glViewport(0, 0, (GLsizei)windowWidth, (GLsizei)windowHeight);
@@ -86,51 +101,75 @@ namespace Carmicah
             {
                 // get global mouse position
                 ImVec2 mousePos = ImGui::GetMousePos();
+                GameObject camera;
+                gGOFactory->FetchGO("MainCamera", camera);
 
                 // calc mouse position relative to the Scene window's content area
                 ImVec2 relativeMousePos = { mousePos.x - pos.x, mousePos.y - pos.y };
+                
+                //std::cout << relativeMousePos.x << "," << relativeMousePos.y << std::endl;
+                
 
                 // make sure mouse is within the bounds of the Scene content area
                 if (relativeMousePos.x >= 0 && relativeMousePos.x <= windowWidth &&
                     relativeMousePos.y >= 0 && relativeMousePos.y <= windowHeight)
                 {
                     // scale the coordinates to 1920x1080
-                    float scaledX = (relativeMousePos.x / windowWidth) * 1920.0f;
-                    float scaledY = (relativeMousePos.y / windowHeight) * 1080.0f;
+                    double scaledX = (relativeMousePos.x / windowWidth) * 1920.0f;
+                    double scaledY = (relativeMousePos.y / windowHeight) * 1080.0f;
+
+                    static double worldDeltaX = 0.f;
+                    static double worldDeltaY = 0.f;
+
+
+                    //std::cout << "World Pos = " << worldX << "," << worldY << std::endl;
 
                     // update InputSystem with the relative mouse position
                     Input.SetMousePosition(scaledX, scaledY);
+
 
                     // if dragging, update the drag position within the Scene window
                     if (Input.IsDragging())
                     {
                         Input.SetDragCurrentPos({ scaledX, scaledY });
-                       // std::cout << "Dragging in Scene to: (" << scaledX << ", " << scaledY << ")" << std::endl;
+                        
+                        Vec2d startDragPos = Input.GetDragStartPos();
+                        Vec2d currentMousePos = Input.GetDragCurrentPos();
+                        /*if(mIsDebug)
+                        {
+                            std::cout << "Start Pos: " << startDragPos << std::endl;
+                            std::cout << "Current Pos: " << currentMousePos << std::endl;
+                        }*/
+                        Vec2d delta(currentMousePos.x - startDragPos.x, currentMousePos.y - startDragPos.y);
+
+                        Transform& cameraTransform = camera.GetComponent<Transform>();
+
+                        double worldDeltaX = ((delta.x / windowWidth /*NEED TO CHANGE THIS TO FIX IT*/)) / cameraTransform.GetScale().x;
+                        double worldDeltaY = -((delta.y / windowHeight/*NEED TO CHANGE THIS TO FIX IT*/)) / cameraTransform.GetScale().y;
+
+                        if(mIsDebug)
+                        {
+                            std::cout << "Window Size  = " << windowWidth << "," << windowHeight << std::endl;
+                            std::cout << "Delta = " << delta.x << "," << delta.y << std::endl;
+                            std::cout << "World Delta = " << worldDeltaX << "," << worldDeltaY << std::endl;
+                        }
+                        //Input.SetDragStartPos(currentMousePos);
+
+
+                        
+                        if (HierarchyWindow::selectedGO != nullptr)
+                        {
+                            if (HierarchyWindow::selectedGO->HasComponent<Transform>())
+                            {
+                                Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
+
+                                //selectedTransform.GetPos().x += worldDeltaX;
+                                //selectedTransform.GetPos().y += worldDeltaY;
+
+                            }
+                        }
+                        
                     }
-
-      //              // BUTTON CHECKING, if button pressed, tell button its pressed
-      //              // check if mouse click is within button bounds
-      //              if (Input.IsMousePressed(MOUSE_BUTTON_LEFT))
-      //              {
-						//// assuming button's position and size are set (example values), need to make this dynamic
-      //                  ImVec2 buttonPosition = { 960.0f, 540.0f }; // Button center
-      //                  ImVec2 buttonSize = { 200.0f, 200.0f };     // Button dimensions
-
-      //                  if (scaledX >= buttonPosition.x - buttonSize.x / 2 &&
-      //                      scaledX <= buttonPosition.x + buttonSize.x / 2 &&
-      //                      scaledY >= buttonPosition.y - buttonSize.y / 2 &&
-      //                      scaledY <= buttonPosition.y + buttonSize.y / 2)
-      //                  {
-      //                      // Trigger button press/release logic
-						//	Button* button = new Button();
-						//	button->onPress();
-      //                  }
-      //              }
-      //              else if (Input.IsMouseReleased(MOUSE_BUTTON_LEFT))
-      //              {
-						//Button* button = new Button();
-						//button->onRelease();
-      //              }
                 }
             }
         }
