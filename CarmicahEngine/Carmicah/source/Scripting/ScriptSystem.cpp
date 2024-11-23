@@ -22,10 +22,24 @@ DigiPen Institute of Technology is prohibited.
 #include <mono/metadata/mono-gc.h>
 #include <mono/jit/jit.h>
 #include <mono/metadata/assembly.h>
+#include <mono/metadata/tabledefs.h>
 #include "ScriptFunctions.h"
 namespace Carmicah
 {
     ScriptSystem* gScriptSystem = NULL;
+
+    static std::unordered_map<std::string, ScriptFieldType> sFieldTypeMap =
+    {
+        {"System.Single", ScriptFieldType::Float},
+        {"System.Double", ScriptFieldType::Double},
+        {"System.Boolean", ScriptFieldType::Bool},
+        {"System.Char", ScriptFieldType::Char},
+        {"System.Int16", ScriptFieldType::Short},
+        {"System.Int32", ScriptFieldType::Int},
+        {"System.UInt32", ScriptFieldType::UInt},
+        {"Carmicah.Vector2", ScriptFieldType::Vector2},
+        {"Carmicah.Entity", ScriptFieldType::Entity},
+    };
 
     ScriptSystem::ScriptSystem()
     {
@@ -120,6 +134,7 @@ namespace Carmicah
         mCoreAssemblyImage = nullptr;  // Clear any references to images, assemblies
         mCoreAssembly = nullptr;
 
+        
         // Optional: small delay to ensure Mono completes cleanup
        // std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
@@ -334,10 +349,50 @@ namespace Carmicah
             {
                 std::shared_ptr<ScriptClass> script = std::make_shared<ScriptClass>(nameSpace, name);
                 mEntityClasses[className] = script;
+
+                // get all the fields from the c# script (i.e variables from c# script side)
+                void* iterator = nullptr;
+                while (MonoClassField* field = mono_class_get_fields(monoClass, &iterator))
+                {
+                    std::string fieldName = mono_field_get_name(field);
+                    // Only access public variables from the mono class
+                    if (mono_field_get_flags(field) & FIELD_ATTRIBUTE_PUBLIC)
+                    {
+                        MonoType* type = mono_field_get_type(field);
+                        ScriptFieldType fieldType = GetScriptFieldType(type);
+                        // Store it in the script's field map
+                        script->mFields[fieldName] = { fieldType, fieldName, field };
+                    }
+                }
             }
 
             printf("%s.%s\n", nameSpace, name);
+
+           
         }
 
+    }
+
+    ScriptFieldType ScriptSystem::GetScriptFieldType(MonoType* type)
+    {
+        std::string name = mono_type_get_name(type);
+        // If the name exist in our field type map
+        if (sFieldTypeMap.count(name) != 0)
+        {
+            auto iter = sFieldTypeMap.find(name);
+            return iter->second;
+        }
+
+        return ScriptFieldType::None;
+    }
+
+    std::shared_ptr<ScriptObject> ScriptSystem::GetScriptInstance(unsigned int entityID)
+    {
+        if (mEntityInstances.count(entityID) == 0)
+        {
+            return nullptr;
+        }
+
+        return mEntityInstances[entityID];
     }
 }

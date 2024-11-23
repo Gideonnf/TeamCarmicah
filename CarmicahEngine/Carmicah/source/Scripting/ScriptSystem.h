@@ -25,6 +25,7 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+
 	class ScriptSystem : public BaseSystem
 	{
 	public:
@@ -86,6 +87,10 @@ namespace Carmicah
 		/// <param name="scriptName">C# Script name</param>
 		/// <returns>True or False</returns>
 		bool HasEntityClass(std::string scriptName);
+
+		ScriptFieldType GetScriptFieldType(MonoType* type);
+
+		std::shared_ptr<ScriptObject> GetScriptInstance(unsigned int entityID);
 
 		/*!
 		OnStart() -> Called when play button is pressed. Loop through all entities and get a reference to their scripts
