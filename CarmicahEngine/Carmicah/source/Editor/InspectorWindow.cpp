@@ -715,6 +715,7 @@ namespace Carmicah
 					ImGui::EndPopup();
 				}
 
+
 			}
 		}
 	}
@@ -1274,6 +1275,22 @@ namespace Carmicah
 					ImGui::EndPopup();
 				}
 
+				std::shared_ptr<ScriptObject> scriptRef = gScriptSystem->GetScriptInstance(id);
+				if (scriptRef != nullptr)
+				{
+					const auto& fields = scriptRef->GetScriptClass()->mFields;
+					for (const auto& it : fields)
+					{
+						if (it.second.mType == ScriptFieldType::Float)
+						{
+							float data = scriptRef->GetFieldValue<float>(it.second.mName);
+							if (ImGui::DragFloat(it.second.mName.c_str(), &data))
+							{
+								scriptRef->SetFieldValue(it.second.mName, data);
+							}
+						}
+					}
+				}
 			}
 		}
 	}

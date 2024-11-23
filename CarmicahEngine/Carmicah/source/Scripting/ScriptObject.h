@@ -135,8 +135,8 @@ namespace Carmicah
 			{
 				return T();
 			}
-
-			const ScriptField& field = fields[name];
+			auto iter = fields.find(name);
+			const ScriptField& field = iter->second;
 			char fieldBuffer[32];
 			mono_field_get_value(mMonoInstance, field.mClassField, fieldBuffer);
 
@@ -150,14 +150,17 @@ namespace Carmicah
 			const auto& fields = mScriptClass->mFields;
 			if (fields.count(name) == 0)
 			{
-				return T();
+				return;
 			}
-			const ScriptField& field = fields[name];
+			auto iter = fields.find(name);
+			const ScriptField& field = iter->second;
 
-			void* valPtr = (void*)val;
-			mono_field_set_value(mMonoInstance, field.mClassField, valPtr);
+			//void* valPtr =;
+			mono_field_set_value(mMonoInstance, field.mClassField, (void*)&val);
 
 		}
+
+		std::shared_ptr<ScriptClass> GetScriptClass();
 
 	};
 
