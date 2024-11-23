@@ -41,6 +41,39 @@ namespace Carmicah
 		std::string mName;
 		MonoClassField* mClassField;
 	};
+
+	class ScriptClass
+	{
+	public:
+		friend class ScriptSystem;
+
+		std::string mNameSpace;
+		std::string mClassName;
+
+		// Store what fields the script has
+		std::map<std::string, ScriptField> mFields;
+
+		ScriptClass() = default;
+		ScriptClass(const std::string& nameSpace, const std::string& className);
+
+
+		MonoClass* mMonoClass = nullptr;
+
+		/// <summary>
+		/// Instantiates the script object. 
+		/// </summary>
+		MonoObject* Instantiate();
+		/// <summary>
+		/// Used to get the method/function out of the C# side script. For example, OnUpdate is the name. Param count is 1 cause float dt
+		/// </summary>
+		/// <param name="name">Name of the function</param>
+		/// <param name="parameterCount">Number of parameters it needs</param>
+		/// <returns></returns>
+		MonoMethod* GetMethod(const std::string& name, int parameterCount);
+		MonoObject* InvokeMethod(MonoObject* instance, MonoMethod* method, void** params = nullptr);
+
+
+	};
 	
 	class ScriptObject
 	{
@@ -57,12 +90,8 @@ namespace Carmicah
 		/// </summary>
 		/// <param name="nameSpace">Name space of the C# script. Usually always Carmicah</param>
 		/// <param name="className">name of the class</param>
-		ScriptObject(const std::string& nameSpace, const std::string& className);
+		ScriptObject(std::shared_ptr<ScriptClass> scClass, Entity entity);
 
-		/// <summary>
-		/// Instantiates the script object. 
-		/// </summary>
-		void Instantiate();
 
 		/// <summary>
 		/// Set up all the internal function calls by getting the method and the number of params
@@ -70,14 +99,6 @@ namespace Carmicah
 		/// <param name="entity"></param>
 		void SetUpEntity(Entity entity);
 
-		/// <summary>
-		/// Used to get the method/function out of the C# side script. For example, OnUpdate is the name. Param count is 1 cause float dt
-		/// </summary>
-		/// <param name="name">Name of the function</param>
-		/// <param name="parameterCount">Number of parameters it needs</param>
-		/// <returns></returns>
-		MonoMethod* GetMethod(const std::string& name, int parameterCount);
-		MonoObject* InvokeMethod(MonoMethod* method, void** params = nullptr);
 
 		/// <summary>
 		/// For calling the OnConstruct function 
@@ -96,13 +117,8 @@ namespace Carmicah
 		/// <param name="dt">Delta time</param>
 		void InvokeOnUpdate(float dt);
 	private:
-		std::string mNameSpace;
-		std::string mClassName;
+		std::shared_ptr<ScriptClass> mScriptClass;
 
-		// Store what fields the script has
-		std::map<std::string, ScriptField> mFields;
-
-		MonoClass* mMonoClass = nullptr;
 		MonoObject* mMonoInstance = nullptr;
 
 		MonoMethod* mConstruct = nullptr;
