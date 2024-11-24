@@ -49,7 +49,10 @@ namespace Carmicah
 	{
 		auto test =  mEntityBufferLoc.find(id);
 		if (test != mEntityBufferLoc.end())
+		{
 			DeleteBatchData(id);
+			mEntityBufferLoc.erase(id);
+		}
 	}
 
 	void GraphicsSystem::Update()

@@ -190,7 +190,6 @@ namespace Carmicah
 		// If invalid
 		if (!ComponentManager::GetInstance()->HasComponent<Renderer>(entity))
 		{
-			DeleteBatchData(entity);
 			return;
 		}
 		auto& renderer = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
