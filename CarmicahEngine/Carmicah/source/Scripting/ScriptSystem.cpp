@@ -283,21 +283,7 @@ namespace Carmicah
 
     void ScriptSystem::OnStart()
     {
-        //for (auto& id : mEntitiesSet)
-        //{
-        //    Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(id);
-
-        //    if (HasEntityClass(scriptComponent.scriptName))
-        //    {
-        //        std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], id);
- 
-        //      //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
-        //        mEntityInstances[id] = scriptObj;
-        //        scriptObj->InvokeOnConstruct(id);
-        //        scriptObj->InvokeOnCreate();
-        //    }
-        //}
-                // Loop through all entity instances
+        // Loop through all entity instances
         for (const auto& [id, scriptRef] : mEntityInstances)
         {
             scriptRef->InvokeOnConstruct(id);
@@ -323,12 +309,28 @@ namespace Carmicah
             if (mEntityInstances.count(id) == 0)
             {
                 Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(id);
-                if (HasEntityClass(scriptComponent.scriptName))
+                if (HasEntityClass(scriptComponent.scriptName)) // Technically dont have to check IMGUI only allows for entity classes to be picked
                 {
                     std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], id);
                     //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
                     mEntityInstances[id] = scriptObj;
                 }
+            }
+            // it already exist, check if the script was changed
+            // this should be done through messaging from IMGUI side if the script was changed on an object
+            // but for now we do it here
+            else
+            {
+                // Comment out for now cause i dont think we'll be changign scripts that much in editor mode
+                // but NOTE: If we do allow that then it wont work until i fix this part
+                
+                //Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(id);
+                //if (HasEntityClass(scriptComponent.scriptName))
+                //{
+                //    std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], id);
+                //    //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
+                //    mEntityInstances[id] = scriptObj;
+                //}
             }
         }
     }

@@ -42,16 +42,22 @@ namespace Carmicah
 
 				//it = fileMap.erase(it);
 			}
-			if (it->second.fileStatus == FILE_CREATED)
+			else if (it->second.fileStatus != FILE_OK)
 			{
-				if (AssetManager::GetInstance()->LoadAsset(it->second))
+				if (it->second.fileStatus == FILE_CREATED)
 				{
-					it->second.fileStatus = FILE_OK;
+					if (AssetManager::GetInstance()->LoadAsset(it->second))
+					{
+						it->second.fileStatus = FILE_OK;
+					}
 				}
-			}
-			else if (it->second.fileStatus == FILE_MODIFIED)
-			{
-
+				else if (it->second.fileStatus == FILE_MODIFIED)
+				{
+					if (AssetManager::GetInstance()->LoadAsset(it->second, true))
+					{
+						it->second.fileStatus = FILE_OK;
+					}
+				}
 			}
 		}
 
