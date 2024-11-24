@@ -422,4 +422,19 @@ namespace Carmicah
 
         return mEntityInstances[entityID];
     }
+
+    void ScriptSystem::ReceiveMessage(Message* msg)
+    {
+        // Button entity was clicked
+        if (msg->mMsgType == MSG_ONCLICK)
+        {
+            auto castedMsg = dynamic_cast<OnClickMsg*>(msg);
+
+            // If it has a script instance
+            if (mEntityInstances.count(castedMsg->buttonEntity))
+            {
+                mEntityInstances[castedMsg->buttonEntity]->InvokeOnClick();
+            }
+        }
+    }
 }

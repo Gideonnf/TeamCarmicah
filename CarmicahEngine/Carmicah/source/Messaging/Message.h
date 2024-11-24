@@ -34,7 +34,8 @@ namespace Carmicah
 		MSG_PLAYSFX,
 		MSG_NEWPREFABGO,
 		MSG_MODIFYPREFAB,
-		MSG_NEWPREFAB
+		MSG_NEWPREFAB,
+		MSG_ONCLICK
 	};
 
 	namespace
@@ -131,6 +132,13 @@ namespace Carmicah
 	public:
 		Entity goEntity;
 		NewPrefabMsg(Entity go) : Message(MSG_NEWPREFAB), goEntity(go) {}
+	};
+
+	class OnClickMsg : public Message
+	{
+	public:
+		Entity buttonEntity;
+		OnClickMsg(Entity go) : Message(MSG_ONCLICK), buttonEntity(go) {}
 	};
 }
 

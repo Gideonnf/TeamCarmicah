@@ -101,6 +101,8 @@ namespace Carmicah
 		void OnUpdate(float dt);
 		void UpdateScripts();
 		void OnEnd();
+		void ReceiveMessage(Message* msg) override;
+
 		// Variables
 		MonoDomain* mRootDomain;
 		MonoDomain* mAppDomain;

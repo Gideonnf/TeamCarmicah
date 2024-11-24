@@ -43,7 +43,7 @@ namespace Carmicah
 		void ReceiveMessage(Message* msg) override;
 
 		// button functions
-		void OnPress(Button&);
+		void OnPress(Button& buttonComponent, Entity entityID);
 		void OnRelease(Button&);
 
 		#pragma region Potential Button Functions
