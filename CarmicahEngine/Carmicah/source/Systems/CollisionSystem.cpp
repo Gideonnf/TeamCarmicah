@@ -45,39 +45,79 @@ namespace Carmicah
 	 */
 	void CollisionSystem::UpdateOBB(Entity& obj)
 	{
+		//auto* componentManager = ComponentManager::GetInstance();
+		//auto& transform = componentManager->GetComponent<Transform>(obj);
+		//auto& AABB = componentManager->GetComponent<Collider2D>(obj);
+		////auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
+
+		//AABB.min.x = transform.Pos().x - (transform.Scale().x * 0.5f);
+		//AABB.min.y = transform.Pos().y - (transform.Scale().y * 0.5f);
+
+		//AABB.max.x = transform.Pos().x + (transform.Scale().x * 0.5f);
+		//AABB.max.y = transform.Pos().y + (transform.Scale().y * 0.5f);
+
 		auto* componentManager = ComponentManager::GetInstance();
 		auto& transform = componentManager->GetComponent<Transform>(obj);
-		auto& AABB = componentManager->GetComponent<Collider2D>(obj);
-		//auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
+		auto& collider = componentManager->GetComponent<Collider2D>(obj);
 
-		AABB.min.x = transform.Pos().x - (transform.Scale().x * 0.5f);
-		AABB.min.y = transform.Pos().y - (transform.Scale().y * 0.5f);
+		// Calculate AABB based on custom dimensions
+		float halfWidth = (collider.customWidth * collider.localScale) * 0.5f;
+		float halfHeight = (collider.customHeight * collider.localScale) * 0.5f;
 
-		AABB.max.x = transform.Pos().x + (transform.Scale().x * 0.5f);
-		AABB.max.y = transform.Pos().y + (transform.Scale().y * 0.5f);
+		collider.min.x = transform.Pos().x - halfWidth;
+		collider.min.y = transform.Pos().y - halfHeight;
+
+		collider.max.x = transform.Pos().x + halfWidth;
+		collider.max.y = transform.Pos().y + halfHeight;
 	}
 
 
 	void CollisionSystem::GetOBBVertices(Entity& obj)
 	{
+		//auto* componentManager = ComponentManager::GetInstance();
+		//auto& transform = componentManager->GetComponent<Transform>(obj);
+		//auto& collider = componentManager->GetComponent<Collider2D>(obj);
+
+		//float halfWidth = transform.Scale().x * 0.5f;
+		//float halfHeight = transform.Scale().y * 0.5f;
+
+		//float angleInRadians = transform.Rot() * (PI / 180.0f); // Convert to radians
+		//float cosTheta = cos(angleInRadians);
+		//float sinTheta = sin(angleInRadians);
+
+		//collider.objVert.clear(); // Clear previous vertices
+		//collider.objVert.push_back(transform.Pos() + Vec2f(-halfWidth * cosTheta - -halfHeight * sinTheta,
+		//	-halfWidth * sinTheta + -halfHeight * cosTheta));
+		//collider.objVert.push_back(transform.Pos() + Vec2f(halfWidth * cosTheta - -halfHeight * sinTheta,
+		//	halfWidth * sinTheta + -halfHeight * cosTheta));
+		//collider.objVert.push_back(transform.Pos() + Vec2f(halfWidth * cosTheta - halfHeight * sinTheta,
+		//	halfWidth * sinTheta + halfHeight * cosTheta));
+		//collider.objVert.push_back(transform.Pos() + Vec2f(-halfWidth * cosTheta - halfHeight * sinTheta,
+		//	-halfWidth * sinTheta + halfHeight * cosTheta));
+
 		auto* componentManager = ComponentManager::GetInstance();
 		auto& transform = componentManager->GetComponent<Transform>(obj);
 		auto& collider = componentManager->GetComponent<Collider2D>(obj);
 
-		float halfWidth = transform.Scale().x * 0.5f;
-		float halfHeight = transform.Scale().y * 0.5f;
+		float halfWidth = (collider.customWidth * collider.localScale) * 0.5f;
+		float halfHeight = (collider.customHeight * collider.localScale) * 0.5f;
 
 		float angleInRadians = transform.Rot() * (PI / 180.0f); // Convert to radians
 		float cosTheta = cos(angleInRadians);
 		float sinTheta = sin(angleInRadians);
 
 		collider.objVert.clear(); // Clear previous vertices
+
+		// Calculate vertices based on rotation and position
 		collider.objVert.push_back(transform.Pos() + Vec2f(-halfWidth * cosTheta - -halfHeight * sinTheta,
 			-halfWidth * sinTheta + -halfHeight * cosTheta));
+
 		collider.objVert.push_back(transform.Pos() + Vec2f(halfWidth * cosTheta - -halfHeight * sinTheta,
 			halfWidth * sinTheta + -halfHeight * cosTheta));
+
 		collider.objVert.push_back(transform.Pos() + Vec2f(halfWidth * cosTheta - halfHeight * sinTheta,
 			halfWidth * sinTheta + halfHeight * cosTheta));
+
 		collider.objVert.push_back(transform.Pos() + Vec2f(-halfWidth * cosTheta - halfHeight * sinTheta,
 			-halfWidth * sinTheta + halfHeight * cosTheta));
 
