@@ -80,19 +80,24 @@ namespace Carmicah
 
 #pragma region Key & Mouse State Methods
 
+		bool IsDragging() const;
+		bool IsMouseOver(Vec2d& position, Vec2d& size);
+
 		bool IsKeyPressed(Keys key);
 		bool IsKeyReleased(Keys key);
 		bool IsKeyHold(Keys key);
+
+		bool IsMousePressed(MouseButtons button);
+		bool IsMouseReleased(MouseButtons button);
+		bool IsMouseHold(MouseButtons button);
 
 		bool WasKeyPressed(Keys key);
 		bool WasKeyReleased(Keys key);
 		bool WasKeyHold(Keys key);
 
-		bool IsMousePressed(MouseButtons button);
-		bool IsMouseReleased(MouseButtons button);
-		bool IsMouseHold(MouseButtons button);
-		bool IsMouseOver(Vec2d& position, Vec2d& size);
-		bool IsDragging() const;
+		bool WasMousePressed(MouseButtons button);
+		bool WasMouseReleased(MouseButtons button);
+		bool WasMouseHold(MouseButtons button);
 
 #pragma endregion
 
@@ -131,8 +136,7 @@ namespace Carmicah
 
 
 		void ProxySend(Message*);
-
-		const char* KeycodeToString(Keys key);
+		const char* KeycodeToString(int key);
 	};
 
 	static InputSystem& Input = *InputSystem::GetInstance(); // so people can call "Input.IsKeyPressed" 

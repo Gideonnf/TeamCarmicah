@@ -1,6 +1,6 @@
 /* file documentation -----------------------------------------------------------------------------
 \file       InputSystem.cpp
-\author     Micah Lim (80%), Gideon Francis (20%)
+\author     Micah Lim (80%), Gideon Francis (20%) 
 \course     CSD 2400
 \date       240924
 
@@ -31,18 +31,19 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui.h>
 #include <ImGUI/imgui_impl_glfw.h>
 #include <ImGUI/imgui_impl_opengl3.h>
+#include <GLFW/glfw3.h>
 #include "Editor/SceneToImgui.h"
 #include "log.h"
 #include "Math/Vec2.h"
 #include "CarmicahTime.h"
-#include "InputSystem.h"
+#include "ECS/SystemManager.h"
+#include "Systems/SoundSystem.h"
 
 
 namespace Carmicah
 {
-	std::array<bool, (int)GLFW_KEY_LAST> mKeyCurrentState{};
-	std::array<bool, (int)GLFW_KEY_LAST> mKeyPreviousState{};
-
+	std::unordered_map<int, bool> mKeyCurrentState;
+	std::unordered_map<int, bool> mKeyPreviousState;
 
 	#pragma region Callback Functions
 	/* function documentation--------------------------------------------------------------------------
@@ -52,22 +53,39 @@ namespace Carmicah
 	{
 		UNUSED(scancode);
 		UNUSED(mods);
-		UNUSED(window);
+
+		if (key < 0) 
+		{
+			std::cerr << "Invalid key code received: " << key << std::endl;
+			return;
+		}
+
+		// update the current key state map
 		Input.UpdateKeyMap(key, (KeyStates)action);
 
-		// close window if Esc is pressed
+		// close window if Esc is pressed	
 		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		{
 			glfwSetWindowShouldClose(window, GL_TRUE);
 		}
 
+
+		// CTRL-ALT-DEL is pressed
+		bool ctrlPressed	= mKeyCurrentState[GLFW_KEY_LEFT_CONTROL] || mKeyCurrentState[GLFW_KEY_RIGHT_CONTROL];
+		bool altPressed		= mKeyCurrentState[GLFW_KEY_LEFT_ALT]	  || mKeyCurrentState[GLFW_KEY_RIGHT_ALT];
+		bool deletePressed	= mKeyCurrentState[GLFW_KEY_DELETE];
+		if (ctrlPressed && altPressed && deletePressed)
+		{
+			// minimise window
+			glfwIconifyWindow(window);
+		}
+
 		// cout whatever key that was pressed
 		if (action == GLFW_PRESS)
 		{
-			// use KeycodeToString function to print the key name
+			//use KeycodeToString function to print the key name
 			const char* keyName = Input.KeycodeToString((Keys)key);
 			std::cout << "Key Pressed: " << keyName << std::endl;
-
 		}
 	}
 
@@ -81,7 +99,7 @@ namespace Carmicah
 		Input.UpdateMouseMap(button, (KeyStates)action);
 
 		// start dragging if mouse button is pressed, left button only as of now
-		if (action == GLFW_PRESS && (button == GLFW_MOUSE_BUTTON_LEFT /*|| button == GLFW_MOUSE_BUTTON_RIGHT*/))
+		if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_LEFT)
 		{
 			// mouse is now dragging
 			Input.SetDragging(true);
@@ -90,19 +108,11 @@ namespace Carmicah
 			Input.SetDragStartPos(Input.GetMousePosition());
 
 			Vec2d mousePosD = Input.GetMousePosition();
-			//if (mousePosD.x >= 0 && mousePosD.x <= 1920 && mousePosD.y >= 0 && mousePosD.x <= 1080)
-			//{
-
 			Vec2i mousePosI = { std::clamp(static_cast<int>(mousePosD.x), 0, 1920), 1080 - std::clamp(static_cast<int>(mousePosD.y) - 1, 0, 1080) };
-			//CM_CORE_INFO("BEFORE: X POS {}, Y POS {}", mousePosD.x, mousePosD.y);
-			//CM_CORE_INFO("SCENE: POS {},{}, SIZE {}, {}", SceneWindow::sceneWindowPos.x, SceneWindow::sceneWindowPos.y, SceneWindow::sceneWindowSize.x, SceneWindow::sceneWindowSize.y);
-			//CM_CORE_INFO("AFTER: X POS {}, Y POS {}", mousePosI.x, mousePosI.y);
 
 			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(mousePosI.x, mousePosI.y));
 
 			Input.ProxySend(&msg);
-			//}
-
 		}
 		// stop dragging when button is released
 		else if (action == GLFW_RELEASE)
@@ -118,15 +128,10 @@ namespace Carmicah
 				Input.ProxySend(&msg);
 			}
 			if (Input.IsDragging())
-				/*&& (Input.GetMousePosition().x != Input.GetDragCurrentPos().x || Input.GetMousePosition().y != Input.GetDragCurrentPos().y)*/
 			{
 				// set bool to false and get dragEndPos
 				Input.SetDragging(false);
 				Input.SetDragEndPos(Input.GetMousePosition());
-
-				// see where drag started and ended
-				/*std::cout << "Drag started and ended at: (" << Input.GetDragStartPos().x << ", " << Input.GetDragStartPos().y << ") to ("
-					<< Input.GetDragEndPos().x << ", " << Input.GetDragEndPos().y << ")" << std::endl;*/
 			}
 		}
 	}
@@ -140,16 +145,12 @@ namespace Carmicah
 		// NOTE: SetMousePos is being used in SceneWindow for wrapping position of the cursor so that the mouse pos can pick accurately 
 		// since IMGUI makes the whole window 1920 by 1080 but we have to treat the scene as 1920 by 1080
 		Input.SetMousePosition(xPos, yPos);
-		//std::cout << "Mouse current pos: " << xPos << ", " << yPos << std::endl;
 
 		// if mouse is dragging
 		if (Input.IsDragging())
 		{
 			// get current pos of cursor
 			Input.SetDragCurrentPos({ xPos, yPos });
-
-			//// cout the current mouse pos
-			//std::cout << "dragging to: (" << xpos << ", " << ypos << ")" << std::endl;
 		}
 	}
 
@@ -163,10 +164,47 @@ namespace Carmicah
 		UNUSED(yOffset);
 	}
 
+	/* function documentation-------------------------------------------------------------------------
+	\brief 	Callback function to handle window iconify events.
+	------------------------------------------------------------------------------------------------*/
+	void WindowIconifyCallback(GLFWwindow* window, int iconified)
+	{
+		UNUSED(iconified);
+
+		// check if window is iconified
+		if (glfwGetWindowAttrib(window, GLFW_ICONIFIED))
+		{
+			// pause all audio
+			auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+			souSystem->PauseAllSounds();
+		}
+		else
+		{
+			// resume all audio
+			auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+			souSystem->ResumeAllSounds();
+		}
+	}
+
+	/* function documentation-------------------------------------------------------------------------
+	\brief 	Callback function to handle window focus events.
+	------------------------------------------------------------------------------------------------*/
+	void WindowFocusCallback(GLFWwindow* window, int focused)
+	{
+		UNUSED(focused);
+		int isFocused = glfwGetWindowAttrib(window, GLFW_FOCUSED);
+
+		if (!isFocused)
+		{
+			glfwIconifyWindow(window);
+		}
+	}
+
 	#pragma endregion
 
 
 	#pragma region Init & Update
+	
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Initializes the InputSystem for a specific GLFW window.
 	-------------------------------------------------------------------------------------------------*/
@@ -184,7 +222,8 @@ namespace Carmicah
 		glfwSetMouseButtonCallback(windowRef, MouseCallback);
 		glfwSetCursorPosCallback(windowRef, CursorPosCallback);
 		glfwSetScrollCallback(windowRef, ScrollCallback);
-		//GLFW_MOUSE_BUTTON_LEFT;
+		glfwSetWindowIconifyCallback(windowRef, WindowIconifyCallback);
+		glfwSetWindowFocusCallback(windowRef, WindowFocusCallback);
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -196,7 +235,6 @@ namespace Carmicah
 		{
 			CM_CORE_ERROR("Error: Input system not initalized.");
 		}
-
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -207,7 +245,7 @@ namespace Carmicah
 		mKeyPreviousState = mKeyCurrentState;
 	}
 
-#pragma endregion
+	#pragma endregion
 
 
 	#pragma region Key & Mouse State Methods
@@ -235,36 +273,6 @@ namespace Carmicah
 	bool InputSystem::IsKeyHold(Keys key)
 	{
 		return mKeyCurrentState[(int)key];
-	}
-
-	/* function documentation--------------------------------------------------------------------------
-	\brief      Checks if a specified key was pressed in a previous state (currently unused).
-	-------------------------------------------------------------------------------------------------*/
-	bool InputSystem::WasKeyPressed(Keys key)
-	{
-		UNUSED(key);
-		// do later
-		return false;
-	}
-
-	/* function documentation--------------------------------------------------------------------------
-	\brief      Checks if a specified key was released in a previous state (currently unused).
-	-------------------------------------------------------------------------------------------------*/
-	bool  InputSystem::WasKeyReleased(Keys key)
-	{
-		UNUSED(key);
-		// do later
-		return false;
-	}
-
-	/* function documentation--------------------------------------------------------------------------
-	\brief      Checks if a specified key was held down in a previous state (currently unused).
-	-------------------------------------------------------------------------------------------------*/
-	bool  InputSystem::WasKeyHold(Keys key)
-	{
-		UNUSED(key);
-		// do later
-		return false;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -300,14 +308,14 @@ namespace Carmicah
 		Vec2d mousePos = Input.GetMousePosition();
 
 		// define button boundaries
-		float left = position.x - (size.x * 0.5f);
-		float right = position.x + (size.x * 0.5f);
-		float bottom = position.y - (size.y * 0.5f);
-		float top = position.y + (size.y * 0.5f);
+		float left		= position.x - (size.x * 0.5f);
+		float right		= position.x + (size.x * 0.5f);
+		float bottom	= position.y - (size.y * 0.5f);
+		float top		= position.y + (size.y * 0.5f);
 
 		// check if mouse position is within button boundaries
 		return (mousePos.x >= left && mousePos.x <= right &&
-			mousePos.y >= bottom && mousePos.y <= top);
+				mousePos.y >= bottom && mousePos.y <= top);
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -317,6 +325,55 @@ namespace Carmicah
 	{
 		return isDragging;
 	}
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified key was pressed in a previous state (currently unused).
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::WasKeyPressed(Keys key)
+	{
+		return mKeyPreviousState[(int)key] && !mKeyCurrentState[(int)key];
+	}
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified key was released in a previous state (currently unused).
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::WasKeyReleased(Keys key) 
+	{
+		return !mKeyPreviousState[(int)key] && mKeyCurrentState[(int)key];
+	}
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified key was held down in a previous state (currently unused).
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::WasKeyHold(Keys key) 
+	{
+		return mKeyPreviousState[(int)key] && mKeyCurrentState[(int)key];
+	}
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified mouse button was pressed in a previous state.
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::WasMousePressed(MouseButtons button)
+	{
+		return mMouseMap[(int)button] == KeyStates::PRESSED && !mMousePressed;
+	}
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified mouse button was relesed in a previous state.
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::WasMouseReleased(MouseButtons button)
+	{
+		return mMouseMap[(int)button] == KeyStates::RELEASE && mMousePressed;
+	}
+
+	/* function documentation--------------------------------------------------------------------------
+	* \brief      Checks if a specified mouse button was held down in a previous state.
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::WasMouseHold(MouseButtons button)
+	{
+		return mMouseMap[(int)button] == KeyStates::HOLD && mMousePressed;
+	}
+
 
 	#pragma endregion
 
@@ -415,7 +472,7 @@ namespace Carmicah
 		isDragging = dragging;
 	}
 
-#pragma endregion
+	#pragma endregion
 
 
 	#pragma region Key & Mouse Map Update Methods
@@ -424,16 +481,24 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::UpdateKeyMap(int key, KeyStates state)
 	{
-		mKeyMap[key] = state;
+		//if (key < 0 || key >= (int)GLFW_KEY_LAST) 
+		//{
+		//	CM_CORE_WARN("Invalid key code: {}", key);
+		//	return;
+		//}
 
-		if (state == KeyStates::PRESSED)
-		{
-			mKeyCurrentState[(int)key] = true;
-		}
-		else if (state == KeyStates::RELEASE)
-		{
-			mKeyCurrentState[(int)key] = false;
-		}
+		mKeyCurrentState[key] = state == KeyStates::PRESSED;
+
+		//mKeyMap[key] = state;
+
+		//if (state == KeyStates::PRESSED)
+		//{
+		//	mKeyCurrentState[(int)key] = true;
+		//}
+		//else if (state == KeyStates::RELEASE)
+		//{
+		//	mKeyCurrentState[(int)key] = false;
+		//}
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -456,7 +521,7 @@ namespace Carmicah
 		//std::cout << "Mouse State : " << state << " For : " << key << std::endl;
 	}
 
-#pragma endregion
+	#pragma endregion
 
 
 	#pragma region ProxySend & Keycode Functions	
@@ -471,181 +536,129 @@ namespace Carmicah
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Converts a keycode to a human-readable string representation.
 	-------------------------------------------------------------------------------------------------*/
-	const char* InputSystem::KeycodeToString(Keys key)
+	const char* InputSystem::KeycodeToString(int key)
 	{
-		// convert keycode to string (switch version)
 		switch (key)
 		{
-			// Misc Keys
-		case KEY_BACKSPACE:
-			return "backspace";
-		case KEY_TAB:
-			return "tab";
-		case KEY_ENTER:
-			return "enter";
-		case KEY_CTRL:
-			return "ctrl";
-		case KEY_CAPSLOCK:
-			return "capslock";
-		case KEY_ESC:
-			return "esc";
-		case KEY_SPACEBAR:
-			return "spacebar";
-		case KEY_PLUS:
-			return "plus";
-		case KEY_COMMA:
-			return "comma";
-		case KEY_DASH:
-			return "dash";
-		case KEY_FULLSTOP:
-			return "fullstop";
-		case KEY_QUESTIONMARK:
-			return "questionmark";
-		case KEY_CURLYDASH:
-			return "curlydash";
-		case KEY_CURLYBRACKET_OPEN:
-			return "curlybracket_open";
-		case KEY_BACKDASH:
-			return "backdash";
-		case KEY_CURLYBRACKET_CLOSE:
-			return "curlybracket_close";
-		case KEY_APOSTROPHE:
-			return "apostrophe";
-		case KEY_WINDOWS_KEY:
-			return "windows_key";
+			// Printable keys
+		case KEY_SPACEBAR: return "Spacebar";
+		case KEY_APOSTROPHE: return "Apostrophe";
+		case KEY_COMMA: return "Comma";
+		case KEY_MINUS: return "Minus";
+		case KEY_PERIOD: return "Period";
+		case KEY_SLASH: return "Slash";
+		case KEY_0: return "0";
+		case KEY_1: return "1";
+		case KEY_2: return "2";
+		case KEY_3: return "3";
+		case KEY_4: return "4";
+		case KEY_5: return "5";
+		case KEY_6: return "6";
+		case KEY_7: return "7";
+		case KEY_8: return "8";
+		case KEY_9: return "9";
+		case KEY_SEMICOLON: return "Semicolon";
+		case KEY_EQUAL: return "Equal";
+		case KEY_A: return "A";
+		case KEY_B: return "B";
+		case KEY_C: return "C";
+		case KEY_D: return "D";
+		case KEY_E: return "E";
+		case KEY_F: return "F";
+		case KEY_G: return "G";
+		case KEY_H: return "H";
+		case KEY_I: return "I";
+		case KEY_J: return "J";
+		case KEY_K: return "K";
+		case KEY_L: return "L";
+		case KEY_M: return "M";
+		case KEY_N: return "N";
+		case KEY_O: return "O";
+		case KEY_P: return "P";
+		case KEY_Q: return "Q";
+		case KEY_R: return "R";
+		case KEY_S: return "S";
+		case KEY_T: return "T";
+		case KEY_U: return "U";
+		case KEY_V: return "V";
+		case KEY_W: return "W";
+		case KEY_X: return "X";
+		case KEY_Y: return "Y";
+		case KEY_Z: return "Z";
 
-			// Arrow Keys
-		case KEY_ARROW_LEFT:
-			return "arrow_left";
-		case KEY_ARROW_UP:
-			return "arrow_up";
-		case KEY_ARROW_RIGHT:
-			return "arrow_right";
-		case KEY_ARROW_DOWN:
-			return "arrow_down";
+			// Function keys
+		case KEY_F01: return "F1";
+		case KEY_F02: return "F2";
+		case KEY_F03: return "F3";
+		case KEY_F04: return "F4";
+		case KEY_F05: return "F5";
+		case KEY_F06: return "F6";
+		case KEY_F07: return "F7";
+		case KEY_F08: return "F8";
+		case KEY_F09: return "F9";
+		case KEY_F10: return "F10";
+		case KEY_F11: return "F11";
+		case KEY_F12: return "F12";
 
-			// Volume Keys
-		case KEY_VOLUME_MUTE:
-			return "volume_mute";
-		case KEY_VOLUME_DOWN:
-			return "volume_down";
-		case KEY_VOLUME_UP:
-			return "volume_up";
+			// Extended function keys
+		//case KEY_F13: return "F13";
+		//case KEY_F14: return "F14";
+		//case KEY_F15: return "F15";
+		//case KEY_F16: return "F16";
+		//case KEY_F17: return "F17";
+		//case KEY_F18: return "F18";
+		//case KEY_F19: return "F19";
+		//case KEY_F20: return "F20";
+		//case KEY_F21: return "F21";
+		//case KEY_F22: return "F22";
+		//case KEY_F23: return "F23";
+		//case KEY_F24: return "F24";
 
-			// Track Keys
-		case KEY_TRACK_NEXT:
-			return "track_next";
-		case KEY_TRACK_PREVIOUS:
-			return "track_previous";
-		case KEY_TRACK_STOP:
-			return "track_stop";
-		case KEY_TRACK_PLAYORPAUSE:
-			return "track_playorpause";
+			// Arrow keys
+		case KEY_UP: return "Arrow Up";
+		case KEY_DOWN: return "Arrow Down";
+		case KEY_LEFT: return "Arrow Left";
+		case KEY_RIGHT: return "Arrow Right";
 
-			// Number Keys
-		case KEY_0:
-			return "0";
-		case KEY_1:
-			return "1";
-		case KEY_2:
-			return "2";
-		case KEY_3:
-			return "3";
-		case KEY_4:
-			return "4";
-		case KEY_5:
-			return "5";
-		case KEY_6:
-			return "6";
-		case KEY_7:
-			return "7";
-		case KEY_8:
-			return "8";
-		case KEY_9:
-			return "9";
+			// Modifier keys
+		case KEY_LEFT_SHIFT: return "Left Shift";
+		case KEY_LEFT_CONTROL: return "Left Control";
+		case KEY_LEFT_ALT: return "Left Alt";
+		case KEY_LEFT_SUPER: return "Left Super";
+		case KEY_RIGHT_SHIFT: return "Right Shift";
+		case KEY_RIGHT_CONTROL: return "Right Control";
+		case KEY_RIGHT_ALT: return "Right Alt";
+		case KEY_RIGHT_SUPER: return "Right Super";
+		case KEY_MENU: return "Menu";
 
-			// Alphabet Keys
-		case KEY_A:
-			return "A";
-		case KEY_B:
-			return "B";
-		case KEY_C:
-			return "C";
-		case KEY_D:
-			return "D";
-		case KEY_E:
-			return "E";
-		case KEY_F:
-			return "F";
-		case KEY_G:
-			return "G";
-		case KEY_H:
-			return "H";
-		case KEY_I:
-			return "I";
-		case KEY_J:
-			return "J";
-		case KEY_K:
-			return "K";
-		case KEY_L:
-			return "L";
-		case KEY_M:
-			return "M";
-		case KEY_N:
-			return "N";
-		case KEY_O:
-			return "O";
-		case KEY_P:
-			return "P";
-		case KEY_Q:
-			return "Q";
-		case KEY_R:
-			return "R";
-		case KEY_S:
-			return "S";
-		case KEY_T:
-			return "T";
-		case KEY_U:
-			return "U";
-		case KEY_V:
-			return "V";
-		case KEY_W:
-			return "W";
-		case KEY_X:
-			return "X";
-		case KEY_Y:
-			return "Y";
-		case KEY_Z:
-			return "Z";
+			// Misc keys
+		case KEY_ESCAPE: return "Escape";
+		case KEY_ENTER: return "Enter";
+		case KEY_TAB: return "Tab";
+		case KEY_BACKSPACE: return "Backspace";
+		case KEY_INSERT: return "Insert";
+		case KEY_DELETE: return "Delete";
+		case KEY_PAGE_UP: return "Page Up";
+		case KEY_PAGE_DOWN: return "Page Down";
+		case KEY_HOME: return "Home";
+		case KEY_END: return "End";
+		case KEY_CAPS_LOCK: return "Caps Lock";
+		case KEY_SCROLL_LOCK: return "Scroll Lock";
+		case KEY_NUM_LOCK: return "Num Lock";
+		case KEY_PRINT_SCREEN: return "Print Screen";
+		case KEY_PAUSE: return "Pause";
 
-			// Function Keys
-		case KEY_F01:
-			return "F1";
-		case KEY_F02:
-			return "F2";
-		case KEY_F03:
-			return "F3";
-		case KEY_F04:
-			return "F4";
-		case KEY_F05:
-			return "F5";
-		case KEY_F06:
-			return "F6";
-		case KEY_F07:
-			return "F7";
-		case KEY_F08:
-			return "F8";
-		case KEY_F09:
-			return "F9";
-		case KEY_F10:
-			return "F10";
-		case KEY_F11:
-			return "F11";
-		case KEY_F12:
-			return "F12";
+			// Special keys
+		case KEY_GRAVE_ACCENT: return "Grave Accent";
+		case KEY_WORLD_1: return "World 1";
+		case KEY_WORLD_2: return "World 2";
 
-		default:
-			return "undefined";
+			// Mouse buttons (if applicable in the same function)
+		case MOUSE_BUTTON_LEFT: return "Mouse Button Left";
+		case MOUSE_BUTTON_RIGHT: return "Mouse Button Right";
+		case MOUSE_BUTTON_MIDDLE: return "Mouse Button Middle";
+
+		default: return "Unknown Key";
 		}
 	}
 

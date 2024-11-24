@@ -27,121 +27,132 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	enum Keys
-	{
-		// KEY_ = 0x,
+    enum Keys
+    {
+        // Special and Unknown Keys
+        KEY_UNKNOWN = GLFW_KEY_UNKNOWN,
 
-		// Misc Keys
-		KEY_BACKSPACE	= 0x08,
-		KEY_TAB			= 0x09,
-		KEY_ENTER		= 0x0D,
-		KEY_CTRL		= 0x11,
-		KEY_CAPSLOCK	= 0x14,
-		KEY_ESC			= 0x1B,
-		KEY_SPACEBAR	= 0x20,
+        // Printable Keys
+        KEY_SPACEBAR        = GLFW_KEY_SPACE,
+        KEY_APOSTROPHE      = GLFW_KEY_APOSTROPHE,      /* ' */
+        KEY_COMMA           = GLFW_KEY_COMMA,           /* , */
+        KEY_MINUS           = GLFW_KEY_MINUS,           /* - */
+        KEY_PERIOD          = GLFW_KEY_PERIOD,          /* . */
+        KEY_SLASH           = GLFW_KEY_SLASH,           /* / */
+        KEY_SEMICOLON       = GLFW_KEY_SEMICOLON,       /* ; */
+        KEY_EQUAL           = GLFW_KEY_EQUAL,           /* = */
+        KEY_LEFT_BRACKET    = GLFW_KEY_LEFT_BRACKET,    /* [ */
+        KEY_BACKSLASH       = GLFW_KEY_BACKSLASH,       /* \ */
+        KEY_RIGHT_BRACKET   = GLFW_KEY_RIGHT_BRACKET,   /* ] */
+        KEY_GRAVE_ACCENT    = GLFW_KEY_GRAVE_ACCENT,    /* ` */
+        KEY_WORLD_1         = GLFW_KEY_WORLD_1,         /* non-US #1 */
+        KEY_WORLD_2         = GLFW_KEY_WORLD_2,         /* non-US #2 */
+        KEY_0 = GLFW_KEY_0,
+        KEY_1 = GLFW_KEY_1,
+        KEY_2 = GLFW_KEY_2,
+        KEY_3 = GLFW_KEY_3,
+        KEY_4 = GLFW_KEY_4,
+        KEY_5 = GLFW_KEY_5,
+        KEY_6 = GLFW_KEY_6,
+        KEY_7 = GLFW_KEY_7,
+        KEY_8 = GLFW_KEY_8,
+        KEY_9 = GLFW_KEY_9,
+        KEY_A = GLFW_KEY_A,
+        KEY_B = GLFW_KEY_B,
+        KEY_C = GLFW_KEY_C,
+        KEY_D = GLFW_KEY_D,
+        KEY_E = GLFW_KEY_E,
+        KEY_F = GLFW_KEY_F,
+        KEY_G = GLFW_KEY_G,
+        KEY_H = GLFW_KEY_H,
+        KEY_I = GLFW_KEY_I,
+        KEY_J = GLFW_KEY_J,
+        KEY_K = GLFW_KEY_K,
+        KEY_L = GLFW_KEY_L,
+        KEY_M = GLFW_KEY_M,
+        KEY_N = GLFW_KEY_N,
+        KEY_O = GLFW_KEY_O,
+        KEY_P = GLFW_KEY_P,
+        KEY_Q = GLFW_KEY_Q,
+        KEY_R = GLFW_KEY_R,
+        KEY_S = GLFW_KEY_S,
+        KEY_T = GLFW_KEY_T,
+        KEY_U = GLFW_KEY_U,
+        KEY_V = GLFW_KEY_V,
+        KEY_W = GLFW_KEY_W,
+        KEY_X = GLFW_KEY_X,
+        KEY_Y = GLFW_KEY_Y,
+        KEY_Z = GLFW_KEY_Z,
 
-		// Arrow Keys
-		KEY_ARROW_LEFT	= 0x25, 
-		KEY_ARROW_UP	= 0x26,	
-		KEY_ARROW_RIGHT = 0x27,		
-		KEY_ARROW_DOWN	= 0x28,	
+        // Function Keys
+        KEY_ESCAPE          = GLFW_KEY_ESCAPE,
+        KEY_ENTER           = GLFW_KEY_ENTER,
+        KEY_TAB             = GLFW_KEY_TAB,
+        KEY_BACKSPACE       = GLFW_KEY_BACKSPACE,
+        KEY_INSERT          = GLFW_KEY_INSERT,
+        KEY_DELETE          = GLFW_KEY_DELETE,
+        KEY_RIGHT           = GLFW_KEY_RIGHT,
+        KEY_LEFT            = GLFW_KEY_LEFT,
+        KEY_DOWN            = GLFW_KEY_DOWN,
+        KEY_UP              = GLFW_KEY_UP,
+        KEY_PAGE_UP         = GLFW_KEY_PAGE_UP,
+        KEY_PAGE_DOWN       = GLFW_KEY_PAGE_DOWN,
+        KEY_HOME            = GLFW_KEY_HOME,
+        KEY_END             = GLFW_KEY_END,
+        KEY_CAPS_LOCK       = GLFW_KEY_CAPS_LOCK,
+        KEY_SCROLL_LOCK     = GLFW_KEY_SCROLL_LOCK,
+        KEY_NUM_LOCK        = GLFW_KEY_NUM_LOCK,
+        KEY_PRINT_SCREEN    = GLFW_KEY_PRINT_SCREEN,
+        KEY_PAUSE           = GLFW_KEY_PAUSE,
 
-		// Misc Keys
-		KEY_PRINT_SCREEN	= 0x2C,
-		KEY_INERT			= 0x2D,
-		KEY_DELETE			= 0x2E,
-		KEY_SHIFT_LEFT		= 0xA2,
-		KEY_SHIFT_RIGHT		= 0xA3,
-		KEY_ALT_LEFT		= 0xA4,
-		KEY_ALT_RIGHT		= 0xA5,
+		// Function Keys
+        KEY_F01 = GLFW_KEY_F1,
+        KEY_F02 = GLFW_KEY_F2,
+        KEY_F03 = GLFW_KEY_F3,
+        KEY_F04 = GLFW_KEY_F4,
+        KEY_F05 = GLFW_KEY_F5,
+        KEY_F06 = GLFW_KEY_F6,
+        KEY_F07 = GLFW_KEY_F7,
+        KEY_F08 = GLFW_KEY_F8,
+        KEY_F09 = GLFW_KEY_F9,
+        KEY_F10 = GLFW_KEY_F10,
+        KEY_F11 = GLFW_KEY_F11,
+        KEY_F12 = GLFW_KEY_F12,
 
-		// Volume Keys
-		KEY_VOLUME_MUTE = 0xAD,
-		KEY_VOLUME_DOWN = 0xAE,
-		KEY_VOLUME_UP	= 0xAF,
+        // Custom Extended Function Keys
+        //KEY_F13 = 0x7C,
+        //KEY_F14 = 0x7D,
+        //KEY_F15 = 0x7E,
+        //KEY_F16 = 0x7F,
+        //KEY_F17 = 0x80,
+        //KEY_F18 = 0x81,
+        //KEY_F19 = 0x82,
+        //KEY_F20 = 0x83,
+        //KEY_F21 = 0x84,
+        //KEY_F22 = 0x85,
+        //KEY_F23 = 0x86,
+        //KEY_F24 = 0x87,
 
-		// Misc Keys
-		KEY_PLUS				= 0xBB,
-		KEY_COMMA				= 0xBC,
-		KEY_DASH				= 0xBD,
-		KEY_FULLSTOP			= 0xBE,
-		KEY_QUESTIONMARK		= 0xBF,
-		KEY_CURLYDASH			= 0xC0,
-		KEY_CURLYBRACKET_OPEN	= 0xDB,
-		KEY_BACKDASH			= 0xDC,
-		KEY_CURLYBRACKET_CLOSE	= 0xDD,
-		KEY_APOSTROPHE			= 0xDE,
-		KEY_WINDOWS_KEY			= 0x5B,
+        // Modifier Keys
+        KEY_LEFT_SHIFT      = GLFW_KEY_LEFT_SHIFT,
+        KEY_LEFT_CONTROL    = GLFW_KEY_LEFT_CONTROL,
+        KEY_LEFT_ALT        = GLFW_KEY_LEFT_ALT,
+        KEY_LEFT_SUPER      = GLFW_KEY_LEFT_SUPER,
+        KEY_RIGHT_SHIFT     = GLFW_KEY_RIGHT_SHIFT,
+        KEY_RIGHT_CONTROL   = GLFW_KEY_RIGHT_CONTROL,
+        KEY_RIGHT_ALT       = GLFW_KEY_RIGHT_ALT,
+        KEY_RIGHT_SUPER     = GLFW_KEY_RIGHT_SUPER,
+        KEY_MENU            = GLFW_KEY_MENU,
 
-		// Track Keys
-		KEY_TRACK_NEXT			= 0xB0,
-		KEY_TRACK_PREVIOUS		= 0xB1,
-		KEY_TRACK_STOP			= 0xB2,
-		KEY_TRACK_PLAYORPAUSE	= 0xB3,
-
-		// Number Keys
-		KEY_0 = 0x30,
-		KEY_1 = 0x31,
-		KEY_2 = 0x32,
-		KEY_3 = 0x33,
-		KEY_4 = 0x34,
-		KEY_5 = 0x35,
-		KEY_6 = 0x36,
-		KEY_7 = 0x37,
-		KEY_8 = 0x38,
-		KEY_9 = 0x39,
-
-		// Alphabet Keys
-		KEY_A = 0x41,
-		KEY_B = 0x42,
-		KEY_C = 0x43,
-		KEY_D = 0x44,
-		KEY_E = 0x45,
-		KEY_F = 0x46,
-		KEY_G = 0x47,
-		KEY_H = 0x48,
-		KEY_I = 0x49,
-		KEY_J = 0x4A,
-		KEY_K = 0x4B,
-		KEY_L = 0x4C,
-		KEY_M = 0x4D,
-		KEY_N = 0x4E,
-		KEY_O = 0x4F,
-		KEY_P = 0x50,
-		KEY_Q = 0x51,
-		KEY_R = 0x52,
-		KEY_S = 0x53,
-		KEY_T = 0x54,
-		KEY_U = 0x55,
-		KEY_V = 0x56,
-		KEY_W = 0x57,
-		KEY_X = 0x58,
-		KEY_Y = 0x59,
-		KEY_Z = 0x5A,
-
-		// F Keys
-		KEY_F01 = 0x70,
-		KEY_F02 = 0x71,
-		KEY_F03 = 0x72,
-		KEY_F04 = 0x73,
-		KEY_F05 = 0x74,
-		KEY_F06 = 0x75,
-		KEY_F07 = 0x76,
-		KEY_F08 = 0x77,
-		KEY_F09 = 0x78,
-		KEY_F10 = 0x79,
-		KEY_F11 = 0x7A,
-		KEY_F12 = 0x7B,
-
-		// MAX_KEYBOARD_KEYS,
-	};
+        MAX_KEYBOARD_KEYS
+    };
 
 	enum MouseButtons
 	{
-		MOUSE_BUTTON_LEFT	= 0x01,
-		MOUSE_BUTTON_RIGHT	= 0x02,
-		MOUSE_BUTTON_WHEEL,
-		MAX_MOUSE_BUTONS,
+		MOUSE_BUTTON_LEFT	= GLFW_MOUSE_BUTTON_LEFT,
+		MOUSE_BUTTON_RIGHT	= GLFW_MOUSE_BUTTON_RIGHT,
+		MOUSE_BUTTON_MIDDLE = GLFW_MOUSE_BUTTON_MIDDLE,
+		MAX_MOUSE_BUTTONS
 	};
 
 	enum KeyStates

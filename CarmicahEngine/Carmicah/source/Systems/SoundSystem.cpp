@@ -320,6 +320,31 @@ namespace Carmicah
         return true;
     }
 
+    void SoundSystem::PauseAllSounds() 
+    {
+        for (auto& pair : mSoundTracks) 
+        {
+            if (pair.second->channel) 
+            {
+                pair.second->isPaused = true;
+                pair.second->channel->setPaused(true);
+            }
+        }
+    }
+
+    void SoundSystem::ResumeAllSounds() 
+    {
+        for (auto& pair : mSoundTracks) 
+        {
+            if (pair.second->channel && pair.second->isPaused) 
+            {
+                pair.second->isPaused = false;
+                pair.second->channel->setPaused(false);
+            }
+        }
+    }
+
+
     void SoundSystem::SetMasterVolume(float volume)
     {
         mMasterVolume = std::clamp(volume, 0.0f, 1.0f);
