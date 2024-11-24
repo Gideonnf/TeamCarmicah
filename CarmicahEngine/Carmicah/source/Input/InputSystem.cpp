@@ -1,6 +1,6 @@
 /* file documentation -----------------------------------------------------------------------------
 \file       InputSystem.cpp
-\author     Micah Lim (80%), Gideon Francis (20%)
+\author     Micah Lim (80%), Gideon Francis (20%) 
 \course     CSD 2400
 \date       240924
 
@@ -45,7 +45,6 @@ namespace Carmicah
 	std::unordered_map<int, bool> mKeyCurrentState;
 	std::unordered_map<int, bool> mKeyPreviousState;
 
-
 	#pragma region Callback Functions
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Callback function to handle keyboard input events, such as key presses and releases.
@@ -54,7 +53,6 @@ namespace Carmicah
 	{
 		UNUSED(scancode);
 		UNUSED(mods);
-		UNUSED(window);
 
 		if (key < 0) 
 		{
@@ -75,12 +73,12 @@ namespace Carmicah
 		// CTRL-ALT-DEL is pressed
 		bool ctrlPressed	= mKeyCurrentState[GLFW_KEY_LEFT_CONTROL] || mKeyCurrentState[GLFW_KEY_RIGHT_CONTROL];
 		bool altPressed		= mKeyCurrentState[GLFW_KEY_LEFT_ALT]	  || mKeyCurrentState[GLFW_KEY_RIGHT_ALT];
-		bool deletePressed	= mKeyCurrentState[GLFW_KEY_ENTER];
+		bool deletePressed	= mKeyCurrentState[GLFW_KEY_DELETE];
 		if (ctrlPressed && altPressed && deletePressed)
 		{
 			// minimise window
 			glfwIconifyWindow(window);
-		}	
+		}
 
 		// cout whatever key that was pressed
 		if (action == GLFW_PRESS)
@@ -206,6 +204,7 @@ namespace Carmicah
 
 
 	#pragma region Init & Update
+	
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Initializes the InputSystem for a specific GLFW window.
 	-------------------------------------------------------------------------------------------------*/
@@ -246,8 +245,6 @@ namespace Carmicah
 		mKeyPreviousState = mKeyCurrentState;
 	}
 
-
-
 	#pragma endregion
 
 
@@ -276,36 +273,6 @@ namespace Carmicah
 	bool InputSystem::IsKeyHold(Keys key)
 	{
 		return mKeyCurrentState[(int)key];
-	}
-
-	/* function documentation--------------------------------------------------------------------------
-	\brief      Checks if a specified key was pressed in a previous state (currently unused).
-	-------------------------------------------------------------------------------------------------*/
-	bool InputSystem::WasKeyPressed(Keys key)
-	{
-		UNUSED(key);
-		// do later
-		return false;
-	}
-
-	/* function documentation--------------------------------------------------------------------------
-	\brief      Checks if a specified key was released in a previous state (currently unused).
-	-------------------------------------------------------------------------------------------------*/
-	bool  InputSystem::WasKeyReleased(Keys key)
-	{
-		UNUSED(key);
-		// do later
-		return false;
-	}
-
-	/* function documentation--------------------------------------------------------------------------
-	\brief      Checks if a specified key was held down in a previous state (currently unused).
-	-------------------------------------------------------------------------------------------------*/
-	bool  InputSystem::WasKeyHold(Keys key)
-	{
-		UNUSED(key);
-		// do later
-		return false;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -341,14 +308,14 @@ namespace Carmicah
 		Vec2d mousePos = Input.GetMousePosition();
 
 		// define button boundaries
-		float left = position.x - (size.x * 0.5f);
-		float right = position.x + (size.x * 0.5f);
-		float bottom = position.y - (size.y * 0.5f);
-		float top = position.y + (size.y * 0.5f);
+		float left		= position.x - (size.x * 0.5f);
+		float right		= position.x + (size.x * 0.5f);
+		float bottom	= position.y - (size.y * 0.5f);
+		float top		= position.y + (size.y * 0.5f);
 
 		// check if mouse position is within button boundaries
 		return (mousePos.x >= left && mousePos.x <= right &&
-			mousePos.y >= bottom && mousePos.y <= top);
+				mousePos.y >= bottom && mousePos.y <= top);
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -358,6 +325,55 @@ namespace Carmicah
 	{
 		return isDragging;
 	}
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified key was pressed in a previous state (currently unused).
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::WasKeyPressed(Keys key)
+	{
+		return mKeyPreviousState[(int)key] && !mKeyCurrentState[(int)key];
+	}
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified key was released in a previous state (currently unused).
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::WasKeyReleased(Keys key) 
+	{
+		return !mKeyPreviousState[(int)key] && mKeyCurrentState[(int)key];
+	}
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified key was held down in a previous state (currently unused).
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::WasKeyHold(Keys key) 
+	{
+		return mKeyPreviousState[(int)key] && mKeyCurrentState[(int)key];
+	}
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified mouse button was pressed in a previous state.
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::WasMousePressed(MouseButtons button)
+	{
+		return mMouseMap[(int)button] == KeyStates::PRESSED && !mMousePressed;
+	}
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified mouse button was relesed in a previous state.
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::WasMouseReleased(MouseButtons button)
+	{
+		return mMouseMap[(int)button] == KeyStates::RELEASE && mMousePressed;
+	}
+
+	/* function documentation--------------------------------------------------------------------------
+	* \brief      Checks if a specified mouse button was held down in a previous state.
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::WasMouseHold(MouseButtons button)
+	{
+		return mMouseMap[(int)button] == KeyStates::HOLD && mMousePressed;
+	}
+
 
 	#pragma endregion
 

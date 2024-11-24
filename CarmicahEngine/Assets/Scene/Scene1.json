@@ -38,7 +38,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Count_Count 3"
+                    "texture": "Bullet"
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
@@ -87,7 +87,7 @@
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot" : 0.0
+                    "rot": 0.0
                 }
             ]
         },
@@ -99,7 +99,7 @@
                     "Component Name": "struct Carmicah::TextRenderer",
                     "model": "Square",
                     "font": "comic",
-                    "text": "81",
+                    "text": "33",
                     "colorR": 1.0,
                     "colorG": 0.0,
                     "colorB": 0.0
@@ -111,8 +111,7 @@
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot" : 0.0
-
+                    "rot": 0.0
                 }
             ]
         },
@@ -132,7 +131,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Idle 5"
+                    "texture": "MC_SpriteSheet_Idle 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -147,11 +146,11 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 2.0,
-                    "posPrevY": 2.0,
+                    "posPrevX": -3.2239999771118166,
+                    "posPrevY": 9.638999938964844,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": 1.0,
+                    "zposPrev": 0.0,
                     "objectType": 1
                 },
                 {
@@ -188,8 +187,8 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 4.0,
-                    "posPrevY": 0.0,
+                    "posPrevX": -5.199999809265137,
+                    "posPrevY": -3.049999952316284,
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
@@ -225,7 +224,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -6.260096549987793,
+                    "xPos": -2.3530054092407228,
                     "yPos": 0.0,
                     "depth": 0.0,
                     "xScale": 0.5,
@@ -243,31 +242,15 @@
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
-                    "velocityX": 0.0,
+                    "velocityX": 0.4844174087047577,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": -3.260096549987793,
+                    "posPrevX": -2.361203670501709,
                     "posPrevY": 0.0,
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
-                    "objectType": 2,
-                    "linearForces": [
-                        {
-                            "unitDirX": 1.0,
-                            "unitDirY": 0.0,
-                            "magnitude": 1.0,
-                            "lifetime": 2.0,
-                            "age": 0.0
-                        },
-                        {
-                            "unitDirX": 1.0,
-                            "unitDirY": 0.0,
-                            "magnitude": 1.0,
-                            "lifetime": 2.0,
-                            "age": 0.0
-                        }
-                    ]
+                    "objectType": 2
                 }
             ],
             "Children": []
@@ -278,8 +261,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -1.7399036884307862,
-                    "yPos": 0.0,
+                    "xPos": 5.4626145362854,
+                    "yPos": 2.1938843727111818,
                     "depth": 0.0,
                     "xScale": 1.2000000476837159,
                     "yScale": 1.2000000476837159,
@@ -300,11 +283,11 @@
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
-                    "velocityX": 0.0,
-                    "velocityY": 0.0,
+                    "velocityX": -1.1896305084228516,
+                    "velocityY": 1.3170877695083619,
                     "angularVelocity": 0.0,
-                    "posPrevX": -2.739903688430786,
-                    "posPrevY": 0.0,
+                    "posPrevX": 5.482821941375732,
+                    "posPrevY": 2.1721534729003908,
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
@@ -399,7 +382,7 @@
                     "depth": 1.0,
                     "xScale": 200.0,
                     "yScale": 100.0,
-                    "rot" : 0.0
+                    "rot": 0.0
                 }
             ]
         },

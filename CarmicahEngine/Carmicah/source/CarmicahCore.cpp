@@ -243,12 +243,12 @@ namespace Carmicah
                 // FOR TESTING OF GOs MANUALLY
                     
                 //wall.SetParent(mainCharacter);
-                GameObject GameObject2;
-                gGOFactory->FetchGO("GameObject2", GameObject2);
+                //GameObject GameObject2;
+                //gGOFactory->FetchGO("GameObject2", GameObject2);
 
-                LinearDirectionalForce rightForce({ 1.0f,0.0f }, 1.0f, 2.0f);
+                //LinearDirectionalForce rightForce({ 1.0f,0.0f }, 1.0f, 2.0f);
 
-                GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(rightForce);
+                //GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(rightForce);
 
 
                 //GameObject mainCharacter;
@@ -374,9 +374,9 @@ namespace Carmicah
 
                // glfwMakeContextCurrent(ImGuiWindow);
                 CarmicahTime::GetInstance()->StartSystemTimer("EditorSystem");
-                GameObject fps;
-                gGOFactory->FetchGO("FPSText", fps);
-                fps.GetComponent<TextRenderer>().txt = std::to_string((int)CarmicahTime::GetInstance()->FPS());
+                //GameObject fps;
+                //gGOFactory->FetchGO("FPSText", fps);
+                //fps.GetComponent<TextRenderer>().txt = std::to_string((int)CarmicahTime::GetInstance()->FPS());
                 editorSys->Update();
                 editorSys->Render(window);
                 CarmicahTime::GetInstance()->StopSystemTimer("EditorSystem");
