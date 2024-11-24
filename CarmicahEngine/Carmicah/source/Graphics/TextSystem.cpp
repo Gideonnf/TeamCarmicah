@@ -156,7 +156,7 @@ namespace Carmicah
 				float xTrack{};
 				for (size_t txtCount{}; txtCount < firstDiff; ++txtCount)
 				{
-					Font::FontChar ch = foundFontTex.mFontMaps[txtRenderer.txt[txtCount] - foundFontTex.charOffset];
+					Font::FontChar ch = foundFontTex.mFontMaps[txtRenderer.txt[txtCount] - charOffset];
 					xTrack += (ch.advance >> 7); // bitshift by 6 to get value in pixels (2^6 = 64)
 				}
 
@@ -166,7 +166,7 @@ namespace Carmicah
 				// iterate through all characters (alot of it divides by 2 since quad is based on [-1,1])
 				for (size_t txtCount{ firstDiff }; txtCount < txtRenderer.txt.size(); ++txtCount)
 				{
-					Font::FontChar ch = foundFontTex.mFontMaps[txtRenderer.txt[txtCount] - foundFontTex.charOffset];
+					Font::FontChar ch = foundFontTex.mFontMaps[txtRenderer.txt[txtCount] - charOffset];
 
 					xTrack += (ch.advance >> 7) * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
 					Mtx3x3f charTransform{};

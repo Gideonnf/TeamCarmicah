@@ -25,6 +25,7 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+
 	class ScriptSystem : public BaseSystem
 	{
 	public:
@@ -87,6 +88,10 @@ namespace Carmicah
 		/// <returns>True or False</returns>
 		bool HasEntityClass(std::string scriptName);
 
+		ScriptFieldType GetScriptFieldType(MonoType* type);
+
+		std::shared_ptr<ScriptObject> GetScriptInstance(unsigned int entityID);
+
 		/*!
 		OnStart() -> Called when play button is pressed. Loop through all entities and get a reference to their scripts
 		OnUpdate() -> Calls the script's update
@@ -94,6 +99,7 @@ namespace Carmicah
 		*/
 		void OnStart(); // Calls the Enter function of all game objects
 		void OnUpdate(float dt);
+		void UpdateScripts();
 		void OnEnd();
 		// Variables
 		MonoDomain* mRootDomain;

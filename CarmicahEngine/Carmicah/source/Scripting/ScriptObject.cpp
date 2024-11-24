@@ -95,5 +95,10 @@ namespace Carmicah
 		}
 	}
 
+	std::shared_ptr<ScriptClass> ScriptObject::GetScriptClass()
+	{
+		return mScriptClass;
+	}
+
 #pragma endregion
 }

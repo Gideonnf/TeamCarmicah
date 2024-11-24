@@ -29,6 +29,7 @@ namespace Carmicah
 		Bool,
 		Char,
 		Int,
+		Short,
 		UInt,
 		Vector2,
 		Entity
@@ -77,6 +78,15 @@ namespace Carmicah
 	
 	class ScriptObject
 	{
+	private:
+		std::shared_ptr<ScriptClass> mScriptClass;
+
+		MonoObject* mMonoInstance = nullptr;
+
+		MonoMethod* mConstruct = nullptr;
+		MonoMethod* mOnCreate = nullptr;
+		MonoMethod* mOnUpdate = nullptr;
+
 	public:
 		friend class ScriptSystem;
 
@@ -116,14 +126,42 @@ namespace Carmicah
 		/// </summary>
 		/// <param name="dt">Delta time</param>
 		void InvokeOnUpdate(float dt);
-	private:
-		std::shared_ptr<ScriptClass> mScriptClass;
 
-		MonoObject* mMonoInstance = nullptr;
+		template<typename T>
+		T GetFieldValue(const std::string& name)
+		{
+			const auto& fields = mScriptClass->mFields;
+			if (fields.count(name) == 0)
+			{
+				return T();
+			}
+			auto iter = fields.find(name);
+			const ScriptField& field = iter->second;
+			char fieldBuffer[32];
+			mono_field_get_value(mMonoInstance, field.mClassField, fieldBuffer);
 
-		MonoMethod* mConstruct = nullptr;
-		MonoMethod* mOnCreate = nullptr;
-		MonoMethod* mOnUpdate = nullptr;
+			// cast it to the T that is trying to be retrieved and derefence it
+			return *(T*)fieldBuffer;
+		}
+
+		template <typename T>
+		void SetFieldValue(const std::string& name, T val)
+		{
+			const auto& fields = mScriptClass->mFields;
+			if (fields.count(name) == 0)
+			{
+				return;
+			}
+			auto iter = fields.find(name);
+			const ScriptField& field = iter->second;
+
+			//void* valPtr =;
+			mono_field_set_value(mMonoInstance, field.mClassField, (void*)&val);
+
+		}
+
+		std::shared_ptr<ScriptClass> GetScriptClass();
+
 	};
 
 

@@ -279,10 +279,12 @@ namespace Carmicah
             }
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
+                gScriptSystem->UpdateScripts(); // TODO: Add this to profiler
+
                 if (gameSystem->mCurrState == SceneState::RUNTIME && SceneWindow::mIsPaused == false)
                 {
 
-                    gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->GetDeltaTime());
+                    gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->GetDeltaTime()); // TODO: Add this to profiler
                     //gameLogic->Update(window);
                     if (CarmicahTime::GetInstance()->IsFixedDT())
                     {
