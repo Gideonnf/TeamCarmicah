@@ -15,8 +15,11 @@ DigiPen Institute of Technology is prohibited.
 #define RENDER_HELPER_H
 
 #include <map>
+#include <optional>
 #include "Singleton.h"
 #include "Systems/AssetTypes.h"
+#include "Components/BaseComponent.h"
+#include "Components/Transform.h"
 
 namespace Carmicah
 {
@@ -42,6 +45,7 @@ namespace Carmicah
 		static unsigned int mCapFontID;
 		static std::queue<unsigned int> mUnusedFontID;
 		std::map<unsigned int, unsigned int> mFontBufferToEntity;
+
 	public:
 		enum BUFFER_BITS : unsigned char
 		{
@@ -100,10 +104,15 @@ namespace Carmicah
 			}
 		};
 
+		Vec2d mOldMousePos{};
+		Transform mEditorCam{};
+
 		std::map<BufferID, BatchBuffer> mBufferMap;//shder << 8 | primitive // use switch(num) case AssetManager::getShder(enConfig::Baisc)
 		std::map<unsigned int, FontUniform> mFontUniforms;
 
 		void InitScreenDimension(const float& screenWidth, const float& screenHeight);
+		void UpdateEditorCam();
+		void Render(std::optional<Transform*> cam);
 		void Render(const unsigned int& cam);
 
 		FontUniform* GetFontUniforms(const unsigned int& bufferID);

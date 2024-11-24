@@ -88,7 +88,7 @@ namespace Carmicah
 					GenBatch(primName, specificId, false, false);
 
 				EntityData newDat;
-				ToggleActiveEntity(newDat, true);
+				ToggleActiveEntity(true);
 				newDat.mBufferData = &RenderHelper::GetInstance()->mBufferMap.find(bufferID)->second;
 				mEntityBufferLoc.emplace(entity, newDat);
 			}

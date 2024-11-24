@@ -46,7 +46,7 @@ namespace Carmicah
 			GenBatch(primitiveName, id, worldSpace, isDebug);
 
 		EntityData newDat;
-		ToggleActiveEntity(newDat, true);
+		ToggleActiveEntity(true);
 		newDat.mBufferData = &RenderHelper::GetInstance()->mBufferMap.find(bufferID)->second;
 
 		if (newDat.mBufferData->freeData.size() != 0)
@@ -262,7 +262,7 @@ namespace Carmicah
 
 	}
 
-	void BaseGraphicsSystem::ToggleActiveEntity(EntityData& entity, bool setActive)
+	void BaseGraphicsSystem::ToggleActiveEntity(bool setActive)
 	{
 		if (setActive)
 			++mActiveEntityCount;
@@ -275,7 +275,7 @@ namespace Carmicah
 		EntityData& dat = mEntityBufferLoc.find(entity)->second;
 		int& mBatchSize = AssetManager::GetInstance()->enConfig.batchRenderSize;
 		size_t vtxSize = dat.mBufferData->pRef->vtx.size();
-		ToggleActiveEntity(dat, false);
+		ToggleActiveEntity(false);
 
 		// Flush data with 0
 		if (!dat.mBufferData->isDebug)

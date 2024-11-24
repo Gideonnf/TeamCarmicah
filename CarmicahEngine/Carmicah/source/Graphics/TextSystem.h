@@ -56,7 +56,7 @@ namespace Carmicah
 				// KILL ALL
 				if (KILLALL)
 				{
-					ToggleActiveEntity(dat, false);
+					ToggleActiveEntity(false);
 					//dat.mBufferData->freeData = std::queue<unsigned int>(); // font dosen't use this
 					dat.mBufferData->objCount = 0;
 					// Erase from MAP Not done here

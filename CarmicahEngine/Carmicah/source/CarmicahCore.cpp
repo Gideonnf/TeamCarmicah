@@ -405,8 +405,10 @@ namespace Carmicah
                 crsSystem->Update();
                 rrsSystem->Update();
                 txtSystem->Update();
+                RenderHelper::GetInstance()->UpdateEditorCam();
                 transformSystem->PostUpdate();
-                RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
+                //RenderHelper::GetInstance()->Render(&RenderHelper::GetInstance()->mEditorCam);    // Editor Cam
+                RenderHelper::GetInstance()->Render(gGOFactory->mainCam);                           // Game Cam
                 CarmicahTime::GetInstance()->StopSystemTimer("RenderingSystems");
                 //SceneToImgui::GetInstance()->IDPick();
 
