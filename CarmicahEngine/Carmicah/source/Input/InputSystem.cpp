@@ -192,12 +192,12 @@ namespace Carmicah
 	void WindowFocusCallback(GLFWwindow* window, int focused)
 	{
 		UNUSED(focused);
-		int isFocused = glfwGetWindowAttrib(window, GLFW_FOCUSED);
+		//int isFocused = glfwGetWindowAttrib(window, GLFW_FOCUSED);
 
-		if (!isFocused)
-		{
-			glfwIconifyWindow(window);
-		}
+		//if (!isFocused)
+		//{
+		//	glfwIconifyWindow(window);
+		//}
 	}
 
 	#pragma endregion
