@@ -88,13 +88,13 @@ namespace Carmicah
         if (Input.IsKeyPressed(Keys::KEY_G))
         {
 
-            soundSystemRef->PlaySoundW(soundSystemRef->buttonBGM, SoundChannel::BGM);
+            //soundSystemRef->PlaySoundW(soundSystemRef->buttonBGM, SoundChannel::BGM);
 
             // SystemManager::GetInstance()->GetSystem<SoundSystem>()->PauseResumeSound
         }
         if (Input.IsKeyPressed(Keys::KEY_B))
         {
-            soundSystemRef->PauseResumeChannel(SoundChannel::BGM);
+            //soundSystemRef->PauseResumeChannel(SoundChannel::BGM);
 
             //  soundSystemRef->PauseResumeSound(soundSystemRef->buttonBGM);
 

@@ -79,7 +79,7 @@ namespace Carmicah
 
        // PrintAssemblyTypes(mCoreAssembly);
         // retrieve the main Entity class
-       mEntityClass = ScriptObject("Carmicah", "Entity");
+       mEntityClass = ScriptClass("Carmicah", "Entity");
 
     }
 
@@ -274,11 +274,12 @@ namespace Carmicah
 
             if (HasEntityClass(scriptComponent.scriptName))
             {
-                std::shared_ptr<ScriptObject> scriptRef(mEntityClasses[scriptComponent.scriptName]);
-                scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
-                mEntityInstances[id] = scriptRef;
-                scriptRef->InvokeOnConstruct(id);
-                scriptRef->InvokeOnCreate();
+                std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], id);
+ 
+              //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
+                mEntityInstances[id] = scriptObj;
+                scriptObj->InvokeOnConstruct(id);
+                scriptObj->InvokeOnCreate();
             }
         }
     }
@@ -331,8 +332,8 @@ namespace Carmicah
             bool isEntityScript = mono_class_is_subclass_of(monoClass, entityClass, false);
             if (isEntityScript)
             {
-                ScriptObject script = ScriptObject(nameSpace, name);
-                mEntityClasses[className] = std::make_shared<ScriptObject>(script);
+                std::shared_ptr<ScriptClass> script = std::make_shared<ScriptClass>(nameSpace, name);
+                mEntityClasses[className] = script;
             }
 
             printf("%s.%s\n", nameSpace, name);

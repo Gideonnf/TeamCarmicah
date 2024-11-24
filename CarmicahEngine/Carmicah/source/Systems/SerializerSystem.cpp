@@ -165,7 +165,7 @@ namespace Carmicah
 	void SerializerSystem::SerializePrefab(Prefab prefab)
 	{
 		// Get the file path to the asset
-		std::string filePath = AssetManager::GetInstance()->enConfig.assetLoc + "/Prefabs/" + prefab.mName + ".json";
+		std::string filePath = AssetManager::GetInstance()->enConfig.assetLoc + "/Prefabs/" + prefab.mName + ".prefab";
 		std::ofstream ofs{ filePath, std::ios::binary };
 		if (!ofs)
 		{
@@ -226,9 +226,24 @@ namespace Carmicah
 				{
 					std::any_cast<TextRenderer>(component).SerializeComponent(writer);
 				}
+				if (name == typeid(PrefabData).name())
+				{
+					std::any_cast<PrefabData>(component).SerializeComponent(writer);
+				}
 				writer.EndObject();
 			}
 		writer.EndArray();
+
+		//writer.String("EntityWatcher");
+		//writer.StartArray();
+		//for (auto it : prefab.entityWatcher)
+		//{
+		//	// TODO: I dont know if i should be storing each entity as an object. can try without if the system works next time
+		//	writer.StartObject();
+		//	writer.Int(it);
+		//	writer.EndObject();
+		//}
+		//writer.EndArray();
 
 		if (prefab.childList.size() > 0)
 		{

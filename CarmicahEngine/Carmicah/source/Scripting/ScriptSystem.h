@@ -102,10 +102,10 @@ namespace Carmicah
 		MonoImage* mCoreAssemblyImage;
 
 		// Hold a reference to Entity class as it contains the constructor that all entity scripts runs to store mID
-		ScriptObject mEntityClass;
+		ScriptClass mEntityClass;
 
 		// keep track of every type of entity classes
-		std::unordered_map<std::string, std::shared_ptr<ScriptObject>> mEntityClasses;
+		std::unordered_map<std::string, std::shared_ptr<ScriptClass>> mEntityClasses;
 		// keep track of entity to script object
 		std::unordered_map<unsigned int, std::shared_ptr<ScriptObject>> mEntityInstances;
 	};

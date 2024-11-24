@@ -103,14 +103,61 @@ namespace Carmicah
 	/// Internal function call to play sound effects between C# and C++
 	/// </summary>
 	/// <param name="name">Name of the sound file to play</param>
-	static void Sound_PlaySFX(MonoString* name)
+	static void Sound_PlaySFX(MonoString* name, float volume)
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySound(cStrname, SoundChannel::SFX);
-
+		souSystem->PlaySound(cStrname, SoundCategory::SFX, volume);
 		mono_free(cStrname);
 	}
+
+	static void Sound_PlayBGM(MonoString* name, float volume)
+	{
+		char* cStrname = mono_string_to_utf8(name);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->PlaySound(cStrname, SoundCategory::BGM, volume);
+		mono_free(cStrname);
+	}
+
+	static void Sound_SetVolume(MonoString* name, float volume)
+	{
+		char* cStrname = mono_string_to_utf8(name);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->SetSoundVolume(cStrname, volume);
+		mono_free(cStrname);
+	}
+
+	static void Sound_Stop(MonoString* name)
+	{
+		char* cStrname = mono_string_to_utf8(name);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->StopSound(cStrname);
+		mono_free(cStrname);
+	}
+
+	static void Sound_Pause(MonoString* name)
+	{
+		char* cStrname = mono_string_to_utf8(name);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->PauseSound(cStrname);
+		mono_free(cStrname);
+	}
+
+	static void Sound_Resume(MonoString* name)
+	{
+		char* cStrname = mono_string_to_utf8(name);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->ResumeSound(cStrname);
+		mono_free(cStrname);
+	}
+
+	static void Sound_SetCategoryVolume(int category, float volume)
+	{
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->SetCategoryVolume(static_cast<SoundCategory>(category), volume);
+	}
+
+
 
 	/// <summary>
 	/// One way to apply linear force. Takes time into consideration

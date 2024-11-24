@@ -21,30 +21,44 @@ DigiPen Institute of Technology is prohibited.
 #include "ECS/BaseSystem.h"
 #include "FMOD/fmod.hpp"
 #include <string>
+#include <memory>
+#include <unordered_map>
 
 
 //breif:         This class is a system that handles the sound effects and background music of the game
+
+
 namespace Carmicah
 {
-    enum class SoundChannel
-    {
-        BGM,
-        SFX,
-        UI,
-        VOICE
+    // Track information for each sound
+    struct SoundTrack {
+        FMOD::Sound* sound = nullptr;
+        FMOD::Channel* channel = nullptr;
+        float defaultVolume = 1.0f;
+        float currentVolume = 1.0f;
+        bool isLooping = false;
+        bool isPaused = false;
+        std::string name;
     };
 
-    struct PlayingSound
-    {
-        FMOD::Channel* channel;
-        float volume;
+    // Categories for different types of sounds
+    enum class SoundCategory {
+        SFX,        // Sound effects
+        BGM,        // Background music
+        VOICE,      // Voice/dialogue
+        AMBIENT,    // Ambient sounds
+        UI         // UI sounds
     };
 
     class SoundSystem : public BaseSystem
     {
     private:
-        std::unordered_map<SoundChannel, std::unordered_map<std::string, PlayingSound>> mChannelMap;
-        std::unordered_map<SoundChannel, float> mChannelVolumes;
+        FMOD::System* mSoundSystem;
+        std::unordered_map<std::string, std::unique_ptr<SoundTrack>> mSoundTracks;
+        std::unordered_map<SoundCategory, float> mCategoryVolumes;
+        float mMasterVolume;
+        const int MAX_CHANNELS = 256;
+        bool mIsMuted;
 
     public:
         SoundSystem();
@@ -54,24 +68,47 @@ namespace Carmicah
         void Update();
         void Exit();
 
-        void PlaySound(const std::string& soundName, SoundChannel channel, float volume = 1.0f);
-        void StopSound(const std::string& soundName, SoundChannel channel);
-        void StopAllSoundsInChannel(SoundChannel channel);
+        // Enhanced playback controls
+        bool PlaySound(const std::string& soundName, SoundCategory category = SoundCategory::SFX, float volume = -1.0f);
+        bool StopSound(const std::string& soundName);
+        bool PauseSound(const std::string& soundName);
+        bool ResumeSound(const std::string& soundName);
         void StopAllSounds();
+        void PauseAllSounds();
+        void ResumeAllSounds();
 
-        void SetSoundVolume(const std::string& soundName, SoundChannel channel, float volume);
-        void SetChannelVolume(SoundChannel channel, float volume);
+        // Volume controls
+        void SetMasterVolume(float volume);
+        void SetCategoryVolume(SoundCategory category, float volume);
+        void SetSoundVolume(const std::string& soundName, float volume);
+        float GetSoundVolume(const std::string& soundName) const;
+        float GetCategoryVolume(SoundCategory category) const;
 
-        void PauseResumeSound(const std::string& soundName, SoundChannel channel);
-        void PauseResumeChannel(SoundChannel channel);
+        // Sound state queries
+        bool IsSoundPlaying(const std::string& soundName) const;
+        bool IsSoundPaused(const std::string& soundName) const;
+        bool IsSoundLooping(const std::string& soundName) const;
+
+        // Muting controls
+        void MuteAll(bool mute);
+        void MuteCategory(SoundCategory category, bool mute);
+        void MuteSound(const std::string& soundName, bool mute);
+
+        // Load and unload sounds
+        bool LoadSound(const std::string& name, const std::string& filePath,
+            SoundCategory category = SoundCategory::SFX, bool isLoop = false, float defaultVolume = 1.0f);
+        void UnloadSound(const std::string& name);
 
         void ReceiveMessage(Message* msg) override;
 
-        const char* defaultBGM{ "bouken" };
-        const char* buttonBGM{ "buttonclick" };
+        // Default load sound 
+        static constexpr const char* defaultBGM{ "BGM_MainMenu_Mix1" };
+        static constexpr const char* defaultSFX{ "buttonclick" };
 
-        //Play sound once 
-            void PlaySoundOnce(const std::string& soundName, SoundChannel channel, float volume = -1.0f);
+    private:
+        void UpdateSoundVolume(SoundTrack* track);
+        float CalculateFinalVolume(const SoundTrack* track, SoundCategory category) const;
+        void CleanupStoppedSounds();
     };
 }
 

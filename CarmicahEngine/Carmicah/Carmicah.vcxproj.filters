@@ -50,6 +50,9 @@
     <ClInclude Include="source\Components\Collider2D.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="source\Components\Prefab.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="source\Components\Renderer.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -180,10 +183,16 @@
     <ClInclude Include="source\Systems\CollisionSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
+    <ClInclude Include="source\Systems\FileWatcher.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
     <ClInclude Include="source\Systems\GOFactory.h">
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="source\Systems\GameLogic.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Systems\PrefabSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="source\Systems\SceneSystem.h">
@@ -283,16 +292,25 @@
     <ClCompile Include="source\Systems\AssetManager.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
+    <ClCompile Include="source\Systems\AssetTypes.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
     <ClCompile Include="source\Systems\ButtonSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="source\Systems\CollisionSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
+    <ClCompile Include="source\Systems\FileWatcher.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
     <ClCompile Include="source\Systems\GOFactory.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="source\Systems\GameLogic.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Systems\PrefabSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="source\Systems\SceneSystem.cpp">

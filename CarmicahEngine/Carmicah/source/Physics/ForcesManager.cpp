@@ -74,7 +74,6 @@ namespace Carmicah
 		if (age >= lifetime)
 		{
 			age = 0.0f;
-			std::cout << "Force with " << unitDirection.x << ", " << unitDirection.y << std::endl;
 			isActive = false;
 		}
 	}
