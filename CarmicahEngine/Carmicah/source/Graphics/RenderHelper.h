@@ -41,6 +41,7 @@ namespace Carmicah
 		
 		static unsigned int mCapFontID;
 		static std::queue<unsigned int> mUnusedFontID;
+		std::map<unsigned int, unsigned int> mFontBufferToEntity;
 	public:
 		enum BUFFER_BITS : unsigned char
 		{
@@ -53,20 +54,16 @@ namespace Carmicah
 		struct FontUniform
 		{
 			float col[3];
-			unsigned int BufferID;
+			unsigned int bufferID;
 			Vec2f offset;
+			Vec2f scale;
 
-			FontUniform(const float& r, const float& g, const float& b, const Vec2f& pos) :
-				col{ r,g,b }, offset(pos) 
+			void SetColor(const float& r, const float& g, const float& b)
 			{
-				if (mUnusedFontID.size() != 0)
-				{
-					BufferID = mUnusedFontID.front();
-					mUnusedFontID.pop();
-				}
-				else
-					BufferID = mCapFontID++;
-			};
+				col[0] = r;
+				col[1] = g;
+				col[2] = b;
+			}
 		};
 		struct BufferID 
 		{
@@ -109,6 +106,8 @@ namespace Carmicah
 		void InitScreenDimension(const float& screenWidth, const float& screenHeight);
 		void Render(const unsigned int& cam);
 
+		FontUniform* GetFontUniforms(const unsigned int& bufferID);
+		unsigned int AssignFont(const unsigned int& e);
 		void UnassignFont(const unsigned int& e);
 	};
 }

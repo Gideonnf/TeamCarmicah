@@ -47,7 +47,7 @@ namespace Carmicah
 
 
 
-	void RigidbodyRendererSystem::Render()
+	void RigidbodyRendererSystem::Update()
 	{
 		for (std::unordered_map<unsigned int, EntityData>::iterator entity = mEntityBufferLoc.begin(); entity != mEntityBufferLoc.end();)
 		{
