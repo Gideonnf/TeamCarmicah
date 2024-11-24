@@ -23,25 +23,39 @@ DigiPen Institute of Technology is prohibited.
 #include <any>
 #include <functional>
 #include "Math/Matrix3x3.h"
+#include "../ECS/ECSTypes.h"
 
 namespace Carmicah
 {
 	struct BasePrimitive
 	{
+		static GLuint uidCount;
+		GLuint uid;
 		std::vector<Vec2f> vtx;
 		GLenum drawMode{};
 		GLuint drawCnt{};
 	};
+	
 	struct Primitive : BasePrimitive
 	{
 		std::vector<Vec2f> texCoord;
 		std::vector<GLushort> idx;
 	};
-	struct BatchBuffer
+	struct BatchBuffer						// Used exclusively in BaseGraphicsSystem, but Data is cleared from AssetManager
 	{
-		GLuint vao{}, vbo{}, ebo{}, ibo{};
-		const BasePrimitive* pRef;
+		struct BBuffer
+		{
+			GLuint vao{}, vbo{};
+		};
+
+		GLuint ebo{}, ibo{};				// Indexing Helpers
+		unsigned int objCount{};			// Keeps track of the Last "open space"
+		bool isDebug{};						// Keep track of which render method to use
+		const BasePrimitive* pRef;			// Primitive Ref for this buffer
+		std::queue<unsigned int> freeData;	// Keeps track of any opened up slots in the buffer
+		std::vector<BBuffer> buffer;		// Access the buffer directly
 	};
+	
 	struct Shader
 	{
 		GLuint s;
@@ -54,16 +68,21 @@ namespace Carmicah
 	{
 		std::vector<std::pair<float, std::string>> anim;// MaxTime, TextureName
 	};
+	
 	struct Texture
 	{
 		GLuint t;
 		Mtx3x3f mtx;
 	};
+	
 	struct FontTexture
 	{
 		GLuint t;
 		Mtx3x3f mtx;
 	};
+	
+	const unsigned char charOffset{ 32 }; // first 32 characters are not visable
+
 	struct Font
 	{
 		struct FontChar
@@ -73,23 +92,36 @@ namespace Carmicah
 			int			 xBearing{}, yBearing{};
 			long		 advance{};
 		};
-		const unsigned char charOffset{ 32 }; // first 32 characters are not visable
 
 		std::array<FontChar, 96> mFontMaps{};
 	};
+	
 	struct Audio
 	{
 		bool isLoop;
 		FMOD::Sound* sound;
 		float defaultVolume;
 	};
+
 	struct Prefab
 	{
 		unsigned int mPrefabID;
 		std::string mName;
 		std::unordered_map<std::string, std::any> mComponents;
+		std::unordered_map<std::string, std::any> mModifiedComponents;
 	
 		std::vector<Prefab> childList;
+
+		/*
+			Each prefab keep track of which entity it is watching
+			A parent prefab will keep track of the parent object
+			A child prefab will keep track of the child object
+
+			that way if only the child is modified, then only the child prefab has to be changed
+			reduce the numebr of loops and checks it has to go through
+		*/
+		// Keep track of entities made using this prefab
+		//std::vector<Entity> entityWatcher;
 
 		template <typename T>
 		bool HasComponent() const
@@ -118,32 +150,11 @@ namespace Carmicah
 
 		}
 
-		std::string GetName() const
-		{
-			return mName;
-		}
+		std::string GetName() const;
 
-		unsigned int GetID() const
-		{
-			return mPrefabID;
-		}
+		unsigned int GetID() const;
 
-		void ForPrefabChildren(Prefab& parentPrefab, const std::function<void(Prefab&)>& func)
-		{
-			if (parentPrefab.childList.size() > 0)
-			{
-				for (auto& child : parentPrefab.childList)
-				{
-					func(child);
-				}
-			}
-
-		}
-	
-		void SerializePrefab()
-		{
-
-		}
+		void ForPrefabChildren(Prefab& parentPrefab, const std::function<void(Prefab&)>& func);
 	};
 	struct Scene
 	{

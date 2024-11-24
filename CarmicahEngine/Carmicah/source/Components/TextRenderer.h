@@ -23,6 +23,7 @@ namespace Carmicah
         std::string model;
         std::string font;
         std::string txt;
+        std::string oldTxt;
         float colorR, colorG, colorB;
 
         TextRenderer& DeserializeComponent(const rapidjson::Value& component) override

@@ -23,9 +23,16 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/SerializerSystem.h"
 #include "Math/Vec2.h"
 #include "Systems/AssetTypes.h"
+#include "Graphics/RenderHelper.h"
 
 namespace Carmicah
 {
+	void AssetManager::Init(std::shared_ptr<PrefabSystem> prefabRef)
+	{
+		prefabPtr = prefabRef;
+	}
+	GLuint BasePrimitive::uidCount = 0;
+
 	void AssetManager::LoadConfig(const std::string& configPath)
 	{
 		std::filesystem::path directoryPath = configPath;
@@ -42,101 +49,228 @@ namespace Carmicah
 		InitTexture();
 		InitSound();
 		InitFontType();
+		fileWatcher.Init(assetPath);
+		fileWatcher.Update();
+		//if (std::filesystem::exists(directoryPath) && std::filesystem::is_directory(directoryPath))
+		//{
+		//	for (const auto& subFile : std::filesystem::directory_iterator(directoryPath))
+		//	{
+		//		if (std::filesystem::exists(subFile) && std::filesystem::is_directory(subFile))
+		//		{
+		//			std::string folderName = subFile.path().filename().string();
+		//			for (const auto& entry : std::filesystem::directory_iterator(subFile))
+		//			{
+		//				std::string fileName = entry.path().stem().string();
+		//				if (folderName == "Animation")
+		//				{
+		//					LoadAnimation(fileName, entry.path().string());
+		//				}
+		//				else if (folderName == "Audio")
+		//				{
+		//					LoadSound(fileName, entry.path().string(), false, 1.0f); 
+		//				}
+		//				else if (folderName == "BGM")
+		//				{
+		//					LoadSound(fileName, entry.path().string(), true, 1.0f);  
+		//				}
+		//				else if (folderName == "Images")
+		//				{
+		//					std::string fileExt = entry.path().extension().string();
 
-		if (std::filesystem::exists(directoryPath) && std::filesystem::is_directory(directoryPath))
-		{
-			for (const auto& subFile : std::filesystem::directory_iterator(directoryPath))
-			{
-				if (std::filesystem::exists(subFile) && std::filesystem::is_directory(subFile))
-				{
-					std::string folderName = subFile.path().filename().string();
-					for (const auto& entry : std::filesystem::directory_iterator(subFile))
-					{
-						std::string fileName = entry.path().stem().string();
-						if (folderName == "Animation")
-						{
-							LoadAnimation(fileName, entry.path().string());
-						}
-						else if (folderName == "Audio")
-						{
-							LoadSound(fileName, entry.path().string(), false, 1.0f); 
-						}
-						else if (folderName == "BGM")
-						{
-							LoadSound(fileName, entry.path().string(), true, 1.0f);  
-						}
-						else if (folderName == "Images")
-						{
-							std::string fileExt = entry.path().extension().string();
+		//					if (fileExt == ".png")
+		//					{
+		//						const auto testOtherFile = subFile.path() / (fileName + std::string(".txt"));
+		//						LoadTexture(fileName, entry.path().string(), testOtherFile.string());
+		//					}
+		//				}
+		//				else if (folderName == "Fonts")
+		//				{
+		//					LoadFont(fileName, entry.path().string(), enConfig.fontSize);
+		//				}
+		//				else if (folderName == "Meshes")
+		//				{
 
-							if (fileExt == ".png")
-							{
-								const auto testOtherFile = subFile.path() / (fileName + std::string(".txt"));
-								LoadTexture(fileName, entry.path().string(), testOtherFile.string());
-							}
-						}
-						else if (folderName == "Fonts")
-						{
-							LoadFont(fileName, entry.path().string(), enConfig.fontSize);
-						}
-						else if (folderName == "Meshes")
-						{
+		//					std::string fileExt = entry.path().extension().string();
+		//					if (fileExt == ".o")
+		//					{
+		//						LoadObject(fileName, entry.path().string());
+		//					}
+		//					else if (fileExt == ".do")
+		//					{
+		//						LoadDebugObject("Debug" + fileName, entry.path().string());
+		//					}
+		//				}
+		//				else if (folderName == "Scene")
+		//				{
+		//					//	std::cout << entry.path().string() << std::endl;
+		//						//std::cout << fileName << std::endl;
+		//					Scene newScene{ entry.path().string() };
+		//					AddAsset<Scene>(fileName, newScene);
+		//					//mSceneFiles.insert(std::make_pair(fileName, entry.path().string()));
+		//				}
+		//				else if (folderName == "Shaders")
+		//				{
+		//					std::string fileExt = entry.path().extension().string();
+		//					if (fileExt == ".vert")
+		//					{
+		//						const auto testOtherFile = subFile.path() / (fileName + std::string(".frag"));
+		//						if (std::filesystem::exists(testOtherFile))
+		//						{
+		//							LoadShader(fileName, entry.path().string(), testOtherFile.string());
+		//						}
+		//					}
+		//				}
+		//				else if (folderName == "Prefabs")
+		//				{
+		//					Prefab goPrefab = Serializer.DeserializePrefab(entry.path().string());
+		//					
+		//					prefabPtr->AddPrefab(goPrefab);
 
-							std::string fileExt = entry.path().extension().string();
-							if (fileExt == ".o")
-							{
-								LoadObject(fileName, entry.path().string());
-							}
-							else if (fileExt == ".do")
-							{
-								LoadDebugObject("Debug" + fileName, entry.path().string());
-							}
-						}
-						else if (folderName == "Scene")
-						{
-							//	std::cout << entry.path().string() << std::endl;
-								//std::cout << fileName << std::endl;
-							Scene newScene{ entry.path().string() };
-							AddAsset<Scene>(fileName, newScene);
-							//mSceneFiles.insert(std::make_pair(fileName, entry.path().string()));
-						}
-						else if (folderName == "Shaders")
-						{
-							std::string fileExt = entry.path().extension().string();
-							if (fileExt == ".vert")
-							{
-								const auto testOtherFile = subFile.path() / (fileName + std::string(".frag"));
-								if (std::filesystem::exists(testOtherFile))
-								{
-									LoadShader(fileName, entry.path().string(), testOtherFile.string());
-								}
-							}
-						}
-						else if (folderName == "Prefabs")
-						{
-							Prefab goPrefab = Serializer.DeserializePrefab(entry.path().string());
-							AddAsset<Prefab>(fileName, goPrefab);
-							//mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
-						}
-					}
-				}
-			}
-		}
+		//					AddAsset<Prefab>(fileName, goPrefab);
+		//					//mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
 
 		//enConfig = Serializer.LoadConfig(directoryPath)
+		}
+
+	bool AssetManager::LoadAsset(File const& file, bool reload)
+	{
+		std::string fileName = file.fileEntry.path().stem().string();
+		std::string fileExt = file.fileEntry.path().extension().string();
+
+
+		if (fileExt == ".ani")
+		{
+
+			if (!reload && AssetExist<AnimAtlas>(fileName))
+			{
+				CM_CORE_WARN("Animation:" + fileName + " Already Exists");
+				return false;
+			}
+
+			LoadAnimation(fileName, file.fileEntry.path().string());
+		}
+		else if (fileExt == ".wav" || fileExt == ".mp3")
+		{
+
+			LoadSound(fileName, file.fileEntry.path().string(), false, 1.0f);
+		}
+		else if (fileExt == ".ttf")
+		{
+			// Font cant be reloaded for now cause operator = is giving me issues
+			if (AssetExist<Font>(fileName))
+			{
+				CM_CORE_WARN("Font:" + fileName + " Already Exists");
+				return false;
+			}
+			LoadFont(fileName, file.fileEntry.path().string(), enConfig.fontSize);
+		}
+		else if (fileExt == ".png")
+		{
+			if (!reload && AssetExist<Texture>(fileName))
+			{
+				CM_CORE_WARN("Texture:" + fileName + " Already Exists");
+				return false;
+			}
+
+			const auto spriteSheet = file.fileEntry.path().parent_path() / (file.fileEntry.path().stem().string() + std::string(".txt"));
+
+			if (fileWatcher.fileMap.count(spriteSheet.string()) != 0)
+			{
+				fileWatcher.fileMap[spriteSheet.string()].fileStatus = FILE_OK;
+			}
+			LoadTexture(fileName, file.fileEntry.path().string(), spriteSheet.string());
+		}
+		else if (fileExt == ".o")
+		{
+			if (!reload && AssetExist<Primitive>(fileName))
+			{
+				CM_CORE_WARN("Object:" + fileName + " Already Exists");
+				return false;
+			}
+			LoadObject(fileName, file.fileEntry.path().string());
+		}
+		else if (fileExt == ".do")
+		{
+			if (!reload && AssetExist<BasePrimitive>(fileName))
+			{
+				CM_CORE_WARN("Object:" + fileName + " Already Exists");
+				return false;
+			}
+			LoadDebugObject("Debug" + fileName, file.fileEntry.path().string());
+		}
+		else if (fileExt == ".scene")
+		{
+			if (!reload && AssetExist<Scene>(fileName))
+			{
+				CM_CORE_WARN("Scene:" + fileName + " Already Exists");
+				return false;
+			}
+
+			Scene newScene{ file.fileEntry.path().string() };
+			AddAsset<Scene>(fileName, newScene);
+		}
+		else if (fileExt == ".prefab")
+		{
+			if (!reload && AssetExist<Prefab>(fileName))
+			{
+				CM_CORE_WARN("Scene:" + fileName + " Already Exists");
+				return false;
+			}
+
+			Prefab goPrefab = Serializer.DeserializePrefab(file.fileEntry.path().string());
+
+			// If its a new asset then update the prefab ID list
+			if (!reload)
+				prefabPtr->AddPrefab(goPrefab);
+
+			AddAsset<Prefab>(fileName, goPrefab);
+			//mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
+		}
+		else if (fileExt == ".vert")
+		{
+			const auto fragShader = file.fileEntry.path().parent_path() / (file.fileEntry.path().stem().string() + std::string(".frag")); // std::string(".frag");
+			if (std::filesystem::exists(fragShader))
+			{
+				fileWatcher.fileMap[fragShader.string()].fileStatus = FILE_OK;
+
+				LoadShader(fileName, file.fileEntry.path().string(), fragShader.string());
+			}
+		}
+		else if (fileExt == ".json")
+		{
+			// dont do anything with json for now
+			// only engine config uses it but carmicahCore loads it with:
+			// AssetManager::GetInstance()->LoadConfig("../Assets/config.json");
+		}
+		else
+		{
+			CM_CORE_ERROR("Extension doesn't exist");
+			return false;
+		}
+		return true;
 	}
 
 	void AssetManager::UnloadAll()
 	{
 		// Unload Graphics
 		glDeleteTextures(1, &mArrayTex);
+		for (int i{}; i < mPreviewTexs.size(); ++i)
+			glDeleteTextures(1, &mPreviewTexs[i]);
 		GetAssetMap<Texture>()->mAssetMap.clear();
-		for (const auto& i : GetAssetMap<BatchBuffer>()->mAssetList)
+		for (const auto& i : RenderHelper::GetInstance()->mBufferMap)
 		{
-			glDeleteVertexArrays(1, &i.vao);
-			glDeleteBuffers(1, &i.vbo);
-			if(i.ebo != std::numeric_limits<GLuint>::max())
-				glDeleteBuffers(1, &i.ebo);
+			for (const auto& ii : i.second.buffer)
+			{
+				glDeleteVertexArrays(1, &ii.vao);
+				glDeleteBuffers(1, &ii.vbo);
+			}
+			glDeleteBuffers(1, &i.second.ebo);
+			glDeleteBuffers(1, &i.second.ibo);
 		}
 
 		// Delete Shaders
@@ -155,17 +289,16 @@ namespace Carmicah
 			mSoundSystem->release();
 	}
 
-
 	// Load Functions
 	GLuint AssetManager::LoadShader(const std::string& shaderName, const std::string& vertFile, const std::string& fragFile)
 	{
 		// Shader Exists
-		if (AssetExist<Shader>(shaderName))
-		{
-			CM_CORE_WARN("Shader:" + shaderName + " Already Exists");
-			auto foundShader = GetAsset<Shader>(shaderName).s;
-			return foundShader;
-		}
+		//if (AssetExist<Shader>(shaderName))
+		//{
+		//	CM_CORE_WARN("Shader:" + shaderName + " Already Exists");
+		//	auto foundShader = GetAsset<Shader>(shaderName).s;
+		//	return foundShader;
+		//}
 		std::ifstream vertShaderFile(vertFile, std::ios::binary);
 		if (!vertShaderFile)
 		{
@@ -266,11 +399,11 @@ namespace Carmicah
 	void AssetManager::LoadObject(const std::string& objName, const std::string& modelFile)
 	{
 
-		if (AssetExist<Primitive>(objName))
-		{
-			CM_CORE_WARN("Object:" + objName + " Already Exists");
-			return;
-		}
+		//if (AssetExist<Primitive>(objName))
+		//{
+		//	CM_CORE_WARN("Object:" + objName + " Already Exists");
+		//	return;
+		//}
 
 		std::ifstream ifs(modelFile, std::ios::binary);
 		if (!ifs)
@@ -279,6 +412,7 @@ namespace Carmicah
 			return;
 		}
 		Primitive p;// GL_TRIANGLES, GL_TRIANGLE_FAN, GL_TRIANGLE_STRIP
+		p.uid = p.uidCount++;
 		// No error checking, just fastest way to read data
 		unsigned int numVert;
 		ifs >> p.drawMode >> numVert >> p.drawCnt;
@@ -327,11 +461,11 @@ namespace Carmicah
 	*/
 	void AssetManager::LoadDebugObject(const std::string& objName, const std::string& modelFile)
 	{
-		if (AssetExist<BasePrimitive>(objName))
-		{
-			CM_CORE_WARN("Object:" + objName + " Already Exists");
-			return;
-		}
+		//if (AssetExist<BasePrimitive>(objName))
+		//{
+		//	CM_CORE_WARN("Object:" + objName + " Already Exists");
+		//	return;
+		//}
 
 		std::ifstream ifs(modelFile, std::ios::binary);
 		if (!ifs)
@@ -340,6 +474,7 @@ namespace Carmicah
 			return;
 		}
 		BasePrimitive p;
+		p.uid = p.uidCount++;
 		p.drawMode = GL_LINE_LOOP;
 		ifs >> p.drawCnt;
 		if (p.drawCnt == 0)
@@ -376,6 +511,13 @@ namespace Carmicah
 		glTextureParameterf(mArrayTex, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTextureParameterf(mArrayTex, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
+		mPreviewTexs.resize(enConfig.maxNumTextures);
+		for (int i{}; i < enConfig.maxNumTextures; ++i)
+		{
+			glGenTextures(1, &mPreviewTexs[i]);
+			glTextureView(mPreviewTexs[i], GL_TEXTURE_2D, mArrayTex, GL_RGBA8, 0, 1, i, 1);
+		}
+
 	}
 
 	void AssetManager::LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile)
@@ -384,11 +526,11 @@ namespace Carmicah
 		//glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
 		//CM_CORE_INFO("Max Texture Size is: " + std::to_string(maxTextureSize));
 
-		if (AssetExist<Texture>(textureName))
-		{
-			CM_CORE_WARN("Texture:" + textureName + " Already Exists");
-			return;
-		}
+		//if (AssetExist<Texture>(textureName))
+		//{
+		//	CM_CORE_WARN("Texture:" + textureName + " Already Exists");
+		//	return;
+		//}
 
 		Texture texture{};
 		int texWidth{}, texHeight{}, bytePerTex{};
@@ -486,11 +628,11 @@ namespace Carmicah
 
 	void AssetManager::LoadAnimation(const std::string& animName, const std::string& animFile)
 	{
-		if (AssetExist<AnimAtlas>(animName))
-		{
-			CM_CORE_WARN("Animation:" + animName + " Already Exists");
-			return;
-		}
+		//if (AssetExist<AnimAtlas>(animName))
+		//{
+		//	CM_CORE_WARN("Animation:" + animName + " Already Exists");
+		//	return;
+		//}
 
 
 		std::ifstream ifs(animFile, std::ios::binary);
@@ -527,11 +669,11 @@ namespace Carmicah
 
 	void AssetManager::LoadFont(const std::string& fontName, const std::string& fontLoc, const unsigned int& fontHeight)
 	{
-		if (AssetExist<Font>(fontName))
-		{
-			CM_CORE_WARN("Font: " + fontName + " Already Exists");
-			return;
-		}
+		//if (AssetExist<Font>(fontName))
+		//{
+		//	CM_CORE_WARN("Font: " + fontName + " Already Exists");
+		//	return;
+		//}
 
 		Font fontObj;
 		std::array<std::pair<unsigned char, unsigned int>, 96> fontHeightMap; // to sort by height
@@ -544,14 +686,14 @@ namespace Carmicah
 		}
 		FT_Set_Pixel_Sizes(fontFace, 0, fontHeight);
 
-		for (unsigned char c{ fontObj.charOffset }; c < 128; ++c)
+		for (unsigned char c{ charOffset }; c < 128; ++c)
 		{
 			if (FT_Load_Char(fontFace, c, FT_LOAD_RENDER))
 			{
 				std::cerr << "Failed to load FreeType Glyph: " << fontName << "(" << c << ")" << std::endl;
 				continue;
 			}
-			int i{ c - fontObj.charOffset };
+			int i{ c - charOffset };
 
 			fontObj.mFontMaps[i].width = fontFace->glyph->bitmap.width;
 			fontObj.mFontMaps[i].height = fontFace->glyph->bitmap.rows;
@@ -583,7 +725,7 @@ namespace Carmicah
 				continue;
 			}
 
-			int fontArrayNum{ i.first - fontObj.charOffset };
+			int fontArrayNum{ i.first - charOffset };
 
 			Font::FontChar& fc = fontObj.mFontMaps[fontArrayNum];
 			if (widthAccumulated > static_cast<unsigned int>(enConfig.maxTexSize))
@@ -658,6 +800,9 @@ namespace Carmicah
 
 		FMOD_MODE eMode = FMOD_DEFAULT;
 		Audio audio{};
+		if (isLoop) {
+			eMode |= FMOD_LOOP_NORMAL;
+		}
 		mSoundSystem->createSound(soundFile.c_str(), eMode, nullptr, &audio.sound);
 		if (audio.sound)
 		{

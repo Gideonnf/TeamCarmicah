@@ -34,7 +34,9 @@ namespace Carmicah
 	public:
 
 		static bool mIsPlaying;
+		static bool mIsPaused;
 		static bool mChangeState;
+		static bool mIsDebug;
 
 		/**
 		 * @brief Construct a new Scene Window object

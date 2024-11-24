@@ -1,12 +1,16 @@
 /* file documentation -----------------------------------------------------------------------------
-\file
-\author     Micah Lim, (micahshengyao.lim)
+\file       Button.h
+\author     Micah Lim (100%)
 \course     CSD 2400
-\date
+\date       071124
 
-\brief
+\brief      Defines the Button component, representing an interactive UI element with states for
+            pressed and released, including its position and size.
 
-\functions
+\functions  - DeserializeComponent: Populates the Button component properties from JSON data.
+            - SerializeComponent: Writes Button component properties to JSON data.
+            - GetPosition: Retrieves the button's position.
+            - GetSize: Retrieves the button's size.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
@@ -34,9 +38,9 @@ namespace Carmicah
 {
     struct Button : BaseComponent<Button>
     {
-		std::string ButtonImage;   // stores the name of the original texture
-		std::string ButtonImagePressed;    // stores the name of the new image when its pressed
-        bool isPressed{ false }; // track if button is currently pressed
+		std::string ButtonImage;        // stores the name of the original texture
+		std::string ButtonImagePressed; // stores the name of the new image when its pressed
+        bool isPressed{ false };        // track if button is currently pressed
 
         Button& DeserializeComponent(const rapidjson::Value& component) override
         {
@@ -44,7 +48,7 @@ namespace Carmicah
             ButtonImagePressed = component["ButtonImagePressed"].GetString();
 			//isPressed = false; // start as unpressed
 
-            // Deserialize position and size from JSON
+            // Deserialize position and size from JSON, use the transfrom component to get position and size
 
             return *this;
         }

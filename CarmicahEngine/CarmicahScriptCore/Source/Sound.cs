@@ -6,11 +6,50 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
-    public class Sound
+    public static class Sound
     {
-        public static void PlaySFX(string soundName)
+        // Sound playback with categories
+        public static void PlaySFX(string soundName, float volume = -1.0f)
         {
-            FunctionCalls.Sound_PlaySFX(soundName);
+            FunctionCalls.Sound_PlaySFX(soundName, volume);
+        }
+
+        public static void PlayBGM(string soundName, float volume = -1.0f)
+        {
+            FunctionCalls.Sound_PlayBGM(soundName, volume);
+        }
+
+        // Volume controls
+        public static void SetSoundVolume(string soundName, float volume)
+        {
+            FunctionCalls.Sound_SetVolume(soundName, volume);
+        }
+
+        // Sound controls
+        public static void StopSound(string soundName)
+        {
+            FunctionCalls.Sound_Stop(soundName);
+        }
+
+        public static void PauseSound(string soundName)
+        {
+            FunctionCalls.Sound_Pause(soundName);
+        }
+
+        public static void ResumeSound(string soundName)
+        {
+            FunctionCalls.Sound_Resume(soundName);
+        }
+
+        // Category volume controls
+        public static void SetSFXVolume(float volume)
+        {
+            FunctionCalls.Sound_SetCategoryVolume(0, volume); // 0 represents SFX category
+        }
+
+        public static void SetBGMVolume(float volume)
+        {
+            FunctionCalls.Sound_SetCategoryVolume(1, volume); // 1 represents BGM category
         }
     }
 }

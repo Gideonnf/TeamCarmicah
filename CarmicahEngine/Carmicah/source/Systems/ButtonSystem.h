@@ -1,18 +1,24 @@
-/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:			AssetTypes.h
+/* file documentation -----------------------------------------------------------------------------
+\file       ButtonSystem.h
+\author     Micah Lim (100%)
+\course     CSD 2400
+\date       071124
 
- author:		Won Yu Xuan Rainne(77.5%)
- co-author(s):	Gideon Francis(15%)
-				YANG YUJIE(7.5%)
+\brief      Header file for the ButtonSystem class, which manages the logic for button components
+			in the game engine, including press and release detection and state management.
 
- email:			won.m@digipen.edu
-
- brief:			Asset Types holds the data type for the different assets
+\functions  - Init: Initializes the button system, setting up necessary components and systems.
+			- Update: Updates the button states based on input events.
+			- Exit: Cleans up and clears button resources when no longer needed.
+			- OnPress: Processes actions when a button is pressed.
+			- OnRelease: Processes actions when a button is released.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
 DigiPen Institute of Technology is prohibited.
------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+-------------------------------------------------------------------------------------------------*/
+
+
 #ifndef BUTTON_SYSTEM_H
 #define BUTTON_SYSTEM_H
 
@@ -28,9 +34,6 @@ namespace Carmicah
 {
 	class ButtonSystem : public BaseSystem
 	{
-	//private:
-	//	std::unordered_map<std::string, std::any> buttons; // container for all button components managed by this system
-
 	public:
 		// running the button system
 		void Init();

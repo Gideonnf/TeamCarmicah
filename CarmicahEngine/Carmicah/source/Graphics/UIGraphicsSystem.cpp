@@ -29,83 +29,62 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	void UIGraphicsSystem::Init(const float& screenWidth, const float& screenHeight)
+	void UIGraphicsSystem::Init()
 	{
 		// Set the signature of the system
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<UITransform>());
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Renderer>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<UIGraphicsSystem>(mSignature);
-		BaseGraphicsSystem::Init("");
-		screenMtx.translateThis(-1.f, -1.f).scaleThis(2 / screenWidth, 2 / screenHeight);
-
-		GenBatch(AssetManager::GetInstance()->GetAsset<Primitive>("Square"));
+		BaseGraphicsSystem::Init(AssetManager::GetInstance()->enConfig.defaultShader);
 	}
 
 	void UIGraphicsSystem::EntityDestroyed(Entity id)
 	{
 		auto test = mEntityBufferLoc.find(id);
 		if (test != mEntityBufferLoc.end())
-			DeleteBatchData(id, test->second.posInMemory, false, 4);
+			DeleteBatchData(id);
 	}
 
 
 
-	void UIGraphicsSystem::Render()
+	void UIGraphicsSystem::Update()
 	{
-		if (mCurrShader == 0)
-			return;
-		glUseProgram(mCurrShader);
 
-		GLint uniformLoc{};
-		if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
-			glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, screenMtx.m);
-
-
-		for (auto& entity : mEntityBufferLoc)
+		for (std::unordered_map<unsigned int, EntityData>::iterator entity = mEntityBufferLoc.begin(); entity != mEntityBufferLoc.end();)
 		{
-			if (!entity.second.isActive)
+			if (!ComponentManager::GetInstance()->HasComponent<Renderer>(entity->first))
+			{
+				DeleteBatchData(entity->first);
+				entity = mEntityBufferLoc.erase(entity);
 				continue;
+			}
 
-			auto& transform = ComponentManager::GetInstance()->GetComponent<UITransform>(entity.first);
+			auto& transform = ComponentManager::GetInstance()->GetComponent<UITransform>(entity->first);
 
-			if (!transform.Updated())
+			if (!transform.Updated() && !ComponentManager::GetInstance()->GetComponent<Renderer>(entity->first).Updated())
+			{
+				++entity;
 				continue;
+			}
 
-			EditBatchData(entity.first, entity.second.posInMemory, false, UI_LAYER);
+			EditBatchData(entity->first, false, UI_LAYER);
+			++entity;
 		}
 
 		// Add new Data
 		if (mActiveEntityCount != mEntitiesSet.size())
 		{
-
 			for (auto& entity : mEntitiesSet)
 			{
-				auto e{ mEntityBufferLoc.find(entity) };
-				if (e != mEntityBufferLoc.end())
-				{
-					if (!e->second.isActive)
-					{
-						ToggleActiveEntity(e->second, true);
-					}
+				// if entity is active -> skip
+				if (mEntityBufferLoc.find(entity) != mEntityBufferLoc.end())
 					continue;
-				}
-				EntityData ed{};
-				ToggleActiveEntity(ed, true);
-				ed.posInMemory = mEntityBufferIDTrack++;
 
-				EditBatchData(entity, ed.posInMemory, false, UI_LAYER);
-				mEntityBufferLoc.emplace(entity, ed);
+				SetNewEntity(entity, ComponentManager::GetInstance()->GetComponent<Renderer>(entity).model, 0, false, false);
+				EditBatchData(entity, false, UI_LAYER);
 			}
-
 		}
-	
-
-		BatchRender();
-
-		glBindTextureUnit(0, 0);
-		glBindVertexArray(0);
-		glUseProgram(0);
 	}
 
 }

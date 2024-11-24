@@ -15,6 +15,7 @@ DigiPen Institute of Technology is prohibited.
 #ifndef MESSAGE_H
 #define MESSAGE_H
 #include "../ECS/ECSTypes.h"
+#include "../Systems/AssetTypes.h"
 
 namespace Carmicah
 {
@@ -30,7 +31,10 @@ namespace Carmicah
 		MSG_EDITORENTITY,
 		MSG_BUTTONENTITY,
 		MSG_PLAYBGM,
-		MSG_PLAYSFX
+		MSG_PLAYSFX,
+		MSG_NEWPREFABGO,
+		MSG_MODIFYPREFAB,
+		MSG_NEWPREFAB
 	};
 
 	namespace
@@ -105,6 +109,28 @@ namespace Carmicah
 	public:
 		std::string fileName;
 		PlaySFXMsg(std::string file) : Message(MSG_PLAYSFX), fileName(file) {}
+	};
+
+	class ModifyPrefabMsg : public Message
+	{
+	public:
+		Prefab& prefabRef;
+		ModifyPrefabMsg(Prefab& prefab) : Message(MSG_MODIFYPREFAB), prefabRef(prefab) {}
+	};
+
+	class NewPrefabGOMsg : public Message
+	{
+	public:
+		Entity entityID;
+		unsigned int prefabID;
+		NewPrefabGOMsg(Entity id, unsigned int pId) : Message(MSG_NEWPREFABGO), entityID(id), prefabID(pId) {}
+	};
+
+	class NewPrefabMsg : public Message
+	{
+	public:
+		Entity goEntity;
+		NewPrefabMsg(Entity go) : Message(MSG_NEWPREFAB), goEntity(go) {}
 	};
 }
 

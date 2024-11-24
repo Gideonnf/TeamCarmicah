@@ -26,11 +26,11 @@ namespace Carmicah
 	{
 		BLANKSTATE,
 		INITIALISING,
-	//	CHANGESCENE,
+		//CHANGESCENE,
 		ONSTART,
 		EDITOR,
 		RUNTIME,
-		//RELOAD,
+		RELOAD,
 		EXIT
 	};
 
@@ -49,6 +49,7 @@ namespace Carmicah
 		//GameCore(std::string scene) : mScene(scene) {}
 		void Init();
 		void ChangeScene(std::string nextScene);
+		void ResetScene();
 		void Exit();
 		void SetScene(std::string scene);
 		void ReceiveMessage(Message* msg) override;

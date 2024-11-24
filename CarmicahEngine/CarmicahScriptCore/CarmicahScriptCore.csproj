@@ -56,6 +56,7 @@
     <Compile Include="Source\Player.cs" />
     <Compile Include="Source\Sound.cs" />
     <Compile Include="Source\StateMachine.cs" />
+    <Compile Include="Source\Testing.cs" />
     <Compile Include="Source\Vector2.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -26,6 +26,8 @@ DigiPen Institute of Technology is prohibited.
 #include <unordered_map>
 #include "Singleton.h"
 #include "Systems/AssetTypes.h"
+#include "PrefabSystem.h"
+#include "FileWatcher.h"
 
 namespace Carmicah
 {
@@ -47,6 +49,7 @@ namespace Carmicah
 	class AssetManager : public Singleton<AssetManager>
 	{
 	public:
+		void Init(std::shared_ptr<PrefabSystem> prefabRef);
 
 		/*!*************************************************************************
 		brief
@@ -63,12 +66,16 @@ namespace Carmicah
 			Asset Path to load data from
 		***************************************************************************/
 		void LoadAll(const char* assetPath);
+
+		bool LoadAsset(File const& file, bool reload = false);
+
 		/*!*************************************************************************
 		brief
 			Unloads and frees data held by the AssetManager
 		***************************************************************************/
 		void UnloadAll();
 
+		FileWatcher fileWatcher;
 		EngineConfig enConfig{};
 		std::unordered_map<std::string, std::shared_ptr<IAsset>> mAssetTypeMap{};
 
@@ -79,6 +86,9 @@ namespace Carmicah
 		FMOD::System* mSoundSystem{};
 		std::unordered_map<std::string, FMOD::Channel*> mChannelMap;
 		std::unordered_map<std::string, Audio> mSoundMap{};
+		std::shared_ptr<PrefabSystem> prefabPtr;
+
+		std::vector<GLuint> mPreviewTexs;
 
 		/*!*************************************************************************
 		brief
@@ -171,10 +181,20 @@ namespace Carmicah
 				RegisterAsset<T>();
 			}
 
-			GetAssetMap<T>()->mAssetList.push_back(asset);
-			// The map is name -> index
-			// where index is where the asset belongs in mAssetList
-			GetAssetMap<T>()->mAssetMap[name] = (unsigned int)GetAssetMap<T>()->mAssetList.size() - 1;
+			// The asset exist already
+			if (GetAssetMap<T>()->mAssetMap.count(name) != 0)
+			{
+				// if it dose then we have to replace it in the vector
+				GetAssetMap<T>()->mAssetList[GetAssetMap<T>()->mAssetMap[name]] = asset;
+			}
+			else
+			{
+				GetAssetMap<T>()->mAssetList.push_back(asset);
+				// The map is name -> index
+				// where index is where the asset belongs in mAssetList
+				GetAssetMap<T>()->mAssetMap[name] = (unsigned int)GetAssetMap<T>()->mAssetList.size() - 1;
+
+			}
 		}
 
 		/*!*************************************************************************
@@ -325,8 +345,6 @@ namespace Carmicah
 			Sets the volume of the sound
 		***************************************************************************/
 		void LoadSound(const std::string& soundName, const std::string& soundFile, bool isLoop, float defaultVolume = 1.0f);
-
-
 	};
 }
 #endif

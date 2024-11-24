@@ -23,26 +23,21 @@ namespace Carmicah
 	class UIGraphicsSystem : public BaseSystem, private BaseGraphicsSystem
 	{
 	private:
-		Mtx3x3f screenMtx{};	// Calculated Screen Matrix multiplier to use for text systems
 
 	public:
 		/*!*************************************************************************
 		brief
-			Sets which components the system references, loads the shader, and calculates the screenMultiplcationMatrix
-		param[screenWidth]
-			Screen dimensions (width)
-		param[screenHeight]
-			Screen dimensions (height)
+			Sets which components the system references, loads the shader
 		***************************************************************************/
-		void Init(const float& screenWidth, const float& screenHeight);
+		void Init();
 
 		void EntityDestroyed(Entity id);
 
 		/*!*************************************************************************
 		brief
-			Renders the objects based on screen position [0,0] -> (top left)
+			Updates the objects based on screen position [0,0] -> (top left)
 		***************************************************************************/
-		void Render();
+		void Update();
 
 	};
 }
