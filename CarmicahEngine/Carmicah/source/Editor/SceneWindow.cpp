@@ -129,7 +129,7 @@ namespace Carmicah
 
 
                     // if dragging, update the drag position within the Scene window
-                    if (Input.IsDragging())
+                    if (Input.IsDragging() && camera.HasComponent<Transform>())
                     {
                         Input.SetDragCurrentPos({ scaledX, scaledY });
                         
