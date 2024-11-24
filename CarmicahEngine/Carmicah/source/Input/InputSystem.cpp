@@ -176,13 +176,13 @@ namespace Carmicah
 		{
 			// pause all audio
 			auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-			souSystem->PauseResumeAllSounds();
+			souSystem->PauseAllSounds();
 		}
 		else
 		{
 			// resume all audio
 			auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-			souSystem->PauseResumeAllSounds();
+			souSystem->ResumeAllSounds();
 		}
 	}
 
