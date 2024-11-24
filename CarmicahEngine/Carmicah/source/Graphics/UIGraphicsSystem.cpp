@@ -43,7 +43,10 @@ namespace Carmicah
 	{
 		auto test = mEntityBufferLoc.find(id);
 		if (test != mEntityBufferLoc.end())
+		{
 			DeleteBatchData(id);
+			mEntityBufferLoc.erase(id);
+		}
 	}
 
 
@@ -53,7 +56,7 @@ namespace Carmicah
 
 		for (std::unordered_map<unsigned int, EntityData>::iterator entity = mEntityBufferLoc.begin(); entity != mEntityBufferLoc.end();)
 		{
-			if (!ComponentManager::GetInstance()->HasComponent<Renderer>(entity->first))
+			if (!ComponentManager::GetInstance()->HasComponent<Renderer>(entity->first) || !ComponentManager::GetInstance()->HasComponent<UITransform>(entity->first))
 			{
 				DeleteBatchData(entity->first);
 				entity = mEntityBufferLoc.erase(entity);

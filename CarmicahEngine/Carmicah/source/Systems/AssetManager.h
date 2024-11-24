@@ -67,7 +67,7 @@ namespace Carmicah
 		***************************************************************************/
 		void LoadAll(const char* assetPath);
 
-		bool LoadAsset(File const& file);
+		bool LoadAsset(File const& file, bool reload = false);
 
 		/*!*************************************************************************
 		brief
@@ -87,6 +87,8 @@ namespace Carmicah
 		std::unordered_map<std::string, FMOD::Channel*> mChannelMap;
 		std::unordered_map<std::string, Audio> mSoundMap{};
 		std::shared_ptr<PrefabSystem> prefabPtr;
+
+		std::vector<GLuint> mPreviewTexs;
 
 		/*!*************************************************************************
 		brief
@@ -179,10 +181,20 @@ namespace Carmicah
 				RegisterAsset<T>();
 			}
 
-			GetAssetMap<T>()->mAssetList.push_back(asset);
-			// The map is name -> index
-			// where index is where the asset belongs in mAssetList
-			GetAssetMap<T>()->mAssetMap[name] = (unsigned int)GetAssetMap<T>()->mAssetList.size() - 1;
+			// The asset exist already
+			if (GetAssetMap<T>()->mAssetMap.count(name) != 0)
+			{
+				// if it dose then we have to replace it in the vector
+				GetAssetMap<T>()->mAssetList[GetAssetMap<T>()->mAssetMap[name]] = asset;
+			}
+			else
+			{
+				GetAssetMap<T>()->mAssetList.push_back(asset);
+				// The map is name -> index
+				// where index is where the asset belongs in mAssetList
+				GetAssetMap<T>()->mAssetMap[name] = (unsigned int)GetAssetMap<T>()->mAssetList.size() - 1;
+
+			}
 		}
 
 		/*!*************************************************************************

@@ -70,7 +70,9 @@ project "Carmicah"
         {
             "{COPYDIR} %[Dependencies/lib/**.dll] %[bin/" .. outputdir .. "/Editor]",
             "{COPYDIR} %[Dependencies/bin/**.dll] %[bin/" .. outputdir .. "/Dependencies/bin]",
-            "{COPYDIR} %[Assets/**.**] %[bin/" .. outputdir .. "/Assets]"
+            "{COPYDIR} %[Assets/**.**] %[bin/" .. outputdir .. "/Assets]",
+            "{COPYDIR} %[bin/" .. outputdir .. "/CarmicahScriptCore/**.**] %[CarmicahScriptCore/]"
+
         }
 
     filter "configurations:Debug"
@@ -252,6 +254,11 @@ project "CarmicahScriptCore"
     {
         "Dependencies/lib"
     }
+
+    --postbuildcommands -- copies dll files to Editor's bin (the exe)
+    --{
+    --   "{COPYDIR} %[bin/" .. outputdir .. "/%{prj.name}/**.dll] %[CarmicahScriptCore/]"
+    --}
 
 
     filter "configurations:Debug"

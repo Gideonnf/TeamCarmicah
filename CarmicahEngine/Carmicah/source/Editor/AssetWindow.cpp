@@ -141,9 +141,12 @@ namespace Carmicah
 						Vec2f uv1(1, 1);
 						uv0 = matrix * uv0;
 						uv1 = matrix * uv1;
+						float temp = -uv0.y;
+						uv0.y = -uv1.y;
+						uv1.y = temp;
 						//ImVec2 uv1;
 						ImGui::Text("Texture!");
-						ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(textureID)),ImVec2(200,200), ImVec2(uv0.x, uv0.y), ImVec2(uv1.x, uv1.y));
+						ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[textureMap->mAssetList[entry.second].t])), ImVec2(200, 200), ImVec2(uv0.x, uv0.y), ImVec2(uv1.x, uv1.y));
 						ImGui::EndTooltip();
 					}
 				}

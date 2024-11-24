@@ -22,10 +22,24 @@ DigiPen Institute of Technology is prohibited.
 #include <mono/metadata/mono-gc.h>
 #include <mono/jit/jit.h>
 #include <mono/metadata/assembly.h>
+#include <mono/metadata/tabledefs.h>
 #include "ScriptFunctions.h"
 namespace Carmicah
 {
     ScriptSystem* gScriptSystem = NULL;
+
+    static std::unordered_map<std::string, ScriptFieldType> sFieldTypeMap =
+    {
+        {"System.Single", ScriptFieldType::Float},
+        {"System.Double", ScriptFieldType::Double},
+        {"System.Boolean", ScriptFieldType::Bool},
+        {"System.Char", ScriptFieldType::Char},
+        {"System.Int16", ScriptFieldType::Short},
+        {"System.Int32", ScriptFieldType::Int},
+        {"System.UInt32", ScriptFieldType::UInt},
+        {"Carmicah.Vector2", ScriptFieldType::Vector2},
+        {"Carmicah.Entity", ScriptFieldType::Entity},
+    };
 
     ScriptSystem::ScriptSystem()
     {
@@ -79,7 +93,7 @@ namespace Carmicah
 
        // PrintAssemblyTypes(mCoreAssembly);
         // retrieve the main Entity class
-       mEntityClass = ScriptObject("Carmicah", "Entity");
+       mEntityClass = ScriptClass("Carmicah", "Entity");
 
     }
 
@@ -120,6 +134,7 @@ namespace Carmicah
         mCoreAssemblyImage = nullptr;  // Clear any references to images, assemblies
         mCoreAssembly = nullptr;
 
+        
         // Optional: small delay to ensure Mono completes cleanup
        // std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
@@ -268,18 +283,11 @@ namespace Carmicah
 
     void ScriptSystem::OnStart()
     {
-        for (auto& id : mEntitiesSet)
+        // Loop through all entity instances
+        for (const auto& [id, scriptRef] : mEntityInstances)
         {
-            Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(id);
-
-            if (HasEntityClass(scriptComponent.scriptName))
-            {
-                std::shared_ptr<ScriptObject> scriptRef(mEntityClasses[scriptComponent.scriptName]);
-                scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
-                mEntityInstances[id] = scriptRef;
-                scriptRef->InvokeOnConstruct(id);
-                scriptRef->InvokeOnCreate();
-            }
+            scriptRef->InvokeOnConstruct(id);
+            scriptRef->InvokeOnCreate();
         }
     }
 
@@ -289,6 +297,41 @@ namespace Carmicah
         for (const auto& [id, scriptRef] : mEntityInstances)
         {
             scriptRef->InvokeOnUpdate(dt);
+        }
+    }
+
+    void ScriptSystem::UpdateScripts()
+    {
+        // TODO: See if theres a less iterative way to do this instead of looping it in update
+        for (auto& id : mEntitiesSet)
+        {
+            // new entity added
+            if (mEntityInstances.count(id) == 0)
+            {
+                Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(id);
+                if (HasEntityClass(scriptComponent.scriptName)) // Technically dont have to check IMGUI only allows for entity classes to be picked
+                {
+                    std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], id);
+                    //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
+                    mEntityInstances[id] = scriptObj;
+                }
+            }
+            // it already exist, check if the script was changed
+            // this should be done through messaging from IMGUI side if the script was changed on an object
+            // but for now we do it here
+            else
+            {
+                // Comment out for now cause i dont think we'll be changign scripts that much in editor mode
+                // but NOTE: If we do allow that then it wont work until i fix this part
+                
+                //Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(id);
+                //if (HasEntityClass(scriptComponent.scriptName))
+                //{
+                //    std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], id);
+                //    //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
+                //    mEntityInstances[id] = scriptObj;
+                //}
+            }
         }
     }
 
@@ -331,12 +374,67 @@ namespace Carmicah
             bool isEntityScript = mono_class_is_subclass_of(monoClass, entityClass, false);
             if (isEntityScript)
             {
-                ScriptObject script = ScriptObject(nameSpace, name);
-                mEntityClasses[className] = std::make_shared<ScriptObject>(script);
+                std::shared_ptr<ScriptClass> script = std::make_shared<ScriptClass>(nameSpace, name);
+                mEntityClasses[className] = script;
+
+                // get all the fields from the c# script (i.e variables from c# script side)
+                void* iterator = nullptr;
+                while (MonoClassField* field = mono_class_get_fields(monoClass, &iterator))
+                {
+                    std::string fieldName = mono_field_get_name(field);
+                    // Only access public variables from the mono class
+                    if (mono_field_get_flags(field) & FIELD_ATTRIBUTE_PUBLIC)
+                    {
+                        MonoType* type = mono_field_get_type(field);
+                        ScriptFieldType fieldType = GetScriptFieldType(type);
+                        // Store it in the script's field map
+                        script->mFields[fieldName] = { fieldType, fieldName, field };
+                    }
+                }
             }
 
             printf("%s.%s\n", nameSpace, name);
+
+           
         }
 
+    }
+
+    ScriptFieldType ScriptSystem::GetScriptFieldType(MonoType* type)
+    {
+        std::string name = mono_type_get_name(type);
+        // If the name exist in our field type map
+        if (sFieldTypeMap.count(name) != 0)
+        {
+            auto iter = sFieldTypeMap.find(name);
+            return iter->second;
+        }
+
+        return ScriptFieldType::None;
+    }
+
+    std::shared_ptr<ScriptObject> ScriptSystem::GetScriptInstance(unsigned int entityID)
+    {
+        if (mEntityInstances.count(entityID) == 0)
+        {
+            return nullptr;
+        }
+
+        return mEntityInstances[entityID];
+    }
+
+    void ScriptSystem::ReceiveMessage(Message* msg)
+    {
+        // Button entity was clicked
+        if (msg->mMsgType == MSG_ONCLICK)
+        {
+            auto castedMsg = dynamic_cast<OnClickMsg*>(msg);
+
+            // If it has a script instance
+            if (mEntityInstances.count(castedMsg->buttonEntity))
+            {
+                mEntityInstances[castedMsg->buttonEntity]->InvokeOnClick();
+            }
+        }
     }
 }

@@ -81,6 +81,8 @@ namespace Carmicah
 		Mtx3x3f mtx;
 	};
 	
+	const unsigned char charOffset{ 32 }; // first 32 characters are not visable
+
 	struct Font
 	{
 		struct FontChar
@@ -90,7 +92,6 @@ namespace Carmicah
 			int			 xBearing{}, yBearing{};
 			long		 advance{};
 		};
-		const unsigned char charOffset{ 32 }; // first 32 characters are not visable
 
 		std::array<FontChar, 96> mFontMaps{};
 	};

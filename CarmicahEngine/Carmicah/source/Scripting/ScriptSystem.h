@@ -25,6 +25,7 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+
 	class ScriptSystem : public BaseSystem
 	{
 	public:
@@ -87,6 +88,10 @@ namespace Carmicah
 		/// <returns>True or False</returns>
 		bool HasEntityClass(std::string scriptName);
 
+		ScriptFieldType GetScriptFieldType(MonoType* type);
+
+		std::shared_ptr<ScriptObject> GetScriptInstance(unsigned int entityID);
+
 		/*!
 		OnStart() -> Called when play button is pressed. Loop through all entities and get a reference to their scripts
 		OnUpdate() -> Calls the script's update
@@ -94,7 +99,10 @@ namespace Carmicah
 		*/
 		void OnStart(); // Calls the Enter function of all game objects
 		void OnUpdate(float dt);
+		void UpdateScripts();
 		void OnEnd();
+		void ReceiveMessage(Message* msg) override;
+
 		// Variables
 		MonoDomain* mRootDomain;
 		MonoDomain* mAppDomain;
@@ -102,10 +110,10 @@ namespace Carmicah
 		MonoImage* mCoreAssemblyImage;
 
 		// Hold a reference to Entity class as it contains the constructor that all entity scripts runs to store mID
-		ScriptObject mEntityClass;
+		ScriptClass mEntityClass;
 
 		// keep track of every type of entity classes
-		std::unordered_map<std::string, std::shared_ptr<ScriptObject>> mEntityClasses;
+		std::unordered_map<std::string, std::shared_ptr<ScriptClass>> mEntityClasses;
 		// keep track of entity to script object
 		std::unordered_map<unsigned int, std::shared_ptr<ScriptObject>> mEntityInstances;
 	};

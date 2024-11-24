@@ -22,33 +22,53 @@ DigiPen Institute of Technology is prohibited.
 #include "ScriptObject.h"
 namespace Carmicah
 {
-	ScriptObject::ScriptObject(const std::string& nameSpace, const std::string& className)
+#pragma region ScriptClass
+	
+	ScriptClass::ScriptClass(const std::string& nameSpace, const std::string& className)
 	{
 		mMonoClass = mono_class_from_name(gScriptSystem->mCoreAssemblyImage, nameSpace.c_str(), className.c_str());
 	}
 
-	void ScriptObject::Instantiate()
+	MonoObject* ScriptClass::Instantiate()
 	{
-		mMonoInstance = mono_object_new(gScriptSystem->mAppDomain, mMonoClass);
-		mono_runtime_object_init(mMonoInstance);
+		MonoObject* monoInstance = mono_object_new(gScriptSystem->mAppDomain, mMonoClass);
+		mono_runtime_object_init(monoInstance);
 
+		return monoInstance;
 		//monoInstance = instance;
 		//return instance;
 	}
 
-	void ScriptObject::SetUpEntity(Entity entity)
+	MonoMethod* ScriptClass::GetMethod(const std::string& name, int varCount)
 	{
-		UNUSED(entity);
-		Instantiate();
+		return mono_class_get_method_from_name(mMonoClass, name.c_str(), varCount);
+	}
+
+	MonoObject* ScriptClass::InvokeMethod(MonoObject* instance, MonoMethod* method, void** params)
+	{
+		// Exception so that we can check if any invoke fails
+		MonoObject* exception = nullptr;
+		return mono_runtime_invoke(method, instance, params, &exception);
+	}
+#pragma endregion 
+	
+#pragma region ScriptObject
+	
+	ScriptObject::ScriptObject(std::shared_ptr<ScriptClass> scClass, Entity entity) : mScriptClass (scClass)
+	{
+		mMonoInstance = scClass->Instantiate();
+
 		// Need to call constructor of entity by getting the entity class thats storing Entity.cs
 		mConstruct = gScriptSystem->mEntityClass.GetMethod(".ctor", 1);
 
 		// These are the other functions that every other script that inherits Entity will have
-		mOnCreate = GetMethod("OnCreate", 0);
-		mOnUpdate = GetMethod("OnUpdate", 1);
-
-
+		mOnCreate = scClass->GetMethod("OnCreate", 0);
+		mOnUpdate = scClass->GetMethod("OnUpdate", 1);
+		mOnClick = scClass->GetMethod("OnClick", 0);
+		mOnCollide = scClass->GetMethod("OnCollide", 1);
 	}
+
+
 
 	void ScriptObject::InvokeOnConstruct(unsigned int id)
 	{
@@ -56,7 +76,7 @@ namespace Carmicah
 		{
 			// Invoke constructor when setting up entity
 			void* param = &id;
-			InvokeMethod(mConstruct, &param);
+			mScriptClass->InvokeMethod(mMonoInstance, mConstruct, &param);
 
 		}
 	}
@@ -64,7 +84,7 @@ namespace Carmicah
 	void ScriptObject::InvokeOnCreate()
 	{
 		if (mOnCreate)
-			InvokeMethod(mOnCreate);
+			mScriptClass->InvokeMethod(mMonoInstance, mOnCreate);
 	}
 
 	void ScriptObject::InvokeOnUpdate(float dt)
@@ -72,19 +92,20 @@ namespace Carmicah
 		if (mOnUpdate)
 		{
 			void* param = &dt;
-			InvokeMethod(mOnUpdate, &param);
+			mScriptClass->InvokeMethod(mMonoInstance, mOnUpdate, &param);
 		}
 	}
 
-	MonoMethod* ScriptObject::GetMethod(const std::string& name, int varCount)
+	void ScriptObject::InvokeOnClick()
 	{
-		return mono_class_get_method_from_name(mMonoClass, name.c_str(), varCount);
+		if (mOnClick)
+			mScriptClass->InvokeMethod(mMonoInstance, mOnClick);
 	}
 
-	MonoObject* ScriptObject::InvokeMethod(MonoMethod* method, void** params)
+	std::shared_ptr<ScriptClass> ScriptObject::GetScriptClass()
 	{
-		// Exception so that we can check if any invoke fails
-		MonoObject* exception = nullptr;
-		return mono_runtime_invoke(method, mMonoInstance, params, &exception);
+		return mScriptClass;
 	}
+
+#pragma endregion
 }
