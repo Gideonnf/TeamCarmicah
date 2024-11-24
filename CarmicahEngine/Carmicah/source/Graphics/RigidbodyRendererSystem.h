@@ -39,7 +39,7 @@ namespace Carmicah
 		param[cam]
 			camera dimensions and position to reference
 		***************************************************************************/
-		void Render();
+		void Update();
 	};
 }
 

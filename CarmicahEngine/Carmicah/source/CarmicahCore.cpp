@@ -401,8 +401,8 @@ namespace Carmicah
                 graSystem->Update();
                 uigSystem->Update();
                 crsSystem->Update();
-                rrsSystem->Render();
-                //txtSystem->Render();
+                rrsSystem->Update();
+                txtSystem->Update();
                 transformSystem->PostUpdate();
                 RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
                 CarmicahTime::GetInstance()->StopSystemTimer("RenderingSystems");

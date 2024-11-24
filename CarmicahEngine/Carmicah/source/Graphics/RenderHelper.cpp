@@ -84,14 +84,15 @@ void RenderHelper::Render(const unsigned int& cam)
 			// If font shader
 			if (it.first.dat[SHADER] == AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.fontShader).s)
 			{
-				if (mFontUniforms.find(it.first.dat[ID]) != mFontUniforms.end())
+				FontUniform* ft = GetFontUniforms(it.first.dat[ID]);
+				if (ft != nullptr)
 				{
-					FontUniform& ft = mFontUniforms.find(it.first.dat[ID])->second;
-
 					if (UniformExists(mCurrShader, "uTextColor", uniformLoc))
-						glUniform3f(uniformLoc, ft.col[0], ft.col[1], ft.col[2]);
+						glUniform3f(uniformLoc, ft->col[0], ft->col[1], ft->col[2]);
 					if (UniformExists(mCurrShader, "uFontDisplace", uniformLoc))
-						glUniform2f(uniformLoc, ft.offset.x, ft.offset.y);
+						glUniform2f(uniformLoc, ft->offset.x, ft->offset.y);
+					if (UniformExists(mCurrShader, "uFontScale", uniformLoc))
+						glUniform2f(uniformLoc, ft->scale.x, ft->scale.y);
 
 				}
 			}
@@ -134,15 +135,48 @@ void RenderHelper::Render(const unsigned int& cam)
 	glUseProgram(0);
 }
 
+RenderHelper::FontUniform* RenderHelper::GetFontUniforms(const unsigned int& bufferID)
+{
+	auto& fbtE = mFontBufferToEntity.find(bufferID);
+	if (fbtE != mFontBufferToEntity.end())
+	{
+		auto& ftU = mFontUniforms.find(fbtE->second);
+		if (ftU != mFontUniforms.end())
+		{
+			return &ftU->second;
+		}
+	}
+	return nullptr;
+}
+
+unsigned int RenderHelper::AssignFont(const unsigned int& e)
+{
+	FontUniform ftU{};
+	if (mUnusedFontID.size() != 0)
+	{
+		ftU.bufferID = mUnusedFontID.front();
+		mUnusedFontID.pop();
+	}
+	else
+		ftU.bufferID = mCapFontID++;
+	mFontBufferToEntity.emplace(ftU.bufferID, e);
+	mFontUniforms.emplace(e, ftU);
+	
+	return ftU.bufferID;
+}
+
 void RenderHelper::UnassignFont(const unsigned int& e)
 {
-	/*
 	auto& ftU = mFontUniforms.find(e);
 	if (ftU != mFontUniforms.end())
 	{
-		//mBufferMap.find(ftU->second.BufferID);
+		auto& fbtE = mFontBufferToEntity.find(ftU->second.bufferID);
+		if (fbtE != mFontBufferToEntity.end())
+			mFontBufferToEntity.erase(fbtE->first);
+
+		mUnusedFontID.push(ftU->first);
+		mFontUniforms.erase(e);
 	}
-	*/
 }
 
 
