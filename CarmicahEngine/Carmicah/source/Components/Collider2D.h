@@ -29,8 +29,6 @@ namespace Carmicah
         std::vector<Vec2f> objNormals;
         std::vector<Vec2f> objEdges;
 
-        bool dirty;
-
         std::string shape;
 
         Collider2D& DeserializeComponent(const rapidjson::Value& component) override

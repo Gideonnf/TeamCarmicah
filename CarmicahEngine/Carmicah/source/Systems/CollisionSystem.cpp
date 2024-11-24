@@ -50,38 +50,16 @@ namespace Carmicah
 		auto& AABB = componentManager->GetComponent<Collider2D>(obj);
 		//auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
 
-		AABB.min.x = -(transform.Scale().x * 0.5f) + transform.Pos().x;
-		AABB.min.y = -(transform.Scale().y * 0.5f) + transform.Pos().y;
+		AABB.min.x = transform.Pos().x - (transform.Scale().x * 0.5f);
+		AABB.min.y = transform.Pos().y - (transform.Scale().y * 0.5f);
 
-		AABB.max.x = (transform.Scale().x * 0.5f) + transform.Pos().x;
-		AABB.max.y = (transform.Scale().y * 0.5f) + transform.Pos().y;
+		AABB.max.x = transform.Pos().x + (transform.Scale().x * 0.5f);
+		AABB.max.y = transform.Pos().y + (transform.Scale().y * 0.5f);
 	}
 
 
 	void CollisionSystem::GetOBBVertices(Entity& obj)
 	{
-
-		//auto* componentManager = ComponentManager::GetInstance();
-		//auto& transform = componentManager->GetComponent<Transform>(obj);
-		//auto& collider = componentManager->GetComponent<Collider2D>(obj);
-
-		//float halfWidth = transform.Scale().x * 0.5f;
-		//float halfHeight = transform.Scale().y * 0.5f;
-
-
-
-		//float angleInRadians = transform.Rot() * (PI / 180.0f); // Convert to radians
-		//float cosTheta = cos(angleInRadians);
-		//float sinTheta = sin(angleInRadians);
-
-		//collider.objVert.push_back(transform.Pos() + Vec2f(-halfWidth * cosTheta - -halfHeight * sinTheta,
-		//	-halfWidth * sinTheta + -halfHeight * cosTheta));
-		//collider.objVert.push_back(transform.Pos() + Vec2f(halfWidth * cosTheta - -halfHeight * sinTheta,
-		//	halfWidth * sinTheta + -halfHeight * cosTheta));
-		//collider.objVert.push_back(transform.Pos() + Vec2f(halfWidth * cosTheta - halfHeight * sinTheta,
-		//	halfWidth * sinTheta + halfHeight * cosTheta));
-		//collider.objVert.push_back(transform.Pos() + Vec2f(-halfWidth * cosTheta - halfHeight * sinTheta,
-		//	-halfWidth * sinTheta + halfHeight * cosTheta));
 		auto* componentManager = ComponentManager::GetInstance();
 		auto& transform = componentManager->GetComponent<Transform>(obj);
 		auto& collider = componentManager->GetComponent<Collider2D>(obj);
@@ -102,7 +80,6 @@ namespace Carmicah
 			halfWidth * sinTheta + halfHeight * cosTheta));
 		collider.objVert.push_back(transform.Pos() + Vec2f(-halfWidth * cosTheta - halfHeight * sinTheta,
 			-halfWidth * sinTheta + halfHeight * cosTheta));
-		collider.dirty = true; // Mark the collider as dirty (vertices have changed)
 
 
 	}
@@ -125,9 +102,6 @@ namespace Carmicah
 		auto* componentManager = ComponentManager::GetInstance();
 		auto& collider = componentManager->GetComponent<Collider2D>(obj);
 
-		if (!collider.dirty) // Skip calculation if not dirty
-			return;
-
 		collider.objEdges.clear(); // Clear previous edges
 		collider.objNormals.clear(); // Clear previous normals
 
@@ -142,7 +116,6 @@ namespace Carmicah
 			collider.objNormals.push_back(normal);
 		}
 
-		collider.dirty = false; // Reset dirty flag
 	}
 
 	void CollisionSystem::ComputeProjInterval(Entity& obj, Vec2f edgeNormal, float& min, float& max)
@@ -220,6 +193,8 @@ namespace Carmicah
 			if (max0 < min1 || max1 < min0) // Separating axis found
 				return false;
 		}
+
+		//for(size_t i = 0, p = obj)
 
 		// Test normals of collider2
 		for (const Vec2f& normal : collider2.objNormals)
