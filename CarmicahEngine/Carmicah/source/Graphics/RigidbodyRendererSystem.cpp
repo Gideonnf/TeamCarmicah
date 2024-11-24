@@ -51,7 +51,7 @@ namespace Carmicah
 	{
 		for (std::unordered_map<unsigned int, EntityData>::iterator entity = mEntityBufferLoc.begin(); entity != mEntityBufferLoc.end();)
 		{
-			if (!ComponentManager::GetInstance()->HasComponent<RigidBody>(entity->first))
+			if (!ComponentManager::GetInstance()->HasComponent<RigidBody>(entity->first) || !ComponentManager::GetInstance()->HasComponent<Transform>(entity->first))
 			{
 				DeleteBatchData(entity->first);
 				entity = mEntityBufferLoc.erase(entity);

@@ -55,7 +55,7 @@ namespace Carmicah
 		for (std::unordered_map<unsigned int, EntityData>::iterator it{ mEntityBufferLoc.begin() };
 			it != mEntityBufferLoc.end();)
 		{
-			if (!ComponentManager::GetInstance()->HasComponent<TextRenderer>(it->first))
+			if (!ComponentManager::GetInstance()->HasComponent<TextRenderer>(it->first) || !ComponentManager::GetInstance()->HasComponent<Transform>(it->first))
 			{
 				auto test = mEntityBufferLoc.find(it->first);
 				if (test != mEntityBufferLoc.end())
