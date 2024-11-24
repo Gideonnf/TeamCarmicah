@@ -19,24 +19,41 @@ namespace Carmicah
 
         void OnCreate()
         {
+            // initialize state machine
             waypointsRight = new List<Vector2>();
             waypointsLeft = new List<Vector2>();
             originalPos = new Vector2();
             //Random rand = new Random();
+
+            // set the initial state
             isLeft = false;//rand.Next(0, 2) == 1; // 
             currPoint = 0;
-            player = FindEntityWithName("mainChracter");
 
-            Entity leftPoint0 = FindEntityWithName("Duck2_5");
-            Entity leftPoint1 = FindEntityWithName("Duck2_3");
-            Entity leftPoint2 = FindEntityWithName("Duck2_4");
+            // Get the player
+            Entity rightChar = FindEntityWithName("mainCharacter_2");  // Right character
+            Entity leftChar = FindEntityWithName("mainCharacter_3");   // Left character
+
+            // Determine which path to take based on closest character
+            float distToRightChar = Position.Distance(rightChar.Position);
+            float distToLeftChar = Position.Distance(leftChar.Position);
+
+            // Set path based on closest character
+            isLeft = distToLeftChar < distToRightChar;
+
+            // Set the active player to watch out for
+            player = isLeft ? leftChar : rightChar;
+
+
+            Entity leftPoint0 = FindEntityWithName("wall");
+            Entity leftPoint1 = FindEntityWithName("wall_1");
+            Entity leftPoint2 = FindEntityWithName("wall_2");
             waypointsLeft.Add(leftPoint0.Position);
             waypointsLeft.Add(leftPoint1.Position);
             waypointsLeft.Add(leftPoint2.Position);
 
-            Entity rightPoint0 = FindEntityWithName("Duck2");
-            Entity rightPoint1 = FindEntityWithName("Duck2_2");
-            Entity rightPoint2 = FindEntityWithName("Duck2_1");
+            Entity rightPoint0 = FindEntityWithName("wall_3");
+            Entity rightPoint1 = FindEntityWithName("wall_4");
+            Entity rightPoint2 = FindEntityWithName("wall_5");
             waypointsRight.Add(rightPoint0.Position);
             waypointsRight.Add(rightPoint1.Position);
             waypointsRight.Add(rightPoint2.Position);
@@ -63,7 +80,17 @@ namespace Carmicah
             //mouseSM.Update(ref mouseSM);
             //Entity 
             //Console.WriteLine($"Player.OnCreate - {player.mID}");
-
+            if (player != null)
+            {
+                float distToPlayer = Position.Distance(player.Position);
+                if (distToPlayer < 3.0f) // Detection radius
+                {
+                    // Run away from player
+                    Vector2 awayDir = (Position - player.Position).Normalize();
+                    GetComponent<RigidBody>().ApplyForce(awayDir, 3.0f);
+                    return; // Skip waypoint following while escaping
+                }
+            }
             // Get the direction to the next waypoint
             if (isLeft)
             {
@@ -118,3 +145,5 @@ namespace Carmicah
 
     }
 }
+
+
