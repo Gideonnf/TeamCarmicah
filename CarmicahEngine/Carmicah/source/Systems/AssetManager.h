@@ -88,6 +88,8 @@ namespace Carmicah
 		std::unordered_map<std::string, Audio> mSoundMap{};
 		std::shared_ptr<PrefabSystem> prefabPtr;
 
+		std::vector<GLuint> mPreviewTexs;
+
 		/*!*************************************************************************
 		brief
 			Gets the Scene data from the fileName

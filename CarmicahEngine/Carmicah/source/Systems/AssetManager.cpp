@@ -135,7 +135,7 @@ namespace Carmicah
 		//}
 
 		//enConfig = Serializer.LoadConfig(directoryPath)
-	}
+		}
 
 	bool AssetManager::LoadAsset(File const& file, bool reload)
 	{
@@ -259,6 +259,8 @@ namespace Carmicah
 	{
 		// Unload Graphics
 		glDeleteTextures(1, &mArrayTex);
+		for (int i{}; i < mPreviewTexs.size(); ++i)
+			glDeleteTextures(1, &mPreviewTexs[i]);
 		GetAssetMap<Texture>()->mAssetMap.clear();
 		for (const auto& i : RenderHelper::GetInstance()->mBufferMap)
 		{
@@ -286,7 +288,6 @@ namespace Carmicah
 		if (mSoundSystem != NULL)
 			mSoundSystem->release();
 	}
-
 
 	// Load Functions
 	GLuint AssetManager::LoadShader(const std::string& shaderName, const std::string& vertFile, const std::string& fragFile)
@@ -509,6 +510,13 @@ namespace Carmicah
 
 		glTextureParameterf(mArrayTex, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTextureParameterf(mArrayTex, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		mPreviewTexs.resize(enConfig.maxNumTextures);
+		for (int i{}; i < enConfig.maxNumTextures; ++i)
+		{
+			glGenTextures(1, &mPreviewTexs[i]);
+			glTextureView(mPreviewTexs[i], GL_TEXTURE_2D, mArrayTex, GL_RGBA8, 0, 1, i, 1);
+		}
 
 	}
 
