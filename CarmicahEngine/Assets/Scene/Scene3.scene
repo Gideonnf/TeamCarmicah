@@ -69,12 +69,12 @@
                 {
                     "Component Name": "struct Carmicah::Button",
                     "ButtonImage": "quit_button",
-                    "ButtonImagePressed": "pause_button"
+                    "ButtonImagePressed": "quit_button"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "pause_button"
+                    "texture": "quit_button"
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
