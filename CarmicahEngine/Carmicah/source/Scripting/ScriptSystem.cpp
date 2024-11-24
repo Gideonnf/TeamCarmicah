@@ -283,19 +283,25 @@ namespace Carmicah
 
     void ScriptSystem::OnStart()
     {
-        for (auto& id : mEntitiesSet)
-        {
-            Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(id);
+        //for (auto& id : mEntitiesSet)
+        //{
+        //    Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(id);
 
-            if (HasEntityClass(scriptComponent.scriptName))
-            {
-                std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], id);
+        //    if (HasEntityClass(scriptComponent.scriptName))
+        //    {
+        //        std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], id);
  
-              //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
-                mEntityInstances[id] = scriptObj;
-                scriptObj->InvokeOnConstruct(id);
-                scriptObj->InvokeOnCreate();
-            }
+        //      //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
+        //        mEntityInstances[id] = scriptObj;
+        //        scriptObj->InvokeOnConstruct(id);
+        //        scriptObj->InvokeOnCreate();
+        //    }
+        //}
+                // Loop through all entity instances
+        for (const auto& [id, scriptRef] : mEntityInstances)
+        {
+            scriptRef->InvokeOnConstruct(id);
+            scriptRef->InvokeOnCreate();
         }
     }
 
@@ -305,6 +311,25 @@ namespace Carmicah
         for (const auto& [id, scriptRef] : mEntityInstances)
         {
             scriptRef->InvokeOnUpdate(dt);
+        }
+    }
+
+    void ScriptSystem::UpdateScripts()
+    {
+        // TODO: See if theres a less iterative way to do this instead of looping it in update
+        for (auto& id : mEntitiesSet)
+        {
+            // new entity added
+            if (mEntityInstances.count(id) == 0)
+            {
+                Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(id);
+                if (HasEntityClass(scriptComponent.scriptName))
+                {
+                    std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], id);
+                    //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
+                    mEntityInstances[id] = scriptObj;
+                }
+            }
         }
     }
 

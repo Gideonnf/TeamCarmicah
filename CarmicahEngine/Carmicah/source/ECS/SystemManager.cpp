@@ -47,7 +47,11 @@ namespace Carmicah
 			// Check if the entities signature matches the system's
 			if ((entitySignature & systemSignature) == systemSignature) // bit comparison 
 			{
-				system->mEntitiesSet.insert(entity);
+				if (system->mEntitiesSet.count(entity) == 0)
+				{
+					system->mEntitiesSet.insert(entity);
+					system->EntityAdded(entity);
+				}
 			}
 			else
 			{

@@ -99,6 +99,7 @@ namespace Carmicah
 		*/
 		void OnStart(); // Calls the Enter function of all game objects
 		void OnUpdate(float dt);
+		void UpdateScripts();
 		void OnEnd();
 		// Variables
 		MonoDomain* mRootDomain;
