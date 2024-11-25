@@ -114,10 +114,10 @@ namespace Carmicah
             
             
 
-            if (Input.IsKeyPressed(KEY_W))
+            /*if (Input.IsKeyPressed(KEY_W))
             {
                 mIsDebug = !mIsDebug;
-            }
+            }*/
 
 			const float windowWidth =   std::clamp(ImGui::GetContentRegionAvail().x, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Width));
 			const float windowHeight =  std::clamp(ImGui::GetContentRegionAvail().y, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Height));
@@ -195,12 +195,12 @@ namespace Carmicah
                             double worldDeltaX = ((delta.x / windowWidth /*NEED TO CHANGE THIS TO FIX IT*/)) / cameraTransform.GetScale().x;
                             double worldDeltaY = -((delta.y / windowHeight/*NEED TO CHANGE THIS TO FIX IT*/)) / cameraTransform.GetScale().y;
 
-                            if (mIsDebug)
+                            /*if (mIsDebug)
                             {
                                 std::cout << "Window Size  = " << windowWidth << "," << windowHeight << std::endl;
                                 std::cout << "Delta = " << delta.x << "," << delta.y << std::endl;
                                 std::cout << "World Delta = " << worldDeltaX << "," << worldDeltaY << std::endl;
-                            }
+                            }*/
                             Input.SetDragStartPos(currentMousePos);
 
 
