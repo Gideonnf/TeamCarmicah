@@ -110,10 +110,12 @@ namespace Carmicah
             // get screen position of the Scene window's content area
             ImVec2 pos = ImGui::GetCursorScreenPos();
 
-            //if (Input.IsKeyPressed(KEY_W))
-            //{
-            //    std::cout << "Position of Image Top Left: " << pos.x << "," << pos.y << std::endl;
-            //}
+            /*if (Input.IsKeyPressed(KEY_W))
+            {
+                std::cout << "Window Size: " << windowWidth << "," << windowHeight << std::endl;
+                std::cout << "Position of Image Top Left: " << pos.x << "," << pos.y << std::endl;
+                std::cout << "Position of Image Bot Right: " << pos.x + windowWidth << "," << pos.y + windowHeight << std::endl;
+            }*/
 
             ImGui::GetWindowDrawList()->AddImage(
                 (ImTextureID)(uintptr_t)SceneToImgui::GetInstance()->GetTexture(SceneToImgui::GAME_SCENE),
@@ -186,8 +188,9 @@ namespace Carmicah
                             
                             Transform& cameraTransform = camera.GetComponent<Transform>();
 
-                            double worldDeltaX = ((delta.x / 950 /*NEED TO CHANGE THIS TO FIX IT*/)) / cameraTransform.GetScale().x;
-                            double worldDeltaY = -((delta.y / 540/*NEED TO CHANGE THIS TO FIX IT*/)) / cameraTransform.GetScale().y;
+                            //TO LOOK AT LATER MAYBE
+                            double worldDeltaX = ((delta.x / 950 )) / cameraTransform.GetScale().x;
+                            double worldDeltaY = -((delta.y / 540)) / cameraTransform.GetScale().y;
 
 
                             //if (Input.IsKeyPressed(KEY_W))
