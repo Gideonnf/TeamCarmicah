@@ -107,7 +107,7 @@ namespace Carmicah
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySound(cStrname, SoundCategory::SFX, volume);
+		souSystem->PlaySoundThis(cStrname, SoundCategory::SFX, SoundSystem::S_INGAME, volume);
 		mono_free(cStrname);
 	}
 
@@ -115,15 +115,7 @@ namespace Carmicah
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySound(cStrname, SoundCategory::BGM, volume);
-		mono_free(cStrname);
-	}
-
-	static void Sound_SetVolume(MonoString* name, float volume)
-	{
-		char* cStrname = mono_string_to_utf8(name);
-		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->SetSoundVolume(cStrname, volume);
+		souSystem->PlaySoundThis(cStrname, SoundCategory::BGM, SoundSystem::S_BGM, volume);
 		mono_free(cStrname);
 	}
 
@@ -131,7 +123,7 @@ namespace Carmicah
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->StopSound(cStrname);
+		souSystem->StopSound(SoundSystem::S_INGAME);
 		mono_free(cStrname);
 	}
 
@@ -139,7 +131,7 @@ namespace Carmicah
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PauseSound(cStrname);
+		souSystem->PauseSound(SoundSystem::S_INGAME);
 		mono_free(cStrname);
 	}
 
@@ -147,14 +139,14 @@ namespace Carmicah
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->ResumeSound(cStrname);
+		souSystem->ResumeSound(SoundSystem::S_INGAME);
 		mono_free(cStrname);
 	}
 
 	static void Sound_SetCategoryVolume(int category, float volume)
 	{
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->SetCategoryVolume(static_cast<SoundCategory>(category), volume);
+		souSystem->SetCategoryVolume(static_cast<SoundCategory>(category), SoundSystem::S_INGAME, volume);
 	}
 
 

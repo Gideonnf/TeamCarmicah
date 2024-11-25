@@ -95,13 +95,6 @@ namespace Carmicah
 
 		std::array<FontChar, 96> mFontMaps{};
 	};
-	
-	struct Audio
-	{
-		bool isLoop;
-		FMOD::Sound* sound;
-		float defaultVolume;
-	};
 
 	struct Prefab
 	{
