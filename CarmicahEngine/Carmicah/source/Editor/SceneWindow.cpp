@@ -110,6 +110,11 @@ namespace Carmicah
             // get screen position of the Scene window's content area
             ImVec2 pos = ImGui::GetCursorScreenPos();
 
+            //if (Input.IsKeyPressed(KEY_W))
+            //{
+            //    std::cout << "Position of Image Top Left: " << pos.x << "," << pos.y << std::endl;
+            //}
+
             ImGui::GetWindowDrawList()->AddImage(
                 (ImTextureID)(uintptr_t)SceneToImgui::GetInstance()->GetTexture(SceneToImgui::GAME_SCENE),
                 ImVec2(pos.x, pos.y),
@@ -178,18 +183,26 @@ namespace Carmicah
                                 std::cout << "Current Pos: " << currentMousePos << std::endl;
                             }*/
                             Vec2d delta(currentMousePos.x - startDragPos.x, currentMousePos.y - startDragPos.y);
-
+                            
                             Transform& cameraTransform = camera.GetComponent<Transform>();
 
-                            double worldDeltaX = ((delta.x / windowWidth /*NEED TO CHANGE THIS TO FIX IT*/)) / cameraTransform.GetScale().x;
-                            double worldDeltaY = -((delta.y / windowHeight/*NEED TO CHANGE THIS TO FIX IT*/)) / cameraTransform.GetScale().y;
+                            double worldDeltaX = ((delta.x / 950 /*NEED TO CHANGE THIS TO FIX IT*/)) / cameraTransform.GetScale().x;
+                            double worldDeltaY = -((delta.y / 540/*NEED TO CHANGE THIS TO FIX IT*/)) / cameraTransform.GetScale().y;
 
-                            /*if (mIsDebug)
-                            {
-                                std::cout << "Window Size  = " << windowWidth << "," << windowHeight << std::endl;
-                                std::cout << "Delta = " << delta.x << "," << delta.y << std::endl;
-                                std::cout << "World Delta = " << worldDeltaX << "," << worldDeltaY << std::endl;
-                            }*/
+
+                            //if (Input.IsKeyPressed(KEY_W))
+                            //{
+                            //    std::cout << "Pos: " << pos.x << "," << pos.y << std::endl;
+
+                            //    std::cout << "Window Size: " << windowWidth << "," << windowHeight << std::endl;
+                            //    
+                            //    std::cout <<"Delta: " << delta.x << "," << delta.y << std::endl;
+
+                            //    std::cout << "Camera Scale: " << cameraTransform.GetScale().x << "," << cameraTransform.GetScale().y << std::endl;
+
+                            //    std::cout << "Overall World Delta: " << worldDeltaX << "," << worldDeltaY << std::endl;
+                            //}
+
                             Input.SetDragStartPos(currentMousePos);
 
 

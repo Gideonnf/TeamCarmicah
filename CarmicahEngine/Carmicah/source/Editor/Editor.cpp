@@ -77,7 +77,7 @@ namespace Carmicah
 		float mainMenuHeight{};
 		ImGuiWindowFlags dockingWindowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 
-
+		
 
 		// Begin full-screen window
 		ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -98,7 +98,7 @@ namespace Carmicah
 				ImGui::DockBuilderAddNode(dockspaceID, ImGuiDockNodeFlags_DockSpace);*/
 				ImGuiID dockMain = dockspaceID; // Main area
 				ImGuiID dockBottom = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Down, 0.4f, nullptr, &dockMain);
-				ImGuiID dockLeft = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Left, 0.25f, nullptr, &dockMain);
+				ImGuiID dockLeft = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Left, 0.2f, nullptr, &dockMain);
 				ImGuiID dockRight = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Right, 0.25f, nullptr,&dockMain);
 				// Dock your windows into the split areas
 				ImGui::DockBuilderDockWindow("Asset Browser", dockBottom);
