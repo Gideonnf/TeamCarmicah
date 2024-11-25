@@ -96,10 +96,22 @@ namespace Carmicah
 				}
 			}
             ImGui::SameLine();
-            if (ImGui::Button("Pause"))
+            if(!mIsPaused)
             {
-                mIsPaused = !mIsPaused;
+                if (ImGui::Button("Pause"))
+                {
+                    mIsPaused = !mIsPaused;
+                }
             }
+            else
+            {
+                if (ImGui::Button("Unpause"))
+                {
+                    mIsPaused = !mIsPaused;
+                }
+            }
+
+            
             
 
             if (Input.IsKeyPressed(KEY_W))
