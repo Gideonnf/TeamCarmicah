@@ -131,7 +131,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Walk 3"
+                    "texture": "MC_SpriteSheet_Walk 1"
                 },
                 {
                     "Component Name": "struct Script",
