@@ -97,6 +97,8 @@ namespace Carmicah
 		UNUSED(mods);
 		UNUSED(window);
 		Input.UpdateMouseMap(button, (KeyStates)action);
+		//if (action == GLFW_)
+		//CM_CORE_INFO(std::to_string(action));
 
 		// start dragging if mouse button is pressed, left button only as of now
 		if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_LEFT)
@@ -123,9 +125,9 @@ namespace Carmicah
 			{
 				Vec2i mousePosI = { std::clamp(static_cast<int>(mousePosD.x), 0, 1920), 1080 - std::clamp(static_cast<int>(mousePosD.y) - 1, 0, 1080) };
 
-				EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(mousePosI.x, mousePosI.y));
+				//EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(mousePosI.x, mousePosI.y));
 
-				Input.ProxySend(&msg);
+				//Input.ProxySend(&msg);
 			}
 			if (Input.IsDragging())
 			{
@@ -180,6 +182,7 @@ namespace Carmicah
 		}
 		else
 		{
+			
 			// resume all audio
 			auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 			souSystem->ResumeAllSounds();

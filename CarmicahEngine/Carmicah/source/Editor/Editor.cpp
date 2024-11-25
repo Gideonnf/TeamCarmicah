@@ -59,6 +59,7 @@ namespace Carmicah
 		//For Testing
 		//mWindows.push_back(std::make_unique<EditorWindow>("B", ImVec2(100,100), ImVec2(200, 100)));
 		mWindows.push_back(std::make_unique<SceneWindow>());
+		mWindows.push_back(std::make_unique<CameraWindow>());
 		mWindows.push_back(std::make_unique<HierarchyWindow>());
 		mWindows.push_back(std::make_unique<DebugWindow>());
 		mWindows.push_back(std::make_unique<AssetWindow>());
@@ -103,6 +104,7 @@ namespace Carmicah
 				ImGui::DockBuilderDockWindow("Asset Browser", dockBottom);
 				ImGui::DockBuilderDockWindow("Debug", dockBottom);
 				ImGui::DockBuilderDockWindow("Scene", dockMain);
+				ImGui::DockBuilderDockWindow("Editor Camera", dockMain);
 				ImGui::DockBuilderDockWindow("Inspector", dockRight);
 				ImGui::DockBuilderDockWindow("Hierarchy", dockLeft);
 				ImGui::DockBuilderFinish(dockMain);

@@ -38,7 +38,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Bullet2"
+                    "texture": "Bullet"
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
@@ -131,7 +131,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Walk 3"
+                    "texture": "MC_SpriteSheet_Walk 1"
                 },
                 {
                     "Component Name": "struct Script",
@@ -307,7 +307,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -0.45700621604919436,
+                    "xPos": -0.42404383420944216,
                     "yPos": -8.163264274597168,
                     "depth": 3.0,
                     "xScale": 12.0,
@@ -325,15 +325,15 @@
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
-                    "velocityX": -1.1896305084228516,
-                    "velocityY": 1.3170877695083619,
+                    "velocityX": 0.0,
+                    "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 5.482821941375732,
-                    "posPrevY": 2.1721534729003908,
+                    "posPrevX": 0.0,
+                    "posPrevY": 0.0,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": 0.0,
-                    "objectType": 2
+                    "zposPrev": -107374176.0,
+                    "objectType": 0
                 }
             ],
             "Children": []
@@ -481,51 +481,6 @@
             "Children": []
         },
         {
-            "GameObject": "mainCharacter_3",
-            "ID": 16,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.23073899745941163,
-                    "yPos": -18.107315063476564,
-                    "depth": 5.0,
-                    "xScale": 2.0,
-                    "yScale": 2.0,
-                    "rot": 0.0
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Mouse_SpriteSheet_Climb_blue 4"
-                },
-                {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.MouseAI"
-                },
-                {
-                    "Component Name": "struct Carmicah::Collider2D",
-                    "shape": "DebugSquare"
-                },
-                {
-                    "Component Name": "struct Carmicah::RigidBody",
-                    "velocityX": 0.0,
-                    "velocityY": 0.0,
-                    "angularVelocity": 0.0,
-                    "posPrevX": 2.0,
-                    "posPrevY": 2.0,
-                    "mass": 1.0,
-                    "gravity": 0.0,
-                    "zposPrev": 1.0,
-                    "objectType": 1
-                },
-                {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Mouse_Climb_blue"
-                }
-            ],
-            "Children": []
-        },
-        {
             "GameObject": "wall_4",
             "ID": 17,
             "Components": [
@@ -605,7 +560,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -0.4754760265350342,
+                    "xPos": -0.5084383487701416,
                     "yPos": -14.343667030334473,
                     "depth": 0.5,
                     "xScale": 12.0,
@@ -626,57 +581,12 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": -2.739903688430786,
+                    "posPrevX": 0.0,
                     "posPrevY": 0.0,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": 0.0,
-                    "objectType": 2
-                }
-            ],
-            "Children": []
-        },
-        {
-            "GameObject": "mainCharacter_2",
-            "ID": 21,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::Transform",
-                    "xPos": 4.351088047027588,
-                    "yPos": -17.391366958618165,
-                    "depth": 5.0,
-                    "xScale": 2.0,
-                    "yScale": 2.0,
-                    "rot": 0.0
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Mouse_SpriteSheet_Climb_blue 2"
-                },
-                {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.MouseAI"
-                },
-                {
-                    "Component Name": "struct Carmicah::Collider2D",
-                    "shape": "DebugSquare"
-                },
-                {
-                    "Component Name": "struct Carmicah::RigidBody",
-                    "velocityX": 0.0,
-                    "velocityY": 0.0,
-                    "angularVelocity": 0.0,
-                    "posPrevX": 2.0,
-                    "posPrevY": 2.0,
-                    "mass": 1.0,
-                    "gravity": 0.0,
-                    "zposPrev": 1.0,
-                    "objectType": 1
-                },
-                {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Mouse_Climb_blue"
+                    "zposPrev": -107374176.0,
+                    "objectType": 0
                 }
             ],
             "Children": []

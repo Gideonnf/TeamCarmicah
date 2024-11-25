@@ -176,6 +176,8 @@ namespace Carmicah
 			{
 				ButtonClicked newMsg(dynamic_cast<EntityPickedMessage*>(msg)->mEntityID);
 				SendSysMessage(&newMsg);
+				EditorEntityPicked pickedMsg(dynamic_cast<EntityPickedMessage*>(msg)->mEntityID);
+				SendSysMessage(&pickedMsg);
 			}
 			else
 			{
