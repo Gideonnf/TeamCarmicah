@@ -302,25 +302,31 @@ namespace Carmicah
 
     void ScriptSystem::UpdateScripts()
     {
-        // TODO: See if theres a less iterative way to do this instead of looping it in update
-        for (auto& id : mEntitiesSet)
+        for (auto entity = entityAdded.begin(); entity != entityAdded.end(); ++entity)
         {
-            // new entity added
-            if (mEntityInstances.count(id) == 0)
+            if (mEntityInstances.count(*entity) == 0)
             {
-                Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(id);
+                Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(*entity);
                 if (HasEntityClass(scriptComponent.scriptName)) // Technically dont have to check IMGUI only allows for entity classes to be picked
                 {
-                    std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], id);
+                    std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], *entity);
                     //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
-                    mEntityInstances[id] = scriptObj;
+                    mEntityInstances[*entity] = scriptObj;
+                    entityAdded.erase(entity);
+                    break;
                 }
             }
+        }
+        // TODO: See if theres a less iterative way to do this instead of looping it in update
+      //  for (auto& id : mEntitiesSet)
+      //  {
+            // new entity added
+          
             // it already exist, check if the script was changed
             // this should be done through messaging from IMGUI side if the script was changed on an object
             // but for now we do it here
-            else
-            {
+           // else
+          //  {
                 // Comment out for now cause i dont think we'll be changign scripts that much in editor mode
                 // but NOTE: If we do allow that then it wont work until i fix this part
                 
@@ -331,13 +337,37 @@ namespace Carmicah
                 //    //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
                 //    mEntityInstances[id] = scriptObj;
                 //}
-            }
-        }
+          //  }
+      //  }
     }
 
     void ScriptSystem::OnEnd()
     {
         mEntityInstances.clear();
+    }
+
+    void ScriptSystem::EntityAdded(Entity entity)
+    {
+        entityAdded.push_back(entity);
+
+     
+    }
+
+    /// <summary>
+    /// // If entity has it's scripting component removed 
+    /// </summary>
+    /// <param name="entity">Entity being removed</param>
+    void ScriptSystem::EntityRemoved(Entity entity)
+    {
+        for (auto& it : mEntityInstances)
+        {
+            if (it.first == entity)
+            {
+                // erase it from the map
+                mEntityInstances.erase(it.first);
+                break;
+            }
+        }
     }
 
     void ScriptSystem::LoadEntityClasses()

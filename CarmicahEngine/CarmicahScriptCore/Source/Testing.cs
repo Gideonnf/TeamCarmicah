@@ -8,6 +8,7 @@ namespace Carmicah
 {
     public class Testing : Entity
     {
+        public float testVar;
         void OnCreate()
         {
             Console.WriteLine($"On Create {mID}");

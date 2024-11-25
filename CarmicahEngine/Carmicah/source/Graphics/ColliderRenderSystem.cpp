@@ -71,7 +71,7 @@ namespace Carmicah
 				auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity->first);
 				Mtx3x3f trans{};
 				trans.translateThis((collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f)
-					.rotDegThis(transform.GetRot())
+					.rotDegThis(transform.Rot())
 					.scaleThis(collider.max.x - collider.min.x, collider.max.y - collider.min.y);
 
 				EditDebugBatchData(entity->first, trans, true, DEBUG_LAYER);
