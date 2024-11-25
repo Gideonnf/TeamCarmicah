@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Carmicah
 {
     public class MouseAI : Entity
-    {
+    {/*
         //   StateMachine mouseSM;
         List<Vector2> waypointsRight;
         List<Vector2> waypointsLeft;
@@ -54,11 +54,11 @@ namespace Carmicah
             currPoint++;
 
             // store original position
-            originalPos = Position;
+            originalPos = Position;*/
 
         }
 
-        void OnUpdate(float dt)
+      /*  void OnUpdate(float dt)
         {
             //mouseSM.Update(ref mouseSM);
             //Entity 
@@ -107,7 +107,7 @@ namespace Carmicah
                     }
                 }
             }
-
+*/
 
             //// If its dead, kill it
             //if (mouseSM.GetCurrentState() == "MouseDead")
