@@ -22,6 +22,7 @@ DigiPen Institute of Technology is prohibited.
 #include "InspectorWindow.h"
 #include "AssetWindow.h"
 #include "SceneWindow.h"
+#include "CameraWindow.h"
 #include "../ECS/BaseSystem.h"
 #include "../Messaging/Message.h"
 

@@ -142,6 +142,7 @@ xcopy /Q /E /Y /I "..\bin\Release-x86_64\CarmicahScriptCore\**.**" "..\CarmicahS
     <ClInclude Include="source\Editor\AssetWindow.h" />
     <ClInclude Include="source\Editor\DebugWindow.h" />
     <ClInclude Include="source\Editor\Editor.h" />
+    <ClInclude Include="source\Editor\CameraWindow.h" />
     <ClInclude Include="source\Editor\EditorWindow.h" />
     <ClInclude Include="source\Editor\HierarchyWindow.h" />
     <ClInclude Include="source\Editor\InspectorWindow.h" />
@@ -192,6 +193,7 @@ xcopy /Q /E /Y /I "..\bin\Release-x86_64\CarmicahScriptCore\**.**" "..\CarmicahS
     <ClCompile Include="source\Editor\AssetWindow.cpp" />
     <ClCompile Include="source\Editor\DebugWindow.cpp" />
     <ClCompile Include="source\Editor\Editor.cpp" />
+    <ClCompile Include="source\Editor\CameraWindow.cpp" />
     <ClCompile Include="source\Editor\EditorWindow.cpp" />
     <ClCompile Include="source\Editor\HierarchyWindow.cpp" />
     <ClCompile Include="source\Editor\InspectorWindow.cpp" />
