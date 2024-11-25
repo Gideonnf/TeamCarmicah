@@ -112,7 +112,7 @@ namespace Carmicah
 			Vec2d mousePosD = Input.GetMousePosition();
 			Vec2i mousePosI = { std::clamp(static_cast<int>(mousePosD.x), 0, 1920), 1080 - std::clamp(static_cast<int>(mousePosD.y) - 1, 0, 1080) };
 
-			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(mousePosI.x, mousePosI.y));
+			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(SceneToImgui::GAME_SCENE, mousePosI.x, mousePosI.y));
 
 			Input.ProxySend(&msg);
 		}

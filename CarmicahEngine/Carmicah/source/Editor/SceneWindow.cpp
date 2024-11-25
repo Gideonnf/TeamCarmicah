@@ -122,7 +122,7 @@ namespace Carmicah
             ImVec2 pos = ImGui::GetCursorScreenPos();
 
             ImGui::GetWindowDrawList()->AddImage(
-                (ImTextureID)(uintptr_t)SceneToImgui::GetInstance()->texture_id,
+                (ImTextureID)(uintptr_t)SceneToImgui::GetInstance()->GetTexture(SceneToImgui::GAME_SCENE),
                 ImVec2(pos.x, pos.y),
                 ImVec2(pos.x + windowWidth, pos.y + windowHeight),
                 ImVec2(0, 1),
