@@ -86,7 +86,7 @@ namespace Carmicah
 							selectedGO = &go;
 						}
 					});*/
-				if(mShowScene && AssetWindow::selectedPrefab == nullptr)
+				if(mShowScene && inspectedPrefab == nullptr)
 				{
 					gGOFactory->ForAllSceneGOs([this](GameObject& go)
 						{
@@ -94,19 +94,19 @@ namespace Carmicah
 
 						});
 				}
-				else if (AssetWindow::selectedPrefab != nullptr)
+				else if (inspectedPrefab != nullptr)
 				{
 					bool backToScene = false;
 					if (ImGui::Button("Back"))
 					{
-						AssetWindow::selectedPrefab = nullptr;
+						inspectedPrefab = nullptr;
 						inspectedPrefab = nullptr;
 						mShowScene = true;
 						backToScene = true;
 					}
 					if(!backToScene)
 					{
-						PrefabButton(*AssetWindow::selectedPrefab);
+						PrefabButton(*inspectedPrefab);
 					}
 				}
 				ImGui::EndChild();
