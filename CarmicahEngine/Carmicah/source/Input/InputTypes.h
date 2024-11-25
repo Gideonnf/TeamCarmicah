@@ -119,20 +119,6 @@ namespace Carmicah
         KEY_F11 = GLFW_KEY_F11,
         KEY_F12 = GLFW_KEY_F12,
 
-        // Custom Extended Function Keys
-        //KEY_F13 = 0x7C,
-        //KEY_F14 = 0x7D,
-        //KEY_F15 = 0x7E,
-        //KEY_F16 = 0x7F,
-        //KEY_F17 = 0x80,
-        //KEY_F18 = 0x81,
-        //KEY_F19 = 0x82,
-        //KEY_F20 = 0x83,
-        //KEY_F21 = 0x84,
-        //KEY_F22 = 0x85,
-        //KEY_F23 = 0x86,
-        //KEY_F24 = 0x87,
-
         // Modifier Keys
         KEY_LEFT_SHIFT      = GLFW_KEY_LEFT_SHIFT,
         KEY_LEFT_CONTROL    = GLFW_KEY_LEFT_CONTROL,
