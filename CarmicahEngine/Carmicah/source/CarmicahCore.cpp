@@ -207,6 +207,8 @@ namespace Carmicah
         editorSys->BindSystem(gameSystem);
         editorSys->BindSystem(prefabSystem);
 
+        butSystem->BindSystem(gScriptSystem);
+
         //glfwSetWindowUserPointer(window, inputSystem.get());
         Input.Init(window);
         gameSystem->SetScene("Scene1");

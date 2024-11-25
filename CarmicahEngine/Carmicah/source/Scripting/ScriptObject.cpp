@@ -64,7 +64,8 @@ namespace Carmicah
 		// These are the other functions that every other script that inherits Entity will have
 		mOnCreate = scClass->GetMethod("OnCreate", 0);
 		mOnUpdate = scClass->GetMethod("OnUpdate", 1);
-
+		mOnClick = scClass->GetMethod("OnClick", 0);
+		mOnCollide = scClass->GetMethod("OnCollide", 1);
 	}
 
 
@@ -93,6 +94,12 @@ namespace Carmicah
 			void* param = &dt;
 			mScriptClass->InvokeMethod(mMonoInstance, mOnUpdate, &param);
 		}
+	}
+
+	void ScriptObject::InvokeOnClick()
+	{
+		if (mOnClick)
+			mScriptClass->InvokeMethod(mMonoInstance, mOnClick);
 	}
 
 	std::shared_ptr<ScriptClass> ScriptObject::GetScriptClass()

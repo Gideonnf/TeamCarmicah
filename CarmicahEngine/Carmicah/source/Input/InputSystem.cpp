@@ -97,6 +97,8 @@ namespace Carmicah
 		UNUSED(mods);
 		UNUSED(window);
 		Input.UpdateMouseMap(button, (KeyStates)action);
+		//if (action == GLFW_)
+		//CM_CORE_INFO(std::to_string(action));
 
 		// start dragging if mouse button is pressed, left button only as of now
 		if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_LEFT)
@@ -180,6 +182,7 @@ namespace Carmicah
 		}
 		else
 		{
+			
 			// resume all audio
 			auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 			souSystem->ResumeAllSounds();
@@ -192,12 +195,12 @@ namespace Carmicah
 	void WindowFocusCallback(GLFWwindow* window, int focused)
 	{
 		UNUSED(focused);
-		int isFocused = glfwGetWindowAttrib(window, GLFW_FOCUSED);
+		//int isFocused = glfwGetWindowAttrib(window, GLFW_FOCUSED);
 
-		if (!isFocused)
-		{
-			glfwIconifyWindow(window);
-		}
+		//if (!isFocused)
+		//{
+		//	glfwIconifyWindow(window);
+		//}
 	}
 
 	#pragma endregion

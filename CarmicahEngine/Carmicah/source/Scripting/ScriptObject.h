@@ -86,6 +86,8 @@ namespace Carmicah
 		MonoMethod* mConstruct = nullptr;
 		MonoMethod* mOnCreate = nullptr;
 		MonoMethod* mOnUpdate = nullptr;
+		MonoMethod* mOnClick = nullptr;
+		MonoMethod* mOnCollide = nullptr;
 
 	public:
 		friend class ScriptSystem;
@@ -126,6 +128,16 @@ namespace Carmicah
 		/// </summary>
 		/// <param name="dt">Delta time</param>
 		void InvokeOnUpdate(float dt);
+		
+		/// <summary>
+		/// Call when obj is clicked, if it has a script with an onClick function then itll run it
+		/// </summary>
+		void InvokeOnClick();
+
+		/// <summary>
+		/// Call when obj collides, if it has a script with an onCollide function
+		/// </summary>
+		void InvokeOnCollide(Entity otherID);
 
 		template<typename T>
 		T GetFieldValue(const std::string& name)

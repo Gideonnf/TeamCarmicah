@@ -130,7 +130,7 @@ namespace Carmicah
 					if (button.isPressed)
 					{
 						buttonRenderer.Texture(button.ButtonImagePressed);
-						OnPress(button);
+						OnPress(button, castedMsg->mEntityID);
 					}
 					else
 					{
@@ -154,11 +154,15 @@ namespace Carmicah
 
 	\return     void
 	-------------------------------------------------------------------------------------------------*/
-	void ButtonSystem::OnPress(Button& buttonComponent)
+	void ButtonSystem::OnPress(Button& buttonComponent, Entity entityID)
 	{
 		UNUSED(buttonComponent);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 		souSystem->PlaySound("buttonclick", SoundCategory::UI, 0.5f);
+
+		OnClickMsg newMsg(entityID);
+		SendSysMessage(&newMsg);
+
 		//auto* componentManager = ComponentManager::GetInstance();
 
 		//for (const auto& entity : mEntitiesSet)
