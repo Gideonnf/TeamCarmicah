@@ -760,12 +760,16 @@ namespace Carmicah
 					{
 						if (selectedTransform.parent != 0)
 						{
-							Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(go->GetID());
+							Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
 
 
 							float worldX = parentTransform.worldSpace.m00 * selectedTransform.Pos().x + parentTransform.worldSpace.m01 * selectedTransform.Pos().y + parentTransform.worldSpace.m02;
 							float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
 							selectedTransform.WorldPos(worldX, worldY);
+						}
+						else
+						{
+							selectedTransform.WorldPos(selectedTransform.Pos());
 						}
 					}
 
@@ -777,16 +781,23 @@ namespace Carmicah
 					{
 						if (selectedTransform.parent != 0)
 						{
-							Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(go->GetID());
+							Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
+							//CM_CORE_INFO("Parent World X : " + std::to_string(parentTransform.worldSpace.m20) + ", Parent World Y : " + std::to_string(parentTransform.worldSpace.m21));
 
 							float worldX = parentTransform.worldSpace.m00 * selectedTransform.Pos().x + parentTransform.worldSpace.m01 * selectedTransform.Pos().y + parentTransform.worldSpace.m02;
+
 							float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
 
 							selectedTransform.WorldPos(worldX, worldY);
 						}
+						else
+						{
+							selectedTransform.WorldPos(selectedTransform.Pos());
+						}
 					}
 					CM_CORE_INFO("World X : " + std::to_string(selectedTransform.WorldPos().x) + ", World Y : " + std::to_string(selectedTransform.WorldPos().y));
-					
+					CM_CORE_INFO("World X : " + std::to_string(selectedTransform.worldSpace.m20) + ", World Y : " + std::to_string(selectedTransform.worldSpace.m21));
+
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Depth");
