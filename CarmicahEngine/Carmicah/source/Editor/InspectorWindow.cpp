@@ -756,14 +756,37 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("xPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xPos", &selectedTransform.GetPos().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					if (ImGui::DragFloat("##xPos", &selectedTransform.GetPos().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+					{
+						if (selectedTransform.parent != 0)
+						{
+							Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(go->GetID());
+
+
+							float worldX = parentTransform.worldSpace.m00 * selectedTransform.Pos().x + parentTransform.worldSpace.m01 * selectedTransform.Pos().y + parentTransform.worldSpace.m02;
+							float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
+							selectedTransform.WorldPos(worldX, worldY);
+						}
+					}
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yPos", &selectedTransform.GetPos().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					if (ImGui::DragFloat("##yPos", &selectedTransform.GetPos().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+					{
+						if (selectedTransform.parent != 0)
+						{
+							Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(go->GetID());
 
+							float worldX = parentTransform.worldSpace.m00 * selectedTransform.Pos().x + parentTransform.worldSpace.m01 * selectedTransform.Pos().y + parentTransform.worldSpace.m02;
+							float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
+
+							selectedTransform.WorldPos(worldX, worldY);
+						}
+					}
+					CM_CORE_INFO("World X : " + std::to_string(selectedTransform.WorldPos().x) + ", World Y : " + std::to_string(selectedTransform.WorldPos().y));
+					
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("Depth");

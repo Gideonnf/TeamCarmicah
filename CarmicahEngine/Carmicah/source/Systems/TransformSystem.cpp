@@ -49,15 +49,21 @@ namespace Carmicah
 				Mtx33Identity(transform.worldSpace);
 				transform.worldSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
 				transform.localSpace = transform.worldSpace; // if no parent, local and world is the same
+				transform.WorldPos(transform.worldSpace.m20, transform.worldSpace.m21);
+
 			}
 			// have parent
 			else
 			{
 				// get parent's transform
 				Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(transform.parent);
+			
 				Mtx33Identity(transform.localSpace);
 				transform.localSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
 				transform.worldSpace = parentTransform.worldSpace * transform.localSpace;
+
+				transform.WorldPos(transform.worldSpace.m20, transform.worldSpace.m21);
+
 			}
 
 			// Update child transform
@@ -92,6 +98,9 @@ namespace Carmicah
 		{
 			// Get back world transform pos
 			entityTransform.PosX(parentTransform.Pos().x + entityTransform.Pos().x);
+			entityTransform.PosY(parentTransform.Pos().y + entityTransform.Pos().y);
+
+			entityTransform.WorldPos(entityTransform.Pos() + parentTransform.Pos());
 
 			// get back world transform rot
 			entityTransform.Rot(parentTransform.Rot() + entityTransform.Rot());
@@ -120,6 +129,8 @@ namespace Carmicah
 
 			// calculate the new rotation
 			entityTransform.Rot(entityTransform.Rot() - parentTransform.Rot());
+
+			entityTransform.WorldPos(entityTransform.Pos() + parentTransform.Pos());
 		}
 	}
 
