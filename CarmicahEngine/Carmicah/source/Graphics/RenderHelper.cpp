@@ -1,10 +1,11 @@
 #include "pch.h"
 #include <glad/glad.h>
 #include "RenderHelper.h"
+#include "Components/Transform.h"
 #include "ECS/ComponentManager.h"
 #include "Systems/AssetManager.h"
-#include "Components/Transform.h"
 #include "Systems/AssetManager.h"
+#include "Input/InputSystem.h"
 
 namespace Carmicah
 {
@@ -29,9 +30,47 @@ void RenderHelper::InitScreenDimension(const float& screenWidth, const float& sc
 {
 	Mtx33Identity(screenMtx);
 	screenMtx.translateThis(-1.f, -1.f).scaleThis(2 / screenWidth, 2 / screenHeight);
+
+	mEditorCam.Pos(0,0);
+	mEditorCam.Scale(100.f / screenWidth, 100.f / screenHeight);
 }
 
-void RenderHelper::Render(const unsigned int& cam)
+void RenderHelper::UpdateEditorCam()
+{
+	static bool firstPressed = false;
+	if (Input.IsMousePressed(MOUSE_BUTTON_RIGHT))
+	{
+		if (!firstPressed)
+		{
+			mOldMousePos = Input.GetMousePosition();
+			firstPressed = true;
+		}
+
+		Vec2d mouseDiff = Input.GetMousePosition() - mOldMousePos;
+		mEditorCam.PosXAdd(-static_cast<float>(mouseDiff.x) * mEditorCam.Scale().x * 0.5f);
+		mEditorCam.PosYAdd(static_cast<float>(mouseDiff.y) * mEditorCam.Scale().y * 0.5f);
+		mOldMousePos = Input.GetMousePosition();
+	}
+	else if (Input.IsMouseReleased(MOUSE_BUTTON_RIGHT))
+	{
+		firstPressed = false;
+	}
+
+	if (Input.IsKeyHold(KEY_EQUAL))
+	{
+		Vec2f& s = mEditorCam.GetScale();
+		s.x += s.x * CarmicahTime::GetInstance()->GetDeltaTime();
+		s.y += s.x * CarmicahTime::GetInstance()->GetDeltaTime();
+	}
+	else if (Input.IsKeyHold(KEY_MINUS))
+	{
+		Vec2f& s = mEditorCam.GetScale();
+		s.x = std::fmaxf(s.x - s.x * CarmicahTime::GetInstance()->GetDeltaTime(), 0.0001f);
+		s.y = std::fmaxf(s.y - s.y * CarmicahTime::GetInstance()->GetDeltaTime(), 0.0001f);
+	}
+}
+
+void RenderHelper::Render(std::optional<Transform*> cam)
 {
 	glClearColor(0.75294f, 1.f, 0.93333f, 1.f); // Gideon's favourite
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -53,7 +92,7 @@ void RenderHelper::Render(const unsigned int& cam)
 	for (const auto& it : mBufferMap)
 	{
 		const auto& batchBuffer = it.second;
-		if(!(currID == it.first))
+		if (!(currID == it.first))
 		{
 			GLint uniformLoc{};
 			// If shader changed or camera changed
@@ -65,12 +104,11 @@ void RenderHelper::Render(const unsigned int& cam)
 				glBindTexture(GL_TEXTURE_2D_ARRAY, AssetManager::GetInstance()->mArrayTex);
 
 				// All Shaders have uNDC_to_Cam
-				if (it.first.dat[GAME_BASED] && ComponentManager::GetInstance()->HasComponent<Transform>(cam))
+				if (it.first.dat[GAME_BASED] && cam.has_value())
 				{
-					// Handle Camera Transform
-					auto& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
+					// Handle Camera Transform[
 					Mtx3x3f camSpace{};
-					camSpace.scaleThis(camTrans.Scale()).rotDegThis(-camTrans.Rot()).translateThis(-camTrans.Pos());
+					camSpace.scaleThis(cam.value()->Scale()).rotDegThis(cam.value()->Rot()).translateThis(-cam.value()->Pos());
 					if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
 						glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
 				}
@@ -135,12 +173,24 @@ void RenderHelper::Render(const unsigned int& cam)
 	glUseProgram(0);
 }
 
+void RenderHelper::Render(const unsigned int& cam)
+{
+	if (ComponentManager::GetInstance()->HasComponent<Transform>(cam))
+	{
+		// Handle Camera Transform
+		Transform& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
+		Render(std::optional<Transform*>{&camTrans});
+	}
+	else
+		Render(std::nullopt);
+}
+
 RenderHelper::FontUniform* RenderHelper::GetFontUniforms(const unsigned int& bufferID)
 {
-	auto& fbtE = mFontBufferToEntity.find(bufferID);
+	auto fbtE = mFontBufferToEntity.find(bufferID);
 	if (fbtE != mFontBufferToEntity.end())
 	{
-		auto& ftU = mFontUniforms.find(fbtE->second);
+		auto ftU = mFontUniforms.find(fbtE->second);
 		if (ftU != mFontUniforms.end())
 		{
 			return &ftU->second;
@@ -167,10 +217,10 @@ unsigned int RenderHelper::AssignFont(const unsigned int& e)
 
 void RenderHelper::UnassignFont(const unsigned int& e)
 {
-	auto& ftU = mFontUniforms.find(e);
+	auto ftU = mFontUniforms.find(e);
 	if (ftU != mFontUniforms.end())
 	{
-		auto& fbtE = mFontBufferToEntity.find(ftU->second.bufferID);
+		auto fbtE = mFontBufferToEntity.find(ftU->second.bufferID);
 		if (fbtE != mFontBufferToEntity.end())
 			mFontBufferToEntity.erase(fbtE->first);
 

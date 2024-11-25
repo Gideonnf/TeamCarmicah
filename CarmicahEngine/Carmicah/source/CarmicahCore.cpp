@@ -397,23 +397,32 @@ namespace Carmicah
                 AssetManager::GetInstance()->fileWatcher.Update();
                 CarmicahTime::GetInstance()->StopSystemTimer("EditorSystem");
 
-                SceneToImgui::GetInstance()->BindFramebuffer();
                 CarmicahTime::GetInstance()->StartSystemTimer("RenderingSystems");
-                transformSystem->Update(); // Update world and local transforms before rendering
+                // Update world and local transforms before rendering
+                transformSystem->Update();
+                // Pushes data into GPU
                 graSystem->Update();
                 uigSystem->Update();
                 crsSystem->Update();
                 rrsSystem->Update();
                 txtSystem->Update();
+                // Done with pushing transforms, reset updates of transforms
                 transformSystem->PostUpdate();
+                // Game Cam
+                SceneToImgui::GetInstance()->BindFramebuffer(SceneToImgui::GAME_SCENE);
                 RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
+                // Editor Cam
+                SceneToImgui::GetInstance()->BindFramebuffer(SceneToImgui::EDITOR_SCENE);
+                RenderHelper::GetInstance()->UpdateEditorCam();
+                RenderHelper::GetInstance()->Render(&RenderHelper::GetInstance()->mEditorCam);
+                SceneToImgui::GetInstance()->UnbindFramebuffer();
+
                 CarmicahTime::GetInstance()->StopSystemTimer("RenderingSystems");
                 //SceneToImgui::GetInstance()->IDPick();
 
                 // I WILL UPDAAATEEE BUTTONSYSTEM HERE OKKKKAAYYYY, PLS DONT CRASH CRYING EMOJI
 				butSystem->Update();
                 
-                SceneToImgui::GetInstance()->UnbindFramebuffer();
                // glfwMakeContextCurrent(window);
 
                 glfwSwapBuffers(window);
