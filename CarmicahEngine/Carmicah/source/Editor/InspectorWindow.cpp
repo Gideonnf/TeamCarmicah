@@ -180,7 +180,6 @@ namespace Carmicah
 		}
 	}
 
-
 	/**
 	 * @brief Templated function for Prefab (Might be changed in future)
 	 * 
@@ -795,8 +794,8 @@ namespace Carmicah
 							selectedTransform.WorldPos(selectedTransform.Pos());
 						}
 					}
-					CM_CORE_INFO("World X : " + std::to_string(selectedTransform.WorldPos().x) + ", World Y : " + std::to_string(selectedTransform.WorldPos().y));
-					CM_CORE_INFO("World X : " + std::to_string(selectedTransform.worldSpace.m20) + ", World Y : " + std::to_string(selectedTransform.worldSpace.m21));
+					//CM_CORE_INFO("World X : " + std::to_string(selectedTransform.WorldPos().x) + ", World Y : " + std::to_string(selectedTransform.WorldPos().y));
+					//CM_CORE_INFO("World X : " + std::to_string(selectedTransform.worldSpace.m20) + ", World Y : " + std::to_string(selectedTransform.worldSpace.m21));
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
@@ -1384,16 +1383,15 @@ namespace Carmicah
 
 				if (ImGui::Button("Save Changes to Prefab"))
 				{
-					Serializer.SerializePrefab(*AssetWindow::selectedPrefab);
-					ModifyPrefabMsg msg(*AssetWindow::selectedPrefab);
+					Serializer.SerializePrefab(*HierarchyWindow::inspectedPrefab);
+					ModifyPrefabMsg msg(*HierarchyWindow::inspectedPrefab);
 					mMessages.push_back(std::make_shared<ModifyPrefabMsg>(msg));
 				}
 
 
 				if (ImGui::Button("Create Prefab"))
 				{
-					gGOFactory->CreatePrefab(AssetWindow::selectedPrefab->GetName());
-					AssetWindow::selectedPrefab = nullptr;
+					gGOFactory->CreatePrefab(HierarchyWindow::inspectedPrefab->GetName());
 					HierarchyWindow::inspectedPrefab = nullptr;
 					HierarchyWindow::mShowScene = true;
 				}

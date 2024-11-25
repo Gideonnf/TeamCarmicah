@@ -46,7 +46,9 @@ namespace Carmicah
 		if (ImGui::Begin(mTitle))
 		{
             //ImVec2 windowPos = ImGui::GetWindowPos();
-            //ImVec2 windowSize = ImGui::GetWindowSize();
+			const float windowWidth =   std::clamp(ImGui::GetContentRegionAvail().x, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Width));
+			const float windowHeight =  std::clamp(ImGui::GetContentRegionAvail().y, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Height));
+            ImVec2 windowSize(windowWidth, windowHeight);
             //ImVec2 windowBottomRight(windowPos.x + windowSize.x, windowPos.y + windowSize.y);
 
             //// Draw the border around the window (including title bar)
@@ -54,30 +56,6 @@ namespace Carmicah
             //float borderThickness = 2.0f;
             ////ImGui::InvisibleButton("Window Area",windowBottomRight);
 
-            if (ImGui::BeginDragDropTarget())
-            {
-                //Area to handle anything that's dropped into the SceneWindow
-                if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PREFAB_PAYLOAD"))
-                {
-                    if (payload->DataSize > 0)
-                    {
-                        std::string textureName = *(const std::string*)payload->Data;
-                        std::cout << "Dropped Prefab: " << textureName << std::endl;
-
-                        // Use the payload data (textureName in this case) to create prefab
-                        gGOFactory->CreatePrefab(textureName);
-                    }
-                    else
-                    {
-                        std::cout << "Empty Payload" << std::endl;
-                    }
-                }
-                else
-                {
-                    std::cout << "No payload accepted!" << std::endl;
-                }
-                ImGui::EndDragDropTarget();
-            }
 			if (!mIsPlaying)
 			{
 				if (ImGui::Button("Play"))
@@ -96,19 +74,30 @@ namespace Carmicah
 				}
 			}
             ImGui::SameLine();
-            if (ImGui::Button("Pause"))
+
+            if(!mIsPaused)
             {
-                mIsPaused = !mIsPaused;
+                if (ImGui::Button("Pause"))
+                {
+                    mIsPaused = !mIsPaused;
+                }
             }
+            else
+            {
+                if (ImGui::Button("Unpause"))
+                {
+                    mIsPaused = !mIsPaused;
+                }
+            }
+
+            
             
 
-            if (Input.IsKeyPressed(KEY_W))
+            /*if (Input.IsKeyPressed(KEY_W))
             {
                 mIsDebug = !mIsDebug;
-            }
+            }*/
 
-			const float windowWidth =   std::clamp(ImGui::GetContentRegionAvail().x, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Width));
-			const float windowHeight =  std::clamp(ImGui::GetContentRegionAvail().y, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Height));
             //ImVec2 availableWindow = ImGui::GetContentRegionAvail();
 
             //std::cout << availableWindow.x << "," << availableWindow.y << std::endl;
@@ -121,6 +110,13 @@ namespace Carmicah
             // get screen position of the Scene window's content area
             ImVec2 pos = ImGui::GetCursorScreenPos();
 
+            /*if (Input.IsKeyPressed(KEY_W))
+            {
+                std::cout << "Window Size: " << windowWidth << "," << windowHeight << std::endl;
+                std::cout << "Position of Image Top Left: " << pos.x << "," << pos.y << std::endl;
+                std::cout << "Position of Image Bot Right: " << pos.x + windowWidth << "," << pos.y + windowHeight << std::endl;
+            }*/
+
             ImGui::GetWindowDrawList()->AddImage(
                 (ImTextureID)(uintptr_t)SceneToImgui::GetInstance()->GetTexture(SceneToImgui::GAME_SCENE),
                 ImVec2(pos.x, pos.y),
@@ -128,6 +124,18 @@ namespace Carmicah
                 ImVec2(0, 1),
                 ImVec2(1, 0)
             );
+            ImGui::Dummy(windowSize);
+            if (ImGui::BeginDragDropTarget())
+            {
+                //Area to handle anything that's dropped into the SceneWindow
+                if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PREFAB_PAYLOAD"))
+                {
+                    
+                    std::string textureName = *(const std::string*)payload->Data;
+                    gGOFactory->CreatePrefab(textureName);
+}
+                ImGui::EndDragDropTarget();
+            }
                 
             
             SceneToImgui::GetInstance()->IsHovering = ImGui::IsWindowHovered();
@@ -177,18 +185,27 @@ namespace Carmicah
                                 std::cout << "Current Pos: " << currentMousePos << std::endl;
                             }*/
                             Vec2d delta(currentMousePos.x - startDragPos.x, currentMousePos.y - startDragPos.y);
-
+                            
                             Transform& cameraTransform = camera.GetComponent<Transform>();
 
-                            double worldDeltaX = ((delta.x / windowWidth /*NEED TO CHANGE THIS TO FIX IT*/)) / cameraTransform.GetScale().x;
-                            double worldDeltaY = -((delta.y / windowHeight/*NEED TO CHANGE THIS TO FIX IT*/)) / cameraTransform.GetScale().y;
+                            //TO LOOK AT LATER MAYBE
+                            double worldDeltaX = ((delta.x / 950 )) / cameraTransform.GetScale().x;
+                            double worldDeltaY = -((delta.y / 540)) / cameraTransform.GetScale().y;
 
-                            if (mIsDebug)
-                            {
-                                std::cout << "Window Size  = " << windowWidth << "," << windowHeight << std::endl;
-                                std::cout << "Delta = " << delta.x << "," << delta.y << std::endl;
-                                std::cout << "World Delta = " << worldDeltaX << "," << worldDeltaY << std::endl;
-                            }
+
+                            //if (Input.IsKeyPressed(KEY_W))
+                            //{
+                            //    std::cout << "Pos: " << pos.x << "," << pos.y << std::endl;
+
+                            //    std::cout << "Window Size: " << windowWidth << "," << windowHeight << std::endl;
+                            //    
+                            //    std::cout <<"Delta: " << delta.x << "," << delta.y << std::endl;
+
+                            //    std::cout << "Camera Scale: " << cameraTransform.GetScale().x << "," << cameraTransform.GetScale().y << std::endl;
+
+                            //    std::cout << "Overall World Delta: " << worldDeltaX << "," << worldDeltaY << std::endl;
+                            //}
+
                             Input.SetDragStartPos(currentMousePos);
 
 
