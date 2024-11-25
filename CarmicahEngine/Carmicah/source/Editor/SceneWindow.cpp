@@ -46,7 +46,9 @@ namespace Carmicah
 		if (ImGui::Begin(mTitle))
 		{
             //ImVec2 windowPos = ImGui::GetWindowPos();
-            //ImVec2 windowSize = ImGui::GetWindowSize();
+			const float windowWidth =   std::clamp(ImGui::GetContentRegionAvail().x, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Width));
+			const float windowHeight =  std::clamp(ImGui::GetContentRegionAvail().y, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Height));
+            ImVec2 windowSize(windowWidth, windowHeight);
             //ImVec2 windowBottomRight(windowPos.x + windowSize.x, windowPos.y + windowSize.y);
 
             //// Draw the border around the window (including title bar)
@@ -54,30 +56,6 @@ namespace Carmicah
             //float borderThickness = 2.0f;
             ////ImGui::InvisibleButton("Window Area",windowBottomRight);
 
-            if (ImGui::BeginDragDropTarget())
-            {
-                //Area to handle anything that's dropped into the SceneWindow
-                if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PREFAB_PAYLOAD"))
-                {
-                    if (payload->DataSize > 0)
-                    {
-                        std::string textureName = *(const std::string*)payload->Data;
-                        std::cout << "Dropped Prefab: " << textureName << std::endl;
-
-                        // Use the payload data (textureName in this case) to create prefab
-                        gGOFactory->CreatePrefab(textureName);
-                    }
-                    else
-                    {
-                        std::cout << "Empty Payload" << std::endl;
-                    }
-                }
-                else
-                {
-                    std::cout << "No payload accepted!" << std::endl;
-                }
-                ImGui::EndDragDropTarget();
-            }
 			if (!mIsPlaying)
 			{
 				if (ImGui::Button("Play"))
@@ -96,6 +74,7 @@ namespace Carmicah
 				}
 			}
             ImGui::SameLine();
+
             if(!mIsPaused)
             {
                 if (ImGui::Button("Pause"))
@@ -119,8 +98,6 @@ namespace Carmicah
                 mIsDebug = !mIsDebug;
             }*/
 
-			const float windowWidth =   std::clamp(ImGui::GetContentRegionAvail().x, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Width));
-			const float windowHeight =  std::clamp(ImGui::GetContentRegionAvail().y, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Height));
             //ImVec2 availableWindow = ImGui::GetContentRegionAvail();
 
             //std::cout << availableWindow.x << "," << availableWindow.y << std::endl;
@@ -140,6 +117,18 @@ namespace Carmicah
                 ImVec2(0, 1),
                 ImVec2(1, 0)
             );
+            ImGui::Dummy(windowSize);
+            if (ImGui::BeginDragDropTarget())
+            {
+                //Area to handle anything that's dropped into the SceneWindow
+                if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PREFAB_PAYLOAD"))
+                {
+                    
+                    std::string textureName = *(const std::string*)payload->Data;
+                    gGOFactory->CreatePrefab(textureName);
+}
+                ImGui::EndDragDropTarget();
+            }
                 
             
             SceneToImgui::GetInstance()->IsHovering = ImGui::IsWindowHovered();
