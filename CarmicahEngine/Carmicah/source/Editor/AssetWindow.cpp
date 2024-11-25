@@ -201,6 +201,13 @@ namespace Carmicah
 						HierarchyWindow::mShowScene = !HierarchyWindow::mShowScene;
 						HierarchyWindow::selectedGO = nullptr;
 					}
+
+					if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+					{
+						ImGui::SetDragDropPayload("PREFAB_PAYLOAD", &entry.first, sizeof(entry.first));
+						ImGui::Text("Dragging Prefab %s", name.c_str());
+						ImGui::EndDragDropSource();
+					}
 				}
 				ImGui::Unindent();
 			}
