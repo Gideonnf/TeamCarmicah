@@ -172,7 +172,7 @@ namespace Carmicah
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);
         auto prefabSystem = REGISTER_SYSTEM(PrefabSystem);
-       // auto gameLogic = REGISTER_SYSTEM(GameLogic);
+        // auto gameLogic = REGISTER_SYSTEM(GameLogic);
         auto transformSystem = REGISTER_SYSTEM(TransformSystem);
         AssetManager::GetInstance()->Init(prefabSystem);
         AssetManager::GetInstance()->LoadAll(AssetManager::GetInstance()->enConfig.assetLoc.c_str());
@@ -187,19 +187,19 @@ namespace Carmicah
         butSystem->Init();
         crsSystem->Init();
         phySystem->Init();
-        colSystem->Init(); // Set the signature
+        colSystem->Init();
         rrsSystem->Init();
-        souSystem->Init(false);
+        souSystem->Init();
         
 
         // Add goFactory to input system's messaging so that it can send msg to it
         Input.BindSystem(gGOFactory);
-       Input.BindSystem(gameSystem);
+        Input.BindSystem(gameSystem);
+        
+        Input.BindSystem(souSystem);
 
-       Input.BindSystem(souSystem);
-
-       gameSystem->BindSystem(editorSys);
-       gameSystem->BindSystem(butSystem);
+        gameSystem->BindSystem(editorSys);
+        gameSystem->BindSystem(butSystem);
         // Add transform system into gGOFactory's observer so that it can send msg to it
         gGOFactory->BindSystem(transformSystem);
         gGOFactory->BindSystem(prefabSystem);
@@ -218,18 +218,18 @@ namespace Carmicah
         //gGOFactory->ParentAllGO();
 
         //GameLogic gameLogic;
-       // gameLogic->Init();
+        //gameLogic->Init();
         //gGOFactory->BindSystem(std::static_pointer_cast<BaseSystem>(gameLogic).get());
         graSystem->SetScreenSize((GLuint)Width / 100, (GLuint)Height / 100, gGOFactory->mainCam);
 
-       // colSystem->PrintEntities();
+        //colSystem->PrintEntities();
         //int objectCount = 0;
         //phySystem->Update();
         
         CarmicahTime::GetInstance()->SetFixedDT(true);
         double accumulatedTime = 0.0;
 
-       // Editor Editor;
+        //Editor Editor;
         editorSys->Init(window);
         gScriptSystem->Init();
 
@@ -274,7 +274,7 @@ namespace Carmicah
             // If the next state was set to ONSTART, means sceneSystem received a play messag
             if (gameSystem->mNextState == SceneState::ONSTART)
             {
-                //souSystem->PlaySound(souSystem->buttonBGM, 0.4f);
+                souSystem->PlaySoundThis("BGM_MainMenu_Mix1", SoundCategory::BGM, SoundSystem::S_INGAME, 0.4f);
                 gScriptSystem->OnStart();
                 // go to run time after starting up all script objects
                 gameSystem->mNextState = gameSystem->mCurrState = SceneState::RUNTIME;
@@ -446,11 +446,11 @@ namespace Carmicah
 
         SceneToImgui::GetInstance()->UnloadFramebuffer();
 
-        AssetManager::GetInstance()->UnloadAll();
         editorSys->Exit();
         souSystem->Exit();
         colSystem->Exit();
 		butSystem->Exit();
+        AssetManager::GetInstance()->UnloadAll();
         Serializer.WriteConfig();
         gScriptSystem->CleanUp();
 

@@ -80,15 +80,14 @@ namespace Carmicah
 		std::unordered_map<std::string, std::shared_ptr<IAsset>> mAssetTypeMap{};
 
 		FT_Library mFTLib;
-		GLuint mArrayTex{}, currTexPt{};
-		// Audio
-		const int maxChannels{ 32 };
-		FMOD::System* mSoundSystem{};
-		std::unordered_map<std::string, FMOD::Channel*> mChannelMap;
-		std::unordered_map<std::string, Audio> mSoundMap{};
-		std::shared_ptr<PrefabSystem> prefabPtr;
-
+		GLuint mArrayTex{}, currTexPt{};// currTexPt used for both fonts and textures
 		std::vector<GLuint> mPreviewTexs;
+
+		// Audio
+		const int MAX_CHANNELS = 256;
+		FMOD::System* mSoundSystem{};
+
+		std::shared_ptr<PrefabSystem> prefabPtr;
 
 		/*!*************************************************************************
 		brief
@@ -339,12 +338,8 @@ namespace Carmicah
 			Name of the sound to save as
 		param[soundFile]
 			File name to load the sound data from
-		param[isLoop]
-			Set if the sound will loop
-		param[defaultVolume]
-			Sets the volume of the sound
 		***************************************************************************/
-		void LoadSound(const std::string& soundName, const std::string& soundFile, bool isLoop, float defaultVolume = 1.0f);
+		void LoadSound(const std::string& soundName, const std::string& soundFile);
 	};
 }
 #endif
