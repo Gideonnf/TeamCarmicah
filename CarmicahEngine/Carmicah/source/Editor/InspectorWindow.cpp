@@ -234,8 +234,10 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("Rotation");
 					ImGui::TableNextColumn();
-					if (ImGui::DragFloat("##rot", &selectedTransform.GetRot(), 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
+					float rotVar = selectedTransform.Rot();
+					if (ImGui::DragFloat("##rot", &rotVar, 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
 					{
+						selectedTransform.GetRot() = rotVar;
 						// Wrap the rotation value between 0 and 360 degrees
 						selectedTransform.Rot(fmodf(selectedTransform.Rot(), 360.0f));
 						if (selectedTransform.Rot() < 0.0f)
@@ -773,8 +775,10 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("Rotation");
 					ImGui::TableNextColumn();
-					if(ImGui::DragFloat("##rot", &selectedTransform.GetRot(), 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
+					float rotVar = selectedTransform.Rot();
+					if(ImGui::DragFloat("##rot", &rotVar, 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
 					{
+						selectedTransform.GetRot() = rotVar;
 						// Wrap the rotation value between 0 and 360 degrees
 						selectedTransform.Rot(fmodf(selectedTransform.Rot(), 360.0f));
 						if (selectedTransform.Rot() < 0.0f)

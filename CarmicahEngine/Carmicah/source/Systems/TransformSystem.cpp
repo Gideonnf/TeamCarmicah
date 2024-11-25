@@ -31,29 +31,47 @@ namespace Carmicah
 	{
 		for (auto& entity : mEntitiesSet)
 		{
-			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
+			UpdateTransform(entity);
+		}
+	}
 
-			// Handle Entities transform
-			if (transform.Updated())
+	void TransformSystem::UpdateTransform(Entity entity)
+	{
+		auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
+
+		// Handle Entities transform
+		if (transform.Updated())
+		{
+			//CM_CORE_INFO("entity updating: " + std::to_string(entity));
+			// if no parent
+			if (transform.parent == 0)
 			{
-				// if no parent
-				if (transform.parent == 0)
+				Mtx33Identity(transform.worldSpace);
+				transform.worldSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
+				transform.localSpace = transform.worldSpace; // if no parent, local and world is the same
+			}
+			// have parent
+			else
+			{
+				// get parent's transform
+				Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(transform.parent);
+				Mtx33Identity(transform.localSpace);
+				transform.localSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
+				transform.worldSpace = parentTransform.worldSpace * transform.localSpace;
+			}
+
+			// Update child transform
+			if (transform.children.size() != 0)
+			{
+				for (auto it : transform.children)
 				{
-					Mtx33Identity(transform.worldSpace);
-					transform.worldSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
-					transform.localSpace = transform.worldSpace; // if no parent, local and world is the same
-				}
-				// have parent
-				else
-				{
-					// get parent's transform
-					Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(transform.parent);
-					Mtx33Identity(transform.localSpace);
-					transform.localSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
-					transform.worldSpace = parentTransform.worldSpace * transform.localSpace;
+					auto& childTransform = ComponentManager::GetInstance()->GetComponent<Transform>(it);
+					childTransform.Update(); // set the notUpdate flag to false for children objects
+					//UpdateTransform(entity); // then update their transform
 				}
 			}
 		}
+
 	}
 
 	void TransformSystem::PostUpdate()

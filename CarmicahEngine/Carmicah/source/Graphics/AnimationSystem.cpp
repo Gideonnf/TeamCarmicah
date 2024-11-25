@@ -44,6 +44,7 @@ namespace Carmicah
 				AnimAtlas& a{ AssetManager::GetInstance()->GetAsset<AnimAtlas>(animation.animAtlas) };
 				auto& rend = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
 
+				// check with rainne what this 2 lines are for
 				if (ComponentManager::GetInstance()->HasComponent<Transform>(entity))
 					ComponentManager::GetInstance()->GetComponent<Transform>(entity).Update();
 
