@@ -1289,6 +1289,14 @@ namespace Carmicah
 								scriptRef->SetFieldValue(it.second.mName, data);
 							}
 						}
+						else if (it.second.mType == ScriptFieldType::Bool)
+						{
+							bool data = scriptRef->GetFieldValue<bool>(it.second.mName);
+							if (ImGui::Checkbox(it.second.mName.c_str(), &data))
+							{
+								scriptRef->SetFieldValue(it.second.mName, data);
+							}
+						}
 					}
 				}
 			}

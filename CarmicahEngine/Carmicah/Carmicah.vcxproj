@@ -124,6 +124,7 @@ xcopy /Q /E /Y /I "..\bin\Release-x86_64\CarmicahScriptCore\**.**" "..\CarmicahS
     <ClInclude Include="source\Components\BaseComponent.h" />
     <ClInclude Include="source\Components\BaseTransform.h" />
     <ClInclude Include="source\Components\Button.h" />
+    <ClInclude Include="source\Components\Camera.h" />
     <ClInclude Include="source\Components\Collider2D.h" />
     <ClInclude Include="source\Components\Prefab.h" />
     <ClInclude Include="source\Components\Renderer.h" />
@@ -140,9 +141,9 @@ xcopy /Q /E /Y /I "..\bin\Release-x86_64\CarmicahScriptCore\**.**" "..\CarmicahS
     <ClInclude Include="source\ECS\GameObject.h" />
     <ClInclude Include="source\ECS\SystemManager.h" />
     <ClInclude Include="source\Editor\AssetWindow.h" />
+    <ClInclude Include="source\Editor\CameraWindow.h" />
     <ClInclude Include="source\Editor\DebugWindow.h" />
     <ClInclude Include="source\Editor\Editor.h" />
-    <ClInclude Include="source\Editor\CameraWindow.h" />
     <ClInclude Include="source\Editor\EditorWindow.h" />
     <ClInclude Include="source\Editor\HierarchyWindow.h" />
     <ClInclude Include="source\Editor\InspectorWindow.h" />
@@ -191,9 +192,9 @@ xcopy /Q /E /Y /I "..\bin\Release-x86_64\CarmicahScriptCore\**.**" "..\CarmicahS
     <ClCompile Include="source\ECS\GameObject.cpp" />
     <ClCompile Include="source\ECS\SystemManager.cpp" />
     <ClCompile Include="source\Editor\AssetWindow.cpp" />
+    <ClCompile Include="source\Editor\CameraWindow.cpp" />
     <ClCompile Include="source\Editor\DebugWindow.cpp" />
     <ClCompile Include="source\Editor\Editor.cpp" />
-    <ClCompile Include="source\Editor\CameraWindow.cpp" />
     <ClCompile Include="source\Editor\EditorWindow.cpp" />
     <ClCompile Include="source\Editor\HierarchyWindow.cpp" />
     <ClCompile Include="source\Editor\InspectorWindow.cpp" />
