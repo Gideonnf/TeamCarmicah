@@ -180,11 +180,6 @@ namespace Carmicah
 		}
 	}
 
-	template<typename ComponentType>
-	void InspectorWindow::RenderComponentUI(Entity id, ComponentType& component)
-	{
-
-	}
 
 	/**
 	 * @brief Templated function for Prefab (Might be changed in future)
@@ -1389,15 +1384,16 @@ namespace Carmicah
 
 				if (ImGui::Button("Save Changes to Prefab"))
 				{
-					Serializer.SerializePrefab(*HierarchyWindow::inspectedPrefab);
-					ModifyPrefabMsg msg(*HierarchyWindow::inspectedPrefab);
+					Serializer.SerializePrefab(*AssetWindow::selectedPrefab);
+					ModifyPrefabMsg msg(*AssetWindow::selectedPrefab);
 					mMessages.push_back(std::make_shared<ModifyPrefabMsg>(msg));
 				}
 
 
 				if (ImGui::Button("Create Prefab"))
 				{
-					gGOFactory->CreatePrefab(HierarchyWindow::inspectedPrefab->GetName());
+					gGOFactory->CreatePrefab(AssetWindow::selectedPrefab->GetName());
+					AssetWindow::selectedPrefab = nullptr;
 					HierarchyWindow::inspectedPrefab = nullptr;
 					HierarchyWindow::mShowScene = true;
 				}

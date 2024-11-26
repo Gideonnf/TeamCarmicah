@@ -30,6 +30,7 @@ namespace Carmicah
 	private:
 
 	public:
+		static Prefab* selectedPrefab;
 
 		/**
 		 * @brief Construct a new Asset Window object

@@ -72,9 +72,6 @@ namespace Carmicah
 		 */
 		template<typename T>
 		void RemoveComponentButton(Entity go);
-		
-		template<typename ComponentType>
-		void RenderComponentUI(Entity id, ComponentType& component);
 
 		//TODO: IF IT WORKS< APPLY IT FOR EVERYTHIGN ELSE
 		template <typename T>

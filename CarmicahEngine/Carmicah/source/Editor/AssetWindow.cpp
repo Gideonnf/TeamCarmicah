@@ -36,7 +36,7 @@ namespace Carmicah
 {
 	AssetWindow::AssetWindow() : EditorWindow("Asset Browser", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
 
-
+	Prefab* AssetWindow::selectedPrefab = nullptr;
 	/**
 	 * @brief Update function for the AssetWindow
 	 * 
@@ -195,6 +195,7 @@ namespace Carmicah
 					name = entry.first + "##Prefab";
 					if (ImGui::Button(name.c_str()))
 					{						
+						selectedPrefab = &prefabMap->mAssetList[entry.second];
 						HierarchyWindow::inspectedPrefab = &prefabMap->mAssetList[entry.second];
 						HierarchyWindow::mShowScene = !HierarchyWindow::mShowScene;
 						HierarchyWindow::selectedGO = nullptr;
