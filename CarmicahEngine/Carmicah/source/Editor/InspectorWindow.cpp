@@ -180,6 +180,12 @@ namespace Carmicah
 		}
 	}
 
+	template<typename ComponentType>
+	void InspectorWindow::RenderComponentUI(Entity id, ComponentType& component)
+	{
+
+	}
+
 	/**
 	 * @brief Templated function for Prefab (Might be changed in future)
 	 * 
