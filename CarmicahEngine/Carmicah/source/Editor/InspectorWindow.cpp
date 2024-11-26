@@ -1137,7 +1137,7 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("Custom Width");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##CustomWidth", &col.customWidth, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##CustomWidth", &col.customWidth, 0.1f, 0.5f, FLT_MAX, "%.3f");
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
@@ -1149,7 +1149,7 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("Custom Height");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##CustomHeight", &col.customHeight, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+					ImGui::DragFloat("##CustomHeight", &col.customHeight, 0.1f, 0.5f, FLT_MAX, "%.3f");
 
 					ImGui::EndTable();
 				}
