@@ -46,6 +46,7 @@ namespace Carmicah
 	std::unordered_map<int, bool> mKeyPreviousState;
 
 	#pragma region Callback Functions
+
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Callback function to handle keyboard input events, such as key presses and releases.
 	-------------------------------------------------------------------------------------------------*/
@@ -69,8 +70,7 @@ namespace Carmicah
 			glfwSetWindowShouldClose(window, GL_TRUE);
 		}
 
-
-		// CTRL-ALT-DEL is pressed
+		// CTRL-ALT-DEL
 		bool ctrlPressed	= mKeyCurrentState[GLFW_KEY_LEFT_CONTROL] || mKeyCurrentState[GLFW_KEY_RIGHT_CONTROL];
 		bool altPressed		= mKeyCurrentState[GLFW_KEY_LEFT_ALT]	  || mKeyCurrentState[GLFW_KEY_RIGHT_ALT];
 		bool deletePressed	= mKeyCurrentState[GLFW_KEY_DELETE];
@@ -96,11 +96,63 @@ namespace Carmicah
 	{
 		UNUSED(mods);
 		UNUSED(window);
-		Input.UpdateMouseMap(button, (KeyStates)action);
-		//if (action == GLFW_)
-		//CM_CORE_INFO(std::to_string(action));
 
-		// start dragging if mouse button is pressed, left button only as of now
+		// update the current mouse state map
+		//if (action == GLFW_PRESS)
+		//{
+		//	Input.UpdateMouseMap(button, KeyStates::PRESSED);
+		//	std::cout << "Mouse Button " << button << ": PRESSED" << std::endl; // 0 is left, 1 is right, 2 is middle
+		//}
+		//else if (action == GLFW_RELEASE)
+		//{
+		//	Input.UpdateMouseMap(button, KeyStates::RELEASE);
+		//	std::cout << "Mouse Button " << button << ": RELEASE" << std::endl;
+		//}
+
+		//// Check for the HOLD state (when already pressed)
+		//if (Input.IsMouseHold((MouseButtons)button))
+		//{
+		//	std::cout << "Mouse Button " << button << ": HOLD" << std::endl;
+		//}
+
+		if (action == GLFW_PRESS)
+		{
+			if (button == GLFW_MOUSE_BUTTON_LEFT)
+			{
+				Input.UpdateMouseMap(button, KeyStates::PRESSED);
+				std::cout << "Left Mouse Button: PRESSED" << std::endl;
+			}
+			else if (button == GLFW_MOUSE_BUTTON_RIGHT)
+			{
+				Input.UpdateMouseMap(button, KeyStates::PRESSED);
+				std::cout << "Right Mouse Button: PRESSED" << std::endl;
+			}
+		}
+		else if (action == GLFW_RELEASE)
+		{
+			if (button == GLFW_MOUSE_BUTTON_LEFT)
+			{
+				Input.UpdateMouseMap(button, KeyStates::RELEASE);
+				std::cout << "Left Mouse Button: RELEASE" << std::endl;
+			}
+			else if (button == GLFW_MOUSE_BUTTON_RIGHT)
+			{
+				Input.UpdateMouseMap(button, KeyStates::RELEASE);
+				std::cout << "Right Mouse Button: RELEASE" << std::endl;
+			}
+		}
+
+		// Check for HOLD state (when a button is already pressed)
+		if (Input.IsMouseHold(MOUSE_BUTTON_LEFT))
+		{
+			std::cout << "Left Mouse Button: HOLD" << std::endl;
+		}
+		if (Input.IsMouseHold(MOUSE_BUTTON_RIGHT))
+		{
+			std::cout << "Right Mouse Button: HOLD" << std::endl;
+		}
+
+		// DRAG CHECK
 		if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_LEFT)
 		{
 			// mouse is now dragging
@@ -116,8 +168,7 @@ namespace Carmicah
 
 			Input.ProxySend(&msg);
 		}
-		// stop dragging when button is released
-		else if (action == GLFW_RELEASE)
+		else if (action == GLFW_RELEASE) // stop dragging when button is released
 		{
 			Vec2d mousePosD = Input.GetMousePosition();
 			// TODO: Hard coded
@@ -157,13 +208,27 @@ namespace Carmicah
 	}
 
 	/* function documentation--------------------------------------------------------------------------
-	\brief      Initializes the InputSystem for a specific GLFW window.
+	\brief	Callback Function to handle mouse scroll events.
 	-------------------------------------------------------------------------------------------------*/
 	void ScrollCallback(GLFWwindow* window, double xOffset, double yOffset)
 	{
+		// notified when the user scrolls, whether with a mouse wheel or touchpad gesture, set a scroll callback
 		UNUSED(window);
-		UNUSED(xOffset);
-		UNUSED(yOffset);
+
+		// adjust zoom level based on scroll direction
+		if (yOffset > 0)
+		{
+			std::cout << "i'm scrolling up" << std::endl;
+			std::cout << "scroll up (zoom in)" << std::endl;
+			// call a function or update a variable to handle zooming in
+		}
+		else if (yOffset < 0)
+		{
+			std::cout << "i'm scrolling down" << std::endl;
+			std::cout << "scroll down (zoom out)" << std::endl;
+		}
+		
+		// or is this function for scrolling up and down the scene? 
 	}
 
 	/* function documentation-------------------------------------------------------------------------
@@ -195,12 +260,12 @@ namespace Carmicah
 	void WindowFocusCallback(GLFWwindow* window, int focused)
 	{
 		UNUSED(focused);
-		//int isFocused = glfwGetWindowAttrib(window, GLFW_FOCUSED);
+		int isFocused = glfwGetWindowAttrib(window, GLFW_FOCUSED);
 
-		//if (!isFocused)
-		//{
-		//	glfwIconifyWindow(window);
-		//}
+		if (!isFocused)
+		{
+			glfwIconifyWindow(window);
+		}
 	}
 
 	#pragma endregion
@@ -221,12 +286,12 @@ namespace Carmicah
 		SendSysMessage(&msg);
 
 		// Set up the call backs
-		glfwSetKeyCallback(windowRef, KeyCallback);
-		glfwSetMouseButtonCallback(windowRef, MouseCallback);
-		glfwSetCursorPosCallback(windowRef, CursorPosCallback);
-		glfwSetScrollCallback(windowRef, ScrollCallback);
-		glfwSetWindowIconifyCallback(windowRef, WindowIconifyCallback);
-		glfwSetWindowFocusCallback(windowRef, WindowFocusCallback);
+		glfwSetKeyCallback			 (windowRef, KeyCallback);
+		glfwSetMouseButtonCallback	 (windowRef, MouseCallback);
+		glfwSetScrollCallback		 (windowRef, ScrollCallback);
+		glfwSetCursorPosCallback	 (windowRef, CursorPosCallback);
+		glfwSetWindowFocusCallback	 (windowRef, WindowFocusCallback);
+		glfwSetWindowIconifyCallback (windowRef, WindowIconifyCallback);
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -237,6 +302,15 @@ namespace Carmicah
 		if (windowRef == nullptr)
 		{
 			CM_CORE_ERROR("Error: Input system not initalized.");
+		}
+
+		// handle transitions automatically
+		for (auto& mouseState : mMouseMap)
+		{
+			if (mouseState.second == KeyStates::PRESSED)
+			{
+				mouseState.second = KeyStates::HOLD;
+			}
 		}
 	}
 
@@ -252,6 +326,7 @@ namespace Carmicah
 
 
 	#pragma region Key & Mouse State Methods
+
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Checks if a specified key is currently pressed.
 	-------------------------------------------------------------------------------------------------*/
@@ -279,57 +354,6 @@ namespace Carmicah
 	}
 
 	/* function documentation--------------------------------------------------------------------------
-	\brief      Checks if a specified mouse button is currently pressed.
-	-------------------------------------------------------------------------------------------------*/
-	bool InputSystem::IsMousePressed(MouseButtons button)
-	{
-		return KeyStates::PRESSED == mMouseMap[(int)button];
-	}
-
-	/* function documentation--------------------------------------------------------------------------
-	\brief      Checks if a specified mouse button is currently released.
-	-------------------------------------------------------------------------------------------------*/
-	bool InputSystem::IsMouseReleased(MouseButtons button)
-	{
-		return KeyStates::RELEASE == mMouseMap[(int)button];
-	}
-
-	/* function documentation--------------------------------------------------------------------------
-	\brief      Checks if a specified mouse button is being held down.
-	-------------------------------------------------------------------------------------------------*/
-	bool InputSystem::IsMouseHold(MouseButtons button)
-	{
-		return KeyStates::HOLD == mMouseMap[(int)button];
-	}
-
-	/* function documentation--------------------------------------------------------------------------
-	\brief      Checks if the mouse is currently positioned over a given area.
-	-------------------------------------------------------------------------------------------------*/
-	bool InputSystem::IsMouseOver(Vec2d& position, Vec2d& size)
-	{
-		// get current mouse position
-		Vec2d mousePos = Input.GetMousePosition();
-
-		// define button boundaries
-		float left		= position.x - (size.x * 0.5f);
-		float right		= position.x + (size.x * 0.5f);
-		float bottom	= position.y - (size.y * 0.5f);
-		float top		= position.y + (size.y * 0.5f);
-
-		// check if mouse position is within button boundaries
-		return (mousePos.x >= left && mousePos.x <= right &&
-				mousePos.y >= bottom && mousePos.y <= top);
-	}
-
-	/* function documentation--------------------------------------------------------------------------
-	\brief      Checks if the mouse is currently in a dragging state.
-	-------------------------------------------------------------------------------------------------*/
-	bool InputSystem::IsDragging() const
-	{
-		return isDragging;
-	}
-
-	/* function documentation--------------------------------------------------------------------------
 	\brief      Checks if a specified key was pressed in a previous state (currently unused).
 	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::WasKeyPressed(Keys key)
@@ -354,6 +378,51 @@ namespace Carmicah
 	}
 
 	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified mouse button is currently pressed.
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::IsMousePressed(MouseButtons button)
+	{
+		return KeyStates::PRESSED == mMouseMap[(int)button];
+	}
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified mouse button is currently released.
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::IsMouseReleased(MouseButtons button)
+	{
+		return KeyStates::RELEASE == mMouseMap[(int)button];
+	}
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified mouse button is being held down.
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::IsMouseHold(MouseButtons button)
+	{
+		// this function is useless and doesnt do anything tbh
+		return mMouseMap[(int)button] == KeyStates::HOLD;
+	}
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if the mouse is currently positioned over a given area.
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::IsMouseOver(Vec2d& position, Vec2d& size)
+	{
+		// get current mouse position
+		Vec2d mousePos = Input.GetMousePosition();
+
+		// define button boundaries
+		float left = position.x - (size.x * 0.5f);
+		float right = position.x + (size.x * 0.5f);
+		float bottom = position.y - (size.y * 0.5f);
+		float top = position.y + (size.y * 0.5f);
+
+		// check if mouse position is within button boundaries
+		return (mousePos.x >= left && mousePos.x <= right &&
+			mousePos.y >= bottom && mousePos.y <= top);
+	}
+
+
+	/* function documentation--------------------------------------------------------------------------
 	\brief      Checks if a specified mouse button was pressed in a previous state.
 	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::WasMousePressed(MouseButtons button)
@@ -374,9 +443,17 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::WasMouseHold(MouseButtons button)
 	{
+		// this function is useless and doesnt do anything tbh
 		return mMouseMap[(int)button] == KeyStates::HOLD && mMousePressed;
 	}
 
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if the mouse is currently in a dragging state.
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::IsDragging() const
+	{
+		return isDragging;
+	}
 
 	#pragma endregion
 
@@ -484,44 +561,28 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::UpdateKeyMap(int key, KeyStates state)
 	{
-		//if (key < 0 || key >= (int)GLFW_KEY_LAST) 
-		//{
-		//	CM_CORE_WARN("Invalid key code: {}", key);
-		//	return;
-		//}
-
 		mKeyCurrentState[key] = state == KeyStates::PRESSED;
-
-		//mKeyMap[key] = state;
-
-		//if (state == KeyStates::PRESSED)
-		//{
-		//	mKeyCurrentState[(int)key] = true;
-		//}
-		//else if (state == KeyStates::RELEASE)
-		//{
-		//	mKeyCurrentState[(int)key] = false;
-		//}
 	}
 
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Updates the mouse button state map for tracking button presses and releases.
 	-------------------------------------------------------------------------------------------------*/
-	void InputSystem::UpdateMouseMap(int key, KeyStates state)
+	void InputSystem::UpdateMouseMap(int button, KeyStates state)
 	{
-		mMouseMap[key] = state;
 		if (state == KeyStates::PRESSED)
 		{
-			mMousePressed = true;
+			mMouseMap[button] = KeyStates::PRESSED;
 			mMouseTick = 0.0f;
 		}
-		else
+		else if (state == KeyStates::RELEASE)
 		{
-			mMousePressed = false;
+			mMouseMap[button] = KeyStates::RELEASE;
 			mMouseTick = 0.0f;
 		}
-		//std::cout << "in update mouse map" << mMousePressed << std::endl;
-		//std::cout << "Mouse State : " << state << " For : " << key << std::endl;
+		else if (state == KeyStates::HOLD)
+		{
+			mMouseMap[button] = KeyStates::HOLD;
+		}
 	}
 
 	#pragma endregion
@@ -544,12 +605,16 @@ namespace Carmicah
 		switch (key)
 		{
 			// Printable keys
-		case KEY_SPACEBAR: return "Spacebar";
+		case KEY_SPACEBAR:	 return "Spacebar";
 		case KEY_APOSTROPHE: return "Apostrophe";
-		case KEY_COMMA: return "Comma";
-		case KEY_MINUS: return "Minus";
-		case KEY_PERIOD: return "Period";
-		case KEY_SLASH: return "Slash";
+		case KEY_COMMA:		 return "Comma";
+		case KEY_MINUS:		 return "Minus";
+		case KEY_PERIOD:	 return "Period";
+		case KEY_SLASH:		 return "Slash";
+		case KEY_SEMICOLON:	 return "Semicolon";
+		case KEY_EQUAL:		 return "Equal";
+
+			// Alphabet keys
 		case KEY_0: return "0";
 		case KEY_1: return "1";
 		case KEY_2: return "2";
@@ -560,8 +625,6 @@ namespace Carmicah
 		case KEY_7: return "7";
 		case KEY_8: return "8";
 		case KEY_9: return "9";
-		case KEY_SEMICOLON: return "Semicolon";
-		case KEY_EQUAL: return "Equal";
 		case KEY_A: return "A";
 		case KEY_B: return "B";
 		case KEY_C: return "C";
@@ -602,20 +665,6 @@ namespace Carmicah
 		case KEY_F10: return "F10";
 		case KEY_F11: return "F11";
 		case KEY_F12: return "F12";
-
-			// Extended function keys
-		//case KEY_F13: return "F13";
-		//case KEY_F14: return "F14";
-		//case KEY_F15: return "F15";
-		//case KEY_F16: return "F16";
-		//case KEY_F17: return "F17";
-		//case KEY_F18: return "F18";
-		//case KEY_F19: return "F19";
-		//case KEY_F20: return "F20";
-		//case KEY_F21: return "F21";
-		//case KEY_F22: return "F22";
-		//case KEY_F23: return "F23";
-		//case KEY_F24: return "F24";
 
 			// Arrow keys
 		case KEY_UP: return "Arrow Up";
