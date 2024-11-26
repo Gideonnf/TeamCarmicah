@@ -112,8 +112,8 @@ namespace Carmicah
 
 		void InitScreenDimension(const float& screenWidth, const float& screenHeight);
 		void UpdateEditorCam();
-		void Render(std::optional<Transform*> cam);
-		void Render(const unsigned int& cam);
+		void Render(std::optional<Transform*> cam, bool isEditor = false);
+		void Render(const unsigned int& cam, bool isEditor = false);
 
 		FontUniform* GetFontUniforms(const unsigned int& bufferID);
 		unsigned int AssignFont(const unsigned int& e);

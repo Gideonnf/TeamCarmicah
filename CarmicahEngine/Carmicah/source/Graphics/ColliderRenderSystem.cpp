@@ -62,11 +62,12 @@ namespace Carmicah
 			{
 				auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity->first);
 
-				if (!transform.Updated())
-				{
-					++entity;
-					continue;
-				}
+				// --TODO-- needs collider to also do a update check
+				//if (!transform.Updated())
+				//{
+				//	++entity;
+				//	continue;
+				//}
 
 				auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity->first);
 				Mtx3x3f trans{};
