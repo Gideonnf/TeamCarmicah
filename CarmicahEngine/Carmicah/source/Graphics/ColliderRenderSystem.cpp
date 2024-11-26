@@ -91,7 +91,7 @@ namespace Carmicah
 
 				auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
 				auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);
-				auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
+				//auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
 				Mtx3x3f trans{};
 				trans.translateThis((collider.max.x + collider.min.x) * 0.5f, (collider.max.y + collider.min.y) * 0.5f)
 					.rotDegThis(transform.GetRot())
