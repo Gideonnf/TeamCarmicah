@@ -397,7 +397,6 @@ namespace Carmicah
                 colSystem->Update();
                 CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 
-
                 CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
                 aniSystem->Update();
                 CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
@@ -437,11 +436,11 @@ namespace Carmicah
                 {
                     // Game Cam
                     SceneToImgui::GetInstance()->BindFramebuffer(SceneToImgui::GAME_SCENE);
-                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
+                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam, true);
                     // Editor Cam
                     SceneToImgui::GetInstance()->BindFramebuffer(SceneToImgui::EDITOR_SCENE);
                     RenderHelper::GetInstance()->UpdateEditorCam();
-                    RenderHelper::GetInstance()->Render(&RenderHelper::GetInstance()->mEditorCam);
+                    RenderHelper::GetInstance()->Render(&RenderHelper::GetInstance()->mEditorCam, true);
                     SceneToImgui::GetInstance()->UnbindFramebuffer();
                 }
                 else

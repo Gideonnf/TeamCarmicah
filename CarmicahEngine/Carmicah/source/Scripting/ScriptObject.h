@@ -32,7 +32,8 @@ namespace Carmicah
 		Short,
 		UInt,
 		Vector2,
-		Entity
+		Entity,
+		String
 	};
 
 	//struct
