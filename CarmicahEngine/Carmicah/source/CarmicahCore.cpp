@@ -319,7 +319,7 @@ namespace Carmicah
                                 {
                                     phySystem->mToggleUpdate = false;
                                     CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                                    colSystem->Update();
+                                    colSystem->CollisionCheck();
                                     CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 
                                     CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
@@ -330,7 +330,7 @@ namespace Carmicah
                             }
                             else {
                                 CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                                colSystem->Update();
+                                colSystem->CollisionCheck();
                                 CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
                                 CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                                 phySystem->Update();
@@ -345,7 +345,7 @@ namespace Carmicah
                             CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
 
                             CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                            colSystem->Update();
+                            colSystem->CollisionCheck();
                             CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 #endif
                             accumulatedTime -= CarmicahTime::GetInstance()->GetDeltaTime();
@@ -361,7 +361,7 @@ namespace Carmicah
                             {
                                 phySystem->mToggleUpdate = false;
                                 CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                                colSystem->Update();
+                                colSystem->CollisionCheck();
                                 CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 
                                 CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
@@ -372,7 +372,7 @@ namespace Carmicah
                         }
                         else {
                             CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                            colSystem->Update();
+                            colSystem->CollisionCheck();
                             CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
                             CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                             phySystem->Update();
@@ -387,11 +387,16 @@ namespace Carmicah
                         CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
 
                         CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                        colSystem->Update();
+                        colSystem->CollisionCheck();
                         CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 #endif               
                     }
                 }
+
+                CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
+                colSystem->Update();
+                CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
+
 
                 CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
                 aniSystem->Update();

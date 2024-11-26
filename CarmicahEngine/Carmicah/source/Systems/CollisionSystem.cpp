@@ -451,7 +451,7 @@ namespace Carmicah
 			CalculateEdges(entity);
 		}
 
-		CollisionCheck();
+		//CollisionCheck();
 
 
 
