@@ -172,7 +172,7 @@ namespace Carmicah
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);
         auto prefabSystem = REGISTER_SYSTEM(PrefabSystem);
-       // auto gameLogic = REGISTER_SYSTEM(GameLogic);
+        // auto gameLogic = REGISTER_SYSTEM(GameLogic);
         auto transformSystem = REGISTER_SYSTEM(TransformSystem);
         AssetManager::GetInstance()->Init(prefabSystem);
         AssetManager::GetInstance()->LoadAll(AssetManager::GetInstance()->enConfig.assetLoc.c_str());
@@ -187,19 +187,19 @@ namespace Carmicah
         butSystem->Init();
         crsSystem->Init();
         phySystem->Init();
-        colSystem->Init(); // Set the signature
+        colSystem->Init();
         rrsSystem->Init();
-        souSystem->Init(true);
+        souSystem->Init();
         
 
         // Add goFactory to input system's messaging so that it can send msg to it
         Input.BindSystem(gGOFactory);
-       Input.BindSystem(gameSystem);
+        Input.BindSystem(gameSystem);
+        
+        Input.BindSystem(souSystem);
 
-       Input.BindSystem(souSystem);
-
-       gameSystem->BindSystem(editorSys);
-       gameSystem->BindSystem(butSystem);
+        gameSystem->BindSystem(editorSys);
+        gameSystem->BindSystem(butSystem);
         // Add transform system into gGOFactory's observer so that it can send msg to it
         gGOFactory->BindSystem(transformSystem);
         gGOFactory->BindSystem(prefabSystem);
@@ -210,28 +210,38 @@ namespace Carmicah
         butSystem->BindSystem(gScriptSystem);
 
         //glfwSetWindowUserPointer(window, inputSystem.get());
+        gScriptSystem->Init();
         Input.Init(window);
         gameSystem->SetScene("Scene1");
+#ifndef CM_INSTALLER
         gameSystem->Init(); // Load all GOs from scene file
-
+#endif
         //gGOFactory->CreateSceneObject("Scene1"); // TODO: Shift this so that it isnt here and manually being made
         //gGOFactory->ParentAllGO();
 
         //GameLogic gameLogic;
-       // gameLogic->Init();
+        //gameLogic->Init();
         //gGOFactory->BindSystem(std::static_pointer_cast<BaseSystem>(gameLogic).get());
-        graSystem->SetScreenSize((GLuint)Width / 100, (GLuint)Height / 100, gGOFactory->mainCam);
+       // graSystem->SetScreenSize((GLuint)Width / 100, (GLuint)Height / 100, gGOFactory->mainCam);
 
-       // colSystem->PrintEntities();
+        //colSystem->PrintEntities();
         //int objectCount = 0;
         //phySystem->Update();
         
         CarmicahTime::GetInstance()->SetFixedDT(true);
         double accumulatedTime = 0.0;
 
-       // Editor Editor;
+
+
+        //Editor Editor;
         editorSys->Init(window);
-        gScriptSystem->Init();
+        
+        
+        static bool gameOnly = false;
+#ifdef CM_INSTALLER
+        gameOnly = true;
+        gameSystem->mNextState = SceneState::INITIALISING;
+#endif
 
 
 
@@ -251,8 +261,10 @@ namespace Carmicah
             // Reload/initialize the scene here
             if (gameSystem->mNextState == SceneState::INITIALISING || gameSystem->mNextState == SceneState::RELOAD)
             {
-                gameSystem->Init();
+               // if (oneTimeInit)
+                    gameSystem->Init();
 
+               // oneTimeInit = true;
                 // FOR TESTING OF GOs MANUALLY
                     
                 //wall.SetParent(mainCharacter);
@@ -270,17 +282,22 @@ namespace Carmicah
                 //mainCharacter.GetComponent<Script>().scriptName = "Carmicah.Player";
 
                 //gameLogic->Init(); // refetch the objects needed
+
+                // if game only then go straight to onstart and runtime
+                if (gameOnly)
+                    gameSystem->mNextState = SceneState::ONSTART;
             }
             // If the next state was set to ONSTART, means sceneSystem received a play messag
             if (gameSystem->mNextState == SceneState::ONSTART)
             {
-                //souSystem->PlaySound(souSystem->buttonBGM, 0.4f);
+                souSystem->PlaySoundThis("BGM_MainMenu_Mix1", SoundCategory::BGM, SoundSystem::SOUND_INGAME, 0.4f);
                 gScriptSystem->OnStart();
                 // go to run time after starting up all script objects
                 gameSystem->mNextState = gameSystem->mCurrState = SceneState::RUNTIME;
             }
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
+
                 gScriptSystem->UpdateScripts(); // TODO: Add this to profiler
 
                 if (gameSystem->mCurrState == SceneState::RUNTIME && SceneWindow::mIsPaused == false)
@@ -295,7 +312,7 @@ namespace Carmicah
                         while (accumulatedTime >= CarmicahTime::GetInstance()->GetDeltaTime())
                         {
                             //phySystem->Update();
-    #ifdef CM_DEBUG
+#ifdef CM_DEBUG
                             if (phySystem->mDebugPhysics) {
                                 // Handle WASD movement during debugPhysics mode
                                 if (phySystem->mToggleUpdate)
@@ -320,9 +337,9 @@ namespace Carmicah
                                 CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
 
                             }
-    #endif
+#endif
 
-    #ifdef CM_RELEASE
+#ifdef CM_RELEASE || CM_INSTALLER
                             CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                             phySystem->Update();
                             CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
@@ -330,14 +347,14 @@ namespace Carmicah
                             CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
                             colSystem->Update();
                             CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
-    #endif
+#endif
                             accumulatedTime -= CarmicahTime::GetInstance()->GetDeltaTime();
                         }
                     }
                     else
                     {
                         //phySystem->Update();
-    #ifdef CM_DEBUG
+#ifdef CM_DEBUG
                         if (phySystem->mDebugPhysics) {
                             // Handle WASD movement during debugPhysics mode
                             if (phySystem->mToggleUpdate)
@@ -362,9 +379,9 @@ namespace Carmicah
                             CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
 
                         }
-    #endif
+#endif
 
-    #ifdef CM_RELEASE
+#ifdef CM_RELEASE || CM_INSTALLER
                         CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                         phySystem->Update();
                         CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
@@ -372,7 +389,7 @@ namespace Carmicah
                         CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
                         colSystem->Update();
                         CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
-    #endif               
+#endif               
                     }
                 }
 
@@ -388,32 +405,57 @@ namespace Carmicah
 
 
                // glfwMakeContextCurrent(ImGuiWindow);
-                CarmicahTime::GetInstance()->StartSystemTimer("EditorSystem");
-                //GameObject fps;
-               // gGOFactory->FetchGO("FPSText", fps);
-                //fps.GetComponent<TextRenderer>().txt = std::to_string((int)CarmicahTime::GetInstance()->FPS());
-                editorSys->Update();
-                editorSys->Render(window);
-                AssetManager::GetInstance()->fileWatcher.Update();
-                CarmicahTime::GetInstance()->StopSystemTimer("EditorSystem");
-
-                SceneToImgui::GetInstance()->BindFramebuffer();
+                if (!gameOnly)
+                {
+                    CarmicahTime::GetInstance()->StartSystemTimer("EditorSystem");
+                    //GameObject fps;
+                   // gGOFactory->FetchGO("FPSText", fps);
+                    //fps.GetComponent<TextRenderer>().txt = std::to_string((int)CarmicahTime::GetInstance()->FPS());
+                    editorSys->Update();
+                    editorSys->Render(window);
+                    AssetManager::GetInstance()->fileWatcher.Update();
+                    CarmicahTime::GetInstance()->StopSystemTimer("EditorSystem");
+                }
                 CarmicahTime::GetInstance()->StartSystemTimer("RenderingSystems");
-                transformSystem->Update(); // Update world and local transforms before rendering
+                // Update world and local transforms before rendering
+                transformSystem->Update();
+                // Pushes data into GPU
                 graSystem->Update();
                 uigSystem->Update();
                 crsSystem->Update();
                 rrsSystem->Update();
                 txtSystem->Update();
+                // Done with pushing transforms, reset updates of transforms
                 transformSystem->PostUpdate();
-                RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
+
+                if (!gameOnly)
+                {
+                    // Game Cam
+                    SceneToImgui::GetInstance()->BindFramebuffer(SceneToImgui::GAME_SCENE);
+                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
+                    // Editor Cam
+                    SceneToImgui::GetInstance()->BindFramebuffer(SceneToImgui::EDITOR_SCENE);
+                    RenderHelper::GetInstance()->UpdateEditorCam();
+                    RenderHelper::GetInstance()->Render(&RenderHelper::GetInstance()->mEditorCam);
+                    SceneToImgui::GetInstance()->UnbindFramebuffer();
+                }
+                else
+                {
+                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
+                    // Editor Cam
+                    SceneToImgui::GetInstance()->BindFramebuffer(SceneToImgui::GAME_SCENE);
+                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
+                    SceneToImgui::GetInstance()->UnbindFramebuffer();
+
+                }
+
                 CarmicahTime::GetInstance()->StopSystemTimer("RenderingSystems");
                 //SceneToImgui::GetInstance()->IDPick();
 
                 // I WILL UPDAAATEEE BUTTONSYSTEM HERE OKKKKAAYYYY, PLS DONT CRASH CRYING EMOJI
 				butSystem->Update();
-                
-                SceneToImgui::GetInstance()->UnbindFramebuffer();
+
+
                // glfwMakeContextCurrent(window);
 
                 glfwSwapBuffers(window);
@@ -437,11 +479,11 @@ namespace Carmicah
 
         SceneToImgui::GetInstance()->UnloadFramebuffer();
 
-        AssetManager::GetInstance()->UnloadAll();
         editorSys->Exit();
         souSystem->Exit();
         colSystem->Exit();
 		butSystem->Exit();
+        AssetManager::GetInstance()->UnloadAll();
         Serializer.WriteConfig();
         gScriptSystem->CleanUp();
 

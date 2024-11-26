@@ -25,152 +25,6 @@ DigiPen Institute of Technology is prohibited.
 
 //brief:         This class is a system that handles the sound effects and background music of the game
 
-//namespace Carmicah
-//{
-//    SoundSystem::SoundSystem() : mSoundSystem(nullptr), mMasterVolume(1.0f) {}
-//
-//    SoundSystem::~SoundSystem()
-//    {
-//        Exit();
-//    }
-//
-//    void SoundSystem::Init(bool playDefaultBGM)
-//    {
-//        FMOD_RESULT result = FMOD::System_Create(&mSoundSystem);
-//        if (result != FMOD_OK) {
-//            CM_CORE_ERROR("FMOD System creation failed");
-//            return;
-//        }
-//
-//        result = mSoundSystem->init(MAX_CHANNELS, FMOD_INIT_NORMAL, nullptr);
-//        if (result != FMOD_OK) {
-//            CM_CORE_ERROR("FMOD System initialization failed");
-//            return;
-//        }
-//
-//        if (playDefaultBGM) {
-//            PlaySound(defaultBGM, 0.5f);
-//        }
-//    }
-//
-//    void SoundSystem::Update()
-//    {
-//        if (mSoundSystem) {
-//            mSoundSystem->update();
-//
-//            // Clean up stopped channels
-//            for (auto it = channelMap.begin(); it != channelMap.end();) {
-//                bool isPlaying = false;
-//                it->second->isPlaying(&isPlaying);
-//                if (!isPlaying) {
-//                    it = channelMap.erase(it);
-//                }
-//                else {
-//                    ++it;
-//                }
-//            }
-//        }
-//    }
-//
-//    void SoundSystem::Exit()
-//    {
-//        StopAllSounds();
-//
-//        if (mSoundSystem) {
-//            mSoundSystem->release();
-//            mSoundSystem = nullptr;
-//        }
-//    }
-//
-//    void SoundSystem::PlaySound(const std::string& soundName, float volume)
-//    {
-//        auto it = AssetManager::GetInstance()->mSoundMap.find(soundName);
-//        if (it != AssetManager::GetInstance()->mSoundMap.end()) {
-//            FMOD::Channel* channel;
-//            mSoundSystem->playSound(it->second.sound, nullptr, false, &channel);
-//            if (channel) {
-//                channel->setVolume(volume * mMasterVolume);
-//                channelMap[soundName] = channel;
-//            }
-//        }
-//    }
-//
-//    void SoundSystem::StopSound(const std::string& soundName)
-//    {
-//        auto it = channelMap.find(soundName);
-//        if (it != channelMap.end()) {
-//            it->second->stop();
-//            channelMap.erase(it);
-//        }
-//    }
-//
-//    void SoundSystem::StopAllSounds()
-//    {
-//        for (auto& [name, channel] : channelMap) {
-//            if (channel) {
-//                channel->stop();
-//            }
-//        }
-//        channelMap.clear();
-//    }
-//
-//    void SoundSystem::SetMasterVolume(float volume)
-//    {
-//        mMasterVolume = std::clamp(volume, 0.0f, 1.0f);
-//        for (auto& [name, channel] : channelMap) {
-//            if (channel) {
-//                bool isPlaying;
-//                channel->isPlaying(&isPlaying);
-//                if (isPlaying) {
-//                    float currentVol;
-//                    channel->getVolume(&currentVol);
-//                    channel->setVolume(currentVol * mMasterVolume);
-//                }
-//            }
-//        }
-//    }
-//
-//    void SoundSystem::PauseSound(const std::string& name)
-//    {
-//        auto it = channelMap.find(name);
-//        if (it != channelMap.end()) {
-//            it->second->setPaused(true);
-//        }
-//    }
-//
-//    void SoundSystem::ResumeSound(const std::string& name)
-//    {
-//        auto it = channelMap.find(name);
-//        if (it != channelMap.end()) {
-//            it->second->setPaused(false);
-//        }
-//    }
-//
-//    bool SoundSystem::IsSoundPlaying(const std::string& name)
-//    {
-//        auto it = channelMap.find(name);
-//        if (it != channelMap.end()) {
-//            bool isPlaying;
-//            it->second->isPlaying(&isPlaying);
-//            return isPlaying;
-//        }
-//        return false;
-//    }
-//
-//    void SoundSystem::ReceiveMessage(Message* msg)
-//    {
-//        if (msg->mMsgType == MSG_PLAYSFX) {
-//            auto* sfxMsg = dynamic_cast<PlaySFXMsg*>(msg);
-//            PlaySound(sfxMsg->fileName, 0.5f);
-//        }
-//        else if (msg->mMsgType == MSG_PLAYBGM) {
-//            auto* bgmMsg = dynamic_cast<PlayBGMMsg*>(msg);
-//            PlaySound(bgmMsg->fileName, 0.3f);
-//        }
-//    }
-//}
-
-
 namespace Carmicah
 {
     SoundSystem::SoundSystem()
@@ -186,30 +40,12 @@ namespace Carmicah
         mCategoryVolumes[SoundCategory::UI] = 1.0f;
     }
 
-    SoundSystem::~SoundSystem()
+    void SoundSystem::Init()
     {
-        Exit();
+        mSoundSystem = AssetManager::GetInstance()->mSoundSystem;
     }
 
-    void SoundSystem::Init(bool playDefaultBGM)
-    {
-        FMOD_RESULT result = FMOD::System_Create(&mSoundSystem);
-        if (result != FMOD_OK) {
-            CM_CORE_ERROR("FMOD System creation failed");
-            return;
-        }
-
-        result = mSoundSystem->init(MAX_CHANNELS, FMOD_INIT_NORMAL, nullptr);
-        if (result != FMOD_OK) {
-            CM_CORE_ERROR("FMOD System initialization failed");
-            return;
-        }
-
-        if (playDefaultBGM) {
-            PlaySound(defaultBGM, SoundCategory::BGM);
-        }
-    }
-
+    //PlaySound(defaultBGM, SoundCategory::BGM);
     void SoundSystem::Update()
     {
         if (mSoundSystem) {
@@ -221,127 +57,87 @@ namespace Carmicah
     void SoundSystem::Exit()
     {
         StopAllSounds();
-        mSoundTracks.clear();
-
-        if (mSoundSystem) {
-            mSoundSystem->release();
-            mSoundSystem = nullptr;
-        }
     }
 
-    bool SoundSystem::LoadSound(const std::string& name, const std::string& filePath,
-        SoundCategory category, bool isLoop, float defaultVolume)
+    bool SoundSystem::PlaySoundThis(const std::string& soundName, SoundCategory category, INTSOUND internalCatergoy, float volume)
     {
-        if (mSoundTracks.find(name) != mSoundTracks.end()) {
-            CM_CORE_WARN("Sound already exists: {}", name);
+        if (!AssetManager::GetInstance()->AssetExist<FMOD::Sound*>(soundName))
+        {
+            CM_CORE_WARN("Non-existant Sound Tried playing: " + soundName);
             return false;
         }
-
-        auto track = std::make_unique<SoundTrack>();
-        FMOD_MODE mode = FMOD_DEFAULT;
-        if (isLoop) mode |= FMOD_LOOP_NORMAL;
-
-        FMOD_RESULT result = mSoundSystem->createSound(filePath.c_str(), mode, nullptr, &track->sound);
-        if (result != FMOD_OK) {
-            CM_CORE_ERROR("Failed to load sound: {}", name);
+        if (mChannelsCount > AssetManager::GetInstance()->MAX_CHANNELS)
+        {
+            CM_CORE_WARN("Max Sound Channels reached");
             return false;
         }
+        FMOD::Sound* sound = AssetManager::GetInstance()->GetAsset<FMOD::Sound*>(soundName);
+        FMOD::Channel* channel;
+        mSoundSystem->playSound(sound, nullptr, false, &channel);
+        if (channel) {
+            ++mChannelsCount;
+            // Store in tracks for management
+            auto track = std::make_unique<SoundTrack>();
+            track->sound = sound;
+            track->category = category;
+            track->channel = channel;
+            track->defaultVolume = (volume >= 0 ? volume : defaultVolume) * mCategoryVolumes[category];
+            track->currentVolume = track->defaultVolume * mMasterVolume;
 
-        track->name = name;
-        track->isLooping = isLoop;
-        track->defaultVolume = defaultVolume;
-        track->currentVolume = defaultVolume;
-
-        mSoundTracks[name] = std::move(track);
-        return true;
-    }
-
-    bool SoundSystem::PlaySound(const std::string& soundName, SoundCategory category, float volume)
-    {
-        auto it = AssetManager::GetInstance()->mSoundMap.find(soundName);
-        if (it != AssetManager::GetInstance()->mSoundMap.end()) {
-            FMOD::Channel* channel;
-            mSoundSystem->playSound(it->second.sound, nullptr, false, &channel);
-            if (channel) {
-                float finalVolume = volume >= 0 ? volume : it->second.defaultVolume;
-                finalVolume *= mCategoryVolumes[category] * mMasterVolume;
-                channel->setVolume(finalVolume);
-
-                // Store in tracks for management
-                auto track = std::make_unique<SoundTrack>();
-                track->sound = it->second.sound;
-                track->channel = channel;
-                track->currentVolume = finalVolume;
-                track->name = soundName;
-                mSoundTracks[soundName] = std::move(track);
-                return true;
-            }
+            channel->setVolume(track->currentVolume);
+            mSoundTracks[internalCatergoy].emplace_back(std::move(track));
+            return true;
         }
         return false;
     }
 
-    bool SoundSystem::StopSound(const std::string& soundName)
+    void SoundSystem::StopSound(INTSOUND internalCatergoy)
     {
-        auto it = mSoundTracks.find(soundName);
-        if (it == mSoundTracks.end() || !it->second->channel) return false;
-
-        it->second->channel->stop();
-        it->second->channel = nullptr;
-        return true;
+        for (auto it = mSoundTracks[internalCatergoy].begin(); it != mSoundTracks[internalCatergoy].end(); ++it)
+        {
+            if (it->get()->channel)
+            {
+                it->get()->channel->stop();
+                --mChannelsCount;
+            }
+        }
+        mSoundTracks[internalCatergoy].clear();
     }
 
     void SoundSystem::StopAllSounds()
     {
-        for (auto& pair : mSoundTracks) {
-            if (pair.second->channel) {
-                pair.second->channel->stop();
-                pair.second->channel = nullptr;
-            }
+        for (int i{}; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
+            StopSound(static_cast<INTSOUND>(i));
+    }
+
+    void SoundSystem::PauseSound(INTSOUND internalCatergoy)
+    {
+        for (auto it = mSoundTracks[internalCatergoy].begin(); it != mSoundTracks[internalCatergoy].end(); ++it)
+        {
+            it->get()->isPaused = true;
+            it->get()->channel->setPaused(true);
         }
     }
 
-    bool SoundSystem::PauseSound(const std::string& soundName)
+    void SoundSystem::ResumeSound(INTSOUND internalCatergoy)
     {
-        auto it = mSoundTracks.find(soundName);
-        if (it == mSoundTracks.end() || !it->second->channel) return false;
-
-        it->second->isPaused = true;
-        it->second->channel->setPaused(true);
-        return true;
-    }
-
-    bool SoundSystem::ResumeSound(const std::string& soundName)
-    {
-        auto it = mSoundTracks.find(soundName);
-        if (it == mSoundTracks.end() || !it->second->channel) return false;
-
-        it->second->isPaused = false;
-        it->second->channel->setPaused(false);
-        return true;
+        for (auto it = mSoundTracks[internalCatergoy].begin(); it != mSoundTracks[internalCatergoy].end(); ++it)
+        {
+            it->get()->isPaused = false;
+            it->get()->channel->setPaused(false);
+        }
     }
 
     void SoundSystem::PauseAllSounds() 
     {
-        for (auto& pair : mSoundTracks) 
-        {
-            if (pair.second->channel) 
-            {
-                pair.second->isPaused = true;
-                pair.second->channel->setPaused(true);
-            }
-        }
+        for (int i{}; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
+            PauseSound(static_cast<INTSOUND>(i));
     }
 
     void SoundSystem::ResumeAllSounds() 
     {
-        for (auto& pair : mSoundTracks) 
-        {
-            if (pair.second->channel && pair.second->isPaused) 
-            {
-                pair.second->isPaused = false;
-                pair.second->channel->setPaused(false);
-            }
-        }
+        for (int i{}; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
+            ResumeSound(static_cast<INTSOUND>(i));
     }
 
 
@@ -350,33 +146,24 @@ namespace Carmicah
         mMasterVolume = std::clamp(volume, 0.0f, 1.0f);
 
         // Update all active sound volumes
-        for (auto& pair : mSoundTracks) {
-            if (pair.second->channel) {
-                UpdateSoundVolume(pair.second.get());
+        for (int i{}; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
+        {
+            for (auto it = mSoundTracks[i].begin(); it != mSoundTracks[i].end(); ++it)
+            {
+                UpdateSoundVolume(it->get());
             }
         }
     }
 
-    void SoundSystem::SetCategoryVolume(SoundCategory category, float volume)
+    void SoundSystem::SetCategoryVolume(SoundCategory category, INTSOUND internalCatergoy, float volume)
     {
         mCategoryVolumes[category] = std::clamp(volume, 0.0f, 1.0f);
 
         // Update all sounds in this category
-        for (auto& pair : mSoundTracks) {
-            if (pair.second->channel) {
-                UpdateSoundVolume(pair.second.get());
-            }
-        }
-    }
-
-    void SoundSystem::SetSoundVolume(const std::string& soundName, float volume)
-    {
-        auto it = mSoundTracks.find(soundName);
-        if (it == mSoundTracks.end()) return;
-
-        it->second->currentVolume = std::clamp(volume, 0.0f, 1.0f);
-        if (it->second->channel) {
-            UpdateSoundVolume(it->second.get());
+        for (auto it = mSoundTracks[internalCatergoy].begin(); it != mSoundTracks[internalCatergoy].end(); ++it)
+        {
+            if (it->get()->channel && it->get()->category == category)
+                UpdateSoundVolume(it->get());
         }
     }
 
@@ -395,13 +182,23 @@ namespace Carmicah
 
     void SoundSystem::CleanupStoppedSounds()
     {
-        for (auto& pair : mSoundTracks) {
-            if (pair.second->channel) {
-                bool isPlaying = false;
-                pair.second->channel->isPlaying(&isPlaying);
-                if (!isPlaying) {
-                    pair.second->channel = nullptr;
+        for (int i{}; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
+        {
+            for (auto it = mSoundTracks[i].begin(); it != mSoundTracks[i].end();)
+            {
+                if (it->get()->channel)
+                {
+                    bool isPlaying = false;
+                    it->get()->channel->isPlaying(&isPlaying);
+                    if (!isPlaying)
+                    {
+                        it->get()->channel = nullptr;
+                        --mChannelsCount;
+                        it = mSoundTracks[i].erase(it);
+                        continue;
+                    }
                 }
+                ++it;
             }
         }
     }
@@ -410,12 +207,40 @@ namespace Carmicah
     {
         if (msg->mMsgType == MSG_PLAYSFX) {
             auto* sfxMsg = dynamic_cast<PlaySFXMsg*>(msg);
-            PlaySound(sfxMsg->fileName, SoundCategory::SFX, 0.5f);
+            PlaySoundThis(sfxMsg->fileName, SoundCategory::SFX, INTSOUND::SOUND_INGAME, 0.5f);
         }
         else if (msg->mMsgType == MSG_PLAYBGM) {
             auto* bgmMsg = dynamic_cast<PlayBGMMsg*>(msg);
-            PlaySound(bgmMsg->fileName, SoundCategory::BGM, 0.3f);
+            PlaySoundThis(bgmMsg->fileName, SoundCategory::BGM, INTSOUND::SOUND_BGM, 0.3f);
         }
     }
 
 }
+
+/*
+bool SoundSystem::LoadSound(const std::string& name, const std::string& filePath,
+    SoundCategory category, bool isLoop, float defaultVolume)
+{
+    if (mSoundTracks.find(name) != mSoundTracks.end()) {
+        CM_CORE_WARN("Sound already exists: {}", name);
+        return false;
+    }
+
+    auto track = std::make_unique<SoundTrack>();
+    FMOD_MODE mode = FMOD_DEFAULT;
+    if (isLoop) mode |= FMOD_LOOP_NORMAL;
+
+    FMOD_RESULT result = mSoundSystem->createSound(filePath.c_str(), mode, nullptr, &track->sound);
+    if (result != FMOD_OK) {
+        CM_CORE_ERROR("Failed to load sound: {}", name);
+        return false;
+    }
+
+    track->isLooping = isLoop;
+    track->defaultVolume = defaultVolume;
+    track->currentVolume = defaultVolume;
+
+    mSoundTracks[name] = std::move(track);
+    return true;
+}
+*/

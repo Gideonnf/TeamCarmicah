@@ -15,8 +15,11 @@ DigiPen Institute of Technology is prohibited.
 #define RENDER_HELPER_H
 
 #include <map>
+#include <optional>
 #include "Singleton.h"
 #include "Systems/AssetTypes.h"
+#include "Components/BaseComponent.h"
+#include "Components/Transform.h"
 
 namespace Carmicah
 {
@@ -42,14 +45,15 @@ namespace Carmicah
 		static unsigned int mCapFontID;
 		static std::queue<unsigned int> mUnusedFontID;
 		std::map<unsigned int, unsigned int> mFontBufferToEntity;
+
 	public:
 		enum BUFFER_BITS : unsigned char
 		{
-			SHADER = 0,
-			ID,
-			GAME_BASED,
-			PRIMTIVE,
-			MAXBITS
+			BUFFER_SHADER = 0,
+			BUFFER_ID,
+			BUFFER_GAME_BASED,
+			BUFFER_PRIMTIVE,
+			BUFFER_MAXBITS
 		};
 		struct FontUniform
 		{
@@ -67,19 +71,19 @@ namespace Carmicah
 		};
 		struct BufferID 
 		{
-			unsigned int dat[MAXBITS];
+			unsigned int dat[BUFFER_MAXBITS];
 
 			BufferID(unsigned int primitive, unsigned int shader, unsigned int worldSpace, unsigned int id = 0)
 			{
-				dat[SHADER] = shader;
-				dat[ID] = id;
-				dat[GAME_BASED] = worldSpace;
-				dat[PRIMTIVE] = primitive;
+				dat[BUFFER_SHADER] = shader;
+				dat[BUFFER_ID] = id;
+				dat[BUFFER_GAME_BASED] = worldSpace;
+				dat[BUFFER_PRIMTIVE] = primitive;
 			}
 
 			const bool operator<(const BufferID& o) const
 			{
-				for (unsigned char i{}; i < MAXBITS; ++i)
+				for (unsigned char i{}; i < BUFFER_MAXBITS; ++i)
 				{
 					if (dat[i] < o.dat[i])
 						return true;
@@ -91,7 +95,7 @@ namespace Carmicah
 
 			const bool operator==(const BufferID& o) const
 			{
-				for (unsigned char i{}; i < MAXBITS; ++i)
+				for (unsigned char i{}; i < BUFFER_MAXBITS; ++i)
 				{
 					if (dat[i] != o.dat[i])
 						return false;
@@ -100,11 +104,16 @@ namespace Carmicah
 			}
 		};
 
+		Vec2d mOldMousePos{};
+		Transform mEditorCam{};
+
 		std::map<BufferID, BatchBuffer> mBufferMap;//shder << 8 | primitive // use switch(num) case AssetManager::getShder(enConfig::Baisc)
 		std::map<unsigned int, FontUniform> mFontUniforms;
 
 		void InitScreenDimension(const float& screenWidth, const float& screenHeight);
-		void Render(const unsigned int& cam);
+		void UpdateEditorCam();
+		void Render(std::optional<Transform*> cam, bool isEditor = false);
+		void Render(const unsigned int& cam, bool isEditor = false);
 
 		FontUniform* GetFontUniforms(const unsigned int& bufferID);
 		unsigned int AssignFont(const unsigned int& e);

@@ -102,6 +102,8 @@ namespace Carmicah
 		void UpdateScripts();
 		void OnEnd();
 		void ReceiveMessage(Message* msg) override;
+		void EntityAdded(Entity entity) override;
+		void EntityRemoved(Entity entity) override;
 
 		// Variables
 		MonoDomain* mRootDomain;
@@ -116,6 +118,11 @@ namespace Carmicah
 		std::unordered_map<std::string, std::shared_ptr<ScriptClass>> mEntityClasses;
 		// keep track of entity to script object
 		std::unordered_map<unsigned int, std::shared_ptr<ScriptObject>> mEntityInstances;
+
+		// cause I dont want to constantly loop through mEntitiesSet to pick up new entities
+		// ill store new entities thats added in a vector
+		// then loop this instead and pop when it loads its script properly since itll need to wait until a script is assigned
+		std::vector<Entity> entityAdded;
 	};
 
 	extern ScriptSystem* gScriptSystem;

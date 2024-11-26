@@ -18,10 +18,10 @@ DigiPen Institute of Technology is prohibited.
 #include <glad/glad.h>
 #include <stb/stb_image.h>
 #include "AssetManager.h"
-#include "Systems/SoundSystem.h"
 #include "log.h"
-#include "Systems/SerializerSystem.h"
 #include "Math/Vec2.h"
+#include "Systems/SoundSystem.h"
+#include "Systems/SerializerSystem.h"
 #include "Systems/AssetTypes.h"
 #include "Graphics/RenderHelper.h"
 
@@ -156,8 +156,12 @@ namespace Carmicah
 		}
 		else if (fileExt == ".wav" || fileExt == ".mp3")
 		{
-
-			LoadSound(fileName, file.fileEntry.path().string(), false, 1.0f);
+			if (!reload && AssetExist<FMOD::Sound*>(fileName))
+			{
+				CM_CORE_WARN("Sound:" + fileName + " Already Exists");
+				return false;
+			}
+			LoadSound(fileName, file.fileEntry.path().string());
 		}
 		else if (fileExt == ".ttf")
 		{
@@ -283,8 +287,8 @@ namespace Carmicah
 		FT_Done_FreeType(mFTLib);
 
 		// Unload Sound
-		for (auto& sound : mSoundMap)
-			sound.second.sound->release();
+		for (auto& i : GetAssetMap<FMOD::Sound*>()->mAssetList)
+			i->release();
 		if (mSoundSystem != NULL)
 			mSoundSystem->release();
 	}
@@ -783,37 +787,28 @@ namespace Carmicah
 
 	void AssetManager::InitSound()
 	{
-		if (FMOD::System_Create(&mSoundSystem) != FMOD_OK)
+		FMOD_RESULT result = FMOD::System_Create(&mSoundSystem);
+		if (result != FMOD_OK) {
+			CM_CORE_ERROR("FMOD System creation failed");
 			return;
-		mSoundSystem->init(maxChannels, FMOD_INIT_NORMAL, NULL);
+		}
+
+		result = mSoundSystem->init(MAX_CHANNELS, FMOD_INIT_NORMAL, nullptr);
+		if (result != FMOD_OK) {
+			CM_CORE_ERROR("FMOD System initialization failed");
+			return;
+		}
 	}
 
 
-	void AssetManager::LoadSound(const std::string& soundName, const std::string& soundFile, bool isLoop, float defaultVolume)
+	void AssetManager::LoadSound(const std::string& soundName, const std::string& soundFile)
 	{
-		auto sound = mSoundMap.find(soundName);
-		if (sound != mSoundMap.end())
-		{
-			std::cerr << "Sound:" << soundName << " Already Exists";
-			return;
-		}
-
 		FMOD_MODE eMode = FMOD_DEFAULT;
-		Audio audio{};
-		if (isLoop) {
-			eMode |= FMOD_LOOP_NORMAL;
-		}
-		mSoundSystem->createSound(soundFile.c_str(), eMode, nullptr, &audio.sound);
-		if (audio.sound)
+		FMOD::Sound* sound{ nullptr };
+		mSoundSystem->createSound(soundFile.c_str(), eMode, nullptr, &sound);
+		if (sound)
 		{
-			audio.isLoop = isLoop;
-			audio.defaultVolume = defaultVolume;
-			mSoundMap.insert(std::make_pair(soundName, audio));
-			if (isLoop)
-			{
-				audio.sound->setMode(FMOD_LOOP_NORMAL);
-				audio.sound->setLoopCount(-1);
-			}
+			AddAsset<FMOD::Sound*>(soundName, sound);
 		}
 	}
 

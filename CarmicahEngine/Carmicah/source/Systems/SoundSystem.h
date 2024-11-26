@@ -22,6 +22,7 @@ DigiPen Institute of Technology is prohibited.
 #include "FMOD/fmod.hpp"
 #include <string>
 #include <memory>
+#include <vector>
 #include <unordered_map>
 
 
@@ -30,17 +31,6 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-    // Track information for each sound
-    struct SoundTrack {
-        FMOD::Sound* sound = nullptr;
-        FMOD::Channel* channel = nullptr;
-        float defaultVolume = 1.0f;
-        float currentVolume = 1.0f;
-        bool isLooping = false;
-        bool isPaused = false;
-        std::string name;
-    };
-
     // Categories for different types of sounds
     enum class SoundCategory {
         SFX,        // Sound effects
@@ -50,54 +40,63 @@ namespace Carmicah
         UI         // UI sounds
     };
 
+    // Track information for each sound
+    struct SoundTrack {
+        FMOD::Sound* sound = nullptr;
+        FMOD::Channel* channel = nullptr;
+        float defaultVolume = 1.0f;
+        float currentVolume = 1.0f;
+        SoundCategory category = SoundCategory::SFX;
+        bool isLooping = false;
+        bool isPaused = false;
+    };
+
+
     class SoundSystem : public BaseSystem
     {
+    public:
+        enum INTSOUND
+        {
+            SOUND_INGAME,
+            SOUND_INMENU,
+            SOUND_BGM,
+            SOUND_MAX_SOUNDS
+        };
+
     private:
-        FMOD::System* mSoundSystem;
-        std::unordered_map<std::string, std::unique_ptr<SoundTrack>> mSoundTracks;
+        FMOD::System* mSoundSystem; // Just a copy, not handled here
+        std::vector<std::unique_ptr<SoundTrack>> mSoundTracks[SOUND_MAX_SOUNDS];
         std::unordered_map<SoundCategory, float> mCategoryVolumes;
+        int mChannelsCount = 0;
+        const float defaultVolume = 1.0f;
         float mMasterVolume;
-        const int MAX_CHANNELS = 256;
         bool mIsMuted;
 
     public:
         SoundSystem();
-        ~SoundSystem();
 
-        void Init(bool playDefaultBGM = true);
+        void Init();
         void Update();
         void Exit();
 
         // Enhanced playback controls
-        bool PlaySound(const std::string& soundName, SoundCategory category = SoundCategory::SFX, float volume = -1.0f);
-        bool StopSound(const std::string& soundName);
-        bool PauseSound(const std::string& soundName);
-        bool ResumeSound(const std::string& soundName);
+        bool PlaySoundThis(const std::string& soundName, SoundCategory category = SoundCategory::SFX, INTSOUND internalCatergoy = SOUND_INGAME, float volume = -1.0f);
+        void StopSound(INTSOUND internalCatergoy);
+        void PauseSound(INTSOUND internalCatergoy);
+        void ResumeSound(INTSOUND internalCatergoy);
         void StopAllSounds();
         void PauseAllSounds();
         void ResumeAllSounds();
 
         // Volume controls
         void SetMasterVolume(float volume);
-        void SetCategoryVolume(SoundCategory category, float volume);
-        void SetSoundVolume(const std::string& soundName, float volume);
-        float GetSoundVolume(const std::string& soundName) const;
+        void SetCategoryVolume(SoundCategory category, INTSOUND internalCatergoy, float volume);
         float GetCategoryVolume(SoundCategory category) const;
-
-        // Sound state queries
-        bool IsSoundPlaying(const std::string& soundName) const;
-        bool IsSoundPaused(const std::string& soundName) const;
-        bool IsSoundLooping(const std::string& soundName) const;
 
         // Muting controls
         void MuteAll(bool mute);
-        void MuteCategory(SoundCategory category, bool mute);
-        void MuteSound(const std::string& soundName, bool mute);
-
-        // Load and unload sounds
-        bool LoadSound(const std::string& name, const std::string& filePath,
-            SoundCategory category = SoundCategory::SFX, bool isLoop = false, float defaultVolume = 1.0f);
-        void UnloadSound(const std::string& name);
+        void MuteCategory(SoundCategory category, INTSOUND internalCatergoy, bool mute);
+        void MuteSound(INTSOUND internalCatergoy, bool mute);
 
         void ReceiveMessage(Message* msg) override;
 

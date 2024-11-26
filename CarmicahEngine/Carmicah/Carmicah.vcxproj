@@ -9,6 +9,10 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Installer|x64">
+      <Configuration>Installer</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7DD29A8D-699F-F598-92B8-E3407EE42A27}</ProjectGuid>
@@ -30,6 +34,12 @@
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Installer|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -37,6 +47,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Installer|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -50,6 +63,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>..\bin\Release-x86_64\Carmicah\</OutDir>
     <IntDir>..\bin\Release-x86_64int\Carmicah\</IntDir>
+    <TargetName>Carmicah</TargetName>
+    <TargetExt>.lib</TargetExt>
+    <ExternalIncludePath>source;..\Dependencies\includes;..\Dependencies\bin;$(ExternalIncludePath)</ExternalIncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Installer|x64'">
+    <OutDir>..\bin\Installer-x86_64\Carmicah\</OutDir>
+    <IntDir>..\bin\Installer-x86_64int\Carmicah\</IntDir>
     <TargetName>Carmicah</TargetName>
     <TargetExt>.lib</TargetExt>
     <ExternalIncludePath>source;..\Dependencies\includes;..\Dependencies\bin;$(ExternalIncludePath)</ExternalIncludePath>
@@ -117,6 +137,39 @@ xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Release-x86_64\Assets"
 xcopy /Q /E /Y /I "..\bin\Release-x86_64\CarmicahScriptCore\**.**" "..\CarmicahScriptCore\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Installer|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NOMINMAX;_CRT_SECURE_NO_WARNINGS;CM_PLATFORM_WINDOWS;GLM_ENABLE_EXPERIMENTAL;STB_IMAGE_IMPLEMENTATION;CM_INSTALLER;CM_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/wd4003 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>glfw3.lib;freetype.lib;mono-2.0-sgen.lib;MonoPosixHelper.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4099 /NODEFAULTLIB:LIBCMT /ignore:4098 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+    <PostBuildEvent>
+      <Command>xcopy /Q /E /Y /I "..\Dependencies\lib\**.dll" "..\bin\Installer-x86_64\Editor"
+xcopy /Q /E /Y /I "..\Dependencies\bin\**.dll" "..\bin\Installer-x86_64\Dependencies\bin"
+xcopy /Q /E /Y /I "..\Assets\**.**" "..\bin\Installer-x86_64\Assets"
+xcopy /Q /E /Y /I "..\bin\Installer-x86_64\CarmicahScriptCore\**.**" "..\CarmicahScriptCore\"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="source\CarmicahCore.h" />
     <ClInclude Include="source\CarmicahTime.h" />
@@ -124,6 +177,7 @@ xcopy /Q /E /Y /I "..\bin\Release-x86_64\CarmicahScriptCore\**.**" "..\CarmicahS
     <ClInclude Include="source\Components\BaseComponent.h" />
     <ClInclude Include="source\Components\BaseTransform.h" />
     <ClInclude Include="source\Components\Button.h" />
+    <ClInclude Include="source\Components\Camera.h" />
     <ClInclude Include="source\Components\Collider2D.h" />
     <ClInclude Include="source\Components\Prefab.h" />
     <ClInclude Include="source\Components\Renderer.h" />
@@ -140,6 +194,7 @@ xcopy /Q /E /Y /I "..\bin\Release-x86_64\CarmicahScriptCore\**.**" "..\CarmicahS
     <ClInclude Include="source\ECS\GameObject.h" />
     <ClInclude Include="source\ECS\SystemManager.h" />
     <ClInclude Include="source\Editor\AssetWindow.h" />
+    <ClInclude Include="source\Editor\CameraWindow.h" />
     <ClInclude Include="source\Editor\DebugWindow.h" />
     <ClInclude Include="source\Editor\Editor.h" />
     <ClInclude Include="source\Editor\EditorWindow.h" />
@@ -190,6 +245,7 @@ xcopy /Q /E /Y /I "..\bin\Release-x86_64\CarmicahScriptCore\**.**" "..\CarmicahS
     <ClCompile Include="source\ECS\GameObject.cpp" />
     <ClCompile Include="source\ECS\SystemManager.cpp" />
     <ClCompile Include="source\Editor\AssetWindow.cpp" />
+    <ClCompile Include="source\Editor\CameraWindow.cpp" />
     <ClCompile Include="source\Editor\DebugWindow.cpp" />
     <ClCompile Include="source\Editor\Editor.cpp" />
     <ClCompile Include="source\Editor\EditorWindow.cpp" />

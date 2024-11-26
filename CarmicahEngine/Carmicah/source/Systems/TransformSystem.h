@@ -36,6 +36,8 @@ namespace Carmicah
 		/// If any entities are updated, then reset their update flag
 		/// </summary>
 		void PostUpdate();
+		
+		void UpdateTransform(Entity entity);
 
 		/// <summary>
 		/// Used to receive messages by the System Manager when sent a message from other systems

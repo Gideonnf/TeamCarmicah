@@ -36,7 +36,6 @@ namespace Carmicah
 {
 	AssetWindow::AssetWindow() : EditorWindow("Asset Browser", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
 
-	Prefab* AssetWindow::selectedPrefab = nullptr;
 
 	/**
 	 * @brief Update function for the AssetWindow
@@ -196,10 +195,30 @@ namespace Carmicah
 					name = entry.first + "##Prefab";
 					if (ImGui::Button(name.c_str()))
 					{
-						selectedPrefab = &prefabMap->mAssetList[entry.second];
-						HierarchyWindow::inspectedPrefab = &prefabMap->mAssetList[entry.second];
-						HierarchyWindow::mShowScene = !HierarchyWindow::mShowScene;
-						HierarchyWindow::selectedGO = nullptr;
+						if (ImGui::IsMouseClicked(0))
+						{
+							HierarchyWindow::inspectedPrefab = &prefabMap->mAssetList[entry.second];
+
+						}
+					}
+					if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(1))
+					{
+						if(ImGui::BeginPopup("Edit Popup"))
+						{
+							if (ImGui::Button("Edit"))
+							{
+								HierarchyWindow::mShowScene = !HierarchyWindow::mShowScene;
+								HierarchyWindow::selectedGO = nullptr;
+							}
+							ImGui::EndPopup();
+						}
+					}
+
+					if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+					{
+						ImGui::SetDragDropPayload("PREFAB_PAYLOAD", &entry.first, sizeof(entry.first));
+						ImGui::Text("Dragging Prefab %s", name.c_str());
+						ImGui::EndDragDropSource();
 					}
 				}
 				ImGui::Unindent();
