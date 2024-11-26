@@ -173,6 +173,80 @@ namespace Carmicah
 		return positive ? 1 : -1;
 	}
 
+	float CollisionSystem::CalculatePenetrationDepth(Entity& obj1, Entity& obj2)
+	{
+		auto* componentManager = ComponentManager::GetInstance();
+		auto& transform1 = componentManager->GetComponent<Transform>(obj1);
+		auto& transform2 = componentManager->GetComponent<Transform>(obj2);
+		auto& collider1 = componentManager->GetComponent<Collider2D>(obj1);
+		auto& collider2 = componentManager->GetComponent<Collider2D>(obj2);
+
+		float halfWidth1 = (collider1.customWidth * collider1.localScale) * 0.5f;
+		float halfHeight1 = (collider1.customHeight * collider1.localScale) * 0.5f;
+
+		float halfWidth2 = (collider2.customWidth * collider2.localScale) * 0.5f;
+		float halfHeight2 = (collider2.customHeight * collider2.localScale) * 0.5f;
+
+		Vec2f distance = transform1.Pos() - transform2.Pos();
+
+		Vec2f overlap;
+
+		overlap.x = halfWidth1 + halfWidth2 - std::abs(distance.x);
+		overlap.y = halfHeight1 + halfHeight2 - std::abs(distance.y);
+
+		if (overlap.x > 0 && overlap.y > 0)
+		{
+			return std::max(overlap.x, overlap.y);
+		}
+
+		return 0.0f;
+	}
+
+	Vec2f CollisionSystem::CalculateCollisionNormal(Entity& obj1, Entity& obj2)
+	{
+		auto* componentManager = ComponentManager::GetInstance();
+		auto& transform1 = componentManager->GetComponent<Transform>(obj1);
+		auto& transform2 = componentManager->GetComponent<Transform>(obj2);
+
+		return (transform2.Pos() - transform1.Pos()).normalize();
+	}
+
+	void CollisionSystem::ResolvePenetration(Entity& obj1, Entity& obj2)
+	{
+		auto* componentManager = ComponentManager::GetInstance();
+		auto& transform1 = componentManager->GetComponent<Transform>(obj1);
+		auto& transform2 = componentManager->GetComponent<Transform>(obj2);
+		auto& collider1 = componentManager->GetComponent<Collider2D>(obj1);
+		auto& collider2 = componentManager->GetComponent<Collider2D>(obj2);
+
+		float penetrationDepth = CalculatePenetrationDepth(obj1, obj2);
+
+		/*Vec2f collisionNormal = CalculateCollisionNormal(obj1, obj2);
+
+
+		float halfPenetration = penetrationDepth / 2.0f;
+
+		transform1.PosX(transform1.Pos().x + collisionNormal.x * halfPenetration);
+		transform1.PosY(transform1.Pos().y + collisionNormal.y * halfPenetration);
+
+		transform2.PosX(transform2.Pos().x - collisionNormal.x * halfPenetration);
+		transform2.PosY(transform2.Pos().y - collisionNormal.y * halfPenetration);*/
+
+		float halfWidth1 = (collider1.customWidth * collider1.localScale) * 0.5f;
+		float halfHeight1 = (collider1.customHeight * collider1.localScale) * 0.5f;
+
+		Vec2f correction;
+
+		correction.x = (transform1.Pos().x - transform2.Pos().x) * (penetrationDepth / halfWidth1);
+		correction.y = (transform1.Pos().y - transform2.Pos().y) * (penetrationDepth / halfHeight1);
+
+		transform1.PosXAdd(correction.x * 0.5f);
+		transform1.PosYAdd(correction.y * 0.5f);
+
+		transform2.PosXAdd(-(correction.x * 0.5f));
+		transform2.PosYAdd(-(correction.y * 0.5f));
+
+	}
 
 	/**
 	 * @brief Checks for intersection/overlap between OBB objects

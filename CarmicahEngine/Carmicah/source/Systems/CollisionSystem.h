@@ -27,6 +27,12 @@ namespace Carmicah
 		void GetOBBVertices(Entity& obj);
 
 		void CalculateEdges(Entity& obj);
+
+		float CalculatePenetrationDepth(Entity& obj1, Entity& obj2);
+
+		Vec2f CalculateCollisionNormal(Entity& obj1, Entity& obj2);
+
+		void ResolvePenetration(Entity& obj1, Entity& obj2);
 		
 		int WhichSide(std::vector<Vec2f>& otherVertices, Vec2f& point, Vec2f& normal);
 
