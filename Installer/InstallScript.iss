@@ -87,10 +87,10 @@ Source: .\REDIST\VC_redist.x64.exe; DestDir: {tmp}; Flags: ignoreversion
 ;   {group} is the start menu location that the game will install shortcuts to.
 ;   {commondesktop} is your Windows desktop directory.
 [Icons]
-Name: {group}\GameTest; Filename: {app}\Game\Carmicah.exe; WorkingDir: {app}; IconFilename: "{app}\Icon.ico"
-Name: {group}\{cm:UninstallProgram,GameTest}; Filename: {uninstallexe}
-Name: {group}\{cm:UninstallProgram,GameTest}; Filename: {uninstallexe};  IconFilename: "{app}\Icon.ico"
-Name: {commondesktop}\GameTest; Filename: {app}\Game\Carmicah.exe; Tasks: desktopicon; WorkingDir: {app}; IconFilename: "{app}\Icon.ico"
+Name: {group}\Carmicah; Filename: {app}\Game\Carmicah.exe; WorkingDir: {app}\Game; IconFilename: "{app}\Icon.ico"
+Name: {group}\{cm:UninstallProgram,Carmicah}; Filename: {uninstallexe}
+Name: {group}\{cm:UninstallProgram,Carmicah}; Filename: {uninstallexe};  IconFilename: "{app}\Icon.ico"
+Name: {commondesktop}\Carmicah; Filename: {app}\Game\Carmicah.exe; Tasks: desktopicon; WorkingDir: {app}\Game; IconFilename: "{app}\Icon.ico"
 
 ; List of items to execute in the installer.
 ; Note that this will run all executables in their silent versions as required by the TCRs.
@@ -101,7 +101,7 @@ Name: {commondesktop}\GameTest; Filename: {app}\Game\Carmicah.exe; Tasks: deskto
 ;Filename: {tmp}\vc_redist.x86.exe; Parameters: /q; StatusMsg: Installing Visual C++ 2015 Redistributable...
 Filename: {tmp}\VC_redist.x64.exe; Parameters: /q; StatusMsg: Installing Visual C++ 2022 Redistributable...
 ;Filename: {tmp}\dxwebsetup.exe; Parameters: /q; StatusMsg: Installing DirectX...
-Filename: {app}\Game\Carmicah.exe; Description: {cm:LaunchProgram,GameTest}; Flags: nowait postinstall skipifsilent
+Filename: {app}\Game\Carmicah.exe; Description: {cm:LaunchProgram,Carmicah}; Flags: nowait postinstall skipifsilent
 
 
 ;To be able to run and generate the GameTest_Setup.exe you need to download and install "Inno Setup" application, then open this file with the application.
