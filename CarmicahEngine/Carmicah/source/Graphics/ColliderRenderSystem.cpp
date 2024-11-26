@@ -89,7 +89,7 @@ namespace Carmicah
 				if (mEntityBufferLoc.find(entity) != mEntityBufferLoc.end())
 					continue;
 
-				auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
+				//auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
 				auto& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);
 				auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
 				Mtx3x3f trans{};
