@@ -37,9 +37,23 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Installer|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Installer-x86_64\CarmicahScriptCore\</OutputPath>
+    <BaseIntermediateOutputPath>..\bin\Installer-x86_64int\CarmicahScriptCore\</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
+    <DefineConstants></DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Installer|x64' ">
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Source\Camera.cs" />
