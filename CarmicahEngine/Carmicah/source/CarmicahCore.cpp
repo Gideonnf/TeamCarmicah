@@ -290,7 +290,7 @@ namespace Carmicah
             // If the next state was set to ONSTART, means sceneSystem received a play messag
             if (gameSystem->mNextState == SceneState::ONSTART)
             {
-                souSystem->PlaySoundThis("BGM_MainMenu_Mix1", SoundCategory::BGM, SoundSystem::S_INGAME, 0.4f);
+                souSystem->PlaySoundThis("BGM_MainMenu_Mix1", SoundCategory::BGM, SoundSystem::SOUND_INGAME, 0.4f);
                 gScriptSystem->OnStart();
                 // go to run time after starting up all script objects
                 gameSystem->mNextState = gameSystem->mCurrState = SceneState::RUNTIME;

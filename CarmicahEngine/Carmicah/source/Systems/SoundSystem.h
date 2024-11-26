@@ -57,15 +57,15 @@ namespace Carmicah
     public:
         enum INTSOUND
         {
-            S_INGAME,
-            S_INMENU,
-            S_BGM,
-            S_MAX_SOUNDS
+            SOUND_INGAME,
+            SOUND_INMENU,
+            SOUND_BGM,
+            SOUND_MAX_SOUNDS
         };
 
     private:
         FMOD::System* mSoundSystem; // Just a copy, not handled here
-        std::vector<std::unique_ptr<SoundTrack>> mSoundTracks[S_MAX_SOUNDS];
+        std::vector<std::unique_ptr<SoundTrack>> mSoundTracks[SOUND_MAX_SOUNDS];
         std::unordered_map<SoundCategory, float> mCategoryVolumes;
         int mChannelsCount = 0;
         const float defaultVolume = 1.0f;
@@ -80,7 +80,7 @@ namespace Carmicah
         void Exit();
 
         // Enhanced playback controls
-        bool PlaySoundThis(const std::string& soundName, SoundCategory category = SoundCategory::SFX, INTSOUND internalCatergoy = S_INGAME, float volume = -1.0f);
+        bool PlaySoundThis(const std::string& soundName, SoundCategory category = SoundCategory::SFX, INTSOUND internalCatergoy = SOUND_INGAME, float volume = -1.0f);
         void StopSound(INTSOUND internalCatergoy);
         void PauseSound(INTSOUND internalCatergoy);
         void ResumeSound(INTSOUND internalCatergoy);

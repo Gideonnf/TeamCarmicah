@@ -52,6 +52,7 @@ namespace Carmicah
 		float mMouseTick;
 
 		bool isDragging;
+		bool isHeld;
 		Vector2D<double> dragStartPos;
 		Vector2D<double> dragEndPos;
 		Vector2D<double> dragCurrentPos;
@@ -80,6 +81,7 @@ namespace Carmicah
 
 #pragma region Key & Mouse State Methods
 
+		//bool isHeld() const;
 		bool IsDragging() const;
 		bool IsMouseOver(Vec2d& position, Vec2d& size);
 
@@ -120,9 +122,10 @@ namespace Carmicah
 #pragma endregion
 
 
-#pragma region Drag Tracking, Getters & Setters
+#pragma region Drag & Held Tracking, Getters & Setters
 
 		void SetDragging(bool dragging);
+		void SetHold(bool left, bool right);
 
 		void SetDragStartPos(const Vector2D<double>& pos);
 		void SetDragEndPos(const Vector2D<double>& pos);
