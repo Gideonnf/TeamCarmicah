@@ -2,6 +2,7 @@
 CarmicahEngine/.vs/
 CarmicahEngine/bin/
 CarmicahEngine/[Ee]ditor/[Ll]ogs/
+Installer/INSTALLER
 # User-specific files
 *.suo
 *.user

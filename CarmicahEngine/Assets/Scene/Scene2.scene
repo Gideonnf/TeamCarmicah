@@ -137,10 +137,12 @@
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.Player"
                 },
-                {
-                    "Component Name": "struct Carmicah::Collider2D",
-                    "shape": "DebugSquare"
-                },
+              {
+                "Component Name": "struct Carmicah::Collider2D",
+                "shape": "DebugSquare",
+                "customWidth": 5.0,
+                "customHeight": 5.0
+              },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
                     "velocityX": 0.0,
@@ -178,10 +180,12 @@
                     "model": "Square",
                     "texture": "wall2"
                 },
-                {
-                    "Component Name": "struct Carmicah::Collider2D",
-                    "shape": "DebugSquare"
-                },
+              {
+                "Component Name": "struct Carmicah::Collider2D",
+                "shape": "DebugSquare",
+                "customWidth": 5.0,
+                "customHeight": 5.0
+              },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
                     "velocityX": 0.0,
@@ -215,10 +219,12 @@
                     "model": "Square",
                     "texture": "wall2"
                 },
-                {
-                    "Component Name": "struct Carmicah::Collider2D",
-                    "shape": "DebugSquare"
-                },
+              {
+                "Component Name": "struct Carmicah::Collider2D",
+                "shape": "DebugSquare",
+                "customWidth": 5.0,
+                "customHeight": 5.0
+              },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
                     "velocityX": 0.0,
@@ -252,10 +258,12 @@
                     "model": "Square",
                     "texture": "Bullet2"
                 },
-                {
-                    "Component Name": "struct Carmicah::Collider2D",
-                    "shape": "DebugSquare"
-                },
+              {
+                "Component Name": "struct Carmicah::Collider2D",
+                "shape": "DebugSquare",
+                "customWidth": 5.0,
+                "customHeight": 5.0
+              },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
                     "velocityX": 0.4844174087047577,
@@ -319,10 +327,12 @@
                     "model": "Square",
                     "texture": "Duck"
                 },
-                {
-                    "Component Name": "struct Carmicah::Collider2D",
-                    "shape": "DebugSquare"
-                },
+              {
+                "Component Name": "struct Carmicah::Collider2D",
+                "shape": "DebugSquare",
+                "customWidth": 5.0,
+                "customHeight": 5.0
+              },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
                     "velocityX": -1.1896305084228516,
@@ -399,10 +409,12 @@
                     "model": "Square",
                     "texture": "wall2"
                 },
-                {
-                    "Component Name": "struct Carmicah::Collider2D",
-                    "shape": "DebugSquare"
-                },
+              {
+                "Component Name": "struct Carmicah::Collider2D",
+                "shape": "DebugSquare",
+                "customWidth": 5.0,
+                "customHeight": 5.0
+              },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
                     "velocityX": 0.0,
@@ -461,10 +473,12 @@
                     "model": "Square",
                     "texture": "wall2"
                 },
-                {
-                    "Component Name": "struct Carmicah::Collider2D",
-                    "shape": "DebugSquare"
-                },
+              {
+                "Component Name": "struct Carmicah::Collider2D",
+                "shape": "DebugSquare",
+                "customWidth": 5.0,
+                "customHeight": 5.0
+              },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
                     "velocityX": 0.0,
@@ -502,10 +516,12 @@
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.MouseAI"
                 },
-                {
-                    "Component Name": "struct Carmicah::Collider2D",
-                    "shape": "DebugSquare"
-                },
+              {
+                "Component Name": "struct Carmicah::Collider2D",
+                "shape": "DebugSquare",
+                "customWidth": 5.0,
+                "customHeight": 5.0
+              },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
                     "velocityX": 0.0,
@@ -543,10 +559,12 @@
                     "model": "Square",
                     "texture": "wall2"
                 },
-                {
-                    "Component Name": "struct Carmicah::Collider2D",
-                    "shape": "DebugSquare"
-                },
+              {
+                "Component Name": "struct Carmicah::Collider2D",
+                "shape": "DebugSquare",
+                "customWidth": 5.0,
+                "customHeight": 5.0
+              },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
                     "velocityX": 0.0,
@@ -580,10 +598,12 @@
                     "model": "Square",
                     "texture": "wall2"
                 },
-                {
-                    "Component Name": "struct Carmicah::Collider2D",
-                    "shape": "DebugSquare"
-                },
+              {
+                "Component Name": "struct Carmicah::Collider2D",
+                "shape": "DebugSquare",
+                "customWidth": 5.0,
+                "customHeight": 5.0
+              },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
                     "velocityX": 0.0,
@@ -617,10 +637,12 @@
                     "model": "Square",
                     "texture": "Duck"
                 },
-                {
-                    "Component Name": "struct Carmicah::Collider2D",
-                    "shape": "DebugSquare"
-                },
+              {
+                "Component Name": "struct Carmicah::Collider2D",
+                "shape": "DebugSquare",
+                "customWidth": 5.0,
+                "customHeight": 5.0
+              },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
                     "velocityX": 0.0,
@@ -658,10 +680,12 @@
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.MouseAI"
                 },
-                {
-                    "Component Name": "struct Carmicah::Collider2D",
-                    "shape": "DebugSquare"
-                },
+              {
+                "Component Name": "struct Carmicah::Collider2D",
+                "shape": "DebugSquare",
+                "customWidth": 5.0,
+                "customHeight": 5.0
+              },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
                     "velocityX": 0.0,

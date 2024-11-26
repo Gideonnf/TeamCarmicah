@@ -26,6 +26,7 @@ DigiPen Institute of Technology is prohibited.
 #include "SceneToImgui.h"
 #include "Systems/GOFactory.h"
 #include "../Systems/SceneSystem.h"
+#include "../Systems/SoundSystem.h"
 #include "../Messaging/Message.h"
 #include "Input/InputSystem.h"
 
@@ -80,6 +81,8 @@ namespace Carmicah
                 if (ImGui::Button("Pause"))
                 {
                     mIsPaused = !mIsPaused;
+                    auto& souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+                    souSystem->PauseAllSounds();
                 }
             }
             else
@@ -87,6 +90,9 @@ namespace Carmicah
                 if (ImGui::Button("Unpause"))
                 {
                     mIsPaused = !mIsPaused;
+                    auto& souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+                    souSystem->ResumeAllSounds();
+
                 }
             }
 

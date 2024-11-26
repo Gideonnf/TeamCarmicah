@@ -153,6 +153,7 @@ namespace Carmicah
         }
 
         //mRootDomain = rootDomain;
+
         LoadMonoAssembly("../CarmicahScriptCore/CarmicahScriptCore.dll");
 
         //MonoImage* image = mono_assembly_get_image(mCoreAssembly);
@@ -314,9 +315,11 @@ namespace Carmicah
                     mEntityInstances[*entity] = scriptObj;
                     entityAdded.erase(entity);
                     break;
+                   // entity = entityAdded.begin();
                 }
             }
         }
+
         // TODO: See if theres a less iterative way to do this instead of looping it in update
       //  for (auto& id : mEntitiesSet)
       //  {
@@ -348,9 +351,25 @@ namespace Carmicah
 
     void ScriptSystem::EntityAdded(Entity entity)
     {
-        entityAdded.push_back(entity);
+      
+        if (mEntityInstances.count(entity) == 0)
+        {
+            Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(entity);
+            if (HasEntityClass(scriptComponent.scriptName)) // Technically dont have to check IMGUI only allows for entity classes to be picked
+            {
+                std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], entity);
+                //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
+                mEntityInstances[entity] = scriptObj;
+                
+                // entity = entityAdded.begin();
+            }
+            // if no script is assigned yet (i.e in editor mode, if a script is attached, it wouldnt have one added by default
+            else
+            {
+                entityAdded.push_back(entity);
+            }
+        }
 
-     
     }
 
     /// <summary>

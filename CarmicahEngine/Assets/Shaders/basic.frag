@@ -12,7 +12,7 @@ void main(void){
 	fFragColor = texture(uTex, vec3(vTexCoord, vID.y) );
 
 	// Simple backup Blend test
-	if(fFragColor.a < 0.000001)
+	if(fFragColor.a < 0.500001)
 		discard;
 
 	fGID = vID.x;

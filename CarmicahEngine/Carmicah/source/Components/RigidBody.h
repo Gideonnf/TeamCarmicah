@@ -49,6 +49,8 @@ namespace Carmicah
 
         ForcesManager forcesManager;
 
+
+
         float zposPrev;
 
         rbTypes objectType;

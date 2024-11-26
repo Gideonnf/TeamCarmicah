@@ -1,6 +1,6 @@
 -- premake5.lua
 workspace "CarmicahEngine"
-    configurations { "Debug", "Release" }
+    configurations { "Debug", "Release", "Installer" }
     architecture "x64"
     system "windows"
     startproject "Editor"
@@ -87,6 +87,13 @@ project "Carmicah"
         defines { "CM_RELEASE" }
         optimize "On"
         links 
+        {
+            "fmod_vc.lib"
+        }
+    filter "configurations:Installer"
+        defines {"CM_INSTALLER", "CM_DEBUG"}
+        optimize "On"
+        links
         {
             "fmod_vc.lib"
         }

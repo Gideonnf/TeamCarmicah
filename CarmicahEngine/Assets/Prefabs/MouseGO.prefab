@@ -20,10 +20,13 @@
             "Component Name": "struct Script",
             "scriptName": "Carmicah.MouseAI"
         },
-        {
-            "Component Name": "struct Carmicah::Collider2D",
-            "shape": "DebugSquare"
-        },
+      {
+        "Component Name": "struct Carmicah::Collider2D",
+        "shape": "DebugSquare",
+        "customWidth": 5.0,
+        "customRotation": 0.0,
+        "customHeight": 5.0
+      },
         {
             "Component Name": "struct Carmicah::RigidBody",
             "velocityX": 0.0,
