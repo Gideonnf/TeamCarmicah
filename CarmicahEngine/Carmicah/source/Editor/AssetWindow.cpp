@@ -135,7 +135,6 @@ namespace Carmicah
 					{
 						ImGui::BeginTooltip();
 						Mtx3x3f matrix = textureMap->mAssetList[entry.second].mtx;
-						GLuint textureID = assetManager->mArrayTex;
 						Vec2f uv0(0, 0);
 						Vec2f uv1(1, 1);
 						uv0 = matrix * uv0;

@@ -82,6 +82,12 @@ namespace Carmicah
 		}
 
 		//Other Member Functions:
+		//Set
+		void Set(T x, T y)
+		{
+			this->x = x;
+			this->y = y;
+		}
 		//Length
 		T length()
 		{

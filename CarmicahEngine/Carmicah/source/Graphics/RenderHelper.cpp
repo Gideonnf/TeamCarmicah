@@ -59,14 +59,14 @@ void RenderHelper::UpdateEditorCam()
 	if (Input.IsKeyHold(KEY_EQUAL))
 	{
 		Vec2f& s = mEditorCam.GetScale();
-		s.x += s.x * CarmicahTime::GetInstance()->GetDeltaTime();
-		s.y += s.x * CarmicahTime::GetInstance()->GetDeltaTime();
+		s.x += s.x * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
+		s.y += s.x * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
 	}
 	else if (Input.IsKeyHold(KEY_MINUS))
 	{
 		Vec2f& s = mEditorCam.GetScale();
-		s.x = std::fmaxf(s.x - s.x * CarmicahTime::GetInstance()->GetDeltaTime(), 0.0001f);
-		s.y = std::fmaxf(s.y - s.y * CarmicahTime::GetInstance()->GetDeltaTime(), 0.0001f);
+		s.x = std::fmaxf(s.x - s.x * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime()), 0.0001f);
+		s.y = std::fmaxf(s.y - s.y * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime()), 0.0001f);
 	}
 }
 

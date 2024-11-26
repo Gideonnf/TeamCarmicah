@@ -15,6 +15,7 @@ DigiPen Institute of Technology is prohibited.
 #define BASE_TRANSFORM_H
 
 #include "BaseComponent.h"
+#include "ECS/ECSTypes.h"
 #include "Math/Vec2.h"
 
 namespace Carmicah
