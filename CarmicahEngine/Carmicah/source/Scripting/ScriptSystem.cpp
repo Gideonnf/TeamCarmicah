@@ -153,6 +153,7 @@ namespace Carmicah
         }
 
         //mRootDomain = rootDomain;
+
         LoadMonoAssembly("../CarmicahScriptCore/CarmicahScriptCore.dll");
 
         //MonoImage* image = mono_assembly_get_image(mCoreAssembly);
