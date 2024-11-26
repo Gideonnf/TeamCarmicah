@@ -49,11 +49,11 @@ namespace Carmicah
 	public:
 		enum BUFFER_BITS : unsigned char
 		{
-			SHADER = 0,
-			ID,
-			GAME_BASED,
-			PRIMTIVE,
-			MAXBITS
+			BUFFER_SHADER = 0,
+			BUFFER_ID,
+			BUFFER_GAME_BASED,
+			BUFFER_PRIMTIVE,
+			BUFFER_MAXBITS
 		};
 		struct FontUniform
 		{
@@ -71,19 +71,19 @@ namespace Carmicah
 		};
 		struct BufferID 
 		{
-			unsigned int dat[MAXBITS];
+			unsigned int dat[BUFFER_MAXBITS];
 
 			BufferID(unsigned int primitive, unsigned int shader, unsigned int worldSpace, unsigned int id = 0)
 			{
-				dat[SHADER] = shader;
-				dat[ID] = id;
-				dat[GAME_BASED] = worldSpace;
-				dat[PRIMTIVE] = primitive;
+				dat[BUFFER_SHADER] = shader;
+				dat[BUFFER_ID] = id;
+				dat[BUFFER_GAME_BASED] = worldSpace;
+				dat[BUFFER_PRIMTIVE] = primitive;
 			}
 
 			const bool operator<(const BufferID& o) const
 			{
-				for (unsigned char i{}; i < MAXBITS; ++i)
+				for (unsigned char i{}; i < BUFFER_MAXBITS; ++i)
 				{
 					if (dat[i] < o.dat[i])
 						return true;
@@ -95,7 +95,7 @@ namespace Carmicah
 
 			const bool operator==(const BufferID& o) const
 			{
-				for (unsigned char i{}; i < MAXBITS; ++i)
+				for (unsigned char i{}; i < BUFFER_MAXBITS; ++i)
 				{
 					if (dat[i] != o.dat[i])
 						return false;

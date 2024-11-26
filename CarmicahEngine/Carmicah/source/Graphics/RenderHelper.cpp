@@ -96,15 +96,15 @@ void RenderHelper::Render(std::optional<Transform*> cam)
 		{
 			GLint uniformLoc{};
 			// If shader changed or camera changed
-			if (currID.dat[SHADER] != it.first.dat[SHADER] || currID.dat[GAME_BASED] != it.first.dat[GAME_BASED])
+			if (currID.dat[BUFFER_SHADER] != it.first.dat[BUFFER_SHADER] || currID.dat[BUFFER_GAME_BASED] != it.first.dat[BUFFER_GAME_BASED])
 			{
-				mCurrShader = it.first.dat[SHADER];
+				mCurrShader = it.first.dat[BUFFER_SHADER];
 				glUseProgram(mCurrShader);
 				// Binds the entire 32 texture array
 				glBindTexture(GL_TEXTURE_2D_ARRAY, AssetManager::GetInstance()->mArrayTex);
 
 				// All Shaders have uNDC_to_Cam
-				if (it.first.dat[GAME_BASED] && cam.has_value())
+				if (it.first.dat[BUFFER_GAME_BASED] && cam.has_value())
 				{
 					// Handle Camera Transform[
 					Mtx3x3f camSpace{};
@@ -120,9 +120,9 @@ void RenderHelper::Render(std::optional<Transform*> cam)
 
 			}
 			// If font shader
-			if (it.first.dat[SHADER] == AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.fontShader).s)
+			if (it.first.dat[BUFFER_SHADER] == AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.fontShader).s)
 			{
-				FontUniform* ft = GetFontUniforms(it.first.dat[ID]);
+				FontUniform* ft = GetFontUniforms(it.first.dat[BUFFER_ID]);
 				if (ft != nullptr)
 				{
 					if (UniformExists(mCurrShader, "uTextColor", uniformLoc))

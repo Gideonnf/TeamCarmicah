@@ -88,6 +88,7 @@ namespace Carmicah
             mSoundTracks[internalCatergoy].emplace_back(std::move(track));
             return true;
         }
+        return false;
     }
 
     void SoundSystem::StopSound(INTSOUND internalCatergoy)
@@ -105,7 +106,7 @@ namespace Carmicah
 
     void SoundSystem::StopAllSounds()
     {
-        for (int i{}; i < INTSOUND::S_MAX_SOUNDS; ++i)
+        for (int i{}; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
             StopSound(static_cast<INTSOUND>(i));
     }
 
@@ -129,13 +130,13 @@ namespace Carmicah
 
     void SoundSystem::PauseAllSounds() 
     {
-        for (int i{}; i < INTSOUND::S_MAX_SOUNDS; ++i)
+        for (int i{}; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
             PauseSound(static_cast<INTSOUND>(i));
     }
 
     void SoundSystem::ResumeAllSounds() 
     {
-        for (int i{}; i < INTSOUND::S_MAX_SOUNDS; ++i)
+        for (int i{}; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
             ResumeSound(static_cast<INTSOUND>(i));
     }
 
@@ -145,7 +146,7 @@ namespace Carmicah
         mMasterVolume = std::clamp(volume, 0.0f, 1.0f);
 
         // Update all active sound volumes
-        for (int i{}; i < INTSOUND::S_MAX_SOUNDS; ++i)
+        for (int i{}; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
         {
             for (auto it = mSoundTracks[i].begin(); it != mSoundTracks[i].end(); ++it)
             {
@@ -181,7 +182,7 @@ namespace Carmicah
 
     void SoundSystem::CleanupStoppedSounds()
     {
-        for (int i{}; i < INTSOUND::S_MAX_SOUNDS; ++i)
+        for (int i{}; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
         {
             for (auto it = mSoundTracks[i].begin(); it != mSoundTracks[i].end();)
             {
@@ -206,11 +207,11 @@ namespace Carmicah
     {
         if (msg->mMsgType == MSG_PLAYSFX) {
             auto* sfxMsg = dynamic_cast<PlaySFXMsg*>(msg);
-            PlaySoundThis(sfxMsg->fileName, SoundCategory::SFX, INTSOUND::S_INGAME, 0.5f);
+            PlaySoundThis(sfxMsg->fileName, SoundCategory::SFX, INTSOUND::SOUND_INGAME, 0.5f);
         }
         else if (msg->mMsgType == MSG_PLAYBGM) {
             auto* bgmMsg = dynamic_cast<PlayBGMMsg*>(msg);
-            PlaySoundThis(bgmMsg->fileName, SoundCategory::BGM, INTSOUND::S_BGM, 0.3f);
+            PlaySoundThis(bgmMsg->fileName, SoundCategory::BGM, INTSOUND::SOUND_BGM, 0.3f);
         }
     }
 

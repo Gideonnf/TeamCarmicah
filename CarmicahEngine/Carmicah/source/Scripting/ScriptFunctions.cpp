@@ -107,7 +107,7 @@ namespace Carmicah
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySoundThis(cStrname, SoundCategory::SFX, SoundSystem::S_INGAME, volume);
+		souSystem->PlaySoundThis(cStrname, SoundCategory::SFX, SoundSystem::SOUND_INGAME, volume);
 		mono_free(cStrname);
 	}
 
@@ -115,7 +115,7 @@ namespace Carmicah
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySoundThis(cStrname, SoundCategory::BGM, SoundSystem::S_BGM, volume);
+		souSystem->PlaySoundThis(cStrname, SoundCategory::BGM, SoundSystem::SOUND_BGM, volume);
 		mono_free(cStrname);
 	}
 
@@ -123,7 +123,7 @@ namespace Carmicah
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->StopSound(SoundSystem::S_INGAME);
+		souSystem->StopSound(SoundSystem::SOUND_INGAME);
 		mono_free(cStrname);
 	}
 
@@ -131,7 +131,7 @@ namespace Carmicah
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PauseSound(SoundSystem::S_INGAME);
+		souSystem->PauseSound(SoundSystem::SOUND_INGAME);
 		mono_free(cStrname);
 	}
 
@@ -139,14 +139,14 @@ namespace Carmicah
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->ResumeSound(SoundSystem::S_INGAME);
+		souSystem->ResumeSound(SoundSystem::SOUND_INGAME);
 		mono_free(cStrname);
 	}
 
 	static void Sound_SetCategoryVolume(int category, float volume)
 	{
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->SetCategoryVolume(static_cast<SoundCategory>(category), SoundSystem::S_INGAME, volume);
+		souSystem->SetCategoryVolume(static_cast<SoundCategory>(category), SoundSystem::SOUND_INGAME, volume);
 	}
 
 
