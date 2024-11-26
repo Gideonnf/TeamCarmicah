@@ -31,29 +31,63 @@ namespace Carmicah
 	{
 		for (auto& entity : mEntitiesSet)
 		{
-			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
+			UpdateTransform(entity);
+		}
+	}
 
-			// Handle Entities transform
-			if (transform.Updated())
+	void TransformSystem::UpdateTransform(Entity entity)
+	{
+		auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
+
+		// Handle Entities transform
+		if (transform.Updated())
+		{
+			//CM_CORE_INFO("entity updating: " + std::to_string(entity));
+			// if no parent
+			if (transform.parent == 0)
 			{
-				// if no parent
-				if (transform.parent == 0)
+				Mtx33Identity(transform.worldSpace);
+				transform.worldSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
+				transform.localSpace = transform.worldSpace; // if no parent, local and world is the same
+				transform.WorldPos(transform.worldSpace.m20, transform.worldSpace.m21);
+
+			}
+			// have parent
+			else
+			{
+				// get parent's transform
+				Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(transform.parent);
+				
+				float localX = transform.WorldPos().x - parentTransform.worldSpace.m02;
+				float localY = transform.WorldPos().y - parentTransform.worldSpace.m12;
+
+				float inverseRotX = parentTransform.worldSpace.m00 * localX + parentTransform.worldSpace.m10 * localY;
+				float inverseRotY = parentTransform.worldSpace.m01 * localX + parentTransform.worldSpace.m11 * localY;
+
+				transform.Pos(inverseRotX, inverseRotY);
+
+				//CM_CORE_INFO("localPos X : " + std::to_string(inverseRotX) + ", localPos Y : " + std::to_string(inverseRotY));
+
+				Mtx33Identity(transform.localSpace);
+				transform.localSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
+				transform.worldSpace = parentTransform.worldSpace * transform.localSpace;
+
+				//transform.WorldPos(transform.worldSpace.m20, transform.worldSpace.m21);
+
+			}
+
+			// Update child transform
+			if (transform.children.size() != 0)
+			{
+				for (auto it : transform.children)
 				{
-					Mtx33Identity(transform.worldSpace);
-					transform.worldSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
-					transform.localSpace = transform.worldSpace; // if no parent, local and world is the same
-				}
-				// have parent
-				else
-				{
-					// get parent's transform
-					Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(transform.parent);
-					Mtx33Identity(transform.localSpace);
-					transform.localSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
-					transform.worldSpace = parentTransform.worldSpace * transform.localSpace;
+					auto& childTransform = ComponentManager::GetInstance()->GetComponent<Transform>(it);
+					childTransform.Update(); // set the notUpdate flag to false for children objects
+					//UpdateTransform(entity); // then update their transform
 				}
 			}
 		}
+
 	}
 
 	void TransformSystem::PostUpdate()
@@ -74,6 +108,9 @@ namespace Carmicah
 		{
 			// Get back world transform pos
 			entityTransform.PosX(parentTransform.Pos().x + entityTransform.Pos().x);
+			entityTransform.PosY(parentTransform.Pos().y + entityTransform.Pos().y);
+
+			entityTransform.WorldPos(entityTransform.Pos() + parentTransform.Pos());
 
 			// get back world transform rot
 			entityTransform.Rot(parentTransform.Rot() + entityTransform.Rot());
@@ -102,6 +139,8 @@ namespace Carmicah
 
 			// calculate the new rotation
 			entityTransform.Rot(entityTransform.Rot() - parentTransform.Rot());
+
+			entityTransform.WorldPos(entityTransform.Pos() + parentTransform.Pos());
 		}
 	}
 

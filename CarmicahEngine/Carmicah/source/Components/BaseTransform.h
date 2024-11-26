@@ -25,6 +25,10 @@ namespace Carmicah
     protected:
         Vec2f pos{};
         Vec2f scale{};
+
+        Vec2f worldPos{};
+        Vec2f worldScale{};
+
         float rot;
         float depth{};
 
@@ -43,6 +47,19 @@ namespace Carmicah
         {
             notUpdated = false;
             return pos;
+        }
+        const Vec2f& WorldPos() const
+        {
+            return worldPos;
+        }
+        Vec2f& GetWorldPos()
+        {
+            notUpdated = false;
+            return worldPos;
+        }
+        void WorldPos(const Vec2f& rhs)
+        {
+            WorldPos(rhs.x, rhs.y);
         }
         void Pos(const Vec2f& rhs)
         {
@@ -68,6 +85,12 @@ namespace Carmicah
         {
             pos.x = x;
             pos.y = y;
+            notUpdated = false;
+        }
+        void WorldPos(const float& x, const float& y)
+        {
+            worldPos.x = x;
+            worldPos.y = y;
             notUpdated = false;
         }
         const Vec2f& Scale() const

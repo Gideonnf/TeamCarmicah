@@ -47,6 +47,9 @@
     <ClInclude Include="source\Components\Button.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="source\Components\Camera.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="source\Components\Collider2D.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -93,6 +96,9 @@
       <Filter>ECS</Filter>
     </ClInclude>
     <ClInclude Include="source\Editor\AssetWindow.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Editor\CameraWindow.h">
       <Filter>Editor</Filter>
     </ClInclude>
     <ClInclude Include="source\Editor\DebugWindow.h">
@@ -212,7 +218,6 @@
     </ClInclude>
     <ClInclude Include="source\log.h" />
     <ClInclude Include="source\pch.h" />
-    <ClInclude Include="source\Editor\CameraWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />
@@ -230,6 +235,9 @@
       <Filter>ECS</Filter>
     </ClCompile>
     <ClCompile Include="source\Editor\AssetWindow.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Editor\CameraWindow.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="source\Editor\DebugWindow.cpp">
@@ -333,6 +341,5 @@
     </ClCompile>
     <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\pch.cpp" />
-    <ClCompile Include="source\Editor\CameraWindow.cpp" />
   </ItemGroup>
 </Project>

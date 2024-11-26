@@ -63,6 +63,8 @@ namespace Carmicah
 
 		virtual void EntityAdded(Entity id) {};
 
+		virtual void EntityRemoved(Entity id) {};
+
 		virtual void ReceiveMessage(Message* msg) {};
 
 		virtual void OnUpdate() {}; // New virtual method for actual update logic

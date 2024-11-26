@@ -31,7 +31,7 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	HierarchyWindow::HierarchyWindow() : EditorWindow("Hierarchy", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
+	HierarchyWindow::HierarchyWindow() : EditorWindow("Hierarchy", ImVec2(0, 0), ImVec2(0, 0)) { mIsVisible = true; }
 	bool HierarchyWindow::mShowScene = true;
 	std::vector<GameObject> createdList;
 	GameObject* HierarchyWindow::selectedGO = nullptr;
@@ -77,7 +77,7 @@ namespace Carmicah
 			//static Renderer toRender{};
 		if (ImGui::Begin(mTitle))
 		{
-			if(ImGui::BeginChild("Game Object List: ", ImVec2(900,300)))
+			if(ImGui::BeginChild("Game Object List: ", ImVec2(0,400),ImGuiChildFlags_AlwaysUseWindowPadding))
 			{
 				/*gGOFactory->ForAllGO([](GameObject& go)
 					{
@@ -86,7 +86,7 @@ namespace Carmicah
 							selectedGO = &go;
 						}
 					});*/
-				if(mShowScene && AssetWindow::selectedPrefab == nullptr)
+				if(mShowScene && inspectedPrefab == nullptr)
 				{
 					gGOFactory->ForAllSceneGOs([this](GameObject& go)
 						{
@@ -94,19 +94,19 @@ namespace Carmicah
 
 						});
 				}
-				else if (AssetWindow::selectedPrefab != nullptr)
+				else if (inspectedPrefab != nullptr)
 				{
 					bool backToScene = false;
 					if (ImGui::Button("Back"))
 					{
-						AssetWindow::selectedPrefab = nullptr;
+						inspectedPrefab = nullptr;
 						inspectedPrefab = nullptr;
 						mShowScene = true;
 						backToScene = true;
 					}
 					if(!backToScene)
 					{
-						PrefabButton(*AssetWindow::selectedPrefab);
+						PrefabButton(*inspectedPrefab);
 					}
 				}
 				ImGui::EndChild();

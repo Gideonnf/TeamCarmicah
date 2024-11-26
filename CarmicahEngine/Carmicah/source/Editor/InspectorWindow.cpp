@@ -180,7 +180,6 @@ namespace Carmicah
 		}
 	}
 
-
 	/**
 	 * @brief Templated function for Prefab (Might be changed in future)
 	 * 
@@ -234,8 +233,10 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("Rotation");
 					ImGui::TableNextColumn();
-					if (ImGui::DragFloat("##rot", &selectedTransform.GetRot(), 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
+					float rotVar = selectedTransform.Rot();
+					if (ImGui::DragFloat("##rot", &rotVar, 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
 					{
+						selectedTransform.GetRot() = rotVar;
 						// Wrap the rotation value between 0 and 360 degrees
 						selectedTransform.Rot(fmodf(selectedTransform.Rot(), 360.0f));
 						if (selectedTransform.Rot() < 0.0f)
@@ -754,13 +755,47 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("xPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##xPos", &selectedTransform.GetPos().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					if (ImGui::DragFloat("##xPos", &selectedTransform.GetPos().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+					{
+						if (selectedTransform.parent != 0)
+						{
+							Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
+
+
+							float worldX = parentTransform.worldSpace.m00 * selectedTransform.Pos().x + parentTransform.worldSpace.m01 * selectedTransform.Pos().y + parentTransform.worldSpace.m02;
+							float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
+							selectedTransform.WorldPos(worldX, worldY);
+						}
+						else
+						{
+							selectedTransform.WorldPos(selectedTransform.Pos());
+						}
+					}
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
 					ImGui::Text("yPos");
 					ImGui::TableNextColumn();
-					ImGui::DragFloat("##yPos", &selectedTransform.GetPos().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+					if (ImGui::DragFloat("##yPos", &selectedTransform.GetPos().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+					{
+						if (selectedTransform.parent != 0)
+						{
+							Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
+							//CM_CORE_INFO("Parent World X : " + std::to_string(parentTransform.worldSpace.m20) + ", Parent World Y : " + std::to_string(parentTransform.worldSpace.m21));
+
+							float worldX = parentTransform.worldSpace.m00 * selectedTransform.Pos().x + parentTransform.worldSpace.m01 * selectedTransform.Pos().y + parentTransform.worldSpace.m02;
+
+							float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
+
+							selectedTransform.WorldPos(worldX, worldY);
+						}
+						else
+						{
+							selectedTransform.WorldPos(selectedTransform.Pos());
+						}
+					}
+					//CM_CORE_INFO("World X : " + std::to_string(selectedTransform.WorldPos().x) + ", World Y : " + std::to_string(selectedTransform.WorldPos().y));
+					//CM_CORE_INFO("World X : " + std::to_string(selectedTransform.worldSpace.m20) + ", World Y : " + std::to_string(selectedTransform.worldSpace.m21));
 
 					ImGui::TableNextRow();
 					ImGui::TableNextColumn();
@@ -773,8 +808,10 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::Text("Rotation");
 					ImGui::TableNextColumn();
-					if(ImGui::DragFloat("##rot", &selectedTransform.GetRot(), 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
+					float rotVar = selectedTransform.Rot();
+					if(ImGui::DragFloat("##rot", &rotVar, 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
 					{
+						selectedTransform.GetRot() = rotVar;
 						// Wrap the rotation value between 0 and 360 degrees
 						selectedTransform.Rot(fmodf(selectedTransform.Rot(), 360.0f));
 						if (selectedTransform.Rot() < 0.0f)
@@ -1289,6 +1326,14 @@ namespace Carmicah
 								scriptRef->SetFieldValue(it.second.mName, data);
 							}
 						}
+						else if (it.second.mType == ScriptFieldType::Bool)
+						{
+							bool data = scriptRef->GetFieldValue<bool>(it.second.mName);
+							if (ImGui::Checkbox(it.second.mName.c_str(), &data))
+							{
+								scriptRef->SetFieldValue(it.second.mName, data);
+							}
+						}
 					}
 				}
 			}
@@ -1338,16 +1383,15 @@ namespace Carmicah
 
 				if (ImGui::Button("Save Changes to Prefab"))
 				{
-					Serializer.SerializePrefab(*AssetWindow::selectedPrefab);
-					ModifyPrefabMsg msg(*AssetWindow::selectedPrefab);
+					Serializer.SerializePrefab(*HierarchyWindow::inspectedPrefab);
+					ModifyPrefabMsg msg(*HierarchyWindow::inspectedPrefab);
 					mMessages.push_back(std::make_shared<ModifyPrefabMsg>(msg));
 				}
 
 
 				if (ImGui::Button("Create Prefab"))
 				{
-					gGOFactory->CreatePrefab(AssetWindow::selectedPrefab->GetName());
-					AssetWindow::selectedPrefab = nullptr;
+					gGOFactory->CreatePrefab(HierarchyWindow::inspectedPrefab->GetName());
 					HierarchyWindow::inspectedPrefab = nullptr;
 					HierarchyWindow::mShowScene = true;
 				}
