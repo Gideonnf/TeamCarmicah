@@ -1170,6 +1170,24 @@ namespace Carmicah
 					ImGui::TableNextColumn();
 					ImGui::DragFloat("##MaxY", &col.max.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Custom Width");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##CustomWidth", &col.customWidth, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Custom Rotation");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##CustomRotation", &col.customRotation, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text("Custom Height");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##CustomHeight", &col.customHeight, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+
 					ImGui::EndTable();
 				}
 			}
