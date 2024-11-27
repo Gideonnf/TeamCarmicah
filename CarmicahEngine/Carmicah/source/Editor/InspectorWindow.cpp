@@ -1403,16 +1403,19 @@ namespace Carmicah
 			if (HierarchyWindow::selectedGO != nullptr)
 			{
 				char inputBuffer[1024];
-				std::strncpy(inputBuffer, HierarchyWindow::selectedGO->GetName().c_str(), sizeof(inputBuffer) - 1);
+				std::strncpy(inputBuffer, HierarchyWindow::selectedGO->GetName().c_str(), sizeof(inputBuffer)- 1);
 				ImGui::Text("Selected Game Object:");
 				ImGui::SameLine();
-				if (ImGui::InputText("RenameGO", inputBuffer, sizeof(inputBuffer), ImGuiInputTextFlags_EnterReturnsTrue))
+				if (ImGui::InputText("##RenameGO", inputBuffer, sizeof(inputBuffer), ImGuiInputTextFlags_EnterReturnsTrue))
 				{
-
-				}
-				if(ImGui::IsItemDeactivatedAfterEdit())
-				{
-					HierarchyWindow::selectedGO->SetName(inputBuffer);
+					if (inputBuffer[0] != '\0')
+					{
+						HierarchyWindow::selectedGO->SetName(inputBuffer);
+					}
+					if (inputBuffer[0] == '\0')
+					{
+						CM_CORE_WARN("Trying to make empty GO name!");
+					}
 				}
 				Entity selectedEntity = HierarchyWindow::selectedGO->GetID();
 
