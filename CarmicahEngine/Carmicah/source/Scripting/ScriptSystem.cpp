@@ -351,6 +351,29 @@ namespace Carmicah
         mEntityInstances.clear();
     }
 
+    void ScriptSystem::UpdateScriptVariables(Entity entity)
+    {
+        Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(entity);
+        auto& scriptRef = mEntityInstances[entity];
+        const auto& fields = scriptRef->GetScriptClass()->mFields;
+        for (const auto& it : fields)
+        {
+            if (scriptComponent.scriptableFieldMap.count(it.first) != 0)
+            {
+                if (it.second.mType == ScriptFieldType::String)
+                {
+                    std::string str = std::get<std::string>(scriptComponent.scriptableFieldMap[it.first]);
+                    scriptRef->SetFieldValue<std::string>(it.second.mName, str);
+                }
+                else
+                {
+                    scriptRef->SetFieldValue(it.second.mName.c_str(), scriptComponent.scriptableFieldMap[it.first]);
+                }
+            }
+
+        }
+    }
+
     void ScriptSystem::UpdateScriptComponent(Entity entity)
     {
         Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(entity);
@@ -358,25 +381,27 @@ namespace Carmicah
         {
             auto& scriptRef = mEntityInstances[entity];
             const auto& fields = scriptRef->GetScriptClass()->mFields;
-            Script::variantVar var;
+            //Script::variantVar var;
             for (const auto& it : fields)
             {
+
                 if (it.second.mType == ScriptFieldType::Float)
                 {
-                    var = scriptRef->GetFieldValue<float>(it.second.mName);
-
+                    float var = scriptRef->GetFieldValue<float>(it.second.mName);
+                    scriptComponent.scriptableFieldMap[it.first] = var;
                 }
                 else if (it.second.mType == ScriptFieldType::Bool)
                 {
-                    var = scriptRef->GetFieldValue<bool>(it.second.mName);
+                    bool var = scriptRef->GetFieldValue<bool>(it.second.mName);
+                    scriptComponent.scriptableFieldMap[it.first] = var;
                 }
-                /*else if (it.second.mType == ScriptFieldType::String)
+                else if (it.second.mType == ScriptFieldType::String)
                 {
+                    std::string var = scriptRef->GetFieldValue<std::string>(it.second.mName);
+                    scriptComponent.scriptableFieldMap[it.first] = var;
+                }
 
-                }*/
 
-
-                scriptComponent.scriptableFieldMap.insert({ it.first, var });
             }
         }
     }
@@ -392,6 +417,10 @@ namespace Carmicah
                 std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], entity);
                 //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
                 mEntityInstances[entity] = scriptObj;
+                // update the variables in the script reference
+                UpdateScriptVariables(entity);
+               
+                // redundant call atm ill remove it once everything is done
                 UpdateScriptComponent(entity);
                 // entity = entityAdded.begin();
             }

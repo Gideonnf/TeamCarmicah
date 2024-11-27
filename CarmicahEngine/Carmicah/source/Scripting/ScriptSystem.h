@@ -92,6 +92,8 @@ namespace Carmicah
 
 		std::shared_ptr<ScriptObject> GetScriptInstance(unsigned int entityID);
 
+		void UpdateScriptVariables(Entity entity);
+
 		void UpdateScriptComponent(Entity entity);
 
 		/*!

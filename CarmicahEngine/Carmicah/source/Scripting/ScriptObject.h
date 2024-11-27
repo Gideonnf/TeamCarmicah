@@ -199,8 +199,25 @@ namespace Carmicah
 
 			//void* valPtr =;
 			mono_field_set_value(mMonoInstance, field.mClassField, (void*)&val);
-
 		}
+
+	template <>
+	void SetFieldValue<std::string>(const std::string& name, std::string val)
+	{
+		const auto& fields = mScriptClass->mFields;
+		if (fields.count(name) == 0)
+		{
+			return;
+		}
+		auto iter = fields.find(name);
+		const ScriptField& field = iter->second;
+
+		MonoString* monoStr = mono_string_new(mono_domain_get(), val.c_str());
+		if (monoStr != nullptr) {
+			// Set the MonoString as the value of the field
+			mono_field_set_value(mMonoInstance, field.mClassField, monoStr);
+		}
+	}
 
 		std::shared_ptr<ScriptClass> GetScriptClass();
 

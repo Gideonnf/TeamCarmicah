@@ -1363,7 +1363,7 @@ namespace Carmicah
 
 							if (ImGui::InputText(it.second.mName.c_str(), buffer, sizeof(buffer)))
 							{
-								scriptRef->SetFieldValue(it.second.mName, buffer);
+								scriptRef->SetFieldValue<std::string>(it.second.mName, buffer);
 								gScriptSystem->UpdateScriptComponent(id);
 							}
 						}
