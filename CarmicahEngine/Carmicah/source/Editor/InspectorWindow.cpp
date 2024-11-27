@@ -88,7 +88,7 @@ namespace Carmicah
 		}
 
 
-		if (ImGui::Combo("##", &selectedIndex, componentsToAdd.data(), (int)componentsToAdd.size()))
+		if (ImGui::Combo("##Component", &selectedIndex, componentsToAdd.data(), (int)componentsToAdd.size()))
 		{
 			selectedComponentToAdd = componentsToAdd[selectedIndex];
 		}
@@ -1402,7 +1402,12 @@ namespace Carmicah
 		{
 			if (HierarchyWindow::selectedGO != nullptr)
 			{
-				ImGui::Text("Selected Game Object: %s", HierarchyWindow::selectedGO->GetName().c_str());
+				char inputBuffer[1024];
+				std::strncpy(inputBuffer, HierarchyWindow::selectedGO->GetName().c_str(), sizeof(inputBuffer) - 1);
+				ImGui::Text("Selected Game Object:");
+				ImGui::SameLine();
+				ImGui::InputText("##RenameGO", inputBuffer, sizeof(inputBuffer));
+				HierarchyWindow::selectedGO->SetName(inputBuffer);
 				Entity selectedEntity = HierarchyWindow::selectedGO->GetID();
 
 				AddComponentButton(HierarchyWindow::selectedGO);
