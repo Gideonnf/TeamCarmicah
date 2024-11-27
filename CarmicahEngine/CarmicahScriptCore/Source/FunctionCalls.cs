@@ -56,5 +56,8 @@ namespace Carmicah
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_SetCategoryVolume(int category, float volume);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void ChangeScene(string sceneName);
+
     }
 }

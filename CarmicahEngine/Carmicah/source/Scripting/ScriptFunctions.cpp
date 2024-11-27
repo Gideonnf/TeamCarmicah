@@ -26,6 +26,8 @@ DigiPen Institute of Technology is prohibited.
 #include "ScriptSystem.h"
 #include "../Input/InputSystem.h"
 #include "../Systems/SoundSystem.h"
+//#include "../ECS/SystemManager.h"
+#include "../Systems/SceneSystem.h"
 
 namespace Carmicah
 {
@@ -262,6 +264,19 @@ namespace Carmicah
 	}
 
 	/// <summary>
+	/// Interface for changing the scene
+	/// </summary>
+	static void ChangeScene(MonoString* sceneName)
+	{
+		// cStrName is a char* that is allocated on the heap
+		char* cStrName = mono_string_to_utf8(sceneName);
+		// call the system manager to change the scene
+		SystemManager::GetInstance()->ChangeScene(cStrName);
+		// free the memory
+		mono_free(cStrName);
+	}
+
+	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
 	void ScriptFunctions::RegisterComponents()
@@ -296,6 +311,9 @@ namespace Carmicah
 		// input functions
 		ADD_INTERNAL_CALL(IsKeyPressed);
 		ADD_INTERNAL_CALL(IsKeyHold);
+
+		// Button function
+		ADD_INTERNAL_CALL(ChangeScene);
 
 		// Sound
 		ADD_INTERNAL_CALL(Sound_PlaySFX);
