@@ -4,6 +4,7 @@
 #include "../Components/Prefab.h"
 #include "../ECS/GameObject.h"
 #include "AssetTypes.h"
+#include "GOFactory.h"
 
 namespace Carmicah
 {
@@ -55,6 +56,26 @@ namespace Carmicah
 
 				// change the component data
 				entityComponentData = prefabComponentData;
+			}
+			// A new component
+			else if (componentName == typeid(T).name() && !ComponentManager::GetInstance()->HasComponent<T>(entityID))
+			{
+				GameObject& go = gGOFactory->FetchGO(entityID);
+				// attach it to the go
+				gGOFactory->AttachComponents(go, component);
+			}
+		}
+
+		template<typename T>
+		void RemoveComponent(std::string componentName, Entity entityID)
+		{
+			GameObject& go = gGOFactory->FetchGO(entityID);
+
+			// if it has the component
+			if (componentName == typeid(T).name() && go.HasComponent<T>())
+			{
+				// remove it
+				go.RemoveComponent<T>();
 			}
 		}
 	};
