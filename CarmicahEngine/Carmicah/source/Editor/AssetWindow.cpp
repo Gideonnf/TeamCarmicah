@@ -204,12 +204,32 @@ namespace Carmicah
 				for (const auto& entry : prefabMap->mAssetMap)
 				{
 					name = entry.first + "##Prefab";
-					if (ImGui::Button(name.c_str()))
-					{						
+					if (ImGui::Button(name.c_str())){}
+					if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+					{
 						selectedPrefab = &prefabMap->mAssetList[entry.second];
-						HierarchyWindow::inspectedPrefab = &prefabMap->mAssetList[entry.second];
-						HierarchyWindow::mShowScene = !HierarchyWindow::mShowScene;
-						HierarchyWindow::selectedGO = nullptr;
+						if (ImGui::GetIO().MouseClickedCount[ImGuiMouseButton_Left] == 2)
+						{
+							gGOFactory->CreatePrefab(entry.first);
+						}
+					}
+
+					if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
+					{
+						ImGui::OpenPopup(name.c_str());
+					}
+
+					if (ImGui::BeginPopup(name.c_str()))
+					{
+						if (ImGui::Button("Edit Prefab"))
+						{
+							selectedPrefab = &prefabMap->mAssetList[entry.second];
+							HierarchyWindow::inspectedPrefab = &prefabMap->mAssetList[entry.second];
+							HierarchyWindow::mShowScene = false;
+							HierarchyWindow::selectedGO = nullptr;
+							ImGui::CloseCurrentPopup();
+						}
+						ImGui::EndPopup();
 					}
 
 					if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))

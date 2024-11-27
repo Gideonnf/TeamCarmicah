@@ -86,7 +86,7 @@ namespace Carmicah
 							selectedGO = &go;
 						}
 					});*/
-				if(mShowScene && AssetWindow::selectedPrefab == nullptr)
+				if(mShowScene)
 				{
 					gGOFactory->ForAllSceneGOs([this](GameObject& go)
 						{
