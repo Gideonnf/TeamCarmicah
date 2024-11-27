@@ -28,12 +28,11 @@ namespace Carmicah
 {
 	InspectorWindow::InspectorWindow() : EditorWindow("Inspector", ImVec2(900, 300), ImVec2(0, 0)) 
 	{ 
-		auto assetManager = AssetManager::GetInstance();
 		mIsVisible = true; 
-		textureMap = assetManager->GetAssetMap<Texture>();
-		fontMap = assetManager->GetAssetMap<Font>();
-		animMap = assetManager->GetAssetMap<AnimAtlas>();
-		buttonMap = assetManager->GetAssetMap<Button>();
+		//textureMap = assetManager->GetAssetMap<Texture>();
+		//fontMap = assetManager->GetAssetMap<Font>();
+		//animMap = assetManager->GetAssetMap<AnimAtlas>();
+		//buttonMap = assetManager->GetAssetMap<Button>();
 	}
 
 	std::string InspectorWindow::selectedComponentToAdd = "";
@@ -185,6 +184,7 @@ namespace Carmicah
 	template<typename EntityID>
 	void InspectorWindow::RenderTransformTable(Transform& data, EntityID id)
 	{
+
 		if (ImGui::CollapsingHeader("Transform Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			if (ImGui::BeginTable("Transform Table", 2, ImGuiTableFlags_Borders))
@@ -346,6 +346,8 @@ namespace Carmicah
 	template<typename EntityID>
 	void InspectorWindow::RenderRenderingTable(Renderer& data, EntityID id)
 	{
+		auto& textureMap = AssetManager::GetInstance()->GetAssetMap<Texture>();
+
 		if (ImGui::CollapsingHeader("Renderer Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			InspectorWindow::RemoveComponentButton<Renderer>(id);
@@ -419,6 +421,7 @@ namespace Carmicah
 	template<typename EntityID>
 	void InspectorWindow::RenderAnimationTable(Animation& anim, EntityID id)
 	{
+		auto& animMap = AssetManager::GetInstance()->GetAssetMap<AnimAtlas>();
 		if (ImGui::CollapsingHeader("Animation Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			InspectorWindow::RemoveComponentButton<Animation>(id);
@@ -621,6 +624,7 @@ namespace Carmicah
 	template<typename EntityID>
 	void InspectorWindow::RenderTextRenderTable(TextRenderer& text, EntityID id)
 	{
+		auto& fontMap = AssetManager::GetInstance()->GetAssetMap<Font>();
 		if (ImGui::CollapsingHeader("Text Renderer Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			InspectorWindow::RemoveComponentButton<TextRenderer>(id);
@@ -688,6 +692,8 @@ namespace Carmicah
 	template<typename EntityID>
 	void InspectorWindow::RenderButtonTable(Button& butt, EntityID id)
 	{
+		auto& textureMap = AssetManager::GetInstance()->GetAssetMap<Texture>();
+
 		if (ImGui::CollapsingHeader("Button Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			InspectorWindow::RemoveComponentButton<Button>(id);
