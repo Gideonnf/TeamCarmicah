@@ -1406,8 +1406,14 @@ namespace Carmicah
 				std::strncpy(inputBuffer, HierarchyWindow::selectedGO->GetName().c_str(), sizeof(inputBuffer) - 1);
 				ImGui::Text("Selected Game Object:");
 				ImGui::SameLine();
-				ImGui::InputText("##RenameGO", inputBuffer, sizeof(inputBuffer));
-				HierarchyWindow::selectedGO->SetName(inputBuffer);
+				if (ImGui::InputText("RenameGO", inputBuffer, sizeof(inputBuffer), ImGuiInputTextFlags_EnterReturnsTrue))
+				{
+
+				}
+				if(ImGui::IsItemDeactivatedAfterEdit())
+				{
+					HierarchyWindow::selectedGO->SetName(inputBuffer);
+				}
 				Entity selectedEntity = HierarchyWindow::selectedGO->GetID();
 
 				AddComponentButton(HierarchyWindow::selectedGO);
