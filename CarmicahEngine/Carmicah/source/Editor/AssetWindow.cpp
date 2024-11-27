@@ -145,8 +145,10 @@ namespace Carmicah
 						{
 							ImGui::SetDragDropPayload("TEXTURE_PAYLOAD", &entry.first, sizeof(entry.first));
 							ImVec2 dragSize(50, 50);
-							GLuint dragID = textureMap->mAssetList[entry.second].t;
-							ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(dragID)), dragSize);
+							ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[textureMap->mAssetList[entry.second].t])),
+								dragSize,
+								ImVec2(uv0.x, uv0.y),
+								ImVec2(uv1.x, uv1.y));
 							ImGui::Text("Dragging %s", entry.first.c_str());
 
 							ImGui::EndDragDropSource();
