@@ -319,7 +319,7 @@ namespace Carmicah
                                 {
                                     phySystem->mToggleUpdate = false;
                                     CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                                    colSystem->Update();
+                                    colSystem->CollisionCheck();
                                     CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 
                                     CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
@@ -330,7 +330,7 @@ namespace Carmicah
                             }
                             else {
                                 CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                                colSystem->Update();
+                                colSystem->CollisionCheck();
                                 CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
                                 CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                                 phySystem->Update();
@@ -345,7 +345,7 @@ namespace Carmicah
                             CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
 
                             CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                            colSystem->Update();
+                            colSystem->CollisionCheck();
                             CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 #endif
                             accumulatedTime -= CarmicahTime::GetInstance()->GetDeltaTime();
@@ -361,7 +361,7 @@ namespace Carmicah
                             {
                                 phySystem->mToggleUpdate = false;
                                 CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                                colSystem->Update();
+                                colSystem->CollisionCheck();
                                 CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 
                                 CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
@@ -372,7 +372,7 @@ namespace Carmicah
                         }
                         else {
                             CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                            colSystem->Update();
+                            colSystem->CollisionCheck();
                             CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
                             CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                             phySystem->Update();
@@ -387,11 +387,15 @@ namespace Carmicah
                         CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
 
                         CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                        colSystem->Update();
+                        colSystem->CollisionCheck();
                         CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 #endif               
                     }
                 }
+
+                CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
+                colSystem->Update();
+                CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 
                 CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
                 aniSystem->Update();
@@ -432,11 +436,11 @@ namespace Carmicah
                 {
                     // Game Cam
                     SceneToImgui::GetInstance()->BindFramebuffer(SceneToImgui::GAME_SCENE);
-                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
+                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam, true);
                     // Editor Cam
                     SceneToImgui::GetInstance()->BindFramebuffer(SceneToImgui::EDITOR_SCENE);
                     RenderHelper::GetInstance()->UpdateEditorCam();
-                    RenderHelper::GetInstance()->Render(&RenderHelper::GetInstance()->mEditorCam);
+                    RenderHelper::GetInstance()->Render(&RenderHelper::GetInstance()->mEditorCam, true);
                     SceneToImgui::GetInstance()->UnbindFramebuffer();
                 }
                 else

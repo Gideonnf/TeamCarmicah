@@ -49,6 +49,8 @@ namespace Carmicah
 		auto& transform = componentManager->GetComponent<Transform>(obj);
 		auto& collider = componentManager->GetComponent<Collider2D>(obj);
 
+		
+
 		// Calculate the half-width and half-height of the object
 		float halfWidth = (collider.customWidth * collider.localScale) * 0.5f;
 		float halfHeight = (collider.customHeight * collider.localScale) * 0.5f;
@@ -132,8 +134,10 @@ namespace Carmicah
 
 			// Calculate and store edge normal
 			Vec2f normal(edge.y, -edge.x); // Perpendicular normal
+			
 			normal.normalize(); // Ensure normal is unit length
 			collider.objNormals.push_back(normal);
+
 		}
 
 	}
@@ -447,7 +451,7 @@ namespace Carmicah
 			CalculateEdges(entity);
 		}
 
-		CollisionCheck();
+		//CollisionCheck();
 
 
 
