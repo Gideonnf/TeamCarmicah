@@ -1410,11 +1410,12 @@ namespace Carmicah
 				{
 					if (inputBuffer[0] != '\0')
 					{
-						HierarchyWindow::selectedGO->SetName(inputBuffer);
+						std::string newName = gGOFactory->CreateGOName(inputBuffer);
+						HierarchyWindow::selectedGO->SetName(newName);
 					}
 					if (inputBuffer[0] == '\0')
 					{
-						CM_CORE_WARN("Trying to make empty GO name!");
+						CM_CORE_ERROR("Trying to make empty GO name!");
 					}
 				}
 				Entity selectedEntity = HierarchyWindow::selectedGO->GetID();
@@ -1437,6 +1438,16 @@ namespace Carmicah
 				{
 					gGOFactory->Destroy(selectedEntity);
 					HierarchyWindow::selectedGO = nullptr;
+				}
+
+				std::string goCloneButton = "Clone GO";
+				if (ImGui::Button(goCloneButton.c_str()))
+				{
+					if (HierarchyWindow::selectedGO != nullptr)
+					{
+						gGOFactory->CloneGO(*HierarchyWindow::selectedGO);
+					}
+					//gGOFactory->CreateGO();
 				}
 			}
 

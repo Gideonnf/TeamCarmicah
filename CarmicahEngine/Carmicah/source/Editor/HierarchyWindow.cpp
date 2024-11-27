@@ -135,16 +135,6 @@ namespace Carmicah
 				//gGOFactory->DestroyAll();
 			}
 
-			std::string goCloneButton = "Clone GO";
-			if (ImGui::Button(goCloneButton.c_str()))
-			{
-				if(selectedGO != nullptr)
-				{
-					gGOFactory->CloneGO(*selectedGO);
-				}
-				//gGOFactory->CreateGO();
-			}
-
 			std::string goCreateButton = "Create Blank GO";
 			if (ImGui::Button(goCreateButton.c_str()))
 			{
