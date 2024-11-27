@@ -21,6 +21,14 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui.h>
 #include "EditorWindow.h"
 #include "ECS/GameObject.h"
+#include "Components/Transform.h"
+#include "Components/Collider2D.h"
+#include "Components/Renderer.h"
+#include "Components/UITransform.h"
+#include "Scripting/ScriptSystem.h"
+#include "Components/Prefab.h"
+#include "Systems/GOFactory.h"
+#include "../Systems/AssetManager.h"
 
 
 namespace Carmicah
@@ -29,6 +37,10 @@ namespace Carmicah
 	{
 	private:
 		static std::string selectedComponentToAdd;
+		std::shared_ptr<AssetType<Texture>> textureMap;
+		std::shared_ptr<AssetType<Font>> fontMap;
+		std::shared_ptr<AssetType<AnimAtlas>> animMap;
+		std::shared_ptr<AssetType<Button>> buttonMap;
 	public:
 		/**
 		 * @brief Construct a new Inspector Window object
@@ -72,7 +84,33 @@ namespace Carmicah
 		 */
 		template<typename T>
 		void RemoveComponentButton(Entity go);
-		
+
+		template<typename EntityID>
+		void RenderTransformTable(Transform& data, EntityID id);
+
+		template<typename EntityID>
+		void RenderUITransformTable(UITransform& data, EntityID id);
+
+		template<typename EntityID>
+		void RenderRenderingTable(Renderer& data, EntityID id);
+
+		template<typename EntityID>
+		void RenderAnimationTable(Animation& data, EntityID id);
+
+		template<typename EntityID>
+		bool RenderRigidBodyTable(RigidBody& rb, EntityID id);
+
+		template<typename EntityID>
+		void RenderCollider2DTable(Collider2D& data, EntityID id);
+
+		template<typename EntityID>
+		void RenderTextRenderTable(TextRenderer& data, EntityID id);
+
+		template<typename EntityID>
+		void RenderButtonTable(Button& data, EntityID id);
+
+		template<typename EntityID>
+		void RenderScriptTable(Script& data, EntityID id);
 		//TODO: IF IT WORKS< APPLY IT FOR EVERYTHIGN ELSE
 		template <typename T>
 		void CheckForComponentChange(GameObject& go, T& newComponent, bool modified)

@@ -229,17 +229,17 @@ namespace Carmicah
 
             if (ImGui::BeginTabBar("Debug Tabs"))
             {
+                if (mShowLogger && ImGui::BeginTabItem("Logger"))
+                {
+                    RenderLoggerTab();
+                    ImGui::EndTabItem();
+                }
                 if (mShowPerformance && ImGui::BeginTabItem("Performance"))
                 {
                     RenderProfilingTab();
                     ImGui::EndTabItem();
                 }
 
-                if (mShowLogger && ImGui::BeginTabItem("Logger"))
-                {
-                    RenderLoggerTab();
-                    ImGui::EndTabItem();
-                }
                 ImGui::EndTabBar();
             }
         }

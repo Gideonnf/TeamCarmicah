@@ -86,7 +86,7 @@ namespace Carmicah
 							selectedGO = &go;
 						}
 					});*/
-				if(mShowScene && inspectedPrefab == nullptr)
+				if(mShowScene)
 				{
 					gGOFactory->ForAllSceneGOs([this](GameObject& go)
 						{
@@ -94,19 +94,19 @@ namespace Carmicah
 
 						});
 				}
-				else if (inspectedPrefab != nullptr)
+				else if (AssetWindow::selectedPrefab != nullptr)
 				{
 					bool backToScene = false;
 					if (ImGui::Button("Back"))
 					{
-						inspectedPrefab = nullptr;
+						AssetWindow::selectedPrefab = nullptr;
 						inspectedPrefab = nullptr;
 						mShowScene = true;
 						backToScene = true;
 					}
 					if(!backToScene)
 					{
-						PrefabButton(*inspectedPrefab);
+						PrefabButton(*AssetWindow::selectedPrefab);
 					}
 				}
 				ImGui::EndChild();
@@ -133,16 +133,6 @@ namespace Carmicah
 				AssetManager::GetInstance()->GetScene(SceneToImgui::GetInstance()->currentScene, sceneFile);
 				SerializerSystem::GetInstance()->SerializeScene(sceneFile);
 				//gGOFactory->DestroyAll();
-			}
-
-			std::string goCloneButton = "Clone GO";
-			if (ImGui::Button(goCloneButton.c_str()))
-			{
-				if(selectedGO != nullptr)
-				{
-					gGOFactory->CloneGO(*selectedGO);
-				}
-				//gGOFactory->CreateGO();
 			}
 
 			std::string goCreateButton = "Create Blank GO";
