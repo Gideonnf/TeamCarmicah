@@ -48,7 +48,6 @@ namespace Carmicah
 		static auto systemManager = SystemManager::GetInstance();
 		auto primitiveMap = assetManager->GetAssetMap<Primitive>();
 		auto shaderMap = assetManager->GetAssetMap<Shader>();
-		//auto imageTextureMap = assetManager->GetAssetMap<ImageTexture>();
 		auto textureMap = assetManager->GetAssetMap<Texture>();
 		auto fontMap = assetManager->GetAssetMap<Font>();
 		//auto audioMap = assetManager->GetAssetMap<Audio>();
@@ -101,39 +100,17 @@ namespace Carmicah
 			if (ImGui::CollapsingHeader("Texture"))
 			{
 				ImGui::Indent();
-				
-				for (const auto& entry : textureMap->mAssetMap)
+				//ImGui::BeginChild("TextureTableRegion", ImVec2(400, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+				if (ImGui::BeginTable("TextureTable", 5))
 				{
-					name = entry.first + "##texture";
-					if (ImGui::Button(name.c_str()))
+					for (const auto& entry : textureMap->mAssetMap)
 					{
-						if(HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Renderer>())
+						name = entry.first + "##texture";
+						if (name.find("SpriteSheet") != std::string::npos)
 						{
-							Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
-							for (const auto& textureEntry : textureMap->mAssetMap)
-							{
-								if (entry.second == textureEntry.second)
-								{
-									render.Texture(textureEntry.first);
-								}
-							}
+							continue;
 						}
-					}
 
-					if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
-					{
-						ImGui::SetDragDropPayload("TEXTURE_PAYLOAD", &entry.first, sizeof(entry.first));
-						ImVec2 dragSize(50, 50);
-						GLuint dragID = textureMap->mAssetList[entry.second].t;
-						ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(dragID)), dragSize);
-						ImGui::Text("Dragging %s", entry.first.c_str());
-
-						ImGui::EndDragDropSource();
-					}
-
-					if (ImGui::IsItemHovered())
-					{
-						ImGui::BeginTooltip();
 						Mtx3x3f matrix = textureMap->mAssetList[entry.second].mtx;
 						GLuint textureID = assetManager->mArrayTex;
 						Vec2f uv0(0, 0);
@@ -143,12 +120,44 @@ namespace Carmicah
 						float temp = -uv0.y;
 						uv0.y = -uv1.y;
 						uv1.y = temp;
-						//ImVec2 uv1;
-						ImGui::Text("Texture!");
-						ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[textureMap->mAssetList[entry.second].t])), ImVec2(200, 200), ImVec2(uv0.x, uv0.y), ImVec2(uv1.x, uv1.y));
-						ImGui::EndTooltip();
+
+						ImGui::TableNextColumn();
+						if (ImGui::ImageButton(name.c_str(),
+							reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[textureMap->mAssetList[entry.second].t])),
+							ImVec2(50, 50),
+							ImVec2(uv0.x, uv0.y),
+							ImVec2(uv1.x, uv1.y)))
+						{
+							if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Renderer>())
+							{
+								Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
+								for (const auto& textureEntry : textureMap->mAssetMap)
+								{
+									if (entry.second == textureEntry.second)
+									{
+										render.Texture(textureEntry.first);
+									}
+								}
+							}
+
+						}
+						if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+						{
+							ImGui::SetDragDropPayload("TEXTURE_PAYLOAD", &entry.first, sizeof(entry.first));
+							ImVec2 dragSize(50, 50);
+							GLuint dragID = textureMap->mAssetList[entry.second].t;
+							ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(dragID)), dragSize);
+							ImGui::Text("Dragging %s", entry.first.c_str());
+
+							ImGui::EndDragDropSource();
+						}
+						ImGui::SameLine();
+						ImGui::Text("%s", entry.first.c_str());
+
 					}
+					ImGui::EndTable();
 				}
+				//ImGui::EndChild();
 				ImGui::Unindent();
 			}
 

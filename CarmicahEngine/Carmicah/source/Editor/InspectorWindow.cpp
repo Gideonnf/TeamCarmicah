@@ -1329,12 +1329,6 @@ namespace Carmicah
 	 */
 	template<typename T> void InspectorWindow::InspectorTable(T* go, Entity id)
 	{
-		static auto assetManager = AssetManager::GetInstance();
-		auto textureMap = assetManager->GetAssetMap<Texture>();
-		auto fontMap = assetManager->GetAssetMap<Font>();
-		auto animMap = assetManager->GetAssetMap<AnimAtlas>();
-		auto buttonMap = assetManager->GetAssetMap<Button>();
-
 		if (go->HasComponent<Transform>())
 		{
 			Transform& selectedTransform = go->GetComponent<Transform>();
