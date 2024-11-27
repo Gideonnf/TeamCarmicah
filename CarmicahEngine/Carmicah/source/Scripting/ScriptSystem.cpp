@@ -37,6 +37,7 @@ namespace Carmicah
         {"System.Int16", ScriptFieldType::Short},
         {"System.Int32", ScriptFieldType::Int},
         {"System.UInt32", ScriptFieldType::UInt},
+        {"System.String", ScriptFieldType::String},
         {"Carmicah.Vector2", ScriptFieldType::Vector2},
         {"Carmicah.Entity", ScriptFieldType::Entity},
     };
@@ -313,6 +314,7 @@ namespace Carmicah
                     std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], *entity);
                     //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
                     mEntityInstances[*entity] = scriptObj;
+                    UpdateScriptComponent(*entity);
                     entityAdded.erase(entity);
                     break;
                    // entity = entityAdded.begin();
@@ -349,6 +351,36 @@ namespace Carmicah
         mEntityInstances.clear();
     }
 
+    void ScriptSystem::UpdateScriptComponent(Entity entity)
+    {
+        Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(entity);
+        if (mEntityInstances.count(entity) > 0) // Technically dont have to check IMGUI only allows for entity classes to be picked
+        {
+            auto& scriptRef = mEntityInstances[entity];
+            const auto& fields = scriptRef->GetScriptClass()->mFields;
+            Script::variantVar var;
+            for (const auto& it : fields)
+            {
+                if (it.second.mType == ScriptFieldType::Float)
+                {
+                    var = scriptRef->GetFieldValue<float>(it.second.mName);
+
+                }
+                else if (it.second.mType == ScriptFieldType::Bool)
+                {
+                    var = scriptRef->GetFieldValue<bool>(it.second.mName);
+                }
+                /*else if (it.second.mType == ScriptFieldType::String)
+                {
+
+                }*/
+
+
+                scriptComponent.scriptableFieldMap.insert({ it.first, var });
+            }
+        }
+    }
+
     void ScriptSystem::EntityAdded(Entity entity)
     {
       
@@ -360,7 +392,7 @@ namespace Carmicah
                 std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], entity);
                 //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
                 mEntityInstances[entity] = scriptObj;
-                
+                UpdateScriptComponent(entity);
                 // entity = entityAdded.begin();
             }
             // if no script is assigned yet (i.e in editor mode, if a script is attached, it wouldnt have one added by default

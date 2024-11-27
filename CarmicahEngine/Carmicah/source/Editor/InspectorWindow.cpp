@@ -1342,6 +1342,7 @@ namespace Carmicah
 							if (ImGui::DragFloat(it.second.mName.c_str(), &data))
 							{
 								scriptRef->SetFieldValue(it.second.mName, data);
+								gScriptSystem->UpdateScriptComponent(id);
 							}
 						}
 						else if (it.second.mType == ScriptFieldType::Bool)
@@ -1350,6 +1351,20 @@ namespace Carmicah
 							if (ImGui::Checkbox(it.second.mName.c_str(), &data))
 							{
 								scriptRef->SetFieldValue(it.second.mName, data);
+								gScriptSystem->UpdateScriptComponent(id);
+							}
+						}
+						else if (it.second.mType == ScriptFieldType::String)
+						{
+							std::string str = scriptRef->GetFieldValue<std::string>(it.second.mName);
+							char buffer[128];
+							std::strncpy(buffer, str.c_str(), sizeof(buffer) - 1);
+							buffer[sizeof(str)] = '\0';
+
+							if (ImGui::InputText(it.second.mName.c_str(), buffer, sizeof(buffer)))
+							{
+								scriptRef->SetFieldValue(it.second.mName, buffer);
+								gScriptSystem->UpdateScriptComponent(id);
 							}
 						}
 					}

@@ -12,27 +12,27 @@ struct Script : BaseComponent<Script>
 	Script& DeserializeComponent(const rapidjson::Value& component) override
 	{
 		scriptName = component["scriptName"].GetString();
-		const rapidjson::Value& fieldList = component["ScriptableFieldMap"];
-		for (rapidjson::Value::ConstValueIterator it = fieldList.Begin(); it != fieldList.End(); ++it)
-		{
-			std::string varName = (*it)["FieldName"].GetString();
-			if ((*it)[varName.c_str()].IsBool())
-			{
+		//const rapidjson::Value& fieldList = component["ScriptableFieldMap"];
+		//for (rapidjson::Value::ConstValueIterator it = fieldList.Begin(); it != fieldList.End(); ++it)
+		//{
+		//	std::string varName = (*it)["FieldName"].GetString();
+		//	if ((*it)[varName.c_str()].IsBool())
+		//	{
 
-			}
-			else if ((*it)[varName.c_str()].IsFloat())
-			{
+		//	}
+		//	else if ((*it)[varName.c_str()].IsFloat())
+		//	{
 
-			}
-			else if ((*it)[varName.c_str()].IsInt())
-			{
+		//	}
+		//	else if ((*it)[varName.c_str()].IsInt())
+		//	{
 
-			}
-			else if ((*it)[varName.c_str()].IsString())
-			{
+		//	}
+		//	else if ((*it)[varName.c_str()].IsString())
+		//	{
 
-			}
-		}
+		//	}
+		//}
 		return *this;
 	}
 
