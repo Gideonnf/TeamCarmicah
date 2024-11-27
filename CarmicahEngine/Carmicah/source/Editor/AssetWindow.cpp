@@ -46,8 +46,8 @@ namespace Carmicah
 		//Obtaining all the AssetMaps
 		static auto assetManager = AssetManager::GetInstance();
 		static auto systemManager = SystemManager::GetInstance();
-		auto primitiveMap = assetManager->GetAssetMap<Primitive>();
-		auto shaderMap = assetManager->GetAssetMap<Shader>();
+		//auto primitiveMap = assetManager->GetAssetMap<Primitive>();
+		//auto shaderMap = assetManager->GetAssetMap<Shader>();
 		auto textureMap = assetManager->GetAssetMap<Texture>();
 		auto fontMap = assetManager->GetAssetMap<Font>();
 		//auto audioMap = assetManager->GetAssetMap<Audio>();
@@ -57,7 +57,7 @@ namespace Carmicah
 		if (ImGui::Begin(mTitle))
 		{
 			std::string name;
-			if (ImGui::CollapsingHeader("Primitive"))
+			/*if (ImGui::CollapsingHeader("Primitive"))
 			{
 				ImGui::Indent();
 				for (const auto& entry : primitiveMap->mAssetMap)
@@ -74,7 +74,7 @@ namespace Carmicah
 					}
 				}
 				ImGui::Unindent();
-			}
+			}*/
 			/*if (ImGui::CollapsingHeader("Shader"))
 			{
 				ImGui::Indent();
@@ -149,7 +149,7 @@ namespace Carmicah
 								dragSize,
 								ImVec2(uv0.x, uv0.y),
 								ImVec2(uv1.x, uv1.y));
-							ImGui::Text("Dragging %s", entry.first.c_str());
+							ImGui::Text("%s", entry.first.c_str());
 
 							ImGui::EndDragDropSource();
 						}
