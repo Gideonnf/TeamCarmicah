@@ -459,7 +459,7 @@ namespace Carmicah
 
                 // I WILL UPDAAATEEE BUTTONSYSTEM HERE OKKKKAAYYYY, PLS DONT CRASH CRYING EMOJI
 				butSystem->Update();
-
+                Input.Update();
 
                // glfwMakeContextCurrent(window);
 

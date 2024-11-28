@@ -155,16 +155,22 @@ namespace Carmicah
 		// DRAG CHECK
 		if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_LEFT)
 		{
+			if (!SceneToImgui::GetInstance()->GetHovering())
+			{
+				if (!Input.IsDragging())
+				{
+					// get and set where it started dragging from
+					Input.SetDragStartPos(Input.GetMousePosition());
+				}
+			}
 			// mouse is now dragging
 			Input.SetDragging(true);
 
-			// get and set where it started dragging from
-			Input.SetDragStartPos(Input.GetMousePosition());
 
 			Vec2d mousePosD = Input.GetMousePosition();
 			Vec2i mousePosI = { std::clamp(static_cast<int>(mousePosD.x), 0, 1920), 1080 - std::clamp(static_cast<int>(mousePosD.y) - 1, 0, 1080) };
 
-			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(SceneToImgui::GAME_SCENE, mousePosI.x, mousePosI.y));
+			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(static_cast<SceneToImgui::SCENE_IMGUI>(SceneToImgui::GetInstance()->GetHovering()), mousePosI.x, mousePosI.y));
 
 			Input.ProxySend(&msg);
 		}
@@ -176,15 +182,13 @@ namespace Carmicah
 			{
 				Vec2i mousePosI = { std::clamp(static_cast<int>(mousePosD.x), 0, 1920), 1080 - std::clamp(static_cast<int>(mousePosD.y) - 1, 0, 1080) };
 
-				//EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(mousePosI.x, mousePosI.y));
-
-				//Input.ProxySend(&msg);
 			}
 			if (Input.IsDragging())
 			{
 				// set bool to false and get dragEndPos
 				Input.SetDragging(false);
-				Input.SetDragEndPos(Input.GetMousePosition());
+				if (!SceneToImgui::GetInstance()->GetHovering())
+					Input.SetDragEndPos(Input.GetMousePosition());
 			}
 		}
 	}
@@ -197,13 +201,16 @@ namespace Carmicah
 		UNUSED(window);
 		// NOTE: SetMousePos is being used in SceneWindow for wrapping position of the cursor so that the mouse pos can pick accurately 
 		// since IMGUI makes the whole window 1920 by 1080 but we have to treat the scene as 1920 by 1080
-		Input.SetMousePosition(xPos, yPos);
-
-		// if mouse is dragging
-		if (Input.IsDragging())
+		if (!SceneToImgui::GetInstance()->GetHovering())
 		{
-			// get current pos of cursor
-			Input.SetDragCurrentPos({ xPos, yPos });
+			Input.SetMousePosition(xPos, yPos);
+
+			// if mouse is dragging
+			if (Input.IsDragging())
+			{
+				// get current pos of cursor
+				Input.SetDragCurrentPos({ xPos, yPos });
+			}
 		}
 	}
 
@@ -264,7 +271,7 @@ namespace Carmicah
 
 		if (!isFocused)
 		{
-			glfwIconifyWindow(window);
+			//glfwIconifyWindow(window);
 		}
 	}
 

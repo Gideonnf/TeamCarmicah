@@ -38,7 +38,7 @@ void RenderHelper::InitScreenDimension(const float& screenWidth, const float& sc
 void RenderHelper::UpdateEditorCam()
 {
 	static bool firstPressed = false;
-	if (Input.IsMousePressed(MOUSE_BUTTON_RIGHT))
+	if (Input.IsMouseHold(MOUSE_BUTTON_RIGHT))
 	{
 		if (!firstPressed)
 		{
@@ -47,8 +47,9 @@ void RenderHelper::UpdateEditorCam()
 		}
 
 		Vec2d mouseDiff = Input.GetMousePosition() - mOldMousePos;
-		mEditorCam.PosXAdd(-static_cast<float>(mouseDiff.x) * mEditorCam.Scale().x * 0.5f);
-		mEditorCam.PosYAdd(static_cast<float>(mouseDiff.y) * mEditorCam.Scale().y * 0.5f);
+
+		mEditorCam.PosXAdd(-static_cast<float>(mouseDiff.x) / AssetManager::GetInstance()->enConfig.Width / mEditorCam.Scale().x * 2.f);
+		mEditorCam.PosYAdd(static_cast<float>(mouseDiff.y) / AssetManager::GetInstance()->enConfig.Height / mEditorCam.Scale().y * 2.f);
 		mOldMousePos = Input.GetMousePosition();
 	}
 	else if (Input.IsMouseReleased(MOUSE_BUTTON_RIGHT))
@@ -59,14 +60,18 @@ void RenderHelper::UpdateEditorCam()
 	if (Input.IsKeyHold(KEY_EQUAL))
 	{
 		Vec2f& s = mEditorCam.GetScale();
-		s.x += s.x * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
-		s.y += s.x * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
+		float ratio = AssetManager::GetInstance()->enConfig.Width / AssetManager::GetInstance()->enConfig.Height;
+
+		s.x += ratio * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
+		s.y += 1.f * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
 	}
 	else if (Input.IsKeyHold(KEY_MINUS))
 	{
 		Vec2f& s = mEditorCam.GetScale();
-		s.x = std::fmaxf(s.x - s.x * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime()), 0.0001f);
-		s.y = std::fmaxf(s.y - s.y * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime()), 0.0001f);
+		float ratio = s.x / s.y;
+
+		s.x = std::fmaxf(s.x - ratio * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime()), minHeightScale * ratio);
+		s.y = std::fmaxf(s.y - 1.f * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime()), minHeightScale);
 	}
 }
 

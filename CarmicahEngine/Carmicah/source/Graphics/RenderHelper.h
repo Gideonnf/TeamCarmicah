@@ -42,6 +42,7 @@ namespace Carmicah
 
 		Mtx3x3f screenMtx{};	// Calculated Screen Matrix multiplier to use for UI rendering
 		
+		const float minHeightScale{ 0.01f };
 		static unsigned int mCapFontID;
 		static std::queue<unsigned int> mUnusedFontID;
 		std::map<unsigned int, unsigned int> mFontBufferToEntity;

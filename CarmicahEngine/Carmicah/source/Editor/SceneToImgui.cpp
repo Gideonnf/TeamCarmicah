@@ -23,7 +23,7 @@ namespace Carmicah
 {
     void SceneToImgui::CreateFramebuffer(int width, int height)
     {
-        for (int i{}; i < MAX_SCENES; ++i)
+        for (int i{ NO_SCENE + 1 }; i < MAX_SCENES; ++i)
         {
             glGenFramebuffers(1, &mScenes[i].FBO);
             glBindFramebuffer(GL_FRAMEBUFFER, mScenes[i].FBO);
@@ -56,7 +56,7 @@ namespace Carmicah
 
     void SceneToImgui::UnloadFramebuffer()
     {
-        for (int i{}; i < MAX_SCENES; ++i)
+        for (int i{ NO_SCENE + 1 }; i < MAX_SCENES; ++i)
         {
             glDeleteRenderbuffers(1, &mScenes[i].RBO);
             glDeleteTextures(1, &mScenes[i].picker_id);
@@ -87,46 +87,61 @@ namespace Carmicah
 
     unsigned int SceneToImgui::IDPick(SCENE_IMGUI scene, const int& mouseX, const int& mouseY)
     {
-        if (IsHovering)
+        if (scene == NO_SCENE)
+            return std::numeric_limits<unsigned int>().max();
+
+        GLint prevBinding{};
+        glGetIntegerv(GL_FRAMEBUFFER_BINDING, &prevBinding);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, mScenes[scene].FBO);
+
+        unsigned int goID{};
+        glNamedFramebufferReadBuffer(mScenes[scene].FBO, GL_COLOR_ATTACHMENT1);
+        glReadPixels(mouseX, mouseY, 1, 1,
+            GL_RED_INTEGER, GL_UNSIGNED_INT, &goID);
+
+        // basically if ID Dun exists tq
+        if (goID != 0 && goID != 1061208237)
         {
-            GLint prevBinding{};
-            glGetIntegerv(GL_FRAMEBUFFER_BINDING, &prevBinding);
-
-            glBindFramebuffer(GL_FRAMEBUFFER, mScenes[scene].FBO);
-
-            unsigned int goID{};
-            glNamedFramebufferReadBuffer(mScenes[scene].FBO, GL_COLOR_ATTACHMENT1);
-            glReadPixels(mouseX, mouseY, 1, 1,
-                GL_RED_INTEGER, GL_UNSIGNED_INT, &goID);
-
-            // basically if ID Dun exists tq
-            if (goID != 0 && goID != 1061208237)
-            {
-                std::stringstream ss;
-                ss << "ID: " << goID << "[" << mouseX << ',' << mouseY << "]";
-                CM_CORE_INFO(ss.str());
-            }
-            glReadBuffer(GL_NONE);
-            glBindFramebuffer(GL_FRAMEBUFFER, prevBinding);
-            return goID;
+            std::stringstream ss;
+            ss << "ID: " << goID << "[" << mouseX << ',' << mouseY << "]";
+            CM_CORE_INFO(ss.str());
         }
-
-        return 0;
+        glReadBuffer(GL_NONE);
+        glBindFramebuffer(GL_FRAMEBUFFER, prevBinding);
+        return goID;
     }
 
-
-    // Rescales the Texture & RenderBuffers(how much pixels to draw) during runtime (when size chanages)
-    void SceneToImgui::RescaleFramebuffer(float width, float height)
+    void SceneToImgui::SetHovering(SCENE_IMGUI scene, bool hoverState)
     {
-        width = height;
-        //glBindTexture(GL_TEXTURE_2D, texture_id);
-        //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (GLsizei)width, (GLsizei)height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-        //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        //glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture_id, 0);
-
-        //glBindRenderbuffer(GL_RENDERBUFFER, RBO);
-        //glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, (GLsizei)width, (GLsizei)height);
-        //glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
+        mScenes[scene].isHovering = hoverState;
     }
+
+    int SceneToImgui::GetHovering()
+    {
+        for (int i{NO_SCENE + 1}; i < MAX_SCENES; ++i)
+        {
+            if (mScenes[i].isHovering)
+                return i;
+        }
+        return NO_SCENE;
+    }
+
+
+
 }
+
+
+//// Rescales the Texture & RenderBuffers(how much pixels to draw) during runtime (when size chanages)
+//void SceneToImgui::RescaleFramebuffer(float width, float height)
+//{
+//    glBindTexture(GL_TEXTURE_2D, texture_id);
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (GLsizei)width, (GLsizei)height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture_id, 0);
+//
+//    glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+//    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, (GLsizei)width, (GLsizei)height);
+//    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
+//}
