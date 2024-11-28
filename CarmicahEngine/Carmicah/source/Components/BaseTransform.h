@@ -30,10 +30,12 @@ namespace Carmicah
         Vec2f worldScale{};
 
         float rot;
+        float worldRot;
         float depth{};
 
         bool notUpdated{};
     public:
+        bool worldUpdate{};
 
         Entity parent; // Hold 0 if no parent
         std::vector<Entity> children;
@@ -159,6 +161,28 @@ namespace Carmicah
         void RotAdd(const float& rhs)
         {
             Rot(rot + rhs);
+        }
+
+        const float& WorldRot() const
+        {
+            return worldRot;
+        }
+
+        float& GetWorldRot()
+        {
+            notUpdated = false;
+            return worldRot;
+        }
+
+        void WorldRot(float d)
+        {
+            worldRot = d;
+            notUpdated = false;
+        }
+
+        void WorldRotAdd(const float& rhs)
+        {
+            WorldRot(worldRot + rhs);
         }
 
         bool Updated()
