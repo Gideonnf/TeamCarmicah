@@ -154,7 +154,7 @@ namespace Carmicah
 
 			LoadAnimation(fileName, file.fileEntry.path().string());
 		}
-		else if (fileExt == ".wav" || fileExt == ".ogg")
+		else if (fileExt == ".wav" || fileExt == ".ogg" || fileExt == ".mp3")
 		{
 			if (!reload && AssetExist<FMOD::Sound*>(fileName))
 			{
