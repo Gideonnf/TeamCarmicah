@@ -29,10 +29,6 @@ namespace Carmicah
 	InspectorWindow::InspectorWindow() : EditorWindow("Inspector", ImVec2(900, 300), ImVec2(0, 0)) 
 	{ 
 		mIsVisible = true; 
-		//textureMap = assetManager->GetAssetMap<Texture>();
-		//fontMap = assetManager->GetAssetMap<Font>();
-		//animMap = assetManager->GetAssetMap<AnimAtlas>();
-		//buttonMap = assetManager->GetAssetMap<Button>();
 	}
 
 	std::string InspectorWindow::selectedComponentToAdd = "";

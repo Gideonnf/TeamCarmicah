@@ -37,10 +37,6 @@ namespace Carmicah
 	{
 	private:
 		static std::string selectedComponentToAdd;
-		//std::shared_ptr<AssetType<Texture>> textureMap;
-		//std::shared_ptr<AssetType<Font>> fontMap;
-		//std::shared_ptr<AssetType<AnimAtlas>> animMap;
-		//std::shared_ptr<AssetType<Button>> buttonMap;
 	public:
 		/**
 		 * @brief Construct a new Inspector Window object
