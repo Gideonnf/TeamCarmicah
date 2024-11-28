@@ -67,6 +67,11 @@ namespace Carmicah
             }
         }
 
+        void OnCollide()
+        {
+
+        }
+
         void PlaySoundEffect(string name)
         {
             if (timer >= 0.5f)
