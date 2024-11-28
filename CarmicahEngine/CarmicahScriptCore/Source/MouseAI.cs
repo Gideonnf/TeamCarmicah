@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Carmicah
+
+/*namespace Carmicah
 {
     public class MouseAI : Entity
     {
@@ -17,33 +18,152 @@ namespace Carmicah
         Vector2 originalPos;
         Entity player;
 
+        // variables for respawning
+        bool shouldRespawn = false;
+        float respawnTimer = 0f;
+        const float RESPAWN_DELAY = 0.2f;
+
         void OnCreate()
         {
             // initialize state machine
             waypointsRight = new List<Vector2>();
             waypointsLeft = new List<Vector2>();
-            originalPos = new Vector2();
-           // Random rand = new Random();
-
-            // set the initial state
-           // isLeft = rand.Next(0, 2) == 1; // 
             currPoint = 0;
 
-            // Get the player
-            //Entity rightChar = FindEntityWithName("mainCharacter_2");  // Right character
-            //Entity leftChar = FindEntityWithName("mainCharacter_3");   // Left character
+            // Load right path points
+            Entity leftPoint0 = FindEntityWithName("wall");
+            Entity leftPoint1 = FindEntityWithName("wall_1");
+            Entity leftPoint2 = FindEntityWithName("wall_2");
+            waypointsRight.Add(leftPoint0.Position);
+            waypointsRight.Add(leftPoint1.Position);
+            waypointsRight.Add(leftPoint2.Position);
 
-            // Determine which path to take based on closest character
-            //float distToRightChar = Position.Distance(rightChar.Position);
-            //float distToLeftChar = Position.Distance(leftChar.Position);
+            // Load left path points
+            Entity rightPoint0 = FindEntityWithName("wall_3");
+            Entity rightPoint1 = FindEntityWithName("wall_4");
+            Entity rightPoint2 = FindEntityWithName("wall_5");
+            waypointsLeft.Add(rightPoint0.Position);
+            waypointsLeft.Add(rightPoint1.Position);
+            waypointsLeft.Add(rightPoint2.Position);
 
-            //// Set path based on closest character
-            //isLeft = distToLeftChar < distToRightChar;
+            // Set spawn position based on path
+            if (isLeft)
+            {
+                Position = waypointsLeft[0];
+                originalPos = waypointsLeft[0];
+            }
+            else
+            {
+                Position = waypointsRight[0];
+                originalPos = waypointsRight[0];
+            }
+            // Start moving to second point
+            currPoint = 1;
 
-            //// Set the active player to watch out for
-            //player = isLeft ? leftChar : rightChar;
+            //Sound.PlaySFX("spawn", 0.5f);
+        }
+
+        void OnUpdate(float dt)
+        {
+            if (shouldRespawn)
+            {
+                respawnTimer += dt;
+                if (respawnTimer >= RESPAWN_DELAY)
+                {
+                    // Reset position to original spawn point
+                    ResetPosition();
+
+                    //Sound.PlaySFX("spawn", 0.5f);
+                }
+                return;
+            }
+
+            // Get direction
+            List<Vector2> currentPath = isLeft ? waypointsLeft : waypointsRight;
+
+            // Get direction to next waypoint
+            Vector2 dir = (currentPath[currPoint] - Position).Normalize();
+            GetComponent<RigidBody>().ApplyForce(dir, 2.0f);
+
+            // Check if reached waypoint
+            float dist = Position.Distance(currentPath[currPoint]);
+            if (dist <= 0.2f)
+            {
+                if (currPoint < currentPath.Count - 1)
+                {
+                    currPoint++;
+                }
+                else
+                {
+                    // Trigger respawn
+                    shouldRespawn = true;
+                    respawnTimer = 0f;
+                   // Position = isLeft ? waypointsLeft[0] : waypointsRight[0];
+                    //Sound.PlaySFX("death", 0.5f);
+                }
+            }
+        }
+        private void ResetPosition()
+        {
+            // Apply a zero force first to stop any movement
+            GetComponent<RigidBody>().ApplyForce(new Vector2(0, 0), 0f);
+            Position = isLeft ? waypointsLeft[0] : waypointsRight[0];
+            currPoint = 1;
+            shouldRespawn = false;
+            //Sound.PlaySFX("spawn", 0.5f);
+        }
+
+    }
+}
+*/
 
 
+
+namespace Carmicah
+{
+    public class MouseAI : Entity
+    {
+        List<Vector2> waypointsRight;
+        List<Vector2> waypointsLeft;
+        public bool isLeft = false;
+        int currPoint;
+        Vector2 originalPos;
+        StateMachine stateMachine;
+
+        void OnCreate()
+        {
+            waypointsRight = new List<Vector2>();
+            waypointsLeft = new List<Vector2>();
+            currPoint = 0;
+
+            InitWaypoints();
+            SetInitialPosition();
+
+            // Initialize state machine
+            stateMachine = new StateMachine();
+            stateMachine.AddState(new MouseChase("Chase"));
+            stateMachine.AddState(new MouseDead("Dead"));
+            stateMachine.SetNextState("Chase");
+        }
+
+        void OnUpdate(float dt)
+        {
+            stateMachine.Update(ref stateMachine);
+
+            // Only update movement if in chase state
+            if (stateMachine.GetCurrentState() == "Chase")
+            {
+                UpdateMovement(dt);
+            }
+            else if (stateMachine.GetCurrentState() == "Dead")
+            {
+                ResetPosition();
+                stateMachine.SetNextState("Chase");
+            }
+        }
+
+        void InitWaypoints()
+        {
             Entity leftPoint0 = FindEntityWithName("wall");
             Entity leftPoint1 = FindEntityWithName("wall_1");
             Entity leftPoint2 = FindEntityWithName("wall_2");
@@ -57,93 +177,48 @@ namespace Carmicah
             waypointsLeft.Add(rightPoint0.Position);
             waypointsLeft.Add(rightPoint1.Position);
             waypointsLeft.Add(rightPoint2.Position);
-
-
-            if (isLeft)
-            {
-                Position = waypointsLeft[currPoint];
-            }
-            else
-            {
-                Position = waypointsRight[currPoint];
-            }
-
-            currPoint++;
-
-            // store original position
-            originalPos = Position;
-
         }
 
-     void OnUpdate(float dt)
+        void SetInitialPosition()
         {
-            //mouseSM.Update(ref mouseSM);
-            //Entity 
-            Console.WriteLine($"Mouse is moving - {mID}, onLeft - {isLeft}");
-            //if (player != null)
-            //{
-            //    float distToPlayer = Position.Distance(player.Position);
-            //    if (distToPlayer < 3.0f) // Detection radius
-            //    {
-            //        // Run away from player
-            //        Vector2 awayDir = (Position - player.Position).Normalize();
-            //        GetComponent<RigidBody>().ApplyForce(awayDir, 3.0f);
-            //        return; // Skip waypoint following while escaping
-            //    }
-            //}
-            // Get the direction to the next waypoint
             if (isLeft)
             {
-                // Get direction
-                Vector2 dir = (waypointsLeft[currPoint] - Position).Normalize();
-                // APply force in that direction
-                GetComponent<RigidBody>().ApplyForce(dir, 2.0f);
-
-                // Check distance to waypoint
-                float dist = Position.Distance(waypointsLeft[currPoint]);
-                if (dist <= 0.1f)
-                {
-                    if (currPoint < waypointsLeft.Count - 1)
-                        currPoint++;
-                    else
-                    {
-                        currPoint = 0;
-                        // reset pos
-                        Position = originalPos;
-                    }
-                }
+                Position = waypointsLeft[0];
+                originalPos = waypointsLeft[0];
             }
             else
             {
-                // Get direction
-                Vector2 dir = (waypointsRight[currPoint] - Position).Normalize();
-                // APply force in that direction
-                GetComponent<RigidBody>().ApplyForce(dir, 2.0f);
-
-                // Check distance to waypoint
-                float dist = Position.Distance(waypointsRight[currPoint]);
-                if (dist <= 0.1f)
-                {
-                    if (currPoint < waypointsRight.Count - 1)
-                        currPoint++;
-                    else
-                    {
-                        currPoint = 0;
-                        // reset pos
-                        Position = originalPos;
-                    }
-                }
+                Position = waypointsRight[0];
+                originalPos = waypointsRight[0];
             }
-
-
-            //// If its dead, kill it
-            //if (mouseSM.GetCurrentState() == "MouseDead")
-            //{
-            //    // kill it
-            //}
+            currPoint = 1;
         }
 
+        void UpdateMovement(float dt)
+        {
+            List<Vector2> currentPath = isLeft ? waypointsLeft : waypointsRight;
+            Vector2 dir = (currentPath[currPoint] - Position).Normalize();
+            GetComponent<RigidBody>().ApplyForce(dir, 2.0f);
+
+            float dist = Position.Distance(currentPath[currPoint]);
+            if (dist <= 0.2f)
+            {
+                if (currPoint < currentPath.Count - 1)
+                {
+                    currPoint++;
+                }
+                else
+                {
+                    stateMachine.SetNextState("Dead");
+                }
+            }
+        }
+
+        void ResetPosition()
+        {
+            GetComponent<RigidBody>().ApplyForce(new Vector2(0, 0), 0f);
+            Position = isLeft ? waypointsLeft[0] : waypointsRight[0];
+            currPoint = 1;
+        }
     }
 }
-
-
