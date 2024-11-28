@@ -117,12 +117,12 @@ namespace Carmicah
         mScenes[scene].isHovering = hoverState;
     }
 
-    int SceneToImgui::GetHovering()
+    SceneToImgui::SCENE_IMGUI SceneToImgui::GetHovering()
     {
         for (int i{NO_SCENE + 1}; i < MAX_SCENES; ++i)
         {
             if (mScenes[i].isHovering)
-                return i;
+                return static_cast<SCENE_IMGUI>(i);
         }
         return NO_SCENE;
     }

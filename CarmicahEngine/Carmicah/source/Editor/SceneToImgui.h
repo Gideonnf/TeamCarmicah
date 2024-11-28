@@ -50,7 +50,7 @@ namespace Carmicah
 		GLuint GetTexture(SCENE_IMGUI scene);
 		unsigned int IDPick(SCENE_IMGUI scene, const int& mouseX, const int& mouseY);
 		void SetHovering(SCENE_IMGUI scene, bool hoverState);
-		int GetHovering();
+		SCENE_IMGUI GetHovering();
 	};
 }
 

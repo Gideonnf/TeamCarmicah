@@ -155,22 +155,22 @@ namespace Carmicah
 		// DRAG CHECK
 		if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_LEFT)
 		{
-			if (!SceneToImgui::GetInstance()->GetHovering())
-			{
-				if (!Input.IsDragging())
-				{
-					// get and set where it started dragging from
-					Input.SetDragStartPos(Input.GetMousePosition());
-				}
-			}
 			// mouse is now dragging
 			Input.SetDragging(true);
+			Vec2i mousePosI = { static_cast<int>(Input.GetMousePosition().x), 1080 - static_cast<int>(Input.GetMousePosition().y) };
 
-
-			Vec2d mousePosD = Input.GetMousePosition();
-			Vec2i mousePosI = { std::clamp(static_cast<int>(mousePosD.x), 0, 1920), 1080 - std::clamp(static_cast<int>(mousePosD.y) - 1, 0, 1080) };
-
+#ifndef CM_INSTALLER
+			SceneToImgui::SCENE_IMGUI currScene = SceneToImgui::GetInstance()->GetHovering();
+			if (currScene == SceneToImgui::NO_SCENE)
+			{
+				// get and set where it started dragging from
+				Input.SetDragStartPos(Input.GetMousePosition());
+				return;
+			}
 			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(static_cast<SceneToImgui::SCENE_IMGUI>(SceneToImgui::GetInstance()->GetHovering()), mousePosI.x, mousePosI.y));
+#else
+			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(SceneToImgui::GAME_SCENE, mousePosI.x, mousePosI.y));
+#endif
 
 			Input.ProxySend(&msg);
 		}
