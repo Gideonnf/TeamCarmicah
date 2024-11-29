@@ -54,15 +54,17 @@ namespace Carmicah
 		{
 			auto& rend = componentManager->GetComponent<Renderer>(obj);
 			auto& mtx = AssetManager::GetInstance()->GetAsset<Texture>(rend.GetTexture()).mtx;
-			float width = mtx.m00 * AssetManager::GetInstance()->enConfig.maxTexSize;
-			float height = mtx.m11 * AssetManager::GetInstance()->enConfig.maxTexSize;
-			if (collider.customWidth == 0 || collider.customHeight == 0) 
-			{
+			float imgWidth = mtx.m00 * AssetManager::GetInstance()->enConfig.maxTexSize;
+			float imgHeight = mtx.m11 * AssetManager::GetInstance()->enConfig.maxTexSize;
+				/*if (collider.customWidth == 0 || collider.customHeight == 0) 
+				{
 
-				collider.customWidth = width;
-				collider.customHeight = height;
+					collider.customWidth = imgWidth *(1 / transform.Scale().x);
+					collider.customHeight = imgHeight * (1 / transform.Scale().y);
 
-			}
+				}*/
+			collider.customWidth = imgWidth * (1 / transform.Scale().x);
+			collider.customHeight = imgHeight * (1 / transform.Scale().y);
 		}
 
 
@@ -150,7 +152,13 @@ namespace Carmicah
 			// Calculate and store edge normal
 			Vec2f normal(edge.y, -edge.x); // Perpendicular normal
 			
+			if (normal.x == 0 || normal.y == 0)
+			{
+				continue;
+			}
+
 			normal.normalize(); // Ensure normal is unit length
+
 			collider.objNormals.push_back(normal);
 
 		}

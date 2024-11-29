@@ -118,11 +118,11 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.03135142847895622,
-                    "yPos": 2.9152538776397707,
+                    "xPos": 1.0,
+                    "yPos": 0.0,
                     "depth": 1.0,
-                    "xScale": 11.199999809265137,
-                    "yScale": 10.199999809265137,
+                    "xScale": 8.149999618530274,
+                    "yScale": 8.199999809265137,
                     "rot": -125.0
                 },
                 {
@@ -137,9 +137,9 @@
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "",
-                    "customWidth": 100.0,
+                    "customWidth": 147.23927307128907,
                     "customRotation": 0.0,
-                    "customHeight": 100.0
+                    "customHeight": 146.34146118164063
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
