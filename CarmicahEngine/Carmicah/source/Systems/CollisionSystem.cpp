@@ -17,6 +17,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/CollisionSystem.h"
 #include "../Physics/PhysicsSystem.h"
 #include "Systems/GOFactory.h"
+#include "Systems/AssetManager.h"
 #include <ECS/ECSTypes.h>
 #include <ECS/GameObject.h>
 #include "Components/Transform.h"
@@ -49,7 +50,21 @@ namespace Carmicah
 		auto& transform = componentManager->GetComponent<Transform>(obj);
 		auto& collider = componentManager->GetComponent<Collider2D>(obj);
 
-		
+		if (componentManager->HasComponent<Renderer>(obj))
+		{
+			auto& rend = componentManager->GetComponent<Renderer>(obj);
+			auto& mtx = AssetManager::GetInstance()->GetAsset<Texture>(rend.GetTexture()).mtx;
+			float width = mtx.m00 * AssetManager::GetInstance()->enConfig.maxTexSize;
+			float height = mtx.m11 * AssetManager::GetInstance()->enConfig.maxTexSize;
+			if (collider.customWidth == 0 || collider.customHeight == 0) 
+			{
+
+				collider.customWidth = width;
+				collider.customHeight = height;
+
+			}
+		}
+
 
 		// Calculate the half-width and half-height of the object
 		float halfWidth = (collider.customWidth * collider.localScale) * 0.5f;
@@ -325,7 +340,7 @@ namespace Carmicah
 			//gGOFactory->Destroy(obj1);
 
 		}
-		else if (rigidbody1.objectType == rbTypes::DYNAMIC && rigidbody2.objectType == rbTypes::KINEMATIC)
+		else if (rigidbody1.objectType == rbTypes::DYNAMIC && rigidbody2.objectType == rbTypes::KINEMATIC || rigidbody1.objectType == rbTypes::KINEMATIC && rigidbody2.objectType == rbTypes::DYNAMIC)
 		{
 			/*transform1.PosX(rigidbody1.velocity.x * tFirst + rigidbody1.posPrev.x);
 			transform1.PosY(rigidbody1.velocity.y * tFirst + rigidbody1.posPrev.y);
@@ -333,17 +348,17 @@ namespace Carmicah
 			transform2.PosX(rigidbody2.velocity.x * tFirst + rigidbody2.posPrev.x);
 			transform2.PosY(rigidbody2.velocity.y * tFirst + rigidbody2.posPrev.y);*/
 
-			transform1.PosX(rigidbody1.posPrev.x);
-			transform1.PosY(rigidbody1.posPrev.y);
+			/*transform1.PosX(rigidbody1.posPrev.x);
+			transform1.PosY(rigidbody1.posPrev.y);*/
 
 			transform2.PosX(rigidbody2.posPrev.x);
 			transform2.PosY(rigidbody2.posPrev.y);
 
 
-			/*rigidbody1.velocity.x = 0;
+			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
 
-			rigidbody2.velocity.x = 0;
+			/*rigidbody2.velocity.x = 0;
 			rigidbody2.velocity.y = 0;*/
 
 
@@ -416,8 +431,8 @@ namespace Carmicah
 					{
 
 						CollisionResponse(entity1, entity2);
-						EntityCollidedMessage newMsg(entity1, entity2);
-						SendSysMessage(&newMsg);
+						/*EntityCollidedMessage newMsg(entity1, entity2);
+						SendSysMessage(&newMsg);*/
 					}
 				}
 			}
