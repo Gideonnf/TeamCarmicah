@@ -57,6 +57,12 @@ namespace Carmicah
 		if (ImGui::Begin(mTitle))
 		{
 			std::string name;
+
+			if (ImGui::Button("Reload Assets"))
+			{
+				AssetManager::GetInstance()->fileWatcher.Update();
+			}
+
 			/*if (ImGui::CollapsingHeader("Primitive"))
 			{
 				ImGui::Indent();

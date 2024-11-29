@@ -417,7 +417,6 @@ namespace Carmicah
                     //fps.GetComponent<TextRenderer>().txt = std::to_string((int)CarmicahTime::GetInstance()->FPS());
                     editorSys->Update();
                     editorSys->Render(window);
-                    AssetManager::GetInstance()->fileWatcher.Update();
                     CarmicahTime::GetInstance()->StopSystemTimer("EditorSystem");
                 }
                 CarmicahTime::GetInstance()->StartSystemTimer("RenderingSystems");
