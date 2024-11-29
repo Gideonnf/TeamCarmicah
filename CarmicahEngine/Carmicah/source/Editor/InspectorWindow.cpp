@@ -479,7 +479,8 @@ namespace Carmicah
 			}
 			case PREFAB:
 			{
-				InspectorWindow::RemoveComponentButton<Animation>(go);
+				if (InspectorWindow::RemoveComponentButton<Animation>(go))
+					return;
 				break;
 			}
 			default:
@@ -538,7 +539,8 @@ namespace Carmicah
 			}
 			case PREFAB:
 			{
-				InspectorWindow::RemoveComponentButton<RigidBody>(go);
+				if (InspectorWindow::RemoveComponentButton<RigidBody>(go))
+					return false;
 				break;
 			}
 			default:
@@ -666,7 +668,8 @@ namespace Carmicah
 			}
 			case PREFAB:
 			{
-				InspectorWindow::RemoveComponentButton<Collider2D>(go);
+				if (InspectorWindow::RemoveComponentButton<Collider2D>(go))
+					return;
 				break;
 			}
 			default:
@@ -720,13 +723,13 @@ namespace Carmicah
 			{
 			case GAMEOBJECT:
 			{
-				Entity id = go->GetID();
 				InspectorWindow::RemoveComponentButton<TextRenderer>(go);
 				break;
 			}
 			case PREFAB:
 			{
-				InspectorWindow::RemoveComponentButton<TextRenderer>(go);
+				if (InspectorWindow::RemoveComponentButton<TextRenderer>(go))
+					return;
 				break;
 			}
 			default:
@@ -804,13 +807,13 @@ namespace Carmicah
 			{
 			case GAMEOBJECT:
 			{
-				Entity id = go->GetID();
 				InspectorWindow::RemoveComponentButton<Button>(go);
 				break;
 			}
 			case PREFAB:
 			{
-				InspectorWindow::RemoveComponentButton<Button>(go);
+				if (InspectorWindow::RemoveComponentButton<Button>(go))
+					return;
 				break;
 			}
 			default:
@@ -869,8 +872,9 @@ namespace Carmicah
 			}
 			case PREFAB:
 			{
-				if(InspectorWindow::RemoveComponentButton<Script>(go))
+				if (InspectorWindow::RemoveComponentButton<Script>(go))
 					return;
+				break;
 			}
 			default:
 				break;
