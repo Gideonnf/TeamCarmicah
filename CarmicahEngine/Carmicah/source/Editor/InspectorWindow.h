@@ -71,7 +71,8 @@ namespace Carmicah
 		 * 
 		 * @param go 
 		 */
-		void AddComponentButton(GameObject* go);
+		template<typename T>
+		void AddComponentButton(T* go);
 		/**
 		 * @brief Function  that facilitates removing a component from a  gameobject.
 		 * 
@@ -80,6 +81,9 @@ namespace Carmicah
 		 */
 		template<typename T>
 		void RemoveComponentButton(Entity go);
+
+		template <typename T>
+		void RemoveComponentButton(Prefab go);
 
 		template<typename EntityID>
 		void RenderTransformTable(Transform& data, EntityID id);

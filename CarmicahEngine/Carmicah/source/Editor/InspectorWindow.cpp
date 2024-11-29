@@ -37,7 +37,8 @@ namespace Carmicah
 	 *
 	 * @param go
 	 */
-	void InspectorWindow::AddComponentButton(GameObject* go)
+	template<typename T>
+	void InspectorWindow::AddComponentButton(T* go)
 	{
 		std::vector<const char*> componentsToAdd;
 
@@ -176,6 +177,17 @@ namespace Carmicah
 		}
 	}
 
+	template <typename T>
+	void InspectorWindow::RemoveComponentButton(Prefab go)
+	{
+		std::string typeName = typeid(T).name();
+		size_t pos = typeName.find_last_of(':');
+		std::string buttonLabel = "Remove " + typeName.substr(pos + 1);
+		if (ImGui::Button(buttonLabel.c_str()))
+		{
+			go.RemoveComponent<T>();
+		}
+	}
 
 	template<typename EntityID>
 	void InspectorWindow::RenderTransformTable(Transform& data, EntityID id)
@@ -1488,6 +1500,9 @@ namespace Carmicah
 				ImGui::Text("Selected Prefab: %s", HierarchyWindow::inspectedPrefab->GetName().c_str());
 				Entity selectedPrefabID = HierarchyWindow::inspectedPrefab->GetID();
 				UNUSED(selectedPrefabID);
+
+				AddComponentButton<Prefab>(HierarchyWindow::inspectedPrefab);
+
 				InspectorTable<Prefab>(HierarchyWindow::inspectedPrefab);
 
 				if (ImGui::Button("Save Changes to Prefab"))
