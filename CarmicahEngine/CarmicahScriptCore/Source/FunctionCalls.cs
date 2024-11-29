@@ -58,6 +58,5 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void ChangeScene(string sceneName);
-
     }
 }

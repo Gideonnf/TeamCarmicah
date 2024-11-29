@@ -37,10 +37,8 @@ namespace Carmicah
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Initializes the ButtonSystem, setting up necessary entity signatures for button
 			components.
-
 	\param      [in, out] Init
 			Initializes the button system components and registers necessary signatures.
-
 	\return     void
 	-------------------------------------------------------------------------------------------------*/
 	void ButtonSystem::Init()
@@ -60,10 +58,8 @@ namespace Carmicah
 
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Updates the ButtonSystem, detecting button states and processing input events.
-
 	\param      [in, out] Update
 				Checks for button press and release events and updates button states accordingly.
-
 	\return     void
 	-------------------------------------------------------------------------------------------------*/
 	void ButtonSystem::Update()
@@ -103,10 +99,8 @@ namespace Carmicah
 
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Cleans up and clears the registered entities in the ButtonSystem.
-
 	\param      [in, out] Exit
-				Releases resources and clears entities registered within the button system.
-
+				Releases resources and clears entities registered within the button system
 	\return     void
 	-------------------------------------------------------------------------------------------------*/
 	void ButtonSystem::Exit()
@@ -115,7 +109,12 @@ namespace Carmicah
 	}
 
 
-
+	/* function documentation--------------------------------------------------------------------------
+	* \brief      Receives messages from the message system and processes them accordingly.
+	* \param      [in] msg
+	* The message to be processed.
+	* \return     void
+	* -------------------------------------------------------------------------------------------------*/
 	void ButtonSystem::ReceiveMessage(Message* msg)
 	{
 		if (msg->mMsgType == MSG_BUTTONENTITY)
@@ -145,13 +144,10 @@ namespace Carmicah
 	}
 
 
-
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Handles logic for when a specific button is pressed.
-
 	\param      [in] name
 				The name of the button that was pressed.
-
 	\return     void
 	-------------------------------------------------------------------------------------------------*/
 	void ButtonSystem::OnPress(Button& buttonComponent, Entity entityID)
@@ -181,10 +177,8 @@ namespace Carmicah
 
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Handles logic for when a specific button is released.
-
 	\param      [in] name
 				The name of the button that was pressed.
-
 	\return     void
 	-------------------------------------------------------------------------------------------------*/
 	void ButtonSystem::OnRelease(Button& buttonComponent)
@@ -207,5 +201,4 @@ namespace Carmicah
 		//	}
 		//}
 	}
-
 }

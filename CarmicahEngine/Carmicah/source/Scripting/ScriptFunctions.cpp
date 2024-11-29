@@ -268,10 +268,12 @@ namespace Carmicah
 	/// </summary>
 	static void ChangeScene(MonoString* sceneName)
 	{
-		// cStrName is a char* that is allocated on the heap
+		// char* that is allocated on the heap
 		char* cStrName = mono_string_to_utf8(sceneName);
-		// call the system manager to change the scene
-		SystemManager::GetInstance()->ChangeScene(cStrName);
+		// call the system manager to get instance of scene system
+		auto& sceneSystem = SystemManager::GetInstance()->GetSystem<SceneSystem>();
+		// change the scene
+		sceneSystem->ChangeScene(cStrName);
 		// free the memory
 		mono_free(cStrName);
 	}

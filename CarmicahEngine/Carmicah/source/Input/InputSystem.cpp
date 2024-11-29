@@ -422,7 +422,6 @@ namespace Carmicah
 			mousePos.y >= bottom && mousePos.y <= top);
 	}
 
-
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Checks if a specified mouse button was pressed in a previous state.
 	-------------------------------------------------------------------------------------------------*/
@@ -460,6 +459,7 @@ namespace Carmicah
 
 
 	#pragma region Mouse Position Getters & Setters
+
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Retrieves the current X-coordinate of the mouse position.
 	-------------------------------------------------------------------------------------------------*/

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
-    public class PauseButton : Entity
+    public class QuitButton : Entity
     {
 
         void OnClick()
