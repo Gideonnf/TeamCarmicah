@@ -153,7 +153,7 @@ namespace Carmicah
 		}
 
 		template <typename T>
-		void RemoveComponent()
+		bool RemoveComponent()
 		{
 			std::string typeName = typeid(T).name();
 			auto it = mComponents.find(typeName);
@@ -161,7 +161,9 @@ namespace Carmicah
 			{
 				mDeletedComponents.push_back(typeName);
 				mComponents.erase(typeName);
+				return true;
 			}
+			return false;
 		}
 
 		std::string GetName() const;
