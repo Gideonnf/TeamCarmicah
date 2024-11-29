@@ -26,7 +26,7 @@ DigiPen Institute of Technology is prohibited.
 #include "ScriptSystem.h"
 #include "../Input/InputSystem.h"
 #include "../Systems/SoundSystem.h"
-//#include "../ECS/SystemManager.h"
+#include "../ECS/SystemManager.h"
 #include "../Systems/SceneSystem.h"
 
 namespace Carmicah
