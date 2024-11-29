@@ -215,6 +215,7 @@ namespace Carmicah
         gameSystem->SetScene("Scene1");
 #ifndef CM_INSTALLER
         gameSystem->Init(); // Load all GOs from scene file
+        
 #endif
         //gGOFactory->CreateSceneObject("Scene1"); // TODO: Shift this so that it isnt here and manually being made
         //gGOFactory->ParentAllGO();
@@ -241,6 +242,7 @@ namespace Carmicah
 #ifdef CM_INSTALLER
         gameOnly = true;
         gameSystem->mNextState = SceneState::INITIALISING;
+        gameSystem->mRuntime = true; // set it to run time mode
 #endif
 
 
@@ -297,6 +299,9 @@ namespace Carmicah
             }
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
+                CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
+                colSystem->Update();
+                CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 
                 gScriptSystem->UpdateScripts(); // TODO: Add this to profiler
 
@@ -393,9 +398,6 @@ namespace Carmicah
                     }
                 }
 
-                CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                colSystem->Update();
-                CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 
                 CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
                 aniSystem->Update();
