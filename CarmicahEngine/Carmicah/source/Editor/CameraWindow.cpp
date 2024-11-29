@@ -20,11 +20,22 @@ namespace Carmicah
 
     void CameraWindow::Update()
     {
+		if (Input.GetInstance()->IsKeyPressed(KEY_Q))
+			RenderHelper::GetInstance()->mEditorMode = RenderHelper::GIZMOS_MODE::GIZMOS_NONE;
+		else if (Input.GetInstance()->IsKeyPressed(KEY_W))
+			RenderHelper::GetInstance()->mEditorMode = RenderHelper::GIZMOS_MODE::GIZMOS_TRANSLATE;
+		else if (Input.GetInstance()->IsKeyPressed(KEY_E))
+			RenderHelper::GetInstance()->mEditorMode = RenderHelper::GIZMOS_MODE::GIZMOS_SCALE;
+		else if (Input.GetInstance()->IsKeyPressed(KEY_R))
+			RenderHelper::GetInstance()->mEditorMode = RenderHelper::GIZMOS_MODE::GIZMOS_ROTATE;
 
-        if (ImGui::Begin(mTitle))
+		bool camWindowActive = ImGui::Begin(mTitle);
+		RenderHelper::GetInstance()->mEditorWindowActive = camWindowActive;
+        if (camWindowActive)
         {
 			const float windowWidth = std::clamp(ImGui::GetContentRegionAvail().x, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Width));
 			const float windowHeight = std::clamp(ImGui::GetContentRegionAvail().y, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Height));
+			RenderHelper::GetInstance()->mEditorWindomDim = Vec2f(windowWidth, windowHeight);
 			glViewport(0, 0, (GLsizei)windowWidth, (GLsizei)windowHeight);
 			ImVec2 pos = ImGui::GetCursorScreenPos();
 

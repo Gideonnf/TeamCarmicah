@@ -441,7 +441,7 @@ namespace Carmicah
                     // Editor Cam
                     SceneToImgui::GetInstance()->BindFramebuffer(SceneToImgui::EDITOR_SCENE);
                     RenderHelper::GetInstance()->UpdateEditorCam();
-                    RenderHelper::GetInstance()->Render(&RenderHelper::GetInstance()->mEditorCam);
+                    RenderHelper::GetInstance()->Render(&RenderHelper::GetInstance()->mEditorCam, true);
                     SceneToImgui::GetInstance()->UnbindFramebuffer();
                 }
                 else

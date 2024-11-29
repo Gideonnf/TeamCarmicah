@@ -51,6 +51,9 @@ namespace Carmicah
 		InitFontType();
 		fileWatcher.Init(assetPath);
 		fileWatcher.Update();
+
+		RenderHelper::GetInstance()->LoadGizmos();
+
 		//if (std::filesystem::exists(directoryPath) && std::filesystem::is_directory(directoryPath))
 		//{
 		//	for (const auto& subFile : std::filesystem::directory_iterator(directoryPath))
@@ -266,6 +269,11 @@ namespace Carmicah
 		for (int i{}; i < mPreviewTexs.size(); ++i)
 			glDeleteTextures(1, &mPreviewTexs[i]);
 		GetAssetMap<Texture>()->mAssetMap.clear();
+		for (const auto& i : GetAssetMap<GLModel>()->mAssetList)
+		{
+			glDeleteVertexArrays(1, &i.vao);
+			glDeleteBuffers(1, &i.vbo);
+		}
 		for (const auto& i : RenderHelper::GetInstance()->mBufferMap)
 		{
 			for (const auto& ii : i.second.buffer)
