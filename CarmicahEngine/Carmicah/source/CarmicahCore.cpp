@@ -106,11 +106,18 @@ namespace Carmicah
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-        int Width = AssetManager::GetInstance()->enConfig.Width;
-        int Height = AssetManager::GetInstance()->enConfig.Height;
-        std::string defaultScene = AssetManager::GetInstance()->enConfig.defaultScene;
-        //CM_CORE_INFO("Reached before window creation");
-        GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", NULL, NULL);
+
+
+        const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        int  Width = mode->width;
+        int Height = mode->height;
+        GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", glfwGetPrimaryMonitor(), NULL);
+
+        //int Width = AssetManager::GetInstance()->enConfig.Width;
+        //int Height = AssetManager::GetInstance()->enConfig.Height;
+        //std::string defaultScene = AssetManager::GetInstance()->enConfig.defaultScene;
+        ////CM_CORE_INFO("Reached before window creation");
+        //GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", NULL, NULL);
         //int bufferWidth, bufferHeight;
         //glfwGetFramebufferSize(window, &bufferWidth, &bufferHeight);
         glfwMakeContextCurrent(window);
