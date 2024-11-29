@@ -448,6 +448,16 @@ namespace Carmicah
                 break;
             }
         }
+
+        // Check if the obj is in the entities to add
+        for (auto it = entityAdded.begin(); it != entityAdded.end(); ++it)
+        {
+            if (*it == entity)
+            {
+                entityAdded.erase(it);
+                break;
+            }
+        }
     }
 
     void ScriptSystem::LoadEntityClasses()
