@@ -11,6 +11,7 @@ namespace CarmicahScriptCore.Source
     {
         public static bool IsKeyPressed(Keys keyCode)
         {
+            Console.WriteLine("KeyPressed");
             return FunctionCalls.IsKeyPressed(keyCode);
         }
 

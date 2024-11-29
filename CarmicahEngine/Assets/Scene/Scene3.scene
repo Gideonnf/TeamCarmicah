@@ -11,6 +11,10 @@
                     "texture": "main_menu_bg"
                 },
                 {
+                    "Component Name": "struct Script",
+                    "scriptName": ""
+                },
+                {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 960.0,
                     "yPos": 540.0,
@@ -44,12 +48,16 @@
                 {
                     "Component Name": "struct Carmicah::Button",
                     "ButtonImage": "play_button",
-                    "ButtonImagePressed": "backButton"
+                    "ButtonImagePressed": "play_button"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "play_button"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.PlayButton"
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -58,12 +66,12 @@
                     "depth": 1.0,
                     "xScale": 200.0,
                     "yScale": 100.0,
-                    "rot" : 0.0
+                    "rot": 0.0
                 }
             ]
         },
         {
-            "GameObject": "Pause Button",
+            "GameObject": "Quit Button",
             "ID": 4,
             "Components": [
                 {
@@ -77,13 +85,17 @@
                     "texture": "quit_button"
                 },
                 {
+                    "Component Name": "struct Script",
+                    "scriptName": ""
+                },
+                {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 1300.0,
                     "yPos": 275.0,
                     "depth": 1.0,
                     "xScale": 200.0,
                     "yScale": 100.0,
-                    "rot" : 0.0
+                    "rot": 0.0
                 }
             ]
         },
@@ -94,12 +106,16 @@
                 {
                     "Component Name": "struct Carmicah::Button",
                     "ButtonImage": "settings_button",
-                    "ButtonImagePressed": "backButton"
+                    "ButtonImagePressed": "settings_button"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "quit_button"
+                    "texture": "settings_button"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.SettingButton"
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -108,7 +124,7 @@
                     "depth": 1.0,
                     "xScale": 200.0,
                     "yScale": 100.0,
-                    "rot" : 0.0
+                    "rot": 0.0
                 }
             ]
         }

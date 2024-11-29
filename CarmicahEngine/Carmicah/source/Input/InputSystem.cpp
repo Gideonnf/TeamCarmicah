@@ -28,6 +28,7 @@ DigiPen Institute of Technology is prohibited.
 #include "pch.h"
 #include "Input/InputSystem.h"
 #include "Messaging/InputMessage.h"
+#include <chrono>
 #include <ImGUI/imgui.h>
 #include <ImGUI/imgui_impl_glfw.h>
 #include <ImGUI/imgui_impl_opengl3.h>
@@ -44,6 +45,7 @@ namespace Carmicah
 {
 	std::unordered_map<int, bool> mKeyCurrentState;
 	std::unordered_map<int, bool> mKeyPreviousState;
+
 
 	#pragma region Callback Functions
 
@@ -80,6 +82,19 @@ namespace Carmicah
 			glfwIconifyWindow(window);
 		}
 
+		// ALT-TAB
+		//bool altPressed2 = glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_RIGHT_ALT) == GLFW_PRESS;
+		//bool tabPressed = glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS;
+		bool altPressed2 = mKeyCurrentState[GLFW_KEY_LEFT_ALT] || mKeyCurrentState[GLFW_KEY_RIGHT_ALT];
+		bool tabPressed = mKeyCurrentState[GLFW_KEY_TAB];
+
+		if (altPressed2 && tabPressed) 
+		{
+			std::cout << "Alt + Tab detected!" << std::endl;
+			
+			glfwIconifyWindow(window);
+		}
+
 		// cout whatever key that was pressed
 		if (action == GLFW_PRESS)
 		{
@@ -98,23 +113,6 @@ namespace Carmicah
 		UNUSED(window);
 
 		// update the current mouse state map
-		//if (action == GLFW_PRESS)
-		//{
-		//	Input.UpdateMouseMap(button, KeyStates::PRESSED);
-		//	std::cout << "Mouse Button " << button << ": PRESSED" << std::endl; // 0 is left, 1 is right, 2 is middle
-		//}
-		//else if (action == GLFW_RELEASE)
-		//{
-		//	Input.UpdateMouseMap(button, KeyStates::RELEASE);
-		//	std::cout << "Mouse Button " << button << ": RELEASE" << std::endl;
-		//}
-
-		//// Check for the HOLD state (when already pressed)
-		//if (Input.IsMouseHold((MouseButtons)button))
-		//{
-		//	std::cout << "Mouse Button " << button << ": HOLD" << std::endl;
-		//}
-
 		if (action == GLFW_PRESS)
 		{
 			if (button == GLFW_MOUSE_BUTTON_LEFT)
@@ -143,6 +141,7 @@ namespace Carmicah
 		}
 
 		// Check for HOLD state (when a button is already pressed)
+		// this code check is useless and doesnt work because PRESSED takes precedence over HOLD every instance 
 		if (Input.IsMouseHold(MOUSE_BUTTON_LEFT))
 		{
 			std::cout << "Left Mouse Button: HOLD" << std::endl;
@@ -267,12 +266,12 @@ namespace Carmicah
 	void WindowFocusCallback(GLFWwindow* window, int focused)
 	{
 		UNUSED(focused);
-		int isFocused = glfwGetWindowAttrib(window, GLFW_FOCUSED);
+		//int isFocused = glfwGetWindowAttrib(window, GLFW_FOCUSED);
 
-		if (!isFocused)
-		{
-			//glfwIconifyWindow(window);
-		}
+		//if (!isFocused)
+		//{
+		//	glfwIconifyWindow(window);
+		//}
 	}
 
 	#pragma endregion
@@ -291,6 +290,8 @@ namespace Carmicah
 		int keyCode = 5;
 		KeyMessage msg(keyCode);
 		SendSysMessage(&msg);
+
+		glfwSetInputMode(ref, GLFW_STICKY_KEYS, GLFW_TRUE);
 
 		// Set up the call backs
 		glfwSetKeyCallback			 (windowRef, KeyCallback);
@@ -428,7 +429,6 @@ namespace Carmicah
 			mousePos.y >= bottom && mousePos.y <= top);
 	}
 
-
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Checks if a specified mouse button was pressed in a previous state.
 	-------------------------------------------------------------------------------------------------*/
@@ -466,6 +466,7 @@ namespace Carmicah
 
 
 	#pragma region Mouse Position Getters & Setters
+
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Retrieves the current X-coordinate of the mouse position.
 	-------------------------------------------------------------------------------------------------*/
