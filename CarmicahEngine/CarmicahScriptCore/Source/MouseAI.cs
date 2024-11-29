@@ -79,7 +79,7 @@ namespace Carmicah
         {
             //mouseSM.Update(ref mouseSM);
             //Entity 
-            Console.WriteLine($"Mouse is moving - {mID}, onLeft - {isLeft}");
+            //Console.WriteLine($"Mouse is moving - {mID}, onLeft - {isLeft}");
             //if (player != null)
             //{
             //    float distToPlayer = Position.Distance(player.Position);
@@ -141,6 +141,11 @@ namespace Carmicah
             //{
             //    // kill it
             //}
+        }
+
+    void OnCollide()
+        {
+
         }
 
     }

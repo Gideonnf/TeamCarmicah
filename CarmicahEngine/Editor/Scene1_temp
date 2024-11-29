@@ -38,7 +38,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Bullet2"
+                    "texture": "Bullet"
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
@@ -62,7 +62,10 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.Camera"
+                    "scriptName": "Carmicah.Camera",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
                 }
             ],
             "Children": []
@@ -135,7 +138,10 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.Player"
+                    "scriptName": "Carmicah.Player",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",
@@ -426,7 +432,12 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.MouseAI"
+                    "scriptName": "Carmicah.MouseAI",
+                    "ScriptableFieldMap": [
+                        {
+                            "isLeft": false
+                        }
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",
@@ -537,7 +548,12 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.MouseAI"
+                    "scriptName": "Carmicah.MouseAI",
+                    "ScriptableFieldMap": [
+                        {
+                            "isLeft": false
+                        }
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",

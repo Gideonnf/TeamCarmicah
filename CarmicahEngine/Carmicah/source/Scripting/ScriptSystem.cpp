@@ -546,5 +546,14 @@ namespace Carmicah
                 mEntityInstances[castedMsg->buttonEntity]->InvokeOnClick();
             }
         }
+        else if (msg->mMsgType == MSG_ENTITYCOLLIDED)
+        {
+            auto castedMsg = dynamic_cast<EntityCollidedMessage*>(msg);
+
+            if (mEntityInstances.count(castedMsg->mEntityID1) && mEntityInstances.count(castedMsg->mEntityID2))
+            {
+
+            }
+        }
     }
 }

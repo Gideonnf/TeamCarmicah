@@ -416,7 +416,8 @@ namespace Carmicah
 					{
 
 						CollisionResponse(entity1, entity2);
-						
+						EntityCollidedMessage newMsg(entity1, entity2);
+						SendSysMessage(&newMsg);
 					}
 				}
 			}
@@ -435,6 +436,8 @@ namespace Carmicah
 
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<CollisionSystem>(mSignature);
+
+
 
 	}
 

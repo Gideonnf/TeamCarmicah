@@ -27,6 +27,7 @@ namespace Carmicah
 		MSG_ENTITYKILLED,
 		MSG_UPDATETRANSFORM,
         MSG_ENTITYPICKED,
+		MSG_ENTITYCOLLIDED,
 		MSG_RUNTIME,
 		MSG_EDITORENTITY,
 		MSG_BUTTONENTITY,
@@ -74,6 +75,14 @@ namespace Carmicah
 	public:
 		Entity mEntityID;
 		EntityPickedMessage(Entity id) : Message(MSG_ENTITYPICKED), mEntityID(id) {}
+	};
+
+	class EntityCollidedMessage : public Message
+	{
+	public:
+		Entity mEntityID1;
+		Entity mEntityID2;
+		EntityCollidedMessage(Entity id1, Entity id2) : Message(MSG_ENTITYCOLLIDED), mEntityID1(id1), mEntityID2(id2) {}
 	};
 
 	class EditorEntityPicked : public Message
