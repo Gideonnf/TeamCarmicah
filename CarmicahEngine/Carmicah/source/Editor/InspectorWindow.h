@@ -37,6 +37,14 @@ namespace Carmicah
 	{
 	private:
 		static std::string selectedComponentToAdd;
+
+		enum TABLETYPE
+		{
+			GAMEOBJECT = 0,
+			PREFAB = 1
+		};
+
+
 	public:
 		/**
 		 * @brief Construct a new Inspector Window object
@@ -57,7 +65,7 @@ namespace Carmicah
 		 * @param id 
 		 */
 		template<typename T>
-		void InspectorTable(T* go, Entity id);
+		void InspectorTable(T* go, TABLETYPE type);
 		/**
 		 * @brief Function Overload that creates inspector table
 		 * 
@@ -82,38 +90,59 @@ namespace Carmicah
 		template<typename T>
 		void RemoveComponentButton(Entity go);
 
+		template<typename T>
+		void RemoveComponentButton(GameObject* go);
+
 		template <typename T>
-		void RemoveComponentButton(Prefab go);
+		void RemoveComponentButton(Prefab* go);
 
-		template<typename T, typename EntityID>
-		void RenderTransformTable(T* data, EntityID id);
+		template<typename T>
+		void RenderTransformTable(T* data, TABLETYPE type);
 
-		template<typename T, typename EntityID>
-		void RenderUITransformTable(T* data, EntityID id);
+		template<typename T>
+		void RenderUITransformTable(T* data, TABLETYPE type);
 
-		template<typename T, typename EntityID>
-		void RenderRenderingTable(T* data, EntityID id);
+		template<typename T>
+		void RenderRenderingTable(T* data, TABLETYPE type);
 
-		template<typename T,typename EntityID>
-		void RenderAnimationTable(T* data, EntityID id);
+		template<typename T>
+		void RenderAnimationTable(T* data, TABLETYPE type);
 
-		template<typename T, typename EntityID>
-		bool RenderRigidBodyTable(T* data, EntityID id);
+		template<typename T>
+		bool RenderRigidBodyTable(T* data, TABLETYPE type);
 
-		template<typename T, typename EntityID>
-		void RenderCollider2DTable(T* data, EntityID id);
+		template<typename T>
+		void RenderCollider2DTable(T* data, TABLETYPE type);
 
-		template<typename T, typename EntityID>
-		void RenderTextRenderTable(T* data, EntityID id);
+		template<typename T>
+		void RenderTextRenderTable(T* data, TABLETYPE type);
 
-		template<typename T, typename EntityID>
-		void RenderButtonTable(T* data, EntityID id);
+		template<typename T>
+		void RenderButtonTable(T* data, TABLETYPE type);
 
-		template<typename T, typename EntityID>
-		void RenderScriptTable(T* data, EntityID id);
+		template<typename T>
+		void RenderScriptTable(T* data, TABLETYPE type);
 		//TODO: IF IT WORKS< APPLY IT FOR EVERYTHIGN ELSE
 		template <typename T>
 		void CheckForComponentChange(GameObject& go, T& newComponent, bool modified)
+		{
+			// Only used for prefab game objects
+			if (go.HasComponent<T>() && go.HasComponent<PrefabData>())
+			{
+				T& component = go.GetComponent<T>();
+				// change in the component
+				if (modified)
+				{
+					go.GetComponent<PrefabData>().mComponentsModified.push_back(typeid(T).name());
+				}
+				// Update the component after
+				component = newComponent;
+			}
+
+		}
+
+		template <typename T>
+		void CheckForComponentChange(Prefab& go, T& newComponent, bool modified)
 		{
 			// Only used for prefab game objects
 			if (go.HasComponent<T>() && go.HasComponent<PrefabData>())

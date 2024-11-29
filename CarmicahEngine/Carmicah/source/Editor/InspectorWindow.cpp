@@ -178,19 +178,41 @@ namespace Carmicah
 	}
 
 	template <typename T>
-	void InspectorWindow::RemoveComponentButton(Prefab go)
+	void InspectorWindow::RemoveComponentButton(GameObject* go)
+	{
+		Entity id = go->GetID();
+		std::string typeName = typeid(T).name();
+		size_t pos = typeName.find_last_of(':');
+
+		std::string buttonLabel = "Remove " + typeName.substr(pos + 1);
+		if (ImGui::Button(buttonLabel.c_str()))
+		{
+			if (!EntityManager::GetInstance()->DoesEntityExist(id))
+			{
+				CM_CORE_ERROR("Revmoing from an entity that does not exist");
+				return;
+			}
+
+			ComponentManager::GetInstance()->RemoveComponent<T>(id);
+			//gGOFactory->
+			EntityManager::GetInstance()->RemoveComponent<T>(id);
+		}
+	}
+
+	template <typename T>
+	void InspectorWindow::RemoveComponentButton(Prefab* go)
 	{
 		std::string typeName = typeid(T).name();
 		size_t pos = typeName.find_last_of(':');
 		std::string buttonLabel = "Remove " + typeName.substr(pos + 1);
 		if (ImGui::Button(buttonLabel.c_str()))
 		{
-			go.RemoveComponent<T>();
+			go->RemoveComponent<T>();
 		}
 	}
 
-	template<typename T, typename EntityID>
-	void InspectorWindow::RenderTransformTable(T* go, EntityID id)
+	template<typename T>
+	void InspectorWindow::RenderTransformTable(T* go, TABLETYPE type)
 	{
 		Transform& selectedTransform = go->GetComponent<Transform>();
 		if (ImGui::CollapsingHeader("Transform Settings", ImGuiTreeNodeFlags_DefaultOpen))
@@ -305,8 +327,8 @@ namespace Carmicah
 		}
 	}
 
-	template<typename T,typename EntityID>
-	void InspectorWindow::RenderUITransformTable(T* go, EntityID id)
+	template<typename T>
+	void InspectorWindow::RenderUITransformTable(T* go, TABLETYPE type)
 	{
 		UITransform& selectedUITransform = go->GetComponent<UITransform>();
 		if (ImGui::CollapsingHeader("UI Transform Settings", ImGuiTreeNodeFlags_DefaultOpen))
@@ -367,14 +389,29 @@ namespace Carmicah
 		}
 	}
 
-	template<typename T,typename EntityID>
-	void InspectorWindow::RenderRenderingTable(T* go, EntityID id)
+	template<typename T>
+	void InspectorWindow::RenderRenderingTable(T* go, TABLETYPE type)
 	{
 		auto& textureMap = AssetManager::GetInstance()->GetAssetMap<Texture>();
 		Renderer& render = go->GetComponent<Renderer>();
 		if (ImGui::CollapsingHeader("Renderer Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			InspectorWindow::RemoveComponentButton<Renderer>(id);
+			switch (type)
+			{
+			case GAMEOBJECT:
+			{
+				Entity id = go->GetID();
+				InspectorWindow::RemoveComponentButton<Renderer>(id);
+				break;
+			}
+			case PREFAB:
+			{
+				InspectorWindow::RemoveComponentButton<Renderer>(go);
+				break;
+			}
+			default:
+				break;
+			}
 			if (ImGui::BeginTable("Renderer Table", 2, ImGuiTableFlags_Borders))
 			{
 				ImGui::TableNextRow();
@@ -442,15 +479,29 @@ namespace Carmicah
 		}
 	}
 	
-	template<typename T,typename EntityID>
-	void InspectorWindow::RenderAnimationTable(T* go, EntityID id)
+	template<typename T>
+	void InspectorWindow::RenderAnimationTable(T* go, TABLETYPE type)
 	{
 		auto& animMap = AssetManager::GetInstance()->GetAssetMap<AnimAtlas>();
 		Animation& anim = go->GetComponent<Animation>();
 		if (ImGui::CollapsingHeader("Animation Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			InspectorWindow::RemoveComponentButton<Animation>(id);
-
+			switch (type)
+			{
+			case GAMEOBJECT:
+			{
+				Entity id = go->GetID();
+				InspectorWindow::RemoveComponentButton<Animation>(id);
+				break;
+			}
+			case PREFAB:
+			{
+				InspectorWindow::RemoveComponentButton<Animation>(go);
+				break;
+			}
+			default:
+				break;
+			}
 			if (ImGui::BeginTable("Animation Table", 2, ImGuiTableFlags_Borders))
 			{
 				ImGui::TableNextRow();
@@ -488,14 +539,29 @@ namespace Carmicah
 		}
 	}
 
-	template<typename T, typename EntityID>
-	bool InspectorWindow::RenderRigidBodyTable(T* go, EntityID id)
+	template<typename T>
+	bool InspectorWindow::RenderRigidBodyTable(T* go, TABLETYPE type)
 	{
 		bool modified = false;
 		RigidBody& rb = go->GetComponent<RigidBody>();
 		if (ImGui::CollapsingHeader("Rigid Body Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			InspectorWindow::RemoveComponentButton<RigidBody>(id);
+			switch (type)
+			{
+			case GAMEOBJECT:
+			{
+				Entity id = go->GetID();
+				InspectorWindow::RemoveComponentButton<RigidBody>(id);
+				break;
+			}
+			case PREFAB:
+			{
+				InspectorWindow::RemoveComponentButton<RigidBody>(go);
+				break;
+			}
+			default:
+				break;
+			}
 			if (ImGui::BeginTable("Rigidbody Table", 2, ImGuiTableFlags_Borders))
 			{
 				ImGui::TableNextRow();
@@ -603,13 +669,28 @@ namespace Carmicah
 		return modified;
 	}
 
-	template<typename T, typename EntityID>
-	void InspectorWindow::RenderCollider2DTable(T* go, EntityID id)
+	template<typename T>
+	void InspectorWindow::RenderCollider2DTable(T* go, TABLETYPE type)
 	{
 		Collider2D& col = go->GetComponent<Collider2D>();
 		if (ImGui::CollapsingHeader("Collider Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			InspectorWindow::RemoveComponentButton<Collider2D>(id);
+			switch (type)
+			{
+			case GAMEOBJECT:
+			{
+				Entity id = go->GetID();
+				InspectorWindow::RemoveComponentButton<Collider2D>(id);
+				break;
+			}
+			case PREFAB:
+			{
+				InspectorWindow::RemoveComponentButton<Collider2D>(go);
+				break;
+			}
+			default:
+				break;
+			}
 			if (ImGui::BeginTable("Collider2D Table", 2, ImGuiTableFlags_Borders))
 			{
 				ImGui::TableNextRow();
@@ -647,14 +728,29 @@ namespace Carmicah
 		}
 	}
 
-	template<typename T, typename EntityID>
-	void InspectorWindow::RenderTextRenderTable(T* go, EntityID id)
+	template<typename T>
+	void InspectorWindow::RenderTextRenderTable(T* go, TABLETYPE type)
 	{
 		auto& fontMap = AssetManager::GetInstance()->GetAssetMap<Font>();
 		TextRenderer& text = go->GetComponent<TextRenderer>();
 		if (ImGui::CollapsingHeader("Text Renderer Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			InspectorWindow::RemoveComponentButton<TextRenderer>(id);
+			switch (type)
+			{
+			case GAMEOBJECT:
+			{
+				Entity id = go->GetID();
+				InspectorWindow::RemoveComponentButton<TextRenderer>(id);
+				break;
+			}
+			case PREFAB:
+			{
+				InspectorWindow::RemoveComponentButton<TextRenderer>(go);
+				break;
+			}
+			default:
+				break;
+			}
 			if (ImGui::BeginTable("TextRenderer Table", 2, ImGuiTableFlags_Borders))
 			{
 				ImGui::TableNextRow();
@@ -716,14 +812,29 @@ namespace Carmicah
 		}
 	}
 
-	template<typename T, typename EntityID>
-	void InspectorWindow::RenderButtonTable(T* go, EntityID id)
+	template<typename T>
+	void InspectorWindow::RenderButtonTable(T* go, TABLETYPE type)
 	{
 		auto& textureMap = AssetManager::GetInstance()->GetAssetMap<Texture>();
 		Button& butt = go->GetComponent<Button>();
 		if (ImGui::CollapsingHeader("Button Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			InspectorWindow::RemoveComponentButton<Button>(id);
+			switch (type)
+			{
+			case GAMEOBJECT:
+			{
+				Entity id = go->GetID();
+				InspectorWindow::RemoveComponentButton<Button>(id);
+				break;
+			}
+			case PREFAB:
+			{
+				InspectorWindow::RemoveComponentButton<Button>(go);
+				break;
+			}
+			default:
+				break;
+			}
 			if (ImGui::BeginTable("Button Table", 2, ImGuiTableFlags_Borders))
 			{
 				ImGui::TableNextRow();
@@ -761,13 +872,28 @@ namespace Carmicah
 		}
 	}
 
-	template<typename T, typename EntityID>
-	void InspectorWindow::RenderScriptTable(T* go, EntityID id)
+	template<typename T>
+	void InspectorWindow::RenderScriptTable(T* go, TABLETYPE type)
 	{
 		Script& script = go->GetComponent<Script>();
+		unsigned int id = go->GetID();
 		if (ImGui::CollapsingHeader("Script Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			InspectorWindow::RemoveComponentButton<Script>(id);
+			switch (type)
+			{
+			case GAMEOBJECT:
+			{
+				InspectorWindow::RemoveComponentButton<Script>(static_cast<Entity>(id));
+				break;
+			}
+			case PREFAB:
+			{
+				InspectorWindow::RemoveComponentButton<Script>(go);
+				break;
+			}
+			default:
+				break;
+			}
 			ImGui::Text(script.scriptName.c_str());
 			ImGui::SameLine();
 			if (ImGui::Button("v#####"))
@@ -1376,25 +1502,25 @@ namespace Carmicah
 	 * @param go 
 	 * @param id 
 	 */
-	template<typename T> void InspectorWindow::InspectorTable(T* go, Entity id)
+	template<typename T> void InspectorWindow::InspectorTable(T* go, TABLETYPE type)
 	{
 		if (go->HasComponent<Transform>())
 		{
-			RenderTransformTable(go, id);
+			RenderTransformTable(go, type);
 		}
 		else if (go->HasComponent<UITransform>())
 		{
-			RenderUITransformTable(go, id);
+			RenderUITransformTable(go, type);
 		}
 
 		if (go->HasComponent<Renderer>())
 		{
-			RenderRenderingTable(go, id);
+			RenderRenderingTable(go, type);
 			//CheckForComponentChange<Renderer>(*go, render);
 		}
 		if (go->HasComponent<Animation>())
 		{
-			RenderAnimationTable(go, id);
+			RenderAnimationTable(go, type);
 		}
 		
 		// render rigibody data
@@ -1402,30 +1528,33 @@ namespace Carmicah
 		{
 			bool modified = false;
 			RigidBody& rb = go->GetComponent<RigidBody>();
-			modified = RenderRigidBodyTable(go, id);
-			CheckForComponentChange<RigidBody>(*go, rb, modified);
+			modified = RenderRigidBodyTable(go, type);
+			if (type == PREFAB)
+			{
+				CheckForComponentChange<RigidBody>(*go, rb, modified);
+			}
 		}
 
 		// render collider data
 		if (go->HasComponent<Collider2D>())
 		{
-			RenderCollider2DTable(go, id);
+			RenderCollider2DTable(go, type);
 		}
 
 		// show text 
 		// color picker
 		if (go->HasComponent<TextRenderer>())
 		{
-			RenderTextRenderTable(go, id);
+			RenderTextRenderTable(go, type);
 		}
 
 		if (go->HasComponent<Button>())
 		{
-			RenderButtonTable(go, id);
+			RenderButtonTable(go, type);
 		}
 		if (go->HasComponent<Script>())
 		{
-			RenderScriptTable(go, id);
+			RenderScriptTable(go, type);
 		}
 	}
 
@@ -1459,7 +1588,7 @@ namespace Carmicah
 
 				AddComponentButton(HierarchyWindow::selectedGO);
 
-				InspectorTable<GameObject>(HierarchyWindow::selectedGO, selectedEntity);
+				InspectorTable<GameObject>(HierarchyWindow::selectedGO, GAMEOBJECT);
 
 				std::string saveGO = "Create " + HierarchyWindow::selectedGO->GetName() + " as a Prefab";
 				if (ImGui::Button(saveGO.c_str()))
@@ -1496,7 +1625,7 @@ namespace Carmicah
 
 				AddComponentButton<Prefab>(HierarchyWindow::inspectedPrefab);
 
-				InspectorTable<Prefab>(HierarchyWindow::inspectedPrefab);
+				InspectorTable<Prefab>(HierarchyWindow::inspectedPrefab, PREFAB);
 
 				if (ImGui::Button("Save Changes to Prefab"))
 				{
