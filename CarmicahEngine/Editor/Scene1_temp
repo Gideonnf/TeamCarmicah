@@ -131,7 +131,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Idle 11"
+                    "texture": "MC_SpriteSheet_Idle 6"
                 },
                 {
                     "Component Name": "struct Script",
@@ -416,7 +416,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Mouse_SpriteSheet_Climb_blue 3"
+                    "texture": "Mouse_SpriteSheet_Climb_blue 2"
                 },
                 {
                     "Component Name": "struct Script",
@@ -545,7 +545,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Mouse_SpriteSheet_Climb_blue 3"
+                    "texture": "Mouse_SpriteSheet_Climb_blue 2"
                 },
                 {
                     "Component Name": "struct Script",
@@ -590,7 +590,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Shoot 3"
+                    "texture": "Shooter_SpriteSheet_Shooter_Shoot 7"
                 },
                 {
                     "Component Name": "struct Script",
@@ -635,7 +635,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Shoot 3"
+                    "texture": "Shooter_SpriteSheet_Shooter_Shoot 7"
                 },
                 {
                     "Component Name": "struct Script",
@@ -725,7 +725,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Bear_SpriteSheet_Bear_Climb 5"
+                    "texture": "Bear_SpriteSheet_Bear_Climb 1"
                 },
                 {
                     "Component Name": "struct Script",

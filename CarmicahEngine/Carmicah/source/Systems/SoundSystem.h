@@ -101,7 +101,7 @@ namespace Carmicah
         void ReceiveMessage(Message* msg) override;
 
         // Default load sound 
-        static constexpr const char* defaultBGM{ "BGM_MainMenu_Mix1" };
+        //static constexpr const char* defaultBGM{ "BGM_SetupPhase_Mix1" };
         static constexpr const char* defaultSFX{ "buttonclick" };
 
     private:
