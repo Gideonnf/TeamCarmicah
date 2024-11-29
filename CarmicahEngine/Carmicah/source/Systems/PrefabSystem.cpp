@@ -3,7 +3,6 @@
 #include "ECS/ComponentManager.h"
 #include "ECS/SystemManager.h"
 #include "ECS/EntityManager.h"
-#include "GOFactory.h" 
 #include "AssetManager.h"
 #include "SerializerSystem.h"
 
@@ -168,10 +167,10 @@ namespace Carmicah
 				// Loop through the entities that are made with the prefab
 				for (auto entity : mPrefabMap[casted_msg->prefabRef.mPrefabID])
 				{
+					PrefabData& prefData = ComponentManager::GetInstance()->GetComponent<PrefabData>(entity);
 					// loop through the components that it has
 					for (auto& component : casted_msg->prefabRef.mComponents)
 					{
-						PrefabData& prefData = ComponentManager::GetInstance()->GetComponent<PrefabData>(entity);
 
 						// If the component was modified by the user, then skip that component
 						if (std::find(prefData.mComponentsModified.begin(), prefData.mComponentsModified.end(), component.first) != prefData.mComponentsModified.end())
@@ -185,6 +184,17 @@ namespace Carmicah
 						UpdateComponent<RigidBody>(component, entity);
 
 					}
+
+					// Loop through components that have been removed
+					for (auto& componentName : casted_msg->prefabRef.mDeletedComponents)
+					{
+						RemoveComponent<Script>(componentName, entity);
+						RemoveComponent<TextRenderer>(componentName, entity);
+						RemoveComponent<RigidBody>(componentName, entity);
+					}
+
+					// clear after checking
+					casted_msg->prefabRef.mDeletedComponents.clear();
 				}
 			}
 			//CM_CORE_INFO(std::to_string(casted_msg->mID));
