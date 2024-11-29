@@ -31,7 +31,7 @@ bool RenderHelper::UniformExists(const GLuint& shdr, const char* str, GLint& ref
 void RenderHelper::InitScreenDimension(const float& screenWidth, const float& screenHeight)
 {
 	Mtx33Identity(screenMtx);
-	screenMtx.translateThis(-1.f, -1.f).scaleThis(2 / screenWidth, 2 / screenHeight);
+	screenMtx.translateThis(-1.f, -1.f).scaleThis(2.f / screenWidth, 2.f / screenHeight);
 
 	mEditorCam.Pos(0,0);
 	mEditorCam.Scale(100.f / screenWidth, 100.f / screenHeight);
@@ -309,22 +309,27 @@ void RenderHelper::RenderGizmos()
 	glUseProgram(mCurrShader);
 	glDisable(GL_DEPTH_TEST);
 
+	Mtx3x3f mtx{};
 	Vec2f translation{};
+	Vec2f gizmoScale{ mGizmoScale / mEditorWindomDim.x, mGizmoScale / mEditorWindomDim.y };
+	float lineWitdh = 8.f;
+
 	if (HierarchyWindow::selectedGO->HasComponent<Transform>())
 	{
 		translation = HierarchyWindow::selectedGO->GetComponent<Transform>().Pos() - mEditorCam.Pos();
-		translation.x *= mEditorCam.Scale().x * 2;
-		translation.y *= mEditorCam.Scale().y * 2;
+		Mtx3x3f temp{};
+		temp.scaleThis(1.f / gizmoScale.x, 1.f / gizmoScale.y).scaleThis(mEditorCam.GetScale());
+		translation = temp * translation;
 	}
 	else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
 	{
 		translation = HierarchyWindow::selectedGO->GetComponent<UITransform>().Pos();
+		Mtx3x3f temp{};
+		temp.scaleThis(1.f / gizmoScale.x, 1.f / gizmoScale.y);
+		translation = temp * screenMtx * translation;
 	}
 
 
-	Mtx3x3f mtx{};
-	Vec2f gizmoScale{ mGizmoScale / mEditorWindomDim.x, mGizmoScale / mEditorWindomDim.y };
-	float lineWitdh = 8.f;
 	switch (mEditorMode)
 	{
 	case GIZMOS_MODE::GIZMOS_ROTATE:
