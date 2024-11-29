@@ -196,12 +196,13 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("xPos");
 				ImGui::TableNextColumn();
-				if (ImGui::DragFloat("##xPos", &data.GetPos().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				Vec2f pos = data.Pos();
+				if (ImGui::DragFloat("##xPos", &pos.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
+					data.Pos(pos);
 					if (data.parent != 0)
 					{
 						Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(data.parent);
-
 
 						float worldX = parentTransform.worldSpace.m00 * data.Pos().x + parentTransform.worldSpace.m01 * data.Pos().y + parentTransform.worldSpace.m02;
 						float worldY = parentTransform.worldSpace.m10 * data.Pos().x + parentTransform.worldSpace.m11 * data.Pos().y + parentTransform.worldSpace.m12;
@@ -217,8 +218,11 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("yPos");
 				ImGui::TableNextColumn();
-				if (ImGui::DragFloat("##yPos", &data.GetPos().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				//Vec2f pos = data.Pos();
+
+				if (ImGui::DragFloat("##yPos", &pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
+					data.Pos(pos);
 					if (data.parent != 0)
 					{
 						Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(data.parent);
@@ -242,7 +246,11 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("Depth");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##zPos", &data.GetDepth(), 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+				float depth = data.Depth();
+				if (ImGui::DragFloat("##zPos", &depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					data.Depth(depth);
+				}
 
 				// Rotation
 				ImGui::TableNextRow();
@@ -266,13 +274,20 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("xScale");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##xScale", &data.GetScale().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+				Vec2f scale = data.Scale();
+				if (ImGui::DragFloat("##xScale", &scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					data.Scale(scale);
+				}
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("yScale");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##yScale", &data.GetScale().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+				if (ImGui::DragFloat("##yScale", &scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					data.Scale(scale);
+				}
 				ImGui::EndTable();
 			}
 		}

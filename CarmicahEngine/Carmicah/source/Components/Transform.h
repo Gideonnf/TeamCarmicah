@@ -34,6 +34,21 @@ namespace Carmicah
         {
             BaseTransform::SerializeComponent(writer);
         }
+
+        void UpdatePosition(float X, float Y)
+        {
+            pos.x += X;
+            pos.y += Y;
+            worldPos.x += X;
+            worldPos.y += Y;
+              
+            Mtx33Identity(worldSpace);
+            worldSpace.translateThis(worldPos).rotDegThis(worldRot).scaleThis(scale);
+
+            worldUpdate = true;
+            notUpdated = false;
+        }
+
     };
 }
 

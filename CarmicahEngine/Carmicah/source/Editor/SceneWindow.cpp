@@ -198,33 +198,34 @@ namespace Carmicah
                             double worldDeltaX = ((delta.x / 950 )) / cameraTransform.GetScale().x;
                             double worldDeltaY = -((delta.y / 540)) / cameraTransform.GetScale().y;
 
-
-                            //if (Input.IsKeyPressed(KEY_W))
-                            //{
-                            //    std::cout << "Pos: " << pos.x << "," << pos.y << std::endl;
-
-                            //    std::cout << "Window Size: " << windowWidth << "," << windowHeight << std::endl;
-                            //    
-                            //    std::cout <<"Delta: " << delta.x << "," << delta.y << std::endl;
-
-                            //    std::cout << "Camera Scale: " << cameraTransform.GetScale().x << "," << cameraTransform.GetScale().y << std::endl;
-
-                            //    std::cout << "Overall World Delta: " << worldDeltaX << "," << worldDeltaY << std::endl;
-                            //}
-
                             Input.SetDragStartPos(currentMousePos);
 
 
 
                             if (HierarchyWindow::selectedGO != nullptr)
                             {
+                                CM_CORE_INFO("Selected entity : " + std::to_string(HierarchyWindow::selectedGO->GetID()))
                                 if (HierarchyWindow::selectedGO->HasComponent<Transform>())
                                 {
                                     Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
+                                    selectedTransform.UpdatePosition(worldDeltaX, worldDeltaY);
+      /*                              if (selectedTransform.children.size() > 0)
+                                    {  
+                                        for (auto it : selectedTransform.children)
+                                        {
+                                            ComponentManager::GetInstance()->GetComponent<Transform>(it).Update();
+                                        }
 
-                                    selectedTransform.GetPos().x += worldDeltaX;
-                                    selectedTransform.GetPos().y += worldDeltaY;
-
+                                    }*/
+                                    //selectedTransform.UpdateWorldPos(worldDeltaX, worldDeltaY);
+                                 /*   selectedTransform.GetPos().x += worldDeltaX;
+                                    selectedTransform.GetPos().y += worldDeltaY;*/
+          /*                          if (selectedTransform.parent == 0)
+                                    {
+                                    }
+                                    else
+                                    {
+                                    }*/
                                 }
                             }
 
