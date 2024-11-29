@@ -104,21 +104,39 @@ namespace Carmicah
 				return true;
 			}
 		};
+		enum class GIZMOS_MODE
+		{
+			GIZMOS_NONE,
+			GIZMOS_TRANSLATE,
+			GIZMOS_SCALE,
+			GIZMOS_ROTATE
+		};
+		
 
 		Vec2d mOldMousePos{};
 		Transform mEditorCam{};
+		bool mEditorWindowActive;
+		Vec2f mEditorWindomDim;// Actual dimensions of the editor window that is being viewed, so that gizmos look okay
+		GIZMOS_MODE mEditorMode{ GIZMOS_MODE::GIZMOS_NONE };
 
 		std::map<BufferID, BatchBuffer> mBufferMap;//shder << 8 | primitive // use switch(num) case AssetManager::getShder(enConfig::Baisc)
 		std::map<unsigned int, FontUniform> mFontUniforms;
 
+		// General
 		void InitScreenDimension(const float& screenWidth, const float& screenHeight);
 		void UpdateEditorCam();
 		void Render(std::optional<Transform*> cam, bool isEditor = false);
 		void Render(const unsigned int& cam, bool isEditor = false);
 
+		// Fonts
 		FontUniform* GetFontUniforms(const unsigned int& bufferID);
 		unsigned int AssignFont(const unsigned int& e);
 		void UnassignFont(const unsigned int& e);
+
+		void LoadGizmos();
+	private:
+		const float mGizmoScale{250.f};
+		void RenderGizmos();
 	};
 }
 

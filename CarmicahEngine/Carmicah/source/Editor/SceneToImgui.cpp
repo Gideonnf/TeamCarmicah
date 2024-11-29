@@ -17,6 +17,7 @@ DigiPen Institute of Technology is prohibited.
 #include "SceneToImgui.h"
 #include "log.h"
 #include "Input/InputSystem.h"
+#include "ECS/ECSTypes.h"
 #include <sstream>
 
 namespace Carmicah
@@ -100,13 +101,14 @@ namespace Carmicah
         glReadPixels(mouseX, mouseY, 1, 1,
             GL_RED_INTEGER, GL_UNSIGNED_INT, &goID);
 
-        // basically if ID Dun exists tq
-        if (goID != 0 && goID != 1061208237)
+        std::stringstream ss;
+        ss << "ID: " << goID << "[" << mouseX << ',' << mouseY << "]";
+        CM_CORE_INFO(ss.str());
+        if (goID >= MAX_ENTITIES)
         {
-            std::stringstream ss;
-            ss << "ID: " << goID << "[" << mouseX << ',' << mouseY << "]";
-            CM_CORE_INFO(ss.str());
+            goID = 0;
         }
+
         glReadBuffer(GL_NONE);
         glBindFramebuffer(GL_FRAMEBUFFER, prevBinding);
         return goID;
