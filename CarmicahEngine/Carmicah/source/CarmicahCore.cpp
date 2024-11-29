@@ -251,7 +251,6 @@ namespace Carmicah
 
         while (!glfwWindowShouldClose(window)) {
             CarmicahTime::GetInstance()->StartLoopTimer();
-            glfwPollEvents(); // this takes 20% of engine run time
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTime::GetInstance()->FPS())) + " - Scene : " + gameSystem->GetCurrScene();
             glfwSetWindowTitle(window, title.c_str());
 
@@ -286,7 +285,7 @@ namespace Carmicah
                 //gameLogic->Init(); // refetch the objects needed
 
                 // if game only then go straight to onstart and runtime
-                if (gameOnly)
+                if (gameOnly || gameSystem->mRuntime)
                     gameSystem->mNextState = SceneState::ONSTART;
             }
             // If the next state was set to ONSTART, means sceneSystem received a play messag
@@ -460,6 +459,8 @@ namespace Carmicah
 
                 // I WILL UPDAAATEEE BUTTONSYSTEM HERE OKKKKAAYYYY, PLS DONT CRASH CRYING EMOJI
 				butSystem->Update();
+
+                glfwPollEvents(); // this takes 20% of engine run time
                 Input.Update();
 
                // glfwMakeContextCurrent(window);

@@ -1,0 +1,144 @@
+{
+    "Scene": "Scene3",
+    "SceneObjects": [
+        {
+            "GameObject": "BackgroundGO",
+            "ID": 1,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "main_menu_bg"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 960.0,
+                    "yPos": 540.0,
+                    "depth": -500.0,
+                    "xScale": 1920.0,
+                    "yScale": 1080.0,
+                    "rot": 0.0
+                }
+            ]
+        },
+        {
+            "GameObject": "MainCamera",
+            "ID": 2,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 4.0,
+                    "yPos": 4.0,
+                    "depth": 0.0,
+                    "xScale": 0.05263157933950424,
+                    "yScale": 0.10000000149011612,
+                    "rot": 0.0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "Play Button",
+            "ID": 3,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button",
+                    "ButtonImage": "play_button",
+                    "ButtonImagePressed": "play_button"
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "play_button"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.PlayButton",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1300.0,
+                    "yPos": 400.0,
+                    "depth": 1.0,
+                    "xScale": 200.0,
+                    "yScale": 100.0,
+                    "rot": 0.0
+                }
+            ]
+        },
+        {
+            "GameObject": "Quit Button",
+            "ID": 4,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button",
+                    "ButtonImage": "quit_button",
+                    "ButtonImagePressed": "quit_button"
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "quit_button"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1300.0,
+                    "yPos": 275.0,
+                    "depth": 1.0,
+                    "xScale": 200.0,
+                    "yScale": 100.0,
+                    "rot": 0.0
+                }
+            ]
+        },
+        {
+            "GameObject": "Settings Button",
+            "ID": 5,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button",
+                    "ButtonImage": "settings_button",
+                    "ButtonImagePressed": "settings_button"
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "settings_button"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.SettingButton",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1300.0,
+                    "yPos": 150.0,
+                    "depth": 1.0,
+                    "xScale": 200.0,
+                    "yScale": 100.0,
+                    "rot": 0.0
+                }
+            ]
+        }
+    ]
+}

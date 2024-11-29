@@ -80,6 +80,15 @@ namespace Carmicah
                 break;
             }
         }
+
+        for (auto it = entityAdded.begin(); it != entityAdded.end(); ++it)
+        {
+            if (*it == id)
+            {
+                entityAdded.erase(it);
+                break;
+            }
+        }
     }
 
     void ScriptSystem::Init()
