@@ -189,10 +189,10 @@ namespace Carmicah
 		}
 	}
 
-	template<typename EntityID>
-	void InspectorWindow::RenderTransformTable(Transform& data, EntityID id)
+	template<typename T, typename EntityID>
+	void InspectorWindow::RenderTransformTable(T* go, EntityID id)
 	{
-
+		Transform& selectedTransform = go->GetComponent<Transform>();
 		if (ImGui::CollapsingHeader("Transform Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			if (ImGui::BeginTable("Transform Table", 2, ImGuiTableFlags_Borders))
@@ -208,21 +208,21 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("xPos");
 				ImGui::TableNextColumn();
-				Vec2f pos = data.Pos();
+				Vec2f pos = selectedTransform.Pos();
 				if (ImGui::DragFloat("##xPos", &pos.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
-					data.Pos(pos);
-					if (data.parent != 0)
+					selectedTransform.Pos(pos);
+					if (selectedTransform.parent != 0)
 					{
-						Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(data.parent);
+						Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
 
-						float worldX = parentTransform.worldSpace.m00 * data.Pos().x + parentTransform.worldSpace.m01 * data.Pos().y + parentTransform.worldSpace.m02;
-						float worldY = parentTransform.worldSpace.m10 * data.Pos().x + parentTransform.worldSpace.m11 * data.Pos().y + parentTransform.worldSpace.m12;
-						data.WorldPos(worldX, worldY);
+						float worldX = parentTransform.worldSpace.m00 * selectedTransform.Pos().x + parentTransform.worldSpace.m01 * selectedTransform.Pos().y + parentTransform.worldSpace.m02;
+						float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
+						selectedTransform.WorldPos(worldX, worldY);
 					}
 					else
 					{
-						data.WorldPos(data.Pos());
+						selectedTransform.WorldPos(selectedTransform.Pos());
 					}
 				}
 
@@ -234,21 +234,21 @@ namespace Carmicah
 
 				if (ImGui::DragFloat("##yPos", &pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
-					data.Pos(pos);
-					if (data.parent != 0)
+					selectedTransform.Pos(pos);
+					if (selectedTransform.parent != 0)
 					{
-						Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(data.parent);
+						Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
 						//CM_CORE_INFO("Parent World X : " + std::to_string(parentTransform.worldSpace.m20) + ", Parent World Y : " + std::to_string(parentTransform.worldSpace.m21));
 
-						float worldX = parentTransform.worldSpace.m00 * data.Pos().x + parentTransform.worldSpace.m01 * data.Pos().y + parentTransform.worldSpace.m02;
+						float worldX = parentTransform.worldSpace.m00 * selectedTransform.Pos().x + parentTransform.worldSpace.m01 * selectedTransform.Pos().y + parentTransform.worldSpace.m02;
 
-						float worldY = parentTransform.worldSpace.m10 * data.Pos().x + parentTransform.worldSpace.m11 * data.Pos().y + parentTransform.worldSpace.m12;
+						float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
 
-						data.WorldPos(worldX, worldY);
+						selectedTransform.WorldPos(worldX, worldY);
 					}
 					else
 					{
-						data.WorldPos(data.Pos());
+						selectedTransform.WorldPos(selectedTransform.Pos());
 					}
 				}
 				//CM_CORE_INFO("World X : " + std::to_string(selectedTransform.WorldPos().x) + ", World Y : " + std::to_string(selectedTransform.WorldPos().y));
@@ -258,10 +258,10 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("Depth");
 				ImGui::TableNextColumn();
-				float depth = data.Depth();
+				float depth = selectedTransform.Depth();
 				if (ImGui::DragFloat("##zPos", &depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
-					data.Depth(depth);
+					selectedTransform.Depth(depth);
 				}
 
 				// Rotation
@@ -269,15 +269,15 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("Rotation");
 				ImGui::TableNextColumn();
-				float rotVar = data.Rot();
+				float rotVar = selectedTransform.Rot();
 				if (ImGui::DragFloat("##rot", &rotVar, 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
-					data.GetRot() = rotVar;
+					selectedTransform.GetRot() = rotVar;
 					// Wrap the rotation value between 0 and 360 degrees
-					data.Rot(fmodf(data.Rot(), 360.0f));
-					if (data.Rot() < 0.0f)
+					selectedTransform.Rot(fmodf(selectedTransform.Rot(), 360.0f));
+					if (selectedTransform.Rot() < 0.0f)
 					{
-						data.GetRot() += 360.0f;
+						selectedTransform.GetRot() += 360.0f;
 					}
 				}
 
@@ -286,10 +286,10 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("xScale");
 				ImGui::TableNextColumn();
-				Vec2f scale = data.Scale();
+				Vec2f scale = selectedTransform.Scale();
 				if (ImGui::DragFloat("##xScale", &scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
-					data.Scale(scale);
+					selectedTransform.Scale(scale);
 				}
 
 				ImGui::TableNextRow();
@@ -298,16 +298,17 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				if (ImGui::DragFloat("##yScale", &scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
-					data.Scale(scale);
+					selectedTransform.Scale(scale);
 				}
 				ImGui::EndTable();
 			}
 		}
 	}
 
-	template<typename EntityID>
-	void InspectorWindow::RenderUITransformTable(UITransform& data, EntityID id)
+	template<typename T,typename EntityID>
+	void InspectorWindow::RenderUITransformTable(T* go, EntityID id)
 	{
+		UITransform& selectedUITransform = go->GetComponent<UITransform>();
 		if (ImGui::CollapsingHeader("UI Transform Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			if (ImGui::BeginTable("UI Transform Table", 2, ImGuiTableFlags_Borders))
@@ -323,32 +324,32 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("xPos");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##xPos", &data.GetPos().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+				ImGui::DragFloat("##xPos", &selectedUITransform.GetPos().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("yPos");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##yPos", &data.GetPos().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+				ImGui::DragFloat("##yPos", &selectedUITransform.GetPos().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Depth");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##Depth", &data.GetDepth(), 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+				ImGui::DragFloat("##Depth", &selectedUITransform.GetDepth(), 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 				// Scale (xScale, yScale)
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("xScale");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##xScale", &data.GetScale().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+				ImGui::DragFloat("##xScale", &selectedUITransform.GetScale().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("yScale");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##yScale", &data.GetScale().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+				ImGui::DragFloat("##yScale", &selectedUITransform.GetScale().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
 				//ImGui::TableNextRow();
 				//ImGui::TableNextColumn();
@@ -366,11 +367,11 @@ namespace Carmicah
 		}
 	}
 
-	template<typename EntityID>
-	void InspectorWindow::RenderRenderingTable(Renderer& data, EntityID id)
+	template<typename T,typename EntityID>
+	void InspectorWindow::RenderRenderingTable(T* go, EntityID id)
 	{
 		auto& textureMap = AssetManager::GetInstance()->GetAssetMap<Texture>();
-
+		Renderer& render = go->GetComponent<Renderer>();
 		if (ImGui::CollapsingHeader("Renderer Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			InspectorWindow::RemoveComponentButton<Renderer>(id);
@@ -381,7 +382,7 @@ namespace Carmicah
 				ImGui::Text("Model");
 
 				ImGui::TableNextColumn();
-				ImGui::Text("%s", data.model.c_str());
+				ImGui::Text("%s", render.model.c_str());
 
 				/*ImGui::SameLine();
 				if (ImGui::Button("v"))
@@ -406,13 +407,13 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("Texture");
 				ImGui::TableNextColumn();
-				ImGui::Text("%s", data.Texture().c_str());
+				ImGui::Text("%s", render.Texture().c_str());
 				if (ImGui::BeginDragDropTarget())
 				{
 					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TEXTURE_PAYLOAD"))
 					{
 						std::string textureName = *(const std::string*)payload->Data;
-						data.Texture(textureName);
+						render.Texture(textureName);
 					}
 
 					ImGui::EndDragDropTarget();
@@ -430,7 +431,7 @@ namespace Carmicah
 						if (entry.first.empty()) continue; // TODO: Find out why "" is being added to asset map
 						if (ImGui::Button(entry.first.c_str()))
 						{
-							data.Texture(entry.first);
+							render.Texture(entry.first);
 							ImGui::CloseCurrentPopup();
 						}
 					}
@@ -441,10 +442,11 @@ namespace Carmicah
 		}
 	}
 	
-	template<typename EntityID>
-	void InspectorWindow::RenderAnimationTable(Animation& anim, EntityID id)
+	template<typename T,typename EntityID>
+	void InspectorWindow::RenderAnimationTable(T* go, EntityID id)
 	{
 		auto& animMap = AssetManager::GetInstance()->GetAssetMap<AnimAtlas>();
+		Animation& anim = go->GetComponent<Animation>();
 		if (ImGui::CollapsingHeader("Animation Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			InspectorWindow::RemoveComponentButton<Animation>(id);
@@ -486,11 +488,11 @@ namespace Carmicah
 		}
 	}
 
-	template<typename EntityID>
-	bool InspectorWindow::RenderRigidBodyTable(RigidBody& rb, EntityID id)
+	template<typename T, typename EntityID>
+	bool InspectorWindow::RenderRigidBodyTable(T* go, EntityID id)
 	{
 		bool modified = false;
-
+		RigidBody& rb = go->GetComponent<RigidBody>();
 		if (ImGui::CollapsingHeader("Rigid Body Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			InspectorWindow::RemoveComponentButton<RigidBody>(id);
@@ -601,9 +603,10 @@ namespace Carmicah
 		return modified;
 	}
 
-	template<typename EntityID>
-	void InspectorWindow::RenderCollider2DTable(Collider2D& col, EntityID id)
+	template<typename T, typename EntityID>
+	void InspectorWindow::RenderCollider2DTable(T* go, EntityID id)
 	{
+		Collider2D& col = go->GetComponent<Collider2D>();
 		if (ImGui::CollapsingHeader("Collider Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			InspectorWindow::RemoveComponentButton<Collider2D>(id);
@@ -644,10 +647,11 @@ namespace Carmicah
 		}
 	}
 
-	template<typename EntityID>
-	void InspectorWindow::RenderTextRenderTable(TextRenderer& text, EntityID id)
+	template<typename T, typename EntityID>
+	void InspectorWindow::RenderTextRenderTable(T* go, EntityID id)
 	{
 		auto& fontMap = AssetManager::GetInstance()->GetAssetMap<Font>();
+		TextRenderer& text = go->GetComponent<TextRenderer>();
 		if (ImGui::CollapsingHeader("Text Renderer Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			InspectorWindow::RemoveComponentButton<TextRenderer>(id);
@@ -712,11 +716,11 @@ namespace Carmicah
 		}
 	}
 
-	template<typename EntityID>
-	void InspectorWindow::RenderButtonTable(Button& butt, EntityID id)
+	template<typename T, typename EntityID>
+	void InspectorWindow::RenderButtonTable(T* go, EntityID id)
 	{
 		auto& textureMap = AssetManager::GetInstance()->GetAssetMap<Texture>();
-
+		Button& butt = go->GetComponent<Button>();
 		if (ImGui::CollapsingHeader("Button Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			InspectorWindow::RemoveComponentButton<Button>(id);
@@ -757,9 +761,10 @@ namespace Carmicah
 		}
 	}
 
-	template<typename EntityID>
-	void InspectorWindow::RenderScriptTable(Script& script, EntityID id)
+	template<typename T, typename EntityID>
+	void InspectorWindow::RenderScriptTable(T* go, EntityID id)
 	{
+		Script& script = go->GetComponent<Script>();
 		if (ImGui::CollapsingHeader("Script Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			InspectorWindow::RemoveComponentButton<Script>(id);
@@ -1375,64 +1380,52 @@ namespace Carmicah
 	{
 		if (go->HasComponent<Transform>())
 		{
-			Transform& selectedTransform = go->GetComponent<Transform>();
-			//InspectorWindow::RemoveComponentButton<Transform>(id);
-			RenderTransformTable(selectedTransform, id);
+			RenderTransformTable(go, id);
 		}
 		else if (go->HasComponent<UITransform>())
 		{
-			UITransform& selectedUITransform = go->GetComponent<UITransform>();
-			
-			RenderUITransformTable(selectedUITransform, id);
+			RenderUITransformTable(go, id);
 		}
 
 		if (go->HasComponent<Renderer>())
 		{
-			Renderer& render = go->GetComponent<Renderer>();
-			
-			RenderRenderingTable(render, id);
+			RenderRenderingTable(go, id);
 			//CheckForComponentChange<Renderer>(*go, render);
 		}
 		if (go->HasComponent<Animation>())
 		{
-			Animation& anim = go->GetComponent<Animation>();
-			RenderAnimationTable(anim, id);
+			RenderAnimationTable(go, id);
 		}
 		
 		// render rigibody data
 		if (go->HasComponent<RigidBody>())
 		{
-			RigidBody& rb = go->GetComponent<RigidBody>();
 			bool modified = false;
-			modified = RenderRigidBodyTable(rb, id);
-
+			RigidBody& rb = go->GetComponent<RigidBody>();
+			modified = RenderRigidBodyTable(go, id);
 			CheckForComponentChange<RigidBody>(*go, rb, modified);
 		}
 
 		// render collider data
 		if (go->HasComponent<Collider2D>())
 		{
-			Collider2D& col = go->GetComponent<Collider2D>();
-			RenderCollider2DTable(col, id);
+			RenderCollider2DTable(go, id);
 		}
 
 		// show text 
 		// color picker
 		if (go->HasComponent<TextRenderer>())
 		{
-			TextRenderer& text = go->GetComponent<TextRenderer>();
-			RenderTextRenderTable(text, id);
+			RenderTextRenderTable(go, id);
 		}
 
 		if (go->HasComponent<Button>())
 		{
-			Button& butt = go->GetComponent<Button>();
-			RenderButtonTable(butt, id);
+			RenderButtonTable(go, id);
 		}
 		if (go->HasComponent<Script>())
 		{
-			Script& script = go->GetComponent<Script>();
-			RenderScriptTable(script, id);
+			RenderScriptTable(go, id);
 		}
 	}
 

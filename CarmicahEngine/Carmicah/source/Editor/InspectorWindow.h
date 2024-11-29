@@ -85,32 +85,32 @@ namespace Carmicah
 		template <typename T>
 		void RemoveComponentButton(Prefab go);
 
-		template<typename EntityID>
-		void RenderTransformTable(Transform& data, EntityID id);
+		template<typename T, typename EntityID>
+		void RenderTransformTable(T* data, EntityID id);
 
-		template<typename EntityID>
-		void RenderUITransformTable(UITransform& data, EntityID id);
+		template<typename T, typename EntityID>
+		void RenderUITransformTable(T* data, EntityID id);
 
-		template<typename EntityID>
-		void RenderRenderingTable(Renderer& data, EntityID id);
+		template<typename T, typename EntityID>
+		void RenderRenderingTable(T* data, EntityID id);
 
-		template<typename EntityID>
-		void RenderAnimationTable(Animation& data, EntityID id);
+		template<typename T,typename EntityID>
+		void RenderAnimationTable(T* data, EntityID id);
 
-		template<typename EntityID>
-		bool RenderRigidBodyTable(RigidBody& rb, EntityID id);
+		template<typename T, typename EntityID>
+		bool RenderRigidBodyTable(T* data, EntityID id);
 
-		template<typename EntityID>
-		void RenderCollider2DTable(Collider2D& data, EntityID id);
+		template<typename T, typename EntityID>
+		void RenderCollider2DTable(T* data, EntityID id);
 
-		template<typename EntityID>
-		void RenderTextRenderTable(TextRenderer& data, EntityID id);
+		template<typename T, typename EntityID>
+		void RenderTextRenderTable(T* data, EntityID id);
 
-		template<typename EntityID>
-		void RenderButtonTable(Button& data, EntityID id);
+		template<typename T, typename EntityID>
+		void RenderButtonTable(T* data, EntityID id);
 
-		template<typename EntityID>
-		void RenderScriptTable(Script& data, EntityID id);
+		template<typename T, typename EntityID>
+		void RenderScriptTable(T* data, EntityID id);
 		//TODO: IF IT WORKS< APPLY IT FOR EVERYTHIGN ELSE
 		template <typename T>
 		void CheckForComponentChange(GameObject& go, T& newComponent, bool modified)
