@@ -54,21 +54,22 @@ namespace Carmicah
 		{
 			auto& rend = componentManager->GetComponent<Renderer>(obj);
 			auto& mtx = AssetManager::GetInstance()->GetAsset<Texture>(rend.GetTexture()).mtx;
-			float width = mtx.m00 * AssetManager::GetInstance()->enConfig.maxTexSize;
-			float height = mtx.m11 * AssetManager::GetInstance()->enConfig.maxTexSize;
-			if (collider.customWidth == 0 || collider.customHeight == 0) 
+			float imgWidth = mtx.m00 * AssetManager::GetInstance()->enConfig.maxTexSize;
+			float imgHeight = mtx.m11 * AssetManager::GetInstance()->enConfig.maxTexSize;
+		
+			collider.customWidth = (static_cast<float>(imgWidth) / 100.0f);
+			collider.customHeight = (static_cast<float>(imgHeight) / 100.0f);
+
+			/*if (collider.OBBinit == false) 
 			{
-
-				collider.customWidth = width;
-				collider.customHeight = height;
-
-			}
+				collider.OBBinit = true;
+			}*/
 		}
 
 
 		// Calculate the half-width and half-height of the object
-		float halfWidth = (collider.customWidth * collider.localScale) * 0.5f;
-		float halfHeight = (collider.customHeight * collider.localScale) * 0.5f;
+		float halfWidth = (collider.customWidth * transform.Scale().x) * 0.5f;
+		float halfHeight = (collider.customHeight * transform.Scale().y) * 0.5f;
 
 		// Rotation angle in radians
 		float angleInRadians = transform.Rot() * (PI / 180.0f);
@@ -149,7 +150,10 @@ namespace Carmicah
 
 			// Calculate and store edge normal
 			Vec2f normal(edge.y, -edge.x); // Perpendicular normal
-			
+			if (normal.x == 0 || normal.y == 0)
+			{
+				continue;
+			}
 			normal.normalize(); // Ensure normal is unit length
 			collider.objNormals.push_back(normal);
 
