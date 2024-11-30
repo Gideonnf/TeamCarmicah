@@ -21,7 +21,8 @@
     <OutputPath>..\bin\Debug-x86_64\CarmicahScriptCore\</OutputPath>
     <BaseIntermediateOutputPath>..\bin\Debug-x86_64int\CarmicahScriptCore\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -33,7 +34,8 @@
     <OutputPath>..\bin\Release-x86_64\CarmicahScriptCore\</OutputPath>
     <BaseIntermediateOutputPath>..\bin\Release-x86_64int\CarmicahScriptCore\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -45,7 +47,8 @@
     <OutputPath>..\bin\Installer-x86_64\CarmicahScriptCore\</OutputPath>
     <BaseIntermediateOutputPath>..\bin\Installer-x86_64int\CarmicahScriptCore\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -67,7 +70,8 @@
     <Compile Include="Source\Player.cs" />
     <Compile Include="Source\QuitButton.cs" />
     <Compile Include="Source\SettingButton.cs" />
-    <Compile Include="Source\StateMachine.cs" />
+    <Compile Include="Source\ShooterNPC.cs" />
+    <Compile Include="Source\System\StateMachine.cs" />
     <Compile Include="Source\System\Component.cs" />
     <Compile Include="Source\System\Entity.cs" />
     <Compile Include="Source\System\FunctionCalls.cs" />

@@ -85,6 +85,8 @@ namespace Carmicah
             }
             else if (stateMachine.GetCurrentState() == "Dead")
             {
+                GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                gm.MouseDestroyed(this);
                 Destroy();
             }
         }
@@ -122,6 +124,11 @@ namespace Carmicah
             {
                  stateMachine.SetNextState("Dead");
             }
+        }
+
+        public void KillMouse()
+        {
+            stateMachine.SetNextState("Dead");
         }
 
         //void ResetPosition()

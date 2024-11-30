@@ -124,8 +124,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.12060526013374329,
-                    "yPos": -3.950467586517334,
+                    "xPos": -0.08437765389680863,
+                    "yPos": -3.474534749984741,
                     "depth": 4.0,
                     "xScale": 2.0,
                     "yScale": 2.0,
@@ -134,7 +134,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Walk 5"
+                    "texture": "MC_SpriteSheet_Walk 7"
                 },
                 {
                     "Component Name": "struct Script",
@@ -399,6 +399,41 @@
             "Children": []
         },
         {
+            "GameObject": "ShooterNPC",
+            "ID": 16,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 1.9630851745605469,
+                    "yPos": -3.990508794784546,
+                    "depth": 3.75,
+                    "xScale": -2.0,
+                    "yScale": 2.0,
+                    "rot": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 6"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ShooterNPC",
+                    "ScriptableFieldMap": [
+                        {
+                            "IdleAnim": "Shooter_Idle",
+                            "ShootAnim": "Shooter_Shoot"
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Shooter_Idle"
+                }
+            ],
+            "Children": []
+        },
+        {
             "GameObject": "EndPointLeft",
             "ID": 18,
             "Components": [
@@ -437,14 +472,17 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "MousePrefabName": "MouseGO",
-                            "LeftOrRight": false,
                             "StartingCake": "StartingCake",
-                            "spawnTimer": 3.0,
+                            "MousePrefabName": "MouseGO",
+                            "waveTimer": 0.0,
+                            "LeftOrRight": false,
                             "CakeHeightOffset": 6.0,
+                            "spawnTimer": 1.5,
                             "timer": 0.0,
                             "CakePrefabName": "Cake",
-                            "PlayerName": "mainCharacter"
+                            "PlayerName": "mainCharacter",
+                            "GameStart": false,
+                            "WaveStartTime": 25.0
                         }
                     ]
                 }
