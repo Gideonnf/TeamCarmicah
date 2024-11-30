@@ -18,11 +18,16 @@ DigiPen Institute of Technology is prohibited.
 
 #include "../ECS/GameObject.h"
 #include "../ECS/BaseSystem.h"
+#include <map>
+#include <unordered_set>
 
 namespace Carmicah
 {
 	class TransformSystem : public BaseSystem
 	{
+	private:
+		std::map<unsigned int, std::unordered_set<unsigned int>> transformedMap{};
+
 	public:
 		/// <summary>
 		/// Initializes the transform system by registering the components
@@ -37,7 +42,9 @@ namespace Carmicah
 		/// </summary>
 		void PostUpdate();
 		
-		void UpdateTransform(Entity entity);
+		void AddToTransformMap(Entity e);
+
+		void UpdateTransform(Entity e);
 
 		/// <summary>
 		/// Used to receive messages by the System Manager when sent a message from other systems
@@ -51,12 +58,6 @@ namespace Carmicah
 		/// <param name="parentID">Parent ID</param>
 		/// <param name="ToWorld">If being parented back to world/scene</param>
 		void CalculateTransform(Entity entityID, Entity parentID, bool ToWorld = false);
-		/// <summary>
-		/// Recursively calculate children transforms 
-		/// </summary>
-		/// <param name="id">ID of the entity</param>
-		/// <param name="parentID">ID of the parent entity</param>
-		void CalculateChildren(Entity id, Entity parentID);
 	};
 
 }

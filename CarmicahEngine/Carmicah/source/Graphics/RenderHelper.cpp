@@ -62,7 +62,7 @@ void RenderHelper::UpdateEditorCam()
 	if (Input.IsKeyHold(KEY_EQUAL))
 	{
 		Vec2f& s = mEditorCam.GetScale();
-		float ratio = AssetManager::GetInstance()->enConfig.Width / AssetManager::GetInstance()->enConfig.Height;
+		float ratio = static_cast<float>(AssetManager::GetInstance()->enConfig.Width) / static_cast<float>(AssetManager::GetInstance()->enConfig.Height);
 
 		s.x += ratio * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
 		s.y += 1.f * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
@@ -316,7 +316,9 @@ void RenderHelper::RenderGizmos()
 
 	if (HierarchyWindow::selectedGO->HasComponent<Transform>())
 	{
-		translation = HierarchyWindow::selectedGO->GetComponent<Transform>().Pos() - mEditorCam.Pos();
+		Transform& t = HierarchyWindow::selectedGO->GetComponent<Transform>();
+		Vec2f selectedTrans{t.worldSpace.m20, t.worldSpace.m21};
+		translation = selectedTrans - mEditorCam.Pos();
 		Mtx3x3f temp{};
 		temp.scaleThis(1.f / gizmoScale.x, 1.f / gizmoScale.y).scaleThis(mEditorCam.GetScale());
 		translation = temp * translation;

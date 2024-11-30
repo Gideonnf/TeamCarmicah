@@ -17,6 +17,7 @@ DigiPen Institute of Technology is prohibited.
 #include "TransformSystem.h"
 #include "ECS/SystemManager.h"
 #include "ECS/ComponentManager.h"
+#include "Input/InputSystem.h"
 
 namespace Carmicah
 {
@@ -27,88 +28,101 @@ namespace Carmicah
 		SystemManager::GetInstance()->SetSignature<TransformSystem>(mSignature);
 	}
 
-	void TransformSystem::Update()
+	void TransformSystem::AddToTransformMap(Entity e)
 	{
-		for (auto& entity : mEntitiesSet)
+		auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(e);
+		// Can't add to non-existant map value
+		auto i = transformedMap.find(transform.grandChildLvl);
+		if (i == transformedMap.end())
 		{
-			UpdateTransform(entity);
+			transformedMap.emplace(transform.grandChildLvl, std::unordered_set<unsigned int>());
+			i = transformedMap.find(transform.grandChildLvl);
+		}
+
+		// Adding part
+		if (transformedMap[transform.grandChildLvl].find(e) == transformedMap[transform.grandChildLvl].end())
+			transformedMap[transform.grandChildLvl].emplace(e);
+		else
+			return;
+
+		// Recursive loop
+		for (auto child : transform.children)
+		{
+			ComponentManager::GetInstance()->GetComponent<Transform>(child).Update();
+			AddToTransformMap(child);
 		}
 	}
 
-	void TransformSystem::UpdateTransform(Entity entity)
+	void TransformSystem::Update()
 	{
-		auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
-
-		// Handle Entities transform
-		if (transform.Updated())
+		for (auto& e : mEntitiesSet)
 		{
-			//CM_CORE_INFO("entity updating: " + std::to_string(entity));
-			// if no parent
-			if (transform.parent == 0)
-			{
-				Mtx33Identity(transform.worldSpace);
-				transform.worldSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
-				transform.localSpace = transform.worldSpace; // if no parent, local and world is the same
-				transform.WorldPos(transform.worldSpace.m20, transform.worldSpace.m21);
-
-			}
-			// have parent
-			else
-			{
-				// get parent's transform
-				Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(transform.parent);
-				
-				//float localX = transform.WorldPos().x - parentTransform.worldSpace.m02;
-				//float localY = transform.WorldPos().y - parentTransform.worldSpace.m12;
-
-				//float inverseRotX = parentTransform.worldSpace.m00 * localX + parentTransform.worldSpace.m10 * localY;
-				//float inverseRotY = parentTransform.worldSpace.m01 * localX + parentTransform.worldSpace.m11 * localY;
-
-				//transform.Pos(inverseRotX, inverseRotY);
-				CM_CORE_INFO("Updating entity : " + std::to_string(entity));
-
-				//CM_CORE_INFO("localPos X : " + std::to_string(inverseRotX) + ", localPos Y : " + std::to_string(inverseRotY));
-
-				Mtx33Identity(transform.localSpace);
-				Mtx33Identity(transform.worldSpace);
-
-				transform.localSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
-				transform.worldSpace = parentTransform.worldSpace * transform.localSpace;
-				//if (transform.worldUpdate)
-				//{
-				//	transform.worldSpace.translateThis(transform.WorldPos()).rotDegThis(transform.WorldRot()).scaleThis(transform.Scale());
-
-				//	transform.worldUpdate = false;
-				//}
-				//else
-				//{
-
-				//}
-
-				//transform.WorldPos(transform.worldSpace.m20, transform.worldSpace.m21);
-
-			}
-
-			// Update child transform
-			if (transform.children.size() != 0)
-			{
-				for (auto it : transform.children)
-				{
-					auto& childTransform = ComponentManager::GetInstance()->GetComponent<Transform>(it);
-					childTransform.Update(); // set the notUpdate flag to false for children objects
-					//UpdateTransform(entity); // then update their transform
-				}
-			}
+			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(e);
+			if (transform.Updated())
+				AddToTransformMap(e);
 		}
 
+		for (auto& set : transformedMap)
+		{
+			for(auto entity : set.second)
+				UpdateTransform(entity);
+		}
+
+		//if(Input.IsKeyPressed(KEY_B))
+		//for (auto& e : mEntitiesSet)
+		//{
+		//	auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(e);
+		//	if (transform.parent != 0)
+		//	{
+		//		CalculateTransform(e, transform.parent, true);
+		//	}
+		//}
+		
+	}
+
+	// Handle Entities transform
+	void TransformSystem::UpdateTransform(Entity e)
+	{
+		auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(e);
+		//CM_CORE_INFO("entity updating: " + std::to_string(entity));
+		// if no parent
+		if (transform.parent == 0)
+		{
+			transform.GetPos() += transform.GetUpdateAbsPos();
+			transform.GetUpdateAbsPos() = Vec2f::zero();
+
+			Mtx33Identity(transform.worldSpace);
+			transform.worldSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
+			transform.localSpace = transform.worldSpace; // if no parent, local and world is the same
+		}
+		// have parent
+		else
+		{
+			// get parent's transform
+			Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(transform.parent);
+
+			Mtx3x3f parentInvMtx{};
+			float det{};
+			Mtx33Inverse(&parentInvMtx, &det, parentTransform.worldSpace);
+			parentInvMtx.m20 = parentInvMtx.m21 = 0.f;
+			transform.GetPos() += parentInvMtx * transform.GetUpdateAbsPos();
+
+			transform.GetUpdateAbsPos() = Vec2f::zero();
+
+			Mtx33Identity(transform.localSpace);
+
+			transform.localSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
+			transform.worldSpace = parentTransform.worldSpace * transform.localSpace;
+		}
 	}
 
 	void TransformSystem::PostUpdate()
 	{
-		for (auto& entity : mEntitiesSet)
+		for (std::map<unsigned int, std::unordered_set<unsigned int>>::iterator set{ transformedMap.begin() }; set != transformedMap.end(); ++set)
 		{
-			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity);
-			transform.ResetUpdate();
+			for (std::unordered_set<unsigned int>::iterator entity{ set->second.begin()}; entity != set->second.end(); ++entity)
+				ComponentManager::GetInstance()->GetComponent<Transform>(*entity).ResetUpdate();
+			set->second.clear();
 		}
 	}
 
@@ -117,20 +131,24 @@ namespace Carmicah
 		Transform& entityTransform = ComponentManager::GetInstance()->GetComponent<Transform>(entityID);
 		Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(parentID);
 
+		// no work --TODO--
 		if (ToWorld)
 		{
+			Mtx3x3f parentInvMtx{};
+			float det{};
+			Mtx33Inverse(&parentInvMtx, &det, parentTransform.worldSpace);
 			// Get back world transform pos
-			entityTransform.PosX(parentTransform.Pos().x + entityTransform.Pos().x);
-			entityTransform.PosY(parentTransform.Pos().y + entityTransform.Pos().y);
+			entityTransform.Pos(entityTransform.Pos().x + parentInvMtx.m20, entityTransform.Pos().y + parentInvMtx.m21);
 
-			entityTransform.WorldPos(entityTransform.Pos() + parentTransform.Pos());
+			parentInvMtx.m20 = parentInvMtx.m21 = 0.f;
 
 			// get back world transform rot
-			entityTransform.Rot(parentTransform.Rot() + entityTransform.Rot());
+			Vec2f calcRot = entityTransform.worldSpace * Vec2f::right();
+			entityTransform.Rot(atan2f(calcRot.y, calcRot.x) / PI * 180.f + entityTransform.Rot());
 
 			// get back world transform scale
-			entityTransform.Scale(parentTransform.Scale().x * entityTransform.Scale().x, parentTransform.Scale().y * entityTransform.Scale().y);
-
+			entityTransform.Scale((parentInvMtx.m00 + parentInvMtx.m10) * entityTransform.Scale().x, (parentInvMtx.m11 + parentInvMtx.m01) * entityTransform.Scale().y);
+			entityTransform.parent = 0;
 		}
 		else
 		{
@@ -153,25 +171,7 @@ namespace Carmicah
 			// calculate the new rotation
 			entityTransform.Rot(entityTransform.Rot() - parentTransform.Rot());
 
-			entityTransform.WorldPos(entityTransform.Pos() + parentTransform.Pos());
 		}
-	}
-
-	void TransformSystem::CalculateChildren(Entity id, Entity parentID)
-	{
-		Transform& entityTransform = ComponentManager::GetInstance()->GetComponent<Transform>(id);
-
-		CalculateTransform(id, parentID);
-
-		// If it has children as well, then calculate for that
-		if (entityTransform.children.size() > 0)
-		{
-			for (auto& it : entityTransform.children)
-			{
-				CalculateChildren(it, id);
-			}
-		}
-
 	}
 
 	void TransformSystem::ReceiveMessage(Message* msg)
@@ -204,15 +204,7 @@ namespace Carmicah
 				{
 					CalculateTransform(castedMsg->mEntityID, castedMsg->mParentID);
 				}
-
-				// It has children
-				if (entityTransform.children.size() > 0)
-				{
-					for (auto& it : entityTransform.children)
-					{
-						CalculateChildren(it, castedMsg->mEntityID);
-					}
-				}
+				
 			}
 			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(castedMsg->mEntityID))
 			{
