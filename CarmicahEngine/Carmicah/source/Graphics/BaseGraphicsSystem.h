@@ -54,6 +54,7 @@ namespace Carmicah
 		{
 			Vec2f pos{};
 			float depth{};
+			unsigned int id{};
 		};
 
 		// Data store for finding out the bufferLocation which is linked to the entity of Primitive / BasePrimitive Type

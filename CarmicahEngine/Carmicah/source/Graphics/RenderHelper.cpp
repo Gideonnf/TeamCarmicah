@@ -168,7 +168,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 		}
 		else
 		{
-			glLineWidth(1.f);
+			glLineWidth(4.f);
 
 			for (auto& i : batchBuffer.buffer)
 			{
