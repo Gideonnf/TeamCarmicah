@@ -182,7 +182,7 @@ namespace Carmicah
 									if (HierarchyWindow::selectedGO->HasComponent<Transform>())
 									{
 										Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
-										selectedTransform.ScaleYAdd(static_cast<float>(-delta.y));
+										selectedTransform.ScaleYAdd(static_cast<float>(-delta.y) * 0.1f);
 									}
 									else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
 									{
@@ -195,7 +195,7 @@ namespace Carmicah
 									if (HierarchyWindow::selectedGO->HasComponent<Transform>())
 									{
 										Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
-										selectedTransform.ScaleXAdd(static_cast<float>(delta.x));
+										selectedTransform.ScaleXAdd(static_cast<float>(delta.x) * 0.1f);
 									}
 									else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
 									{

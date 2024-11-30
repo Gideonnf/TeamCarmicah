@@ -38,7 +38,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Bullet2"
+                    "texture": "Bullet"
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
@@ -134,7 +134,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Walk 5"
+                    "texture": "MC_SpriteSheet_Walk 6"
                 },
                 {
                     "Component Name": "struct Script",
@@ -146,9 +146,9 @@
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "DebugSquare",
-                    "customWidth": 2.0999999046325685,
+                    "customWidth": 2.559999942779541,
                     "customRotation": 0.0,
-                    "customHeight": 1.600000023841858
+                    "customHeight": 2.559999942779541
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -232,9 +232,9 @@
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "DebugSquare",
-                    "customWidth": 5.0,
+                    "customWidth": 0.75,
                     "customRotation": 0.0,
-                    "customHeight": 5.0
+                    "customHeight": 0.7200000286102295
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -301,49 +301,6 @@
                 }
             ],
             "Children": []
-        },
-        {
-            "GameObject": "Duck",
-            "ID": 11,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::Transform",
-                    "xPos": -6.199999809265137,
-                    "yPos": 11.350000381469727,
-                    "depth": 0.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
-                    "rot": 259.0
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Duck"
-                }
-            ],
-            "Children": [
-                {
-                    "GameObject": "Duck3",
-                    "ID": 12,
-                    "Components": [
-                        {
-                            "Component Name": "struct Carmicah::Transform",
-                            "xPos": 0.0,
-                            "yPos": -0.0,
-                            "depth": 0.0,
-                            "xScale": 1.0,
-                            "yScale": 1.0,
-                            "rot": -125.0
-                        },
-                        {
-                            "Component Name": "struct Carmicah::Renderer",
-                            "model": "Square",
-                            "texture": "Duck"
-                        }
-                    ],
-                    "Children": []
-                }
-            ]
         },
         {
             "GameObject": "wall_2",
@@ -428,7 +385,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Mouse_SpriteSheet_Climb_blue 0"
+                    "texture": "Mouse_SpriteSheet_Climb_blue 4"
                 },
                 {
                     "Component Name": "struct Script",
@@ -442,9 +399,9 @@
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "DebugSquare",
-                    "customWidth": 5.0,
+                    "customWidth": 3.2100000381469728,
                     "customRotation": 0.0,
-                    "customHeight": 5.0
+                    "customHeight": 3.2100000381469728
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -526,6 +483,7 @@
                     "ScriptableFieldMap": [
                         {
                             "MousePrefabName": "MouseGO",
+                            "LeftOrRight": false,
                             "spawnTimer": 3.0,
                             "timer": 0.0
                         }
@@ -571,7 +529,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Mouse_SpriteSheet_Climb_blue 0"
+                    "texture": "Mouse_SpriteSheet_Climb_blue 4"
                 },
                 {
                     "Component Name": "struct Script",
@@ -585,9 +543,9 @@
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "DebugSquare",
-                    "customWidth": 5.0,
+                    "customWidth": 3.2100000381469728,
                     "customRotation": 0.0,
-                    "customHeight": 5.0
+                    "customHeight": 3.2100000381469728
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -604,6 +562,78 @@
                 {
                     "Component Name": "struct Carmicah::Animation",
                     "Atlas": "Mouse_Climb_blue"
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "LeftBalloon",
+            "ID": 23,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": -15.876867294311524,
+                    "yPos": 13.362725257873536,
+                    "depth": 1.0,
+                    "xScale": 6.0,
+                    "yScale": 10.550000190734864,
+                    "rot": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "balloon_left"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.BalloonBounce",
+                    "ScriptableFieldMap": [
+                        {
+                            "YOffset": 0.75,
+                            "bounceSpeed": 0.6000000238418579,
+                            "holdTimer": 0.20000000298023225
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 4
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "Duck_2",
+            "ID": 24,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 18.081846237182618,
+                    "yPos": 12.630501747131348,
+                    "depth": 1.0,
+                    "xScale": 6.0,
+                    "yScale": 10.550000190734864,
+                    "rot": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "balloon_right"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.BalloonBounce",
+                    "ScriptableFieldMap": [
+                        {
+                            "YOffset": 0.75,
+                            "bounceSpeed": 0.6000000238418579,
+                            "holdTimer": 0.20000000298023225
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 4
                 }
             ],
             "Children": []
