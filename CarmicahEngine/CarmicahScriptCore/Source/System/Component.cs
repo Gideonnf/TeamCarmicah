@@ -38,6 +38,19 @@ namespace Carmicah
                 FunctionCalls.Transform_SetPosition(Entity.mID, ref value);
             }
         }
+
+        public float Depth
+        {
+            get
+            {
+                FunctionCalls.Transform_GetDepth(Entity.mID, out float depth);
+                return depth;
+            }
+            set
+            {
+                FunctionCalls.Transform_SetDepth(Entity.mID, ref value);
+            }
+        }
     }
 
     public class RigidBody : Component

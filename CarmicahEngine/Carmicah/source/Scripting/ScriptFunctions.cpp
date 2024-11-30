@@ -310,6 +310,18 @@ namespace Carmicah
 		}
 	}
 
+	static void Transform_GetDepth(unsigned int entityID, float* outFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		*outFloat = go.GetComponent<Transform>().GetDepth();
+	}
+
+	static void Transform_SetDepth(unsigned int entityID, float* inFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		go.GetComponent<Transform>().Depth(*inFloat);
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -333,6 +345,8 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Transform_SetScale);
 		ADD_INTERNAL_CALL(Transform_GetPosition);
 		ADD_INTERNAL_CALL(Transform_SetPosition);
+		ADD_INTERNAL_CALL(Transform_GetDepth);
+		ADD_INTERNAL_CALL(Transform_SetDepth);
 
 		//Entity functions
 		ADD_INTERNAL_CALL(Entity_HasComponent);
