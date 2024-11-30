@@ -14,11 +14,12 @@ DigiPen Institute of Technology is prohibited.
 
 #include "pch.h"
 #include <glad/glad.h>
+#include <sstream>
 #include "SceneToImgui.h"
 #include "log.h"
 #include "Input/InputSystem.h"
 #include "ECS/ECSTypes.h"
-#include <sstream>
+#include "Graphics/RenderHelper.h"
 
 namespace Carmicah
 {
@@ -104,10 +105,12 @@ namespace Carmicah
         std::stringstream ss;
         ss << "ID: " << goID << "[" << mouseX << ',' << mouseY << "]";
         CM_CORE_INFO(ss.str());
+
+        if (RenderHelper::GetInstance()->mEditorWindowActive)
+            RenderHelper::GetInstance()->mSelectedID = goID;
         if (goID >= MAX_ENTITIES)
-        {
             goID = 0;
-        }
+            
 
         glReadBuffer(GL_NONE);
         glBindFramebuffer(GL_FRAMEBUFFER, prevBinding);

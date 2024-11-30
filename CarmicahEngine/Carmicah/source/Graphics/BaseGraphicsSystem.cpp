@@ -208,7 +208,7 @@ namespace Carmicah
 		{
 			auto& t = ComponentManager::GetInstance()->GetComponent<UITransform>(entity);
 			depth = t.Depth();
-			wSpace.translateThis(t.Pos()).scaleThis(t.Scale());
+			wSpace.translateThis(t.Pos()).rotDegThis(t.Rot()).scaleThis(t.Scale());
 		}
 		depth = CalcDepth(depth, layer);
 

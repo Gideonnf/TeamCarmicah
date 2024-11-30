@@ -312,7 +312,7 @@ void RenderHelper::RenderGizmos()
 	Mtx3x3f mtx{};
 	Vec2f translation{};
 	Vec2f gizmoScale{ mGizmoScale / mEditorWindomDim.x, mGizmoScale / mEditorWindomDim.y };
-	float lineWitdh = 8.f;
+	float lineWitdh = 10.f;
 
 	if (HierarchyWindow::selectedGO->HasComponent<Transform>())
 	{
