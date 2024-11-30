@@ -50,55 +50,100 @@ namespace Carmicah
 		auto& transform = componentManager->GetComponent<Transform>(obj);
 		auto& collider = componentManager->GetComponent<Collider2D>(obj);
 
+		//if (componentManager->HasComponent<Renderer>(obj))
+		//{
+		//	auto& rend = componentManager->GetComponent<Renderer>(obj);
+		//	auto& mtx = AssetManager::GetInstance()->GetAsset<Texture>(rend.GetTexture()).mtx;
+		//	float imgWidth = mtx.m00 * AssetManager::GetInstance()->enConfig.maxTexSize;
+		//	float imgHeight = mtx.m11 * AssetManager::GetInstance()->enConfig.maxTexSize;
+		//
+		//	collider.customWidth = (static_cast<float>(imgWidth) / 100.0f);
+		//	collider.customHeight = (static_cast<float>(imgHeight) / 100.0f);
+
+		//	/*if (collider.OBBinit == false) 
+		//	{
+		//		collider.OBBinit = true;
+		//	}*/
+		//}
 		if (componentManager->HasComponent<Renderer>(obj))
 		{
 			auto& rend = componentManager->GetComponent<Renderer>(obj);
-			auto& mtx = AssetManager::GetInstance()->GetAsset<Texture>(rend.GetTexture()).mtx;
-			float imgWidth = mtx.m00 * AssetManager::GetInstance()->enConfig.maxTexSize;
-			float imgHeight = mtx.m11 * AssetManager::GetInstance()->enConfig.maxTexSize;
-		
-			collider.customWidth = (static_cast<float>(imgWidth) / 100.0f);
-			collider.customHeight = (static_cast<float>(imgHeight) / 100.0f);
-
-			/*if (collider.OBBinit == false) 
+			
+			// Retrieve the Primitive associated with the Renderer
+			const auto& assetManager = AssetManager::GetInstance();
+			if (!assetManager->AssetExist<Primitive>(rend.model))
 			{
-				collider.OBBinit = true;
-			}*/
+				CM_CORE_WARN("Model not found for entity's Renderer: " + rend.model);
+				return;
+			}
+
+			const auto& primitive = assetManager->GetAsset<Primitive>(rend.model);
+
+			// Update the Collider using the Primitive vertices
+			std::vector<Vec2f> worldVertices;
+			for (const auto& vertex : primitive.vtx)
+			{
+				// Transform the vertices to world space
+				float worldX = transform.Pos().x + (vertex.x * transform.Scale().x * cos(transform.Rot() * PI / 180.0f)) -
+					(vertex.y * transform.Scale().y * sin(transform.Rot() * PI / 180.0f));
+				float worldY = transform.Pos().y + (vertex.x * transform.Scale().x * sin(transform.Rot() * PI / 180.0f)) +
+					(vertex.y * transform.Scale().y * cos(transform.Rot() * PI / 180.0f));
+				worldVertices.emplace_back(Vec2f{ worldX, worldY });
+			}
+
+			// Update the OBB vertices and bounds in the Collider
+			collider.objVert = worldVertices;
+
+			// Compute AABB from transformed vertices
+			Vec2f min = worldVertices[0];
+			Vec2f max = worldVertices[0];
+			for (const auto& vertex : worldVertices)
+			{
+				if (vertex.x < min.x) min.x = vertex.x;
+				if (vertex.y < min.y) min.y = vertex.y;
+				if (vertex.x > max.x) max.x = vertex.x;
+				if (vertex.y > max.y) max.y = vertex.y;
+			}
+
+			collider.min = min;
+			collider.max = max;
+
+			collider.OBBinit = true; // Mark the OBB as initialized
 		}
 
 
-		// Calculate the half-width and half-height of the object
-		float halfWidth = (collider.customWidth * transform.Scale().x) * 0.5f;
-		float halfHeight = (collider.customHeight * transform.Scale().y) * 0.5f;
+		//// Calculate the half-width and half-height of the object
+		//float halfWidth = (collider.customWidth * transform.Scale().x) * 0.5f;
+		//float halfHeight = (collider.customHeight * transform.Scale().y) * 0.5f;
 
-		// Rotation angle in radians
-		float angleInRadians = transform.Rot() * (PI / 180.0f);
-		//float angleInRadians = collider.customRotation * (PI / 180.0f);
-		float cosTheta = cos(angleInRadians);
-		float sinTheta = sin(angleInRadians);
+		//// Rotation angle in radians
+		//float angleInRadians = transform.Rot() * (PI / 180.0f);
+		////float angleInRadians = collider.customRotation * (PI / 180.0f);
+		//float cosTheta = cos(angleInRadians);
+		//float sinTheta = sin(angleInRadians);
 
-		GetOBBVertices(obj);
+		////GetOBBVertices(obj);
 
-		//// Determine the min and max of the rotated vertices to define the AABB
-		//Vec2f min(collider.objVert[0]);
-		//Vec2f max(collider.objVert[0]);
+		////// Determine the min and max of the rotated vertices to define the AABB
+		////Vec2f min(collider.objVert[0]);
+		////Vec2f max(collider.objVert[0]);
 
-		//for (const auto& vertex : collider.objVert)
-		//{
-		//	if (vertex.x < min.x) min.x = vertex.x;
-		//	if (vertex.y < min.y) min.y = vertex.y;
-		//	if (vertex.x > max.x) max.x = vertex.x;
-		//	if (vertex.y > max.y) max.y = vertex.y;
-		//}
+		////for (const auto& vertex : collider.objVert)
+		////{
+		////	if (vertex.x < min.x) min.x = vertex.x;
+		////	if (vertex.y < min.y) min.y = vertex.y;
+		////	if (vertex.x > max.x) max.x = vertex.x;
+		////	if (vertex.y > max.y) max.y = vertex.y;
+		////}
 
-		//// Update the collider's AABB
-		//collider.min = min;
-		//collider.max = max;
+		////// Update the collider's AABB
+		////collider.min = min;
+		////collider.max = max;
 
-		collider.min.x = transform.Pos().x - halfWidth;
-		collider.min.y = transform.Pos().y - halfHeight;
-		collider.max.x = transform.Pos().x + halfWidth;
-		collider.max.y = transform.Pos().y + halfHeight;
+		//collider.min.x = transform.Pos().x - halfWidth;
+		//collider.min.y = transform.Pos().y - halfHeight;
+		//collider.max.x = transform.Pos().x + halfWidth;
+		//collider.max.y = transform.Pos().y + halfHeight;
 	}
 
 
