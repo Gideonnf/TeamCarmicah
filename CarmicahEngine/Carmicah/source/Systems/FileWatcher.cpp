@@ -31,7 +31,7 @@ namespace Carmicah
 	void FileWatcher::Update()
 	{
 		// Check if any files were deleted
-		for (auto& it = fileMap.begin(); it != fileMap.end(); ++it)
+		for (auto it = fileMap.begin(); it != fileMap.end(); ++it)
 		{
 			// The file no longer exist
 			if (!std::filesystem::exists(it->first))

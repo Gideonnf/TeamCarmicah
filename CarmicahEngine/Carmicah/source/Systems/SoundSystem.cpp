@@ -66,16 +66,10 @@ namespace Carmicah
             CM_CORE_WARN("Non-existant Sound Tried playing: " + soundName);
             return false;
         }
-        if (mChannelsCount > AssetManager::GetInstance()->MAX_CHANNELS)
-        {
-            CM_CORE_WARN("Max Sound Channels reached");
-            return false;
-        }
         FMOD::Sound* sound = AssetManager::GetInstance()->GetAsset<FMOD::Sound*>(soundName);
         FMOD::Channel* channel;
         mSoundSystem->playSound(sound, nullptr, false, &channel);
         if (channel) {
-            ++mChannelsCount;
             // Store in tracks for management
             auto track = std::make_unique<SoundTrack>();
             track->sound = sound;
@@ -96,10 +90,7 @@ namespace Carmicah
         for (auto it = mSoundTracks[internalCatergoy].begin(); it != mSoundTracks[internalCatergoy].end(); ++it)
         {
             if (it->get()->channel)
-            {
                 it->get()->channel->stop();
-                --mChannelsCount;
-            }
         }
         mSoundTracks[internalCatergoy].clear();
     }
@@ -193,7 +184,6 @@ namespace Carmicah
                     if (!isPlaying)
                     {
                         it->get()->channel = nullptr;
-                        --mChannelsCount;
                         it = mSoundTracks[i].erase(it);
                         continue;
                     }

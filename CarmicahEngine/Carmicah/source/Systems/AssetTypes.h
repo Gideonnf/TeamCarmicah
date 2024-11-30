@@ -27,6 +27,14 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+	struct GLModel
+	{
+		GLenum primitive{};
+		GLuint drawCnt{};
+		GLuint vao{};
+		GLuint vbo{};
+	};
+
 	struct BasePrimitive
 	{
 		static GLuint uidCount;
@@ -153,7 +161,7 @@ namespace Carmicah
 		}
 
 		template <typename T>
-		void RemoveComponent()
+		bool RemoveComponent()
 		{
 			std::string typeName = typeid(T).name();
 			auto it = mComponents.find(typeName);
@@ -161,7 +169,9 @@ namespace Carmicah
 			{
 				mDeletedComponents.push_back(typeName);
 				mComponents.erase(typeName);
+				return true;
 			}
+			return false;
 		}
 
 		std::string GetName() const;

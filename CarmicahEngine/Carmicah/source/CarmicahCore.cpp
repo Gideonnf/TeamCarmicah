@@ -215,6 +215,7 @@ namespace Carmicah
         gameSystem->SetScene("Scene1");
 #ifndef CM_INSTALLER
         gameSystem->Init(); // Load all GOs from scene file
+        
 #endif
         //gGOFactory->CreateSceneObject("Scene1"); // TODO: Shift this so that it isnt here and manually being made
         //gGOFactory->ParentAllGO();
@@ -241,6 +242,7 @@ namespace Carmicah
 #ifdef CM_INSTALLER
         gameOnly = true;
         gameSystem->mNextState = SceneState::INITIALISING;
+        gameSystem->mRuntime = true; // set it to run time mode
 #endif
 
 
@@ -249,9 +251,9 @@ namespace Carmicah
 
         while (!glfwWindowShouldClose(window)) {
             CarmicahTime::GetInstance()->StartLoopTimer();
-            glfwPollEvents(); // this takes 20% of engine run time
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTime::GetInstance()->FPS())) + " - Scene : " + gameSystem->GetCurrScene();
             glfwSetWindowTitle(window, title.c_str());
+            glfwPollEvents(); // this takes 20% of engine run time
 
             if (gameSystem->mNextState == SceneState::EXIT)
             {
@@ -284,7 +286,7 @@ namespace Carmicah
                 //gameLogic->Init(); // refetch the objects needed
 
                 // if game only then go straight to onstart and runtime
-                if (gameOnly)
+                if (gameOnly || gameSystem->mRuntime)
                     gameSystem->mNextState = SceneState::ONSTART;
             }
             // If the next state was set to ONSTART, means sceneSystem received a play messag
@@ -297,6 +299,9 @@ namespace Carmicah
             }
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
+                CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
+                colSystem->Update();
+                CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 
                 gScriptSystem->UpdateScripts(); // TODO: Add this to profiler
 
@@ -393,9 +398,6 @@ namespace Carmicah
                     }
                 }
 
-                CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                colSystem->Update();
-                CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 
                 CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
                 aniSystem->Update();
@@ -459,6 +461,7 @@ namespace Carmicah
                 // I WILL UPDAAATEEE BUTTONSYSTEM HERE OKKKKAAYYYY, PLS DONT CRASH CRYING EMOJI
 				butSystem->Update();
 
+                Input.Update();
 
                // glfwMakeContextCurrent(window);
 

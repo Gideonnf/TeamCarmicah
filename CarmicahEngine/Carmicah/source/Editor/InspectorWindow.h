@@ -88,13 +88,10 @@ namespace Carmicah
 		 * @param go 
 		 */
 		template<typename T>
-		void RemoveComponentButton(Entity go);
-
-		template<typename T>
-		void RemoveComponentButton(GameObject* go);
+		bool RemoveComponentButton(GameObject* go);
 
 		template <typename T>
-		void RemoveComponentButton(Prefab* go);
+		bool RemoveComponentButton(Prefab* go);
 
 		template<typename T>
 		void RenderTransformTable(T* data, TABLETYPE type);
@@ -140,7 +137,7 @@ namespace Carmicah
 			}
 
 		}
-
+		//THIS SHOULD NOT EXIST
 		template <typename T>
 		void CheckForComponentChange(Prefab& go, T& newComponent, bool modified)
 		{

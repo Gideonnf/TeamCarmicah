@@ -11,6 +11,13 @@
                     "texture": "main_menu_bg"
                 },
                 {
+                    "Component Name": "struct Script",
+                    "scriptName": "",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                },
+                {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 960.0,
                     "yPos": 540.0,
@@ -44,12 +51,19 @@
                 {
                     "Component Name": "struct Carmicah::Button",
                     "ButtonImage": "play_button",
-                    "ButtonImagePressed": "backButton"
+                    "ButtonImagePressed": "play_button"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "play_button"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.PlayButton",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -63,7 +77,7 @@
             ]
         },
         {
-            "GameObject": "Pause Button",
+            "GameObject": "Quit Button",
             "ID": 4,
             "Components": [
                 {
@@ -75,6 +89,13 @@
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "quit_button"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -94,12 +115,19 @@
                 {
                     "Component Name": "struct Carmicah::Button",
                     "ButtonImage": "settings_button",
-                    "ButtonImagePressed": "backButton"
+                    "ButtonImagePressed": "settings_button"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "quit_button"
+                    "texture": "settings_button"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.SettingButton",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -111,50 +139,6 @@
                     "rot": 0.0
                 }
             ]
-        },
-        {
-            "GameObject": "Duck",
-            "ID": 19,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.03135142847895622,
-                    "yPos": 2.9152538776397707,
-                    "depth": 1.0,
-                    "xScale": 11.199999809265137,
-                    "yScale": 10.199999809265137,
-                    "rot": -125.0
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Circle",
-                    "texture": "Duck"
-                },
-                {
-                    "Component Name": "struct Carmicah::PrefabData",
-                    "prefabRef": 4
-                },
-                {
-                    "Component Name": "struct Carmicah::Collider2D",
-                    "shape": "",
-                    "customWidth": 100.0,
-                    "customRotation": 0.0,
-                    "customHeight": 100.0
-                },
-                {
-                    "Component Name": "struct Carmicah::RigidBody",
-                    "velocityX": 0.0,
-                    "velocityY": 0.0,
-                    "angularVelocity": 0.0,
-                    "posPrevX": 0.0,
-                    "posPrevY": 0.0,
-                    "mass": 1.0,
-                    "gravity": 0.0,
-                    "zposPrev": -107374176.0,
-                    "objectType": 0
-                }
-            ],
-            "Children": []
         }
     ]
 }

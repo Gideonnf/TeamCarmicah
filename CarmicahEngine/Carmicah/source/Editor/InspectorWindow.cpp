@@ -156,29 +156,9 @@ namespace Carmicah
 	 * @tparam T
 	 * @param go
 	 */
-	template <typename T>
-	void InspectorWindow::RemoveComponentButton(Entity go)
-	{
-		std::string typeName = typeid(T).name();
-		size_t pos = typeName.find_last_of(':');
-
-		std::string buttonLabel = "Remove " + typeName.substr(pos + 1);
-		if (ImGui::Button(buttonLabel.c_str()))
-		{
-			if (!EntityManager::GetInstance()->DoesEntityExist(go))
-			{
-				CM_CORE_ERROR("Revmoing from an entity that does not exist");
-				return;
-			}
-
-			ComponentManager::GetInstance()->RemoveComponent<T>(go);
-			//gGOFactory->
-			EntityManager::GetInstance()->RemoveComponent<T>(go);
-		}
-	}
 
 	template <typename T>
-	void InspectorWindow::RemoveComponentButton(GameObject* go)
+	bool InspectorWindow::RemoveComponentButton(GameObject* go)
 	{
 		Entity id = go->GetID();
 		std::string typeName = typeid(T).name();
@@ -190,25 +170,29 @@ namespace Carmicah
 			if (!EntityManager::GetInstance()->DoesEntityExist(id))
 			{
 				CM_CORE_ERROR("Revmoing from an entity that does not exist");
-				return;
+				return false;
 			}
 
 			ComponentManager::GetInstance()->RemoveComponent<T>(id);
 			//gGOFactory->
 			EntityManager::GetInstance()->RemoveComponent<T>(id);
 		}
+
+		return true;
 	}
 
 	template <typename T>
-	void InspectorWindow::RemoveComponentButton(Prefab* go)
+	bool InspectorWindow::RemoveComponentButton(Prefab* go)
 	{
 		std::string typeName = typeid(T).name();
 		size_t pos = typeName.find_last_of(':');
 		std::string buttonLabel = "Remove " + typeName.substr(pos + 1);
 		if (ImGui::Button(buttonLabel.c_str()))
 		{
-			go->RemoveComponent<T>();
+			if (go->RemoveComponent<T>())
+				return true;
 		}
+		return false;
 	}
 
 	template<typename T>
@@ -400,13 +384,13 @@ namespace Carmicah
 			{
 			case GAMEOBJECT:
 			{
-				Entity id = go->GetID();
-				InspectorWindow::RemoveComponentButton<Renderer>(id);
+				InspectorWindow::RemoveComponentButton<Renderer>(go);
 				break;
 			}
 			case PREFAB:
 			{
-				InspectorWindow::RemoveComponentButton<Renderer>(go);
+				if (InspectorWindow::RemoveComponentButton<Renderer>(go))
+					return;
 				break;
 			}
 			default:
@@ -490,8 +474,7 @@ namespace Carmicah
 			{
 			case GAMEOBJECT:
 			{
-				Entity id = go->GetID();
-				InspectorWindow::RemoveComponentButton<Animation>(id);
+				InspectorWindow::RemoveComponentButton<Animation>(go);
 				break;
 			}
 			case PREFAB:
@@ -550,8 +533,7 @@ namespace Carmicah
 			{
 			case GAMEOBJECT:
 			{
-				Entity id = go->GetID();
-				InspectorWindow::RemoveComponentButton<RigidBody>(id);
+				InspectorWindow::RemoveComponentButton<RigidBody>(go);
 				break;
 			}
 			case PREFAB:
@@ -679,8 +661,7 @@ namespace Carmicah
 			{
 			case GAMEOBJECT:
 			{
-				Entity id = go->GetID();
-				InspectorWindow::RemoveComponentButton<Collider2D>(id);
+				InspectorWindow::RemoveComponentButton<Collider2D>(go);
 				break;
 			}
 			case PREFAB:
@@ -750,7 +731,7 @@ namespace Carmicah
 			case GAMEOBJECT:
 			{
 				Entity id = go->GetID();
-				InspectorWindow::RemoveComponentButton<TextRenderer>(id);
+				InspectorWindow::RemoveComponentButton<TextRenderer>(go);
 				break;
 			}
 			case PREFAB:
@@ -834,7 +815,7 @@ namespace Carmicah
 			case GAMEOBJECT:
 			{
 				Entity id = go->GetID();
-				InspectorWindow::RemoveComponentButton<Button>(id);
+				InspectorWindow::RemoveComponentButton<Button>(go);
 				break;
 			}
 			case PREFAB:
@@ -893,13 +874,13 @@ namespace Carmicah
 			{
 			case GAMEOBJECT:
 			{
-				InspectorWindow::RemoveComponentButton<Script>(static_cast<Entity>(id));
+				InspectorWindow::RemoveComponentButton<Script>(go);
 				break;
 			}
 			case PREFAB:
 			{
-				InspectorWindow::RemoveComponentButton<Script>(go);
-				break;
+				if(InspectorWindow::RemoveComponentButton<Script>(go))
+					return;
 			}
 			default:
 				break;
