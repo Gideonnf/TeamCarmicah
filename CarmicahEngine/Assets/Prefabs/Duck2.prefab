@@ -13,7 +13,7 @@
     },
     {
       "Component Name": "struct Carmicah::Renderer",
-      "model": "Circle",
+      "model": "Square",
       "texture": "Duck"
     }
   ],
@@ -33,7 +33,7 @@
         },
         {
           "Component Name": "struct Carmicah::Renderer",
-          "model": "Circle",
+          "model": "Square",
           "texture": "Duck"
         }
       ],
@@ -53,7 +53,7 @@
             },
             {
               "Component Name": "struct Carmicah::Renderer",
-              "model": "Circle",
+              "model": "Square",
               "texture": "Duck"
             }
           ],
