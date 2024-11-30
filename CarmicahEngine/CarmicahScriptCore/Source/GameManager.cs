@@ -28,11 +28,8 @@ namespace Carmicah
                 Entity mouseEntity = CreateGameObject(MousePrefabName);
                 MouseAI mouseAI = mouseEntity.As<MouseAI>();
                 mouseAI.isLeft = LeftOrRight;
-                //Console.WriteLine($"Mouse is : {mouseAI.isLeft}");
-                //Console.WriteLine($"LeftorRight is : {LeftOrRight}");
                 LeftOrRight = !LeftOrRight;
                 mouseAI.SetInitialPosition(); // Reset initial position
-
             }
         }
 

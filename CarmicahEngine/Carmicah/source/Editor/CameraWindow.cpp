@@ -20,13 +20,13 @@ namespace Carmicah
 
     void CameraWindow::Update()
     {
-		if (Input.GetInstance()->IsKeyPressed(KEY_Q))
+		if (Input.IsKeyPressed(KEY_Q))
 			RenderHelper::GetInstance()->mEditorMode = RenderHelper::GIZMOS_MODE::GIZMOS_NONE;
-		else if (Input.GetInstance()->IsKeyPressed(KEY_W))
+		else if (Input.IsKeyPressed(KEY_W))
 			RenderHelper::GetInstance()->mEditorMode = RenderHelper::GIZMOS_MODE::GIZMOS_TRANSLATE;
-		else if (Input.GetInstance()->IsKeyPressed(KEY_E))
+		else if (Input.IsKeyPressed(KEY_E))
 			RenderHelper::GetInstance()->mEditorMode = RenderHelper::GIZMOS_MODE::GIZMOS_SCALE;
-		else if (Input.GetInstance()->IsKeyPressed(KEY_R))
+		else if (Input.IsKeyPressed(KEY_R))
 			RenderHelper::GetInstance()->mEditorMode = RenderHelper::GIZMOS_MODE::GIZMOS_ROTATE;
 
 		bool camWindowActive = ImGui::Begin(mTitle);

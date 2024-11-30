@@ -436,7 +436,7 @@ namespace Carmicah
 
                 // If its in runtime mode, then call the onstart and on create
                 auto& gameSystem = SystemManager::GetInstance()->GetSystem<SceneSystem>();
-                if (gameSystem->mRuntime)
+                if (gameSystem->mRuntime && gameSystem->mNextState == RUNTIME)
                 {
                     mEntityInstances[entity]->InvokeOnConstruct(entity);
                     mEntityInstances[entity]->InvokeOnCreate();
