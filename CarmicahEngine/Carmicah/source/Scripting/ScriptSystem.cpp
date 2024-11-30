@@ -23,6 +23,8 @@ DigiPen Institute of Technology is prohibited.
 #include <mono/jit/jit.h>
 #include <mono/metadata/assembly.h>
 #include <mono/metadata/tabledefs.h>
+#include "../Systems/SceneSystem.h"
+#include "../ECS/SystemManager.h"
 #include "ScriptFunctions.h"
 namespace Carmicah
 {
@@ -77,6 +79,15 @@ namespace Carmicah
 
                 // erase it from the map
                 mEntityInstances.erase(it.first);
+                break;
+            }
+        }
+
+        for (auto it = entityAdded.begin(); it != entityAdded.end(); ++it)
+        {
+            if (*it == id)
+            {
+                entityAdded.erase(it);
                 break;
             }
         }
@@ -422,6 +433,14 @@ namespace Carmicah
                
                 // redundant call atm ill remove it once everything is done
                 UpdateScriptComponent(entity);
+
+                // If its in runtime mode, then call the onstart and on create
+                auto& gameSystem = SystemManager::GetInstance()->GetSystem<SceneSystem>();
+                if (gameSystem->mRuntime && gameSystem->mNextState == RUNTIME)
+                {
+                    mEntityInstances[entity]->InvokeOnConstruct(entity);
+                    mEntityInstances[entity]->InvokeOnCreate();
+                }
                 // entity = entityAdded.begin();
             }
             // if no script is assigned yet (i.e in editor mode, if a script is attached, it wouldnt have one added by default
@@ -554,6 +573,15 @@ namespace Carmicah
             if (mEntityInstances.count(castedMsg->buttonEntity))
             {
                 mEntityInstances[castedMsg->buttonEntity]->InvokeOnClick();
+            }
+        }
+        else if (msg->mMsgType == MSG_ENTITYCOLLIDED)
+        {
+            auto castedMsg = dynamic_cast<EntityCollidedMessage*>(msg);
+
+            if (mEntityInstances.count(castedMsg->mEntityID1) && mEntityInstances.count(castedMsg->mEntityID2))
+            {
+
             }
         }
     }

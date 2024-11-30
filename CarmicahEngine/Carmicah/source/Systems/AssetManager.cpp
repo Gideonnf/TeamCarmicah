@@ -51,6 +51,9 @@ namespace Carmicah
 		InitFontType();
 		fileWatcher.Init(assetPath);
 		fileWatcher.Update();
+
+		RenderHelper::GetInstance()->LoadGizmos();
+
 		//if (std::filesystem::exists(directoryPath) && std::filesystem::is_directory(directoryPath))
 		//{
 		//	for (const auto& subFile : std::filesystem::directory_iterator(directoryPath))
@@ -222,8 +225,9 @@ namespace Carmicah
 		{
 			if (!reload && AssetExist<Prefab>(fileName))
 			{
-				CM_CORE_WARN("Scene:" + fileName + " Already Exists");
-				return false;
+				// creating prefabs will trigger this, so just return true cause prefab system adds it to asset manager
+				//CM_CORE_WARN("Scene:" + fileName + " Already Exists");
+				return true;
 			}
 
 			Prefab goPrefab = Serializer.DeserializePrefab(file.fileEntry.path().string());
@@ -266,6 +270,11 @@ namespace Carmicah
 		for (int i{}; i < mPreviewTexs.size(); ++i)
 			glDeleteTextures(1, &mPreviewTexs[i]);
 		GetAssetMap<Texture>()->mAssetMap.clear();
+		for (const auto& i : GetAssetMap<GLModel>()->mAssetList)
+		{
+			glDeleteVertexArrays(1, &i.vao);
+			glDeleteBuffers(1, &i.vbo);
+		}
 		for (const auto& i : RenderHelper::GetInstance()->mBufferMap)
 		{
 			for (const auto& ii : i.second.buffer)

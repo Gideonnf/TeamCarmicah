@@ -82,6 +82,12 @@ namespace Carmicah
 		}
 
 		//Other Member Functions:
+		//Set
+		void Set(T x, T y)
+		{
+			this->x = x;
+			this->y = y;
+		}
 		//Length
 		T length()
 		{
@@ -223,6 +229,7 @@ namespace Carmicah
 	}
 
 	//Could be used(?)
+	// it is being used
 	using Vec2f = Vector2D<float>;
 	using Vec2d = Vector2D<double>;
 	using Vec2i = Vector2D<int>;

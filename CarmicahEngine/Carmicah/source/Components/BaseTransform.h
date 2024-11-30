@@ -15,6 +15,7 @@ DigiPen Institute of Technology is prohibited.
 #define BASE_TRANSFORM_H
 
 #include "BaseComponent.h"
+#include "ECS/ECSTypes.h"
 #include "Math/Vec2.h"
 
 namespace Carmicah
@@ -25,18 +26,14 @@ namespace Carmicah
     protected:
         Vec2f pos{};
         Vec2f scale{};
-
-        Vec2f worldPos{};
-        Vec2f worldScale{};
+        Vec2f absPosChange{};
 
         float rot;
-        float worldRot;
         float depth{};
 
         bool notUpdated{};
     public:
-        bool worldUpdate{};
-
+        unsigned int grandChildLvl{};
         Entity parent; // Hold 0 if no parent
         std::vector<Entity> children;
 
@@ -50,18 +47,10 @@ namespace Carmicah
             notUpdated = false;
             return pos;
         }
-        const Vec2f& WorldPos() const
-        {
-            return worldPos;
-        }
-        Vec2f& GetWorldPos()
+        Vec2f& GetUpdateAbsPos()
         {
             notUpdated = false;
-            return worldPos;
-        }
-        void WorldPos(const Vec2f& rhs)
-        {
-            WorldPos(rhs.x, rhs.y);
+            return absPosChange;
         }
         void Pos(const Vec2f& rhs)
         {
@@ -87,12 +76,6 @@ namespace Carmicah
         {
             pos.x = x;
             pos.y = y;
-            notUpdated = false;
-        }
-        void WorldPos(const float& x, const float& y)
-        {
-            worldPos.x = x;
-            worldPos.y = y;
             notUpdated = false;
         }
         const Vec2f& Scale() const
@@ -162,29 +145,6 @@ namespace Carmicah
         {
             Rot(rot + rhs);
         }
-
-        const float& WorldRot() const
-        {
-            return worldRot;
-        }
-
-        float& GetWorldRot()
-        {
-            notUpdated = false;
-            return worldRot;
-        }
-
-        void WorldRot(float d)
-        {
-            worldRot = d;
-            notUpdated = false;
-        }
-
-        void WorldRotAdd(const float& rhs)
-        {
-            WorldRot(worldRot + rhs);
-        }
-
         bool Updated()
         {
             return !notUpdated;

@@ -68,7 +68,10 @@ namespace Carmicah
 		mOnCollide = scClass->GetMethod("OnCollide", 1);
 	}
 
-
+	MonoObject* ScriptObject::GetInstance()
+	{
+		return mMonoInstance;
+	}
 
 	void ScriptObject::InvokeOnConstruct(unsigned int id)
 	{
@@ -100,6 +103,14 @@ namespace Carmicah
 	{
 		if (mOnClick)
 			mScriptClass->InvokeMethod(mMonoInstance, mOnClick);
+	}
+
+	void ScriptObject::InvokeOnCollide(Entity otherID)
+	{
+		if (mOnCollide)
+		{
+			mScriptClass->InvokeMethod(mMonoInstance, mOnCollide);
+		}
 	}
 
 	std::shared_ptr<ScriptClass> ScriptObject::GetScriptClass()

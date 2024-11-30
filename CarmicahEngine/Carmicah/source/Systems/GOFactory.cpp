@@ -444,7 +444,7 @@ namespace Carmicah
 			}
 			else if (go.HasComponent<UITransform>())
 			{
-				parentID = &go.GetComponent<Transform>().parent;
+				parentID = &go.GetComponent<UITransform>().parent;
 			}
 
 			if (parentID == nullptr)
@@ -496,6 +496,7 @@ namespace Carmicah
 					BaseTransform<Transform>& entityTransform = static_cast<BaseTransform<Transform>&>(ComponentManager::GetInstance()->GetComponent<Transform>(entityID));
 					// Change the parent
 					entityTransform.parent = sceneGO.sceneID;
+					entityTransform.grandChildLvl = 0;
 				}
 				else if (ComponentManager::GetInstance()->HasComponent<UITransform>(entityID))
 				{
@@ -503,22 +504,31 @@ namespace Carmicah
 					BaseTransform<UITransform>& entityTransform = static_cast<BaseTransform<UITransform>&>(ComponentManager::GetInstance()->GetComponent<UITransform>(entityID));
 					// Change the parent
 					entityTransform.parent = sceneGO.sceneID;
+					entityTransform.grandChildLvl = 0;
 				}
 
 			}
 			// If it isnt then have to find the new parent
 			else
 			{
+				unsigned int parentLevel{};
+				if (ComponentManager::GetInstance()->HasComponent<Transform>(newParentID))
+					parentLevel = ComponentManager::GetInstance()->GetComponent<Transform>(newParentID).grandChildLvl;
+				else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
+					parentLevel = ComponentManager::GetInstance()->GetComponent<UITransform>(newParentID).grandChildLvl;
+
 				// Change the current transform parent ID
 				if (go.HasComponent<Transform>())
 				{
 					// Change the parent
 					go.GetComponent<Transform>().parent = newParentID;
+					go.GetComponent<Transform>().grandChildLvl = ++parentLevel;
 				}
 				else if (go.HasComponent<UITransform>())
 				{
 					// Change the parent
 					go.GetComponent<UITransform>().parent = newParentID;
+					go.GetComponent<UITransform>().grandChildLvl = ++parentLevel;
 				}
 
 				if (ComponentManager::GetInstance()->HasComponent<Transform>(newParentID))

@@ -1,6 +1,5 @@
 GLFW
 GLAD
-GLM
 PREMAKE
 rapidJSON
 stb

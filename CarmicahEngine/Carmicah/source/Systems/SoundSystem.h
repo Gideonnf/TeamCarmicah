@@ -67,7 +67,6 @@ namespace Carmicah
         FMOD::System* mSoundSystem; // Just a copy, not handled here
         std::vector<std::unique_ptr<SoundTrack>> mSoundTracks[SOUND_MAX_SOUNDS];
         std::unordered_map<SoundCategory, float> mCategoryVolumes;
-        int mChannelsCount = 0;
         const float defaultVolume = 1.0f;
         float mMasterVolume;
         bool mIsMuted;
@@ -101,7 +100,7 @@ namespace Carmicah
         void ReceiveMessage(Message* msg) override;
 
         // Default load sound 
-        static constexpr const char* defaultBGM{ "BGM_MainMenu_Mix1" };
+        //static constexpr const char* defaultBGM{ "BGM_SetupPhase_Mix1" };
         static constexpr const char* defaultSFX{ "buttonclick" };
 
     private:

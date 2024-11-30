@@ -27,6 +27,14 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+	struct GLModel
+	{
+		GLenum primitive{};
+		GLuint drawCnt{};
+		GLuint vao{};
+		GLuint vbo{};
+	};
+
 	struct BasePrimitive
 	{
 		static GLuint uidCount;

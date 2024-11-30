@@ -57,17 +57,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Source\Camera.cs" />
-    <Compile Include="Source\Component.cs" />
-    <Compile Include="Source\Entity.cs" />
-    <Compile Include="Source\FunctionCalls.cs" />
-    <Compile Include="Source\Input.cs" />
-    <Compile Include="Source\Keys.cs" />
+    <Compile Include="Source\GameManager.cs" />
+    <Compile Include="Source\GameObject.cs" />
     <Compile Include="Source\MouseAI.cs" />
     <Compile Include="Source\MouseState.cs" />
+    <Compile Include="Source\PauseButton.cs" />
+    <Compile Include="Source\PlayButton.cs" />
     <Compile Include="Source\Player.cs" />
+    <Compile Include="Source\QuitButton.cs" />
     <Compile Include="Source\SettingButton.cs" />
-    <Compile Include="Source\Sound.cs" />
     <Compile Include="Source\StateMachine.cs" />
+    <Compile Include="Source\System\Component.cs" />
+    <Compile Include="Source\System\Entity.cs" />
+    <Compile Include="Source\System\FunctionCalls.cs" />
+    <Compile Include="Source\System\Input.cs" />
+    <Compile Include="Source\System\Keys.cs" />
+    <Compile Include="Source\System\Scene.cs" />
+    <Compile Include="Source\System\Sound.cs" />
     <Compile Include="Source\Testing.cs" />
     <Compile Include="Source\Vector2.cs" />
   </ItemGroup>

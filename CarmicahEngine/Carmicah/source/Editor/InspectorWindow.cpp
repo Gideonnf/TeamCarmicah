@@ -224,11 +224,9 @@ namespace Carmicah
 
 						float worldX = parentTransform.worldSpace.m00 * selectedTransform.Pos().x + parentTransform.worldSpace.m01 * selectedTransform.Pos().y + parentTransform.worldSpace.m02;
 						float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
-						selectedTransform.WorldPos(worldX, worldY);
 					}
 					else
 					{
-						selectedTransform.WorldPos(selectedTransform.Pos());
 					}
 				}
 
@@ -250,11 +248,9 @@ namespace Carmicah
 
 						float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
 
-						selectedTransform.WorldPos(worldX, worldY);
 					}
 					else
 					{
-						selectedTransform.WorldPos(selectedTransform.Pos());
 					}
 				}
 				//CM_CORE_INFO("World X : " + std::to_string(selectedTransform.WorldPos().x) + ", World Y : " + std::to_string(selectedTransform.WorldPos().y));
@@ -706,6 +702,16 @@ namespace Carmicah
 				ImGui::Text("Max Y");
 				ImGui::TableNextColumn();
 				ImGui::DragFloat("##MaxY", &col.max.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+
+				ImGui::TableNextColumn();
+				ImGui::Text("Custom Width");
+				ImGui::TableNextColumn();
+				ImGui::DragFloat("##CustomWidth", &col.customWidth, 0.1f, 0.5f, FLT_MAX, "%.3f");
+
+				ImGui::TableNextColumn();
+				ImGui::Text("Custom Height");
+				ImGui::TableNextColumn();
+				ImGui::DragFloat("##CustomHeight", &col.customHeight, 0.1f, 0.5f, FLT_MAX, "%.3f");
 
 				ImGui::EndTable();
 			}
@@ -1334,6 +1340,16 @@ namespace Carmicah
 					ImGui::Text("Max Y");
 					ImGui::TableNextColumn();
 					ImGui::DragFloat("##MaxY", &col.max.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+
+					ImGui::TableNextColumn();
+					ImGui::Text("Custom Width");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##CustomWidth", &col.customWidth, 0.1f, 0.5f, FLT_MAX, "%.3f");
+
+					ImGui::TableNextColumn();
+					ImGui::Text("Custom Height");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##CustomHeight", &col.customHeight, 0.1f, 0.5f, FLT_MAX, "%.3f");
 
 					ImGui::EndTable();
 				}

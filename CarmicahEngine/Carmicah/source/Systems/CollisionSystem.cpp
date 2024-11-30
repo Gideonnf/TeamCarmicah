@@ -17,6 +17,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/CollisionSystem.h"
 #include "../Physics/PhysicsSystem.h"
 #include "Systems/GOFactory.h"
+#include "Systems/AssetManager.h"
 #include <ECS/ECSTypes.h>
 #include <ECS/GameObject.h>
 #include "Components/Transform.h"
@@ -49,11 +50,26 @@ namespace Carmicah
 		auto& transform = componentManager->GetComponent<Transform>(obj);
 		auto& collider = componentManager->GetComponent<Collider2D>(obj);
 
+		if (componentManager->HasComponent<Renderer>(obj))
+		{
+			auto& rend = componentManager->GetComponent<Renderer>(obj);
+			auto& mtx = AssetManager::GetInstance()->GetAsset<Texture>(rend.GetTexture()).mtx;
+			float imgWidth = mtx.m00 * AssetManager::GetInstance()->enConfig.maxTexSize;
+			float imgHeight = mtx.m11 * AssetManager::GetInstance()->enConfig.maxTexSize;
 		
+			collider.customWidth = (static_cast<float>(imgWidth) / 100.0f);
+			collider.customHeight = (static_cast<float>(imgHeight) / 100.0f);
+
+			/*if (collider.OBBinit == false) 
+			{
+				collider.OBBinit = true;
+			}*/
+		}
+
 
 		// Calculate the half-width and half-height of the object
-		float halfWidth = (collider.customWidth * collider.localScale) * 0.5f;
-		float halfHeight = (collider.customHeight * collider.localScale) * 0.5f;
+		float halfWidth = (collider.customWidth * transform.Scale().x) * 0.5f;
+		float halfHeight = (collider.customHeight * transform.Scale().y) * 0.5f;
 
 		// Rotation angle in radians
 		float angleInRadians = transform.Rot() * (PI / 180.0f);
@@ -134,9 +150,16 @@ namespace Carmicah
 
 			// Calculate and store edge normal
 			Vec2f normal(edge.y, -edge.x); // Perpendicular normal
-			
-			normal.normalize(); // Ensure normal is unit length
-			collider.objNormals.push_back(normal);
+			if (normal.x == 0 || normal.y == 0)
+			{
+				continue;
+			}
+			else
+			{
+				normal.normalize(); // Ensure normal is unit length
+				collider.objNormals.push_back(normal);
+
+			}
 
 		}
 
@@ -269,7 +292,10 @@ namespace Carmicah
 
 		for (size_t i = 0, i1 = collider1.objVert.size() - 1; i < collider1.objVert.size(); i1 = i, i++)
 		{
-
+			if(collider1.objNormals.empty())
+			{
+				continue;
+			}
 			Vec2f outwardNormal = collider1.objNormals[i];
 
 			if (WhichSide(collider2.objVert, collider1.objVert[i], outwardNormal) > 0)
@@ -280,7 +306,10 @@ namespace Carmicah
 
 		for (size_t i = 0, i1 = collider2.objVert.size() - 1; i < collider2.objVert.size(); i1 = i, i++)
 		{
-
+			if (collider2.objNormals.empty())
+			{
+				continue;
+			}
 			Vec2f outwardNormal = collider2.objNormals[i];
 
 			if (WhichSide(collider1.objVert, collider2.objVert[i], outwardNormal) > 0)
@@ -325,7 +354,7 @@ namespace Carmicah
 			//gGOFactory->Destroy(obj1);
 
 		}
-		else if (rigidbody1.objectType == rbTypes::DYNAMIC && rigidbody2.objectType == rbTypes::KINEMATIC)
+		else if (rigidbody1.objectType == rbTypes::DYNAMIC && rigidbody2.objectType == rbTypes::KINEMATIC || rigidbody1.objectType == rbTypes::KINEMATIC && rigidbody2.objectType == rbTypes::DYNAMIC)
 		{
 			/*transform1.PosX(rigidbody1.velocity.x * tFirst + rigidbody1.posPrev.x);
 			transform1.PosY(rigidbody1.velocity.y * tFirst + rigidbody1.posPrev.y);
@@ -333,17 +362,17 @@ namespace Carmicah
 			transform2.PosX(rigidbody2.velocity.x * tFirst + rigidbody2.posPrev.x);
 			transform2.PosY(rigidbody2.velocity.y * tFirst + rigidbody2.posPrev.y);*/
 
-			transform1.PosX(rigidbody1.posPrev.x);
-			transform1.PosY(rigidbody1.posPrev.y);
+			/*transform1.PosX(rigidbody1.posPrev.x);
+			transform1.PosY(rigidbody1.posPrev.y);*/
 
 			transform2.PosX(rigidbody2.posPrev.x);
 			transform2.PosY(rigidbody2.posPrev.y);
 
 
-			/*rigidbody1.velocity.x = 0;
+			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
 
-			rigidbody2.velocity.x = 0;
+			/*rigidbody2.velocity.x = 0;
 			rigidbody2.velocity.y = 0;*/
 
 
@@ -416,6 +445,8 @@ namespace Carmicah
 					{
 
 						CollisionResponse(entity1, entity2);
+						/*EntityCollidedMessage newMsg(entity1, entity2);
+						SendSysMessage(&newMsg);*/
 					}
 				}
 			}
@@ -434,6 +465,8 @@ namespace Carmicah
 
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<CollisionSystem>(mSignature);
+
+
 
 	}
 

@@ -1,11 +1,11 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:        SceneToImgui.h
+ file:			SceneToImgui.h
 
- author:   Gideon Francis
+ author:		Won Yu Xuan Rainne(100%)
 
- email:       g.francis@digipen.edu
+ email:			won.m@digipen.edu
 
- brief:       A bridge to map the graphics rendering to ImGui. Binds rendering to a texture that can be mapped to an image in ImGui
+ brief:			A bridge to map the graphics rendering to ImGui. Binds rendering to a texture that can be mapped to an image in ImGui
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
@@ -24,22 +24,24 @@ namespace Carmicah
 	public:
 		enum SCENE_IMGUI
 		{
-			GAME_SCENE = 0,
+			NO_SCENE = 0,
+			GAME_SCENE,
 			EDITOR_SCENE,
 			MAX_SCENES
 		};
-
+	private:
 		struct FBOScene
 		{
 			GLuint FBO{};
 			GLuint RBO{};
 			GLuint texture_id{};
 			GLuint picker_id{};
+			bool isHovering;
 		};
 
 		FBOScene mScenes[MAX_SCENES]{};
+	public:
 		std::string currentScene{};
-		bool IsHovering;
 
 		void CreateFramebuffer(int width, int height);
 		void UnloadFramebuffer();
@@ -47,8 +49,8 @@ namespace Carmicah
 		void UnbindFramebuffer();
 		GLuint GetTexture(SCENE_IMGUI scene);
 		unsigned int IDPick(SCENE_IMGUI scene, const int& mouseX, const int& mouseY);
-		void RescaleFramebuffer(float width, float height);
-
+		void SetHovering(SCENE_IMGUI scene, bool hoverState);
+		SCENE_IMGUI GetHovering();
 	};
 }
 

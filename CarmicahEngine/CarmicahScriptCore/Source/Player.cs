@@ -10,6 +10,7 @@ namespace Carmicah
     public class Player : Entity
     {
         float timer = 0.5f;
+        
         void OnCreate()
         {
 
@@ -30,12 +31,18 @@ namespace Carmicah
             //originalPos = Position;
         }
 
+        void OnCollisionEnter()
+        {
+
+        }
+
         void OnUpdate(float dt)
         {
             timer += dt;
 
             if (Input.IsKeyHold(Keys.KEY_W))
             {
+                
                 PlaySoundEffect("walk");
                 //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
 
@@ -65,6 +72,11 @@ namespace Carmicah
 
                 GetComponent<RigidBody>().ApplyForce(new Vector2(1,0), 2.0f);
             }
+        }
+
+        void OnCollide()
+        {
+
         }
 
         void PlaySoundEffect(string name)

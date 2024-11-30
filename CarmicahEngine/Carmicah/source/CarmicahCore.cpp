@@ -26,12 +26,12 @@
 #include "Systems/GameLogic.h"
 
 #include "Systems/GOFactory.h"
-#include "Graphics/GraphicsSystem.h"
-#include "Graphics/UIGraphicsSystem.h"
-#include "Graphics/TextSystem.h"
 #include "Graphics/AnimationSystem.h"
-#include "Graphics/ColliderRenderSystem.h"
-#include "Graphics/RigidbodyRendererSystem.h"
+#include "Graphics/WorldGraphicsSystem.h"
+#include "Graphics/UIGraphicsSystem.h"
+#include "Graphics/TextGraphicsSystem.h"
+#include "Graphics/ColliderGraphicsSystem.h"
+#include "Graphics/RigidbodyGraphicsSystem.h"
 #include "Graphics/RenderHelper.h"
 #include "Systems/CollisionSystem.h"
 #include "Physics/PhysicsSystem.h"
@@ -106,12 +106,37 @@ namespace Carmicah
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
+
+#ifdef CM_INSTALLER
+        GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
+        glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+        glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+        glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+        glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+        glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_FALSE);
+        glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+        int Width = mode->width;
+        int Height = mode->height;
+        glfwCreateWindow(Width, Height, "Carmicah", primaryMonitor, NULL);
+
+#endif
+
+
+
+    /*    const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        int  Width = mode->width;
+        int Height = mode->height;
+        GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", glfwGetPrimaryMonitor(), NULL);*/
+    
+        //comment it when using installer
         int Width = AssetManager::GetInstance()->enConfig.Width;
         int Height = AssetManager::GetInstance()->enConfig.Height;
         std::string defaultScene = AssetManager::GetInstance()->enConfig.defaultScene;
         //CM_CORE_INFO("Reached before window creation");
         GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", NULL, NULL);
-        //int bufferWidth, bufferHeight;
+       // int bufferWidth, bufferHeight;
         //glfwGetFramebufferSize(window, &bufferWidth, &bufferHeight);
         glfwMakeContextCurrent(window);
        // CM_CORE_INFO("Reached after window creation");
@@ -159,12 +184,12 @@ namespace Carmicah
         auto editorSys = REGISTER_SYSTEM(Editor);
         REGISTER_SYSTEM(GOFactory);
         REGISTER_SYSTEM(ScriptSystem);
-        auto graSystem = REGISTER_SYSTEM(GraphicsSystem);
+        auto graSystem = REGISTER_SYSTEM(WorldGraphicsSystem);
         auto uigSystem = REGISTER_SYSTEM(UIGraphicsSystem);
-        auto txtSystem = REGISTER_SYSTEM(TextSystem);
+        auto txtSystem = REGISTER_SYSTEM(TextGraphicsSystem);
         auto aniSystem = REGISTER_SYSTEM(AnimationSystem);
-        auto crsSystem = REGISTER_SYSTEM(ColliderRenderSystem);
-        auto rrsSystem = REGISTER_SYSTEM(RigidbodyRendererSystem);
+        auto crsSystem = REGISTER_SYSTEM(ColliderGraphicsSystem);
+        auto rrsSystem = REGISTER_SYSTEM(RigidbodyGraphicsSystem);
         auto colSystem = REGISTER_SYSTEM(CollisionSystem);
         auto butSystem = REGISTER_SYSTEM(ButtonSystem);
         auto phySystem = REGISTER_SYSTEM(PhysicsSystem);
@@ -215,6 +240,7 @@ namespace Carmicah
         gameSystem->SetScene("Scene1");
 #ifndef CM_INSTALLER
         gameSystem->Init(); // Load all GOs from scene file
+        
 #endif
         //gGOFactory->CreateSceneObject("Scene1"); // TODO: Shift this so that it isnt here and manually being made
         //gGOFactory->ParentAllGO();
@@ -241,6 +267,7 @@ namespace Carmicah
 #ifdef CM_INSTALLER
         gameOnly = true;
         gameSystem->mNextState = SceneState::INITIALISING;
+        gameSystem->mRuntime = true; // set it to run time mode
 #endif
 
 
@@ -249,9 +276,10 @@ namespace Carmicah
 
         while (!glfwWindowShouldClose(window)) {
             CarmicahTime::GetInstance()->StartLoopTimer();
-            glfwPollEvents(); // this takes 20% of engine run time
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTime::GetInstance()->FPS())) + " - Scene : " + gameSystem->GetCurrScene();
             glfwSetWindowTitle(window, title.c_str());
+            glfwPollEvents(); // this takes 20% of engine run time
+
 
             if (gameSystem->mNextState == SceneState::EXIT)
             {
@@ -284,19 +312,22 @@ namespace Carmicah
                 //gameLogic->Init(); // refetch the objects needed
 
                 // if game only then go straight to onstart and runtime
-                if (gameOnly)
+                if (gameOnly || gameSystem->mRuntime)
                     gameSystem->mNextState = SceneState::ONSTART;
             }
             // If the next state was set to ONSTART, means sceneSystem received a play messag
             if (gameSystem->mNextState == SceneState::ONSTART)
             {
-                souSystem->PlaySoundThis("BGM_MainMenu_Mix1", SoundCategory::BGM, SoundSystem::SOUND_INGAME, 0.4f);
+                souSystem->PlaySoundThis("BGM_SetupPhase_Mix1", SoundCategory::BGM, SoundSystem::SOUND_INGAME, 0.4f);
                 gScriptSystem->OnStart();
                 // go to run time after starting up all script objects
                 gameSystem->mNextState = gameSystem->mCurrState = SceneState::RUNTIME;
             }
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
+                CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
+                colSystem->Update();
+                CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 
                 gScriptSystem->UpdateScripts(); // TODO: Add this to profiler
 
@@ -393,9 +424,6 @@ namespace Carmicah
                     }
                 }
 
-                CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                colSystem->Update();
-                CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 
                 CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
                 aniSystem->Update();
@@ -458,12 +486,18 @@ namespace Carmicah
                 // I WILL UPDAAATEEE BUTTONSYSTEM HERE OKKKKAAYYYY, PLS DONT CRASH CRYING EMOJI
 				butSystem->Update();
 
+                Input.Update();
 
                // glfwMakeContextCurrent(window);
 
                 glfwSwapBuffers(window);
                 gGOFactory->UpdateDestroyed();
             }
+
+            Input.UpdatePrevInput();
+            // shift this here for now cause moving 
+            glfwPollEvents(); // this takes 20% of engine run time
+
 
             // Don't exit if we're going into onstart
             // only for anything else but that
@@ -476,7 +510,6 @@ namespace Carmicah
             CarmicahTime::GetInstance()->StopLoopTimer();
             CarmicahTime::GetInstance()->CalculateSystemPercentages();
             CarmicahTime::GetInstance()->UpdateTime();
-            Input.UpdatePrevInput();
 
         }
 

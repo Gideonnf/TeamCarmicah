@@ -26,6 +26,8 @@ DigiPen Institute of Technology is prohibited.
 #include "ScriptSystem.h"
 #include "../Input/InputSystem.h"
 #include "../Systems/SoundSystem.h"
+#include "../ECS/SystemManager.h"
+#include "../Systems/SceneSystem.h"
 
 namespace Carmicah
 {
@@ -262,6 +264,53 @@ namespace Carmicah
 	}
 
 	/// <summary>
+	/// Interface for changing the scene
+	/// </summary>
+	static bool ChangeScene(MonoString* sceneName)
+	{
+		// char* that is allocated on the heap
+		char* cStrName = mono_string_to_utf8(sceneName);
+		// call the system manager to get instance of scene system
+		auto& sceneSystem = SystemManager::GetInstance()->GetSystem<SceneSystem>();
+		// change the scene
+		if (!sceneSystem->ChangeScene(cStrName))
+		{
+			return false;
+			mono_free(cStrName);
+		}
+		// free the memory
+		mono_free(cStrName);
+		return true;
+	}
+
+	static void Destroy(unsigned int entityID)
+	{
+		gGOFactory->Destroy(entityID);
+	}
+
+	static unsigned int CreateNewGameObject(MonoString* prefabName)
+	{
+		char* cStrName = mono_string_to_utf8(prefabName);
+		GameObject newGO = gGOFactory->CreatePrefab(cStrName);
+		mono_free(cStrName);
+
+		return newGO.GetID();
+	}
+
+	static MonoObject* GetScriptInstance(unsigned int entityID)
+	{
+		if (gScriptSystem->mEntityInstances.count(entityID) > 0)
+		{
+			return gScriptSystem->mEntityInstances[entityID]->GetInstance();
+		}
+		else
+		{
+			CM_CORE_ERROR("Entity does not have script attached");
+			return nullptr;
+		}
+	}
+
+	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
 	void ScriptFunctions::RegisterComponents()
@@ -288,6 +337,9 @@ namespace Carmicah
 		//Entity functions
 		ADD_INTERNAL_CALL(Entity_HasComponent);
 		ADD_INTERNAL_CALL(Entity_FindEntityWithName);
+		ADD_INTERNAL_CALL(Destroy);
+		ADD_INTERNAL_CALL(CreateNewGameObject);
+		ADD_INTERNAL_CALL(GetScriptInstance);
 
 		// Rigidbody functions
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);
@@ -296,6 +348,9 @@ namespace Carmicah
 		// input functions
 		ADD_INTERNAL_CALL(IsKeyPressed);
 		ADD_INTERNAL_CALL(IsKeyHold);
+
+		// Button function
+		ADD_INTERNAL_CALL(ChangeScene);
 
 		// Sound
 		ADD_INTERNAL_CALL(Sound_PlaySFX);

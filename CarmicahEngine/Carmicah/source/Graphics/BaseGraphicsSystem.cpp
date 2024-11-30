@@ -114,7 +114,7 @@ namespace Carmicah
 			glVertexArrayVertexBuffer(bufferData.vao, 2, bufferData.vbo, sizeof(Vec2f) * 2, sizeof(vtxTexd2D));
 			glVertexArrayAttribFormat(bufferData.vao, 2, 1, GL_FLOAT, GL_FALSE, 0);
 			glVertexArrayAttribBinding(bufferData.vao, 2, 2);
-			// layout (location=3) in unsigned int aID;
+			// layout (location=3) in uvec2 aID;
 			glEnableVertexArrayAttrib(bufferData.vao, 3);
 			glVertexArrayVertexBuffer(bufferData.vao, 3, bufferData.vbo, sizeof(Vec2f) * 2 + sizeof(float), sizeof(vtxTexd2D));
 			glVertexArrayAttribIFormat(bufferData.vao, 3, 2, GL_UNSIGNED_INT, 0);
@@ -144,6 +144,11 @@ namespace Carmicah
 			glVertexArrayVertexBuffer(bufferData.vao, 1, bufferData.vbo, sizeof(Vec2f), sizeof(vtx2D));
 			glVertexArrayAttribFormat(bufferData.vao, 1, 1, GL_FLOAT, GL_FALSE, 0);
 			glVertexArrayAttribBinding(bufferData.vao, 1, 1);
+			// layout (location=2) in unsigned int aID;
+			glEnableVertexArrayAttrib(bufferData.vao, 2);
+			glVertexArrayVertexBuffer(bufferData.vao, 2, bufferData.vbo, sizeof(Vec2f) + sizeof(float), sizeof(vtx2D));
+			glVertexArrayAttribIFormat(bufferData.vao, 2, 1, GL_UNSIGNED_INT, 0);
+			glVertexArrayAttribBinding(bufferData.vao, 2, 2);
 
 			if (newBatch)
 			{
@@ -208,7 +213,7 @@ namespace Carmicah
 		{
 			auto& t = ComponentManager::GetInstance()->GetComponent<UITransform>(entity);
 			depth = t.Depth();
-			wSpace.translateThis(t.Pos()).scaleThis(t.Scale());
+			wSpace.translateThis(t.Pos()).rotDegThis(t.Rot()).scaleThis(t.Scale());
 		}
 		depth = CalcDepth(depth, layer);
 
@@ -256,6 +261,7 @@ namespace Carmicah
 			vtx2D tt;
 			tt.pos = mtx * p->vtx[i];
 			tt.depth = depth;
+			tt.id = entity;
 			temp.emplace_back(tt);
 		}
 		glNamedBufferSubData(dat.mBufferData->buffer[dat.posInMemory / mBatchSize].vbo, sizeof(vtx2D) * p->drawCnt * (dat.posInMemory % mBatchSize), sizeof(vtx2D) * p->drawCnt, temp.data());

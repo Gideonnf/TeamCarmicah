@@ -28,20 +28,20 @@ namespace Carmicah
 
 	void SceneSystem::Init()
 	{
-		if (mNextState == INITIALISING)
-		{
-			mCurrScene = mNextScene;
-			std::string sceneFile;
+		mCurrScene = mNextScene;
+		std::string sceneFile;
 
-			if (!AssetManager::GetInstance()->GetScene(mCurrScene, sceneFile))
-			{
-				// Loading scene failed, open default scene
-				CM_CORE_ERROR("Can't get next scene file, opening default scene");
-				AssetManager::GetInstance()->GetScene("DefaultScene", sceneFile);
-				mCurrScene = mNextScene = "DefaultScene";
-			}
+		if (!AssetManager::GetInstance()->GetScene(mCurrScene, sceneFile))
+		{
+			// Loading scene failed, open default scene
+			CM_CORE_ERROR("Can't get next scene file, opening default scene");
+			AssetManager::GetInstance()->GetScene("DefaultScene", sceneFile);
+			mCurrScene = mNextScene = "DefaultScene";
+		}
 
 		
+		if (mNextState == INITIALISING)
+		{
 			//gGOFactory->ImportGOs(mCurrScene);
 			if (SerializerSystem::GetInstance()->DeserializeScene(sceneFile))
 			{
@@ -67,6 +67,14 @@ namespace Carmicah
 				mNextState = mCurrState = SceneState::EDITOR;
 				remove((mCurrScene + "_temp").c_str());
 			}
+			// if theres no temp file means it was a scene change from a previous scene
+			else
+			{
+				if (SerializerSystem::GetInstance()->DeserializeScene(sceneFile))
+				{
+					mNextState = mCurrState = SceneState::EDITOR;
+				}
+			}
 		}
 	}
 
@@ -80,19 +88,21 @@ namespace Carmicah
 		mNextScene = scene;
 	}
 
-	void SceneSystem::ChangeScene(std::string nextScene)
+	bool SceneSystem::ChangeScene(std::string nextScene)
 	{
 		// technically dont have to check here since i check in init
-
 		mNextState = INITIALISING;
+
 		std::string sceneFile;
 		// only check for a new scene file if we're changing to a new scene
 		if ((nextScene != mCurrScene) && AssetManager::GetInstance()->GetScene(nextScene, sceneFile))
 		{
 			mNextScene = nextScene;
+			return true;
 		}
 		else
 		{
+			return false;
 			CM_CORE_ERROR("Unable to change scene.");
 		}
 
@@ -127,7 +137,7 @@ namespace Carmicah
 		//else
 		//	mNextState = EXIT;
 
-		//mState = EXIT;wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+		//mState = EXIT;
 		if (mCurrScene != "DefaultScene")
 		{
 			std::string sceneFile;
