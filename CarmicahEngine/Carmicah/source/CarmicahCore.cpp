@@ -119,7 +119,7 @@ namespace Carmicah
         glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
         int Width = mode->width;
         int Height = mode->height;
-        glfwCreateWindow(Width, Height, "Carmicah", primaryMonitor, NULL);
+        GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", primaryMonitor, NULL);
 
 #else
 
@@ -133,12 +133,12 @@ namespace Carmicah
         //comment it when using installer
         int Width = AssetManager::GetInstance()->enConfig.Width;
         int Height = AssetManager::GetInstance()->enConfig.Height;
-#endif
         std::string defaultScene = AssetManager::GetInstance()->enConfig.defaultScene;
         //CM_CORE_INFO("Reached before window creation");
         GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", NULL, NULL);
        // int bufferWidth, bufferHeight;
         //glfwGetFramebufferSize(window, &bufferWidth, &bufferHeight);
+#endif
         glfwMakeContextCurrent(window);
        // CM_CORE_INFO("Reached after window creation");
 
