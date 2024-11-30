@@ -63,6 +63,11 @@ namespace Carmicah
 
             return new Entity(entityID);
         }
+
+        public void Destroy()
+        {
+            FunctionCalls.Destroy(mID);
+        }
         //public T GetComponent<T>() 
     }
 }

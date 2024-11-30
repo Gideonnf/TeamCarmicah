@@ -266,16 +266,26 @@ namespace Carmicah
 	/// <summary>
 	/// Interface for changing the scene
 	/// </summary>
-	static void ChangeScene(MonoString* sceneName)
+	static bool ChangeScene(MonoString* sceneName)
 	{
 		// char* that is allocated on the heap
 		char* cStrName = mono_string_to_utf8(sceneName);
 		// call the system manager to get instance of scene system
 		auto& sceneSystem = SystemManager::GetInstance()->GetSystem<SceneSystem>();
 		// change the scene
-		sceneSystem->ChangeScene(cStrName);
+		if (!sceneSystem->ChangeScene(cStrName))
+		{
+			return false;
+			mono_free(cStrName);
+		}
 		// free the memory
 		mono_free(cStrName);
+		return true;
+	}
+
+	static void Destroy(unsigned int entityID)
+	{
+		gGOFactory->Destroy(entityID);
 	}
 
 	/// <summary>
@@ -305,6 +315,7 @@ namespace Carmicah
 		//Entity functions
 		ADD_INTERNAL_CALL(Entity_HasComponent);
 		ADD_INTERNAL_CALL(Entity_FindEntityWithName);
+		ADD_INTERNAL_CALL(Destroy);
 
 		// Rigidbody functions
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);

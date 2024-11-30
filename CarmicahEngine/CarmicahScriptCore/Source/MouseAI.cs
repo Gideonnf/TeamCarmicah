@@ -129,7 +129,7 @@ namespace Carmicah
         int currPoint;
         Vector2 originalPos;
         StateMachine stateMachine;
-
+       
         void OnCreate()
         {
             waypointsRight = new List<Vector2>();
@@ -144,6 +144,8 @@ namespace Carmicah
             stateMachine.AddState(new MouseChase("Chase"));
             stateMachine.AddState(new MouseDead("Dead"));
             stateMachine.SetNextState("Chase");
+
+            
         }
 
         void OnUpdate(float dt)
@@ -157,8 +159,9 @@ namespace Carmicah
             }
             else if (stateMachine.GetCurrentState() == "Dead")
             {
-                ResetPosition();
-                stateMachine.SetNextState("Chase");
+                Destroy();
+                //ResetPosition();
+                // stateMachine.SetNextState("Chase");
             }
         }
 

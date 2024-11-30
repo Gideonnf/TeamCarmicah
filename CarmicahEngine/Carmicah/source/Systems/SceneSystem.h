@@ -48,7 +48,7 @@ namespace Carmicah
 
 		//GameCore(std::string scene) : mScene(scene) {}
 		void Init();
-		void ChangeScene(std::string nextScene);
+		bool ChangeScene(std::string nextScene);
 		void ResetScene();
 		void Exit();
 		void SetScene(std::string scene);
