@@ -96,6 +96,11 @@ namespace Carmicah
             FunctionCalls.Destroy(mID);
         }
 
+        public void ChangeAnim(string animName)
+        {
+            FunctionCalls.Animation_ChangeAnim(mID, animName);
+        }
+
         //public T GetComponent<T>() 
     }
 }

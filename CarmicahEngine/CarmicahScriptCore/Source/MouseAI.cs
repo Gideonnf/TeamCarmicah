@@ -46,25 +46,32 @@ namespace Carmicah
             Random rand = new Random();
             int randomInt = rand.Next(0, 4); // rand between 1 to 3
 
-            //switch(randomInt)
-            //{
-            //    case 0:
-            //        GetComponent<Animation>().ChangeAnim(Animation0);
+            switch(randomInt)
+            {
+                case 0:
+                    //Console.WriteLine($"Trying to change Anim {Animation0}");
+                    ChangeAnim(Animation0);
 
-            //        break;
-            //    case 1:
-            //        GetComponent<Animation>().ChangeAnim(Animation1);
+                    break;
+                case 1:
+                    //Console.WriteLine($"Trying to change Anim {Animation1}");
 
-            //        break;
-            //    case 2:
-            //        GetComponent<Animation>().ChangeAnim(Animation2);
+                    ChangeAnim(Animation1);
 
-            //        break;
-            //    case 3:
-            //        GetComponent<Animation>().ChangeAnim(Animation3);
+                    break;
+                case 2:
+                    //Console.WriteLine($"Trying to change Anim {Animation2}");
 
-            //        break;
-            //}
+                    ChangeAnim(Animation2);
+
+                    break;
+                case 3:
+                   // Console.WriteLine($"Trying to change Anim {Animation3}");
+
+                    ChangeAnim(Animation3);
+
+                    break;
+            }
         }
 
         void OnUpdate(float dt)

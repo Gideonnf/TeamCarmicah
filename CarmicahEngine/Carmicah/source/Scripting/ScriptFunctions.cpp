@@ -23,6 +23,7 @@ DigiPen Institute of Technology is prohibited.
 #include "../ECS/ComponentManager.h"
 #include "../Components/Transform.h"
 #include "../Components/RigidBody.h"
+#include "../Components/Animation.h"
 #include "ScriptSystem.h"
 #include "../Input/InputSystem.h"
 #include "../Systems/SoundSystem.h"
