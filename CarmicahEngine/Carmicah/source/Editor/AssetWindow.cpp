@@ -50,7 +50,7 @@ namespace Carmicah
 		//auto shaderMap = assetManager->GetAssetMap<Shader>();
 		auto textureMap = assetManager->GetAssetMap<Texture>();
 		auto fontMap = assetManager->GetAssetMap<Font>();
-		//auto audioMap = assetManager->GetAssetMap<Audio>();
+		auto audioMap = assetManager->GetAssetMap<FMOD::Sound*>();
 		auto prefabMap = assetManager->GetAssetMap<Prefab>();
 		auto sceneMap = assetManager->GetAssetMap<Scene>();
 
@@ -88,7 +88,7 @@ namespace Carmicah
 						}
 
 						Mtx3x3f matrix = textureMap->mAssetList[entry.second].mtx;
-						GLuint textureID = assetManager->mArrayTex;
+						//GLuint textureID = assetManager->mArrayTex;
 						Vec2f uv0(0, 0);
 						Vec2f uv1(1, 1);
 						uv0 = matrix * uv0;
@@ -164,7 +164,7 @@ namespace Carmicah
 				ImGui::Unindent();
 			}
 
-			/*if (ImGui::CollapsingHeader("Audio"))
+			if (ImGui::CollapsingHeader("Audio"))
 			{
 				ImGui::Indent();
 				for (const auto& entry : audioMap->mAssetMap)
@@ -172,7 +172,7 @@ namespace Carmicah
 					if (ImGui::Button(entry.first.c_str()));
 				}
 				ImGui::Unindent();
-			}*/
+			}
 
 			if (ImGui::CollapsingHeader("Prefab"))
 			{

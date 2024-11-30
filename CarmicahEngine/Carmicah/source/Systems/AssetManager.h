@@ -225,7 +225,7 @@ namespace Carmicah
 		// TODO: Handle removal of assets
 		// cant rlly be done/tested until editor has ways to delete and add assets
 
-		void CopyAssetToAssetsFolder(const std::string& source, const char* assetPath);
+		bool CopyAssetToAssetsFolder(const std::string& source, const char* assetPath);
 	private:
 
 
