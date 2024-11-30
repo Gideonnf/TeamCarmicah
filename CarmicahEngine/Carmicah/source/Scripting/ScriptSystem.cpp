@@ -80,6 +80,15 @@ namespace Carmicah
                 break;
             }
         }
+
+        for (auto it = entityAdded.begin(); it != entityAdded.end(); ++it)
+        {
+            if (*it == id)
+            {
+                entityAdded.erase(it);
+                break;
+            }
+        }
     }
 
     void ScriptSystem::Init()
@@ -445,6 +454,16 @@ namespace Carmicah
             {
                 // erase it from the map
                 mEntityInstances.erase(it.first);
+                break;
+            }
+        }
+
+        // Check if the obj is in the entities to add
+        for (auto it = entityAdded.begin(); it != entityAdded.end(); ++it)
+        {
+            if (*it == entity)
+            {
+                entityAdded.erase(it);
                 break;
             }
         }
