@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-/*namespace Carmicah
+namespace Carmicah
 {
     public class MouseAI : Entity
     {
@@ -98,7 +98,7 @@ using System.Threading.Tasks;
                     // Trigger respawn
                     shouldRespawn = true;
                     respawnTimer = 0f;
-                   // Position = isLeft ? waypointsLeft[0] : waypointsRight[0];
+                    // Position = isLeft ? waypointsLeft[0] : waypointsRight[0];
                     //Sound.PlaySFX("death", 0.5f);
                 }
             }
@@ -115,11 +115,11 @@ using System.Threading.Tasks;
 
     }
 }
-*/
 
 
 
-namespace Carmicah
+
+/*namespace Carmicah
 {
     public class MouseAI : Entity
     {
@@ -228,3 +228,4 @@ namespace Carmicah
         }
     }
 }
+*/

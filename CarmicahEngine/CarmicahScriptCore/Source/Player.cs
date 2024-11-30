@@ -42,7 +42,8 @@ namespace Carmicah
 
             if (Input.IsKeyHold(Keys.KEY_W))
             {
-                PlaySoundEffect("walk");
+                
+                Effect("walk");
                 //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
 
                 GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
