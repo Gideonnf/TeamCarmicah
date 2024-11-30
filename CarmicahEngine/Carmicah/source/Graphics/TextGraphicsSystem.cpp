@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:			TextSystem.cpp
+ file:			TextGraphicsSystem.cpp
 
  author:		Won Yu Xuan Rainne(100%)
 
@@ -14,7 +14,7 @@ DigiPen Institute of Technology is prohibited.
 #include "pch.h"
 #include <glad/glad.h>
 #include <ECS/ECSTypes.h>
-#include "Graphics/TextSystem.h"
+#include "Graphics/TextGraphicsSystem.h"
 #include "Systems/GOFactory.h"
 #include "Components/UITransform.h"
 #include "Components/TextRenderer.h"
@@ -26,18 +26,18 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	void TextSystem::Init()
+	void TextGraphicsSystem::Init()
 	{
 		// Set the signature of the system
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<UITransform>());
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<TextRenderer>());
 		// Update the signature of the system
-		SystemManager::GetInstance()->SetSignature<TextSystem>(mSignature);
+		SystemManager::GetInstance()->SetSignature<TextGraphicsSystem>(mSignature);
 
 		BaseGraphicsSystem::Init(AssetManager::GetInstance()->enConfig.fontShader);
 	}
 
-	void TextSystem::EntityDestroyed(Entity id)
+	void TextGraphicsSystem::EntityDestroyed(Entity id)
 	{
 		auto test = mEntityBufferLoc.find(id);
 		if (test != mEntityBufferLoc.end())
@@ -50,7 +50,7 @@ namespace Carmicah
 		}
 	}
 
-	void TextSystem::Update()
+	void TextGraphicsSystem::Update()
 	{
 		for (std::unordered_map<unsigned int, EntityData>::iterator it{ mEntityBufferLoc.begin() };
 			it != mEntityBufferLoc.end();)

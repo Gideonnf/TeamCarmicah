@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:			GraphicsSystem.cpp
+ file:			WorldGraphicsSystem.cpp
 
  author:		Won Yu Xuan Rainne(100%)
 
@@ -13,7 +13,7 @@ DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include <glad/glad.h>
-#include "Graphics/GraphicsSystem.h"
+#include "Graphics/WorldGraphicsSystem.h"
 
 #include <ECS/ECSTypes.h>
 #include "Systems/GOFactory.h"
@@ -29,23 +29,23 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	void GraphicsSystem::Init()
+	void WorldGraphicsSystem::Init()
 	{
 		// Set the signature of the system
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Renderer>());
 		// Update the signature of the system
-		SystemManager::GetInstance()->SetSignature<GraphicsSystem>(mSignature);
+		SystemManager::GetInstance()->SetSignature<WorldGraphicsSystem>(mSignature);
 		BaseGraphicsSystem::Init(AssetManager::GetInstance()->enConfig.defaultShader);
 	}
 
-	void GraphicsSystem::SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam)
+	void WorldGraphicsSystem::SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam)
 	{
 		auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
 		currCam.Scale(1.f / static_cast<float>(camWidth), 1.f / static_cast<float>(camHeight));
 	}
 
-	void GraphicsSystem::EntityDestroyed(Entity id)
+	void WorldGraphicsSystem::EntityDestroyed(Entity id)
 	{
 		auto test =  mEntityBufferLoc.find(id);
 		if (test != mEntityBufferLoc.end())
@@ -55,7 +55,7 @@ namespace Carmicah
 		}
 	}
 
-	void GraphicsSystem::Update()
+	void WorldGraphicsSystem::Update()
 	{
 		for (std::unordered_map<unsigned int, EntityData>::iterator entity = mEntityBufferLoc.begin(); entity != mEntityBufferLoc.end();)
 		{
