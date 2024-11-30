@@ -30,13 +30,17 @@ namespace Carmicah
 		***************************************************************************/
 		void Init();
 
+		/*!*************************************************************************
+		brief
+			Remove the entity from the buffer when it is destroyed
+		param[id]
+			the entity id being destroyed
+		***************************************************************************/
 		void EntityDestroyed(Entity id);
 
 		/*!*************************************************************************
 		brief
 			Renders the Debug line of entities
-		param[cam]
-			camera dimensions and position to reference
 		***************************************************************************/
 		void Update();
 	};
