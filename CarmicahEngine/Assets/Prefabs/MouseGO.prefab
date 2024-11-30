@@ -45,8 +45,8 @@
             "objectType": 1
         },
         {
-			"Component Name": "struct Carmicah::Animation",
-			"Atlas": "Mouse_Climb_blue"        
-		}
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Mouse_Climb_blue"
+        }
     ]
 }

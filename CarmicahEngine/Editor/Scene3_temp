@@ -139,6 +139,101 @@
                     "rot": 0.0
                 }
             ]
+        },
+        {
+            "GameObject": "Duck",
+            "ID": 22,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 1.0,
+                    "yPos": 0.0,
+                    "depth": 1.0,
+                    "xScale": 6.0,
+                    "yScale": 6.0,
+                    "rot": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Duck"
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 4
+                },
+                {
+                    "Component Name": "struct Carmicah::Collider2D",
+                    "shape": "",
+                    "customWidth": 0.0,
+                    "customRotation": 0.0,
+                    "customHeight": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::RigidBody",
+                    "velocityX": 0.0,
+                    "velocityY": 0.0,
+                    "angularVelocity": 0.0,
+                    "posPrevX": 0.0,
+                    "posPrevY": 0.0,
+                    "mass": 1.0,
+                    "gravity": 0.0,
+                    "zposPrev": -107374176.0,
+                    "objectType": 0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "Duck_1",
+            "ID": 23,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": -9.850000381469727,
+                    "yPos": 0.0,
+                    "depth": 1.0,
+                    "xScale": 2.0,
+                    "yScale": 2.0,
+                    "rot": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "MC_SpriteSheet_Walk 1"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.Player",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 4
+                },
+                {
+                    "Component Name": "struct Carmicah::Collider2D",
+                    "shape": "",
+                    "customWidth": 0.0,
+                    "customRotation": 0.0,
+                    "customHeight": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::RigidBody",
+                    "velocityX": 0.0,
+                    "velocityY": 0.0,
+                    "angularVelocity": 0.0,
+                    "posPrevX": 0.0,
+                    "posPrevY": 0.0,
+                    "mass": 1.0,
+                    "gravity": 0.0,
+                    "zposPrev": -107374176.0,
+                    "objectType": 0
+                }
+            ],
+            "Children": []
         }
     ]
 }

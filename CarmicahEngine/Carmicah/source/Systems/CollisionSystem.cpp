@@ -65,6 +65,7 @@ namespace Carmicah
 		//		collider.OBBinit = true;
 		//	}*/
 		//}
+		std::vector<Vec2f> worldVertices;
 		if (componentManager->HasComponent<Renderer>(obj))
 		{
 			auto& rend = componentManager->GetComponent<Renderer>(obj);
@@ -79,66 +80,69 @@ namespace Carmicah
 
 			const auto& primitive = assetManager->GetAsset<Primitive>(rend.model);
 
-			// Update the Collider using the Primitive vertices
-			std::vector<Vec2f> worldVertices;
-			for (const auto& vertex : primitive.vtx)
-			{
-				// Transform the vertices to world space
-				float worldX = transform.Pos().x + (vertex.x * transform.Scale().x * cos(transform.Rot() * PI / 180.0f)) -
-					(vertex.y * transform.Scale().y * sin(transform.Rot() * PI / 180.0f));
-				float worldY = transform.Pos().y + (vertex.x * transform.Scale().x * sin(transform.Rot() * PI / 180.0f)) +
-					(vertex.y * transform.Scale().y * cos(transform.Rot() * PI / 180.0f));
-				worldVertices.emplace_back(Vec2f{ worldX, worldY });
-			}
+			// Initialize customWidth and customHeight if they are uninitialized
+			
+				// Find the bounds of the primitive's vertices
+				float minX = primitive.vtx[0].x;
+				float maxX = primitive.vtx[0].x;
+				float minY = primitive.vtx[0].y;
+				float maxY = primitive.vtx[0].y;
 
-			// Update the OBB vertices and bounds in the Collider
-			collider.objVert = worldVertices;
+				for (const auto& vertex : primitive.vtx)
+				{
+					if (vertex.x < minX) minX = vertex.x;
+					if (vertex.x > maxX) maxX = vertex.x;
+					if (vertex.y < minY) minY = vertex.y;
+					if (vertex.y > maxY) maxY = vertex.y;
+				}
 
-			// Compute AABB from transformed vertices
-			Vec2f min = worldVertices[0];
-			Vec2f max = worldVertices[0];
-			for (const auto& vertex : worldVertices)
-			{
-				if (vertex.x < min.x) min.x = vertex.x;
-				if (vertex.y < min.y) min.y = vertex.y;
-				if (vertex.x > max.x) max.x = vertex.x;
-				if (vertex.y > max.y) max.y = vertex.y;
-			}
+				collider.customWidth = maxX - minX;
+				collider.customHeight = maxY - minY;
+			
 
-			collider.min = min;
-			collider.max = max;
+			// Calculate half-dimensions of the OBB
+			float halfWidth = collider.customWidth * 0.5f * transform.Scale().x;
+			float halfHeight = collider.customHeight * 0.5f * transform.Scale().y;
 
-			collider.OBBinit = true; // Mark the OBB as initialized
+			// Rotation in radians
+			float angle = transform.Rot() * (PI / 180.0f);
+			float cosTheta = cos(angle);
+			float sinTheta = sin(angle);
+
+			// Calculate OBB corners relative to center
+			Vec2f center = transform.Pos();
+			std::vector<Vec2f> obbVertices;
+			obbVertices.emplace_back(center.x + halfWidth * cosTheta - halfHeight * sinTheta,
+				center.y + halfWidth * sinTheta + halfHeight * cosTheta); // Top-right
+			obbVertices.emplace_back(center.x - halfWidth * cosTheta - halfHeight * sinTheta,
+				center.y - halfWidth * sinTheta + halfHeight * cosTheta); // Top-left
+			obbVertices.emplace_back(center.x - halfWidth * cosTheta + halfHeight * sinTheta,
+				center.y - halfWidth * sinTheta - halfHeight * cosTheta); // Bottom-left
+			obbVertices.emplace_back(center.x + halfWidth * cosTheta + halfHeight * sinTheta,
+				center.y + halfWidth * sinTheta - halfHeight * cosTheta); // Bottom-right
+
+			// Update the collider with OBB vertices
+			collider.objVert = obbVertices;
+
+			
+			collider.min.x = transform.Pos().x - halfWidth;
+			collider.min.y = transform.Pos().y - halfHeight;
+			collider.max.x = transform.Pos().x + halfWidth;
+			collider.max.y = transform.Pos().y + halfHeight;
+
 		}
 
 
 		//// Calculate the half-width and half-height of the object
-		//float halfWidth = (collider.customWidth * transform.Scale().x) * 0.5f;
-		//float halfHeight = (collider.customHeight * transform.Scale().y) * 0.5f;
+		/*float halfWidth = (collider.customWidth * transform.Scale().x) * 0.5f;
+		float halfHeight = (collider.customHeight * transform.Scale().y) * 0.5f;*/
 
 		//// Rotation angle in radians
 		//float angleInRadians = transform.Rot() * (PI / 180.0f);
-		////float angleInRadians = collider.customRotation * (PI / 180.0f);
 		//float cosTheta = cos(angleInRadians);
 		//float sinTheta = sin(angleInRadians);
 
 		////GetOBBVertices(obj);
-
-		////// Determine the min and max of the rotated vertices to define the AABB
-		////Vec2f min(collider.objVert[0]);
-		////Vec2f max(collider.objVert[0]);
-
-		////for (const auto& vertex : collider.objVert)
-		////{
-		////	if (vertex.x < min.x) min.x = vertex.x;
-		////	if (vertex.y < min.y) min.y = vertex.y;
-		////	if (vertex.x > max.x) max.x = vertex.x;
-		////	if (vertex.y > max.y) max.y = vertex.y;
-		////}
-
-		////// Update the collider's AABB
-		////collider.min = min;
-		////collider.max = max;
 
 		//collider.min.x = transform.Pos().x - halfWidth;
 		//collider.min.y = transform.Pos().y - halfHeight;
@@ -195,16 +199,9 @@ namespace Carmicah
 
 			// Calculate and store edge normal
 			Vec2f normal(edge.y, -edge.x); // Perpendicular normal
-			if (normal.x == 0 || normal.y == 0)
-			{
-				continue;
-			}
-			else
-			{
-				normal.normalize(); // Ensure normal is unit length
-				collider.objNormals.push_back(normal);
-
-			}
+			
+			normal.normalize(); // Ensure normal is unit length
+			collider.objNormals.push_back(normal);
 
 		}
 
@@ -337,10 +334,6 @@ namespace Carmicah
 
 		for (size_t i = 0, i1 = collider1.objVert.size() - 1; i < collider1.objVert.size(); i1 = i, i++)
 		{
-			if(collider1.objNormals.empty())
-			{
-				continue;
-			}
 			Vec2f outwardNormal = collider1.objNormals[i];
 
 			if (WhichSide(collider2.objVert, collider1.objVert[i], outwardNormal) > 0)
@@ -351,10 +344,6 @@ namespace Carmicah
 
 		for (size_t i = 0, i1 = collider2.objVert.size() - 1; i < collider2.objVert.size(); i1 = i, i++)
 		{
-			if (collider2.objNormals.empty())
-			{
-				continue;
-			}
 			Vec2f outwardNormal = collider2.objNormals[i];
 
 			if (WhichSide(collider1.objVert, collider2.objVert[i], outwardNormal) > 0)
@@ -399,7 +388,7 @@ namespace Carmicah
 			//gGOFactory->Destroy(obj1);
 
 		}
-		else if (rigidbody1.objectType == rbTypes::DYNAMIC && rigidbody2.objectType == rbTypes::KINEMATIC || rigidbody1.objectType == rbTypes::KINEMATIC && rigidbody2.objectType == rbTypes::DYNAMIC)
+		else if (rigidbody1.objectType == rbTypes::DYNAMIC && rigidbody2.objectType == rbTypes::DYNAMIC)
 		{
 			/*transform1.PosX(rigidbody1.velocity.x * tFirst + rigidbody1.posPrev.x);
 			transform1.PosY(rigidbody1.velocity.y * tFirst + rigidbody1.posPrev.y);
@@ -408,11 +397,37 @@ namespace Carmicah
 			transform2.PosY(rigidbody2.velocity.y * tFirst + rigidbody2.posPrev.y);*/
 
 			/*transform1.PosX(rigidbody1.posPrev.x);
-			transform1.PosY(rigidbody1.posPrev.y);*/
+			transform1.PosY(rigidbody1.posPrev.y);
 
 			transform2.PosX(rigidbody2.posPrev.x);
-			transform2.PosY(rigidbody2.posPrev.y);
+			transform2.PosY(rigidbody2.posPrev.y);*/
 
+
+			rigidbody1.velocity.x = 0;
+			rigidbody1.velocity.y = 0;
+
+			
+
+			/*rigidbody2.velocity.x = 0;
+			rigidbody2.velocity.y = 0;*/
+
+
+		}
+		else if (rigidbody1.objectType == rbTypes::KINEMATIC && rigidbody2.objectType == rbTypes::DYNAMIC)
+		{
+			/*transform1.PosX(rigidbody1.velocity.x * tFirst + rigidbody1.posPrev.x);
+			transform1.PosY(rigidbody1.velocity.y * tFirst + rigidbody1.posPrev.y);
+
+			transform2.PosX(rigidbody2.velocity.x * tFirst + rigidbody2.posPrev.x);
+			transform2.PosY(rigidbody2.velocity.y * tFirst + rigidbody2.posPrev.y);*/
+
+			/*transform1.PosX(rigidbody1.posPrev.x);
+			transform1.PosY(rigidbody1.posPrev.y);
+
+			transform2.PosX(rigidbody2.posPrev.x);
+			transform2.PosY(rigidbody2.posPrev.y);*/
+
+			std::cout << "Colliding k vs d" << std::endl;
 
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
@@ -428,6 +443,7 @@ namespace Carmicah
 			transform1.PosX(rigidbody1.posPrev.x);
 			transform1.PosY(rigidbody1.posPrev.y);
 
+			std::cout << "Help" << std::endl;
 
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
