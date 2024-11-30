@@ -157,7 +157,7 @@ namespace Carmicah
 			}
 			ImGui::End();
 		}
-
+		//Window Update Stuff
 		for (auto& window : mWindows) 
 		{
 
@@ -184,6 +184,7 @@ namespace Carmicah
 			}
 		}
 
+#pragma region Logic
 		if(Editor::droppedFilePaths.size() > 0)
 		{
 			for (const auto& file : Editor::droppedFilePaths)
@@ -199,30 +200,37 @@ namespace Carmicah
 			Editor::droppedFilePaths.clear();
 			AssetManager::GetInstance()->fileWatcher.Update();
 		}
-		if(ImGui::BeginPopup("Unsupported"))
-		{
-			ImVec2 currentPopupSize = ImGui::GetWindowSize();
-			std::cout << currentPopupSize.x << "," << currentPopupSize.y << std::endl;
-			ImGui::Dummy(ImVec2(popupSize.x, popupSize.y - 50.f));
-			ImGui::SetCursorPos(ImVec2(popupSize.x - 5.0f, 5.f));
-			if(ImGui::Button("X"))
-			{
-				ImGui::CloseCurrentPopup();
-			}
-			ImGui::SetCursorPos(ImVec2((popupSize.x - ImGui::CalcTextSize("Unsupported File Format!").x) / 2.0f, popupSize.y / 3.0f));
-			ImGui::Text("Unsupported File Format!");
-			ImGui::EndPopup();
-		}
 
 
-		//TODO: Get nic to make the play and stop button
+
 		if (SceneWindow::mChangeState)
 		{
 			RuntimeStartMessage msg;
 			SendSysMessage(&msg);
 			SceneWindow::mChangeState = false;
 		}
+
+#pragma endregion
+
+
+
+#pragma region Pop-Up Handling
+		if(ImGui::BeginPopup("Unsupported"))
+		{
+			ImVec2 currentPopupSize = ImGui::GetWindowSize();
+			std::cout << currentPopupSize.x << "," << currentPopupSize.y << std::endl;
+			ImGui::Dummy(ImVec2(popupSize.x -16.f, popupSize.y - 16.f));
+			ImGui::SetCursorPos(ImVec2(popupSize.x - 30.f, 5.f));
+			if(ImGui::Button("X"))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::SetCursorPos(ImVec2((popupSize.x - ImGui::CalcTextSize("Unsupported File Format!").x) / 2.0f, (popupSize.y - ImGui::CalcTextSize("Unsupported File Format").y) / 2.0f));
+			ImGui::Text("Unsupported File Format!");
+			ImGui::EndPopup();
+		}
 	}
+#pragma endregion
 
 	void Editor::Render(GLFWwindow* window)
 	{
