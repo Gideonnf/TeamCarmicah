@@ -427,6 +427,11 @@ namespace Carmicah
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Texture");
+				ImGui::SameLine();
+				if (ImGui::Button("v##."))
+				{
+					ImGui::OpenPopup("Texture Select");
+				}
 				ImGui::TableNextColumn();
 				ImGui::Text("%s", render.Texture().c_str());
 				if (ImGui::BeginDragDropTarget())
@@ -438,11 +443,6 @@ namespace Carmicah
 					}
 
 					ImGui::EndDragDropTarget();
-				}
-				ImGui::SameLine();
-				if (ImGui::Button("v##."))
-				{
-					ImGui::OpenPopup("Texture Select");
 				}
 				ImGui::SetNextWindowSize(ImVec2(300, 500));
 				if (ImGui::BeginPopup("Texture Select"))
