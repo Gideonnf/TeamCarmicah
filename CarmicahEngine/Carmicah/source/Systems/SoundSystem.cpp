@@ -59,7 +59,7 @@ namespace Carmicah
         StopAllSounds();
     }
 
-    bool SoundSystem::PlaySoundThis(const std::string& soundName, SoundCategory category, INTSOUND internalCatergoy, float volume)
+    bool SoundSystem::PlaySoundThis(const std::string& soundName, SoundCategory category, INTSOUND internalCatergoy, bool isLoop, float volume)
     {
         if (!AssetManager::GetInstance()->AssetExist<FMOD::Sound*>(soundName))
         {
@@ -78,6 +78,8 @@ namespace Carmicah
             track->defaultVolume = (volume >= 0 ? volume : defaultVolume) * mCategoryVolumes[category];
             track->currentVolume = track->defaultVolume * mMasterVolume;
 
+            if (!isLoop)
+                channel->setLoopCount(0);
             channel->setVolume(track->currentVolume);
             mSoundTracks[internalCatergoy].emplace_back(std::move(track));
             return true;
@@ -197,11 +199,11 @@ namespace Carmicah
     {
         if (msg->mMsgType == MSG_PLAYSFX) {
             auto* sfxMsg = dynamic_cast<PlaySFXMsg*>(msg);
-            PlaySoundThis(sfxMsg->fileName, SoundCategory::SFX, INTSOUND::SOUND_INGAME, 0.5f);
+            PlaySoundThis(sfxMsg->fileName, SoundCategory::SFX, INTSOUND::SOUND_INGAME, false, 0.5f);
         }
         else if (msg->mMsgType == MSG_PLAYBGM) {
             auto* bgmMsg = dynamic_cast<PlayBGMMsg*>(msg);
-            PlaySoundThis(bgmMsg->fileName, SoundCategory::BGM, INTSOUND::SOUND_BGM, 0.3f);
+            PlaySoundThis(bgmMsg->fileName, SoundCategory::BGM, INTSOUND::SOUND_BGM, true, 0.3f);
         }
     }
 

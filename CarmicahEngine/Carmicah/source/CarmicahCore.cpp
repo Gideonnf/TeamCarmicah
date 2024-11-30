@@ -119,9 +119,9 @@ namespace Carmicah
         glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
         int Width = mode->width;
         int Height = mode->height;
-        glfwCreateWindow(Width, Height, "Carmicah", primaryMonitor, NULL);
+        GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", primaryMonitor, NULL);
 
-#endif
+#else
 
 
 
@@ -138,6 +138,7 @@ namespace Carmicah
         GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", NULL, NULL);
        // int bufferWidth, bufferHeight;
         //glfwGetFramebufferSize(window, &bufferWidth, &bufferHeight);
+#endif
         glfwMakeContextCurrent(window);
        // CM_CORE_INFO("Reached after window creation");
 
@@ -318,7 +319,7 @@ namespace Carmicah
             // If the next state was set to ONSTART, means sceneSystem received a play messag
             if (gameSystem->mNextState == SceneState::ONSTART)
             {
-                souSystem->PlaySoundThis("BGM_SetupPhase_Mix1", SoundCategory::BGM, SoundSystem::SOUND_INGAME, 0.4f);
+                souSystem->PlaySoundThis("BGM_SetupPhase_Mix1", SoundCategory::BGM, SoundSystem::SOUND_INGAME, true, 0.4f);
                 gScriptSystem->OnStart();
                 // go to run time after starting up all script objects
                 gameSystem->mNextState = gameSystem->mCurrState = SceneState::RUNTIME;
@@ -370,7 +371,7 @@ namespace Carmicah
                             }
 #endif
 
-#ifdef CM_RELEASE || CM_INSTALLER
+#if defined(CM_RELEASE) || defined(CM_INSTALLER)
                             CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                             phySystem->Update();
                             CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
@@ -412,7 +413,7 @@ namespace Carmicah
                         }
 #endif
 
-#ifdef CM_RELEASE || CM_INSTALLER
+#if defined(CM_RELEASE) || defined(CM_INSTALLER)
                         CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                         phySystem->Update();
                         CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");

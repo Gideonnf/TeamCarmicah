@@ -198,6 +198,7 @@ namespace Carmicah
 	template<typename T>
 	void InspectorWindow::RenderTransformTable(T* go, TABLETYPE type)
 	{
+		UNUSED(type);
 		Transform& selectedTransform = go->GetComponent<Transform>();
 		if (ImGui::CollapsingHeader("Transform Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
@@ -220,10 +221,10 @@ namespace Carmicah
 					selectedTransform.Pos(pos);
 					if (selectedTransform.parent != 0)
 					{
-						Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
+						//Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
 
-						float worldX = parentTransform.worldSpace.m00 * selectedTransform.Pos().x + parentTransform.worldSpace.m01 * selectedTransform.Pos().y + parentTransform.worldSpace.m02;
-						float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
+						//float worldX = parentTransform.worldSpace.m00 * selectedTransform.Pos().x + parentTransform.worldSpace.m01 * selectedTransform.Pos().y + parentTransform.worldSpace.m02;
+						//float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
 					}
 					else
 					{
@@ -241,12 +242,11 @@ namespace Carmicah
 					selectedTransform.Pos(pos);
 					if (selectedTransform.parent != 0)
 					{
-						Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
+						//Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
 						//CM_CORE_INFO("Parent World X : " + std::to_string(parentTransform.worldSpace.m20) + ", Parent World Y : " + std::to_string(parentTransform.worldSpace.m21));
 
-						float worldX = parentTransform.worldSpace.m00 * selectedTransform.Pos().x + parentTransform.worldSpace.m01 * selectedTransform.Pos().y + parentTransform.worldSpace.m02;
-
-						float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
+						//float worldX = parentTransform.worldSpace.m00 * selectedTransform.Pos().x + parentTransform.worldSpace.m01 * selectedTransform.Pos().y + parentTransform.worldSpace.m02;
+						//float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
 
 					}
 					else
@@ -310,6 +310,7 @@ namespace Carmicah
 	template<typename T>
 	void InspectorWindow::RenderUITransformTable(T* go, TABLETYPE type)
 	{
+		UNUSED(type);
 		UITransform& selectedUITransform = go->GetComponent<UITransform>();
 		if (ImGui::CollapsingHeader("UI Transform Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
@@ -372,7 +373,7 @@ namespace Carmicah
 	template<typename T>
 	void InspectorWindow::RenderRenderingTable(T* go, TABLETYPE type)
 	{
-		auto& textureMap = AssetManager::GetInstance()->GetAssetMap<Texture>();
+		auto textureMap = AssetManager::GetInstance()->GetAssetMap<Texture>();
 		Renderer& render = go->GetComponent<Renderer>();
 		if (ImGui::CollapsingHeader("Renderer Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
@@ -462,7 +463,7 @@ namespace Carmicah
 	template<typename T>
 	void InspectorWindow::RenderAnimationTable(T* go, TABLETYPE type)
 	{
-		auto& animMap = AssetManager::GetInstance()->GetAssetMap<AnimAtlas>();
+		auto animMap = AssetManager::GetInstance()->GetAssetMap<AnimAtlas>();
 		Animation& anim = go->GetComponent<Animation>();
 		if (ImGui::CollapsingHeader("Animation Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
@@ -718,7 +719,7 @@ namespace Carmicah
 	template<typename T>
 	void InspectorWindow::RenderTextRenderTable(T* go, TABLETYPE type)
 	{
-		auto& fontMap = AssetManager::GetInstance()->GetAssetMap<Font>();
+		auto fontMap = AssetManager::GetInstance()->GetAssetMap<Font>();
 		TextRenderer& text = go->GetComponent<TextRenderer>();
 		if (ImGui::CollapsingHeader("Text Renderer Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
@@ -726,7 +727,7 @@ namespace Carmicah
 			{
 			case GAMEOBJECT:
 			{
-				Entity id = go->GetID();
+				//Entity id = go->GetID();
 				InspectorWindow::RemoveComponentButton<TextRenderer>(go);
 				break;
 			}
@@ -802,7 +803,7 @@ namespace Carmicah
 	template<typename T>
 	void InspectorWindow::RenderButtonTable(T* go, TABLETYPE type)
 	{
-		auto& textureMap = AssetManager::GetInstance()->GetAssetMap<Texture>();
+		auto textureMap = AssetManager::GetInstance()->GetAssetMap<Texture>();
 		Button& butt = go->GetComponent<Button>();
 		if (ImGui::CollapsingHeader("Button Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
@@ -810,7 +811,7 @@ namespace Carmicah
 			{
 			case GAMEOBJECT:
 			{
-				Entity id = go->GetID();
+				//Entity id = go->GetID();
 				InspectorWindow::RemoveComponentButton<Button>(go);
 				break;
 			}
