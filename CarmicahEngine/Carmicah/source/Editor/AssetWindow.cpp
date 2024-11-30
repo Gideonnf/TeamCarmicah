@@ -26,6 +26,7 @@ DigiPen Institute of Technology is prohibited.
 #include "InspectorWindow.h"
 #include "../Systems/AssetManager.h"
 #include "../Systems/SceneSystem.h"
+#include "../Systems/SoundSystem.h"
 #include "Systems/GOFactory.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
@@ -37,6 +38,7 @@ namespace Carmicah
 	AssetWindow::AssetWindow() : EditorWindow("Asset Browser", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
 
 	Prefab* AssetWindow::selectedPrefab = nullptr;
+	std::string AssetWindow::soundToPlay;
 	/**
 	 * @brief Update function for the AssetWindow
 	 * 
@@ -50,52 +52,26 @@ namespace Carmicah
 		//auto shaderMap = assetManager->GetAssetMap<Shader>();
 		auto textureMap = assetManager->GetAssetMap<Texture>();
 		auto fontMap = assetManager->GetAssetMap<Font>();
-		//auto audioMap = assetManager->GetAssetMap<Audio>();
+		auto audioMap = assetManager->GetAssetMap<FMOD::Sound*>();
 		auto prefabMap = assetManager->GetAssetMap<Prefab>();
 		auto sceneMap = assetManager->GetAssetMap<Scene>();
 
 		if (ImGui::Begin(mTitle))
 		{
 			std::string name;
-			/*if (ImGui::CollapsingHeader("Primitive"))
+			/*if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem))
 			{
-				ImGui::Indent();
-				for (const auto& entry : primitiveMap->mAssetMap)
+				for (const auto& file : Editor::droppedFilePaths)
 				{
-					name = entry.first + "##Prim";
-					if (ImGui::Button(name.c_str()))
-					{
-					}
-					if (ImGui::IsItemHovered())
-					{
-						ImGui::BeginTooltip();
-						ImGui::Text("Cool Shape!");
-						ImGui::EndTooltip();
-					}
+					std::cout << file << std::endl;
 				}
-				ImGui::Unindent();
+				Editor::droppedFilePaths.clear();
 			}*/
-			/*if (ImGui::CollapsingHeader("Shader"))
+
+			if (ImGui::Button("Reload Assets"))
 			{
-				ImGui::Indent();
-				for (const auto& entry : shaderMap->mAssetMap)
-				{
-					name = entry.first + "##Shader";
-					if (ImGui::Button(name.c_str()))
-					{
-					}
-					if (ImGui::IsItemHovered())
-					{
-						ImGui::BeginTooltip();
-						ImVec2 textureSize(100, 100);
-						GLuint textureID = shaderMap->mAssetList[entry.second].s;
-						ImGui::Text("Shader!");
-						ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(textureID)), textureSize);
-						ImGui::EndTooltip();
-					}
-				}
-				ImGui::Unindent();
-			}*/
+				AssetManager::GetInstance()->fileWatcher.Update();
+			}
 
 			if (ImGui::CollapsingHeader("Texture"))
 			{
@@ -103,6 +79,8 @@ namespace Carmicah
 				//ImGui::BeginChild("TextureTableRegion", ImVec2(400, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
 				if (ImGui::BeginTable("TextureTable", 5))
 				{
+
+					
 					for (const auto& entry : textureMap->mAssetMap)
 					{
 						name = entry.first + "##texture";
@@ -112,6 +90,7 @@ namespace Carmicah
 						}
 
 						Mtx3x3f matrix = textureMap->mAssetList[entry.second].mtx;
+						//GLuint textureID = assetManager->mArrayTex;
 						Vec2f uv0(0, 0);
 						Vec2f uv1(1, 1);
 						uv0 = matrix * uv0;
@@ -126,19 +105,23 @@ namespace Carmicah
 							ImVec2(50, 50),
 							ImVec2(uv0.x, uv0.y),
 							ImVec2(uv1.x, uv1.y)))
+						{}
+						if(ImGui::IsItemClicked(ImGuiMouseButton_Left))
 						{
-							if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Renderer>())
+							if (ImGui::GetIO().MouseClickedCount[ImGuiMouseButton_Left] == 2)
 							{
-								Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
-								for (const auto& textureEntry : textureMap->mAssetMap)
+								if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Renderer>())
 								{
-									if (entry.second == textureEntry.second)
+									Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
+									for (const auto& textureEntry : textureMap->mAssetMap)
 									{
-										render.Texture(textureEntry.first);
+										if (entry.second == textureEntry.second)
+										{
+											render.Texture(textureEntry.first);
+										}
 									}
 								}
 							}
-
 						}
 						if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
 						{
@@ -187,15 +170,18 @@ namespace Carmicah
 				ImGui::Unindent();
 			}
 
-			/*if (ImGui::CollapsingHeader("Audio"))
+			if (ImGui::CollapsingHeader("Audio"))
 			{
 				ImGui::Indent();
 				for (const auto& entry : audioMap->mAssetMap)
 				{
-					if (ImGui::Button(entry.first.c_str()));
+					if (ImGui::Button(entry.first.c_str()))
+					{
+						soundToPlay = entry.first;
+					}
 				}
 				ImGui::Unindent();
-			}*/
+			}
 
 			if (ImGui::CollapsingHeader("Prefab"))
 			{

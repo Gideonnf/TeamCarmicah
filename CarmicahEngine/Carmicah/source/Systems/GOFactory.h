@@ -62,7 +62,7 @@ namespace Carmicah
 
 #pragma region GameObject Functions
 		// Default name for GOs
-		GameObject CreateGO(std::string name = "GameObject");
+		GameObject CreateGO(std::string name = "GameObject", bool flag = true);
 		GameObject CloneGO(GameObject const& go, Entity parentID = 0);
 		GameObject LoadGO(std::string name, Entity entityID);
 		GameObject CreatePrefab(std::string prefab);
