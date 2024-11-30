@@ -103,19 +103,23 @@ namespace Carmicah
 							ImVec2(50, 50),
 							ImVec2(uv0.x, uv0.y),
 							ImVec2(uv1.x, uv1.y)))
+						{}
+						if(ImGui::IsItemClicked(ImGuiMouseButton_Left))
 						{
-							if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Renderer>())
+							if (ImGui::GetIO().MouseClickedCount[ImGuiMouseButton_Left] == 2)
 							{
-								Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
-								for (const auto& textureEntry : textureMap->mAssetMap)
+								if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Renderer>())
 								{
-									if (entry.second == textureEntry.second)
+									Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
+									for (const auto& textureEntry : textureMap->mAssetMap)
 									{
-										render.Texture(textureEntry.first);
+										if (entry.second == textureEntry.second)
+										{
+											render.Texture(textureEntry.first);
+										}
 									}
 								}
 							}
-
 						}
 						if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
 						{
