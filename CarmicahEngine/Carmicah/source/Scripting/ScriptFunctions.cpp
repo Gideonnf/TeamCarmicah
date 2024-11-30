@@ -288,6 +288,15 @@ namespace Carmicah
 		gGOFactory->Destroy(entityID);
 	}
 
+	static unsigned int CreateNewGameObject(MonoString* prefabName)
+	{
+		char* cStrName = mono_string_to_utf8(prefabName);
+		GameObject newGO = gGOFactory->CreatePrefab(cStrName);
+		mono_free(cStrName);
+
+		return newGO.GetID();
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -316,6 +325,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Entity_HasComponent);
 		ADD_INTERNAL_CALL(Entity_FindEntityWithName);
 		ADD_INTERNAL_CALL(Destroy);
+		ADD_INTERNAL_CALL(CreateNewGameObject);
 
 		// Rigidbody functions
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);

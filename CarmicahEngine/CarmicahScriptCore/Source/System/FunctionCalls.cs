@@ -61,5 +61,8 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Destroy(uint EntityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static uint CreateNewGameObject(string prefabName);
     }
 }

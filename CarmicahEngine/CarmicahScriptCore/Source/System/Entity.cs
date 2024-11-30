@@ -64,10 +64,18 @@ namespace Carmicah
             return new Entity(entityID);
         }
 
+        public Entity CreateGameObject(string prefabName)
+        {
+            Entity newEntity = new Entity(FunctionCalls.CreateNewGameObject(prefabName));
+
+            return newEntity;
+        }
+
         public void Destroy()
         {
             FunctionCalls.Destroy(mID);
         }
+
         //public T GetComponent<T>() 
     }
 }
