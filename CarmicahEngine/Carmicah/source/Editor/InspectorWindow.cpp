@@ -50,11 +50,11 @@ namespace Carmicah
 		{
 			componentsToAdd.push_back("Renderer");
 		}
-		if (!go->HasComponent<Transform>())
+		if (!go->HasComponent<Transform>() && !go->HasComponent<UITransform>())
 		{
 			componentsToAdd.push_back("Transform");
 		}
-		if (!go->HasComponent<UITransform>())
+		if (!go->HasComponent<UITransform>() && !go->HasComponent<Transform>())
 		{
 			componentsToAdd.push_back("UITransform");
 		}
@@ -824,13 +824,13 @@ namespace Carmicah
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Pressed Image");
-				ImGui::TableNextColumn();
-				ImGui::Text(butt.ButtonImagePressed.c_str());
 				ImGui::SameLine();
 				if (ImGui::Button("v#####"))
 				{
 					ImGui::OpenPopup("Pressed Image Select");
 				}
+				ImGui::TableNextColumn();
+				ImGui::Text(butt.ButtonImagePressed.c_str());
 				if (ImGui::BeginPopup("Pressed Image Select"))
 				{
 					for (const auto& entry : textureMap->mAssetMap)

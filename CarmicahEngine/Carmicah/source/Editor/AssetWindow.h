@@ -31,6 +31,7 @@ namespace Carmicah
 	private:
 
 	public:
+		static std::string soundToPlay;
 		static Prefab* selectedPrefab;
 
 		/**

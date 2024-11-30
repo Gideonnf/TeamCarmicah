@@ -134,14 +134,14 @@ namespace Carmicah
 				{
 					for (const auto& window : mWindows)
 					{
-						//Toggle Heirarchy Window Visibility
-						if (auto heirarchyWindow = dynamic_cast<HierarchyWindow*>(window.get()))
+						if (auto assetWindow = dynamic_cast<AssetWindow*>(window.get()))
 						{
-							if (ImGui::MenuItem("Hierarchy", nullptr, heirarchyWindow->mIsVisible))
+							if (ImGui::MenuItem("Asset Browser", nullptr, assetWindow->mIsVisible))
 							{
-								heirarchyWindow->mIsVisible = !heirarchyWindow->mIsVisible;
+								assetWindow->mIsVisible = !assetWindow->mIsVisible;
 							}
 						}
+
 						//Toggle Debug Window Visibility
 						if (auto debugWindow = dynamic_cast<DebugWindow*>(window.get()))
 						{
@@ -150,6 +150,33 @@ namespace Carmicah
 								debugWindow->mIsVisible = !debugWindow->mIsVisible;
 							}
 						}
+
+						//Toggle Heirarchy Window Visibility
+						if (auto heirarchyWindow = dynamic_cast<HierarchyWindow*>(window.get()))
+						{
+							if (ImGui::MenuItem("Hierarchy", nullptr, heirarchyWindow->mIsVisible))
+							{
+								heirarchyWindow->mIsVisible = !heirarchyWindow->mIsVisible;
+							}
+						}
+
+						if (auto inspectorWindow = dynamic_cast<InspectorWindow*>(window.get()))
+						{
+							if (ImGui::MenuItem("Inspector", nullptr, inspectorWindow->mIsVisible))
+							{
+								inspectorWindow->mIsVisible = !inspectorWindow->mIsVisible;
+							}
+						}
+
+						if (auto sceneWindow = dynamic_cast<SceneWindow*>(window.get()))
+						{
+							if (ImGui::MenuItem("Scene", nullptr, sceneWindow->mIsVisible))
+							{
+								sceneWindow->mIsVisible = !sceneWindow->mIsVisible;
+							}
+						}
+
+						
 					}
 					ImGui::EndMenu();
 				}
@@ -211,7 +238,13 @@ namespace Carmicah
 			AssetManager::GetInstance()->fileWatcher.Update();
 		}
 
-
+		//NOT WORKING RN
+		/*if (!AssetWindow::soundToPlay.empty())
+		{
+			PlaySFXMsg msg(AssetWindow::soundToPlay);
+			SendSysMessage(&msg);
+			AssetWindow::soundToPlay.clear();
+		}*/
 
 		if (SceneWindow::mChangeState)
 		{

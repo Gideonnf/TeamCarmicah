@@ -26,6 +26,7 @@ DigiPen Institute of Technology is prohibited.
 #include "InspectorWindow.h"
 #include "../Systems/AssetManager.h"
 #include "../Systems/SceneSystem.h"
+#include "../Systems/SoundSystem.h"
 #include "Systems/GOFactory.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
@@ -37,6 +38,7 @@ namespace Carmicah
 	AssetWindow::AssetWindow() : EditorWindow("Asset Browser", ImVec2(900, 300), ImVec2(0, 0)) { mIsVisible = true; }
 
 	Prefab* AssetWindow::selectedPrefab = nullptr;
+	std::string AssetWindow::soundToPlay;
 	/**
 	 * @brief Update function for the AssetWindow
 	 * 
@@ -173,7 +175,10 @@ namespace Carmicah
 				ImGui::Indent();
 				for (const auto& entry : audioMap->mAssetMap)
 				{
-					if (ImGui::Button(entry.first.c_str()));
+					if (ImGui::Button(entry.first.c_str()))
+					{
+						soundToPlay = entry.first;
+					}
 				}
 				ImGui::Unindent();
 			}
