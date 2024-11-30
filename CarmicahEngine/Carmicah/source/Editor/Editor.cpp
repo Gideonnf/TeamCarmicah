@@ -76,14 +76,15 @@ namespace Carmicah
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
+		ImGuiViewport* viewport = ImGui::GetMainViewport();
 		static bool sFirstTime = true;
+		static ImVec2 popupSize(300, 150);
 		float mainMenuHeight{};
 		ImGuiWindowFlags dockingWindowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 
 		
 
 		// Begin full-screen window
-		ImGuiViewport* viewport = ImGui::GetMainViewport();
 		ImGui::SetNextWindowPos(viewport->Pos);
 		ImGui::SetNextWindowSize(viewport->Size);
 		ImGui::SetNextWindowViewport(viewport->ID);
@@ -188,10 +189,29 @@ namespace Carmicah
 			for (const auto& file : Editor::droppedFilePaths)
 			{
 
-				AssetManager::GetInstance()->CopyAssetToAssetsFolder(file, AssetManager::GetInstance()->enConfig.assetLoc.c_str());
+				if (!AssetManager::GetInstance()->CopyAssetToAssetsFolder(file, AssetManager::GetInstance()->enConfig.assetLoc.c_str()))
+				{
+					
+					ImGui::OpenPopup("Unsupported");
+					
+				}
 			}
 			Editor::droppedFilePaths.clear();
 			AssetManager::GetInstance()->fileWatcher.Update();
+		}
+		if(ImGui::BeginPopup("Unsupported"))
+		{
+			ImVec2 currentPopupSize = ImGui::GetWindowSize();
+			std::cout << currentPopupSize.x << "," << currentPopupSize.y << std::endl;
+			ImGui::Dummy(ImVec2(popupSize.x, popupSize.y - 50.f));
+			ImGui::SetCursorPos(ImVec2(popupSize.x - 5.0f, 5.f));
+			if(ImGui::Button("X"))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::SetCursorPos(ImVec2((popupSize.x - ImGui::CalcTextSize("Unsupported File Format!").x) / 2.0f, popupSize.y / 3.0f));
+			ImGui::Text("Unsupported File Format!");
+			ImGui::EndPopup();
 		}
 
 
@@ -255,11 +275,7 @@ namespace Carmicah
 			std::string filePath = paths[i];
 			size_t dotPos = filePath.find_last_of('.');
 
-			if (filePath.substr(dotPos + 1) == "png")
-			{
-				droppedFilePaths.push_back(filePath);
-			}
-
+			droppedFilePaths.push_back(filePath);
 		}
 	}
 }

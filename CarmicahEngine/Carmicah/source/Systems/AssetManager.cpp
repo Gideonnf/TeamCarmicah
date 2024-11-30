@@ -858,7 +858,7 @@ namespace Carmicah
 		}
 	}
 
-	void AssetManager::CopyAssetToAssetsFolder(const std::string& source, const char* assetPath)
+	bool AssetManager::CopyAssetToAssetsFolder(const std::string& source, const char* assetPath)
 	{
 		try
 		{
@@ -873,15 +873,29 @@ namespace Carmicah
 			if (source.substr(dotPos + 1) == "png")
 			{
 				newFilePath += "Images/" + fileName;
+				std::filesystem::copy(source, newFilePath, std::filesystem::copy_options::overwrite_existing);
+				return true;
+			}
+
+			if (source.substr(dotPos + 1) == "wav" || source.substr(dotPos + 1) == "mp3")
+			{
+				newFilePath += "Audio/" + fileName;
+				std::filesystem::copy(source, newFilePath, std::filesystem::copy_options::overwrite_existing);
+				return true;
+			}
+
+			else
+			{
+				return false;
 			}
 
 
-
-			std::filesystem::copy(source, newFilePath, std::filesystem::copy_options::overwrite_existing);
+			
 		}
 		catch (const std::filesystem::filesystem_error& e)
 		{
 			CM_CORE_ERROR("Error Copying Asset!");
+			return false;
 		}
 
 	}
