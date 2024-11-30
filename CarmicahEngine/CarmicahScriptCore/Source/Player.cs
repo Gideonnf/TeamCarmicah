@@ -10,6 +10,7 @@ namespace Carmicah
     public class Player : Entity
     {
         float timer = 0.5f;
+        
         void OnCreate()
         {
 
@@ -28,6 +29,11 @@ namespace Carmicah
 
             //// store original position
             //originalPos = Position;
+        }
+
+        void OnCollisionEnter()
+        {
+
         }
 
         void OnUpdate(float dt)
@@ -65,6 +71,11 @@ namespace Carmicah
 
                 GetComponent<RigidBody>().ApplyForce(new Vector2(1,0), 2.0f);
             }
+        }
+
+        void OnCollide()
+        {
+
         }
 
         void PlaySoundEffect(string name)

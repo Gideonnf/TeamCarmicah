@@ -700,6 +700,16 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::DragFloat("##MaxY", &col.max.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
 
+				ImGui::TableNextColumn();
+				ImGui::Text("Custom Width");
+				ImGui::TableNextColumn();
+				ImGui::DragFloat("##CustomWidth", &col.customWidth, 0.1f, 0.5f, FLT_MAX, "%.3f");
+
+				ImGui::TableNextColumn();
+				ImGui::Text("Custom Height");
+				ImGui::TableNextColumn();
+				ImGui::DragFloat("##CustomHeight", &col.customHeight, 0.1f, 0.5f, FLT_MAX, "%.3f");
+
 				ImGui::EndTable();
 			}
 		}
@@ -1326,6 +1336,16 @@ namespace Carmicah
 					ImGui::Text("Max Y");
 					ImGui::TableNextColumn();
 					ImGui::DragFloat("##MaxY", &col.max.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+
+					ImGui::TableNextColumn();
+					ImGui::Text("Custom Width");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##CustomWidth", &col.customWidth, 0.1f, 0.5f, FLT_MAX, "%.3f");
+
+					ImGui::TableNextColumn();
+					ImGui::Text("Custom Height");
+					ImGui::TableNextColumn();
+					ImGui::DragFloat("##CustomHeight", &col.customHeight, 0.1f, 0.5f, FLT_MAX, "%.3f");
 
 					ImGui::EndTable();
 				}
