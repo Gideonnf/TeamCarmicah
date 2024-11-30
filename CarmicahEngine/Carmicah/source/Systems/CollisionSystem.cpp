@@ -154,8 +154,12 @@ namespace Carmicah
 			{
 				continue;
 			}
-			normal.normalize(); // Ensure normal is unit length
-			collider.objNormals.push_back(normal);
+			else
+			{
+				normal.normalize(); // Ensure normal is unit length
+				collider.objNormals.push_back(normal);
+
+			}
 
 		}
 
@@ -288,7 +292,10 @@ namespace Carmicah
 
 		for (size_t i = 0, i1 = collider1.objVert.size() - 1; i < collider1.objVert.size(); i1 = i, i++)
 		{
-
+			if(collider1.objNormals.empty())
+			{
+				continue;
+			}
 			Vec2f outwardNormal = collider1.objNormals[i];
 
 			if (WhichSide(collider2.objVert, collider1.objVert[i], outwardNormal) > 0)
@@ -299,7 +306,10 @@ namespace Carmicah
 
 		for (size_t i = 0, i1 = collider2.objVert.size() - 1; i < collider2.objVert.size(); i1 = i, i++)
 		{
-
+			if (collider2.objNormals.empty())
+			{
+				continue;
+			}
 			Vec2f outwardNormal = collider2.objNormals[i];
 
 			if (WhichSide(collider1.objVert, collider2.objVert[i], outwardNormal) > 0)
