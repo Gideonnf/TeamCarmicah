@@ -111,7 +111,7 @@ namespace Carmicah
 				}
 				ImGui::EndChild();
 			}
-			static char goName[256] = "Duck";
+			static char goName[1024] = "Default";
 			//ImGui::Text("Game Object Name: ");
 			//ImGui::SameLine();
 			//ImGui::Text(goName); //Cannot be edited for now
@@ -127,11 +127,21 @@ namespace Carmicah
 			//}
 
 			ImGui::Dummy(ImVec2(0, 20));
-
-			std::string goCreateButton = "Create Blank GO";
-			if (ImGui::Button(goCreateButton.c_str()))
+			ImGui::Text("Game Object Name: ");
+			ImGui::SameLine();
+			ImGui::InputText("##GameObjectCreation", goName, sizeof(goName));
+			if (ImGui::Button("Create Default2D"))
 			{
-				gGOFactory->CreateGO();
+				gGOFactory->CreateGO(goName, true);
+				std::strncpy(goName,"Default",sizeof(goName) - 1);
+				goName[sizeof(goName) - 1] = '\0';
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Create UIDefault"))
+			{
+				gGOFactory->CreateGO(goName, false);
+				std::strncpy(goName, "Default", sizeof(goName) - 1);
+				goName[sizeof(goName) - 1] = '\0';
 			}
 
 			std::string buttonName = "Save current scene: " + SceneToImgui::GetInstance()->currentScene;
