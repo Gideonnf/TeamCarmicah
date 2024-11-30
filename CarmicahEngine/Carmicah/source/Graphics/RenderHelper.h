@@ -115,8 +115,9 @@ namespace Carmicah
 
 		Vec2d mOldMousePos{};
 		Transform mEditorCam{};
-		bool mEditorWindowActive;
-		Vec2f mEditorWindomDim;// Actual dimensions of the editor window that is being viewed, so that gizmos look okay
+		bool mEditorWindowActive{};
+		Vec2f mEditorWindomDim{};// Actual dimensions of the editor window that is being viewed, so that gizmos look okay
+		unsigned int mSelectedID{};
 		GIZMOS_MODE mEditorMode{ GIZMOS_MODE::GIZMOS_NONE };
 
 		std::map<BufferID, BatchBuffer> mBufferMap;//shder << 8 | primitive // use switch(num) case AssetManager::getShder(enConfig::Baisc)

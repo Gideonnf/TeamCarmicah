@@ -1,25 +1,25 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:			ColliderRenderSystem.h
+ file:			RigidbodyGraphicsSystem.h
 
  author:		Won Yu Xuan Rainne(100%)
 
  email:			won.m@digipen.edu
 
- brief:			Collider Render System handles rendering the collision boxes of gameobjects with the collider2D component
+ brief:			Rigidbody Graphics System handles rendering the rigidbody parts such as velocity of gameobjects with the rigidbody component
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
 DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-#ifndef COLLIDER_RENDERER_SYSTEM_H
-#define COLLIDER_RENDERER_SYSTEM_H
+#ifndef RIGIDBODY_GRAPHICS_SYSTEM_H
+#define RIGIDBODY_GRAPHICS_SYSTEM_H
 
 #include "ECS/BaseSystem.h"
 #include "Graphics/BaseGraphicsSystem.h"
 
 namespace Carmicah
 {
-	class ColliderRenderSystem : public BaseSystem, private BaseGraphicsSystem
+	class RigidbodyGraphicsSystem : public BaseSystem, private BaseGraphicsSystem
 	{
 	private:
 		std::string primitive;
@@ -31,6 +31,7 @@ namespace Carmicah
 		void Init();
 
 		void EntityDestroyed(Entity id);
+
 
 		/*!*************************************************************************
 		brief

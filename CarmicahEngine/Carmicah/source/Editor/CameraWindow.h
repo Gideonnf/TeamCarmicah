@@ -8,14 +8,16 @@
 #include "Editor.h"
 #include "log.h"
 #include "../ECS/BaseSystem.h"
+#include "Math/Vec2.h"
 
 namespace Carmicah
 {
 	class CameraWindow : public EditorWindow
 	{
 	private:
-
-
+		Vec2f mSelectedObjPos;
+		Vec2f mStartClickPos;
+		float mOriginalAngle;
 	public:
 
 		/**

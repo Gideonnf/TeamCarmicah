@@ -1,11 +1,11 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:        SceneToImgui.cpp
+ file:          SceneToImgui.cpp
 
- author:   Gideon Francis
+ author:		Won Yu Xuan Rainne(100%)
 
- email:       g.francis@digipen.edu
+ email:			won.m@digipen.edu
 
- brief:       A bridge to map the graphics rendering to ImGui. Binds rendering to a texture that can be mapped to an image in ImGui
+ brief:         A bridge to map the graphics rendering to ImGui. Binds rendering to a texture that can be mapped to an image in ImGui
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
@@ -14,11 +14,12 @@ DigiPen Institute of Technology is prohibited.
 
 #include "pch.h"
 #include <glad/glad.h>
+#include <sstream>
 #include "SceneToImgui.h"
 #include "log.h"
 #include "Input/InputSystem.h"
 #include "ECS/ECSTypes.h"
-#include <sstream>
+#include "Graphics/RenderHelper.h"
 
 namespace Carmicah
 {
@@ -104,10 +105,12 @@ namespace Carmicah
         std::stringstream ss;
         ss << "ID: " << goID << "[" << mouseX << ',' << mouseY << "]";
         CM_CORE_INFO(ss.str());
+
+        if (RenderHelper::GetInstance()->mEditorWindowActive)
+            RenderHelper::GetInstance()->mSelectedID = goID;
         if (goID >= MAX_ENTITIES)
-        {
             goID = 0;
-        }
+            
 
         glReadBuffer(GL_NONE);
         glBindFramebuffer(GL_FRAMEBUFFER, prevBinding);

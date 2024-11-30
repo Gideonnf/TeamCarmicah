@@ -26,12 +26,12 @@
 #include "Systems/GameLogic.h"
 
 #include "Systems/GOFactory.h"
-#include "Graphics/GraphicsSystem.h"
-#include "Graphics/UIGraphicsSystem.h"
-#include "Graphics/TextSystem.h"
 #include "Graphics/AnimationSystem.h"
-#include "Graphics/ColliderRenderSystem.h"
-#include "Graphics/RigidbodyRendererSystem.h"
+#include "Graphics/WorldGraphicsSystem.h"
+#include "Graphics/UIGraphicsSystem.h"
+#include "Graphics/TextGraphicsSystem.h"
+#include "Graphics/ColliderGraphicsSystem.h"
+#include "Graphics/RigidbodyGraphicsSystem.h"
 #include "Graphics/RenderHelper.h"
 #include "Systems/CollisionSystem.h"
 #include "Physics/PhysicsSystem.h"
@@ -159,12 +159,12 @@ namespace Carmicah
         auto editorSys = REGISTER_SYSTEM(Editor);
         REGISTER_SYSTEM(GOFactory);
         REGISTER_SYSTEM(ScriptSystem);
-        auto graSystem = REGISTER_SYSTEM(GraphicsSystem);
+        auto graSystem = REGISTER_SYSTEM(WorldGraphicsSystem);
         auto uigSystem = REGISTER_SYSTEM(UIGraphicsSystem);
-        auto txtSystem = REGISTER_SYSTEM(TextSystem);
+        auto txtSystem = REGISTER_SYSTEM(TextGraphicsSystem);
         auto aniSystem = REGISTER_SYSTEM(AnimationSystem);
-        auto crsSystem = REGISTER_SYSTEM(ColliderRenderSystem);
-        auto rrsSystem = REGISTER_SYSTEM(RigidbodyRendererSystem);
+        auto crsSystem = REGISTER_SYSTEM(ColliderGraphicsSystem);
+        auto rrsSystem = REGISTER_SYSTEM(RigidbodyGraphicsSystem);
         auto colSystem = REGISTER_SYSTEM(CollisionSystem);
         auto butSystem = REGISTER_SYSTEM(ButtonSystem);
         auto phySystem = REGISTER_SYSTEM(PhysicsSystem);
@@ -253,6 +253,7 @@ namespace Carmicah
             CarmicahTime::GetInstance()->StartLoopTimer();
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTime::GetInstance()->FPS())) + " - Scene : " + gameSystem->GetCurrScene();
             glfwSetWindowTitle(window, title.c_str());
+            glfwPollEvents(); // this takes 20% of engine run time
 
 
             if (gameSystem->mNextState == SceneState::EXIT)
@@ -460,6 +461,7 @@ namespace Carmicah
 
                 // I WILL UPDAAATEEE BUTTONSYSTEM HERE OKKKKAAYYYY, PLS DONT CRASH CRYING EMOJI
 				butSystem->Update();
+
                 Input.Update();
 
                // glfwMakeContextCurrent(window);

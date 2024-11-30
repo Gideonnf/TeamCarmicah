@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:			TextSystem.h
+ file:			TextGraphicsSystem.h
 
  author:		Won Yu Xuan Rainne(100%)
 
@@ -19,7 +19,7 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	class TextSystem : public BaseSystem, private BaseGraphicsSystem
+	class TextGraphicsSystem : public BaseSystem, private BaseGraphicsSystem
 	{
 	private:
 		template <typename T>

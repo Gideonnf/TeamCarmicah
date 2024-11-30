@@ -33,6 +33,7 @@ namespace Carmicah
 		RenderHelper::GetInstance()->mEditorWindowActive = camWindowActive;
         if (camWindowActive)
         {
+			// Rendering
 			const float windowWidth = std::clamp(ImGui::GetContentRegionAvail().x, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Width));
 			const float windowHeight = std::clamp(ImGui::GetContentRegionAvail().y, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Height));
 			RenderHelper::GetInstance()->mEditorWindomDim = Vec2f(windowWidth, windowHeight);
@@ -47,6 +48,7 @@ namespace Carmicah
 				ImVec2(1, 0)
 			);
 
+			// Calc movement
 			SceneToImgui::GetInstance()->SetHovering(SceneToImgui::EDITOR_SCENE, ImGui::IsWindowHovered());
 			if (ImGui::IsWindowHovered())
 			{
@@ -60,36 +62,155 @@ namespace Carmicah
 					double scaledY = (relativeMousePos.y / windowHeight) * AssetManager::GetInstance()->enConfig.Height;
 					Vec2d currentMousePos{ scaledX, scaledY };
 
-					if (Input.IsMouseHold(MOUSE_BUTTON_LEFT))
+					if (Input.IsMousePressed(MOUSE_BUTTON_LEFT) && HierarchyWindow::selectedGO != nullptr)
+					{
+						mStartClickPos = Vec2f{ static_cast<float>(scaledX), static_cast<float>(scaledY) };
+						if (HierarchyWindow::selectedGO->HasComponent<Transform>())
+						{
+							Transform& cam = RenderHelper::GetInstance()->mEditorCam;
+							Mtx3x3f camSpace{};
+							camSpace.scaleThis(cam.Scale()).rotDegThis(cam.Rot()).translateThis(-cam.Pos());
+							Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
+							Vec2f selectedTransformPos{ selectedTransform.worldSpace.m20, selectedTransform.worldSpace.m21 };
+
+							mSelectedObjPos = camSpace * selectedTransformPos;
+							mSelectedObjPos.x = (mSelectedObjPos.x + 1.f) * AssetManager::GetInstance()->enConfig.Width * 0.5f;
+							mSelectedObjPos.y = (1.f - mSelectedObjPos.y) * AssetManager::GetInstance()->enConfig.Height * 0.5f;
+							mOriginalAngle = selectedTransform.Rot();
+						}
+						else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
+						{
+							UITransform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<UITransform>();
+
+							mSelectedObjPos = Vec2f(selectedTransform.Pos().x, AssetManager::GetInstance()->enConfig.Height - selectedTransform.Pos().y);
+							mOriginalAngle = selectedTransform.Rot();
+						}
+					}
+
+					if (Input.IsMouseHold(MOUSE_BUTTON_LEFT) && HierarchyWindow::selectedGO != nullptr)
 					{
 						Vec2d prevMousePos = Input.GetMousePosition();// Previous frame's pos
-
 						Vec2d delta(currentMousePos.x - prevMousePos.x, currentMousePos.y - prevMousePos.y);
 
-						if (HierarchyWindow::selectedGO != nullptr)
+						if (std::abs(delta.x) > DBL_EPSILON || std::abs(delta.y) > DBL_EPSILON)
 						{
-							if (HierarchyWindow::selectedGO->HasComponent<Transform>())
+							switch (RenderHelper::GetInstance()->mEditorMode)
 							{
-								Transform& camTrans = RenderHelper::GetInstance()->mEditorCam;
-								double worldDeltaX = ((delta.x / AssetManager::GetInstance()->enConfig.Width * 2.0)) / camTrans.GetScale().x;
-								double worldDeltaY = -((delta.y / AssetManager::GetInstance()->enConfig.Height * 2.0)) / camTrans.GetScale().y;
-								Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
+							case RenderHelper::GIZMOS_MODE::GIZMOS_NONE:
+							{
+								if (HierarchyWindow::selectedGO->HasComponent<Transform>())
+								{
+									Transform& camTrans = RenderHelper::GetInstance()->mEditorCam;
+									double worldDeltaX = ((delta.x / AssetManager::GetInstance()->enConfig.Width * 2.0)) / camTrans.GetScale().x;
+									double worldDeltaY = -((delta.y / AssetManager::GetInstance()->enConfig.Height * 2.0)) / camTrans.GetScale().y;
+									Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
 
-								selectedTransform.PosXAdd(worldDeltaX);
-								selectedTransform.PosYAdd(worldDeltaY);
+									selectedTransform.GetUpdateAbsPos() += Vec2f(static_cast<float>(worldDeltaX), static_cast<float>(worldDeltaY));
+								}
+								else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
+								{
+									UITransform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<UITransform>();
+									selectedTransform.PosXAdd(static_cast<float>(delta.x));
+									selectedTransform.PosYAdd(static_cast<float>(-delta.y));
+								}
+								break;
 							}
-							else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
+							case RenderHelper::GIZMOS_MODE::GIZMOS_ROTATE:
 							{
-								UITransform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<UITransform>();
-								selectedTransform.PosXAdd(delta.x);
-								selectedTransform.PosYAdd(-delta.y);
+								if (RenderHelper::GetInstance()->mSelectedID == std::numeric_limits<unsigned int>().max())
+								{
+									Vec2f vec1 = mStartClickPos - mSelectedObjPos;
+									Vec2f vec2{ static_cast<float>(currentMousePos.x) - mSelectedObjPos.x,
+										static_cast<float>(currentMousePos.y) - mSelectedObjPos.y };
+
+									float angl{(atan2f(vec1.dot(vec2), vec1.x * vec2.y - vec1.y * vec2.x) - PI * 0.5f) * 180.f / PI };
+									
+									if (HierarchyWindow::selectedGO->HasComponent<Transform>())
+									{
+										Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
+										selectedTransform.Rot(mOriginalAngle + angl);
+									}
+									else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
+									{
+										UITransform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<UITransform>();
+										selectedTransform.Rot(mOriginalAngle + angl);
+									}
+
+								}
+								break;
+							}
+							case RenderHelper::GIZMOS_MODE::GIZMOS_TRANSLATE:
+							{
+								if (RenderHelper::GetInstance()->mSelectedID == std::numeric_limits<unsigned int>().max())
+								{
+									if (HierarchyWindow::selectedGO->HasComponent<Transform>())
+									{
+										Transform& camTrans = RenderHelper::GetInstance()->mEditorCam;
+										double worldDeltaY = -((delta.y / AssetManager::GetInstance()->enConfig.Height * 2.0)) / camTrans.GetScale().y;
+										Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
+
+										selectedTransform.GetUpdateAbsPos().y += static_cast<float>(worldDeltaY);
+									}
+									else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
+									{
+										UITransform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<UITransform>();
+										selectedTransform.PosYAdd(static_cast<float>(-delta.y));
+									}
+								}
+								else if (RenderHelper::GetInstance()->mSelectedID == std::numeric_limits<unsigned int>().max() - 1)
+								{
+									if (HierarchyWindow::selectedGO->HasComponent<Transform>())
+									{
+										Transform& camTrans = RenderHelper::GetInstance()->mEditorCam;
+										double worldDeltaX = ((delta.x / AssetManager::GetInstance()->enConfig.Width * 2.0)) / camTrans.GetScale().x;
+										Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
+
+										selectedTransform.GetUpdateAbsPos().x += static_cast<float>(worldDeltaX);
+									}
+									else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
+									{
+										UITransform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<UITransform>();
+										selectedTransform.PosXAdd(static_cast<float>(delta.x));
+									}
+								}
+								break;
+							}
+							case RenderHelper::GIZMOS_MODE::GIZMOS_SCALE:
+							{
+								if (RenderHelper::GetInstance()->mSelectedID == std::numeric_limits<unsigned int>().max())
+								{
+									if (HierarchyWindow::selectedGO->HasComponent<Transform>())
+									{
+										Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
+										selectedTransform.ScaleYAdd(static_cast<float>(-delta.y));
+									}
+									else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
+									{
+										UITransform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<UITransform>();
+										selectedTransform.ScaleYAdd(static_cast<float>(-delta.y));
+									}
+								}
+								else if (RenderHelper::GetInstance()->mSelectedID == std::numeric_limits<unsigned int>().max() - 1)
+								{
+									if (HierarchyWindow::selectedGO->HasComponent<Transform>())
+									{
+										Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
+										selectedTransform.ScaleXAdd(static_cast<float>(delta.x));
+									}
+									else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
+									{
+										UITransform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<UITransform>();
+										selectedTransform.ScaleXAdd(static_cast<float>(delta.x));
+									}
+								}
+								break;
+							}
 							}
 						}
-
 					}
+					// End
 					Input.SetMousePosition(scaledX, scaledY);
 				}
-
 			}
         }
         ImGui::End();

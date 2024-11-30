@@ -105,6 +105,14 @@ namespace Carmicah
 			mScriptClass->InvokeMethod(mMonoInstance, mOnClick);
 	}
 
+	void ScriptObject::InvokeOnCollide(Entity otherID)
+	{
+		if (mOnCollide)
+		{
+			mScriptClass->InvokeMethod(mMonoInstance, mOnCollide);
+		}
+	}
+
 	std::shared_ptr<ScriptClass> ScriptObject::GetScriptClass()
 	{
 		return mScriptClass;

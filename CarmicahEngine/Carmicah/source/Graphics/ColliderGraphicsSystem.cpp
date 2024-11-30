@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:			ColliderRenderSystem.cpp
+ file:			ColliderGraphicsSystem.cpp
 
  author:		Won Yu Xuan Rainne(100%)
 
@@ -14,7 +14,7 @@ DigiPen Institute of Technology is prohibited.
 #include "pch.h"
 #include <glad/glad.h>
 #include <ECS/ECSTypes.h>
-#include "Graphics/ColliderRenderSystem.h"
+#include "Graphics/ColliderGraphicsSystem.h"
 #include "Systems/GOFactory.h"
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
@@ -24,18 +24,18 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	void ColliderRenderSystem::Init()
+	void ColliderGraphicsSystem::Init()
 	{
 		// Set the signature of the system
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Collider2D>());
 		// Update the signature of the system
-		SystemManager::GetInstance()->SetSignature<ColliderRenderSystem>(mSignature);
+		SystemManager::GetInstance()->SetSignature<ColliderGraphicsSystem>(mSignature);
 		BaseGraphicsSystem::Init(AssetManager::GetInstance()->enConfig.debugShader);
 
 		primitive = "DebugSquare";
 	}
 
-	void ColliderRenderSystem::EntityDestroyed(Entity id)
+	void ColliderGraphicsSystem::EntityDestroyed(Entity id)
 	{
 		auto test = mEntityBufferLoc.find(id);
 		if (test != mEntityBufferLoc.end())
@@ -47,7 +47,7 @@ namespace Carmicah
 
 
 
-	void ColliderRenderSystem::Update()
+	void ColliderGraphicsSystem::Update()
 	{
 		for (std::unordered_map<unsigned int, EntityData>::iterator entity = mEntityBufferLoc.begin(); entity != mEntityBufferLoc.end();)
 		{

@@ -1,11 +1,11 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:			RigidbodyRendererSystem.cpp
+ file:			RigidbodyGraphicsSystem.cpp
 
  author:		Won Yu Xuan Rainne(100%)
 
  email:			won.m@digipen.edu
 
- brief:			Rigidbody Render System handles rendering the rigidbody parts such as velocity of gameobjects with the rigidbody component
+ brief:			Rigidbody Graphics System handles rendering the rigidbody parts such as velocity of gameobjects with the rigidbody component
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
@@ -15,7 +15,7 @@ DigiPen Institute of Technology is prohibited.
 #include <limits>
 #include <glad/glad.h>
 #include <ECS/ECSTypes.h>
-#include "Graphics/RigidbodyRendererSystem.h"
+#include "Graphics/RigidbodyGraphicsSystem.h"
 #include "Systems/GOFactory.h"
 #include "Components/Transform.h"
 #include "Components/RigidBody.h"
@@ -26,19 +26,19 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	void RigidbodyRendererSystem::Init()
+	void RigidbodyGraphicsSystem::Init()
 	{
 		// Set the signature of the system
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<RigidBody>());
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
 		// Update the signature of the system
-		SystemManager::GetInstance()->SetSignature<RigidbodyRendererSystem>(mSignature);
+		SystemManager::GetInstance()->SetSignature<RigidbodyGraphicsSystem>(mSignature);
 		BaseGraphicsSystem::Init(AssetManager::GetInstance()->enConfig.debugShader);
 
 		primitive = "DebugLine";
 	}
 
-	void RigidbodyRendererSystem::EntityDestroyed(Entity id)
+	void RigidbodyGraphicsSystem::EntityDestroyed(Entity id)
 	{
 		auto test = mEntityBufferLoc.find(id);
 		if (test != mEntityBufferLoc.end())
@@ -50,7 +50,7 @@ namespace Carmicah
 
 
 
-	void RigidbodyRendererSystem::Update()
+	void RigidbodyGraphicsSystem::Update()
 	{
 		for (std::unordered_map<unsigned int, EntityData>::iterator entity = mEntityBufferLoc.begin(); entity != mEntityBufferLoc.end();)
 		{

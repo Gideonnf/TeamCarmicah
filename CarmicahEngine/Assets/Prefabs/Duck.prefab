@@ -11,10 +11,10 @@
             "yScale": 1.0,
             "rot": -125.0
         },
-        {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Circle",
-            "texture": "Duck"
-        }
+      {
+        "Component Name": "struct Carmicah::Renderer",
+        "model": "Square",
+        "texture": "Duck"
+      }
     ]
 }
