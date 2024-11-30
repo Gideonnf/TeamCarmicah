@@ -322,6 +322,14 @@ namespace Carmicah
 		go.GetComponent<Transform>().Depth(*inFloat);
 	}
 
+	static void Animation_ChangeAnim(unsigned int entityID, MonoString* string)
+	{
+		char* cStr = mono_string_to_utf8(string);
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		go.GetComponent<Animation>().animAtlas = cStr;
+		mono_free(cStr);
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -333,6 +341,7 @@ namespace Carmicah
 		// Only these 2 for now
 		RegisterComponent<Transform>();
 		RegisterComponent<RigidBody>();
+		RegisterComponent<Animation>();
 	}
 
 	/// <summary>
@@ -358,6 +367,9 @@ namespace Carmicah
 		// Rigidbody functions
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);
 		ADD_INTERNAL_CALL(RigidBody_ApplyForceWithTime);
+
+		// Anim functions
+		ADD_INTERNAL_CALL(Animation_ChangeAnim);
 
 		// input functions
 		ADD_INTERNAL_CALL(IsKeyPressed);

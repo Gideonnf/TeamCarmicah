@@ -65,4 +65,12 @@ namespace Carmicah
             FunctionCalls.RigidBody_ApplyForce(Entity.mID, direction, magnitude);
         }
     }
+
+    public class Animation : Component
+    {
+        public void ChangeAnim(string animName)
+        {
+            FunctionCalls.Animation_ChangeAnim(Entity.mID, animName);
+        }
+    }
 }

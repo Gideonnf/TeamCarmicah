@@ -16,6 +16,11 @@ namespace Carmicah
         public string EndPointEntityRight;
 
         public bool isLeft = false;
+        public string Animation0;
+        public string Animation1;
+        public string Animation2;
+        public string Animation3;
+
         //int currPoint;
         Vector2 startPosLeft;
         Vector2 startPosRight;
@@ -38,6 +43,28 @@ namespace Carmicah
             stateMachine.AddState(new MouseChase("Chase"));
             stateMachine.AddState(new MouseDead("Dead"));
             stateMachine.SetNextState("Chase");
+            Random rand = new Random();
+            int randomInt = rand.Next(0, 4); // rand between 1 to 3
+
+            //switch(randomInt)
+            //{
+            //    case 0:
+            //        GetComponent<Animation>().ChangeAnim(Animation0);
+
+            //        break;
+            //    case 1:
+            //        GetComponent<Animation>().ChangeAnim(Animation1);
+
+            //        break;
+            //    case 2:
+            //        GetComponent<Animation>().ChangeAnim(Animation2);
+
+            //        break;
+            //    case 3:
+            //        GetComponent<Animation>().ChangeAnim(Animation3);
+
+            //        break;
+            //}
         }
 
         void OnUpdate(float dt)
