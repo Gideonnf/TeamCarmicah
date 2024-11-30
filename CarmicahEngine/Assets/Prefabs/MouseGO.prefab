@@ -1,11 +1,11 @@
 {
-    "GameObject": "MouseGo",
-    "ID": 9,
+    "GameObject": "MouseGO",
+    "ID": 2,
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
-            "xPos": 0.23073899745941163,
-            "yPos": -18.107315063476564,
+            "xPos": 3.0712671279907228,
+            "yPos": -19.734413146972658,
             "depth": 5.0,
             "xScale": 2.0,
             "yScale": 2.0,
@@ -16,7 +16,11 @@
             "scriptName": "Carmicah.MouseAI",
             "ScriptableFieldMap": [
                 {
-                    "isLeft": true
+                    "isLeft": false,
+                    "SpawnPointEntityLeft": "StartPointLeft",
+                    "SpawnPointEntityRight": "StartPointRight",
+                    "EndPointEntityLeft": "EndPointLeft",
+                    "EndPointEntityRight": "EndPointRight"
                 }
             ]
         },
@@ -28,9 +32,9 @@
         {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "DebugSquare",
-            "customWidth": 5.0,
+            "customWidth": 3.2100000381469728,
             "customRotation": 0.0,
-            "customHeight": 5.0
+            "customHeight": 3.2100000381469728
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
@@ -45,8 +49,8 @@
             "objectType": 1
         },
         {
-			"Component Name": "struct Carmicah::Animation",
-			"Atlas": "Mouse_Climb_blue"        
-		}
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Mouse_Climb_blue"
+        }
     ]
 }
