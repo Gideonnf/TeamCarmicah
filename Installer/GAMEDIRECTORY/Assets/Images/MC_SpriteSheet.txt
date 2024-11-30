@@ -1,0 +1,11 @@
+Walk
+Top left: 0 x 0, 256 x 256
+8 sprites
+
+Idle
+Top left: 0 x 266, 256 x 256
+12 sprites
+
+Heal
+Top left: 0 x 533, 256 x 256
+8 sprites

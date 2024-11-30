@@ -28,15 +28,17 @@ namespace Carmicah
 
 		void CalculateEdges(Entity& obj);
 
-		void ComputeProjInterval(Entity& obj, Vec2f edgeNormal, float& min, float& max);
+		float CalculatePenetrationDepth(Entity& obj1, Entity& obj2);
+
+		Vec2f CalculateCollisionNormal(Entity& obj1, Entity& obj2);
+
+		void ResolvePenetration(Entity& obj1, Entity& obj2);
+		
+		int WhichSide(std::vector<Vec2f>& otherVertices, Vec2f& point, Vec2f& normal);
 
 		bool TestIntersection(Entity& obj1, Entity& obj2);
 
-		bool CollisionIntersect(Entity& obj1, Entity& obj2, float firstTimeOfCollision);
-
-		void CollisionResponse(Entity& obj1, Entity& obj2, float tFirst);
-
-		void StaticDynamicCollisionCheck(Entity& obj1, Entity& obj2);
+		void CollisionResponse(Entity& obj1, Entity& obj2);
 
 		void CollisionCheck();
 

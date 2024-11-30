@@ -45,6 +45,7 @@ namespace Carmicah
 		rigidbody.posPrev.y = transform.Pos().y;
 
 		rigidbody.zposPrev = transform.Depth();
+
 	}
 
 	/**

@@ -25,17 +25,24 @@ namespace Carmicah
     {
         Carmicah::Vector2D<float> min;
         Carmicah::Vector2D<float> max;
+
+        float localScale = 1.0f;
+        float customWidth;
+        float customRotation;
+        float customHeight;
+
         std::vector<Vec2f> objVert;
         std::vector<Vec2f> objNormals;
         std::vector<Vec2f> objEdges;
-
-        bool dirty;
 
         std::string shape;
 
         Collider2D& DeserializeComponent(const rapidjson::Value& component) override
         {
             shape = component["shape"].GetString();
+            customWidth = static_cast<float>(component["customWidth"].GetDouble());
+            customRotation = static_cast<float>(component["customRotation"].GetDouble());
+            customHeight = static_cast<float>(component["customHeight"].GetDouble());
             return *this;
         }
 
@@ -43,6 +50,12 @@ namespace Carmicah
         {
             writer.String("shape");
 			writer.String(shape.c_str());
+            writer.String("customWidth");
+            writer.Double(customWidth);
+            writer.String("customRotation");
+            writer.Double(customRotation);
+            writer.String("customHeight");
+            writer.Double(customHeight);
         }
     };
 }

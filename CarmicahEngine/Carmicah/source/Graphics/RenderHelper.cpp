@@ -2,10 +2,12 @@
 #include <glad/glad.h>
 #include "RenderHelper.h"
 #include "Components/Transform.h"
+#include "Components/UITransform.h"
 #include "ECS/ComponentManager.h"
-#include "Systems/AssetManager.h"
+#include "ECS/EntityManager.h"
 #include "Systems/AssetManager.h"
 #include "Input/InputSystem.h"
+#include "Editor/HierarchyWindow.h"
 
 namespace Carmicah
 {
@@ -38,7 +40,7 @@ void RenderHelper::InitScreenDimension(const float& screenWidth, const float& sc
 void RenderHelper::UpdateEditorCam()
 {
 	static bool firstPressed = false;
-	if (Input.IsMousePressed(MOUSE_BUTTON_RIGHT))
+	if (Input.IsMouseHold(MOUSE_BUTTON_RIGHT))
 	{
 		if (!firstPressed)
 		{
@@ -47,8 +49,9 @@ void RenderHelper::UpdateEditorCam()
 		}
 
 		Vec2d mouseDiff = Input.GetMousePosition() - mOldMousePos;
-		mEditorCam.PosXAdd(-static_cast<float>(mouseDiff.x) * mEditorCam.Scale().x * 0.5f);
-		mEditorCam.PosYAdd(static_cast<float>(mouseDiff.y) * mEditorCam.Scale().y * 0.5f);
+
+		mEditorCam.PosXAdd(-static_cast<float>(mouseDiff.x) / AssetManager::GetInstance()->enConfig.Width / mEditorCam.Scale().x * 2.f);
+		mEditorCam.PosYAdd(static_cast<float>(mouseDiff.y) / AssetManager::GetInstance()->enConfig.Height / mEditorCam.Scale().y * 2.f);
 		mOldMousePos = Input.GetMousePosition();
 	}
 	else if (Input.IsMouseReleased(MOUSE_BUTTON_RIGHT))
@@ -59,14 +62,18 @@ void RenderHelper::UpdateEditorCam()
 	if (Input.IsKeyHold(KEY_EQUAL))
 	{
 		Vec2f& s = mEditorCam.GetScale();
-		s.x += s.x * CarmicahTime::GetInstance()->GetDeltaTime();
-		s.y += s.x * CarmicahTime::GetInstance()->GetDeltaTime();
+		float ratio = AssetManager::GetInstance()->enConfig.Width / AssetManager::GetInstance()->enConfig.Height;
+
+		s.x += ratio * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
+		s.y += 1.f * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
 	}
 	else if (Input.IsKeyHold(KEY_MINUS))
 	{
 		Vec2f& s = mEditorCam.GetScale();
-		s.x = std::fmaxf(s.x - s.x * CarmicahTime::GetInstance()->GetDeltaTime(), 0.0001f);
-		s.y = std::fmaxf(s.y - s.y * CarmicahTime::GetInstance()->GetDeltaTime(), 0.0001f);
+		float ratio = s.x / s.y;
+
+		s.x = std::fmaxf(s.x - ratio * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime()), minHeightScale * ratio);
+		s.y = std::fmaxf(s.y - 1.f * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime()), minHeightScale);
 	}
 }
 
@@ -76,14 +83,13 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Just did discard instead, cuz this stopped working
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Needs RBO to depth test
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
 	GLuint mCurrShader{};
-
 
 	const int& mBatchSize = AssetManager::GetInstance()->enConfig.batchRenderSize;
 
@@ -103,6 +109,9 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 			{
 				mCurrShader = it.first.dat[BUFFER_SHADER];
 				glUseProgram(mCurrShader);
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 				// Binds the entire 32 texture array
 				glBindTexture(GL_TEXTURE_2D_ARRAY, AssetManager::GetInstance()->mArrayTex);
 
@@ -159,6 +168,8 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 		}
 		else
 		{
+			glLineWidth(1.f);
+
 			for (auto& i : batchBuffer.buffer)
 			{
 				glBindVertexArray(i.vao);
@@ -171,6 +182,10 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 			}
 		}
 	}
+
+	// Gizmos
+	if (isEditor)
+		RenderGizmos();
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
@@ -234,6 +249,159 @@ void RenderHelper::UnassignFont(const unsigned int& e)
 	}
 }
 
+void RenderHelper::LoadGizmos()
+{
+	if(AssetManager::GetInstance()->AssetExist<Primitive>("Circle"))
+	{
+		Primitive p = AssetManager::GetInstance()->GetAsset<Primitive>("Circle");
+
+		GLModel circle;
+		glCreateBuffers(1, &circle.vbo);
+		glNamedBufferStorage(circle.vbo, p.vtx.size() * sizeof(Vec2f), p.vtx.data(), GL_MAP_WRITE_BIT);
+		glCreateVertexArrays(1, &circle.vao);
+		glEnableVertexArrayAttrib(circle.vao, 0);
+		glVertexArrayVertexBuffer(circle.vao, 0, circle.vbo, 0, sizeof(Vec2f));
+		glVertexArrayAttribFormat(circle.vao, 0, 2, GL_FLOAT, GL_FALSE, 0);
+		glVertexArrayAttribBinding(circle.vao, 0, 0);
+		circle.primitive = GL_TRIANGLE_FAN;
+		circle.drawCnt = p.drawCnt;
+		AssetManager::GetInstance()->AddAsset<GLModel>("Circle", circle);
+	}
+	if (AssetManager::GetInstance()->AssetExist<BasePrimitive>("DebugLine"))
+	{
+		BasePrimitive p = AssetManager::GetInstance()->GetAsset<BasePrimitive>("DebugLine");
+		GLModel line;
+		glCreateBuffers(1, &line.vbo);
+		glNamedBufferStorage(line.vbo, p.vtx.size() * sizeof(Vec2f), p.vtx.data(), GL_MAP_WRITE_BIT);
+		glCreateVertexArrays(1, &line.vao);
+		glEnableVertexArrayAttrib(line.vao, 0);
+		glVertexArrayVertexBuffer(line.vao, 0, line.vbo, 0, sizeof(Vec2f));
+		glVertexArrayAttribFormat(line.vao, 0, 2, GL_FLOAT, GL_FALSE, 0);
+		glVertexArrayAttribBinding(line.vao, 0, 0);
+		line.primitive = GL_LINES;
+		line.drawCnt = p.drawCnt;
+		AssetManager::GetInstance()->AddAsset<GLModel>("Line", line);
+	}
+	if (AssetManager::GetInstance()->AssetExist<BasePrimitive>("DebugDot"))
+	{
+		BasePrimitive p = AssetManager::GetInstance()->GetAsset<BasePrimitive>("DebugDot");
+		GLModel dot;
+		glCreateBuffers(1, &dot.vbo);
+		glNamedBufferStorage(dot.vbo, p.vtx.size() * sizeof(Vec2f), p.vtx.data(), GL_MAP_WRITE_BIT);
+		glCreateVertexArrays(1, &dot.vao);
+		glEnableVertexArrayAttrib(dot.vao, 0);
+		glVertexArrayVertexBuffer(dot.vao, 0, dot.vbo, 0, sizeof(Vec2f));
+		glVertexArrayAttribFormat(dot.vao, 0, 2, GL_FLOAT, GL_FALSE, 0);
+		glVertexArrayAttribBinding(dot.vao, 0, 0);
+		dot.primitive = GL_POINTS;
+		dot.drawCnt = p.drawCnt;
+		AssetManager::GetInstance()->AddAsset<GLModel>("Dot", dot);
+	}
+}
+
+void RenderHelper::RenderGizmos()
+{
+	if (!mEditorWindowActive || HierarchyWindow::selectedGO == nullptr || mEditorMode == GIZMOS_MODE::GIZMOS_NONE)
+		return;
+
+	GLuint mCurrShader{ AssetManager::GetInstance()->GetAsset<Shader>("gizmo").s };
+	GLint uniformLoc{};
+	glUseProgram(mCurrShader);
+	glDisable(GL_DEPTH_TEST);
+
+	Vec2f translation{};
+	if (HierarchyWindow::selectedGO->HasComponent<Transform>())
+	{
+		translation = HierarchyWindow::selectedGO->GetComponent<Transform>().Pos() - mEditorCam.Pos();
+		translation.x *= mEditorCam.Scale().x * 2;
+		translation.y *= mEditorCam.Scale().y * 2;
+	}
+	else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
+	{
+		translation = HierarchyWindow::selectedGO->GetComponent<UITransform>().Pos();
+	}
+
+
+	Mtx3x3f mtx{};
+	Vec2f gizmoScale{ mGizmoScale / mEditorWindomDim.x, mGizmoScale / mEditorWindomDim.y };
+	float lineWitdh = 8.f;
+	switch (mEditorMode)
+	{
+	case GIZMOS_MODE::GIZMOS_ROTATE:
+	{
+		// Rotation
+		mtx.scaleThis(gizmoScale).translateThis(translation);
+		if (UniformExists(mCurrShader, "uMtx", uniformLoc))
+			glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, mtx.m);
+
+		if (UniformExists(mCurrShader, "uColor", uniformLoc))
+			glUniform4f(uniformLoc, 1.0f, 0.0f, 0.0f, 0.25);
+		if (UniformExists(mCurrShader, "uID", uniformLoc))
+			glUniform1ui(uniformLoc, std::numeric_limits<unsigned int>().max());
+
+		GLModel& circle = AssetManager::GetInstance()->GetAsset<GLModel>("Circle");
+		glBindVertexArray(circle.vao);
+		glDrawArrays(circle.primitive, 0, circle.drawCnt);
+
+		break;
+	}
+	case GIZMOS_MODE::GIZMOS_SCALE:
+	{
+		glPointSize(lineWitdh * 2.f);
+		GLModel& dot = AssetManager::GetInstance()->GetAsset<GLModel>("Dot");
+		glBindVertexArray(dot.vao);
+		// x_Dot (Red)
+		Mtx33Identity(mtx);
+		mtx.scaleThis(gizmoScale).translateThis(0.5f, 0.0f).translateThis(translation);
+		if (UniformExists(mCurrShader, "uMtx", uniformLoc))
+			glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, mtx.m);
+		if (UniformExists(mCurrShader, "uColor", uniformLoc))
+			glUniform4f(uniformLoc, 1.0f, 0.0f, 0.0f, 1.0);
+		if (UniformExists(mCurrShader, "uID", uniformLoc))
+			glUniform1ui(uniformLoc, std::numeric_limits<unsigned int>().max() - 1);
+		glDrawArrays(dot.primitive, 0, dot.drawCnt);
+		// y_Dot (Green)
+		Mtx33Identity(mtx);
+		mtx.scaleThis(gizmoScale).translateThis(0.0f, 0.5f).translateThis(translation);
+		if (UniformExists(mCurrShader, "uMtx", uniformLoc))
+			glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, mtx.m);
+		if (UniformExists(mCurrShader, "uColor", uniformLoc))
+			glUniform4f(uniformLoc, 0.0f, 1.0f, 0.0f, 1.0);
+		if (UniformExists(mCurrShader, "uID", uniformLoc))
+			glUniform1ui(uniformLoc, std::numeric_limits<unsigned int>().max());
+		glDrawArrays(dot.primitive, 0, dot.drawCnt);
+		[[fallthrough]];
+	}
+	case GIZMOS_MODE::GIZMOS_TRANSLATE:
+	{
+		glLineWidth(lineWitdh);
+		GLModel& line = AssetManager::GetInstance()->GetAsset<GLModel>("Line");
+		glBindVertexArray(line.vao);
+
+		// y_line (Green)
+		Mtx33Identity(mtx);
+		mtx.scaleThis(gizmoScale).translateThis(translation).rotDegThis(90.f);
+		if (UniformExists(mCurrShader, "uMtx", uniformLoc))
+			glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, mtx.m);
+		if (UniformExists(mCurrShader, "uColor", uniformLoc))
+			glUniform4f(uniformLoc, 0.0f, 1.0f, 0.0f, 1.0);
+		if (UniformExists(mCurrShader, "uID", uniformLoc))
+			glUniform1ui(uniformLoc, std::numeric_limits<unsigned int>().max());
+		glDrawArrays(line.primitive, 0, line.drawCnt);
+		// x_line (Red)
+		Mtx33Identity(mtx);
+		mtx.scaleThis(gizmoScale).translateThis(translation);
+		if (UniformExists(mCurrShader, "uMtx", uniformLoc))
+			glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, mtx.m);
+		if (UniformExists(mCurrShader, "uColor", uniformLoc))
+			glUniform4f(uniformLoc, 1.0f, 0.0f, 0.0f, 1.0);
+		if (UniformExists(mCurrShader, "uID", uniformLoc))
+			glUniform1ui(uniformLoc, std::numeric_limits<unsigned int>().max() - 1);
+		glDrawArrays(line.primitive, 0, line.drawCnt);
+		break;
+	}
+	}
+}
 
 //void BaseGraphicsSystem::RenderPrimitive(const Primitive& p)
 //{

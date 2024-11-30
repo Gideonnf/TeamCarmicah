@@ -37,6 +37,7 @@ namespace Carmicah
         {"System.Int16", ScriptFieldType::Short},
         {"System.Int32", ScriptFieldType::Int},
         {"System.UInt32", ScriptFieldType::UInt},
+        {"System.String", ScriptFieldType::String},
         {"Carmicah.Vector2", ScriptFieldType::Vector2},
         {"Carmicah.Entity", ScriptFieldType::Entity},
     };
@@ -76,6 +77,15 @@ namespace Carmicah
 
                 // erase it from the map
                 mEntityInstances.erase(it.first);
+                break;
+            }
+        }
+
+        for (auto it = entityAdded.begin(); it != entityAdded.end(); ++it)
+        {
+            if (*it == id)
+            {
+                entityAdded.erase(it);
                 break;
             }
         }
@@ -153,6 +163,7 @@ namespace Carmicah
         }
 
         //mRootDomain = rootDomain;
+
         LoadMonoAssembly("../CarmicahScriptCore/CarmicahScriptCore.dll");
 
         //MonoImage* image = mono_assembly_get_image(mCoreAssembly);
@@ -312,6 +323,7 @@ namespace Carmicah
                     std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], *entity);
                     //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
                     mEntityInstances[*entity] = scriptObj;
+                    UpdateScriptComponent(*entity);
                     entityAdded.erase(entity);
                     break;
                    // entity = entityAdded.begin();
@@ -348,6 +360,61 @@ namespace Carmicah
         mEntityInstances.clear();
     }
 
+    void ScriptSystem::UpdateScriptVariables(Entity entity)
+    {
+        Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(entity);
+        auto& scriptRef = mEntityInstances[entity];
+        const auto& fields = scriptRef->GetScriptClass()->mFields;
+        for (const auto& it : fields)
+        {
+            if (scriptComponent.scriptableFieldMap.count(it.first) != 0)
+            {
+                if (it.second.mType == ScriptFieldType::String)
+                {
+                    std::string str = std::get<std::string>(scriptComponent.scriptableFieldMap[it.first]);
+                    scriptRef->SetFieldValue<std::string>(it.second.mName, str);
+                }
+                else
+                {
+                    scriptRef->SetFieldValue(it.second.mName.c_str(), scriptComponent.scriptableFieldMap[it.first]);
+                }
+            }
+
+        }
+    }
+
+    void ScriptSystem::UpdateScriptComponent(Entity entity)
+    {
+        Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(entity);
+        if (mEntityInstances.count(entity) > 0) // Technically dont have to check IMGUI only allows for entity classes to be picked
+        {
+            auto& scriptRef = mEntityInstances[entity];
+            const auto& fields = scriptRef->GetScriptClass()->mFields;
+            //Script::variantVar var;
+            for (const auto& it : fields)
+            {
+
+                if (it.second.mType == ScriptFieldType::Float)
+                {
+                    float var = scriptRef->GetFieldValue<float>(it.second.mName);
+                    scriptComponent.scriptableFieldMap[it.first] = var;
+                }
+                else if (it.second.mType == ScriptFieldType::Bool)
+                {
+                    bool var = scriptRef->GetFieldValue<bool>(it.second.mName);
+                    scriptComponent.scriptableFieldMap[it.first] = var;
+                }
+                else if (it.second.mType == ScriptFieldType::String)
+                {
+                    std::string var = scriptRef->GetFieldValue<std::string>(it.second.mName);
+                    scriptComponent.scriptableFieldMap[it.first] = var;
+                }
+
+
+            }
+        }
+    }
+
     void ScriptSystem::EntityAdded(Entity entity)
     {
       
@@ -359,7 +426,11 @@ namespace Carmicah
                 std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], entity);
                 //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
                 mEntityInstances[entity] = scriptObj;
-                
+                // update the variables in the script reference
+                UpdateScriptVariables(entity);
+               
+                // redundant call atm ill remove it once everything is done
+                UpdateScriptComponent(entity);
                 // entity = entityAdded.begin();
             }
             // if no script is assigned yet (i.e in editor mode, if a script is attached, it wouldnt have one added by default
@@ -383,6 +454,16 @@ namespace Carmicah
             {
                 // erase it from the map
                 mEntityInstances.erase(it.first);
+                break;
+            }
+        }
+
+        // Check if the obj is in the entities to add
+        for (auto it = entityAdded.begin(); it != entityAdded.end(); ++it)
+        {
+            if (*it == entity)
+            {
+                entityAdded.erase(it);
                 break;
             }
         }

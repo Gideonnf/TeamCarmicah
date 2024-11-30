@@ -27,6 +27,14 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+	struct GLModel
+	{
+		GLenum primitive{};
+		GLuint drawCnt{};
+		GLuint vao{};
+		GLuint vbo{};
+	};
+
 	struct BasePrimitive
 	{
 		static GLuint uidCount;
@@ -101,7 +109,8 @@ namespace Carmicah
 		unsigned int mPrefabID;
 		std::string mName;
 		std::unordered_map<std::string, std::any> mComponents;
-		std::unordered_map<std::string, std::any> mModifiedComponents;
+		std::vector<std::string> mDeletedComponents;
+		//std::unordered_map<std::string, std::any> mDeletedComponents;
 	
 		std::vector<Prefab> childList;
 
@@ -141,6 +150,28 @@ namespace Carmicah
 			}
 			throw std::runtime_error("Component not found!");
 
+		}
+
+		// idk if these will work/compile until its used and i cant use it atm cause idk how to open prefab editor
+		template <typename T>
+		void AddComponent()
+		{
+			T component{};
+			mComponents.insert({ typeid(T).name(), std::make_any<T>(component)});
+		}
+
+		template <typename T>
+		bool RemoveComponent()
+		{
+			std::string typeName = typeid(T).name();
+			auto it = mComponents.find(typeName);
+			if (it != mComponents.end())
+			{
+				mDeletedComponents.push_back(typeName);
+				mComponents.erase(typeName);
+				return true;
+			}
+			return false;
 		}
 
 		std::string GetName() const;
