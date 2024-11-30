@@ -88,19 +88,21 @@ namespace Carmicah
 		mNextScene = scene;
 	}
 
-	void SceneSystem::ChangeScene(std::string nextScene)
+	bool SceneSystem::ChangeScene(std::string nextScene)
 	{
 		// technically dont have to check here since i check in init
-
 		mNextState = INITIALISING;
+
 		std::string sceneFile;
 		// only check for a new scene file if we're changing to a new scene
 		if ((nextScene != mCurrScene) && AssetManager::GetInstance()->GetScene(nextScene, sceneFile))
 		{
 			mNextScene = nextScene;
+			return true;
 		}
 		else
 		{
+			return false;
 			CM_CORE_ERROR("Unable to change scene.");
 		}
 

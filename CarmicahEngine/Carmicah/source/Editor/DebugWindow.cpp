@@ -205,6 +205,8 @@ namespace Carmicah
         ImGui::EndChild();
     }
 
+
+
     void DebugWindow::RenderProfilingTab()
     {
         RenderPerformanceOverview();

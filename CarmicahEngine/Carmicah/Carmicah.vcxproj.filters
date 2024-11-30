@@ -128,19 +128,19 @@
     <ClInclude Include="source\Graphics\BaseGraphicsSystem.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="source\Graphics\ColliderRenderSystem.h">
+    <ClInclude Include="source\Graphics\ColliderGraphicsSystem.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="source\Graphics\GraphicsSystem.h">
+    <ClInclude Include="source\Graphics\WorldGraphicsSystem.h">
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="source\Graphics\RenderHelper.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="source\Graphics\RigidbodyRendererSystem.h">
+    <ClInclude Include="source\Graphics\RigidbodyGraphicsSystem.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="source\Graphics\TextSystem.h">
+    <ClInclude Include="source\Graphics\TextGraphicsSystem.h">
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="source\Graphics\UIGraphicsSystem.h">
@@ -267,19 +267,19 @@
     <ClCompile Include="source\Graphics\BaseGraphicsSystem.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="source\Graphics\ColliderRenderSystem.cpp">
+    <ClCompile Include="source\Graphics\ColliderGraphicsSystem.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="source\Graphics\GraphicsSystem.cpp">
+    <ClCompile Include="source\Graphics\WorldGraphicsSystem.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="source\Graphics\RenderHelper.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="source\Graphics\RigidbodyRendererSystem.cpp">
+    <ClCompile Include="source\Graphics\RigidbodyGraphicsSystem.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="source\Graphics\TextSystem.cpp">
+    <ClCompile Include="source\Graphics\TextGraphicsSystem.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="source\Graphics\UIGraphicsSystem.cpp">

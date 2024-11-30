@@ -224,11 +224,9 @@ namespace Carmicah
 
 						float worldX = parentTransform.worldSpace.m00 * selectedTransform.Pos().x + parentTransform.worldSpace.m01 * selectedTransform.Pos().y + parentTransform.worldSpace.m02;
 						float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
-						selectedTransform.WorldPos(worldX, worldY);
 					}
 					else
 					{
-						selectedTransform.WorldPos(selectedTransform.Pos());
 					}
 				}
 
@@ -250,11 +248,9 @@ namespace Carmicah
 
 						float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
 
-						selectedTransform.WorldPos(worldX, worldY);
 					}
 					else
 					{
-						selectedTransform.WorldPos(selectedTransform.Pos());
 					}
 				}
 				//CM_CORE_INFO("World X : " + std::to_string(selectedTransform.WorldPos().x) + ", World Y : " + std::to_string(selectedTransform.WorldPos().y));

@@ -225,8 +225,9 @@ namespace Carmicah
 		{
 			if (!reload && AssetExist<Prefab>(fileName))
 			{
-				CM_CORE_WARN("Scene:" + fileName + " Already Exists");
-				return false;
+				// creating prefabs will trigger this, so just return true cause prefab system adds it to asset manager
+				//CM_CORE_WARN("Scene:" + fileName + " Already Exists");
+				return true;
 			}
 
 			Prefab goPrefab = Serializer.DeserializePrefab(file.fileEntry.path().string());

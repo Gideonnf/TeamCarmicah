@@ -81,7 +81,7 @@ namespace Carmicah
                 if (ImGui::Button("Pause"))
                 {
                     mIsPaused = !mIsPaused;
-                    auto& souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+                    auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
                     souSystem->PauseAllSounds();
                 }
             }
@@ -90,7 +90,7 @@ namespace Carmicah
                 if (ImGui::Button("Unpause"))
                 {
                     mIsPaused = !mIsPaused;
-                    auto& souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+                    auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
                     souSystem->ResumeAllSounds();
 
                 }
@@ -168,10 +168,6 @@ namespace Carmicah
                     double scaledX = (relativeMousePos.x / windowWidth) * 1920.0f;
                     double scaledY = (relativeMousePos.y / windowHeight) * 1080.0f;
 
-                    static double worldDeltaX = 0.f;
-                    static double worldDeltaY = 0.f;
-
-
                     //std::cout << "World Pos = " << worldX << "," << worldY << std::endl;
 
                     // update InputSystem with the relative mouse position
@@ -194,42 +190,12 @@ namespace Carmicah
 
                         Transform& cameraTransform = camera.GetComponent<Transform>();
 
-                        //TO LOOK AT LATER MAYBE
-                        double worldDeltaX = ((delta.x / 950)) / cameraTransform.GetScale().x;
-                        double worldDeltaY = -((delta.y / 540)) / cameraTransform.GetScale().y;
 
                         Input.SetDragStartPos(currentMousePos);
-
-
 
                         if (HierarchyWindow::selectedGO != nullptr)
                         {
                             CM_CORE_INFO("Selected entity : " + std::to_string(HierarchyWindow::selectedGO->GetID()))
-                                if (HierarchyWindow::selectedGO->HasComponent<Transform>())
-                                {
-                                    // after merging with rainne's branch this is kinda broken now
-                                   
-
-                                    //Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
-                                   // selectedTransform.UpdatePosition(worldDeltaX, worldDeltaY);
-                                    /*if (selectedTransform.children.size() > 0)
-                                    {
-                                        for (auto it : selectedTransform.children)
-                                        {
-                                            ComponentManager::GetInstance()->GetComponent<Transform>(it).Update();
-                                        }
-
-                                     }*/
-                                    //selectedTransform.UpdateWorldPos(worldDeltaX, worldDeltaY);
-                                     /*selectedTransform.GetPos().x += worldDeltaX;
-                                        selectedTransform.GetPos().y += worldDeltaY;*/
-                                    /*if (selectedTransform.parent == 0)
-                                        {
-                                        }
-                                        else
-                                        {
-                                        }*/
-                                }
                         }
 
                     }

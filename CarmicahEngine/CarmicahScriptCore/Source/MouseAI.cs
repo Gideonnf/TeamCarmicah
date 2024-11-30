@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-/*namespace Carmicah
+namespace Carmicah
 {
     public class MouseAI : Entity
     {
@@ -98,7 +98,7 @@ using System.Threading.Tasks;
                     // Trigger respawn
                     shouldRespawn = true;
                     respawnTimer = 0f;
-                   // Position = isLeft ? waypointsLeft[0] : waypointsRight[0];
+                    // Position = isLeft ? waypointsLeft[0] : waypointsRight[0];
                     //Sound.PlaySFX("death", 0.5f);
                 }
             }
@@ -115,11 +115,11 @@ using System.Threading.Tasks;
 
     }
 }
-*/
 
 
 
-namespace Carmicah
+
+/*namespace Carmicah
 {
     public class MouseAI : Entity
     {
@@ -129,7 +129,7 @@ namespace Carmicah
         int currPoint;
         Vector2 originalPos;
         StateMachine stateMachine;
-
+       
         void OnCreate()
         {
             waypointsRight = new List<Vector2>();
@@ -144,6 +144,8 @@ namespace Carmicah
             stateMachine.AddState(new MouseChase("Chase"));
             stateMachine.AddState(new MouseDead("Dead"));
             stateMachine.SetNextState("Chase");
+
+            
         }
 
         void OnUpdate(float dt)
@@ -157,8 +159,9 @@ namespace Carmicah
             }
             else if (stateMachine.GetCurrentState() == "Dead")
             {
-                ResetPosition();
-                stateMachine.SetNextState("Chase");
+                Destroy();
+                //ResetPosition();
+                // stateMachine.SetNextState("Chase");
             }
         }
 
@@ -179,8 +182,9 @@ namespace Carmicah
             waypointsLeft.Add(rightPoint2.Position);
         }
 
-        void SetInitialPosition()
+        public void SetInitialPosition()
         {
+           // Console.WriteLine($"Position Before : {Position.x} , {Position.y}");
             if (isLeft)
             {
                 Position = waypointsLeft[0];
@@ -191,6 +195,8 @@ namespace Carmicah
                 Position = waypointsRight[0];
                 originalPos = waypointsRight[0];
             }
+           // Console.WriteLine($"Position After : {Position.x} , {Position.y}");
+
             currPoint = 1;
         }
 
@@ -222,3 +228,4 @@ namespace Carmicah
         }
     }
 }
+*/
