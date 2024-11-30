@@ -129,8 +129,10 @@ namespace Carmicah
         int  Width = mode->width;
         int Height = mode->height;
         GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", glfwGetPrimaryMonitor(), NULL);*/
-    
+        //
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //comment it when using installer
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         int Width = AssetManager::GetInstance()->enConfig.Width;
         int Height = AssetManager::GetInstance()->enConfig.Height;
         std::string defaultScene = AssetManager::GetInstance()->enConfig.defaultScene;
