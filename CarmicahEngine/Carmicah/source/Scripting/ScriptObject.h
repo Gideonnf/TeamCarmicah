@@ -105,6 +105,11 @@ namespace Carmicah
 		/// <param name="className">name of the class</param>
 		ScriptObject(std::shared_ptr<ScriptClass> scClass, Entity entity);
 
+		/// <summary>
+		/// Get the mMonoInstance reference to get script instance for C# side
+		/// </summary>
+		MonoObject* GetInstance();
+
 
 		/// <summary>
 		/// Set up all the internal function calls by getting the method and the number of params

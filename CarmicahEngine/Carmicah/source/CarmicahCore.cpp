@@ -254,6 +254,7 @@ namespace Carmicah
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTime::GetInstance()->FPS())) + " - Scene : " + gameSystem->GetCurrScene();
             glfwSetWindowTitle(window, title.c_str());
 
+
             if (gameSystem->mNextState == SceneState::EXIT)
             {
                 break;
@@ -459,8 +460,6 @@ namespace Carmicah
 
                 // I WILL UPDAAATEEE BUTTONSYSTEM HERE OKKKKAAYYYY, PLS DONT CRASH CRYING EMOJI
 				butSystem->Update();
-
-                glfwPollEvents(); // this takes 20% of engine run time
                 Input.Update();
 
                // glfwMakeContextCurrent(window);
@@ -468,6 +467,11 @@ namespace Carmicah
                 glfwSwapBuffers(window);
                 gGOFactory->UpdateDestroyed();
             }
+
+            Input.UpdatePrevInput();
+            // shift this here for now cause moving 
+            glfwPollEvents(); // this takes 20% of engine run time
+
 
             // Don't exit if we're going into onstart
             // only for anything else but that
@@ -480,7 +484,6 @@ namespace Carmicah
             CarmicahTime::GetInstance()->StopLoopTimer();
             CarmicahTime::GetInstance()->CalculateSystemPercentages();
             CarmicahTime::GetInstance()->UpdateTime();
-            Input.UpdatePrevInput();
 
         }
 

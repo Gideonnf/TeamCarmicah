@@ -182,8 +182,9 @@ namespace Carmicah
             waypointsLeft.Add(rightPoint2.Position);
         }
 
-        void SetInitialPosition()
+        public void SetInitialPosition()
         {
+           // Console.WriteLine($"Position Before : {Position.x} , {Position.y}");
             if (isLeft)
             {
                 Position = waypointsLeft[0];
@@ -194,6 +195,8 @@ namespace Carmicah
                 Position = waypointsRight[0];
                 originalPos = waypointsRight[0];
             }
+           // Console.WriteLine($"Position After : {Position.x} , {Position.y}");
+
             currPoint = 1;
         }
 

@@ -1,43 +1,52 @@
 {
-    "GameObject": "MouseGO",
-    "ID": 2,
+    "GameObject": "MouseGo",
+    "ID": 9,
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
-            "xPos": -1.7399036884307862,
-            "yPos": 0.0,
-            "depth": 0.0,
-            "xScale": 1.2000000476837159,
-            "yScale": 1.2000000476837159,
-            "rot": -84.00611877441406
+            "xPos": 0.23073899745941163,
+            "yPos": -18.107315063476564,
+            "depth": 5.0,
+            "xScale": 2.0,
+            "yScale": 2.0,
+            "rot": 0.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.MouseAI",
+            "ScriptableFieldMap": [
+                {
+                    "isLeft": true
+                }
+            ]
         },
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Duck"
+            "texture": "Mouse_SpriteSheet_Climb_blue 3"
         },
         {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.MouseAI"
+            "Component Name": "struct Carmicah::Collider2D",
+            "shape": "DebugSquare",
+            "customWidth": 5.0,
+            "customRotation": 0.0,
+            "customHeight": 5.0
         },
-      {
-        "Component Name": "struct Carmicah::Collider2D",
-        "shape": "DebugSquare",
-        "customWidth": 5.0,
-        "customRotation": 0.0,
-        "customHeight": 5.0
-      },
         {
             "Component Name": "struct Carmicah::RigidBody",
             "velocityX": 0.0,
             "velocityY": 0.0,
             "angularVelocity": 0.0,
-            "posPrevX": -2.739903688430786,
-            "posPrevY": 0.0,
+            "posPrevX": 2.0,
+            "posPrevY": 2.0,
             "mass": 1.0,
             "gravity": 0.0,
-            "zposPrev": 0.0,
-            "objectType": 0
-        }
+            "zposPrev": 1.0,
+            "objectType": 1
+        },
+        {
+			"Component Name": "struct Carmicah::Animation",
+			"Atlas": "Mouse_Climb_blue"        
+		}
     ]
 }

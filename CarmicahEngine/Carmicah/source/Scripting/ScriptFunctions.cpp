@@ -297,6 +297,19 @@ namespace Carmicah
 		return newGO.GetID();
 	}
 
+	static MonoObject* GetScriptInstance(unsigned int entityID)
+	{
+		if (gScriptSystem->mEntityInstances.count(entityID) > 0)
+		{
+			return gScriptSystem->mEntityInstances[entityID]->GetInstance();
+		}
+		else
+		{
+			CM_CORE_ERROR("Entity does not have script attached");
+			return nullptr;
+		}
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -326,6 +339,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Entity_FindEntityWithName);
 		ADD_INTERNAL_CALL(Destroy);
 		ADD_INTERNAL_CALL(CreateNewGameObject);
+		ADD_INTERNAL_CALL(GetScriptInstance);
 
 		// Rigidbody functions
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);

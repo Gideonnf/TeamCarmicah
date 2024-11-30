@@ -230,6 +230,16 @@ namespace Carmicah
 				{
 					std::any_cast<PrefabData>(component).SerializeComponent(writer);
 				}
+				if (name == typeid(Animation).name())
+				{
+					std::any_cast<Animation>(component).SerializeComponent(writer);
+
+				}
+				if (name == typeid(Button).name())
+				{
+					std::any_cast<Button>(component).SerializeComponent(writer);
+
+				}
 				writer.EndObject();
 			}
 		writer.EndArray();

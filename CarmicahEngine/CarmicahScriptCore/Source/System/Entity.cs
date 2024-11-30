@@ -54,6 +54,13 @@ namespace Carmicah
             return component;
         }
 
+        public T As<T>() where T : Entity, new()
+        {
+            Object scriptInstance = FunctionCalls.GetScriptInstance(mID);
+
+            return scriptInstance as T;
+        }
+
         public Entity FindEntityWithName(string name)
         {
             uint entityID = FunctionCalls.Entity_FindEntityWithName(name);
