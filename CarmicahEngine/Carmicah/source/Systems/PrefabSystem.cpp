@@ -60,7 +60,7 @@ namespace Carmicah
 			return;
 		}
 		// Write a new prefab here
-		Prefab& newPrefab = MakePrefab(go);
+		Prefab newPrefab = MakePrefab(go);
 		//Add to asset manager's prefab list
 		AssetManager::GetInstance()->AddAsset<Prefab>(newPrefab.mName, newPrefab);
 		// Make a file for it

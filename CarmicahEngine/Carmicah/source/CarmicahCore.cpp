@@ -121,7 +121,7 @@ namespace Carmicah
         int Height = mode->height;
         glfwCreateWindow(Width, Height, "Carmicah", primaryMonitor, NULL);
 
-#endif
+#else
 
 
 
@@ -133,6 +133,7 @@ namespace Carmicah
         //comment it when using installer
         int Width = AssetManager::GetInstance()->enConfig.Width;
         int Height = AssetManager::GetInstance()->enConfig.Height;
+#endif
         std::string defaultScene = AssetManager::GetInstance()->enConfig.defaultScene;
         //CM_CORE_INFO("Reached before window creation");
         GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", NULL, NULL);
@@ -318,7 +319,7 @@ namespace Carmicah
             // If the next state was set to ONSTART, means sceneSystem received a play messag
             if (gameSystem->mNextState == SceneState::ONSTART)
             {
-                souSystem->PlaySoundThis("BGM_SetupPhase_Mix1", SoundCategory::BGM, SoundSystem::SOUND_INGAME, 0.4f);
+                souSystem->PlaySoundThis("BGM_SetupPhase_Mix1", SoundCategory::BGM, SoundSystem::SOUND_INGAME, true, 0.4f);
                 gScriptSystem->OnStart();
                 // go to run time after starting up all script objects
                 gameSystem->mNextState = gameSystem->mCurrState = SceneState::RUNTIME;
@@ -370,7 +371,7 @@ namespace Carmicah
                             }
 #endif
 
-#ifdef CM_RELEASE || CM_INSTALLER
+#if defined(CM_RELEASE) || defined(CM_INSTALLER)
                             CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                             phySystem->Update();
                             CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
@@ -412,7 +413,7 @@ namespace Carmicah
                         }
 #endif
 
-#ifdef CM_RELEASE || CM_INSTALLER
+#if defined(CM_RELEASE) || defined(CM_INSTALLER)
                         CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                         phySystem->Update();
                         CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");

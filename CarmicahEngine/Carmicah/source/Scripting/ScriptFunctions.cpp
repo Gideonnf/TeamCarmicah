@@ -109,7 +109,7 @@ namespace Carmicah
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySoundThis(cStrname, SoundCategory::SFX, SoundSystem::SOUND_INGAME, volume);
+		souSystem->PlaySoundThis(cStrname, SoundCategory::SFX, SoundSystem::SOUND_INGAME, false, volume);
 		mono_free(cStrname);
 	}
 
@@ -117,7 +117,7 @@ namespace Carmicah
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySoundThis(cStrname, SoundCategory::BGM, SoundSystem::SOUND_BGM, volume);
+		souSystem->PlaySoundThis(cStrname, SoundCategory::BGM, SoundSystem::SOUND_BGM, true, volume);
 		mono_free(cStrname);
 	}
 
@@ -271,7 +271,7 @@ namespace Carmicah
 		// char* that is allocated on the heap
 		char* cStrName = mono_string_to_utf8(sceneName);
 		// call the system manager to get instance of scene system
-		auto& sceneSystem = SystemManager::GetInstance()->GetSystem<SceneSystem>();
+		auto sceneSystem = SystemManager::GetInstance()->GetSystem<SceneSystem>();
 		// change the scene
 		if (!sceneSystem->ChangeScene(cStrName))
 		{

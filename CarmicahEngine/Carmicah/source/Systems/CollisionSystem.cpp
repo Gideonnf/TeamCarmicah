@@ -76,6 +76,8 @@ namespace Carmicah
 		//float angleInRadians = collider.customRotation * (PI / 180.0f);
 		float cosTheta = cos(angleInRadians);
 		float sinTheta = sin(angleInRadians);
+		UNUSED(cosTheta);
+		UNUSED(sinTheta);
 
 		GetOBBVertices(obj);
 
@@ -245,6 +247,7 @@ namespace Carmicah
 		auto& transform2 = componentManager->GetComponent<Transform>(obj2);
 		auto& collider1 = componentManager->GetComponent<Collider2D>(obj1);
 		auto& collider2 = componentManager->GetComponent<Collider2D>(obj2);
+		UNUSED(collider2);
 
 		float penetrationDepth = CalculatePenetrationDepth(obj1, obj2);
 
@@ -419,7 +422,7 @@ namespace Carmicah
 					}
 
 					auto& rigidbody2 = componentManager->GetComponent<RigidBody>(entity2);
-
+					UNUSED(rigidbody2);
 
 					if (TestIntersection(entity1, entity2))
 					{
@@ -439,7 +442,7 @@ namespace Carmicah
 					}
 
 					auto& rigidbody2 = componentManager->GetComponent<RigidBody>(entity2);
-
+					UNUSED(rigidbody2);
 
 					if (TestIntersection(entity1, entity2))
 					{

@@ -220,6 +220,7 @@ namespace Carmicah
 	{
 		// notified when the user scrolls, whether with a mouse wheel or touchpad gesture, set a scroll callback
 		UNUSED(window);
+		UNUSED(xOffset);
 
 		// adjust zoom level based on scroll direction
 		if (yOffset > 0)
@@ -265,6 +266,7 @@ namespace Carmicah
 	------------------------------------------------------------------------------------------------*/
 	void WindowFocusCallback(GLFWwindow* window, int focused)
 	{
+		UNUSED(window);
 		UNUSED(focused);
 		//int isFocused = glfwGetWindowAttrib(window, GLFW_FOCUSED);
 
@@ -419,10 +421,10 @@ namespace Carmicah
 		Vec2d mousePos = Input.GetMousePosition();
 
 		// define button boundaries
-		float left = position.x - (size.x * 0.5f);
-		float right = position.x + (size.x * 0.5f);
-		float bottom = position.y - (size.y * 0.5f);
-		float top = position.y + (size.y * 0.5f);
+		double left = position.x - (size.x * 0.5);
+		double right = position.x + (size.x * 0.5);
+		double bottom = position.y - (size.y * 0.5);
+		double top = position.y + (size.y * 0.5);
 
 		// check if mouse position is within button boundaries
 		return (mousePos.x >= left && mousePos.x <= right &&
