@@ -20,6 +20,7 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui.h>
 #include "EditorWindow.h"
 #include "ECS/GameObject.h"
+#include "Editor.h"
 #include "../Systems/AssetManager.h"
 
 

@@ -24,10 +24,10 @@ DigiPen Institute of Technology is prohibited.
 namespace Carmicah
 {
 
-
+	std::vector<std::string> Editor::droppedFilePaths{};
 	Editor::Editor()
 	{
-
+		
 	}
 
 	Editor::~Editor()
@@ -54,6 +54,9 @@ namespace Carmicah
 
 		ImGui_ImplGlfw_InitForOpenGL(window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
 		ImGui_ImplOpenGL3_Init("#version 460");
+		//Allows for dropped objects
+		glfwSetWindowUserPointer(window, this);
+		glfwSetDropCallback(window, DropCallback);
 
 		//Creating Windows
 		//For Testing
@@ -180,6 +183,18 @@ namespace Carmicah
 			}
 		}
 
+		if(Editor::droppedFilePaths.size() > 0)
+		{
+			for (const auto& file : Editor::droppedFilePaths)
+			{
+
+				AssetManager::GetInstance()->CopyAssetToAssetsFolder(file, AssetManager::GetInstance()->enConfig.assetLoc.c_str());
+			}
+			Editor::droppedFilePaths.clear();
+			AssetManager::GetInstance()->fileWatcher.Update();
+		}
+
+
 		//TODO: Get nic to make the play and stop button
 		if (SceneWindow::mChangeState)
 		{
@@ -230,6 +245,21 @@ namespace Carmicah
 				HierarchyWindow::mShowScene = true;
 				AssetWindow::selectedPrefab = nullptr;
 			}
+		}
+	}
+
+	void Editor::DropCallback(GLFWwindow* window, int count, const char** paths)
+	{
+		for (int i = 0; i < count; ++i)
+		{
+			std::string filePath = paths[i];
+			size_t dotPos = filePath.find_last_of('.');
+
+			if (filePath.substr(dotPos + 1) == "png")
+			{
+				droppedFilePaths.push_back(filePath);
+			}
+
 		}
 	}
 }

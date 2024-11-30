@@ -57,51 +57,19 @@ namespace Carmicah
 		if (ImGui::Begin(mTitle))
 		{
 			std::string name;
+			/*if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem))
+			{
+				for (const auto& file : Editor::droppedFilePaths)
+				{
+					std::cout << file << std::endl;
+				}
+				Editor::droppedFilePaths.clear();
+			}*/
 
 			if (ImGui::Button("Reload Assets"))
 			{
 				AssetManager::GetInstance()->fileWatcher.Update();
 			}
-
-			/*if (ImGui::CollapsingHeader("Primitive"))
-			{
-				ImGui::Indent();
-				for (const auto& entry : primitiveMap->mAssetMap)
-				{
-					name = entry.first + "##Prim";
-					if (ImGui::Button(name.c_str()))
-					{
-					}
-					if (ImGui::IsItemHovered())
-					{
-						ImGui::BeginTooltip();
-						ImGui::Text("Cool Shape!");
-						ImGui::EndTooltip();
-					}
-				}
-				ImGui::Unindent();
-			}*/
-			/*if (ImGui::CollapsingHeader("Shader"))
-			{
-				ImGui::Indent();
-				for (const auto& entry : shaderMap->mAssetMap)
-				{
-					name = entry.first + "##Shader";
-					if (ImGui::Button(name.c_str()))
-					{
-					}
-					if (ImGui::IsItemHovered())
-					{
-						ImGui::BeginTooltip();
-						ImVec2 textureSize(100, 100);
-						GLuint textureID = shaderMap->mAssetList[entry.second].s;
-						ImGui::Text("Shader!");
-						ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(textureID)), textureSize);
-						ImGui::EndTooltip();
-					}
-				}
-				ImGui::Unindent();
-			}*/
 
 			if (ImGui::CollapsingHeader("Texture"))
 			{
@@ -109,6 +77,8 @@ namespace Carmicah
 				//ImGui::BeginChild("TextureTableRegion", ImVec2(400, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
 				if (ImGui::BeginTable("TextureTable", 5))
 				{
+
+					
 					for (const auto& entry : textureMap->mAssetMap)
 					{
 						name = entry.first + "##texture";
