@@ -12,7 +12,10 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": ""
+                    "scriptName": "",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -57,7 +60,10 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.PlayButton"
+                    "scriptName": "Carmicah.PlayButton",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -86,7 +92,10 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": ""
+                    "scriptName": "",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -115,7 +124,10 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.SettingButton"
+                    "scriptName": "Carmicah.SettingButton",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",

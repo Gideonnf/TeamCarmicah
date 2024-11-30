@@ -21,6 +21,14 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui.h>
 #include "EditorWindow.h"
 #include "ECS/GameObject.h"
+#include "Components/Transform.h"
+#include "Components/Collider2D.h"
+#include "Components/Renderer.h"
+#include "Components/UITransform.h"
+#include "Scripting/ScriptSystem.h"
+#include "Components/Prefab.h"
+#include "Systems/GOFactory.h"
+#include "../Systems/AssetManager.h"
 
 
 namespace Carmicah
@@ -29,6 +37,14 @@ namespace Carmicah
 	{
 	private:
 		static std::string selectedComponentToAdd;
+
+		enum TABLETYPE
+		{
+			GAMEOBJECT = 0,
+			PREFAB = 1
+		};
+
+
 	public:
 		/**
 		 * @brief Construct a new Inspector Window object
@@ -49,7 +65,7 @@ namespace Carmicah
 		 * @param id 
 		 */
 		template<typename T>
-		void InspectorTable(T* go, Entity id);
+		void InspectorTable(T* go, TABLETYPE type);
 		/**
 		 * @brief Function Overload that creates inspector table
 		 * 
@@ -63,7 +79,8 @@ namespace Carmicah
 		 * 
 		 * @param go 
 		 */
-		void AddComponentButton(GameObject* go);
+		template<typename T>
+		void AddComponentButton(T* go);
 		/**
 		 * @brief Function  that facilitates removing a component from a  gameobject.
 		 * 
@@ -71,11 +88,58 @@ namespace Carmicah
 		 * @param go 
 		 */
 		template<typename T>
-		void RemoveComponentButton(Entity go);
-		
+		bool RemoveComponentButton(GameObject* go);
+
+		template <typename T>
+		bool RemoveComponentButton(Prefab* go);
+
+		template<typename T>
+		void RenderTransformTable(T* data, TABLETYPE type);
+
+		template<typename T>
+		void RenderUITransformTable(T* data, TABLETYPE type);
+
+		template<typename T>
+		void RenderRenderingTable(T* data, TABLETYPE type);
+
+		template<typename T>
+		void RenderAnimationTable(T* data, TABLETYPE type);
+
+		template<typename T>
+		bool RenderRigidBodyTable(T* data, TABLETYPE type);
+
+		template<typename T>
+		void RenderCollider2DTable(T* data, TABLETYPE type);
+
+		template<typename T>
+		void RenderTextRenderTable(T* data, TABLETYPE type);
+
+		template<typename T>
+		void RenderButtonTable(T* data, TABLETYPE type);
+
+		template<typename T>
+		void RenderScriptTable(T* data, TABLETYPE type);
 		//TODO: IF IT WORKS< APPLY IT FOR EVERYTHIGN ELSE
 		template <typename T>
 		void CheckForComponentChange(GameObject& go, T& newComponent, bool modified)
+		{
+			// Only used for prefab game objects
+			if (go.HasComponent<T>() && go.HasComponent<PrefabData>())
+			{
+				T& component = go.GetComponent<T>();
+				// change in the component
+				if (modified)
+				{
+					go.GetComponent<PrefabData>().mComponentsModified.push_back(typeid(T).name());
+				}
+				// Update the component after
+				component = newComponent;
+			}
+
+		}
+		//THIS SHOULD NOT EXIST
+		template <typename T>
+		void CheckForComponentChange(Prefab& go, T& newComponent, bool modified)
 		{
 			// Only used for prefab game objects
 			if (go.HasComponent<T>() && go.HasComponent<PrefabData>())

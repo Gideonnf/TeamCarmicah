@@ -7,7 +7,7 @@
  email:			n.lai@digipen.edu
 
  brief:			This SceneWindow class is a derived class.
-				It provides an interactive view where users can visualize and manipulate game objects within the scene.
+                It provides an interactive view where users can visualize and manipulate game objects within the scene.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
@@ -22,7 +22,6 @@ DigiPen Institute of Technology is prohibited.
 #include "EditorWindow.h"
 #include "SceneWindow.h"
 #include "Components/Transform.h"
-#include "Components/UITransform.h"
 #include "../Components/Button.h"
 #include "SceneToImgui.h"
 #include "Systems/GOFactory.h"
@@ -35,21 +34,21 @@ DigiPen Institute of Technology is prohibited.
 namespace Carmicah
 {
 
-	bool SceneWindow::mIsPlaying = false;
-	bool SceneWindow::mChangeState = false;
+    bool SceneWindow::mIsPlaying = false;
+    bool SceneWindow::mChangeState = false;
     bool SceneWindow::mIsPaused = false;
     bool SceneWindow::mIsDebug = false;
 
-	SceneWindow::SceneWindow() : EditorWindow("Scene", ImVec2(0, 0), ImVec2(0, 0)) { mIsVisible = true; }
+    SceneWindow::SceneWindow() : EditorWindow("Scene", ImVec2(0, 0), ImVec2(0, 0)) { mIsVisible = true; }
 
-	void SceneWindow::Update()
-	{
-        
-		if (ImGui::Begin(mTitle))
-		{
+    void SceneWindow::Update()
+    {
+
+        if (ImGui::Begin(mTitle))
+        {
             //ImVec2 windowPos = ImGui::GetWindowPos();
-			const float windowWidth =   std::clamp(ImGui::GetContentRegionAvail().x, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Width));
-			const float windowHeight =  std::clamp(ImGui::GetContentRegionAvail().y, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Height));
+            const float windowWidth = std::clamp(ImGui::GetContentRegionAvail().x, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Width));
+            const float windowHeight = std::clamp(ImGui::GetContentRegionAvail().y, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Height));
             ImVec2 windowSize(windowWidth, windowHeight);
             //ImVec2 windowBottomRight(windowPos.x + windowSize.x, windowPos.y + windowSize.y);
 
@@ -58,26 +57,26 @@ namespace Carmicah
             //float borderThickness = 2.0f;
             ////ImGui::InvisibleButton("Window Area",windowBottomRight);
 
-			if (!mIsPlaying)
-			{
-				if (ImGui::Button("Play"))
-				{
-					mIsPlaying = !mIsPlaying;
+            if (!mIsPlaying)
+            {
+                if (ImGui::Button("Play"))
+                {
+                    mIsPlaying = !mIsPlaying;
                     mIsPaused = false;
-					mChangeState = true;
-				}
-			}
-			else
-			{
-				if (ImGui::Button("Stop"))
-				{
-					mIsPlaying = !mIsPlaying;
-					mChangeState = true;
-				}
-			}
+                    mChangeState = true;
+                }
+            }
+            else
+            {
+                if (ImGui::Button("Stop"))
+                {
+                    mIsPlaying = !mIsPlaying;
+                    mChangeState = true;
+                }
+            }
             ImGui::SameLine();
 
-            if(!mIsPaused)
+            if (!mIsPaused)
             {
                 if (ImGui::Button("Pause"))
                 {
@@ -97,8 +96,8 @@ namespace Carmicah
                 }
             }
 
-            
-            
+
+
 
             /*if (Input.IsKeyPressed(KEY_W))
             {
@@ -111,6 +110,7 @@ namespace Carmicah
 
             //std::cout << windowWidth << "," << windowHeight << std::endl;
 
+            //SceneToImgui::GetInstance()->RescaleFramebuffer(windowWidth, windowHeight);
             glViewport(0, 0, (GLsizei)windowWidth, (GLsizei)windowHeight);
 
             // get screen position of the Scene window's content area
@@ -136,18 +136,19 @@ namespace Carmicah
                 //Area to handle anything that's dropped into the SceneWindow
                 if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PREFAB_PAYLOAD"))
                 {
-                    
+
                     std::string textureName = *(const std::string*)payload->Data;
                     gGOFactory->CreatePrefab(textureName);
-}
+                }
                 ImGui::EndDragDropTarget();
             }
-                
-            
+
             SceneToImgui::GetInstance()->SetHovering(SceneToImgui::GAME_SCENE, ImGui::IsWindowHovered());
+            // SceneToImgui::GetInstance()->IsHovering = ImGui::IsWindowHovered();
             // check if the mouse is hovering over the Scene window
             if (ImGui::IsWindowHovered())
             {
+
                 //Mouse Position Handling for Object Picking/Dragging
                 ImVec2 mousePos = ImGui::GetMousePos();
                 GameObject camera;
@@ -164,24 +165,26 @@ namespace Carmicah
                     relativeMousePos.y >= 0 && relativeMousePos.y <= windowHeight)
                 {
                     // scale the coordinates to 1920x1080
-                    double scaledX = (relativeMousePos.x / windowWidth) * AssetManager::GetInstance()->enConfig.Width;
-                    double scaledY = (relativeMousePos.y / windowHeight) * AssetManager::GetInstance()->enConfig.Height;
+                    double scaledX = (relativeMousePos.x / windowWidth) * 1920.0f;
+                    double scaledY = (relativeMousePos.y / windowHeight) * 1080.0f;
+
+                    static double worldDeltaX = 0.f;
+                    static double worldDeltaY = 0.f;
+
 
                     //std::cout << "World Pos = " << worldX << "," << worldY << std::endl;
 
                     // update InputSystem with the relative mouse position
                     Input.SetMousePosition(scaledX, scaledY);
 
+
                     // if dragging, update the drag position within the Scene window
-                    if (Input.IsDragging())
+                    if (Input.IsDragging() && camera.HasComponent<Transform>())
                     {
-                        Vec2d currentMousePos{ scaledX, scaledY };
-                        if (Input.IsMousePressed(MOUSE_BUTTON_LEFT))
-                        {
-                            Input.SetDragStartPos(currentMousePos);
-                            Input.SetDragCurrentPos(currentMousePos);
-                        }
-                        Vec2d startDragPos = Input.GetDragCurrentPos();// Previous frame's pos
+                        Input.SetDragCurrentPos({ scaledX, scaledY });
+
+                        Vec2d startDragPos = Input.GetDragStartPos();
+                        Vec2d currentMousePos = Input.GetDragCurrentPos();
                         /*if(mIsDebug)
                         {
                             std::cout << "Start Pos: " << startDragPos << std::endl;
@@ -189,51 +192,51 @@ namespace Carmicah
                         }*/
                         Vec2d delta(currentMousePos.x - startDragPos.x, currentMousePos.y - startDragPos.y);
 
+                        Transform& cameraTransform = camera.GetComponent<Transform>();
+
+                        //TO LOOK AT LATER MAYBE
+                        double worldDeltaX = ((delta.x / 950)) / cameraTransform.GetScale().x;
+                        double worldDeltaY = -((delta.y / 540)) / cameraTransform.GetScale().y;
+
+                        Input.SetDragStartPos(currentMousePos);
 
 
-                        if (camera.HasComponent<Transform>())
+
+                        if (HierarchyWindow::selectedGO != nullptr)
                         {
+                            CM_CORE_INFO("Selected entity : " + std::to_string(HierarchyWindow::selectedGO->GetID()))
+                                if (HierarchyWindow::selectedGO->HasComponent<Transform>())
+                                {
+                                    // after merging with rainne's branch this is kinda broken now
+                                   
 
-                            Transform& cameraTransform = camera.GetComponent<Transform>();
+                                    //Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
+                                   // selectedTransform.UpdatePosition(worldDeltaX, worldDeltaY);
+                                    /*if (selectedTransform.children.size() > 0)
+                                    {
+                                        for (auto it : selectedTransform.children)
+                                        {
+                                            ComponentManager::GetInstance()->GetComponent<Transform>(it).Update();
+                                        }
 
-                            double worldDeltaX = ((delta.x / AssetManager::GetInstance()->enConfig.Width * 2.0)) / cameraTransform.GetScale().x;
-                            double worldDeltaY = -((delta.y / AssetManager::GetInstance()->enConfig.Height * 2.0)) / cameraTransform.GetScale().y;
-
-
-                            //if (Input.IsKeyPressed(KEY_W))
-                            //{
-                            //    std::cout << "Pos: " << pos.x << "," << pos.y << std::endl;
-
-                            //    std::cout << "Window Size: " << windowWidth << "," << windowHeight << std::endl;
-                            //    
-                            //    std::cout <<"Delta: " << delta.x << "," << delta.y << std::endl;
-
-                            //    std::cout << "Camera Scale: " << cameraTransform.GetScale().x << "," << cameraTransform.GetScale().y << std::endl;
-
-                            //    std::cout << "Overall World Delta: " << worldDeltaX << "," << worldDeltaY << std::endl;
-                            //}
-
-                            if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Transform>())
-                            {
-                                Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
-
-                                selectedTransform.PosXAdd(worldDeltaX);
-                                selectedTransform.PosYAdd(worldDeltaY);
-                            }
-                        }
-                        if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<UITransform>())
-                        {
-                            UITransform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<UITransform>();
-                            selectedTransform.PosXAdd(delta.x);
-                            selectedTransform.PosYAdd(-delta.y);
+                                     }*/
+                                    //selectedTransform.UpdateWorldPos(worldDeltaX, worldDeltaY);
+                                     /*selectedTransform.GetPos().x += worldDeltaX;
+                                        selectedTransform.GetPos().y += worldDeltaY;*/
+                                    /*if (selectedTransform.parent == 0)
+                                        {
+                                        }
+                                        else
+                                        {
+                                        }*/
+                                }
                         }
 
-                        Input.SetDragCurrentPos(currentMousePos);
                     }
                 }
             }
         }
- 
-		ImGui::End();
-	}
+
+        ImGui::End();
+    }
 }

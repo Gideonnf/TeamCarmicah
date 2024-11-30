@@ -14,7 +14,7 @@ namespace Carmicah
 
         public override void Enter()
         {
-            targetPos = new Vector2(0, 4.0f);
+           // targetPos = new Vector2(0, 4.0f);
         }
 
         public override void Update(ref StateMachine sm)
@@ -24,7 +24,7 @@ namespace Carmicah
 
             // If the distance to target position is less than equal to like 0.5 or smth
             // then set the state to dead
-            sm.SetNextState("MouseDead");
+           // sm.SetNextState("MouseDead");
         }
 
         public override void Exit() 
@@ -42,16 +42,18 @@ namespace Carmicah
 
         public override void Enter()
         {
+            // Can play death sound or animation here
 
         }
 
         public override void Update(ref StateMachine sm)
         {
-
+            // Reset handled in MouseAI's OnUpdate
         }
 
         public override void Exit()
         {
+            // Can play respawn sound or animation here
 
         }
     }

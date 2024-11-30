@@ -32,7 +32,8 @@ namespace Carmicah
 		Short,
 		UInt,
 		Vector2,
-		Entity
+		Entity,
+		String
 	};
 
 	//struct
@@ -151,9 +152,38 @@ namespace Carmicah
 			const ScriptField& field = iter->second;
 			char fieldBuffer[32];
 			mono_field_get_value(mMonoInstance, field.mClassField, fieldBuffer);
-
+			//mono_string_to_utf8
 			// cast it to the T that is trying to be retrieved and derefence it
 			return *(T*)fieldBuffer;
+		}
+
+		template<>
+		std::string GetFieldValue(const std::string& name)
+		{
+			const auto& fields = mScriptClass->mFields;
+			if (fields.count(name) == 0)
+			{
+				return std::string();
+			}
+			auto iter = fields.find(name);
+			const ScriptField& field = iter->second;
+
+			std::string result;
+			MonoString* monoStr = reinterpret_cast<MonoString*>(mono_field_get_value_object(mono_domain_get(), field.mClassField, mMonoInstance));
+			if (monoStr != nullptr)
+			{
+				char* utf8str = mono_string_to_utf8(monoStr);
+				result = utf8str;
+				mono_free(utf8str);
+			}
+
+			return result;
+			//char fieldBuffer[128];
+			//mono_field_get_value(mMonoInstance, field.mClassField, fieldBuffer);
+			////mono_string_to_utf8
+			//// cast it to the T that is trying to be retrieved and derefence it
+			//return fieldBuffer;
+
 		}
 
 		template <typename T>
@@ -169,8 +199,25 @@ namespace Carmicah
 
 			//void* valPtr =;
 			mono_field_set_value(mMonoInstance, field.mClassField, (void*)&val);
-
 		}
+
+	template <>
+	void SetFieldValue<std::string>(const std::string& name, std::string val)
+	{
+		const auto& fields = mScriptClass->mFields;
+		if (fields.count(name) == 0)
+		{
+			return;
+		}
+		auto iter = fields.find(name);
+		const ScriptField& field = iter->second;
+
+		MonoString* monoStr = mono_string_new(mono_domain_get(), val.c_str());
+		if (monoStr != nullptr) {
+			// Set the MonoString as the value of the field
+			mono_field_set_value(mMonoInstance, field.mClassField, monoStr);
+		}
+	}
 
 		std::shared_ptr<ScriptClass> GetScriptClass();
 
