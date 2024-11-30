@@ -39,12 +39,13 @@ namespace Carmicah
 			if the check succeeded
 		***************************************************************************/
 		bool UniformExists(const GLuint& shdr, const char* str, GLint& ref);
+		void RenderGizmos();
 
 		Mtx3x3f screenMtx{};	// Calculated Screen Matrix multiplier to use for UI rendering
-		
-		const float minHeightScale{ 0.01f };
-		static unsigned int mCapFontID;
-		static std::queue<unsigned int> mUnusedFontID;
+
+		const float MIN_HEIGHT_SCALE{ 0.01f }, EDITOR_ZOOM_SPEED{ 0.1f }, GIZMO_SCALE{ 250.f };
+		static unsigned int sCapFontID;
+		static std::queue<unsigned int> sUnusedFontID;
 		std::map<unsigned int, unsigned int> mFontBufferToEntity;
 
 	public:
@@ -112,7 +113,6 @@ namespace Carmicah
 			GIZMOS_ROTATE
 		};
 		
-
 		Vec2d mOldMousePos{};
 		Transform mEditorCam{};
 		bool mEditorWindowActive{};
@@ -135,9 +135,6 @@ namespace Carmicah
 		void UnassignFont(const unsigned int& e);
 
 		void LoadGizmos();
-	private:
-		const float mGizmoScale{250.f};
-		void RenderGizmos();
 	};
 }
 
