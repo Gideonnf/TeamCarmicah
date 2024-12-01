@@ -22,35 +22,6 @@ namespace Carmicah
 
         }
 
-        void OnCollisionEnter()
-        {
-
-        }
-
-        void ToggleWalkAnim()
-        {
-            if (!isWalking)
-            {
-                isWalking = true;
-                ChangeAnim(WalkAnim);
-            }
-        }
-
-        void ToggleIdle()
-        {
-            if (isWalking)
-            {
-                isWalking = false;
-                ChangeAnim(IdleAnim);
-            }
-        }
-
-        void ToggleHeal()
-        {
-            isWalking = false;
-            ChangeAnim(HealAnim);   
-        }
-
         void OnUpdate(float dt)
         {
             timer += dt;
@@ -114,11 +85,6 @@ namespace Carmicah
             {
                 ToggleIdle();
             }
-        }
-
-        void OnCollide()
-        {
-
         }
 
         void PlaySoundEffect(string name)

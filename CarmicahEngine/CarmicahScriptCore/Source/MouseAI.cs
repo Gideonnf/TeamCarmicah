@@ -271,6 +271,11 @@ namespace Carmicah
             }
         }
 
+        public void OnCollide()
+        {
+
+        }
+
         public void KillMouse()
         {
             timer = 0.0f;

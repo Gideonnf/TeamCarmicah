@@ -99,7 +99,11 @@ namespace Carmicah
 
 				}
 
-
+				if (transform.Scale().x == 0 || transform.Scale().y == 0)
+				{
+					transform.ScaleX(1.0f);
+					transform.ScaleY(1.0f);
+				}
 			
 				// Calculate half-dimensions of the OBB
 				float halfWidth = collider.customWidth * 0.5f * transform.Scale().x;
@@ -189,7 +193,7 @@ namespace Carmicah
 
 			// Calculate and store edge normal
 			Vec2f normal(edge.y, -edge.x); // Perpendicular normal
-			
+
 			normal.normalize(); // Ensure normal is unit length
 			collider.objNormals.push_back(normal);
 
@@ -325,12 +329,11 @@ namespace Carmicah
 
 		for (size_t i = 0, i1 = collider1.objVert.size() - 1; i < collider1.objVert.size(); i1 = i, i++)
 		{
-			Vec2f outwardNormal = collider1.objNormals[i1];
-
-			if (collider2.objVert.empty())
+			if  (collider2.objVert.empty())
 			{
 				return false;
 			}
+			Vec2f outwardNormal = collider1.objNormals[i];
 
 			if (WhichSide(collider2.objVert, collider1.objVert[i], outwardNormal) > 0)
 			{
@@ -340,12 +343,12 @@ namespace Carmicah
 
 		for (size_t i = 0, i1 = collider2.objVert.size() - 1; i < collider2.objVert.size(); i1 = i, i++)
 		{
-			Vec2f outwardNormal = collider2.objNormals[i1];
-
 			if (collider1.objVert.empty())
 			{
 				return false;
 			}
+
+			Vec2f outwardNormal = collider2.objNormals[i];
 
 			if (WhichSide(collider1.objVert, collider2.objVert[i], outwardNormal) > 0)
 			{
@@ -407,14 +410,13 @@ namespace Carmicah
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
 
-			
 
 			/*rigidbody2.velocity.x = 0;
 			rigidbody2.velocity.y = 0;*/
 
 
 		}
-		else if (rigidbody1.objectType == rbTypes::KINEMATIC && rigidbody2.objectType == rbTypes::DYNAMIC)
+		else if (rigidbody1.objectType == rbTypes::KINEMATIC && rigidbody2.objectType == rbTypes::DYNAMIC || rigidbody1.objectType == rbTypes::DYNAMIC && rigidbody2.objectType == rbTypes::KINEMATIC)
 		{
 			/*transform1.PosX(rigidbody1.velocity.x * tFirst + rigidbody1.posPrev.x);
 			transform1.PosY(rigidbody1.velocity.y * tFirst + rigidbody1.posPrev.y);
@@ -433,7 +435,8 @@ namespace Carmicah
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
 
-
+			EntityCollidedMessage newMsg(obj1);
+			SendSysMessage(&newMsg);
 
 
 			/*rigidbody2.velocity.x = 0;
@@ -509,8 +512,7 @@ namespace Carmicah
 					{
 
 						CollisionResponse(entity1, entity2);
-						/*EntityCollidedMessage newMsg(entity1, entity2);
-						SendSysMessage(&newMsg);*/
+						
 					}
 				}
 			}

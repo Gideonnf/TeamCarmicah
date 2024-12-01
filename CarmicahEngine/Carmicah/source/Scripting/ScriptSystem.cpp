@@ -579,9 +579,9 @@ namespace Carmicah
         {
             auto castedMsg = dynamic_cast<EntityCollidedMessage*>(msg);
 
-            if (mEntityInstances.count(castedMsg->mEntityID1) && mEntityInstances.count(castedMsg->mEntityID2))
+            if (mEntityInstances.count(castedMsg->mEntityID))
             {
-
+                mEntityInstances[castedMsg->mEntityID]->InvokeOnCollide();
             }
         }
     }
