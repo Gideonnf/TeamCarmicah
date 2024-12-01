@@ -141,33 +141,29 @@
             ]
         },
         {
-            "GameObject": "Duck",
-            "ID": 22,
+            "GameObject": "Default",
+            "ID": 8,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 1.0,
+                    "xPos": 0.0,
                     "yPos": 0.0,
-                    "depth": 1.0,
-                    "xScale": 6.0,
-                    "yScale": 6.0,
+                    "depth": 0.0,
+                    "xScale": 5.0,
+                    "yScale": 5.0,
                     "rot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Duck"
-                },
-                {
-                    "Component Name": "struct Carmicah::PrefabData",
-                    "prefabRef": 4
+                    "texture": "Default"
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "",
-                    "customWidth": 0.0,
+                    "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 0.0
+                    "customHeight": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -185,16 +181,16 @@
             "Children": []
         },
         {
-            "GameObject": "Duck_1",
-            "ID": 23,
+            "GameObject": "Default_1",
+            "ID": 17,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -9.850000381469727,
+                    "xPos": -4.5,
                     "yPos": 0.0,
-                    "depth": 1.0,
-                    "xScale": 2.0,
-                    "yScale": 2.0,
+                    "depth": 0.0,
+                    "xScale": 3.0,
+                    "yScale": 3.0,
                     "rot": 0.0
                 },
                 {
@@ -210,15 +206,11 @@
                     ]
                 },
                 {
-                    "Component Name": "struct Carmicah::PrefabData",
-                    "prefabRef": 4
-                },
-                {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "",
-                    "customWidth": 0.0,
+                    "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 0.0
+                    "customHeight": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -230,7 +222,7 @@
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": -107374176.0,
-                    "objectType": 0
+                    "objectType": 1
                 }
             ],
             "Children": []

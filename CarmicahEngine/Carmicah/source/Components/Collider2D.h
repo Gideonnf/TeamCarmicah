@@ -27,6 +27,7 @@ namespace Carmicah
         Carmicah::Vector2D<float> max;
 
         float localScale = 1.0f;
+        std::string currentTexture;
         float customWidth;
         float customRotation;
         float customHeight;
