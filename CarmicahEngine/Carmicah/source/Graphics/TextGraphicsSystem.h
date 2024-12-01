@@ -22,6 +22,19 @@ namespace Carmicah
 	class TextGraphicsSystem : public BaseSystem, private BaseGraphicsSystem
 	{
 	private:
+		/*!*************************************************************************
+		brief
+			Replaces a chunk of the buffer data being used to store fonts all at once
+		param[e]
+			the font to reference
+		param[cpyDat]
+			the vector of vertices data to replace
+		param[startPos]
+			the starting position in the buffer to start replacing from (each batch holds only 100 primitive's vertices)
+		param[endPos]
+			optional endPos only used for clearing data in the buffer
+			if 0 it indicates to clear all
+		***************************************************************************/
 		template <typename T>
 		void ReplaceTextBuffer(const Entity& e, std::vector<T> cpyDat, size_t startPos = 0, size_t endPos = 0)
 		{
@@ -88,6 +101,12 @@ namespace Carmicah
 		***************************************************************************/
 		void Init();
 
+		/*!*************************************************************************
+		brief
+			Clears up the buffer with the id for new fonts to use when it is destroyed
+		param[id]
+			the id of the font being destroyed
+		***************************************************************************/
 		void EntityDestroyed(Entity id);
 
 		/*!*************************************************************************

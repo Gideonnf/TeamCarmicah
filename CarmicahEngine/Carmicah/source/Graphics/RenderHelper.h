@@ -5,7 +5,8 @@
 
  email:			won.m@digipen.edu
 
- brief:			Render Helper handles the rendering order of textured meshes onto the screen
+ brief:			Handles the actual rendering of all entities, and also the batching and instancing of different entities
+				Also handles the Rendering of Gizmos when in editor mode
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of

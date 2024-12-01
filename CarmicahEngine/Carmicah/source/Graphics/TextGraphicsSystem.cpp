@@ -103,7 +103,7 @@ namespace Carmicah
 			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(txtRenderer.model) };
 			auto& UITrans{ ComponentManager::GetInstance()->GetComponent<UITransform>(entity) };
 
-			// Pass in uniforms (no scale currently sadge) TODO
+			// Pass in uniforms
 			if (RenderHelper::GetInstance()->mFontUniforms.find(entity) == RenderHelper::GetInstance()->mFontUniforms.end())
 			{
 				CM_CORE_WARN("No Font Uniform linked to this font");
