@@ -66,14 +66,7 @@ namespace Carmicah
 		 */
 		template<typename T>
 		void InspectorTable(T* go, TABLETYPE type);
-		/**
-		 * @brief Function Overload that creates inspector table
-		 * 
-		 * @tparam T 
-		 * @param go 
-		 */
-		template<typename T>
-		void InspectorTable(T* go);
+		
 		/**
 		 * @brief Function that creates and facilitates adding component
 		 * 
