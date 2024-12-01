@@ -1,4 +1,16 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:          CameraWindow.cpp
 
+ author:		Won Yu Xuan Rainne(100%)
+
+ email:			won.m@digipen.edu
+
+ brief:         Handles getting input from imGUI side when in the editor window
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include <GLFW/glfw3.h>
 #include <ImGUI/imgui.h>
@@ -182,7 +194,7 @@ namespace Carmicah
 									if (HierarchyWindow::selectedGO->HasComponent<Transform>())
 									{
 										Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
-										selectedTransform.ScaleYAdd(static_cast<float>(-delta.y));
+										selectedTransform.ScaleYAdd(static_cast<float>(-delta.y) * 0.1f);
 									}
 									else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
 									{
@@ -195,7 +207,7 @@ namespace Carmicah
 									if (HierarchyWindow::selectedGO->HasComponent<Transform>())
 									{
 										Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
-										selectedTransform.ScaleXAdd(static_cast<float>(delta.x));
+										selectedTransform.ScaleXAdd(static_cast<float>(delta.x) * 0.1f);
 									}
 									else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
 									{

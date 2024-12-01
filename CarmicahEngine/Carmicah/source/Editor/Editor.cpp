@@ -24,10 +24,10 @@ DigiPen Institute of Technology is prohibited.
 namespace Carmicah
 {
 
-
+	std::vector<std::string> Editor::droppedFilePaths{};
 	Editor::Editor()
 	{
-
+		
 	}
 
 	Editor::~Editor()
@@ -54,6 +54,9 @@ namespace Carmicah
 
 		ImGui_ImplGlfw_InitForOpenGL(window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
 		ImGui_ImplOpenGL3_Init("#version 460");
+		//Allows for dropped objects
+		glfwSetWindowUserPointer(window, this);
+		glfwSetDropCallback(window, DropCallback);
 
 		//Creating Windows
 		//For Testing
@@ -73,14 +76,15 @@ namespace Carmicah
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
+		ImGuiViewport* viewport = ImGui::GetMainViewport();
 		static bool sFirstTime = true;
+		static ImVec2 popupSize(300, 150);
 		float mainMenuHeight{};
 		ImGuiWindowFlags dockingWindowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 
 		
 
 		// Begin full-screen window
-		ImGuiViewport* viewport = ImGui::GetMainViewport();
 		ImGui::SetNextWindowPos(viewport->Pos);
 		ImGui::SetNextWindowSize(viewport->Size);
 		ImGui::SetNextWindowViewport(viewport->ID);
@@ -130,14 +134,14 @@ namespace Carmicah
 				{
 					for (const auto& window : mWindows)
 					{
-						//Toggle Heirarchy Window Visibility
-						if (auto heirarchyWindow = dynamic_cast<HierarchyWindow*>(window.get()))
+						if (auto assetWindow = dynamic_cast<AssetWindow*>(window.get()))
 						{
-							if (ImGui::MenuItem("Hierarchy", nullptr, heirarchyWindow->mIsVisible))
+							if (ImGui::MenuItem("Asset Browser", nullptr, assetWindow->mIsVisible))
 							{
-								heirarchyWindow->mIsVisible = !heirarchyWindow->mIsVisible;
+								assetWindow->mIsVisible = !assetWindow->mIsVisible;
 							}
 						}
+
 						//Toggle Debug Window Visibility
 						if (auto debugWindow = dynamic_cast<DebugWindow*>(window.get()))
 						{
@@ -146,6 +150,33 @@ namespace Carmicah
 								debugWindow->mIsVisible = !debugWindow->mIsVisible;
 							}
 						}
+
+						//Toggle Heirarchy Window Visibility
+						if (auto heirarchyWindow = dynamic_cast<HierarchyWindow*>(window.get()))
+						{
+							if (ImGui::MenuItem("Hierarchy", nullptr, heirarchyWindow->mIsVisible))
+							{
+								heirarchyWindow->mIsVisible = !heirarchyWindow->mIsVisible;
+							}
+						}
+
+						if (auto inspectorWindow = dynamic_cast<InspectorWindow*>(window.get()))
+						{
+							if (ImGui::MenuItem("Inspector", nullptr, inspectorWindow->mIsVisible))
+							{
+								inspectorWindow->mIsVisible = !inspectorWindow->mIsVisible;
+							}
+						}
+
+						if (auto sceneWindow = dynamic_cast<SceneWindow*>(window.get()))
+						{
+							if (ImGui::MenuItem("Scene", nullptr, sceneWindow->mIsVisible))
+							{
+								sceneWindow->mIsVisible = !sceneWindow->mIsVisible;
+							}
+						}
+
+						
 					}
 					ImGui::EndMenu();
 				}
@@ -153,7 +184,7 @@ namespace Carmicah
 			}
 			ImGui::End();
 		}
-
+		//Window Update Stuff
 		for (auto& window : mWindows) 
 		{
 
@@ -180,14 +211,69 @@ namespace Carmicah
 			}
 		}
 
-		//TODO: Get nic to make the play and stop button
+#pragma region Logic
+
+		if (HierarchyWindow::selectedGO != nullptr)
+		{
+			if (Input.IsKeyPressed(KEY_DELETE))
+			{
+				gGOFactory->Destroy(HierarchyWindow::selectedGO->GetID());
+			}
+		}
+
+
+		if(Editor::droppedFilePaths.size() > 0)
+		{
+			for (const auto& file : Editor::droppedFilePaths)
+			{
+
+				if (!AssetManager::GetInstance()->CopyAssetToAssetsFolder(file, AssetManager::GetInstance()->enConfig.assetLoc.c_str()))
+				{
+					
+					ImGui::OpenPopup("Unsupported");
+					
+				}
+			}
+			Editor::droppedFilePaths.clear();
+			AssetManager::GetInstance()->fileWatcher.Update();
+		}
+
+		//NOT WORKING RN
+		/*if (!AssetWindow::soundToPlay.empty())
+		{
+			PlaySFXMsg msg(AssetWindow::soundToPlay);
+			SendSysMessage(&msg);
+			AssetWindow::soundToPlay.clear();
+		}*/
+
 		if (SceneWindow::mChangeState)
 		{
 			RuntimeStartMessage msg;
 			SendSysMessage(&msg);
 			SceneWindow::mChangeState = false;
 		}
+
+#pragma endregion
+
+
+
+#pragma region Pop-Up Handling
+		if(ImGui::BeginPopup("Unsupported"))
+		{
+			ImVec2 currentPopupSize = ImGui::GetWindowSize();
+			std::cout << currentPopupSize.x << "," << currentPopupSize.y << std::endl;
+			ImGui::Dummy(ImVec2(popupSize.x -16.f, popupSize.y - 16.f));
+			ImGui::SetCursorPos(ImVec2(popupSize.x - 30.f, 5.f));
+			if(ImGui::Button("X"))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::SetCursorPos(ImVec2((popupSize.x - ImGui::CalcTextSize("Unsupported File Format!").x) / 2.0f, (popupSize.y - ImGui::CalcTextSize("Unsupported File Format").y) / 2.0f));
+			ImGui::Text("Unsupported File Format!");
+			ImGui::EndPopup();
+		}
 	}
+#pragma endregion
 
 	void Editor::Render(GLFWwindow* window)
 	{
@@ -224,7 +310,23 @@ namespace Carmicah
 		if (msg->mMsgType == MSG_EDITORENTITY)
 		{
 			if (dynamic_cast<EditorEntityPicked*>(msg)->mEntityID != 0)
+			{
 				HierarchyWindow::selectedGO = &gGOFactory->FetchGO(dynamic_cast<EditorEntityPicked*>(msg)->mEntityID);
+				HierarchyWindow::inspectedPrefab = nullptr;
+				HierarchyWindow::mShowScene = true;
+				AssetWindow::selectedPrefab = nullptr;
+			}
+		}
+	}
+
+	void Editor::DropCallback(GLFWwindow* window, int count, const char** paths)
+	{
+		for (int i = 0; i < count; ++i)
+		{
+			std::string filePath = paths[i];
+			size_t dotPos = filePath.find_last_of('.');
+
+			droppedFilePaths.push_back(filePath);
 		}
 	}
 }

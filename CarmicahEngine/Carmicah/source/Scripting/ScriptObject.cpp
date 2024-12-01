@@ -56,6 +56,7 @@ namespace Carmicah
 	
 	ScriptObject::ScriptObject(std::shared_ptr<ScriptClass> scClass, Entity entity) : mScriptClass (scClass)
 	{
+		UNUSED(entity);
 		mMonoInstance = scClass->Instantiate();
 
 		// Need to call constructor of entity by getting the entity class thats storing Entity.cs
@@ -107,6 +108,7 @@ namespace Carmicah
 
 	void ScriptObject::InvokeOnCollide(Entity otherID)
 	{
+		UNUSED(otherID);
 		if (mOnCollide)
 		{
 			mScriptClass->InvokeMethod(mMonoInstance, mOnCollide);

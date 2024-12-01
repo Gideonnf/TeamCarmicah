@@ -54,7 +54,7 @@ namespace Carmicah
 
 #pragma region GameObject Functions
 
-	GameObject GOFactory::CreateGO(std::string name)
+	GameObject GOFactory::CreateGO(std::string name, bool flag)
 	{
 		GameObject go;
 		std::string goName = CreateGOName(name);
@@ -68,7 +68,14 @@ namespace Carmicah
 		SystemManager::GetInstance()->UpdateSignatures(go.mID, EntityManager::GetInstance()->GetSignature(go.mID));
 		
 		// By default add transform to a blank component
-		go.AddComponent<Transform>();
+		if(flag)
+		{
+			go.AddComponent<Transform>();
+		}
+		else
+		{
+			go.AddComponent<UITransform>();
+		}
 
 		CM_CORE_INFO("Creating a new game object with name: " + name + " and id: " + std::to_string(go.mID));
 

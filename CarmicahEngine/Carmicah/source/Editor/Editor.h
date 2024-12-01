@@ -25,12 +25,16 @@ DigiPen Institute of Technology is prohibited.
 #include "CameraWindow.h"
 #include "../ECS/BaseSystem.h"
 #include "../Messaging/Message.h"
+#include "../Systems/AssetManager.h"
 
 namespace Carmicah
 {
 	class Editor : public BaseSystem
 	{
 	public:
+
+		static std::vector<std::string> droppedFilePaths;
+
 		/**
 		 * @brief Construct a new Editor object
 		 * 
@@ -72,9 +76,14 @@ namespace Carmicah
 
 		void ReceiveMessage(Message* msg) override;
 
+		static void DropCallback(GLFWwindow* window, int count, const char** paths);
+
 	private:
 
 		std::vector<std::unique_ptr<EditorWindow>> mWindows;
+
+		//Vector to store any dropped file paths
+		
 	};
 
 }

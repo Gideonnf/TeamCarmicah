@@ -111,19 +111,37 @@ namespace Carmicah
 				}
 				ImGui::EndChild();
 			}
-			static char goName[256] = "Duck";
+			static char goName[1024] = "Default";
+			//ImGui::Text("Game Object Name: ");
+			//ImGui::SameLine();
+			//ImGui::Text(goName); //Cannot be edited for now
+
+			//if (ImGui::Button("Create Game Object"))
+			//{
+			//	//static std::string name(goName);
+			//	GameObject newObj = gGOFactory->CreatePrefab(goName);
+			//	newObj.GetComponent<Transform>().PosXAdd(2.0);
+			//	//newObj.AddComponent<Transform>(playerTrans);
+			//	////newObj.AddComponent<Collider2D>(playerCollider);
+			//	//newObj.AddComponent<Renderer>(toRender);
+			//}
+
+			ImGui::Dummy(ImVec2(0, 20));
 			ImGui::Text("Game Object Name: ");
 			ImGui::SameLine();
-			ImGui::Text(goName); //Cannot be edited for now
-
-			if (ImGui::Button("Create Game Object"))
+			ImGui::InputText("##GameObjectCreation", goName, sizeof(goName));
+			if (ImGui::Button("Create Default2D"))
 			{
-				//static std::string name(goName);
-				GameObject newObj = gGOFactory->CreatePrefab(goName);
-				newObj.GetComponent<Transform>().PosXAdd(2.0);
-				//newObj.AddComponent<Transform>(playerTrans);
-				////newObj.AddComponent<Collider2D>(playerCollider);
-				//newObj.AddComponent<Renderer>(toRender);
+				gGOFactory->CreateGO(goName, true);
+				std::strncpy(goName,"Default",sizeof(goName) - 1);
+				goName[sizeof(goName) - 1] = '\0';
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Create UIDefault"))
+			{
+				gGOFactory->CreateGO(goName, false);
+				std::strncpy(goName, "Default", sizeof(goName) - 1);
+				goName[sizeof(goName) - 1] = '\0';
 			}
 
 			std::string buttonName = "Save current scene: " + SceneToImgui::GetInstance()->currentScene;
@@ -133,12 +151,6 @@ namespace Carmicah
 				AssetManager::GetInstance()->GetScene(SceneToImgui::GetInstance()->currentScene, sceneFile);
 				SerializerSystem::GetInstance()->SerializeScene(sceneFile);
 				//gGOFactory->DestroyAll();
-			}
-
-			std::string goCreateButton = "Create Blank GO";
-			if (ImGui::Button(goCreateButton.c_str()))
-			{
-				gGOFactory->CreateGO();
 			}
 		}
 		ImGui::End();
