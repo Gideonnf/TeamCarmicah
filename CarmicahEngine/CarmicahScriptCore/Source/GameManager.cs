@@ -26,7 +26,8 @@ namespace Carmicah
         public string EndPointEntityRight;
         public string EndPointEntityLeft2;
         public string EndPointEntityRight2;
-        public string ShooterNPC;
+        public string ShooterNPC = "ShooterNPC";
+        public string ShooterNPC2 = "ShooterNPC_1";
 
         public bool GameStart = false;
 
@@ -37,6 +38,7 @@ namespace Carmicah
         Entity endEntityLeft2;
         Entity endEntityRight2;
         Entity shooterNPC;
+        Entity shooterNPC2;
         int cakeCounter = 1;
         int waveCount = 0;
         void OnCreate()
@@ -49,6 +51,7 @@ namespace Carmicah
             startingCakeEntity = FindEntityWithName(StartingCake);
             playerEntity = FindEntityWithName(PlayerName);
             shooterNPC = FindEntityWithName(ShooterNPC);
+            shooterNPC2 = FindEntityWithName(ShooterNPC2);
         }
 
         void OnUpdate(float dt)
@@ -70,7 +73,7 @@ namespace Carmicah
 
                     //Console.WriteLine($"Mouse Added {mouseEntity}");
 
-                    mouseEntities.Add(mouseEntity);
+                   // mouseEntities.Add(mouseEntity);
                 }
             }
 
@@ -83,15 +86,33 @@ namespace Carmicah
                 if (GameStart)
                 {
                     waveCount++;
-                    Entity shooter = FindEntityWithName("ShooterNPC");
-                     ShooterNPC npc = shooter.As<ShooterNPC>();
-                    npc.ToggleShooting();
+                    if (shooterNPC != null)
+                    {
+                         ShooterNPC npc = shooterNPC.As<ShooterNPC>();
+                        npc.ToggleShooting();
+
+                    }
+
+                    if (shooterNPC2 != null)
+                    {
+                        ShooterNPC npc = shooterNPC2.As<ShooterNPC>();
+                        npc.ToggleShooting();
+                    }
                 }
                 else
                 {
-                    Entity shooter = FindEntityWithName("ShooterNPC");
-                    ShooterNPC npc = shooter.As<ShooterNPC>();
-                    npc.ToggleIdle();
+                    if (shooterNPC != null)
+                    {
+                        ShooterNPC npc = shooterNPC.As<ShooterNPC>();
+                        npc.ToggleIdle();
+
+                    }
+
+                    if (shooterNPC2 != null)
+                    {
+                        ShooterNPC npc = shooterNPC2.As<ShooterNPC>();
+                        npc.ToggleIdle();
+                    }
 
                 }
             }
@@ -119,48 +140,76 @@ namespace Carmicah
 
             if (Input.IsKeyPressed(Keys.KEY_SPACEBAR))
             {
-                Entity cakeEntity = CreateGameObject(CakePrefabName);
-                // Set the cake position
-                cakeEntity.Position = startingCakeEntity.Position;
-                cakeEntity.Scale = startingCakeEntity.Scale;
-                cakeEntity.Depth = startingCakeEntity.Depth;
+                if (cakeCounter < 3)
+                {
+                    Entity cakeEntity = CreateGameObject(CakePrefabName);
+                    // Set the cake position
+                    cakeEntity.Position = startingCakeEntity.Position;
+                    cakeEntity.Scale = startingCakeEntity.Scale;
+                    cakeEntity.Depth = startingCakeEntity.Depth;
 
-                cakeEntity.Depth = cakeEntity.Depth + (0.1f * cakeCounter);
-                Vector2 pos = cakeEntity.Position;
-                pos.y += (CakeHeightOffset * cakeCounter);
-                cakeEntity.Position = pos;
-                cakeCounter++;
+                    cakeEntity.Depth = cakeEntity.Depth + (0.1f * cakeCounter);
+                    Vector2 pos = cakeEntity.Position;
+                    pos.y += (CakeHeightOffset * cakeCounter);
+                    cakeEntity.Position = pos;
+                    cakeCounter++;
 
-                pos = playerEntity.Position;
-                pos.y += CakeHeightOffset;
-                playerEntity.Position = pos;
+                    if (playerEntity != null)
+                    {
+                        pos = playerEntity.Position;
+                        pos.y += CakeHeightOffset;
+                        playerEntity.Position = pos;
+                    }
 
-                pos = endEntityLeft.Position;
-                pos.y += CakeHeightOffset;
-                endEntityLeft.Position = pos;
+                    if (endEntityLeft != null)
+                    {
+                        pos = endEntityLeft.Position;
+                        pos.y += CakeHeightOffset;
+                        endEntityLeft.Position = pos;
+                    }
 
-                pos = endEntityLeft2.Position;
-                pos.y += CakeHeightOffset;
-                endEntityLeft2.Position = pos;
+                    if (endEntityLeft2 != null)
+                    {
+                        pos = endEntityLeft2.Position;
+                        pos.y += CakeHeightOffset;
+                        endEntityLeft2.Position = pos;
+                    }
 
-                pos = endEntityRight.Position;
-                pos.y += CakeHeightOffset;
-                endEntityRight.Position = pos;
+                    if (endEntityRight != null)
+                    {
+                        pos = endEntityRight.Position;
+                        pos.y += CakeHeightOffset;
+                        endEntityRight.Position = pos;
+                    }
 
-                pos = endEntityRight2.Position;
-                pos.y += CakeHeightOffset;
-                endEntityRight2.Position = pos;
+                    if (endEntityRight2 != null)
+                    {
+                        pos = endEntityRight2.Position;
+                        pos.y += CakeHeightOffset;
+                        endEntityRight2.Position = pos;
+                    }
 
-                pos = shooterNPC.Position;
-                pos.y += CakeHeightOffset;
-                shooterNPC.Position = pos;
+                    if (shooterNPC != null)
+                    {
+                        pos = shooterNPC.Position;
+                        pos.y += CakeHeightOffset;
+                        shooterNPC.Position = pos;
+                    }
+
+                    if (shooterNPC2 != null)
+                    {
+                        pos = shooterNPC2.Position;
+                        pos.y += CakeHeightOffset;
+                        shooterNPC2.Position = pos;
+                    }
+                }
             }
         }
 
         public void MouseDestroyed(Entity mouse)
         {
            // Console.WriteLine($"Mouse Destroyed {mouse}");
-            mouseEntities.Remove(mouse);
+            //mouseEntities.Remove(mouse);
         }
 
         //public Entity GetFirstMouse()

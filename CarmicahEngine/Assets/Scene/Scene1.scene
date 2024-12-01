@@ -38,7 +38,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Bullet"
+                    "texture": "Bullet2"
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
@@ -435,7 +435,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 7"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 13"
                 },
                 {
                     "Component Name": "struct Script",
@@ -514,12 +514,12 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "StartingCake": "StartingCake",
-                            "MousePrefabName": "MouseGO",
-                            "waveTimer": 0.0,
                             "LeftOrRight": false,
-                            "CakeHeightOffset": 6.0,
+                            "waveTimer": 0.0,
+                            "MousePrefabName": "MouseGO",
+                            "StartingCake": "StartingCake",
                             "spawnTimer": 1.5,
+                            "CakeHeightOffset": 6.0,
                             "timer": 0.0,
                             "CakePrefabName": "Cake",
                             "PlayerName": "mainCharacter",
@@ -529,7 +529,8 @@
                             "EndPointEntityLeft2": "EndPointLeft_1",
                             "EndPointEntityRight": "EndPointRight",
                             "EndPointEntityRight2": "EndPointRight_1",
-                            "ShooterNPC": "ShooterNPC"
+                            "ShooterNPC": "ShooterNPC",
+                            "ShooterNPC2": "ShooterNPC_1"
                         }
                     ]
                 }
@@ -627,8 +628,8 @@
                     "ScriptableFieldMap": [
                         {
                             "YOffset": 0.75,
-                            "bounceSpeed": 0.6000000238418579,
-                            "holdTimer": 0.20000000298023225
+                            "bounceSpeed": 0.15000000596046449,
+                            "holdTimer": 0.3199999928474426
                         }
                     ]
                 },
@@ -663,8 +664,8 @@
                     "ScriptableFieldMap": [
                         {
                             "YOffset": 0.75,
-                            "bounceSpeed": 0.6000000238418579,
-                            "holdTimer": 0.20000000298023225
+                            "bounceSpeed": 0.15000000596046449,
+                            "holdTimer": 0.44999998807907107
                         }
                     ]
                 },
@@ -717,6 +718,41 @@
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "wall2"
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "ShooterNPC_1",
+            "ID": 27,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": -1.9657421112060547,
+                    "yPos": -3.990508794784546,
+                    "depth": 3.75,
+                    "xScale": 2.0,
+                    "yScale": 2.0,
+                    "rot": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 13"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ShooterNPC",
+                    "ScriptableFieldMap": [
+                        {
+                            "IdleAnim": "Shooter_Idle",
+                            "ShootAnim": "Shooter_Shoot"
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Shooter_Idle"
                 }
             ],
             "Children": []

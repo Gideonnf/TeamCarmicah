@@ -52,10 +52,15 @@ namespace Carmicah
 
         void OnCreate()
         {
-            startPosLeft = FindEntityWithName(SpawnPointEntityLeft).Position;
-            startPosRight = FindEntityWithName(SpawnPointEntityRight).Position;
-            startPosLeft2 = FindEntityWithName(SpawnPointEntityLeft2).Position;
-            startPosRight2 = FindEntityWithName(SpawnPointEntityRight2).Position;
+            if (FindEntityWithName(SpawnPointEntityLeft) != null)
+                startPosLeft = FindEntityWithName(SpawnPointEntityLeft).Position;
+            if (FindEntityWithName(SpawnPointEntityRight) != null)
+                startPosRight = FindEntityWithName(SpawnPointEntityRight).Position;
+            if (FindEntityWithName(SpawnPointEntityLeft2) != null)
+                startPosLeft2 = FindEntityWithName(SpawnPointEntityLeft2).Position;
+            if (FindEntityWithName(SpawnPointEntityRight2) != null)
+                startPosRight2 = FindEntityWithName(SpawnPointEntityRight2).Position;
+
             endEntityLeft = FindEntityWithName(EndPointEntityLeft);
             endEntityRight = FindEntityWithName(EndPointEntityRight);
             endEntityLeft2 = FindEntityWithName(EndPointEntityLeft2);
@@ -148,7 +153,6 @@ namespace Carmicah
 
                                 break;
                         }
-
                     }
                 }
             }
@@ -159,17 +163,13 @@ namespace Carmicah
                 GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                 if(timer >= DeathTime)
                 {
-                    gm.MouseDestroyed(this);
+                    if(gm != null)
+                        gm.MouseDestroyed(this);
                     timer = 0.0f;
                     Destroy();
                 }
             }
         }
-
-        //void InitWaypoints()
-        //{
-
-        //}
 
         public void SetInitialPosition()
         {
@@ -179,6 +179,7 @@ namespace Carmicah
             switch (randLane)
             {
                 case 0:
+       
                     Position = startPosLeft;
 
                     break;
@@ -208,19 +209,23 @@ namespace Carmicah
             switch (randLane)
             {
                 case 0:
-                    endPos = endEntityLeft.Position;
+                    if (endEntityLeft != null)
+                        endPos = endEntityLeft.Position;
 
                     break;
                 case 1:
-                    endPos = endEntityLeft2.Position;
+                    if (endEntityLeft2 != null)
+                        endPos = endEntityLeft2.Position;
 
                     break;
                 case 2:
-                    endPos = endEntityRight.Position;
+                    if (endEntityRight != null)
+                        endPos = endEntityRight.Position;
 
                     break;
                 case 3:
-                    endPos = endEntityRight2.Position;
+                    if (endEntityRight2 != null)
+                        endPos = endEntityRight2.Position;
                     break;
             }
             Vector2 dir = (endPos - Position).Normalize();
