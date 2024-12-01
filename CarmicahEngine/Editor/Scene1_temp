@@ -85,7 +85,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Walk 2"
+                    "texture": "MC_SpriteSheet_Walk 7"
                 },
                 {
                     "Component Name": "struct Script",
@@ -316,7 +316,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 2"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -619,7 +619,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 2"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 0"
                 },
                 {
                     "Component Name": "struct Script",

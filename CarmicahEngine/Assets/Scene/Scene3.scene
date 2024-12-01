@@ -55,12 +55,12 @@
                 {
                     "Component Name": "struct Carmicah::Button",
                     "ButtonImage": "play_button",
-                    "ButtonImagePressed": "play_button"
+                    "ButtonImagePressed": "Button_SpriteSheet_Click_Menu 1"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "play_button"
+                    "texture": "Button_SpriteSheet_Click_Play 1"
                 },
                 {
                     "Component Name": "struct Script",
@@ -70,9 +70,13 @@
                     ]
                 },
                 {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Button_Click_Play"
+                },
+                {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1300.0,
-                    "yPos": 400.0,
+                    "xPos": 1286.3345947265626,
+                    "yPos": 446.95654296875,
                     "depth": 1.0,
                     "xScale": 200.0,
                     "yScale": 100.0,
@@ -92,7 +96,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "quit_button"
+                    "texture": "Button_SpriteSheet_Click_Quit 6"
                 },
                 {
                     "Component Name": "struct Script",
@@ -102,9 +106,13 @@
                     ]
                 },
                 {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Button_Click_Quit"
+                },
+                {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1300.0,
-                    "yPos": 275.0,
+                    "xPos": 1284.6263427734376,
+                    "yPos": 348.25213623046877,
                     "depth": 1.0,
                     "xScale": 200.0,
                     "yScale": 100.0,
@@ -124,7 +132,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "settings_button"
+                    "texture": "Button_SpriteSheet_Click_Settings 8"
                 },
                 {
                     "Component Name": "struct Script",
@@ -134,9 +142,13 @@
                     ]
                 },
                 {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Button_Click_Settings"
+                },
+                {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1300.0,
-                    "yPos": 150.0,
+                    "xPos": 1282.918212890625,
+                    "yPos": 243.91314697265626,
                     "depth": 1.0,
                     "xScale": 200.0,
                     "yScale": 100.0,
