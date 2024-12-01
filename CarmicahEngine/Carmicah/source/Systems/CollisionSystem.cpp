@@ -414,11 +414,11 @@ namespace Carmicah
 			transform2.PosX(rigidbody2.velocity.x * tFirst + rigidbody2.posPrev.x);
 			transform2.PosY(rigidbody2.velocity.y * tFirst + rigidbody2.posPrev.y);*/
 
-			/*transform1.PosX(rigidbody1.posPrev.x);
+			transform1.PosX(rigidbody1.posPrev.x);
 			transform1.PosY(rigidbody1.posPrev.y);
 
 			transform2.PosX(rigidbody2.posPrev.x);
-			transform2.PosY(rigidbody2.posPrev.y);*/
+			transform2.PosY(rigidbody2.posPrev.y);
 
 
 			rigidbody1.velocity.x = 0;
@@ -438,10 +438,6 @@ namespace Carmicah
 
 			transform2.PosX(rigidbody2.velocity.x * tFirst + rigidbody2.posPrev.x);
 			transform2.PosY(rigidbody2.velocity.y * tFirst + rigidbody2.posPrev.y);*/
-			std::cout << "Colliding k vs d" << std::endl;
-			
-			std::cout << "GameObject2 position : " << transform1.Pos() << std::endl;
-			std::cout << "Mouse position : " << transform2.Pos() << std::endl;
 
 			transform1.PosX(rigidbody1.posPrev.x);
 			transform1.PosY(rigidbody1.posPrev.y);
