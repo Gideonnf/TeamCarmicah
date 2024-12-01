@@ -54,13 +54,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "play_button",
-                    "ButtonImagePressed": "play_button"
+                    "ButtonImage": "Button_SpriteSheet_Hover_Play 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_Click_Play 0"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "play_button"
+                    "texture": "Button_SpriteSheet_Hover_Play 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -86,13 +86,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "quit_button",
-                    "ButtonImagePressed": "quit_button"
+                    "ButtonImage": "Button_SpriteSheet_Hover_Quit 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_Click_Quit 0"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "quit_button"
+                    "texture": "Button_SpriteSheet_Hover_Quit 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -118,13 +118,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "settings_button",
-                    "ButtonImagePressed": "settings_button"
+                    "ButtonImage": "Button_SpriteSheet_Hover_Settings 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_Click_Settings 0"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "settings_button"
+                    "texture": "Button_SpriteSheet_Hover_Settings 0"
                 },
                 {
                     "Component Name": "struct Script",
