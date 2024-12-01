@@ -76,5 +76,9 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Animation_ChangeAnim(uint entityID, string prefabName);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void CloseGame();
+
     }
 }

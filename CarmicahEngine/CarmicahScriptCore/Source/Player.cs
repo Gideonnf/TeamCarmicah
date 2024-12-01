@@ -48,6 +48,12 @@ namespace Carmicah
 
         void OnUpdate(float dt)
         {
+            Entity pauseManager = FindEntityWithName("PauseManager");
+            if (pauseManager != null)
+            {
+                if (pauseManager.As<PauseManager>().IsPaused)
+                    return;
+            }
             timer += dt;
 
             if (Input.IsKeyHold(Keys.KEY_W))

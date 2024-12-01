@@ -125,15 +125,15 @@ namespace Carmicah
 				if (it == castedMsg->mEntityID)
 				{
 					auto& button = ComponentManager::GetInstance()->GetComponent<Button>(castedMsg->mEntityID);
-					auto& buttonRenderer = ComponentManager::GetInstance()->GetComponent<Renderer>(castedMsg->mEntityID);
+					//auto& buttonRenderer = ComponentManager::GetInstance()->GetComponent<Renderer>(castedMsg->mEntityID);
 					if (button.isPressed)
 					{
-						buttonRenderer.Texture(button.ButtonImagePressed);
+						//buttonRenderer.Texture(button.ButtonImagePressed);
 						OnPress(button, castedMsg->mEntityID);
 					}
 					else
 					{
-						buttonRenderer.Texture(button.ButtonImage);
+						//buttonRenderer.Texture(button.ButtonImage);
 						OnRelease(button);
 					}
 

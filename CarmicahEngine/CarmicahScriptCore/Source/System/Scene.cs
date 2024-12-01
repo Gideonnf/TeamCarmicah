@@ -22,5 +22,10 @@ namespace CarmicahScriptCore.Source
 
             return true;
         }
+
+        public static void CloseGame()
+        {
+            FunctionCalls.CloseGame();
+        }
     }
 }

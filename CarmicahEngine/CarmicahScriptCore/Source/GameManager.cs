@@ -69,6 +69,13 @@ namespace Carmicah
 
         void OnUpdate(float dt)
         {
+            Entity pauseManager = FindEntityWithName("PauseManager");
+            if (pauseManager != null)
+            {
+                if (pauseManager.As<PauseManager>().IsPaused)
+                    return;
+            }
+
             waveTimer += dt;
 
             if (MobCounter > 0)

@@ -60,11 +60,12 @@ namespace Carmicah
 		Input.UpdateKeyMap(key, (KeyStates)action);
 
 		// close window if Esc is pressed	
+#ifndef CM_INSTALLER
 		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		{
 			glfwSetWindowShouldClose(window, GL_TRUE);
 		}
-
+#endif
 		// CTRL-ALT-DEL
 		bool ctrlPressed	= mKeyCurrentState[GLFW_KEY_LEFT_CONTROL] || mKeyCurrentState[GLFW_KEY_RIGHT_CONTROL];
 		bool altPressed		= mKeyCurrentState[GLFW_KEY_LEFT_ALT]	  || mKeyCurrentState[GLFW_KEY_RIGHT_ALT];
@@ -303,6 +304,11 @@ namespace Carmicah
 		glfwSetCursorPosCallback	 (windowRef, CursorPosCallback);
 		//glfwSetWindowFocusCallback	 (windowRef, WindowFocusCallback);
 		glfwSetWindowIconifyCallback (windowRef, WindowIconifyCallback);
+	}
+
+	void InputSystem::CloseGame()
+	{
+		glfwSetWindowShouldClose(windowRef, GL_TRUE);
 	}
 
 	/* function documentation--------------------------------------------------------------------------

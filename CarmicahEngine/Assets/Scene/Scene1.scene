@@ -85,7 +85,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Walk 7"
+                    "texture": "MC_SpriteSheet_Walk 1"
                 },
                 {
                     "Component Name": "struct Script",
@@ -321,7 +321,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 8"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -626,7 +626,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 8"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -881,6 +881,34 @@
                     "gravity": 0.0,
                     "zposPrev": -107374176.0,
                     "objectType": 2
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "PauseManager",
+            "ID": 31,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 0.0,
+                    "yScale": 0.0,
+                    "rot": 0.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.PauseManager",
+                    "ScriptableFieldMap": [
+                        {
+                            "IsPaused": false,
+                            "PauseMenu": "Pause_Menu",
+                            "ResumeButton": "PauseMenuResumeBtn",
+                            "QuitButton": "PauseMenuQuitBtn"
+                        }
+                    ]
                 }
             ],
             "Children": []

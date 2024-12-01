@@ -108,6 +108,12 @@ namespace Carmicah
 
         void OnUpdate(float dt)
         {
+            Entity pauseManager = FindEntityWithName("PauseManager");
+            if (pauseManager != null)
+            {
+                if (pauseManager.As<PauseManager>().IsPaused)
+                    return;
+            }
             stateMachine.Update(ref stateMachine);
 
             // Only update movement if in chase state

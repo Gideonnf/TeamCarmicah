@@ -1,5 +1,5 @@
 {
-    "GameObject": "Pause Menu",
+    "GameObject": "Pause_Menu",
     "ID": 10,
     "Components": [
         {

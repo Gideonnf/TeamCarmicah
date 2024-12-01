@@ -16,7 +16,7 @@ namespace Carmicah
         KEY_ENTER = 0x0D,
         KEY_CTRL = 0x11,
         KEY_CAPSLOCK = 0x14,
-        KEY_ESC = 0x1B,
+        KEY_ESC = 0x100,
         KEY_SPACEBAR = 0x20,
 
         // Arrow Keys

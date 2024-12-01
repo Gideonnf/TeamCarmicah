@@ -11,6 +11,13 @@
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "Button_SpriteSheet_Hover_Resume 0"
+        },       
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.ResumeButton",
+            "ScriptableFieldMap": [
+                {}
+            ]
         },
         {
             "Component Name": "struct Carmicah::UITransform",
@@ -20,10 +27,6 @@
             "xScale": 210.0,
             "yScale": 80.0,
             "rot": 0.0
-        },
-        {
-            "Component Name": "struct Carmicah::PrefabData",
-            "prefabRef": 9
         }
     ]
 }

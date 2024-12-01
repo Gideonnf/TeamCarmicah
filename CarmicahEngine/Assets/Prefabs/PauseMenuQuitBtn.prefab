@@ -13,6 +13,13 @@
             "texture": "Button_SpriteSheet_Hover_Quit 0"
         },
         {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.QuitButton",
+            "ScriptableFieldMap": [
+                {}
+            ]
+        },
+        {
             "Component Name": "struct Carmicah::UITransform",
             "xPos": 1106.021240234375,
             "yPos": 246.2176513671875,

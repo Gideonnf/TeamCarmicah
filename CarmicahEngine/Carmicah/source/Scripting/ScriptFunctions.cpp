@@ -29,6 +29,7 @@ DigiPen Institute of Technology is prohibited.
 #include "../Systems/SoundSystem.h"
 #include "../ECS/SystemManager.h"
 #include "../Systems/SceneSystem.h"
+#include "../Editor/SceneWindow.h"
 
 namespace Carmicah
 {
@@ -261,6 +262,18 @@ namespace Carmicah
 	/// <returns>True or false</returns>
 	static bool IsKeyPressed(Keys keyCode)
 	{
+		//if (keyCode == Keys::KEY_ESCAPE)
+		//{
+		//	if (Input.IsKeyPressed(keyCode))
+		//	{
+		//		CM_CORE_INFO("ESC KEY BEING PRESSED");
+
+		//	}
+		//	else
+		//	{
+		//		CM_CORE_INFO("ESC KEY NOT BEING PRESSED");
+		//	}
+		//}
 		return Input.IsKeyPressed(keyCode);
 	}
 
@@ -345,6 +358,18 @@ namespace Carmicah
 		mono_free(cStr);
 	}
 
+	static void CloseGame()
+	{
+		//glfwSetWindowShouldClose(window, GL_TRUE);
+#ifdef CM_INSTALLER
+		Input.CloseGame();
+		return;
+#endif
+		SceneWindow::mIsPlaying = !SceneWindow::mIsPlaying;
+		SceneWindow::mChangeState = true;
+
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -364,6 +389,8 @@ namespace Carmicah
 	/// </summary>
 	void ScriptFunctions::RegisterFunctions()
 	{
+		ADD_INTERNAL_CALL(CloseGame);
+
 		// Transform functions
 		ADD_INTERNAL_CALL(Transform_GetScale);
 		ADD_INTERNAL_CALL(Transform_SetScale);

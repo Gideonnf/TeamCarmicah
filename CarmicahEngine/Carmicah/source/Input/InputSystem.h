@@ -57,6 +57,8 @@ namespace Carmicah
 			return &instance;
 		}
 
+		void CloseGame();
+
 
 #pragma region Init & Update
 

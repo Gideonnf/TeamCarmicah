@@ -1,4 +1,5 @@
 ﻿using Carmicah;
+using CarmicahScriptCore.Source;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace Carmicah
 
         void OnClick()
         {
-            Console.WriteLine($"Testing Button {mID}");
+            Scene.CloseGame();
+            //Console.WriteLine($"Testing Button {mID}");
         }
     }
 }
