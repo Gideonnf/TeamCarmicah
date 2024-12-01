@@ -31,6 +31,7 @@ DigiPen Institute of Technology is prohibited.
 #include "CarmicahTime.h"
 #include "ECS/SystemManager.h"
 #include "Systems/SoundSystem.h"
+#include "Editor/SceneWindow.h"
 
 
 namespace Carmicah
@@ -178,7 +179,7 @@ namespace Carmicah
 			{
 				// set bool to false and get dragEndPos
 				Input.SetDragging(false);
-				if (!SceneToImgui::GetInstance()->GetHovering())
+				if (SceneToImgui::GetInstance()->GetHovering() == SceneToImgui::NO_SCENE)
 					Input.SetDragEndPos(Input.GetMousePosition());
 			}
 		}
@@ -192,7 +193,7 @@ namespace Carmicah
 		UNUSED(window);
 		// NOTE: SetMousePos is being used in SceneWindow for wrapping position of the cursor so that the mouse pos can pick accurately 
 		// since IMGUI makes the whole window 1920 by 1080 but we have to treat the scene as 1920 by 1080
-		if (!SceneToImgui::GetInstance()->GetHovering())
+		if (SceneToImgui::GetInstance()->GetHovering() == SceneToImgui::NO_SCENE)
 		{
 			Input.SetMousePosition(xPos, yPos);
 
@@ -243,6 +244,9 @@ namespace Carmicah
 			// pause all audio
 			auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 			souSystem->PauseAllSounds();
+#ifdef CM_INSTALLER
+			SceneWindow::mIsPaused = true;
+#endif
 		}
 		else
 		{
@@ -250,6 +254,9 @@ namespace Carmicah
 			// resume all audio
 			auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 			souSystem->ResumeAllSounds();
+#ifdef CM_INSTALLER
+			SceneWindow::mIsPaused = false;
+#endif
 		}
 	}
 
