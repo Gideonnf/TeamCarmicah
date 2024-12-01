@@ -96,19 +96,41 @@ namespace Carmicah
 					if (vertex.y > maxY) maxY = vertex.y;
 				}
 
-				collider.customWidth = maxX - minX;
+				collider.customWidth = (maxX - minX);
 				collider.customHeight = maxY - minY;
 			
+				// Calculate half-dimensions of the OBB
 				float halfWidth = collider.customWidth * 0.5f * transform.Scale().x;
 				float halfHeight = collider.customHeight * 0.5f * transform.Scale().y;
 
-				GetOBBVertices(obj);
+				// Rotation in radians
+				float angle = transform.Rot() * (PI / 180.0f);
+				float cosTheta = cos(angle);
+				float sinTheta = sin(angle);
 
-			
-			collider.min.x = transform.Pos().x - halfWidth;
-			collider.min.y = transform.Pos().y - halfHeight;
-			collider.max.x = transform.Pos().x + halfWidth;
-			collider.max.y = transform.Pos().y + halfHeight;
+				collider.objVert.clear();
+
+				// Calculate OBB corners relative to center
+				Vec2f center = transform.Pos();
+				std::vector<Vec2f> obbVertices;
+				obbVertices.emplace_back(center.x + halfWidth * cosTheta - halfHeight * sinTheta,
+					center.y + halfWidth * sinTheta + halfHeight * cosTheta); // Top-right
+				
+				obbVertices.emplace_back(center.x - halfWidth * cosTheta - halfHeight * sinTheta,
+					center.y - halfWidth * sinTheta + halfHeight * cosTheta); // Top-left
+				obbVertices.emplace_back(center.x - halfWidth * cosTheta + halfHeight * sinTheta,
+					center.y - halfWidth * sinTheta - halfHeight * cosTheta); // Bottom-left
+				obbVertices.emplace_back(center.x + halfWidth * cosTheta + halfHeight * sinTheta,
+					center.y + halfWidth * sinTheta - halfHeight * cosTheta); // Bottom-right
+
+				// Update the collider with OBB vertices
+				collider.objVert = obbVertices;
+
+
+				collider.min.x = transform.Pos().x - halfWidth;
+				collider.min.y = transform.Pos().y - halfHeight;
+				collider.max.x = transform.Pos().x + halfWidth;
+				collider.max.y = transform.Pos().y + halfHeight;
 
 		}
 
@@ -191,9 +213,9 @@ namespace Carmicah
 
 	int CollisionSystem::WhichSide(std::vector<Vec2f>& otherVertices, Vec2f& point, Vec2f& outwardNorm)
 	{
-		bool positive;
-		bool negative;
-		bool zero;
+		int positive;
+		int negative;
+		int zero;
 
 		positive = negative = zero = 0;
 
@@ -203,25 +225,25 @@ namespace Carmicah
 
 			if (projection > 0)
 			{
-				positive = true;
+				positive++;
 			}
 			else if (projection < 0)
 			{
-				negative = true;
+				negative++;
 			}
 			else
 			{
-				zero = true;
+				zero++;
 			}
 
-			if (positive && negative || zero)
+			if ((positive && negative) || zero)
 			{
 				return 0;
 			}
 
 		}
 
-		return positive ? 1 : -1;
+		return (positive > 0) ? 1 : -1;
 	}
 
 	float CollisionSystem::CalculatePenetrationDepth(Entity& obj1, Entity& obj2)
@@ -316,7 +338,12 @@ namespace Carmicah
 
 		for (size_t i = 0, i1 = collider1.objVert.size() - 1; i < collider1.objVert.size(); i1 = i, i++)
 		{
-			Vec2f outwardNormal = collider1.objNormals[i];
+			Vec2f outwardNormal = collider1.objNormals[i1];
+
+			if (collider2.objVert.empty())
+			{
+				return false;
+			}
 
 			if (WhichSide(collider2.objVert, collider1.objVert[i], outwardNormal) > 0)
 			{
@@ -326,7 +353,12 @@ namespace Carmicah
 
 		for (size_t i = 0, i1 = collider2.objVert.size() - 1; i < collider2.objVert.size(); i1 = i, i++)
 		{
-			Vec2f outwardNormal = collider2.objNormals[i];
+			Vec2f outwardNormal = collider2.objNormals[i1];
+
+			if (collider1.objVert.empty())
+			{
+				return false;
+			}
 
 			if (WhichSide(collider1.objVert, collider2.objVert[i], outwardNormal) > 0)
 			{
@@ -402,6 +434,10 @@ namespace Carmicah
 
 			transform2.PosX(rigidbody2.velocity.x * tFirst + rigidbody2.posPrev.x);
 			transform2.PosY(rigidbody2.velocity.y * tFirst + rigidbody2.posPrev.y);*/
+			std::cout << "Colliding k vs d" << std::endl;
+			
+			std::cout << "GameObject2 position : " << transform1.Pos() << std::endl;
+			std::cout << "Mouse position : " << transform2.Pos() << std::endl;
 
 			transform1.PosX(rigidbody1.posPrev.x);
 			transform1.PosY(rigidbody1.posPrev.y);
@@ -409,10 +445,13 @@ namespace Carmicah
 			transform2.PosX(rigidbody2.posPrev.x);
 			transform2.PosY(rigidbody2.posPrev.y);
 
-			std::cout << "Colliding k vs d" << std::endl;
+
 
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
+
+
+
 
 			/*rigidbody2.velocity.x = 0;
 			rigidbody2.velocity.y = 0;*/
