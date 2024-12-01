@@ -101,7 +101,7 @@ namespace Carmicah
 
         // Default load sound 
         //static constexpr const char* defaultBGM{ "BGM_SetupPhase_Mix1" };
-        static constexpr const char* defaultSFX{ "buttonclick" };
+        static constexpr const char* defaultSFX{ "pop" };
 
     private:
         void UpdateSoundVolume(SoundTrack* track);

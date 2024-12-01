@@ -14,7 +14,7 @@
     {
       "Component Name": "struct Carmicah::Renderer",
       "model": "Square",
-      "texture": "Duck"
+      "texture": "Duck_ie 0"
     }
   ],
   "Children": [
@@ -34,7 +34,7 @@
         {
           "Component Name": "struct Carmicah::Renderer",
           "model": "Square",
-          "texture": "Duck"
+          "texture": "Duck_ie 1"
         }
       ],
       "Children": [
@@ -54,7 +54,7 @@
             {
               "Component Name": "struct Carmicah::Renderer",
               "model": "Square",
-              "texture": "Duck"
+              "texture": "Duck_ie 2"
             }
           ],
           "Children": []
