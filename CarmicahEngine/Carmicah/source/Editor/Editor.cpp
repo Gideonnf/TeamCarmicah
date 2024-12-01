@@ -24,7 +24,7 @@ DigiPen Institute of Technology is prohibited.
 namespace Carmicah
 {
 
-	std::vector<std::string> Editor::droppedFilePaths{};
+	std::vector<std::string> Editor::sDroppedFilePaths{};
 	Editor::Editor()
 	{
 		
@@ -222,9 +222,9 @@ namespace Carmicah
 		}
 
 
-		if(Editor::droppedFilePaths.size() > 0)
+		if(Editor::sDroppedFilePaths.size() > 0)
 		{
-			for (const auto& file : Editor::droppedFilePaths)
+			for (const auto& file : Editor::sDroppedFilePaths)
 			{
 
 				if (AssetManager::GetInstance()->CopyAssetToAssetsFolder(file, AssetManager::GetInstance()->enConfig.assetLoc.c_str()) == AssetManager::ASSETCOPIED::FAILURE)
@@ -239,7 +239,7 @@ namespace Carmicah
 					ImGui::OpenPopup("MP3 Error");
 				}
 			}
-			Editor::droppedFilePaths.clear();
+			Editor::sDroppedFilePaths.clear();
 			AssetManager::GetInstance()->fileWatcher.Update();
 		}
 
@@ -347,7 +347,7 @@ namespace Carmicah
 			std::string filePath = paths[i];
 			size_t dotPos = filePath.find_last_of('.');
 
-			droppedFilePaths.push_back(filePath);
+			sDroppedFilePaths.push_back(filePath);
 		}
 	}
 }
