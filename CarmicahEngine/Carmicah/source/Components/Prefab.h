@@ -1,3 +1,22 @@
+/* File Documentation -----------------------------------------------------------------------------
+file:		Prefab.h
+
+author:		Gideon Francis (100%)
+
+email:      g.francis@digipen.edu
+
+brief:      This file defines the PrefabData structure, which inherits from BaseComponent.
+			It includes functionality to serialize and deserialize data related to prefabs,
+			such as a reference to the prefab source and a placeholder for tracking modified
+			components. The `mComponentsModified` vector is intended to track changes to
+			components but is not yet fully implemented.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+--------------------------------------------------------------------------------------------------*/
+
+
 #ifndef PREFAB_H
 #define PREFAB_H
 #include "BaseComponent.h"

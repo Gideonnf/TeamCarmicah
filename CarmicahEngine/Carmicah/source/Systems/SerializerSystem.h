@@ -1,11 +1,11 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:        SerializerSystem.h
+ file:			SerializerSystem.h
 
- author:   Gideon Francis
+ author:		Gideon Francis (100%)
 
- email:       g.francis@digipen.edu
+ email:			g.francis@digipen.edu
 
- brief:       A system to handle serializing of data and deserializing of data
+ brief:			A system to handle serializing of data and deserializing of data
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of

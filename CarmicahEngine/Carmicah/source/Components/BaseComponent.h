@@ -1,12 +1,12 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:        BaseComponent.h
+ file:      BaseComponent.h
 
- author:   Gideon Francis
+ author:	Gideon Francis (100%)
 
- email:       g.francis@digipen.edu
+ email:     g.francis@digipen.edu
 
- brief:       A base component that components inherit. Only here to simplify deserializing and serializing of components before runtime reflection 
-				 can be implemented
+ brief:     A base component that components inherit. Only here to simplify deserializing and serializing of 
+			components before runtime reflection can be implemented
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of

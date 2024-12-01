@@ -1,28 +1,20 @@
-/* file documentation -----------------------------------------------------------------------------
-\file       InputSystem.cpp
-\author     Micah Lim (80%), Gideon Francis (20%) 
-\course     CSD 2400
-\date       240924
+/* File Documentation -----------------------------------------------------------------------------
+file:           InputSystem.cpp
 
-\brief      Implements the InputSystem class, managing keyboard and mouse input, including key
-			presses, mouse clicks, and drag events. Integrates with GLFW for callback handling.
+\author			Micah Lim (80%), Gideon Francis (20%)
 
-\functions  - KeyCallback: Detects key press and release events.
-			- MouseCallback: Detects mouse button events and initiates drag tracking.
-			- CursorPosCallback: Updates the mouse position and tracks drag movement.
-			- ScrollCallback: Handles mouse scroll events (currently unused).
-			- InputSystem::Init: Initializes input handling for a given GLFW window.
-			- InputSystem::Update: Refreshes input states.
-			- InputSystem::IsKeyPressed/IsKeyReleased/IsKeyHold: Checks for specific key states.
-			- InputSystem::IsMousePressed/IsMouseReleased/IsMouseHold: Checks for specific mouse button states.
-			- InputSystem::GetMousePosition/SetMousePosition: Gets and sets the mouse position.
-			- InputSystem::IsDragging/SetDragging: Manages dragging state.
-			- KeycodeToString: Converts a key code to a readable string.
+email:          micahshengyao.lim@digipen.edu
+
+brief:          This file implements the InputSystem class, managing input handling for keyboard
+				and mouse events. It provides methods for tracking key presses, mouse clicks, drag
+				events, and other input states. Integrates GLFW for input callbacks and utilizes
+				functionality to synchronize input states for real-time applications.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
 DigiPen Institute of Technology is prohibited.
--------------------------------------------------------------------------------------------------*/
+--------------------------------------------------------------------------------------------------*/
+
 
 
 #include "pch.h"

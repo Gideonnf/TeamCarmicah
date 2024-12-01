@@ -158,20 +158,6 @@ namespace Carmicah
 
 		OnClickMsg newMsg(entityID);
 		SendSysMessage(&newMsg);
-
-		//auto* componentManager = ComponentManager::GetInstance();
-
-		//for (const auto& entity : mEntitiesSet)
-		//{
-		//	auto& button = componentManager->GetComponent<Button>(entity);
-		//	if (button.ButtonOG == name)
-		//	{
-		//		button.isPressed = true;
-		//		std::cout << "button pressed" << std::endl;
-		//		//button.SetTexture(button.ButtonPress); // need to create the SetTexture function
-		//		////std::cout << "Button " << name << " pressed" << std::endl;
-		//	}
-		//}
 	}
 
 
@@ -186,19 +172,5 @@ namespace Carmicah
 		UNUSED(buttonComponent);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 		souSystem->PlaySoundThis("pop", SoundCategory::UI, SoundSystem::SOUND_INMENU, 0.5f);
-
-		//auto* componentManager = ComponentManager::GetInstance();
-
-		//for (const auto& entity : mEntitiesSet)
-		//{
-		//	auto& button = componentManager->GetComponent<Button>(entity);
-		//	if (button.ButtonOG == name)
-		//	{
-		//		button.isPressed = false;
-		//		std::cout << "button released" << std::endl;
-		//		//button.SetTexture(button.ButtonOG); // need to create the SetTexture function
-		//		//std::cout << "Button " << name << " released" << std::endl;
-		//	}
-		//}
 	}
 }

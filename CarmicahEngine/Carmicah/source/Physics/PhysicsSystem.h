@@ -11,9 +11,11 @@ Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
 DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+#ifndef PHYSICS_SYSTEM_H
+#define PHYSICS_SYSTEM_H
 #pragma once
 #include "ECS/BaseSystem.h"
-
 
 //berif:         This class is a system that handles the physics of all the game objects
 namespace Carmicah
@@ -35,4 +37,4 @@ namespace Carmicah
 		bool mToggleUpdate;
 	};
 }
-
+#endif

@@ -1,3 +1,21 @@
+/* File Documentation -----------------------------------------------------------------------------
+file:           Script.h
+
+author:			Gideon Francis (100%)
+
+email:          g.francis@digipen.edu
+
+brief:          This file defines the Script structure, inheriting from BaseComponent. It provides
+				functionality to serialize and deserialize script-related data, including script
+				names and customizable scriptable fields stored in a map. The fields can have
+				various types like int, float, bool, and string, leveraging std::variant for storage.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+--------------------------------------------------------------------------------------------------*/
+
+
 #ifndef SCRIPT_H
 #define SCRIPT_H
 #include <string>

@@ -1,18 +1,12 @@
 /* file documentation -----------------------------------------------------------------------------
 \file		InputTypes.hpp
 \author     Micah Lim, (micahshengyao.lim)
-\course     CSD 2400
-\date		240924
+
+email:      micahshengyao.lim@digipen.edu
 
 \brief      This file defines various enumerations used for handling keyboard and mouse input in the
 			game engine. These enumerations include key codes for keyboard keys, mouse buttons, and
 			states (pressed, released, hold) for both.
-
-\functions  - enum Keys: Defines keyboard keycodes for various standard keys, including alphabet,
-						 numbers, function keys, and special keys.
-			- enum MouseButtons: Defines codes for mouse buttons (left, right, wheel).
-			- enum KeyStates: Defines the possible states of keys and mouse buttons (none, release,
-							  pressed, hold).
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
@@ -47,6 +41,7 @@ namespace Carmicah
         KEY_GRAVE_ACCENT    = GLFW_KEY_GRAVE_ACCENT,    /* ` */
         KEY_WORLD_1         = GLFW_KEY_WORLD_1,         /* non-US #1 */
         KEY_WORLD_2         = GLFW_KEY_WORLD_2,         /* non-US #2 */
+
         KEY_0 = GLFW_KEY_0,
         KEY_1 = GLFW_KEY_1,
         KEY_2 = GLFW_KEY_2,
@@ -151,4 +146,3 @@ namespace Carmicah
 }
 
 #endif
-

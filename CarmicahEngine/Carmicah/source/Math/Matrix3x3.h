@@ -20,6 +20,8 @@ Reproduction or disclosure of this file or its contents without the prior writte
 DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/#pragma once
 
+#ifndef MATRIX_3X3_H
+#define MATRIX_3X3_H
 #include "Vec2.h"
 #include <cmath>
 
@@ -350,3 +352,5 @@ namespace Carmicah
 	using Mtx3x3d = Matrix3x3<double>;
 	using Mtx3x3i = Matrix3x3<int>;
 }
+
+#endif

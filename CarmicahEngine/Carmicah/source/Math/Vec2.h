@@ -19,6 +19,8 @@ Reproduction or disclosure of this file or its contents without the prior writte
 DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #pragma once
+#ifndef VEC_2_H
+#define VEC_2_H
 #include <cmath>
 #include <iostream>
 
@@ -234,3 +236,4 @@ namespace Carmicah
 	using Vec2d = Vector2D<double>;
 	using Vec2i = Vector2D<int>;
 }
+#endif

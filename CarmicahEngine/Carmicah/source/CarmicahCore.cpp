@@ -1,3 +1,21 @@
+/* File Documentation -----------------------------------------------------------------------------
+file:           CarmicahCore.cpp
+
+author:
+
+email:
+
+brief:          This file implements the Application class, which initializes and runs the core
+                functionality of the Carmicah engine. It sets up logging, graphics (GLFW and OpenGL),
+                asset management, system registration, and the main game loop. Additionally, it
+                manages input, rendering, physics, and scene transitions during runtime.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+--------------------------------------------------------------------------------------------------*/
+
+
 #include "pch.h"
 #include <stdio.h>
 #include <glad/glad.h>
