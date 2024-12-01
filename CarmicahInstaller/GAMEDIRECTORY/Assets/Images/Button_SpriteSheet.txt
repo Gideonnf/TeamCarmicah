@@ -1,0 +1,63 @@
+Hover_Home
+Top left: 0 x 0, 421 x 130
+9 sprites
+
+Hover_HowToPlay
+Top left: 0 x 130, 421 x 130
+9 sprites
+
+Hover_Settings
+Top left: 0 x 260, 421 x 130
+9 sprites
+
+Hover_Resume
+Top left: 0 x 390, 421 x 130
+9 sprites
+
+Hover_Back
+Top left: 0 x 520, 421 x 130
+9 sprites
+
+Hover_Quit
+Top left: 0 x 650, 421 x 130
+9 sprites
+
+Hover_Play
+Top left: 0 x 780, 421 x 130
+9 sprites
+
+Hover_Menu
+Top left: 0 x 910, 421 x 130
+9 sprites
+
+Click_Home
+Top left: 0 x 1050, 421 x 130
+9 sprites
+
+Click_HowToPlay
+Top left: 0 x 1180, 421 x 130
+9 sprites
+
+Click_Settings
+Top left: 0 x 1310, 421 x 130
+9 sprites
+
+Click_Resume
+Top left: 0 x 1440, 421 x 130
+9 sprites
+
+Click_Back
+Top left: 0 x 1570, 421 x 130
+9 sprites
+
+Click_Quit
+Top left: 0 x 1700, 421 x 130
+9 sprites
+
+Click_Play
+Top left: 0 x 1830, 421 x 130
+9 sprites
+
+Click_Menu
+Top left: 0 x 1960, 421 x 130
+9 sprites

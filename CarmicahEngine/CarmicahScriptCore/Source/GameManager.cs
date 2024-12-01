@@ -1,3 +1,21 @@
+/* File Documentation ----------------------------------------------------------------------------- 
+file:           GameManager.cs
+
+author:		    Gideon Francis (100%)
+
+email:			g.francis@digipen.edu
+
+brief:          This file defines the `GameManager` class, responsible for managing game logic, 
+                such as wave spawning, handling entities like mice and cakes, and updating game 
+                states. It provides methods to start and end waves and manage interactions 
+                with game objects.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+--------------------------------------------------------------------------------------------------*/
+
+
 using Carmicah;
 using CarmicahScriptCore.Source;
 using System;

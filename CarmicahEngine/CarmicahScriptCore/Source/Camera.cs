@@ -1,4 +1,21 @@
-﻿using CarmicahScriptCore.Source;
+﻿/* File Documentation ----------------------------------------------------------------------------- 
+file:           Camera.cs
+
+author:		    Gideon Francis (100%)
+
+email:			g.francis@digipen.edu
+
+brief:          This file defines the `Camera` class, which allows vertical camera movement in a 
+                game scene based on user input. It uses keyboard controls to adjust the camera's 
+                position within predefined limits.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+--------------------------------------------------------------------------------------------------*/
+
+
+using CarmicahScriptCore.Source;
 using System;
 using System.Collections.Generic;
 using System.Linq;

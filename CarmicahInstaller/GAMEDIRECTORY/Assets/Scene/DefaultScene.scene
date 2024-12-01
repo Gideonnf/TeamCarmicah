@@ -1,0 +1,21 @@
+{
+  "Scene": "DefaultScene",
+  "SceneObjects": [
+    {
+      "GameObject": "MainCamera",
+      "ID": 1,
+      "Components": [
+        {
+          "Component Name": "struct Carmicah::Transform",
+          "xPos": 0.0,
+          "yPos": 0.0,
+          "depth": 0.0,
+          "xScale": 0.05263157933950424,
+          "yScale": 0.10000000149011612,
+          "rot": 0.0
+        }
+      ],
+      "Children": []
+    }
+  ]
+}

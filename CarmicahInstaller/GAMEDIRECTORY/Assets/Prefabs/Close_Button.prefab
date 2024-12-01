@@ -1,0 +1,32 @@
+{
+    "GameObject": "Close_Button",
+    "ID": 13,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Button",
+            "ButtonImage": "Button_SpriteSheet_Hover_Settings 0",
+            "ButtonImagePressed": "Button_SpriteSheet_Click_Settings 0"
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Button_SpriteSheet_Hover_Back 1"
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.BackButton",
+            "ScriptableFieldMap": [
+                {}
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::UITransform",
+            "xPos": 977.153076171875,
+            "yPos": 273.1087646484375,
+            "depth": 15.0,
+            "xScale": 200.0,
+            "yScale": 100.0,
+            "rot": 0.0
+        }
+    ]
+}

@@ -866,7 +866,13 @@ namespace Carmicah
 			return false;
 		}
 	}
-
+	/*
+	@beief: This function copies assets from wherever they are in the windows file explorer to the assets folder if the asset is compatiable
+	@param: const std::string& source -> source filePath
+			const char* assetPath -> destination filePath
+	@return: ASSETCOPIED enum
+	The function returns the enum for whether it was a success/failure/custom error.
+	*/
 	AssetManager::ASSETCOPIED AssetManager::CopyAssetToAssetsFolder(const std::string& source, const char* assetPath)
 	{
 		try

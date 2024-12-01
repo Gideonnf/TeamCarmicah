@@ -1,0 +1,68 @@
+{
+    "GameObject": "MouseGO",
+    "ID": 2,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Transform",
+            "xPos": 3.0712671279907228,
+            "yPos": -19.734413146972658,
+            "depth": 5.0,
+            "xScale": 2.0,
+            "yScale": 2.0,
+            "rot": 0.0
+        },
+        {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Mouse_Climb_blue"
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.MouseAI",
+           "ScriptableFieldMap": [
+            {
+                "SpawnPointEntityLeft": "StartPointLeft",
+                "isLeft": false,
+                "Animation2": "Mouse_Climb_brown",
+                "SpawnPointEntityRight": "StartPointRight",
+                "EndPointEntityLeft": "EndPointLeft",
+                "EndPointEntityRight": "EndPointRight",
+                "Animation0": "Mouse_Climb_blue",
+                "Animation1": "Mouse_Climb_white",
+                "Animation3": "Bear_Climb",
+                "AnimationDie0": "Mouse_Death_blue",
+                "AnimationDie2": "Mouse_Death_brown",
+                "AnimationDie1": "Mouse_Death_white",
+                "AnimationDie3": "Bear_Death",
+                "SpawnPointEntityRight2": "StartPointRight_1",
+                "EndPointEntityLeft2": "EndPointLeft_1",
+                "EndPointEntityRight2": "EndPointRight_1",
+                "SpawnPointEntityLeft2": "StartPointLeft_1"
+            }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Mouse_SpriteSheet_Climb_blue 3"
+        },
+        {
+            "Component Name": "struct Carmicah::Collider2D",
+            "shape": "DebugSquare",
+            "customWidth": 3.2100000381469728,
+            "customRotation": 0.0,
+            "customHeight": 3.2100000381469728
+        },
+        {
+            "Component Name": "struct Carmicah::RigidBody",
+            "velocityX": 0.0,
+            "velocityY": 0.0,
+            "angularVelocity": 0.0,
+            "posPrevX": 2.0,
+            "posPrevY": 2.0,
+            "mass": 1.0,
+            "gravity": 0.0,
+            "zposPrev": 1.0,
+            "objectType": 1
+        }
+    ]
+}

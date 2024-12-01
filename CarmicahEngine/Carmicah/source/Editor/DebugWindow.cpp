@@ -22,12 +22,6 @@ DigiPen Institute of Technology is prohibited.
 #include "CarmicahTime.h"
 
 
-/*
-@beief: This function is used to get the color of the system based on the system name.
-@param: const std::string& systemName
-@return: ImU32
-The function returns the color of the system based on the system name.
-*/
 namespace Carmicah
 {
     DebugWindow::DebugWindow()
@@ -38,6 +32,12 @@ namespace Carmicah
         mIsVisible = true;
     }
 
+    /*
+    @beief: This function is used to get the color of the system based on the system name.
+    @param: const std::string& systemName
+    @return: ImU32
+    The function returns the color of the system based on the system name.
+    */
     ImU32 DebugWindow::GetSystemColor(const std::string& systemName)
     {
         // Simple string hash function for consistent colors
