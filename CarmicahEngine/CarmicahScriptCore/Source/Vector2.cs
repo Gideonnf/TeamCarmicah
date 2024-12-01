@@ -1,4 +1,20 @@
-﻿
+﻿/* File Documentation ----------------------------------------------------------------------------- 
+file:           Vector2.cs
+
+author:		    Gideon Francis (100%)
+
+email:			g.francis@digipen.edu
+
+brief:          This file defines the `Vector2` struct, a 2D vector with basic vector operations 
+                such as normalization, subtraction, and distance calculation. Provides utility for 
+                2D mathematical operations within the Carmicah engine.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+--------------------------------------------------------------------------------------------------*/
+
+
 using System;
 
 namespace Carmicah

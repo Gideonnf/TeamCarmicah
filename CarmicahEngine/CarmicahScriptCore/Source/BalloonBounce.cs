@@ -1,4 +1,21 @@
-﻿using System;
+﻿/* File Documentation ----------------------------------------------------------------------------- 
+file:           BalloonBounce.cs
+
+author:		    Gideon Francis (100%)
+
+email:			g.francis@digipen.edu
+
+brief:          This file defines the `BalloonBounce` class, which simulates a bouncing balloon 
+                entity. The class manages bounce speed, height, and timing to create a smooth 
+                bouncing motion with brief pauses at the peak and bottom.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+--------------------------------------------------------------------------------------------------*/
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

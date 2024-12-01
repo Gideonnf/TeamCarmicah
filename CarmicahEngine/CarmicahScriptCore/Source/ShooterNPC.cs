@@ -1,4 +1,21 @@
-﻿using System;
+﻿/* File Documentation ----------------------------------------------------------------------------- 
+file:           ShooterNPC.cs
+
+author:		    Gideon Francis (100%)
+
+email:			g.francis@digipen.edu
+
+brief:          This file defines the `ShooterNPC` class, a type of entity that can toggle between 
+                shooting and idle animations. It references a `GameManager` entity and includes 
+                methods for animation management during runtime.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+--------------------------------------------------------------------------------------------------*/
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

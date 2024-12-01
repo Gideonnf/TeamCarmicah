@@ -1,4 +1,22 @@
-﻿using System;
+﻿/* File Documentation ----------------------------------------------------------------------------- 
+file:           MouseAI.cs
+
+author:		    Gideon Francis (100%)
+
+email:			g.francis@digipen.edu
+
+brief:          This file defines the `MouseAI` class, which manages mouse entity behavior using 
+                a state machine. It includes movement logic, animation changes, and interaction 
+                with other entities. The class handles states such as "Chase" and "Dead" for 
+                dynamic gameplay.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+--------------------------------------------------------------------------------------------------*/
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;

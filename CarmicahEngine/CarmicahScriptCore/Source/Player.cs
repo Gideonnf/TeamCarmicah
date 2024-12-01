@@ -1,4 +1,21 @@
-﻿using CarmicahScriptCore.Source;
+﻿/* File Documentation ----------------------------------------------------------------------------- 
+file:           Player.cs
+
+author:		    Gideon Francis (100%)
+
+email:			g.francis@digipen.edu
+
+brief:          This file defines the `Player` class, which manages player animation and movement. 
+                It handles walking, idle, and healing states, applies forces for movement based on 
+                keyboard input, and plays sound effects with a cooldown timer.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+--------------------------------------------------------------------------------------------------*/
+
+
+using CarmicahScriptCore.Source;
 using System;
 using System.Collections.Generic;
 using System.Linq;
