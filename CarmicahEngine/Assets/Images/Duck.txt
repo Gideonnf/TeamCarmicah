@@ -1,0 +1,3 @@
+ie
+Top left: 0 x 0, 512 x 512
+7 sprites
