@@ -15,6 +15,11 @@ namespace Carmicah
         public string EndPointEntityLeft;
         public string EndPointEntityRight;
 
+        public string SpawnPointEntityLeft2;
+        public string SpawnPointEntityRight2;
+        public string EndPointEntityLeft2;
+        public string EndPointEntityRight2;
+
         public bool isLeft = false;
         public string Animation0;
         public string Animation1;
@@ -29,9 +34,13 @@ namespace Carmicah
         //int currPoint;
         Vector2 startPosLeft;
         Vector2 startPosRight;
+        Vector2 startPosLeft2;
+        Vector2 startPosRight2;
         StateMachine stateMachine;
         Entity endEntityLeft;
         Entity endEntityRight;
+        Entity endEntityLeft2;
+        Entity endEntityRight2;
 
         public float ChanceToDie = 0.12f;
         public float TimeToDie = 1.5f;
@@ -39,13 +48,18 @@ namespace Carmicah
         public float DeathTime = 1.5f;
 
         int animType = 0;
+        int randLane = 0;
 
         void OnCreate()
         {
             startPosLeft = FindEntityWithName(SpawnPointEntityLeft).Position;
             startPosRight = FindEntityWithName(SpawnPointEntityRight).Position;
+            startPosLeft2 = FindEntityWithName(SpawnPointEntityLeft2).Position;
+            startPosRight2 = FindEntityWithName(SpawnPointEntityRight2).Position;
             endEntityLeft = FindEntityWithName(EndPointEntityLeft);
             endEntityRight = FindEntityWithName(EndPointEntityRight);
+            endEntityLeft2 = FindEntityWithName(EndPointEntityLeft2);
+            endEntityRight2 = FindEntityWithName(EndPointEntityRight2);
 
             // InitWaypoints();
             SetInitialPosition();
@@ -57,6 +71,7 @@ namespace Carmicah
             stateMachine.SetNextState("Chase");
             Random rand = new Random();
             animType = rand.Next(0, 4); // rand between 1 to 3
+            randLane = rand.Next(0, 4); // rand between 1 to 3
 
             switch(animType)
             {
@@ -158,15 +173,29 @@ namespace Carmicah
 
         public void SetInitialPosition()
         {
-           // Console.WriteLine($"Position Before : {Position.x} , {Position.y}");
-            if (isLeft)
+            Vector2 scale = Scale;
+
+            // Console.WriteLine($"Position Before : {Position.x} , {Position.y}");
+            switch (randLane)
             {
-                Position = startPosLeft;
-                //originalPos = waypointsLeft[0];
-            }
-            else
-            {
-                Position = startPosRight;
+                case 0:
+                    Position = startPosLeft;
+
+                    break;
+                case 1:
+                    Position = startPosLeft2;
+                    scale.x *= -1;
+                    Scale = scale;
+                    break;
+                case 2:
+                    Position = startPosRight;
+
+                    break;
+                case 3:
+                    Position = startPosRight2;
+                    scale.x *= -1;
+                    Scale = scale;
+                    break;
             }
            // Console.WriteLine($"Position After : {Position.x} , {Position.y}");
 
@@ -175,7 +204,25 @@ namespace Carmicah
 
         void UpdateMovement(float dt)
         {
-            Vector2 endPos = isLeft ? endEntityLeft.Position : endEntityRight.Position;
+            Vector2 endPos = Vector2.Zero;  //endEntityLeft.Position : endEntityRight.Position;
+            switch (randLane)
+            {
+                case 0:
+                    endPos = endEntityLeft.Position;
+
+                    break;
+                case 1:
+                    endPos = endEntityLeft2.Position;
+
+                    break;
+                case 2:
+                    endPos = endEntityRight.Position;
+
+                    break;
+                case 3:
+                    endPos = endEntityRight2.Position;
+                    break;
+            }
             Vector2 dir = (endPos - Position).Normalize();
             GetComponent<RigidBody>().ApplyForce(dir, 1.0f);
 

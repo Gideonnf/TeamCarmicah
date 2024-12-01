@@ -22,17 +22,33 @@ namespace Carmicah
         public List<Entity> mouseEntities = new List<Entity>(); // Doing this doesn't work idk why
         public float WaveStartTime = 25.0f;
         public float waveTimer = 0.0f;
+        public string EndPointEntityLeft;
+        public string EndPointEntityRight;
+        public string EndPointEntityLeft2;
+        public string EndPointEntityRight2;
+        public string ShooterNPC;
 
         public bool GameStart = false;
 
         Entity startingCakeEntity;
         Entity playerEntity;
+        Entity endEntityLeft;
+        Entity endEntityRight;
+        Entity endEntityLeft2;
+        Entity endEntityRight2;
+        Entity shooterNPC;
         int cakeCounter = 1;
         int waveCount = 0;
         void OnCreate()
         {
+            endEntityLeft = FindEntityWithName(EndPointEntityLeft);
+            endEntityRight = FindEntityWithName(EndPointEntityRight);
+            endEntityLeft2 = FindEntityWithName(EndPointEntityLeft2);
+            endEntityRight2 = FindEntityWithName(EndPointEntityRight2);
+
             startingCakeEntity = FindEntityWithName(StartingCake);
             playerEntity = FindEntityWithName(PlayerName);
+            shooterNPC = FindEntityWithName(ShooterNPC);
         }
 
         void OnUpdate(float dt)
@@ -113,11 +129,31 @@ namespace Carmicah
                 Vector2 pos = cakeEntity.Position;
                 pos.y += (CakeHeightOffset * cakeCounter);
                 cakeEntity.Position = pos;
+                cakeCounter++;
 
                 pos = playerEntity.Position;
                 pos.y += CakeHeightOffset;
                 playerEntity.Position = pos;
-                cakeCounter++;
+
+                pos = endEntityLeft.Position;
+                pos.y += CakeHeightOffset;
+                endEntityLeft.Position = pos;
+
+                pos = endEntityLeft2.Position;
+                pos.y += CakeHeightOffset;
+                endEntityLeft2.Position = pos;
+
+                pos = endEntityRight.Position;
+                pos.y += CakeHeightOffset;
+                endEntityRight.Position = pos;
+
+                pos = endEntityRight2.Position;
+                pos.y += CakeHeightOffset;
+                endEntityRight2.Position = pos;
+
+                pos = shooterNPC.Position;
+                pos.y += CakeHeightOffset;
+                shooterNPC.Position = pos;
             }
         }
 
