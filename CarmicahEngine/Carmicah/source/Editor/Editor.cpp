@@ -311,6 +311,7 @@ namespace Carmicah
 		{
 			if (dynamic_cast<EditorEntityPicked*>(msg)->mEntityID != 0)
 			{
+				HierarchyWindow::selectedGO = nullptr;
 				HierarchyWindow::selectedGO = &gGOFactory->FetchGO(dynamic_cast<EditorEntityPicked*>(msg)->mEntityID);
 				HierarchyWindow::inspectedPrefab = nullptr;
 				HierarchyWindow::mShowScene = true;
