@@ -39,6 +39,11 @@ namespace Carmicah
         Entity endEntityRight2;
         Entity shooterNPC;
         Entity shooterNPC2;
+
+        Entity wall;
+        Entity wall1;
+        Entity wall2;
+        Entity wall3;
         int cakeCounter = 1;
         int waveCount = 0;
         void OnCreate()
@@ -52,6 +57,11 @@ namespace Carmicah
             playerEntity = FindEntityWithName(PlayerName);
             shooterNPC = FindEntityWithName(ShooterNPC);
             shooterNPC2 = FindEntityWithName(ShooterNPC2);
+
+            wall = FindEntityWithName("Wall");
+            wall1 = FindEntityWithName("Wall_1");
+            wall2 = FindEntityWithName("Wall_2");
+            wall3 = FindEntityWithName("Wall_3");
         }
 
         void OnUpdate(float dt)
@@ -201,6 +211,31 @@ namespace Carmicah
                         pos = shooterNPC2.Position;
                         pos.y += CakeHeightOffset;
                         shooterNPC2.Position = pos;
+                    }
+
+                    if (wall != null)
+                    {
+                        pos = wall.Position;
+                        pos.y += CakeHeightOffset;
+                        wall.Position = pos;
+                    }
+                    if (wall1 != null)
+                    {
+                        pos = wall1.Position;
+                        pos.y += CakeHeightOffset;
+                        wall1.Position = pos;
+                    }
+                    if (wall2 != null)
+                    {
+                        pos = wall2.Position;
+                        pos.y += CakeHeightOffset;
+                        wall2.Position = pos;
+                    }
+                    if (wall3 != null)
+                    {
+                        pos = wall3.Position;
+                        pos.y += CakeHeightOffset;
+                        wall3.Position = pos;
                     }
                 }
             }

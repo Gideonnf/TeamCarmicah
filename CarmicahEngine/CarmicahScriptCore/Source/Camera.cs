@@ -20,15 +20,22 @@ namespace Carmicah
             if (Input.IsKeyHold(Keys.KEY_R))
             {
                 Vector2 pos = GetComponent<Transform>().Position;
-                pos.y += 4 * dt;
-                GetComponent<Transform>().Position = pos;
+                if (pos.y <= 10.0f)
+                {
+                    pos.y += 4 * dt;
+                    GetComponent<Transform>().Position = pos;
+                }
             }
             
             if (Input.IsKeyHold(Keys.KEY_F))
             {
                 Vector2 pos = GetComponent<Transform>().Position;
-                pos.y -= 4 * dt;
-                GetComponent<Transform>().Position = pos;
+                if (pos.y >= -9.5f)
+                {
+                    pos.y -= 4 * dt;
+                    GetComponent<Transform>().Position = pos;
+
+                }
             }
         }
     }

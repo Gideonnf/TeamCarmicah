@@ -38,7 +38,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Bullet"
+                    "texture": "Bullet2"
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
@@ -134,7 +134,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Walk 6"
+                    "texture": "MC_SpriteSheet_Walk 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -365,7 +365,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 11"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 1"
                 },
                 {
                     "Component Name": "struct Script",
@@ -444,12 +444,12 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "StartingCake": "StartingCake",
-                            "MousePrefabName": "MouseGO",
-                            "waveTimer": 0.0,
                             "LeftOrRight": false,
-                            "CakeHeightOffset": 6.0,
+                            "waveTimer": 0.0,
+                            "MousePrefabName": "MouseGO",
+                            "StartingCake": "StartingCake",
                             "spawnTimer": 1.5,
+                            "CakeHeightOffset": 6.0,
                             "timer": 0.0,
                             "CakePrefabName": "Cake",
                             "PlayerName": "mainCharacter",
@@ -668,7 +668,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 11"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 1"
                 },
                 {
                     "Component Name": "struct Script",
@@ -768,7 +768,7 @@
             "Children": []
         },
         {
-            "GameObject": "Wall_1_1",
+            "GameObject": "Wall_3",
             "ID": 30,
             "Components": [
                 {
