@@ -99,30 +99,10 @@ namespace Carmicah
 				collider.customWidth = maxX - minX;
 				collider.customHeight = maxY - minY;
 			
+				float halfWidth = collider.customWidth * 0.5f * transform.Scale().x;
+				float halfHeight = collider.customHeight * 0.5f * transform.Scale().y;
 
-			// Calculate half-dimensions of the OBB
-			float halfWidth = collider.customWidth * 0.5f * transform.Scale().x;
-			float halfHeight = collider.customHeight * 0.5f * transform.Scale().y;
-
-			// Rotation in radians
-			float angle = transform.Rot() * (PI / 180.0f);
-			float cosTheta = cos(angle);
-			float sinTheta = sin(angle);
-
-			// Calculate OBB corners relative to center
-			Vec2f center = transform.Pos();
-			std::vector<Vec2f> obbVertices;
-			obbVertices.emplace_back(center.x + halfWidth * cosTheta - halfHeight * sinTheta,
-				center.y + halfWidth * sinTheta + halfHeight * cosTheta); // Top-right
-			obbVertices.emplace_back(center.x - halfWidth * cosTheta - halfHeight * sinTheta,
-				center.y - halfWidth * sinTheta + halfHeight * cosTheta); // Top-left
-			obbVertices.emplace_back(center.x - halfWidth * cosTheta + halfHeight * sinTheta,
-				center.y - halfWidth * sinTheta - halfHeight * cosTheta); // Bottom-left
-			obbVertices.emplace_back(center.x + halfWidth * cosTheta + halfHeight * sinTheta,
-				center.y + halfWidth * sinTheta - halfHeight * cosTheta); // Bottom-right
-
-			// Update the collider with OBB vertices
-			collider.objVert = obbVertices;
+				GetOBBVertices(obj);
 
 			
 			collider.min.x = transform.Pos().x - halfWidth;
@@ -158,8 +138,8 @@ namespace Carmicah
 		auto& transform = componentManager->GetComponent<Transform>(obj);
 		auto& collider = componentManager->GetComponent<Collider2D>(obj);
 
-		float halfWidth = (collider.customWidth * collider.localScale) * 0.5f;
-		float halfHeight = (collider.customHeight * collider.localScale) * 0.5f;
+		float halfWidth = collider.customWidth * 0.5f * transform.Scale().x;
+		float halfHeight = collider.customHeight * 0.5f * transform.Scale().y;
 
 		float angleInRadians = transform.Rot() * (PI / 180.0f); // Convert to radians
 		float cosTheta = cos(angleInRadians);
@@ -167,18 +147,20 @@ namespace Carmicah
 
 		collider.objVert.clear(); // Clear previous vertices
 
-		// Calculate vertices based on rotation and position
-		collider.objVert.push_back(transform.Pos() + Vec2f(-halfWidth * cosTheta - -halfHeight * sinTheta,
-			-halfWidth * sinTheta + -halfHeight * cosTheta));
+		// Calculate OBB corners relative to center
+		Vec2f center = transform.Pos();
+		std::vector<Vec2f> obbVertices;
+		obbVertices.emplace_back(center.x + halfWidth * cosTheta - halfHeight * sinTheta,
+			center.y + halfWidth * sinTheta + halfHeight * cosTheta); // Top-right
+		obbVertices.emplace_back(center.x - halfWidth * cosTheta - halfHeight * sinTheta,
+			center.y - halfWidth * sinTheta + halfHeight * cosTheta); // Top-left
+		obbVertices.emplace_back(center.x - halfWidth * cosTheta + halfHeight * sinTheta,
+			center.y - halfWidth * sinTheta - halfHeight * cosTheta); // Bottom-left
+		obbVertices.emplace_back(center.x + halfWidth * cosTheta + halfHeight * sinTheta,
+			center.y + halfWidth * sinTheta - halfHeight * cosTheta); // Bottom-right
 
-		collider.objVert.push_back(transform.Pos() + Vec2f(halfWidth * cosTheta - -halfHeight * sinTheta,
-			halfWidth * sinTheta + -halfHeight * cosTheta));
-
-		collider.objVert.push_back(transform.Pos() + Vec2f(halfWidth * cosTheta - halfHeight * sinTheta,
-			halfWidth * sinTheta + halfHeight * cosTheta));
-
-		collider.objVert.push_back(transform.Pos() + Vec2f(-halfWidth * cosTheta - halfHeight * sinTheta,
-			-halfWidth * sinTheta + halfHeight * cosTheta));
+		// Update the collider with OBB vertices
+		collider.objVert = obbVertices;
 
 
 	}
@@ -421,11 +403,11 @@ namespace Carmicah
 			transform2.PosX(rigidbody2.velocity.x * tFirst + rigidbody2.posPrev.x);
 			transform2.PosY(rigidbody2.velocity.y * tFirst + rigidbody2.posPrev.y);*/
 
-			/*transform1.PosX(rigidbody1.posPrev.x);
+			transform1.PosX(rigidbody1.posPrev.x);
 			transform1.PosY(rigidbody1.posPrev.y);
 
 			transform2.PosX(rigidbody2.posPrev.x);
-			transform2.PosY(rigidbody2.posPrev.y);*/
+			transform2.PosY(rigidbody2.posPrev.y);
 
 			std::cout << "Colliding k vs d" << std::endl;
 
@@ -443,7 +425,6 @@ namespace Carmicah
 			transform1.PosX(rigidbody1.posPrev.x);
 			transform1.PosY(rigidbody1.posPrev.y);
 
-			std::cout << "Help" << std::endl;
 
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
