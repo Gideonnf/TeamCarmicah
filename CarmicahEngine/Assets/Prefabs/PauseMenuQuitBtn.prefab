@@ -1,0 +1,25 @@
+{
+    "GameObject": "PauseMenuQuitBtn",
+    "ID": 9,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Button",
+            "ButtonImage": "",
+            "ButtonImagePressed": "Button_SpriteSheet_Click_Quit 0"
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Button_SpriteSheet_Hover_Quit 0"
+        },
+        {
+            "Component Name": "struct Carmicah::UITransform",
+            "xPos": 1106.021240234375,
+            "yPos": 246.2176513671875,
+            "depth": 1.0,
+            "xScale": 210.0,
+            "yScale": 80.0,
+            "rot": 0.0
+        }
+    ]
+}

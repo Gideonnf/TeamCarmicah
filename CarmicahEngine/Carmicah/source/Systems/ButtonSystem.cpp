@@ -154,7 +154,7 @@ namespace Carmicah
 	{
 		UNUSED(buttonComponent);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySoundThis("buttonclick", SoundCategory::UI, SoundSystem::SOUND_INMENU, false, 0.5f);
+		souSystem->PlaySoundThis("pop", SoundCategory::UI, SoundSystem::SOUND_INMENU, false, 0.5f);
 
 		OnClickMsg newMsg(entityID);
 		SendSysMessage(&newMsg);
@@ -171,6 +171,6 @@ namespace Carmicah
 	{
 		UNUSED(buttonComponent);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySoundThis("pop", SoundCategory::UI, SoundSystem::SOUND_INMENU, 0.5f);
+		souSystem->PlaySoundThis("pop", SoundCategory::UI, SoundSystem::SOUND_INMENU, false, 0.5f);
 	}
 }

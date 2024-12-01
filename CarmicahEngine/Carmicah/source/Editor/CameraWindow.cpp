@@ -41,10 +41,17 @@ namespace Carmicah
 		else if (Input.IsKeyPressed(KEY_R))
 			RenderHelper::GetInstance()->mEditorMode = RenderHelper::GIZMOS_MODE::GIZMOS_ROTATE;
 
+
 		bool camWindowActive = ImGui::Begin(mTitle);
 		RenderHelper::GetInstance()->mEditorWindowActive = camWindowActive;
         if (camWindowActive)
         {
+			if (HierarchyWindow::selectedGO != nullptr)
+			{
+				if (Input.IsKeyPressed(KEY_DELETE))
+					gGOFactory->Destroy(HierarchyWindow::selectedGO->GetID());
+			}
+
 			// Rendering
 			const float windowWidth = std::clamp(ImGui::GetContentRegionAvail().x, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Width));
 			const float windowHeight = std::clamp(ImGui::GetContentRegionAvail().y, 0.f, static_cast<float>(AssetManager::GetInstance()->enConfig.Height));
