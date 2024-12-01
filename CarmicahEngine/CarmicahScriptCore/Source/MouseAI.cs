@@ -28,6 +28,10 @@ namespace Carmicah
         Entity endEntityLeft;
         Entity endEntityRight;
 
+        public float ChanceToDie = 0.12f;
+        public float TimeToDie = 1.5f;
+        public float timer;
+
         void OnCreate()
         {
             startPosLeft = FindEntityWithName(SpawnPointEntityLeft).Position;
@@ -82,6 +86,19 @@ namespace Carmicah
             if (stateMachine.GetCurrentState() == "Chase")
             {
                 UpdateMovement(dt);
+                timer += dt;
+                if (timer >= TimeToDie)
+                {
+                    timer = 0.0f;
+                    Random rand = new Random();
+
+                    float randFloat = (float)rand.NextDouble();
+                    Console.WriteLine($"Random float : {randFloat}");
+                    if (randFloat <= ChanceToDie)
+                    {
+                        stateMachine.SetNextState("Dead");
+                    }
+                }
             }
             else if (stateMachine.GetCurrentState() == "Dead")
             {
