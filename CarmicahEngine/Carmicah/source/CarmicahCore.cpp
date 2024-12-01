@@ -257,7 +257,7 @@ namespace Carmicah
         //glfwSetWindowUserPointer(window, inputSystem.get());
         gScriptSystem->Init();
         Input.Init(window);
-        gameSystem->SetScene("Scene1");
+        gameSystem->SetScene("Scene3");
 #ifndef CM_INSTALLER
         gameSystem->Init(); // Load all GOs from scene file
         
@@ -390,14 +390,14 @@ namespace Carmicah
                             }
 #endif
 
-#if defined(CM_RELEASE) || defined(CM_INSTALLER)
+#if defined(CM_RELEASE)
+                            CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
+                            colSystem->CollisionCheck();
+                            CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
                             CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                             phySystem->Update();
                             CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
 
-                            CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                            colSystem->CollisionCheck();
-                            CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 #endif
                             accumulatedTime -= CarmicahTime::GetInstance()->GetDeltaTime();
                         }
@@ -432,14 +432,14 @@ namespace Carmicah
                         }
 #endif
 
-#if defined(CM_RELEASE) || defined(CM_INSTALLER)
-                        CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
-                        phySystem->Update();
-                        CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
+#if defined(CM_RELEASE)
 
                         CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
                         colSystem->CollisionCheck();
                         CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
+                        CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
+                        phySystem->Update();
+                        CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
 #endif               
                     }
                 }
@@ -492,10 +492,10 @@ namespace Carmicah
                 }
                 else
                 {
-                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
+                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam, true);
                     // Editor Cam
                     SceneToImgui::GetInstance()->BindFramebuffer(SceneToImgui::GAME_SCENE);
-                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
+                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam, true);
                     SceneToImgui::GetInstance()->UnbindFramebuffer();
 
                 }
