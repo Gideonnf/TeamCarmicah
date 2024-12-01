@@ -205,8 +205,17 @@ namespace Carmicah
 	/// <param name="outPos"> Out vector2 posiion</param>
 	static void Transform_GetPosition(unsigned int entityID, Vec2f* outPos)
 	{
+		// idk why tf does it sometimes give a extremely high entity ID number
 		GameObject& go = gGOFactory->FetchGO(entityID);
-		*outPos = go.GetComponent<Transform>().Pos();
+		if (!go.HasComponent<Transform>())
+		{
+			*outPos = { 0, 0 };
+		}
+		else
+		{
+			*outPos = go.GetComponent<Transform>().Pos();
+
+		}
 	}
 
 	/// <summary>
@@ -217,7 +226,8 @@ namespace Carmicah
 	static void Transform_SetPosition(unsigned int entityID, Vec2f* inPos)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
-		go.GetComponent<Transform>().Pos(*inPos);
+		if (go.HasComponent<Transform>())
+			go.GetComponent<Transform>().Pos(*inPos);
 	}
 
 	/// <summary>
@@ -314,13 +324,17 @@ namespace Carmicah
 	static void Transform_GetDepth(unsigned int entityID, float* outFloat)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
-		*outFloat = go.GetComponent<Transform>().GetDepth();
+		if (!go.HasComponent<Transform>())
+			*outFloat = 0.0f;
+		else
+			*outFloat = go.GetComponent<Transform>().GetDepth();
 	}
 
 	static void Transform_SetDepth(unsigned int entityID, float* inFloat)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
-		go.GetComponent<Transform>().Depth(*inFloat);
+		if (go.HasComponent<Transform>())
+			go.GetComponent<Transform>().Depth(*inFloat);
 	}
 
 	static void Animation_ChangeAnim(unsigned int entityID, MonoString* string)

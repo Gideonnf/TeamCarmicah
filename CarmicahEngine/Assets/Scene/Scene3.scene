@@ -8,11 +8,18 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "main_menu_bg"
+                    "texture": "Menu_SpriteSheet_Menu_Ani 3"
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": ""
+                    "scriptName": "",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Main_memu"
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -57,7 +64,10 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.PlayButton"
+                    "scriptName": "Carmicah.PlayButton",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -86,7 +96,10 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": ""
+                    "scriptName": "",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -115,7 +128,10 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.SettingButton"
+                    "scriptName": "Carmicah.SettingButton",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",

@@ -1,11 +1,11 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:        SceneSystem.h
+ file:			SceneSystem.h
 
- author:   Gideon Francis
+ author:		Gideon Francis (100%)
 
- email:       g.francis@digipen.edu
+ email:			g.francis@digipen.edu
 
- brief:       A system to handle changing of scenes within the engine. Allows for any exit calls or init calls when changing between scenes
+ brief:			A system to handle changing of scenes within the engine. Allows for any exit calls or init calls when changing between scenes
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of

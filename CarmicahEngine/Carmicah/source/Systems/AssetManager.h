@@ -225,7 +225,25 @@ namespace Carmicah
 		// TODO: Handle removal of assets
 		// cant rlly be done/tested until editor has ways to delete and add assets
 
-		bool CopyAssetToAssetsFolder(const std::string& source, const char* assetPath);
+
+		enum class ASSETCOPIED
+		{
+			SUCCESS,
+			FAILURE,
+			MP3_ERROR
+		};
+
+		/*!*************************************************************************
+		brief
+			Checks if the asset exists based on the name
+		param[source]
+			Source file path of the asset to copy
+		param[assetPath]
+			The destination of the asset copied
+		return
+			Whether the copy was successful/unsupported.
+		***************************************************************************/
+		ASSETCOPIED CopyAssetToAssetsFolder(const std::string& source, const char* assetPath);
 	private:
 
 

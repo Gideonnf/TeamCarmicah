@@ -227,11 +227,16 @@ namespace Carmicah
 			for (const auto& file : Editor::droppedFilePaths)
 			{
 
-				if (!AssetManager::GetInstance()->CopyAssetToAssetsFolder(file, AssetManager::GetInstance()->enConfig.assetLoc.c_str()))
+				if (AssetManager::GetInstance()->CopyAssetToAssetsFolder(file, AssetManager::GetInstance()->enConfig.assetLoc.c_str()) == AssetManager::ASSETCOPIED::FAILURE)
 				{
 					
 					ImGui::OpenPopup("Unsupported");
 					
+				}
+
+				if (AssetManager::GetInstance()->CopyAssetToAssetsFolder(file, AssetManager::GetInstance()->enConfig.assetLoc.c_str()) == AssetManager::ASSETCOPIED::MP3_ERROR)
+				{
+					ImGui::OpenPopup("MP3 Error");
 				}
 			}
 			Editor::droppedFilePaths.clear();
@@ -268,8 +273,23 @@ namespace Carmicah
 			{
 				ImGui::CloseCurrentPopup();
 			}
-			ImGui::SetCursorPos(ImVec2((popupSize.x - ImGui::CalcTextSize("Unsupported File Format!").x) / 2.0f, (popupSize.y - ImGui::CalcTextSize("Unsupported File Format").y) / 2.0f));
+			ImGui::SetCursorPos(ImVec2((popupSize.x - ImGui::CalcTextSize("Unsupported File Format!").x) / 2.0f, (popupSize.y - ImGui::CalcTextSize("Unsupported File Format!").y) / 2.0f));
 			ImGui::Text("Unsupported File Format!");
+			ImGui::EndPopup();
+		}
+
+		if (ImGui::BeginPopup("MP3 Error"))
+		{
+			ImVec2 currentPopupSize = ImGui::GetWindowSize();
+			std::cout << currentPopupSize.x << "," << currentPopupSize.y << std::endl;
+			ImGui::Dummy(ImVec2(popupSize.x - 16.f, popupSize.y - 16.f));
+			ImGui::SetCursorPos(ImVec2(popupSize.x - 30.f, 5.f));
+			if (ImGui::Button("X"))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::SetCursorPos(ImVec2((popupSize.x - ImGui::CalcTextSize("MP3 not allow!").x) / 2.0f, (popupSize.y - ImGui::CalcTextSize("MP3 not allow!").y) / 2.0f));
+			ImGui::Text("MP3 not allow!");
 			ImGui::EndPopup();
 		}
 	}
@@ -311,6 +331,7 @@ namespace Carmicah
 		{
 			if (dynamic_cast<EditorEntityPicked*>(msg)->mEntityID != 0)
 			{
+				HierarchyWindow::selectedGO = nullptr;
 				HierarchyWindow::selectedGO = &gGOFactory->FetchGO(dynamic_cast<EditorEntityPicked*>(msg)->mEntityID);
 				HierarchyWindow::inspectedPrefab = nullptr;
 				HierarchyWindow::mShowScene = true;

@@ -1,3 +1,22 @@
+/* File Documentation -----------------------------------------------------------------------------
+file:           FileWatcher.h
+
+ author:		Gideon Francis (100%)
+
+ email:			g.francis@digipen.edu
+
+brief:          This file defines the FileWatcher class, which monitors a directory for changes
+				to files. It includes functionality to track file creation, modification, and
+				deletion. The File structure represents individual files with their status and
+				metadata, while the FileWatcher class maintains a map of files and provides methods
+				for initialization, updating the watch state, and handling file destruction.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+--------------------------------------------------------------------------------------------------*/
+
+
 #ifndef FILE_WATCHER_H
 #define FILE_WATCHER_H
 #include <filesystem>

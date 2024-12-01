@@ -30,11 +30,14 @@ namespace Carmicah
         {
             get
             {
+                //Console.WriteLine($"Entity ID:{Entity.mID}");
                 FunctionCalls.Transform_GetPosition(Entity.mID, out Vector2 position);
                 return position;
             }
             set
             {
+                //Console.WriteLine($"Entity ID:{Entity.mID}");
+
                 FunctionCalls.Transform_SetPosition(Entity.mID, ref value);
             }
         }

@@ -19,17 +19,25 @@
             "Component Name": "struct Script",
             "scriptName": "Carmicah.MouseAI",
            "ScriptableFieldMap": [
-                {
-                    "SpawnPointEntityLeft": "StartPointLeft",
-                    "isLeft": false,
-                    "Animation2": "Mouse_Climb_brown",
-                    "SpawnPointEntityRight": "StartPointRight",
-                    "EndPointEntityLeft": "EndPointLeft",
-                    "EndPointEntityRight": "EndPointRight",
-                    "Animation0": "Mouse_Climb_blue",
-                    "Animation1": "Mouse_Climb_white",
-                    "Animation3": "Bear_Climb"
-                }
+            {
+                "SpawnPointEntityLeft": "StartPointLeft",
+                "isLeft": false,
+                "Animation2": "Mouse_Climb_brown",
+                "SpawnPointEntityRight": "StartPointRight",
+                "EndPointEntityLeft": "EndPointLeft",
+                "EndPointEntityRight": "EndPointRight",
+                "Animation0": "Mouse_Climb_blue",
+                "Animation1": "Mouse_Climb_white",
+                "Animation3": "Bear_Climb",
+                "AnimationDie0": "Mouse_Death_blue",
+                "AnimationDie2": "Mouse_Death_brown",
+                "AnimationDie1": "Mouse_Death_white",
+                "AnimationDie3": "Bear_Death",
+                "SpawnPointEntityRight2": "StartPointRight_1",
+                "EndPointEntityLeft2": "EndPointLeft_1",
+                "EndPointEntityRight2": "EndPointRight_1",
+                "SpawnPointEntityLeft2": "StartPointLeft_1"
+            }
             ]
         },
         {

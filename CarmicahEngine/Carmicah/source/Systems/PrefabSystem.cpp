@@ -1,3 +1,22 @@
+/* File Documentation -----------------------------------------------------------------------------
+file:           PrefabSystem.cpp
+
+author:			Gideon Francis (100%)
+
+email:			g.francis@digipen.edu
+
+brief:          This file implements the PrefabSystem class, which manages the creation, saving,
+				and modification of prefabs in the game engine. Prefabs are reusable templates for
+				game objects. The system tracks prefabs, updates entities using prefabs, and ensures
+				synchronization between prefab definitions and instantiated entities. It supports
+				recursive child prefab handling and component updates or removals.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+--------------------------------------------------------------------------------------------------*/
+
+
 #include <pch.h>
 #include "PrefabSystem.h"
 #include "ECS/ComponentManager.h"

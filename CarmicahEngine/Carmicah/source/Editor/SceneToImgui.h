@@ -36,7 +36,7 @@ namespace Carmicah
 			GLuint RBO{};
 			GLuint texture_id{};
 			GLuint picker_id{};
-			bool isHovering;
+			bool isHovering{};
 		};
 
 		FBOScene mScenes[MAX_SCENES]{};

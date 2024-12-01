@@ -1,11 +1,11 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:        TransformSystem.h
+ file:			TransformSystem.h
 
- author:   Gideon Francis
+ author:		Gideon Francis (100%)
 
- email:       g.francis@digipen.edu
+ email:			g.francis@digipen.edu
 
- brief:     Transform System. Header file that contains the function declarations of the transform system. Incharge of updating the transform
+ brief:			Transform System. Header file that contains the function declarations of the transform system. Incharge of updating the transform
 				of entities when parenting/unparenting between entities and scene
 
 Copyright (C) 2024 DigiPen Institute of Technology.

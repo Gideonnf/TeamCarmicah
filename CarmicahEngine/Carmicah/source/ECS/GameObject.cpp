@@ -1,16 +1,17 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:        GameObject.cpp
+ file:     GameObject.cpp
 
- author:   Gideon Francis
+ author:   Gideon Francis (100%)
 
- email:       g.francis@digipen.edu
+ email:    g.francis@digipen.edu
 
- brief:       Wraps the entity ID into a game object class that allows adding, removing and retrieving component data that relates to the entity's id.
+ brief:    Wraps the entity ID into a game object class that allows adding, removing and retrieving component data that relates to the entity's id.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
 DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 
 #include "pch.h"
 #include "GameObject.h"
@@ -55,7 +56,8 @@ namespace Carmicah
 
 	void GameObject::SetName(const std::string& name)
 	{
-		mName = name;
+		mName = name; // dont use this function
+
 	}
 
 	bool GameObject::IsActive()
