@@ -12,15 +12,23 @@
             "rot": 0.0
         },
         {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Mouse_Climb_blue"
+        },
+        {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.MouseAI",
-            "ScriptableFieldMap": [
+           "ScriptableFieldMap": [
                 {
-                    "isLeft": false,
                     "SpawnPointEntityLeft": "StartPointLeft",
+                    "isLeft": false,
+                    "Animation2": "Mouse_Climb_brown",
                     "SpawnPointEntityRight": "StartPointRight",
                     "EndPointEntityLeft": "EndPointLeft",
-                    "EndPointEntityRight": "EndPointRight"
+                    "EndPointEntityRight": "EndPointRight",
+                    "Animation0": "Mouse_Climb_blue",
+                    "Animation1": "Mouse_Climb_white",
+                    "Animation3": "Bear_Climb"
                 }
             ]
         },
@@ -47,10 +55,6 @@
             "gravity": 0.0,
             "zposPrev": 1.0,
             "objectType": 1
-        },
-        {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Mouse_Climb_blue"
         }
     ]
 }

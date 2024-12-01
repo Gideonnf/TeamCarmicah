@@ -300,7 +300,7 @@ namespace Carmicah
 		glfwSetMouseButtonCallback	 (windowRef, MouseCallback);
 		glfwSetScrollCallback		 (windowRef, ScrollCallback);
 		glfwSetCursorPosCallback	 (windowRef, CursorPosCallback);
-		glfwSetWindowFocusCallback	 (windowRef, WindowFocusCallback);
+		//glfwSetWindowFocusCallback	 (windowRef, WindowFocusCallback);
 		glfwSetWindowIconifyCallback (windowRef, WindowIconifyCallback);
 	}
 

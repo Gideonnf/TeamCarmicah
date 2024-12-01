@@ -50,11 +50,11 @@ namespace Carmicah
 		{
 			componentsToAdd.push_back("Renderer");
 		}
-		if (!go->HasComponent<Transform>())
+		if (!go->HasComponent<Transform>() && !go->HasComponent<UITransform>())
 		{
 			componentsToAdd.push_back("Transform");
 		}
-		if (!go->HasComponent<UITransform>())
+		if (!go->HasComponent<UITransform>() && !go->HasComponent<Transform>())
 		{
 			componentsToAdd.push_back("UITransform");
 		}
@@ -424,6 +424,11 @@ namespace Carmicah
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Texture");
+				ImGui::SameLine();
+				if (ImGui::Button("v##."))
+				{
+					ImGui::OpenPopup("Texture Select");
+				}
 				ImGui::TableNextColumn();
 				ImGui::Text("%s", render.Texture().c_str());
 				if (ImGui::BeginDragDropTarget())
@@ -435,11 +440,6 @@ namespace Carmicah
 					}
 
 					ImGui::EndDragDropTarget();
-				}
-				ImGui::SameLine();
-				if (ImGui::Button("v##."))
-				{
-					ImGui::OpenPopup("Texture Select");
 				}
 				ImGui::SetNextWindowSize(ImVec2(300, 500));
 				if (ImGui::BeginPopup("Texture Select"))
@@ -476,7 +476,8 @@ namespace Carmicah
 			}
 			case PREFAB:
 			{
-				InspectorWindow::RemoveComponentButton<Animation>(go);
+				if (InspectorWindow::RemoveComponentButton<Animation>(go))
+					return;
 				break;
 			}
 			default:
@@ -535,7 +536,8 @@ namespace Carmicah
 			}
 			case PREFAB:
 			{
-				InspectorWindow::RemoveComponentButton<RigidBody>(go);
+				if (InspectorWindow::RemoveComponentButton<RigidBody>(go))
+					return false;
 				break;
 			}
 			default:
@@ -663,7 +665,8 @@ namespace Carmicah
 			}
 			case PREFAB:
 			{
-				InspectorWindow::RemoveComponentButton<Collider2D>(go);
+				if (InspectorWindow::RemoveComponentButton<Collider2D>(go))
+					return;
 				break;
 			}
 			default:
@@ -727,13 +730,13 @@ namespace Carmicah
 			{
 			case GAMEOBJECT:
 			{
-				//Entity id = go->GetID();
 				InspectorWindow::RemoveComponentButton<TextRenderer>(go);
 				break;
 			}
 			case PREFAB:
 			{
-				InspectorWindow::RemoveComponentButton<TextRenderer>(go);
+				if (InspectorWindow::RemoveComponentButton<TextRenderer>(go))
+					return;
 				break;
 			}
 			default:
@@ -811,13 +814,13 @@ namespace Carmicah
 			{
 			case GAMEOBJECT:
 			{
-				//Entity id = go->GetID();
 				InspectorWindow::RemoveComponentButton<Button>(go);
 				break;
 			}
 			case PREFAB:
 			{
-				InspectorWindow::RemoveComponentButton<Button>(go);
+				if (InspectorWindow::RemoveComponentButton<Button>(go))
+					return;
 				break;
 			}
 			default:
@@ -828,13 +831,13 @@ namespace Carmicah
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Pressed Image");
-				ImGui::TableNextColumn();
-				ImGui::Text(butt.ButtonImagePressed.c_str());
 				ImGui::SameLine();
 				if (ImGui::Button("v#####"))
 				{
 					ImGui::OpenPopup("Pressed Image Select");
 				}
+				ImGui::TableNextColumn();
+				ImGui::Text(butt.ButtonImagePressed.c_str());
 				if (ImGui::BeginPopup("Pressed Image Select"))
 				{
 					for (const auto& entry : textureMap->mAssetMap)
@@ -876,8 +879,9 @@ namespace Carmicah
 			}
 			case PREFAB:
 			{
-				if(InspectorWindow::RemoveComponentButton<Script>(go))
+				if (InspectorWindow::RemoveComponentButton<Script>(go))
 					return;
+				break;
 			}
 			default:
 				break;

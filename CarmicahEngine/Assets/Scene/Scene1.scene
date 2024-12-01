@@ -7,7 +7,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 1.0548077821731568,
+                    "xPos": 1.0,
                     "yPos": 0.20156240463256837,
                     "depth": -100.0,
                     "xScale": 40.0,
@@ -38,7 +38,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Bullet2"
+                    "texture": "Bullet"
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
@@ -53,7 +53,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.0,
+                    "xPos": 1.0,
                     "yPos": -8.850000381469727,
                     "depth": 0.0,
                     "xScale": 0.05263157933950424,
@@ -124,8 +124,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -10.811779022216797,
-                    "yPos": -9.625041007995606,
+                    "xPos": -0.08437765389680863,
+                    "yPos": -3.474534749984741,
                     "depth": 4.0,
                     "xScale": 2.0,
                     "yScale": 2.0,
@@ -134,7 +134,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Walk 0"
+                    "texture": "MC_SpriteSheet_Walk 7"
                 },
                 {
                     "Component Name": "struct Script",
@@ -261,7 +261,7 @@
             "Children": []
         },
         {
-            "GameObject": "MouseGO",
+            "GameObject": "StartingCake",
             "ID": 10,
             "Components": [
                 {
@@ -289,10 +289,10 @@
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 2.421943187713623,
                     "yPos": -18.56134033203125,
-                    "depth": 6.5,
-                    "xScale": 5.0081787109375,
+                    "depth": 1.0,
+                    "xScale": 5.178991794586182,
                     "yScale": 1.350000023841858,
-                    "rot": 17.56233024597168
+                    "rot": 16.20921516418457
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -312,12 +312,12 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 2.780853748321533,
+                    "xPos": 2.745312213897705,
                     "yPos": -19.63836669921875,
-                    "depth": 1.0,
+                    "depth": 6.5,
                     "xScale": 5.09964656829834,
                     "yScale": 1.0,
-                    "rot": 18.26357078552246
+                    "rot": 15.949092864990235
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -383,7 +383,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.862207293510437,
+                    "xPos": 1.3404996395111085,
                     "yPos": -20.150527954101564,
                     "depth": 4.0,
                     "xScale": 1.0,
@@ -394,6 +394,41 @@
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "wall2"
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "ShooterNPC",
+            "ID": 16,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 1.9630851745605469,
+                    "yPos": -3.990508794784546,
+                    "depth": 3.75,
+                    "xScale": -2.0,
+                    "yScale": 2.0,
+                    "rot": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 6"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ShooterNPC",
+                    "ScriptableFieldMap": [
+                        {
+                            "IdleAnim": "Shooter_Idle",
+                            "ShootAnim": "Shooter_Shoot"
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Shooter_Idle"
                 }
             ],
             "Children": []
@@ -437,10 +472,17 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
+                            "StartingCake": "StartingCake",
                             "MousePrefabName": "MouseGO",
+                            "waveTimer": 0.0,
                             "LeftOrRight": false,
-                            "spawnTimer": 3.0,
-                            "timer": 0.0
+                            "CakeHeightOffset": 6.0,
+                            "spawnTimer": 1.5,
+                            "timer": 0.0,
+                            "CakePrefabName": "Cake",
+                            "PlayerName": "mainCharacter",
+                            "GameStart": false,
+                            "WaveStartTime": 25.0
                         }
                     ]
                 }

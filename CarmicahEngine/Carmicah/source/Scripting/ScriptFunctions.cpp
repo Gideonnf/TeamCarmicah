@@ -23,6 +23,7 @@ DigiPen Institute of Technology is prohibited.
 #include "../ECS/ComponentManager.h"
 #include "../Components/Transform.h"
 #include "../Components/RigidBody.h"
+#include "../Components/Animation.h"
 #include "ScriptSystem.h"
 #include "../Input/InputSystem.h"
 #include "../Systems/SoundSystem.h"
@@ -310,6 +311,26 @@ namespace Carmicah
 		}
 	}
 
+	static void Transform_GetDepth(unsigned int entityID, float* outFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		*outFloat = go.GetComponent<Transform>().GetDepth();
+	}
+
+	static void Transform_SetDepth(unsigned int entityID, float* inFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		go.GetComponent<Transform>().Depth(*inFloat);
+	}
+
+	static void Animation_ChangeAnim(unsigned int entityID, MonoString* string)
+	{
+		char* cStr = mono_string_to_utf8(string);
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		go.GetComponent<Animation>().animAtlas = cStr;
+		mono_free(cStr);
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -321,6 +342,7 @@ namespace Carmicah
 		// Only these 2 for now
 		RegisterComponent<Transform>();
 		RegisterComponent<RigidBody>();
+		RegisterComponent<Animation>();
 	}
 
 	/// <summary>
@@ -333,6 +355,8 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Transform_SetScale);
 		ADD_INTERNAL_CALL(Transform_GetPosition);
 		ADD_INTERNAL_CALL(Transform_SetPosition);
+		ADD_INTERNAL_CALL(Transform_GetDepth);
+		ADD_INTERNAL_CALL(Transform_SetDepth);
 
 		//Entity functions
 		ADD_INTERNAL_CALL(Entity_HasComponent);
@@ -344,6 +368,9 @@ namespace Carmicah
 		// Rigidbody functions
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);
 		ADD_INTERNAL_CALL(RigidBody_ApplyForceWithTime);
+
+		// Anim functions
+		ADD_INTERNAL_CALL(Animation_ChangeAnim);
 
 		// input functions
 		ADD_INTERNAL_CALL(IsKeyPressed);

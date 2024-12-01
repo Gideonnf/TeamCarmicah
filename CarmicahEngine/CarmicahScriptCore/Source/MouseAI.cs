@@ -16,6 +16,11 @@ namespace Carmicah
         public string EndPointEntityRight;
 
         public bool isLeft = false;
+        public string Animation0;
+        public string Animation1;
+        public string Animation2;
+        public string Animation3;
+
         //int currPoint;
         Vector2 startPosLeft;
         Vector2 startPosRight;
@@ -38,6 +43,35 @@ namespace Carmicah
             stateMachine.AddState(new MouseChase("Chase"));
             stateMachine.AddState(new MouseDead("Dead"));
             stateMachine.SetNextState("Chase");
+            Random rand = new Random();
+            int randomInt = rand.Next(0, 4); // rand between 1 to 3
+
+            switch(randomInt)
+            {
+                case 0:
+                    //Console.WriteLine($"Trying to change Anim {Animation0}");
+                    ChangeAnim(Animation0);
+
+                    break;
+                case 1:
+                    //Console.WriteLine($"Trying to change Anim {Animation1}");
+
+                    ChangeAnim(Animation1);
+
+                    break;
+                case 2:
+                    //Console.WriteLine($"Trying to change Anim {Animation2}");
+
+                    ChangeAnim(Animation2);
+
+                    break;
+                case 3:
+                   // Console.WriteLine($"Trying to change Anim {Animation3}");
+
+                    ChangeAnim(Animation3);
+
+                    break;
+            }
         }
 
         void OnUpdate(float dt)
@@ -51,6 +85,8 @@ namespace Carmicah
             }
             else if (stateMachine.GetCurrentState() == "Dead")
             {
+                GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                gm.MouseDestroyed(this);
                 Destroy();
             }
         }
@@ -88,6 +124,11 @@ namespace Carmicah
             {
                  stateMachine.SetNextState("Dead");
             }
+        }
+
+        public void KillMouse()
+        {
+            stateMachine.SetNextState("Dead");
         }
 
         //void ResetPosition()
