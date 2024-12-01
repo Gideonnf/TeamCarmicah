@@ -5,7 +5,7 @@
     "Default Shader": "basic",
     "Debug Shader": "debug",
     "Font Shader": "font",
-    "Font Size": 36,
+    "Font Size": 72,
     "Asset Loc": "../Assets",
     "Image Min Depth": 100.0,
     "Image Max Depth": -100.0,
