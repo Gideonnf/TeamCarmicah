@@ -341,6 +341,20 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::DragFloat("##Depth", &selectedUITransform.GetDepth(), 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
+				//Rotation
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Rotation");
+				ImGui::TableNextColumn();
+				if(ImGui::DragFloat("##Rotation", &selectedUITransform.GetRot(), 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					selectedUITransform.Rot(fmodf(selectedUITransform.GetRot(), 360.0f));
+					if (selectedUITransform.GetRot() < 0.0f)
+					{
+						selectedUITransform.GetRot() += 360.0f;
+					}
+				}
+
 				// Scale (xScale, yScale)
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
@@ -880,22 +894,114 @@ namespace Carmicah
 			case GAMEOBJECT:
 			{
 				InspectorWindow::RemoveComponentButton<Script>(go);
+				ImGui::Text(script.scriptName.c_str());
+				if(script.scriptName.empty())
+				{
+					ImGui::SameLine();
+					if (ImGui::Button("v#####"))
+					{
+						ImGui::OpenPopup("Script Select");
+					}
+				}
+				std::shared_ptr<ScriptObject> scriptRef = gScriptSystem->GetScriptInstance(id);
+				if (scriptRef != nullptr)
+				{
+					const auto& fields = scriptRef->GetScriptClass()->mFields;
+					for (const auto& it : fields)
+					{
+						if (it.second.mType == ScriptFieldType::Float)
+						{
+							float data = scriptRef->GetFieldValue<float>(it.second.mName);
+							if (ImGui::DragFloat(it.second.mName.c_str(), &data))
+							{
+								scriptRef->SetFieldValue(it.second.mName, data);
+								gScriptSystem->UpdateScriptComponent(id);
+							}
+						}
+						else if (it.second.mType == ScriptFieldType::Bool)
+						{
+							bool data = scriptRef->GetFieldValue<bool>(it.second.mName);
+							if (ImGui::Checkbox(it.second.mName.c_str(), &data))
+							{
+								scriptRef->SetFieldValue(it.second.mName, data);
+								gScriptSystem->UpdateScriptComponent(id);
+							}
+						}
+						else if (it.second.mType == ScriptFieldType::String)
+						{
+							std::string str = scriptRef->GetFieldValue<std::string>(it.second.mName);
+							char buffer[128];
+							std::strncpy(buffer, str.c_str(), sizeof(buffer) - 1);
+							buffer[sizeof(str)] = '\0';
+
+							if (ImGui::InputText(it.second.mName.c_str(), buffer, sizeof(buffer)))
+							{
+								scriptRef->SetFieldValue<std::string>(it.second.mName, buffer);
+								gScriptSystem->UpdateScriptComponent(id);
+							}
+						}
+					}
+				}
+
 				break;
 			}
 			case PREFAB:
 			{
 				if (InspectorWindow::RemoveComponentButton<Script>(go))
 					return;
+				ImGui::Text(script.scriptName.c_str());
+				if (script.scriptName.empty())
+				{
+					ImGui::SameLine();
+					if (ImGui::Button("v#####"))
+					{
+						ImGui::OpenPopup("Script Select");
+					}
+				}
+
+				for (auto& [fieldName, fieldValue] : script.scriptableFieldMap)
+				{
+					std::visit([&](auto&& arg)
+						{
+							using T = std::decay_t<decltype(arg)>;
+							if constexpr (std::is_same_v<T, int>)
+							{
+								if (ImGui::DragInt(fieldName.c_str(), &arg))
+								{
+
+								}
+							}
+							else if constexpr (std::is_same_v<T, float>)
+							{
+								if (ImGui::DragFloat(fieldName.c_str(), &arg))
+								{
+
+								}
+							}
+							else if constexpr (std::is_same_v<T, bool>)
+							{
+								if (ImGui::Checkbox(fieldName.c_str(), &arg))
+								{
+
+								}
+							}
+							else if constexpr (std::is_same_v<T, std::string>)
+							{
+								char buffer[128];
+								std::strncpy(buffer, arg.c_str(), sizeof(buffer) - 1);
+								buffer[sizeof(buffer) - 1] = '\0';
+
+								if (ImGui::InputText(fieldName.c_str(), buffer, sizeof(buffer)))
+								{
+									arg = std::string(buffer);
+								}
+							}
+						}, fieldValue);
+				}
 				break;
 			}
 			default:
 				break;
-			}
-			ImGui::Text(script.scriptName.c_str());
-			ImGui::SameLine();
-			if (ImGui::Button("v#####"))
-			{
-				ImGui::OpenPopup("Script Select");
 			}
 
 			if (ImGui::BeginPopup("Script Select"))
@@ -909,46 +1015,6 @@ namespace Carmicah
 					}
 				}
 				ImGui::EndPopup();
-			}
-
-			std::shared_ptr<ScriptObject> scriptRef = gScriptSystem->GetScriptInstance(id);
-			if (scriptRef != nullptr)
-			{
-				const auto& fields = scriptRef->GetScriptClass()->mFields;
-				for (const auto& it : fields)
-				{
-					if (it.second.mType == ScriptFieldType::Float)
-					{
-						float data = scriptRef->GetFieldValue<float>(it.second.mName);
-						if (ImGui::DragFloat(it.second.mName.c_str(), &data))
-						{
-							scriptRef->SetFieldValue(it.second.mName, data);
-							gScriptSystem->UpdateScriptComponent(id);
-						}
-					}
-					else if (it.second.mType == ScriptFieldType::Bool)
-					{
-						bool data = scriptRef->GetFieldValue<bool>(it.second.mName);
-						if (ImGui::Checkbox(it.second.mName.c_str(), &data))
-						{
-							scriptRef->SetFieldValue(it.second.mName, data);
-							gScriptSystem->UpdateScriptComponent(id);
-						}
-					}
-					else if (it.second.mType == ScriptFieldType::String)
-					{
-						std::string str = scriptRef->GetFieldValue<std::string>(it.second.mName);
-						char buffer[128];
-						std::strncpy(buffer, str.c_str(), sizeof(buffer) - 1);
-						buffer[sizeof(str)] = '\0';
-
-						if (ImGui::InputText(it.second.mName.c_str(), buffer, sizeof(buffer)))
-						{
-							scriptRef->SetFieldValue<std::string>(it.second.mName, buffer);
-							gScriptSystem->UpdateScriptComponent(id);
-						}
-					}
-				}
 			}
 		}
 	}
