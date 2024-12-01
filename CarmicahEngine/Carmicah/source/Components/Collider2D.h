@@ -32,7 +32,7 @@ namespace Carmicah
         float customRotation;
         float customHeight;
 
-        bool OBBinit;
+        bool OBBinit = false;
 
         std::vector<Vec2f> objVert;
         std::vector<Vec2f> objNormals;

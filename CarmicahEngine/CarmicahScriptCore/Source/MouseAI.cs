@@ -91,6 +91,12 @@ namespace Carmicah
             }
         }
 
+        void OnCollide()
+        {
+            Console.WriteLine("HELP ME");
+            KillMouse();
+        }
+
         //void InitWaypoints()
         //{
 

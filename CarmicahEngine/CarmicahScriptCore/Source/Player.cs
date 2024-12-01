@@ -31,11 +31,6 @@ namespace Carmicah
             //originalPos = Position;
         }
 
-        void OnCollisionEnter()
-        {
-
-        }
-
         void OnUpdate(float dt)
         {
             timer += dt;
@@ -72,11 +67,6 @@ namespace Carmicah
 
                 GetComponent<RigidBody>().ApplyForce(new Vector2(1,0), 2.0f);
             }
-        }
-
-        void OnCollide()
-        {
-
         }
 
         void PlaySoundEffect(string name)
