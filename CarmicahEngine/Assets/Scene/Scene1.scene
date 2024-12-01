@@ -38,7 +38,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Bullet2"
+                    "texture": "Bullet"
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
@@ -124,7 +124,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -1.553418517112732,
+                    "xPos": -0.14400605857372285,
                     "yPos": -4.44448184967041,
                     "depth": 4.0,
                     "xScale": 2.0,
@@ -134,13 +134,18 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Walk 0"
+                    "texture": "MC_SpriteSheet_Walk 1"
                 },
                 {
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.Player",
                     "ScriptableFieldMap": [
-                        {}
+                        {
+                            "HealAnim": "MC_Heal",
+                            "IdleAnim": "MC_Idle",
+                            "WalkAnim": "MC_Walk",
+                            "isWalking": true
+                        }
                     ]
                 },
                 {
@@ -196,8 +201,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -1.2191649675369263,
-                    "yPos": -6.8657989501953129,
+                    "xPos": -1.3275809288024903,
+                    "yPos": -7.591907978057861,
                     "depth": 4.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -288,8 +293,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 3.79402756690979,
-                    "yPos": -6.196281433105469,
+                    "xPos": 3.7072949409484865,
+                    "yPos": -6.9144978523254398,
                     "depth": 4.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -365,7 +370,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 1"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 6"
                 },
                 {
                     "Component Name": "struct Script",
@@ -390,8 +395,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -3.9133100509643556,
-                    "yPos": -6.121669769287109,
+                    "xPos": -4.065092086791992,
+                    "yPos": -6.72939395904541,
                     "depth": 4.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -411,8 +416,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.914932131767273,
-                    "yPos": -6.903106212615967,
+                    "xPos": 0.7703770399093628,
+                    "yPos": -7.645001411437988,
                     "depth": 4.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -668,7 +673,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 1"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 6"
                 },
                 {
                     "Component Name": "struct Script",
@@ -694,7 +699,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 2.627264976501465,
-                    "yPos": -6.21057653427124,
+                    "yPos": -5.737024307250977,
                     "depth": 4.0,
                     "xScale": 5.441271781921387,
                     "yScale": 0.6269400119781494,
@@ -736,7 +741,7 @@
                     "xPos": 3.1397171020507814,
                     "yPos": -2.4053955078125,
                     "depth": 4.0,
-                    "xScale": 5.441271781921387,
+                    "xScale": 8.140999794006348,
                     "yScale": 0.6269400119781494,
                     "rot": -30.095834732055665
                 },
@@ -776,7 +781,7 @@
                     "xPos": -2.633945941925049,
                     "yPos": -1.9950332641601563,
                     "depth": 4.0,
-                    "xScale": 5.441271781921387,
+                    "xScale": 9.190999984741211,
                     "yScale": 0.6269400119781494,
                     "rot": -157.60910034179688
                 },
@@ -814,7 +819,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -2.633945941925049,
-                    "yPos": -6.135965824127197,
+                    "yPos": -5.7097673416137699,
                     "depth": 4.0,
                     "xScale": 5.441271781921387,
                     "yScale": 0.6269400119781494,
