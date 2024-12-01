@@ -24,6 +24,8 @@ namespace Carmicah
 
 		void UpdateOBB(Entity& obj);
 
+		void ComputeProjInterval(Entity& obj, Vec2f edgeNormal, float& min, float& max);
+
 		void GetOBBVertices(Entity& obj);
 
 		void CalculateEdges(Entity& obj);

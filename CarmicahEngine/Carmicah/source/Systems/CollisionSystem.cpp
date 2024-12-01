@@ -222,6 +222,45 @@ namespace Carmicah
 	}
 
 	/**
+	 * @brief Computes the projection interval of an entity's vertices onto a given edge normal.
+	 *
+	 * This function calculates the minimum and maximum values of the projections of the entity's vertices
+	 * onto the specified edge normal. The results are stored in the provided reference parameters `min` and `max`.
+	 * This is useful for determining how far apart two entities are along a specific axis, which is a key step
+	 * in collision detection algorithms, particularly in the Separating Axis Theorem (SAT).
+	 *
+	 * @param obj The entity whose projection interval is being calculated.
+	 * @param edgeNormal The normal vector of the edge onto which the vertices will be projected.
+	 * @param min Reference to a float that will hold the minimum projection value.
+	 * @param max Reference to a float that will hold the maximum projection value.
+	 */
+	void CollisionSystem::ComputeProjInterval(Entity& obj, Vec2f edgeNormal, float& min, float& max)
+	{
+			auto* componentManager = ComponentManager::GetInstance();
+			auto& transform = componentManager->GetComponent<Transform>(obj);
+			auto& collider = componentManager->GetComponent<Collider2D>(obj);
+
+			min = max = edgeNormal.dot(collider.objEdges[0]);
+			min = max = edgeNormal.dot(collider.objVert[0]);
+
+			for (size_t i = 1; i < collider.objVert.size(); i++)
+			{
+
+				float value = edgeNormal.dot(collider.objVert[i]);
+
+				if (value < min)
+				{
+					min = value;
+				}
+				else if (value > max)
+				{
+					max = value;
+				}
+			}
+	}
+
+
+	/**
 	 * @brief Determines which side of a line defined by a point and outward normal a set of vertices lies on.
 	 *
 	 * This function projects each vertex onto the outward normal and counts how many vertices lie on each side
