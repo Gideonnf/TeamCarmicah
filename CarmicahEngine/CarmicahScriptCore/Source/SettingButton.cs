@@ -1,4 +1,21 @@
-﻿using Carmicah;
+﻿/* File Documentation ----------------------------------------------------------------------------- 
+file:           SettingButton.cs
+
+author:		    Micah Lim (100%)
+
+email:			micahshengyao.lim@digipen.edu
+  
+brief:          This file defines the `SettingButton` class, derived from `Entity`. It represents a 
+                UI button that logs its ID to the console when clicked. Intended for testing button 
+                functionality within the Carmicah engine.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+--------------------------------------------------------------------------------------------------*/
+
+
+using Carmicah;
 using System;
 using System.Collections.Generic;
 using System.Linq;
