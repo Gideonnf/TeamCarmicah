@@ -1,11 +1,11 @@
 {
-    "GameObject": "Pause_Menu",
-    "ID": 10,
+    "GameObject": "Settings Menu",
+    "ID": 12,
     "Components": [
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "pause panel"
+            "texture": "settings panel"
         },
         {
             "Component Name": "struct Carmicah::UITransform",
