@@ -179,16 +179,16 @@ namespace Carmicah
                     {
                         Input.SetDragCurrentPos({ scaledX, scaledY });
 
-                        Vec2d startDragPos = Input.GetDragStartPos();
+                        //Vec2d startDragPos = Input.GetDragStartPos();
                         Vec2d currentMousePos = Input.GetDragCurrentPos();
                         /*if(mIsDebug)
                         {
                             std::cout << "Start Pos: " << startDragPos << std::endl;
                             std::cout << "Current Pos: " << currentMousePos << std::endl;
                         }*/
-                        Vec2d delta(currentMousePos.x - startDragPos.x, currentMousePos.y - startDragPos.y);
+                        //Vec2d delta(currentMousePos.x - startDragPos.x, currentMousePos.y - startDragPos.y);
 
-                        Transform& cameraTransform = camera.GetComponent<Transform>();
+                        //Transform& cameraTransform = camera.GetComponent<Transform>();
 
 
                         Input.SetDragStartPos(currentMousePos);

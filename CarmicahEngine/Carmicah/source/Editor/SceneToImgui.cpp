@@ -11,7 +11,6 @@ Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
 DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
 #include "pch.h"
 #include <glad/glad.h>
 #include <sstream>
@@ -25,7 +24,7 @@ namespace Carmicah
 {
     void SceneToImgui::CreateFramebuffer(int width, int height)
     {
-        for (int i{ NO_SCENE + 1 }; i < MAX_SCENES; ++i)
+        for (int i{}; i < MAX_SCENES; ++i)
         {
             glGenFramebuffers(1, &mScenes[i].FBO);
             glBindFramebuffer(GL_FRAMEBUFFER, mScenes[i].FBO);
@@ -58,7 +57,7 @@ namespace Carmicah
 
     void SceneToImgui::UnloadFramebuffer()
     {
-        for (int i{ NO_SCENE + 1 }; i < MAX_SCENES; ++i)
+        for (int i{}; i < MAX_SCENES; ++i)
         {
             glDeleteRenderbuffers(1, &mScenes[i].RBO);
             glDeleteTextures(1, &mScenes[i].picker_id);
@@ -69,6 +68,12 @@ namespace Carmicah
 
     void SceneToImgui::BindFramebuffer(SCENE_IMGUI scene)
     {
+        if (scene == NO_SCENE)
+        {
+            UnbindFramebuffer();
+            return;
+        }
+
         glBindFramebuffer(GL_FRAMEBUFFER, mScenes[scene].FBO);
         unsigned int drawBuffers[] = {
             GL_COLOR_ATTACHMENT0,
@@ -124,7 +129,7 @@ namespace Carmicah
 
     SceneToImgui::SCENE_IMGUI SceneToImgui::GetHovering()
     {
-        for (int i{NO_SCENE + 1}; i < MAX_SCENES; ++i)
+        for (int i{}; i < MAX_SCENES; ++i)
         {
             if (mScenes[i].isHovering)
                 return static_cast<SCENE_IMGUI>(i);

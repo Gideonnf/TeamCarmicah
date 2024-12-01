@@ -224,6 +224,8 @@ namespace Carmicah
 		}
 		// TODO: Handle removal of assets
 		// cant rlly be done/tested until editor has ways to delete and add assets
+
+		bool CopyAssetToAssetsFolder(const std::string& source, const char* assetPath);
 	private:
 
 
@@ -340,6 +342,8 @@ namespace Carmicah
 			File name to load the sound data from
 		***************************************************************************/
 		void LoadSound(const std::string& soundName, const std::string& soundFile);
+
+		
 	};
 }
 #endif

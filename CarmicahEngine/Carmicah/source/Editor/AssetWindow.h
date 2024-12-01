@@ -20,6 +20,7 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui.h>
 #include "EditorWindow.h"
 #include "ECS/GameObject.h"
+#include "Editor.h"
 #include "../Systems/AssetManager.h"
 
 
@@ -30,6 +31,7 @@ namespace Carmicah
 	private:
 
 	public:
+		static std::string soundToPlay;
 		static Prefab* selectedPrefab;
 
 		/**

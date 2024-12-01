@@ -39,12 +39,6 @@ namespace Carmicah
 		BaseGraphicsSystem::Init(AssetManager::GetInstance()->enConfig.defaultShader);
 	}
 
-	void WorldGraphicsSystem::SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam)
-	{
-		auto& currCam = ComponentManager::GetInstance()->GetComponent<Transform>(cam);
-		currCam.Scale(1.f / static_cast<float>(camWidth), 1.f / static_cast<float>(camHeight));
-	}
-
 	void WorldGraphicsSystem::EntityDestroyed(Entity id)
 	{
 		auto test =  mEntityBufferLoc.find(id);

@@ -33,6 +33,12 @@ namespace Carmicah
         internal extern static void Transform_SetPosition(uint entityID, ref Vector2 position);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Transform_GetDepth(uint entityID, out float depth);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Transform_SetDepth(uint entityID, ref float depth);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static uint Entity_FindEntityWithName(string name);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -67,5 +73,8 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static object GetScriptInstance(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Animation_ChangeAnim(uint entityID, string prefabName);
     }
 }

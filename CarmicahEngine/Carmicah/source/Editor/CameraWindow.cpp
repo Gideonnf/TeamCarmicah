@@ -1,23 +1,16 @@
-/* File Documentation -----------------------------------------------------------------------------
-file:           CameraWindow.cpp
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:          CameraWindow.cpp
 
-author:			Won Yu Xuan Rainne(100%)
+ author:		Won Yu Xuan Rainne(100%)
 
-email:			won.m@digipen.edu
+ email:			won.m@digipen.edu
 
-brief:          This file implements the CameraWindow class, which provides functionality for
-				the editor's camera manipulation window. It integrates user input to adjust camera
-				settings, including translation, scaling, and rotation of selected game objects
-				or UI elements using gizmos. The window displays the editor scene and allows for
-				interaction through mouse and keyboard inputs, with real-time rendering and position
-				adjustments.
+ brief:         Handles getting input from imGUI side when in the editor window
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
 DigiPen Institute of Technology is prohibited.
---------------------------------------------------------------------------------------------------*/
-
-
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include <GLFW/glfw3.h>
 #include <ImGUI/imgui.h>

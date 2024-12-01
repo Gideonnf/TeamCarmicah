@@ -812,7 +812,7 @@ namespace Carmicah
 
 	void AssetManager::LoadSound(const std::string& soundName, const std::string& soundFile)
 	{
-		FMOD_MODE eMode = FMOD_DEFAULT;
+		FMOD_MODE eMode = FMOD_DEFAULT | FMOD_LOOP_NORMAL;
 		FMOD::Sound* sound{ nullptr };
 		mSoundSystem->createSound(soundFile.c_str(), eMode, nullptr, &sound);
 		if (sound)
@@ -865,5 +865,47 @@ namespace Carmicah
 			CM_CORE_ERROR("Scene not found");
 			return false;
 		}
+	}
+
+	bool AssetManager::CopyAssetToAssetsFolder(const std::string& source, const char* assetPath)
+	{
+		try
+		{
+			std::filesystem::path assetFolder = assetPath;
+
+			std::string fileName = source.substr(source.find_last_of('\\') + 1);
+
+			size_t dotPos = source.find_last_of('.');
+			
+			std::string newFilePath = assetFolder.string() + "/";
+
+			if (source.substr(dotPos + 1) == "png")
+			{
+				newFilePath += "Images/" + fileName;
+				std::filesystem::copy(source, newFilePath, std::filesystem::copy_options::overwrite_existing);
+				return true;
+			}
+
+			if (source.substr(dotPos + 1) == "wav" || source.substr(dotPos + 1) == "mp3")
+			{
+				newFilePath += "Audio/" + fileName;
+				std::filesystem::copy(source, newFilePath, std::filesystem::copy_options::overwrite_existing);
+				return true;
+			}
+
+			else
+			{
+				return false;
+			}
+
+
+			
+		}
+		catch (const std::filesystem::filesystem_error& e)
+		{
+			CM_CORE_ERROR("Error Copying Asset!");
+			return false;
+		}
+
 	}
 }

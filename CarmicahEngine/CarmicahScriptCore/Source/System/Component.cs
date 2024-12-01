@@ -38,6 +38,19 @@ namespace Carmicah
                 FunctionCalls.Transform_SetPosition(Entity.mID, ref value);
             }
         }
+
+        public float Depth
+        {
+            get
+            {
+                FunctionCalls.Transform_GetDepth(Entity.mID, out float depth);
+                return depth;
+            }
+            set
+            {
+                FunctionCalls.Transform_SetDepth(Entity.mID, ref value);
+            }
+        }
     }
 
     public class RigidBody : Component
@@ -50,6 +63,14 @@ namespace Carmicah
         public void ApplyForce(Vector2 direction, float magnitude)
         {
             FunctionCalls.RigidBody_ApplyForce(Entity.mID, direction, magnitude);
+        }
+    }
+
+    public class Animation : Component
+    {
+        public void ChangeAnim(string animName)
+        {
+            FunctionCalls.Animation_ChangeAnim(Entity.mID, animName);
         }
     }
 }

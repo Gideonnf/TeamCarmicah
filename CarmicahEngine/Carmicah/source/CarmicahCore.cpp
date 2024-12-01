@@ -133,13 +133,13 @@ namespace Carmicah
         glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
         glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-        glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_FALSE);
+        glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_TRUE);
         glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
         int Width = mode->width;
         int Height = mode->height;
-        glfwCreateWindow(Width, Height, "Carmicah", primaryMonitor, NULL);
+        GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", primaryMonitor, NULL);
 
-#endif
+#else
 
 
 
@@ -151,11 +151,11 @@ namespace Carmicah
         //comment it when using installer
         int Width = AssetManager::GetInstance()->enConfig.Width;
         int Height = AssetManager::GetInstance()->enConfig.Height;
-        std::string defaultScene = AssetManager::GetInstance()->enConfig.defaultScene;
         //CM_CORE_INFO("Reached before window creation");
         GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", NULL, NULL);
        // int bufferWidth, bufferHeight;
         //glfwGetFramebufferSize(window, &bufferWidth, &bufferHeight);
+#endif
         glfwMakeContextCurrent(window);
        // CM_CORE_INFO("Reached after window creation");
 
@@ -336,7 +336,7 @@ namespace Carmicah
             // If the next state was set to ONSTART, means sceneSystem received a play messag
             if (gameSystem->mNextState == SceneState::ONSTART)
             {
-                souSystem->PlaySoundThis("BGM_SetupPhase_Mix1", SoundCategory::BGM, SoundSystem::SOUND_INGAME, 0.4f);
+                souSystem->PlaySoundThis("BGM_SetupPhase_Mix1", SoundCategory::BGM, SoundSystem::SOUND_INGAME, true, 0.4f);
                 gScriptSystem->OnStart();
                 // go to run time after starting up all script objects
                 gameSystem->mNextState = gameSystem->mCurrState = SceneState::RUNTIME;
@@ -388,7 +388,7 @@ namespace Carmicah
                             }
 #endif
 
-#ifdef CM_RELEASE || CM_INSTALLER
+#if defined(CM_RELEASE) || defined(CM_INSTALLER)
                             CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                             phySystem->Update();
                             CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
@@ -430,7 +430,7 @@ namespace Carmicah
                         }
 #endif
 
-#ifdef CM_RELEASE || CM_INSTALLER
+#if defined(CM_RELEASE) || defined(CM_INSTALLER)
                         CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                         phySystem->Update();
                         CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
@@ -463,7 +463,6 @@ namespace Carmicah
                     //fps.GetComponent<TextRenderer>().txt = std::to_string((int)CarmicahTime::GetInstance()->FPS());
                     editorSys->Update();
                     editorSys->Render(window);
-                    AssetManager::GetInstance()->fileWatcher.Update();
                     CarmicahTime::GetInstance()->StopSystemTimer("EditorSystem");
                 }
                 CarmicahTime::GetInstance()->StartSystemTimer("RenderingSystems");
