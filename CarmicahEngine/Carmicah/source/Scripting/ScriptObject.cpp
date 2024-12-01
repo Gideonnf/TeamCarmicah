@@ -66,7 +66,7 @@ namespace Carmicah
 		mOnCreate = scClass->GetMethod("OnCreate", 0);
 		mOnUpdate = scClass->GetMethod("OnUpdate", 1);
 		mOnClick = scClass->GetMethod("OnClick", 0);
-		mOnCollide = scClass->GetMethod("OnCollide", 1);
+		mOnCollide = scClass->GetMethod("OnCollide", 0);
 	}
 
 	MonoObject* ScriptObject::GetInstance()
@@ -106,9 +106,9 @@ namespace Carmicah
 			mScriptClass->InvokeMethod(mMonoInstance, mOnClick);
 	}
 
-	void ScriptObject::InvokeOnCollide(Entity otherID)
+	void ScriptObject::InvokeOnCollide()
 	{
-		UNUSED(otherID);
+		//UNUSED(otherID);
 		if (mOnCollide)
 		{
 			mScriptClass->InvokeMethod(mMonoInstance, mOnCollide);

@@ -33,7 +33,7 @@ namespace Carmicah
 	{
 	public:
 
-		static std::vector<std::string> droppedFilePaths;
+		static std::vector<std::string> sDroppedFilePaths;
 
 		/**
 		 * @brief Construct a new Editor object

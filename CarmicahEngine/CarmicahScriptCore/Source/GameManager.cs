@@ -30,6 +30,9 @@ namespace Carmicah
         public string ShooterNPC2 = "ShooterNPC_1";
 
         public bool GameStart = false;
+        public float MobCounter = 0;
+        public float NumOfMobs = 10;
+        
 
         Entity startingCakeEntity;
         Entity playerEntity;
@@ -68,7 +71,7 @@ namespace Carmicah
         {
             waveTimer += dt;
 
-            if (GameStart)
+            if (MobCounter > 0)
             {
                 timer += dt;
 
@@ -80,11 +83,15 @@ namespace Carmicah
                     mouseAI.isLeft = LeftOrRight;
                     LeftOrRight = !LeftOrRight;
                     mouseAI.SetInitialPosition(); // Reset initial position
-
+                    MobCounter--;
                     //Console.WriteLine($"Mouse Added {mouseEntity}");
 
                    // mouseEntities.Add(mouseEntity);
                 }
+            }
+            else
+            {
+                EndWave();
             }
 
 
@@ -92,60 +99,13 @@ namespace Carmicah
             {
                 waveTimer = 0.0f;
                 timer = spawnTimer;
-                GameStart = !GameStart;
-                if (GameStart)
-                {
-                    waveCount++;
-                    if (shooterNPC != null)
-                    {
-                         ShooterNPC npc = shooterNPC.As<ShooterNPC>();
-                        npc.ToggleShooting();
-
-                    }
-
-                    if (shooterNPC2 != null)
-                    {
-                        ShooterNPC npc = shooterNPC2.As<ShooterNPC>();
-                        npc.ToggleShooting();
-                    }
-                }
-                else
-                {
-                    if (shooterNPC != null)
-                    {
-                        ShooterNPC npc = shooterNPC.As<ShooterNPC>();
-                        npc.ToggleIdle();
-
-                    }
-
-                    if (shooterNPC2 != null)
-                    {
-                        ShooterNPC npc = shooterNPC2.As<ShooterNPC>();
-                        npc.ToggleIdle();
-                    }
-
-                }
+                StartNextWave();
             }
 
-            // TODO: When I wake up
-            // Make a function in c++ side to find game object with name that searches for anything with the substring
-            // if that doesnt work then i just make a timer and a random in the mouse AI to kill itself lmao
-            // idk why this doesnt work
-            //if (shootTimer > shootTime)
-            //{
-            //    Entity targetMouse = mouseEntities[0];
-            //    Console.WriteLine("Testing");
-            //    if (targetMouse != null)
-            //    {
-            //        Console.WriteLine("KILLING A MOUSE");
-            //        MouseAI mouseAI = targetMouse.As<MouseAI>();
-            //        mouseAI.KillMouse();
-            //        shootTimer = 0.0f;
-            //    }
-            //}
             if (Input.IsKeyPressed(Keys.KEY_1))
             {
-                waveTimer = WaveStartTime;
+                StartNextWave();
+                waveTimer = 0;
             }
 
             if (Input.IsKeyPressed(Keys.KEY_SPACEBAR))
@@ -241,9 +201,51 @@ namespace Carmicah
             }
         }
 
+        public void StartNextWave()
+        {
+            GameStart = true;
+            MobCounter += NumOfMobs;
+            waveCount++;
+            if (shooterNPC != null)
+            {
+                ShooterNPC npc = shooterNPC.As<ShooterNPC>();
+                npc.ToggleShooting();
+
+            }
+
+            if (shooterNPC2 != null)
+            {
+                ShooterNPC npc = shooterNPC2.As<ShooterNPC>();
+                npc.ToggleShooting();
+            }
+
+            GameStart = true;
+        }
+
+        public void EndWave()
+        {
+            if (GameStart)
+            {
+                GameStart = false;
+                if (shooterNPC != null)
+                {
+                    ShooterNPC npc = shooterNPC.As<ShooterNPC>();
+                    npc.ToggleIdle();
+
+                }
+
+                if (shooterNPC2 != null)
+                {
+                    ShooterNPC npc = shooterNPC2.As<ShooterNPC>();
+                    npc.ToggleIdle();
+                }
+            }
+        }
+
         public void MouseDestroyed(Entity mouse)
         {
-           // Console.WriteLine($"Mouse Destroyed {mouse}");
+           //
+           // ($"Mouse Destroyed {mouse}");
             //mouseEntities.Remove(mouse);
         }
 

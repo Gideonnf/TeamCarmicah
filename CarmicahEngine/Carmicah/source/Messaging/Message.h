@@ -80,9 +80,8 @@ namespace Carmicah
 	class EntityCollidedMessage : public Message
 	{
 	public:
-		Entity mEntityID1;
-		Entity mEntityID2;
-		EntityCollidedMessage(Entity id1, Entity id2) : Message(MSG_ENTITYCOLLIDED), mEntityID1(id1), mEntityID2(id2) {}
+		Entity mEntityID;
+		EntityCollidedMessage(Entity id) : Message(MSG_ENTITYCOLLIDED), mEntityID(id) {}
 	};
 
 	class EditorEntityPicked : public Message

@@ -22,8 +22,6 @@ namespace Carmicah
 	public:
 		void PrintEntities();
 
-		void InitOBB(Entity& obj);
-
 		void UpdateOBB(Entity& obj);
 
 		void GetOBBVertices(Entity& obj);

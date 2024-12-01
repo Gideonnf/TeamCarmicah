@@ -143,7 +143,7 @@ namespace Carmicah
 		/// <summary>
 		/// Call when obj collides, if it has a script with an onCollide function
 		/// </summary>
-		void InvokeOnCollide(Entity otherID);
+		void InvokeOnCollide();
 
 		template<typename T>
 		T GetFieldValue(const std::string& name)
