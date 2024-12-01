@@ -165,6 +165,7 @@ namespace Carmicah
                 {
                     if(gm != null)
                         gm.MouseDestroyed(this);
+
                     timer = 0.0f;
                     Destroy();
                 }
@@ -236,10 +237,37 @@ namespace Carmicah
             }
 
             float dist = Position.Distance(endPos);
-            if (dist <= 0.2f)
+            if (dist <= 0.3f)
             {
                 timer = 0.0f;
                 stateMachine.SetNextState("Dead");
+                switch (animType)
+                {
+                    case 0:
+                        //Console.WriteLine($"Trying to change Anim {Animation0}");
+                        ChangeAnim(AnimationDie0);
+
+                        break;
+                    case 1:
+                        //Console.WriteLine($"Trying to change Anim {Animation1}");
+
+                        ChangeAnim(AnimationDie1);
+
+                        break;
+                    case 2:
+                        //Console.WriteLine($"Trying to change Anim {Animation2}");
+
+                        ChangeAnim(AnimationDie2);
+
+                        break;
+                    case 3:
+                        // Console.WriteLine($"Trying to change Anim {Animation3}");
+
+                        ChangeAnim(AnimationDie3);
+
+                        break;
+                }
+
             }
         }
 

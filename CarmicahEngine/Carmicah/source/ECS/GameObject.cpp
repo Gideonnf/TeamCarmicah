@@ -56,7 +56,8 @@ namespace Carmicah
 
 	void GameObject::SetName(const std::string& name)
 	{
-		mName = name;
+		mName = name; // dont use this function
+
 	}
 
 	bool GameObject::IsActive()

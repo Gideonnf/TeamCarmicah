@@ -1035,7 +1035,8 @@ namespace Carmicah
 					if (inputBuffer[0] != '\0')
 					{
 						std::string newName = gGOFactory->CreateGOName(inputBuffer);
-						HierarchyWindow::selectedGO->SetName(newName);
+						gGOFactory->UpdateGOName(*HierarchyWindow::selectedGO, newName);
+						//HierarchyWindow::selectedGO->SetName(newName);
 					}
 					if (inputBuffer[0] == '\0')
 					{
