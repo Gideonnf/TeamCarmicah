@@ -115,43 +115,43 @@ namespace Carmicah
 		mono_free(cStrname);
 	}
 
-	static void Sound_PlayBGM(MonoString* name, float volume)
-	{
-		char* cStrname = mono_string_to_utf8(name);
-		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySoundThis(cStrname, SoundCategory::BGM, SoundSystem::SOUND_BGM, true, volume);
-		mono_free(cStrname);
-	}
+	//static void Sound_PlayBGM(MonoString* name, float volume)
+	//{
+	//	char* cStrname = mono_string_to_utf8(name);
+	//	auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+	//	souSystem->PlaySoundThis(cStrname, SoundCategory::BGM, SoundSystem::SOUND_BGM, true, volume);
+	//	mono_free(cStrname);
+	//}
 
-	static void Sound_Stop(MonoString* name)
-	{
-		char* cStrname = mono_string_to_utf8(name);
-		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->StopSound(SoundSystem::SOUND_INGAME);
-		mono_free(cStrname);
-	}
+	//static void Sound_Stop(MonoString* name)
+	//{
+	//	char* cStrname = mono_string_to_utf8(name);
+	//	auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+	//	souSystem->StopSound(SoundSystem::SOUND_INGAME);
+	//	mono_free(cStrname);
+	//}
 
-	static void Sound_Pause(MonoString* name)
-	{
-		char* cStrname = mono_string_to_utf8(name);
-		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PauseSound(SoundSystem::SOUND_INGAME);
-		mono_free(cStrname);
-	}
+	//static void Sound_Pause(MonoString* name)
+	//{
+	//	char* cStrname = mono_string_to_utf8(name);
+	//	auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+	//	souSystem->PauseSound(SoundSystem::SOUND_INGAME);
+	//	mono_free(cStrname);
+	//}
 
-	static void Sound_Resume(MonoString* name)
-	{
-		char* cStrname = mono_string_to_utf8(name);
-		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->ResumeSound(SoundSystem::SOUND_INGAME);
-		mono_free(cStrname);
-	}
+	//static void Sound_Resume(MonoString* name)
+	//{
+	//	char* cStrname = mono_string_to_utf8(name);
+	//	auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+	//	souSystem->ResumeSound(SoundSystem::SOUND_INGAME);
+	//	mono_free(cStrname);
+	//}
 
-	static void Sound_SetCategoryVolume(int category, float volume)
-	{
-		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->SetCategoryVolume(static_cast<SoundCategory>(category), SoundSystem::SOUND_INGAME, volume);
-	}
+	//static void Sound_SetCategoryVolume(int category, float volume)
+	//{
+	//	auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+	//	souSystem->SetCategoryVolume(static_cast<SoundCategory>(category), SoundSystem::SOUND_INGAME, volume);
+	//}
 
 
 
@@ -299,8 +299,8 @@ namespace Carmicah
 		// change the scene
 		if (!sceneSystem->ChangeScene(cStrName))
 		{
-			return false;
 			mono_free(cStrName);
+			return false;
 		}
 		// free the memory
 		mono_free(cStrName);

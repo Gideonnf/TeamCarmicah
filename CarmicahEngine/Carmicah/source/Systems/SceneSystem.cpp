@@ -102,8 +102,8 @@ namespace Carmicah
 		}
 		else
 		{
-			return false;
 			CM_CORE_ERROR("Unable to change scene.");
+			return false;
 		}
 
 		//if (AssetManager::GetInstance()->GetScene(nextScene, sceneFile))

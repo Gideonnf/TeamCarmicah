@@ -338,11 +338,12 @@ namespace Carmicah
 
 	void Editor::DropCallback(GLFWwindow* window, int count, const char** paths)
 	{
+		UNUSED(window);
 		for (int i = 0; i < count; ++i)
 		{
 			std::string filePath = paths[i];
 			size_t dotPos = filePath.find_last_of('.');
-
+			UNUSED(dotPos);
 			sDroppedFilePaths.push_back(filePath);
 		}
 	}

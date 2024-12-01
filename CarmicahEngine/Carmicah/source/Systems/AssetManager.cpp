@@ -908,6 +908,7 @@ namespace Carmicah
 		}
 		catch (const std::filesystem::filesystem_error& e)
 		{
+			UNUSED(e);
 			CM_CORE_ERROR("Error Copying Asset!");
 			return AssetManager::ASSETCOPIED::FAILURE;
 		}

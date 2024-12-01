@@ -493,10 +493,10 @@ namespace Carmicah
                 }
                 else
                 {
-                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam, true);
+                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
                     // Editor Cam
                     SceneToImgui::GetInstance()->BindFramebuffer(SceneToImgui::GAME_SCENE);
-                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam, true);
+                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
                     SceneToImgui::GetInstance()->UnbindFramebuffer();
 
                 }

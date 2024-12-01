@@ -188,7 +188,7 @@ namespace Carmicah
 			// Parent it to the scene on creation
 			UpdateParent(newGO.mID, sceneGO.sceneID);
 
-			CM_CORE_INFO("Creating prefab " + newGO.mName + " with ID " + std::to_string(newGO.mID) + " parenting to " + std::to_string(sceneGO.sceneID));
+			//CM_CORE_INFO("Creating prefab " + newGO.mName + " with ID " + std::to_string(newGO.mID) + " parenting to " + std::to_string(sceneGO.sceneID));
 
 			// Now check for children
 			// Has children
@@ -236,7 +236,7 @@ namespace Carmicah
 		SendSysMessage(&msg);
 		// Set the child to parent the original GO
 		UpdateParent(newGO.mID, parentID);
-		CM_CORE_INFO("Creating prefab child " + newGO.mName + " with ID " + std::to_string(newGO.mID) + " parenting to " + std::to_string(parentID));
+		//CM_CORE_INFO("Creating prefab child " + newGO.mName + " with ID " + std::to_string(newGO.mID) + " parenting to " + std::to_string(parentID));
 
 		// If there is a child in this prefab also, then go through the process again
 		if (prefab.childList.size() > 0)

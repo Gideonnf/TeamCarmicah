@@ -10,7 +10,7 @@ namespace Carmicah
     public class MouseChase : State
     {
         public MouseChase(string m_stateID) : base(m_stateID) { }
-        Vector2 targetPos;
+        //Vector2 targetPos;
 
         public override void Enter()
         {
