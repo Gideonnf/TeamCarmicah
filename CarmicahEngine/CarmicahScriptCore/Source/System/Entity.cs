@@ -16,11 +16,15 @@ namespace Carmicah
         {
             get
             {
+               // Console.WriteLine($"Scale Get ID:{mID}");
+
                 FunctionCalls.Transform_GetScale(mID, out Vector2 scale);
                 return scale;
             }
             set
             {
+               // Console.WriteLine($"Scale SetEntity ID:{mID}");
+
                 FunctionCalls.Transform_SetScale(mID, ref value);
             }
         }
@@ -29,11 +33,15 @@ namespace Carmicah
         {
             get
             {
+               // Console.WriteLine($"Transform GetEntity ID:{mID}");
+
                 FunctionCalls.Transform_GetPosition(mID, out Vector2 position);
                 return position;
             }
             set
             {
+               // Console.WriteLine($"Transform Set Entity ID:{mID}");
+
                 FunctionCalls.Transform_SetPosition(mID, ref value);
             }
         }

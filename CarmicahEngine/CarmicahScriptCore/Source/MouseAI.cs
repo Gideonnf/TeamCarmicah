@@ -116,7 +116,7 @@ namespace Carmicah
                     Random rand = new Random();
 
                     float randFloat = (float)rand.NextDouble();
-                    Console.WriteLine($"Random float : {randFloat}");
+                    //Console.WriteLine($"Random float : {randFloat}");
                     if (randFloat <= ChanceToDie)
                     {
                         timer = 0.0f;
@@ -157,9 +157,9 @@ namespace Carmicah
                 timer += dt;
 
                 GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
-                gm.MouseDestroyed(this);
                 if(timer >= DeathTime)
                 {
+                    gm.MouseDestroyed(this);
                     timer = 0.0f;
                     Destroy();
                 }
@@ -224,7 +224,11 @@ namespace Carmicah
                     break;
             }
             Vector2 dir = (endPos - Position).Normalize();
-            GetComponent<RigidBody>().ApplyForce(dir, 1.0f);
+            if (HasComponent<RigidBody>())
+            {
+                GetComponent<RigidBody>().ApplyForce(dir, 1.0f);
+
+            }
 
             float dist = Position.Distance(endPos);
             if (dist <= 0.2f)

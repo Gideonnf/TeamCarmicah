@@ -68,7 +68,7 @@ namespace Carmicah
                     LeftOrRight = !LeftOrRight;
                     mouseAI.SetInitialPosition(); // Reset initial position
 
-                    Console.WriteLine($"Mouse Added {mouseEntity}");
+                    //Console.WriteLine($"Mouse Added {mouseEntity}");
 
                     mouseEntities.Add(mouseEntity);
                 }
@@ -159,7 +159,7 @@ namespace Carmicah
 
         public void MouseDestroyed(Entity mouse)
         {
-            Console.WriteLine($"Mouse Destroyed {mouse}");
+           // Console.WriteLine($"Mouse Destroyed {mouse}");
             mouseEntities.Remove(mouse);
         }
 
