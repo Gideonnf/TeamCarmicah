@@ -54,13 +54,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "play_button",
-                    "ButtonImagePressed": "Button_SpriteSheet_Click_Menu 1"
+                    "ButtonImage": "Button_SpriteSheet_Hover_Play 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_Click_Play 0"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Click_Play 1"
+                    "texture": "Button_SpriteSheet_Hover_Play 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -70,13 +70,9 @@
                     ]
                 },
                 {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Button_Click_Play"
-                },
-                {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1286.3345947265626,
-                    "yPos": 446.95654296875,
+                    "xPos": 1300.0,
+                    "yPos": 400.0,
                     "depth": 1.0,
                     "xScale": 200.0,
                     "yScale": 100.0,
@@ -90,13 +86,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "quit_button",
-                    "ButtonImagePressed": "quit_button"
+                    "ButtonImage": "Button_SpriteSheet_Hover_Quit 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_Click_Quit 0"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Click_Quit 6"
+                    "texture": "Button_SpriteSheet_Hover_Quit 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -106,13 +102,9 @@
                     ]
                 },
                 {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Button_Click_Quit"
-                },
-                {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1284.6263427734376,
-                    "yPos": 348.25213623046877,
+                    "xPos": 1300.0,
+                    "yPos": 275.0,
                     "depth": 1.0,
                     "xScale": 200.0,
                     "yScale": 100.0,
@@ -126,13 +118,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "settings_button",
-                    "ButtonImagePressed": "settings_button"
+                    "ButtonImage": "Button_SpriteSheet_Hover_Settings 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_Click_Settings 0"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Click_Settings 8"
+                    "texture": "Button_SpriteSheet_Hover_Settings 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -142,13 +134,9 @@
                     ]
                 },
                 {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Button_Click_Settings"
-                },
-                {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1282.918212890625,
-                    "yPos": 243.91314697265626,
+                    "xPos": 1300.0,
+                    "yPos": 150.0,
                     "depth": 1.0,
                     "xScale": 200.0,
                     "yScale": 100.0,
