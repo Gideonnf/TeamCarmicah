@@ -285,7 +285,7 @@ namespace Carmicah
             const char* nameSpace = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
             const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
 
-            printf("%s.%s\n", nameSpace, name);
+            //printf("%s.%s\n", nameSpace, name);
         }
     }
 
@@ -532,7 +532,7 @@ namespace Carmicah
                 }
             }
 
-            printf("%s.%s\n", nameSpace, name);
+            //printf("%s.%s\n", nameSpace, name);
 
            
         }

@@ -365,9 +365,11 @@ namespace Carmicah
 		Input.CloseGame();
 		return;
 #endif
+
+#ifndef CM_INSTALLER
 		SceneWindow::mIsPlaying = !SceneWindow::mIsPlaying;
 		SceneWindow::mChangeState = true;
-
+#endif
 	}
 
 	/// <summary>

@@ -88,13 +88,15 @@ project "Carmicah"
         optimize "On"
         links 
         {
+            "/SUBSYSTEM:WINDOWS",
             "fmod_vc.lib"
         }
     filter "configurations:Installer"
-        defines {"CM_INSTALLER", "CM_DEBUG"}
+        defines {"CM_INSTALLER", "CM_RELEASE"}
         optimize "On"
         links
         {
+            "/SUBSYSTEM:WINDOWS",
             "fmod_vc.lib"
         }
 

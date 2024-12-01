@@ -20,10 +20,10 @@ AppSupportURL=http://www.digipen.edu/
 
 ; Default path to the file storage directory.
 ; {pf} is the default program files directory set by Windows
-DefaultDirName={pf}\DigiPen\GameTest
+DefaultDirName={pf}\DigiPen\SugarStrike
 
 ; Start menu directory
-DefaultGroupName=DigiPen\GameTest
+DefaultGroupName=DigiPen\SugarStrike
 
 ; Output directory for the installer.
 OutputDir=.\INSTALLER

@@ -48,7 +48,11 @@ namespace Carmicah
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, mScenes[i].RBO);
 
             if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+            {
+#ifndef CM_RELEASE
                 CM_CORE_ERROR(std::string{ "ERROR::FRAMEBUFFER:: Framebuffer(" } + std::to_string(i) + ") is not complete!\n");
+#endif
+            }
         }
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glBindTexture(GL_TEXTURE_2D, 0);
