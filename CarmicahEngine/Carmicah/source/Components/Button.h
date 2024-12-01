@@ -17,7 +17,6 @@ Reproduction or disclosure of this file or its contents without the prior writte
 DigiPen Institute of Technology is prohibited.
 -------------------------------------------------------------------------------------------------*/
 
-
 #ifndef BUTTON_COMPONENT_H
 #define BUTTON_COMPONENT_H
 
@@ -46,10 +45,6 @@ namespace Carmicah
         {
             ButtonImage = component["ButtonImage"].GetString();
             ButtonImagePressed = component["ButtonImagePressed"].GetString();
-			//isPressed = false; // start as unpressed
-
-            // Deserialize position and size from JSON, use the transfrom component to get position and size
-
             return *this;
         }
 
@@ -60,9 +55,6 @@ namespace Carmicah
             writer.String("ButtonImagePressed");
             writer.String(ButtonImagePressed.c_str());
         }
-
-        //Vec2d GetPosition() const { return position; }
-        //Vec2d GetSize() const { return size; }
     };
 }
 

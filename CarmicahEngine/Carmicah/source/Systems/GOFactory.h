@@ -1,11 +1,11 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:        GOFactory.h
+ file:			GOFactory.h
 
- author:   Gideon Francis
+ author:		Gideon Francis (100%)
 
- email:       g.francis@digipen.edu
+ email:			g.francis@digipen.edu
 
- brief:       A system to handle creation and deletion of game objects. Allows for cloning, prefab creation, Importing and exporting of game objects
+ brief:			A system to handle creation and deletion of game objects. Allows for cloning, prefab creation, Importing and exporting of game objects
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of

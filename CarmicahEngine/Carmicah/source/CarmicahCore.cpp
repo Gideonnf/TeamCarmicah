@@ -1,3 +1,21 @@
+/* File Documentation -----------------------------------------------------------------------------
+file:           CarmicahCore.cpp
+
+author:
+
+email:
+
+brief:          This file implements the Application class, which initializes and runs the core
+                functionality of the Carmicah engine. It sets up logging, graphics (GLFW and OpenGL),
+                asset management, system registration, and the main game loop. Additionally, it
+                manages input, rendering, physics, and scene transitions during runtime.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+--------------------------------------------------------------------------------------------------*/
+
+
 #include "pch.h"
 #include <stdio.h>
 #include <glad/glad.h>
@@ -106,6 +124,7 @@ namespace Carmicah
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+        glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
 
 
 #ifdef CM_INSTALLER
@@ -117,6 +136,7 @@ namespace Carmicah
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
         glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_TRUE);
         glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+        //glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
         int Width = mode->width;
         int Height = mode->height;
         GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", primaryMonitor, NULL);
