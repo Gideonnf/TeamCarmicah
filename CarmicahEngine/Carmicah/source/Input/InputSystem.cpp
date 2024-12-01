@@ -73,7 +73,8 @@ namespace Carmicah
 		if (ctrlPressed && altPressed && deletePressed)
 		{
 			// minimise window
-			glfwIconifyWindow(window);
+			if (!Input.mNotFullScreen)
+				glfwIconifyWindow(window);
 		}
 
 		// ALT-TAB
@@ -86,8 +87,32 @@ namespace Carmicah
 		{
 			std::cout << "Alt + Tab detected!" << std::endl;
 			
-			glfwIconifyWindow(window);
+			if(!Input.mNotFullScreen)
+				glfwIconifyWindow(window);
 		}
+
+#ifdef CM_INSTALLER
+		bool enterPressed = mKeyCurrentState[GLFW_KEY_ENTER];
+		if (altPressed2 && enterPressed)
+		{
+			std::cout << "Alt + Enter detected!" << std::endl;
+
+			if (!Input.mNotFullScreen)
+			{
+				GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+				const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
+
+				glfwSetWindowMonitor(window, primaryMonitor, 0, 0,
+					AssetManager::GetInstance()->enConfig.Width, AssetManager::GetInstance()->enConfig.Height, 0);
+			}
+			else
+			{
+				glfwSetWindowMonitor(window, nullptr, 0, 25,
+					AssetManager::GetInstance()->enConfig.Width, AssetManager::GetInstance()->enConfig.Height, 0);
+			}
+			Input.mNotFullScreen = !Input.mNotFullScreen;
+		}
+#endif
 
 		// cout whatever key that was pressed
 		if (action == GLFW_PRESS)
@@ -271,8 +296,9 @@ namespace Carmicah
 #ifdef CM_INSTALLER
 		int isFocused = glfwGetWindowAttrib(window, GLFW_FOCUSED);
 
-		if (!isFocused)
+		if (!isFocused && !Input.mNotFullScreen)
 		{
+
 			glfwIconifyWindow(window);
 		}
 #endif

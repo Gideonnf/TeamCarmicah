@@ -45,8 +45,10 @@ namespace Carmicah
 		Vector2D<double> dragEndPos;
 		Vector2D<double> dragCurrentPos;
 
-
 	public:
+		bool mNotFullScreen{};
+
+
 		InputSystem() : windowRef(nullptr), mMousePressed(false), mMouseTick(0) {}
 		~InputSystem() {};
 
