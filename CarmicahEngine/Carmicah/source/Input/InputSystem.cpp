@@ -102,6 +102,7 @@ namespace Carmicah
 				GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
 				const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
 
+				UNUSED(mode);
 				glfwSetWindowMonitor(window, primaryMonitor, 0, 0,
 					AssetManager::GetInstance()->enConfig.Width, AssetManager::GetInstance()->enConfig.Height, 0);
 			}
@@ -118,8 +119,8 @@ namespace Carmicah
 		if (action == GLFW_PRESS)
 		{
 			//use KeycodeToString function to print the key name
-			const char* keyName = Input.KeycodeToString((Keys)key);
-			std::cout << "Key Pressed: " << keyName << std::endl;
+			//const char* keyName = Input.KeycodeToString((Keys)key);
+		//	std::cout << "Key Pressed: " << keyName << std::endl;
 		}
 	}
 
@@ -244,14 +245,14 @@ namespace Carmicah
 		// adjust zoom level based on scroll direction
 		if (yOffset > 0)
 		{
-			std::cout << "i'm scrolling up" << std::endl;
-			std::cout << "scroll up (zoom in)" << std::endl;
+			//std::cout << "i'm scrolling up" << std::endl;
+			//std::cout << "scroll up (zoom in)" << std::endl;
 			// call a function or update a variable to handle zooming in
 		}
 		else if (yOffset < 0)
 		{
-			std::cout << "i'm scrolling down" << std::endl;
-			std::cout << "scroll down (zoom out)" << std::endl;
+			//std::cout << "i'm scrolling down" << std::endl;
+			//std::cout << "scroll down (zoom out)" << std::endl;
 		}
 		
 		// or is this function for scrolling up and down the scene? 

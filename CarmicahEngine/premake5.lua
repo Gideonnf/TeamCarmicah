@@ -88,7 +88,6 @@ project "Carmicah"
         optimize "On"
         links 
         {
-            "/SUBSYSTEM:WINDOWS",
             "fmod_vc.lib"
         }
     filter "configurations:Installer"
@@ -96,13 +95,12 @@ project "Carmicah"
         optimize "On"
         links
         {
-            "/SUBSYSTEM:WINDOWS",
             "fmod_vc.lib"
         }
 
 project "Editor"
     location "Editor"
-    kind "ConsoleApp"
+    kind "WindowedApp"
     language "C++"
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin/" .. outputdir .. "int/%{prj.name}")
@@ -147,7 +145,12 @@ project "Editor"
     filter "configurations:Release"
         defines { "RELEASE" }
         optimize "On"
+        linkoptions { "/SUBSYSTEM:WINDOWS" } -- Remove console window in Release
 
+    filter "configurations:Installer"
+        defines { "CM_INSTALLER" }
+        optimize "On"
+        linkoptions { "/SUBSYSTEM:WINDOWS" } -- Remove console window in Release
 -- exists outside of pch.h, since using .c, and pch is pre-compiled
 project "glad"
     location "glad"

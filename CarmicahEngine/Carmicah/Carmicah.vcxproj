@@ -126,7 +126,7 @@ xcopy /Q /E /Y /I "..\bin\Debug-x86_64\CarmicahScriptCore\**.**" "..\CarmicahScr
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>glfw3.lib;freetype.lib;mono-2.0-sgen.lib;MonoPosixHelper.lib;\SUBSYSTEM:WINDOWS.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;freetype.lib;mono-2.0-sgen.lib;MonoPosixHelper.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4099 /NODEFAULTLIB:LIBCMT /ignore:4098 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
@@ -159,7 +159,7 @@ xcopy /Q /E /Y /I "..\bin\Release-x86_64\CarmicahScriptCore\**.**" "..\CarmicahS
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>glfw3.lib;freetype.lib;mono-2.0-sgen.lib;MonoPosixHelper.lib;\SUBSYSTEM:WINDOWS.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;freetype.lib;mono-2.0-sgen.lib;MonoPosixHelper.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4099 /NODEFAULTLIB:LIBCMT /ignore:4098 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
