@@ -453,6 +453,8 @@ namespace Carmicah
 
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
+			EntityCollidedMessage newMsg(obj1);
+			SendSysMessage(&newMsg);
 
 
 		}

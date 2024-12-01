@@ -271,9 +271,39 @@ namespace Carmicah
             }
         }
 
-        public void OnCollide()
+        void OnCollide()
         {
+            timer = 0.0f;
 
+            stateMachine.SetNextState("Dead");
+            switch (animType)
+            {
+                case 0:
+                    //Console.WriteLine($"Trying to change Anim {Animation0}");
+                    ChangeAnim(AnimationDie0);
+
+                    break;
+                case 1:
+                    //Console.WriteLine($"Trying to change Anim {Animation1}");
+
+                    ChangeAnim(AnimationDie1);
+
+                    break;
+                case 2:
+                    //Console.WriteLine($"Trying to change Anim {Animation2}");
+
+                    ChangeAnim(AnimationDie2);
+
+                    break;
+                case 3:
+                    // Console.WriteLine($"Trying to change Anim {Animation3}");
+
+                    ChangeAnim(AnimationDie3);
+
+                    break;
+            }
+
+            //  Console.WriteLine("Testing OnCollide");
         }
 
         public void KillMouse()

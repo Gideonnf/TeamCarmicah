@@ -22,6 +22,30 @@ namespace Carmicah
 
         }
 
+        void ToggleWalkAnim()
+        {
+            if (!isWalking)
+            {
+                isWalking = true;
+                ChangeAnim(WalkAnim);
+            }
+        }
+
+        void ToggleIdle()
+        {
+            if (isWalking)
+            {
+                isWalking = false;
+                ChangeAnim(IdleAnim);
+            }
+        }
+
+        void ToggleHeal()
+        {
+            isWalking = false;
+            ChangeAnim(HealAnim);
+        }
+
         void OnUpdate(float dt)
         {
             timer += dt;

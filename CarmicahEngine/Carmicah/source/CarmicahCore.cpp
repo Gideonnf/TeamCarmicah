@@ -242,6 +242,7 @@ namespace Carmicah
         Input.BindSystem(gameSystem);
         
         Input.BindSystem(souSystem);
+        colSystem->BindSystem(gScriptSystem);
 
         gameSystem->BindSystem(editorSys);
         gameSystem->BindSystem(butSystem);
@@ -257,7 +258,7 @@ namespace Carmicah
         //glfwSetWindowUserPointer(window, inputSystem.get());
         gScriptSystem->Init();
         Input.Init(window);
-        gameSystem->SetScene("Scene3");
+        gameSystem->SetScene("Scene1");
 #ifndef CM_INSTALLER
         gameSystem->Init(); // Load all GOs from scene file
         
@@ -483,7 +484,7 @@ namespace Carmicah
                 {
                     // Game Cam
                     SceneToImgui::GetInstance()->BindFramebuffer(SceneToImgui::GAME_SCENE);
-                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam, true);
+                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
                     // Editor Cam
                     SceneToImgui::GetInstance()->BindFramebuffer(SceneToImgui::EDITOR_SCENE);
                     RenderHelper::GetInstance()->UpdateEditorCam();
