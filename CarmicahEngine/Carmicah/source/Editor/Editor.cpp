@@ -212,7 +212,7 @@ namespace Carmicah
 		}
 
 #pragma region Logic
-		if(Editor::droppedFilePaths.size() > 0)
+		if(Editor::sDroppedFilePaths.size() > 0)
 		{
 			for (const auto& file : Editor::sDroppedFilePaths)
 			{
