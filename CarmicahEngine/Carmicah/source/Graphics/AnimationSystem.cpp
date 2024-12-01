@@ -50,8 +50,11 @@ namespace Carmicah
 				if (animation.currPiece > a.anim.size())
 					animation.currPiece = 0;
 
-				rend.Texture(a.anim[animation.currPiece].second);
-				animation.maxTime = a.anim[animation.currPiece].first;
+				if (animation.currPiece <= a.anim.size() - 1)
+				{
+					rend.Texture(a.anim[animation.currPiece].second);
+					animation.maxTime = a.anim[animation.currPiece].first;
+				}
 
 				if (++animation.currPiece >= a.anim.size())
 					animation.currPiece = 0;
