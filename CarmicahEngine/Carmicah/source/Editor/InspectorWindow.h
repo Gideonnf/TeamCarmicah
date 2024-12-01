@@ -75,7 +75,7 @@ namespace Carmicah
 		template<typename T>
 		void AddComponentButton(T* go);
 		/**
-		 * @brief Function  that facilitates removing a component from a  gameobject.
+		 * @brief Function  that facilitates removing a component from a prefab/gameobject.
 		 * 
 		 * @tparam T 
 		 * @param go 
@@ -85,31 +85,85 @@ namespace Carmicah
 
 		template <typename T>
 		bool RemoveComponentButton(Prefab* go);
-
+		/**
+		 * @brief Renders the transform table
+		 * 
+		 * @tparam T 
+		 * @param data 
+		 * @param type 
+		 */
 		template<typename T>
 		void RenderTransformTable(T* data, TABLETYPE type);
-
+		/**
+		 * @brief Renders the UItransform table
+		 * 
+		 * @tparam T 
+		 * @param data 
+		 * @param type 
+		 */
 		template<typename T>
 		void RenderUITransformTable(T* data, TABLETYPE type);
-
+		/**
+		 * @brief Renders the Renderer component table
+		 * 
+		 * @tparam T 
+		 * @param data 
+		 * @param type 
+		 */
 		template<typename T>
 		void RenderRenderingTable(T* data, TABLETYPE type);
-
+		/**
+		 * @brief Renders the Animation component table
+		 * 
+		 * @tparam T 
+		 * @param data 
+		 * @param type 
+		 */
 		template<typename T>
 		void RenderAnimationTable(T* data, TABLETYPE type);
-
+		/**
+		 * @brief Renders the Rigidbody component table
+		 * 
+		 * @tparam T 
+		 * @param data 
+		 * @param type 
+		 */
 		template<typename T>
 		bool RenderRigidBodyTable(T* data, TABLETYPE type);
-
+		/**
+		 * @brief Renders the Collider2D component table
+		 * 
+		 * @tparam T 
+		 * @param data 
+		 * @param type 
+		 */
 		template<typename T>
 		void RenderCollider2DTable(T* data, TABLETYPE type);
-
+		/**
+		 * @brief Renders the TextRenderer component table
+		 * 
+		 * @tparam T 
+		 * @param data 
+		 * @param type 
+		 */
 		template<typename T>
 		void RenderTextRenderTable(T* data, TABLETYPE type);
-
+		/**
+		 * @brief Renders the Button component table
+		 * 
+		 * @tparam T 
+		 * @param data 
+		 * @param type 
+		 */
 		template<typename T>
 		void RenderButtonTable(T* data, TABLETYPE type);
-
+		/**
+		 * @brief Renders the Script component table
+		 * 
+		 * @tparam T 
+		 * @param data 
+		 * @param type 
+		 */
 		template<typename T>
 		void RenderScriptTable(T* data, TABLETYPE type);
 		//TODO: IF IT WORKS< APPLY IT FOR EVERYTHIGN ELSE
@@ -130,7 +184,7 @@ namespace Carmicah
 			}
 
 		}
-		//THIS SHOULD NOT EXIST
+
 		template <typename T>
 		void CheckForComponentChange(Prefab& go, T& newComponent, bool modified)
 		{

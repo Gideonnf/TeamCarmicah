@@ -12,9 +12,16 @@
             "rot": -125.0
         },
         {
+            "Component Name": "struct Script",
+            "scriptName": "",
+            "ScriptableFieldMap": [
+                {}
+            ]
+        },
+        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Bullet"
+            "texture": "Duck_ie 6"
         }
     ],
     "Children": [
@@ -34,7 +41,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Duck"
+                    "texture": "Duck_ie 5"
                 }
             ]
         }

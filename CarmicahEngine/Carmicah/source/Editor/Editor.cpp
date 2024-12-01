@@ -212,6 +212,12 @@ namespace Carmicah
 		}
 
 #pragma region Logic
+		if (HierarchyWindow::selectedGO != nullptr)
+		{
+			if (Input.IsKeyPressed(KEY_DELETE))
+				gGOFactory->Destroy(HierarchyWindow::selectedGO->GetID());
+		}
+
 		if(Editor::sDroppedFilePaths.size() > 0)
 		{
 			for (const auto& file : Editor::sDroppedFilePaths)

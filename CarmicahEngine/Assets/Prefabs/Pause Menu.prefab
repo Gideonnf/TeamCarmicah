@@ -15,10 +15,6 @@
             "xScale": 1920.0,
             "yScale": 1080.0,
             "rot": 0.0
-        },
-        {
-            "Component Name": "struct Carmicah::PrefabData",
-            "prefabRef": 9
         }
     ]
 }
