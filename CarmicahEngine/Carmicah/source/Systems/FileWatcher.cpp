@@ -1,3 +1,22 @@
+/* File Documentation -----------------------------------------------------------------------------
+file:           FileWatcher.cpp
+
+ author:		Gideon Francis (100%)
+
+ email:			g.francis@digipen.edu
+
+brief:          This file implements the FileWatcher class, which monitors a directory for file
+				changes. It tracks file creation, modification, and deletion. The `Init` method
+				initializes the directory watch, the `Update` method processes changes, and the
+				`DestroyFile` method handles file removal from the watch list. This class integrates
+				with the AssetManager to load or reload assets when changes are detected.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+--------------------------------------------------------------------------------------------------*/
+
+
 #include <pch.h>
 #include "FileWatcher.h"
 #include "AssetManager.h"

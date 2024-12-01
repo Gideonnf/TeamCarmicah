@@ -1,11 +1,11 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:        GameObject.h
+ file:     GameObject.h
 
- author:   Gideon Francis
+ author:   Gideon Francis (100%)
 
- email:       g.francis@digipen.edu
+ email:    g.francis@digipen.edu
 
- brief:       Wraps the entity ID into a game object class that allows adding, removing and retrieving component data that relates to the entity's id.
+ brief:    Wraps the entity ID into a game object class that allows adding, removing and retrieving component data that relates to the entity's id.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of

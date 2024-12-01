@@ -1,12 +1,12 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:        GameLogic.cpp
+ file:          GameLogic.cpp
 
- author:    Gideon Francis(70%)
- co-author: Lee Yong Yee (30%)
+ author:        Gideon Francis(70%)
+ co-author:     Lee Yong Yee (30%)
 
- emails:       g.francis@digipen.edu, l.yongyee@digipen.edu
+ emails:        g.francis@digipen.edu, l.yongyee@digipen.edu
 
- brief:       A system to handle game logic coding. Controling of players and any game play related examples to show in engine
+ brief:         A system to handle game logic coding. Controling of players and any game play related examples to show in engine
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of

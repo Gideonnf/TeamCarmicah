@@ -1,11 +1,11 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:        EntityManager.cpp
+ file:			EntityManager.cpp
 
- author:   Gideon Francis
+ author:		Gideon Francis (100%)
 
- email:       g.francis@digipen.edu
+ email:			g.francis@digipen.edu
 
- brief:       A singleton manager to handle the creation and management of Entity IDs and their Entity Signature which is a bitset that represents
+ brief:			A singleton manager to handle the creation and management of Entity IDs and their Entity Signature which is a bitset that represents
 				the components that the entity has
 
 Copyright (C) 2024 DigiPen Institute of Technology.

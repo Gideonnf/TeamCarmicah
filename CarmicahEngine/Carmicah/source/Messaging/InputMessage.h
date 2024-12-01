@@ -1,11 +1,11 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:        InputMessage.h
+ file:			InputMessage.h
 
- author:   Gideon Francis
+ author:		Gideon Francis (100%)
 
- email:       g.francis@digipen.edu
+ email:			g.francis@digipen.edu
 
- brief:       An example of how to create messages that can be sent between systems. Inherit a base message class and send in the type of message as an enum
+ brief:			An example of how to create messages that can be sent between systems. Inherit a base message class and send in the type of message as an enum
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
@@ -32,6 +32,4 @@ namespace Carmicah
 		MouseMessage( int key) : Message(MSG_MOUSEPRESS), mMouseKey(key) {}
 	};
 }
-
-
 #endif

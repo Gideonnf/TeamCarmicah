@@ -1,3 +1,22 @@
+/* File Documentation -----------------------------------------------------------------------------
+file:			PrefabSystem.h
+
+author:			Gideon Francis (100%)
+
+email:			g.francis@digipen.edu
+
+brief:          This file declares the PrefabSystem class, which manages prefabs in the game engine.
+				Prefabs represent reusable templates for game objects, enabling efficient creation
+				and modification. The system handles operations such as adding, saving, and updating
+				prefabs and their associated components. It includes template functions for
+				component manipulation and ensures component integrity for prefabs and entities.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+--------------------------------------------------------------------------------------------------*/
+
+
 #ifndef PREFAB_SYSTEM_H
 #define PREFAB_SYSTEM_H
 #include "ECS/BaseSystem.h"

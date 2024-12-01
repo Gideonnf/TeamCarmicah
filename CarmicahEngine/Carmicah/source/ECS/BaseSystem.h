@@ -1,12 +1,12 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:        BaseSystem.h
+ file:			BaseSystem.h
 
- author:   Gideon Francis
+ author:		Gideon Francis (100%)
 
- email:       g.francis@digipen.edu
+ email:			g.francis@digipen.edu
 
- brief:       The base class for all systems. Holds a set of entities which stores entities that the system can interact with. Contains a signature
-				 that represents the components that the system uses for it. 
+ brief:			The base class for all systems. Holds a set of entities which stores entities that the system can interact with. Contains a signature
+				that represents the components that the system uses for it. 
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
