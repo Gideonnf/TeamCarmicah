@@ -93,8 +93,8 @@ namespace Carmicah
 				if (collider.OBBinit == false)
 				{
 
-					collider.customWidth = maxX - minX;
-					collider.customHeight = maxY - minY;
+					collider.CustomWidth( maxX - minX);
+					collider.CustomHeight(maxY - minY);
 					collider.OBBinit = true;
 
 				}
@@ -106,8 +106,8 @@ namespace Carmicah
 				}
 			
 				// Calculate half-dimensions of the OBB
-				float halfWidth = collider.customWidth * 0.5f * transform.Scale().x;
-				float halfHeight = collider.customHeight * 0.5f * transform.Scale().y;
+				float halfWidth = collider.GetCustomWidth() * 0.5f * transform.Scale().x;
+				float halfHeight = collider.GetCustomHeight() * 0.5f * transform.Scale().y;
 
 				// Rotation in radians
 				float angle = transform.Rot() * (PI / 180.0f);
