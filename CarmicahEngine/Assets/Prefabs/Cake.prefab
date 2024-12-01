@@ -1,5 +1,5 @@
 {
-    "GameObject": "Duck",
+    "GameObject": "Cake",
     "ID": 4,
     "Components": [
         {
@@ -9,7 +9,7 @@
             "depth": 1.0,
             "xScale": 1.0,
             "yScale": 1.0,
-            "rot": -125.0
+            "rot": 0.0
         },
       {
         "Component Name": "struct Carmicah::Renderer",

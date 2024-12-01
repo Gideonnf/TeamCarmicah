@@ -812,7 +812,7 @@ namespace Carmicah
 
 	void AssetManager::LoadSound(const std::string& soundName, const std::string& soundFile)
 	{
-		FMOD_MODE eMode = FMOD_DEFAULT;
+		FMOD_MODE eMode = FMOD_DEFAULT | FMOD_LOOP_NORMAL;
 		FMOD::Sound* sound{ nullptr };
 		mSoundSystem->createSound(soundFile.c_str(), eMode, nullptr, &sound);
 		if (sound)

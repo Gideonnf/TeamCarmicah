@@ -11,8 +11,8 @@
 
 namespace Carmicah
 {
-	unsigned int RenderHelper::mCapFontID{};
-	std::queue<unsigned int> RenderHelper::mUnusedFontID{};
+	unsigned int RenderHelper::sCapFontID{};
+	std::queue<unsigned int> RenderHelper::sUnusedFontID{};
 
 
 bool RenderHelper::UniformExists(const GLuint& shdr, const char* str, GLint& ref)
@@ -39,42 +39,34 @@ void RenderHelper::InitScreenDimension(const float& screenWidth, const float& sc
 
 void RenderHelper::UpdateEditorCam()
 {
-	static bool firstPressed = false;
-	if (Input.IsMouseHold(MOUSE_BUTTON_RIGHT))
+	if (Input.IsMousePressed(MOUSE_BUTTON_RIGHT))
+		mOldMousePos = Input.GetMousePosition();
+	else if (Input.IsMouseHold(MOUSE_BUTTON_RIGHT))
 	{
-		if (!firstPressed)
-		{
-			mOldMousePos = Input.GetMousePosition();
-			firstPressed = true;
-		}
-
 		Vec2d mouseDiff = Input.GetMousePosition() - mOldMousePos;
 
 		mEditorCam.PosXAdd(-static_cast<float>(mouseDiff.x) / AssetManager::GetInstance()->enConfig.Width / mEditorCam.Scale().x * 2.f);
 		mEditorCam.PosYAdd(static_cast<float>(mouseDiff.y) / AssetManager::GetInstance()->enConfig.Height / mEditorCam.Scale().y * 2.f);
 		mOldMousePos = Input.GetMousePosition();
 	}
-	else if (Input.IsMouseReleased(MOUSE_BUTTON_RIGHT))
-	{
-		firstPressed = false;
-	}
 
 	if (Input.IsKeyHold(KEY_EQUAL))
 	{
 		Vec2f& s = mEditorCam.GetScale();
-		float ratio = static_cast<float>(AssetManager::GetInstance()->enConfig.Width) / static_cast<float>(AssetManager::GetInstance()->enConfig.Height);
+		float ratio = s.x / s.y;
 
-		s.x += ratio * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
-		s.y += 1.f * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
+		s.x += EDITOR_ZOOM_SPEED * ratio * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
+		s.y += EDITOR_ZOOM_SPEED * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
 	}
 	else if (Input.IsKeyHold(KEY_MINUS))
 	{
 		Vec2f& s = mEditorCam.GetScale();
 		float ratio = s.x / s.y;
 
-		s.x = std::fmaxf(s.x - ratio * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime()), minHeightScale * ratio);
-		s.y = std::fmaxf(s.y - 1.f * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime()), minHeightScale);
+		s.x = std::fmaxf(s.x - EDITOR_ZOOM_SPEED * ratio * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime()), MIN_HEIGHT_SCALE * ratio);
+		s.y = std::fmaxf(s.y - EDITOR_ZOOM_SPEED * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime()), MIN_HEIGHT_SCALE);
 	}
+
 }
 
 void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
@@ -83,8 +75,8 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Just did discard instead, cuz this stopped working
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Needs RBO to depth test
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
@@ -109,8 +101,6 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 			{
 				mCurrShader = it.first.dat[BUFFER_SHADER];
 				glUseProgram(mCurrShader);
-				glEnable(GL_BLEND);
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 				// Binds the entire 32 texture array
 				glBindTexture(GL_TEXTURE_2D_ARRAY, AssetManager::GetInstance()->mArrayTex);
@@ -222,13 +212,13 @@ RenderHelper::FontUniform* RenderHelper::GetFontUniforms(const unsigned int& buf
 unsigned int RenderHelper::AssignFont(const unsigned int& e)
 {
 	FontUniform ftU{};
-	if (mUnusedFontID.size() != 0)
+	if (sUnusedFontID.size() != 0)
 	{
-		ftU.bufferID = mUnusedFontID.front();
-		mUnusedFontID.pop();
+		ftU.bufferID = sUnusedFontID.front();
+		sUnusedFontID.pop();
 	}
 	else
-		ftU.bufferID = mCapFontID++;
+		ftU.bufferID = sCapFontID++;
 	mFontBufferToEntity.emplace(ftU.bufferID, e);
 	mFontUniforms.emplace(e, ftU);
 	
@@ -244,7 +234,7 @@ void RenderHelper::UnassignFont(const unsigned int& e)
 		if (fbtE != mFontBufferToEntity.end())
 			mFontBufferToEntity.erase(fbtE->first);
 
-		mUnusedFontID.push(ftU->first);
+		sUnusedFontID.push(ftU->first);
 		mFontUniforms.erase(e);
 	}
 }
@@ -311,7 +301,7 @@ void RenderHelper::RenderGizmos()
 
 	Mtx3x3f mtx{};
 	Vec2f translation{};
-	Vec2f gizmoScale{ mGizmoScale / mEditorWindomDim.x, mGizmoScale / mEditorWindomDim.y };
+	Vec2f gizmoScale{ GIZMO_SCALE / mEditorWindomDim.x, GIZMO_SCALE / mEditorWindomDim.y };
 	float lineWitdh = 10.f;
 
 	if (HierarchyWindow::selectedGO->HasComponent<Transform>())

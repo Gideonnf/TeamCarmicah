@@ -38,6 +38,19 @@ namespace Carmicah
             }
         }
 
+        public float Depth
+        {
+            get
+            {
+                FunctionCalls.Transform_GetDepth(mID, out float depth);
+                return depth;
+            }
+            set
+            {
+                FunctionCalls.Transform_SetDepth(mID, ref value);
+            }
+        }
+
 
         public bool HasComponent<T>() where T : Component, new()
         {
@@ -81,6 +94,11 @@ namespace Carmicah
         public void Destroy()
         {
             FunctionCalls.Destroy(mID);
+        }
+
+        public void ChangeAnim(string animName)
+        {
+            FunctionCalls.Animation_ChangeAnim(mID, animName);
         }
 
         //public T GetComponent<T>() 
