@@ -100,14 +100,17 @@ namespace Carmicah
 			if (!Input.mNotFullScreen)
 			{
 				GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
-				const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
 
-				UNUSED(mode);
 				glfwSetWindowMonitor(window, primaryMonitor, 0, 0,
 					AssetManager::GetInstance()->enConfig.Width, AssetManager::GetInstance()->enConfig.Height, 0);
 			}
 			else
 			{
+				GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+
+				glfwSetWindowMonitor(window, primaryMonitor, 0, 25,
+					Input.mWindowScale.x, Input.mWindowScale.y, 0);
+
 				glfwSetWindowMonitor(window, nullptr, 0, 25,
 					AssetManager::GetInstance()->enConfig.Width, AssetManager::GetInstance()->enConfig.Height, 0);
 			}

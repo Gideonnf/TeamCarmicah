@@ -47,6 +47,7 @@ namespace Carmicah
 
 	public:
 		bool mNotFullScreen{};
+		Vec2i mWindowScale{};
 
 
 		InputSystem() : windowRef(nullptr), mMousePressed(false), mMouseTick(0) {}

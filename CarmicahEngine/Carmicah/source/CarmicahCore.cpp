@@ -132,6 +132,8 @@ namespace Carmicah
 #ifdef CM_INSTALLER
         GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
         const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
+        Input.mWindowScale.x = mode->width;
+        Input.mWindowScale.y = mode->height;
         glfwWindowHint(GLFW_RED_BITS, mode->redBits);
         glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
         glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
@@ -522,6 +524,14 @@ namespace Carmicah
             CarmicahTime::GetInstance()->UpdateTime();
 
         }
+
+#ifdef CM_INSTALLER
+        if (!Input.mNotFullScreen)
+        {
+            glfwSetWindowMonitor(window, primaryMonitor, 0, 0,
+                Input.mWindowScale.x, Input.mWindowScale.y, 0);
+        }
+#endif
 
         SceneToImgui::GetInstance()->UnloadFramebuffer();
 
