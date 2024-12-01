@@ -30,11 +30,10 @@ namespace Carmicah
 
 		/*!*************************************************************************
 		brief
-			Force sets the data of the camera based on screen size
+			Remove the entity from the buffer when it is destroyed
+		param[id]
+			the entity id being destroyed
 		***************************************************************************/
-		void SetScreenSize(GLuint camWidth, GLuint camHeight, Entity& cam);
-
-
 		void EntityDestroyed(Entity id);
 
 		/*!*************************************************************************

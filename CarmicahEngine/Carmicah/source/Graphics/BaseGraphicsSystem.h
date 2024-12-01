@@ -89,6 +89,20 @@ namespace Carmicah
 		***************************************************************************/
 		float CalcDepth(const float& depth, const RENDER_LAYERS& layer);
 
+		/*!*************************************************************************
+		brief
+			Appends a new entity's data into the buffer (makes new buffer if none exists)
+		param[entity]
+			the entity ID
+		param[primitiveName]
+			the name of the primitive to link the buffer to
+		param[id]
+			unique id of the buffer (other than the other identifiers)
+		param[worldSpace]
+			to separate the batch buffers based on the need to use a camera as a uniform
+		param[isDebug]
+			to know to use vtx2D or vtxTexd2D for storing data into the buffer
+		***************************************************************************/
 		void SetNewEntity(const unsigned int& entity, const std::string& primitiveName, const unsigned int& id, bool worldSpace, bool isDebug);
 
 		/*!*************************************************************************
@@ -98,6 +112,10 @@ namespace Carmicah
 			** Not meant for objects with transparency **
 		param[primitiveName]
 			the primitive data to use to generate Batch Buffer Object & details
+		param[id]
+			unique id of the buffer (other than the other identifiers)
+		param[worldSpace]
+			to separate the batch buffers based on the need to use a camera as a uniform
 		param[isDebug]
 			toggle to generate a new batch of rendering for BasePrimitive objects
 		param[isForced]

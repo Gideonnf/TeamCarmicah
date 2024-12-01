@@ -1,3 +1,17 @@
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			RenderHelper.cpp
+
+ author:		Won Yu Xuan Rainne(100%)
+
+ email:			won.m@digipen.edu
+
+ brief:			Handles the actual rendering of all entities, and also the batching and instancing of different entities
+				Also handles the Rendering of Gizmos when in editor mode
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include <glad/glad.h>
 #include "RenderHelper.h"

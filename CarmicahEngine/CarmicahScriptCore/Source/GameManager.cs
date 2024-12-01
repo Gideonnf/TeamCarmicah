@@ -11,7 +11,7 @@ namespace Carmicah
 {
     public class GameManager : Entity
     {
-        public float spawnTimer = 0.3f;
+        public float spawnTimer = 0.5f;
         public string MousePrefabName = "MouseGO";
         public string CakePrefabName = "Cake";
         public string PlayerName = "mainCharacter";
@@ -19,7 +19,7 @@ namespace Carmicah
         public bool LeftOrRight = false;
         public float CakeHeightOffset;
         public string StartingCake;
-        public List<Entity> mouseEntities = new List<Entity>();
+        public List<Entity> mouseEntities = new List<Entity>(); // Doing this doesn't work idk why
         public float WaveStartTime = 25.0f;
         public float waveTimer = 0.0f;
 
