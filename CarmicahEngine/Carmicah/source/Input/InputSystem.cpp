@@ -268,12 +268,14 @@ namespace Carmicah
 	{
 		UNUSED(window);
 		UNUSED(focused);
-		//int isFocused = glfwGetWindowAttrib(window, GLFW_FOCUSED);
+#ifdef CM_INSTALLER
+		int isFocused = glfwGetWindowAttrib(window, GLFW_FOCUSED);
 
-		//if (!isFocused)
-		//{
-		//	glfwIconifyWindow(window);
-		//}
+		if (!isFocused)
+		{
+			glfwIconifyWindow(window);
+		}
+#endif
 	}
 
 	#pragma endregion
