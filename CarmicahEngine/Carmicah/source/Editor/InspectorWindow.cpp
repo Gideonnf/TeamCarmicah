@@ -1,8 +1,8 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  file:			InspectorWindow.cpp
 
- author:		Nicholas Lai (70%)
- co-author(s):	Micah Lim (30%)
+ author:		Nicholas Lai (90%)
+ co-author(s):	Micah Lim (10%)
 
  email:			n.lai@digipen.edu
 
@@ -148,14 +148,6 @@ namespace Carmicah
 			}
 		}
 	}
-
-
-	/**
-	 * @brief Templated Function based on the Component type to remove that component from the specified Entity.
-	 *
-	 * @tparam T
-	 * @param go
-	 */
 
 	template <typename T>
 	bool InspectorWindow::RemoveComponentButton(GameObject* go)
@@ -1020,7 +1012,7 @@ namespace Carmicah
 	}
 
 	/**
-	 * @brief Templated function for GameObjects
+	 * @brief Inspector Table that displays the components that are currently added.
 	 * 
 	 * @tparam T 
 	 * @param go 
