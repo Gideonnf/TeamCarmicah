@@ -135,7 +135,7 @@ namespace Carmicah
         glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
         glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_TRUE);
-        glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
+        glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
         //glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
         int Width = mode->width;
         int Height = mode->height;
