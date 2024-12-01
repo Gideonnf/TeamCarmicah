@@ -341,6 +341,20 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::DragFloat("##Depth", &selectedUITransform.GetDepth(), 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
 
+				//Rotation
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Rotation");
+				ImGui::TableNextColumn();
+				if(ImGui::DragFloat("##Rotation", &selectedUITransform.GetRot(), 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					selectedUITransform.Rot(fmodf(selectedUITransform.GetRot(), 360.0f));
+					if (selectedUITransform.GetRot() < 0.0f)
+					{
+						selectedUITransform.GetRot() += 360.0f;
+					}
+				}
+
 				// Scale (xScale, yScale)
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
