@@ -32,15 +32,17 @@ namespace Carmicah
 		float mOriginalAngle;
 	public:
 
-		/**
-		 * @brief Construct a new Scene Window object
-		 *
-		 */
+		/*!*************************************************************************
+		brief
+			Constructs the Camera window (editor mode)
+		***************************************************************************/
 		CameraWindow();
-		/**
-		 * @brief SceneWindow Update override from EditorWindow
-		 *
-		 */
+
+		/*!*************************************************************************
+		brief
+			Takes over input calculations when mouse is hovering over the imGUI window
+			Also handles moving game objects when selected using the gizmos
+		***************************************************************************/
 		void Update() override;
 
 
