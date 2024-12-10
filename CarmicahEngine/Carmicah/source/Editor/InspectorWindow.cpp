@@ -1021,6 +1021,13 @@ namespace Carmicah
 					if (ImGui::Button(entry.first.c_str()))
 					{
 						script.scriptName = entry.first;
+
+						// if its a prefab type then have to manually populate 
+						// the scriptablefield map
+						if (type == PREFAB)
+						{
+							gScriptSystem->UpdateScriptPrefabComponent(script);
+						}
 						ImGui::CloseCurrentPopup();
 					}
 				}

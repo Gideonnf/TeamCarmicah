@@ -96,6 +96,8 @@ namespace Carmicah
 
 		void UpdateScriptComponent(Entity entity);
 
+		void UpdateScriptPrefabComponent(Script& scriptComponent);
+
 		/*!
 		OnStart() -> Called when play button is pressed. Loop through all entities and get a reference to their scripts
 		OnUpdate() -> Calls the script's update

@@ -418,6 +418,32 @@ namespace Carmicah
         }
     }
 
+    void ScriptSystem::UpdateScriptPrefabComponent(Script& scriptComponent)
+    {
+        auto& scriptRef = mEntityClasses[scriptComponent.scriptName];
+        const auto& fields = scriptRef->mFields;
+        //Script::variantVar var;
+        for (const auto& it : fields)
+        {
+            if (it.second.mType == ScriptFieldType::Float)
+            {
+                float var{};
+                scriptComponent.scriptableFieldMap[it.first] = var;
+            }
+            else if (it.second.mType == ScriptFieldType::Bool)
+            {
+                bool var{};
+                scriptComponent.scriptableFieldMap[it.first] = var;
+            }
+            else if (it.second.mType == ScriptFieldType::String)
+            {
+                std::string var{};
+                scriptComponent.scriptableFieldMap[it.first] = var;
+            }
+        }
+
+    }
+
     void ScriptSystem::EntityAdded(Entity entity)
     {
       
