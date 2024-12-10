@@ -38,6 +38,26 @@ namespace Carmicah
         std::vector<Vec2f> objNormals;
         std::vector<Vec2f> objEdges;
 
+        void CustomWidth(float width)
+        {
+            customWidth = width;
+        }
+
+        void CustomHeight(float height)
+        {
+            customHeight = height;
+        }
+
+        float GetCustomWidth()
+        {
+            return customWidth;
+        }
+
+        float GetCustomHeight()
+        {
+            return customHeight;
+        }
+
         std::string shape;
 
         Collider2D& DeserializeComponent(const rapidjson::Value& component) override

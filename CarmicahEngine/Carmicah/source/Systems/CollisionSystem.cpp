@@ -40,9 +40,13 @@ namespace Carmicah
 	}
 
 	/**
-	 * @brief Updates the Axis-Aligned Bounding Box (AABB) for a given entity based on its transform and previous position.
+	 * @brief Updates the Oriented Bounding Box (OBB) for a given entity based on its transform and associated primitive model.
 	 *
-	 * @param obj The entity whose AABB is being updated.
+	 * This function calculates the OBB by determining the minimum and maximum bounds of the entity's vertices,
+	 * applying scaling and rotation according to the entity's transform, and updating the collider component
+	 * with the new OBB vertices. It also handles texture changes to ensure that the OBB is recalculated when necessary.
+	 *
+	 * @param obj The entity whose OBB is being updated.
 	 */
 	void CollisionSystem::UpdateOBB(Entity& obj)
 	{
@@ -93,8 +97,8 @@ namespace Carmicah
 				if (collider.OBBinit == false)
 				{
 
-					collider.customWidth = maxX - minX;
-					collider.customHeight = maxY - minY;
+					collider.CustomWidth( maxX - minX);
+					collider.CustomHeight(maxY - minY);
 					collider.OBBinit = true;
 
 				}
@@ -106,8 +110,8 @@ namespace Carmicah
 				}
 			
 				// Calculate half-dimensions of the OBB
-				float halfWidth = collider.customWidth * 0.5f * transform.Scale().x;
-				float halfHeight = collider.customHeight * 0.5f * transform.Scale().y;
+				float halfWidth = collider.GetCustomWidth() * 0.5f * transform.Scale().x;
+				float halfHeight = collider.GetCustomHeight() * 0.5f * transform.Scale().y;
 
 				// Rotation in radians
 				float angle = transform.Rot() * (PI / 180.0f);
@@ -142,7 +146,14 @@ namespace Carmicah
 
 	}
 
-
+	/**
+	 * @brief Retrieves and calculates the vertices for the Oriented Bounding Box (OBB) of a given entity.
+	 *
+	 * This function computes the OBB vertices based on the entity's transform, including its position, scale,
+	 * and rotation. The calculated vertices are stored in the collider component for use in collision detection.
+	 *
+	 * @param obj The entity whose OBB vertices are being calculated.
+	 */
 	void CollisionSystem::GetOBBVertices(Entity& obj)
 	{
 
@@ -177,6 +188,15 @@ namespace Carmicah
 
 	}
 
+	/**
+	 * @brief Calculates the edges and normals for the OBB of a given entity.
+	 *
+	 * This function iterates through the vertices of the OBB to compute the edges and their corresponding
+	 * normals. These edges and normals are stored in the collider component, which are essential for collision
+	 * detection algorithms.
+	 *
+	 * @param obj The entity whose OBB edges and normals are being calculated.
+	 */
 	void CollisionSystem::CalculateEdges(Entity& obj)
 	{
 
@@ -201,6 +221,57 @@ namespace Carmicah
 
 	}
 
+	/**
+	 * @brief Computes the projection interval of an entity's vertices onto a given edge normal.
+	 *
+	 * This function calculates the minimum and maximum values of the projections of the entity's vertices
+	 * onto the specified edge normal. The results are stored in the provided reference parameters `min` and `max`.
+	 * This is useful for determining how far apart two entities are along a specific axis, which is a key step
+	 * in collision detection algorithms, particularly in the Separating Axis Theorem (SAT).
+	 *
+	 * @param obj The entity whose projection interval is being calculated.
+	 * @param edgeNormal The normal vector of the edge onto which the vertices will be projected.
+	 * @param min Reference to a float that will hold the minimum projection value.
+	 * @param max Reference to a float that will hold the maximum projection value.
+	 */
+	void CollisionSystem::ComputeProjInterval(Entity& obj, Vec2f edgeNormal, float& min, float& max)
+	{
+			auto* componentManager = ComponentManager::GetInstance();
+			auto& transform = componentManager->GetComponent<Transform>(obj);
+			auto& collider = componentManager->GetComponent<Collider2D>(obj);
+
+			min = max = edgeNormal.dot(collider.objEdges[0]);
+			min = max = edgeNormal.dot(collider.objVert[0]);
+
+			for (size_t i = 1; i < collider.objVert.size(); i++)
+			{
+
+				float value = edgeNormal.dot(collider.objVert[i]);
+
+				if (value < min)
+				{
+					min = value;
+				}
+				else if (value > max)
+				{
+					max = value;
+				}
+			}
+	}
+
+
+	/**
+	 * @brief Determines which side of a line defined by a point and outward normal a set of vertices lies on.
+	 *
+	 * This function projects each vertex onto the outward normal and counts how many vertices lie on each side
+	 * of the line. It returns +1 if all vertices are on one side, -1 if they are on the opposite side, or 0 if
+	 * they are mixed or on the line.
+	 *
+	 * @param otherVertices The vertices to be tested against the line.
+	 * @param point A point defining one end of the line.
+	 * @param outwardNorm The outward normal defining the direction of the line.
+	 * @return An integer indicating which side of the line the vertices lie on (+1, -1, or 0).
+	 */
 	int CollisionSystem::WhichSide(std::vector<Vec2f>& otherVertices, Vec2f& point, Vec2f& outwardNorm)
 	{
 		int positive;
@@ -236,6 +307,16 @@ namespace Carmicah
 		return (positive > 0) ? 1 : -1;
 	}
 
+	/**
+	 * @brief Calculates the penetration depth between two entities that are colliding.
+	 *
+	 * This function computes how deep two entities overlap based on their positions and dimensions. It returns
+	 * the maximum penetration depth along either axis if they intersect, or 0 if there is no overlap.
+	 *
+	 * @param obj1 The first entity involved in the collision.
+	 * @param obj2 The second entity involved in the collision.
+	 * @return The penetration depth as a float value. Returns 0 if no collision occurs.
+	 */
 	float CollisionSystem::CalculatePenetrationDepth(Entity& obj1, Entity& obj2)
 	{
 		auto* componentManager = ComponentManager::GetInstance();
@@ -244,11 +325,11 @@ namespace Carmicah
 		auto& collider1 = componentManager->GetComponent<Collider2D>(obj1);
 		auto& collider2 = componentManager->GetComponent<Collider2D>(obj2);
 
-		float halfWidth1 = (collider1.customWidth * collider1.localScale) * 0.5f;
-		float halfHeight1 = (collider1.customHeight * collider1.localScale) * 0.5f;
+		float halfWidth1 = (collider1.GetCustomWidth() ) * 0.5f;
+		float halfHeight1 = (collider1.GetCustomHeight() ) * 0.5f;
 
-		float halfWidth2 = (collider2.customWidth * collider2.localScale) * 0.5f;
-		float halfHeight2 = (collider2.customHeight * collider2.localScale) * 0.5f;
+		float halfWidth2 = (collider2.GetCustomWidth() ) * 0.5f;
+		float halfHeight2 = (collider2.GetCustomHeight() ) * 0.5f;
 
 		Vec2f distance = transform1.Pos() - transform2.Pos();
 
@@ -265,6 +346,16 @@ namespace Carmicah
 		return 0.0f;
 	}
 
+	/**
+	 * @brief Calculates the collision normal vector between two colliding entities.
+	 *
+	 * This function determines the direction from one entity to another at the point of collision. The result is
+	 * a normalized vector that can be used to resolve collisions or apply forces.
+	 *
+	 * @param obj1 The first entity involved in the collision.
+	 * @param obj2 The second entity involved in the collision.
+	 * @return A normalized vector representing the collision normal direction from obj1 to obj2.
+	 */
 	Vec2f CollisionSystem::CalculateCollisionNormal(Entity& obj1, Entity& obj2)
 	{
 		auto* componentManager = ComponentManager::GetInstance();
@@ -274,6 +365,15 @@ namespace Carmicah
 		return (transform2.Pos() - transform1.Pos()).normalize();
 	}
 
+	/**
+	 * @brief Resolves penetration between two colliding entities by adjusting their positions.
+	 *
+	 * This function calculates how much two entities have penetrated into each other and adjusts their positions
+	 * accordingly to eliminate overlap. It handles dynamic and kinematic object types differently during this process.
+	 *
+	 * @param obj1 The first entity involved in the collision resolution.
+	 * @param obj2 The second entity involved in the collision resolution.
+	 */
 	void CollisionSystem::ResolvePenetration(Entity& obj1, Entity& obj2)
 	{
 		auto* componentManager = ComponentManager::GetInstance();
@@ -284,17 +384,6 @@ namespace Carmicah
 		UNUSED(collider2);
 
 		float penetrationDepth = CalculatePenetrationDepth(obj1, obj2);
-
-		/*Vec2f collisionNormal = CalculateCollisionNormal(obj1, obj2);
-
-
-		float halfPenetration = penetrationDepth / 2.0f;
-
-		transform1.PosX(transform1.Pos().x + collisionNormal.x * halfPenetration);
-		transform1.PosY(transform1.Pos().y + collisionNormal.y * halfPenetration);
-
-		transform2.PosX(transform2.Pos().x - collisionNormal.x * halfPenetration);
-		transform2.PosY(transform2.Pos().y - collisionNormal.y * halfPenetration);*/
 
 		float halfWidth1 = (collider1.customWidth * collider1.localScale) * 0.5f;
 		float halfHeight1 = (collider1.customHeight * collider1.localScale) * 0.5f;
@@ -313,12 +402,15 @@ namespace Carmicah
 	}
 
 	/**
-	 * @brief Checks for intersection/overlap between OBB objects
+	 * @brief Checks for intersection or overlap between two OBB objects.
 	 *
-	 * Depending on the object types (dynamic, static, kinematic), the response will either stop the entities or destroy them.
+	 * This function determines whether two entities' OBBs intersect. It evaluates each edge of both OBBs against
+	 * each other using their normals. Depending on object types (dynamic, static, kinematic), it may trigger
+	 * different responses upon detection of a collision.
 	 *
-	 * @param obj1 The first entity in the collision.
-	 * @param obj2 The second entity in the collision.
+	 * @param obj1 The first entity in the collision check.
+	 * @param obj2 The second entity in the collision check.
+	 * @return True if there is an intersection; otherwise false.
 	 */
 	bool CollisionSystem::TestIntersection(Entity& obj1, Entity& obj2)
 	{

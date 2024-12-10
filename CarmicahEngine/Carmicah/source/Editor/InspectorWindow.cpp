@@ -718,12 +718,30 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("Custom Width");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##CustomWidth", &col.customWidth, 0.1f, 0.5f, FLT_MAX, "%.3f");
+				float width = col.GetCustomWidth();
+				if (ImGui::DragFloat("##CustomWidth", &width, 0.1f, 0.5f, FLT_MAX, "%.3f"))
+				{
+					if (width < 0.0f)
+					{
+						width = 1.0f;
+						col.CustomWidth(width);
+					}
+				}
+				
 
 				ImGui::TableNextColumn();
 				ImGui::Text("Custom Height");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##CustomHeight", &col.customHeight, 0.1f, 0.5f, FLT_MAX, "%.3f");
+				float height = col.GetCustomHeight();
+				if (ImGui::DragFloat("##CustomHeight", &height, 0.1f, 0.5f, FLT_MAX, "%.3f"))
+				{
+					if (height < 0.0f)
+					{
+						height = 1.0f;
+						col.CustomHeight(height);
+					}
+				}
+				
 
 				ImGui::EndTable();
 			}
