@@ -24,6 +24,7 @@ DigiPen Institute of Technology is prohibited.
 #include "../ECS/GameObject.h"
 #include "AssetTypes.h"
 #include "GOFactory.h"
+#include "../Scripting/ScriptSystem.h"
 
 namespace Carmicah
 {
@@ -83,6 +84,36 @@ namespace Carmicah
 				// attach it to the go
 				gGOFactory->AttachComponents(go, component);
 			}
+		}
+
+		template<>
+		void UpdateComponent<Script>(std::pair<const std::string, std::any>& component, Entity entityID)
+		{
+			std::string componentName = component.first;
+			std::any componentData = component.second;
+
+			// Check if its the correct component to be modified
+			// Check if it has the component incase the player removed it
+			if (componentName == typeid(Script).name() && ComponentManager::GetInstance()->HasComponent<Script>(entityID))
+			{
+
+				Script prefabComponentData = std::any_cast<Script>(componentData);
+				Script& entityComponentData = ComponentManager::GetInstance()->GetComponent<Script>(entityID);
+
+				// change the component data
+				entityComponentData = prefabComponentData;
+
+				// Update the scriptable data also
+				gScriptSystem->UpdateScriptVariables(entityID);
+			}
+			// A new component
+			else if (componentName == typeid(Script).name() && !ComponentManager::GetInstance()->HasComponent<Script>(entityID))
+			{
+				GameObject& go = gGOFactory->FetchGO(entityID);
+				// attach it to the go
+				gGOFactory->AttachComponents(go, component);
+			}
+
 		}
 
 		template<typename T>
