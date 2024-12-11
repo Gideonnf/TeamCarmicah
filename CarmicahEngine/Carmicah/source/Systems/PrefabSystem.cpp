@@ -201,6 +201,9 @@ namespace Carmicah
 						UpdateComponent<Script>(component, entity);
 						UpdateComponent<TextRenderer>(component, entity);
 						UpdateComponent<RigidBody>(component, entity);
+						UpdateComponent<Collider2D>(component, entity);
+						UpdateComponent<Renderer>(component, entity);
+						UpdateComponent<Animation>(component, entity);
 
 					}
 
@@ -210,6 +213,9 @@ namespace Carmicah
 						RemoveComponent<Script>(componentName, entity);
 						RemoveComponent<TextRenderer>(componentName, entity);
 						RemoveComponent<RigidBody>(componentName, entity);
+						RemoveComponent<Collider2D>(componentName, entity);
+						RemoveComponent<Renderer>(componentName, entity);
+						RemoveComponent<Animation>(componentName, entity);
 					}
 
 					// clear after checking
