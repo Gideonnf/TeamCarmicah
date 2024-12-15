@@ -455,7 +455,7 @@ namespace Carmicah
                     //GameObject fps;
                    // gGOFactory->FetchGO("FPSText", fps);
                     //fps.GetComponent<TextRenderer>().txt = std::to_string((int)CarmicahTime::GetInstance()->FPS());
-                    editorSys->Update();
+                    editorSys->Update(window);
                     editorSys->Render(window);
                     CarmicahTime::GetInstance()->StopSystemTimer("EditorSystem");
                 }

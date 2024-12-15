@@ -25,6 +25,7 @@ namespace Carmicah
 {
 
 	std::vector<std::string> Editor::sDroppedFilePaths{};
+	bool Editor::mShowCloseConfirmation = false;
 	Editor::Editor()
 	{
 		
@@ -57,6 +58,7 @@ namespace Carmicah
 		//Allows for dropped objects
 		glfwSetWindowUserPointer(window, this);
 		glfwSetDropCallback(window, DropCallback);
+		glfwSetWindowCloseCallback(window, CloseCallback);
 
 		//Creating Windows
 		//For Testing
@@ -70,7 +72,7 @@ namespace Carmicah
 
 	}
 
-	void Editor::Update()
+	void Editor::Update(GLFWwindow* window)
 	{
 
 		ImGui_ImplOpenGL3_NewFrame();
@@ -79,7 +81,7 @@ namespace Carmicah
 		ImGuiViewport* viewport = ImGui::GetMainViewport();
 		static bool sFirstTime = true;
 		static ImVec2 popupSize(300, 150);
-		float mainMenuHeight{};
+		//float mainMenuHeight{};
 		ImGuiWindowFlags dockingWindowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 
 		
@@ -91,6 +93,7 @@ namespace Carmicah
 		if(ImGui::Begin("DockingWindow", nullptr, dockingWindowFlags))
 		{
 
+#pragma region DockingSettings
 			// Create the main docking space
 			ImGuiID dockspaceID = ImGui::GetID("MainDockSpace");
 			ImGui::DockSpace(dockspaceID, ImVec2(0, 0), ImGuiDockNodeFlags_PassthruCentralNode);
@@ -115,16 +118,22 @@ namespace Carmicah
 				ImGui::DockBuilderDockWindow("Hierarchy", dockLeft);
 				ImGui::DockBuilderFinish(dockMain);
 			}
+#pragma endregion
 
+#pragma region Main Menu Bar
 			//Main Menu Bar
 			if (ImGui::BeginMenuBar())
 			{
-				mainMenuHeight = ImGui::GetFrameHeight();
+				//mainMenuHeight = ImGui::GetFrameHeight();
 				if (ImGui::BeginMenu("File"))
 				{
-					if (ImGui::MenuItem("New"))
+					if (ImGui::BeginMenu("New"))
 					{
+						if (ImGui::MenuItem("Create New Scene"))
+						{
 
+						}
+						ImGui::EndMenu();
 					}
 
 					ImGui::EndMenu();
@@ -134,6 +143,8 @@ namespace Carmicah
 				{
 					for (const auto& window : mWindows)
 					{
+
+						//Toggle Asset Browser Visibility
 						if (auto assetWindow = dynamic_cast<AssetWindow*>(window.get()))
 						{
 							if (ImGui::MenuItem("Asset Browser", nullptr, assetWindow->mIsVisible))
@@ -159,7 +170,7 @@ namespace Carmicah
 								heirarchyWindow->mIsVisible = !heirarchyWindow->mIsVisible;
 							}
 						}
-
+						//Toggle Inspector Window Visibility
 						if (auto inspectorWindow = dynamic_cast<InspectorWindow*>(window.get()))
 						{
 							if (ImGui::MenuItem("Inspector", nullptr, inspectorWindow->mIsVisible))
@@ -167,7 +178,7 @@ namespace Carmicah
 								inspectorWindow->mIsVisible = !inspectorWindow->mIsVisible;
 							}
 						}
-
+						//Toggle Scene Window Visibility
 						if (auto sceneWindow = dynamic_cast<SceneWindow*>(window.get()))
 						{
 							if (ImGui::MenuItem("Scene", nullptr, sceneWindow->mIsVisible))
@@ -182,8 +193,12 @@ namespace Carmicah
 				}
 				ImGui::EndMenuBar();
 			}
+
+#pragma endregion
+
 			ImGui::End();
 		}
+
 		//Window Update Stuff
 		for (auto& window : mWindows) 
 		{
@@ -212,6 +227,12 @@ namespace Carmicah
 		}
 
 #pragma region Logic
+		if (mShowCloseConfirmation)
+		{
+			ImGui::OpenPopup("Close Confirmation");
+		}
+
+
 		if (HierarchyWindow::selectedGO != nullptr)
 		{
 			if (Input.IsKeyPressed(KEY_DELETE))
@@ -288,6 +309,25 @@ namespace Carmicah
 			ImGui::Text("MP3 not allow!");
 			ImGui::EndPopup();
 		}
+
+		if (ImGui::BeginPopupModal("Close Confirmation",NULL,ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			ImGui::Text("Are you sure you want to close the application?");
+			ImGui::Separator();
+
+			if (ImGui::Button("Yes", ImVec2(120,0)))
+			{
+				glfwSetWindowShouldClose(window, GLFW_TRUE);
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("No",ImVec2(120,0)))
+			{
+				mShowCloseConfirmation = false;
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
 	}
 #pragma endregion
 
@@ -346,5 +386,11 @@ namespace Carmicah
 			UNUSED(dotPos);
 			sDroppedFilePaths.push_back(filePath);
 		}
+	}
+
+	void Editor::CloseCallback(GLFWwindow* window)
+	{
+		glfwSetWindowShouldClose(window, GLFW_FALSE);
+		mShowCloseConfirmation = true;
 	}
 }
