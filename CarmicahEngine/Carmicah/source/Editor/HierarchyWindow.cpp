@@ -72,16 +72,33 @@ namespace Carmicah
 
 	void HierarchyWindow::PrefabButton(Prefab& prefab)
 	{
-		if (ImGui::Button(prefab.mName.c_str()))
+		bool hasChildren = false;
+
+		prefab.ForPrefabChildren(prefab, [&hasChildren](Prefab&)
+			{
+				hasChildren = true;
+			});
+
+		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
+
+		if (!hasChildren)
 		{
-			inspectedPrefab = &prefab;
+			flags |= ImGuiTreeNodeFlags_Leaf;
 		}
 
-		ImGui::Indent();
-		prefab.ForPrefabChildren(prefab, [this](Prefab& childPrefab)
+		if (ImGui::TreeNodeEx(prefab.mName.c_str(),flags))
+		{
+			if(ImGui::IsItemClicked())
 			{
-				PrefabButton(childPrefab);
-			});
+				inspectedPrefab = &prefab;
+			}
+		
+			prefab.ForPrefabChildren(prefab, [this](Prefab& childPrefab)
+				{
+					PrefabButton(childPrefab);
+				});
+			ImGui::TreePop();
+		}
 	}
 
 	void HierarchyWindow::Update()
