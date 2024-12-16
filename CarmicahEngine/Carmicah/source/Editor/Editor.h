@@ -34,6 +34,7 @@ namespace Carmicah
 	public:
 
 		static std::vector<std::string> sDroppedFilePaths;
+		static bool mShowCloseConfirmation;
 
 		/**
 		 * @brief Construct a new Editor object
@@ -55,7 +56,7 @@ namespace Carmicah
 		 * @brief Update function for Editor class
 		 * 
 		 */
-		void Update();
+		void Update(GLFWwindow* window);
 		/**
 		 * @brief Render function for the Editor class
 		 * 
@@ -77,6 +78,8 @@ namespace Carmicah
 		void ReceiveMessage(Message* msg) override;
 
 		static void DropCallback(GLFWwindow* window, int count, const char** paths);
+
+		static void CloseCallback(GLFWwindow* window);
 
 	private:
 
