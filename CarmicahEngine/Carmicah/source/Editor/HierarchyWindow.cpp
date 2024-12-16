@@ -60,6 +60,28 @@ namespace Carmicah
 				selectedGO = &go;
 			}
 
+			//Source and Target Logic
+
+			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+			{
+				ImGui::SetDragDropPayload("GAMEOBJECT", &go, sizeof(GameObject));
+				ImGui::Text("Dragging %s", go.GetName().c_str());
+				ImGui::EndDragDropSource();
+			}
+
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
+				{
+					GameObject& droppedGO = *(GameObject*)payload->Data;
+
+					droppedGO.SetParent(go);
+				}
+				ImGui::EndDragDropTarget();
+			}
+
+
+
 			// Check if go has child
 			gGOFactory->ForGOChildren(go, [this](GameObject& childGo)
 				{
