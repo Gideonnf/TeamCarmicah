@@ -19,7 +19,6 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui_impl_glfw.h>
 #include <ImGUI/imgui_impl_opengl3.h>
 #include "EditorWindow.h"
-#include "HierarchyWindow.h"
 #include "AssetWindow.h"
 #include "Systems/GOFactory.h"
 #include "Components/Transform.h"
@@ -40,19 +39,35 @@ namespace Carmicah
 
 	void HierarchyWindow::GOButton(GameObject& go)
 	{
-		if (ImGui::Button(go.GetName().c_str()))
+		bool hasChildren = false;
+		//CHECK THIS AGAIN LATER
+		gGOFactory->ForGOChildren(go, [&hasChildren](GameObject&) 
 		{
-			selectedGO = &go;
-		}
-
-		ImGui::Indent();
-		// Check if go has child
-		gGOFactory->ForGOChildren(go, [this](GameObject& childGo) 
-		{
-				GOButton(childGo);
+			hasChildren = true;
 		});
 
-		ImGui::Unindent();
+		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
+
+		if (!hasChildren)
+		{
+			flags |= ImGuiTreeNodeFlags_Leaf;
+		}
+
+		if (ImGui::TreeNodeEx(go.GetName().c_str(), flags))
+		{
+			if (ImGui::IsItemClicked())
+			{
+				selectedGO = &go;
+			}
+
+			// Check if go has child
+			gGOFactory->ForGOChildren(go, [this](GameObject& childGo)
+				{
+					GOButton(childGo);
+				});
+
+			ImGui::TreePop();
+		}
 	}
 
 	void HierarchyWindow::PrefabButton(Prefab& prefab)
@@ -64,30 +79,20 @@ namespace Carmicah
 
 		ImGui::Indent();
 		prefab.ForPrefabChildren(prefab, [this](Prefab& childPrefab)
-		{
-			PrefabButton(childPrefab);
-		});
+			{
+				PrefabButton(childPrefab);
+			});
 	}
 
 	void HierarchyWindow::Update()
 	{
-		static auto assetManager = AssetManager::GetInstance();
-		auto prefabMap = assetManager->GetAssetMap<Prefab>();
-			//static Transform playerTrans{};
-			//static Collider2D playerCollider{ 1.0, 2.0, 3.0, 4.0 };
-			//static Renderer toRender{};
+
 		if (ImGui::Begin(mTitle))
 		{
-			if(ImGui::BeginChild("Game Object List: ", ImVec2(0,400),ImGuiChildFlags_AlwaysUseWindowPadding))
+
+			if (ImGui::BeginChild("Game Object List: ", ImVec2(0, 400), ImGuiChildFlags_AlwaysUseWindowPadding))
 			{
-				/*gGOFactory->ForAllGO([](GameObject& go)
-					{
-						if (ImGui::Button(go.GetName().c_str()))
-						{
-							selectedGO = &go;
-						}
-					});*/
-				if(mShowScene)
+				if (mShowScene)
 				{
 					gGOFactory->ForAllSceneGOs([this](GameObject& go)
 						{
@@ -105,7 +110,7 @@ namespace Carmicah
 						mShowScene = true;
 						backToScene = true;
 					}
-					if(!backToScene)
+					if (!backToScene)
 					{
 						PrefabButton(*AssetWindow::selectedPrefab);
 					}
@@ -113,20 +118,6 @@ namespace Carmicah
 				ImGui::EndChild();
 			}
 			static char goName[1024] = "Default";
-			//ImGui::Text("Game Object Name: ");
-			//ImGui::SameLine();
-			//ImGui::Text(goName); //Cannot be edited for now
-
-			//if (ImGui::Button("Create Game Object"))
-			//{
-			//	//static std::string name(goName);
-			//	GameObject newObj = gGOFactory->CreatePrefab(goName);
-			//	newObj.GetComponent<Transform>().PosXAdd(2.0);
-			//	//newObj.AddComponent<Transform>(playerTrans);
-			//	////newObj.AddComponent<Collider2D>(playerCollider);
-			//	//newObj.AddComponent<Renderer>(toRender);
-			//}
-
 			ImGui::Dummy(ImVec2(0, 20));
 			ImGui::Text("Game Object Name: ");
 			ImGui::SameLine();
@@ -134,7 +125,7 @@ namespace Carmicah
 			if (ImGui::Button("Create Default2D"))
 			{
 				gGOFactory->CreateGO(goName, true);
-				std::strncpy(goName,"Default",sizeof(goName) - 1);
+				std::strncpy(goName, "Default", sizeof(goName) - 1);
 				goName[sizeof(goName) - 1] = '\0';
 			}
 			ImGui::SameLine();
