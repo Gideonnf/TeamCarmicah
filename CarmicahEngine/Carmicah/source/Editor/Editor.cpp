@@ -315,13 +315,21 @@ namespace Carmicah
 			ImGui::Text("Are you sure you want to close the application?");
 			ImGui::Separator();
 
-			if (ImGui::Button("Yes", ImVec2(120,0)))
+			//Calculations for the buttons
+			const float buttonWidth = 120.0f;
+			const float buttonSpacing = ImGui::GetStyle().ItemSpacing.x;
+			const float totalWidth = buttonWidth * 2 + buttonSpacing;
+
+			// Center the buttons by adding a dummy region
+			ImGui::SetCursorPosX((ImGui::GetWindowWidth() - totalWidth) * 0.5f);
+
+			if (ImGui::Button("Yes", ImVec2(buttonWidth,0)))
 			{
 				glfwSetWindowShouldClose(window, GLFW_TRUE);
 				ImGui::CloseCurrentPopup();
 			}
 			ImGui::SameLine();
-			if (ImGui::Button("No",ImVec2(120,0)))
+			if (ImGui::Button("No",ImVec2(buttonWidth,0)))
 			{
 				mShowCloseConfirmation = false;
 				ImGui::CloseCurrentPopup();
