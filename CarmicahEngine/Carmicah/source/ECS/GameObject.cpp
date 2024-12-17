@@ -92,6 +92,10 @@ namespace Carmicah
 		if (HasComponent<Transform>() && GetComponent<Transform>().parent == parentObj.mID)
 			return false;
 
+
+		if (HasComponent<UITransform>() && GetComponent<UITransform>().parent == parentObj.mID)
+			return false;
+
 		// If not then update the old and new parents
 		gGOFactory->UpdateParent(mID, parentObj.mID);
 
