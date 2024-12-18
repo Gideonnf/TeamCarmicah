@@ -236,6 +236,7 @@ namespace Carmicah
 					if (ImGui::Button(name.c_str()))
 					{
 						systemManager->ChangeScene(entry.first);
+						HierarchyWindow::mCurrentScene = entry.first;
 					}
 				}
 			}

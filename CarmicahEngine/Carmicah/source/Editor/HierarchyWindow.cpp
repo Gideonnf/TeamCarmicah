@@ -33,9 +33,11 @@ namespace Carmicah
 {
 	HierarchyWindow::HierarchyWindow() : EditorWindow("Hierarchy", ImVec2(0, 0), ImVec2(0, 0)) { mIsVisible = true; }
 	bool HierarchyWindow::mShowScene = true;
-	std::vector<GameObject> createdList;
 	GameObject* HierarchyWindow::selectedGO = nullptr;
 	Prefab* HierarchyWindow::inspectedPrefab = nullptr;
+	std::string HierarchyWindow::mCurrentScene = "Scene3";
+
+	std::vector<GameObject> createdList;
 
 	void HierarchyWindow::GOButton(GameObject& go)
 	{
@@ -133,11 +135,16 @@ namespace Carmicah
 			{
 				if (mShowScene)
 				{
-					gGOFactory->ForAllSceneGOs([this](GameObject& go)
-						{
-							GOButton(go);
 
-						});
+					if(ImGui::TreeNodeEx(mCurrentScene.c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow))
+					{
+						gGOFactory->ForAllSceneGOs([this](GameObject& go)
+							{
+								GOButton(go);
+
+							});
+						ImGui::TreePop();
+					}
 				}
 				else if (AssetWindow::selectedPrefab != nullptr)
 				{
