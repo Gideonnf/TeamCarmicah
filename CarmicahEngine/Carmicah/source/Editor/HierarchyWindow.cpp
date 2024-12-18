@@ -35,7 +35,6 @@ namespace Carmicah
 	bool HierarchyWindow::mShowScene = true;
 	GameObject* HierarchyWindow::selectedGO = nullptr;
 	Prefab* HierarchyWindow::inspectedPrefab = nullptr;
-	std::string HierarchyWindow::mCurrentScene = "Scene3";
 
 	std::vector<GameObject> createdList;
 
@@ -136,7 +135,7 @@ namespace Carmicah
 				if (mShowScene)
 				{
 
-					if(ImGui::TreeNodeEx(mCurrentScene.c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow))
+					if(ImGui::TreeNodeEx(gGOFactory->sceneGO.sceneName.c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow))
 					{
 						gGOFactory->ForAllSceneGOs([this](GameObject& go)
 							{

@@ -29,7 +29,6 @@ namespace Carmicah
 	private:
 	public:
 		static bool mShowScene;
-		static std::string mCurrentScene;
 		static GameObject* selectedGO;
 		static Prefab* inspectedPrefab;
 		/**
