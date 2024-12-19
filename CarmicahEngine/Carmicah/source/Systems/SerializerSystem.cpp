@@ -238,7 +238,10 @@ namespace Carmicah
 				if (name == typeid(Button).name())
 				{
 					std::any_cast<Button>(component).SerializeComponent(writer);
-
+				}
+				if (name == typeid(Sound).name())
+				{
+					std::any_cast<Sound>(component).SerializeComponent(writer);
 				}
 				writer.EndObject();
 			}

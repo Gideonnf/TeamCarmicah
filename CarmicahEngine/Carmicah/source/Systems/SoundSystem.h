@@ -24,6 +24,7 @@ DigiPen Institute of Technology is prohibited.
 #include <memory>
 #include <vector>
 #include <unordered_map>
+#include "../Components/Sound.h"
 
 
 //breif:         This class is a system that handles the sound effects and background music of the game
@@ -50,7 +51,6 @@ namespace Carmicah
         bool isLooping = false;
         bool isPaused = false;
     };
-
 
     class SoundSystem : public BaseSystem
     {

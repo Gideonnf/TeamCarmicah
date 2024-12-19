@@ -133,6 +133,10 @@ namespace Carmicah
 			{
 				newPrefab.mComponents.insert({ componentName, prefabComponent });
 			}
+			else if (MakeAny<Sound>(componentName, go, prefabComponent))
+			{
+				newPrefab.mComponents.insert({ componentName, prefabComponent });
+			}
 			else if (MakeAny<PrefabData>(componentName, go, prefabComponent))
 			{
 				newPrefab.mComponents.insert({ componentName, prefabComponent });

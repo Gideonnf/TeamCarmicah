@@ -17,7 +17,7 @@ namespace Carmicah
 		bool isLooping;
 		float vol;
 		float pitch;
-		SoundState soundState;
+		//SoundState soundState;
 		FMOD::Channel* soundChannel;
 		FMOD::Sound* sound;
 
@@ -28,12 +28,23 @@ namespace Carmicah
 			isLooping = GetVariable<bool>(component, "isLooping");
 			vol = GetVariable<float>(component, "volume");
 			pitch = GetVariable<float>(component, "pitch");
-			soundState = (SoundState)GetVariable<int>(component, "soundState");
+			//soundState = (SoundState)GetVariable<int>(component, "soundState");
+
+			return *this;
 		}
 
 		void SerializeComponent(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer) override
 		{
-
+			writer.String("soundName");
+			writer.String(soundName.c_str());
+			writer.String("isLooping");
+			writer.Bool(isLooping);
+			writer.String("volume");
+			writer.Double((float)vol);
+			writer.String("pitch");
+			writer.Double((float)pitch);
+			//writer.String("soundState");
+		//	writer.Int((int)soundState);
 		}
 	};
 }

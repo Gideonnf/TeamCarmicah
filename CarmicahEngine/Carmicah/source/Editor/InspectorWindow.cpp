@@ -82,6 +82,10 @@ namespace Carmicah
 		{
 			componentsToAdd.push_back("Script");
 		}
+		if (!go->HasComponent<Sound>())
+		{
+			componentsToAdd.push_back("Sound");
+		}
 
 
 		if (ImGui::Combo("##Component", &selectedIndex, componentsToAdd.data(), (int)componentsToAdd.size()))
@@ -143,6 +147,12 @@ namespace Carmicah
 			if (selectedComponentToAdd == "Script")
 			{
 				go->AddComponent<Script>();
+				selectedComponentToAdd = "";
+				selectedIndex = 0;
+			}
+			if (selectedComponentToAdd == "Sound")
+			{
+				go->AddComponent<Sound>();
 				selectedComponentToAdd = "";
 				selectedIndex = 0;
 			}
