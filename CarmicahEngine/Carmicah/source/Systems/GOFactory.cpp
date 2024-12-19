@@ -617,6 +617,14 @@ namespace Carmicah
 				func(mIDToGO[child]);
 			}
 		}
+		else if (parentGO.HasComponent<UITransform>() && parentGO.GetComponent<UITransform>().children.size() > 0)
+		{
+			for (auto& child : parentGO.GetComponent<UITransform>().children)
+			{
+				func(mIDToGO[child]);
+			}
+
+		}
 
 	}
 #pragma endregion

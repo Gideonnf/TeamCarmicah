@@ -33,18 +33,18 @@ namespace Carmicah
 		static Prefab* inspectedPrefab;
 		/**
 		 * @brief Construct a new Hierarchy Window object
-		 * 
+		 *
 		 */
 		HierarchyWindow();
 		/**
 		 * @brief Update function override from EditorWindow
-		 * 
+		 *
 		 */
 		void Update() override;
 		/**
 		 * @brief Tells when an entity is destroyed.
-		 * 
-		 * @param id 
+		 *
+		 * @param id
 		 */
 		void EntityDestroyed(Entity id) override;
 

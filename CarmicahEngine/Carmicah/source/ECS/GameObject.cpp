@@ -89,7 +89,11 @@ namespace Carmicah
 	bool GameObject::SetParent(GameObject parentObj)
 	{
 		// Check if the parent is the same (i.e accidentally dragging it back onto the same parent
-		if (GetComponent<Transform>().parent == parentObj.mID)
+		if (HasComponent<Transform>() && GetComponent<Transform>().parent == parentObj.mID)
+			return false;
+
+
+		if (HasComponent<UITransform>() && GetComponent<UITransform>().parent == parentObj.mID)
 			return false;
 
 		// If not then update the old and new parents
