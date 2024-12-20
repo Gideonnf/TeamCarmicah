@@ -40,6 +40,7 @@ namespace Carmicah
 
 		static std::vector<std::string> sDroppedFilePaths;
 		static bool mShowCloseConfirmation;
+		static std::set<Entity> mHierarchyCopy;
 
 		/**
 		 * @brief Construct a new Editor object
@@ -79,6 +80,8 @@ namespace Carmicah
 		 * @param id 
 		 */
 		void EntityDestroyed(Entity id) override;
+
+		void EntityAdded(Entity id) override;
 
 		void ReceiveMessage(Message* msg) override;
 

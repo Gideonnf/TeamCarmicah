@@ -17,6 +17,7 @@ DigiPen Institute of Technology is prohibited.
 #include "ECS/EntityManager.h"
 #include "ECS/ComponentManager.h"
 #include "Systems/AssetManager.h"
+#include "Editor/Editor.h"
 
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
@@ -605,11 +606,13 @@ namespace Carmicah
 		}
 	}
 
+
+	//REMINDER FOR ME TO CHANGE THIS AGAIN LATER
 	void GOFactory::ForAllSceneGOs(const std::function<void(GameObject&)>& func)
 	{
-		if (sceneGO.children.size() > 0)
+		if (Editor::mHierarchyCopy.size() > 0)
 		{
-			for (auto& child : sceneGO.children)
+			for (auto& child : Editor::mHierarchyCopy)
 			{
 				func(mIDToGO[child]);
 			}
