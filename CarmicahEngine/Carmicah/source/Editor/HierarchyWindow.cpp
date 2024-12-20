@@ -162,6 +162,22 @@ namespace Carmicah
 				}
 				ImGui::EndChild();
 			}
+
+#pragma region Unchilding
+
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
+				{
+					GameObject& droppedGO = *(GameObject*)payload->Data;
+
+					droppedGO.SetParent(gGOFactory->sceneGO.sceneID);
+				}
+				ImGui::EndDragDropTarget();
+			}
+
+#pragma endregion
+
 			static char goName[1024] = "Default";
 			ImGui::Dummy(ImVec2(0, 20));
 			ImGui::Text("Game Object Name: ");

@@ -16,6 +16,9 @@ DigiPen Institute of Technology is prohibited.
 #define EDITOR_H_
 #include <GLFW/glfw3.h>
 #include <ImGUI/imgui.h>
+#include <ImGUI/imgui_impl_glfw.h>
+#include <ImGUI/imgui_impl_opengl3.h>
+#include <ImGUI/imgui_internal.h>
 #include "DebugWindow.h"
 #include "EditorWindow.h"
 #include "HierarchyWindow.h"
@@ -26,6 +29,8 @@ DigiPen Institute of Technology is prohibited.
 #include "../ECS/BaseSystem.h"
 #include "../Messaging/Message.h"
 #include "../Systems/AssetManager.h"
+#include "../Input/InputSystem.h"
+#include "../Systems/GOFactory.h"
 
 namespace Carmicah
 {

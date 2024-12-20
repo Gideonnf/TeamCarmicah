@@ -14,12 +14,7 @@ DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include "Editor.h"
-#include <ImGUI/imgui.h>
-#include <ImGUI/imgui_impl_glfw.h>
-#include <ImGUI/imgui_impl_opengl3.h>
-#include <ImGUI/imgui_internal.h>
-#include "../Input/InputSystem.h"
-#include "../Systems/GOFactory.h"
+
 
 namespace Carmicah
 {
