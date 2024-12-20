@@ -527,6 +527,13 @@ namespace Carmicah
 				else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
 					parentLevel = ComponentManager::GetInstance()->GetComponent<UITransform>(newParentID).grandChildLvl;
 
+				// Send msg to UpdateTransform
+				// Important to send here because if parenting back to scene
+				// we need the original parent's transform so that we can convert the entity's local transform
+				// back to world transform
+				UpdateTransformMessage msg(entityID, newParentID);
+				SendSysMessage(&msg);
+
 				// Change the current transform parent ID
 				if (go.HasComponent<Transform>())
 				{
