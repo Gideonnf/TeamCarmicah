@@ -610,9 +610,9 @@ namespace Carmicah
 	//REMINDER FOR ME TO CHANGE THIS AGAIN LATER
 	void GOFactory::ForAllSceneGOs(const std::function<void(GameObject&)>& func)
 	{
-		if (Editor::mHierarchyCopy.size() > 0)
+		if (Editor::mSceneHierarchy.size() > 0)
 		{
-			for (auto& child : Editor::mHierarchyCopy)
+			for (auto& child : Editor::mSceneHierarchy)
 			{
 				func(mIDToGO[child]);
 			}
