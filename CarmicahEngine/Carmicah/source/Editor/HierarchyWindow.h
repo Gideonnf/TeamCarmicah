@@ -53,6 +53,8 @@ namespace Carmicah
 
 		void PrefabButton(Prefab& prefab);
 
+		void DrawCustomSeparator(GameObject& go);
+
 	};
 }
 
