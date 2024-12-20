@@ -433,6 +433,18 @@ namespace Carmicah
 				return;
 			}
 
+			Entity parentID = 0;
+			// Get the old parent ID
+			if (go.HasComponent<Transform>())
+			{
+				// Get the parent ID
+				parentID = go.GetComponent<Transform>().parent;
+			}
+			else if (go.HasComponent<UITransform>())
+			{
+				parentID = go.GetComponent<UITransform>().parent;
+			}
+
 			// if not deleting then we need to update the transform based on the new parent's
 			if (!toDelete)
 			{
@@ -444,29 +456,18 @@ namespace Carmicah
 				SendSysMessage(&msg);
 			}
 
-			Entity* parentID = nullptr;
-			// Get the old parent ID
-			if (go.HasComponent<Transform>())
-			{
-				// Get the parent ID
-				parentID = &go.GetComponent<Transform>().parent;
-			}
-			else if (go.HasComponent<UITransform>())
-			{
-				parentID = &go.GetComponent<UITransform>().parent;
-			}
 
-			if (parentID == nullptr)
+			if (parentID == 0)
 			{
 				assert("Parent ID does not exist");
 				return;
 			}
 
 			// Get the parent's transform
-			if (ComponentManager::GetInstance()->HasComponent<Transform>(*parentID))
+			if (ComponentManager::GetInstance()->HasComponent<Transform>(parentID))
 			{
 				// Get the transform
-				Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(*parentID);
+				Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(parentID);
 				// Erase from parent's child ids
 				for (auto it = parentTransform.children.begin(); it != parentTransform.children.end(); it++)
 				{
@@ -477,9 +478,9 @@ namespace Carmicah
 					}
 				}
 			}
-			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(*parentID))
+			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(parentID))
 			{
-				UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(*parentID);
+				UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(parentID);
 				for (auto it = parentTransform.children.begin(); it != parentTransform.children.end(); it++)
 				{
 					if (*it == entityID)
