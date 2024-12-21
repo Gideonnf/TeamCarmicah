@@ -90,6 +90,7 @@ namespace Carmicah
 
 				else
 				{
+					droppedGO.SetParent(gGOFactory->sceneGO.sceneID);
 					auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
 					auto bingChillingIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), go.GetID());
 
@@ -266,8 +267,10 @@ namespace Carmicah
 				{
 					GameObject& droppedGO = *(GameObject*)payload->Data;
 
-					droppedGO.SetParent(gGOFactory->sceneGO.sceneID);
-					Editor::mSceneHierarchy.push_back(droppedGO.GetID());
+					if(droppedGO.SetParent(gGOFactory->sceneGO.sceneID))
+					{
+						Editor::mSceneHierarchy.push_back(droppedGO.GetID());
+					}
 				}
 				ImGui::EndDragDropTarget();
 			}
