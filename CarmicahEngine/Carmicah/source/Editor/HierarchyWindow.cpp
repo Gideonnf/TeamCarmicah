@@ -135,6 +135,8 @@ namespace Carmicah
 					GameObject& droppedGO = *(GameObject*)payload->Data;
 					
 					droppedGO.SetParent(go);
+					auto it = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
+					Editor::mSceneHierarchy.erase(it);
 					
 				}
 				ImGui::EndDragDropTarget();
@@ -265,6 +267,7 @@ namespace Carmicah
 					GameObject& droppedGO = *(GameObject*)payload->Data;
 
 					droppedGO.SetParent(gGOFactory->sceneGO.sceneID);
+					Editor::mSceneHierarchy.push_back(droppedGO.GetID());
 				}
 				ImGui::EndDragDropTarget();
 			}
