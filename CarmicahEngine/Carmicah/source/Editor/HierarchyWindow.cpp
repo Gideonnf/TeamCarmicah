@@ -59,7 +59,7 @@ namespace Carmicah
 			ImGui::GetColorU32(ImGuiCol_Separator), 1.0f);
 	}
 
-	void HierarchyWindow::GOButton(GameObject& go)
+	bool HierarchyWindow::GOButton(GameObject& go)
 	{
 		bool hasChildren = false;
 		//CHECK THIS AGAIN LATER
@@ -81,7 +81,17 @@ namespace Carmicah
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 			{
-				CM_CORE_INFO("Dropped a GO in the invisible button!");
+				GameObject& droppedGO = *(GameObject*)payload->Data;
+
+				if (droppedGO.GetID() == go.GetID())
+				{
+					return false;
+				}
+
+				else
+				{
+
+				}
 			}
 			ImGui::EndDragDropTarget();
 		}
@@ -122,6 +132,8 @@ namespace Carmicah
 				});
 
 			ImGui::TreePop();
+
+			return false;
 		}
 	}
 

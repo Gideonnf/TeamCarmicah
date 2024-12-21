@@ -40,7 +40,7 @@ namespace Carmicah
 
 		static std::vector<std::string> sDroppedFilePaths;
 		static bool mShowCloseConfirmation;
-		static std::set<Entity> mSceneHierarchy;
+		static std::vector<Entity> mSceneHierarchy;
 
 		/**
 		 * @brief Construct a new Editor object

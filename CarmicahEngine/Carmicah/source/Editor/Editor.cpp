@@ -21,7 +21,7 @@ namespace Carmicah
 
 	std::vector<std::string> Editor::sDroppedFilePaths{};
 	bool Editor::mShowCloseConfirmation = false;
-	std::set<Entity> Editor::mSceneHierarchy;
+	std::vector<Entity> Editor::mSceneHierarchy;
 	Editor::Editor()
 	{
 		
@@ -66,7 +66,9 @@ namespace Carmicah
 		mWindows.push_back(std::make_unique<AssetWindow>());
 		mWindows.push_back(std::make_unique<InspectorWindow>());
 
-		mSceneHierarchy = gGOFactory->sceneGO.children;
+
+		mSceneHierarchy.resize(gGOFactory->sceneGO.children.size());
+		std::copy(gGOFactory->sceneGO.children.begin(), gGOFactory->sceneGO.children.end(), mSceneHierarchy.begin());
 	}
 
 	void Editor::Update(GLFWwindow* window)
@@ -365,12 +367,14 @@ namespace Carmicah
 			window->EntityDestroyed(id);
 		}
 
-		mSceneHierarchy.erase(id);
+		auto it = std::find(mSceneHierarchy.begin(), mSceneHierarchy.end(), id);
+		mSceneHierarchy.erase(it);
 	}
 
 	void Editor::EntityAdded(Entity id)
 	{
-		mSceneHierarchy.insert(id);
+
+		mSceneHierarchy.push_back(id);
 	}
 
 	void Editor::ReceiveMessage(Message* msg)
