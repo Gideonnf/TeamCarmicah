@@ -420,6 +420,12 @@ namespace Carmicah
 		{
 			sceneGO.children.erase(entityID);
 		}
+		else if (go.GetComponent<Transform>().parent == 0 && newParentID == 0)
+		{
+			// its a new object
+			sceneGO.children.insert(entityID);
+			return;
+		}
 		// Find out what is the current parent
 		else
 		{
@@ -458,7 +464,8 @@ namespace Carmicah
 			}
 
 
-			if (parentID == 0)
+			// It isnt being parented to scene for the first time on creation
+			if (parentID == 0 && newParentID != 0)
 			{
 				assert("Parent ID does not exist");
 				return;
