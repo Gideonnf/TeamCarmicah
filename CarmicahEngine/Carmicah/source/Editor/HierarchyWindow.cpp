@@ -120,8 +120,9 @@ namespace Carmicah
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 				{
 					GameObject& droppedGO = *(GameObject*)payload->Data;
-
+					
 					droppedGO.SetParent(go);
+					
 				}
 				ImGui::EndDragDropTarget();
 			}
