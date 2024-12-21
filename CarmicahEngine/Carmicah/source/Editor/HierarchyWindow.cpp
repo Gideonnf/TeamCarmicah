@@ -41,12 +41,14 @@ namespace Carmicah
 	void HierarchyWindow::DrawCustomSeparator(GameObject& go)
 	{
 		// Calculate the size of the separator based on text length
+		static int buttonID = 1;
 		ImVec2 cursorPos = ImGui::GetCursorScreenPos();
-		ImVec2 textSize = ImGui::CalcTextSize(go.GetName().c_str());
-		ImVec2 separatorSize = ImVec2(textSize.x, 2.0f); // 2.0f for line thickness
+		ImVec2 separatorSize = ImVec2(100.f, 2.0f); // 2.0f for line thickness
 		std::string buttonText = "Separator_" + std::to_string(go.GetID());
+		//buttonID++;
+		ImVec2 buttonSize = ImVec2(100.f, separatorSize.y + 2.0f);
 		// Create an invisible button for interaction
-		if (ImGui::InvisibleButton(buttonText.c_str(), ImVec2(separatorSize.x, separatorSize.y + 2.0f)))
+		if (ImGui::InvisibleButton(buttonText.c_str(),buttonSize))
 		{
 			//Clicking will do nothing
 		}
@@ -201,8 +203,24 @@ namespace Carmicah
 								GOButton(go);
 
 							});
+					
+						ImVec2 cursorPos = ImGui::GetCursorScreenPos();
+						ImVec2 separatorSize = ImVec2(100.f, 2.0f); // 2.0f for line thickness
+						std::string buttonText = "Separator_Final";
+						//buttonID++;
+						ImVec2 buttonSize = ImVec2(100.f, separatorSize.y + 2.0f);
+						// Create an invisible button for interaction
+						if (ImGui::InvisibleButton(buttonText.c_str(), buttonSize))
+						{
+							//Clicking will do nothing
+						}
 
-						DrawCustomSeparator();
+						// Draw the line visually
+						ImDrawList* drawList = ImGui::GetWindowDrawList();
+						drawList->AddLine(
+							ImVec2(cursorPos.x, cursorPos.y + separatorSize.y),
+							ImVec2(cursorPos.x + separatorSize.x, cursorPos.y + separatorSize.y),
+							ImGui::GetColorU32(ImGuiCol_Separator), 1.0f);
 
 						if (ImGui::BeginDragDropTarget())
 						{
@@ -218,6 +236,7 @@ namespace Carmicah
 							}
 							ImGui::EndDragDropTarget();
 						}
+
 						ImGui::TreePop();
 					}
 				}
