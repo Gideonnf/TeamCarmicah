@@ -90,9 +90,22 @@ namespace Carmicah
 
 				else
 				{
-					auto first = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
-					auto second = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), go.GetID());
-					std::swap(*first, *second);
+					auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
+					auto bingChillingIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), go.GetID());
+
+					if (bingChillingIt < droppedIt)
+					{
+						Editor::mSceneHierarchy.erase(droppedIt);
+						Editor::mSceneHierarchy.insert(bingChillingIt, droppedGO.GetID());	
+					}
+					else
+					{
+						Editor::mSceneHierarchy.insert(bingChillingIt, droppedGO.GetID());
+						Editor::mSceneHierarchy.erase(droppedIt);
+					}
+					
+
+					//std::swap(*droppedIt, *bingChillingIt);
 					CM_CORE_INFO("Swap success");
 				}
 			}
@@ -188,6 +201,23 @@ namespace Carmicah
 								GOButton(go);
 
 							});
+
+						DrawCustomSeparator();
+
+						if (ImGui::BeginDragDropTarget())
+						{
+							if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
+							{
+								GameObject& droppedGO = *(GameObject*)payload->Data;
+
+								auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
+
+								Editor::mSceneHierarchy.erase(droppedIt);
+								
+								Editor::mSceneHierarchy.push_back(droppedGO.GetID());
+							}
+							ImGui::EndDragDropTarget();
+						}
 						ImGui::TreePop();
 					}
 				}
