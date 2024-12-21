@@ -40,8 +40,6 @@ namespace Carmicah
 
 	void HierarchyWindow::DrawCustomSeparator(GameObject& go)
 	{
-		// Calculate the size of the separator based on text length
-		static int buttonID = 1;
 		ImVec2 cursorPos = ImGui::GetCursorScreenPos();
 		ImVec2 separatorSize = ImVec2(100.f, 2.0f); // 2.0f for line thickness
 		std::string buttonText = "Separator_" + std::to_string(go.GetID());
