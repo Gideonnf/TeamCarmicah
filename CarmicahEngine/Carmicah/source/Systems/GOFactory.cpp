@@ -425,14 +425,14 @@ namespace Carmicah
 		{
 			
 			// Handle UI Trasnform uniquely for now
-			if (go.HasComponent<UITransform>())
-			{
-				sceneGO.children.insert(go.mID);
-				go.GetComponent<UITransform>().parent = newParentID;
+			//if (go.HasComponent<UITransform>())
+			//{
+			//	sceneGO.children.insert(go.mID);
+			//	go.GetComponent<UITransform>().parent = newParentID;
 
-				// UI Transform for now can only add directly to scene
-				return;
-			}
+			//	// UI Transform for now can only add directly to scene
+			//	return;
+			//}
 
 			Entity parentID = 0;
 			// Get the old parent ID
