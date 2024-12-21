@@ -59,7 +59,7 @@ namespace Carmicah
 			ImGui::GetColorU32(ImGuiCol_Separator), 1.0f);
 	}
 
-	bool HierarchyWindow::GOButton(GameObject& go)
+	void HierarchyWindow::GOButton(GameObject& go)
 	{
 		bool hasChildren = false;
 		//CHECK THIS AGAIN LATER
@@ -85,12 +85,15 @@ namespace Carmicah
 
 				if (droppedGO.GetID() == go.GetID())
 				{
-					return false;
+					CM_CORE_WARN("Not swapping any hierarchy");
 				}
 
 				else
 				{
-
+					auto first = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
+					auto second = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), go.GetID());
+					std::swap(*first, *second);
+					CM_CORE_INFO("Swap success");
 				}
 			}
 			ImGui::EndDragDropTarget();
@@ -132,8 +135,6 @@ namespace Carmicah
 				});
 
 			ImGui::TreePop();
-
-			return false;
 		}
 	}
 

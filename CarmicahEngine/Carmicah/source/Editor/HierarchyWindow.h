@@ -50,7 +50,7 @@ namespace Carmicah
 		void EntityDestroyed(Entity id) override;
 
 
-		bool GOButton(GameObject& go);
+		void GOButton(GameObject& go);
 
 		void PrefabButton(Prefab& prefab);
 
