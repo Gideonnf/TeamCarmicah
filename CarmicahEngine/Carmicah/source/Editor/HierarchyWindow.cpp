@@ -90,24 +90,34 @@ namespace Carmicah
 
 				else
 				{
-					droppedGO.SetParent(gGOFactory->sceneGO.sceneID);
-					auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
-					auto bingChillingIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), go.GetID());
-
-					if (bingChillingIt < droppedIt)
+					
+					if(!droppedGO.SetParent(gGOFactory->sceneGO.sceneID))
 					{
-						Editor::mSceneHierarchy.erase(droppedIt);
-						Editor::mSceneHierarchy.insert(bingChillingIt, droppedGO.GetID());	
+						//If the droppedGO and the targetted GO has the same parent(only works for sceneGO, children no vectors rn)
+						auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
+						auto targettedGO = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), go.GetID());
+
+						if (targettedGO < droppedIt)
+						{
+							Editor::mSceneHierarchy.erase(droppedIt);
+							Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
+						}
+						else
+						{
+							Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
+							Editor::mSceneHierarchy.erase(droppedIt);
+						}
+
+
+						//std::swap(*droppedIt, *bingChillingIt);
+						CM_CORE_INFO("Swap success");
 					}
+					//If they have different parents(
 					else
 					{
-						Editor::mSceneHierarchy.insert(bingChillingIt, droppedGO.GetID());
-						Editor::mSceneHierarchy.erase(droppedIt);
+						auto targettedGO = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), go.GetID());
+						Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
 					}
-					
-
-					//std::swap(*droppedIt, *bingChillingIt);
-					CM_CORE_INFO("Swap success");
 				}
 			}
 			ImGui::EndDragDropTarget();
