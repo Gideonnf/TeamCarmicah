@@ -85,7 +85,7 @@ namespace Carmicah
 
 				if (droppedGO.GetID() == go.GetID())
 				{
-					CM_CORE_WARN("Not swapping any hierarchy");
+					//CM_CORE_WARN("Not re-arranging any hierarchy");
 				}
 
 				else
@@ -107,10 +107,6 @@ namespace Carmicah
 							Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
 							Editor::mSceneHierarchy.erase(droppedIt);
 						}
-
-
-						//std::swap(*droppedIt, *bingChillingIt);
-						CM_CORE_INFO("Swap success");
 					}
 					//If they have different parents(
 					else
@@ -118,6 +114,7 @@ namespace Carmicah
 						auto targettedGO = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), go.GetID());
 						Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
 					}
+					//CM_CORE_INFO("Re-arranging success");
 				}
 			}
 			ImGui::EndDragDropTarget();
@@ -294,14 +291,21 @@ namespace Carmicah
 			ImGui::InputText("##GameObjectCreation", goName, sizeof(goName));
 			if (ImGui::Button("Create Default2D"))
 			{
-				gGOFactory->CreateGO(goName, true);
+				gGOFactory->CreateGO(goName, TRANSFORMTYPE::TRANSFORM);
 				std::strncpy(goName, "Default", sizeof(goName) - 1);
 				goName[sizeof(goName) - 1] = '\0';
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Create UIDefault"))
 			{
-				gGOFactory->CreateGO(goName, false);
+				gGOFactory->CreateGO(goName, TRANSFORMTYPE::UITRANSFORM);
+				std::strncpy(goName, "Default", sizeof(goName) - 1);
+				goName[sizeof(goName) - 1] = '\0';
+			}
+
+			if (ImGui::Button("Create Folder"))
+			{
+				gGOFactory->CreateGO(goName, TRANSFORMTYPE::NONE);
 				std::strncpy(goName, "Default", sizeof(goName) - 1);
 				goName[sizeof(goName) - 1] = '\0';
 			}

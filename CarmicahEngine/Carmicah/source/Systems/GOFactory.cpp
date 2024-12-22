@@ -55,7 +55,7 @@ namespace Carmicah
 
 #pragma region GameObject Functions
 
-	GameObject GOFactory::CreateGO(std::string name, bool flag)
+	GameObject GOFactory::CreateGO(std::string name, TRANSFORMTYPE flag)
 	{
 		GameObject go;
 		std::string goName = CreateGOName(name);
@@ -69,11 +69,11 @@ namespace Carmicah
 		SystemManager::GetInstance()->UpdateSignatures(go.mID, EntityManager::GetInstance()->GetSignature(go.mID));
 		
 		// By default add transform to a blank component
-		if(flag)
+		if(flag == TRANSFORMTYPE::TRANSFORM)
 		{
 			go.AddComponent<Transform>();
 		}
-		else
+		else if(flag == TRANSFORMTYPE::UITRANSFORM)
 		{
 			go.AddComponent<UITransform>();
 		}
