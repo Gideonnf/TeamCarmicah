@@ -199,6 +199,18 @@ namespace Carmicah
 		if (ImGui::Begin(mTitle))
 		{
 
+			//Temporary Debugging Area
+			if (selectedGO != nullptr)
+			{
+				if (selectedGO->HasComponent<Transform>())
+				{
+					int childrenNum = selectedGO->GetComponent<Transform>().children.size();
+					std::string text = std::to_string(childrenNum);
+					CM_CORE_INFO(text);
+				}
+			}
+
+
 			if (ImGui::BeginChild("Game Object List: ", ImVec2(0, 400), ImGuiChildFlags_AlwaysUseWindowPadding))
 			{
 				if (mShowScene)
@@ -303,12 +315,12 @@ namespace Carmicah
 				goName[sizeof(goName) - 1] = '\0';
 			}
 
-			if (ImGui::Button("Create Folder"))
+			/*if (ImGui::Button("Create Folder"))
 			{
 				gGOFactory->CreateGO(goName, TRANSFORMTYPE::NONE);
 				std::strncpy(goName, "Default", sizeof(goName) - 1);
 				goName[sizeof(goName) - 1] = '\0';
-			}
+			}*/
 
 			std::string buttonName = "Save current scene: " + SceneToImgui::GetInstance()->currentScene;
 			if (ImGui::Button(buttonName.c_str()))

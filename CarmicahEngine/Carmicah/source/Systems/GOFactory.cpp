@@ -72,16 +72,23 @@ namespace Carmicah
 		if(flag == TRANSFORMTYPE::TRANSFORM)
 		{
 			go.AddComponent<Transform>();
+			UpdateParent(go.mID, sceneGO.sceneID);
 		}
 		else if(flag == TRANSFORMTYPE::UITRANSFORM)
 		{
 			go.AddComponent<UITransform>();
+			UpdateParent(go.mID, sceneGO.sceneID);
 		}
+		//else //Case for empty GOs
+		//{
+		//	//Empty GOs should only act as folders, so always will be under the main scene hierarchy (for now until sub-folders :sadge:)
+		//	//sceneGO.children.insert(go.mID);
+		//}
 
 		CM_CORE_INFO("Creating a new game object with name: " + name + " and id: " + std::to_string(go.mID));
 
 		// Parent it to the scene on creation
-		UpdateParent(go.mID, sceneGO.sceneID);
+		
 
 		return go;
 	}
