@@ -109,6 +109,7 @@ namespace Carmicah
 		void ForAllGO(const std::function<void(GameObject&)>& op);
 		void ForAllSceneGOs(const std::function<void(GameObject&)>& op);
 		void ForGOChildren(GameObject& parentGO, const std::function<void(GameObject&)>& go);
+		std::unordered_map<Entity, GameObject>& GetMIDToGO();
 
 #pragma endregion
 

@@ -22,6 +22,8 @@ namespace Carmicah
 	std::vector<std::string> Editor::sDroppedFilePaths{};
 	bool Editor::mShowCloseConfirmation = false;
 	std::vector<Entity> Editor::mSceneHierarchy;
+	std::unordered_map<Entity, std::vector<Entity>> Editor::mChildrenHierarchy;
+
 	Editor::Editor()
 	{
 		
@@ -66,9 +68,9 @@ namespace Carmicah
 		mWindows.push_back(std::make_unique<AssetWindow>());
 		mWindows.push_back(std::make_unique<InspectorWindow>());
 
+		//Initialise the copy
+		InitFullHierarchy();
 
-		mSceneHierarchy.resize(gGOFactory->sceneGO.children.size());
-		std::copy(gGOFactory->sceneGO.children.begin(), gGOFactory->sceneGO.children.end(), mSceneHierarchy.begin());
 	}
 
 	void Editor::Update(GLFWwindow* window)
@@ -226,6 +228,10 @@ namespace Carmicah
 		}
 
 #pragma region Logic
+
+		int mapSize = mChildrenHierarchy.size();
+		CM_CORE_INFO(std::to_string(mapSize));
+
 		if (mShowCloseConfirmation)
 		{
 			ImGui::OpenPopup("Close Confirmation");
@@ -408,5 +414,51 @@ namespace Carmicah
 	{
 		glfwSetWindowShouldClose(window, GLFW_FALSE);
 		mShowCloseConfirmation = true;
+	}
+
+	void Editor::InitFullHierarchy()
+	{
+		//Section for Scene as Parent
+		mSceneHierarchy.resize(gGOFactory->sceneGO.children.size());
+		std::copy(gGOFactory->sceneGO.children.begin(), gGOFactory->sceneGO.children.end(), mSceneHierarchy.begin());
+
+		//Section for Children Game Objects
+
+		std::function<void(GameObject&)> childrenCheck = [&](GameObject& go)
+			{
+				if (go.HasComponent<Transform>())
+				{
+					const auto& GOChildren = go.GetComponent<Transform>().children;
+					if (!GOChildren.empty())
+					{
+						mChildrenHierarchy[go.GetID()] = GOChildren;
+
+						std::for_each(GOChildren.begin(), GOChildren.end(), [&](Entity childID)
+							{
+								childrenCheck(gGOFactory->GetMIDToGO().at(childID));
+							});
+					}
+				}
+				else if (go.HasComponent<UITransform>())
+				{
+					const auto& GOChildren = go.GetComponent<UITransform>().children;
+					if (!GOChildren.empty())
+					{
+						mChildrenHierarchy[go.GetID()] = GOChildren;
+
+						std::for_each(GOChildren.begin(), GOChildren.end(), [&](Entity childID)
+							{
+								childrenCheck(gGOFactory->GetMIDToGO().at(childID));
+							});
+					}
+				}
+			};
+
+		//Loop through all scene-level objects
+		std::for_each(gGOFactory->GetMIDToGO().begin(), gGOFactory->GetMIDToGO().end(), [&](auto& pair)
+			{
+				auto& gameObject = pair.second;
+				childrenCheck(gameObject);
+			});
 	}
 }

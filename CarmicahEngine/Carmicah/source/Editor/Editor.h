@@ -41,6 +41,7 @@ namespace Carmicah
 		static std::vector<std::string> sDroppedFilePaths;
 		static bool mShowCloseConfirmation;
 		static std::vector<Entity> mSceneHierarchy;
+		static std::unordered_map<Entity, std::vector<Entity>> mChildrenHierarchy;
 
 		/**
 		 * @brief Construct a new Editor object
@@ -84,10 +85,12 @@ namespace Carmicah
 		void EntityAdded(Entity id) override;
 
 		void ReceiveMessage(Message* msg) override;
-
+		
 		static void DropCallback(GLFWwindow* window, int count, const char** paths);
 
 		static void CloseCallback(GLFWwindow* window);
+
+		void InitFullHierarchy();
 
 	private:
 

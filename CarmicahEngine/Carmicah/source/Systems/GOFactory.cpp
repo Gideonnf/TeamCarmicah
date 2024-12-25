@@ -611,6 +611,11 @@ namespace Carmicah
 	}
 
 #pragma region IMGUI Accessor functions
+	std::unordered_map<Entity, GameObject>& GOFactory::GetMIDToGO()
+	{
+		return mIDToGO;
+	}
+
 	void GOFactory::ForAllGO(const std::function<void(GameObject&)>& func)
 	{
 		if (mIDToGO.size() > 0)
