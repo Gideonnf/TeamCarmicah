@@ -66,7 +66,6 @@ namespace Carmicah
 		mIDToGO.insert(std::make_pair(go.mID, go));
 
 		// All entities created is stored in GOFactory
-		SystemManager::GetInstance()->UpdateSignatures(go.mID, EntityManager::GetInstance()->GetSignature(go.mID));
 		
 		// By default add transform to a blank component
 		if(flag == TRANSFORMTYPE::TRANSFORM)
@@ -79,6 +78,8 @@ namespace Carmicah
 			go.AddComponent<UITransform>();
 			UpdateParent(go.mID, sceneGO.sceneID);
 		}
+		
+		//SystemManager::GetInstance()->UpdateSignatures(go.mID, EntityManager::GetInstance()->GetSignature(go.mID));
 		//else //Case for empty GOs
 		//{
 		//	//Empty GOs should only act as folders, so always will be under the main scene hierarchy (for now until sub-folders :sadge:)
@@ -806,6 +807,8 @@ namespace Carmicah
 			}
 		}
 
+		UpdateHierarchyMessage msg(newObj.GetID(),parentID);
+		SendSysMessage(&msg);
 		return entityID;
 	}
 

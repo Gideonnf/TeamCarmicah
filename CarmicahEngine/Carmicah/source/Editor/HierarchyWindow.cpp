@@ -314,7 +314,7 @@ namespace Carmicah
 			}
 
 #pragma region Unchilding
-
+			//Unchilding 
 			if (ImGui::BeginDragDropTarget())
 			{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
@@ -323,7 +323,7 @@ namespace Carmicah
 
 					if(droppedGO.SetParent(gGOFactory->sceneGO.sceneID))
 					{
-						Editor::mSceneHierarchy.push_back(droppedGO.GetID());
+						/*Editor::mSceneHierarchy.push_back(droppedGO.GetID());*/
 					}
 				}
 				ImGui::EndDragDropTarget();
