@@ -175,7 +175,18 @@ namespace Carmicah
 				{
 					GameObject& droppedGO = *(GameObject*)payload->Data;
 					
-					droppedGO.SetParent(go);
+					//Set it to the end of the list if u drag it back onto its same parent (why not) can remove if not good
+					if (!droppedGO.SetParent(go))
+					{
+						auto it = std::find(Editor::mChildrenHierarchy[go.GetID()].begin(), Editor::mChildrenHierarchy[go.GetID()].end(), droppedGO.GetID());
+
+						if (it != Editor::mChildrenHierarchy[go.GetID()].end())
+						{
+							Editor::mChildrenHierarchy[go.GetID()].erase(it);
+							Editor::mChildrenHierarchy[go.GetID()].push_back(droppedGO.GetID());
+						}
+
+					}
 					//auto it = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
 					//Editor::mSceneHierarchy.erase(it);
 					
