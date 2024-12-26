@@ -377,7 +377,7 @@ namespace Carmicah
 		{
 			mSceneHierarchy.erase(it);
 		}
-		//Its a child
+		//Its a child!
 		else
 		{
 			//Find out the parent...
@@ -404,7 +404,7 @@ namespace Carmicah
 
 	void Editor::EntityAdded(Entity id)
 	{
-
+		UNUSED(id);
 		//Find out the parentID first
 		//GameObject& currentGO = gGOFactory->GetMIDToGO().at(id);
 		//Entity parentID = 0;
@@ -446,7 +446,7 @@ namespace Carmicah
 		{
 			UpdateHierarchyMessage* castedMsg = dynamic_cast<UpdateHierarchyMessage*>(msg);
 
-			//Re-parenting to Scene
+			//if Re-parenting to Scene
 			if (castedMsg->mParentID == gGOFactory->sceneGO.sceneID)
 			{
 				//Find the Old Parent
@@ -474,6 +474,7 @@ namespace Carmicah
 
 				mSceneHierarchy.push_back(castedMsg->mEntityID);
 			}
+			//Children shenanigans
 			else
 			{
 				//Checking if the oldParent is from mSceneHierarchy
@@ -484,7 +485,7 @@ namespace Carmicah
 				{
 					mSceneHierarchy.erase(it);
 				}
-				//Its not a parented object to begin with so time to find out where its parent is
+				//Its not a sceneGO object to begin with so time to find out where its parent is
 				else
 				{
 					Entity oldParentID = 0;
