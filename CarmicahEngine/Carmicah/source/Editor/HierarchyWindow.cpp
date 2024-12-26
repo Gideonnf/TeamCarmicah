@@ -77,6 +77,7 @@ namespace Carmicah
 
 		DrawCustomSeparator(go);
 
+		//Dropping on the line between GameObjects
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
@@ -90,7 +91,7 @@ namespace Carmicah
 
 				else
 				{
-					
+					//Parenting to the main Scene Hierarchy
 					if(!droppedGO.SetParent(gGOFactory->sceneGO.sceneID))
 					{
 						//If the droppedGO and the targetted GO has the same parent(only works for sceneGO, children no vectors rn)
@@ -108,11 +109,42 @@ namespace Carmicah
 							Editor::mSceneHierarchy.erase(droppedIt);
 						}
 					}
-					//If they have different parents(
+					//If they have different parents
 					else
 					{
-						//auto targettedGO = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), go.GetID());
-						//Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
+						//Find out the new parent (should be the parent of GO below the line)
+						Entity newParentID = 0;
+
+						if (go.HasComponent<Transform>())
+						{
+							newParentID = go.GetComponent<Transform>().parent;
+						}
+
+						else if (go.HasComponent<UITransform>())
+						{
+							newParentID = go.GetComponent<UITransform>().parent;
+						}
+
+						//Set the parent (should auto-update the mChildrenHierarchy too,setting it at the end)
+						droppedGO.SetParent(newParentID);
+
+						//Sort it accordingly
+						auto droppedIt = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), droppedGO.GetID());
+						auto targettedGO = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), go.GetID());
+
+						if (targettedGO < droppedIt)
+						{
+							Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
+							Editor::mChildrenHierarchy[newParentID].insert(targettedGO, droppedGO.GetID());
+						}
+						else
+						{
+							Editor::mChildrenHierarchy[newParentID].insert(targettedGO, droppedGO.GetID());
+							Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
+						}
+
+
+
 					}
 					//CM_CORE_INFO("Re-arranging success");
 				}
@@ -136,6 +168,7 @@ namespace Carmicah
 				ImGui::EndDragDropSource();
 			}
 
+			//Setting Parent (drop on the actual node)
 			if (ImGui::BeginDragDropTarget())
 			{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
@@ -241,7 +274,9 @@ namespace Carmicah
 							ImVec2(cursorPos.x, cursorPos.y + separatorSize.y),
 							ImVec2(cursorPos.x + separatorSize.x, cursorPos.y + separatorSize.y),
 							ImGui::GetColorU32(ImGuiCol_Separator), 1.0f);
+						
 
+						//The Bottom Line of the Entire Hierarchy
 						if (ImGui::BeginDragDropTarget())
 						{
 							if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
