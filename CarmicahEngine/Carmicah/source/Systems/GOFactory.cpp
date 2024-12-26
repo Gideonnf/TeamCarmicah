@@ -419,14 +419,23 @@ namespace Carmicah
 	/// <param name="toDelete"> If the object is being deleted, only need to remove from parent instead </param>
 	void GOFactory::UpdateParent(Entity entityID, Entity newParentID, bool toDelete) 
 	{
+		/*Technically this can be done first cause updateParent should always work so, let the editor update its hierarchy copy side
+		using Transform.parent (getting the oldParent) so it can edit*/
+		UpdateHierarchyMessage msg2(entityID, newParentID);
+		SendSysMessage(&msg2);
+
 		GameObject& go = mIDToGO[entityID];
 
 		// Remove entityID from it's current parent
 		// Check if its part of sceneGO
+
+		//Removing from sceneGO's hierarchy
 		if (sceneGO.children.count(entityID) > 0)
 		{
 			sceneGO.children.erase(entityID);
 		}
+
+		//Only runs for new GameObjects
 		else if (go.GetComponent<Transform>().parent == 0 && newParentID == 0)
 		{
 			// its a new object
@@ -514,6 +523,7 @@ namespace Carmicah
 			// If its being parented to the scene
 			if (newParentID == sceneGO.sceneID)
 			{
+
 				sceneGO.children.insert(entityID);
 				if (ComponentManager::GetInstance()->HasComponent<Transform>(entityID))
 				{
@@ -548,6 +558,8 @@ namespace Carmicah
 				// back to world transform
 				UpdateTransformMessage msg(entityID, newParentID);
 				SendSysMessage(&msg);
+
+				
 
 				// Change the current transform parent ID
 				if (go.HasComponent<Transform>())
@@ -642,14 +654,15 @@ namespace Carmicah
 	{
 		if (parentGO.HasComponent<Transform>() && parentGO.GetComponent<Transform>().children.size() > 0)
 		{
-			for (auto& child : parentGO.GetComponent<Transform>().children)
+			
+			for (auto& child : Editor::mChildrenHierarchy[parentGO.GetID()])
 			{
 				func(mIDToGO[child]);
 			}
 		}
 		else if (parentGO.HasComponent<UITransform>() && parentGO.GetComponent<UITransform>().children.size() > 0)
 		{
-			for (auto& child : parentGO.GetComponent<UITransform>().children)
+			for (auto& child : Editor::mChildrenHierarchy[parentGO.GetID()])
 			{
 				func(mIDToGO[child]);
 			}

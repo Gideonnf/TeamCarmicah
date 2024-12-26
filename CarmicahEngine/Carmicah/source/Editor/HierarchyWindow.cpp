@@ -111,8 +111,8 @@ namespace Carmicah
 					//If they have different parents(
 					else
 					{
-						auto targettedGO = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), go.GetID());
-						Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
+						//auto targettedGO = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), go.GetID());
+						//Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
 					}
 					//CM_CORE_INFO("Re-arranging success");
 				}
@@ -143,8 +143,8 @@ namespace Carmicah
 					GameObject& droppedGO = *(GameObject*)payload->Data;
 					
 					droppedGO.SetParent(go);
-					auto it = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
-					Editor::mSceneHierarchy.erase(it);
+					//auto it = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
+					//Editor::mSceneHierarchy.erase(it);
 					
 				}
 				ImGui::EndDragDropTarget();

@@ -229,8 +229,6 @@ namespace Carmicah
 
 #pragma region Logic
 
-		int mapSize = mChildrenHierarchy.size();
-		CM_CORE_INFO(std::to_string(mapSize));
 
 		if (mShowCloseConfirmation)
 		{
@@ -394,6 +392,77 @@ namespace Carmicah
 				HierarchyWindow::inspectedPrefab = nullptr;
 				HierarchyWindow::mShowScene = true;
 				AssetWindow::selectedPrefab = nullptr;
+			}
+		}
+		if (msg->mMsgType == MSG_UPDATEHIERARCHY)
+		{
+			UpdateHierarchyMessage* castedMsg = dynamic_cast<UpdateHierarchyMessage*>(msg);
+
+			//Re-parenting to Scene
+			if (castedMsg->mParentID == gGOFactory->sceneGO.sceneID)
+			{
+				//Find the Old Parent
+				Entity oldParentID = 0;
+				GameObject& currentGO = gGOFactory->GetMIDToGO().at(castedMsg->mEntityID);
+
+				if (currentGO.HasComponent<Transform>())
+				{
+					// Get the parent ID
+					oldParentID = currentGO.GetComponent<Transform>().parent;
+				}
+				else if (currentGO.HasComponent<UITransform>())
+				{
+					oldParentID = currentGO.GetComponent<UITransform>().parent;
+				}
+				
+
+				//Remove from the respective mChildHierarchy
+				auto childIt = std::find(mChildrenHierarchy[oldParentID].begin(), mChildrenHierarchy[oldParentID].end(), castedMsg->mEntityID);
+
+				if (childIt != mChildrenHierarchy[oldParentID].end())
+				{
+					mChildrenHierarchy[oldParentID].erase(childIt);
+				}
+
+			}
+			else
+			{
+				//Checking if the oldParent is from mSceneHierarchy
+				auto it = std::find(mSceneHierarchy.begin(), mSceneHierarchy.end(), castedMsg->mEntityID);
+
+				//Remove from mSceneHierarchy
+				if(it != mSceneHierarchy.end())
+				{
+					mSceneHierarchy.erase(it);
+				}
+				//Its not a parented object to begin with so time to find out where its parent is
+				else
+				{
+					Entity oldParentID = 0;
+					GameObject& currentGO = gGOFactory->GetMIDToGO().at(castedMsg->mEntityID);
+
+					// Get the parent ID
+					if (currentGO.HasComponent<Transform>())
+					{
+						oldParentID = currentGO.GetComponent<Transform>().parent;
+					}
+					else if (currentGO.HasComponent<UITransform>())
+					{
+						oldParentID = currentGO.GetComponent<UITransform>().parent;
+					}
+
+
+					//Remove from the respective mChildHierarchy
+					auto childIt = std::find(mChildrenHierarchy[oldParentID].begin(), mChildrenHierarchy[oldParentID].end(), castedMsg->mEntityID);
+
+					if (childIt != mChildrenHierarchy[oldParentID].end())
+					{
+						mChildrenHierarchy[oldParentID].erase(childIt);
+					}
+				}
+				
+				//Adding it to the mChildrenHierarchy as an entry under parentID
+				mChildrenHierarchy[castedMsg->mParentID].push_back(castedMsg->mEntityID);
 			}
 		}
 	}

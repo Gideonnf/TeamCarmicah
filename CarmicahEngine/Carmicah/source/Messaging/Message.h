@@ -36,7 +36,8 @@ namespace Carmicah
 		MSG_NEWPREFABGO,
 		MSG_MODIFYPREFAB,
 		MSG_NEWPREFAB,
-		MSG_ONCLICK
+		MSG_ONCLICK,
+		MSG_UPDATEHIERARCHY
 	};
 
 	namespace
@@ -70,6 +71,14 @@ namespace Carmicah
 		UpdateTransformMessage(Entity id, Entity parentID) : Message(MSG_UPDATETRANSFORM), mEntityID(id), mParentID(parentID) {}
 	};
 
+	class UpdateHierarchyMessage : public Message
+	{
+	public:
+		Entity mEntityID;
+		Entity mParentID;
+		UpdateHierarchyMessage(Entity id, Entity parentID) : Message(MSG_UPDATEHIERARCHY), mEntityID(id), mParentID(parentID) {}
+	};
+	
 	class EntityPickedMessage : public Message
 	{
 	public:
@@ -148,6 +157,7 @@ namespace Carmicah
 		Entity buttonEntity;
 		OnClickMsg(Entity go) : Message(MSG_ONCLICK), buttonEntity(go) {}
 	};
+
 }
 
 #endif
