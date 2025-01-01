@@ -88,13 +88,24 @@ namespace Carmicah
 
 	bool GameObject::SetParent(GameObject parentObj)
 	{
-		// Check if the parent is the same (i.e accidentally dragging it back onto the same parent
+		// Check if the parent is the same (i.e accidentally dragging it back onto the same parent)
 		if (HasComponent<Transform>() && GetComponent<Transform>().parent == parentObj.mID)
 			return false;
 
 
 		if (HasComponent<UITransform>() && GetComponent<UITransform>().parent == parentObj.mID)
 			return false;
+
+		//Trying to parent the GO into a child object (TODO: Grandchildren and onwards is an issue)
+		if (parentObj.HasComponent<Transform>() && parentObj.GetComponent<Transform>().parent == this->GetID())
+		{
+			return false;
+		}
+
+		if (parentObj.HasComponent<UITransform>() && parentObj.GetComponent<UITransform>().parent == this->GetID())
+		{
+			return false;
+		}
 
 		// If not then update the old and new parents
 		gGOFactory->UpdateParent(mID, parentObj.mID);
