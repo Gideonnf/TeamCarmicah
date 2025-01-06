@@ -126,7 +126,6 @@ namespace Carmicah
 						}
 
 						//Set the parent (should auto-update the mChildrenHierarchy too,setting it at the end)
-						droppedGO.SetParent(newParentID);
 
 						//Sort it accordingly
 						auto droppedIt = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), droppedGO.GetID());
@@ -143,7 +142,7 @@ namespace Carmicah
 							Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
 						}
 
-
+						droppedGO.SetParent(newParentID);
 
 					}
 					//CM_CORE_INFO("Re-arranging success");

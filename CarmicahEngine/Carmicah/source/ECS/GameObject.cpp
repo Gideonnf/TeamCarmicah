@@ -88,6 +88,62 @@ namespace Carmicah
 
 	bool GameObject::SetParent(GameObject parentObj)
 	{
+
+		auto parentCheck = [](GameObject* currentGO, GameObject* parentGO) -> bool
+			{
+				auto mIDtoGOMap = gGOFactory->GetMIDToGO();
+				while(parentGO)
+				{
+					if (parentGO->GetID() == currentGO->GetID())
+					{
+						return true;
+					}
+
+					if (parentGO->HasComponent<Transform>())
+					{
+						Entity parentID = parentGO->GetComponent<Transform>().parent;
+
+						if (parentID == 0)
+							break;
+						auto it = mIDtoGOMap.find(parentID);
+						if (it != mIDtoGOMap.end())
+						{
+							parentGO = &it->second;
+						}
+						else //No more parent
+						{
+							break;
+						}
+					}
+					else if (parentGO->HasComponent<UITransform>())
+					{
+						Entity parentID = parentGO->GetComponent<UITransform>().parent;
+
+						if (parentID == 0)
+						{
+							break;
+						}
+
+						auto it = mIDtoGOMap.find(parentID);
+						if (it != mIDtoGOMap.end())
+						{
+							parentGO = &it->second;
+						}
+						else //No more parent
+						{
+							break;
+						}
+					}
+				}
+				return false;
+			};
+
+		if (parentCheck(this, &parentObj))
+		{
+			CM_CORE_ERROR("Trying to child into children!");
+			return false;
+		}
+		
 		// Check if the parent is the same (i.e accidentally dragging it back onto the same parent)
 		if (HasComponent<Transform>() && GetComponent<Transform>().parent == parentObj.mID)
 			return false;
