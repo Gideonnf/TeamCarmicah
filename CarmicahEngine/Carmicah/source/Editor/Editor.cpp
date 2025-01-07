@@ -379,22 +379,25 @@ namespace Carmicah
 
 		//Try removing from the main Scene Hierarchy first
 
-		/*mSceneHierarchy.erase(std::remove_if(mSceneHierarchy.begin(), mSceneHierarchy.end(), [id](const auto& element)
-			{return element == id;}), mSceneHierarchy.end());*/
+		mSceneHierarchy.erase(std::remove_if(mSceneHierarchy.begin(), mSceneHierarchy.end(), [id](const auto& element)
+			{return element == id;}), mSceneHierarchy.end());
 
-		auto it = std::find(mSceneHierarchy.begin(), mSceneHierarchy.end(), id);
-		if(it != mSceneHierarchy.end())
-		{
-			int counter = mSceneHierarchy.size();
-			CM_CORE_INFO("Old Size: " + std::to_string(counter));
-			mSceneHierarchy.erase(it);
-			/*for (int i{}; i < mSceneHierarchy.size(); ++i)
-			{
-				CM_CORE_INFO(std::to_string(mSceneHierarchy[i]));
-			}*/
-			counter = mSceneHierarchy.size();
-			CM_CORE_INFO("New Size: " + std::to_string(counter));
-		}
+		//auto it = std::find(mSceneHierarchy.begin(), mSceneHierarchy.end(), id);
+		//if(it != mSceneHierarchy.end())
+		//{
+		//	int counter = mSceneHierarchy.size();
+		//	CM_CORE_INFO("Old Size: " + std::to_string(counter));
+		//	mSceneHierarchy.erase(it);
+		//	/*for (int i{}; i < mSceneHierarchy.size(); ++i)
+		//	{
+		//		CM_CORE_INFO(std::to_string(mSceneHierarchy[i]));
+		//	}*/
+		//	counter = mSceneHierarchy.size();
+		//	CM_CORE_INFO("New Size: " + std::to_string(counter));
+		//}
+		// 
+		// 
+		
 		//Its a child!
 		//else
 		//{
@@ -469,7 +472,10 @@ namespace Carmicah
 					{
 						mChildrenHierarchy[oldParentID].erase(childIt);
 					}
-
+					mSceneHierarchy.push_back(castedMsg->mEntityID);
+				}
+				else
+				{
 					mSceneHierarchy.push_back(castedMsg->mEntityID);
 				}
 			}
