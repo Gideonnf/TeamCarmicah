@@ -104,23 +104,23 @@ namespace Carmicah
 					//Parenting to the main Scene Hierarchy (if i shld be)
 					if(targettedGOParent == gGOFactory->sceneGO.sceneID)
 					{
-						if (!droppedGO.SetParent(gGOFactory->sceneGO.sceneID))
-						{
-							//If the droppedGO and the targetted GO has the same parent(only works for sceneGO, children no vectors rn)
-							auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
-							auto targettedGO = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), go.GetID());
+						droppedGO.SetParent(gGOFactory->sceneGO.sceneID);
+						
+						//If the droppedGO and the targetted GO has the same parent(only works for sceneGO, children no vectors rn)
+						auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
+						auto targettedGO = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), go.GetID());
 
-							if (targettedGO < droppedIt)
-							{
-								Editor::mSceneHierarchy.erase(droppedIt);
-								Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
-							}
-							else
-							{
-								Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
-								Editor::mSceneHierarchy.erase(droppedIt);
-							}
+						if (targettedGO < droppedIt)
+						{
+							Editor::mSceneHierarchy.erase(droppedIt);
+							Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
 						}
+						else
+						{
+							Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
+							Editor::mSceneHierarchy.erase(droppedIt);
+						}
+							
 					}
 					//If they have different parents
 					else
@@ -305,12 +305,36 @@ namespace Carmicah
 							if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 							{
 								GameObject& droppedGO = *(GameObject*)payload->Data;
+								Entity parentID = 0;
 
-								auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
+								if (droppedGO.HasComponent<Transform>())
+								{
+									parentID = droppedGO.GetComponent<Transform>().parent;
+								}
 
-								Editor::mSceneHierarchy.erase(droppedIt);
-								
-								Editor::mSceneHierarchy.push_back(droppedGO.GetID());
+								else if (droppedGO.HasComponent<UITransform>())
+								{
+									parentID = droppedGO.GetComponent<UITransform>().parent;
+								}
+
+								if(parentID == 0)
+								{
+									auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
+
+									Editor::mSceneHierarchy.erase(droppedIt);
+
+									Editor::mSceneHierarchy.push_back(droppedGO.GetID());
+								}
+
+								//else
+								//{
+								//	auto droppedIt = std::find(Editor::mChildrenHierarchy[parentID].begin(), Editor::mChildrenHierarchy[parentID].end(), droppedGO.GetID());
+
+								//	Editor::mChildrenHierarchy[parentID].erase(droppedIt);
+
+								//	Editor::mSceneHierarchy.push_back(droppedGO.GetID());
+								//}
+
 							}
 							ImGui::EndDragDropTarget();
 						}
