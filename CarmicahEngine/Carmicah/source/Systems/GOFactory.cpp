@@ -437,12 +437,20 @@ namespace Carmicah
 		}
 
 		//Only runs for new GameObjects
-		else if (go.GetComponent<Transform>().parent == 0 && newParentID == 0)
+		else if (go.HasComponent<Transform>() && go.GetComponent<Transform>().parent == 0 && newParentID == 0)
 		{
 			// its a new object
 			sceneGO.children.insert(entityID);
 			return;
 		}
+
+		else if (go.HasComponent<UITransform>() && go.GetComponent<UITransform>().parent == 0 && newParentID == 0)
+		{
+			// its a new object
+			sceneGO.children.insert(entityID);
+			return;
+		}
+		
 		// Find out what is the current parent
 		else
 		{

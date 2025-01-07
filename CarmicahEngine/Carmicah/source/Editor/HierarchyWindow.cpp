@@ -83,6 +83,7 @@ namespace Carmicah
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 			{
 				GameObject& droppedGO = *(GameObject*)payload->Data;
+				Entity targettedGOParent = 0;
 
 				if (droppedGO.GetID() == go.GetID())
 				{
@@ -91,22 +92,34 @@ namespace Carmicah
 
 				else
 				{
-					//Parenting to the main Scene Hierarchy
-					if(!droppedGO.SetParent(gGOFactory->sceneGO.sceneID))
+					if(go.HasComponent<Transform>())
 					{
-						//If the droppedGO and the targetted GO has the same parent(only works for sceneGO, children no vectors rn)
-						auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
-						auto targettedGO = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), go.GetID());
+						targettedGOParent = go.GetComponent<Transform>().parent;
+					}
 
-						if (targettedGO < droppedIt)
+					else if (go.HasComponent<UITransform>())
+					{
+						targettedGOParent = go.GetComponent<UITransform>().parent;
+					}
+					//Parenting to the main Scene Hierarchy (if i shld be)
+					if(targettedGOParent == gGOFactory->sceneGO.sceneID)
+					{
+						if (!droppedGO.SetParent(gGOFactory->sceneGO.sceneID))
 						{
-							Editor::mSceneHierarchy.erase(droppedIt);
-							Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
-						}
-						else
-						{
-							Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
-							Editor::mSceneHierarchy.erase(droppedIt);
+							//If the droppedGO and the targetted GO has the same parent(only works for sceneGO, children no vectors rn)
+							auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
+							auto targettedGO = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), go.GetID());
+
+							if (targettedGO < droppedIt)
+							{
+								Editor::mSceneHierarchy.erase(droppedIt);
+								Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
+							}
+							else
+							{
+								Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
+								Editor::mSceneHierarchy.erase(droppedIt);
+							}
 						}
 					}
 					//If they have different parents
@@ -126,6 +139,7 @@ namespace Carmicah
 						}
 
 						//Set the parent (should auto-update the mChildrenHierarchy too,setting it at the end)
+						droppedGO.SetParent(newParentID);
 
 						//Sort it accordingly
 						auto droppedIt = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), droppedGO.GetID());
@@ -142,7 +156,6 @@ namespace Carmicah
 							Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
 						}
 
-						droppedGO.SetParent(newParentID);
 
 					}
 					//CM_CORE_INFO("Re-arranging success");

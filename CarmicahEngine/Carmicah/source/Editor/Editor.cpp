@@ -229,6 +229,12 @@ namespace Carmicah
 
 #pragma region Logic
 
+		int counter = 1;
+		if (counter)
+		{
+			//CM_CORE_INFO(std::to_string(Editor::mSceneHierarchy.size()));
+		}
+
 
 		if (mShowCloseConfirmation)
 		{
@@ -372,61 +378,51 @@ namespace Carmicah
 		}
 
 		//Try removing from the main Scene Hierarchy first
+
+		/*mSceneHierarchy.erase(std::remove_if(mSceneHierarchy.begin(), mSceneHierarchy.end(), [id](const auto& element)
+			{return element == id;}), mSceneHierarchy.end());*/
+
 		auto it = std::find(mSceneHierarchy.begin(), mSceneHierarchy.end(), id);
 		if(it != mSceneHierarchy.end())
 		{
+			int counter = mSceneHierarchy.size();
+			CM_CORE_INFO("Old Size: " + std::to_string(counter));
 			mSceneHierarchy.erase(it);
+			/*for (int i{}; i < mSceneHierarchy.size(); ++i)
+			{
+				CM_CORE_INFO(std::to_string(mSceneHierarchy[i]));
+			}*/
+			counter = mSceneHierarchy.size();
+			CM_CORE_INFO("New Size: " + std::to_string(counter));
 		}
 		//Its a child!
-		else
-		{
-			//Find out the parent...
-			GameObject& currentGO = gGOFactory->GetMIDToGO().at(id);
-			Entity parentID = 0;
+		//else
+		//{
+		//	//Find out the parent...
+		//	GameObject& currentGO = gGOFactory->GetMIDToGO().at(id);
+		//	Entity parentID = 0;
 
-			if (currentGO.HasComponent<Transform>())
-			{
-				// Get the parent ID
-				parentID = currentGO.GetComponent<Transform>().parent;
-			}
-			else if (currentGO.HasComponent<UITransform>())
-			{
-				parentID = currentGO.GetComponent<UITransform>().parent;
-			}
+		//	if (currentGO.HasComponent<Transform>())
+		//	{
+		//		// Get the parent ID
+		//		parentID = currentGO.GetComponent<Transform>().parent;
+		//	}
+		//	else if (currentGO.HasComponent<UITransform>())
+		//	{
+		//		parentID = currentGO.GetComponent<UITransform>().parent;
+		//	}
 
-			//Remove from the respective mChildHierarchy
+		//	//Remove from the respective mChildHierarchy
 
-			auto childIt = std::find(mChildrenHierarchy[parentID].begin(), mChildrenHierarchy[parentID].end(), id);
-			mChildrenHierarchy[parentID].erase(childIt);
+		//	auto childIt = std::find(mChildrenHierarchy[parentID].begin(), mChildrenHierarchy[parentID].end(), id);
+		//	mChildrenHierarchy[parentID].erase(childIt);
 
-		}
+		//}
 	}
 
 	void Editor::EntityAdded(Entity id)
 	{
 		UNUSED(id);
-		//Find out the parentID first
-		//GameObject& currentGO = gGOFactory->GetMIDToGO().at(id);
-		//Entity parentID = 0;
-		//if (currentGO.HasComponent<Transform>())
-		//{
-		//	// Get the parent ID
-		//	parentID = currentGO.GetComponent<Transform>().parent;
-		//}
-		//else if (currentGO.HasComponent<UITransform>())
-		//{
-		//	parentID = currentGO.GetComponent<UITransform>().parent;
-		//}
-
-		//if (parentID == gGOFactory->sceneGO.sceneID)
-		//{
-		//	mSceneHierarchy.push_back(id);
-		//}
-
-		//else
-		//{
-		//	mChildrenHierarchy[parentID].push_back(id);
-		//}
 	}
 
 	void Editor::ReceiveMessage(Message* msg)
@@ -464,15 +460,18 @@ namespace Carmicah
 				}
 				
 
-				//Remove from the respective mChildHierarchy
-				auto childIt = std::find(mChildrenHierarchy[oldParentID].begin(), mChildrenHierarchy[oldParentID].end(), castedMsg->mEntityID);
-
-				if (childIt != mChildrenHierarchy[oldParentID].end())
+				//Remove from the respective mChildHierarchy (should only do this if its not already has parent id = 0)
+				if(oldParentID != 0)
 				{
-					mChildrenHierarchy[oldParentID].erase(childIt);
-				}
+					auto childIt = std::find(mChildrenHierarchy[oldParentID].begin(), mChildrenHierarchy[oldParentID].end(), castedMsg->mEntityID);
 
-				mSceneHierarchy.push_back(castedMsg->mEntityID);
+					if (childIt != mChildrenHierarchy[oldParentID].end())
+					{
+						mChildrenHierarchy[oldParentID].erase(childIt);
+					}
+
+					mSceneHierarchy.push_back(castedMsg->mEntityID);
+				}
 			}
 			//Children shenanigans
 			else
