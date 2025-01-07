@@ -302,43 +302,28 @@ namespace Carmicah
 						//The Bottom Line of the Entire Hierarchy
 						if (ImGui::BeginDragDropTarget())
 						{
-							if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
+							if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 							{
 								GameObject& droppedGO = *(GameObject*)payload->Data;
-								Entity parentID = 0;
+								Entity targettedGOParent = 0;
 
-								if (droppedGO.HasComponent<Transform>())
+								if (droppedGO.GetID() == *(Editor::mSceneHierarchy.end() - 1))
 								{
-									parentID = droppedGO.GetComponent<Transform>().parent;
+									CM_CORE_WARN("Not re-arranging any hierarchy");
 								}
 
-								else if (droppedGO.HasComponent<UITransform>())
+								else
 								{
-									parentID = droppedGO.GetComponent<UITransform>().parent;
+									if (!droppedGO.SetParent(gGOFactory->sceneGO.sceneID))
+									{
+										auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
+										Editor::mSceneHierarchy.erase(droppedIt);
+										Editor::mSceneHierarchy.push_back(droppedGO.GetID());
+									}
 								}
-
-								if(parentID == 0)
-								{
-									auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
-
-									Editor::mSceneHierarchy.erase(droppedIt);
-
-									Editor::mSceneHierarchy.push_back(droppedGO.GetID());
-								}
-
-								//else
-								//{
-								//	auto droppedIt = std::find(Editor::mChildrenHierarchy[parentID].begin(), Editor::mChildrenHierarchy[parentID].end(), droppedGO.GetID());
-
-								//	Editor::mChildrenHierarchy[parentID].erase(droppedIt);
-
-								//	Editor::mSceneHierarchy.push_back(droppedGO.GetID());
-								//}
-
 							}
 							ImGui::EndDragDropTarget();
 						}
-
 						ImGui::TreePop();
 					}
 				}
