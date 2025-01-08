@@ -1138,6 +1138,10 @@ namespace Carmicah
 				}
 				Entity selectedEntity = HierarchyWindow::selectedGO->GetID();
 
+				ImGui::Text("Selected Entity: ");
+				ImGui::SameLine();
+				ImGui::Text(std::to_string(selectedEntity).c_str());
+
 				AddComponentButton(HierarchyWindow::selectedGO);
 
 				InspectorTable<GameObject>(HierarchyWindow::selectedGO, GAMEOBJECT);

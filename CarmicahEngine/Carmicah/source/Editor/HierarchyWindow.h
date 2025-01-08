@@ -21,6 +21,7 @@ DigiPen Institute of Technology is prohibited.
 #include "EditorWindow.h"
 #include "ECS/GameObject.h"
 #include "../Systems/AssetTypes.h"
+#include "Editor.h"
 
 namespace Carmicah
 {
@@ -52,6 +53,8 @@ namespace Carmicah
 		void GOButton(GameObject& go);
 
 		void PrefabButton(Prefab& prefab);
+
+		void DrawCustomSeparator(GameObject& go);
 
 	};
 }

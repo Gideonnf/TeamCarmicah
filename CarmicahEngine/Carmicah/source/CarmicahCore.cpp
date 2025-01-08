@@ -242,6 +242,7 @@ namespace Carmicah
         // Add transform system into gGOFactory's observer so that it can send msg to it
         gGOFactory->BindSystem(transformSystem);
         gGOFactory->BindSystem(prefabSystem);
+        gGOFactory->BindSystem(editorSys);
         // Add Scene system into editor's observer
         editorSys->BindSystem(gameSystem);
         editorSys->BindSystem(prefabSystem);
@@ -251,7 +252,7 @@ namespace Carmicah
         //glfwSetWindowUserPointer(window, inputSystem.get());
         gScriptSystem->Init();
         Input.Init(window);
-        gameSystem->SetScene("Scene3");
+        gameSystem->SetScene("Scene1");
 #ifndef CM_INSTALLER
         gameSystem->Init(); // Load all GOs from scene file
         
