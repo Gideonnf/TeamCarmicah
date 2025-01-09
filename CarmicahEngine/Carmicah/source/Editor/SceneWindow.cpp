@@ -175,12 +175,8 @@ namespace Carmicah
 
 
                     // if dragging, update the drag position within the Scene window
-                    if (Input.IsDragging() && camera.HasComponent<Transform>())
+                    if (Input.IsDragging(MOUSE_BUTTON_LEFT) && camera.HasComponent<Transform>())
                     {
-                        Input.SetDragCurrentPos({ scaledX, scaledY });
-
-                        //Vec2d startDragPos = Input.GetDragStartPos();
-                        Vec2d currentMousePos = Input.GetDragCurrentPos();
                         /*if(mIsDebug)
                         {
                             std::cout << "Start Pos: " << startDragPos << std::endl;
@@ -189,9 +185,6 @@ namespace Carmicah
                         //Vec2d delta(currentMousePos.x - startDragPos.x, currentMousePos.y - startDragPos.y);
 
                         //Transform& cameraTransform = camera.GetComponent<Transform>();
-
-
-                        Input.SetDragStartPos(currentMousePos);
 
                         if (HierarchyWindow::selectedGO != nullptr)
                         {

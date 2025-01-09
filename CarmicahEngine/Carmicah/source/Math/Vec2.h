@@ -43,6 +43,11 @@ namespace Carmicah
 		//Constructors
 		Vector2D() : x(0), y(0) {}
 		Vector2D(T _x, T _y) : x(_x), y(_y) {}
+		template<typename O> Vector2D(Vector2D<O> _other)
+		{
+			x = static_cast<O>(_other.x);
+			y = static_cast<O>(_other.y);
+		}
 
 		//Assignment Operators
 		Vector2D& operator=(const Vector2D& rhs) = default;
@@ -221,6 +226,11 @@ namespace Carmicah
 	template<typename T> T Vector2DSquareDistance(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)
 	{
 		return (pVec1 - pVec0).squareLength();
+	}
+
+	template<typename T> bool Vector2DIsSimilar(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)
+	{
+		return fabs(pVec0.x - pVec1.x) < DBL_EPSILON && fabs(pVec0.y - pVec1.y) < DBL_EPSILON;
 	}
 
 	//<< Operator Overload
