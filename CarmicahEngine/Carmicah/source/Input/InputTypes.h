@@ -140,8 +140,11 @@ namespace Carmicah
 	{
 		NONE = -1,
 		RELEASE,
+        RELEASED,
+        PRESS,
 		PRESSED,
-		HOLD
+		HOLD,
+        DRAGGING
 	};
 }
 

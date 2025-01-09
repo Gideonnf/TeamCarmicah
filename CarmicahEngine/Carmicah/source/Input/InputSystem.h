@@ -34,23 +34,18 @@ namespace Carmicah
 		GLFWwindow* windowRef;
 		std::unordered_map<int, KeyStates> mKeyMap;
 		std::unordered_map<int, KeyStates> mMouseMap;
+		std::queue<std::tuple<bool, int, KeyStates>> mChangedKeyQueue;// true is key, false is mouse
 
-		Vector2D<double> mMousePos;
-		bool mMousePressed;
-		float mMouseTick;
+		Vector2D<double> mCurrMousePos;
+		Vector2D<double> mPrevMousePos;
 
-		bool isDragging;
-		bool isHeld;
-		Vector2D<double> dragStartPos;
-		Vector2D<double> dragEndPos;
-		Vector2D<double> dragCurrentPos;
-
+		const double sScreenHeight = 1080;
 	public:
 		bool mNotFullScreen{};
 		Vec2i mWindowScale{};
 
 
-		InputSystem() : windowRef(nullptr), mMousePressed(false), mMouseTick(0) {}
+		InputSystem() : windowRef(nullptr){}
 		~InputSystem() {};
 
 		// Not using the inherited singleton template class cause we want the base system inheritance
@@ -61,6 +56,8 @@ namespace Carmicah
 		}
 
 		void CloseGame();
+
+		void ToggleFullScreen();
 
 
 #pragma region Init & Update
@@ -73,14 +70,13 @@ namespace Carmicah
 
 
 #pragma region Key & Mouse State Methods
-
-		//bool isHeld() const;
-		bool IsDragging() const;
+		bool IsDragging(MouseButtons button);
 		bool IsMouseOver(Vec2d& position, Vec2d& size);
 
 		bool IsKeyPressed(Keys key);
 		bool IsKeyReleased(Keys key);
 		bool IsKeyHold(Keys key);
+		bool IsKeyDown(Keys key);
 
 		bool IsMousePressed(MouseButtons button);
 		bool IsMouseReleased(MouseButtons button);
@@ -111,18 +107,18 @@ namespace Carmicah
 		double GetMouseY();
 		Vector2D<double> GetMousePosition();
 		void SetMousePosition(double xPos, double yPos);
+		void SetMousePosition(Vector2D<double> pos);
 
 #pragma endregion
 
 
 #pragma region Drag & Held Tracking, Getters & Setters
 
-		void SetDragging(bool dragging);
-		void SetHold(bool left, bool right);
+		//void SetDragging(bool dragging);
 
-		void SetDragStartPos(const Vector2D<double>& pos);
-		void SetDragEndPos(const Vector2D<double>& pos);
-		void SetDragCurrentPos(const Vector2D<double>& pos);
+		//void SetDragStartPos(const Vector2D<double>& pos);
+		//void SetDragEndPos(const Vector2D<double>& pos);
+		//void SetDragCurrentPos(const Vector2D<double>& pos);
 
 		Vector2D<double> GetDragStartPos() const;
 		Vector2D<double> GetDragEndPos() const;

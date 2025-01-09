@@ -36,94 +36,87 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	std::unordered_map<int, bool> mKeyCurrentState;
-	std::unordered_map<int, bool> mKeyPreviousState;
-
-
 	#pragma region Callback Functions
 
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Callback function to handle keyboard input events, such as key presses and releases.
+
+				Handles the following events:
+					In-Game:
+						Alt Enter	- Toggles Full Screen
+					Editor Mode:
+						Escape		- Closes the Window
+					Both:
+						Alt Tab		- Iconify
+						Task Manager- Iconify
 	-------------------------------------------------------------------------------------------------*/
 	void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
 		UNUSED(scancode);
 		UNUSED(mods);
 
-		if (key < 0) 
+		if (key < 0)
 		{
-			std::cerr << "Invalid key code received: " << key << std::endl;
+			std::stringstream ss;
+			ss << "Invalid key code received: " << key << "\n";
+			CM_WARN(ss.str());
 			return;
 		}
 
-		// update the current key state map
-		Input.UpdateKeyMap(key, (KeyStates)action);
 
 		// close window if Esc is pressed	
-#ifndef CM_INSTALLER
-		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		{
-			glfwSetWindowShouldClose(window, GL_TRUE);
-		}
-#endif
-		// CTRL-ALT-DEL
-		bool ctrlPressed	= mKeyCurrentState[GLFW_KEY_LEFT_CONTROL] || mKeyCurrentState[GLFW_KEY_RIGHT_CONTROL];
-		bool altPressed		= mKeyCurrentState[GLFW_KEY_LEFT_ALT]	  || mKeyCurrentState[GLFW_KEY_RIGHT_ALT];
-		bool deletePressed	= mKeyCurrentState[GLFW_KEY_DELETE];
-		if (ctrlPressed && altPressed && deletePressed)
-		{
-			// minimise window
-			if (!Input.mNotFullScreen)
-				glfwIconifyWindow(window);
-		}
-
-		// ALT-TAB
-		//bool altPressed2 = glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_RIGHT_ALT) == GLFW_PRESS;
-		//bool tabPressed = glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS;
-		bool altPressed2 = mKeyCurrentState[GLFW_KEY_LEFT_ALT] || mKeyCurrentState[GLFW_KEY_RIGHT_ALT];
-		bool tabPressed = mKeyCurrentState[GLFW_KEY_TAB];
-
-		if (altPressed2 && tabPressed) 
-		{
-			std::cout << "Alt + Tab detected!" << std::endl;
-			
-			if(!Input.mNotFullScreen)
-				glfwIconifyWindow(window);
-		}
-
-#ifdef CM_INSTALLER
-		bool enterPressed = mKeyCurrentState[GLFW_KEY_ENTER];
-		if (altPressed2 && enterPressed)
-		{
-			std::cout << "Alt + Enter detected!" << std::endl;
-
-			if (!Input.mNotFullScreen)
-			{
-				GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
-
-				glfwSetWindowMonitor(window, primaryMonitor, 0, 0,
-					AssetManager::GetInstance()->enConfig.Width, AssetManager::GetInstance()->enConfig.Height, 0);
-			}
-			else
-			{
-				GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
-
-				glfwSetWindowMonitor(window, primaryMonitor, 0, 25,
-					Input.mWindowScale.x, Input.mWindowScale.y, 0);
-
-				glfwSetWindowMonitor(window, nullptr, 0, 25,
-					AssetManager::GetInstance()->enConfig.Width, AssetManager::GetInstance()->enConfig.Height, 0);
-			}
-			Input.mNotFullScreen = !Input.mNotFullScreen;
-		}
-#endif
-
-		// cout whatever key that was pressed
 		if (action == GLFW_PRESS)
 		{
+			Input.UpdateKeyMap(key, PRESS);
+#ifndef CM_INSTALLER
+			if (key == GLFW_KEY_ESCAPE)
+			{
+				glfwSetWindowShouldClose(window, GL_TRUE);
+			}
+#endif
+			// CTRL-ALT-DEL
+			bool ctrlPressed = Input.IsKeyDown(KEY_LEFT_CONTROL) || Input.IsKeyDown(KEY_RIGHT_CONTROL);
+			bool altPressed = Input.IsKeyDown(KEY_LEFT_ALT) || Input.IsKeyDown(KEY_RIGHT_ALT);
+			bool deletePressed = Input.IsKeyDown(KEY_DELETE);
+			if (ctrlPressed && altPressed && deletePressed)
+			{
+				// If the key is pressed this frame
+				if ((key == GLFW_KEY_DELETE || key == GLFW_KEY_LEFT_ALT || key == GLFW_KEY_RIGHT_ALT || key == GLFW_KEY_LEFT_SHIFT || key == GLFW_KEY_RIGHT_SHIFT) &&
+					!Input.mNotFullScreen)
+				// minimise window
+				glfwIconifyWindow(window);
+			}
+
+			// ALT-TAB
+			bool tabPressed = Input.IsKeyDown(KEY_TAB);
+			if (altPressed && tabPressed)
+			{
+				if ((key == GLFW_KEY_TAB || key == GLFW_KEY_LEFT_ALT || key == GLFW_KEY_RIGHT_ALT) &&
+					!Input.mNotFullScreen)
+					glfwIconifyWindow(window);
+			}
+
+#ifdef CM_INSTALLER
+			bool enterPressed = Input.IsKeyDown(KEY_ENTER);
+			if (altPressed && enterPressed &&
+				(key == GLFW_KEY_ENTER || key == GLFW_KEY_LEFT_ALT || key == GLFW_KEY_RIGHT_ALT))
+			{
+				Input.ToggleFullScreen();
+			}
+#endif
+
+			// cout whatever key that was pressed
 			//use KeycodeToString function to print the key name
-			//const char* keyName = Input.KeycodeToString((Keys)key);
-		//	std::cout << "Key Pressed: " << keyName << std::endl;
+			//{
+			//	std::stringstream ss;
+			//	const char* keyName = Input.KeycodeToString((Keys)key);
+			//	ss << "Key Pressed: " << keyName << std::endl;
+			//	CM_INFO(ss.str());
+			//}
+		}
+		else if (action == GLFW_RELEASE)
+		{
+			Input.UpdateKeyMap(key, RELEASE);
 		}
 	}
 
@@ -140,13 +133,11 @@ namespace Carmicah
 		{
 			if (button == GLFW_MOUSE_BUTTON_LEFT)
 			{
-				Input.UpdateMouseMap(button, KeyStates::PRESSED);
-				std::cout << "Left Mouse Button: PRESSED" << std::endl;
+				Input.UpdateMouseMap(button, KeyStates::PRESS);
 			}
 			else if (button == GLFW_MOUSE_BUTTON_RIGHT)
 			{
-				Input.UpdateMouseMap(button, KeyStates::PRESSED);
-				std::cout << "Right Mouse Button: PRESSED" << std::endl;
+				Input.UpdateMouseMap(button, KeyStates::PRESS);
 			}
 		}
 		else if (action == GLFW_RELEASE)
@@ -154,39 +145,34 @@ namespace Carmicah
 			if (button == GLFW_MOUSE_BUTTON_LEFT)
 			{
 				Input.UpdateMouseMap(button, KeyStates::RELEASE);
-				std::cout << "Left Mouse Button: RELEASE" << std::endl;
 			}
 			else if (button == GLFW_MOUSE_BUTTON_RIGHT)
 			{
 				Input.UpdateMouseMap(button, KeyStates::RELEASE);
-				std::cout << "Right Mouse Button: RELEASE" << std::endl;
 			}
 		}
 
 		// Check for HOLD state (when a button is already pressed)
 		// this code check is useless and doesnt work because PRESSED takes precedence over HOLD every instance 
-		if (Input.IsMouseHold(MOUSE_BUTTON_LEFT))
-		{
-			std::cout << "Left Mouse Button: HOLD" << std::endl;
-		}
-		if (Input.IsMouseHold(MOUSE_BUTTON_RIGHT))
-		{
-			std::cout << "Right Mouse Button: HOLD" << std::endl;
-		}
+		//if (Input.IsMouseHold(MOUSE_BUTTON_LEFT))
+		//{
+		//	std::cout << "Left Mouse Button: HOLD" << std::endl;
+		//}
+		//if (Input.IsMouseHold(MOUSE_BUTTON_RIGHT))
+		//{
+		//	std::cout << "Right Mouse Button: HOLD" << std::endl;
+		//}
 
 		// DRAG CHECK
 		if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_LEFT)
 		{
 			// mouse is now dragging
-			Input.SetDragging(true);
 			Vec2i mousePosI = { static_cast<int>(Input.GetMousePosition().x), 1080 - static_cast<int>(Input.GetMousePosition().y) };
 
 #ifndef CM_INSTALLER
 			SceneToImgui::SCENE_IMGUI currScene = SceneToImgui::GetInstance()->GetHovering();
 			if (currScene == SceneToImgui::NO_SCENE)
 			{
-				// get and set where it started dragging from
-				Input.SetDragStartPos(Input.GetMousePosition());
 				return;
 			}
 			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(static_cast<SceneToImgui::SCENE_IMGUI>(SceneToImgui::GetInstance()->GetHovering()), mousePosI.x, mousePosI.y));
@@ -198,20 +184,12 @@ namespace Carmicah
 		}
 		else if (action == GLFW_RELEASE) // stop dragging when button is released
 		{
-			Vec2d mousePosD = Input.GetMousePosition();
+			//Vec2d mousePosD = Input.GetMousePosition();
 			// TODO: Hard coded
-			if (mousePosD.x >= 0 && mousePosD.x <= 1920 && mousePosD.y >= 0 && mousePosD.x <= 1080)
-			{
-				Vec2i mousePosI = { std::clamp(static_cast<int>(mousePosD.x), 0, 1920), 1080 - std::clamp(static_cast<int>(mousePosD.y) - 1, 0, 1080) };
-
-			}
-			if (Input.IsDragging())
-			{
-				// set bool to false and get dragEndPos
-				Input.SetDragging(false);
-				if (SceneToImgui::GetInstance()->GetHovering() == SceneToImgui::NO_SCENE)
-					Input.SetDragEndPos(Input.GetMousePosition());
-			}
+			//if (mousePosD.x >= 0 && mousePosD.x <= 1920 && mousePosD.y >= 0 && mousePosD.x <= 1080)
+			//{
+			//	Vec2i mousePosI = { std::clamp(static_cast<int>(mousePosD.x), 0, 1920), 1080 - std::clamp(static_cast<int>(mousePosD.y) - 1, 0, 1080) };
+			//}
 		}
 	}
 
@@ -226,13 +204,6 @@ namespace Carmicah
 		if (SceneToImgui::GetInstance()->GetHovering() == SceneToImgui::NO_SCENE)
 		{
 			Input.SetMousePosition(xPos, yPos);
-
-			// if mouse is dragging
-			if (Input.IsDragging())
-			{
-				// get current pos of cursor
-				Input.SetDragCurrentPos({ xPos, yPos });
-			}
 		}
 	}
 
@@ -341,6 +312,28 @@ namespace Carmicah
 		glfwSetWindowShouldClose(windowRef, GL_TRUE);
 	}
 
+	void InputSystem::ToggleFullScreen()
+	{
+		if (!Input.mNotFullScreen)
+		{
+			GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+
+			glfwSetWindowMonitor(windowRef, primaryMonitor, 0, 0,
+				AssetManager::GetInstance()->enConfig.Width, AssetManager::GetInstance()->enConfig.Height, 0);
+		}
+		else
+		{
+			GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+
+			glfwSetWindowMonitor(windowRef, primaryMonitor, 0, 25,
+				Input.mWindowScale.x, Input.mWindowScale.y, 0);
+
+			glfwSetWindowMonitor(windowRef, nullptr, 0, 25,
+				AssetManager::GetInstance()->enConfig.Width, AssetManager::GetInstance()->enConfig.Height, 0);
+		}
+		Input.mNotFullScreen = !Input.mNotFullScreen;
+	}
+
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Updates the state of the input system.
 	-------------------------------------------------------------------------------------------------*/
@@ -366,7 +359,42 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::UpdatePrevInput()
 	{
-		mKeyPreviousState = mKeyCurrentState;
+		decltype(mChangedKeyQueue) mTempQueue;
+		while(!mChangedKeyQueue.empty())
+		{
+			auto i = mChangedKeyQueue.front();
+			mChangedKeyQueue.pop();
+			KeyStates newKeyState = NONE;
+			switch (std::get<2>(i))
+			{
+				case PRESS:
+					newKeyState = PRESSED;
+				break;
+				case PRESSED:
+					newKeyState = HOLD;
+				break;
+				case RELEASE:
+					newKeyState = RELEASED;
+				break;
+				case RELEASED:
+					newKeyState = NONE;
+				break;
+			}
+
+			if (std::get<0>(i))
+			{
+				mKeyMap[std::get<1>(i)] = newKeyState;
+			}
+			else
+			{
+				mMouseMap[std::get<1>(i)] = newKeyState;
+			}
+			if (newKeyState == PRESSED || newKeyState == RELEASED)
+			{
+				mTempQueue.push(std::make_tuple(std::get<0>(i), std::get<1>(i), newKeyState));
+			}
+		}
+		mChangedKeyQueue = mTempQueue;
 	}
 
 	#pragma endregion
@@ -381,7 +409,7 @@ namespace Carmicah
 	{
 		// key press should only return true once until its released and pressed again
 		// so a map is used to keep track of that
-		return mKeyCurrentState[(int)key] && !mKeyPreviousState[(int)key];
+		return mKeyMap[key] == PRESS;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -389,7 +417,7 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::IsKeyReleased(Keys key)
 	{
-		return !mKeyCurrentState[(int)key] && mKeyPreviousState[(int)key];
+		return mKeyMap[key] == RELEASE;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -397,7 +425,15 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::IsKeyHold(Keys key)
 	{
-		return mKeyCurrentState[(int)key];
+		return mKeyMap[key] == HOLD || mKeyMap[key] == PRESSED;
+	}
+
+	/* function documentation--------------------------------------------------------------------------
+	\brief      Checks if a specified key is down.
+	-------------------------------------------------------------------------------------------------*/
+	bool InputSystem::IsKeyDown(Keys key)
+	{
+		return mKeyMap[key] == HOLD || mKeyMap[key] == PRESS || mKeyMap[key] == PRESSED;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -405,23 +441,23 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::WasKeyPressed(Keys key)
 	{
-		return mKeyPreviousState[(int)key] && !mKeyCurrentState[(int)key];
+		return mKeyMap[key] == PRESSED;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Checks if a specified key was released in a previous state (currently unused).
 	-------------------------------------------------------------------------------------------------*/
-	bool InputSystem::WasKeyReleased(Keys key) 
+	bool InputSystem::WasKeyReleased(Keys key)
 	{
-		return !mKeyPreviousState[(int)key] && mKeyCurrentState[(int)key];
+		return mKeyMap[key] == RELEASED;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
-	\brief      Checks if a specified key was held down in a previous state (currently unused).
+	\brief      Checks if a specified key was held down in a previous state
 	-------------------------------------------------------------------------------------------------*/
-	bool InputSystem::WasKeyHold(Keys key) 
+	bool InputSystem::WasKeyHold(Keys key)
 	{
-		return mKeyPreviousState[(int)key] && mKeyCurrentState[(int)key];
+		return mKeyMap[key] == RELEASE;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -429,7 +465,7 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::IsMousePressed(MouseButtons button)
 	{
-		return KeyStates::PRESSED == mMouseMap[(int)button];
+		return mMouseMap[button] == KeyStates::PRESS;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -437,7 +473,7 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::IsMouseReleased(MouseButtons button)
 	{
-		return KeyStates::RELEASE == mMouseMap[(int)button];
+		return mMouseMap[button] == KeyStates::RELEASE;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -445,17 +481,15 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::IsMouseHold(MouseButtons button)
 	{
-		// this function is useless and doesnt do anything tbh
-		return mMouseMap[(int)button] == KeyStates::HOLD;
+		return mMouseMap[button] == KeyStates::HOLD || mMouseMap[button] == KeyStates::PRESSED;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Checks if the mouse is currently positioned over a given area.
 	-------------------------------------------------------------------------------------------------*/
-	bool InputSystem::IsMouseOver(Vec2d& position, Vec2d& size)
-	{
+	bool InputSystem::IsMouseOver(Vec2d& position, Vec2d& size)	{
 		// get current mouse position
-		Vec2d mousePos = Input.GetMousePosition();
+		const Vec2d& mousePos = mCurrMousePos;
 
 		// define button boundaries
 		double left = position.x - (size.x * 0.5);
@@ -473,7 +507,7 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::WasMousePressed(MouseButtons button)
 	{
-		return mMouseMap[(int)button] == KeyStates::PRESSED && !mMousePressed;
+		return mMouseMap[button] == KeyStates::PRESSED;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -481,7 +515,7 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::WasMouseReleased(MouseButtons button)
 	{
-		return mMouseMap[(int)button] == KeyStates::RELEASE && mMousePressed;
+		return mMouseMap[button] == KeyStates::RELEASED;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -489,16 +523,15 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	bool InputSystem::WasMouseHold(MouseButtons button)
 	{
-		// this function is useless and doesnt do anything tbh
-		return mMouseMap[(int)button] == KeyStates::HOLD && mMousePressed;
+		return mMouseMap[button] == KeyStates::HOLD || mMouseMap[button] == KeyStates::PRESSED;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Checks if the mouse is currently in a dragging state.
 	-------------------------------------------------------------------------------------------------*/
-	bool InputSystem::IsDragging() const
+	bool InputSystem::IsDragging(MouseButtons button)
 	{
-		return isDragging;
+		return IsMouseHold(button) && Vector2DIsSimilar(mCurrMousePos, mPrevMousePos);
 	}
 
 	#pragma endregion
@@ -511,7 +544,7 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	double InputSystem::GetMouseX()
 	{
-		return mMousePos.x;
+		return mCurrMousePos.x;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -519,7 +552,7 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	double InputSystem::GetMouseY()
 	{
-		return mMousePos.y;
+		return mCurrMousePos.y;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -527,7 +560,7 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	Vector2D<double> InputSystem::GetMousePosition()
 	{
-		return mMousePos;
+		return mCurrMousePos;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -535,8 +568,13 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::SetMousePosition(double xPos, double yPos)
 	{
-		mMousePos.x = xPos;
-		mMousePos.y = yPos;
+		mCurrMousePos.x = xPos;
+		mCurrMousePos.y = yPos;
+	}
+
+	void InputSystem::SetMousePosition(Vector2D<double> pos)
+	{
+		SetMousePosition(pos.x, pos.y);
 	}
 
 	#pragma endregion
@@ -548,7 +586,7 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	Vector2D<double> InputSystem::GetDragStartPos() const
 	{
-		return dragStartPos;
+		return mPrevMousePos;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -556,7 +594,7 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	Vector2D<double> InputSystem::GetDragEndPos() const
 	{
-		return dragEndPos;
+		return mCurrMousePos;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -564,40 +602,40 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	Vector2D<double> InputSystem::GetDragCurrentPos() const
 	{
-		return dragCurrentPos;
+		return mCurrMousePos;
 	}
 
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Sets the starting position of a drag event.
 	-------------------------------------------------------------------------------------------------*/
-	void InputSystem::SetDragStartPos(const Vector2D<double>& pos)
-	{
-		dragStartPos = pos;
-	}
+	//void InputSystem::SetDragStartPos(const Vector2D<double>& pos)
+	//{
+	//	dragStartPos = pos;
+	//}
 
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Sets the ending position of a drag event.
 	-------------------------------------------------------------------------------------------------*/
-	void InputSystem::SetDragEndPos(const Vector2D<double>& pos)
-	{
-		dragEndPos = pos;
-	}
+	//void InputSystem::SetDragEndPos(const Vector2D<double>& pos)
+	//{
+	//	dragEndPos = pos;
+	//}
 
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Sets the current position during a drag event.
 	-------------------------------------------------------------------------------------------------*/
-	void InputSystem::SetDragCurrentPos(const Vector2D<double>& pos)
-	{
-		dragCurrentPos = pos;
-	}
+	//void InputSystem::SetDragCurrentPos(const Vector2D<double>& pos)
+	//{
+	//	dragCurrentPos = pos;
+	//}
 
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Sets the dragging state to true or false.
 	-------------------------------------------------------------------------------------------------*/
-	void InputSystem::SetDragging(bool dragging)
-	{
-		isDragging = dragging;
-	}
+	//void InputSystem::SetDragging(bool dragging)
+	//{
+	//	isDragging = dragging;
+	//}
 
 	#pragma endregion
 
@@ -608,7 +646,8 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::UpdateKeyMap(int key, KeyStates state)
 	{
-		mKeyCurrentState[key] = state == KeyStates::PRESSED;
+		mKeyMap[key] = state;
+		mChangedKeyQueue.push(std::make_tuple(true, key, state));
 	}
 
 	/* function documentation--------------------------------------------------------------------------
@@ -616,20 +655,8 @@ namespace Carmicah
 	-------------------------------------------------------------------------------------------------*/
 	void InputSystem::UpdateMouseMap(int button, KeyStates state)
 	{
-		if (state == KeyStates::PRESSED)
-		{
-			mMouseMap[button] = KeyStates::PRESSED;
-			mMouseTick = 0.0f;
-		}
-		else if (state == KeyStates::RELEASE)
-		{
-			mMouseMap[button] = KeyStates::RELEASE;
-			mMouseTick = 0.0f;
-		}
-		else if (state == KeyStates::HOLD)
-		{
-			mMouseMap[button] = KeyStates::HOLD;
-		}
+		mMouseMap[button] = state;
+		mChangedKeyQueue.push(std::make_tuple(false, button, state));
 	}
 
 	#pragma endregion
