@@ -659,6 +659,17 @@ namespace Carmicah
 		}
 	}
 
+	void GOFactory::ForAllSceneUIGOs(const std::function<void(GameObject&)>& func)
+	{
+		if (Editor::mSceneUIHierarchy.size() > 0)
+		{
+			for (auto& child : Editor::mSceneUIHierarchy)
+			{
+				func(mIDToGO[child]);
+			}
+		}
+	}
+
 	void GOFactory::ForGOChildren(GameObject& parentGO, const std::function<void(GameObject&)>& func)
 	{
 		if (parentGO.HasComponent<Transform>() && parentGO.GetComponent<Transform>().children.size() > 0)

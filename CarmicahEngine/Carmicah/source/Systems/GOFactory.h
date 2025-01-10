@@ -108,6 +108,7 @@ namespace Carmicah
 #pragma region IMGUI Accessor functions
 		void ForAllGO(const std::function<void(GameObject&)>& op);
 		void ForAllSceneGOs(const std::function<void(GameObject&)>& op);
+		void GOFactory::ForAllSceneUIGOs(const std::function<void(GameObject&)>& func);
 		void ForGOChildren(GameObject& parentGO, const std::function<void(GameObject&)>& go);
 		std::unordered_map<Entity, GameObject>& GetMIDToGO();
 
