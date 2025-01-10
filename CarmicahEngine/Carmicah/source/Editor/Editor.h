@@ -16,6 +16,9 @@ DigiPen Institute of Technology is prohibited.
 #define EDITOR_H_
 #include <GLFW/glfw3.h>
 #include <ImGUI/imgui.h>
+#include <ImGUI/imgui_impl_glfw.h>
+#include <ImGUI/imgui_impl_opengl3.h>
+#include <ImGUI/imgui_internal.h>
 #include "DebugWindow.h"
 #include "EditorWindow.h"
 #include "HierarchyWindow.h"
@@ -26,6 +29,8 @@ DigiPen Institute of Technology is prohibited.
 #include "../ECS/BaseSystem.h"
 #include "../Messaging/Message.h"
 #include "../Systems/AssetManager.h"
+#include "../Input/InputSystem.h"
+#include "../Systems/GOFactory.h"
 
 namespace Carmicah
 {
@@ -34,6 +39,9 @@ namespace Carmicah
 	public:
 
 		static std::vector<std::string> sDroppedFilePaths;
+		static bool mShowCloseConfirmation;
+		static std::vector<Entity> mSceneHierarchy;
+		static std::unordered_map<Entity, std::vector<Entity>> mChildrenHierarchy;
 
 		/**
 		 * @brief Construct a new Editor object
@@ -55,7 +63,7 @@ namespace Carmicah
 		 * @brief Update function for Editor class
 		 * 
 		 */
-		void Update();
+		void Update(GLFWwindow* window);
 		/**
 		 * @brief Render function for the Editor class
 		 * 
@@ -74,9 +82,15 @@ namespace Carmicah
 		 */
 		void EntityDestroyed(Entity id) override;
 
-		void ReceiveMessage(Message* msg) override;
+		void EntityAdded(Entity id) override;
 
+		void ReceiveMessage(Message* msg) override;
+		
 		static void DropCallback(GLFWwindow* window, int count, const char** paths);
+
+		static void CloseCallback(GLFWwindow* window);
+
+		void InitFullHierarchy();
 
 	private:
 

@@ -14,17 +14,16 @@ DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include "Editor.h"
-#include <ImGUI/imgui.h>
-#include <ImGUI/imgui_impl_glfw.h>
-#include <ImGUI/imgui_impl_opengl3.h>
-#include <ImGUI/imgui_internal.h>
-#include "../Input/InputSystem.h"
-#include "../Systems/GOFactory.h"
+
 
 namespace Carmicah
 {
 
 	std::vector<std::string> Editor::sDroppedFilePaths{};
+	bool Editor::mShowCloseConfirmation = false;
+	std::vector<Entity> Editor::mSceneHierarchy;
+	std::unordered_map<Entity, std::vector<Entity>> Editor::mChildrenHierarchy;
+
 	Editor::Editor()
 	{
 		
@@ -57,6 +56,7 @@ namespace Carmicah
 		//Allows for dropped objects
 		glfwSetWindowUserPointer(window, this);
 		glfwSetDropCallback(window, DropCallback);
+		glfwSetWindowCloseCallback(window, CloseCallback);
 
 		//Creating Windows
 		//For Testing
@@ -68,9 +68,12 @@ namespace Carmicah
 		mWindows.push_back(std::make_unique<AssetWindow>());
 		mWindows.push_back(std::make_unique<InspectorWindow>());
 
+		//Initialise the copy
+		InitFullHierarchy();
+
 	}
 
-	void Editor::Update()
+	void Editor::Update(GLFWwindow* window)
 	{
 
 		ImGui_ImplOpenGL3_NewFrame();
@@ -79,7 +82,7 @@ namespace Carmicah
 		ImGuiViewport* viewport = ImGui::GetMainViewport();
 		static bool sFirstTime = true;
 		static ImVec2 popupSize(300, 150);
-		float mainMenuHeight{};
+		//float mainMenuHeight{};
 		ImGuiWindowFlags dockingWindowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 
 		
@@ -91,6 +94,7 @@ namespace Carmicah
 		if(ImGui::Begin("DockingWindow", nullptr, dockingWindowFlags))
 		{
 
+#pragma region DockingSettings
 			// Create the main docking space
 			ImGuiID dockspaceID = ImGui::GetID("MainDockSpace");
 			ImGui::DockSpace(dockspaceID, ImVec2(0, 0), ImGuiDockNodeFlags_PassthruCentralNode);
@@ -115,16 +119,22 @@ namespace Carmicah
 				ImGui::DockBuilderDockWindow("Hierarchy", dockLeft);
 				ImGui::DockBuilderFinish(dockMain);
 			}
+#pragma endregion
 
+#pragma region Main Menu Bar
 			//Main Menu Bar
 			if (ImGui::BeginMenuBar())
 			{
-				mainMenuHeight = ImGui::GetFrameHeight();
+				//mainMenuHeight = ImGui::GetFrameHeight();
 				if (ImGui::BeginMenu("File"))
 				{
-					if (ImGui::MenuItem("New"))
+					if (ImGui::BeginMenu("New"))
 					{
+						if (ImGui::MenuItem("Create New Scene"))
+						{
 
+						}
+						ImGui::EndMenu();
 					}
 
 					ImGui::EndMenu();
@@ -134,6 +144,8 @@ namespace Carmicah
 				{
 					for (const auto& window : mWindows)
 					{
+
+						//Toggle Asset Browser Visibility
 						if (auto assetWindow = dynamic_cast<AssetWindow*>(window.get()))
 						{
 							if (ImGui::MenuItem("Asset Browser", nullptr, assetWindow->mIsVisible))
@@ -159,7 +171,7 @@ namespace Carmicah
 								heirarchyWindow->mIsVisible = !heirarchyWindow->mIsVisible;
 							}
 						}
-
+						//Toggle Inspector Window Visibility
 						if (auto inspectorWindow = dynamic_cast<InspectorWindow*>(window.get()))
 						{
 							if (ImGui::MenuItem("Inspector", nullptr, inspectorWindow->mIsVisible))
@@ -167,7 +179,7 @@ namespace Carmicah
 								inspectorWindow->mIsVisible = !inspectorWindow->mIsVisible;
 							}
 						}
-
+						//Toggle Scene Window Visibility
 						if (auto sceneWindow = dynamic_cast<SceneWindow*>(window.get()))
 						{
 							if (ImGui::MenuItem("Scene", nullptr, sceneWindow->mIsVisible))
@@ -182,8 +194,12 @@ namespace Carmicah
 				}
 				ImGui::EndMenuBar();
 			}
+
+#pragma endregion
+
 			ImGui::End();
 		}
+
 		//Window Update Stuff
 		for (auto& window : mWindows) 
 		{
@@ -212,6 +228,20 @@ namespace Carmicah
 		}
 
 #pragma region Logic
+
+		int counter = 1;
+		if (counter)
+		{
+			//CM_CORE_INFO(std::to_string(Editor::mSceneHierarchy.size()));
+		}
+
+
+		if (mShowCloseConfirmation)
+		{
+			ImGui::OpenPopup("Close Confirmation");
+		}
+
+
 		if (HierarchyWindow::selectedGO != nullptr)
 		{
 			if (Input.IsKeyPressed(KEY_DELETE))
@@ -288,6 +318,33 @@ namespace Carmicah
 			ImGui::Text("MP3 not allow!");
 			ImGui::EndPopup();
 		}
+
+		if (ImGui::BeginPopupModal("Close Confirmation",NULL,ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			ImGui::Text("Are you sure you want to close the application?");
+			ImGui::Separator();
+
+			//Calculations for the buttons
+			const float buttonWidth = 120.0f;
+			const float buttonSpacing = ImGui::GetStyle().ItemSpacing.x;
+			const float totalWidth = buttonWidth * 2 + buttonSpacing;
+
+			// Center the buttons by adding a dummy region
+			ImGui::SetCursorPosX((ImGui::GetWindowWidth() - totalWidth) * 0.5f);
+
+			if (ImGui::Button("Yes", ImVec2(buttonWidth,0)))
+			{
+				glfwSetWindowShouldClose(window, GLFW_TRUE);
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("No",ImVec2(buttonWidth,0)))
+			{
+				mShowCloseConfirmation = false;
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
 	}
 #pragma endregion
 
@@ -319,6 +376,56 @@ namespace Carmicah
 		{
 			window->EntityDestroyed(id);
 		}
+
+		//Try removing from the main Scene Hierarchy first
+
+		mSceneHierarchy.erase(std::remove_if(mSceneHierarchy.begin(), mSceneHierarchy.end(), [id](const auto& element)
+			{return element == id;}), mSceneHierarchy.end());
+
+		//auto it = std::find(mSceneHierarchy.begin(), mSceneHierarchy.end(), id);
+		//if(it != mSceneHierarchy.end())
+		//{
+		//	int counter = mSceneHierarchy.size();
+		//	CM_CORE_INFO("Old Size: " + std::to_string(counter));
+		//	mSceneHierarchy.erase(it);
+		//	/*for (int i{}; i < mSceneHierarchy.size(); ++i)
+		//	{
+		//		CM_CORE_INFO(std::to_string(mSceneHierarchy[i]));
+		//	}*/
+		//	counter = mSceneHierarchy.size();
+		//	CM_CORE_INFO("New Size: " + std::to_string(counter));
+		//}
+		// 
+		// 
+		
+		//Its a child!
+		//else
+		//{
+		//	//Find out the parent...
+		//	GameObject& currentGO = gGOFactory->GetMIDToGO().at(id);
+		//	Entity parentID = 0;
+
+		//	if (currentGO.HasComponent<Transform>())
+		//	{
+		//		// Get the parent ID
+		//		parentID = currentGO.GetComponent<Transform>().parent;
+		//	}
+		//	else if (currentGO.HasComponent<UITransform>())
+		//	{
+		//		parentID = currentGO.GetComponent<UITransform>().parent;
+		//	}
+
+		//	//Remove from the respective mChildHierarchy
+
+		//	auto childIt = std::find(mChildrenHierarchy[parentID].begin(), mChildrenHierarchy[parentID].end(), id);
+		//	mChildrenHierarchy[parentID].erase(childIt);
+
+		//}
+	}
+
+	void Editor::EntityAdded(Entity id)
+	{
+		UNUSED(id);
 	}
 
 	void Editor::ReceiveMessage(Message* msg)
@@ -334,6 +441,85 @@ namespace Carmicah
 				AssetWindow::selectedPrefab = nullptr;
 			}
 		}
+		if (msg->mMsgType == MSG_UPDATEHIERARCHY)
+		{
+			UpdateHierarchyMessage* castedMsg = dynamic_cast<UpdateHierarchyMessage*>(msg);
+
+			//if Re-parenting to Scene
+			if (castedMsg->mParentID == gGOFactory->sceneGO.sceneID)
+			{
+				//Find the Old Parent
+				Entity oldParentID = 0;
+				GameObject& currentGO = gGOFactory->GetMIDToGO().at(castedMsg->mEntityID);
+
+				if (currentGO.HasComponent<Transform>())
+				{
+					// Get the parent ID
+					oldParentID = currentGO.GetComponent<Transform>().parent;
+				}
+				else if (currentGO.HasComponent<UITransform>())
+				{
+					oldParentID = currentGO.GetComponent<UITransform>().parent;
+				}
+				
+
+				//Remove from the respective mChildHierarchy (should only do this if its not already has parent id = 0)
+				if(oldParentID != 0)
+				{
+					auto childIt = std::find(mChildrenHierarchy[oldParentID].begin(), mChildrenHierarchy[oldParentID].end(), castedMsg->mEntityID);
+
+					if (childIt != mChildrenHierarchy[oldParentID].end())
+					{
+						mChildrenHierarchy[oldParentID].erase(childIt);
+					}
+					mSceneHierarchy.push_back(castedMsg->mEntityID);
+				}
+				else
+				{
+					mSceneHierarchy.push_back(castedMsg->mEntityID);
+				}
+			}
+			//Children shenanigans
+			else
+			{
+				//Checking if the oldParent is from mSceneHierarchy
+				auto it = std::find(mSceneHierarchy.begin(), mSceneHierarchy.end(), castedMsg->mEntityID);
+
+				//Remove from mSceneHierarchy
+				if(it != mSceneHierarchy.end())
+				{
+					mSceneHierarchy.erase(it);
+				}
+				//Its not a sceneGO object to begin with so time to find out where its parent is
+				else
+				{
+					Entity oldParentID = 0;
+					GameObject& currentGO = gGOFactory->GetMIDToGO().at(castedMsg->mEntityID);
+
+					// Get the parent ID
+					if (currentGO.HasComponent<Transform>())
+					{
+						oldParentID = currentGO.GetComponent<Transform>().parent;
+					}
+					else if (currentGO.HasComponent<UITransform>())
+					{
+						oldParentID = currentGO.GetComponent<UITransform>().parent;
+					}
+
+
+					//Remove from the respective mChildHierarchy
+					auto childIt = std::find(mChildrenHierarchy[oldParentID].begin(), mChildrenHierarchy[oldParentID].end(), castedMsg->mEntityID);
+
+					if (childIt != mChildrenHierarchy[oldParentID].end())
+					{
+						mChildrenHierarchy[oldParentID].erase(childIt);
+					}
+				}
+				
+				//Adding it to the mChildrenHierarchy as an entry under parentID
+				mChildrenHierarchy[castedMsg->mParentID].push_back(castedMsg->mEntityID);
+			}
+		}
 	}
 
 	void Editor::DropCallback(GLFWwindow* window, int count, const char** paths)
@@ -346,5 +532,57 @@ namespace Carmicah
 			UNUSED(dotPos);
 			sDroppedFilePaths.push_back(filePath);
 		}
+	}
+
+	void Editor::CloseCallback(GLFWwindow* window)
+	{
+		glfwSetWindowShouldClose(window, GLFW_FALSE);
+		mShowCloseConfirmation = true;
+	}
+
+	void Editor::InitFullHierarchy()
+	{
+		//Section for Scene as Parent
+		mSceneHierarchy.resize(gGOFactory->sceneGO.children.size());
+		std::copy(gGOFactory->sceneGO.children.begin(), gGOFactory->sceneGO.children.end(), mSceneHierarchy.begin());
+
+		//Section for Children Game Objects
+
+		std::function<void(GameObject&)> childrenCheck = [&](GameObject& go)
+			{
+				if (go.HasComponent<Transform>())
+				{
+					const auto& GOChildren = go.GetComponent<Transform>().children;
+					if (!GOChildren.empty())
+					{
+						mChildrenHierarchy[go.GetID()] = GOChildren;
+
+						std::for_each(GOChildren.begin(), GOChildren.end(), [&](Entity childID)
+							{
+								childrenCheck(gGOFactory->GetMIDToGO().at(childID));
+							});
+					}
+				}
+				else if (go.HasComponent<UITransform>())
+				{
+					const auto& GOChildren = go.GetComponent<UITransform>().children;
+					if (!GOChildren.empty())
+					{
+						mChildrenHierarchy[go.GetID()] = GOChildren;
+
+						std::for_each(GOChildren.begin(), GOChildren.end(), [&](Entity childID)
+							{
+								childrenCheck(gGOFactory->GetMIDToGO().at(childID));
+							});
+					}
+				}
+			};
+
+		//Loop through all scene-level objects
+		std::for_each(gGOFactory->GetMIDToGO().begin(), gGOFactory->GetMIDToGO().end(), [&](auto& pair)
+			{
+				auto& gameObject = pair.second;
+				childrenCheck(gameObject);
+			});
 	}
 }

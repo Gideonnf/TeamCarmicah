@@ -17,6 +17,7 @@ DigiPen Institute of Technology is prohibited.
 #include "ECS/EntityManager.h"
 #include "ECS/ComponentManager.h"
 #include "Systems/AssetManager.h"
+#include "Editor/Editor.h"
 
 #include "Components/Transform.h"
 #include "Components/Collider2D.h"
@@ -54,7 +55,7 @@ namespace Carmicah
 
 #pragma region GameObject Functions
 
-	GameObject GOFactory::CreateGO(std::string name, bool flag)
+	GameObject GOFactory::CreateGO(std::string name, TRANSFORMTYPE flag)
 	{
 		GameObject go;
 		std::string goName = CreateGOName(name);
@@ -65,22 +66,30 @@ namespace Carmicah
 		mIDToGO.insert(std::make_pair(go.mID, go));
 
 		// All entities created is stored in GOFactory
-		SystemManager::GetInstance()->UpdateSignatures(go.mID, EntityManager::GetInstance()->GetSignature(go.mID));
 		
 		// By default add transform to a blank component
-		if(flag)
+		if(flag == TRANSFORMTYPE::TRANSFORM)
 		{
 			go.AddComponent<Transform>();
+			UpdateParent(go.mID, sceneGO.sceneID);
 		}
-		else
+		else if(flag == TRANSFORMTYPE::UITRANSFORM)
 		{
 			go.AddComponent<UITransform>();
+			UpdateParent(go.mID, sceneGO.sceneID);
 		}
+		
+		//SystemManager::GetInstance()->UpdateSignatures(go.mID, EntityManager::GetInstance()->GetSignature(go.mID));
+		//else //Case for empty GOs
+		//{
+		//	//Empty GOs should only act as folders, so always will be under the main scene hierarchy (for now until sub-folders :sadge:)
+		//	//sceneGO.children.insert(go.mID);
+		//}
 
 		CM_CORE_INFO("Creating a new game object with name: " + name + " and id: " + std::to_string(go.mID));
 
 		// Parent it to the scene on creation
-		UpdateParent(go.mID, sceneGO.sceneID);
+		
 
 		return go;
 	}
@@ -411,26 +420,61 @@ namespace Carmicah
 	/// <param name="toDelete"> If the object is being deleted, only need to remove from parent instead </param>
 	void GOFactory::UpdateParent(Entity entityID, Entity newParentID, bool toDelete) 
 	{
+		/*Technically this can be done first cause updateParent should always work so, let the editor update its hierarchy copy side
+		using Transform.parent (getting the oldParent) so it can edit*/
+		UpdateHierarchyMessage msg2(entityID, newParentID);
+		SendSysMessage(&msg2);
+
 		GameObject& go = mIDToGO[entityID];
 
 		// Remove entityID from it's current parent
 		// Check if its part of sceneGO
+
+		//Removing from sceneGO's hierarchy
 		if (sceneGO.children.count(entityID) > 0)
 		{
 			sceneGO.children.erase(entityID);
 		}
+
+		//Only runs for new GameObjects
+		else if (go.HasComponent<Transform>() && go.GetComponent<Transform>().parent == 0 && newParentID == 0)
+		{
+			// its a new object
+			sceneGO.children.insert(entityID);
+			return;
+		}
+
+		else if (go.HasComponent<UITransform>() && go.GetComponent<UITransform>().parent == 0 && newParentID == 0)
+		{
+			// its a new object
+			sceneGO.children.insert(entityID);
+			return;
+		}
+		
 		// Find out what is the current parent
 		else
 		{
 			
 			// Handle UI Trasnform uniquely for now
-			if (go.HasComponent<UITransform>())
-			{
-				sceneGO.children.insert(go.mID);
-				go.GetComponent<UITransform>().parent = newParentID;
+			//if (go.HasComponent<UITransform>())
+			//{
+			//	sceneGO.children.insert(go.mID);
+			//	go.GetComponent<UITransform>().parent = newParentID;
 
-				// UI Transform for now can only add directly to scene
-				return;
+			//	// UI Transform for now can only add directly to scene
+			//	return;
+			//}
+
+			Entity parentID = 0;
+			// Get the old parent ID
+			if (go.HasComponent<Transform>())
+			{
+				// Get the parent ID
+				parentID = go.GetComponent<Transform>().parent;
+			}
+			else if (go.HasComponent<UITransform>())
+			{
+				parentID = go.GetComponent<UITransform>().parent;
 			}
 
 			// if not deleting then we need to update the transform based on the new parent's
@@ -444,29 +488,19 @@ namespace Carmicah
 				SendSysMessage(&msg);
 			}
 
-			Entity* parentID = nullptr;
-			// Get the old parent ID
-			if (go.HasComponent<Transform>())
-			{
-				// Get the parent ID
-				parentID = &go.GetComponent<Transform>().parent;
-			}
-			else if (go.HasComponent<UITransform>())
-			{
-				parentID = &go.GetComponent<UITransform>().parent;
-			}
 
-			if (parentID == nullptr)
+			// It isnt being parented to scene for the first time on creation
+			if (parentID == 0 && newParentID != 0)
 			{
 				assert("Parent ID does not exist");
 				return;
 			}
 
 			// Get the parent's transform
-			if (ComponentManager::GetInstance()->HasComponent<Transform>(*parentID))
+			if (ComponentManager::GetInstance()->HasComponent<Transform>(parentID))
 			{
 				// Get the transform
-				Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(*parentID);
+				Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(parentID);
 				// Erase from parent's child ids
 				for (auto it = parentTransform.children.begin(); it != parentTransform.children.end(); it++)
 				{
@@ -477,9 +511,9 @@ namespace Carmicah
 					}
 				}
 			}
-			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(*parentID))
+			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(parentID))
 			{
-				UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(*parentID);
+				UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(parentID);
 				for (auto it = parentTransform.children.begin(); it != parentTransform.children.end(); it++)
 				{
 					if (*it == entityID)
@@ -498,6 +532,7 @@ namespace Carmicah
 			// If its being parented to the scene
 			if (newParentID == sceneGO.sceneID)
 			{
+
 				sceneGO.children.insert(entityID);
 				if (ComponentManager::GetInstance()->HasComponent<Transform>(entityID))
 				{
@@ -525,6 +560,15 @@ namespace Carmicah
 					parentLevel = ComponentManager::GetInstance()->GetComponent<Transform>(newParentID).grandChildLvl;
 				else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
 					parentLevel = ComponentManager::GetInstance()->GetComponent<UITransform>(newParentID).grandChildLvl;
+
+				// Send msg to UpdateTransform
+				// Important to send here because if parenting back to scene
+				// we need the original parent's transform so that we can convert the entity's local transform
+				// back to world transform
+				UpdateTransformMessage msg(entityID, newParentID);
+				SendSysMessage(&msg);
+
+				
 
 				// Change the current transform parent ID
 				if (go.HasComponent<Transform>())
@@ -588,6 +632,11 @@ namespace Carmicah
 	}
 
 #pragma region IMGUI Accessor functions
+	std::unordered_map<Entity, GameObject>& GOFactory::GetMIDToGO()
+	{
+		return mIDToGO;
+	}
+
 	void GOFactory::ForAllGO(const std::function<void(GameObject&)>& func)
 	{
 		if (mIDToGO.size() > 0)
@@ -597,11 +646,13 @@ namespace Carmicah
 		}
 	}
 
+
+	//REMINDER FOR ME TO CHANGE THIS AGAIN LATER
 	void GOFactory::ForAllSceneGOs(const std::function<void(GameObject&)>& func)
 	{
-		if (sceneGO.children.size() > 0)
+		if (Editor::mSceneHierarchy.size() > 0)
 		{
-			for (auto& child : sceneGO.children)
+			for (auto& child : Editor::mSceneHierarchy)
 			{
 				func(mIDToGO[child]);
 			}
@@ -612,10 +663,19 @@ namespace Carmicah
 	{
 		if (parentGO.HasComponent<Transform>() && parentGO.GetComponent<Transform>().children.size() > 0)
 		{
-			for (auto& child : parentGO.GetComponent<Transform>().children)
+			
+			for (auto& child : Editor::mChildrenHierarchy[parentGO.GetID()])
 			{
 				func(mIDToGO[child]);
 			}
+		}
+		else if (parentGO.HasComponent<UITransform>() && parentGO.GetComponent<UITransform>().children.size() > 0)
+		{
+			for (auto& child : Editor::mChildrenHierarchy[parentGO.GetID()])
+			{
+				func(mIDToGO[child]);
+			}
+
 		}
 
 	}
@@ -755,6 +815,8 @@ namespace Carmicah
 			}
 		}
 
+		UpdateHierarchyMessage msg(newObj.GetID(),parentID);
+		SendSysMessage(&msg);
 		return entityID;
 	}
 

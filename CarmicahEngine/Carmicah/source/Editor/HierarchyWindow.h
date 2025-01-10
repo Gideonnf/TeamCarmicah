@@ -21,6 +21,7 @@ DigiPen Institute of Technology is prohibited.
 #include "EditorWindow.h"
 #include "ECS/GameObject.h"
 #include "../Systems/AssetTypes.h"
+#include "Editor.h"
 
 namespace Carmicah
 {
@@ -33,18 +34,18 @@ namespace Carmicah
 		static Prefab* inspectedPrefab;
 		/**
 		 * @brief Construct a new Hierarchy Window object
-		 * 
+		 *
 		 */
 		HierarchyWindow();
 		/**
 		 * @brief Update function override from EditorWindow
-		 * 
+		 *
 		 */
 		void Update() override;
 		/**
 		 * @brief Tells when an entity is destroyed.
-		 * 
-		 * @param id 
+		 *
+		 * @param id
 		 */
 		void EntityDestroyed(Entity id) override;
 
@@ -52,6 +53,8 @@ namespace Carmicah
 		void GOButton(GameObject& go);
 
 		void PrefabButton(Prefab& prefab);
+
+		void DrawCustomSeparator(GameObject& go);
 
 	};
 }
