@@ -109,38 +109,92 @@ namespace Carmicah
 					transform.ScaleY(1.0f);
 				}
 			
-				// Calculate half-dimensions of the OBB
-				float halfWidth = collider.GetCustomWidth() * 0.5f * transform.Scale().x;
-				float halfHeight = collider.GetCustomHeight() * 0.5f * transform.Scale().y;
+				if (transform.parent != 0)
+				{
+					auto& parent = componentManager->GetComponent<Transform>(transform.parent);
 
-				// Rotation in radians
-				float angle = transform.Rot() * (PI / 180.0f);
-				float cosTheta = cos(angle);
-				float sinTheta = sin(angle);
+					// Combine parent and child transforms
+					Matrix3x3<float> combinedTransform = parent.worldSpace * transform.localSpace;
 
-				collider.objVert.clear();
+					// Compute the world position of the child object
+					Vec2f worldPos = {
+						combinedTransform.m20, // Translation x-component
+						combinedTransform.m21  // Translation y-component
+					};
 
-				// Calculate OBB corners relative to center
-				Vec2f center = transform.Pos();
-				std::vector<Vec2f> obbVertices;
-				obbVertices.emplace_back(center.x + halfWidth * cosTheta - halfHeight * sinTheta,
-					center.y + halfWidth * sinTheta + halfHeight * cosTheta); // Top-right
-				
-				obbVertices.emplace_back(center.x - halfWidth * cosTheta - halfHeight * sinTheta,
-					center.y - halfWidth * sinTheta + halfHeight * cosTheta); // Top-left
-				obbVertices.emplace_back(center.x - halfWidth * cosTheta + halfHeight * sinTheta,
-					center.y - halfWidth * sinTheta - halfHeight * cosTheta); // Bottom-left
-				obbVertices.emplace_back(center.x + halfWidth * cosTheta + halfHeight * sinTheta,
-					center.y + halfWidth * sinTheta - halfHeight * cosTheta); // Bottom-right
+					// Compute combined scale
+					Vec2f combinedScale = {
+						transform.Scale().x * parent.Scale().x,
+						transform.Scale().y * parent.Scale().y
+					};
 
-				// Update the collider with OBB vertices
-				collider.objVert = obbVertices;
+					// Compute combined rotation (assuming rotations are additive)
+					float combinedRot = transform.Rot() + parent.Rot();
+					float angle = combinedRot * (PI / 180.0f);
+					float cosTheta = cos(angle);
+					float sinTheta = sin(angle);
 
+					float halfWidth = collider.GetCustomWidth() * 0.5f * combinedScale.x;
+					float halfHeight = collider.GetCustomHeight() * 0.5f * combinedScale.y;
 
-				collider.min.x = transform.Pos().x - halfWidth;
-				collider.min.y = transform.Pos().y - halfHeight;
-				collider.max.x = transform.Pos().x + halfWidth;
-				collider.max.y = transform.Pos().y + halfHeight;
+					// Clear existing OBB vertices
+					collider.objVert.clear();
+
+					// Recalculate child OBB vertices with combined transformations
+					std::vector<Vec2f> obbVertices;
+					obbVertices.emplace_back(worldPos.x + halfWidth * cosTheta - halfHeight * sinTheta,
+						worldPos.y + halfWidth * sinTheta + halfHeight * cosTheta); // Top-right
+					obbVertices.emplace_back(worldPos.x - halfWidth * cosTheta - halfHeight * sinTheta,
+						worldPos.y - halfWidth * sinTheta + halfHeight * cosTheta); // Top-left
+					obbVertices.emplace_back(worldPos.x - halfWidth * cosTheta + halfHeight * sinTheta,
+						worldPos.y - halfWidth * sinTheta - halfHeight * cosTheta); // Bottom-left
+					obbVertices.emplace_back(worldPos.x + halfWidth * cosTheta + halfHeight * sinTheta,
+						worldPos.y + halfWidth * sinTheta - halfHeight * cosTheta); // Bottom-right
+
+					collider.objVert = obbVertices;
+
+					// Update min and max bounds for the collider
+					collider.min.x = worldPos.x - halfWidth;
+					collider.min.y = worldPos.y - halfHeight;
+					collider.max.x = worldPos.x + halfWidth;
+					collider.max.y = worldPos.y + halfHeight;
+				}
+				else
+				{
+					// Calculate half-dimensions of the OBB
+					float halfWidth = collider.GetCustomWidth() * 0.5f * transform.Scale().x;
+					float halfHeight = collider.GetCustomHeight() * 0.5f * transform.Scale().y;
+
+					// Rotation in radians
+					float angle = transform.Rot() * (PI / 180.0f);
+					float cosTheta = cos(angle);
+					float sinTheta = sin(angle);
+
+					collider.objVert.clear();
+
+					// Calculate OBB corners relative to center
+					Vec2f center = transform.Pos();
+					std::vector<Vec2f> obbVertices;
+					obbVertices.emplace_back(center.x + halfWidth * cosTheta - halfHeight * sinTheta,
+						center.y + halfWidth * sinTheta + halfHeight * cosTheta); // Top-right
+
+					obbVertices.emplace_back(center.x - halfWidth * cosTheta - halfHeight * sinTheta,
+						center.y - halfWidth * sinTheta + halfHeight * cosTheta); // Top-left
+					obbVertices.emplace_back(center.x - halfWidth * cosTheta + halfHeight * sinTheta,
+						center.y - halfWidth * sinTheta - halfHeight * cosTheta); // Bottom-left
+					obbVertices.emplace_back(center.x + halfWidth * cosTheta + halfHeight * sinTheta,
+						center.y + halfWidth * sinTheta - halfHeight * cosTheta); // Bottom-right
+
+					// Update the collider with OBB vertices
+					collider.objVert = obbVertices;
+
+					collider.min.x = transform.Pos().x - halfWidth;
+					collider.min.y = transform.Pos().y - halfHeight;
+					collider.max.x = transform.Pos().x + halfWidth;
+					collider.max.y = transform.Pos().y + halfHeight;
+				}
+			
+
 
 		}
 
