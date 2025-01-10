@@ -80,6 +80,7 @@ namespace Carmicah
 		if (HasComponent<UITransform>() && GetComponent<UITransform>().parent == parentID)
 			return false;
 
+
 		// If not then update the old and new parents
 		gGOFactory->UpdateParent(mID, parentID);
 

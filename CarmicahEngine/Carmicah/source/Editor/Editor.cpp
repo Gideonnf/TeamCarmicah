@@ -22,6 +22,7 @@ namespace Carmicah
 	std::vector<std::string> Editor::sDroppedFilePaths{};
 	bool Editor::mShowCloseConfirmation = false;
 	std::vector<Entity> Editor::mSceneHierarchy;
+	std::vector<Entity> Editor::mSceneUIHierarchy;
 	std::unordered_map<Entity, std::vector<Entity>> Editor::mChildrenHierarchy;
 
 	Editor::Editor()
@@ -400,8 +401,8 @@ namespace Carmicah
 			mSceneHierarchy.erase(std::remove_if(mSceneHierarchy.begin(), mSceneHierarchy.end(), [id](const auto& element)
 				{return element == id; }), mSceneHierarchy.end());
 		}
-		
-		else //Child
+		//Its children
+		else 
 		{
 			auto childIt = std::find(mChildrenHierarchy[parentID].begin(), mChildrenHierarchy[parentID].end(), id);
 			mChildrenHierarchy[parentID].erase(std::remove_if(mChildrenHierarchy[parentID].begin(), mChildrenHierarchy[parentID].end(),[id](const auto& element)
@@ -531,8 +532,35 @@ namespace Carmicah
 	void Editor::InitFullHierarchy()
 	{
 		//Section for Scene as Parent
-		mSceneHierarchy.resize(gGOFactory->sceneGO.children.size());
-		std::copy(gGOFactory->sceneGO.children.begin(), gGOFactory->sceneGO.children.end(), mSceneHierarchy.begin());
+		//mSceneHierarchy.resize(gGOFactory->sceneGO.children.size());
+		mSceneHierarchy.reserve(gGOFactory->sceneGO.children.size());
+		mSceneUIHierarchy.reserve(gGOFactory->sceneGO.children.size());
+
+		//std::copy(gGOFactory->sceneGO.children.begin(), gGOFactory->sceneGO.children.end(), mSceneHierarchy.begin());
+
+		std::for_each(gGOFactory->sceneGO.children.begin(), gGOFactory->sceneGO.children.end(), [&](auto&& id)
+			{
+				GameObject& go = gGOFactory->GetMIDToGO().at(id);
+				if (go.HasComponent<Transform>()) {
+					mSceneHierarchy.push_back(go.GetID());  // Or any other operation you want to perform
+				}
+			});
+
+		std::for_each(gGOFactory->sceneGO.children.begin(), gGOFactory->sceneGO.children.end(), [&](auto&& id)
+			{
+				GameObject& go = gGOFactory->GetMIDToGO().at(id);
+				if (go.HasComponent<Transform>()) {
+					mSceneUIHierarchy.push_back(go.GetID());  // Or any other operation you want to perform
+				}
+			});
+
+
+
+		/*std::copy_if(gGOFactory->sceneGO.children.begin(), gGOFactory->sceneGO.children.end(), [&](Entity id)
+			{
+				GameObject& go = gGOFactory->GetMIDToGO().at(id);
+				return go.HasComponent<UITransform>();
+			}, std::back_inserter(mSceneUIHierarchy));*/
 
 		//Section for Children Game Objects
 

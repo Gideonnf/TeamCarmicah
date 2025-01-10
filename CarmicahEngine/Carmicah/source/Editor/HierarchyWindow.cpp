@@ -199,6 +199,10 @@ namespace Carmicah
 						}
 
 					}
+					else
+					{
+
+					}
 					//auto it = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
 					//Editor::mSceneHierarchy.erase(it);
 					

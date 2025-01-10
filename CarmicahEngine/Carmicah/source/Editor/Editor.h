@@ -41,6 +41,7 @@ namespace Carmicah
 		static std::vector<std::string> sDroppedFilePaths;
 		static bool mShowCloseConfirmation;
 		static std::vector<Entity> mSceneHierarchy;
+		static std::vector<Entity> mSceneUIHierarchy;
 		static std::unordered_map<Entity, std::vector<Entity>> mChildrenHierarchy;
 
 		/**
