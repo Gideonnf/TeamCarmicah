@@ -826,8 +826,8 @@ namespace Carmicah
 			}
 		}
 
-		//UpdateHierarchyMessage msg(newObj.GetID(),parentID);
-		//SendSysMessage(&msg);
+		UpdateHierarchyMessage msg(newObj.GetID(),parentID);
+		SendSysMessage(&msg);
 		return entityID;
 	}
 

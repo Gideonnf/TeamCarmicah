@@ -392,14 +392,39 @@ namespace Carmicah
 		{
 			// Get the parent ID
 			parentID = currentGO.GetComponent<Transform>().parent;
+			if (parentID == gGOFactory->sceneGO.sceneID)
+			{
+				mSceneHierarchy.erase(std::remove_if(mSceneHierarchy.begin(), mSceneHierarchy.end(), [id](const auto& element)
+					{return element == id; }), mSceneHierarchy.end());
+			}
+			//Its children
+			else
+			{
+				auto childIt = std::find(mChildrenHierarchy[parentID].begin(), mChildrenHierarchy[parentID].end(), id);
+				mChildrenHierarchy[parentID].erase(std::remove_if(mChildrenHierarchy[parentID].begin(), mChildrenHierarchy[parentID].end(), [id](const auto& element)
+					{return element == id; }), mChildrenHierarchy[parentID].end());
+			}
 		}
 		else if (currentGO.HasComponent<UITransform>())
 		{
 			parentID = currentGO.GetComponent<UITransform>().parent;
+
+			if (parentID == gGOFactory->sceneGO.sceneID)
+			{
+				mSceneUIHierarchy.erase(std::remove_if(mSceneUIHierarchy.begin(), mSceneUIHierarchy.end(), [id](const auto& element)
+					{return element == id; }), mSceneUIHierarchy.end());
+			}
+			//Its children
+			else
+			{
+				auto childIt = std::find(mChildrenHierarchy[parentID].begin(), mChildrenHierarchy[parentID].end(), id);
+				mChildrenHierarchy[parentID].erase(std::remove_if(mChildrenHierarchy[parentID].begin(), mChildrenHierarchy[parentID].end(), [id](const auto& element)
+					{return element == id; }), mChildrenHierarchy[parentID].end());
+			}
 		}
 
 		
-		if(parentID == gGOFactory->sceneGO.sceneID)
+		/*if(parentID == gGOFactory->sceneGO.sceneID)
 		{
 			mSceneHierarchy.erase(std::remove_if(mSceneHierarchy.begin(), mSceneHierarchy.end(), [id](const auto& element)
 				{return element == id; }), mSceneHierarchy.end());
@@ -410,14 +435,14 @@ namespace Carmicah
 			auto childIt = std::find(mChildrenHierarchy[parentID].begin(), mChildrenHierarchy[parentID].end(), id);
 			mChildrenHierarchy[parentID].erase(std::remove_if(mChildrenHierarchy[parentID].begin(), mChildrenHierarchy[parentID].end(),[id](const auto& element)
 				{return element == id; }), mChildrenHierarchy[parentID].end());
-		}
+		}*/
 
 		
 	}
 
 	void Editor::EntityAdded(Entity id)
 	{
-		UNUSED(id);
+	
 	}
 
 	void Editor::ReceiveMessage(Message* msg)
@@ -606,26 +631,26 @@ namespace Carmicah
 	{
 		//Section for Scene as Parent
 		//mSceneHierarchy.resize(gGOFactory->sceneGO.children.size());
-		mSceneHierarchy.reserve(gGOFactory->sceneGO.children.size());
-		mSceneUIHierarchy.reserve(gGOFactory->sceneGO.children.size());
+		//mSceneHierarchy.reserve(gGOFactory->sceneGO.children.size());
+		//mSceneUIHierarchy.reserve(gGOFactory->sceneGO.children.size());
 
 		//std::copy(gGOFactory->sceneGO.children.begin(), gGOFactory->sceneGO.children.end(), mSceneHierarchy.begin());
 
-		std::for_each(gGOFactory->sceneGO.children.begin(), gGOFactory->sceneGO.children.end(), [&](auto&& id)
-			{
-				GameObject& go = gGOFactory->GetMIDToGO().at(id);
-				if (go.HasComponent<Transform>()) {
-					mSceneHierarchy.push_back(go.GetID());  // Or any other operation you want to perform
-				}
-			});
+		//std::for_each(gGOFactory->sceneGO.children.begin(), gGOFactory->sceneGO.children.end(), [&](auto&& id)
+		//	{
+		//		GameObject& go = gGOFactory->GetMIDToGO().at(id);
+		//		if (go.HasComponent<Transform>()) {
+		//			mSceneHierarchy.push_back(go.GetID());  // Or any other operation you want to perform
+		//		}
+		//	});
 
-		std::for_each(gGOFactory->sceneGO.children.begin(), gGOFactory->sceneGO.children.end(), [&](auto&& id)
-			{
-				GameObject& go = gGOFactory->GetMIDToGO().at(id);
-				if (go.HasComponent<UITransform>()) {
-					mSceneUIHierarchy.push_back(go.GetID());  // Or any other operation you want to perform
-				}
-			});
+		//std::for_each(gGOFactory->sceneGO.children.begin(), gGOFactory->sceneGO.children.end(), [&](auto&& id)
+		//	{
+		//		GameObject& go = gGOFactory->GetMIDToGO().at(id);
+		//		if (go.HasComponent<UITransform>()) {
+		//			mSceneUIHierarchy.push_back(go.GetID());  // Or any other operation you want to perform
+		//		}
+		//	});
 
 
 
