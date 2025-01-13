@@ -33,6 +33,7 @@ namespace Carmicah
         float customHeight;
 
         bool OBBinit = false;
+        bool mouseEnter = false;
 
         std::vector<Vec2f> objVert;
         std::vector<Vec2f> objNormals;
