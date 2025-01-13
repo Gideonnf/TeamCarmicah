@@ -84,11 +84,20 @@ namespace Carmicah
 
 		MonoObject* mMonoInstance = nullptr;
 
+		// Core functions
 		MonoMethod* mConstruct = nullptr;
 		MonoMethod* mOnCreate = nullptr;
 		MonoMethod* mOnUpdate = nullptr;
-		MonoMethod* mOnClick = nullptr;
+
+		// Standard object functions
 		MonoMethod* mOnCollide = nullptr;
+		MonoMethod* mOnMouseEnter = nullptr;
+		MonoMethod* mOnMouseExit = nullptr;
+		MonoMethod* mOnMouseHover = nullptr;
+
+		// UI Functions
+		MonoMethod* mOnClick = nullptr;
+
 
 	public:
 		friend class ScriptSystem;
@@ -144,6 +153,21 @@ namespace Carmicah
 		/// Call when obj collides, if it has a script with an onCollide function
 		/// </summary>
 		void InvokeOnCollide();
+
+		/// <summary>
+		/// Call when a mouse enters the collider box of an object
+		/// </summary>
+		void InvokeOnMouseEnter();
+
+		/// <summary>
+		/// Call when a mouse leaves the collider box of an object
+		/// </summary>
+		void InvokeOnMouseExit();
+		
+		/// <summary>
+		/// Call when a mouse is hovering the collider box of an object
+		/// </summary>
+		void InvokeOnMouseHover();
 
 		template<typename T>
 		T GetFieldValue(const std::string& name)

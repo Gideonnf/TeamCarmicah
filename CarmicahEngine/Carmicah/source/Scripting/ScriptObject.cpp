@@ -67,6 +67,10 @@ namespace Carmicah
 		mOnUpdate = scClass->GetMethod("OnUpdate", 1);
 		mOnClick = scClass->GetMethod("OnClick", 0);
 		mOnCollide = scClass->GetMethod("OnCollide", 0);
+
+		mOnMouseEnter = scClass->GetMethod("OnMouseEnter", 0);
+		mOnMouseExit = scClass->GetMethod("OnMouseExit", 0);
+		mOnMouseHover = scClass->GetMethod("OnMouseHover", 0);
 	}
 
 	MonoObject* ScriptObject::GetInstance()
@@ -88,7 +92,10 @@ namespace Carmicah
 	void ScriptObject::InvokeOnCreate()
 	{
 		if (mOnCreate)
+		{
 			mScriptClass->InvokeMethod(mMonoInstance, mOnCreate);
+		}
+
 	}
 
 	void ScriptObject::InvokeOnUpdate(float dt)
@@ -103,7 +110,10 @@ namespace Carmicah
 	void ScriptObject::InvokeOnClick()
 	{
 		if (mOnClick)
+		{
+
 			mScriptClass->InvokeMethod(mMonoInstance, mOnClick);
+		}
 	}
 
 	void ScriptObject::InvokeOnCollide()
@@ -114,6 +124,41 @@ namespace Carmicah
 			mScriptClass->InvokeMethod(mMonoInstance, mOnCollide);
 		}
 	}
+
+
+	/// <summary>
+	/// Call when a mouse enters the collider box of an object
+	/// </summary>
+	void ScriptObject::InvokeOnMouseEnter()
+	{
+		if (mOnMouseEnter)
+		{
+			mScriptClass->InvokeMethod(mMonoInstance, mOnMouseEnter);
+		}
+	}
+
+	/// <summary>
+	/// Call when a mouse leaves the collider box of an object
+	/// </summary>
+	void ScriptObject::InvokeOnMouseExit()
+	{
+		if (mOnMouseExit)
+		{
+			mScriptClass->InvokeMethod(mMonoInstance, mOnMouseExit);
+		}
+	}
+
+	/// <summary>
+	/// Call when a mouse is hovering the collider box of an object
+	/// </summary>
+	void ScriptObject::InvokeOnMouseHover()
+	{
+		if (mOnMouseHover)
+		{
+			mScriptClass->InvokeMethod(mMonoInstance, mOnMouseHover);
+		}
+	}
+
 
 	std::shared_ptr<ScriptClass> ScriptObject::GetScriptClass()
 	{
