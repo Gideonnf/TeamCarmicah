@@ -75,6 +75,11 @@ namespace Carmicah
 			flags |= ImGuiTreeNodeFlags_Leaf;
 		}
 
+		if (selectedGO == &go)
+		{
+			flags |= ImGuiTreeNodeFlags_Selected;
+		}
+
 		DrawCustomSeparator(go);
 
 		//Dropping on the line between GameObjects
