@@ -124,8 +124,8 @@ namespace Carmicah
 
 			transform.GetUpdateAbsPos() = Vec2f::zero();
 
-
-
+			
+			// THIS WAS WHAT I ADDED
 			parentScale.x = Vec2f(parentTransform.worldSpace.m00, parentTransform.worldSpace.m10).length();
 			parentScale.y = Vec2f(parentTransform.worldSpace.m01, parentTransform.worldSpace.m11).length();
 			parentTranslation = Vec2f(parentTransform.worldSpace.m20, parentTransform.worldSpace.m21);
@@ -145,7 +145,7 @@ namespace Carmicah
 			Matrix3x3<float> parentRotationMatrix;
 			Mtx33Identity(parentRotationMatrix);
 			parentRotationMatrix.translateThis(parentTranslation).rotDegThis(parentRotation).scaleThis(parentScale);
-
+			// END OF THIS I ADDED
 			transform.worldSpace = parentRotationMatrix * transform.localSpace;
 		}
 	}
@@ -203,6 +203,15 @@ namespace Carmicah
 
 			//entityTransform.scale /= parentTransform.scale; // doesntw ork for some reason
 			entityTransform.Scale(entityTransform.Scale().x / parentTransform.Scale().x, entityTransform.Scale().y / parentTransform.Scale().y);
+			if (parentTransform.Scale().x < 0 || parentTransform.Scale().y < 0)
+			{
+				// If the parent's transform is neg, need to keep the original scaling? idk????
+				// just trying shit now
+				// if its negative from dividing with parent, then flip it back to positive
+				if (entityTransform.Scale().x < 0) entityTransform.GetScale().x *= -1;
+				if (entityTransform.Scale().y < 0) entityTransform.GetScale().y *= -1;
+
+			}
 
 			// calculate the new rotation
 			entityTransform.Rot(entityTransform.Rot() - parentTransform.Rot());
