@@ -68,6 +68,11 @@ namespace Carmicah
 				UpdateTransform(entity);
 		}
 
+		if (transformedMap.size() > 0)
+		{
+			transformedMap.clear();
+		}
+
 		//if(Input.IsKeyPressed(KEY_B))
 		//for (auto& e : mEntitiesSet)
 		//{
@@ -104,15 +109,44 @@ namespace Carmicah
 			Mtx3x3f parentInvMtx{};
 			float det{};
 			Mtx33Inverse(&parentInvMtx, &det, parentTransform.worldSpace);
+
+			Vec2f parentScale;
+			Vec2f parentTranslation;
+			float parentRotation;
+
+			//if (det < 0)
+			//{
+			//	parentInvMtx.m20 = -parentInvMtx.m20;
+			//}
+			//else
 			parentInvMtx.m20 = parentInvMtx.m21 = 0.f;
 			transform.GetPos() += parentInvMtx * transform.GetUpdateAbsPos();
 
 			transform.GetUpdateAbsPos() = Vec2f::zero();
 
-			Mtx33Identity(transform.localSpace);
+			
+			// THIS WAS WHAT I ADDED
+			parentScale.x = Vec2f(parentTransform.worldSpace.m00, parentTransform.worldSpace.m10).length();
+			parentScale.y = Vec2f(parentTransform.worldSpace.m01, parentTransform.worldSpace.m11).length();
+			parentTranslation = Vec2f(parentTransform.worldSpace.m20, parentTransform.worldSpace.m21);
+			parentRotation = atan2f(parentTransform.worldSpace.m10, parentTransform.worldSpace.m00);
+			CM_CORE_INFO("Entity Scale : ({},{}), Entity Position : ({}, {})", parentScale.x, parentScale.y, parentTranslation.x, parentTranslation.y);
 
+			//if (parentTransform.worldSpace.m00 < 0) parentScale.x *= -1;
+			//if (parentTransform.worldSpace.m11 < 0) parentScale.y *= -1;
+
+			//Vec2f adjustedLocalPos = transform.Pos();
+			//if (parentScale.x < 0) adjustedLocalPos.x = -adjustedLocalPos.x;
+			//if (parentScale.y < 0) adjustedLocalPos.y = -adjustedLocalPos.y;
+
+			Mtx33Identity(transform.localSpace);
 			transform.localSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
-			transform.worldSpace = parentTransform.worldSpace * transform.localSpace;
+
+			Matrix3x3<float> parentRotationMatrix;
+			Mtx33Identity(parentRotationMatrix);
+			parentRotationMatrix.translateThis(parentTranslation).rotDegThis(parentRotation).scaleThis(parentScale);
+			// END OF THIS I ADDED
+			transform.worldSpace = parentRotationMatrix * transform.localSpace;
 		}
 	}
 
@@ -165,8 +199,19 @@ namespace Carmicah
 			// Calculate the new transform position
 			entityTransform.Pos(deltaX * cosTheta + deltaY * sinTheta, -deltaX * sinTheta + deltaY * cosTheta);
 
+			CM_CORE_INFO("Entity Position : ({},{})", deltaX, deltaY);
+
 			//entityTransform.scale /= parentTransform.scale; // doesntw ork for some reason
 			entityTransform.Scale(entityTransform.Scale().x / parentTransform.Scale().x, entityTransform.Scale().y / parentTransform.Scale().y);
+			if (parentTransform.Scale().x < 0 || parentTransform.Scale().y < 0)
+			{
+				// If the parent's transform is neg, need to keep the original scaling? idk????
+				// just trying shit now
+				// if its negative from dividing with parent, then flip it back to positive
+				if (entityTransform.Scale().x < 0) entityTransform.GetScale().x *= -1;
+				if (entityTransform.Scale().y < 0) entityTransform.GetScale().y *= -1;
+
+			}
 
 			// calculate the new rotation
 			entityTransform.Rot(entityTransform.Rot() - parentTransform.Rot());
