@@ -304,6 +304,7 @@ namespace Carmicah
 		AddComponent<Script>(obj, componentName, componentData);
 		AddComponent<Button>(obj, componentName, componentData);
 		AddComponent<PrefabData>(obj, componentName, componentData);
+		AddComponent<Sound>(obj, componentName, componentData);
 	}
 
 	void GOFactory::EntityDestroyed(Entity entity)
@@ -653,6 +654,17 @@ namespace Carmicah
 		if (Editor::mSceneHierarchy.size() > 0)
 		{
 			for (auto& child : Editor::mSceneHierarchy)
+			{
+				func(mIDToGO[child]);
+			}
+		}
+	}
+
+	void GOFactory::ForAllSceneUIGOs(const std::function<void(GameObject&)>& func)
+	{
+		if (Editor::mSceneUIHierarchy.size() > 0)
+		{
+			for (auto& child : Editor::mSceneUIHierarchy)
 			{
 				func(mIDToGO[child]);
 			}

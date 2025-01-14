@@ -40,6 +40,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Components/UITransform.h"
 #include "Components/Script.h"
 #include "Components/Prefab.h"
+#include "Components/Sound.h"
 
 #include "Systems/GameLogic.h"
 
@@ -189,6 +190,7 @@ namespace Carmicah
         REGISTER_COMPONENT(TextRenderer);
         REGISTER_COMPONENT(UITransform);
         REGISTER_COMPONENT(PrefabData);
+        REGISTER_COMPONENT(Sound);
 
         CM_CORE_INFO("Starting system init");
 

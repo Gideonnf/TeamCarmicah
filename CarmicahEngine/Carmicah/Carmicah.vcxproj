@@ -183,6 +183,7 @@ xcopy /Q /E /Y /I "..\bin\Installer-x86_64\CarmicahScriptCore\**.**" "..\Carmica
     <ClInclude Include="source\Components\Renderer.h" />
     <ClInclude Include="source\Components\RigidBody.h" />
     <ClInclude Include="source\Components\Script.h" />
+    <ClInclude Include="source\Components\Sound.h" />
     <ClInclude Include="source\Components\TextRenderer.h" />
     <ClInclude Include="source\Components\Transform.h" />
     <ClInclude Include="source\Components\UITransform.h" />

@@ -95,33 +95,55 @@ namespace Carmicah
 					if(go.HasComponent<Transform>())
 					{
 						targettedGOParent = go.GetComponent<Transform>().parent;
+
+						if (targettedGOParent == gGOFactory->sceneGO.sceneID)
+						{
+							droppedGO.SetParent(gGOFactory->sceneGO.sceneID);
+
+							//If the droppedGO and the targetted GO has the same parent(only works for sceneGO, children no vectors rn)
+							auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
+							auto targettedGO = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), go.GetID());
+
+							if (targettedGO < droppedIt)
+							{
+								Editor::mSceneHierarchy.erase(droppedIt);
+								Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
+							}
+							else
+							{
+								Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
+								Editor::mSceneHierarchy.erase(droppedIt);
+							}
+
+						}
 					}
 
 					else if (go.HasComponent<UITransform>())
 					{
 						targettedGOParent = go.GetComponent<UITransform>().parent;
-					}
-					//Parenting to the main Scene Hierarchy (if i shld be)
-					if(targettedGOParent == gGOFactory->sceneGO.sceneID)
-					{
-						droppedGO.SetParent(gGOFactory->sceneGO.sceneID);
-						
-						//If the droppedGO and the targetted GO has the same parent(only works for sceneGO, children no vectors rn)
-						auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
-						auto targettedGO = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), go.GetID());
 
-						if (targettedGO < droppedIt)
+						if (targettedGOParent == gGOFactory->sceneGO.sceneID)
 						{
-							Editor::mSceneHierarchy.erase(droppedIt);
-							Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
+							droppedGO.SetParent(gGOFactory->sceneGO.sceneID);
+
+							//If the droppedGO and the targetted GO has the same parent(only works for sceneGO, children no vectors rn)
+							auto droppedIt = std::find(Editor::mSceneUIHierarchy.begin(), Editor::mSceneUIHierarchy.end(), droppedGO.GetID());
+							auto targettedGO = std::find(Editor::mSceneUIHierarchy.begin(), Editor::mSceneUIHierarchy.end(), go.GetID());
+
+							if (targettedGO < droppedIt)
+							{
+								Editor::mSceneUIHierarchy.erase(droppedIt);
+								Editor::mSceneUIHierarchy.insert(targettedGO, droppedGO.GetID());
+							}
+							else
+							{
+								Editor::mSceneUIHierarchy.insert(targettedGO, droppedGO.GetID());
+								Editor::mSceneUIHierarchy.erase(droppedIt);
+							}
+
 						}
-						else
-						{
-							Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
-							Editor::mSceneHierarchy.erase(droppedIt);
-						}
-							
 					}
+
 					//If they have different parents
 					else
 					{
@@ -131,32 +153,48 @@ namespace Carmicah
 						if (go.HasComponent<Transform>())
 						{
 							newParentID = go.GetComponent<Transform>().parent;
+
+							//Set the parent (should auto-update the mChildrenHierarchy too,setting it at the end)
+							droppedGO.SetParent(newParentID);
+
+							//Sort it accordingly
+							auto droppedIt = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), droppedGO.GetID());
+							auto targettedGO = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), go.GetID());
+
+							if (targettedGO < droppedIt)
+							{
+								Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
+								Editor::mChildrenHierarchy[newParentID].insert(targettedGO, droppedGO.GetID());
+							}
+							else
+							{
+								Editor::mChildrenHierarchy[newParentID].insert(targettedGO, droppedGO.GetID());
+								Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
+							}
 						}
 
 						else if (go.HasComponent<UITransform>())
 						{
 							newParentID = go.GetComponent<UITransform>().parent;
+
+							//Set the parent (should auto-update the mChildrenHierarchy too,setting it at the end)
+							droppedGO.SetParent(newParentID);
+
+							//Sort it accordingly
+							auto droppedIt = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), droppedGO.GetID());
+							auto targettedGO = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), go.GetID());
+
+							if (targettedGO < droppedIt)
+							{
+								Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
+								Editor::mChildrenHierarchy[newParentID].insert(targettedGO, droppedGO.GetID());
+							}
+							else
+							{
+								Editor::mChildrenHierarchy[newParentID].insert(targettedGO, droppedGO.GetID());
+								Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
+							}
 						}
-
-						//Set the parent (should auto-update the mChildrenHierarchy too,setting it at the end)
-						droppedGO.SetParent(newParentID);
-
-						//Sort it accordingly
-						auto droppedIt = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), droppedGO.GetID());
-						auto targettedGO = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), go.GetID());
-
-						if (targettedGO < droppedIt)
-						{
-							Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
-							Editor::mChildrenHierarchy[newParentID].insert(targettedGO, droppedGO.GetID());
-						}
-						else
-						{
-							Editor::mChildrenHierarchy[newParentID].insert(targettedGO, droppedGO.GetID());
-							Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
-						}
-
-
 					}
 					//CM_CORE_INFO("Re-arranging success");
 				}
@@ -197,6 +235,10 @@ namespace Carmicah
 							Editor::mChildrenHierarchy[go.GetID()].erase(it);
 							Editor::mChildrenHierarchy[go.GetID()].push_back(droppedGO.GetID());
 						}
+
+					}
+					else
+					{
 
 					}
 					//auto it = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
@@ -271,61 +313,132 @@ namespace Carmicah
 			{
 				if (mShowScene)
 				{
-
-					if(ImGui::TreeNodeEx(gGOFactory->sceneGO.sceneName.c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow))
+					if(ImGui::BeginTabBar("Tabs"))
 					{
-						gGOFactory->ForAllSceneGOs([this](GameObject& go)
-							{
-								GOButton(go);
-
-							});
-					
-						ImVec2 cursorPos = ImGui::GetCursorScreenPos();
-						ImVec2 separatorSize = ImVec2(100.f, 2.0f); // 2.0f for line thickness
-						std::string buttonText = "Separator_Final";
-						//buttonID++;
-						ImVec2 buttonSize = ImVec2(100.f, separatorSize.y + 2.0f);
-						// Create an invisible button for interaction
-						if (ImGui::InvisibleButton(buttonText.c_str(), buttonSize))
+						//Scene Hierarchy
+						if (ImGui::BeginTabItem("Scene Hierarchy"))
 						{
-							//Clicking will do nothing
-						}
+							if(ImGui::TreeNodeEx(gGOFactory->sceneGO.sceneName.c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow))
+							{
+								gGOFactory->ForAllSceneGOs([this](GameObject& go)
+									{
+										GOButton(go);
 
-						// Draw the line visually
-						ImDrawList* drawList = ImGui::GetWindowDrawList();
-						drawList->AddLine(
-							ImVec2(cursorPos.x, cursorPos.y + separatorSize.y),
-							ImVec2(cursorPos.x + separatorSize.x, cursorPos.y + separatorSize.y),
-							ImGui::GetColorU32(ImGuiCol_Separator), 1.0f);
+									});
+					
+								ImVec2 cursorPos = ImGui::GetCursorScreenPos();
+								ImVec2 separatorSize = ImVec2(100.f, 2.0f); // 2.0f for line thickness
+								std::string buttonText = "Separator_Final";
+								//buttonID++;
+								ImVec2 buttonSize = ImVec2(100.f, separatorSize.y + 2.0f);
+								// Create an invisible button for interaction
+								if (ImGui::InvisibleButton(buttonText.c_str(), buttonSize))
+								{
+									//Clicking will do nothing
+								}
+
+								// Draw the line visually
+								ImDrawList* drawList = ImGui::GetWindowDrawList();
+								drawList->AddLine(
+									ImVec2(cursorPos.x, cursorPos.y + separatorSize.y),
+									ImVec2(cursorPos.x + separatorSize.x, cursorPos.y + separatorSize.y),
+									ImGui::GetColorU32(ImGuiCol_Separator), 1.0f);
 						
 
-						//The Bottom Line of the Entire Hierarchy
-						if (ImGui::BeginDragDropTarget())
-						{
-							if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
-							{
-								GameObject& droppedGO = *(GameObject*)payload->Data;
-								Entity targettedGOParent = 0;
-
-								if (droppedGO.GetID() == *(Editor::mSceneHierarchy.end() - 1))
+								//The Bottom Line of the Entire Hierarchy
+								if (ImGui::BeginDragDropTarget())
 								{
-									CM_CORE_WARN("Not re-arranging any hierarchy");
-								}
-
-								else
-								{
-									if (!droppedGO.SetParent(gGOFactory->sceneGO.sceneID))
+									if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 									{
-										auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
-										Editor::mSceneHierarchy.erase(droppedIt);
-										Editor::mSceneHierarchy.push_back(droppedGO.GetID());
+										GameObject& droppedGO = *(GameObject*)payload->Data;
+										Entity targettedGOParent = 0;
+
+										if (droppedGO.GetID() == *(Editor::mSceneHierarchy.end() - 1))
+										{
+											CM_CORE_WARN("Not re-arranging any hierarchy");
+										}
+
+										else
+										{
+											if (!droppedGO.SetParent(gGOFactory->sceneGO.sceneID))
+											{
+												auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
+												Editor::mSceneHierarchy.erase(droppedIt);
+												Editor::mSceneHierarchy.push_back(droppedGO.GetID());
+											}
+										}
 									}
+									ImGui::EndDragDropTarget();
 								}
+								ImGui::TreePop();
 							}
-							ImGui::EndDragDropTarget();
+							ImGui::EndTabItem();
 						}
-						ImGui::TreePop();
+
+						// UI Hierarchy
+						if (ImGui::BeginTabItem("UI Hierarchy"))
+						{
+							if (ImGui::TreeNodeEx(gGOFactory->sceneGO.sceneName.c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow))
+							{
+								gGOFactory->ForAllSceneUIGOs([this](GameObject& go)
+									{
+										GOButton(go);
+
+									});
+
+								ImVec2 cursorPos = ImGui::GetCursorScreenPos();
+								ImVec2 separatorSize = ImVec2(100.f, 2.0f); // 2.0f for line thickness
+								std::string buttonText = "Separator_Final";
+								//buttonID++;
+								ImVec2 buttonSize = ImVec2(100.f, separatorSize.y + 2.0f);
+								// Create an invisible button for interaction
+								if (ImGui::InvisibleButton(buttonText.c_str(), buttonSize))
+								{
+									//Clicking will do nothing
+								}
+
+								// Draw the line visually
+								ImDrawList* drawList = ImGui::GetWindowDrawList();
+								drawList->AddLine(
+									ImVec2(cursorPos.x, cursorPos.y + separatorSize.y),
+									ImVec2(cursorPos.x + separatorSize.x, cursorPos.y + separatorSize.y),
+									ImGui::GetColorU32(ImGuiCol_Separator), 1.0f);
+
+
+								//The Bottom Line of the Entire Hierarchy
+								if (ImGui::BeginDragDropTarget())
+								{
+									if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
+									{
+										GameObject& droppedGO = *(GameObject*)payload->Data;
+										Entity targettedGOParent = 0;
+
+										if (droppedGO.GetID() == *(Editor::mSceneHierarchy.end() - 1))
+										{
+											CM_CORE_WARN("Not re-arranging any hierarchy");
+										}
+
+										else
+										{
+											if (!droppedGO.SetParent(gGOFactory->sceneGO.sceneID))
+											{
+												auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
+												Editor::mSceneHierarchy.erase(droppedIt);
+												Editor::mSceneHierarchy.push_back(droppedGO.GetID());
+											}
+										}
+									}
+									ImGui::EndDragDropTarget();
+								}
+								ImGui::TreePop();
+							}
+							ImGui::EndTabItem();
+						}
+						ImGui::EndTabBar();	
 					}
+
+
+
 				}
 				else if (AssetWindow::selectedPrefab != nullptr)
 				{

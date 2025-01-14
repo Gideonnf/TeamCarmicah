@@ -105,6 +105,7 @@ namespace Carmicah
 		else if (DeserializeComponent<Script>(val, component)) return component;
 		else if (DeserializeComponent<Button>(val, component)) return component;
 		else if (DeserializeComponent<PrefabData>(val, component)) return component;
+		else if (DeserializeComponent<Sound>(val, component)) return component;
 		else
 		{
 			// incase someone added a component and forgot to write here
