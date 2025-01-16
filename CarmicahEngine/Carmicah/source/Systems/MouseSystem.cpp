@@ -129,19 +129,24 @@ namespace Carmicah
 
 	void MouseSystem::OnEnter(Entity entityID)
 	{
-		CM_CORE_INFO("Enter " + std::to_string(entityID));
-
+		//CM_CORE_INFO("Enter " + std::to_string(entityID));
+		OnMouseMsg newMsg(MSG_MOUSEENTER, entityID);
+		SendSysMessage(&newMsg);
 	}
 
 	void MouseSystem::OnExit(Entity entityID)
 	{
-		CM_CORE_INFO("Exit" + std::to_string(entityID));
+		//CM_CORE_INFO("Exit" + std::to_string(entityID));
+		OnMouseMsg newMsg(MSG_MOUSEEXIT, entityID);
+		SendSysMessage(&newMsg);
 
 	}
 
 	void MouseSystem::OnHover(Entity entityID)
 	{
 		//CM_CORE_INFO("OnHover");
+		OnMouseMsg newMsg(MSG_MOUSEHOVER, entityID);
+		SendSysMessage(&newMsg);
 
 	}
 }

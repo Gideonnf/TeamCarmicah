@@ -611,5 +611,23 @@ namespace Carmicah
                 mEntityInstances[castedMsg->mEntityID]->InvokeOnCollide();
             }
         }
+        else if (msg->mMsgType == MSG_MOUSEENTER)
+        {
+            auto castedMsg = dynamic_cast<OnMouseMsg*>(msg);
+           // CM_CORE_INFO("Enter " + std::to_string(castedMsg->entity));
+
+        }
+        else if (msg->mMsgType == MSG_MOUSEEXIT)
+        {
+            auto castedMsg = dynamic_cast<OnMouseMsg*>(msg);
+           // CM_CORE_INFO("Exit " + std::to_string(castedMsg->entity));
+
+        }
+        else if (msg->mMsgType == MSG_MOUSEHOVER)
+        {
+            auto castedMsg = dynamic_cast<OnMouseMsg*>(msg);
+          //  CM_CORE_INFO("Hover " + std::to_string(castedMsg->entity));
+
+        }
     }
 }

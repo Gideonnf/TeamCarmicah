@@ -37,7 +37,10 @@ namespace Carmicah
 		MSG_MODIFYPREFAB,
 		MSG_NEWPREFAB,
 		MSG_ONCLICK,
-		MSG_UPDATEHIERARCHY
+		MSG_UPDATEHIERARCHY,
+		MSG_MOUSEENTER,
+		MSG_MOUSEHOVER,
+		MSG_MOUSEEXIT
 	};
 
 	namespace
@@ -156,6 +159,13 @@ namespace Carmicah
 	public:
 		Entity buttonEntity;
 		OnClickMsg(Entity go) : Message(MSG_ONCLICK), buttonEntity(go) {}
+	};
+
+	class OnMouseMsg : public Message
+	{
+	public:
+		Entity entity;
+		OnMouseMsg(MessageType type, Entity go) : Message(type), entity(go) {}
 	};
 
 }

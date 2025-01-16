@@ -250,6 +250,7 @@ namespace Carmicah
         editorSys->BindSystem(prefabSystem);
 
         butSystem->BindSystem(gScriptSystem);
+        mouseSystem->BindSystem(gScriptSystem);
 
         //glfwSetWindowUserPointer(window, inputSystem.get());
         gScriptSystem->Init();
