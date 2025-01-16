@@ -75,6 +75,11 @@ namespace Carmicah
 			flags |= ImGuiTreeNodeFlags_Leaf;
 		}
 
+		if (selectedGO == &go)
+		{
+			flags |= ImGuiTreeNodeFlags_Selected;
+		}
+
 		DrawCustomSeparator(go);
 
 		//Dropping on the line between GameObjects
@@ -315,6 +320,7 @@ namespace Carmicah
 				{
 					if(ImGui::BeginTabBar("Tabs"))
 					{
+
 						//Scene Hierarchy
 						if (ImGui::BeginTabItem("Scene Hierarchy"))
 						{

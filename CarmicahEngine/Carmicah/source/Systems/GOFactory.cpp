@@ -338,7 +338,15 @@ namespace Carmicah
 		GameObject& go = mIDToGO[entity];
 
 		// Remove it from the parent since its being destroyed
-		UpdateParent(entity, sceneGO.sceneID, true);
+		if(go.HasComponent<Transform>())
+		{
+			UpdateParent(entity, go.GetComponent<Transform>().parent, true);
+		}
+
+		else if (go.HasComponent<UITransform>())
+		{
+			UpdateParent(entity, go.GetComponent<UITransform>().parent, true);
+		}
 
 		// Check if has any children
 		if (go.HasComponent<Transform>())
