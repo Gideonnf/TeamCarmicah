@@ -22,6 +22,8 @@ DigiPen Institute of Technology is prohibited.
 #include "MouseSystem.h"
 #include "../Input/InputSystem.h"
 #include "../Editor/SceneToImgui.h"
+#include "Systems/AssetManager.h"
+#include "Systems/GOFactory.h"
 
 namespace Carmicah
 {
@@ -40,6 +42,12 @@ namespace Carmicah
 		// probably send msg but if it works it works
 		
 		Vec2i mousePosI = { static_cast<int>(Input.GetMousePosition().x), 1080 - static_cast<int>(Input.GetMousePosition().y) };
+		float ndcX = (2.0f * Input.GetMousePosition().x) / AssetManager::GetInstance()->enConfig.Width - 1.0f;
+		float ndcY = 1.0f - (2.0f * Input.GetMousePosition().y) / AssetManager::GetInstance()->enConfig.Height;
+		
+	
+
+		CM_CORE_INFO("Mouse Position {}, {}", ndcX, ndcY);
 #ifndef CM_INSTALLER
 		SceneToImgui::SCENE_IMGUI currScene = SceneToImgui::GetInstance()->GetHovering();
 		if (currScene == SceneToImgui::NO_SCENE)
