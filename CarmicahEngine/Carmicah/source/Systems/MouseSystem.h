@@ -13,6 +13,9 @@ namespace Carmicah
 		void Update();
 		void Exit();
 
+		Entity prevEntity;
+		Entity currEntity;
+
 		void ReceiveMessage(Message* msg) override;
 		void OnEnter(Entity entityID);
 		void OnExit(Entity entityID);
