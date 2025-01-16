@@ -85,7 +85,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Walk 7"
+                    "texture": "MC_SpriteSheet_Walk 5"
                 },
                 {
                     "Component Name": "struct Script",
@@ -301,7 +301,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 17"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 1"
                 },
                 {
                     "Component Name": "struct Script",
@@ -370,12 +370,12 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "LeftOrRight": false,
-                            "waveTimer": 0.0,
-                            "MousePrefabName": "MouseGO",
                             "StartingCake": "StartingCake",
-                            "spawnTimer": 1.5,
+                            "MousePrefabName": "MouseGO",
+                            "waveTimer": 0.0,
+                            "LeftOrRight": false,
                             "CakeHeightOffset": 6.0,
+                            "spawnTimer": 1.5,
                             "timer": 0.0,
                             "CakePrefabName": "Cake",
                             "PlayerName": "mainCharacter",
@@ -586,7 +586,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 17"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 1"
                 },
                 {
                     "Component Name": "struct Script",
@@ -824,7 +824,16 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "Trap"
+                            "texture": "invisibleWall"
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "TrapPrefabName": "Trap_1"
+                                }
+                            ]
                         },
                         {
                             "Component Name": "struct Carmicah::Collider2D",

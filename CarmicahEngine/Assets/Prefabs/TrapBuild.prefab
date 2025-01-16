@@ -1,0 +1,36 @@
+{
+    "GameObject": "TrapBuild",
+    "ID": 15,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Transform",
+            "xPos": 1.2640576362609864,
+            "yPos": -9.079330444335938,
+            "depth": 0.0,
+            "xScale": 0.0,
+            "yScale": 0.0,
+            "rot": 0.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.TrapBuild",
+            "ScriptableFieldMap": [
+                {
+                    "TrapPrefabName": "Trap_1"
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "invisibleWall"
+        },
+        {
+            "Component Name": "struct Carmicah::Collider2D",
+            "shape": "",
+            "customWidth": 0.0,
+            "customRotation": 0.0,
+            "customHeight": 0.0
+        }
+    ]
+}
