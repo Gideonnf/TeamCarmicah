@@ -230,7 +230,7 @@ namespace Carmicah
 
 			if (ImGui::CollapsingHeader("Scene"))
 			{
-				for (const auto& entry : sceneMap->mAssetMap)
+				for (const auto entry : sceneMap->mAssetMap)
 				{
 					name = entry.first + "##Scene";
 
@@ -261,9 +261,11 @@ namespace Carmicah
 							if (inputBuffer != entry.first)
 							{
 								assetManager->RenameScene(entry.first, inputBuffer, AssetManager::GetInstance()->enConfig.assetLoc.c_str());
-								std::string sceneFile;
+								AssetManager::GetInstance()->fileWatcher.Update();
+								AssetManager::GetInstance()->fileWatcher.Update();
+								/*std::string sceneFile;
 								AssetManager::GetInstance()->GetScene(inputBuffer, sceneFile);
-								SerializerSystem::GetInstance()->SerializeScene(sceneFile);
+								SerializerSystem::GetInstance()->SerializeScene(sceneFile);*/
 								
 							}
 

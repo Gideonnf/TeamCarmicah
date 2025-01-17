@@ -225,6 +225,9 @@ namespace Carmicah
 		// TODO: Handle removal of assets
 		// cant rlly be done/tested until editor has ways to delete and add assets
 
+		void RemoveAsset(std::string filePath);
+
+
 
 		enum class ASSETCOPIED
 		{

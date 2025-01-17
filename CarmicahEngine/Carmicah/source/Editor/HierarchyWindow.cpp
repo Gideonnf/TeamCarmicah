@@ -506,7 +506,7 @@ namespace Carmicah
 			if (ImGui::Button(buttonName.c_str()))
 			{
 				std::string sceneFile;
-				AssetManager::GetInstance()->GetScene(SceneToImgui::GetInstance()->currentScene, sceneFile);
+				AssetManager::GetInstance()->GetScene(gGOFactory->sceneGO.sceneName, sceneFile);
 				SerializerSystem::GetInstance()->SerializeScene(sceneFile);
 				//gGOFactory->DestroyAll();
 			}

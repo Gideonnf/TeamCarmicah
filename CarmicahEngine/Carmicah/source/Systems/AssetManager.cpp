@@ -866,6 +866,147 @@ namespace Carmicah
 			return false;
 		}
 	}
+	
+	void AssetManager::RemoveAsset(std::string filePath)
+	{
+		std::string fileName = std::filesystem::path(filePath).stem().string();
+		std::string fileExt = std::filesystem::path(filePath).extension().string();
+
+		if (fileExt == ".scene")
+		{
+
+			if (!AssetExist<Scene>(fileName))
+			{
+				CM_CORE_WARN("Scene:" + fileName + " does not exist");
+			}
+
+			AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetList.erase(
+				std::remove_if(AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetList.begin(),
+				AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetList.end(), 
+					[&fileName](const Scene& scene)
+				{
+					std::string sceneName = std::filesystem::path(scene.sceneFile).stem().string();
+					return sceneName == fileName;
+				}),AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetList.end());
+
+			for (auto it = AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetMap.begin(); it != AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetMap.end();)
+			{
+				if (it->first == fileName)
+				{
+					it = AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetMap.erase(it);
+				}
+				else
+				{
+					it++;
+				}
+			}
+		}
+		//else if (fileExt == ".wav" || fileExt == ".ogg" || fileExt == ".mp3")
+		//{
+		//	if (!reload && AssetExist<FMOD::Sound*>(fileName))
+		//	{
+		//		CM_CORE_WARN("Sound:" + fileName + " Already Exists");
+		//		return false;
+		//	}
+		//	LoadSound(fileName, file.fileEntry.path().string());
+		//}
+		//else if (fileExt == ".ttf")
+		//{
+		//	// Font cant be reloaded for now cause operator = is giving me issues
+		//	if (AssetExist<Font>(fileName))
+		//	{
+		//		CM_CORE_WARN("Font:" + fileName + " Already Exists");
+		//		return false;
+		//	}
+		//	LoadFont(fileName, file.fileEntry.path().string(), enConfig.fontSize);
+		//}
+		//else if (fileExt == ".png")
+		//{
+		//	if (!reload && AssetExist<Texture>(fileName))
+		//	{
+		//		CM_CORE_WARN("Texture:" + fileName + " Already Exists");
+		//		return false;
+		//	}
+
+		//	const auto spriteSheet = file.fileEntry.path().parent_path() / (file.fileEntry.path().stem().string() + std::string(".txt"));
+
+		//	if (fileWatcher.fileMap.count(spriteSheet.string()) != 0)
+		//	{
+		//		fileWatcher.fileMap[spriteSheet.string()].fileStatus = FILE_OK;
+		//	}
+		//	LoadTexture(fileName, file.fileEntry.path().string(), spriteSheet.string());
+		//}
+		//else if (fileExt == ".o")
+		//{
+		//	if (!reload && AssetExist<Primitive>(fileName))
+		//	{
+		//		CM_CORE_WARN("Object:" + fileName + " Already Exists");
+		//		return false;
+		//	}
+		//	LoadObject(fileName, file.fileEntry.path().string());
+		//}
+		//else if (fileExt == ".do")
+		//{
+		//	if (!reload && AssetExist<BasePrimitive>(fileName))
+		//	{
+		//		CM_CORE_WARN("Object:" + fileName + " Already Exists");
+		//		return false;
+		//	}
+		//	LoadDebugObject("Debug" + fileName, file.fileEntry.path().string());
+		//}
+		//else if (fileExt == ".scene")
+		//{
+		//	if (!reload && AssetExist<Scene>(fileName))
+		//	{
+		//		CM_CORE_WARN("Scene:" + fileName + " Already Exists");
+		//		return false;
+		//	}
+
+		//	Scene newScene{ file.fileEntry.path().string() };
+		//	AddAsset<Scene>(fileName, newScene);
+		//}
+		//else if (fileExt == ".prefab")
+		//{
+		//	if (!reload && AssetExist<Prefab>(fileName))
+		//	{
+		//		// creating prefabs will trigger this, so just return true cause prefab system adds it to asset manager
+		//		//CM_CORE_WARN("Scene:" + fileName + " Already Exists");
+		//		return true;
+		//	}
+
+		//	Prefab goPrefab = Serializer.DeserializePrefab(file.fileEntry.path().string());
+
+		//	// If its a new asset then update the prefab ID list
+		//	if (!reload)
+		//		prefabPtr->AddPrefab(goPrefab);
+
+		//	AddAsset<Prefab>(fileName, goPrefab);
+		//	//mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
+		//}
+		//else if (fileExt == ".vert")
+		//{
+		//	const auto fragShader = file.fileEntry.path().parent_path() / (file.fileEntry.path().stem().string() + std::string(".frag")); // std::string(".frag");
+		//	if (std::filesystem::exists(fragShader))
+		//	{
+		//		fileWatcher.fileMap[fragShader.string()].fileStatus = FILE_OK;
+
+		//		LoadShader(fileName, file.fileEntry.path().string(), fragShader.string());
+		//	}
+		//}
+		//else if (fileExt == ".json")
+		//{
+		//	// dont do anything with json for now
+		//	// only engine config uses it but carmicahCore loads it with:
+		//	// AssetManager::GetInstance()->LoadConfig("../Assets/config.json");
+		//}
+		//else
+		//{
+		//	CM_CORE_ERROR("Extension doesn't exist");
+		//	return false;
+		//}
+
+
+	}
 	/*
 	@beief: This function copies assets from wherever they are in the windows file explorer to the assets folder if the asset is compatiable
 	@param: const std::string& source -> source filePath
