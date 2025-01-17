@@ -47,7 +47,7 @@ namespace Carmicah
 		
 	
 
-		CM_CORE_INFO("Mouse Position {}, {}", ndcX, ndcY);
+		//CM_CORE_INFO("Mouse Position {}, {}", ndcX, ndcY);
 #ifndef CM_INSTALLER
 		SceneToImgui::SCENE_IMGUI currScene = SceneToImgui::GetInstance()->GetHovering();
 		if (currScene == SceneToImgui::NO_SCENE)

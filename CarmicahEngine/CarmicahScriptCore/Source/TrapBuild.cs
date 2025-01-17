@@ -12,13 +12,32 @@ namespace Carmicah
         Entity trapEntity;
         public void OnMouseEnter()
         {
+            if (trapEntity != null) { return; }
+
             trapEntity = CreateGameObject(TrapPrefabName);
-            trapEntity.Position = Position;
+            //Vector2 newPos = new Vector2(-5, -5);
+            Console.WriteLine($"Position of build: {Position.x}, {Position.y}");
+            //Vector2 newPos = new Vector2(Position.x, Position.y);
+            //trapEntity.As<Testing>().SetUpPosition(newPos);
+            trapEntity.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
+        }
+
+        public void OnMouseHover()
+        {
+           // Console.WriteLine($"Position of Trap: {Position.x}, {Position.y}");
+            if (trapEntity != null)
+            {
+                Console.WriteLine($"Position of build: {Position.x}, {Position.y}");
+
+                trapEntity.As<Testing>().SetUpPosition(Position);
+               // trapEntity.Position = new Vector2(Position.x, Position.y);
+                Console.WriteLine($"Position of trap: {trapEntity.Position.x}, {trapEntity.Position.y}");
+            }
         }
 
         public void OnMouseExit()
         {
-            trapEntity.Destroy();
+           // trapEntity.Destroy();
         }
     }
 }

@@ -1,5 +1,5 @@
 {
-    "GameObject": "Trap 1",
+    "GameObject": "Trap_1",
     "ID": 14,
     "Components": [
         {
@@ -10,6 +10,15 @@
             "xScale": 1.5,
             "yScale": 1.5,
             "rot": 0.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.Testing",
+            "ScriptableFieldMap": [
+                {
+                    "testVar": 0.0
+                }
+            ]
         },
         {
             "Component Name": "struct Carmicah::Renderer",
