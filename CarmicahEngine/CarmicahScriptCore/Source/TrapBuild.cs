@@ -28,10 +28,10 @@ namespace Carmicah
             if (trapEntity != null)
             {
                 Console.WriteLine($"Position of build: {Position.x}, {Position.y}");
-
-                trapEntity.As<Testing>().SetUpPosition(Position);
+                trapEntity.Position = Position;
+              //  trapEntity.As<Testing>().SetUpPosition(Position);
                // trapEntity.Position = new Vector2(Position.x, Position.y);
-                Console.WriteLine($"Position of trap: {trapEntity.Position.x}, {trapEntity.Position.y}");
+                //Console.WriteLine($"Position of trap: {trapEntity.Position.x}, {trapEntity.Position.y}");
             }
         }
 

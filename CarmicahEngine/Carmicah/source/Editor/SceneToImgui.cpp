@@ -111,9 +111,9 @@ namespace Carmicah
         glReadPixels(mouseX, mouseY, 1, 1,
             GL_RED_INTEGER, GL_UNSIGNED_INT, &goID);
 
-        std::stringstream ss;
-        ss << "ID: " << goID << "[" << mouseX << ',' << mouseY << "]";
-        CM_CORE_INFO(ss.str());
+        //std::stringstream ss;
+        //ss << "ID: " << goID << "[" << mouseX << ',' << mouseY << "]";
+        //CM_CORE_INFO(ss.str());
 
         if (RenderHelper::GetInstance()->mEditorWindowActive)
             RenderHelper::GetInstance()->mSelectedID = goID;
