@@ -591,6 +591,11 @@ namespace Carmicah
 
     void ScriptSystem::ReceiveMessage(Message* msg)
     {
+        auto gameSystem = SystemManager::GetInstance()->GetSystem<SceneSystem>();
+        if (!gameSystem->mRuntime && gameSystem->mNextState != RUNTIME)
+        {
+            return;
+        }
         // Button entity was clicked
         if (msg->mMsgType == MSG_ONCLICK)
         {

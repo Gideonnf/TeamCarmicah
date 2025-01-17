@@ -37,7 +37,7 @@ namespace Carmicah
 
         public void OnMouseExit()
         {
-           // trapEntity.Destroy();
+            trapEntity.Destroy();
         }
     }
 }
