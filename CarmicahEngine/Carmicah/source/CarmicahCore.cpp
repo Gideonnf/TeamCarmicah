@@ -58,6 +58,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/TransformSystem.h"
 #include "Systems/ButtonSystem.h"
 #include "Systems/PrefabSystem.h"
+#include "Systems/MouseSystem.h"
 
 #include "Input/InputSystem.h"
 #include "Systems/SceneSystem.h"
@@ -206,6 +207,7 @@ namespace Carmicah
         auto colSystem = REGISTER_SYSTEM(CollisionSystem);
         auto butSystem = REGISTER_SYSTEM(ButtonSystem);
         auto phySystem = REGISTER_SYSTEM(PhysicsSystem);
+        auto mouseSystem = REGISTER_SYSTEM(MouseSystem);
         REGISTER_SYSTEM(InputSystem);
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);
@@ -228,7 +230,7 @@ namespace Carmicah
         colSystem->Init();
         rrsSystem->Init();
         souSystem->Init();
-        
+        mouseSystem->Init();
 
         // Add goFactory to input system's messaging so that it can send msg to it
         Input.BindSystem(gGOFactory);
@@ -419,6 +421,7 @@ namespace Carmicah
                         else {
                             CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
                             colSystem->CollisionCheck();
+                            
                             CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
                             CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                             phySystem->Update();
@@ -502,6 +505,10 @@ namespace Carmicah
 				butSystem->Update();
 
                 Input.Update();
+
+                // Putting mouse update here first after input update
+                // idk if it should be here
+                mouseSystem->Update();
 
                // glfwMakeContextCurrent(window);
 

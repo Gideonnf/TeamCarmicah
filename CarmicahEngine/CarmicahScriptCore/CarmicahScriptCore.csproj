@@ -21,7 +21,8 @@
     <OutputPath>..\bin\Debug-x86_64\CarmicahScriptCore\</OutputPath>
     <BaseIntermediateOutputPath>..\bin\Debug-x86_64int\CarmicahScriptCore\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -33,7 +34,8 @@
     <OutputPath>..\bin\Release-x86_64\CarmicahScriptCore\</OutputPath>
     <BaseIntermediateOutputPath>..\bin\Release-x86_64int\CarmicahScriptCore\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -45,7 +47,8 @@
     <OutputPath>..\bin\Installer-x86_64\CarmicahScriptCore\</OutputPath>
     <BaseIntermediateOutputPath>..\bin\Installer-x86_64int\CarmicahScriptCore\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -80,6 +83,7 @@
     <Compile Include="Source\System\Sound.cs" />
     <Compile Include="Source\System\StateMachine.cs" />
     <Compile Include="Source\Testing.cs" />
+    <Compile Include="Source\TrapBuild.cs" />
     <Compile Include="Source\Vector2.cs" />
   </ItemGroup>
   <ItemGroup>
