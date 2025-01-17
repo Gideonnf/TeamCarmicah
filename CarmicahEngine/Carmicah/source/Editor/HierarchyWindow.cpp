@@ -298,7 +298,7 @@ namespace Carmicah
 
 	void HierarchyWindow::Update()
 	{
-
+		char inputBuffer[1024];
 		if (ImGui::Begin(mTitle))
 		{
 
@@ -326,6 +326,7 @@ namespace Carmicah
 						{
 							if(ImGui::TreeNodeEx(gGOFactory->sceneGO.sceneName.c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow))
 							{
+
 								gGOFactory->ForAllSceneGOs([this](GameObject& go)
 									{
 										GOButton(go);
@@ -501,13 +502,6 @@ namespace Carmicah
 				goName[sizeof(goName) - 1] = '\0';
 			}
 
-			/*if (ImGui::Button("Create Folder"))
-			{
-				gGOFactory->CreateGO(goName, TRANSFORMTYPE::NONE);
-				std::strncpy(goName, "Default", sizeof(goName) - 1);
-				goName[sizeof(goName) - 1] = '\0';
-			}*/
-
 			std::string buttonName = "Save current scene: " + SceneToImgui::GetInstance()->currentScene;
 			if (ImGui::Button(buttonName.c_str()))
 			{
@@ -517,7 +511,11 @@ namespace Carmicah
 				//gGOFactory->DestroyAll();
 			}
 		}
+		
+
 		ImGui::End();
+
+
 	}
 
 	void HierarchyWindow::EntityDestroyed(Entity id)

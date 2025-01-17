@@ -920,4 +920,28 @@ namespace Carmicah
 		}
 
 	}
+
+	void AssetManager::RenameScene(std::string oldName, std::string newName, const char* assetPath)
+	{
+		oldName += ".scene";
+		newName += ".scene";
+
+		std::filesystem::path oldSceneName = std::filesystem::path(assetPath) / "Scene" / oldName;
+		std::filesystem::path newSceneName = std::filesystem::path(assetPath) / "Scene" / newName;
+
+		try
+		{
+			std::filesystem::rename(oldSceneName, newSceneName);
+			CM_CORE_INFO("Successfully renamed Scene!");
+
+			//Save the New Scene/Update AssetManager
+
+
+		}
+		catch (const std::filesystem::filesystem_error& e)
+		{
+			UNUSED(e);
+			CM_CORE_ERROR("Error changing Scene Name!");
+		}
+	}
 }

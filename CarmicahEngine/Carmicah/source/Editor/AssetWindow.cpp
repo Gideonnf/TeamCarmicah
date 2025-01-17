@@ -55,6 +55,7 @@ namespace Carmicah
 		auto audioMap = assetManager->GetAssetMap<FMOD::Sound*>();
 		auto prefabMap = assetManager->GetAssetMap<Prefab>();
 		auto sceneMap = assetManager->GetAssetMap<Scene>();
+		char inputBuffer[1024];
 
 		if (ImGui::Begin(mTitle))
 		{
@@ -236,6 +237,44 @@ namespace Carmicah
 					if (ImGui::Button(name.c_str()))
 					{
 						systemManager->ChangeScene(entry.first);
+					}
+
+					if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
+					{
+						ImGui::OpenPopup(name.c_str());
+					}
+
+					if (ImGui::BeginPopup(name.c_str()))
+					{
+						std::strncpy(inputBuffer, entry.first.c_str(), sizeof(entry.first.c_str()) - 1);
+
+						ImGui::Text("Rename Scene: ");
+						ImGui::SameLine();
+
+						if (ImGui::InputText("##Scene Name:", inputBuffer, sizeof(inputBuffer), ImGuiInputTextFlags_EnterReturnsTrue))
+						{
+							if (inputBuffer[0] != '\0')
+							{
+								gGOFactory->sceneGO.sceneName = inputBuffer;
+							}
+
+							if (inputBuffer != entry.first)
+							{
+								assetManager->RenameScene(entry.first, inputBuffer, AssetManager::GetInstance()->enConfig.assetLoc.c_str());
+								std::string sceneFile;
+								AssetManager::GetInstance()->GetScene(inputBuffer, sceneFile);
+								SerializerSystem::GetInstance()->SerializeScene(sceneFile);
+								
+							}
+
+							if (inputBuffer[0] == '\0')
+							{
+								CM_CORE_ERROR("Empty Scene Name!");
+							}
+
+							ImGui::CloseCurrentPopup();
+						}
+						ImGui::EndPopup();
 					}
 				}
 			}

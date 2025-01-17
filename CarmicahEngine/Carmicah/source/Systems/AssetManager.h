@@ -244,6 +244,20 @@ namespace Carmicah
 			Whether the copy was successful/unsupported.
 		***************************************************************************/
 		ASSETCOPIED CopyAssetToAssetsFolder(const std::string& source, const char* assetPath);
+
+		/*!*************************************************************************
+		brief
+			Renames the Scene
+		param[oldName]
+		The old name of the Scene
+		param[newName]
+			The new name of the Scene
+		param[assetPath]
+			The asset folder path
+		return
+			Whether the copy was successful/unsupported.
+		***************************************************************************/
+		void RenameScene(std::string oldName, std::string newName, const char* assetPath);
 	private:
 
 
