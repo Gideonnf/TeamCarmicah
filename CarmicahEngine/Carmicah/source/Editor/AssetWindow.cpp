@@ -232,6 +232,11 @@ namespace Carmicah
 			{
 				for (const auto entry : sceneMap->mAssetMap)
 				{
+					if (entry.first.empty())
+					{
+						continue;
+					}
+
 					name = entry.first + "##Scene";
 
 					if (ImGui::Button(name.c_str()))
@@ -242,6 +247,7 @@ namespace Carmicah
 					if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
 					{
 						ImGui::OpenPopup(name.c_str());
+
 					}
 
 					if (ImGui::BeginPopup(name.c_str()))
