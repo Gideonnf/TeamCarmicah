@@ -45,8 +45,8 @@ namespace Carmicah
 		Vector2D(T _x, T _y) : x(_x), y(_y) {}
 		template<typename O> Vector2D(Vector2D<O> _other)
 		{
-			x = static_cast<O>(_other.x);
-			y = static_cast<O>(_other.y);
+			x = static_cast<T>(_other.x);
+			y = static_cast<T>(_other.y);
 		}
 
 		//Assignment Operators

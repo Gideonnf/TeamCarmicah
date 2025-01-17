@@ -30,7 +30,10 @@ DigiPen Institute of Technology is prohibited.
 #include "Math/Vec2.h"
 #include "CarmicahTime.h"
 #include "ECS/SystemManager.h"
+#include "Systems/AssetManager.h"
 #include "Systems/SoundSystem.h"
+#include "Systems/GOFactory.h"
+#include "ECS/ComponentManager.h"
 #include "Editor/SceneWindow.h"
 
 
@@ -561,6 +564,17 @@ namespace Carmicah
 	Vector2D<double> InputSystem::GetMousePosition()
 	{
 		return mCurrMousePos;
+	}
+
+	// Camera scale means 2.f/num
+	Vector2D<float> InputSystem::GetMouseWorldPosition()
+	{
+		const Transform& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(gGOFactory->mainCam);
+		Vec2f temp{ mCurrMousePos };
+		float ar{ static_cast<float>(AssetManager::GetInstance()->enConfig.Width) / static_cast<float>(AssetManager::GetInstance()->enConfig.Height) };
+		temp.x = (temp.x / static_cast<float>(AssetManager::GetInstance()->enConfig.Width) - 0.5f) * 2.f / camTrans.Scale().x + camTrans.Pos().x;
+		temp.y = -(temp.y / static_cast<float>(AssetManager::GetInstance()->enConfig.Height) - 0.5f) * 2.f / camTrans.Scale().y + camTrans.Pos().y;
+		return temp;
 	}
 
 	/* function documentation--------------------------------------------------------------------------

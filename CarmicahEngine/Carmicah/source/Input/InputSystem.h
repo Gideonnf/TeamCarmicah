@@ -106,6 +106,7 @@ namespace Carmicah
 		double GetMouseX();
 		double GetMouseY();
 		Vector2D<double> GetMousePosition();
+		Vector2D<float> GetMouseWorldPosition();
 		void SetMousePosition(double xPos, double yPos);
 		void SetMousePosition(Vector2D<double> pos);
 
