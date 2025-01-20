@@ -29,6 +29,10 @@ namespace Carmicah
         public string IdleAnim = "Shooter_Idle";
         GameManager gmReference;
 
+        public string ProjectilePrefab = "NPCProjectile";
+        public float shootTimer = 0.5f;
+        float timer = 0.0f;
+        bool isShooting = false;
 
         void OnCreate()
         {
@@ -57,15 +61,42 @@ namespace Carmicah
             //{
             //    ChangeAnim(IdleAnim);
             //}
+            
+
+            //create how the npc will shoot
+            Entity pauseManager = FindEntityWithName("PauseManager");
+            if (pauseManager != null && pauseManager.As<PauseManager>().IsPaused)
+                return;
+
+            if (isShooting)
+            {
+                timer += dt;
+                if (timer >= shootTimer)
+                {
+                    timer = 0.0f;
+                    Entity projectile = CreateGameObject(ProjectilePrefab);
+                    if (projectile != null)
+                    {
+                        projectile.Position = Position;
+                        Vector2 direction = new Vector2(Scale.x > 0 ? 1 : -1, 0);
+                        projectile.GetComponent<RigidBody>().ApplyForce(direction, 5.0f);
+                    }
+                }
+            }
+
         }
 
         public void ToggleShooting()
         {
+            //check if the npc is already shooting
+            isShooting = true;
             ChangeAnim(ShootAnim);
         }
 
         public void ToggleIdle()
         {
+            //check if the npc is already idle
+            isShooting = false;
             ChangeAnim(IdleAnim);
         }
     }

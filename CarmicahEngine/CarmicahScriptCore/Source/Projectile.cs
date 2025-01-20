@@ -9,6 +9,7 @@ namespace CarmicahScriptCore.Source
 {
     public class NPCProjectile : Entity
     {
+        //set the speed and lifetime of the projectile
         public float Speed = 5.0f;
         public float LifeTime = 2.0f;
         public string ProjectileHitAnim;
@@ -18,6 +19,7 @@ namespace CarmicahScriptCore.Source
 
         void OnCreate()
         {
+            //set the projectile to move
             if (!string.IsNullOrEmpty(ProjectileMoveAnim))
             {
                 ChangeAnim(ProjectileMoveAnim);
@@ -26,6 +28,7 @@ namespace CarmicahScriptCore.Source
 
         void OnUpdate(float dt)
         {
+            //check if the game is paused
             Entity pauseManager = FindEntityWithName("PauseManager");
             if (pauseManager != null)
             {
