@@ -97,7 +97,7 @@ namespace Carmicah
 			transform.GetUpdateAbsPos() = Vec2f::zero();
 
 			Mtx33Identity(transform.worldSpace);
-			transform.worldSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
+			transform.worldSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.CalcedScale());
 			transform.localSpace = transform.worldSpace; // if no parent, local and world is the same
 		}
 		// have parent

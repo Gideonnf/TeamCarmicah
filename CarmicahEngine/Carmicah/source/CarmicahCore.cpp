@@ -51,6 +51,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Graphics/TextGraphicsSystem.h"
 #include "Graphics/ColliderGraphicsSystem.h"
 #include "Graphics/RigidbodyGraphicsSystem.h"
+#include "Graphics/RenderTransformSystem.h"
 #include "Graphics/RenderHelper.h"
 #include "Systems/CollisionSystem.h"
 #include "Physics/PhysicsSystem.h"
@@ -212,11 +213,13 @@ namespace Carmicah
         auto prefabSystem = REGISTER_SYSTEM(PrefabSystem);
         // auto gameLogic = REGISTER_SYSTEM(GameLogic);
         auto transformSystem = REGISTER_SYSTEM(TransformSystem);
+        auto rendTransformSystem = REGISTER_SYSTEM(RenderTransformSystem);
         AssetManager::GetInstance()->Init(prefabSystem);
         AssetManager::GetInstance()->LoadAll(AssetManager::GetInstance()->enConfig.assetLoc.c_str());
         //AssetManager::GetInstance()->fileWatcher.Update();
         // TODO: Shift this all into system constructors to clean up core.cpp
         transformSystem->Init();
+        rendTransformSystem->Init();
         RenderHelper::GetInstance()->InitScreenDimension(static_cast<float>(Width), static_cast<float>(Height));
         graSystem->Init();
         uigSystem->Init();
@@ -464,6 +467,7 @@ namespace Carmicah
                 }
                 CarmicahTime::GetInstance()->StartSystemTimer("RenderingSystems");
                 // Update world and local transforms before rendering
+                rendTransformSystem->Update();
                 transformSystem->Update();
                 // Pushes data into GPU
                 graSystem->Update();
