@@ -126,7 +126,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 						continue;
 					// Handle Camera Transform[
 					Mtx3x3f camSpace{};
-					camSpace.scaleThis(cam.value()->Scale()).rotDegThis(cam.value()->Rot()).translateThis(-cam.value()->Pos());
+					camSpace.lookAtDeg(cam.value()->Pos(), cam.value()->Rot(), cam.value()->Scale());
 					if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
 						glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
 				}
