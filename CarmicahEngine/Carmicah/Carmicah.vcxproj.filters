@@ -219,7 +219,7 @@
     <ClInclude Include="source\log.h" />
     <ClInclude Include="source\pch.h" />
     <ClInclude Include="source\Components\Sound.h" />
-    <ClInclude Include="source\Systems\MouseSystem.h" />
+    <ClInclude Include="source\Graphics\RenderTransformSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />
@@ -343,6 +343,6 @@
     </ClCompile>
     <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\pch.cpp" />
-    <ClCompile Include="source\Systems\MouseSystem.cpp" />
+    <ClCompile Include="source\Graphics\RenderTransformSystem.cpp" />
   </ItemGroup>
 </Project>
