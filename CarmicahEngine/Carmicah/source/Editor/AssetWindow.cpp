@@ -260,10 +260,10 @@ namespace Carmicah
 
 						if (ImGui::InputText("##Scene Name:", inputBuffer, sizeof(inputBuffer), ImGuiInputTextFlags_EnterReturnsTrue))
 						{
-							if (inputBuffer[0] != '\0')
+							/*if (inputBuffer[0] != '\0')
 							{
 								gGOFactory->sceneGO.sceneName = inputBuffer;
-							}
+							}*/
 
 							if (inputBuffer != entry.first)
 							{
