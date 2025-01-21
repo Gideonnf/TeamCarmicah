@@ -54,90 +54,6 @@ namespace Carmicah
 
 		RenderHelper::GetInstance()->LoadGizmos();
 
-		//if (std::filesystem::exists(directoryPath) && std::filesystem::is_directory(directoryPath))
-		//{
-		//	for (const auto& subFile : std::filesystem::directory_iterator(directoryPath))
-		//	{
-		//		if (std::filesystem::exists(subFile) && std::filesystem::is_directory(subFile))
-		//		{
-		//			std::string folderName = subFile.path().filename().string();
-		//			for (const auto& entry : std::filesystem::directory_iterator(subFile))
-		//			{
-		//				std::string fileName = entry.path().stem().string();
-		//				if (folderName == "Animation")
-		//				{
-		//					LoadAnimation(fileName, entry.path().string());
-		//				}
-		//				else if (folderName == "Audio")
-		//				{
-		//					LoadSound(fileName, entry.path().string(), false, 1.0f); 
-		//				}
-		//				else if (folderName == "BGM")
-		//				{
-		//					LoadSound(fileName, entry.path().string(), true, 1.0f);  
-		//				}
-		//				else if (folderName == "Images")
-		//				{
-		//					std::string fileExt = entry.path().extension().string();
-
-		//					if (fileExt == ".png")
-		//					{
-		//						const auto testOtherFile = subFile.path() / (fileName + std::string(".txt"));
-		//						LoadTexture(fileName, entry.path().string(), testOtherFile.string());
-		//					}
-		//				}
-		//				else if (folderName == "Fonts")
-		//				{
-		//					LoadFont(fileName, entry.path().string(), enConfig.fontSize);
-		//				}
-		//				else if (folderName == "Meshes")
-		//				{
-
-		//					std::string fileExt = entry.path().extension().string();
-		//					if (fileExt == ".o")
-		//					{
-		//						LoadObject(fileName, entry.path().string());
-		//					}
-		//					else if (fileExt == ".do")
-		//					{
-		//						LoadDebugObject("Debug" + fileName, entry.path().string());
-		//					}
-		//				}
-		//				else if (folderName == "Scene")
-		//				{
-		//					//	std::cout << entry.path().string() << std::endl;
-		//						//std::cout << fileName << std::endl;
-		//					Scene newScene{ entry.path().string() };
-		//					AddAsset<Scene>(fileName, newScene);
-		//					//mSceneFiles.insert(std::make_pair(fileName, entry.path().string()));
-		//				}
-		//				else if (folderName == "Shaders")
-		//				{
-		//					std::string fileExt = entry.path().extension().string();
-		//					if (fileExt == ".vert")
-		//					{
-		//						const auto testOtherFile = subFile.path() / (fileName + std::string(".frag"));
-		//						if (std::filesystem::exists(testOtherFile))
-		//						{
-		//							LoadShader(fileName, entry.path().string(), testOtherFile.string());
-		//						}
-		//					}
-		//				}
-		//				else if (folderName == "Prefabs")
-		//				{
-		//					Prefab goPrefab = Serializer.DeserializePrefab(entry.path().string());
-		//					
-		//					prefabPtr->AddPrefab(goPrefab);
-
-		//					AddAsset<Prefab>(fileName, goPrefab);
-		//					//mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
-		//				}
-		//			}
-		//		}
-		//	}
-		//}
-
-		//enConfig = Serializer.LoadConfig(directoryPath)
 		}
 
 	bool AssetManager::LoadAsset(File const& file, bool reload)
@@ -822,32 +738,6 @@ namespace Carmicah
 	}
 
 
-
-	//void AssetManager::LoadSound(const std::string& soundName, const std::string& soundFile, bool isLoop, float defaultVolume)
-	//{
-	//	auto sound = mSoundMap.find(soundName);
-	//	if (sound != mSoundMap.end())
-	//	{
-	//		std::cerr << "Sound:" << soundName << " Already Exists";
-	//		return;
-	//	}
-
-	//	FMOD_MODE eMode = FMOD_DEFAULT;
-	//	Audio audio{};
-	//	mSoundSystem->createSound(soundFile.c_str(), eMode, nullptr, &audio.sound);
-	//	if (audio.sound)
-	//	{
-	//		audio.isLoop = isLoop;
-	//		audio.defaultVolume = defaultVolume;
-	//		mSoundMap.insert(std::make_pair(soundName, audio));
-	//		if (isLoop)
-	//		{
-	//			audio.sound->setMode(FMOD_LOOP_NORMAL);
-	//			audio.sound->setLoopCount(-1);
-	//		}
-	//	}
-	//}
-
 	bool AssetManager::GetScene(std::string scene, std::string& filePath)
 	{
 		if (AssetExist<Scene>(scene))
@@ -855,11 +745,6 @@ namespace Carmicah
 			filePath = GetAsset<Scene>(scene).sceneFile;
 			return true;
 		}
-		//if (mSceneFiles.count(scene) != 0)
-		//{
-		//	filePath = mSceneFiles[scene];
-		//	return true;
-		//}
 		else
 		{
 			CM_CORE_ERROR("Scene not found");
@@ -901,111 +786,6 @@ namespace Carmicah
 				}
 			}
 		}
-		//else if (fileExt == ".wav" || fileExt == ".ogg" || fileExt == ".mp3")
-		//{
-		//	if (!reload && AssetExist<FMOD::Sound*>(fileName))
-		//	{
-		//		CM_CORE_WARN("Sound:" + fileName + " Already Exists");
-		//		return false;
-		//	}
-		//	LoadSound(fileName, file.fileEntry.path().string());
-		//}
-		//else if (fileExt == ".ttf")
-		//{
-		//	// Font cant be reloaded for now cause operator = is giving me issues
-		//	if (AssetExist<Font>(fileName))
-		//	{
-		//		CM_CORE_WARN("Font:" + fileName + " Already Exists");
-		//		return false;
-		//	}
-		//	LoadFont(fileName, file.fileEntry.path().string(), enConfig.fontSize);
-		//}
-		//else if (fileExt == ".png")
-		//{
-		//	if (!reload && AssetExist<Texture>(fileName))
-		//	{
-		//		CM_CORE_WARN("Texture:" + fileName + " Already Exists");
-		//		return false;
-		//	}
-
-		//	const auto spriteSheet = file.fileEntry.path().parent_path() / (file.fileEntry.path().stem().string() + std::string(".txt"));
-
-		//	if (fileWatcher.fileMap.count(spriteSheet.string()) != 0)
-		//	{
-		//		fileWatcher.fileMap[spriteSheet.string()].fileStatus = FILE_OK;
-		//	}
-		//	LoadTexture(fileName, file.fileEntry.path().string(), spriteSheet.string());
-		//}
-		//else if (fileExt == ".o")
-		//{
-		//	if (!reload && AssetExist<Primitive>(fileName))
-		//	{
-		//		CM_CORE_WARN("Object:" + fileName + " Already Exists");
-		//		return false;
-		//	}
-		//	LoadObject(fileName, file.fileEntry.path().string());
-		//}
-		//else if (fileExt == ".do")
-		//{
-		//	if (!reload && AssetExist<BasePrimitive>(fileName))
-		//	{
-		//		CM_CORE_WARN("Object:" + fileName + " Already Exists");
-		//		return false;
-		//	}
-		//	LoadDebugObject("Debug" + fileName, file.fileEntry.path().string());
-		//}
-		//else if (fileExt == ".scene")
-		//{
-		//	if (!reload && AssetExist<Scene>(fileName))
-		//	{
-		//		CM_CORE_WARN("Scene:" + fileName + " Already Exists");
-		//		return false;
-		//	}
-
-		//	Scene newScene{ file.fileEntry.path().string() };
-		//	AddAsset<Scene>(fileName, newScene);
-		//}
-		//else if (fileExt == ".prefab")
-		//{
-		//	if (!reload && AssetExist<Prefab>(fileName))
-		//	{
-		//		// creating prefabs will trigger this, so just return true cause prefab system adds it to asset manager
-		//		//CM_CORE_WARN("Scene:" + fileName + " Already Exists");
-		//		return true;
-		//	}
-
-		//	Prefab goPrefab = Serializer.DeserializePrefab(file.fileEntry.path().string());
-
-		//	// If its a new asset then update the prefab ID list
-		//	if (!reload)
-		//		prefabPtr->AddPrefab(goPrefab);
-
-		//	AddAsset<Prefab>(fileName, goPrefab);
-		//	//mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
-		//}
-		//else if (fileExt == ".vert")
-		//{
-		//	const auto fragShader = file.fileEntry.path().parent_path() / (file.fileEntry.path().stem().string() + std::string(".frag")); // std::string(".frag");
-		//	if (std::filesystem::exists(fragShader))
-		//	{
-		//		fileWatcher.fileMap[fragShader.string()].fileStatus = FILE_OK;
-
-		//		LoadShader(fileName, file.fileEntry.path().string(), fragShader.string());
-		//	}
-		//}
-		//else if (fileExt == ".json")
-		//{
-		//	// dont do anything with json for now
-		//	// only engine config uses it but carmicahCore loads it with:
-		//	// AssetManager::GetInstance()->LoadConfig("../Assets/config.json");
-		//}
-		//else
-		//{
-		//	CM_CORE_ERROR("Extension doesn't exist");
-		//	return false;
-		//}
-
-
 	}
 	/*
 	@beief: This function copies assets from wherever they are in the windows file explorer to the assets folder if the asset is compatiable
