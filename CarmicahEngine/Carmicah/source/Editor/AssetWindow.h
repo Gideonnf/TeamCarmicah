@@ -33,6 +33,7 @@ namespace Carmicah
 	public:
 		static std::string soundToPlay;
 		static Prefab* selectedPrefab;
+		static bool mSceneModified;
 
 		/**
 		 * @brief Construct a new Asset Window object

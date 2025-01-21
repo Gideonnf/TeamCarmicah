@@ -39,6 +39,7 @@ namespace Carmicah
 
 	Prefab* AssetWindow::selectedPrefab = nullptr;
 	std::string AssetWindow::soundToPlay;
+	bool AssetWindow::mSceneModified = false;
 	/**
 	 * @brief Update function for the AssetWindow
 	 * 
@@ -55,7 +56,7 @@ namespace Carmicah
 		auto audioMap = assetManager->GetAssetMap<FMOD::Sound*>();
 		auto prefabMap = assetManager->GetAssetMap<Prefab>();
 		auto sceneMap = assetManager->GetAssetMap<Scene>();
-		char inputBuffer[1024];
+		char inputBuffer[1024] = "";
 
 		if (ImGui::Begin(mTitle))
 		{
@@ -252,7 +253,7 @@ namespace Carmicah
 
 					if (ImGui::BeginPopup(name.c_str()))
 					{
-						std::strncpy(inputBuffer, entry.first.c_str(), sizeof(entry.first.c_str()) - 1);
+						std::strncpy(inputBuffer, entry.first.c_str(), sizeof(inputBuffer) - 1);
 
 						ImGui::Text("Rename Scene: ");
 						ImGui::SameLine();
@@ -267,6 +268,7 @@ namespace Carmicah
 							if (inputBuffer != entry.first)
 							{
 								assetManager->RenameScene(entry.first, inputBuffer, AssetManager::GetInstance()->enConfig.assetLoc.c_str());
+								mSceneModified = true;
 								AssetManager::GetInstance()->fileWatcher.Update();
 								AssetManager::GetInstance()->fileWatcher.Update();
 								/*std::string sceneFile;
@@ -283,6 +285,12 @@ namespace Carmicah
 							ImGui::CloseCurrentPopup();
 						}
 						ImGui::EndPopup();
+					}
+
+					if (mSceneModified)
+					{
+						mSceneModified = false;
+						break;
 					}
 				}
 			}
