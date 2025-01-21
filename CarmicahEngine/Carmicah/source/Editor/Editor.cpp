@@ -230,14 +230,14 @@ namespace Carmicah
 
 #pragma region Logic
 
-		int counter = 1;
-		if (counter++ % 10)
-		{
-			CM_CORE_INFO("Scene Size:");
-			CM_CORE_INFO(std::to_string(Editor::mSceneHierarchy.size()));
-			CM_CORE_INFO("UI Size: ");
-			CM_CORE_INFO(std::to_string(Editor::mSceneUIHierarchy.size()));
-		}
+		//int counter = 1;
+		//if (counter++ % 10)
+		//{
+		//	CM_CORE_INFO("Scene Size:");
+		//	CM_CORE_INFO(std::to_string(Editor::mSceneHierarchy.size()));
+		//	CM_CORE_INFO("UI Size: ");
+		//	CM_CORE_INFO(std::to_string(Editor::mSceneUIHierarchy.size()));
+		//}
 
 
 		if (mShowCloseConfirmation)

@@ -51,6 +51,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Graphics/TextGraphicsSystem.h"
 #include "Graphics/ColliderGraphicsSystem.h"
 #include "Graphics/RigidbodyGraphicsSystem.h"
+#include "Graphics/RenderTransformSystem.h"
 #include "Graphics/RenderHelper.h"
 #include "Systems/CollisionSystem.h"
 #include "Physics/PhysicsSystem.h"
@@ -58,6 +59,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/TransformSystem.h"
 #include "Systems/ButtonSystem.h"
 #include "Systems/PrefabSystem.h"
+#include "Systems/MouseSystem.h"
 
 #include "Input/InputSystem.h"
 #include "Systems/SceneSystem.h"
@@ -206,17 +208,20 @@ namespace Carmicah
         auto colSystem = REGISTER_SYSTEM(CollisionSystem);
         auto butSystem = REGISTER_SYSTEM(ButtonSystem);
         auto phySystem = REGISTER_SYSTEM(PhysicsSystem);
+        auto mouseSystem = REGISTER_SYSTEM(MouseSystem);
         REGISTER_SYSTEM(InputSystem);
         auto souSystem = REGISTER_SYSTEM(SoundSystem);
         auto gameSystem = REGISTER_SYSTEM(SceneSystem);
         auto prefabSystem = REGISTER_SYSTEM(PrefabSystem);
         // auto gameLogic = REGISTER_SYSTEM(GameLogic);
         auto transformSystem = REGISTER_SYSTEM(TransformSystem);
+        auto rendTransformSystem = REGISTER_SYSTEM(RenderTransformSystem);
         AssetManager::GetInstance()->Init(prefabSystem);
         AssetManager::GetInstance()->LoadAll(AssetManager::GetInstance()->enConfig.assetLoc.c_str());
         //AssetManager::GetInstance()->fileWatcher.Update();
         // TODO: Shift this all into system constructors to clean up core.cpp
         transformSystem->Init();
+        rendTransformSystem->Init();
         RenderHelper::GetInstance()->InitScreenDimension(static_cast<float>(Width), static_cast<float>(Height));
         graSystem->Init();
         uigSystem->Init();
@@ -228,7 +233,7 @@ namespace Carmicah
         colSystem->Init();
         rrsSystem->Init();
         souSystem->Init();
-        
+        mouseSystem->Init();
 
         // Add goFactory to input system's messaging so that it can send msg to it
         Input.BindSystem(gGOFactory);
@@ -248,6 +253,7 @@ namespace Carmicah
         editorSys->BindSystem(prefabSystem);
 
         butSystem->BindSystem(gScriptSystem);
+        mouseSystem->BindSystem(gScriptSystem);
 
         //glfwSetWindowUserPointer(window, inputSystem.get());
         gScriptSystem->Init();
@@ -419,6 +425,7 @@ namespace Carmicah
                         else {
                             CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
                             colSystem->CollisionCheck();
+                            
                             CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
                             CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                             phySystem->Update();
@@ -464,6 +471,7 @@ namespace Carmicah
                 }
                 CarmicahTime::GetInstance()->StartSystemTimer("RenderingSystems");
                 // Update world and local transforms before rendering
+                rendTransformSystem->Update();
                 transformSystem->Update();
                 // Pushes data into GPU
                 graSystem->Update();
@@ -502,6 +510,10 @@ namespace Carmicah
 				butSystem->Update();
 
                 Input.Update();
+
+                // Putting mouse update here first after input update
+                // idk if it should be here
+                mouseSystem->Update();
 
                // glfwMakeContextCurrent(window);
 

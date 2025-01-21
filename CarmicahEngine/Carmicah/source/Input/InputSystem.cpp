@@ -30,7 +30,10 @@ DigiPen Institute of Technology is prohibited.
 #include "Math/Vec2.h"
 #include "CarmicahTime.h"
 #include "ECS/SystemManager.h"
+#include "Systems/AssetManager.h"
 #include "Systems/SoundSystem.h"
+#include "Systems/GOFactory.h"
+#include "ECS/ComponentManager.h"
 #include "Editor/SceneWindow.h"
 
 
@@ -138,6 +141,9 @@ namespace Carmicah
 			else if (button == GLFW_MOUSE_BUTTON_RIGHT)
 			{
 				Input.UpdateMouseMap(button, KeyStates::PRESS);
+				Vec2f a = Input.GetMouseWorldPosition();
+				CM_CORE_INFO("{}. {}", a.x, a.y);
+
 			}
 		}
 		else if (action == GLFW_RELEASE)
@@ -221,12 +227,13 @@ namespace Carmicah
 		{
 			//std::cout << "i'm scrolling up" << std::endl;
 			//std::cout << "scroll up (zoom in)" << std::endl;
-			// call a function or update a variable to handle zooming in
+			Input.SetScrollOffset(yOffset);
 		}
 		else if (yOffset < 0)
 		{
 			//std::cout << "i'm scrolling down" << std::endl;
 			//std::cout << "scroll down (zoom out)" << std::endl;
+			Input.SetScrollOffset(yOffset);
 		}
 		
 		// or is this function for scrolling up and down the scene? 
@@ -395,6 +402,7 @@ namespace Carmicah
 			}
 		}
 		mChangedKeyQueue = mTempQueue;
+		mScrollAmt = 0.f;
 	}
 
 	#pragma endregion
@@ -563,6 +571,25 @@ namespace Carmicah
 		return mCurrMousePos;
 	}
 
+	// Camera scale means 2.f/num
+	Vector2D<float> InputSystem::GetMouseWorldPosition()
+	{
+		const Transform& camTrans = ComponentManager::GetInstance()->GetComponent<Transform>(gGOFactory->mainCam);
+		Vec2f ret{ mCurrMousePos };
+		ret.x = (ret.x / static_cast<float>(AssetManager::GetInstance()->enConfig.Width) - 0.5f);
+		ret.y = -(ret.y / static_cast<float>(AssetManager::GetInstance()->enConfig.Height) - 0.5f);
+		Mtx3x3f tmpMtx;
+		tmpMtx.rotDegThis(camTrans.Rot());
+		tmpMtx.m[0] *= 2.f / camTrans.Scale().x;
+		tmpMtx.m[3] *= 2.f / camTrans.Scale().y;
+		tmpMtx.m[1] *= 2.f / camTrans.Scale().x;
+		tmpMtx.m[4] *= 2.f / camTrans.Scale().y;
+		tmpMtx.m[6] = camTrans.Pos().x;
+		tmpMtx.m[7] = camTrans.Pos().y;
+
+		return tmpMtx * ret;
+	}
+
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Sets the mouse position to specific X and Y coordinates.
 	-------------------------------------------------------------------------------------------------*/
@@ -603,6 +630,16 @@ namespace Carmicah
 	Vector2D<double> InputSystem::GetDragCurrentPos() const
 	{
 		return mCurrMousePos;
+	}
+
+	void InputSystem::SetScrollOffset(const double& in)
+	{
+		mScrollAmt = static_cast<float>(in) * 2.f;
+	}
+
+	const float& InputSystem::GetScrollOffset() const
+	{
+		return mScrollAmt;
 	}
 
 	/* function documentation--------------------------------------------------------------------------

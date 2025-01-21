@@ -55,8 +55,8 @@ public:
 			}
 
 			// if doesn't exist then return a blank T
-			return T{};
 		}
+		return T{};
 	}
 };
 

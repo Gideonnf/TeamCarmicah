@@ -215,7 +215,17 @@ namespace Carmicah
 		else
 		{
 			*outPos = go.GetComponent<Transform>().Pos();
+			// If it has a parent
+			if (go.GetComponent<Transform>().parent != 0)
+			{
+				Transform parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(go.GetComponent<Transform>().parent);
+				*outPos += parentTransform.Pos();
 
+			}
+
+			if (entityID == 29)
+				CM_CORE_INFO("{}, {}", outPos->x, outPos->y);
+			
 		}
 	}
 

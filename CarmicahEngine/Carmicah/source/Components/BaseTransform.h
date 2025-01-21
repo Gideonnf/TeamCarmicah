@@ -26,6 +26,7 @@ namespace Carmicah
     protected:
         Vec2f pos{};
         Vec2f scale{};
+        Vec2f intScale{};
         Vec2f absPosChange{};
 
         float rot;
@@ -112,6 +113,16 @@ namespace Carmicah
             scale.x = x;
             scale.y = y;
             notUpdated = false;
+        }
+        void InternalScale(const float& x, const float& y)
+        {
+            intScale.x = x;
+            intScale.y = y;
+            notUpdated = false;
+        }
+        Vec2f CalcedScale()
+        {
+            return (intScale + Vec2f::one()) * scale;
         }
         const float& Depth() const
         {

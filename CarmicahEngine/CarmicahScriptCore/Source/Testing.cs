@@ -28,13 +28,18 @@ namespace Carmicah
         public float testVar;
         void OnCreate()
         {
-            Console.WriteLine($"On Create {mID}");
+           // Console.WriteLine($"On Create {mID}");
         }
 
         void OnUpdate(float dt)
         {
-            Console.WriteLine($"On Update {mID}");
+          //  Console.WriteLine($"On Update {mID}");
 
+        }
+
+        public void SetUpPosition(Vector2 position)
+        {
+            Position = position;
         }
 
     }

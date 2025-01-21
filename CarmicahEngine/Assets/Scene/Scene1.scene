@@ -8,11 +8,12 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 1.0,
-                    "yPos": 0.20156240463256837,
+                    "yPos": 0.08424292504787445,
                     "depth": -100.0,
-                    "xScale": 40.0,
-                    "yScale": 40.0,
-                    "rot": 0.0
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -31,9 +32,10 @@
                     "xPos": 1.0,
                     "yPos": -8.850000381469727,
                     "depth": 0.0,
-                    "xScale": 0.05263157933950424,
-                    "yScale": 0.10000000149011612,
-                    "rot": 0.0
+                    "xScale": 0.053,
+                    "yScale": 0.1,
+                    "rot": 0.0,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Script",
@@ -75,17 +77,18 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -0.39185330271720889,
-                    "yPos": -4.108730792999268,
+                    "xPos": 0.12209402769804001,
+                    "yPos": -5.252597332000732,
                     "depth": 4.0,
-                    "xScale": 2.0,
-                    "yScale": 2.0,
-                    "rot": 0.0
+                    "xScale": 0.4000000059604645,
+                    "yScale": 0.4000000059604645,
+                    "rot": 0.0,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Walk 7"
+                    "texture": "MC_SpriteSheet_Walk 6"
                 },
                 {
                     "Component Name": "struct Script",
@@ -136,7 +139,8 @@
                     "depth": 4.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "collisionMask": 0
                 }
             ],
             "Children": []
@@ -152,7 +156,8 @@
                     "depth": 4.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "collisionMask": 0
                 }
             ],
             "Children": []
@@ -163,12 +168,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -0.49514660239219668,
-                    "yPos": -8.029531478881836,
+                    "xPos": -0.45561209321022036,
+                    "yPos": -9.046300888061524,
                     "depth": 3.0,
-                    "xScale": 12.0,
-                    "yScale": 12.0,
-                    "rot": 0.0
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -184,12 +190,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -2.7279999256134035,
-                    "yPos": -18.56134033203125,
+                    "xPos": -2.7675344944000246,
+                    "yPos": -17.756385803222658,
                     "depth": 1.0,
-                    "xScale": 5.178991794586182,
-                    "yScale": 1.350000023841858,
-                    "rot": 337.2090148925781
+                    "xScale": 0.4000000059604645,
+                    "yScale": 0.4000000059604645,
+                    "rot": 337.2090148925781,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -209,12 +216,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -3.159456253051758,
-                    "yPos": -19.599102020263673,
+                    "xPos": -3.1989893913269045,
+                    "yPos": -18.83650779724121,
                     "depth": 6.5,
-                    "xScale": 5.09964656829834,
-                    "yScale": 1.0,
-                    "rot": 336.9490051269531
+                    "xScale": 0.4000000059604645,
+                    "yScale": 0.4000000059604645,
+                    "rot": 336.9490051269531,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -239,7 +247,8 @@
                     "depth": 4.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "collisionMask": 0
                 }
             ],
             "Children": []
@@ -263,8 +272,8 @@
                     "xPos": 1762.0999755859376,
                     "yPos": 1001.3499755859375,
                     "depth": 1.0,
-                    "xScale": 200.0,
-                    "yScale": 100.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
                     "rot": 0.0
                 }
             ]
@@ -280,7 +289,8 @@
                     "depth": 4.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "collisionMask": 0
                 }
             ],
             "Children": []
@@ -291,17 +301,18 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 1.9630851745605469,
-                    "yPos": -3.990508794784546,
+                    "xPos": 1.5251655578613282,
+                    "yPos": -5.632981777191162,
                     "depth": 3.75,
-                    "xScale": -2.0,
-                    "yScale": 2.0,
-                    "rot": 0.0
+                    "xScale": -0.30000001192092898,
+                    "yScale": 0.30000001192092898,
+                    "rot": 0.0,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 17"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 7"
                 },
                 {
                     "Component Name": "struct Script",
@@ -331,7 +342,8 @@
                     "depth": 4.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "collisionMask": 0
                 }
             ],
             "Children": []
@@ -347,7 +359,8 @@
                     "depth": 4.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "collisionMask": 0
                 }
             ],
             "Children": []
@@ -363,7 +376,8 @@
                     "depth": 0.0,
                     "xScale": 0.0,
                     "yScale": 0.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Script",
@@ -404,9 +418,10 @@
                     "xPos": -0.5084383487701416,
                     "yPos": -14.343667030334473,
                     "depth": 0.5,
-                    "xScale": 12.0,
-                    "yScale": 12.0,
-                    "rot": 0.0
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -427,7 +442,8 @@
                     "depth": 4.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "collisionMask": 0
                 }
             ],
             "Children": []
@@ -438,12 +454,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 2.421943187713623,
-                    "yPos": -18.56134033203125,
+                    "xPos": 2.2638020515441896,
+                    "yPos": -17.84112548828125,
                     "depth": 1.0,
-                    "xScale": 5.178991794586182,
-                    "yScale": 1.350000023841858,
-                    "rot": 16.20921516418457
+                    "xScale": 0.4000000059604645,
+                    "yScale": 0.4000000059604645,
+                    "rot": 16.20921516418457,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -466,9 +483,10 @@
                     "xPos": -15.876867294311524,
                     "yPos": 13.362725257873536,
                     "depth": 1.0,
-                    "xScale": 6.0,
-                    "yScale": 10.550000190734864,
-                    "rot": 0.0
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -502,9 +520,10 @@
                     "xPos": 18.081846237182618,
                     "yPos": 12.630501747131348,
                     "depth": 1.0,
-                    "xScale": 6.0,
-                    "yScale": 10.550000190734864,
-                    "rot": 0.0
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -535,12 +554,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 2.745312213897705,
-                    "yPos": -19.63836669921875,
+                    "xPos": 2.58717679977417,
+                    "yPos": -18.96051597595215,
                     "depth": 6.5,
-                    "xScale": 5.09964656829834,
-                    "yScale": 1.0,
-                    "rot": 15.949092864990235
+                    "xScale": 0.4000000059604645,
+                    "yScale": 0.4000000059604645,
+                    "rot": 15.949092864990235,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -565,7 +585,8 @@
                     "depth": 4.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "collisionMask": 0
                 }
             ],
             "Children": []
@@ -576,17 +597,18 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -1.9657421112060547,
-                    "yPos": -3.990508794784546,
+                    "xPos": -1.5775901079177857,
+                    "yPos": -5.711194038391113,
                     "depth": 3.75,
-                    "xScale": 2.0,
-                    "yScale": 2.0,
-                    "rot": 0.0
+                    "xScale": 0.30000001192092898,
+                    "yScale": 0.30000001192092898,
+                    "rot": 0.0,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 17"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 7"
                 },
                 {
                     "Component Name": "struct Script",
@@ -612,11 +634,12 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 2.627264976501465,
-                    "yPos": -6.21057653427124,
+                    "yPos": -7.227344512939453,
                     "depth": 4.0,
                     "xScale": 5.441271781921387,
                     "yScale": 0.6269400119781494,
-                    "rot": -161.88571166992188
+                    "rot": -161.88571166992188,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -652,11 +675,12 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 3.1397171020507814,
-                    "yPos": -1.7711983919143677,
+                    "yPos": -3.922055959701538,
                     "depth": 4.0,
                     "xScale": 5.441271781921387,
                     "yScale": 0.6269400119781494,
-                    "rot": -30.095834732055665
+                    "rot": -30.095834732055665,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -691,12 +715,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -2.633945941925049,
-                    "yPos": -1.4354474544525147,
+                    "xPos": -4.276140213012695,
+                    "yPos": -4.0555830001831059,
                     "depth": 4.0,
                     "xScale": 9.370100021362305,
                     "yScale": 0.6269400119781494,
-                    "rot": -157.17616271972657
+                    "rot": -157.17616271972657,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -732,11 +757,12 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -2.633945941925049,
-                    "yPos": -6.135965824127197,
+                    "yPos": -7.113628387451172,
                     "depth": 4.0,
                     "xScale": 5.441271781921387,
                     "yScale": 0.6269400119781494,
-                    "rot": -198.91342163085938
+                    "rot": -198.91342163085938,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -776,7 +802,8 @@
                     "depth": 0.0,
                     "xScale": 0.0,
                     "yScale": 0.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Script",
@@ -804,7 +831,8 @@
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "collisionMask": 0
                 }
             ],
             "Children": [
@@ -819,12 +847,22 @@
                             "depth": 3.450000047683716,
                             "xScale": 1.5,
                             "yScale": 1.5,
-                            "rot": 0.0
+                            "rot": 0.0,
+                            "collisionMask": 0
                         },
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "Trap"
+                            "texture": "invisibleWall"
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "TrapPrefabName": "Trap_1"
+                                }
+                            ]
                         },
                         {
                             "Component Name": "struct Carmicah::Collider2D",
@@ -859,7 +897,8 @@
                             "depth": 3.25,
                             "xScale": 1.5,
                             "yScale": 1.5,
-                            "rot": 0.0
+                            "rot": 0.0,
+                            "collisionMask": 0
                         },
                         {
                             "Component Name": "struct Carmicah::Renderer",
