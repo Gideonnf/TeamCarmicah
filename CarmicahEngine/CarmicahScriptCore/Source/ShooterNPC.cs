@@ -27,19 +27,20 @@ namespace Carmicah
     {
         public string ShootAnim = "Shooter_Shoot";
         public string IdleAnim = "Shooter_Idle";
-        GameManager gmReference;
 
-        public string ProjectilePrefab = "NPCProjectile";
-        public float shootTimer = 0.5f;
-        float timer = 0.0f;
+        public string BulletPrefab = "Bullet";
+        public float ShootRate = 1.0f;
+        float shootTimer = 0.0f;
         bool isShooting = false;
-
+        GameManager gmReference;
         void OnCreate()
         {
             // Note: I foresee an issue that if a npc is created in runtime and game manager is not yet initialized this will crash
             // but i dont think that will ever happen
             // but if it does then this is why :pepepray:
             gmReference = FindEntityWithName("GameManager").As<GameManager>();
+
+
         }
 
         void OnUpdate(float dt)
@@ -61,29 +62,42 @@ namespace Carmicah
             //{
             //    ChangeAnim(IdleAnim);
             //}
-            
-
-            //create how the npc will shoot
             Entity pauseManager = FindEntityWithName("PauseManager");
             if (pauseManager != null && pauseManager.As<PauseManager>().IsPaused)
                 return;
 
             if (isShooting)
             {
-                timer += dt;
-                if (timer >= shootTimer)
+                shootTimer += dt;
+                if (shootTimer >= ShootRate)
                 {
-                    timer = 0.0f;
-                    Entity projectile = CreateGameObject(ProjectilePrefab);
-                    if (projectile != null)
-                    {
-                        projectile.Position = Position;
-                        Vector2 direction = new Vector2(Scale.x > 0 ? 1 : -1, 0);
-                        projectile.GetComponent<RigidBody>().ApplyForce(direction, 5.0f);
-                    }
+                    shootTimer = 0.0f;
+                    ShootBullet();
                 }
             }
+        }
 
+        void ShootBullet()
+        {
+            // Create the bullet
+            Entity bullet = CreateGameObject(BulletPrefab);
+            if (bullet != null)
+            {
+                // Set position slightly in front of shooter based on direction
+                Vector2 pos = Position;
+                pos.x += (Scale.x > 0) ? -1.0f : 1.0f;  // Offset bullet spawn
+                bullet.Position = pos;
+
+                // Set up bullet properties
+                Bullet bulletComponent = bullet.As<Bullet>();
+                if (bulletComponent != null)
+                {
+                    bulletComponent.SetDirection(Scale.x < 0);
+                }
+
+                // Optional: Play sound effect
+               // Sound.PlaySFX("shoot", 0.5f);
+            }
         }
 
         public void ToggleShooting()
