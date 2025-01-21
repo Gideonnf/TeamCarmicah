@@ -16,6 +16,7 @@ DigiPen Institute of Technology is prohibited.
 #define GAME_OBJECT_H
 #include "ECSTypes.h"
 #include "SystemManager.h"
+#include "../Components/Transform.h"
 #include "log.h"
 
 namespace Carmicah
@@ -59,6 +60,10 @@ namespace Carmicah
 		bool SetParent(Entity parentID);
 
 		bool SetParent(GameObject parentObj);
+
+		void AddCollisionLayer(CollisionLayer layer);
+
+		void RemoveCollisionLayer(CollisionLayer layer);
 
 		template<typename T>
 		void AddComponent(T Component)

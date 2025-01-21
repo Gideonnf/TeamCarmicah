@@ -70,6 +70,22 @@ namespace Carmicah
 		mActive = active;
 	}
 
+	void GameObject::AddCollisionLayer(CollisionLayer layer)
+	{
+		if (HasComponent<Transform>())
+		{
+			GetComponent<Transform>().collisionMask |= layer;
+		}
+	}
+
+	void GameObject::RemoveCollisionLayer(CollisionLayer layer)
+	{
+		if (HasComponent<Transform>())
+		{
+			GetComponent<Transform>().collisionMask &= ~layer;
+		}
+	}
+
 	bool GameObject::SetParent(Entity parentID)
 	{
 		

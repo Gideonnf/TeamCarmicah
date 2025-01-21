@@ -591,6 +591,11 @@ namespace Carmicah
 
     void ScriptSystem::ReceiveMessage(Message* msg)
     {
+        auto gameSystem = SystemManager::GetInstance()->GetSystem<SceneSystem>();
+        if (!gameSystem->mRuntime && gameSystem->mNextState != RUNTIME)
+        {
+            return;
+        }
         // Button entity was clicked
         if (msg->mMsgType == MSG_ONCLICK)
         {
@@ -610,6 +615,36 @@ namespace Carmicah
             {
                 mEntityInstances[castedMsg->mEntityID]->InvokeOnCollide();
             }
+        }
+        else if (msg->mMsgType == MSG_MOUSEENTER)
+        {
+            auto castedMsg = dynamic_cast<OnMouseMsg*>(msg);
+            CM_CORE_INFO("Enter " + std::to_string(castedMsg->entity));
+            if (mEntityInstances.count(castedMsg->entity))
+            {
+                mEntityInstances[castedMsg->entity]->InvokeOnMouseEnter();
+            }
+
+        }
+        else if (msg->mMsgType == MSG_MOUSEEXIT)
+        {
+            auto castedMsg = dynamic_cast<OnMouseMsg*>(msg);
+            CM_CORE_INFO("Exit " + std::to_string(castedMsg->entity));
+            if (mEntityInstances.count(castedMsg->entity))
+            {
+                mEntityInstances[castedMsg->entity]->InvokeOnMouseExit();
+            }
+
+        }
+        else if (msg->mMsgType == MSG_MOUSEHOVER)
+        {
+            auto castedMsg = dynamic_cast<OnMouseMsg*>(msg);
+           // CM_CORE_INFO("Hover " + std::to_string(castedMsg->entity));
+            if (mEntityInstances.count(castedMsg->entity))
+            {
+                mEntityInstances[castedMsg->entity]->InvokeOnMouseHover();
+            }
+
         }
     }
 }
