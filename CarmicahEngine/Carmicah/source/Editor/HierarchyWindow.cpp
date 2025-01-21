@@ -87,7 +87,7 @@ namespace Carmicah
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 			{
-				GameObject& droppedGO = *(GameObject*)payload->Data;
+ 				GameObject& droppedGO = *(GameObject*)payload->Data;
 				Entity targettedGOParent = 0;
 
 				if (droppedGO.GetID() == go.GetID())
@@ -117,7 +117,8 @@ namespace Carmicah
 							else
 							{
 								Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
-								Editor::mSceneHierarchy.erase(droppedIt);
+								auto newDroppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
+								Editor::mSceneHierarchy.erase(newDroppedIt);
 							}
 
 						}
@@ -150,7 +151,7 @@ namespace Carmicah
 					}
 
 					//If they have different parents
-					else
+					if(targettedGOParent != gGOFactory->sceneGO.sceneID)
 					{
 						//Find out the new parent (should be the parent of GO below the line)
 						Entity newParentID = 0;
