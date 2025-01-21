@@ -227,12 +227,13 @@ namespace Carmicah
 		{
 			//std::cout << "i'm scrolling up" << std::endl;
 			//std::cout << "scroll up (zoom in)" << std::endl;
-			// call a function or update a variable to handle zooming in
+			Input.SetScrollOffset(yOffset);
 		}
 		else if (yOffset < 0)
 		{
 			//std::cout << "i'm scrolling down" << std::endl;
 			//std::cout << "scroll down (zoom out)" << std::endl;
+			Input.SetScrollOffset(yOffset);
 		}
 		
 		// or is this function for scrolling up and down the scene? 
@@ -401,6 +402,7 @@ namespace Carmicah
 			}
 		}
 		mChangedKeyQueue = mTempQueue;
+		mScrollAmt = 0.f;
 	}
 
 	#pragma endregion
@@ -628,6 +630,16 @@ namespace Carmicah
 	Vector2D<double> InputSystem::GetDragCurrentPos() const
 	{
 		return mCurrMousePos;
+	}
+
+	void InputSystem::SetScrollOffset(const double& in)
+	{
+		mScrollAmt = static_cast<float>(in) * 2.f;
+	}
+
+	const float& InputSystem::GetScrollOffset() const
+	{
+		return mScrollAmt;
 	}
 
 	/* function documentation--------------------------------------------------------------------------

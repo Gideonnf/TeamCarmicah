@@ -38,6 +38,7 @@ namespace Carmicah
 
 		Vector2D<double> mCurrMousePos;
 		Vector2D<double> mPrevMousePos;
+		float mScrollAmt;
 
 		const double sScreenHeight = 1080;
 	public:
@@ -124,7 +125,8 @@ namespace Carmicah
 		Vector2D<double> GetDragStartPos() const;
 		Vector2D<double> GetDragEndPos() const;
 		Vector2D<double> GetDragCurrentPos() const;
-
+		void SetScrollOffset(const double& in);
+		const float& GetScrollOffset() const;
 #pragma endregion
 
 
