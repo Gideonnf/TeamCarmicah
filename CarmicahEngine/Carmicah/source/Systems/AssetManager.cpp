@@ -54,90 +54,6 @@ namespace Carmicah
 
 		RenderHelper::GetInstance()->LoadGizmos();
 
-		//if (std::filesystem::exists(directoryPath) && std::filesystem::is_directory(directoryPath))
-		//{
-		//	for (const auto& subFile : std::filesystem::directory_iterator(directoryPath))
-		//	{
-		//		if (std::filesystem::exists(subFile) && std::filesystem::is_directory(subFile))
-		//		{
-		//			std::string folderName = subFile.path().filename().string();
-		//			for (const auto& entry : std::filesystem::directory_iterator(subFile))
-		//			{
-		//				std::string fileName = entry.path().stem().string();
-		//				if (folderName == "Animation")
-		//				{
-		//					LoadAnimation(fileName, entry.path().string());
-		//				}
-		//				else if (folderName == "Audio")
-		//				{
-		//					LoadSound(fileName, entry.path().string(), false, 1.0f); 
-		//				}
-		//				else if (folderName == "BGM")
-		//				{
-		//					LoadSound(fileName, entry.path().string(), true, 1.0f);  
-		//				}
-		//				else if (folderName == "Images")
-		//				{
-		//					std::string fileExt = entry.path().extension().string();
-
-		//					if (fileExt == ".png")
-		//					{
-		//						const auto testOtherFile = subFile.path() / (fileName + std::string(".txt"));
-		//						LoadTexture(fileName, entry.path().string(), testOtherFile.string());
-		//					}
-		//				}
-		//				else if (folderName == "Fonts")
-		//				{
-		//					LoadFont(fileName, entry.path().string(), enConfig.fontSize);
-		//				}
-		//				else if (folderName == "Meshes")
-		//				{
-
-		//					std::string fileExt = entry.path().extension().string();
-		//					if (fileExt == ".o")
-		//					{
-		//						LoadObject(fileName, entry.path().string());
-		//					}
-		//					else if (fileExt == ".do")
-		//					{
-		//						LoadDebugObject("Debug" + fileName, entry.path().string());
-		//					}
-		//				}
-		//				else if (folderName == "Scene")
-		//				{
-		//					//	std::cout << entry.path().string() << std::endl;
-		//						//std::cout << fileName << std::endl;
-		//					Scene newScene{ entry.path().string() };
-		//					AddAsset<Scene>(fileName, newScene);
-		//					//mSceneFiles.insert(std::make_pair(fileName, entry.path().string()));
-		//				}
-		//				else if (folderName == "Shaders")
-		//				{
-		//					std::string fileExt = entry.path().extension().string();
-		//					if (fileExt == ".vert")
-		//					{
-		//						const auto testOtherFile = subFile.path() / (fileName + std::string(".frag"));
-		//						if (std::filesystem::exists(testOtherFile))
-		//						{
-		//							LoadShader(fileName, entry.path().string(), testOtherFile.string());
-		//						}
-		//					}
-		//				}
-		//				else if (folderName == "Prefabs")
-		//				{
-		//					Prefab goPrefab = Serializer.DeserializePrefab(entry.path().string());
-		//					
-		//					prefabPtr->AddPrefab(goPrefab);
-
-		//					AddAsset<Prefab>(fileName, goPrefab);
-		//					//mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
-		//				}
-		//			}
-		//		}
-		//	}
-		//}
-
-		//enConfig = Serializer.LoadConfig(directoryPath)
 		}
 
 	bool AssetManager::LoadAsset(File const& file, bool reload)
@@ -822,32 +738,6 @@ namespace Carmicah
 	}
 
 
-
-	//void AssetManager::LoadSound(const std::string& soundName, const std::string& soundFile, bool isLoop, float defaultVolume)
-	//{
-	//	auto sound = mSoundMap.find(soundName);
-	//	if (sound != mSoundMap.end())
-	//	{
-	//		std::cerr << "Sound:" << soundName << " Already Exists";
-	//		return;
-	//	}
-
-	//	FMOD_MODE eMode = FMOD_DEFAULT;
-	//	Audio audio{};
-	//	mSoundSystem->createSound(soundFile.c_str(), eMode, nullptr, &audio.sound);
-	//	if (audio.sound)
-	//	{
-	//		audio.isLoop = isLoop;
-	//		audio.defaultVolume = defaultVolume;
-	//		mSoundMap.insert(std::make_pair(soundName, audio));
-	//		if (isLoop)
-	//		{
-	//			audio.sound->setMode(FMOD_LOOP_NORMAL);
-	//			audio.sound->setLoopCount(-1);
-	//		}
-	//	}
-	//}
-
 	bool AssetManager::GetScene(std::string scene, std::string& filePath)
 	{
 		if (AssetExist<Scene>(scene))
@@ -855,15 +745,46 @@ namespace Carmicah
 			filePath = GetAsset<Scene>(scene).sceneFile;
 			return true;
 		}
-		//if (mSceneFiles.count(scene) != 0)
-		//{
-		//	filePath = mSceneFiles[scene];
-		//	return true;
-		//}
 		else
 		{
 			CM_CORE_ERROR("Scene not found");
 			return false;
+		}
+	}
+	
+	void AssetManager::RemoveAsset(std::string filePath)
+	{
+		std::string fileName = std::filesystem::path(filePath).stem().string();
+		std::string fileExt = std::filesystem::path(filePath).extension().string();
+
+		if (fileExt == ".scene")
+		{
+
+			if (!AssetExist<Scene>(fileName))
+			{
+				CM_CORE_WARN("Scene:" + fileName + " does not exist");
+			}
+
+			AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetList.erase(
+				std::remove_if(AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetList.begin(),
+				AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetList.end(), 
+					[&fileName](const Scene& scene)
+				{
+					std::string sceneName = std::filesystem::path(scene.sceneFile).stem().string();
+					return sceneName == fileName;
+				}),AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetList.end());
+
+			for (auto it = AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetMap.begin(); it != AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetMap.end();)
+			{
+				if (it->first == fileName)
+				{
+					it = AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetMap.erase(it);
+				}
+				else
+				{
+					it++;
+				}
+			}
 		}
 	}
 	/*
@@ -919,5 +840,29 @@ namespace Carmicah
 			return AssetManager::ASSETCOPIED::FAILURE;
 		}
 
+	}
+
+	void AssetManager::RenameScene(std::string oldName, std::string newName, const char* assetPath)
+	{
+		oldName += ".scene";
+		newName += ".scene";
+
+		std::filesystem::path oldSceneName = std::filesystem::path(assetPath) / "Scene" / oldName;
+		std::filesystem::path newSceneName = std::filesystem::path(assetPath) / "Scene" / newName;
+
+		try
+		{
+			std::filesystem::rename(oldSceneName, newSceneName);
+			CM_CORE_INFO("Successfully renamed Scene!");
+
+			//Save the New Scene/Update AssetManager
+
+
+		}
+		catch (const std::filesystem::filesystem_error& e)
+		{
+			UNUSED(e);
+			CM_CORE_ERROR("Error changing Scene Name!");
+		}
 	}
 }

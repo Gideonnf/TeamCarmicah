@@ -58,8 +58,12 @@ namespace Carmicah
 				// Can call a function here to handle on erase of files
 
 				it->second.fileStatus = FILE_DELETED;
+				std::string filePath = it->first;
+				it = fileMap.erase(it);
+				//Erase from the respective assetMap too
 
-				//it = fileMap.erase(it);
+				AssetManager::GetInstance()->RemoveAsset(filePath);
+				break;
 			}
 			else if (it->second.fileStatus != FILE_OK)
 			{
