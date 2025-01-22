@@ -36,6 +36,7 @@ namespace Carmicah
 
 	void RenderTransformSystem::Update()
 	{
+		// Changes the internalScale of the objects with renderer component, so that the object scale is affected by the texture pixels
 		for (auto& e : mEntitiesSet)
 		{
 			auto& render = ComponentManager::GetInstance()->GetComponent<Renderer>(e);

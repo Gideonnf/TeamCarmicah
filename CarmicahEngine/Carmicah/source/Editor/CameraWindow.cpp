@@ -118,7 +118,7 @@ namespace Carmicah
 									double worldDeltaY = -((delta.y / AssetManager::GetInstance()->enConfig.Height * 2.0)) / camTrans.GetScale().y;
 									Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
 
-									selectedTransform.GetUpdateAbsPos() += Vec2f(static_cast<float>(worldDeltaX), static_cast<float>(worldDeltaY));
+									selectedTransform.GetPos() += Vec2f(static_cast<float>(worldDeltaX), static_cast<float>(worldDeltaY));
 								}
 								else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
 								{
@@ -162,7 +162,7 @@ namespace Carmicah
 										double worldDeltaY = -((delta.y / AssetManager::GetInstance()->enConfig.Height * 2.0)) / camTrans.GetScale().y;
 										Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
 
-										selectedTransform.GetUpdateAbsPos().y += static_cast<float>(worldDeltaY);
+										selectedTransform.PosYAdd(static_cast<float>(worldDeltaY));
 									}
 									else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
 									{
@@ -178,7 +178,7 @@ namespace Carmicah
 										double worldDeltaX = ((delta.x / AssetManager::GetInstance()->enConfig.Width * 2.0)) / camTrans.GetScale().x;
 										Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
 
-										selectedTransform.GetUpdateAbsPos().x += static_cast<float>(worldDeltaX);
+										selectedTransform.PosXAdd(static_cast<float>(worldDeltaX));
 									}
 									else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
 									{
