@@ -382,6 +382,13 @@ namespace Carmicah
 #endif
 	}
 
+	static void Log(MonoString* string)
+	{
+		char* cStr = mono_string_to_utf8(string);
+		CM_CORE_INFO(cStr);
+		mono_free(cStr);
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -434,5 +441,8 @@ namespace Carmicah
 
 		// Sound
 		ADD_INTERNAL_CALL(Sound_PlaySFX);
+
+		// Debug
+		ADD_INTERNAL_CALL(Log);
 	}
 }

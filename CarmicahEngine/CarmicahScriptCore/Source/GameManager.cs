@@ -37,7 +37,7 @@ namespace Carmicah
         public bool LeftOrRight = false;
         public float CakeHeightOffset;
         public string StartingCake;
-        public List<Entity> mouseEntities = new List<Entity>(); // Doing this doesn't work idk why
+        public List<Entity> mouseEntities; // Doing this doesn't work idk why
         public float WaveStartTime = 25.0f;
         public float waveTimer = 0.0f;
         public string EndPointEntityLeft;
@@ -69,6 +69,8 @@ namespace Carmicah
         int waveCount = 0;
         void OnCreate()
         {
+            mouseEntities = new List<Entity>();
+
             endEntityLeft = FindEntityWithName(EndPointEntityLeft);
             endEntityRight = FindEntityWithName(EndPointEntityRight);
             endEntityLeft2 = FindEntityWithName(EndPointEntityLeft2);
@@ -104,14 +106,18 @@ namespace Carmicah
                 {
                     timer = 0.0f;
                     Entity mouseEntity = CreateGameObject(MousePrefabName);
+                    mouseEntities.Add(mouseEntity);
                     MouseAI mouseAI = mouseEntity.As<MouseAI>();
                     mouseAI.isLeft = LeftOrRight;
                     LeftOrRight = !LeftOrRight;
                     mouseAI.SetInitialPosition(); // Reset initial position
                     MobCounter--;
-                    //Console.WriteLine($"Mouse Added {mouseEntity}");
+                    CMConsole.Log($"Mouse List {mouseEntities.Count}");
+                    
+                    //Console.WriteLine();
+                    //Console.WriteLine($"Mouse List {mouseEntities.Count}");
 
-                   // mouseEntities.Add(mouseEntity);
+                    // mouseEntities.Add(mouseEntity);
                 }
             }
             else
