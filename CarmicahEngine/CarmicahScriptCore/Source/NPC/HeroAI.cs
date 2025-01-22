@@ -44,6 +44,7 @@ namespace Carmicah
 
         void ShootProjectile()
         {
+            // Get the closest enemy to the hero based on the side
 
         }
 
