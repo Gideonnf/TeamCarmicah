@@ -45,7 +45,12 @@ namespace Carmicah
         void ShootProjectile()
         {
             // Get the closest enemy to the hero based on the side
-
+            MouseAI targetMouse = gameManager.GetClosestMouse(this);
+            // if it found a target
+            if (targetMouse != null)
+            {
+                CMConsole.Log($"{targetMouse}");
+            }
         }
 
         // TODO: This should be done in the update loop when shooting

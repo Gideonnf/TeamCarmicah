@@ -223,8 +223,8 @@ namespace Carmicah
 
 			}
 
-			if (entityID == 29)
-				CM_CORE_INFO("{}, {}", outPos->x, outPos->y);
+		/*	if (entityID == 29)
+				CM_CORE_INFO("{}, {}", outPos->x, outPos->y);*/
 			
 		}
 	}

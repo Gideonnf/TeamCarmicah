@@ -114,7 +114,7 @@ namespace Carmicah
                     mouseAI.SetInitialPosition(); // Reset initial position
                     MobCounter--;
 
-                    CMConsole.Log($"Adding mouse entity {mouseAI}");
+                   // CMConsole.Log($"Adding mouse entity {mouseAI}");
 
                     if (mouseAI.isLeft)
                     {
@@ -291,22 +291,66 @@ namespace Carmicah
 
         public void EntityDestroyed(MouseAI entity)
         {
-            CMConsole.Log($"Removing mouse entity {entity}");
+           // CMConsole.Log($"Removing mouse entity {entity}");
             if (entity.As<MouseAI>().isLeft)
             {
-                if(mouseEntitiesLeft.Remove(entity))
-                    CMConsole.Log($"Mouse List left Removal {mouseEntitiesLeft.Count}");
+                mouseEntitiesLeft.Remove(entity);
+                //if ()
+                //    CMConsole.Log($"Mouse List left Removal {mouseEntitiesLeft.Count}");
 
             }
             else
             {
-                if(mouseEntitiesRight.Remove(entity))
-                    CMConsole.Log($"Mouse List right Removal {mouseEntitiesRight.Count}");
+                mouseEntitiesRight.Remove(entity);
+                //if ()
+                //    CMConsole.Log($"Mouse List right Removal {mouseEntitiesRight.Count}");
 
             }
             //
             // ($"Mouse Destroyed {mouse}");
             //mouseEntities.Remove(mouse);
+        }
+
+        public MouseAI GetClosestMouse(HeroAI entity)
+        {
+
+            MouseAI targetMouse = null;
+            float distance = 0f;
+            // if its on left side
+            if (entity.IsLeft)
+            {
+                foreach (MouseAI mouse in mouseEntitiesLeft)
+                {
+                    // Get distance to 
+                    float dist = mouse.Position.Distance(entity.Position);
+                    CMConsole.Log($"left {dist}");
+
+                    if (dist < distance)
+                    {
+                        distance = dist;
+                        targetMouse = mouse;
+                    }
+                }
+            }
+            // if its on right side
+            else
+            {
+                foreach (MouseAI mouse in mouseEntitiesRight)
+                {
+                    // Get distance to 
+                    float dist = mouse.Position.Distance(entity.Position);
+                    CMConsole.Log($"right {dist}");
+                    if (dist < distance)
+                    {
+                        distance = dist;
+                        targetMouse = mouse;
+                    }
+                }
+
+            }
+
+            CMConsole.Log($"Target mouse : {targetMouse}");
+            return targetMouse;
         }
 
         //public Entity GetFirstMouse()
