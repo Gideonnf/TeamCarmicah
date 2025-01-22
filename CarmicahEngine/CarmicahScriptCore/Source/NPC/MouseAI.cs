@@ -188,7 +188,7 @@ namespace Carmicah
                 if(timer >= DeathTime)
                 {
                     if(gm != null)
-                        gm.MouseDestroyed(this);
+                        gm.EntityDestroyed(this);
 
                     timer = 0.0f;
                     Destroy();

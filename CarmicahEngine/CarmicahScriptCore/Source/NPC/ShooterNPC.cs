@@ -23,7 +23,7 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
-    public class ShooterNPC : Entity
+    public class ShooterNPC : HeroAI
     {
         public string ShootAnim = "Shooter_Shoot";
         public string IdleAnim = "Shooter_Idle";
@@ -80,24 +80,24 @@ namespace Carmicah
         void ShootBullet()
         {
             // Create the bullet
-            Entity bullet = CreateGameObject(BulletPrefab);
-            if (bullet != null)
-            {
-                // Set position slightly in front of shooter based on direction
-                Vector2 pos = Position;
-                pos.x += (Scale.x > 0) ? -1.0f : 1.0f;  // Offset bullet spawn
-                bullet.Position = pos;
+            //Entity bullet = CreateGameObject(BulletPrefab);
+            //if (bullet != null)
+            //{
+            //    // Set position slightly in front of shooter based on direction
+            //    Vector2 pos = Position;
+            //    pos.x += (Scale.x > 0) ? -1.0f : 1.0f;  // Offset bullet spawn
+            //    bullet.Position = pos;
 
-                // Set up bullet properties
-                Bullet bulletComponent = bullet.As<Bullet>();
-                if (bulletComponent != null)
-                {
-                    bulletComponent.SetDirection(Scale.x < 0);
-                }
+            //    // Set up bullet properties
+            //    Bullet bulletComponent = bullet.As<Bullet>();
+            //    if (bulletComponent != null)
+            //    {
+            //        bulletComponent.SetDirection(Scale.x < 0);
+            //    }
 
-                // Optional: Play sound effect
-               // Sound.PlaySFX("shoot", 0.5f);
-            }
+            //    // Optional: Play sound effect
+            //   // Sound.PlaySFX("shoot", 0.5f);
+            //}
         }
 
         public void ToggleShooting()

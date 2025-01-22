@@ -98,6 +98,15 @@ namespace Carmicah
 
             return newEntity;
         }
+        
+        //public void RemoveFromGM()
+        //{
+        //    GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+        //    CMConsole.Log($"In Entity RemoveFromGM {this}");
+        //    if (gm != null)
+        //        gm.EntityDestroyed(this);
+
+        //}
 
         public void Destroy()
         {

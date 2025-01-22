@@ -37,7 +37,8 @@ namespace Carmicah
         public bool LeftOrRight = false;
         public float CakeHeightOffset;
         public string StartingCake;
-        public List<Entity> mouseEntities; // Doing this doesn't work idk why
+        public List<MouseAI> mouseEntitiesLeft; 
+        public List<MouseAI> mouseEntitiesRight;
         public float WaveStartTime = 25.0f;
         public float waveTimer = 0.0f;
         public string EndPointEntityLeft;
@@ -69,7 +70,8 @@ namespace Carmicah
         int waveCount = 0;
         void OnCreate()
         {
-            mouseEntities = new List<Entity>();
+            mouseEntitiesLeft = new List<MouseAI>();
+            mouseEntitiesRight = new List<MouseAI>();
 
             endEntityLeft = FindEntityWithName(EndPointEntityLeft);
             endEntityRight = FindEntityWithName(EndPointEntityRight);
@@ -106,14 +108,28 @@ namespace Carmicah
                 {
                     timer = 0.0f;
                     Entity mouseEntity = CreateGameObject(MousePrefabName);
-                    mouseEntities.Add(mouseEntity);
                     MouseAI mouseAI = mouseEntity.As<MouseAI>();
                     mouseAI.isLeft = LeftOrRight;
                     LeftOrRight = !LeftOrRight;
                     mouseAI.SetInitialPosition(); // Reset initial position
                     MobCounter--;
-                    CMConsole.Log($"Mouse List {mouseEntities.Count}");
-                    
+
+                    CMConsole.Log($"Adding mouse entity {mouseAI}");
+
+                    if (mouseAI.isLeft)
+                    {
+                        mouseEntitiesLeft.Add(mouseAI);
+                        //CMConsole.Log($"Mouse List left {mouseEntitiesLeft.Count}");
+
+                    }
+                    else
+                    {
+                        mouseEntitiesRight.Add(mouseAI);
+                       // CMConsole.Log($"Mouse List right {mouseEntitiesRight.Count}");
+                    }
+
+
+
                     //Console.WriteLine();
                     //Console.WriteLine($"Mouse List {mouseEntities.Count}");
 
@@ -239,14 +255,14 @@ namespace Carmicah
             waveCount++;
             if (shooterNPC != null)
             {
-                ShooterNPC npc = shooterNPC.As<ShooterNPC>();
+                HeroAI npc = shooterNPC.As<HeroAI>();
                 npc.ToggleShooting();
 
             }
 
             if (shooterNPC2 != null)
             {
-                ShooterNPC npc = shooterNPC2.As<ShooterNPC>();
+                HeroAI npc = shooterNPC2.As<HeroAI>();
                 npc.ToggleShooting();
             }
 
@@ -260,23 +276,36 @@ namespace Carmicah
                 GameStart = false;
                 if (shooterNPC != null)
                 {
-                    ShooterNPC npc = shooterNPC.As<ShooterNPC>();
+                    HeroAI npc = shooterNPC.As<HeroAI>();
                     npc.ToggleIdle();
 
                 }
 
                 if (shooterNPC2 != null)
                 {
-                    ShooterNPC npc = shooterNPC2.As<ShooterNPC>();
+                    HeroAI npc = shooterNPC2.As<HeroAI>();
                     npc.ToggleIdle();
                 }
             }
         }
 
-        public void MouseDestroyed(Entity mouse)
+        public void EntityDestroyed(MouseAI entity)
         {
-           //
-           // ($"Mouse Destroyed {mouse}");
+            CMConsole.Log($"Removing mouse entity {entity}");
+            if (entity.As<MouseAI>().isLeft)
+            {
+                if(mouseEntitiesLeft.Remove(entity))
+                    CMConsole.Log($"Mouse List left Removal {mouseEntitiesLeft.Count}");
+
+            }
+            else
+            {
+                if(mouseEntitiesRight.Remove(entity))
+                    CMConsole.Log($"Mouse List right Removal {mouseEntitiesRight.Count}");
+
+            }
+            //
+            // ($"Mouse Destroyed {mouse}");
             //mouseEntities.Remove(mouse);
         }
 
