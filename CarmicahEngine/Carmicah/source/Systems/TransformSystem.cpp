@@ -1,11 +1,11 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  file:			TransformSystem.cpp
   
- author:		Gideon Francis (100%)
+ author:		Won Yu Xuan Rainne(100%)
 
- email:			g.francis@digipen.edu
+ email:			won.m@digipen.edu
 
- brief:			Transform System. Header file that contains the function declarations of the transform system. Incharge of updating the transform
+ brief:			Transform System. Header file that contains the function declarations of the transform system. In charge of updating the transform
 				of entities when parenting/unparenting between entities and scene
 
 Copyright (C) 2024 DigiPen Institute of Technology.
@@ -67,22 +67,6 @@ namespace Carmicah
 			for(auto entity : set.second)
 				UpdateTransform(entity);
 		}
-
-		if (transformedMap.size() > 0)
-		{
-			transformedMap.clear();
-		}
-
-		//if(Input.IsKeyPressed(KEY_B))
-		//for (auto& e : mEntitiesSet)
-		//{
-		//	auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(e);
-		//	if (transform.parent != 0)
-		//	{
-		//		CalculateTransform(e, transform.parent, true);
-		//	}
-		//}
-		
 	}
 
 	// Handle Entities transform
@@ -93,12 +77,11 @@ namespace Carmicah
 		// if no parent
 		if (transform.parent == 0)
 		{
-			transform.GetPos() += transform.GetUpdateAbsPos();
-			transform.GetUpdateAbsPos() = Vec2f::zero();
-
-			Mtx33Identity(transform.worldSpace);
-			transform.worldSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.CalcedScale());
-			transform.localSpace = transform.worldSpace; // if no parent, local and world is the same
+			Mtx33Identity(transform.rotTrans);
+			transform.accumulatedScale = transform.Scale();
+			transform.rotTrans.translateThis(transform.Pos()).rotDegThis(transform.Rot());
+			transform.worldSpace = transform.rotTrans;
+			transform.worldSpace.scaleThis(transform.CalcedRenderingScale() * transform.accumulatedScale);
 		}
 		// have parent
 		else
@@ -106,48 +89,23 @@ namespace Carmicah
 			// get parent's transform
 			Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(transform.parent);
 
-			Mtx3x3f parentInvMtx{};
-			float det{};
-			Mtx33Inverse(&parentInvMtx, &det, parentTransform.worldSpace);
-
-			Vec2f parentScale;
-			Vec2f parentTranslation;
-			float parentRotation;
-
-			//if (det < 0)
-			//{
-			//	parentInvMtx.m20 = -parentInvMtx.m20;
-			//}
-			//else
-			parentInvMtx.m20 = parentInvMtx.m21 = 0.f;
-			transform.GetPos() += parentInvMtx * transform.GetUpdateAbsPos();
-
-			transform.GetUpdateAbsPos() = Vec2f::zero();
-
-			
-			// THIS WAS WHAT I ADDED
-			parentScale.x = Vec2f(parentTransform.worldSpace.m00, parentTransform.worldSpace.m10).length();
-			parentScale.y = Vec2f(parentTransform.worldSpace.m01, parentTransform.worldSpace.m11).length();
-			parentTranslation = Vec2f(parentTransform.worldSpace.m20, parentTransform.worldSpace.m21);
-			parentRotation = atan2f(parentTransform.worldSpace.m10, parentTransform.worldSpace.m00);
-			CM_CORE_INFO("Entity Scale : ({},{}), Entity Position : ({}, {})", parentScale.x, parentScale.y, parentTranslation.x, parentTranslation.y);
-
-			//if (parentTransform.worldSpace.m00 < 0) parentScale.x *= -1;
-			//if (parentTransform.worldSpace.m11 < 0) parentScale.y *= -1;
-
-			//Vec2f adjustedLocalPos = transform.Pos();
-			//if (parentScale.x < 0) adjustedLocalPos.x = -adjustedLocalPos.x;
-			//if (parentScale.y < 0) adjustedLocalPos.y = -adjustedLocalPos.y;
-
-			Mtx33Identity(transform.localSpace);
-			transform.localSpace.translateThis(transform.Pos()).rotDegThis(transform.Rot()).scaleThis(transform.Scale());
-
-			Matrix3x3<float> parentRotationMatrix;
-			Mtx33Identity(parentRotationMatrix);
-			parentRotationMatrix.translateThis(parentTranslation).rotDegThis(parentRotation).scaleThis(parentScale);
-			// END OF THIS I ADDED
-			transform.worldSpace = parentRotationMatrix * transform.localSpace;
+			transform.accumulatedScale = parentTransform.accumulatedScale * transform.Scale();
+			transform.rotTrans = parentTransform.rotTrans;
+			transform.rotTrans.translateThis(transform.Pos()).rotDegThis(transform.Rot());
+			transform.worldSpace = transform.rotTrans;
+			transform.worldSpace.scaleThis(transform.CalcedRenderingScale() * transform.accumulatedScale);
 		}
+	}
+
+	// TODO: HOW TO DESTROY CHILDREN - Can't orphan since transform is gone by this call
+	void TransformSystem::EntityDestroyed(Entity id)
+	{
+		//auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(id);
+
+		//for (auto child : transform.children)
+		//{
+		//	ChangeParent(child, 0);
+		//}
 	}
 
 	void TransformSystem::PostUpdate()
@@ -159,66 +117,66 @@ namespace Carmicah
 			set->second.clear();
 		}
 	}
-
-	void TransformSystem::CalculateTransform(Entity entityID, Entity parentID, bool ToWorld)
+	
+	// --TODO-- Transformation is being affected by rotation when parenting to an object
+	void TransformSystem::ChangeParent(Entity entityID, Entity parentID)
 	{
 		Transform& entityTransform = ComponentManager::GetInstance()->GetComponent<Transform>(entityID);
-		Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(parentID);
 
-		// no work --TODO--
-		if (ToWorld)
+		// No Parent
+		if (parentID == 0 && entityTransform.parent != 0)
 		{
-			Mtx3x3f parentInvMtx{};
-			float det{};
-			Mtx33Inverse(&parentInvMtx, &det, parentTransform.worldSpace);
-			// Get back world transform pos
-			entityTransform.Pos(entityTransform.Pos().x + parentInvMtx.m20, entityTransform.Pos().y + parentInvMtx.m21);
+			Transform& oldParentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(entityTransform.parent);
 
-			parentInvMtx.m20 = parentInvMtx.m21 = 0.f;
+			// Reverse Calc from Matrix
+			entityTransform.Pos(entityTransform.rotTrans.m[6], entityTransform.rotTrans.m[7]);
+			entityTransform.Scale(entityTransform.Scale() * oldParentTransform.accumulatedScale);
+			entityTransform.Rot(atan2f(entityTransform.rotTrans.m[1], entityTransform.rotTrans.m[0]) * (180.0f / PI));
+			// Done w/ calculations
 
-			// get back world transform rot
-			Vec2f calcRot = entityTransform.worldSpace * Vec2f::right();
-			entityTransform.Rot(atan2f(calcRot.y, calcRot.x) / PI * 180.f + entityTransform.Rot());
+			// Recalc Matrices
+			Mtx33Identity(entityTransform.rotTrans);
+			entityTransform.accumulatedScale = entityTransform.Scale();
+			entityTransform.rotTrans.translateThis(entityTransform.Pos()).rotDegThis(entityTransform.Rot());
+			entityTransform.worldSpace = entityTransform.rotTrans;
+			entityTransform.worldSpace.scaleThis(entityTransform.CalcedRenderingScale() * entityTransform.accumulatedScale);
 
-			// get back world transform scale
-			entityTransform.Scale((parentInvMtx.m00 + parentInvMtx.m10) * entityTransform.Scale().x, (parentInvMtx.m11 + parentInvMtx.m01) * entityTransform.Scale().y);
+			// Clear old parents data
+			oldParentTransform.children.erase(std::find(oldParentTransform.children.begin(), oldParentTransform.children.end(), entityID));
 			entityTransform.parent = 0;
+			entityTransform.grandChildLvl = 0;
 		}
 		else
 		{
-			// get the change in position
-			float deltaX = entityTransform.Pos().x - parentTransform.Pos().x;
-			float deltaY = entityTransform.Pos().y - parentTransform.Pos().y;
+			Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(parentID);
 
-			// convert parent rot to radians
-			float rad = parentTransform.Rot() * (PI / 180.0f);
-
-			float cosTheta = cos(rad);
-			float sinTheta = sin(rad);
-
-			// Calculate the new transform position
-			entityTransform.Pos(deltaX * cosTheta + deltaY * sinTheta, -deltaX * sinTheta + deltaY * cosTheta);
-
-			CM_CORE_INFO("Entity Position : ({},{})", deltaX, deltaY);
-
-			//entityTransform.scale /= parentTransform.scale; // doesntw ork for some reason
-			entityTransform.Scale(entityTransform.Scale().x / parentTransform.Scale().x, entityTransform.Scale().y / parentTransform.Scale().y);
-			if (parentTransform.Scale().x < 0 || parentTransform.Scale().y < 0)
+			//entityTransform.Pos(entityTransform.worldSpace.m[6] - parentTransform.worldSpace.m[6], entityTransform.worldSpace.m[7] - parentTransform.worldSpace.m[7]);
 			{
-				// If the parent's transform is neg, need to keep the original scaling? idk????
-				// just trying shit now
-				// if its negative from dividing with parent, then flip it back to positive
-				if (entityTransform.Scale().x < 0) entityTransform.GetScale().x *= -1;
-				if (entityTransform.Scale().y < 0) entityTransform.GetScale().y *= -1;
-
+				// Math'ed it out
+				float c = parentTransform.rotTrans.m[0], s = parentTransform.rotTrans.m[1],
+					x = entityTransform.worldSpace.m[6], y = entityTransform.worldSpace.m[7],
+					a = parentTransform.worldSpace.m[6], b = parentTransform.worldSpace.m[7];
+				float newX = ((x - a) / c + s / (c * c) * (y - b)) / (1 + s * s / (c * c)),
+					newY = (y - b - s * newX) / c;
+				entityTransform.Pos(newX, newY);
 			}
+			entityTransform.Rot(entityTransform.Rot() - atan2f(parentTransform.rotTrans.m[1], parentTransform.rotTrans.m[0]) * (180.0f / PI));
+			entityTransform.Scale(entityTransform.Scale().x / parentTransform.accumulatedScale.x, entityTransform.Scale().y / parentTransform.accumulatedScale.y);
 
-			// calculate the new rotation
-			entityTransform.Rot(entityTransform.Rot() - parentTransform.Rot());
+			// Update the accumulatedScale with THIS's data as well
+			entityTransform.accumulatedScale = parentTransform.accumulatedScale * entityTransform.Scale();
+			entityTransform.rotTrans = parentTransform.rotTrans;
+			entityTransform.rotTrans.translateThis(entityTransform.Pos()).rotDegThis(entityTransform.Rot());
+			entityTransform.worldSpace = entityTransform.rotTrans;
+			entityTransform.worldSpace.scaleThis(entityTransform.CalcedRenderingScale() * entityTransform.accumulatedScale);
 
+			entityTransform.parent = parentID;
+			entityTransform.grandChildLvl = parentTransform.grandChildLvl + 1;
+			parentTransform.children.push_back(entityID);
 		}
 	}
 
+	// Disclaimer: Does not do anything for UI Transforms
 	void TransformSystem::ReceiveMessage(Message* msg)
 	{
 		// If its the correct message type
@@ -236,18 +194,18 @@ namespace Carmicah
 
 				// Its being parented back to the scene
 				// so we have to use its old's parent ID and reset it
-				// if the entity transform parent is already 0, that meants its already in world pos
+				// if the entity transform parent is already 0, that means its already in world pos
 				// so no calculation needed
 				if (castedMsg->mParentID == 0 && entityTransform.parent != 0)
 				{
-					CalculateTransform(castedMsg->mEntityID, entityTransform.parent, true);
+					ChangeParent(castedMsg->mEntityID, 0);
 				}
 				// If the original parent is not the scene
 				// means it has a new parent that isnt the scene
 				// so it isnt calculating world position
 				else if (castedMsg->mParentID != 0)
 				{
-					CalculateTransform(castedMsg->mEntityID, castedMsg->mParentID);
+					ChangeParent(castedMsg->mEntityID, castedMsg->mParentID);
 				}
 				
 			}

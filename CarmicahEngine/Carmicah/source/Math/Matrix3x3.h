@@ -168,15 +168,15 @@ namespace Carmicah
 		//Translate
 		Matrix3x3& translateThis(T x, T y)
 		{
-			m[6] += x * m[0] + x * m[1];
-			m[7] += y * m[4] + y * m[5];
+			m[6] += x * m[0] + y * m[3];
+			m[7] += x * m[1] + y * m[4];
 			return *this;
 		}
 
 		Matrix3x3& translateThis(Vector2D<T> other)
 		{
-			m[6] += other.x * m[0] + other.x * m[1];
-			m[7] += other.y * m[4] + other.y * m[5];
+			m[6] += other.x * m[0] + other.y * m[3];
+			m[7] += other.x * m[1] + other.y * m[4];
 			return *this;
 		}
 

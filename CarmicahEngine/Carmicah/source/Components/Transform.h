@@ -34,7 +34,12 @@ namespace Carmicah
     {
         unsigned int collisionMask;
         Matrix3x3<float> worldSpace;
-        Matrix3x3<float> localSpace;
+        Matrix3x3<float> rotTrans;
+        // So there's 3 scales
+        // Scale()          -> the scale you see in the editor
+        // InternalScale    -> the scale needed for graphics calc
+        // accumulatedScale -> the scale that is the combination of parents and itself
+        Vector2D<float> accumulatedScale = Vector2D<float>::one();
 
         Transform& DeserializeComponent(const rapidjson::Value& component) override
         {           
