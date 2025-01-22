@@ -70,6 +70,7 @@
     <Compile Include="Source\PauseManager.cs" />
     <Compile Include="Source\PlayButton.cs" />
     <Compile Include="Source\Player.cs" />
+    <Compile Include="Source\Projectile.cs" />
     <Compile Include="Source\QuitButton.cs" />
     <Compile Include="Source\ResumeButton.cs" />
     <Compile Include="Source\SettingButton.cs" />
