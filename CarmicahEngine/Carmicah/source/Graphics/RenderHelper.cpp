@@ -22,6 +22,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/AssetManager.h"
 #include "Input/InputSystem.h"
 #include "Editor/HierarchyWindow.h"
+#include "Editor/SceneToImgui.h"
 
 namespace Carmicah
 {
@@ -64,7 +65,7 @@ void RenderHelper::UpdateEditorCam()
 		mOldMousePos = Input.GetMousePosition();
 	}
 
-	if (abs(Input.GetScrollOffset()) > DBL_EPSILON)
+	if (SceneToImgui::GetInstance()->GetHovering() == SceneToImgui::EDITOR_SCENE && abs(Input.GetScrollOffset()) > DBL_EPSILON)
 	{
 		Vec2f& s = mEditorCam.GetScale();
 		float ratio = s.x / s.y;
