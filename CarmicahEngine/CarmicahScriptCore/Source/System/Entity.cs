@@ -9,6 +9,7 @@ namespace Carmicah
         public uint mID;
 
         protected Entity() { mID = 0; }
+        ~Entity() { mID = 0; }
 
         internal Entity(uint id) { mID = id; }
 
@@ -33,7 +34,7 @@ namespace Carmicah
         {
             get
             {
-               // Console.WriteLine($"Transform GetEntity ID:{mID}");
+                Console.WriteLine($"Transform GetEntity ID:{mID}");
 
                 FunctionCalls.Transform_GetPosition(mID, out Vector2 position);
                 return position;
@@ -111,6 +112,7 @@ namespace Carmicah
         public void Destroy()
         {
             FunctionCalls.Destroy(mID);
+            mID = 0;
         }
 
         public void ChangeAnim(string animName)

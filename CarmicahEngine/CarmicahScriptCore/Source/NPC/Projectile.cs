@@ -46,24 +46,32 @@ namespace Carmicah
             timer += dt;
             if (timer >= LifeTime)
             {
+                targetMouse = null;
                 Destroy();
                 return;
             }
 
             if (targetMouse == null)
             {
+                CMConsole.Log("TAOPMDOPSA");
                 Destroy();
                 return;
             }
             else
             {
+                if (targetMouse.mID == 0)
+                {
+                    targetMouse = null;
+                    return;
+                }
                 // Move the bullet
                 // this is dying for some reason
                 if (HasComponent<RigidBody>())
                 {
-                    Vector2 dir = targetMouse.Position - Position;
+                    Vector2 mousePos = targetMouse.Position;
+                    Vector2 dir = mousePos - Position;
                     dir.Normalize();
-                    CMConsole.Log($"{dir.x}, {dir.y}");
+                    //CMConsole.Log($"target mouse??? {targetMouse.mID}");
                     //Vector2 dir = facingRight ? new Vector2(1, 0) : new Vector2(-1, 0);
                     //GetComponent<RigidBody>().ApplyForce(dir, Speed);
                 }

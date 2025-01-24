@@ -213,8 +213,12 @@ namespace Carmicah
 	/// <param name="outPos"> Out vector2 posiion</param>
 	static void Transform_GetPosition(unsigned int entityID, Vec2f* outPos)
 	{
+		CM_CORE_INFO("Entity ID scriptFunctions {}", entityID);
 		// idk why tf does it sometimes give a extremely high entity ID number
 		GameObject& go = gGOFactory->FetchGO(entityID);
+
+		CM_CORE_INFO("Entity ID scriptFunctions {}", go.GetID());
+
 		if (!go.HasComponent<Transform>())
 		{
 			*outPos = { 0, 0 };
