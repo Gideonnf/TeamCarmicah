@@ -308,9 +308,9 @@ namespace Carmicah
 			{
 				if (selectedGO->HasComponent<Transform>())
 				{
-					int childrenNum = selectedGO->GetComponent<Transform>().children.size();
+					unsigned int childrenNum = selectedGO->GetComponent<Transform>().collisionMask;
 					std::string text = std::to_string(childrenNum);
-					CM_CORE_INFO(text);
+					CM_CORE_INFO("Collision Mask: " + text);
 				}
 			}*/
 

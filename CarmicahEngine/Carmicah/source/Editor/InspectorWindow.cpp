@@ -308,6 +308,53 @@ namespace Carmicah
 					selectedTransform.ScaleY(tempValue);
 				}
 				ImGui::EndTable();
+
+
+				//Collision Flags
+				ImGui::Text("Collision Flags");
+				unsigned int &colMask = selectedTransform.collisionMask;
+				for (int i = 0; i < 32; ++i)
+				{
+					unsigned int layerBit = 1 << i;
+
+					const char* layerName = nullptr;
+
+					switch (layerBit)
+					{
+					case CollisionLayer::Default:
+						layerName = "Default";
+						break;
+					case CollisionLayer::Player:
+						layerName = "Player";
+						break;
+					case CollisionLayer::Enemies:
+						layerName = "Enemies";
+						break;
+					case CollisionLayer::Environment:
+						layerName = "Environment";
+						break;
+					default:
+						layerName = nullptr;
+						break;
+					}
+
+					if (!layerName)
+						continue;
+
+					bool isEnabled = colMask & layerBit;
+
+					if (ImGui::Checkbox(layerName, &isEnabled))
+					{
+						if (isEnabled)
+						{
+							go->AddCollisionLayer(static_cast<CollisionLayer>(layerBit));
+						}
+						else
+						{
+							go->RemoveCollisionLayer(static_cast<CollisionLayer>(layerBit));
+						}
+					}
+				}
 			}
 		}
 	}

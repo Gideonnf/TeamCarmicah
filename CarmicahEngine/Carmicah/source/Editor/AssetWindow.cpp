@@ -284,6 +284,17 @@ namespace Carmicah
 
 							ImGui::CloseCurrentPopup();
 						}
+
+						if (ImGui::Selectable("Duplicate Scene"))
+						{
+							AssetManager::GetInstance()->CloneScene(entry.first);
+						}
+
+						if (ImGui::Selectable("Delete Scene"))
+						{
+							AssetManager::GetInstance()->DeleteScene(entry.first);
+							mSceneModified = true;
+						}
 						ImGui::EndPopup();
 					}
 

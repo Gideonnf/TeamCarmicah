@@ -24,6 +24,7 @@ DigiPen Institute of Technology is prohibited.
 #include <functional>
 #include "Math/Matrix3x3.h"
 #include "../ECS/ECSTypes.h"
+#include "../Components/Transform.h"
 
 namespace Carmicah
 {
@@ -179,6 +180,10 @@ namespace Carmicah
 		unsigned int GetID() const;
 
 		void ForPrefabChildren(Prefab& parentPrefab, const std::function<void(Prefab&)>& func);
+
+		void AddCollisionLayer(CollisionLayer layer);
+
+		void RemoveCollisionLayer(CollisionLayer layer);
 	};
 	struct Scene
 	{

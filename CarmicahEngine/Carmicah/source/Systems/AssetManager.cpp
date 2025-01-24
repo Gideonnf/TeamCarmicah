@@ -865,4 +865,54 @@ namespace Carmicah
 			CM_CORE_ERROR("Error changing Scene Name!");
 		}
 	}
+
+	std::string AssetManager::CreateSceneName(std::string sceneName)
+	{
+		std::string newSceneName = sceneName;
+		int counter = 1;
+		auto sceneMap = AssetManager::GetInstance()->GetAssetMap<Scene>();
+		while (sceneMap->mAssetMap.find(newSceneName) != sceneMap->mAssetMap.end())
+		{
+			newSceneName = sceneName + "_" + std::to_string(counter);
+			counter++;
+		}
+
+		return newSceneName;
+	}
+
+	void AssetManager::CloneScene(std::string sceneName)
+	{
+		auto it = AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetMap.find(sceneName);
+		if (it != AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetMap.end())
+		{
+			Scene sceneToCopy = AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetList[it->second];
+			std::filesystem::path basePath = std::filesystem::path(AssetManager::GetInstance()->enConfig.assetLoc) / "Scene" / (sceneName + ".scene");
+
+			std::cout << basePath.string() << '\n';
+			if (!std::filesystem::exists(basePath))
+			{
+				CM_CORE_INFO("Base does not exist!");
+			}
+			std::string newName = CreateSceneName(sceneName);
+			std::filesystem::path copyPath = std::filesystem::path(AssetManager::GetInstance()->enConfig.assetLoc) / "Scene" / (newName + ".scene");
+
+			std::cout << copyPath.string() << '\n';
+
+			if (!std::filesystem::exists(copyPath))
+			{
+				//CM_CORE_INFO("FU?K");
+			}
+			std::filesystem::copy(basePath, copyPath);
+			fileWatcher.Update();
+			fileWatcher.Update();
+		}
+	}
+
+	void AssetManager::DeleteScene(std::string sceneName)
+	{
+		std::filesystem::path deletePath = std::filesystem::path(AssetManager::GetInstance()->enConfig.assetLoc) / "Scene" / (sceneName + ".scene");
+		std::filesystem::remove(deletePath);
+		fileWatcher.Update();
+		fileWatcher.Update();
+	}
 }

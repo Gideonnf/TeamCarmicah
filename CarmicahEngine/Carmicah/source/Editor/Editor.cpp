@@ -133,7 +133,7 @@ namespace Carmicah
 					{
 						if (ImGui::MenuItem("Create New Scene"))
 						{
-
+							AssetManager::GetInstance()->CloneScene("DefaultScene");
 						}
 						ImGui::EndMenu();
 					}
