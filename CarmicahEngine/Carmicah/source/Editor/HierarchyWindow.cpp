@@ -304,15 +304,15 @@ namespace Carmicah
 		{
 
 			//Temporary Debugging Area
-			/*if (selectedGO != nullptr)
+			if (selectedGO != nullptr)
 			{
 				if (selectedGO->HasComponent<Transform>())
 				{
-					int childrenNum = selectedGO->GetComponent<Transform>().children.size();
+					unsigned int childrenNum = selectedGO->GetComponent<Transform>().collisionMask;
 					std::string text = std::to_string(childrenNum);
-					CM_CORE_INFO(text);
+					CM_CORE_INFO("Collision Mask: " + text);
 				}
-			}*/
+			}
 
 
 			if (ImGui::BeginChild("Game Object List: ", ImVec2(0, 400), ImGuiChildFlags_AlwaysUseWindowPadding))

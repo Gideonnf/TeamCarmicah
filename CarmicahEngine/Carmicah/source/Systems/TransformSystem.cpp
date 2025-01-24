@@ -130,7 +130,7 @@ namespace Carmicah
 			parentScale.y = Vec2f(parentTransform.worldSpace.m01, parentTransform.worldSpace.m11).length();
 			parentTranslation = Vec2f(parentTransform.worldSpace.m20, parentTransform.worldSpace.m21);
 			parentRotation = atan2f(parentTransform.worldSpace.m10, parentTransform.worldSpace.m00);
-			CM_CORE_INFO("Entity Scale : ({},{}), Entity Position : ({}, {})", parentScale.x, parentScale.y, parentTranslation.x, parentTranslation.y);
+			//CM_CORE_INFO("Entity Scale : ({},{}), Entity Position : ({}, {})", parentScale.x, parentScale.y, parentTranslation.x, parentTranslation.y);
 
 			//if (parentTransform.worldSpace.m00 < 0) parentScale.x *= -1;
 			//if (parentTransform.worldSpace.m11 < 0) parentScale.y *= -1;

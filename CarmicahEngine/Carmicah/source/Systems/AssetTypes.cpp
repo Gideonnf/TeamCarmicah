@@ -42,4 +42,19 @@ namespace Carmicah
 		return mPrefabID;
 	}
 
+	void Prefab::AddCollisionLayer(CollisionLayer layer)
+	{
+		if (HasComponent<Transform>())
+		{
+			GetComponent<Transform>().collisionMask |= layer;
+		}
+	}
+
+	void Prefab::RemoveCollisionLayer(CollisionLayer layer)
+	{
+		if (HasComponent<Transform>())
+		{
+			GetComponent<Transform>().collisionMask &= ~layer;
+		}
+	}
 }
