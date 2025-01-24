@@ -108,6 +108,7 @@ namespace Carmicah
 		template <typename T>
 		bool HasComponent()
 		{
+			//if (mID == 0) return false;
 			if (!EntityManager::GetInstance()->DoesEntityExist(mID))
 			{
 				CM_CORE_ERROR("Entity does not exist");

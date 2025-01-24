@@ -145,7 +145,7 @@ namespace Carmicah
 			{
 				Input.UpdateMouseMap(button, KeyStates::PRESS);
 				Vec2f a = Input.GetMouseWorldPosition();
-				CM_CORE_INFO("{}. {}", a.x, a.y);
+				//CM_CORE_INFO("{}. {}", a.x, a.y);
 
 			}
 		}

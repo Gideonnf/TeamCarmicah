@@ -315,7 +315,7 @@ namespace Carmicah
         {
 
             MouseAI targetMouse = null;
-            float distance = 0f;
+            float distance = float.MaxValue;
             // if its on left side
             if (entity.IsLeft)
             {
@@ -323,7 +323,7 @@ namespace Carmicah
                 {
                     // Get distance to 
                     float dist = mouse.Position.Distance(entity.Position);
-                    CMConsole.Log($"left {dist}");
+                    //CMConsole.Log($"left {dist}");
 
                     if (dist < distance)
                     {
@@ -349,7 +349,7 @@ namespace Carmicah
 
             }
 
-            CMConsole.Log($"Target mouse : {targetMouse}");
+            //CMConsole.Log($"Target mouse : {targetMouse}");
             return targetMouse;
         }
 

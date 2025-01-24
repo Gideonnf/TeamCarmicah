@@ -49,7 +49,18 @@ namespace Carmicah
             // if it found a target
             if (targetMouse != null)
             {
-                CMConsole.Log($"{targetMouse}");
+                // CMConsole.Log($"mouse retrieved : {targetMouse}");
+                Entity projectile = CreateGameObject(projectilePrefab);
+                if (projectile != null) 
+                {
+                    projectile.Position = Position;
+                    Projectile bullet = projectile.As<Projectile>();
+                    if (bullet != null)
+                    {
+                        bullet.targetMouse = targetMouse;
+                        bullet.SetUp(targetMouse);
+                    }
+                }
             }
         }
 

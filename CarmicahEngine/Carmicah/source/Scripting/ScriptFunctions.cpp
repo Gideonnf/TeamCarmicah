@@ -74,6 +74,12 @@ namespace Carmicah
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
 
+		/*if (go.GetName().find("Bullet") != std::string::npos && go.GetName() != "Bullet")
+		{
+			if (go.HasComponent<RigidBody>())
+				std::cout << "delet later";
+		}*/
+
 		MonoType* monoType = mono_reflection_type_get_type(componentType);
 
 		if (mGameObjectHasComponentFuncs.count(monoType) <= 0)
@@ -186,6 +192,7 @@ namespace Carmicah
 	static void RigidBody_ApplyForce(unsigned int entityID, Vec2f dir, float magnitude)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
+
 		if (go.HasComponent<RigidBody>())
 		{
 			LinearDirectionalForce dirForce(dir, magnitude, 0.0f);

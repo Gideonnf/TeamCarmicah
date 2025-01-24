@@ -9,11 +9,13 @@ using CarmicahScriptCore.Source;
 
 namespace Carmicah
 {
-    public class Bullet : Entity
+    public class Projectile : Entity
     {
         public string BulletAnim;
-        public float Speed = 10.0f;
-        public float LifeTime = 2.0f;
+        public float Speed = 5.0f;
+        public float LifeTime = 10.0f;
+        //target enemy
+        public MouseAI targetMouse;
         float timer = 0.0f;
         bool facingRight = false;
 
@@ -48,11 +50,45 @@ namespace Carmicah
                 return;
             }
 
-            // Move the bullet
-            if (HasComponent<RigidBody>())
+            if (targetMouse == null)
             {
-                Vector2 dir = facingRight ? new Vector2(1, 0) : new Vector2(-1, 0);
-                GetComponent<RigidBody>().ApplyForce(dir, Speed);
+                Destroy();
+                return;
+            }
+            else
+            {
+                // Move the bullet
+                // this is dying for some reason
+                if (HasComponent<RigidBody>())
+                {
+                    Vector2 dir = targetMouse.Position - Position;
+                    dir.Normalize();
+                    CMConsole.Log($"{dir.x}, {dir.y}");
+                    //Vector2 dir = facingRight ? new Vector2(1, 0) : new Vector2(-1, 0);
+                    //GetComponent<RigidBody>().ApplyForce(dir, Speed);
+                }
+
+            }
+
+        }
+
+        // Set initial direction
+        public void SetUp(MouseAI target)
+        {
+            targetMouse = target;
+
+            if (targetMouse != null)
+            {
+                // Get target direction
+                Vector2 dir = targetMouse.Position - Position;
+                dir.Normalize();
+                CMConsole.Log($"{dir.x}, {dir.y}");
+
+
+            }
+            else
+            {
+                CMConsole.Log("Error setting up bullet");
             }
         }
 
