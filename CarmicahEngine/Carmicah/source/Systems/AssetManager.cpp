@@ -900,9 +900,19 @@ namespace Carmicah
 
 			if (!std::filesystem::exists(copyPath))
 			{
-				CM_CORE_INFO("FU?K");
+				//CM_CORE_INFO("FU?K");
 			}
 			std::filesystem::copy(basePath, copyPath);
+			fileWatcher.Update();
+			fileWatcher.Update();
 		}
+	}
+
+	void AssetManager::DeleteScene(std::string sceneName)
+	{
+		std::filesystem::path deletePath = std::filesystem::path(AssetManager::GetInstance()->enConfig.assetLoc) / "Scene" / (sceneName + ".scene");
+		std::filesystem::remove(deletePath);
+		fileWatcher.Update();
+		fileWatcher.Update();
 	}
 }

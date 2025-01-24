@@ -280,6 +280,14 @@ namespace Carmicah
 		***************************************************************************/
 		void CloneScene(std::string sceneName);
 
+		/*!*************************************************************************
+		brief
+			Deletes a Scene
+		param[sceneName]
+		The name of the Scene to be deleted
+		***************************************************************************/
+		void DeleteScene(std::string sceneName);
+
 	private:
 
 
