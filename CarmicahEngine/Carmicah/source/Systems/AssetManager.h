@@ -257,10 +257,29 @@ namespace Carmicah
 			The new name of the Scene
 		param[assetPath]
 			The asset folder path
-		return
-			Whether the copy was successful/unsupported.
 		***************************************************************************/
 		void RenameScene(std::string oldName, std::string newName, const char* assetPath);
+
+		/*!*************************************************************************
+		brief
+			Creates a Scene Name thats not a duplicate
+		param[sceneName]
+		The name of the Scene to be checked
+		param[newName]
+			The new name of the Scene
+		return
+			String for the Name of the scene
+		***************************************************************************/
+		std::string CreateSceneName(std::string sceneName);
+
+		/*!*************************************************************************
+		brief
+			Clones a Scene
+		param[sceneName]
+		The name of the Scene to be cloned
+		***************************************************************************/
+		void CloneScene(std::string sceneName);
+
 	private:
 
 
