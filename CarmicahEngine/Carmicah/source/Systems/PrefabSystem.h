@@ -33,7 +33,7 @@ namespace Carmicah
 	class PrefabSystem : public BaseSystem
 	{
 	private:
-		std::unordered_map<unsigned int, std::vector<Entity>> mPrefabMap;
+		std::unordered_map<unsigned int, std::set<Entity>> mPrefabMap;
 		std::deque<unsigned int> mFreePrefabIDs;
 	public:
 		PrefabSystem();
@@ -50,8 +50,11 @@ namespace Carmicah
 
 		Prefab MakePrefab(GameObject& go);
 
+		void EntityAdded(Entity id) override;
+
 		void EntityRemoved(Entity id) override;
 
+		void EntityDestroyed(Entity id) override;
 		template<typename T>
 		bool MakeAny(std::string componentName, GameObject& go, std::any& component)
 		{

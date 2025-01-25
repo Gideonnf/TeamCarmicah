@@ -33,7 +33,6 @@ namespace Carmicah
 		~ScriptSystem();
 		// System Functions
 		void EntityDestroyed(Entity) override;
-		
 		/// <summary>
 		/// Initializes the script system by setting up C# Mono, registering functions, components
 		/// Load the entity classes

@@ -376,6 +376,16 @@ namespace Carmicah
 
 	void Editor::EntityDestroyed(Entity id)
 	{
+		
+	}
+
+	void Editor::EntityAdded(Entity id)
+	{
+	
+	}
+
+	void Editor::EntityRemoved(Entity id)
+	{
 		for (auto& window : mWindows)
 		{
 			window->EntityDestroyed(id);
@@ -423,26 +433,21 @@ namespace Carmicah
 			}
 		}
 
-		
+
 		/*if(parentID == gGOFactory->sceneGO.sceneID)
 		{
 			mSceneHierarchy.erase(std::remove_if(mSceneHierarchy.begin(), mSceneHierarchy.end(), [id](const auto& element)
 				{return element == id; }), mSceneHierarchy.end());
 		}
 		//Its children
-		else 
+		else
 		{
 			auto childIt = std::find(mChildrenHierarchy[parentID].begin(), mChildrenHierarchy[parentID].end(), id);
 			mChildrenHierarchy[parentID].erase(std::remove_if(mChildrenHierarchy[parentID].begin(), mChildrenHierarchy[parentID].end(),[id](const auto& element)
 				{return element == id; }), mChildrenHierarchy[parentID].end());
 		}*/
 
-		
-	}
 
-	void Editor::EntityAdded(Entity id)
-	{
-	
 	}
 
 	void Editor::ReceiveMessage(Message* msg)

@@ -18,6 +18,7 @@ DigiPen Institute of Technology is prohibited.
 #include "SystemManager.h"
 #include "Systems/SceneSystem.h"
 
+
 namespace Carmicah
 {
 	void SystemManager::EntityDestroyed(Entity entity)
@@ -28,7 +29,9 @@ namespace Carmicah
 			// It exist within that system's entity set
 			if (iSystemIterator->second->mEntitiesSet.count(entity) != 0)
 			{
+				
 				iSystemIterator->second->EntityDestroyed(entity);
+				//iSystemIterator->second->EntityRemoved(entity);
 				iSystemIterator->second->mEntitiesSet.erase(entity);
 			}
 		}

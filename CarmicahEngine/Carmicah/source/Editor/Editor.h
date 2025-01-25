@@ -85,6 +85,8 @@ namespace Carmicah
 
 		void EntityAdded(Entity id) override;
 
+		void EntityRemoved(Entity id) override;
+
 		void ReceiveMessage(Message* msg) override;
 		
 		static void DropCallback(GLFWwindow* window, int count, const char** paths);

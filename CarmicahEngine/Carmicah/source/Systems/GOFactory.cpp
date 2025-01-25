@@ -317,8 +317,11 @@ namespace Carmicah
 		mIDToGO.erase(entity);
 
 
-		EntityManager::GetInstance()->DeleteEntity(entity);
+		
+		EntityManager::GetInstance()->SetSignature(entity, EntityManager::GetInstance()->GetSignature(entity).reset());
+		SystemManager::GetInstance()->UpdateSignatures(entity, EntityManager::GetInstance()->GetSignature(entity));
 		ComponentManager::GetInstance()->EntityDestroyed(entity);
+		EntityManager::GetInstance()->DeleteEntity(entity);
 	}
 
 	void GOFactory::Destroy(Entity entity)
@@ -389,9 +392,10 @@ namespace Carmicah
 	{
 		for (auto& entity : mDeleteList)
 		{
-			SystemManager::GetInstance()->EntityDestroyed(entity);
 			EntityKilledMessage msg(entity);
 			SendSysMessage(&msg);
+			//SystemManager::GetInstance()->EntityDestroyed(entity);
+			EntityDestroyed(entity);
 		}
 
 		mDeleteList.clear();

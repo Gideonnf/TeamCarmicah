@@ -41,9 +41,27 @@ namespace Carmicah
 	{
 
 	}
+	
+	void PrefabSystem::EntityAdded(Entity id)
+	{
+		//PrefabData data = ComponentManager::GetInstance()->GetComponent<PrefabData>(id);
+		//CM_CORE_INFO("Entity {} added and has reference {}", id, data.mPrefabRef);
+		//CM_CORE_INFO("Entities in prefabMap: {}", mPrefabMap)
+	}
 
 	void PrefabSystem::EntityRemoved(Entity id)
 	{
+		/*if (ComponentManager::GetInstance()->HasComponent<PrefabData>(id))
+		{
+			PrefabData data = ComponentManager::GetInstance()->GetComponent<PrefabData>(id);
+			CM_CORE_INFO("Entity {} remved and has reference {}", id, data.mPrefabRef)
+		}
+		else
+		{
+			CM_CORE_INFO("Entity {} remved", id);
+
+		}*/
+
 		PrefabData prefabData = ComponentManager::GetInstance()->GetComponent<PrefabData>(id);
 		for (auto it = mPrefabMap[prefabData.mPrefabRef].begin(); it != mPrefabMap[prefabData.mPrefabRef].end(); ++it)
 		{
@@ -53,6 +71,21 @@ namespace Carmicah
 				break;
 			}
 		}
+	}
+
+	void PrefabSystem::EntityDestroyed(Entity id)
+	{
+		if (ComponentManager::GetInstance()->HasComponent<PrefabData>(id))
+		{
+			PrefabData data = ComponentManager::GetInstance()->GetComponent<PrefabData>(id);
+			CM_CORE_INFO("Entity {} destroyed and has reference {}", id, data.mPrefabRef)
+		}
+		else
+		{
+			CM_CORE_INFO("Entity {} destroyed", id);
+
+		}
+
 	}
 	
 	void PrefabSystem::AddPrefab(Prefab goPrefab)
@@ -175,7 +208,7 @@ namespace Carmicah
 		{
 			go.AddComponent<PrefabData>();
 			go.GetComponent<PrefabData>().mPrefabRef = newPrefab.mPrefabID;
-			mPrefabMap[newPrefab.mPrefabID].push_back(go.GetID());
+			mPrefabMap[newPrefab.mPrefabID].insert(go.GetID());
 		}
 
 		return newPrefab;
@@ -183,11 +216,17 @@ namespace Carmicah
 	
 	void PrefabSystem::ReceiveMessage(Message* msg)
 	{
+		//if (msg->mMsgType == MSG_ENTITYKILLED)
+		//{
+		//	Entity entityKilled = dynamic_cast<EntityKilledMessage*>(msg)->mEntityID;
+		//	//if (ComponentManager::GetInstance()->HasComponent)
+		//}
+
 		if (msg->mMsgType == MSG_NEWPREFABGO)
 		{
 			auto casted_msg = dynamic_cast<NewPrefabGOMsg*>(msg);
 			// Add the entity id to the map
-			mPrefabMap[casted_msg->prefabID].push_back(casted_msg->entityID);
+			mPrefabMap[casted_msg->prefabID].insert(casted_msg->entityID);
 		}
 
 		// If a prefab was modified
