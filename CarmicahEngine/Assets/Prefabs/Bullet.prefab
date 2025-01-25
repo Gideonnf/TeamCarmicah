@@ -6,7 +6,7 @@
             "Component Name": "struct Carmicah::Transform",
             "xPos": 0.0,
             "yPos": 3.221694231033325,
-            "depth": 0.0,
+            "depth": 4.400000095367432,
             "xScale": 0.05000000074505806,
             "yScale": 0.10000000149011612,
             "rot": 0.0,
@@ -45,7 +45,7 @@
             "mass": 1.0,
             "gravity": 0.0,
             "zposPrev": -1.0,
-            "objectType": 2
+            "objectType": 1
         }
     ]
 }

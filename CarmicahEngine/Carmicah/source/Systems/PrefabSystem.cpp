@@ -42,7 +42,7 @@ namespace Carmicah
 
 	}
 
-	void PrefabSystem::EntityRemoved(Entity id)
+	void PrefabSystem::EntityDestroyed(Entity id)
 	{
 		PrefabData prefabData = ComponentManager::GetInstance()->GetComponent<PrefabData>(id);
 		for (auto it = mPrefabMap[prefabData.mPrefabRef].begin(); it != mPrefabMap[prefabData.mPrefabRef].end(); ++it)

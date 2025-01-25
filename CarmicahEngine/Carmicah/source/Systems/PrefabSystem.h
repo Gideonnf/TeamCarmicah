@@ -50,7 +50,7 @@ namespace Carmicah
 
 		Prefab MakePrefab(GameObject& go);
 
-		void EntityRemoved(Entity id) override;
+		void EntityDestroyed(Entity id) override;
 
 		template<typename T>
 		bool MakeAny(std::string componentName, GameObject& go, std::any& component)

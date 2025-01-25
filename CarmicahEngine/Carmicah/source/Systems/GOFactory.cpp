@@ -317,8 +317,6 @@ namespace Carmicah
 		mIDToGO.erase(entity);
 
 
-		EntityManager::GetInstance()->DeleteEntity(entity);
-		ComponentManager::GetInstance()->EntityDestroyed(entity);
 	}
 
 	void GOFactory::Destroy(Entity entity)
