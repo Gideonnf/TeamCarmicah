@@ -53,7 +53,7 @@ namespace Carmicah
 
             if (targetMouse == null)
             {
-                CMConsole.Log("TAOPMDOPSA");
+               // CMConsole.Log("TAOPMDOPSA");
                 Destroy();
                 return;
             }
@@ -73,7 +73,7 @@ namespace Carmicah
                     dir.Normalize();
                     //CMConsole.Log($"target mouse??? {targetMouse.mID}");
                     //Vector2 dir = facingRight ? new Vector2(1, 0) : new Vector2(-1, 0);
-                    //GetComponent<RigidBody>().ApplyForce(dir, Speed);
+                    GetComponent<RigidBody>().ApplyForce(dir, Speed);
                 }
 
             }
@@ -90,12 +90,13 @@ namespace Carmicah
                 // Get target direction
                 Vector2 dir = targetMouse.Position - Position;
                 dir.Normalize();
-                CMConsole.Log($"{dir.x}, {dir.y}");
+                //CMConsole.Log($"{dir.x}, {dir.y}");
 
 
             }
             else
             {
+                Destroy();
                 CMConsole.Log("Error setting up bullet");
             }
         }

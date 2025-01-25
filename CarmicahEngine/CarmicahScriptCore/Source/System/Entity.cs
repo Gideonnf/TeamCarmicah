@@ -34,7 +34,7 @@ namespace Carmicah
         {
             get
             {
-                Console.WriteLine($"Transform GetEntity ID:{mID}");
+                //Console.WriteLine($"Transform GetEntity ID:{mID}");
 
                 FunctionCalls.Transform_GetPosition(mID, out Vector2 position);
                 return position;

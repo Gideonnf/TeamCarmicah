@@ -349,7 +349,9 @@ namespace Carmicah
 
             }
 
-            //CMConsole.Log($"Target mouse : {targetMouse}");
+            if (targetMouse != null)
+                CMConsole.Log($"Target mouse : {targetMouse.mID}");
+
             return targetMouse;
         }
 

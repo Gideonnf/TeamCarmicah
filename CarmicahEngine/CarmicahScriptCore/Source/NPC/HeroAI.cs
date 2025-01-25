@@ -53,7 +53,10 @@ namespace Carmicah
                 Entity projectile = CreateGameObject(projectilePrefab);
                 if (projectile != null) 
                 {
+                  //  CMConsole.Log($"Hero Position: {Position.x}, {Position.y}");
                     projectile.Position = Position;
+                   // CMConsole.Log($"Projectile Position: {projectile.Position.x}, {projectile.Position.y}");
+
                     Projectile bullet = projectile.As<Projectile>();
                     if (bullet != null)
                     {
