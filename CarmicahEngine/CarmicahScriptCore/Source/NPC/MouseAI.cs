@@ -138,47 +138,47 @@ namespace Carmicah
             if (stateMachine.GetCurrentState() == "Chase")
             {
                 UpdateMovement(dt);
-                timer += dt;
-                if (timer >= TimeToDie)
-                {
-                    timer = 0.0f;
-                    Random rand = new Random();
+                //timer += dt;
+                //if (timer >= TimeToDie)
+                //{
+                //    timer = 0.0f;
+                //    Random rand = new Random();
 
-                    float randFloat = (float)rand.NextDouble();
-                    //Console.WriteLine($"Random float : {randFloat}");
-                    if (randFloat <= ChanceToDie)
-                    {
-                        timer = 0.0f;
-                        stateMachine.SetNextState("Dead");
+                //    float randFloat = (float)rand.NextDouble();
+                //    //Console.WriteLine($"Random float : {randFloat}");
+                //    if (randFloat <= ChanceToDie)
+                //    {
+                //        timer = 0.0f;
+                //        stateMachine.SetNextState("Dead");
 
-                        switch (animType)
-                        {
-                            case 0:
-                                //Console.WriteLine($"Trying to change Anim {Animation0}");
-                                ChangeAnim(AnimationDie0);
+                //        switch (animType)
+                //        {
+                //            case 0:
+                //                //Console.WriteLine($"Trying to change Anim {Animation0}");
+                //                ChangeAnim(AnimationDie0);
 
-                                break;
-                            case 1:
-                                //Console.WriteLine($"Trying to change Anim {Animation1}");
+                //                break;
+                //            case 1:
+                //                //Console.WriteLine($"Trying to change Anim {Animation1}");
 
-                                ChangeAnim(AnimationDie1);
+                //                ChangeAnim(AnimationDie1);
 
-                                break;
-                            case 2:
-                                //Console.WriteLine($"Trying to change Anim {Animation2}");
+                //                break;
+                //            case 2:
+                //                //Console.WriteLine($"Trying to change Anim {Animation2}");
 
-                                ChangeAnim(AnimationDie2);
+                //                ChangeAnim(AnimationDie2);
 
-                                break;
-                            case 3:
-                                // Console.WriteLine($"Trying to change Anim {Animation3}");
+                //                break;
+                //            case 3:
+                //                // Console.WriteLine($"Trying to change Anim {Animation3}");
 
-                                ChangeAnim(AnimationDie3);
+                //                ChangeAnim(AnimationDie3);
 
-                                break;
-                        }
-                    }
-                }
+                //                break;
+                //        }
+                //    }
+               // }
             }
             else if (stateMachine.GetCurrentState() == "Dead")
             {
@@ -297,7 +297,11 @@ namespace Carmicah
 
         void OnCollide()
         {
+            // if its already destroyed or dying when colliding
+            if (mID == 0 || stateMachine.GetCurrentState() == "Dead") return;
+
             timer = 0.0f;
+            CMConsole.Log($"Mouse Dying on collide {mID}");
 
             stateMachine.SetNextState("Dead");
             switch (animType)
