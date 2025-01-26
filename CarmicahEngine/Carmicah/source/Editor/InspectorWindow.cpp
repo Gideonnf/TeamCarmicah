@@ -312,77 +312,12 @@ namespace Carmicah
 
 				//Collision Flags
 				ImGui::Text("Collision Flags");
-
-				ImGui::SameLine();
-				if (ImGui::Button("Edit Collision Logic"))
-				{
-					ImGui::OpenPopup("CollisionFlagLogic");
-				}
-
-				if (ImGui::BeginPopup("CollisionFlagLogic"))
-				{
-					/*for (int i = 0; i < 32; ++i)
-					{
-						for(int j = 0; j < 32; ++j)
-						{
-							unsigned int firstLayer = 1 << i;
-							const char* firstLayerName = nullptr;
-
-							unsigned int secondLayer = 1 << j;
-							const char* secondLayerName = nullptr;
-
-							switch (firstLayer)
-							{
-							case CollisionLayer::DEFAULT:
-								firstLayerName = "Default";
-								break;
-							case CollisionLayer::PLAYER:
-								firstLayerName = "Player";
-								break;
-							case CollisionLayer::ENEMIES:
-								firstLayerName = "Enemies";
-								break;
-							case CollisionLayer::ENVIRONMENT:
-								firstLayerName = "Environment";
-								break;
-							default:
-								firstLayerName = nullptr;
-								break;
-							}
-
-							switch (secondLayer)
-							{
-							case CollisionLayer::DEFAULT:
-								secondLayerName = "Default";
-								break;
-							case CollisionLayer::PLAYER:
-								secondLayerName = "Player";
-								break;
-							case CollisionLayer::ENEMIES:
-								secondLayerName = "Enemies";
-								break;
-							case CollisionLayer::ENVIRONMENT:
-								secondLayerName = "Environment";
-								break;
-							default:
-								secondLayerName = nullptr;
-								break;
-							}
-
-							if (!firstLayerName || !secondLayerName)
-								continue;
-
-
-						}
-					}*/
-
-					ImGui::EndPopup();
-				}
+				
 
 				unsigned int &colMask = selectedTransform.collisionMask;
 				for (int i = 0; i < 32; ++i)
 				{
-					unsigned int layerBit = 1 << i;
+					uint32_t layerBit = 1 << i;
 
 					const char* layerName = nullptr;
 

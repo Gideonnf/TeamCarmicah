@@ -56,6 +56,8 @@ namespace Carmicah
 
 		void DrawCustomSeparator(GameObject& go);
 
+		void DisplayCollisionLogic();
+
 	};
 }
 

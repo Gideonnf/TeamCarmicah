@@ -297,6 +297,80 @@ namespace Carmicah
 		}
 	}
 
+	void HierarchyWindow::DisplayCollisionLogic()
+	{
+		if (ImGui::Button("Edit Collision Logic"))
+		{
+			ImGui::OpenPopup("CollisionFlagLogic");
+		}
+
+		if (ImGui::BeginPopup("CollisionFlagLogic"))
+		{
+			for (int i = 0; i < 32; ++i)
+			{
+				uint32_t firstLayer = 1 << i;
+				const char* firstLayerName = nullptr;
+				switch (firstLayer)
+				{
+				case CollisionLayer::DEFAULT:
+					firstLayerName = "Default";
+					break;
+				case CollisionLayer::PLAYER:
+					firstLayerName = "Player";
+					break;
+				case CollisionLayer::ENEMIES:
+					firstLayerName = "Enemies";
+					break;
+				case CollisionLayer::ENVIRONMENT:
+					firstLayerName = "Environment";
+					break;
+				default:
+					firstLayerName = nullptr;
+					break;
+				}
+
+				if (firstLayerName != nullptr)
+				{
+					ImGui::Text(firstLayerName);
+				}
+
+				for (int j = 0; j < 32; ++j)
+				{
+
+					unsigned int secondLayer = 1 << j;
+					const char* secondLayerName = nullptr;
+
+
+					switch (secondLayer)
+					{
+					case CollisionLayer::DEFAULT:
+						secondLayerName = "Default";
+						break;
+					case CollisionLayer::PLAYER:
+						secondLayerName = "Player";
+						break;
+					case CollisionLayer::ENEMIES:
+						secondLayerName = "Enemies";
+						break;
+					case CollisionLayer::ENVIRONMENT:
+						secondLayerName = "Environment";
+						break;
+					default:
+						secondLayerName = nullptr;
+						break;
+					}
+
+					if (!firstLayerName || !secondLayerName)
+						continue;
+
+
+				}
+			}
+
+			ImGui::EndPopup();
+		}
+	}
+
 	void HierarchyWindow::Update()
 	{
 		char inputBuffer[1024];
@@ -511,6 +585,8 @@ namespace Carmicah
 				SerializerSystem::GetInstance()->SerializeScene(sceneFile);
 				//gGOFactory->DestroyAll();
 			}
+
+			DisplayCollisionLogic();
 		}
 		
 
