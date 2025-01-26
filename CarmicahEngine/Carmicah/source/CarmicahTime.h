@@ -115,6 +115,17 @@ namespace Carmicah
 
             return mDeltaTime;
         }
+
+        double ForceDeltaTime() const
+        {
+            return mDeltaTime;
+        }
+
+        double ForceFixedDT() const
+        {
+            return FIXED_DELTA_TIME;
+        }
+
         const std::unordered_map<std::string, double>& GetSystemPercentages() const { return mSystemPercentages; }
         double GetTotalLoopTime() const { return mTotalLoopTime; }
 

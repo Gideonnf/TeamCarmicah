@@ -338,7 +338,11 @@ namespace Carmicah
                 if (gameSystem->mCurrState == SceneState::RUNTIME && SceneWindow::mIsPaused == false)
                 {
 
-                    gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->GetDeltaTime()); // TODO: Add this to profiler
+                    // script system normal update and fixed update is both called
+                    // so force normal dt into normal onUpdate
+                    // and force fixed dt into fixed update
+                    // TODO: Need to be able to run both script fixed dt and normal dt update loops
+                    gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime()); // TODO: Add this to profiler
                     //gameLogic->Update(window);
                     if (CarmicahTime::GetInstance()->IsFixedDT())
                     {
@@ -346,6 +350,7 @@ namespace Carmicah
 
                         while (accumulatedTime >= CarmicahTime::GetInstance()->GetDeltaTime())
                         {
+                            gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
                             //phySystem->Update();
 #ifdef CM_DEBUG
                             if (phySystem->mDebugPhysics) {
