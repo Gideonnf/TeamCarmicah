@@ -321,7 +321,7 @@ namespace Carmicah
 
 					const char* layerName = nullptr;
 
-					switch (layerBit)
+					switch (static_cast<CollisionLayer>(layerBit))
 					{
 					case CollisionLayer::DEFAULT:
 						layerName = "Default";

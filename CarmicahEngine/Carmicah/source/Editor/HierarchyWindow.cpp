@@ -306,42 +306,46 @@ namespace Carmicah
 
 		if (ImGui::BeginPopup("CollisionFlagLogic"))
 		{
+			ImGui::InvisibleButton("Test",ImVec2(5,5));
+			ImGui::SameLine();
+
 			for (int i = 0; i < 32; ++i)
 			{
-				uint32_t firstLayer = 1 << i;
-				const char* firstLayerName = nullptr;
-				switch (firstLayer)
+				uint32_t layerBit = 1 << i;
+				const char* topName = nullptr;
+				switch (static_cast<CollisionLayer>(layerBit))
 				{
 				case CollisionLayer::DEFAULT:
-					firstLayerName = "Default";
+					topName = "Default";
 					break;
 				case CollisionLayer::PLAYER:
-					firstLayerName = "Player";
+					topName = "Player";
 					break;
 				case CollisionLayer::ENEMIES:
-					firstLayerName = "Enemies";
+					topName = "Enemies";
 					break;
 				case CollisionLayer::ENVIRONMENT:
-					firstLayerName = "Environment";
+					topName = "Environment";
 					break;
 				default:
-					firstLayerName = nullptr;
+					topName = nullptr;
 					break;
 				}
 
-				if (firstLayerName != nullptr)
+				if (topName != nullptr)
 				{
-					ImGui::Text(firstLayerName);
+					ImGui::Text(topName);
+					ImGui::SameLine();
 				}
-
-				for (int j = 0; j < 32; ++j)
+			}
+				for (int i = 0; i < 32; ++i)
 				{
 
-					unsigned int secondLayer = 1 << j;
+					uint32_t layerBit = 1 << i;
 					const char* secondLayerName = nullptr;
 
 
-					switch (secondLayer)
+					switch (static_cast<CollisionLayer>(layerBit))
 					{
 					case CollisionLayer::DEFAULT:
 						secondLayerName = "Default";
@@ -360,12 +364,13 @@ namespace Carmicah
 						break;
 					}
 
-					if (!firstLayerName || !secondLayerName)
-						continue;
+					if (!secondLayerName)
+					{
+						
+					}
 
 
 				}
-			}
 
 			ImGui::EndPopup();
 		}
@@ -373,7 +378,6 @@ namespace Carmicah
 
 	void HierarchyWindow::Update()
 	{
-		char inputBuffer[1024];
 		if (ImGui::Begin(mTitle))
 		{
 
@@ -433,7 +437,6 @@ namespace Carmicah
 									if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 									{
 										GameObject& droppedGO = *(GameObject*)payload->Data;
-										Entity targettedGOParent = 0;
 
 										if (droppedGO.GetID() == *(Editor::mSceneHierarchy.end() - 1))
 										{
@@ -493,7 +496,6 @@ namespace Carmicah
 									if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 									{
 										GameObject& droppedGO = *(GameObject*)payload->Data;
-										Entity targettedGOParent = 0;
 
 										if (droppedGO.GetID() == *(Editor::mSceneHierarchy.end() - 1))
 										{
