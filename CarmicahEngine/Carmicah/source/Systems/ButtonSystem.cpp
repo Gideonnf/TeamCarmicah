@@ -156,6 +156,8 @@ namespace Carmicah
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 		souSystem->PlaySoundThis("pop", SoundCategory::UI, SoundSystem::SOUND_INMENU, false, 0.5f);
 
+		buttonComponent.isPressed = true;
+
 		OnClickMsg newMsg(entityID);
 		SendSysMessage(&newMsg);
 	}
