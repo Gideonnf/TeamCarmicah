@@ -229,6 +229,7 @@
     <ClInclude Include="source\pch.h" />
     <ClInclude Include="source\FSM\BaseState.h" />
     <ClInclude Include="source\Components\StateMachine.h" />
+    <ClInclude Include="source\FSM\FSMSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />
@@ -358,5 +359,6 @@
     </ClCompile>
     <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\pch.cpp" />
+    <ClCompile Include="source\FSM\FSMSystem.cpp" />
   </ItemGroup>
 </Project>
