@@ -22,19 +22,28 @@ namespace Carmicah
     // Use bitshift to get a unique bit number for each layer
     // Use 32-bit unsigned int for the layers for now
     // i dont think we'll ever get more than that
-    enum CollisionLayer
+    // If we want to make this changable in the editor
+    // we could create an array of 32 uint_32t that keep track of the bit for each layer
+    // so that the editor can create and remove more layers but we just hard set the layers for now
+    enum class CollisionLayer : uint32_t
     {
-        Default = 1 << 0,
-        Player = 1 << 1,
-        Enemies = 1 << 2,
-        Environment = 1 << 3
+        DEFAULT = 1 << 0, // 0000 .... 0001
+        PLAYER = 1 << 1, // 0000 .... 0010
+        ENEMIES = 1 << 2,
+        ENVIRONMENT = 1 << 3,
+        TOTAL_LAYERS = 1 << 4
     };
 
     struct Transform : BaseTransform<Transform>
     {
         unsigned int collisionMask;
         Matrix3x3<float> worldSpace;
-        Matrix3x3<float> localSpace;
+        Matrix3x3<float> rotTrans;
+        // So there's 3 scales
+        // Scale()          -> the scale you see in the editor
+        // InternalScale    -> the scale needed for graphics calc
+        // accumulatedScale -> the scale that is the combination of parents and itself
+        Vector2D<float> accumulatedScale = Vector2D<float>::one();
 
         Transform& DeserializeComponent(const rapidjson::Value& component) override
         {           

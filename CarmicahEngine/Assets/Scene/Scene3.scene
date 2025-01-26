@@ -82,38 +82,6 @@
             ]
         },
         {
-            "GameObject": "Quit Button",
-            "ID": 4,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "Button_SpriteSheet_Hover_Quit 0",
-                    "ButtonImagePressed": "Button_SpriteSheet_Click_Quit 0"
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Quit 0"
-                },
-                {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.QuitButton",
-                    "ScriptableFieldMap": [
-                        {}
-                    ]
-                },
-                {
-                    "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1300.0,
-                    "yPos": 275.0,
-                    "depth": 1.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
-                    "rot": 0.0
-                }
-            ]
-        },
-        {
             "GameObject": "Settings Button",
             "ID": 5,
             "Components": [
@@ -141,8 +109,87 @@
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 1300.0,
-                    "yPos": 150.0,
+                    "yPos": 300.0,
                     "depth": 1.0,
+                    "xScale": 200.0,
+                    "yScale": 100.0,
+                    "rot": 0.0
+                }
+            ]
+        },      
+        {
+            "GameObject": "Credits Button",
+            "ID": 6,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button",
+                    "ButtonImage": "Button_SpriteSheet_Hover_Credits 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_Click_Credits 0"
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_Hover_Credits 0"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.CreditsButton",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1300.0,
+                    "yPos": 200.0,
+                    "depth": 1.0,
+                    "xScale": 200.0,
+                    "yScale": 100.0,
+                    "rot": 0.0
+                }
+            ]
+        },
+        {
+            "GameObject": "Quit Button",
+            "ID": 4,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button",
+                    "ButtonImage": "Button_SpriteSheet_Hover_Quit 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_Click_Quit 0"
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_Hover_Quit 0"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.QuitButton",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1300.0,
+                    "yPos": 100.0,
+                    "depth": 1.0,
+                    "xScale": 200.0,
+                    "yScale": 100.0,
+                    "rot": 0.0
+                }
+            ]
+        },  
+        {
+            "GameObject": "Default",
+            "ID": 33,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0

@@ -388,16 +388,16 @@ namespace Carmicah
 
 					switch (layerBit)
 					{
-					case CollisionLayer::Default:
+					case CollisionLayer::DEFAULT:
 						layerName = "Default";
 						break;
-					case CollisionLayer::Player:
+					case CollisionLayer::PLAYER:
 						layerName = "Player";
 						break;
-					case CollisionLayer::Enemies:
+					case CollisionLayer::ENEMIES:
 						layerName = "Enemies";
 						break;
-					case CollisionLayer::Environment:
+					case CollisionLayer::ENVIRONMENT:
 						layerName = "Environment";
 						break;
 					default:

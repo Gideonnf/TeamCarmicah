@@ -59,22 +59,25 @@
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Installer|x64' ">
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Source\BackButton.cs" />
+    <Compile Include="Source\NPC\HeroAI.cs" />
+    <Compile Include="Source\UI\BackButton.cs" />
     <Compile Include="Source\BalloonBounce.cs" />
     <Compile Include="Source\Camera.cs" />
     <Compile Include="Source\GameManager.cs" />
     <Compile Include="Source\GameObject.cs" />
-    <Compile Include="Source\MouseAI.cs" />
-    <Compile Include="Source\MouseState.cs" />
-    <Compile Include="Source\PauseButton.cs" />
+    <Compile Include="Source\NPC\MouseAI.cs" />
+    <Compile Include="Source\NPC\MouseState.cs" />
+    <Compile Include="Source\UI\PauseButton.cs" />
     <Compile Include="Source\PauseManager.cs" />
-    <Compile Include="Source\PlayButton.cs" />
+    <Compile Include="Source\UI\PlayButton.cs" />
     <Compile Include="Source\Player.cs" />
+    <Compile Include="Source\NPC\Projectile.cs" />
     <Compile Include="Source\QuitButton.cs" />
-    <Compile Include="Source\ResumeButton.cs" />
-    <Compile Include="Source\SettingButton.cs" />
-    <Compile Include="Source\ShooterNPC.cs" />
+    <Compile Include="Source\UI\ResumeButton.cs" />
+    <Compile Include="Source\UI\SettingButton.cs" />
+    <Compile Include="Source\NPC\ShooterNPC.cs" />
     <Compile Include="Source\System\Component.cs" />
+    <Compile Include="Source\System\CMConsole.cs" />
     <Compile Include="Source\System\Entity.cs" />
     <Compile Include="Source\System\FunctionCalls.cs" />
     <Compile Include="Source\System\Input.cs" />
@@ -84,7 +87,7 @@
     <Compile Include="Source\System\StateMachine.cs" />
     <Compile Include="Source\Testing.cs" />
     <Compile Include="Source\TrapBuild.cs" />
-    <Compile Include="Source\Vector2.cs" />
+    <Compile Include="Source\System\Vector2.cs" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

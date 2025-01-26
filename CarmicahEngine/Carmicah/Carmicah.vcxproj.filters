@@ -65,6 +65,9 @@
     <ClInclude Include="source\Components\Script.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="source\Components\Sound.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="source\Components\TextRenderer.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -134,6 +137,9 @@
     <ClInclude Include="source\Graphics\RenderHelper.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="source\Graphics\RenderTransformSystem.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="source\Graphics\RigidbodyGraphicsSystem.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -201,6 +207,9 @@
     <ClInclude Include="source\Systems\GameLogic.h">
       <Filter>Systems</Filter>
     </ClInclude>
+    <ClInclude Include="source\Systems\MouseSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
     <ClInclude Include="source\Systems\PrefabSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
@@ -218,8 +227,6 @@
     </ClInclude>
     <ClInclude Include="source\log.h" />
     <ClInclude Include="source\pch.h" />
-    <ClInclude Include="source\Components\Sound.h" />
-    <ClInclude Include="source\Graphics\RenderTransformSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />
@@ -275,6 +282,9 @@
     <ClCompile Include="source\Graphics\RenderHelper.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="source\Graphics\RenderTransformSystem.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="source\Graphics\RigidbodyGraphicsSystem.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -326,6 +336,9 @@
     <ClCompile Include="source\Systems\GameLogic.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
+    <ClCompile Include="source\Systems\MouseSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
     <ClCompile Include="source\Systems\PrefabSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
@@ -343,6 +356,5 @@
     </ClCompile>
     <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\pch.cpp" />
-    <ClCompile Include="source\Graphics\RenderTransformSystem.cpp" />
   </ItemGroup>
 </Project>

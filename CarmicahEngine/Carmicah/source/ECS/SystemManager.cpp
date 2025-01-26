@@ -17,6 +17,8 @@ DigiPen Institute of Technology is prohibited.
 #include "pch.h"
 #include "SystemManager.h"
 #include "Systems/SceneSystem.h"
+#include "ComponentManager.h"
+#include "EntityManager.h"
 
 namespace Carmicah
 {
@@ -32,6 +34,10 @@ namespace Carmicah
 				iSystemIterator->second->mEntitiesSet.erase(entity);
 			}
 		}
+
+
+		EntityManager::GetInstance()->DeleteEntity(entity);
+		ComponentManager::GetInstance()->EntityDestroyed(entity);
 	}
 
 	void SystemManager::UpdateSignatures(Entity entity, Signature entitySignature)

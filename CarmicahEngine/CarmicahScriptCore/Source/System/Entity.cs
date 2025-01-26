@@ -9,6 +9,7 @@ namespace Carmicah
         public uint mID;
 
         protected Entity() { mID = 0; }
+        ~Entity() { mID = 0; }
 
         internal Entity(uint id) { mID = id; }
 
@@ -33,7 +34,7 @@ namespace Carmicah
         {
             get
             {
-               // Console.WriteLine($"Transform GetEntity ID:{mID}");
+                //Console.WriteLine($"Transform GetEntity ID:{mID}");
 
                 FunctionCalls.Transform_GetPosition(mID, out Vector2 position);
                 return position;
@@ -98,10 +99,20 @@ namespace Carmicah
 
             return newEntity;
         }
+        
+        //public void RemoveFromGM()
+        //{
+        //    GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+        //    CMConsole.Log($"In Entity RemoveFromGM {this}");
+        //    if (gm != null)
+        //        gm.EntityDestroyed(this);
+
+        //}
 
         public void Destroy()
         {
             FunctionCalls.Destroy(mID);
+            mID = 0;
         }
 
         public void ChangeAnim(string animName)

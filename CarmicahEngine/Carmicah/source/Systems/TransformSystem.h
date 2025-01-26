@@ -1,11 +1,9 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  file:			TransformSystem.h
 
- author:		YANG YUJIE(70%)
- co-author(s):	Gideon Francis(30%)
+ author:		Won Yu Xuan Rainne(100%)
 
- email:			g.francis@digipen.edu
-					y.yujie@digipen.edu
+ email:			won.m@digipen.edu
 
  brief:			Transform System. Header file that contains the function declarations of the transform system. Incharge of updating the transform
 				of entities when parenting/unparenting between entities and scene
@@ -29,7 +27,8 @@ namespace Carmicah
 	{
 	private:
 		std::map<unsigned int, std::unordered_set<unsigned int>> transformedMap{};
-
+		uint32_t layerArr[MAX_LAYERS];
+		int maxLayers;
 	public:
 		/// <summary>
 		/// Initializes the transform system by registering the components
@@ -48,18 +47,29 @@ namespace Carmicah
 
 		void UpdateTransform(Entity e);
 
+		void EntityDestroyed(Entity id);
+
 		/// <summary>
 		/// Used to receive messages by the System Manager when sent a message from other systems
 		/// </summary>
 		/// <param name="msg">base message class so that the system can cast it to the right msg</param>
 		void ReceiveMessage(Message* msg)  override;
 		/// <summary>
-		/// Calculates the transform of the entity when being updated
+		/// Calculates the transform of the entity when the parent is being updated
 		/// </summary>
 		/// <param name="entityID">Entity ID</param>
 		/// <param name="parentID">Parent ID</param>
-		/// <param name="ToWorld">If being parented back to world/scene</param>
-		void CalculateTransform(Entity entityID, Entity parentID, bool ToWorld = false);
+		void ChangeParent(Entity entityID, Entity parentID);
+
+		void EnableLayerInteraction(CollisionLayer layer1, CollisionLayer layer2);
+
+		void DisableLayerInteraction(CollisionLayer layer1, CollisionLayer layer2);
+
+		int GetLayerIndex(CollisionLayer layer);
+
+		int GetMaxLayers() const;
+
+		const uint32_t* GetLayerMap() const;
 	};
 
 }

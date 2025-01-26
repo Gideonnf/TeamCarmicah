@@ -610,7 +610,7 @@ namespace Carmicah
         else if (msg->mMsgType == MSG_ENTITYCOLLIDED)
         {
             auto castedMsg = dynamic_cast<EntityCollidedMessage*>(msg);
-
+            //CM_CORE_INFO("Entity id in ScriptSys {}", castedMsg->mEntityID);
             if (mEntityInstances.count(castedMsg->mEntityID))
             {
                 mEntityInstances[castedMsg->mEntityID]->InvokeOnCollide();

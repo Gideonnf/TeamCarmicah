@@ -74,6 +74,12 @@ namespace Carmicah
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
 
+		/*if (go.GetName().find("Bullet") != std::string::npos && go.GetName() != "Bullet")
+		{
+			if (go.HasComponent<RigidBody>())
+				std::cout << "delet later";
+		}*/
+
 		MonoType* monoType = mono_reflection_type_get_type(componentType);
 
 		if (mGameObjectHasComponentFuncs.count(monoType) <= 0)
@@ -186,6 +192,7 @@ namespace Carmicah
 	static void RigidBody_ApplyForce(unsigned int entityID, Vec2f dir, float magnitude)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
+
 		if (go.HasComponent<RigidBody>())
 		{
 			LinearDirectionalForce dirForce(dir, magnitude, 0.0f);
@@ -206,8 +213,12 @@ namespace Carmicah
 	/// <param name="outPos"> Out vector2 posiion</param>
 	static void Transform_GetPosition(unsigned int entityID, Vec2f* outPos)
 	{
+		//CM_CORE_INFO("Entity ID scriptFunctions {}", entityID);
 		// idk why tf does it sometimes give a extremely high entity ID number
 		GameObject& go = gGOFactory->FetchGO(entityID);
+
+		//CM_CORE_INFO("Entity ID scriptFunctions {}", go.GetID());
+
 		if (!go.HasComponent<Transform>())
 		{
 			*outPos = { 0, 0 };
@@ -223,8 +234,8 @@ namespace Carmicah
 
 			}
 
-			if (entityID == 29)
-				CM_CORE_INFO("{}, {}", outPos->x, outPos->y);
+		/*	if (entityID == 29)
+				CM_CORE_INFO("{}, {}", outPos->x, outPos->y);*/
 			
 		}
 	}
@@ -364,6 +375,7 @@ namespace Carmicah
 	{
 		char* cStr = mono_string_to_utf8(string);
 		GameObject& go = gGOFactory->FetchGO(entityID);
+		//CM_CORE_INFO("Entity ID in changeAnim: {}", entityID);
 		go.GetComponent<Animation>().animAtlas = cStr;
 		mono_free(cStr);
 	}
@@ -380,6 +392,13 @@ namespace Carmicah
 		SceneWindow::mIsPlaying = !SceneWindow::mIsPlaying;
 		SceneWindow::mChangeState = true;
 #endif
+	}
+
+	static void Log(MonoString* string)
+	{
+		char* cStr = mono_string_to_utf8(string);
+		CM_CORE_INFO(cStr);
+		mono_free(cStr);
 	}
 
 	/// <summary>
@@ -434,5 +453,8 @@ namespace Carmicah
 
 		// Sound
 		ADD_INTERNAL_CALL(Sound_PlaySFX);
+
+		// Debug
+		ADD_INTERNAL_CALL(Log);
 	}
 }
