@@ -321,7 +321,7 @@ namespace Carmicah
 
 				if (ImGui::BeginPopup("CollisionFlagLogic"))
 				{
-					for (int i = 0; i < 32; ++i)
+					/*for (int i = 0; i < 32; ++i)
 					{
 						for(int j = 0; j < 32; ++j)
 						{
@@ -333,16 +333,16 @@ namespace Carmicah
 
 							switch (firstLayer)
 							{
-							case CollisionLayer::Default:
+							case CollisionLayer::DEFAULT:
 								firstLayerName = "Default";
 								break;
-							case CollisionLayer::Player:
+							case CollisionLayer::PLAYER:
 								firstLayerName = "Player";
 								break;
-							case CollisionLayer::Enemies:
+							case CollisionLayer::ENEMIES:
 								firstLayerName = "Enemies";
 								break;
-							case CollisionLayer::Environment:
+							case CollisionLayer::ENVIRONMENT:
 								firstLayerName = "Environment";
 								break;
 							default:
@@ -352,16 +352,16 @@ namespace Carmicah
 
 							switch (secondLayer)
 							{
-							case CollisionLayer::Default:
+							case CollisionLayer::DEFAULT:
 								secondLayerName = "Default";
 								break;
-							case CollisionLayer::Player:
+							case CollisionLayer::PLAYER:
 								secondLayerName = "Player";
 								break;
-							case CollisionLayer::Enemies:
+							case CollisionLayer::ENEMIES:
 								secondLayerName = "Enemies";
 								break;
-							case CollisionLayer::Environment:
+							case CollisionLayer::ENVIRONMENT:
 								secondLayerName = "Environment";
 								break;
 							default:
@@ -374,7 +374,7 @@ namespace Carmicah
 
 
 						}
-					}
+					}*/
 
 					ImGui::EndPopup();
 				}
