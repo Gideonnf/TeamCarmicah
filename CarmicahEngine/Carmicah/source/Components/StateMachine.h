@@ -11,6 +11,12 @@ namespace Carmicah
 	//enum class 
 	using variantCondition = std::variant<int, float, bool>;
 
+	struct Transition
+	{
+		std::string targetState;
+		variantCondition condition;
+	};
+
 	struct State
 	{
 		
@@ -18,7 +24,7 @@ namespace Carmicah
 		//float stateTime;
 		//Script stateScript;
 		variantCondition stateCondition;
-		// keep track of which states are connected 
+		std::vector<Transition> transitions;
 	};
 
 	struct StateMachine : BaseComponent<StateMachine>
@@ -27,8 +33,7 @@ namespace Carmicah
 		std::string nextState;
 		std::string startingState;
 		std::unordered_map<std::string, State> stateMap;
-		std::unordered_map<std::string, std::string> stateTransitions;
-		std::unordered_map<std::string, variantCondition> transitionCondition;
+
 		float stateTimer;
 	};
 }

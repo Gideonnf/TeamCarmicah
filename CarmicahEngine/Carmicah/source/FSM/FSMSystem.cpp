@@ -47,6 +47,8 @@ namespace Carmicah
 			auto& stateMachine = componentManager->GetComponent<StateMachine>(*it);
 			if (stateMachine.stateMap.size() == 0) continue;// no states to run
 
+			stateMachine.stateTimer += dt;
+
 			// if there is a difference in the curr state vs next state
 			if (stateMachine.currState != stateMachine.nextState)
 			{
@@ -58,13 +60,27 @@ namespace Carmicah
 
 				// call the onEnter function for next state
 
+
 				stateMachine.currState = stateMachine.nextState;
+				// reset the state timer when entering a new state
+				stateMachine.stateTimer = 0.0f;
 			}
 			// if its the same then call the on update
 			else if (stateMachine.currState == stateMachine.nextState)
 			{
 				// call on upate function
 
+			}
+
+			// check the transitions for this state
+			for (const auto& transition : stateMachine.stateMap[stateMachine.currState].transitions)
+			{
+				// if the condition is met
+				if (stateMachine.stateMap[stateMachine.currState].stateCondition == transition.condition)
+				{
+					stateMachine.nextState = transition.targetState;
+					break;
+				}
 			}
 
 		}
