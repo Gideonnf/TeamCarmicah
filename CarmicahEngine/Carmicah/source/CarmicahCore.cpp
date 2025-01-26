@@ -41,6 +41,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Components/Script.h"
 #include "Components/Prefab.h"
 #include "Components/Sound.h"
+#include "Components/StateMachine.h"
 
 #include "Systems/GameLogic.h"
 
@@ -193,6 +194,7 @@ namespace Carmicah
         REGISTER_COMPONENT(UITransform);
         REGISTER_COMPONENT(PrefabData);
         REGISTER_COMPONENT(Sound);
+        REGISTER_COMPONENT(StateMachine);
 
         CM_CORE_INFO("Starting system init");
 
@@ -312,25 +314,6 @@ namespace Carmicah
             {
                // if (oneTimeInit)
                     gameSystem->Init();
-
-               // oneTimeInit = true;
-                // FOR TESTING OF GOs MANUALLY
-                    
-                //wall.SetParent(mainCharacter);
-                //GameObject GameObject2;
-                //gGOFactory->FetchGO("GameObject2", GameObject2);
-
-                //LinearDirectionalForce rightForce({ 1.0f,0.0f }, 1.0f, 2.0f);
-
-                //GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(rightForce);
-
-
-                //GameObject mainCharacter;
-                //gGOFactory->FetchGO("mainCharacter", mainCharacter);
-                //mainCharacter.AddComponent<Script>();
-                //mainCharacter.GetComponent<Script>().scriptName = "Carmicah.Player";
-
-                //gameLogic->Init(); // refetch the objects needed
 
                 // if game only then go straight to onstart and runtime
                 if (gameOnly || gameSystem->mRuntime)

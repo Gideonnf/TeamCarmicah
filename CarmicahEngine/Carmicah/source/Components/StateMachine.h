@@ -35,6 +35,17 @@ namespace Carmicah
 		std::unordered_map<std::string, State> stateMap;
 
 		float stateTimer;
+
+		StateMachine& DeserializeComponent(const rapidjson::Value& component) override
+		{
+
+			return *this;
+		}
+
+		void SerializeComponent(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer) override
+		{
+
+		}
 	};
 }
 
