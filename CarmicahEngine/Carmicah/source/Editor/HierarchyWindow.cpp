@@ -306,71 +306,61 @@ namespace Carmicah
 
 		if (ImGui::BeginPopup("CollisionFlagLogic"))
 		{
-			ImGui::InvisibleButton("Test",ImVec2(5,5));
-			ImGui::SameLine();
+			
+			static int maxLayers = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetMaxLayers();
+			static bool testing = false;
 
-			for (int i = 0; i < 32; ++i)
+			if (ImGui::BeginTable("Collision Logic",maxLayers + 1))
 			{
-				uint32_t layerBit = 1 << i;
-				const char* topName = nullptr;
-				switch (static_cast<CollisionLayer>(layerBit))
+				ImGui::TableSetupColumn("Layer");
+				for (int i = maxLayers - 1; i >= 0; --i)
 				{
-				case CollisionLayer::DEFAULT:
-					topName = "Default";
-					break;
-				case CollisionLayer::PLAYER:
-					topName = "Player";
-					break;
-				case CollisionLayer::ENEMIES:
-					topName = "Enemies";
-					break;
-				case CollisionLayer::ENVIRONMENT:
-					topName = "Environment";
-					break;
-				default:
-					topName = nullptr;
-					break;
-				}
-
-				if (topName != nullptr)
-				{
-					ImGui::Text(topName);
-					ImGui::SameLine();
-				}
-			}
-				for (int i = 0; i < 32; ++i)
-				{
-
 					uint32_t layerBit = 1 << i;
-					const char* secondLayerName = nullptr;
+					const char* columnName = nullptr;
 
+					columnName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
 
-					switch (static_cast<CollisionLayer>(layerBit))
-					{
-					case CollisionLayer::DEFAULT:
-						secondLayerName = "Default";
-						break;
-					case CollisionLayer::PLAYER:
-						secondLayerName = "Player";
-						break;
-					case CollisionLayer::ENEMIES:
-						secondLayerName = "Enemies";
-						break;
-					case CollisionLayer::ENVIRONMENT:
-						secondLayerName = "Environment";
-						break;
-					default:
-						secondLayerName = nullptr;
-						break;
-					}
-
-					if (!secondLayerName)
-					{
-						
-					}
-
-
+					ImGui::TableSetupColumn(columnName, ImGuiTableColumnFlags_WidthStretch);
 				}
+
+				ImGui::TableHeadersRow();
+
+				for (int row = 0; row < maxLayers; ++row)
+				{
+					uint32_t layerBit1 = 1 << row;
+					const char* layerName1 = nullptr;
+
+					layerName1 = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit1));
+
+					// Add a row for this layer
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text(layerName1);
+
+					// Add checkboxes for this layer in remaining columns
+					for (int col = maxLayers - 1; col >= 0; --col)
+					{
+						uint32_t layerBit2 = 1 << col;
+						const char* layerName2 = nullptr;
+						layerName2 = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit2));
+						ImGui::TableNextColumn();
+						//Setting the style
+						ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(0, 0));
+						ImGui::AlignTextToFramePadding();
+
+						std::string combinedLayer = "##" + std::string(layerName1) + std::string(layerName2);
+
+						ImGui::Checkbox(combinedLayer.c_str(), &testing);
+						//Pop style
+						ImGui::PopStyleVar();
+					}
+				}
+				ImGui::EndTable();
+			}
+			if (ImGui::Button("Close"))
+			{
+				ImGui::CloseCurrentPopup();
+			}
 
 			ImGui::EndPopup();
 		}

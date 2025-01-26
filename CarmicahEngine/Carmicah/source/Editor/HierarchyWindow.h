@@ -22,6 +22,7 @@ DigiPen Institute of Technology is prohibited.
 #include "ECS/GameObject.h"
 #include "../Systems/AssetTypes.h"
 #include "Editor.h"
+#include "../Systems/TransformSystem.h"
 
 namespace Carmicah
 {
