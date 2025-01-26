@@ -577,7 +577,7 @@ namespace Carmicah
 
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
-			//CM_CORE_INFO("ID in CollisionSystem 1st {}", obj1);
+			CM_CORE_INFO("ID in CollisionSystem 1st {}", obj1);
 			EntityCollidedMessage newMsg(obj1);
 			SendSysMessage(&newMsg);
 

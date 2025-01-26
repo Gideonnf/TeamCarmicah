@@ -27,7 +27,8 @@ namespace Carmicah
 	{
 	private:
 		std::map<unsigned int, std::unordered_set<unsigned int>> transformedMap{};
-
+		uint32_t layerArr[MAX_LAYERS];
+		int maxLayers;
 	public:
 		/// <summary>
 		/// Initializes the transform system by registering the components
@@ -59,6 +60,16 @@ namespace Carmicah
 		/// <param name="entityID">Entity ID</param>
 		/// <param name="parentID">Parent ID</param>
 		void ChangeParent(Entity entityID, Entity parentID);
+
+		void EnableLayerInteraction(CollisionLayer layer1, CollisionLayer layer2);
+
+		void DisableLayerInteraction(CollisionLayer layer1, CollisionLayer layer2);
+
+		int GetLayerIndex(CollisionLayer layer);
+
+		int GetMaxLayers() const;
+
+		const uint32_t* GetLayerMap() const;
 	};
 
 }

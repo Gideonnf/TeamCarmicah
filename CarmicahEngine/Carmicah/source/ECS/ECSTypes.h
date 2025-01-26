@@ -32,6 +32,8 @@ namespace Carmicah
 	// For now, set the max number of components to 32
 	const std::uint8_t MAX_COMPONENTS = 32;
 
+	const std::uint8_t MAX_LAYERS = 32;
+
 	// Keep track of entity signature using bitset
 	using Signature = std::bitset<MAX_COMPONENTS>;
 }
