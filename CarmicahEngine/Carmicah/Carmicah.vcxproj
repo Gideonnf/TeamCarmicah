@@ -184,6 +184,7 @@ xcopy /Q /E /Y /I "..\bin\Installer-x86_64\CarmicahScriptCore\**.**" "..\Carmica
     <ClInclude Include="source\Components\RigidBody.h" />
     <ClInclude Include="source\Components\Script.h" />
     <ClInclude Include="source\Components\Sound.h" />
+    <ClInclude Include="source\Components\StateMachine.h" />
     <ClInclude Include="source\Components\TextRenderer.h" />
     <ClInclude Include="source\Components\Transform.h" />
     <ClInclude Include="source\Components\UITransform.h" />
@@ -203,6 +204,7 @@ xcopy /Q /E /Y /I "..\bin\Installer-x86_64\CarmicahScriptCore\**.**" "..\Carmica
     <ClInclude Include="source\Editor\InspectorWindow.h" />
     <ClInclude Include="source\Editor\SceneToImgui.h" />
     <ClInclude Include="source\Editor\SceneWindow.h" />
+    <ClInclude Include="source\FSM\BaseState.h" />
     <ClInclude Include="source\Graphics\AnimationSystem.h" />
     <ClInclude Include="source\Graphics\BaseGraphicsSystem.h" />
     <ClInclude Include="source\Graphics\ColliderGraphicsSystem.h" />

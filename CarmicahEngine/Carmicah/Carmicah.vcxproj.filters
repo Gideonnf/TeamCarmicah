@@ -227,6 +227,8 @@
     </ClInclude>
     <ClInclude Include="source\log.h" />
     <ClInclude Include="source\pch.h" />
+    <ClInclude Include="source\FSM\BaseState.h" />
+    <ClInclude Include="source\Components\StateMachine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />
