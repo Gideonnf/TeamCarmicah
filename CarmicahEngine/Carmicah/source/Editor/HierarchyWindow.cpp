@@ -307,8 +307,8 @@ namespace Carmicah
 		if (ImGui::BeginPopup("CollisionFlagLogic"))
 		{
 			
-			static int maxLayers = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetMaxLayers();
-			static bool testing = false;
+			int maxLayers = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetMaxLayers();
+			const uint32_t* layerArray = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerMap();
 
 			if (ImGui::BeginTable("Collision Logic",maxLayers + 1))
 			{
@@ -328,6 +328,7 @@ namespace Carmicah
 				for (int row = 0; row < maxLayers; ++row)
 				{
 					uint32_t layerBit1 = 1 << row;
+					int layer1Index = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerIndex(static_cast<CollisionLayer>(layerBit1));
 					const char* layerName1 = nullptr;
 
 					layerName1 = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit1));
@@ -341,6 +342,7 @@ namespace Carmicah
 					for (int col = maxLayers - 1; col >= 0; --col)
 					{
 						uint32_t layerBit2 = 1 << col;
+						int layer2Index = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerIndex(static_cast<CollisionLayer>(layerBit2));
 						const char* layerName2 = nullptr;
 						layerName2 = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit2));
 						ImGui::TableNextColumn();
@@ -348,11 +350,29 @@ namespace Carmicah
 						ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(0, 0));
 						ImGui::AlignTextToFramePadding();
 
+						bool combinedEnabled = layerArray[layer1Index] & layerBit2;
+
 						std::string combinedLayer = "##" + std::string(layerName1) + std::string(layerName2);
 
-						ImGui::Checkbox(combinedLayer.c_str(), &testing);
+
+						if (ImGui::Checkbox(combinedLayer.c_str(), &combinedEnabled))
+						{
+							if (combinedEnabled)
+							{
+								SystemManager::GetInstance()->GetSystem<TransformSystem>()->EnableLayerInteraction(static_cast<CollisionLayer>(layerBit1), static_cast<CollisionLayer>(layerBit2));
+							}
+							else
+							{
+								SystemManager::GetInstance()->GetSystem<TransformSystem>()->DisableLayerInteraction(static_cast<CollisionLayer>(layerBit1), static_cast<CollisionLayer>(layerBit2));
+							}
+						}
 						//Pop style
 						ImGui::PopStyleVar();
+
+						if (layerBit1 == layerBit2)
+						{
+							break;
+						}
 					}
 				}
 				ImGui::EndTable();
