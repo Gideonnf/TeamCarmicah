@@ -329,17 +329,6 @@ namespace Carmicah
 						ImGui::Text(layerName);
 						currentlyActive = static_cast<CollisionLayer>(layerBit);
 					}
-					/*if (ImGui::Checkbox(layerName, &isEnabled))
-					{
-						if (isEnabled)
-						{
-							go->AddCollisionLayer(static_cast<CollisionLayer>(layerBit));
-						}
-						else
-						{
-							go->RemoveCollisionLayer(static_cast<CollisionLayer>(layerBit));
-						}
-					}*/
 				}
 				ImGui::SameLine();
 				if (ImGui::Button("v#######"))
