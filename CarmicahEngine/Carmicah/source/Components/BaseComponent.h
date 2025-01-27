@@ -20,6 +20,11 @@ DigiPen Institute of Technology is prohibited.
 #include <rapidjson/prettywriter.h>
 #include <string>
 
+#define DESERIALIZE_IF_HAVE(var, component, member, accessor, type) \
+	if (component.HasMember(member)) {															\
+				var = static_cast<type>(component[member].accessor());					\
+	}																													\
+
 // For now until reflection is done, each component has to have their own function to serialize and deserialize their data
 template <typename derived>
 class BaseComponent

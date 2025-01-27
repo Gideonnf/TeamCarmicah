@@ -25,6 +25,8 @@ namespace Carmicah
 		//Script stateScript;
 		variantCondition stateCondition;
 		std::vector<Transition> transitions;
+
+		// If it links with any animation can add its info here
 	};
 
 	struct StateMachine : BaseComponent<StateMachine>
@@ -38,6 +40,10 @@ namespace Carmicah
 
 		StateMachine& DeserializeComponent(const rapidjson::Value& component) override
 		{
+			// if this works this will be q cool
+			DESERIALIZE_IF_HAVE(currState, component, "currState", GetString, std::string);
+			DESERIALIZE_IF_HAVE(nextState, component, "nextState", GetString, std::string);
+			DESERIALIZE_IF_HAVE(nextState, component, "startingState", GetString, std::string);
 
 			return *this;
 		}

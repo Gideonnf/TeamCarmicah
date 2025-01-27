@@ -30,7 +30,8 @@ struct Script : BaseComponent<Script>
 	Script& DeserializeComponent(const rapidjson::Value& component) override
 	{
 		//scriptName = component["scriptName"].GetString();
-		scriptName = GetVariable<std::string>(component, "scriptName");
+		DESERIALIZE_IF_HAVE(scriptName, component, "scriptName", GetString, std::string);
+		//scriptName = GetVariable<std::string>(component, "scriptName");
 		if (component.HasMember("ScriptableFieldMap"))
 		{
 			const rapidjson::Value& fieldList = component["ScriptableFieldMap"];

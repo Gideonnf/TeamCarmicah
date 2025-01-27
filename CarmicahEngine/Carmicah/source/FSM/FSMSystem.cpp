@@ -56,10 +56,11 @@ namespace Carmicah
 				if (stateMachine.currState.empty() == false)
 				{
 					// call the onExit function for the curr state
+					ExitState(stateMachine.stateMap[stateMachine.currState]);
 				}
 
 				// call the onEnter function for next state
-
+				EnterState(stateMachine.stateMap[stateMachine.nextState]);
 
 				stateMachine.currState = stateMachine.nextState;
 				// reset the state timer when entering a new state
@@ -69,7 +70,7 @@ namespace Carmicah
 			else if (stateMachine.currState == stateMachine.nextState)
 			{
 				// call on upate function
-
+				UpdateState(stateMachine.stateMap[stateMachine.currState]);
 			}
 
 			// check the transitions for this state
@@ -84,5 +85,31 @@ namespace Carmicah
 			}
 
 		}
+	}
+
+	// But only using it with scripts for now so use this to call the script
+	// but now idk if i should make an entire new script map system for state scripts
+	// or just add in the function call to normal entity scripts
+
+	void FSMSystem::UpdateState(State state)
+	{
+		// if it has an animation can trigger animation play here
+		// if it has an sound can trigger sound play here
+
+
+	}
+
+	void FSMSystem::EnterState(State state)
+	{
+		// if it has an animation can trigger animation play here
+		// if it has an sound can trigger sound play here
+
+	}
+
+	void FSMSystem::ExitState(State state)
+	{
+		// if it has an animation can trigger animation play here
+		// if it has an sound can trigger sound play here
+
 	}
 }

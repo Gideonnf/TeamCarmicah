@@ -2,6 +2,7 @@
 #define FSM_SYSTEM_H
 
 #include "../ECS/BaseSystem.h"
+#include "../Components/StateMachine.h"
 
 namespace Carmicah
 {
@@ -14,7 +15,9 @@ namespace Carmicah
 		void Init();
 		void OnUpdate(float dt);
 
-
+		void UpdateState(State state);
+		void EnterState(State state);
+		void ExitState(State state);
 	};
 }
 
