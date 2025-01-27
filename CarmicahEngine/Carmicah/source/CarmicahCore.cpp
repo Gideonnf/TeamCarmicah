@@ -43,7 +43,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Components/Sound.h"
 #include "Components/StateMachine.h"
 
-#include "Systems/GameLogic.h"
+
 
 #include "Systems/GOFactory.h"
 #include "Graphics/AnimationSystem.h"
@@ -351,35 +351,7 @@ namespace Carmicah
                         while (accumulatedTime >= CarmicahTime::GetInstance()->GetDeltaTime())
                         {
                             gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
-                            //phySystem->Update();
-#ifdef CM_DEBUG
-                            if (phySystem->mDebugPhysics) {
-                                // Handle WASD movement during debugPhysics mode
-                                if (phySystem->mToggleUpdate)
-                                {
-                                    phySystem->mToggleUpdate = false;
-                                    CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                                    colSystem->CollisionCheck();
-                                    CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 
-                                    CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
-                                    phySystem->Update();
-                                    CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
-
-                                }
-                            }
-                            else {
-                                CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                                colSystem->CollisionCheck();
-                                CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
-                                CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
-                                phySystem->Update();
-                                CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
-
-                            }
-#endif
-
-#if defined(CM_RELEASE)
                             CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
                             colSystem->CollisionCheck();
                             CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
@@ -387,42 +359,11 @@ namespace Carmicah
                             phySystem->Update();
                             CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
 
-#endif
                             accumulatedTime -= CarmicahTime::GetInstance()->GetDeltaTime();
                         }
                     }
                     else
                     {
-                        //phySystem->Update();
-#ifdef CM_DEBUG
-                        if (phySystem->mDebugPhysics) {
-                            // Handle WASD movement during debugPhysics mode
-                            if (phySystem->mToggleUpdate)
-                            {
-                                phySystem->mToggleUpdate = false;
-                                CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                                colSystem->CollisionCheck();
-                                CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
-
-                                CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
-                                phySystem->Update();
-                                CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
-
-                            }
-                        }
-                        else {
-                            CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                            colSystem->CollisionCheck();
-                            
-                            CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
-                            CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
-                            phySystem->Update();
-                            CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
-
-                        }
-#endif
-
-#if defined(CM_RELEASE)
 
                         CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
                         colSystem->CollisionCheck();
@@ -430,7 +371,7 @@ namespace Carmicah
                         CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                         phySystem->Update();
                         CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
-#endif               
+          
                     }
                 }
 

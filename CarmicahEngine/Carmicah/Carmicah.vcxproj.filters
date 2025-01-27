@@ -204,9 +204,6 @@
     <ClInclude Include="source\Systems\GOFactory.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="source\Systems\GameLogic.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
     <ClInclude Include="source\Systems\MouseSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
@@ -334,9 +331,6 @@
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="source\Systems\GOFactory.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Systems\GameLogic.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="source\Systems\MouseSystem.cpp">

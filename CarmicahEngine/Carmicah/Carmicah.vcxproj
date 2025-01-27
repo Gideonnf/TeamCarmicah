@@ -233,7 +233,6 @@ xcopy /Q /E /Y /I "..\bin\Installer-x86_64\CarmicahScriptCore\**.**" "..\Carmica
     <ClInclude Include="source\Systems\CollisionSystem.h" />
     <ClInclude Include="source\Systems\FileWatcher.h" />
     <ClInclude Include="source\Systems\GOFactory.h" />
-    <ClInclude Include="source\Systems\GameLogic.h" />
     <ClInclude Include="source\Systems\MouseSystem.h" />
     <ClInclude Include="source\Systems\PrefabSystem.h" />
     <ClInclude Include="source\Systems\SceneSystem.h" />
@@ -281,7 +280,6 @@ xcopy /Q /E /Y /I "..\bin\Installer-x86_64\CarmicahScriptCore\**.**" "..\Carmica
     <ClCompile Include="source\Systems\CollisionSystem.cpp" />
     <ClCompile Include="source\Systems\FileWatcher.cpp" />
     <ClCompile Include="source\Systems\GOFactory.cpp" />
-    <ClCompile Include="source\Systems\GameLogic.cpp" />
     <ClCompile Include="source\Systems\MouseSystem.cpp" />
     <ClCompile Include="source\Systems\PrefabSystem.cpp" />
     <ClCompile Include="source\Systems\SceneSystem.cpp" />
