@@ -311,41 +311,25 @@ namespace Carmicah
 
 
 				//Collision Flags
-				ImGui::Text("Collision Flags");
+				ImGui::Text("Collision Flag:");
+				ImGui::SameLine();
 				
-
 				unsigned int &colMask = selectedTransform.collisionMask;
+				CollisionLayer currentlyActive = CollisionLayer::TOTAL_LAYERS;
+
 				for (int i = 0; i < 32; ++i)
 				{
 					uint32_t layerBit = 1 << i;
-
-					const char* layerName = nullptr;
-
-					switch (static_cast<CollisionLayer>(layerBit))
-					{
-					case CollisionLayer::DEFAULT:
-						layerName = "Default";
-						break;
-					case CollisionLayer::PLAYER:
-						layerName = "Player";
-						break;
-					case CollisionLayer::ENEMIES:
-						layerName = "Enemies";
-						break;
-					case CollisionLayer::ENVIRONMENT:
-						layerName = "Environment";
-						break;
-					default:
-						layerName = nullptr;
-						break;
-					}
-
-					if (!layerName)
-						continue;
-
+					const char* layerName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
 					bool isEnabled = colMask & layerBit;
-
-					if (ImGui::Checkbox(layerName, &isEnabled))
+					if (layerName == "NULL")
+						continue;
+					if (isEnabled)
+					{
+						ImGui::Text(layerName);
+						currentlyActive = static_cast<CollisionLayer>(layerBit);
+					}
+					/*if (ImGui::Checkbox(layerName, &isEnabled))
 					{
 						if (isEnabled)
 						{
@@ -355,7 +339,33 @@ namespace Carmicah
 						{
 							go->RemoveCollisionLayer(static_cast<CollisionLayer>(layerBit));
 						}
+					}*/
+				}
+				ImGui::SameLine();
+				if (ImGui::Button("v#######"))
+				{
+					ImGui::OpenPopup("Collision Flag Select");
+				}
+
+				if(ImGui::BeginPopup("Collision Flag Select"))
+				{
+					for (int i = 0; i < 32; ++i)
+					{
+						uint32_t layerBit = 1 << i;
+						const char* layerName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
+						bool isEnabled = colMask & layerBit;
+						if (layerName == "NULL")
+							continue;
+						if (!isEnabled)
+						{
+							if (ImGui::Selectable(layerName))
+							{
+								go->AddCollisionLayer(static_cast<CollisionLayer>(layerBit));
+								go->RemoveCollisionLayer(currentlyActive);
+							}
+						}
 					}
+					ImGui::EndPopup();
 				}
 			}
 		}
