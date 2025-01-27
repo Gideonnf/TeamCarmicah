@@ -17,6 +17,7 @@ DigiPen Institute of Technology is prohibited.
 #include "log.h"
 #include "Systems/GOFactory.h"
 #include "AssetManager.h"
+#include "TransformSystem.h"
 
 namespace Carmicah
 {
@@ -53,7 +54,16 @@ namespace Carmicah
 		enConfig.maxTexSize = config["Max Texture Size"].GetInt();
 		enConfig.batchRenderSize = config["Batch Render Size"].GetInt();
 
+		// As long as config is loaded after every system is initialized
+		//auto& transformSystem = SystemManager::GetInstance()->GetSystem<TransformSystem>();
+		const Value& collisionLayers = config["Collision Layers"];
 		
+		for (const auto& collisionObj : collisionLayers.GetArray())
+		{
+			int index = collisionObj["Layer Index"].GetInt();
+			enConfig.savedLayerArr[index] = collisionObj["Layer Mask"].GetUint();
+		}
+
 		configFilePath = filePath;
 		return enConfig;
 	}
@@ -71,6 +81,7 @@ namespace Carmicah
 		PrettyWriter<OStreamWrapper> writer(osw);
 
 		EngineConfig& enConfig = AssetManager::GetInstance()->enConfig;
+		const auto& transformSys = SystemManager::GetInstance()->GetSystem<TransformSystem>();
 
 		writer.StartObject();
 
@@ -112,6 +123,21 @@ namespace Carmicah
 
 		writer.String("Batch Render Size");
 		writer.Int(enConfig.batchRenderSize);
+
+		writer.String("Collision Layers");
+		writer.StartArray();
+
+		for (int i = 0; i < transformSys->GetMaxLayers(); ++i)
+		{
+			writer.StartObject();
+			writer.String("Layer Index");
+			writer.Int(i);
+			writer.String("Layer Mask");
+			writer.Uint(transformSys->GetLayerMap()[i]);
+			writer.EndObject();
+		}
+
+		writer.EndArray();
 
 		writer.EndObject();
 	}

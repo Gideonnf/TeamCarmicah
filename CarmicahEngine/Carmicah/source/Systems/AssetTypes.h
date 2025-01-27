@@ -197,6 +197,7 @@ namespace Carmicah
 		std::string lastScene{};
 		std::string defaultShader{}, debugShader{}, fontShader{};
 		std::string assetLoc{};
+		uint32_t savedLayerArr[MAX_LAYERS];
 	};
 }
 
