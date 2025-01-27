@@ -75,6 +75,25 @@ namespace Carmicah
 		return maxLayers;
 	}
 
+	const char* TransformSystem::GetLayerName(CollisionLayer layer)
+	{	
+		switch (layer)
+		{
+		case CollisionLayer::DEFAULT:
+			return "DEFAULT";
+
+		case CollisionLayer::PLAYER:
+			return "PLAYER";
+
+		case CollisionLayer::ENEMIES:
+			return "ENEMIES";
+		case CollisionLayer::ENVIRONMENT:
+			return "ENVIRONMENT";
+		default:
+			return "NULL";
+		}
+	}
+
 	void TransformSystem::AddToTransformMap(Entity e)
 	{
 		auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(e);
