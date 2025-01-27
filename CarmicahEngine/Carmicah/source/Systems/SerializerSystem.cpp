@@ -56,12 +56,23 @@ namespace Carmicah
 
 		// As long as config is loaded after every system is initialized
 		//auto& transformSystem = SystemManager::GetInstance()->GetSystem<TransformSystem>();
-		const Value& collisionLayers = config["Collision Layers"];
-		
-		for (const auto& collisionObj : collisionLayers.GetArray())
+		if (config.HasMember("Collision Layers"))
 		{
-			int index = collisionObj["Layer Index"].GetInt();
-			enConfig.savedLayerArr[index] = collisionObj["Layer Mask"].GetUint();
+			const Value& collisionLayers = config["Collision Layers"];
+		
+			for (const auto& collisionObj : collisionLayers.GetArray())
+			{
+				int index = collisionObj["Layer Index"].GetInt();
+				enConfig.savedLayerArr[index] = collisionObj["Layer Mask"].GetUint();
+			}
+		}
+		else
+		{
+			for (int i = 0; i < MAX_LAYERS; ++i)
+			{
+				// set default all bits to 1
+				enConfig.savedLayerArr[i] = 0xFFFFFFFF;
+			}
 		}
 
 		configFilePath = filePath;
