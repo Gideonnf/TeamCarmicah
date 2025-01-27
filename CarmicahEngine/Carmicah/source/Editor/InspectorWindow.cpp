@@ -330,6 +330,7 @@ namespace Carmicah
 						currentlyActive = static_cast<CollisionLayer>(layerBit);
 					}
 				}
+
 				ImGui::SameLine();
 				if (ImGui::Button("v#######"))
 				{
