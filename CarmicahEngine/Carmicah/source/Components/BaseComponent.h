@@ -19,11 +19,15 @@ DigiPen Institute of Technology is prohibited.
 #include <rapidjson/ostreamwrapper.h>
 #include <rapidjson/prettywriter.h>
 #include <string>
+#include <variant>
 
 #define DESERIALIZE_IF_HAVE(var, component, member, accessor, type) \
 	if (component.HasMember(member)) {															\
 				var = static_cast<type>(component[member].accessor());					\
 	}																													\
+
+using variantVar = std::variant<int, float, bool, std::string>;
+
 
 // For now until reflection is done, each component has to have their own function to serialize and deserialize their data
 template <typename derived>
@@ -62,6 +66,58 @@ public:
 			// if doesn't exist then return a blank T
 		}
 		return T{};
+	}
+
+	variantVar ReadVariant(std::string varName, const rapidjson::Value& component)
+	{
+		variantVar var{};
+		if (component.HasMember(varName.c_str()))
+		{
+			const auto& value = component[varName.c_str()];
+			if (value.IsInt())
+			{
+				var = value.GetInt();
+			}
+			else if (value.IsFloat())
+			{
+				var = value.GetFloat();
+			}
+			else if (value.IsString())
+			{
+				var = value.GetString();
+			}
+			else if (value.IsBool())
+			{
+				var = value.GetBool();
+			}
+		}
+
+		return var;
+	}
+
+	void WriteVariant(variantVar var, rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer)
+	{
+		std::visit([&](auto&& value) 
+		{
+			using T = std::decay_t<decltype(value)>;
+			if constexpr (std::is_same_v<T, int>)
+			{
+				writer.Int(value);
+			}
+			else if constexpr (std::is_same_v<T, float>)
+			{
+				writer.Double(value);
+			}
+			else if constexpr (std::is_same_v<T, bool>)
+			{
+				writer.Bool(value);
+			}
+			else if constexpr (std::is_same_v<T, std::string>)
+			{
+				std::string var = value;
+				writer.String(var.c_str());
+			}
+		}, var);
 	}
 };
 

@@ -20,10 +20,9 @@ DigiPen Institute of Technology is prohibited.
 #define SCRIPT_H
 #include <string>
 #include "BaseComponent.h"
-#include <variant>
+
 struct Script : BaseComponent<Script>
 {
-	using variantVar = std::variant<int, float, bool, std::string>;
 	std::string scriptName;
 	std::unordered_map<std::string, variantVar> scriptableFieldMap;
 
