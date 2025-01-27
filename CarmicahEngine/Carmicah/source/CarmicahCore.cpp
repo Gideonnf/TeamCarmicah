@@ -341,28 +341,30 @@ namespace Carmicah
                     // script system normal update and fixed update is both called
                     // so force normal dt into normal onUpdate
                     // and force fixed dt into fixed update
-                    // TODO: Need to be able to run both script fixed dt and normal dt update loops
                     gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime()); // TODO: Add this to profiler
                     //gameLogic->Update(window);
-                    if (CarmicahTime::GetInstance()->IsFixedDT())
+
+                    accumulatedTime += CarmicahTime::GetInstance()->GetDeltaTime();
+
+                    while (accumulatedTime >= CarmicahTime::GetInstance()->GetDeltaTime())
                     {
-                        accumulatedTime += CarmicahTime::GetInstance()->GetDeltaTime();
+                        gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
 
-                        while (accumulatedTime >= CarmicahTime::GetInstance()->GetDeltaTime())
+                        if (CarmicahTime::GetInstance()->IsFixedDT())
                         {
-                            gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
-
                             CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
                             colSystem->CollisionCheck();
                             CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
                             CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                             phySystem->Update();
                             CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
-
-                            accumulatedTime -= CarmicahTime::GetInstance()->GetDeltaTime();
                         }
+
+                        accumulatedTime -= CarmicahTime::GetInstance()->GetDeltaTime();
                     }
-                    else
+
+                    // if it isnt suppose to run fixed dt
+                    if (!CarmicahTime::GetInstance()->IsFixedDT())
                     {
 
                         CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
