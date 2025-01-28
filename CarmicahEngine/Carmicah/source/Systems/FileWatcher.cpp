@@ -39,6 +39,7 @@ namespace Carmicah
 
 				fileMap.insert({ file.path().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED) });
 
+				assetMap.insert({ file.path().filename().stem().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED)});
 				//std::string fileExt = file.path().extension().string();
 
 			}

@@ -16,10 +16,10 @@ namespace Carmicah
 
 	struct State
 	{
-		
-		std::string stateName;
 		//float stateTime;
 		//Script stateScript;
+		
+		std::string stateName;
 		variantVar stateCondition;
 		std::vector<Transition> transitions;
 

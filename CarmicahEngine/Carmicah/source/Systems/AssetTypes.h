@@ -198,6 +198,7 @@ namespace Carmicah
 		std::string defaultShader{}, debugShader{}, fontShader{};
 		std::string assetLoc{};
 		uint32_t savedLayerArr[MAX_LAYERS];
+		std::unordered_map < std::string, std::vector<std::string>> assetsToLoad;
 	};
 }
 
