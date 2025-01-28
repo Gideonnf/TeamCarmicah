@@ -21,6 +21,18 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+	//std::string model = (*it)["model"].GetString();
+	/*std::string model = (*it)["model"].GetString();
+	document.PushBack(rapidjson::Value(model.c_str(), allocator), allocator);*/
+	//std::string texture = (*it)["texture"].GetString();
+	//document.PushBack(rapidjson::Value(texture.c_str(), allocator), allocator);
+
+#define PUSH_BACK(iterator, doc, val, allocator) \
+if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
+	doc.PushBack(rapidjson::Value((*iterator)[val].GetString(), allocator), allocator);  \
+	} \
+
+
 	using namespace rapidjson;
 
 	EngineConfig SerializerSystem::LoadConfig(const std::string& filePath)
@@ -196,6 +208,8 @@ namespace Carmicah
 		PrettyWriter<OStreamWrapper> writer(osw);
 		gGOFactory->ExportGOs(writer);
 		ofs.close();
+
+		SerializeLevelAssets(sceneFile);
 		return true;
 	}
 
@@ -214,21 +228,7 @@ namespace Carmicah
 		doc.ParseStream(isw);
 		ifs.close();
 
-		//std::filesystem::path filePath(sceneFile);
-		//// extract out file name "sceneX/Y/Z"
-		//std::string fileName = filePath.stem().string();
-		//// extract out the "../Assets/.."
-		//std::string directory = filePath.parent_path().string();
-		//// concat together to make the asset file
-		//std::string assetFile = directory + fileName + ".Asset";
 
-		//std::ofstream ofs{ assetFile, std::ios::binary };
-
-		//if (!ofs)
-		//{
-		//	CM_CORE_ERROR("Unable to open scene file");
-		//	return;
-		//}
 
 		//OStreamWrapper osw(ofs);
 		//PrettyWriter<OStreamWrapper> writer(osw);
@@ -238,6 +238,11 @@ namespace Carmicah
 		//writer.String(fileName.c_str(), static_cast<rapidjson::SizeType>(fileName.length()));
 		//writer.String("ComponentAssets");
 		//writer.StartArray();
+
+		rapidjson::Document document;
+		document.SetArray();
+		rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
+
 		if (doc.HasMember("SceneObjects"))
 		{
 			// Loop through every scene object to check what assets it need
@@ -245,7 +250,7 @@ namespace Carmicah
 			for (rapidjson::SizeType i = 0; i < sceneObjects.Size(); ++i)
 			{
 				const rapidjson::Value& go = sceneObjects[i];
-				//writer.StartObject();
+				//writer.StartObject();D
 				// Lop through all the components in the game object
 				const rapidjson::Value& componentList = go["Components"];
 				for (rapidjson::Value::ConstValueIterator it = componentList.Begin(); it != componentList.End(); ++it)
@@ -256,8 +261,13 @@ namespace Carmicah
 					// check for specific type of components that need to load assets
 					if (componentName == typeid(Renderer).name())
 					{
-						std::string model = (*it)["model"].GetString();
-						std::string texture = (*it)["texture"].GetString();
+						PUSH_BACK(it, document, "model", allocator);
+						PUSH_BACK(it, document, "texture", allocator);
+
+						/*std::string model = (*it)["model"].GetString();
+						document.PushBack(rapidjson::Value(model.c_str(), allocator), allocator);*/
+						//std::string texture = (*it)["texture"].GetString();
+						//document.PushBack(rapidjson::Value(texture.c_str(), allocator), allocator);
 
 					}
 					else if (componentName == typeid(Script).name())
@@ -268,11 +278,17 @@ namespace Carmicah
 					}
 					else if (componentName == typeid(Animation).name())
 					{
-						std::string animAtlas = (*it)["Atlas"].GetString();
+						PUSH_BACK(it, document, "Atlas", allocator);
+						//std::string animAtlas = (*it)["Atlas"].GetString();
+						//document.PushBack(rapidjson::Value(animAtlas.c_str(), allocator), allocator);
+
 					}
 					else if (componentName == typeid(TextRenderer).name())
 					{
-						std::string font = (*it)["font"].GetString();
+						PUSH_BACK(it, document, "font", allocator);
+						//std::string font = (*it)["font"].GetString();
+						//document.PushBack(rapidjson::Value(font.c_str(), allocator), allocator);
+
 					}
 				}
 				//sceneGO.children.insert(ImportEntity(go, sceneGO.sceneID));
@@ -280,6 +296,42 @@ namespace Carmicah
 		}
 		/*writer.EndArray();
 		writer.EndObject();*/
+
+		rapidjson::StringBuffer buffer;
+		rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+		document.Accept(writer);
+
+		std::filesystem::path filePath(sceneFile);
+		// extract out file name "sceneX/Y/Z"
+		std::string fileName = filePath.stem().string();
+		// extract out the "../Assets/.."
+		std::string directory = filePath.parent_path().string();
+		// concat together to make the asset file
+		std::string assetFile = directory + "\\" + fileName + ".Asset";
+
+		std::ofstream ofs{ assetFile, std::ios::binary };
+
+		if (!ofs)
+		{
+			CM_CORE_ERROR("Unable to open scene file");
+			return;
+		}
+
+		ofs << buffer.GetString();
+		ofs.close();
+	}
+
+	bool SerializerSystem::ValueExist(const rapidjson::Document& doc, const char* valToCheck)
+	{
+		for (rapidjson::SizeType i = 0; i < doc.Size(); ++i)
+		{
+			if (doc[i].IsString() && doc[i] == valToCheck)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	void SerializerSystem::SerializePrefab(Prefab prefab)

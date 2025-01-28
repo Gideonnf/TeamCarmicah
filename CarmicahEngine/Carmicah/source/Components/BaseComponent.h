@@ -26,6 +26,8 @@ DigiPen Institute of Technology is prohibited.
 				var = static_cast<type>(component[member].accessor());					\
 	}																													\
 
+
+
 using variantVar = std::variant<int, float, bool, std::string>;
 
 

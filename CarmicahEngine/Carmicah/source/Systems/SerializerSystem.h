@@ -108,6 +108,8 @@ namespace Carmicah
 		/// <param name="scene"></param>
 		void DeserializeLevelAssets(std::string scene);
 
+		bool ValueExist(const rapidjson::Document& doc, const char* valToCheck);
+
 	};
 
 	static SerializerSystem& Serializer = *SerializerSystem::GetInstance();
