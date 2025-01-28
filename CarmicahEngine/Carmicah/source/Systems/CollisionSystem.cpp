@@ -113,19 +113,16 @@ namespace Carmicah
 				{
 					auto& parent = componentManager->GetComponent<Transform>(transform.parent);
 
-					// Combine parent and child transforms
-					Matrix3x3<float> combinedTransform = parent.worldSpace * transform.localSpace;
-
 					// Compute the world position of the child object
 					Vec2f worldPos = {
-						combinedTransform.m20, // Translation x-component
-						combinedTransform.m21  // Translation y-component
+						transform.worldSpace.m20, // Translation x-component
+						transform.worldSpace.m21  // Translation y-component
 					};
 
 					// Compute combined scale
 					Vec2f combinedScale = {
-						transform.Scale().x * parent.Scale().x,
-						transform.Scale().y * parent.Scale().y
+						transform.Scale().x * parent.accumulatedScale.x,
+						transform.Scale().y * parent.accumulatedScale.y
 					};
 
 					// Compute combined rotation (assuming rotations are additive)
@@ -580,7 +577,7 @@ namespace Carmicah
 
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
-
+			CM_CORE_INFO("ID in CollisionSystem 1st {}", obj1);
 			EntityCollidedMessage newMsg(obj1);
 			SendSysMessage(&newMsg);
 
@@ -599,6 +596,7 @@ namespace Carmicah
 
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
+			//CM_CORE_INFO("ID in CollisionSystem 2nd {}", obj1);
 			EntityCollidedMessage newMsg(obj1);
 			SendSysMessage(&newMsg);
 

@@ -71,12 +71,14 @@ namespace Carmicah
 		if (action == GLFW_PRESS)
 		{
 			Input.UpdateKeyMap(key, PRESS);
-#ifndef CM_INSTALLER
+
+			#ifndef CM_INSTALLER
 			if (key == GLFW_KEY_ESCAPE)
 			{
 				glfwSetWindowShouldClose(window, GL_TRUE);
 			}
-#endif
+			#endif
+
 			// CTRL-ALT-DEL
 			bool ctrlPressed = Input.IsKeyDown(KEY_LEFT_CONTROL) || Input.IsKeyDown(KEY_RIGHT_CONTROL);
 			bool altPressed = Input.IsKeyDown(KEY_LEFT_ALT) || Input.IsKeyDown(KEY_RIGHT_ALT);
@@ -123,6 +125,7 @@ namespace Carmicah
 		}
 	}
 
+
 	/* function documentation--------------------------------------------------------------------------
 	\brief      Callback function to handle mouse button input events, such as press and release.
 	-------------------------------------------------------------------------------------------------*/
@@ -142,7 +145,7 @@ namespace Carmicah
 			{
 				Input.UpdateMouseMap(button, KeyStates::PRESS);
 				Vec2f a = Input.GetMouseWorldPosition();
-				CM_CORE_INFO("{}. {}", a.x, a.y);
+				//CM_CORE_INFO("{}. {}", a.x, a.y);
 
 			}
 		}
@@ -158,33 +161,22 @@ namespace Carmicah
 			}
 		}
 
-		// Check for HOLD state (when a button is already pressed)
-		// this code check is useless and doesnt work because PRESSED takes precedence over HOLD every instance 
-		//if (Input.IsMouseHold(MOUSE_BUTTON_LEFT))
-		//{
-		//	std::cout << "Left Mouse Button: HOLD" << std::endl;
-		//}
-		//if (Input.IsMouseHold(MOUSE_BUTTON_RIGHT))
-		//{
-		//	std::cout << "Right Mouse Button: HOLD" << std::endl;
-		//}
-
 		// DRAG CHECK
 		if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_LEFT)
 		{
 			// mouse is now dragging
 			Vec2i mousePosI = { static_cast<int>(Input.GetMousePosition().x), 1080 - static_cast<int>(Input.GetMousePosition().y) };
 
-#ifndef CM_INSTALLER
+			#ifndef CM_INSTALLER
 			SceneToImgui::SCENE_IMGUI currScene = SceneToImgui::GetInstance()->GetHovering();
 			if (currScene == SceneToImgui::NO_SCENE)
 			{
 				return;
 			}
 			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(static_cast<SceneToImgui::SCENE_IMGUI>(SceneToImgui::GetInstance()->GetHovering()), mousePosI.x, mousePosI.y));
-#else
+			#else
 			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(SceneToImgui::GAME_SCENE, mousePosI.x, mousePosI.y));
-#endif
+			#endif
 
 			Input.ProxySend(&msg);
 		}
@@ -225,14 +217,13 @@ namespace Carmicah
 		// adjust zoom level based on scroll direction
 		if (yOffset > 0)
 		{
-			//std::cout << "i'm scrolling up" << std::endl;
 			//std::cout << "scroll up (zoom in)" << std::endl;
-			// call a function or update a variable to handle zooming in
+			Input.SetScrollOffset(yOffset);
 		}
 		else if (yOffset < 0)
 		{
-			//std::cout << "i'm scrolling down" << std::endl;
 			//std::cout << "scroll down (zoom out)" << std::endl;
+			Input.SetScrollOffset(yOffset);
 		}
 		
 		// or is this function for scrolling up and down the scene? 
@@ -251,19 +242,20 @@ namespace Carmicah
 			// pause all audio
 			auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 			souSystem->PauseAllSounds();
-#ifdef CM_INSTALLER
+
+			#ifdef CM_INSTALLER
 			SceneWindow::mIsPaused = true;
-#endif
+			#endif
 		}
 		else
 		{
-			
 			// resume all audio
 			auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 			souSystem->ResumeAllSounds();
-#ifdef CM_INSTALLER
+
+			#ifdef CM_INSTALLER
 			SceneWindow::mIsPaused = false;
-#endif
+			#endif
 		}
 	}
 
@@ -274,7 +266,8 @@ namespace Carmicah
 	{
 		UNUSED(window);
 		UNUSED(focused);
-#ifdef CM_INSTALLER
+
+		#ifdef CM_INSTALLER
 		int isFocused = glfwGetWindowAttrib(window, GLFW_FOCUSED);
 
 		if (!isFocused && !Input.mNotFullScreen)
@@ -282,7 +275,7 @@ namespace Carmicah
 
 			glfwIconifyWindow(window);
 		}
-#endif
+		#endif
 	}
 
 	#pragma endregion
@@ -401,6 +394,7 @@ namespace Carmicah
 			}
 		}
 		mChangedKeyQueue = mTempQueue;
+		mScrollAmt = 0.f;
 	}
 
 	#pragma endregion
@@ -628,6 +622,16 @@ namespace Carmicah
 	Vector2D<double> InputSystem::GetDragCurrentPos() const
 	{
 		return mCurrMousePos;
+	}
+
+	void InputSystem::SetScrollOffset(const double& in)
+	{
+		mScrollAmt = static_cast<float>(in) * 2.f;
+	}
+
+	const float& InputSystem::GetScrollOffset() const
+	{
+		return mScrollAmt;
 	}
 
 	/* function documentation--------------------------------------------------------------------------

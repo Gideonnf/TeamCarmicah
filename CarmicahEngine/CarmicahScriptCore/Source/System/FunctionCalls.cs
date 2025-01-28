@@ -80,5 +80,8 @@ namespace Carmicah
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void CloseGame();
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Log(string msg);
+
     }
 }

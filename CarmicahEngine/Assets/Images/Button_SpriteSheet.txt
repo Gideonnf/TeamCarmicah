@@ -30,34 +30,42 @@ Hover_Menu
 Top left: 0 x 910, 421 x 130
 9 sprites
 
-Click_Home
-Top left: 0 x 1050, 421 x 130
+Hover_Credits
+Top left: 0 x 1040, 421 x 130
 9 sprites
 
-Click_HowToPlay
+Click_Home
 Top left: 0 x 1180, 421 x 130
 9 sprites
 
-Click_Settings
+Click_HowToPlay
 Top left: 0 x 1310, 421 x 130
 9 sprites
 
-Click_Resume
+Click_Settings
 Top left: 0 x 1440, 421 x 130
 9 sprites
 
-Click_Back
+Click_Resume
 Top left: 0 x 1570, 421 x 130
 9 sprites
 
-Click_Quit
+Click_Back
 Top left: 0 x 1700, 421 x 130
 9 sprites
 
-Click_Play
+Click_Quit
 Top left: 0 x 1830, 421 x 130
 9 sprites
 
-Click_Menu
+Click_Play
 Top left: 0 x 1960, 421 x 130
+9 sprites
+
+Click_Menu
+Top left: 0 x 2090, 421 x 130
+9 sprites
+
+Click_Credits
+Top left: 0 x 2220, 421 x 130
 9 sprites

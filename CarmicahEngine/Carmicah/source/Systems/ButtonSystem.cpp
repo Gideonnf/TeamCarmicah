@@ -126,7 +126,7 @@ namespace Carmicah
 				{
 					auto& button = ComponentManager::GetInstance()->GetComponent<Button>(castedMsg->mEntityID);
 					//auto& buttonRenderer = ComponentManager::GetInstance()->GetComponent<Renderer>(castedMsg->mEntityID);
-					if (button.isPressed)
+					if (!button.isPressed)
 					{
 						//buttonRenderer.Texture(button.ButtonImagePressed);
 						OnPress(button, castedMsg->mEntityID);
@@ -155,6 +155,8 @@ namespace Carmicah
 		UNUSED(buttonComponent);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 		souSystem->PlaySoundThis("pop", SoundCategory::UI, SoundSystem::SOUND_INMENU, false, 0.5f);
+
+		buttonComponent.isPressed = true;
 
 		OnClickMsg newMsg(entityID);
 		SendSysMessage(&newMsg);

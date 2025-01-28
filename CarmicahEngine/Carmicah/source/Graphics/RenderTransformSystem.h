@@ -16,7 +16,6 @@ DigiPen Institute of Technology is prohibited.
 #ifndef RENDER_TRANSFORM_SYSTEM_H
 #define RENDER_TRANSFORM_SYSTEM_H
 
-#include "../ECS/GameObject.h"
 #include "../ECS/BaseSystem.h"
 
 namespace Carmicah
