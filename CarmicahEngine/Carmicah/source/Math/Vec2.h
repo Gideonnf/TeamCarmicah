@@ -45,8 +45,8 @@ namespace Carmicah
 		Vector2D(T _x, T _y) : x(_x), y(_y) {}
 		template<typename O> Vector2D(Vector2D<O> _other)
 		{
-			x = static_cast<O>(_other.x);
-			y = static_cast<O>(_other.y);
+			x = static_cast<T>(_other.x);
+			y = static_cast<T>(_other.y);
 		}
 
 		//Assignment Operators
@@ -130,6 +130,7 @@ namespace Carmicah
 
 		//Default Vectors
 		static Vector2D zero() { return Vector2D(0, 0); }
+		static Vector2D one() { return Vector2D(1, 1); }
 		static Vector2D up() { return Vector2D(0, 1); }
 		static Vector2D down() { return Vector2D(0, -1); }
 		static Vector2D left() { return Vector2D(-1, 0); }
@@ -153,6 +154,11 @@ namespace Carmicah
 	{
 		return Vector2D(rhs.x * lhs, rhs.y * lhs);
 	}
+	template<typename T> Vector2D<T> operator * (const Vector2D<T>& lhs, const Vector2D<T>& rhs)
+	{
+		return Vector2D(lhs.x * rhs.x, lhs.y * rhs.y);
+	}
+
 	template<typename T> Vector2D<T> operator / (const Vector2D<T>& lhs, T rhs)
 	{
 		if (rhs == 0)

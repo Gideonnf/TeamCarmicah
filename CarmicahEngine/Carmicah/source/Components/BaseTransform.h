@@ -26,7 +26,7 @@ namespace Carmicah
     protected:
         Vec2f pos{};
         Vec2f scale{};
-        Vec2f absPosChange{};
+        Vec2f intScale{};// InternalScale
 
         float rot;
         float depth{};
@@ -46,11 +46,6 @@ namespace Carmicah
         {
             notUpdated = false;
             return pos;
-        }
-        Vec2f& GetUpdateAbsPos()
-        {
-            notUpdated = false;
-            return absPosChange;
         }
         void Pos(const Vec2f& rhs)
         {
@@ -113,6 +108,16 @@ namespace Carmicah
             scale.y = y;
             notUpdated = false;
         }
+        void InternalScale(const float& x, const float& y)
+        {
+            intScale.x = x;
+            intScale.y = y;
+            notUpdated = false;
+        }
+        Vec2f CalcedRenderingScale()
+        {
+            return intScale + Vec2f::one();
+        }
         const float& Depth() const
         {
             return depth;
@@ -168,6 +173,7 @@ namespace Carmicah
             scale.x = static_cast<float>(component["xScale"].GetDouble());
             scale.y = static_cast<float>(component["yScale"].GetDouble());
             rot = static_cast<float>(component["rot"].GetDouble());
+            notUpdated = true;
         }
 
         virtual void SerializeComponent(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer) override

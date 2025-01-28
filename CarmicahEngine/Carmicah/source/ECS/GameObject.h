@@ -16,6 +16,7 @@ DigiPen Institute of Technology is prohibited.
 #define GAME_OBJECT_H
 #include "ECSTypes.h"
 #include "SystemManager.h"
+#include "../Components/Transform.h"
 #include "log.h"
 
 namespace Carmicah
@@ -60,6 +61,10 @@ namespace Carmicah
 
 		bool SetParent(GameObject parentObj);
 
+		void AddCollisionLayer(CollisionLayer layer);
+
+		void RemoveCollisionLayer(CollisionLayer layer);
+
 		template<typename T>
 		void AddComponent(T Component)
 		{
@@ -103,8 +108,11 @@ namespace Carmicah
 		template <typename T>
 		bool HasComponent()
 		{
+			//if (mID == 0) return false;
+
 			if (!EntityManager::GetInstance()->DoesEntityExist(mID))
 			{
+
 				CM_CORE_ERROR("Entity does not exist");
 				return false;
 			}

@@ -22,6 +22,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/AssetManager.h"
 #include "Input/InputSystem.h"
 #include "Editor/HierarchyWindow.h"
+#include "Editor/SceneToImgui.h"
 
 namespace Carmicah
 {
@@ -64,7 +65,22 @@ void RenderHelper::UpdateEditorCam()
 		mOldMousePos = Input.GetMousePosition();
 	}
 
-	if (Input.IsKeyHold(KEY_EQUAL))
+	if (SceneToImgui::GetInstance()->GetHovering() == SceneToImgui::EDITOR_SCENE && abs(Input.GetScrollOffset()) > DBL_EPSILON)
+	{
+		Vec2f& s = mEditorCam.GetScale();
+		float ratio = s.x / s.y;
+		if (Input.GetScrollOffset() > 0.f)
+		{
+			s.x += EDITOR_ZOOM_SPEED * Input.GetScrollOffset() * ratio * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
+			s.y += EDITOR_ZOOM_SPEED * Input.GetScrollOffset() * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
+		}
+		else
+		{
+			s.x = std::fmaxf(s.x + EDITOR_ZOOM_SPEED * Input.GetScrollOffset() * ratio * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime()), MIN_HEIGHT_SCALE * ratio);
+			s.y = std::fmaxf(s.y + EDITOR_ZOOM_SPEED * Input.GetScrollOffset() * static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime()), MIN_HEIGHT_SCALE);
+		}
+	}
+	else if (Input.IsKeyHold(KEY_EQUAL))
 	{
 		Vec2f& s = mEditorCam.GetScale();
 		float ratio = s.x / s.y;
@@ -126,7 +142,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 						continue;
 					// Handle Camera Transform[
 					Mtx3x3f camSpace{};
-					camSpace.scaleThis(cam.value()->Scale()).rotDegThis(cam.value()->Rot()).translateThis(-cam.value()->Pos());
+					camSpace.lookAtDeg(cam.value()->Pos(), cam.value()->Rot(), cam.value()->Scale());
 					if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
 						glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
 				}

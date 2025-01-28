@@ -202,6 +202,7 @@ namespace Carmicah
 	{
 		UNUSED(type);
 		Transform& selectedTransform = go->GetComponent<Transform>();
+		float tempValue = 0;
 		if (ImGui::CollapsingHeader("Transform Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			if (ImGui::BeginTable("Transform Table", 2, ImGuiTableFlags_Borders))
@@ -217,10 +218,10 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("xPos");
 				ImGui::TableNextColumn();
-				Vec2f pos = selectedTransform.Pos();
-				if (ImGui::DragFloat("##xPos", &pos.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				tempValue = selectedTransform.GetPos().x;
+				if (ImGui::DragFloat("##xPos", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
-					selectedTransform.Pos(pos);
+					selectedTransform.PosX(tempValue);
 					if (selectedTransform.parent != 0)
 					{
 						//Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
@@ -238,10 +239,10 @@ namespace Carmicah
 				ImGui::Text("yPos");
 				ImGui::TableNextColumn();
 				//Vec2f pos = data.Pos();
-
-				if (ImGui::DragFloat("##yPos", &pos.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				tempValue = selectedTransform.GetPos().y;
+				if (ImGui::DragFloat("##yPos", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
-					selectedTransform.Pos(pos);
+					selectedTransform.PosY(tempValue);
 					if (selectedTransform.parent != 0)
 					{
 						//Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
@@ -262,10 +263,10 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("Depth");
 				ImGui::TableNextColumn();
-				float depth = selectedTransform.Depth();
-				if (ImGui::DragFloat("##zPos", &depth, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				tempValue = selectedTransform.Depth();
+				if (ImGui::DragFloat("##zPos", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
-					selectedTransform.Depth(depth);
+					selectedTransform.Depth(tempValue);
 				}
 
 				// Rotation
@@ -273,10 +274,10 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("Rotation");
 				ImGui::TableNextColumn();
-				float rotVar = selectedTransform.Rot();
-				if (ImGui::DragFloat("##rot", &rotVar, 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
+				tempValue = selectedTransform.Rot();
+				if (ImGui::DragFloat("##rot", &tempValue, 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
-					selectedTransform.GetRot() = rotVar;
+					selectedTransform.GetRot() = tempValue;
 					// Wrap the rotation value between 0 and 360 degrees
 					selectedTransform.Rot(fmodf(selectedTransform.Rot(), 360.0f));
 					if (selectedTransform.Rot() < 0.0f)
@@ -291,20 +292,69 @@ namespace Carmicah
 				ImGui::Text("xScale");
 				ImGui::TableNextColumn();
 				Vec2f scale = selectedTransform.Scale();
-				if (ImGui::DragFloat("##xScale", &scale.x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				tempValue = scale.x;
+				if (ImGui::DragFloat("##xScale", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
-					selectedTransform.Scale(scale);
+					selectedTransform.ScaleX(tempValue);
 				}
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("yScale");
 				ImGui::TableNextColumn();
-				if (ImGui::DragFloat("##yScale", &scale.y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				tempValue = scale.y;
+				if (ImGui::DragFloat("##yScale", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
-					selectedTransform.Scale(scale);
+					selectedTransform.ScaleY(tempValue);
 				}
 				ImGui::EndTable();
+
+
+				//Collision Flags
+				ImGui::Text("Collision Flags");
+				unsigned int &colMask = selectedTransform.collisionMask;
+				for (int i = 0; i < 32; ++i)
+				{
+					unsigned int layerBit = 1 << i;
+
+					const char* layerName = nullptr;
+
+					switch (layerBit)
+					{
+					case CollisionLayer::Default:
+						layerName = "Default";
+						break;
+					case CollisionLayer::Player:
+						layerName = "Player";
+						break;
+					case CollisionLayer::Enemies:
+						layerName = "Enemies";
+						break;
+					case CollisionLayer::Environment:
+						layerName = "Environment";
+						break;
+					default:
+						layerName = nullptr;
+						break;
+					}
+
+					if (!layerName)
+						continue;
+
+					bool isEnabled = colMask & layerBit;
+
+					if (ImGui::Checkbox(layerName, &isEnabled))
+					{
+						if (isEnabled)
+						{
+							go->AddCollisionLayer(static_cast<CollisionLayer>(layerBit));
+						}
+						else
+						{
+							go->RemoveCollisionLayer(static_cast<CollisionLayer>(layerBit));
+						}
+					}
+				}
 			}
 		}
 	}
@@ -314,6 +364,7 @@ namespace Carmicah
 	{
 		UNUSED(type);
 		UITransform& selectedUITransform = go->GetComponent<UITransform>();
+		float tempValue = 0;
 		if (ImGui::CollapsingHeader("UI Transform Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			if (ImGui::BeginTable("UI Transform Table", 2, ImGuiTableFlags_Borders))
@@ -329,27 +380,42 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("xPos");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##xPos", &selectedUITransform.GetPos().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+				Vec2f pos = selectedUITransform.GetPos();
+				tempValue = pos.x;
+				if (ImGui::DragFloat("##xPos", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					selectedUITransform.PosX(tempValue);
+				}
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("yPos");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##yPos", &selectedUITransform.GetPos().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+				tempValue = pos.y;
+				if (ImGui::DragFloat("##yPos", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					selectedUITransform.PosY(tempValue);
+				}
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Depth");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##Depth", &selectedUITransform.GetDepth(), 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+				tempValue = selectedUITransform.Depth();
+				if (ImGui::DragFloat("##Depth", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					selectedUITransform.Depth(tempValue);
+				}
 
 				//Rotation
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Rotation");
 				ImGui::TableNextColumn();
-				if(ImGui::DragFloat("##Rotation", &selectedUITransform.GetRot(), 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
+				tempValue = selectedUITransform.Rot();
+				if(ImGui::DragFloat("##Rotation", &tempValue, 1.0f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
+					selectedUITransform.Rot(tempValue);
 					selectedUITransform.Rot(fmodf(selectedUITransform.GetRot(), 360.0f));
 					if (selectedUITransform.GetRot() < 0.0f)
 					{
@@ -362,13 +428,22 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("xScale");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##xScale", &selectedUITransform.GetScale().x, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+				Vec2f scale = selectedUITransform.Scale();
+				tempValue = scale.x;
+				if (ImGui::DragFloat("##xScale", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					selectedUITransform.ScaleX(tempValue);
+				}
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("yScale");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##yScale", &selectedUITransform.GetScale().y, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");
+				tempValue = scale.y;
+				if (ImGui::DragFloat("##yScale", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					selectedUITransform.ScaleY(tempValue);
+				}
 
 				//ImGui::TableNextRow();
 				//ImGui::TableNextColumn();
@@ -545,6 +620,7 @@ namespace Carmicah
 	bool InspectorWindow::RenderRigidBodyTable(T* go, TABLETYPE type)
 	{
 		bool modified = false;
+		float tempValue = 0;
 		RigidBody& rb = go->GetComponent<RigidBody>();
 		if (ImGui::CollapsingHeader("Rigid Body Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
@@ -570,25 +646,41 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("Velocity X");
 				ImGui::TableNextColumn();
-				modified |= ImGui::DragFloat("##VelocityX", &rb.velocity.x, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+				tempValue = rb.velocity.x;
+				if (modified |= ImGui::DragFloat("##VelocityX", &tempValue, 0.1f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					rb.velocity.x = tempValue;
+				}
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Velocity Y");
 				ImGui::TableNextColumn();
-				modified |= ImGui::DragFloat("##VelocityY", &rb.velocity.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+				tempValue = rb.velocity.y;
+				if (modified |= ImGui::DragFloat("##VelocityY", &tempValue, 0.1f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					rb.velocity.y = tempValue;
+				}
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Mass");
 				ImGui::TableNextColumn();
-				modified |= ImGui::DragFloat("##Mass", &rb.mass, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+				tempValue = rb.mass;
+				if (modified |= ImGui::DragFloat("##Mass", &tempValue, 0.1f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					rb.mass = tempValue;
+				}
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Gravity");
 				ImGui::TableNextColumn();
-				modified |= ImGui::DragFloat("##Gravity", &rb.gravity, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+				tempValue = rb.gravity;
+				if (modified |= ImGui::DragFloat("##Gravity", &tempValue, 0.1f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					rb.gravity = tempValue;
+				}
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
@@ -675,6 +767,7 @@ namespace Carmicah
 	void InspectorWindow::RenderCollider2DTable(T* go, TABLETYPE type)
 	{
 		Collider2D& col = go->GetComponent<Collider2D>();
+		float tempValue = 0;
 		if (ImGui::CollapsingHeader("Collider Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			switch (type)
@@ -705,36 +798,56 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("Min X");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##MinX", &col.min.x, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+				tempValue = col.min.x;
+				if (ImGui::DragFloat("##MinX", &tempValue, 0.1f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					col.min.x = tempValue;
+				}
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Min Y");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##MinY", &col.min.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+				tempValue = col.min.y;
+				if (ImGui::DragFloat("##MinY", &tempValue, 0.1f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					col.min.y = tempValue;
+				}
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Max X");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##MaxX", &col.max.x, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+				tempValue = col.max.x;
+				if (ImGui::DragFloat("##MaxX", &tempValue, 0.1f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					col.max.x = tempValue;
+				}
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Max Y");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##MaxY", &col.max.y, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+				tempValue = col.max.y;
+				if (ImGui::DragFloat("##MaxY", &tempValue, 0.1f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					col.max.y = tempValue;
+				}
 
 				ImGui::TableNextColumn();
 				ImGui::Text("Custom Width");
 				ImGui::TableNextColumn();
-				float width = col.GetCustomWidth();
-				if (ImGui::DragFloat("##CustomWidth", &width, 0.1f, 0.5f, FLT_MAX, "%.3f"))
+				tempValue = col.GetCustomWidth();
+				if (ImGui::DragFloat("##CustomWidth", &tempValue, 0.1f, 0.5f, FLT_MAX, "%.3f"))
 				{
-					if (width < 0.0f)
+					if (tempValue < 0.0f)
 					{
-						width = 1.0f;
-						col.CustomWidth(width);
+						tempValue = 1.0f;
+						col.CustomWidth(tempValue);
+					}
+					else
+					{
+						col.CustomWidth(tempValue);
 					}
 				}
 				
@@ -742,13 +855,17 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("Custom Height");
 				ImGui::TableNextColumn();
-				float height = col.GetCustomHeight();
-				if (ImGui::DragFloat("##CustomHeight", &height, 0.1f, 0.5f, FLT_MAX, "%.3f"))
+				tempValue = col.GetCustomHeight();
+				if (ImGui::DragFloat("##CustomHeight", &tempValue, 0.1f, 0.5f, FLT_MAX, "%.3f"))
 				{
-					if (height < 0.0f)
+					if (tempValue < 0.0f)
 					{
-						height = 1.0f;
-						col.CustomHeight(height);
+						tempValue = 1.0f;
+						col.CustomHeight(tempValue);
+					}
+					else
+					{
+						col.CustomHeight(tempValue);
 					}
 				}
 				

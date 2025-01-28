@@ -133,10 +133,8 @@ namespace Carmicah
 		{
 			m[0] *= x;
 			m[1] *= x;
-			m[2] *= x;
 			m[3] *= y;
 			m[4] *= y;
-			m[5] *= y;
 			return *this;
 		}
 
@@ -144,10 +142,8 @@ namespace Carmicah
 		{
 			m[0] *= other.x;
 			m[1] *= other.x;
-			m[2] *= other.x;
 			m[3] *= other.y;
 			m[4] *= other.y;
-			m[5] *= other.y;
 			return *this;
 		}
 
@@ -172,19 +168,31 @@ namespace Carmicah
 		//Translate
 		Matrix3x3& translateThis(T x, T y)
 		{
-			m[6] += x * m[0];
-			m[7] += y * m[4];
+			m[6] += x * m[0] + y * m[3];
+			m[7] += x * m[1] + y * m[4];
 			return *this;
 		}
 
 		Matrix3x3& translateThis(Vector2D<T> other)
 		{
-			m[6] += other.x * m[0];
-			m[7] += other.y * m[4];
+			m[6] += other.x * m[0] + other.y * m[3];
+			m[7] += other.x * m[1] + other.y * m[4];
 			return *this;
 		}
 
+		Matrix3x3& lookAtDeg(const Vector2D<T>& pos, const T& angle, const Vector2D<T>& scale)
+		{
+			T rad = angle * (PI / 180);
 
+			m[0] = cos(rad) * scale.x;
+			m[3] = sin(rad) * scale.x;
+			m[1] = cos(rad + PI / 2) * scale.y;
+			m[4] = sin(rad + PI / 2) * scale.y;
+			m[6] = -pos.x * m[0] -pos.y * m[3];
+			m[7] = -pos.x * m[1] - pos.y * m[4];
+
+			return *this;
+		}
 
 
 		//Transpose

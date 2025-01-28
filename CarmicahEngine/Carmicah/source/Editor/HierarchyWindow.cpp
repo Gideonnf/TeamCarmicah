@@ -75,6 +75,11 @@ namespace Carmicah
 			flags |= ImGuiTreeNodeFlags_Leaf;
 		}
 
+		if (selectedGO == &go)
+		{
+			flags |= ImGuiTreeNodeFlags_Selected;
+		}
+
 		DrawCustomSeparator(go);
 
 		//Dropping on the line between GameObjects
@@ -82,7 +87,7 @@ namespace Carmicah
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 			{
-				GameObject& droppedGO = *(GameObject*)payload->Data;
+ 				GameObject& droppedGO = *(GameObject*)payload->Data;
 				Entity targettedGOParent = 0;
 
 				if (droppedGO.GetID() == go.GetID())
@@ -112,7 +117,8 @@ namespace Carmicah
 							else
 							{
 								Editor::mSceneHierarchy.insert(targettedGO, droppedGO.GetID());
-								Editor::mSceneHierarchy.erase(droppedIt);
+								auto newDroppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
+								Editor::mSceneHierarchy.erase(newDroppedIt);
 							}
 
 						}
@@ -145,7 +151,7 @@ namespace Carmicah
 					}
 
 					//If they have different parents
-					else
+					if(targettedGOParent != gGOFactory->sceneGO.sceneID)
 					{
 						//Find out the new parent (should be the parent of GO below the line)
 						Entity newParentID = 0;
@@ -293,7 +299,7 @@ namespace Carmicah
 
 	void HierarchyWindow::Update()
 	{
-
+		char inputBuffer[1024];
 		if (ImGui::Begin(mTitle))
 		{
 
@@ -302,9 +308,9 @@ namespace Carmicah
 			{
 				if (selectedGO->HasComponent<Transform>())
 				{
-					int childrenNum = selectedGO->GetComponent<Transform>().children.size();
+					unsigned int childrenNum = selectedGO->GetComponent<Transform>().collisionMask;
 					std::string text = std::to_string(childrenNum);
-					CM_CORE_INFO(text);
+					CM_CORE_INFO("Collision Mask: " + text);
 				}
 			}*/
 
@@ -315,11 +321,13 @@ namespace Carmicah
 				{
 					if(ImGui::BeginTabBar("Tabs"))
 					{
+
 						//Scene Hierarchy
 						if (ImGui::BeginTabItem("Scene Hierarchy"))
 						{
 							if(ImGui::TreeNodeEx(gGOFactory->sceneGO.sceneName.c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow))
 							{
+
 								gGOFactory->ForAllSceneGOs([this](GameObject& go)
 									{
 										GOButton(go);
@@ -495,23 +503,20 @@ namespace Carmicah
 				goName[sizeof(goName) - 1] = '\0';
 			}
 
-			/*if (ImGui::Button("Create Folder"))
-			{
-				gGOFactory->CreateGO(goName, TRANSFORMTYPE::NONE);
-				std::strncpy(goName, "Default", sizeof(goName) - 1);
-				goName[sizeof(goName) - 1] = '\0';
-			}*/
-
 			std::string buttonName = "Save current scene: " + SceneToImgui::GetInstance()->currentScene;
 			if (ImGui::Button(buttonName.c_str()))
 			{
 				std::string sceneFile;
-				AssetManager::GetInstance()->GetScene(SceneToImgui::GetInstance()->currentScene, sceneFile);
+				AssetManager::GetInstance()->GetScene(gGOFactory->sceneGO.sceneName, sceneFile);
 				SerializerSystem::GetInstance()->SerializeScene(sceneFile);
 				//gGOFactory->DestroyAll();
 			}
 		}
+		
+
 		ImGui::End();
+
+
 	}
 
 	void HierarchyWindow::EntityDestroyed(Entity id)

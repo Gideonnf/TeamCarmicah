@@ -225,6 +225,9 @@ namespace Carmicah
 		// TODO: Handle removal of assets
 		// cant rlly be done/tested until editor has ways to delete and add assets
 
+		void RemoveAsset(std::string filePath);
+
+
 
 		enum class ASSETCOPIED
 		{
@@ -244,6 +247,47 @@ namespace Carmicah
 			Whether the copy was successful/unsupported.
 		***************************************************************************/
 		ASSETCOPIED CopyAssetToAssetsFolder(const std::string& source, const char* assetPath);
+
+		/*!*************************************************************************
+		brief
+			Renames the Scene
+		param[oldName]
+		The old name of the Scene
+		param[newName]
+			The new name of the Scene
+		param[assetPath]
+			The asset folder path
+		***************************************************************************/
+		void RenameScene(std::string oldName, std::string newName, const char* assetPath);
+
+		/*!*************************************************************************
+		brief
+			Creates a Scene Name thats not a duplicate
+		param[sceneName]
+		The name of the Scene to be checked
+		param[newName]
+			The new name of the Scene
+		return
+			String for the Name of the scene
+		***************************************************************************/
+		std::string CreateSceneName(std::string sceneName);
+
+		/*!*************************************************************************
+		brief
+			Clones a Scene
+		param[sceneName]
+		The name of the Scene to be cloned
+		***************************************************************************/
+		void CloneScene(std::string sceneName);
+
+		/*!*************************************************************************
+		brief
+			Deletes a Scene
+		param[sceneName]
+		The name of the Scene to be deleted
+		***************************************************************************/
+		void DeleteScene(std::string sceneName);
+
 	private:
 
 
