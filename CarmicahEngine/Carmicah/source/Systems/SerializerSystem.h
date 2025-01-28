@@ -106,7 +106,7 @@ namespace Carmicah
 		/// or call the function in file watcher itself
 		/// </summary>
 		/// <param name="scene"></param>
-		void DeserializeLevelAssets(std::string scene);
+		void DeserializeLevelAssets(std::string sceneFIle);
 
 		bool ValueExist(const rapidjson::Document& doc, const char* valToCheck);
 

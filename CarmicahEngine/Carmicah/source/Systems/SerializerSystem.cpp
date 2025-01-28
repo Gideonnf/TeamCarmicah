@@ -228,17 +228,6 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 		doc.ParseStream(isw);
 		ifs.close();
 
-
-
-		//OStreamWrapper osw(ofs);
-		//PrettyWriter<OStreamWrapper> writer(osw);
-
-		//writer.StartObject();
-		//writer.String("Scene");
-		//writer.String(fileName.c_str(), static_cast<rapidjson::SizeType>(fileName.length()));
-		//writer.String("ComponentAssets");
-		//writer.StartArray();
-
 		rapidjson::Document document;
 		document.SetArray();
 		rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
@@ -319,6 +308,45 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 
 		ofs << buffer.GetString();
 		ofs.close();
+	}
+
+	void SerializerSystem::DeserializeLevelAssets(std::string sceneFile)
+	{
+		std::filesystem::path filePath(sceneFile);
+		// extract out file name "sceneX/Y/Z"
+		std::string fileName = filePath.stem().string();
+		// extract out the "../Assets/.."
+		std::string directory = filePath.parent_path().string();
+		// concat together to make the asset file
+		std::string assetFile = directory + "\\" + fileName + ".Asset";
+
+		std::ifstream ifs{ sceneFile, std::ios::binary };
+		if (!ifs)
+		{
+			CM_CORE_ERROR("Unable to open scene file");
+			return;
+		}
+
+		std::stringstream buffer;
+		buffer << ifs.rdbuf();
+		std::string jsonStr = buffer.str();
+		ifs.close();
+
+		rapidjson::Document document;
+		if (document.Parse(jsonStr.c_str()).HasParseError())
+		{
+			// error in parsing
+			CM_CORE_ERROR("Unable to parse level assets");
+			return;
+		}
+
+		// loop thru the document
+		for (rapidjson::SizeType i = 0; i < document.Size(); ++i)
+		{
+			const std::string assetName = document[i].GetString();
+
+			// use this string to load assets in filewatcher or smth like that
+		}
 	}
 
 	bool SerializerSystem::ValueExist(const rapidjson::Document& doc, const char* valToCheck)
