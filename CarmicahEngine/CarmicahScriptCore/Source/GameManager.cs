@@ -339,7 +339,7 @@ namespace Carmicah
                 {
                     // Get distance to 
                     float dist = mouse.Position.Distance(entity.Position);
-                    CMConsole.Log($"right {dist}");
+                   // CMConsole.Log($"right {dist}");
                     if (dist < distance)
                     {
                         distance = dist;
@@ -349,8 +349,8 @@ namespace Carmicah
 
             }
 
-            if (targetMouse != null)
-                CMConsole.Log($"Target mouse : {targetMouse.mID}");
+            //if (targetMouse != null)
+            //    CMConsole.Log($"Target mouse : {targetMouse.mID}");
 
             return targetMouse;
         }

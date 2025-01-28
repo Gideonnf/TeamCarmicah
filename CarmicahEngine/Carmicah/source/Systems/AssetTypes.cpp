@@ -46,7 +46,7 @@ namespace Carmicah
 	{
 		if (HasComponent<Transform>())
 		{
-			GetComponent<Transform>().collisionMask |= layer;
+			GetComponent<Transform>().collisionMask |= static_cast<uint32_t>(layer);
 		}
 	}
 
@@ -54,7 +54,7 @@ namespace Carmicah
 	{
 		if (HasComponent<Transform>())
 		{
-			GetComponent<Transform>().collisionMask &= ~layer;
+			GetComponent<Transform>().collisionMask &= ~static_cast<uint32_t>(layer);
 		}
 	}
 }

@@ -26,6 +26,53 @@ namespace Carmicah
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
 
 		SystemManager::GetInstance()->SetSignature<TransformSystem>(mSignature);
+
+		// set the layer interaction default to all 1
+		// TODO: Serialize this
+		for (int i = 0; i < MAX_LAYERS; ++i)
+		{
+			// set default all bits to 1
+			layerArr[i] = 0xFFFFFFFF;
+		}
+
+		maxLayers = GetLayerIndex(CollisionLayer::TOTAL_LAYERS);
+	}
+
+	void TransformSystem::EnableLayerInteraction(CollisionLayer layer1, CollisionLayer layer2)
+	{
+		// set layer 1 to interact with layer 2
+		int layerIndex = GetLayerIndex(layer1);
+		layerArr[layerIndex] |= static_cast<uint32_t>(layer2);
+
+		// set layer 2 to interact with layer 1
+		layerIndex = GetLayerIndex(layer2);
+		layerArr[layerIndex] |= static_cast<uint32_t>(layer1);
+	}
+
+	void TransformSystem::DisableLayerInteraction(CollisionLayer layer1, CollisionLayer layer2)
+	{
+		// Remove layer 2 interaction with layer 1
+		int layerIndex = GetLayerIndex(layer1);
+		layerArr[layerIndex] &= ~static_cast<uint32_t>(layer2);
+
+		// remove layer 1 interaction with layer 2
+		layerIndex = GetLayerIndex(layer2);
+		layerArr[layerIndex] &= ~static_cast<uint32_t>(layer1);
+	}
+
+	int TransformSystem::GetLayerIndex(CollisionLayer layer)
+	{
+		return static_cast<int>(std::log2(static_cast<uint32_t>(layer)));
+	}
+
+	const uint32_t* TransformSystem::GetLayerMap() const
+	{
+		return layerArr;
+	}
+
+	int TransformSystem::GetMaxLayers() const
+	{
+		return maxLayers;
 	}
 
 	void TransformSystem::AddToTransformMap(Entity e)
