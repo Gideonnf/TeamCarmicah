@@ -29,6 +29,7 @@ namespace Carmicah
         public string SettingsMenu = "Settings_Menu";
         public string SettingsCloseButton = "Close_Button";
         public bool IsCreated = false;
+
         void OnClick()
         {
             if (!IsCreated)
@@ -36,7 +37,7 @@ namespace Carmicah
                 CreateGameObject(SettingsMenu);
                 CreateGameObject(SettingsCloseButton);
             }
-            Console.WriteLine($"Testing Button {mID}");
+            //Console.WriteLine($"Testing Button {mID}");
         }
     }
 }

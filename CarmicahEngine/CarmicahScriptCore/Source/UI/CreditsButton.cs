@@ -13,6 +13,7 @@ Reproduction or disclosure of this file or its contents without the prior writte
 DigiPen Institute of Technology is prohibited.
 --------------------------------------------------------------------------------------------------*/
 
+// add the entitiy onto the enemy script
 
 using Carmicah;
 using System;
@@ -37,7 +38,7 @@ namespace Carmicah
         void OnClick()
         {
             // 1. pause game state
-            // 2. open Credits Scene
+            // 2. open credits scene
             // Tell scene to open animation of the credits
 
             // test the HealthSystem's TakeDamage function

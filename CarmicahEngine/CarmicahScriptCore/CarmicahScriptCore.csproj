@@ -59,6 +59,7 @@
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Installer|x64' ">
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\HealthSystem.cs" />
     <Compile Include="Source\NPC\HeroAI.cs" />
     <Compile Include="Source\UI\BackButton.cs" />
     <Compile Include="Source\BalloonBounce.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Source\GameObject.cs" />
     <Compile Include="Source\NPC\MouseAI.cs" />
     <Compile Include="Source\NPC\MouseState.cs" />
+    <Compile Include="Source\UI\CreditsButton.cs" />
     <Compile Include="Source\UI\PauseButton.cs" />
     <Compile Include="Source\PauseManager.cs" />
     <Compile Include="Source\UI\PlayButton.cs" />
