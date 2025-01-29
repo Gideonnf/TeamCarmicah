@@ -41,8 +41,9 @@ DigiPen Institute of Technology is prohibited.
 #include "Components/Script.h"
 #include "Components/Prefab.h"
 #include "Components/Sound.h"
+#include "Components/StateMachine.h"
 
-#include "Systems/GameLogic.h"
+
 
 #include "Systems/GOFactory.h"
 #include "Graphics/AnimationSystem.h"
@@ -193,6 +194,7 @@ namespace Carmicah
         REGISTER_COMPONENT(UITransform);
         REGISTER_COMPONENT(PrefabData);
         REGISTER_COMPONENT(Sound);
+        REGISTER_COMPONENT(StateMachine);
 
         CM_CORE_INFO("Starting system init");
 
@@ -313,25 +315,6 @@ namespace Carmicah
                // if (oneTimeInit)
                     gameSystem->Init();
 
-               // oneTimeInit = true;
-                // FOR TESTING OF GOs MANUALLY
-                    
-                //wall.SetParent(mainCharacter);
-                //GameObject GameObject2;
-                //gGOFactory->FetchGO("GameObject2", GameObject2);
-
-                //LinearDirectionalForce rightForce({ 1.0f,0.0f }, 1.0f, 2.0f);
-
-                //GameObject2.GetComponent<RigidBody>().forcesManager.AddLinearForce(rightForce);
-
-
-                //GameObject mainCharacter;
-                //gGOFactory->FetchGO("mainCharacter", mainCharacter);
-                //mainCharacter.AddComponent<Script>();
-                //mainCharacter.GetComponent<Script>().scriptName = "Carmicah.Player";
-
-                //gameLogic->Init(); // refetch the objects needed
-
                 // if game only then go straight to onstart and runtime
                 if (gameOnly || gameSystem->mRuntime)
                     gameSystem->mNextState = SceneState::ONSTART;
@@ -355,86 +338,34 @@ namespace Carmicah
                 if (gameSystem->mCurrState == SceneState::RUNTIME && SceneWindow::mIsPaused == false)
                 {
 
-                    gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->GetDeltaTime()); // TODO: Add this to profiler
+                    // script system normal update and fixed update is both called
+                    // so force normal dt into normal onUpdate
+                    // and force fixed dt into fixed update
+                    gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime()); // TODO: Add this to profiler
                     //gameLogic->Update(window);
-                    if (CarmicahTime::GetInstance()->IsFixedDT())
-                    {
-                        accumulatedTime += CarmicahTime::GetInstance()->GetDeltaTime();
 
-                        while (accumulatedTime >= CarmicahTime::GetInstance()->GetDeltaTime())
+                    accumulatedTime += CarmicahTime::GetInstance()->GetDeltaTime();
+
+                    while (accumulatedTime >= CarmicahTime::GetInstance()->GetDeltaTime())
+                    {
+                        gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
+
+                        if (CarmicahTime::GetInstance()->IsFixedDT())
                         {
-                            //phySystem->Update();
-#ifdef CM_DEBUG
-                            if (phySystem->mDebugPhysics) {
-                                // Handle WASD movement during debugPhysics mode
-                                if (phySystem->mToggleUpdate)
-                                {
-                                    phySystem->mToggleUpdate = false;
-                                    CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                                    colSystem->CollisionCheck();
-                                    CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
-
-                                    CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
-                                    phySystem->Update();
-                                    CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
-
-                                }
-                            }
-                            else {
-                                CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                                colSystem->CollisionCheck();
-                                CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
-                                CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
-                                phySystem->Update();
-                                CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
-
-                            }
-#endif
-
-#if defined(CM_RELEASE)
                             CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
                             colSystem->CollisionCheck();
                             CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
                             CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                             phySystem->Update();
                             CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
-
-#endif
-                            accumulatedTime -= CarmicahTime::GetInstance()->GetDeltaTime();
                         }
+
+                        accumulatedTime -= CarmicahTime::GetInstance()->GetDeltaTime();
                     }
-                    else
+
+                    // if it isnt suppose to run fixed dt
+                    if (!CarmicahTime::GetInstance()->IsFixedDT())
                     {
-                        //phySystem->Update();
-#ifdef CM_DEBUG
-                        if (phySystem->mDebugPhysics) {
-                            // Handle WASD movement during debugPhysics mode
-                            if (phySystem->mToggleUpdate)
-                            {
-                                phySystem->mToggleUpdate = false;
-                                CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                                colSystem->CollisionCheck();
-                                CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
-
-                                CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
-                                phySystem->Update();
-                                CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
-
-                            }
-                        }
-                        else {
-                            CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
-                            colSystem->CollisionCheck();
-                            
-                            CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
-                            CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
-                            phySystem->Update();
-                            CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
-
-                        }
-#endif
-
-#if defined(CM_RELEASE)
 
                         CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
                         colSystem->CollisionCheck();
@@ -442,7 +373,7 @@ namespace Carmicah
                         CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                         phySystem->Update();
                         CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
-#endif               
+          
                     }
                 }
 

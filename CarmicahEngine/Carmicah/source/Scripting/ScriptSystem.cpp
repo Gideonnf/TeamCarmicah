@@ -314,6 +314,15 @@ namespace Carmicah
         }
     }
 
+    void ScriptSystem::OnFixedUpdate(float dt)
+    {
+        // Loop through all entity instances
+        for (const auto& [id, scriptRef] : mEntityInstances)
+        {
+            scriptRef->InvokeOnFixedUpdate(dt);
+        }
+    }
+
     void ScriptSystem::UpdateScripts()
     {
         for (auto entity = entityAdded.begin(); entity != entityAdded.end(); ++entity)

@@ -204,9 +204,6 @@
     <ClInclude Include="source\Systems\GOFactory.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="source\Systems\GameLogic.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
     <ClInclude Include="source\Systems\MouseSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
@@ -227,6 +224,9 @@
     </ClInclude>
     <ClInclude Include="source\log.h" />
     <ClInclude Include="source\pch.h" />
+    <ClInclude Include="source\FSM\BaseState.h" />
+    <ClInclude Include="source\Components\StateMachine.h" />
+    <ClInclude Include="source\FSM\FSMSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />
@@ -333,9 +333,6 @@
     <ClCompile Include="source\Systems\GOFactory.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="source\Systems\GameLogic.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
     <ClCompile Include="source\Systems\MouseSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
@@ -356,5 +353,6 @@
     </ClCompile>
     <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\pch.cpp" />
+    <ClCompile Include="source\FSM\FSMSystem.cpp" />
   </ItemGroup>
 </Project>

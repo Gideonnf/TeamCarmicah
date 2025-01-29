@@ -297,9 +297,97 @@ namespace Carmicah
 		}
 	}
 
+	void HierarchyWindow::DisplayCollisionLogic()
+	{
+		if (ImGui::Button("Edit Collision Logic"))
+		{
+			ImGui::OpenPopup("CollisionFlagLogic");
+		}
+
+		if (ImGui::BeginPopup("CollisionFlagLogic"))
+		{
+			
+			int maxLayers = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetMaxLayers();
+			const uint32_t* layerArray = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerMap();
+
+			if (ImGui::BeginTable("Collision Logic",maxLayers + 1))
+			{
+				ImGui::TableSetupColumn("Layer");
+				for (int i = maxLayers - 1; i >= 0; --i)
+				{
+					uint32_t layerBit = 1 << i;
+					const char* columnName = nullptr;
+
+					columnName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
+
+					ImGui::TableSetupColumn(columnName, ImGuiTableColumnFlags_WidthStretch);
+				}
+
+				ImGui::TableHeadersRow();
+
+				for (int row = 0; row < maxLayers; ++row)
+				{
+					uint32_t layerBit1 = 1 << row;
+					int layer1Index = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerIndex(static_cast<CollisionLayer>(layerBit1));
+					const char* layerName1 = nullptr;
+
+					layerName1 = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit1));
+
+					// Add a row for this layer
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text(layerName1);
+
+					// Add checkboxes for this layer in remaining columns
+					for (int col = maxLayers - 1; col >= 0; --col)
+					{
+						uint32_t layerBit2 = 1 << col;
+						int layer2Index = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerIndex(static_cast<CollisionLayer>(layerBit2));
+						const char* layerName2 = nullptr;
+						layerName2 = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit2));
+						ImGui::TableNextColumn();
+						//Setting the style
+						ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(0, 0));
+						ImGui::AlignTextToFramePadding();
+
+						bool combinedEnabled = layerArray[layer1Index] & layerBit2;
+
+						std::string combinedLayer = "##" + std::string(layerName1) + std::string(layerName2);
+
+
+						if (ImGui::Checkbox(combinedLayer.c_str(), &combinedEnabled))
+						{
+							if (combinedEnabled)
+							{
+								SystemManager::GetInstance()->GetSystem<TransformSystem>()->EnableLayerInteraction(static_cast<CollisionLayer>(layerBit1), static_cast<CollisionLayer>(layerBit2));
+							}
+							else
+							{
+								SystemManager::GetInstance()->GetSystem<TransformSystem>()->DisableLayerInteraction(static_cast<CollisionLayer>(layerBit1), static_cast<CollisionLayer>(layerBit2));
+							}
+						}
+						//Pop style
+						ImGui::PopStyleVar();
+
+						if (layerBit1 == layerBit2)
+						{
+							break;
+						}
+					}
+				}
+				ImGui::EndTable();
+			}
+			if (ImGui::Button("Close"))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+		}
+	}
+
 	void HierarchyWindow::Update()
 	{
-		char inputBuffer[1024];
 		if (ImGui::Begin(mTitle))
 		{
 
@@ -359,7 +447,6 @@ namespace Carmicah
 									if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 									{
 										GameObject& droppedGO = *(GameObject*)payload->Data;
-										Entity targettedGOParent = 0;
 
 										if (droppedGO.GetID() == *(Editor::mSceneHierarchy.end() - 1))
 										{
@@ -419,7 +506,6 @@ namespace Carmicah
 									if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 									{
 										GameObject& droppedGO = *(GameObject*)payload->Data;
-										Entity targettedGOParent = 0;
 
 										if (droppedGO.GetID() == *(Editor::mSceneHierarchy.end() - 1))
 										{
@@ -511,6 +597,8 @@ namespace Carmicah
 				SerializerSystem::GetInstance()->SerializeScene(sceneFile);
 				//gGOFactory->DestroyAll();
 			}
+
+			DisplayCollisionLogic();
 		}
 		
 

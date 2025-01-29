@@ -49,7 +49,10 @@ namespace Carmicah
 	{
 	public:
 		std::string filePathReference;
+		// 
 		std::unordered_map<std::string, File> fileMap;
+
+		std::unordered_map<std::string, File> assetMap;
 		void Init(std::string filePath);
 		auto DestroyFile(File file);
 		void Update();

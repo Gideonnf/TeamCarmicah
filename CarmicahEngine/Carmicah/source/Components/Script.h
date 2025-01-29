@@ -20,17 +20,17 @@ DigiPen Institute of Technology is prohibited.
 #define SCRIPT_H
 #include <string>
 #include "BaseComponent.h"
-#include <variant>
+
 struct Script : BaseComponent<Script>
 {
-	using variantVar = std::variant<int, float, bool, std::string>;
 	std::string scriptName;
 	std::unordered_map<std::string, variantVar> scriptableFieldMap;
 
 	Script& DeserializeComponent(const rapidjson::Value& component) override
 	{
 		//scriptName = component["scriptName"].GetString();
-		scriptName = GetVariable<std::string>(component, "scriptName");
+		DESERIALIZE_IF_HAVE(scriptName, component, "scriptName", GetString, std::string);
+		//scriptName = GetVariable<std::string>(component, "scriptName");
 		if (component.HasMember("ScriptableFieldMap"))
 		{
 			const rapidjson::Value& fieldList = component["ScriptableFieldMap"];
