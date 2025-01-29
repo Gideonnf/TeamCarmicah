@@ -39,6 +39,53 @@ namespace Carmicah
 		std::cout << "Entities in collision system: " << mEntitiesSet.size() << std::endl;
 	}
 
+	void CollisionSystem::InsertEntityToGrid(Entity& entity, const Vec2f& position)
+	{
+		int row = static_cast<int>(position.y / cellSize);
+		int col = static_cast<int>(position.x / cellSize);
+
+		if (row >= 0 && row < GRID_HEIGHT && col >= 0 && col < GRID_WIDTH)
+		{
+			rowsBitArray[row].set(entity);
+			colsBitArray[col].set(entity);
+		}
+	}
+
+	std::vector<Entity> CollisionSystem::GetPotentialCollisions(Entity& entity, const Vec2f& position)
+	{
+		int row = static_cast<int>(position.y / cellSize);
+		int col = static_cast<int>(position.x / cellSize);
+
+		std::vector<Entity> potentialCollisions;
+
+		if (row >= 0 && row < GRID_HEIGHT && col >= 0 && col < GRID_WIDTH)
+		{
+			std::bitset<MAX_ENTITIES> result = rowsBitArray[row] & colsBitArray[col];
+
+			for (int i = 0; i < MAX_ENTITIES; ++i)
+			{
+				if (result.test(i))
+				{
+
+					
+
+					potentialCollisions.push_back(entity);
+				}
+			}
+		}
+
+		return potentialCollisions;
+	}
+
+	void CollisionSystem::ClearGrid() {
+		for (int i = 0; i < GRID_HEIGHT; ++i) {
+			rowsBitArray[i].reset();
+		}
+		for (int i = 0; i < GRID_WIDTH; ++i) {
+			colsBitArray[i].reset();
+		}
+	}
+
 	/**
 	 * @brief Updates the Oriented Bounding Box (OBB) for a given entity based on its transform and associated primitive model.
 	 *

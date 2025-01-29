@@ -14,13 +14,31 @@ DigiPen Institute of Technology is prohibited.
 #pragma once
 #include "ECS/BaseSystem.h"
 #include "../Math/Vec2.h"
+#include <bitset>
+
 
 namespace Carmicah
 {
+
 	class CollisionSystem : public BaseSystem
 	{
+	private:
+		static constexpr int MAX_ENTITIES = 1000;
+		static constexpr int GRID_HEIGHT = 50;
+		static constexpr int GRID_WIDTH = 50;
+		float cellSize = 50.0f;
+
+		std::bitset<MAX_ENTITIES> rowsBitArray[GRID_HEIGHT];
+		std::bitset<MAX_ENTITIES> colsBitArray[GRID_WIDTH];
+		
 	public:
 		void PrintEntities();
+
+		void ClearGrid();
+
+		void InsertEntityToGrid(Entity& entity, const Vec2f& position);
+
+		std::vector<Entity> GetPotentialCollisions(Entity& entity, const Vec2f& position);
 
 		void UpdateOBB(Entity& obj);
 
