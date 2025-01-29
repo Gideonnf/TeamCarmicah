@@ -39,15 +39,28 @@ namespace Carmicah
 		std::cout << "Entities in collision system: " << mEntitiesSet.size() << std::endl;
 	}
 
+	int CollisionSystem::GetEntityIndex(Entity& entity)
+	{
+		if (entityIndexMap.find(entity) == entityIndexMap.end())
+		{
+			entityIndexMap[entity] = entityCounter++;
+		}
+		return entityIndexMap[entity];
+	}
+
 	void CollisionSystem::InsertEntityToGrid(Entity& entity, const Vec2f& position)
 	{
 		int row = static_cast<int>(position.y / cellSize);
 		int col = static_cast<int>(position.x / cellSize);
+		int entityIndex = GetEntityIndex(entity);
 
-		if (row >= 0 && row < GRID_HEIGHT && col >= 0 && col < GRID_WIDTH)
+		if (row >= 0 && row < GRID_HEIGHT)
 		{
-			rowsBitArray[row].set(entity);
-			colsBitArray[col].set(entity);
+			rowsBitArray[row].set(entityIndex);
+		}
+		if (col >= 0 && col < GRID_WIDTH)
+		{
+			colsBitArray[col].set(entityIndex);
 		}
 	}
 
@@ -55,21 +68,34 @@ namespace Carmicah
 	{
 		int row = static_cast<int>(position.y / cellSize);
 		int col = static_cast<int>(position.x / cellSize);
+		int entityIndex = GetEntityIndex(entity);
+
+		std::bitset<MAX_ENTITIES> combined = 0;
+
+		if (row >= 0 && row < GRID_HEIGHT)
+		{
+			combined |= rowsBitArray[row];  // Merge row entities
+		}
+		if (col >= 0 && col < GRID_WIDTH)
+		{
+			combined |= colsBitArray[col];  // Merge column entities
+		}
+
+		// Remove self
+		combined.reset(entityIndex);
 
 		std::vector<Entity> potentialCollisions;
-
-		if (row >= 0 && row < GRID_HEIGHT && col >= 0 && col < GRID_WIDTH)
+		for (int i = 0; i < MAX_ENTITIES; i++)
 		{
-			std::bitset<MAX_ENTITIES> result = rowsBitArray[row] & colsBitArray[col];
-
-			for (int i = 0; i < MAX_ENTITIES; ++i)
+			if (combined.test(i)) // Check if bit is set
 			{
-				if (result.test(i))
+				for (const auto& pair : entityIndexMap)
 				{
-
-					
-
-					potentialCollisions.push_back(entity);
+					if (pair.second == i)
+					{
+						potentialCollisions.push_back(pair.first);
+						break;
+					}
 				}
 			}
 		}
@@ -78,13 +104,35 @@ namespace Carmicah
 	}
 
 	void CollisionSystem::ClearGrid() {
-		for (int i = 0; i < GRID_HEIGHT; ++i) {
+		for (int i = 0; i < GRID_HEIGHT; i++)
+		{
 			rowsBitArray[i].reset();
 		}
-		for (int i = 0; i < GRID_WIDTH; ++i) {
+		for (int i = 0; i < GRID_WIDTH; i++)
+		{
 			colsBitArray[i].reset();
 		}
 	}
+
+	/*
+
+	void CollisionSystem::InitGrid(size_t maxEntities)
+	{
+		currentEntityCount = maxEntities;
+		rowsBitArray.resize(GRID_HEIGHT, std::vector<bool>(maxEntities, false));
+		colsBitArray.resize(GRID_WIDTH, std::vector<bool>(maxEntities, false));
+	}
+
+	void CollisionSystem::UpdateEntityCount(size_t newEntityCount)
+	{
+		currentEntityCount = newEntityCount;
+		for (auto& row : rowsBitArray) {
+			row.resize(newEntityCount, false);
+		}
+		for (auto& col : colsBitArray) {
+			col.resize(newEntityCount, false);
+		}
+	}*/
 
 	/**
 	 * @brief Updates the Oriented Bounding Box (OBB) for a given entity based on its transform and associated primitive model.
@@ -660,18 +708,33 @@ namespace Carmicah
 	 */
 	void CollisionSystem::CollisionCheck()
 	{
+		/*ClearGrid();
+
 		auto* componentManager = ComponentManager::GetInstance();
+
+		for (auto entity : mEntitiesSet)
+		{
+			auto& transform = componentManager->GetComponent<Transform>(entity);
+			InsertEntityToGrid(entity, transform.Pos());
+		}
 
 		for (auto it1 = mEntitiesSet.begin(); it1 != mEntitiesSet.end(); ++it1)
 		{
 			Entity entity1 = *it1;
+
+			auto& transform1 = componentManager->GetComponent<Transform>(entity1);
+
 			auto& rigidbody1 = componentManager->GetComponent<RigidBody>(entity1);
 
 			if (rigidbody1.objectType == rbTypes::DYNAMIC)
 			{
-				for (auto it2 = mEntitiesSet.begin(); it2 != mEntitiesSet.end(); ++it2)
+				std::vector<Entity> nearbyEntities = GetPotentialCollisions(entity1, transform1.Pos());
+
+				for (auto it2 = nearbyEntities.begin(); it2 != nearbyEntities.end(); ++it2)
 				{
+
 					Entity entity2 = *it2;
+
 
 					if (entity2 == entity1)
 					{
@@ -689,7 +752,9 @@ namespace Carmicah
 			}
 			else if (rigidbody1.objectType == rbTypes::KINEMATIC)
 			{
-				for (auto it2 = mEntitiesSet.begin(); it2 != mEntitiesSet.end(); ++it2)
+				std::vector<Entity> nearbyEntities = GetPotentialCollisions(entity1, transform1.Pos());
+
+				for (auto it2 = nearbyEntities.begin(); it2 != nearbyEntities.end(); ++it2)
 				{
 					Entity entity2 = *it2;
 
@@ -709,6 +774,49 @@ namespace Carmicah
 					}
 				}
 			}
+		}*/
+
+		ClearGrid(); // Reset grid
+
+		auto* componentManager = ComponentManager::GetInstance();
+
+		// Insert all entities into the grid
+		for (auto entity : mEntitiesSet)
+		{
+			auto& transform = componentManager->GetComponent<Transform>(entity);
+			InsertEntityToGrid(entity, transform.Pos());
+		}
+
+		// Perform collision detection
+		for (auto entity1 : mEntitiesSet)
+		{
+			auto& transform1 = componentManager->GetComponent<Transform>(entity1);
+			auto& rigidbody1 = componentManager->GetComponent<RigidBody>(entity1);
+
+			if (rigidbody1.objectType == rbTypes::DYNAMIC)
+			{
+				std::vector<Entity> nearbyEntities = GetPotentialCollisions(entity1, transform1.Pos());
+
+				for (Entity entity2 : nearbyEntities)
+				{
+					if (TestIntersection(entity1, entity2))
+					{
+						CollisionResponse(entity1, entity2);
+					}
+				}
+			}
+			else if (rigidbody1.objectType == rbTypes::KINEMATIC)
+			{
+				std::vector<Entity> nearbyEntities = GetPotentialCollisions(entity1, transform1.Pos());
+
+				for (Entity entity2 : nearbyEntities)
+				{
+					if (TestIntersection(entity1, entity2))
+					{
+						CollisionResponse(entity1, entity2);
+					}
+				}
+			}
 		}
 	}
 
@@ -725,7 +833,7 @@ namespace Carmicah
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<CollisionSystem>(mSignature);
 
-
+		//InitGrid(currentEntityCount);
 
 	}
 
@@ -734,6 +842,7 @@ namespace Carmicah
 	 */
 	void CollisionSystem::Update()
 	{
+		//UpdateEntityCount(mEntitiesSet.size());
 
 		for (auto entity : mEntitiesSet)
 		{
