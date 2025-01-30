@@ -220,8 +220,7 @@ namespace Carmicah
         auto rendTransformSystem = REGISTER_SYSTEM(RenderTransformSystem);
         AssetManager::GetInstance()->Init(prefabSystem);
         AssetManager::GetInstance()->LoadAll(AssetManager::GetInstance()->enConfig.assetLoc.c_str());
-        //AssetManager::GetInstance()->fileWatcher.Update();
-        // TODO: Shift this all into system constructors to clean up core.cpp
+
         transformSystem->Init();
         rendTransformSystem->Init();
         RenderHelper::GetInstance()->InitScreenDimension(static_cast<float>(Width), static_cast<float>(Height));

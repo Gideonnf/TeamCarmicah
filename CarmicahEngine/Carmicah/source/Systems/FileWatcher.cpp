@@ -28,21 +28,14 @@ namespace Carmicah
 		{
 			if (!std::filesystem::is_directory(file))
 			{
-			//	File newFile;
-			//	newFile.fileEntry = file;
-			////	auto test = std::filesystem::directory_iterator(file);
-
-			//	newFile.fileName = file.path().string();
-			//	newFile.time = std::filesystem::last_write_time(file);
-			//	newFile.fileStatus = FILE_CREATED;
-			//	fileMap[file.path().string()] = newFile;
-
 				fileMap.insert({ file.path().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED) });
 				std::string fileExt = file.path().extension().string();
-				if (fileExt != ".txt")
+				// ignore some file types cause those will be all loaded from the start
+				// mainly frag, vert and txt files
+#ifdef CM_INSTALLER
+				if (fileExt != ".txt" || fileExt != ".vert" || fileExt != ".frag" || fileExt != ".scene")
 					assetMap.insert({ file.path().filename().stem().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED)});
 				//std::string fileExt = file.path().extension().string();
-
 
 				// TODO: Find a way to pull out audio files being used from C# scripting side
 				// for now we just load all audio
@@ -53,6 +46,16 @@ namespace Carmicah
 						assetMap[file.path().filename().stem().string()].fileStatus = FILE_OK;
 					}
 				}
+
+				// Load all shaders here 
+				if (fileExt == ".vert" || fileExt == ".frag" || fileExt == ".scene")
+				{
+					if (AssetManager::GetInstance()->LoadAsset(fileMap[file.path().string()]))
+					{
+						fileMap[file.path().string()].fileStatus = FILE_OK;
+					}
+				}
+#endif
 			}
 		}
 

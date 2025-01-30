@@ -184,7 +184,10 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 			CM_CORE_ERROR("Scenefile is empty");
 			return false;
 		}
+
+#ifdef CM_INSTALLER
 		DeserializeLevelAssets(sceneFile);
+#endif
 
 		gGOFactory->ImportGO(doc);
 
@@ -209,9 +212,9 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 		OStreamWrapper osw(ofs);
 		PrettyWriter<OStreamWrapper> writer(osw);
 		gGOFactory->ExportGOs(writer);
-		ofs.close();
 
 		SerializeLevelAssets(sceneFile);
+		ofs.close();
 		return true;
 	}
 
