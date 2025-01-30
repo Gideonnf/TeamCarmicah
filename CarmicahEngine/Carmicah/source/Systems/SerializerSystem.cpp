@@ -192,6 +192,8 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 		//	const Value& go = doc[i];
 		//	gGOFactory->ImportGO(go);
 		//}
+
+		DeserializeLevelAssets(sceneFile);
 		return true;
 	}
 
@@ -320,7 +322,7 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 		// concat together to make the asset file
 		std::string assetFile = directory + "\\" + fileName + ".Asset";
 
-		std::ifstream ifs{ sceneFile, std::ios::binary };
+		std::ifstream ifs{ assetFile, std::ios::binary };
 		if (!ifs)
 		{
 			CM_CORE_ERROR("Unable to open scene file");
@@ -341,11 +343,15 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 		}
 
 		// loop thru the document
-		for (rapidjson::SizeType i = 0; i < document.Size(); ++i)
+		for (auto& asset : document.GetArray())
 		{
-			const std::string assetName = document[i].GetString();
-
-			// use this string to load assets in filewatcher or smth like that
+			if (asset.IsString())
+			{
+				CM_CORE_INFO("Asset name {}", asset.GetString());
+				
+				// push the asset to load into the scene's vector of assets to load
+				AssetManager::GetInstance()->enConfig.assetsToLoad[fileName].push_back(asset.GetString());
+			}
 		}
 	}
 

@@ -52,6 +52,11 @@ namespace Carmicah
 		fileWatcher.Init(assetPath);
 		fileWatcher.Update();
 
+		for (auto& asset : enConfig.assetsToLoad)
+		{
+			
+		}
+
 		RenderHelper::GetInstance()->LoadGizmos();
 
 		}
