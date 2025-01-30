@@ -531,8 +531,6 @@ namespace Carmicah
 						ImGui::EndTabBar();	
 					}
 
-
-
 				}
 				else if (AssetWindow::selectedPrefab != nullptr)
 				{
@@ -569,36 +567,49 @@ namespace Carmicah
 			}
 
 #pragma endregion
-
-			static char goName[1024] = "Default";
-			ImGui::Dummy(ImVec2(0, 20));
-			ImGui::Text("Game Object Name: ");
-			ImGui::SameLine();
-			ImGui::InputText("##GameObjectCreation", goName, sizeof(goName));
-			if (ImGui::Button("Create Default2D"))
+			if(mShowScene)
 			{
-				gGOFactory->CreateGO(goName, TRANSFORMTYPE::TRANSFORM);
-				std::strncpy(goName, "Default", sizeof(goName) - 1);
-				goName[sizeof(goName) - 1] = '\0';
-			}
-			ImGui::SameLine();
-			if (ImGui::Button("Create UIDefault"))
-			{
-				gGOFactory->CreateGO(goName, TRANSFORMTYPE::UITRANSFORM);
-				std::strncpy(goName, "Default", sizeof(goName) - 1);
-				goName[sizeof(goName) - 1] = '\0';
-			}
+				static char goName[1024] = "Default";
+				ImGui::Dummy(ImVec2(0, 20));
+				ImGui::Text("Game Object Name: ");
+				ImGui::SameLine();
+				ImGui::InputText("##GameObjectCreation", goName, sizeof(goName));
+				//Create Default
+				if (ImGui::Button("Create Default2D"))
+				{
+					gGOFactory->CreateGO(goName, TRANSFORMTYPE::TRANSFORM);
+					std::strncpy(goName, "Default", sizeof(goName) - 1);
+					goName[sizeof(goName) - 1] = '\0';
+				}
+				ImGui::SameLine();
+				//Creating UIDefault
+				if (ImGui::Button("Create UIDefault"))
+				{
+					gGOFactory->CreateGO(goName, TRANSFORMTYPE::UITRANSFORM);
+					std::strncpy(goName, "Default", sizeof(goName) - 1);
+					goName[sizeof(goName) - 1] = '\0';
+				}
+				//Save scene
+				std::string buttonName = "Save current scene: " + SceneToImgui::GetInstance()->currentScene;
+				if (ImGui::Button(buttonName.c_str()))
+				{
+					std::string sceneFile;
+					AssetManager::GetInstance()->GetScene(gGOFactory->sceneGO.sceneName, sceneFile);
+					SerializerSystem::GetInstance()->SerializeScene(sceneFile);
+					//gGOFactory->DestroyAll();
+				}
+				//Remove PrefabData
+				if(selectedGO != nullptr)
+				{
+					if (ImGui::Button("Un-prefab Object"))
+					{
+						selectedGO->RemoveComponent<PrefabData>();
+					}
+				}
 
-			std::string buttonName = "Save current scene: " + SceneToImgui::GetInstance()->currentScene;
-			if (ImGui::Button(buttonName.c_str()))
-			{
-				std::string sceneFile;
-				AssetManager::GetInstance()->GetScene(gGOFactory->sceneGO.sceneName, sceneFile);
-				SerializerSystem::GetInstance()->SerializeScene(sceneFile);
-				//gGOFactory->DestroyAll();
-			}
 
-			DisplayCollisionLogic();
+				DisplayCollisionLogic();
+			}
 		}
 		
 
