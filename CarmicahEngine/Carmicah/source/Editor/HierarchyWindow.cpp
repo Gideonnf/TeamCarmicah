@@ -36,8 +36,6 @@ namespace Carmicah
 	GameObject* HierarchyWindow::selectedGO = nullptr;
 	Prefab* HierarchyWindow::inspectedPrefab = nullptr;
 
-	std::vector<GameObject> createdList;
-
 	void HierarchyWindow::DrawCustomSeparator(GameObject& go)
 	{
 		ImVec2 cursorPos = ImGui::GetCursorScreenPos();

@@ -82,9 +82,9 @@ namespace Carmicah
 		{
 			componentsToAdd.push_back("Script");
 		}
-		if (!go->HasComponent<Sound>())
+		if (!go->HasComponent<StateMachine>())
 		{
-			componentsToAdd.push_back("Sound");
+			componentsToAdd.push_back("StateMachine");
 		}
 
 
@@ -150,9 +150,9 @@ namespace Carmicah
 				selectedComponentToAdd = "";
 				selectedIndex = 0;
 			}
-			if (selectedComponentToAdd == "Sound")
+			if (selectedComponentToAdd == "StateMachine")
 			{
-				go->AddComponent<Sound>();
+				go->AddComponent<StateMachine>();
 				selectedComponentToAdd = "";
 				selectedIndex = 0;
 			}
@@ -1165,6 +1165,62 @@ namespace Carmicah
 		}
 	}
 
+	template<typename T>
+	void InspectorWindow::RenderStateMachineTable(T* go, TABLETYPE type)
+	{
+		StateMachine& stateMachine = go->GetComponent<StateMachine>();
+		Entity id = go->GetID();
+
+		if (ImGui::CollapsingHeader("State Machine Settings", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			switch (type)
+			{
+			case GAMEOBJECT:
+			{
+				InspectorWindow::RemoveComponentButton<StateMachine>(go);
+				break;
+			}
+			case PREFAB:
+			{
+				if (InspectorWindow::RemoveComponentButton<StateMachine>(go))
+					return;
+				break;
+			}
+			default:
+				break;
+			}
+
+			if (ImGui::BeginTable("StateMachine Settings", 2, ImGuiTableFlags_Borders))
+			{
+				ImGui::TableNextColumn();
+				ImGui::Text("Attribute");
+				ImGui::TableNextColumn();
+				ImGui::Text("Setting");
+				
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Current State:");
+				ImGui::TableNextColumn();
+				ImGui::Text("WTV CURRENT");
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Next State:");
+				ImGui::TableNextColumn();
+				ImGui::Text("WTV NEXT");
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Starting State:");
+				ImGui::TableNextColumn();
+				ImGui::Text("WTV STARTING");
+
+
+				ImGui::EndTable();
+			}
+		}
+	}
+
 	/**
 	 * @brief Inspector Table that displays the components that are currently added.
 	 * 
@@ -1225,6 +1281,11 @@ namespace Carmicah
 		if (go->HasComponent<Script>())
 		{
 			RenderScriptTable(go, type);
+		}
+
+		if (go->HasComponent<StateMachine>())
+		{
+			RenderStateMachineTable(go, type);
 		}
 	}
 
@@ -1291,15 +1352,6 @@ namespace Carmicah
 						gGOFactory->CloneGO(*HierarchyWindow::selectedGO);
 					}
 					//gGOFactory->CreateGO();
-				}
-
-				if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<PrefabData>())
-				{
-					CM_CORE_INFO("Object is a Prefab");
-				}
-				else
-				{
-					CM_CORE_INFO("Object is not a Prefab");
 				}
 			}
 
