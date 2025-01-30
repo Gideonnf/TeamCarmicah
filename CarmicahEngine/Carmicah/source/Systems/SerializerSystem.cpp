@@ -479,6 +479,11 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 				{
 					std::any_cast<Sound>(component).SerializeComponent(writer);
 				}
+				if (name == typeid(StateMachine).name())
+				{
+					std::any_cast<StateMachine>(component).SerializeComponent(writer);
+
+				}
 				writer.EndObject();
 			}
 		writer.EndArray();

@@ -166,7 +166,10 @@ namespace Carmicah
 			{
 				newPrefab.mComponents.insert({ componentName, prefabComponent });
 			}
-
+			else if (MakeAny<StateMachine>(componentName, go, prefabComponent))
+			{
+				newPrefab.mComponents.insert({ componentName, prefabComponent });
+			}
 			}, EntityManager::GetInstance()->GetSignature(go.GetID()));
 
 		if (go.HasComponent<Transform>())
