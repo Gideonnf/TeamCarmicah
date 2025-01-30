@@ -100,9 +100,9 @@ namespace Carmicah
 				return;
 			}
 
+			EntityManager::GetInstance()->RemoveComponent<T>(mID);
 			ComponentManager::GetInstance()->RemoveComponent<T>(mID);
 			//gGOFactory->
-			EntityManager::GetInstance()->RemoveComponent<T>(mID);
 		}
 
 		template <typename T>

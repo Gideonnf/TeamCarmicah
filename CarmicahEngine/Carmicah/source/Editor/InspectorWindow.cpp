@@ -175,9 +175,9 @@ namespace Carmicah
 				return false;
 			}
 
+			EntityManager::GetInstance()->RemoveComponent<T>(id);
 			ComponentManager::GetInstance()->RemoveComponent<T>(id);
 			//gGOFactory->
-			EntityManager::GetInstance()->RemoveComponent<T>(id);
 		}
 
 		return true;
@@ -1291,6 +1291,15 @@ namespace Carmicah
 						gGOFactory->CloneGO(*HierarchyWindow::selectedGO);
 					}
 					//gGOFactory->CreateGO();
+				}
+
+				if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<PrefabData>())
+				{
+					CM_CORE_INFO("Object is a Prefab");
+				}
+				else
+				{
+					CM_CORE_INFO("Object is not a Prefab");
 				}
 			}
 
