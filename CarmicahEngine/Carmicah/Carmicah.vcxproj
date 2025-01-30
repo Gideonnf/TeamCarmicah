@@ -204,7 +204,6 @@ xcopy /Q /E /Y /I "..\bin\Installer-x86_64\CarmicahScriptCore\**.**" "..\Carmica
     <ClInclude Include="source\Editor\InspectorWindow.h" />
     <ClInclude Include="source\Editor\SceneToImgui.h" />
     <ClInclude Include="source\Editor\SceneWindow.h" />
-    <ClInclude Include="source\FSM\BaseState.h" />
     <ClInclude Include="source\FSM\FSMSystem.h" />
     <ClInclude Include="source\Graphics\AnimationSystem.h" />
     <ClInclude Include="source\Graphics\BaseGraphicsSystem.h" />

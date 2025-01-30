@@ -33,7 +33,7 @@ namespace Carmicah
 				// ignore some file types cause those will be all loaded from the start
 				// mainly frag, vert and txt files
 #ifdef CM_INSTALLER
-				if (fileExt != ".txt" || fileExt != ".vert" || fileExt != ".frag" || fileExt != ".scene")
+				if (fileExt != ".txt" || fileExt != ".vert" || fileExt != ".frag" || fileExt != ".scene" || fileExt != ".do" || fileExt != ".o")
 					assetMap.insert({ file.path().filename().stem().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED)});
 				//std::string fileExt = file.path().extension().string();
 
@@ -47,8 +47,8 @@ namespace Carmicah
 					}
 				}
 
-				// Load all shaders here 
-				if (fileExt == ".vert" || fileExt == ".frag" || fileExt == ".scene")
+				// Load all shaders here  and primitives
+				if (fileExt == ".vert" || fileExt == ".frag" || fileExt == ".scene" || fileExt == ".do" || fileExt == ".o")
 				{
 					if (AssetManager::GetInstance()->LoadAsset(fileMap[file.path().string()]))
 					{
@@ -146,7 +146,7 @@ namespace Carmicah
 						std::string fileExt = assetMap[asset].fileEntry.path().extension().string();
 
 						// idk how else to load do and o since they have the same name the map will only store one
-						if (fileExt == ".do")
+					/*	if (fileExt == ".do")
 						{
 							const auto objectFile = assetMap[asset].fileEntry.path().parent_path() / (assetMap[asset].fileEntry.path().stem().string() + std::string(".o"));
 							if (assetMap.count(objectFile.string()) != 0)
@@ -169,7 +169,7 @@ namespace Carmicah
 									assetMap[objectFile.string()].fileStatus = FILE_OK;
 								}
 							}
-						}
+						}*/
 					}
 				}
 			}
