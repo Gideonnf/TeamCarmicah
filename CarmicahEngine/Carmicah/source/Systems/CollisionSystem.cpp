@@ -386,7 +386,7 @@ namespace Carmicah
 			auto& transform = componentManager->GetComponent<Transform>(obj);
 			auto& collider = componentManager->GetComponent<Collider2D>(obj);
 
-			min = max = edgeNormal.dot(collider.objEdges[0]);
+			//min = max = edgeNormal.dot(collider.objEdges[0]);
 			min = max = edgeNormal.dot(collider.objVert[0]);
 
 			for (size_t i = 1; i < collider.objVert.size(); i++)
@@ -565,35 +565,45 @@ namespace Carmicah
 		auto& collider1 = componentManager->GetComponent<Collider2D>(obj1);
 		auto& collider2 = componentManager->GetComponent<Collider2D>(obj2);
 
-		for (size_t i = 0, i1 = collider1.objVert.size() - 1; i < collider1.objVert.size(); i1 = i, i++)
+		// Check if either object has no vertices (invalid collider)
+		if (collider1.objVert.empty() || collider2.objVert.empty())
 		{
-			if  (collider2.objVert.empty())
-			{
-				return false;
-			}
+			return false;
+		}
+
+		// Test edges of collider1
+		for (size_t i = 0; i < collider1.objEdges.size(); i++)
+		{
 			Vec2f outwardNormal = collider1.objNormals[i];
 
-			if (WhichSide(collider2.objVert, collider1.objVert[i], outwardNormal) > 0)
+			float min0, max0, min1, max1;
+			ComputeProjInterval(obj1, outwardNormal, min0, max0);
+			ComputeProjInterval(obj2, outwardNormal, min1, max1);
+
+			// If projections do not overlap, return false (no collision)
+			if (max0 < min1 || max1 < min0)
 			{
 				return false;
 			}
 		}
 
-		for (size_t i = 0, i1 = collider2.objVert.size() - 1; i < collider2.objVert.size(); i1 = i, i++)
+		// Test edges of collider2
+		for (size_t i = 0; i < collider2.objEdges.size(); i++)
 		{
-			if (collider1.objVert.empty())
-			{
-				return false;
-			}
-
 			Vec2f outwardNormal = collider2.objNormals[i];
 
-			if (WhichSide(collider1.objVert, collider2.objVert[i], outwardNormal) > 0)
+			float min0, max0, min1, max1;
+			ComputeProjInterval(obj1, outwardNormal, min0, max0);
+			ComputeProjInterval(obj2, outwardNormal, min1, max1);
+
+			// If projections do not overlap, return false (no collision)
+			if (max0 < min1 || max1 < min0)
 			{
 				return false;
 			}
 		}
 
+		// No separating axis found, objects are intersecting
 		return true;
 	}
 
