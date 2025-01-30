@@ -38,8 +38,9 @@ namespace Carmicah
 			//	fileMap[file.path().string()] = newFile;
 
 				fileMap.insert({ file.path().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED) });
-
-				assetMap.insert({ file.path().filename().stem().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED)});
+				std::string fileExt = file.path().extension().string();
+				if (fileExt != ".txt")
+					assetMap.insert({ file.path().filename().stem().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED)});
 				//std::string fileExt = file.path().extension().string();
 
 			}
@@ -116,6 +117,29 @@ namespace Carmicah
 			}
 		//	if (fileMap.count(file.))
 		}
+	}
+
+	void FileWatcher::LoadSceneFiles(std::string const& sceneFile)
+	{
+		for (auto& asset : AssetManager::GetInstance()->enConfig.assetsToLoad[sceneFile])
+		{
+			if (assetMap.count(sceneFile) != 0)
+			{
+				if (assetMap[asset].fileStatus == FILE_CREATED)
+				{
+					if (AssetManager::GetInstance()->LoadAsset(assetMap[asset]))
+					{
+						assetMap[asset].fileStatus = FILE_OK;
+					}
+
+				}
+			}
+		}
+
+		/*for (auto it = fileMap.begin(); it != fileMap.end(); ++it)
+		{
+
+		}*/
 	}
 
 	auto FileWatcher::DestroyFile(File file)

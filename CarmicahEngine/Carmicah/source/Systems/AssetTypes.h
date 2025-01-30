@@ -82,6 +82,11 @@ namespace Carmicah
 	{
 		GLuint t;
 		Mtx3x3f mtx;
+
+		// idk how else i can pull out sprite sheet info
+		// i need store if the asset is a spritesheet or not so i can serialise assets to load
+		bool isSpriteSheet;
+		std::string spriteSheet;
 	};
 	
 	struct FontTexture

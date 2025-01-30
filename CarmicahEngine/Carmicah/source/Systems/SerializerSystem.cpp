@@ -184,6 +184,7 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 			CM_CORE_ERROR("Scenefile is empty");
 			return false;
 		}
+		DeserializeLevelAssets(sceneFile);
 
 		gGOFactory->ImportGO(doc);
 
@@ -193,7 +194,6 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 		//	gGOFactory->ImportGO(go);
 		//}
 
-		DeserializeLevelAssets(sceneFile);
 		return true;
 	}
 
@@ -253,11 +253,25 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 					if (componentName == typeid(Renderer).name())
 					{
 						PUSH_BACK(it, document, "model", allocator);
-						PUSH_BACK(it, document, "texture", allocator);
+						//PUSH_BACK(it, document, "texture", allocator);
+
 
 						/*std::string model = (*it)["model"].GetString();
 						document.PushBack(rapidjson::Value(model.c_str(), allocator), allocator);*/
-						//std::string texture = (*it)["texture"].GetString();
+						//
+						std::string texture = (*it)["texture"].GetString();
+						Texture t = AssetManager::GetInstance()->GetAsset<Texture>(texture);
+						if (t.isSpriteSheet && t.spriteSheet.empty() == false)
+						{
+							if (ValueExist(document, t.spriteSheet.c_str()) == false)
+							{
+								document.PushBack(rapidjson::Value(t.spriteSheet.c_str(), allocator), allocator);
+							} 
+						}
+						else
+						{
+							PUSH_BACK(it, document, "texture", allocator);
+						}
 						//document.PushBack(rapidjson::Value(texture.c_str(), allocator), allocator);
 
 					}
@@ -351,15 +365,31 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 				
 				// push the asset to load into the scene's vector of assets to load
 				AssetManager::GetInstance()->enConfig.assetsToLoad[fileName].push_back(asset.GetString());
+				//AssetManager::GetInstance()->LoadAsset()
 			}
 		}
+
+		AssetManager::GetInstance()->fileWatcher.LoadSceneFiles(fileName);
 	}
 
 	bool SerializerSystem::ValueExist(const rapidjson::Document& doc, const char* valToCheck)
 	{
-		for (rapidjson::SizeType i = 0; i < doc.Size(); ++i)
+		/*for (rapidjson::SizeType i = 0; i < doc.Size(); ++i)
 		{
 			if (doc[i].IsString() && doc[i] == valToCheck)
+			{
+				return true;
+			}
+		}*/
+
+		if (doc.IsArray() == false)
+		{
+			return false;
+		}
+
+		for (auto& asset : doc.GetArray())
+		{
+			if (asset.IsString() && asset == valToCheck)
 			{
 				return true;
 			}
