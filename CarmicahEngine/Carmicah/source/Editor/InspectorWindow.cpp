@@ -1169,7 +1169,7 @@ namespace Carmicah
 	void InspectorWindow::RenderStateMachineTable(T* go, TABLETYPE type)
 	{
 		StateMachine& stateMachine = go->GetComponent<StateMachine>();
-		Entity id = go->GetID();
+		//Entity id = go->GetID();
 
 		if (ImGui::CollapsingHeader("State Machine Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
@@ -1200,23 +1200,37 @@ namespace Carmicah
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Current State:");
+				std::string currState = stateMachine.currState;
 				ImGui::TableNextColumn();
-				ImGui::Text("WTV CURRENT");
+				ImGui::Text(currState.c_str());
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Next State:");
+				std::string nextState = stateMachine.nextState;
 				ImGui::TableNextColumn();
-				ImGui::Text("WTV NEXT");
+				ImGui::Text(nextState.c_str());
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Starting State:");
+				std::string startState = stateMachine.startingState;
 				ImGui::TableNextColumn();
-				ImGui::Text("WTV STARTING");
+				ImGui::Text(startState.c_str());
 
 
 				ImGui::EndTable();
+			}
+
+			for (auto& [stateName, actualState] : stateMachine.stateMap)
+			{
+				ImGui::Text(actualState.stateName.c_str());
+				ImGui::Text("Transitions in %s:", actualState.stateName.c_str());
+				for (auto& transition : actualState.transitions)
+				{
+					ImGui::Text(transition.targetState.c_str());
+				}
+
 			}
 		}
 	}
