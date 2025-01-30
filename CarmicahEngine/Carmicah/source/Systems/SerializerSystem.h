@@ -94,6 +94,22 @@ namespace Carmicah
 		/// <returns>the prefab after deserializing</returns>
 		Prefab GetChildren(const rapidjson::Value& doc);
 
+		/// <summary>
+		/// Read through the scene file and extract out any assets that are to be loaded
+		/// So that when we load the level in installer mode, it will only load those assets
+		/// </summary>
+		/// <param name="sceneFile"></param>
+		void SerializeLevelAssets(std::string sceneFile);
+
+		/// <summary>
+		/// Deserialize the assets and store it in enconfig so that file watcher can pull it out?
+		/// or call the function in file watcher itself
+		/// </summary>
+		/// <param name="scene"></param>
+		void DeserializeLevelAssets(std::string sceneFIle);
+
+		bool ValueExist(const rapidjson::Document& doc, const char* valToCheck);
+
 	};
 
 	static SerializerSystem& Serializer = *SerializerSystem::GetInstance();

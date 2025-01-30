@@ -21,6 +21,18 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+	//std::string model = (*it)["model"].GetString();
+	/*std::string model = (*it)["model"].GetString();
+	document.PushBack(rapidjson::Value(model.c_str(), allocator), allocator);*/
+	//std::string texture = (*it)["texture"].GetString();
+	//document.PushBack(rapidjson::Value(texture.c_str(), allocator), allocator);
+
+#define PUSH_BACK(iterator, doc, val, allocator) \
+if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
+	doc.PushBack(rapidjson::Value((*iterator)[val].GetString(), allocator), allocator);  \
+	} \
+
+
 	using namespace rapidjson;
 
 	EngineConfig SerializerSystem::LoadConfig(const std::string& filePath)
@@ -172,6 +184,7 @@ namespace Carmicah
 			CM_CORE_ERROR("Scenefile is empty");
 			return false;
 		}
+		DeserializeLevelAssets(sceneFile);
 
 		gGOFactory->ImportGO(doc);
 
@@ -180,6 +193,7 @@ namespace Carmicah
 		//	const Value& go = doc[i];
 		//	gGOFactory->ImportGO(go);
 		//}
+
 		return true;
 	}
 
@@ -196,7 +210,192 @@ namespace Carmicah
 		PrettyWriter<OStreamWrapper> writer(osw);
 		gGOFactory->ExportGOs(writer);
 		ofs.close();
+
+		SerializeLevelAssets(sceneFile);
 		return true;
+	}
+
+	
+	void SerializerSystem::SerializeLevelAssets(std::string sceneFile)
+	{
+		std::ifstream ifs{ sceneFile, std::ios::binary };
+		if (!ifs)
+		{
+			CM_CORE_ERROR("Unable to open scene file");
+			return;
+		}
+
+		IStreamWrapper isw(ifs);
+		Document doc;
+		doc.ParseStream(isw);
+		ifs.close();
+
+		rapidjson::Document document;
+		document.SetArray();
+		rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
+
+		if (doc.HasMember("SceneObjects"))
+		{
+			// Loop through every scene object to check what assets it need
+			const rapidjson::Value& sceneObjects = doc["SceneObjects"];
+			for (rapidjson::SizeType i = 0; i < sceneObjects.Size(); ++i)
+			{
+				const rapidjson::Value& go = sceneObjects[i];
+				//writer.StartObject();D
+				// Lop through all the components in the game object
+				const rapidjson::Value& componentList = go["Components"];
+				for (rapidjson::Value::ConstValueIterator it = componentList.Begin(); it != componentList.End(); ++it)
+				{
+					// get the name of the component
+					const std::string& componentName = (*it)["Component Name"].GetString();
+
+					// check for specific type of components that need to load assets
+					if (componentName == typeid(Renderer).name())
+					{
+						PUSH_BACK(it, document, "model", allocator);
+						//PUSH_BACK(it, document, "texture", allocator);
+
+
+						/*std::string model = (*it)["model"].GetString();
+						document.PushBack(rapidjson::Value(model.c_str(), allocator), allocator);*/
+						//
+						std::string texture = (*it)["texture"].GetString();
+						Texture t = AssetManager::GetInstance()->GetAsset<Texture>(texture);
+						if (t.isSpriteSheet && t.spriteSheet.empty() == false)
+						{
+							if (ValueExist(document, t.spriteSheet.c_str()) == false)
+							{
+								document.PushBack(rapidjson::Value(t.spriteSheet.c_str(), allocator), allocator);
+							} 
+						}
+						else
+						{
+							PUSH_BACK(it, document, "texture", allocator);
+						}
+						//document.PushBack(rapidjson::Value(texture.c_str(), allocator), allocator);
+
+					}
+					else if (componentName == typeid(Script).name())
+					{
+						// TODO: Find out how i can create custom data types for C# side
+						// so i can find out if they're loading a prefab
+						// or if they're loading an animation
+					}
+					else if (componentName == typeid(Animation).name())
+					{
+						PUSH_BACK(it, document, "Atlas", allocator);
+						//std::string animAtlas = (*it)["Atlas"].GetString();
+						//document.PushBack(rapidjson::Value(animAtlas.c_str(), allocator), allocator);
+
+					}
+					else if (componentName == typeid(TextRenderer).name())
+					{
+						PUSH_BACK(it, document, "font", allocator);
+						//std::string font = (*it)["font"].GetString();
+						//document.PushBack(rapidjson::Value(font.c_str(), allocator), allocator);
+
+					}
+				}
+				//sceneGO.children.insert(ImportEntity(go, sceneGO.sceneID));
+			}
+		}
+		/*writer.EndArray();
+		writer.EndObject();*/
+
+		rapidjson::StringBuffer buffer;
+		rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+		document.Accept(writer);
+
+		std::filesystem::path filePath(sceneFile);
+		// extract out file name "sceneX/Y/Z"
+		std::string fileName = filePath.stem().string();
+		// extract out the "../Assets/.."
+		std::string directory = filePath.parent_path().string();
+		// concat together to make the asset file
+		std::string assetFile = directory + "\\" + fileName + ".Asset";
+
+		std::ofstream ofs{ assetFile, std::ios::binary };
+
+		if (!ofs)
+		{
+			CM_CORE_ERROR("Unable to open scene file");
+			return;
+		}
+
+		ofs << buffer.GetString();
+		ofs.close();
+	}
+
+	void SerializerSystem::DeserializeLevelAssets(std::string sceneFile)
+	{
+		std::filesystem::path filePath(sceneFile);
+		// extract out file name "sceneX/Y/Z"
+		std::string fileName = filePath.stem().string();
+		// extract out the "../Assets/.."
+		std::string directory = filePath.parent_path().string();
+		// concat together to make the asset file
+		std::string assetFile = directory + "\\" + fileName + ".Asset";
+
+		std::ifstream ifs{ assetFile, std::ios::binary };
+		if (!ifs)
+		{
+			CM_CORE_ERROR("Unable to open scene file");
+			return;
+		}
+
+		std::stringstream buffer;
+		buffer << ifs.rdbuf();
+		std::string jsonStr = buffer.str();
+		ifs.close();
+
+		rapidjson::Document document;
+		if (document.Parse(jsonStr.c_str()).HasParseError())
+		{
+			// error in parsing
+			CM_CORE_ERROR("Unable to parse level assets");
+			return;
+		}
+
+		// loop thru the document
+		for (auto& asset : document.GetArray())
+		{
+			if (asset.IsString())
+			{
+				CM_CORE_INFO("Asset name {}", asset.GetString());
+				
+				// push the asset to load into the scene's vector of assets to load
+				AssetManager::GetInstance()->enConfig.assetsToLoad[fileName].push_back(asset.GetString());
+				//AssetManager::GetInstance()->LoadAsset()
+			}
+		}
+
+		AssetManager::GetInstance()->fileWatcher.LoadSceneFiles(fileName);
+	}
+
+	bool SerializerSystem::ValueExist(const rapidjson::Document& doc, const char* valToCheck)
+	{
+		/*for (rapidjson::SizeType i = 0; i < doc.Size(); ++i)
+		{
+			if (doc[i].IsString() && doc[i] == valToCheck)
+			{
+				return true;
+			}
+		}*/
+
+		if (doc.IsArray() == false)
+		{
+			return false;
+		}
+
+		for (auto& asset : doc.GetArray())
+		{
+			if (asset.IsString() && asset == valToCheck)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	void SerializerSystem::SerializePrefab(Prefab prefab)
