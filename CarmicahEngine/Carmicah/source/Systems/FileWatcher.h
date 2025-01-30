@@ -57,6 +57,7 @@ namespace Carmicah
 		auto DestroyFile(File file);
 		void Update();
 		void LoadSceneFiles(std::string const& sceneFile);
+		void LoadSoundFiles();
 
 	};
 }
