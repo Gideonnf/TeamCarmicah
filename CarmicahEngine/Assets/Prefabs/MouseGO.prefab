@@ -36,11 +36,11 @@
                     "EndPointEntityRight2": "EndPointRight_1",
                     "Animation0": "Mouse_Climb_blue",
                     "Animation1": "Mouse_Climb_white",
-                    "Animation3": "Bear_Climb",
+                    "Animation3": "Mouse_Climb_blue",
                     "AnimationDie0": "Mouse_Death_blue",
                     "AnimationDie2": "Mouse_Death_brown",
                     "AnimationDie1": "Mouse_Death_white",
-                    "AnimationDie3": "Bear_Death",
+                    "AnimationDie3": "Mouse_Death_blue",
                     "SpawnPointEntityLeft2": "StartPointLeft_1",
                     "EndPointEntityLeft2": "EndPointLeft_1"
                 }
