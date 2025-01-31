@@ -24,7 +24,7 @@ using System.Threading.Tasks;
 namespace Carmicah
 {
     // creat a HealthSystem class that inherits from Entity
-    public class HealthSystem : Entity
+    public class HealthSystem
     {
         // health vals
         private int mCurHealth;
