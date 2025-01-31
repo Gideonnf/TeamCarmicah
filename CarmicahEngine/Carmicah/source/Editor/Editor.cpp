@@ -382,7 +382,7 @@ namespace Carmicah
 		}
 
 		//Check if parent or not:
-		bool isChild = false;
+		//bool isChild = false;
 
 		GameObject& currentGO = gGOFactory->GetMIDToGO().at(id);
 

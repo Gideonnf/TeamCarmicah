@@ -320,9 +320,13 @@ namespace Carmicah
 				for (int i = 0; i < 32; ++i)
 				{
 					uint32_t layerBit = 1 << i;
-					const char* layerName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
+					char const* layerName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
 					bool isEnabled = colMask & layerBit;
-					if (layerName == "NULL")
+
+					if (layerName == nullptr)
+						continue;
+
+					if (std::strcmp(layerName,"NULL") == 0)
 						continue;
 					if (isEnabled)
 					{
@@ -342,9 +346,12 @@ namespace Carmicah
 					for (int i = 0; i < 32; ++i)
 					{
 						uint32_t layerBit = 1 << i;
-						const char* layerName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
+						char const* layerName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
 						bool isEnabled = colMask & layerBit;
-						if (layerName == "NULL")
+						if (layerName == nullptr)
+							continue;
+
+						if (std::strcmp(layerName, "NULL") == 0)
 							continue;
 						if (!isEnabled)
 						{
@@ -1165,11 +1172,53 @@ namespace Carmicah
 		}
 	}
 
+	/*void InspectorWindow::VariantVarSelectPopUp(std::string& varType)
+	{
+
+		if (ImGui::BeginPopup("VariantVar Select"))
+		{
+			if (varType != "bool")
+			{
+				if (ImGui::Selectable("bool"))
+				{
+					varType = "bool";
+				}
+			}
+
+			if (varType != "int")
+			{
+				if (ImGui::Selectable("int"))
+				{
+					varType = "int";
+				}
+			}
+
+			if (varType != "float")
+			{
+				if (ImGui::Selectable("float"))
+				{
+					varType = "float";
+				}
+			}
+
+			if (varType != "string")
+			{
+				if (ImGui::Selectable("string"))
+				{
+					varType = "string";
+				}
+			}
+
+			ImGui::EndPopup();
+		}
+	}*/
+
+
 	template<typename T>
 	void InspectorWindow::RenderStateMachineTable(T* go, TABLETYPE type)
 	{
 		StateMachine& stateMachine = go->GetComponent<StateMachine>();
-		Entity id = go->GetID();
+		//Entity id = go->GetID();
 
 		if (ImGui::CollapsingHeader("State Machine Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
@@ -1177,7 +1226,8 @@ namespace Carmicah
 			{
 			case GAMEOBJECT:
 			{
-				InspectorWindow::RemoveComponentButton<StateMachine>(go);
+				if (InspectorWindow::RemoveComponentButton<StateMachine>(go))
+					/*return;*/
 				break;
 			}
 			case PREFAB:
@@ -1200,26 +1250,135 @@ namespace Carmicah
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Current State:");
+				std::string currState = stateMachine.currState;
 				ImGui::TableNextColumn();
-				ImGui::Text("WTV CURRENT");
+				ImGui::Text(currState.c_str());
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Next State:");
+				std::string nextState = stateMachine.nextState;
 				ImGui::TableNextColumn();
-				ImGui::Text("WTV NEXT");
+				ImGui::Text(nextState.c_str());
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Starting State:");
+				std::string startState = stateMachine.startingState;
 				ImGui::TableNextColumn();
-				ImGui::Text("WTV STARTING");
+				ImGui::Text(startState.c_str());
 
 
 				ImGui::EndTable();
 			}
+
+			for (auto& [stateName, actualState] : stateMachine.stateMap)
+			{
+				ImGui::Text(actualState.stateName.c_str());
+				ImGui::Text("Transitions in %s:", actualState.stateName.c_str());
+				ImGui::SameLine();
+				//Adding a new Transition to the State
+				if (ImGui::Button("Add New Transition"))
+				{
+					ImGui::OpenPopup("New Transition");
+				}
+
+				if (ImGui::BeginPopup("New Transition"))
+				{
+					static Transition newTransition;
+					static std::string varType{};
+					const char* items[] = { "", "bool", "int", "float", "string" };
+					static char buffer[128]{"Default\0"};
+					static variantVar condition;
+					static bool boolValue = false;
+					static int intValue = 0;
+					static float floatValue = 0.f;
+					static char stringValue[256] = "Default";
+					ImGui::Text("Transition Name: ");
+					ImGui::SameLine();
+					if (ImGui::InputText("##Transition Name:", buffer, sizeof(buffer)))
+					{
+						newTransition.targetState = buffer;
+					}
+					static int currentItem = 0; // Index of selected item
+
+					if (ImGui::Combo("##Select Type", &currentItem, items, IM_ARRAYSIZE(items)))
+					{
+						varType = items[currentItem];
+					}
+					ImGui::Text("Condition Type: %s",varType.c_str());
+					
+					if (std::strcmp(varType.c_str(), "bool") == 0)
+					{
+						ImGui::Text("Bool: ");
+						ImGui::SameLine();
+						if (ImGui::Checkbox("##BoolCond", &boolValue))
+						{
+							condition = boolValue;
+						}
+					}
+
+					if (std::strcmp(varType.c_str(), "int") == 0)
+					{
+						ImGui::Text("Int: ");
+						ImGui::SameLine();
+						if (ImGui::InputInt("##IntCond", &intValue, 1))
+						{
+							condition = intValue;
+						}
+					}
+
+					if (std::strcmp(varType.c_str(), "float") == 0)
+					{
+						ImGui::Text("Float: ");
+						ImGui::SameLine();
+						if (ImGui::InputFloat("##FloatCond", &floatValue, 1))
+						{
+							condition = floatValue;
+						}
+					}
+
+					if (std::strcmp(varType.c_str(), "string") == 0)
+					{
+						ImGui::Text("String: ");
+						ImGui::SameLine();
+						if (ImGui::InputText("##StringCond", stringValue, sizeof(stringValue) - 1))
+						{
+							condition = std::string(stringValue);
+						}
+					}
+
+
+					if (ImGui::Button("Create Transition"))
+					{
+						newTransition.targetState = buffer;
+						newTransition.condition = condition;
+						actualState.transitions.push_back(newTransition);
+
+						//Resetting the static variables
+						strncpy(buffer, "Default", sizeof(buffer) - 1);
+						buffer[sizeof(buffer) - 1] = '\0';
+						currentItem = 0;
+						boolValue = false;
+						intValue = 0;
+						floatValue = 0.f;
+						strncpy(stringValue, "Default", sizeof(stringValue) - 1);
+						stringValue[sizeof(stringValue) - 1] = '\0';
+						ImGui::CloseCurrentPopup();
+					}
+
+					ImGui::EndPopup();
+				}
+
+				for (auto& transition : actualState.transitions)
+				{
+					ImGui::Text(transition.targetState.c_str());
+				}
+
+			}
 		}
 	}
+
 
 	/**
 	 * @brief Inspector Table that displays the components that are currently added.
