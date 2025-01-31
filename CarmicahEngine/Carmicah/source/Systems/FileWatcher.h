@@ -56,6 +56,7 @@ namespace Carmicah
 		void Init(std::string filePath);
 		auto DestroyFile(File file);
 		void Update();
+		bool AssetExist(std::string assetName);
 		void LoadSceneFiles(std::string const& sceneFile);
 		void LoadSoundFiles();
 

@@ -283,6 +283,24 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 						// TODO: Find out how i can create custom data types for C# side
 						// so i can find out if they're loading a prefab
 						// or if they're loading an animation
+
+						const rapidjson::Value& fieldList = (*it)["ScriptableFieldMap"];
+
+						for (const auto& fieldObject : fieldList.GetArray())
+						{
+							for (auto it2 = fieldObject.MemberBegin(); it2 != fieldObject.MemberEnd(); ++it2)
+							{
+								if (it2->value.IsString() == false)
+									continue;
+
+								std::string str = std::string(it2->value.GetString());
+								if (AssetManager::GetInstance()->fileWatcher.AssetExist(str))
+								{
+									//if (AssetManager::GetInstance()->AssetExist<Animation>(str));
+									document.PushBack(rapidjson::Value(str.c_str(), allocator), allocator);
+								}
+							}
+						}
 					}
 					else if (componentName == typeid(Animation).name())
 					{
