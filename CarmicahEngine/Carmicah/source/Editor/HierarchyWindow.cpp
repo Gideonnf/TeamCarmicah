@@ -340,7 +340,7 @@ namespace Carmicah
 					for (int col = maxLayers - 1; col >= 0; --col)
 					{
 						uint32_t layerBit2 = 1 << col;
-						int layer2Index = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerIndex(static_cast<CollisionLayer>(layerBit2));
+						//int layer2Index = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerIndex(static_cast<CollisionLayer>(layerBit2));
 						const char* layerName2 = nullptr;
 						layerName2 = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit2));
 						ImGui::TableNextColumn();

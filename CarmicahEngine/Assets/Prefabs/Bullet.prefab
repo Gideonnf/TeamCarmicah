@@ -4,11 +4,11 @@
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
-            "xPos": 0.0,
-            "yPos": 3.221694231033325,
+            "xPos": -5.0,
+            "yPos": -9.0,
             "depth": 4.400000095367432,
-            "xScale": 0.05000000074505806,
-            "yScale": 0.10000000149011612,
+            "xScale": 1.0,
+            "yScale": 1.0,
             "rot": 0.0,
             "collisionMask": 0
         },
@@ -35,40 +35,39 @@
             "customRotation": 0.0,
             "customHeight": 5.0
         },
-      {
-        "Component Name": "struct Carmicah::RigidBody",
-        "velocityX": 0.0,
-        "velocityY": 0.0,
-        "angularVelocity": 0.0,
-        "posPrevX": 0.0,
-        "posPrevY": 0.0,
-        "mass": 1.0,
-        "gravity": 0.0,
-        "zposPrev": -1.0,
-        "objectType": 1
-      },
-      {
-        "Component Name": "struct Carmicah::StateMachine",
-        "currState": "Attacking",
-        "nextState": "Attacking",
-        "startingState": "Attacking",
-        "stateMap": [
-          {
-            "stateName": "bulletIdle",
-            "stateCondition":  0,
-            "transitions": [
-              {
-                "targetState": "Explode",
-                "condition": 1
-              },
-              {
-                "targetState": "Dead",
-                "condition": 2
-              }
+        {
+            "Component Name": "struct Carmicah::RigidBody",
+            "velocityX": 0.0,
+            "velocityY": 0.0,
+            "angularVelocity": 0.0,
+            "posPrevX": 0.0,
+            "posPrevY": 0.0,
+            "mass": 1.0,
+            "gravity": 0.0,
+            "zposPrev": -1.0,
+            "objectType": 1
+        },
+        {
+            "Component Name": "struct Carmicah::StateMachine",
+            "currState": "Attacking",
+            "nextState": "Attacking",
+            "startingState": "",
+            "stateMap": [
+                {
+                    "stateName": "bulletIdle",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Explode",
+                            "condition": 1
+                        },
+                        {
+                            "targetState": "Dead",
+                            "condition": 2
+                        }
+                    ]
+                }
             ]
-          }
-        ]
-
-      }
+        }
     ]
 }

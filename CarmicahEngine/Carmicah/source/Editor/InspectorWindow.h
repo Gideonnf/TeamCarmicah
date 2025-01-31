@@ -167,6 +167,9 @@ namespace Carmicah
 		 */
 		template<typename T>
 		void RenderScriptTable(T* data, TABLETYPE type);
+		
+		
+		void VariantVarSelectPopUp(std::string& varType);
 		/**
 		 * @brief Renders the StateMachine component table
 		 *
@@ -176,6 +179,7 @@ namespace Carmicah
 		 */
 		template<typename T>
 		void RenderStateMachineTable(T* go, TABLETYPE type);
+
 
 		//TODO: IF IT WORKS< APPLY IT FOR EVERYTHIGN ELSE
 
