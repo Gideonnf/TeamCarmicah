@@ -41,7 +41,7 @@ namespace Carmicah
 				// 
 				// meshes, shaders and scenes are loaded by default
 				// only images and animations are loaded when needed
-				if (fileExt == ".ani" || fileExt == ".png" || fileExt == ".prefab" || fileExt == ".ttf")
+				if (fileExt != ".txt" || fileExt != ".vert" || fileExt != ".frag" || fileExt != ".scene" || fileExt != ".do" || fileExt != ".o")
 					assetMap.insert({ file.path().filename().stem().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED)});
 #ifdef CM_INSTALLER
 				//std::string fileExt = file.path().extension().string();
@@ -138,6 +138,20 @@ namespace Carmicah
 				}
 			}
 		//	if (fileMap.count(file.))
+		}
+	}
+
+	void FileWatcher::LoadSceneFile(std::string const& file)
+	{
+		if (assetMap.count(file) != 0)
+		{
+			if (assetMap[file].fileStatus == FILE_CREATED)
+			{
+				if (AssetManager::GetInstance()->LoadAsset(assetMap[file]))
+				{
+					assetMap[file].fileStatus = FILE_OK;
+				}
+			}
 		}
 	}
 

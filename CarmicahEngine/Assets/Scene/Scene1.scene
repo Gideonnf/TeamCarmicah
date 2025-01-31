@@ -88,7 +88,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Walk 2"
+                    "texture": "MC_SpriteSheet_Walk 1"
                 },
                 {
                     "Component Name": "struct Script",
@@ -312,7 +312,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 5"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 9"
                 },
                 {
                     "Component Name": "struct Script",
@@ -611,7 +611,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 5"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 9"
                 },
                 {
                     "Component Name": "struct Script",
@@ -878,11 +878,11 @@
                                 },
                                 {
                                     "targetState": "FloatTest",
-                                    "condition": 0
+                                    "condition": 5.494999885559082
                                 },
                                 {
                                     "targetState": "StringTest",
-                                    "condition": 0
+                                    "condition": true
                                 }
                             ]
                         }
