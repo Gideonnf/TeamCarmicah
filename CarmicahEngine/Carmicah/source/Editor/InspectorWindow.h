@@ -169,7 +169,7 @@ namespace Carmicah
 		void RenderScriptTable(T* data, TABLETYPE type);
 		
 		
-		void VariantVarSelectPopUp(std::string& varType);
+		//void VariantVarSelectPopUp(std::string& varType);
 		/**
 		 * @brief Renders the StateMachine component table
 		 *

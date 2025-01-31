@@ -348,6 +348,9 @@ namespace Carmicah
 						uint32_t layerBit = 1 << i;
 						char const* layerName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
 						bool isEnabled = colMask & layerBit;
+						if (layerName == nullptr)
+							continue;
+
 						if (std::strcmp(layerName, "NULL") == 0)
 							continue;
 						if (!isEnabled)
@@ -1169,7 +1172,7 @@ namespace Carmicah
 		}
 	}
 
-	void InspectorWindow::VariantVarSelectPopUp(std::string& varType)
+	/*void InspectorWindow::VariantVarSelectPopUp(std::string& varType)
 	{
 
 		if (ImGui::BeginPopup("VariantVar Select"))
@@ -1208,7 +1211,7 @@ namespace Carmicah
 
 			ImGui::EndPopup();
 		}
-	}
+	}*/
 
 
 	template<typename T>
@@ -1284,14 +1287,15 @@ namespace Carmicah
 				{
 					Transition newTransition;
 					static std::string varType{};
-					char buffer[128]{"Default\0"};
+					const char* items[] = { "", "bool", "int", "float", "string" };
+					static char buffer[128]{"Default\0"};
+					variantVar condition;
 					ImGui::Text("Transition Name: ");
 					ImGui::SameLine();
 					if (ImGui::InputText("##Transition Name:", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
 					{
 						newTransition.targetState = buffer;
 					}
-					const char* items[] = { "bool", "int", "float", "string" };
 					static int currentItem = 0; // Index of selected item
 
 					if (ImGui::Combo("##Select Type", &currentItem, items, IM_ARRAYSIZE(items)))
@@ -1299,9 +1303,60 @@ namespace Carmicah
 						varType = items[currentItem];
 					}
 					ImGui::Button("HELLO!!");
-					ImGui::Text(varType.c_str());
-					ImGui::SameLine();
+					ImGui::Text("Condition Type: %s",varType.c_str());
+					
+					if (std::strcmp(varType.c_str(), "bool") == 0)
+					{
+						static bool boolValue = false;
+						ImGui::Text("Bool: ");
+						ImGui::SameLine();
+						if (ImGui::Checkbox("##BoolCond", &boolValue))
+						{
+							condition = boolValue;
+						}
+					}
 
+					if (std::strcmp(varType.c_str(), "int") == 0)
+					{
+						static int intValue = 0;
+						ImGui::Text("Int: ");
+						ImGui::SameLine();
+						if (ImGui::InputInt("##IntCond", &intValue, 1))
+						{
+							condition = intValue;
+						}
+					}
+
+					if (std::strcmp(varType.c_str(), "float") == 0)
+					{
+						static float floatValue = 0;
+						ImGui::Text("Float: ");
+						ImGui::SameLine();
+						if (ImGui::InputFloat("##FloatCond", &floatValue, 1))
+						{
+							condition = floatValue;
+						}
+					}
+
+					if (std::strcmp(varType.c_str(), "string") == 0)
+					{
+						static std::string stringValue {};
+						char buffer[256] = "";
+						ImGui::Text("String: ");
+						ImGui::SameLine();
+						if (ImGui::InputText("##StringCond", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
+						{
+							condition = std::string(buffer);
+						}
+					}
+
+
+					if (ImGui::Button("Create Transition"))
+					{
+						newTransition.targetState = buffer;
+						actualState.transitions.push_back(newTransition);
+						ImGui::CloseCurrentPopup();
+					}
 
 					ImGui::EndPopup();
 				}
