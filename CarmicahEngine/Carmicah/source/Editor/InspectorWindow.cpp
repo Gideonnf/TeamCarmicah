@@ -1296,7 +1296,7 @@ namespace Carmicah
 					static char stringValue[256] = "Default";
 					ImGui::Text("Transition Name: ");
 					ImGui::SameLine();
-					if (ImGui::InputText("##Transition Name:", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
+					if (ImGui::InputText("##Transition Name:", buffer, sizeof(buffer)))
 					{
 						newTransition.targetState = buffer;
 					}
@@ -1342,7 +1342,7 @@ namespace Carmicah
 					{
 						ImGui::Text("String: ");
 						ImGui::SameLine();
-						if (ImGui::InputText("##StringCond", stringValue, sizeof(stringValue) - 1, ImGuiInputTextFlags_EnterReturnsTrue))
+						if (ImGui::InputText("##StringCond", stringValue, sizeof(stringValue) - 1))
 						{
 							condition = std::string(stringValue);
 						}
