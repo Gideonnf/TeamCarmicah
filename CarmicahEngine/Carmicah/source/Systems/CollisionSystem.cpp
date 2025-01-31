@@ -809,10 +809,15 @@ namespace Carmicah
 
 				for (Entity entity2 : nearbyEntities)
 				{
-					if (TestIntersection(entity1, entity2))
-					{
-						CollisionResponse(entity1, entity2);
-					}
+					auto& transform2 = componentManager->GetComponent<Transform>(entity2);
+
+
+						if (TestIntersection(entity1, entity2))
+						{
+							CollisionResponse(entity1, entity2);
+						}
+
+					
 				}
 			}
 			else if (rigidbody1.objectType == rbTypes::KINEMATIC)
@@ -821,9 +826,16 @@ namespace Carmicah
 
 				for (Entity entity2 : nearbyEntities)
 				{
-					if (TestIntersection(entity1, entity2))
+
+					auto& transform2 = componentManager->GetComponent<Transform>(entity2);
+
+					if ((transform1.collisionMask | transform2.collisionMask) == 10) 
 					{
-						CollisionResponse(entity1, entity2);
+						if (TestIntersection(entity1, entity2))
+						{
+							CollisionResponse(entity1, entity2);
+						}
+
 					}
 				}
 			}
