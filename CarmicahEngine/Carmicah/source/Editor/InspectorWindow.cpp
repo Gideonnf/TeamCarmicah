@@ -1285,11 +1285,15 @@ namespace Carmicah
 
 				if (ImGui::BeginPopup("New Transition"))
 				{
-					Transition newTransition;
+					static Transition newTransition;
 					static std::string varType{};
 					const char* items[] = { "", "bool", "int", "float", "string" };
 					static char buffer[128]{"Default\0"};
-					variantVar condition;
+					static variantVar condition;
+					static bool boolValue = false;
+					static int intValue = 0;
+					static float floatValue = 0.f;
+					static char stringValue[256] = "Default";
 					ImGui::Text("Transition Name: ");
 					ImGui::SameLine();
 					if (ImGui::InputText("##Transition Name:", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
@@ -1302,12 +1306,10 @@ namespace Carmicah
 					{
 						varType = items[currentItem];
 					}
-					ImGui::Button("HELLO!!");
 					ImGui::Text("Condition Type: %s",varType.c_str());
 					
 					if (std::strcmp(varType.c_str(), "bool") == 0)
 					{
-						static bool boolValue = false;
 						ImGui::Text("Bool: ");
 						ImGui::SameLine();
 						if (ImGui::Checkbox("##BoolCond", &boolValue))
@@ -1318,7 +1320,6 @@ namespace Carmicah
 
 					if (std::strcmp(varType.c_str(), "int") == 0)
 					{
-						static int intValue = 0;
 						ImGui::Text("Int: ");
 						ImGui::SameLine();
 						if (ImGui::InputInt("##IntCond", &intValue, 1))
@@ -1329,7 +1330,6 @@ namespace Carmicah
 
 					if (std::strcmp(varType.c_str(), "float") == 0)
 					{
-						static float floatValue = 0;
 						ImGui::Text("Float: ");
 						ImGui::SameLine();
 						if (ImGui::InputFloat("##FloatCond", &floatValue, 1))
@@ -1340,13 +1340,11 @@ namespace Carmicah
 
 					if (std::strcmp(varType.c_str(), "string") == 0)
 					{
-						static std::string stringValue {};
-						char buffer[256] = "";
 						ImGui::Text("String: ");
 						ImGui::SameLine();
-						if (ImGui::InputText("##StringCond", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
+						if (ImGui::InputText("##StringCond", stringValue, sizeof(stringValue) - 1, ImGuiInputTextFlags_EnterReturnsTrue))
 						{
-							condition = std::string(buffer);
+							condition = std::string(stringValue);
 						}
 					}
 
@@ -1354,7 +1352,18 @@ namespace Carmicah
 					if (ImGui::Button("Create Transition"))
 					{
 						newTransition.targetState = buffer;
+						newTransition.condition = condition;
 						actualState.transitions.push_back(newTransition);
+
+						//Resetting the static variables
+						strncpy(buffer, "Default", sizeof(buffer) - 1);
+						buffer[sizeof(buffer) - 1] = '\0';
+						currentItem = 0;
+						boolValue = false;
+						intValue = 0;
+						floatValue = 0.f;
+						strncpy(stringValue, "Default", sizeof(stringValue) - 1);
+						stringValue[sizeof(stringValue) - 1] = '\0';
 						ImGui::CloseCurrentPopup();
 					}
 
