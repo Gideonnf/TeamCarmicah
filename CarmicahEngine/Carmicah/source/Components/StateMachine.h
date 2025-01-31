@@ -49,7 +49,7 @@ namespace Carmicah
 				{
 					State newState;
 					newState.stateName = stateObj["stateName"].GetString();
-					newState.stateCondition = stateObj["stateCondition"].GetInt(); //TODO: Make a function to get variant vars
+					newState.stateCondition = ReadVariant("stateCondition", stateObj); //stateObj["stateCondition"].GetInt(); //TODO: Make a function to get variant vars
 					if (stateObj.HasMember("transitions") && stateObj["transitions"].IsArray())
 					{
 						const auto& transitions = stateObj["transitions"].GetArray();
@@ -57,7 +57,7 @@ namespace Carmicah
 						{
 							Transition transition;
 							transition.targetState = transitionObj["targetState"].GetString();
-							transition.condition = transitionObj["condition"].GetInt(); // TODO: Make a unction to get variant var
+							transition.condition = ReadVariant("condition", transitionObj);//transitionObj["condition"].GetInt(); // TODO: Make a unction to get variant var
 						
 							newState.transitions.push_back(transition);
 						}
