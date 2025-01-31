@@ -36,8 +36,6 @@ namespace Carmicah
 	GameObject* HierarchyWindow::selectedGO = nullptr;
 	Prefab* HierarchyWindow::inspectedPrefab = nullptr;
 
-	std::vector<GameObject> createdList;
-
 	void HierarchyWindow::DrawCustomSeparator(GameObject& go)
 	{
 		ImVec2 cursorPos = ImGui::GetCursorScreenPos();
@@ -297,9 +295,97 @@ namespace Carmicah
 		}
 	}
 
+	void HierarchyWindow::DisplayCollisionLogic()
+	{
+		if (ImGui::Button("Edit Collision Logic"))
+		{
+			ImGui::OpenPopup("CollisionFlagLogic");
+		}
+
+		if (ImGui::BeginPopup("CollisionFlagLogic"))
+		{
+			
+			int maxLayers = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetMaxLayers();
+			const uint32_t* layerArray = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerMap();
+
+			if (ImGui::BeginTable("Collision Logic",maxLayers + 1))
+			{
+				ImGui::TableSetupColumn("Layer");
+				for (int i = maxLayers - 1; i >= 0; --i)
+				{
+					uint32_t layerBit = 1 << i;
+					const char* columnName = nullptr;
+
+					columnName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
+
+					ImGui::TableSetupColumn(columnName, ImGuiTableColumnFlags_WidthStretch);
+				}
+
+				ImGui::TableHeadersRow();
+
+				for (int row = 0; row < maxLayers; ++row)
+				{
+					uint32_t layerBit1 = 1 << row;
+					int layer1Index = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerIndex(static_cast<CollisionLayer>(layerBit1));
+					const char* layerName1 = nullptr;
+
+					layerName1 = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit1));
+
+					// Add a row for this layer
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+					ImGui::Text(layerName1);
+
+					// Add checkboxes for this layer in remaining columns
+					for (int col = maxLayers - 1; col >= 0; --col)
+					{
+						uint32_t layerBit2 = 1 << col;
+						int layer2Index = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerIndex(static_cast<CollisionLayer>(layerBit2));
+						const char* layerName2 = nullptr;
+						layerName2 = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit2));
+						ImGui::TableNextColumn();
+						//Setting the style
+						ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(0, 0));
+						ImGui::AlignTextToFramePadding();
+
+						bool combinedEnabled = layerArray[layer1Index] & layerBit2;
+
+						std::string combinedLayer = "##" + std::string(layerName1) + std::string(layerName2);
+
+
+						if (ImGui::Checkbox(combinedLayer.c_str(), &combinedEnabled))
+						{
+							if (combinedEnabled)
+							{
+								SystemManager::GetInstance()->GetSystem<TransformSystem>()->EnableLayerInteraction(static_cast<CollisionLayer>(layerBit1), static_cast<CollisionLayer>(layerBit2));
+							}
+							else
+							{
+								SystemManager::GetInstance()->GetSystem<TransformSystem>()->DisableLayerInteraction(static_cast<CollisionLayer>(layerBit1), static_cast<CollisionLayer>(layerBit2));
+							}
+						}
+						//Pop style
+						ImGui::PopStyleVar();
+
+						if (layerBit1 == layerBit2)
+						{
+							break;
+						}
+					}
+				}
+				ImGui::EndTable();
+			}
+			if (ImGui::Button("Close"))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+		}
+	}
+
 	void HierarchyWindow::Update()
 	{
-		char inputBuffer[1024];
 		if (ImGui::Begin(mTitle))
 		{
 
@@ -359,7 +445,6 @@ namespace Carmicah
 									if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 									{
 										GameObject& droppedGO = *(GameObject*)payload->Data;
-										Entity targettedGOParent = 0;
 
 										if (droppedGO.GetID() == *(Editor::mSceneHierarchy.end() - 1))
 										{
@@ -419,7 +504,6 @@ namespace Carmicah
 									if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT"))
 									{
 										GameObject& droppedGO = *(GameObject*)payload->Data;
-										Entity targettedGOParent = 0;
 
 										if (droppedGO.GetID() == *(Editor::mSceneHierarchy.end() - 1))
 										{
@@ -444,8 +528,6 @@ namespace Carmicah
 						}
 						ImGui::EndTabBar();	
 					}
-
-
 
 				}
 				else if (AssetWindow::selectedPrefab != nullptr)
@@ -483,33 +565,48 @@ namespace Carmicah
 			}
 
 #pragma endregion
+			if(mShowScene)
+			{
+				static char goName[1024] = "Default";
+				ImGui::Dummy(ImVec2(0, 20));
+				ImGui::Text("Game Object Name: ");
+				ImGui::SameLine();
+				ImGui::InputText("##GameObjectCreation", goName, sizeof(goName));
+				//Create Default
+				if (ImGui::Button("Create Default2D"))
+				{
+					gGOFactory->CreateGO(goName, TRANSFORMTYPE::TRANSFORM);
+					std::strncpy(goName, "Default", sizeof(goName) - 1);
+					goName[sizeof(goName) - 1] = '\0';
+				}
+				ImGui::SameLine();
+				//Creating UIDefault
+				if (ImGui::Button("Create UIDefault"))
+				{
+					gGOFactory->CreateGO(goName, TRANSFORMTYPE::UITRANSFORM);
+					std::strncpy(goName, "Default", sizeof(goName) - 1);
+					goName[sizeof(goName) - 1] = '\0';
+				}
+				//Save scene
+				std::string buttonName = "Save current scene: " + SceneToImgui::GetInstance()->currentScene;
+				if (ImGui::Button(buttonName.c_str()))
+				{
+					std::string sceneFile;
+					AssetManager::GetInstance()->GetScene(gGOFactory->sceneGO.sceneName, sceneFile);
+					SerializerSystem::GetInstance()->SerializeScene(sceneFile);
+					//gGOFactory->DestroyAll();
+				}
+				//Remove PrefabData
+				if(selectedGO != nullptr)
+				{
+					if (ImGui::Button("Un-prefab Object"))
+					{
+						selectedGO->RemoveComponent<PrefabData>();
+					}
+				}
 
-			static char goName[1024] = "Default";
-			ImGui::Dummy(ImVec2(0, 20));
-			ImGui::Text("Game Object Name: ");
-			ImGui::SameLine();
-			ImGui::InputText("##GameObjectCreation", goName, sizeof(goName));
-			if (ImGui::Button("Create Default2D"))
-			{
-				gGOFactory->CreateGO(goName, TRANSFORMTYPE::TRANSFORM);
-				std::strncpy(goName, "Default", sizeof(goName) - 1);
-				goName[sizeof(goName) - 1] = '\0';
-			}
-			ImGui::SameLine();
-			if (ImGui::Button("Create UIDefault"))
-			{
-				gGOFactory->CreateGO(goName, TRANSFORMTYPE::UITRANSFORM);
-				std::strncpy(goName, "Default", sizeof(goName) - 1);
-				goName[sizeof(goName) - 1] = '\0';
-			}
 
-			std::string buttonName = "Save current scene: " + SceneToImgui::GetInstance()->currentScene;
-			if (ImGui::Button(buttonName.c_str()))
-			{
-				std::string sceneFile;
-				AssetManager::GetInstance()->GetScene(gGOFactory->sceneGO.sceneName, sceneFile);
-				SerializerSystem::GetInstance()->SerializeScene(sceneFile);
-				//gGOFactory->DestroyAll();
+				DisplayCollisionLogic();
 			}
 		}
 		

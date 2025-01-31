@@ -52,6 +52,8 @@ namespace Carmicah
 
 		void EntityDestroyed(Entity id) override;
 
+		void EntityRemoved(Entity id) override;
+
 		template<typename T>
 		bool MakeAny(std::string componentName, GameObject& go, std::any& component)
 		{

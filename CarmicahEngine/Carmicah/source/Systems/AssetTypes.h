@@ -82,6 +82,11 @@ namespace Carmicah
 	{
 		GLuint t;
 		Mtx3x3f mtx;
+
+		// idk how else i can pull out sprite sheet info
+		// i need store if the asset is a spritesheet or not so i can serialise assets to load
+		bool isSpriteSheet;
+		std::string spriteSheet;
 	};
 	
 	struct FontTexture
@@ -197,6 +202,8 @@ namespace Carmicah
 		std::string lastScene{};
 		std::string defaultShader{}, debugShader{}, fontShader{};
 		std::string assetLoc{};
+		uint32_t savedLayerArr[MAX_LAYERS];
+		std::unordered_map < std::string, std::vector<std::string>> assetsToLoad;
 	};
 }
 

@@ -50,11 +50,14 @@ namespace Carmicah
 		InitSound();
 		InitFontType();
 		fileWatcher.Init(assetPath);
+#ifndef CM_INSTALLER
 		fileWatcher.Update();
-
 		RenderHelper::GetInstance()->LoadGizmos();
+#endif
+		// load default scene files
+		//fileWatcher.LoadSceneFiles(enConfig.defaultScene);
 
-		}
+	}
 
 	bool AssetManager::LoadAsset(File const& file, bool reload)
 	{
@@ -171,9 +174,9 @@ namespace Carmicah
 			// only engine config uses it but carmicahCore loads it with:
 			// AssetManager::GetInstance()->LoadConfig("../Assets/config.json");
 		}
-		else
+		else 
 		{
-			CM_CORE_ERROR("Extension doesn't exist");
+			CM_CORE_ERROR("Extension doesn't exist {}", fileExt);
 			return false;
 		}
 		return true;
@@ -537,6 +540,19 @@ namespace Carmicah
 				width = t.mtx.m[2] / static_cast<float>(enConfig.maxTexSize),
 				height = t.mtx.m[3] / static_cast<float>(enConfig.maxTexSize);
 		Mtx33Identity(t.mtx);
+
+		// temp to separate ss and non ss
+		// until i can think of a btr way
+		// if this stays here means i stopped thinking of a better way
+		if (num > 1)
+		{
+			t.isSpriteSheet = true;
+			t.spriteSheet = textureName;
+		}
+		else
+		{
+			t.isSpriteSheet = false;
+		}
 
 		t.mtx.translateThis(x, 1.f - y - height).scaleThis(width, height);
 		for (int i{}; i < num; ++i)

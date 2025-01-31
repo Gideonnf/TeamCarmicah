@@ -28,19 +28,34 @@ namespace Carmicah
 		{
 			if (!std::filesystem::is_directory(file))
 			{
-			//	File newFile;
-			//	newFile.fileEntry = file;
-			////	auto test = std::filesystem::directory_iterator(file);
-
-			//	newFile.fileName = file.path().string();
-			//	newFile.time = std::filesystem::last_write_time(file);
-			//	newFile.fileStatus = FILE_CREATED;
-			//	fileMap[file.path().string()] = newFile;
-
 				fileMap.insert({ file.path().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED) });
-
+				std::string fileExt = file.path().extension().string();
+				// ignore some file types cause those will be all loaded from the start
+				// mainly frag, vert and txt files
+#ifdef CM_INSTALLER
+				if (fileExt != ".txt" || fileExt != ".vert" || fileExt != ".frag" || fileExt != ".scene" || fileExt != ".do" || fileExt != ".o")
+					assetMap.insert({ file.path().filename().stem().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED)});
 				//std::string fileExt = file.path().extension().string();
 
+				// TODO: Find a way to pull out audio files being used from C# scripting side
+				// for now we just load all audio
+				if (fileExt == ".wav" || fileExt == ".ogg" || fileExt == ".mp3")
+				{
+					if (AssetManager::GetInstance()->LoadAsset(assetMap[file.path().filename().stem().string()]))
+					{
+						assetMap[file.path().filename().stem().string()].fileStatus = FILE_OK;
+					}
+				}
+
+				// Load all shaders here  and primitives
+				if (fileExt == ".vert" || fileExt == ".frag" || fileExt == ".scene" || fileExt == ".do" || fileExt == ".o")
+				{
+					if (AssetManager::GetInstance()->LoadAsset(fileMap[file.path().string()]))
+					{
+						fileMap[file.path().string()].fileStatus = FILE_OK;
+					}
+				}
+#endif
 			}
 		}
 
@@ -115,6 +130,60 @@ namespace Carmicah
 			}
 		//	if (fileMap.count(file.))
 		}
+	}
+
+	void FileWatcher::LoadSceneFiles(std::string const& sceneFile)
+	{
+		for (auto& asset : AssetManager::GetInstance()->enConfig.assetsToLoad[sceneFile])
+		{
+			if (assetMap.count(sceneFile) != 0)
+			{
+				if (assetMap[asset].fileStatus == FILE_CREATED)
+				{
+					if (AssetManager::GetInstance()->LoadAsset(assetMap[asset]))
+					{
+						assetMap[asset].fileStatus = FILE_OK;
+						std::string fileExt = assetMap[asset].fileEntry.path().extension().string();
+
+						// idk how else to load do and o since they have the same name the map will only store one
+					/*	if (fileExt == ".do")
+						{
+							const auto objectFile = assetMap[asset].fileEntry.path().parent_path() / (assetMap[asset].fileEntry.path().stem().string() + std::string(".o"));
+							if (assetMap.count(objectFile.string()) != 0)
+							{
+								if (assetMap[objectFile.string()].fileStatus == FILE_CREATED)
+								{
+									AssetManager::GetInstance()->LoadAsset(assetMap[objectFile.string()]);
+									assetMap[objectFile.string()].fileStatus = FILE_OK;
+								}
+							}
+						}
+						else if (fileExt == ".o")
+						{
+							const auto objectFile = assetMap[asset].fileEntry.path().parent_path() / (assetMap[asset].fileEntry.path().stem().string() + std::string(".do"));
+							if (assetMap.count(objectFile.string()) != 0)
+							{
+								if (assetMap[objectFile.string()].fileStatus == FILE_CREATED)
+								{
+									AssetManager::GetInstance()->LoadAsset(assetMap[objectFile.string()]);
+									assetMap[objectFile.string()].fileStatus = FILE_OK;
+								}
+							}
+						}*/
+					}
+				}
+			}
+		}
+
+		/*for (auto it = fileMap.begin(); it != fileMap.end(); ++it)
+		{
+
+		}*/
+	}
+
+	void FileWatcher::LoadSoundFiles()
+	{
+		std::filesystem::path directoryPath = AssetManager::GetInstance()->enConfig.assetLoc.c_str() + std::string("/Audio");
 	}
 
 	auto FileWatcher::DestroyFile(File file)

@@ -18,6 +18,7 @@ DigiPen Institute of Technology is prohibited.
 #include "ECS/SystemManager.h"
 #include "ECS/ComponentManager.h"
 #include "Input/InputSystem.h"
+#include "AssetManager.h"
 
 namespace Carmicah
 {
@@ -27,13 +28,15 @@ namespace Carmicah
 
 		SystemManager::GetInstance()->SetSignature<TransformSystem>(mSignature);
 
-		// set the layer interaction default to all 1
-		// TODO: Serialize this
+
+		// setting layers to 1 by default is done in serializing system when serializing config file
 		for (int i = 0; i < MAX_LAYERS; ++i)
 		{
 			// set default all bits to 1
-			layerArr[i] = 0xFFFFFFFF;
+			layerArr[i] = AssetManager::GetInstance()->enConfig.savedLayerArr[i];
 		}
+
+		
 
 		maxLayers = GetLayerIndex(CollisionLayer::TOTAL_LAYERS);
 	}
@@ -73,6 +76,25 @@ namespace Carmicah
 	int TransformSystem::GetMaxLayers() const
 	{
 		return maxLayers;
+	}
+
+	const char* TransformSystem::GetLayerName(CollisionLayer layer)
+	{	
+		switch (layer)
+		{
+		case CollisionLayer::DEFAULT:
+			return "DEFAULT";
+
+		case CollisionLayer::PLAYER:
+			return "PLAYER";
+
+		case CollisionLayer::ENEMIES:
+			return "ENEMIES";
+		case CollisionLayer::ENVIRONMENT:
+			return "ENVIRONMENT";
+		default:
+			return "NULL";
+		}
 	}
 
 	void TransformSystem::AddToTransformMap(Entity e)

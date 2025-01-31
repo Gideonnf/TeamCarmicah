@@ -184,6 +184,7 @@ xcopy /Q /E /Y /I "..\bin\Installer-x86_64\CarmicahScriptCore\**.**" "..\Carmica
     <ClInclude Include="source\Components\RigidBody.h" />
     <ClInclude Include="source\Components\Script.h" />
     <ClInclude Include="source\Components\Sound.h" />
+    <ClInclude Include="source\Components\StateMachine.h" />
     <ClInclude Include="source\Components\TextRenderer.h" />
     <ClInclude Include="source\Components\Transform.h" />
     <ClInclude Include="source\Components\UITransform.h" />
@@ -203,6 +204,7 @@ xcopy /Q /E /Y /I "..\bin\Installer-x86_64\CarmicahScriptCore\**.**" "..\Carmica
     <ClInclude Include="source\Editor\InspectorWindow.h" />
     <ClInclude Include="source\Editor\SceneToImgui.h" />
     <ClInclude Include="source\Editor\SceneWindow.h" />
+    <ClInclude Include="source\FSM\FSMSystem.h" />
     <ClInclude Include="source\Graphics\AnimationSystem.h" />
     <ClInclude Include="source\Graphics\BaseGraphicsSystem.h" />
     <ClInclude Include="source\Graphics\ColliderGraphicsSystem.h" />
@@ -230,7 +232,6 @@ xcopy /Q /E /Y /I "..\bin\Installer-x86_64\CarmicahScriptCore\**.**" "..\Carmica
     <ClInclude Include="source\Systems\CollisionSystem.h" />
     <ClInclude Include="source\Systems\FileWatcher.h" />
     <ClInclude Include="source\Systems\GOFactory.h" />
-    <ClInclude Include="source\Systems\GameLogic.h" />
     <ClInclude Include="source\Systems\MouseSystem.h" />
     <ClInclude Include="source\Systems\PrefabSystem.h" />
     <ClInclude Include="source\Systems\SceneSystem.h" />
@@ -256,6 +257,7 @@ xcopy /Q /E /Y /I "..\bin\Installer-x86_64\CarmicahScriptCore\**.**" "..\Carmica
     <ClCompile Include="source\Editor\InspectorWindow.cpp" />
     <ClCompile Include="source\Editor\SceneToImgui.cpp" />
     <ClCompile Include="source\Editor\SceneWindow.cpp" />
+    <ClCompile Include="source\FSM\FSMSystem.cpp" />
     <ClCompile Include="source\Graphics\AnimationSystem.cpp" />
     <ClCompile Include="source\Graphics\BaseGraphicsSystem.cpp" />
     <ClCompile Include="source\Graphics\ColliderGraphicsSystem.cpp" />
@@ -277,7 +279,6 @@ xcopy /Q /E /Y /I "..\bin\Installer-x86_64\CarmicahScriptCore\**.**" "..\Carmica
     <ClCompile Include="source\Systems\CollisionSystem.cpp" />
     <ClCompile Include="source\Systems\FileWatcher.cpp" />
     <ClCompile Include="source\Systems\GOFactory.cpp" />
-    <ClCompile Include="source\Systems\GameLogic.cpp" />
     <ClCompile Include="source\Systems\MouseSystem.cpp" />
     <ClCompile Include="source\Systems\PrefabSystem.cpp" />
     <ClCompile Include="source\Systems\SceneSystem.cpp" />

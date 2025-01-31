@@ -24,7 +24,10 @@ namespace Carmicah
 {
 	//const char* sceneLoc{ "../Assets/Scene/" };
 
-	SceneSystem::SceneSystem() : mNextState{ SceneState::INITIALISING }, mRuntime{ false } {}
+	SceneSystem::SceneSystem() : mNextState{ SceneState::INITIALISING }, mRuntime{ false } 
+	{
+		mNextScene = AssetManager::GetInstance()->enConfig.defaultScene;
+	}
 
 	void SceneSystem::Init()
 	{

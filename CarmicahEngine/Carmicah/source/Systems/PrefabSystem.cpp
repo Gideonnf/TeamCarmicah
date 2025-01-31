@@ -54,6 +54,19 @@ namespace Carmicah
 			}
 		}
 	}
+
+	void PrefabSystem::EntityRemoved(Entity id)
+	{
+		PrefabData prefabData = ComponentManager::GetInstance()->GetComponent<PrefabData>(id);
+		for (auto it = mPrefabMap[prefabData.mPrefabRef].begin(); it != mPrefabMap[prefabData.mPrefabRef].end(); ++it)
+		{
+			if (*it == id)
+			{
+				mPrefabMap[prefabData.mPrefabRef].erase(it);
+				break;
+			}
+		}
+	}
 	
 	void PrefabSystem::AddPrefab(Prefab goPrefab)
 	{
@@ -153,7 +166,10 @@ namespace Carmicah
 			{
 				newPrefab.mComponents.insert({ componentName, prefabComponent });
 			}
-
+			else if (MakeAny<StateMachine>(componentName, go, prefabComponent))
+			{
+				newPrefab.mComponents.insert({ componentName, prefabComponent });
+			}
 			}, EntityManager::GetInstance()->GetSignature(go.GetID()));
 
 		if (go.HasComponent<Transform>())

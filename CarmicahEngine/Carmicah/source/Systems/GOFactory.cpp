@@ -305,6 +305,7 @@ namespace Carmicah
 		AddComponent<Button>(obj, componentName, componentData);
 		AddComponent<PrefabData>(obj, componentName, componentData);
 		AddComponent<Sound>(obj, componentName, componentData);
+		AddComponent<StateMachine>(obj, componentName, componentData);
 	}
 
 	void GOFactory::EntityDestroyed(Entity entity)

@@ -82,9 +82,9 @@ namespace Carmicah
 		{
 			componentsToAdd.push_back("Script");
 		}
-		if (!go->HasComponent<Sound>())
+		if (!go->HasComponent<StateMachine>())
 		{
-			componentsToAdd.push_back("Sound");
+			componentsToAdd.push_back("StateMachine");
 		}
 
 
@@ -150,9 +150,9 @@ namespace Carmicah
 				selectedComponentToAdd = "";
 				selectedIndex = 0;
 			}
-			if (selectedComponentToAdd == "Sound")
+			if (selectedComponentToAdd == "StateMachine")
 			{
-				go->AddComponent<Sound>();
+				go->AddComponent<StateMachine>();
 				selectedComponentToAdd = "";
 				selectedIndex = 0;
 			}
@@ -175,9 +175,9 @@ namespace Carmicah
 				return false;
 			}
 
+			EntityManager::GetInstance()->RemoveComponent<T>(id);
 			ComponentManager::GetInstance()->RemoveComponent<T>(id);
 			//gGOFactory->
-			EntityManager::GetInstance()->RemoveComponent<T>(id);
 		}
 
 		return true;
@@ -311,49 +311,51 @@ namespace Carmicah
 
 
 				//Collision Flags
-				ImGui::Text("Collision Flags");
+				ImGui::Text("Collision Flag:");
+				ImGui::SameLine();
+				
 				unsigned int &colMask = selectedTransform.collisionMask;
+				CollisionLayer currentlyActive = CollisionLayer::TOTAL_LAYERS;
+
 				for (int i = 0; i < 32; ++i)
 				{
-					unsigned int layerBit = 1 << i;
-
-					const char* layerName = nullptr;
-
-					switch (layerBit)
-					{
-					case CollisionLayer::DEFAULT:
-						layerName = "Default";
-						break;
-					case CollisionLayer::PLAYER:
-						layerName = "Player";
-						break;
-					case CollisionLayer::ENEMIES:
-						layerName = "Enemies";
-						break;
-					case CollisionLayer::ENVIRONMENT:
-						layerName = "Environment";
-						break;
-					default:
-						layerName = nullptr;
-						break;
-					}
-
-					if (!layerName)
-						continue;
-
+					uint32_t layerBit = 1 << i;
+					const char* layerName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
 					bool isEnabled = colMask & layerBit;
-
-					if (ImGui::Checkbox(layerName, &isEnabled))
+					if (layerName == "NULL")
+						continue;
+					if (isEnabled)
 					{
-						if (isEnabled)
+						ImGui::Text(layerName);
+						currentlyActive = static_cast<CollisionLayer>(layerBit);
+					}
+				}
+
+				ImGui::SameLine();
+				if (ImGui::Button("v#######"))
+				{
+					ImGui::OpenPopup("Collision Flag Select");
+				}
+
+				if(ImGui::BeginPopup("Collision Flag Select"))
+				{
+					for (int i = 0; i < 32; ++i)
+					{
+						uint32_t layerBit = 1 << i;
+						const char* layerName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
+						bool isEnabled = colMask & layerBit;
+						if (layerName == "NULL")
+							continue;
+						if (!isEnabled)
 						{
-							go->AddCollisionLayer(static_cast<CollisionLayer>(layerBit));
-						}
-						else
-						{
-							go->RemoveCollisionLayer(static_cast<CollisionLayer>(layerBit));
+							if (ImGui::Selectable(layerName))
+							{
+								go->AddCollisionLayer(static_cast<CollisionLayer>(layerBit));
+								go->RemoveCollisionLayer(currentlyActive);
+							}
 						}
 					}
+					ImGui::EndPopup();
 				}
 			}
 		}
@@ -1163,6 +1165,62 @@ namespace Carmicah
 		}
 	}
 
+	template<typename T>
+	void InspectorWindow::RenderStateMachineTable(T* go, TABLETYPE type)
+	{
+		StateMachine& stateMachine = go->GetComponent<StateMachine>();
+		Entity id = go->GetID();
+
+		if (ImGui::CollapsingHeader("State Machine Settings", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			switch (type)
+			{
+			case GAMEOBJECT:
+			{
+				InspectorWindow::RemoveComponentButton<StateMachine>(go);
+				break;
+			}
+			case PREFAB:
+			{
+				if (InspectorWindow::RemoveComponentButton<StateMachine>(go))
+					return;
+				break;
+			}
+			default:
+				break;
+			}
+
+			if (ImGui::BeginTable("StateMachine Settings", 2, ImGuiTableFlags_Borders))
+			{
+				ImGui::TableNextColumn();
+				ImGui::Text("Attribute");
+				ImGui::TableNextColumn();
+				ImGui::Text("Setting");
+				
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Current State:");
+				ImGui::TableNextColumn();
+				ImGui::Text("WTV CURRENT");
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Next State:");
+				ImGui::TableNextColumn();
+				ImGui::Text("WTV NEXT");
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Starting State:");
+				ImGui::TableNextColumn();
+				ImGui::Text("WTV STARTING");
+
+
+				ImGui::EndTable();
+			}
+		}
+	}
+
 	/**
 	 * @brief Inspector Table that displays the components that are currently added.
 	 * 
@@ -1223,6 +1281,11 @@ namespace Carmicah
 		if (go->HasComponent<Script>())
 		{
 			RenderScriptTable(go, type);
+		}
+
+		if (go->HasComponent<StateMachine>())
+		{
+			RenderStateMachineTable(go, type);
 		}
 	}
 

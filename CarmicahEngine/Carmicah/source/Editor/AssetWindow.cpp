@@ -290,10 +290,13 @@ namespace Carmicah
 							AssetManager::GetInstance()->CloneScene(entry.first);
 						}
 
-						if (ImGui::Selectable("Delete Scene"))
+						if(entry.first != "DefaultScene")
 						{
-							AssetManager::GetInstance()->DeleteScene(entry.first);
-							mSceneModified = true;
+							if (ImGui::Selectable("Delete Scene"))
+							{
+								AssetManager::GetInstance()->DeleteScene(entry.first);
+								mSceneModified = true;
+							}
 						}
 						ImGui::EndPopup();
 					}
