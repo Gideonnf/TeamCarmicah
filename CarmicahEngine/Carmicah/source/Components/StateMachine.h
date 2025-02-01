@@ -12,6 +12,11 @@ namespace Carmicah
 	{
 		std::string targetState;
 		variantVar condition;
+
+		bool operator==(const Transition& other) const
+		{
+			return targetState == other.targetState && condition == other.condition;
+		}
 	};
 
 	struct State
@@ -22,6 +27,18 @@ namespace Carmicah
 		std::string stateName;
 		variantVar stateCondition;
 		std::vector<Transition> transitions;
+
+		void DeleteTransition(Transition& selectedTransition)
+		{
+			auto it = std::remove_if(transitions.begin(), transitions.end(), [&](const Transition& t)
+				{
+					return t.condition == selectedTransition.condition;
+				});
+			if (it != transitions.end())
+			{
+				transitions.erase(it, transitions.end());
+			}
+		}
 
 		// If it links with any animation can add its info here
 	};

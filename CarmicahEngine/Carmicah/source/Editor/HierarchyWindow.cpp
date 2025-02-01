@@ -567,7 +567,7 @@ namespace Carmicah
 #pragma endregion
 			if(mShowScene)
 			{
-				static char goName[1024] = "Default";
+				static char goName[256] = "Default";
 				ImGui::Dummy(ImVec2(0, 20));
 				ImGui::Text("Game Object Name: ");
 				ImGui::SameLine();

@@ -1254,12 +1254,12 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text(currState.c_str());
 
-				ImGui::TableNextRow();
+				/*ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Next State:");
 				std::string nextState = stateMachine.nextState;
 				ImGui::TableNextColumn();
-				ImGui::Text(nextState.c_str());
+				ImGui::Text(nextState.c_str());*/
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
@@ -1274,111 +1274,257 @@ namespace Carmicah
 
 			for (auto& [stateName, actualState] : stateMachine.stateMap)
 			{
-				ImGui::Text(actualState.stateName.c_str());
-				ImGui::Text("Transitions in %s:", actualState.stateName.c_str());
-				ImGui::SameLine();
-				//Adding a new Transition to the State
-				if (ImGui::Button("Add New Transition"))
+				std::string transitionName = "Transitions in " + actualState.stateName + ":";
+				if(ImGui::TreeNodeEx(transitionName.c_str(),ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_SpanTextWidth))
 				{
-					ImGui::OpenPopup("New Transition");
-				}
-
-				if (ImGui::BeginPopup("New Transition"))
-				{
-					static Transition newTransition;
-					static std::string varType{};
-					const char* items[] = { "", "bool", "int", "float", "string" };
-					static char buffer[128]{"Default\0"};
-					static variantVar condition;
-					static bool boolValue = false;
-					static int intValue = 0;
-					static float floatValue = 0.f;
-					static char stringValue[256] = "Default";
-					ImGui::Text("Transition Name: ");
 					ImGui::SameLine();
-					if (ImGui::InputText("##Transition Name:", buffer, sizeof(buffer)))
+					//Adding a new Transition to the State
+					if (ImGui::Button("Add New Transition"))
 					{
-						newTransition.targetState = buffer;
+						ImGui::OpenPopup("New Transition");
 					}
-					static int currentItem = 0; // Index of selected item
 
-					if (ImGui::Combo("##Select Type", &currentItem, items, IM_ARRAYSIZE(items)))
+					if (ImGui::BeginPopup("New Transition"))
 					{
-						varType = items[currentItem];
-					}
-					ImGui::Text("Condition Type: %s",varType.c_str());
-					
-					if (std::strcmp(varType.c_str(), "bool") == 0)
-					{
-						ImGui::Text("Bool: ");
+						static Transition newTransition;
+						static std::string varType{};
+						const char* items[] = { "", "bool", "int", "float", "string" };
+						static char buffer[128]{ "Default\0" };
+						static variantVar condition;
+						static bool boolValue = false;
+						static int intValue = 0;
+						static float floatValue = 0.f;
+						static char stringValue[256] = "Default";
+						ImGui::Text("Transition Name: ");
 						ImGui::SameLine();
-						if (ImGui::Checkbox("##BoolCond", &boolValue))
+						if (ImGui::InputText("##Transition Name:", buffer, sizeof(buffer)))
 						{
-							condition = boolValue;
+							newTransition.targetState = buffer;
+						}
+						static int currentItem = 0; // Index of selected item
+
+						if (ImGui::Combo("##Select Type", &currentItem, items, IM_ARRAYSIZE(items)))
+						{
+							varType = items[currentItem];
+						}
+						ImGui::Text("Condition Type: %s", varType.c_str());
+
+						if (std::strcmp(varType.c_str(), "bool") == 0)
+						{
+							ImGui::Text("Bool: ");
+							ImGui::SameLine();
+							if (ImGui::Checkbox("##BoolCond", &boolValue))
+							{
+								condition = boolValue;
+							}
+						}
+
+						if (std::strcmp(varType.c_str(), "int") == 0)
+						{
+							ImGui::Text("Int: ");
+							ImGui::SameLine();
+							if (ImGui::InputInt("##IntCond", &intValue, 1))
+							{
+								condition = intValue;
+							}
+						}
+
+						if (std::strcmp(varType.c_str(), "float") == 0)
+						{
+							ImGui::Text("Float: ");
+							ImGui::SameLine();
+							if (ImGui::InputFloat("##FloatCond", &floatValue, 1))
+							{
+								condition = floatValue;
+							}
+						}
+
+						if (std::strcmp(varType.c_str(), "string") == 0)
+						{
+							ImGui::Text("String: ");
+							ImGui::SameLine();
+							if (ImGui::InputText("##StringCond", stringValue, sizeof(stringValue) - 1))
+							{
+								condition = std::string(stringValue);
+							}
+						}
+
+						if(currentItem != 0)
+						{
+							if (ImGui::Button("Create Transition"))
+							{
+								newTransition.targetState = buffer;
+								newTransition.condition = condition;
+								auto it = std::find(actualState.transitions.begin(), actualState.transitions.end(), newTransition);
+								auto sameTargetState = std::find_if(actualState.transitions.begin(), actualState.transitions.end(),[&](Transition& curr)
+								{
+									return curr.targetState == newTransition.targetState;
+								});
+								auto sameCond = std::find_if(actualState.transitions.begin(), actualState.transitions.end(), [&](Transition& curr)
+									{
+										return curr.condition == newTransition.condition;
+									});
+								if (it != actualState.transitions.end())
+								{
+									CM_CORE_WARN("Creating an already existing transition!");
+								}
+								else if (sameTargetState != actualState.transitions.end())
+								{
+									CM_CORE_WARN("A condition already exists for that targetState!");
+								}
+								else if (sameCond != actualState.transitions.end())
+								{
+									CM_CORE_WARN("Two targetStates with the same condition!");
+								}
+								else
+								{
+									actualState.transitions.push_back(newTransition);
+
+									//Resetting the static variables
+									strncpy(buffer, "Default", sizeof(buffer) - 1);
+									buffer[sizeof(buffer) - 1] = '\0';
+									currentItem = 0;
+									boolValue = false;
+									intValue = 0;
+									floatValue = 0.f;
+									strncpy(stringValue, "Default", sizeof(stringValue) - 1);
+									stringValue[sizeof(stringValue) - 1] = '\0';
+									ImGui::CloseCurrentPopup();
+								}
+							}
+						}
+
+						ImGui::EndPopup();
+					}
+
+					for (auto& transition : actualState.transitions)
+					{
+						bool modified = TransitionEditing(transition,actualState);
+
+						if (modified)
+						{
+							break;
 						}
 					}
-
-					if (std::strcmp(varType.c_str(), "int") == 0)
-					{
-						ImGui::Text("Int: ");
-						ImGui::SameLine();
-						if (ImGui::InputInt("##IntCond", &intValue, 1))
-						{
-							condition = intValue;
-						}
-					}
-
-					if (std::strcmp(varType.c_str(), "float") == 0)
-					{
-						ImGui::Text("Float: ");
-						ImGui::SameLine();
-						if (ImGui::InputFloat("##FloatCond", &floatValue, 1))
-						{
-							condition = floatValue;
-						}
-					}
-
-					if (std::strcmp(varType.c_str(), "string") == 0)
-					{
-						ImGui::Text("String: ");
-						ImGui::SameLine();
-						if (ImGui::InputText("##StringCond", stringValue, sizeof(stringValue) - 1))
-						{
-							condition = std::string(stringValue);
-						}
-					}
-
-
-					if (ImGui::Button("Create Transition"))
-					{
-						newTransition.targetState = buffer;
-						newTransition.condition = condition;
-						actualState.transitions.push_back(newTransition);
-
-						//Resetting the static variables
-						strncpy(buffer, "Default", sizeof(buffer) - 1);
-						buffer[sizeof(buffer) - 1] = '\0';
-						currentItem = 0;
-						boolValue = false;
-						intValue = 0;
-						floatValue = 0.f;
-						strncpy(stringValue, "Default", sizeof(stringValue) - 1);
-						stringValue[sizeof(stringValue) - 1] = '\0';
-						ImGui::CloseCurrentPopup();
-					}
-
-					ImGui::EndPopup();
+					//ImGui::TreePop();
 				}
-
-				for (auto& transition : actualState.transitions)
-				{
-					ImGui::Text(transition.targetState.c_str());
-				}
-
 			}
 		}
 	}
 
+	bool InspectorWindow::TransitionEditing(Transition& currentTransition,State& currentState)
+	{
+		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
+
+		if (ImGui::TreeNodeEx(currentTransition.targetState.c_str(),flags))
+		{
+			if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
+			{
+				ImGui::OpenPopup(currentTransition.targetState.c_str());
+			}
+
+
+			ImGui::Text("Condition Type:");
+			ImGui::SameLine();
+			std::string varType = GetVariantType(currentTransition.condition);
+			ImGui::Text(varType.c_str());
+			TransitionConditionEditing(varType, currentTransition.condition);
+
+			if (ImGui::BeginPopup(currentTransition.targetState.c_str()))
+			{
+				if (ImGui::Selectable("Delete Transition"))
+				{
+					currentState.DeleteTransition(currentTransition);
+					ImGui::EndPopup();
+					ImGui::TreePop();
+					return true;
+				}
+
+				ImGui::EndPopup();
+			}
+
+			ImGui::TreePop();
+		}
+		return false;
+	}
+
+	void InspectorWindow::TransitionConditionEditing(std::string varType, variantVar& condition)
+	{
+		
+		
+		if (std::strcmp(varType.c_str(), "bool") == 0)
+		{
+			ImGui::Text("Bool: ");
+			auto value = GetVariantValueAs<bool>(condition);
+			ImGui::SameLine();
+			if (ImGui::Checkbox("##BoolCond", &value))
+			{
+				condition = value;
+			}
+		}
+
+		if (std::strcmp(varType.c_str(), "int") == 0)
+		{
+			ImGui::Text("Int: ");
+			auto value = GetVariantValueAs<int>(condition);
+			ImGui::SameLine();
+			if (ImGui::InputInt("##IntCond", &value, 1))
+			{
+				condition = value;
+			}
+		}
+
+		if (std::strcmp(varType.c_str(), "float") == 0)
+		{
+			ImGui::Text("Float: ");
+			auto value = GetVariantValueAs<float>(condition);
+			ImGui::SameLine();
+			if (ImGui::InputFloat("##FloatCond", &value, 1))
+			{
+				condition = value;
+			}
+		}
+
+		if (std::strcmp(varType.c_str(), "string") == 0)
+		{
+			ImGui::Text("String: ");
+			auto value = GetVariantValueAs<std::string>(condition);
+			static char buffer[256];
+			std::strncpy(buffer, value.c_str(), sizeof(buffer));
+			buffer[sizeof(buffer) - 1] = '\0';
+			ImGui::SameLine();
+			if (ImGui::InputText("##StringCond", buffer, sizeof(buffer)))
+			{
+				condition = std::string(buffer);
+			}
+		}
+	}
+
+	std::string InspectorWindow::GetVariantType(variantVar& var)
+	{
+		return std::visit([&](auto&& value) -> std::string
+			{
+				using T = std::decay_t<decltype(value)>;
+				if constexpr (std::is_same_v<T, int>)
+				{
+					return "int";
+				}
+				else if constexpr (std::is_same_v<T, float>)
+				{
+					return "float";
+				}
+				else if constexpr (std::is_same_v<T, bool>)
+				{
+					return "bool";
+				}
+				else if constexpr (std::is_same_v<T, std::string>)
+				{
+					return "string";
+				}
+				else
+					return "error";
+			}, var);
+	}
 
 	/**
 	 * @brief Inspector Table that displays the components that are currently added.

@@ -180,9 +180,19 @@ namespace Carmicah
 		template<typename T>
 		void RenderStateMachineTable(T* go, TABLETYPE type);
 
+		bool TransitionEditing(Transition& selectedTransition, State& currentState);
 
 		//TODO: IF IT WORKS< APPLY IT FOR EVERYTHIGN ELSE
 
+		std::string GetVariantType(variantVar& var);
+
+		template<typename T>
+		T GetVariantValueAs(const variantVar& var)
+		{
+			return std::get<T>(var);
+		}
+
+		void TransitionConditionEditing(std::string varType, variantVar& condition);
 
 		template <typename T>
 		void CheckForComponentChange(GameObject& go, T& newComponent, bool modified)

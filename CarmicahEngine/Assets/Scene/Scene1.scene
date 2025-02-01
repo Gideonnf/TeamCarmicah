@@ -88,7 +88,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Walk 1"
+                    "texture": "MC_SpriteSheet_Walk 7"
                 },
                 {
                     "Component Name": "struct Script",
@@ -312,7 +312,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 9"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 11"
                 },
                 {
                     "Component Name": "struct Script",
@@ -611,7 +611,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 9"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 11"
                 },
                 {
                     "Component Name": "struct Script",
@@ -867,6 +867,22 @@
                                 {
                                     "targetState": "Dead",
                                     "condition": 2
+                                },
+                                {
+                                    "targetState": "BoolTest",
+                                    "condition": false
+                                },
+                                {
+                                    "targetState": "IntTest",
+                                    "condition": -50
+                                },
+                                {
+                                    "targetState": "FloatTest",
+                                    "condition": 7.953999996185303
+                                },
+                                {
+                                    "targetState": "StringTest",
+                                    "condition": "Gideon2"
                                 }
                             ]
                         }

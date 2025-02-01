@@ -442,7 +442,7 @@ namespace Carmicah
 
 	void Editor::EntityAdded(Entity id)
 	{
-	
+		UNUSED(id);
 	}
 
 	void Editor::ReceiveMessage(Message* msg)
