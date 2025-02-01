@@ -415,10 +415,10 @@ namespace Carmicah
                 if (!gameOnly)
                 {
                     // Game Cam
-                    SceneToImgui::GetInstance()->BindFramebuffer(SceneToImgui::GAME_SCENE);
+                    SceneToImgui::GetInstance()->SelectFrameBuffer(SceneToImgui::GAME_SCENE);
                     RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
                     // Editor Cam
-                    SceneToImgui::GetInstance()->BindFramebuffer(SceneToImgui::EDITOR_SCENE);
+                    SceneToImgui::GetInstance()->SelectFrameBuffer(SceneToImgui::EDITOR_SCENE);
                     RenderHelper::GetInstance()->UpdateEditorCam();
                     RenderHelper::GetInstance()->Render(&RenderHelper::GetInstance()->mEditorCam, true);
                     SceneToImgui::GetInstance()->UnbindFramebuffer();
@@ -427,7 +427,7 @@ namespace Carmicah
                 {
                     RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
                     // Editor Cam
-                    SceneToImgui::GetInstance()->BindFramebuffer(SceneToImgui::GAME_SCENE);
+                    SceneToImgui::GetInstance()->SelectFrameBuffer(SceneToImgui::GAME_SCENE);
                     RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
                     SceneToImgui::GetInstance()->UnbindFramebuffer();
 
