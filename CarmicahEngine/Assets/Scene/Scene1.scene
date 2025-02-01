@@ -867,22 +867,6 @@
                                 {
                                     "targetState": "Dead",
                                     "condition": 2
-                                },
-                                {
-                                    "targetState": "BoolTest",
-                                    "condition": 0
-                                },
-                                {
-                                    "targetState": "IntTest",
-                                    "condition": 0
-                                },
-                                {
-                                    "targetState": "FloatTest",
-                                    "condition": 5.494999885559082
-                                },
-                                {
-                                    "targetState": "StringTest",
-                                    "condition": true
                                 }
                             ]
                         }
