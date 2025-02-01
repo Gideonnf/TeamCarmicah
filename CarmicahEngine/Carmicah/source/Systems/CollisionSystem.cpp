@@ -16,6 +16,7 @@ DigiPen Institute of Technology is prohibited.
 #include "pch.h"
 #include "Systems/CollisionSystem.h"
 #include "../Physics/PhysicsSystem.h"
+#include "TransformSystem.h"
 #include "Systems/GOFactory.h"
 #include "Systems/AssetManager.h"
 #include <ECS/ECSTypes.h>
@@ -828,8 +829,8 @@ namespace Carmicah
 				{
 
 					auto& transform2 = componentManager->GetComponent<Transform>(entity2);
-
-					if ((transform1.collisionMask | transform2.collisionMask) == 10) 
+					auto& transformSys = SystemManager::GetInstance()->GetSystem<TransformSystem>();
+					if (transformSys->CheckLayerInteraction(transform1.collisionMask, transform2.collisionMask))
 					{
 						if (TestIntersection(entity1, entity2))
 						{

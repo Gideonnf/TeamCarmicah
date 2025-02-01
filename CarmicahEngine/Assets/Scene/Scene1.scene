@@ -83,12 +83,12 @@
                     "xScale": 0.4000000059604645,
                     "yScale": 0.4000000059604645,
                     "rot": 0.0,
-                    "collisionMask": 0
+                    "collisionMask": 2
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Walk 1"
+                    "texture": "MC_SpriteSheet_Walk 4"
                 },
                 {
                     "Component Name": "struct Script",
@@ -312,7 +312,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 9"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 8"
                 },
                 {
                     "Component Name": "struct Script",
@@ -387,12 +387,12 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "LeftOrRight": false,
-                            "waveTimer": 0.0,
-                            "MousePrefabName": "MouseGO",
                             "StartingCake": "StartingCake",
-                            "spawnTimer": 1.5,
+                            "MousePrefabName": "MouseGO",
+                            "waveTimer": 0.0,
+                            "LeftOrRight": false,
                             "CakeHeightOffset": 6.0,
+                            "spawnTimer": 1.5,
                             "timer": 0.0,
                             "CakePrefabName": "Cake",
                             "PlayerName": "mainCharacter",
@@ -611,7 +611,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 9"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 8"
                 },
                 {
                     "Component Name": "struct Script",
@@ -645,7 +645,7 @@
                     "xScale": 5.441271781921387,
                     "yScale": 0.6269400119781494,
                     "rot": -161.88571166992188,
-                    "collisionMask": 0
+                    "collisionMask": 8
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -686,7 +686,7 @@
                     "xScale": 5.441271781921387,
                     "yScale": 0.6269400119781494,
                     "rot": -30.095834732055665,
-                    "collisionMask": 0
+                    "collisionMask": 8
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -727,7 +727,7 @@
                     "xScale": 9.370100021362305,
                     "yScale": 0.6269400119781494,
                     "rot": -157.17616271972657,
-                    "collisionMask": 0
+                    "collisionMask": 8
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -768,7 +768,7 @@
                     "xScale": 5.441271781921387,
                     "yScale": 0.6269400119781494,
                     "rot": -198.91342163085938,
-                    "collisionMask": 0
+                    "collisionMask": 8
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
