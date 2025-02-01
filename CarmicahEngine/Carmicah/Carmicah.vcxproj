@@ -206,6 +206,7 @@ xcopy /Q /E /Y /I "..\bin\Installer-x86_64\CarmicahScriptCore\**.**" "..\Carmica
     <ClInclude Include="source\Graphics\AnimationSystem.h" />
     <ClInclude Include="source\Graphics\BaseGraphicsSystem.h" />
     <ClInclude Include="source\Graphics\ColliderGraphicsSystem.h" />
+    <ClInclude Include="source\Graphics\ParticlesSystem.h" />
     <ClInclude Include="source\Graphics\RenderHelper.h" />
     <ClInclude Include="source\Graphics\RenderTransformSystem.h" />
     <ClInclude Include="source\Graphics\RigidbodyGraphicsSystem.h" />
@@ -259,6 +260,7 @@ xcopy /Q /E /Y /I "..\bin\Installer-x86_64\CarmicahScriptCore\**.**" "..\Carmica
     <ClCompile Include="source\Graphics\AnimationSystem.cpp" />
     <ClCompile Include="source\Graphics\BaseGraphicsSystem.cpp" />
     <ClCompile Include="source\Graphics\ColliderGraphicsSystem.cpp" />
+    <ClCompile Include="source\Graphics\ParticlesSystem.cpp" />
     <ClCompile Include="source\Graphics\RenderHelper.cpp" />
     <ClCompile Include="source\Graphics\RenderTransformSystem.cpp" />
     <ClCompile Include="source\Graphics\RigidbodyGraphicsSystem.cpp" />

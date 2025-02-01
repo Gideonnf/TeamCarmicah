@@ -134,6 +134,9 @@
     <ClInclude Include="source\Graphics\ColliderGraphicsSystem.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="source\Graphics\ParticlesSystem.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="source\Graphics\RenderHelper.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -277,6 +280,9 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="source\Graphics\ColliderGraphicsSystem.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Graphics\ParticlesSystem.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="source\Graphics\RenderHelper.cpp">
