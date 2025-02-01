@@ -39,6 +39,101 @@ namespace Carmicah
 		std::cout << "Entities in collision system: " << mEntitiesSet.size() << std::endl;
 	}
 
+	int CollisionSystem::GetEntityIndex(Entity& entity)
+	{
+		if (entityIndexMap.find(entity) == entityIndexMap.end())
+		{
+			entityIndexMap[entity] = entityCounter++;
+		}
+		return entityIndexMap[entity];
+	}
+
+	void CollisionSystem::InsertEntityToGrid(Entity& entity, const Vec2f& position)
+	{
+		int row = static_cast<int>(position.y / cellSize);
+		int col = static_cast<int>(position.x / cellSize);
+		int entityIndex = GetEntityIndex(entity);
+
+		if (row >= 0 && row < GRID_HEIGHT)
+		{
+			rowsBitArray[row].set(entityIndex);
+		}
+		if (col >= 0 && col < GRID_WIDTH)
+		{
+			colsBitArray[col].set(entityIndex);
+		}
+	}
+
+	std::vector<Entity> CollisionSystem::GetPotentialCollisions(Entity& entity, const Vec2f& position)
+	{
+		int row = static_cast<int>(position.y / cellSize);
+		int col = static_cast<int>(position.x / cellSize);
+		int entityIndex = GetEntityIndex(entity);
+
+		std::bitset<MAX_ENTITIES> combined = 0;
+
+		if (row >= 0 && row < GRID_HEIGHT)
+		{
+			combined |= rowsBitArray[row];  // Merge row entities
+		}
+		if (col >= 0 && col < GRID_WIDTH)
+		{
+			combined |= colsBitArray[col];  // Merge column entities
+		}
+
+		// Remove self
+		combined.reset(entityIndex);
+
+		std::vector<Entity> potentialCollisions;
+		for (int i = 0; i < MAX_ENTITIES; i++)
+		{
+			if (combined.test(i)) // Check if bit is set
+			{
+				for (const auto& pair : entityIndexMap)
+				{
+					if (pair.second == i)
+					{
+						potentialCollisions.push_back(pair.first);
+						break;
+					}
+				}
+			}
+		}
+
+		return potentialCollisions;
+	}
+
+	void CollisionSystem::ClearGrid() {
+		for (int i = 0; i < GRID_HEIGHT; i++)
+		{
+			rowsBitArray[i].reset();
+		}
+		for (int i = 0; i < GRID_WIDTH; i++)
+		{
+			colsBitArray[i].reset();
+		}
+	}
+
+	/*
+
+	void CollisionSystem::InitGrid(size_t maxEntities)
+	{
+		currentEntityCount = maxEntities;
+		rowsBitArray.resize(GRID_HEIGHT, std::vector<bool>(maxEntities, false));
+		colsBitArray.resize(GRID_WIDTH, std::vector<bool>(maxEntities, false));
+	}
+
+	void CollisionSystem::UpdateEntityCount(size_t newEntityCount)
+	{
+		currentEntityCount = newEntityCount;
+		for (auto& row : rowsBitArray) {
+			row.resize(newEntityCount, false);
+		}
+		for (auto& col : colsBitArray) {
+			col.resize(newEntityCount, false);
+		}
+	}*/
+
 	/**
 	 * @brief Updates the Oriented Bounding Box (OBB) for a given entity based on its transform and associated primitive model.
 	 *
@@ -291,7 +386,7 @@ namespace Carmicah
 			auto& transform = componentManager->GetComponent<Transform>(obj);
 			auto& collider = componentManager->GetComponent<Collider2D>(obj);
 
-			min = max = edgeNormal.dot(collider.objEdges[0]);
+			//min = max = edgeNormal.dot(collider.objEdges[0]);
 			min = max = edgeNormal.dot(collider.objVert[0]);
 
 			for (size_t i = 1; i < collider.objVert.size(); i++)
@@ -470,35 +565,45 @@ namespace Carmicah
 		auto& collider1 = componentManager->GetComponent<Collider2D>(obj1);
 		auto& collider2 = componentManager->GetComponent<Collider2D>(obj2);
 
-		for (size_t i = 0, i1 = collider1.objVert.size() - 1; i < collider1.objVert.size(); i1 = i, i++)
+		// Check if either object has no vertices (invalid collider)
+		if (collider1.objVert.empty() || collider2.objVert.empty())
 		{
-			if  (collider2.objVert.empty())
-			{
-				return false;
-			}
+			return false;
+		}
+
+		// Test edges of collider1
+		for (size_t i = 0; i < collider1.objEdges.size(); i++)
+		{
 			Vec2f outwardNormal = collider1.objNormals[i];
 
-			if (WhichSide(collider2.objVert, collider1.objVert[i], outwardNormal) > 0)
+			float min0, max0, min1, max1;
+			ComputeProjInterval(obj1, outwardNormal, min0, max0);
+			ComputeProjInterval(obj2, outwardNormal, min1, max1);
+
+			// If projections do not overlap, return false (no collision)
+			if (max0 < min1 || max1 < min0)
 			{
 				return false;
 			}
 		}
 
-		for (size_t i = 0, i1 = collider2.objVert.size() - 1; i < collider2.objVert.size(); i1 = i, i++)
+		// Test edges of collider2
+		for (size_t i = 0; i < collider2.objEdges.size(); i++)
 		{
-			if (collider1.objVert.empty())
-			{
-				return false;
-			}
-
 			Vec2f outwardNormal = collider2.objNormals[i];
 
-			if (WhichSide(collider1.objVert, collider2.objVert[i], outwardNormal) > 0)
+			float min0, max0, min1, max1;
+			ComputeProjInterval(obj1, outwardNormal, min0, max0);
+			ComputeProjInterval(obj2, outwardNormal, min1, max1);
+
+			// If projections do not overlap, return false (no collision)
+			if (max0 < min1 || max1 < min0)
 			{
 				return false;
 			}
 		}
 
+		// No separating axis found, objects are intersecting
 		return true;
 	}
 
@@ -613,18 +718,33 @@ namespace Carmicah
 	 */
 	void CollisionSystem::CollisionCheck()
 	{
+		/*ClearGrid();
+
 		auto* componentManager = ComponentManager::GetInstance();
+
+		for (auto entity : mEntitiesSet)
+		{
+			auto& transform = componentManager->GetComponent<Transform>(entity);
+			InsertEntityToGrid(entity, transform.Pos());
+		}
 
 		for (auto it1 = mEntitiesSet.begin(); it1 != mEntitiesSet.end(); ++it1)
 		{
 			Entity entity1 = *it1;
+
+			auto& transform1 = componentManager->GetComponent<Transform>(entity1);
+
 			auto& rigidbody1 = componentManager->GetComponent<RigidBody>(entity1);
 
 			if (rigidbody1.objectType == rbTypes::DYNAMIC)
 			{
-				for (auto it2 = mEntitiesSet.begin(); it2 != mEntitiesSet.end(); ++it2)
+				std::vector<Entity> nearbyEntities = GetPotentialCollisions(entity1, transform1.Pos());
+
+				for (auto it2 = nearbyEntities.begin(); it2 != nearbyEntities.end(); ++it2)
 				{
+
 					Entity entity2 = *it2;
+
 
 					if (entity2 == entity1)
 					{
@@ -642,7 +762,9 @@ namespace Carmicah
 			}
 			else if (rigidbody1.objectType == rbTypes::KINEMATIC)
 			{
-				for (auto it2 = mEntitiesSet.begin(); it2 != mEntitiesSet.end(); ++it2)
+				std::vector<Entity> nearbyEntities = GetPotentialCollisions(entity1, transform1.Pos());
+
+				for (auto it2 = nearbyEntities.begin(); it2 != nearbyEntities.end(); ++it2)
 				{
 					Entity entity2 = *it2;
 
@@ -662,6 +784,61 @@ namespace Carmicah
 					}
 				}
 			}
+		}*/
+
+		ClearGrid(); // Reset grid
+
+		auto* componentManager = ComponentManager::GetInstance();
+
+		// Insert all entities into the grid
+		for (auto entity : mEntitiesSet)
+		{
+			auto& transform = componentManager->GetComponent<Transform>(entity);
+			InsertEntityToGrid(entity, transform.Pos());
+		}
+
+		// Perform collision detection
+		for (auto entity1 : mEntitiesSet)
+		{
+			auto& transform1 = componentManager->GetComponent<Transform>(entity1);
+			auto& rigidbody1 = componentManager->GetComponent<RigidBody>(entity1);
+
+			if (rigidbody1.objectType == rbTypes::DYNAMIC)
+			{
+				std::vector<Entity> nearbyEntities = GetPotentialCollisions(entity1, transform1.Pos());
+
+				for (Entity entity2 : nearbyEntities)
+				{
+					auto& transform2 = componentManager->GetComponent<Transform>(entity2);
+
+
+						if (TestIntersection(entity1, entity2))
+						{
+							CollisionResponse(entity1, entity2);
+						}
+
+					
+				}
+			}
+			else if (rigidbody1.objectType == rbTypes::KINEMATIC)
+			{
+				std::vector<Entity> nearbyEntities = GetPotentialCollisions(entity1, transform1.Pos());
+
+				for (Entity entity2 : nearbyEntities)
+				{
+
+					auto& transform2 = componentManager->GetComponent<Transform>(entity2);
+
+					if ((transform1.collisionMask | transform2.collisionMask) == 10) 
+					{
+						if (TestIntersection(entity1, entity2))
+						{
+							CollisionResponse(entity1, entity2);
+						}
+
+					}
+				}
+			}
 		}
 	}
 
@@ -678,7 +855,7 @@ namespace Carmicah
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<CollisionSystem>(mSignature);
 
-
+		//InitGrid(currentEntityCount);
 
 	}
 
@@ -687,6 +864,7 @@ namespace Carmicah
 	 */
 	void CollisionSystem::Update()
 	{
+		//UpdateEntityCount(mEntitiesSet.size());
 
 		for (auto entity : mEntitiesSet)
 		{

@@ -29,8 +29,8 @@ namespace Carmicah
     {
         DEFAULT = 1 << 0, // 0000 .... 0001
         PLAYER = 1 << 1, // 0000 .... 0010
-        ENEMIES = 1 << 2,
-        ENVIRONMENT = 1 << 3,
+        ENEMIES = 1 << 2, // 0100
+        ENVIRONMENT = 1 << 3, // 1000
         TOTAL_LAYERS = 1 << 4
     };
 
