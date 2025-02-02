@@ -28,6 +28,28 @@ namespace Carmicah
 		variantVar stateCondition;
 		std::vector<Transition> transitions;
 
+		bool operator==(const State& other) const
+		{
+			bool retVal = true;
+
+			if (this->stateName != other.stateName)
+			{
+				retVal = false;
+			}
+
+			if (this->stateCondition != other.stateCondition)
+			{
+				retVal = false;
+			}
+
+			if (this->transitions != other.transitions)
+			{
+				retVal = false;
+			}
+
+			return retVal;
+		}
+
 		void DeleteTransition(Transition& selectedTransition)
 		{
 			auto it = std::remove_if(transitions.begin(), transitions.end(), [&](const Transition& t)
@@ -51,6 +73,19 @@ namespace Carmicah
 		std::unordered_map<std::string, State> stateMap;
 
 		float stateTimer;
+
+
+
+		void DeleteState(State& selectedState)
+		{
+			for (auto it = stateMap.begin(); it != stateMap.end(); ++it)
+			{
+				if (it->second == selectedState)
+				{
+					it = stateMap.erase(it);
+				}
+			}
+		}
 
 		StateMachine& DeserializeComponent(const rapidjson::Value& component) override
 		{

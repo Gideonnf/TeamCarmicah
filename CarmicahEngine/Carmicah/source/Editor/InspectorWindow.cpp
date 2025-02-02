@@ -1271,7 +1271,7 @@ namespace Carmicah
 
 				ImGui::EndTable();
 			}
-
+#pragma region To Move
 			for (auto& [stateName, actualState] : stateMachine.stateMap)
 			{
 				std::string transitionName = "Transitions in " + actualState.stateName + ":";
@@ -1409,6 +1409,7 @@ namespace Carmicah
 					//ImGui::TreePop();
 				}
 			}
+#pragma endregion
 		}
 	}
 

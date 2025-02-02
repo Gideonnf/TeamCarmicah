@@ -21,12 +21,24 @@ DigiPen Institute of Technology is prohibited.
 #include <GLFW/glfw3.h>
 #include <ImGUI/imgui.h>
 #include "EditorWindow.h"
+#include "HierarchyWindow.h"
 
 namespace Carmicah
 {
     class FSMWindow : public EditorWindow
     {
     private:
+
+        template<typename T>
+        T GetVariantValueAs(const variantVar& var)
+        {
+            return std::get<T>(var);
+        }
+
+        std::string GetVarType(variantVar& var);
+        void VarConditionEditing(std::string varType, variantVar& condition);
+        void DisplayState(std::string name, State& state);
+        bool DisplayTransition(Transition& currentTransition, State& state);
    
 
     public:
