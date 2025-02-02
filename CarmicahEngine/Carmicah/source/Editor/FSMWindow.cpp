@@ -64,7 +64,7 @@ namespace Carmicah
             ImGui::SameLine();
             if (ImGui::Checkbox("##BoolCond", &value))
             {
-                //condition = value;
+                condition = value;
             }
         }
 
@@ -75,7 +75,7 @@ namespace Carmicah
             ImGui::SameLine();
             if (ImGui::InputInt("##IntCond", &value, 1))
             {
-                //condition = value;
+                condition = value;
             }
         }
 
@@ -86,7 +86,7 @@ namespace Carmicah
             ImGui::SameLine();
             if (ImGui::InputFloat("##FloatCond", &value, 1))
             {
-               //condition = value;
+               condition = value;
             }
         }
 
@@ -94,17 +94,14 @@ namespace Carmicah
         {
             ImGui::Text("String");
             auto value = GetVariantValueAs<std::string>(condition);
-            ImGui::SameLine();
-            ImGui::Text(value.c_str());
-
-            /*static char buffer[256];
+            static char buffer[256];
             std::strncpy(buffer, value.c_str(), sizeof(buffer));
             buffer[sizeof(buffer) - 1] = '\0';
             ImGui::SameLine();
             if (ImGui::InputText("##StringCond", buffer, sizeof(buffer)))
             {
                 condition = std::string(buffer);
-            }*/
+            }
         }
     }
 
@@ -120,75 +117,74 @@ namespace Carmicah
         if (ImGui::BeginPopup("CreateNewState"))
         {
             static State newState;
-            static std::string varType{};
-            const char* items[] = { "", "bool", "int", "float", "string" };
             static char buffer[128]{ "Default\0" };
-            static variantVar condition;
-            static bool boolValue = false;
-            static int intValue = 0;
-            static float floatValue = 0.f;
-            static char stringValue[256] = "Default";
-            ImGui::Text("Transition Name: ");
+            ImGui::Text("State Name: ");
             ImGui::SameLine();
-            if (ImGui::InputText("##Transition Name:", buffer, sizeof(buffer)))
+            if (ImGui::InputText("##State Name:", buffer, sizeof(buffer)))
             {
                 newState.stateName = buffer;
             }
-            static int currentItem = 0; // Index of selected item
+            //static std::string varType{};
+            //const char* items[] = { "", "bool", "int", "float", "string" };
+            //static int currentItem = 0; // Index of selected item
+            //static variantVar condition;
+            //static bool boolValue = false;
+            //static int intValue = 0;
+            //static float floatValue = 0.f;
+            //static char stringValue[256] = "Default";
 
-            if (ImGui::Combo("##Select Type", &currentItem, items, IM_ARRAYSIZE(items)))
-            {
-                varType = items[currentItem];
-            }
-            ImGui::Text("Condition Type:");
-            ImGui::SameLine();
+            //if (ImGui::Combo("##Select Type", &currentItem, items, IM_ARRAYSIZE(items)))
+            //{
+            //    varType = items[currentItem];
+            //}
+            //ImGui::Text("Condition Type:");
+            //ImGui::SameLine();
 
-            if (std::strcmp(varType.c_str(), "bool") == 0)
-            {
-                ImGui::Text("Bool: ");
-                ImGui::SameLine();
-                if (ImGui::Checkbox("##BoolCond", &boolValue))
-                {
-                    condition = boolValue;
-                }
-            }
+            //if (std::strcmp(varType.c_str(), "bool") == 0)
+            //{
+            //    ImGui::Text("Bool: ");
+            //    ImGui::SameLine();
+            //    if (ImGui::Checkbox("##BoolCond", &boolValue))
+            //    {
+            //        condition = boolValue;
+            //    }
+            //}
 
-            if (std::strcmp(varType.c_str(), "int") == 0)
-            {
-                ImGui::Text("Int: ");
-                ImGui::SameLine();
-                if (ImGui::InputInt("##IntCond", &intValue, 1))
-                {
-                    condition = intValue;
-                }
-            }
+            //if (std::strcmp(varType.c_str(), "int") == 0)
+            //{
+            //    ImGui::Text("Int: ");
+            //    ImGui::SameLine();
+            //    if (ImGui::InputInt("##IntCond", &intValue, 1))
+            //    {
+            //        condition = intValue;
+            //    }
+            //}
 
-            if (std::strcmp(varType.c_str(), "float") == 0)
-            {
-                ImGui::Text("Float: ");
-                ImGui::SameLine();
-                if (ImGui::InputFloat("##FloatCond", &floatValue, 1))
-                {
-                    condition = floatValue;
-                }
-            }
+            //if (std::strcmp(varType.c_str(), "float") == 0)
+            //{
+            //    ImGui::Text("Float: ");
+            //    ImGui::SameLine();
+            //    if (ImGui::InputFloat("##FloatCond", &floatValue, 1))
+            //    {
+            //        condition = floatValue;
+            //    }
+            //}
 
-            if (std::strcmp(varType.c_str(), "string") == 0)
-            {
-                ImGui::Text("String: ");
-                ImGui::SameLine();
-                if (ImGui::InputText("##StringCond", stringValue, sizeof(stringValue) - 1))
-                {
-                    condition = std::string(stringValue);
-                }
-            }
+            //if (std::strcmp(varType.c_str(), "string") == 0)
+            //{
+            //    ImGui::Text("String: ");
+            //    ImGui::SameLine();
+            //    if (ImGui::InputText("##StringCond", stringValue, sizeof(stringValue) - 1))
+            //    {
+            //        condition = std::string(stringValue);
+            //    }
+            //}
 
-            if (currentItem != 0)
-            {
+            /*if (currentItem != 0)
+            {*/
                 if (ImGui::Button("Create State"))
                 {
                     newState.stateName = buffer;
-                    newState.stateCondition = condition;
                     auto it = stateMap.begin();
                     for (; it != stateMap.end(); ++it)
                     {
@@ -217,16 +213,16 @@ namespace Carmicah
                         //Resetting the static variables
                         strncpy(buffer, "Default", sizeof(buffer) - 1);
                         buffer[sizeof(buffer) - 1] = '\0';
-                        currentItem = 0;
+                        /*currentItem = 0;
                         boolValue = false;
                         intValue = 0;
                         floatValue = 0.f;
                         strncpy(stringValue, "Default", sizeof(stringValue) - 1);
-                        stringValue[sizeof(stringValue) - 1] = '\0';
+                        stringValue[sizeof(stringValue) - 1] = '\0';*/
                         ImGui::CloseCurrentPopup();
                     }
                 }
-            }
+            //}
 
             ImGui::EndPopup();
         }
@@ -404,10 +400,10 @@ namespace Carmicah
             ImGui::SameLine();
             AddTransition(actualState, stateMach);
 
-            ImGui::Text("Condition:");
-            ImGui::SameLine();
+            //ImGui::Text("Condition:");
+            //ImGui::SameLine();
             //ImGui::Text(GetVarType(actualState.stateCondition).c_str());
-            VarConditionEditing(varType, actualState.stateCondition);
+            //VarConditionEditing(varType, actualState.stateCondition);
 
             if (ImGui::BeginPopup(stateName.c_str()))
             {
