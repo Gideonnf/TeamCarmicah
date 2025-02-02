@@ -66,6 +66,7 @@ namespace Carmicah
 		mWindows.push_back(std::make_unique<CameraWindow>());
 		mWindows.push_back(std::make_unique<HierarchyWindow>());
 		mWindows.push_back(std::make_unique<DebugWindow>());
+		mWindows.push_back(std::make_unique<FSMWindow>());
 		mWindows.push_back(std::make_unique<AssetWindow>());
 		mWindows.push_back(std::make_unique<InspectorWindow>());
 
@@ -113,11 +114,12 @@ namespace Carmicah
 				ImGuiID dockRight = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Right, 0.25f, nullptr,&dockMain);
 				// Dock your windows into the split areas
 				ImGui::DockBuilderDockWindow("Asset Browser", dockBotLeft);
-				ImGui::DockBuilderDockWindow("Debug", dockBotRight);
+				ImGui::DockBuilderDockWindow("FSM", dockBotRight);
 				ImGui::DockBuilderDockWindow("Scene", dockMain);
 				ImGui::DockBuilderDockWindow("Editor Camera", dockMain);
 				ImGui::DockBuilderDockWindow("Inspector", dockRight);
 				ImGui::DockBuilderDockWindow("Hierarchy", dockLeft);
+				ImGui::DockBuilderDockWindow("Debug", dockBotRight);
 				ImGui::DockBuilderFinish(dockMain);
 			}
 #pragma endregion
