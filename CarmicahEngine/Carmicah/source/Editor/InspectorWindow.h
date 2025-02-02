@@ -181,9 +181,6 @@ namespace Carmicah
 		void RenderStateMachineTable(T* go, TABLETYPE type);
 
 
-		//TODO: IF IT WORKS< APPLY IT FOR EVERYTHIGN ELSE
-
-
 		template <typename T>
 		void CheckForComponentChange(GameObject& go, T& newComponent, bool modified)
 		{

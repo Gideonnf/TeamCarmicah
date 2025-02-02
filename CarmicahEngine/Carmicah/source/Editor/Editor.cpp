@@ -67,6 +67,7 @@ namespace Carmicah
 		mWindows.push_back(std::make_unique<HierarchyWindow>());
 		mWindows.push_back(std::make_unique<DebugWindow>());
 		mWindows.push_back(std::make_unique<AssetWindow>());
+		mWindows.push_back(std::make_unique<FSMWindow>());
 		mWindows.push_back(std::make_unique<InspectorWindow>());
 
 		//Initialise the copy
@@ -112,12 +113,13 @@ namespace Carmicah
 				ImGuiID dockLeft = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Left, 0.2f, nullptr, &dockMain);
 				ImGuiID dockRight = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Right, 0.25f, nullptr,&dockMain);
 				// Dock your windows into the split areas
-				ImGui::DockBuilderDockWindow("Asset Browser", dockBotLeft);
-				ImGui::DockBuilderDockWindow("Debug", dockBotRight);
+				ImGui::DockBuilderDockWindow("FSM", dockBotLeft);
 				ImGui::DockBuilderDockWindow("Scene", dockMain);
 				ImGui::DockBuilderDockWindow("Editor Camera", dockMain);
 				ImGui::DockBuilderDockWindow("Inspector", dockRight);
 				ImGui::DockBuilderDockWindow("Hierarchy", dockLeft);
+				ImGui::DockBuilderDockWindow("Asset Browser", dockBotLeft);
+				ImGui::DockBuilderDockWindow("Debug", dockBotRight);
 				ImGui::DockBuilderFinish(dockMain);
 			}
 #pragma endregion
@@ -442,7 +444,7 @@ namespace Carmicah
 
 	void Editor::EntityAdded(Entity id)
 	{
-	
+		UNUSED(id);
 	}
 
 	void Editor::ReceiveMessage(Message* msg)

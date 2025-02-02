@@ -200,6 +200,7 @@ xcopy /Q /E /Y /I "..\bin\Installer-x86_64\CarmicahScriptCore\**.**" "..\Carmica
     <ClInclude Include="source\Editor\DebugWindow.h" />
     <ClInclude Include="source\Editor\Editor.h" />
     <ClInclude Include="source\Editor\EditorWindow.h" />
+    <ClInclude Include="source\Editor\FSMWindow.h" />
     <ClInclude Include="source\Editor\HierarchyWindow.h" />
     <ClInclude Include="source\Editor\InspectorWindow.h" />
     <ClInclude Include="source\Editor\SceneToImgui.h" />
@@ -254,6 +255,7 @@ xcopy /Q /E /Y /I "..\bin\Installer-x86_64\CarmicahScriptCore\**.**" "..\Carmica
     <ClCompile Include="source\Editor\DebugWindow.cpp" />
     <ClCompile Include="source\Editor\Editor.cpp" />
     <ClCompile Include="source\Editor\EditorWindow.cpp" />
+    <ClCompile Include="source\Editor\FSMWindow.cpp" />
     <ClCompile Include="source\Editor\HierarchyWindow.cpp" />
     <ClCompile Include="source\Editor\InspectorWindow.cpp" />
     <ClCompile Include="source\Editor\SceneToImgui.cpp" />

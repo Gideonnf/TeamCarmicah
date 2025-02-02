@@ -83,7 +83,7 @@
                     "xScale": 0.4000000059604645,
                     "yScale": 0.4000000059604645,
                     "rot": 0.0,
-                    "collisionMask": 2
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -312,7 +312,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 8"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -611,7 +611,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 8"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -645,7 +645,7 @@
                     "xScale": 5.441271781921387,
                     "yScale": 0.6269400119781494,
                     "rot": -161.88571166992188,
-                    "collisionMask": 8
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -686,7 +686,7 @@
                     "xScale": 5.441271781921387,
                     "yScale": 0.6269400119781494,
                     "rot": -30.095834732055665,
-                    "collisionMask": 8
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -727,7 +727,7 @@
                     "xScale": 9.370100021362305,
                     "yScale": 0.6269400119781494,
                     "rot": -157.17616271972657,
-                    "collisionMask": 8
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -768,7 +768,7 @@
                     "xScale": 5.441271781921387,
                     "yScale": 0.6269400119781494,
                     "rot": -198.91342163085938,
-                    "collisionMask": 8
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -861,28 +861,57 @@
                             "stateCondition": 0,
                             "transitions": [
                                 {
-                                    "targetState": "Explode",
+                                    "targetState": "Attacking",
+                                    "condition": 2
+                                },
+                                {
+                                    "targetState": "Defending",
                                     "condition": 1
                                 },
                                 {
                                     "targetState": "Dead",
+                                    "condition": -1
+                                }
+                            ]
+                        },
+                        {
+                            "stateName": "Defending",
+                            "stateCondition": 1,
+                            "transitions": [
+                                {
+                                    "targetState": "Attacking",
                                     "condition": 2
                                 },
                                 {
-                                    "targetState": "BoolTest",
+                                    "targetState": "Dead",
+                                    "condition": -1
+                                },
+                                {
+                                    "targetState": "bulletIdle",
+                                    "condition": 0
+                                }
+                            ]
+                        },
+                        {
+                            "stateName": "Dead",
+                            "stateCondition": -1,
+                            "transitions": []
+                        },
+                        {
+                            "stateName": "Attacking",
+                            "stateCondition": 2,
+                            "transitions": [
+                                {
+                                    "targetState": "bulletIdle",
                                     "condition": 0
                                 },
                                 {
-                                    "targetState": "IntTest",
-                                    "condition": 0
+                                    "targetState": "Defending",
+                                    "condition": 1
                                 },
                                 {
-                                    "targetState": "FloatTest",
-                                    "condition": 5.494999885559082
-                                },
-                                {
-                                    "targetState": "StringTest",
-                                    "condition": true
+                                    "targetState": "Dead",
+                                    "condition": -1
                                 }
                             ]
                         }

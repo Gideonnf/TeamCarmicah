@@ -119,6 +119,9 @@
     <ClInclude Include="source\Editor\EditorWindow.h">
       <Filter>Editor</Filter>
     </ClInclude>
+    <ClInclude Include="source\Editor\FSMWindow.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
     <ClInclude Include="source\Editor\HierarchyWindow.h">
       <Filter>Editor</Filter>
     </ClInclude>
@@ -265,6 +268,9 @@
       <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="source\Editor\EditorWindow.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Editor\FSMWindow.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="source\Editor\HierarchyWindow.cpp">
