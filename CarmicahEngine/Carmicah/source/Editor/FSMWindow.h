@@ -36,8 +36,12 @@ namespace Carmicah
         }
 
         std::string GetVarType(variantVar& var);
+
+        void CreateNewState(StateMachine& component);
+        void AddTransition(State& state, StateMachine& stateMach);
+
         void VarConditionEditing(std::string varType, variantVar& condition);
-        void DisplayState(std::string name, State& state);
+        bool DisplayState(std::string name, State& state, StateMachine& mach);
         bool DisplayTransition(Transition& currentTransition, State& state);
    
 

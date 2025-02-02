@@ -78,11 +78,26 @@ namespace Carmicah
 
 		void DeleteState(State& selectedState)
 		{
-			for (auto it = stateMap.begin(); it != stateMap.end(); ++it)
+			std::string stateName = selectedState.stateName;
+
+			for (auto& it = stateMap.begin(); it != stateMap.end(); ++it)
 			{
 				if (it->second == selectedState)
 				{
 					it = stateMap.erase(it);
+					break;
+				}
+			}
+
+			for (auto& it = stateMap.begin(); it != stateMap.end(); ++it)
+			{
+				for (auto& transIt = it->second.transitions.begin(); transIt != it->second.transitions.end(); ++transIt)
+				{
+					if (transIt->targetState == stateName)
+					{
+						it->second.DeleteTransition(*transIt);
+						break;
+					}
 				}
 			}
 		}
