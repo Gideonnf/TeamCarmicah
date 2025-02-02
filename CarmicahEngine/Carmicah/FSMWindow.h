@@ -27,21 +27,10 @@ namespace Carmicah
     class FSMWindow : public EditorWindow
     {
     private:
-        bool mShowPerformance;
-        bool mShowLogger;
-
-        // Helper functions for rendering different sections
-        void RenderProfilingTab();
-        void RenderPerformanceOverview();
-        void RenderSystemTimeline();
-        void RenderSystemStatistics();
-        void RenderLoggerTab();
-
-        // Helper function to generate consistent colors for systems
-        ImU32 GetSystemColor(const std::string& systemName);
+   
 
     public:
-        DebugWindow();
+        FSMWindow();
         void Update() override;
     };
 }
