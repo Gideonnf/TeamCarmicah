@@ -64,7 +64,7 @@ namespace Carmicah
             ImGui::SameLine();
             if (ImGui::Checkbox("##BoolCond", &value))
             {
-                condition = value;
+                //condition = value;
             }
         }
 
@@ -75,7 +75,7 @@ namespace Carmicah
             ImGui::SameLine();
             if (ImGui::InputInt("##IntCond", &value, 1))
             {
-                condition = value;
+                //condition = value;
             }
         }
 
@@ -86,7 +86,7 @@ namespace Carmicah
             ImGui::SameLine();
             if (ImGui::InputFloat("##FloatCond", &value, 1))
             {
-                condition = value;
+               //condition = value;
             }
         }
 
@@ -94,14 +94,17 @@ namespace Carmicah
         {
             ImGui::Text("String");
             auto value = GetVariantValueAs<std::string>(condition);
-            static char buffer[256];
+            ImGui::SameLine();
+            ImGui::Text(value.c_str());
+
+            /*static char buffer[256];
             std::strncpy(buffer, value.c_str(), sizeof(buffer));
             buffer[sizeof(buffer) - 1] = '\0';
             ImGui::SameLine();
             if (ImGui::InputText("##StringCond", buffer, sizeof(buffer)))
             {
                 condition = std::string(buffer);
-            }
+            }*/
         }
     }
 
