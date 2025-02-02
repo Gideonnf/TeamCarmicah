@@ -238,7 +238,23 @@ namespace Carmicah
 
         for (const auto& state : stateMap)
         {
-            stateNames.push_back(state.first.c_str());
+            bool addToList = true;
+            if (state.first == actualState.stateName)
+            {
+                addToList = false;
+            }
+
+            for (auto& it : actualState.transitions)
+            {
+                if (state.first == it.targetState)
+                {
+                    addToList = false;
+                }
+            }
+            if(addToList)
+            {
+                stateNames.push_back(state.first.c_str());
+            }
         }
 
         if (ImGui::Button("Add Transition"))
