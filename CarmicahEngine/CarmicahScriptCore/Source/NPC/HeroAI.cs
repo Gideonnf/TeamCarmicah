@@ -88,18 +88,18 @@ namespace Carmicah
         {
             if (stateName == "Attacking")
             {
-                CMConsole.Log("TESTING Enter State");
+                //CMConsole.Log("TESTING Enter State");
 
             }
-            CMConsole.Log($"Enter State Name: {stateName}");
+            //CMConsole.Log($"Enter State Name: {stateName}");
         }
 
         public void OnStateUpdate(string stateName, float dt)
         {
-            CMConsole.Log($"Update State Name: {stateName}");
+           // CMConsole.Log($"Update State Name: {stateName}");
             if (stateName == "Attacking")
             {
-                CMConsole.Log("TESTING Update State");
+               // CMConsole.Log("TESTING Update State");
 
             }
             //CMConsole.Log($"mouse retrieved : {targetMouse}");
@@ -107,8 +107,8 @@ namespace Carmicah
 
         public void OnStateExit(string stateName)
         {
-            CMConsole.Log("TESTING Exit State");
-            CMConsole.Log($"Exit State Name: {stateName}");
+            //CMConsole.Log("TESTING Exit State");
+            //CMConsole.Log($"Exit State Name: {stateName}");
 
         }
     }

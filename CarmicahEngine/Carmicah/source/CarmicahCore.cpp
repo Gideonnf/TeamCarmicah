@@ -338,6 +338,8 @@ namespace Carmicah
 
                 gScriptSystem->UpdateScripts(); // TODO: Add this to profiler
 
+                Input.Update();
+
                 if (gameSystem->mCurrState == SceneState::RUNTIME && SceneWindow::mIsPaused == false)
                 {
 
@@ -446,8 +448,10 @@ namespace Carmicah
 
                 // I WILL UPDAAATEEE BUTTONSYSTEM HERE OKKKKAAYYYY, PLS DONT CRASH CRYING EMOJI
 				butSystem->Update();
+                Input.TestFunction("Before Update");
 
-                Input.Update();
+
+                Input.TestFunction("After Update");
 
                 // Putting mouse update here first after input update
                 // idk if it should be here
@@ -460,6 +464,7 @@ namespace Carmicah
             }
 
             Input.UpdatePrevInput();
+            Input.TestFunction("AFter Prev Input Update");
             // shift this here for now cause moving 
             glfwPollEvents(); // this takes 20% of engine run time
 

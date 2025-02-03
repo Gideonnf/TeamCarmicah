@@ -64,6 +64,29 @@
             "gravity": 0.0,
             "zposPrev": 1.0,
             "objectType": 1
+        },
+        {
+            "Component Name": "struct Carmicah::StateMachine",
+            "currState": "",
+            "nextState": "",
+            "startingState": "",
+            "stateMap": [
+                {
+                    "stateName": "Running",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Dead",
+                            "condition": 1
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Dead",
+                    "stateCondition": 0,
+                    "transitions": []
+                }
+            ]
         }
     ]
 }
