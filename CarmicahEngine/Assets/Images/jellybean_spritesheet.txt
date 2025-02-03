@@ -1,0 +1,25 @@
+coral_bean
+Top left: 0 x 0, 180 x 90
+1 sprites
+
+yellow_bean
+Top left: 0 x 90, 180 x 90
+1 sprites
+
+orange_bean
+Top left: 0 x 180, 180 x 90
+1 sprites
+
+red_bean
+Top left: 0x270, 180 x 90
+1 sprites
+
+blue_bean
+Top left: 0x360, 180 x 90
+1 sprites
+
+pink_bean
+Top left: 0x450, 180 x 90
+1 sprites
+
+

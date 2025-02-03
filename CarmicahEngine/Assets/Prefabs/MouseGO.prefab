@@ -10,16 +10,43 @@
             "xScale": 0.5,
             "yScale": 0.5,
             "rot": 0.0,
-            "collisionMask": 0
+            "collisionMask": 4
         },
         {
             "Component Name": "struct Carmicah::Animation",
             "Atlas": "Mouse_Climb_blue"
         },
         {
+            "Component Name": "struct Carmicah::StateMachine",
+            "currState": "",
+            "nextState": "",
+            "startingState": "",
+            "stateMap": [
+                {
+                    "stateName": "Running",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Dead",
+                            "condition": 1
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Dead",
+                    "stateCondition": 0,
+                    "transitions": []
+                }
+            ]
+        },
+        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Mouse_SpriteSheet_Climb_blue 3"
+            "texture": "Mouse_SpriteSheet_Climb_blue 3",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         },
         {
             "Component Name": "struct Script",
@@ -63,30 +90,7 @@
             "mass": 1.0,
             "gravity": 0.0,
             "zposPrev": 1.0,
-            "objectType": 1
-        },
-        {
-            "Component Name": "struct Carmicah::StateMachine",
-            "currState": "",
-            "nextState": "",
-            "startingState": "",
-            "stateMap": [
-                {
-                    "stateName": "Running",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Dead",
-                            "condition": 1
-                        }
-                    ]
-                },
-                {
-                    "stateName": "Dead",
-                    "stateCondition": 0,
-                    "transitions": []
-                }
-            ]
+            "objectType": 2
         }
     ]
 }

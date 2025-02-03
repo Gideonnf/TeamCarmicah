@@ -648,12 +648,12 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "StartingCake": "StartingCake",
-                            "MousePrefabName": "MouseGO",
-                            "waveTimer": 0.0,
                             "LeftOrRight": false,
-                            "CakeHeightOffset": 5.349999904632568,
+                            "waveTimer": 0.0,
+                            "MousePrefabName": "MouseGO",
+                            "StartingCake": "StartingCake",
                             "spawnTimer": 1.5,
+                            "CakeHeightOffset": 5.349999904632568,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
                             "PlayerName": "mainCharacter",
