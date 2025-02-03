@@ -115,7 +115,7 @@ namespace Carmicah
             model = component["model"].GetString();
             texture = component["texture"].GetString();
             // Added inbetween M3 & M4
-            if (component.HasMember("ColR"))
+            if (component.HasMember("colR"))
             {
                 col[0] = static_cast<float>(component["colR"].GetDouble());
                 col[1] = static_cast<float>(component["colG"].GetDouble());
