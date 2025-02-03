@@ -30,6 +30,7 @@ DigiPen Institute of Technology is prohibited.
 #include "../ECS/SystemManager.h"
 #include "../Systems/SceneSystem.h"
 #include "../Editor/SceneWindow.h"
+#include "../FSM/FSMSystem.h"
 
 namespace Carmicah
 {
@@ -394,6 +395,57 @@ namespace Carmicah
 		mono_free(cStr);
 	}
 
+	static void SetStateCondition(unsigned int entityID, MonoObject* obj)
+	{
+		if (!obj) return;
+
+		MonoClass* objClass = mono_object_get_class(obj);
+		const char* className = mono_class_get_name(objClass);
+		variantVar var;
+		// its an int obj
+		if (strcmp(className, "Int32") == 0)
+		{
+			int* value = (int*)mono_object_unbox(obj);
+			var = *value;
+			//std::cout << "Received int: " << *value << std::endl;
+		}
+		else if (strcmp(className, "Single") == 0)
+		{
+			float* value = (float*)mono_object_unbox(obj);
+			var = *value;
+			//std::cout << "Received float: " << *value << std::endl;
+		}
+		else if (strcmp(className, "Boolean") == 0)
+		{
+			bool* value = (bool*)mono_object_unbox(obj);
+			var = *value;
+			//std::cout << "Received bool: " << *value << std::endl;
+		}
+		else if (strcmp(className, "String") == 0)
+		{
+			MonoString* monoStr = (MonoString*)obj;
+			char* utf8Str = mono_string_to_utf8(monoStr);
+			var = std::string(utf8Str);
+			//std::cout << "Received string: " << utf8Str << std::endl;
+			mono_free(utf8Str); // Free Mono allocated memory
+		}
+		else
+		{
+			std::cout << "Unknown object type: " << className << std::endl;
+		}
+	
+		auto& fsmSystem = SystemManager::GetInstance()->GetSystem<FSMSystem>();
+	
+		fsmSystem->SetCondition(entityID, var);
+	}
+
+	static float GetStateTimer(unsigned int entityID)
+	{
+		auto& fsmSystem = SystemManager::GetInstance()->GetSystem<FSMSystem>();
+
+		return fsmSystem->GetStateTimer(entityID);
+	}
+
 	static void CloseGame()
 	{
 		//glfwSetWindowShouldClose(window, GL_TRUE);
@@ -433,6 +485,7 @@ namespace Carmicah
 		RegisterComponent<Transform>();
 		RegisterComponent<RigidBody>();
 		RegisterComponent<Animation>();
+		RegisterComponent<StateMachine>();
 	}
 
 	/// <summary>
@@ -479,5 +532,8 @@ namespace Carmicah
 
 		// Debug
 		ADD_INTERNAL_CALL(Log);
+
+		// FSM
+		ADD_INTERNAL_CALL(SetStateCondition);
 	}
 }

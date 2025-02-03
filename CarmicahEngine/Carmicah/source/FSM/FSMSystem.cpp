@@ -49,6 +49,14 @@ namespace Carmicah
 
 			stateMachine.stateTimer += dt;
 
+			// if its a runtime obj thats added and starting state isnt initalized properly
+			if (stateMachine.startingState.empty())
+			{
+				stateMachine.startingState = stateMachine.stateMap.begin()->first;
+				// initialize the next state to be the starting state
+				stateMachine.nextState = stateMachine.startingState;
+			}
+
 			// if there is a difference in the curr state vs next state
 			if (stateMachine.currState != stateMachine.nextState)
 			{
@@ -118,5 +126,42 @@ namespace Carmicah
 		SendSysMessage(&newMsg);
 	}
 
+	void FSMSystem::SetCondition(Entity entity, variantVar var)
+	{
+		for (auto it = mEntitiesSet.begin(); it != mEntitiesSet.end(); ++it)
+		{
+			auto* componentManager = ComponentManager::GetInstance();
+			auto& stateMachine = componentManager->GetComponent<StateMachine>(*it);
+			if (stateMachine.stateMap.size() == 0) continue;
 
+			// if it found the entity
+			if (*it == entity)
+			{
+				stateMachine.stateMap[stateMachine.currState].stateCondition = var;
+				break;
+			}
+		}
+	}
+
+	void FSMSystem::SetState(Entity entity, std::string stateName)
+	{
+
+	}
+
+	float FSMSystem::GetStateTimer(Entity entity)
+	{
+		for (auto it = mEntitiesSet.begin(); it != mEntitiesSet.end(); ++it)
+		{
+			auto* componentManager = ComponentManager::GetInstance();
+			auto& stateMachine = componentManager->GetComponent<StateMachine>(*it);
+			if (stateMachine.stateMap.size() == 0) continue;
+
+			// if it found the entity
+			if (*it == entity)
+			{
+				return stateMachine.stateTimer;
+			}
+		}
+
+	}
 }

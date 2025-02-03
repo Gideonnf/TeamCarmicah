@@ -93,5 +93,11 @@ namespace Carmicah
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool IsMouseReleased(MouseButtons button);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SetStateCondition(uint entityID, object condition);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float GetStateTimer(uint entityID);
+
     }
 }

@@ -81,7 +81,7 @@
     <Compile Include="Source\System\Keys.cs" />
     <Compile Include="Source\System\Scene.cs" />
     <Compile Include="Source\System\Sound.cs" />
-    <Compile Include="Source\System\StateMachine.cs" />
+    <Compile Include="Source\System\StateMachineOld.cs" />
     <Compile Include="Source\System\Vector2.cs" />
     <Compile Include="Source\Testing.cs" />
     <Compile Include="Source\TrapBuild.cs" />
