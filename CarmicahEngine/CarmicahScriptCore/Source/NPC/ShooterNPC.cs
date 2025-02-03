@@ -105,6 +105,7 @@ namespace Carmicah
             //check if the npc is already shooting
             isShooting = true;
             ChangeAnim(ShootAnim);
+            Sound.PlaySFX("shooters_shotting", 0.5f);
         }
 
         public void ToggleIdle()
