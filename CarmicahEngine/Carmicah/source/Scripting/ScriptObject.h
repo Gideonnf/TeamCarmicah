@@ -99,6 +99,11 @@ namespace Carmicah
 		// UI Functions
 		MonoMethod* mOnClick = nullptr;
 
+		// FSM Functions
+		MonoMethod* mOnStateEnter = nullptr;
+		MonoMethod* mOnStateUpdate = nullptr;
+		MonoMethod* mOnStateExit = nullptr;
+
 
 	public:
 		friend class ScriptSystem;
@@ -175,6 +180,25 @@ namespace Carmicah
 		/// Call when a mouse is hovering the collider box of an object
 		/// </summary>
 		void InvokeOnMouseHover();
+
+		/// <summary>
+		/// Call when entering a state
+		/// </summary>
+		/// <param name="stateName"></param>
+		void InvokeOnStateEnter(std::string stateName);
+
+		/// <summary>
+		/// Call when updating a state
+		/// </summary>
+		/// <param name="stateName"></param>
+		/// <param name="dt"></param>
+		void InvokeOnStateUpdate(std::string stateName, float dt);
+
+		/// <summary>
+		/// Call when exiting a state
+		/// </summary>
+		/// <param name="stateName"></param>
+		void InvokeOnStateExit(std::string stateName);
 
 		template<typename T>
 		T GetFieldValue(const std::string& name)

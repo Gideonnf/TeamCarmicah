@@ -308,6 +308,20 @@ namespace Carmicah
 		return Input.IsKeyHold(keyCode);
 	}
 
+	static bool IsMousePressed(MouseButtons button)
+	{
+		return Input.IsMousePressed(button);
+	}
+
+	static bool IsMouseReleased(MouseButtons button)
+	{
+		//if (Input.IsMouseReleased(button))
+		//{
+		//	CM_CORE_INFO("LEFT MOUSE BUTTON RELEASE");
+		//}
+		return Input.IsMouseReleased(button);
+	}
+
 	/// <summary>
 	/// Interface for changing the scene
 	/// </summary>
@@ -401,6 +415,12 @@ namespace Carmicah
 		mono_free(cStr);
 	}
 
+	static void GetMousePos(Vec2f* outPos)
+	{
+		Vec2f worldMousePos = Input.GetMouseWorldPosition();
+		*outPos = worldMousePos;
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -447,6 +467,9 @@ namespace Carmicah
 		// input functions
 		ADD_INTERNAL_CALL(IsKeyPressed);
 		ADD_INTERNAL_CALL(IsKeyHold);
+		ADD_INTERNAL_CALL(IsMousePressed);
+		ADD_INTERNAL_CALL(IsMouseReleased);
+		ADD_INTERNAL_CALL(GetMousePos);
 
 		// Button function
 		ADD_INTERNAL_CALL(ChangeScene);

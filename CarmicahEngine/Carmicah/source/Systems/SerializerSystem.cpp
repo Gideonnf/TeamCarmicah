@@ -32,6 +32,10 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 	doc.PushBack(rapidjson::Value((*iterator)[val].GetString(), allocator), allocator);  \
 	} \
 
+#define PUSH_BACK_STR(doc, val, allocator) \
+if (ValueExist(doc, val) == false) { \
+	doc.PushBack(rapidjson::Value(val, allocator), allocator);  \
+	} \
 
 	using namespace rapidjson;
 
@@ -255,7 +259,8 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 					// check for specific type of components that need to load assets
 					if (componentName == typeid(Renderer).name())
 					{
-						PUSH_BACK(it, document, "model", allocator);
+						// all models are loaded manually
+						//PUSH_BACK(it, document, "model", allocator);
 						//PUSH_BACK(it, document, "texture", allocator);
 
 
@@ -283,6 +288,31 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 						// TODO: Find out how i can create custom data types for C# side
 						// so i can find out if they're loading a prefab
 						// or if they're loading an animation
+
+						const rapidjson::Value& fieldList = (*it)["ScriptableFieldMap"];
+
+						for (const auto& fieldObject : fieldList.GetArray())
+						{
+							for (auto it2 = fieldObject.MemberBegin(); it2 != fieldObject.MemberEnd(); ++it2)
+							{
+								if (it2->value.IsString() == false)
+									continue;
+
+								std::string str = std::string(it2->value.GetString());
+								if (AssetManager::GetInstance()->fileWatcher.AssetExist(str))
+								{
+									//if (AssetManager::GetInstance()->AssetExist<Animation>(str));
+									document.PushBack(rapidjson::Value(str.c_str(), allocator), allocator);
+
+									// check if this is a prefab, if it is then we need to break it down more
+									if (AssetManager::GetInstance()->AssetExist<Prefab>(str))
+									{
+										Prefab& goPrefab = AssetManager::GetInstance()->GetAsset<Prefab>(str);
+										SerializePrefabAssets(goPrefab, document, allocator);
+									}
+								}
+							}
+						}
 					}
 					else if (componentName == typeid(Animation).name())
 					{
@@ -420,6 +450,70 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 		ofs.close();
 	}
 
+	void SerializerSystem::SerializePrefabAssets(Prefab prefab, rapidjson::Document& document, rapidjson::Document::AllocatorType& allocator)
+	{
+		// These are the main 4 components that require assets to be loaded when needed
+
+		if (prefab.HasComponent<Renderer>())
+		{
+			Renderer& renderer = prefab.GetComponent<Renderer>();
+			Texture t = AssetManager::GetInstance()->GetAsset<Texture>(renderer.Texture());
+			// if its a sprite sheet texture
+			if (t.isSpriteSheet && t.spriteSheet.empty() == false)
+			{
+				// then we load the spritesheet instead
+				if (ValueExist(document, t.spriteSheet.c_str()) == false)
+				{
+					document.PushBack(rapidjson::Value(t.spriteSheet.c_str(), allocator), allocator);
+				}
+			}
+			else
+			{
+				PUSH_BACK_STR(document, renderer.Texture().c_str(), allocator);
+			}
+		}
+
+		if (prefab.HasComponent<Script>())
+		{
+			//PUSH_BACK(it, document, "Atlas", allocator);
+			Script& script = prefab.GetComponent<Script>();
+			for (const auto& [name, variant] : script.scriptableFieldMap)
+			{
+				std::visit([&](auto&& arg) {
+					using T = std::decay_t<decltype(arg)>;
+					// we only need to care about strings
+					// cause strings can be anims or prefabs
+					if constexpr (std::is_same_v<T, std::string>)
+					{
+						std::string var = arg;
+						PUSH_BACK_STR(document, arg.c_str(), allocator);
+
+						// Theres a chance that the script in the prefab, references another prefab within it
+						// so we'll probably have to call this function again
+						if (AssetManager::GetInstance()->AssetExist<Prefab>(arg))
+						{
+							Prefab& goPrefab = AssetManager::GetInstance()->GetAsset<Prefab>(arg);
+							SerializePrefabAssets(goPrefab, document, allocator);
+						}
+					}
+					}, variant);
+			}
+		}
+
+		if (prefab.HasComponent<Animation>())
+		{
+			Animation& animation = prefab.GetComponent<Animation>();
+			PUSH_BACK_STR(document, animation.animAtlas.c_str(), allocator);
+
+		}
+
+		if (prefab.HasComponent<TextRenderer>())
+		{
+			TextRenderer& textRenderer = prefab.GetComponent<TextRenderer>();
+			PUSH_BACK_STR(document, textRenderer.font.c_str(), allocator);
+		}
+	}
+
 	void SerializerSystem::WritePrefab(Prefab prefab, rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer)
 	{
 		writer.StartObject();
@@ -555,13 +649,7 @@ if (ValueExist(doc, (*iterator)[val].GetString()) == false) { \
 			std::string componentName = (*it)["Component Name"].GetString();
 			// Retrieve component data as an std::any object as there can be multiple types of components
 			std::any component = ComponentManager::GetInstance()->DeserializePrefabComponent(*it);
-			
-			//if (componentName == typeid(Transform).name())
-			//{
-			//	Transform data = std::any_cast<Transform>(component);
-			//	std::cout << data.pos.x << std::endl;
-			//}
-			
+				
 			// Insert it into the component map
 			prefab.mComponents.insert({ componentName, component });
 		}

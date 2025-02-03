@@ -4,7 +4,7 @@
 #include "../ECS/ComponentManager.h"
 #include "../ECS/EntityManager.h"
 #include "../ECS/SystemManager.h"
-
+#include "../Messaging/Message.h"
 namespace Carmicah
 {
 	FSMSystem::FSMSystem()
@@ -56,11 +56,11 @@ namespace Carmicah
 				if (stateMachine.currState.empty() == false)
 				{
 					// call the onExit function for the curr state
-					ExitState(stateMachine.stateMap[stateMachine.currState]);
+					ExitState(*it, stateMachine.stateMap[stateMachine.currState]);
 				}
 
 				// call the onEnter function for next state
-				EnterState(stateMachine.stateMap[stateMachine.nextState]);
+				EnterState(*it, stateMachine.stateMap[stateMachine.nextState]);
 
 				stateMachine.currState = stateMachine.nextState;
 				// reset the state timer when entering a new state
@@ -70,7 +70,7 @@ namespace Carmicah
 			else if (stateMachine.currState == stateMachine.nextState)
 			{
 				// call on upate function
-				UpdateState(stateMachine.stateMap[stateMachine.currState]);
+				UpdateState(*it, stateMachine.stateMap[stateMachine.currState], dt);
 			}
 
 			// check the transitions for this state
@@ -83,7 +83,6 @@ namespace Carmicah
 					break;
 				}
 			}
-
 		}
 	}
 
@@ -91,25 +90,33 @@ namespace Carmicah
 	// but now idk if i should make an entire new script map system for state scripts
 	// or just add in the function call to normal entity scripts
 
-	void FSMSystem::UpdateState(State state)
+	void FSMSystem::EnterState(Entity entity, State state)
+	{
+		// if it has an animation can trigger animation play here
+		// if it has an sound can trigger sound play here
+
+		OnStateEnterMsg newMsg(entity, state.stateName);
+		SendSysMessage(&newMsg);
+	}
+
+	void FSMSystem::UpdateState(Entity entity, State state, float dt)
+	{
+		// if it has an animation can trigger animation play here
+		// if it has an sound can trigger sound play here
+
+		OnStateUpdateMsg newMsg(entity, state.stateName, dt);
+		SendSysMessage(&newMsg);
+	}
+
+	void FSMSystem::ExitState(Entity entity, State state)
 	{
 		// if it has an animation can trigger animation play here
 		// if it has an sound can trigger sound play here
 
 
+		OnStateExitMsg newMsg(entity, state.stateName);
+		SendSysMessage(&newMsg);
 	}
 
-	void FSMSystem::EnterState(State state)
-	{
-		// if it has an animation can trigger animation play here
-		// if it has an sound can trigger sound play here
 
-	}
-
-	void FSMSystem::ExitState(State state)
-	{
-		// if it has an animation can trigger animation play here
-		// if it has an sound can trigger sound play here
-
-	}
 }

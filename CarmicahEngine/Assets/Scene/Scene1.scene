@@ -88,7 +88,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Walk 4"
+                    "texture": "MC_SpriteSheet_Walk 2"
                 },
                 {
                     "Component Name": "struct Script",
@@ -268,12 +268,23 @@
                     "texture": "Button_SpriteSheet_Hover_Settings 0"
                 },
                 {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.SettingButton",
+                    "ScriptableFieldMap": [
+                        {
+                            "IsCreated": false,
+                            "SettingsCloseButton": "Close_Button",
+                            "SettingsMenu": "Settings_Menu"
+                        }
+                    ]
+                },
+                {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1762.0999755859376,
+                    "xPos": 1726.22802734375,
                     "yPos": 1001.3499755859375,
                     "depth": 1.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
+                    "xScale": 0.800000011920929,
+                    "yScale": 0.800000011920929,
                     "rot": 0.0
                 }
             ]
@@ -296,43 +307,24 @@
             "Children": []
         },
         {
-            "GameObject": "ShooterNPC",
+            "GameObject": "UIBar",
             "ID": 13,
             "Components": [
                 {
-                    "Component Name": "struct Carmicah::Transform",
-                    "xPos": 1.5251655578613282,
-                    "yPos": -5.632981777191162,
-                    "depth": 3.75,
-                    "xScale": -0.30000001192092898,
-                    "yScale": 0.30000001192092898,
-                    "rot": 0.0,
-                    "collisionMask": 0
-                },
-                {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 4"
+                    "texture": "UIBar"
                 },
                 {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.HeroAI",
-                    "ScriptableFieldMap": [
-                        {
-                            "IsLeft": false,
-                            "projectilePrefab": "Bullet",
-                            "idleAnim": "Shooter_Idle",
-                            "shootRate": 1.0,
-                            "shootAnim": "Shooter_Shoot"
-                        }
-                    ]
-                },
-                {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Shooter_Idle"
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1820.9251708984376,
+                    "yPos": 530.8475341796875,
+                    "depth": 0.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0
                 }
-            ],
-            "Children": []
+            ]
         },
         {
             "GameObject": "EndPointRight_1",
@@ -387,12 +379,12 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "LeftOrRight": false,
-                            "waveTimer": 0.0,
-                            "MousePrefabName": "MouseGO",
                             "StartingCake": "StartingCake",
-                            "spawnTimer": 1.5,
+                            "MousePrefabName": "MouseGO",
+                            "waveTimer": 0.0,
+                            "LeftOrRight": false,
                             "CakeHeightOffset": 6.0,
+                            "spawnTimer": 1.5,
                             "timer": 0.0,
                             "CakePrefabName": "Cake",
                             "PlayerName": "mainCharacter",
@@ -611,7 +603,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 4"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 18"
                 },
                 {
                     "Component Name": "struct Script",
@@ -629,6 +621,47 @@
                 {
                     "Component Name": "struct Carmicah::Animation",
                     "Atlas": "Shooter_Idle"
+                },
+                {
+                    "Component Name": "struct Carmicah::StateMachine",
+                    "currState": "",
+                    "nextState": "",
+                    "startingState": "",
+                    "stateMap": [
+                        {
+                            "stateName": "Idle",
+                            "stateCondition": 0,
+                            "transitions": [
+                                {
+                                    "targetState": "Attacking",
+                                    "condition": 1
+                                },
+                                {
+                                    "targetState": "Dead",
+                                    "condition": 3
+                                }
+                            ]
+                        },
+                        {
+                            "stateName": "Attacking",
+                            "stateCondition": 0,
+                            "transitions": [
+                                {
+                                    "targetState": "Idle",
+                                    "condition": 2
+                                },
+                                {
+                                    "targetState": "Dead",
+                                    "condition": 3
+                                }
+                            ]
+                        },
+                        {
+                            "stateName": "Dead",
+                            "stateCondition": 0,
+                            "transitions": []
+                        }
+                    ]
                 }
             ],
             "Children": []
@@ -934,6 +967,145 @@
                 }
             ],
             "Children": []
+        },
+        {
+            "GameObject": "ShooterNPC",
+            "ID": 34,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 1.5219999551773072,
+                    "yPos": -5.711194038391113,
+                    "depth": 3.75,
+                    "xScale": -0.30000001192092898,
+                    "yScale": 0.30000001192092898,
+                    "rot": 0.0,
+                    "collisionMask": 0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 18"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.HeroAI",
+                    "ScriptableFieldMap": [
+                        {
+                            "IsLeft": true,
+                            "projectilePrefab": "Bullet",
+                            "idleAnim": "Shooter_Idle",
+                            "shootRate": 1.0,
+                            "shootAnim": "Shooter_Shoot"
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Shooter_Idle"
+                },
+                {
+                    "Component Name": "struct Carmicah::StateMachine",
+                    "currState": "",
+                    "nextState": "",
+                    "startingState": "",
+                    "stateMap": [
+                        {
+                            "stateName": "Attacking",
+                            "stateCondition": 0,
+                            "transitions": [
+                                {
+                                    "targetState": "Idle",
+                                    "condition": 2
+                                },
+                                {
+                                    "targetState": "Dead",
+                                    "condition": 3
+                                }
+                            ]
+                        },
+                        {
+                            "stateName": "Idle",
+                            "stateCondition": 0,
+                            "transitions": [
+                                {
+                                    "targetState": "Attacking",
+                                    "condition": 1
+                                },
+                                {
+                                    "targetState": "Dead",
+                                    "condition": 3
+                                }
+                            ]
+                        },
+                        {
+                            "stateName": "Dead",
+                            "stateCondition": 0,
+                            "transitions": []
+                        }
+                    ]
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "TrapIcon",
+            "ID": 35,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button",
+                    "ButtonImage": "",
+                    "ButtonImagePressed": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Trap"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.TrapIcon",
+                    "ScriptableFieldMap": [
+                        {
+                            "trapPrefab": "Trap_1"
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1820.92529296875,
+                    "yPos": 756.0,
+                    "depth": 0.5,
+                    "xScale": 0.15000000596046449,
+                    "yScale": 0.15000000596046449,
+                    "rot": 22.860260009765626
+                }
+            ]
+        },
+        {
+            "GameObject": "ShooterIcon",
+            "ID": 36,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button",
+                    "ButtonImage": "",
+                    "ButtonImagePressed": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "shooter npc"
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1820.9251708984376,
+                    "yPos": 669.9658813476563,
+                    "depth": 1.0,
+                    "xScale": 0.11999999731779099,
+                    "yScale": 0.11999999731779099,
+                    "rot": 0.0
+                }
+            ]
         }
     ]
 }
