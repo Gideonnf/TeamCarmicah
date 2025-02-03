@@ -15,9 +15,9 @@ namespace Carmicah
 		void Init();
 		void OnUpdate(float dt);
 
-		void UpdateState(State state);
-		void EnterState(State state);
-		void ExitState(State state);
+		void EnterState(Entity entity, State state);
+		void UpdateState(Entity entity, State state, float dt);
+		void ExitState(Entity entity, State state);
 	};
 }
 

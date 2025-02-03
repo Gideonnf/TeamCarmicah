@@ -182,7 +182,7 @@ namespace Carmicah
 		{
 			MonoString* monoStateName = mono_string_new(mono_domain_get(), stateName.c_str());
 
-			void* param = &monoStateName;
+			void* param = monoStateName;
 			mScriptClass->InvokeMethod(mMonoInstance, mOnStateEnter, &param);
 
 		}
@@ -194,7 +194,7 @@ namespace Carmicah
 		{
 			void* param[2];
 			MonoString* monoStateName = mono_string_new(mono_domain_get(), stateName.c_str());
-			param[0] = &monoStateName;
+			param[0] = monoStateName;
 			param[1] = &dt;
 
 			mScriptClass->InvokeMethod(mMonoInstance, mOnStateUpdate, param);
@@ -207,7 +207,7 @@ namespace Carmicah
 		{
 			MonoString* monoStateName = mono_string_new(mono_domain_get(), stateName.c_str());
 
-			void* param = &monoStateName;
+			void* param = monoStateName;
 			mScriptClass->InvokeMethod(mMonoInstance, mOnStateExit, &param);
 
 		}

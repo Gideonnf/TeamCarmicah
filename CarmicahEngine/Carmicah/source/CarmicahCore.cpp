@@ -61,6 +61,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/ButtonSystem.h"
 #include "Systems/PrefabSystem.h"
 #include "Systems/MouseSystem.h"
+#include "FSM/FSMSystem.h"
 
 #include "Input/InputSystem.h"
 #include "Systems/SceneSystem.h"
@@ -218,6 +219,7 @@ namespace Carmicah
         // auto gameLogic = REGISTER_SYSTEM(GameLogic);
         auto transformSystem = REGISTER_SYSTEM(TransformSystem);
         auto rendTransformSystem = REGISTER_SYSTEM(RenderTransformSystem);
+        auto fsmSystem = REGISTER_SYSTEM(FSMSystem);
         AssetManager::GetInstance()->Init(prefabSystem);
         AssetManager::GetInstance()->LoadAll(AssetManager::GetInstance()->enConfig.assetLoc.c_str());
 
@@ -255,6 +257,7 @@ namespace Carmicah
 
         butSystem->BindSystem(gScriptSystem);
         mouseSystem->BindSystem(gScriptSystem);
+        fsmSystem->BindSystem(gScriptSystem);
 
         //glfwSetWindowUserPointer(window, inputSystem.get());
         gScriptSystem->Init();
@@ -323,6 +326,7 @@ namespace Carmicah
             {
                 souSystem->PlaySoundThis("BGM_SetupPhase_Mix1", SoundCategory::BGM, SoundSystem::SOUND_INGAME, true, 0.4f);
                 gScriptSystem->OnStart();
+                fsmSystem->Init();
                 // go to run time after starting up all script objects
                 gameSystem->mNextState = gameSystem->mCurrState = SceneState::RUNTIME;
             }
@@ -374,18 +378,22 @@ namespace Carmicah
                         CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
           
                     }
+                
+                    fsmSystem->OnUpdate(CarmicahTime::GetInstance()->GetDeltaTime());
+                
+                
+                    CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
+                    aniSystem->Update();
+                    CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
+
+                    CarmicahTime::GetInstance()->StartSystemTimer("SoundSystem");
+                    souSystem->Update();
+                    CarmicahTime::GetInstance()->StopSystemTimer("SoundSystem");
+                    CarmicahTime::GetInstance()->StartGPUTimer();
+                    CarmicahTime::GetInstance()->StopGPUTimer();
                 }
 
 
-                CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
-                aniSystem->Update();
-                CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
-
-                CarmicahTime::GetInstance()->StartSystemTimer("SoundSystem");
-                souSystem->Update();
-                CarmicahTime::GetInstance()->StopSystemTimer("SoundSystem");
-                CarmicahTime::GetInstance()->StartGPUTimer();
-                CarmicahTime::GetInstance()->StopGPUTimer();
 
 
                // glfwMakeContextCurrent(ImGuiWindow);
