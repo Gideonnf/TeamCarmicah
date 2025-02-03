@@ -338,6 +338,8 @@ namespace Carmicah
 
                 gScriptSystem->UpdateScripts(); // TODO: Add this to profiler
 
+                Input.Update();
+
                 if (gameSystem->mCurrState == SceneState::RUNTIME && SceneWindow::mIsPaused == false)
                 {
 
@@ -446,8 +448,6 @@ namespace Carmicah
 
                 // I WILL UPDAAATEEE BUTTONSYSTEM HERE OKKKKAAYYYY, PLS DONT CRASH CRYING EMOJI
 				butSystem->Update();
-
-                Input.Update();
 
                 // Putting mouse update here first after input update
                 // idk if it should be here
