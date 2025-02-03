@@ -24,14 +24,15 @@ namespace Carmicah
     {
     protected:
         std::string texture;
+        float col[4];
         bool notUpdated;
 
     public:
         std::string model;
 
-        Renderer() : texture("Default"), model("Square"), notUpdated(false)
+        Renderer() : texture("Default"), model("Square"), col(), notUpdated(false)
         {
-            
+            col[0] = col[1] = col[2] = col[3] = 1.f;
         }
 
         const std::string& Texture() const
@@ -48,6 +49,60 @@ namespace Carmicah
             texture = o;
             notUpdated = false;
         }
+        // I'm sorry, there's no vec4 lol
+        void Color(float* _in) const
+        {
+            std::memcpy(_in, col, sizeof(float) * 4);
+        }
+        void Color(float r = 1.f, float g = 1.f, float b = 1.f, float a = 1.f)
+        {
+            col[0] = r;
+            col[1] = g;
+            col[2] = b;
+            col[3] = a;
+            notUpdated = false;
+        }
+        void SetR(float val)
+        {
+            col[0] = val;
+            notUpdated = false;
+        }
+        void SetG(float val)
+        {
+            col[1] = val;
+            notUpdated = false;
+        }
+        void SetB(float val)
+        {
+            col[2] = val;
+            notUpdated = false;
+        }
+        void SetA(float val)
+        {
+            col[3] = val;
+            notUpdated = false;
+        }
+        float& GetR()
+        {
+            notUpdated = false;
+            return col[0];
+        }
+        float& GetG()
+        {
+            notUpdated = false;
+            return col[1];
+        }
+        float& GetB()
+        {
+            notUpdated = false;
+            return col[2];
+        }
+        float& GetA()
+        {
+            notUpdated = false;
+            return col[3];
+        }
+
         bool Updated()
         {
             bool ret = notUpdated;
@@ -59,6 +114,14 @@ namespace Carmicah
         {
             model = component["model"].GetString();
             texture = component["texture"].GetString();
+            // Added inbetween M3 & M4
+            if (component.HasMember("ColR"))
+            {
+                col[0] = static_cast<float>(component["colR"].GetDouble());
+                col[1] = static_cast<float>(component["colG"].GetDouble());
+                col[2] = static_cast<float>(component["colB"].GetDouble());
+                col[3] = static_cast<float>(component["colA"].GetDouble());
+            }
             return *this;
         }
 
@@ -68,6 +131,14 @@ namespace Carmicah
             writer.String(model.c_str());
             writer.String("texture");
             writer.String(texture.c_str());
+            writer.String("colR");
+            writer.Double(static_cast<double>(col[0]));
+            writer.String("colG");
+            writer.Double(static_cast<double>(col[1]));
+            writer.String("colB");
+            writer.Double(static_cast<double>(col[2]));
+            writer.String("colA");
+            writer.Double(static_cast<double>(col[3]));
         }
     };
 }
