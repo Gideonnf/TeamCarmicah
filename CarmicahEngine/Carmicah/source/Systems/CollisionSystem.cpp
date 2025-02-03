@@ -39,6 +39,16 @@ namespace Carmicah
 		std::cout << "Entities in collision system: " << mEntitiesSet.size() << std::endl;
 	}
 
+	/**
+	 * @brief Retrieves or assigns a unique index for the given entity.
+	 *
+	 * This function checks if the given entity already has an assigned index in the `entityIndexMap`.
+	 * If the entity is not found, it assigns a new unique index to the entity, increments the
+	 * internal counter, and stores the mapping. The function then returns the index of the entity.
+	 *
+	 * @param entity The entity for which to retrieve or assign an index.
+	 * @return int The unique index associated with the given entity.
+	 */
 	int CollisionSystem::GetEntityIndex(Entity& entity)
 	{
 		if (entityIndexMap.find(entity) == entityIndexMap.end())
@@ -48,6 +58,15 @@ namespace Carmicah
 		return entityIndexMap[entity];
 	}
 
+	/**
+	 * @brief Inserts an entity into the spatial grid based on its position.
+	 *
+	 * This function calculates the grid cell for the given entity based on its position
+	 * and updates the corresponding row and column bitsets in the spatial grid.
+	 *
+	 * @param entity The entity to be inserted into the grid.
+	 * @param position The position of the entity in 2D space.
+	 */
 	void CollisionSystem::InsertEntityToGrid(Entity& entity, const Vec2f& position)
 	{
 		int row = static_cast<int>(position.y / cellSize);
@@ -64,6 +83,17 @@ namespace Carmicah
 		}
 	}
 
+	/**
+	 * @brief Retrieves potential collision candidates for a given entity.
+	 *
+	 * This function determines the grid cell for the given entity and combines
+	 * the bitsets for the corresponding row and column. It then returns a list
+	 * of entities that potentially collide with the given entity.
+	 *
+	 * @param entity The entity for which to find potential collisions.
+	 * @param position The position of the entity in 2D space.
+	 * @return std::vector<Entity> A vector of entities that potentially collide with the given entity.
+	 */
 	std::vector<Entity> CollisionSystem::GetPotentialCollisions(Entity& entity, const Vec2f& position)
 	{
 		int row = static_cast<int>(position.y / cellSize);
@@ -103,7 +133,14 @@ namespace Carmicah
 		return potentialCollisions;
 	}
 
-	void CollisionSystem::ClearGrid() {
+	/**
+	 * @brief Clears all entities from the spatial grid.
+	 *
+	 * This function resets all bitsets in both the row and column arrays,
+	 * effectively removing all entities from the spatial grid.
+	 */
+	void CollisionSystem::ClearGrid() 
+	{
 		for (int i = 0; i < GRID_HEIGHT; i++)
 		{
 			rowsBitArray[i].reset();
@@ -113,26 +150,6 @@ namespace Carmicah
 			colsBitArray[i].reset();
 		}
 	}
-
-	/*
-
-	void CollisionSystem::InitGrid(size_t maxEntities)
-	{
-		currentEntityCount = maxEntities;
-		rowsBitArray.resize(GRID_HEIGHT, std::vector<bool>(maxEntities, false));
-		colsBitArray.resize(GRID_WIDTH, std::vector<bool>(maxEntities, false));
-	}
-
-	void CollisionSystem::UpdateEntityCount(size_t newEntityCount)
-	{
-		currentEntityCount = newEntityCount;
-		for (auto& row : rowsBitArray) {
-			row.resize(newEntityCount, false);
-		}
-		for (auto& col : colsBitArray) {
-			col.resize(newEntityCount, false);
-		}
-	}*/
 
 	/**
 	 * @brief Updates the Oriented Bounding Box (OBB) for a given entity based on its transform and associated primitive model.
@@ -174,10 +191,22 @@ namespace Carmicah
 
 				for (const auto& vertex : primitive.vtx)
 				{
-					if (vertex.x < minX) minX = vertex.x;
-					if (vertex.x > maxX) maxX = vertex.x;
-					if (vertex.y < minY) minY = vertex.y;
-					if (vertex.y > maxY) maxY = vertex.y;
+					if (vertex.x < minX)
+					{
+						minX = vertex.x;
+					}
+					if (vertex.x > maxX)
+					{
+						maxX = vertex.x;
+					}
+					if (vertex.y < minY)
+					{
+						minY = vertex.y;
+					}
+					if (vertex.y > maxY)
+					{
+						maxY = vertex.y;
+					}
 				}
 
 				std::string retrievedTexture = rend.GetTexture();
@@ -383,7 +412,7 @@ namespace Carmicah
 	void CollisionSystem::ComputeProjInterval(Entity& obj, Vec2f edgeNormal, float& min, float& max)
 	{
 			auto* componentManager = ComponentManager::GetInstance();
-			auto& transform = componentManager->GetComponent<Transform>(obj);
+			
 			auto& collider = componentManager->GetComponent<Collider2D>(obj);
 
 			//min = max = edgeNormal.dot(collider.objEdges[0]);
@@ -809,7 +838,7 @@ namespace Carmicah
 
 				for (Entity entity2 : nearbyEntities)
 				{
-					auto& transform2 = componentManager->GetComponent<Transform>(entity2);
+					
 
 
 						if (TestIntersection(entity1, entity2))

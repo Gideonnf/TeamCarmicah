@@ -47,10 +47,6 @@ namespace Carmicah
 
 		std::vector<Entity> GetPotentialCollisions(Entity& entity, const Vec2f& position);
 
-		void InitGrid(size_t maxEntities);
-
-		void UpdateEntityCount(size_t newEntityCount);
-
 		void UpdateOBB(Entity& obj);
 
 		void ComputeProjInterval(Entity& obj, Vec2f edgeNormal, float& min, float& max);
