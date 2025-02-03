@@ -2,6 +2,7 @@
 
 layout (location=0)		in vec2				vTexCoord;
 layout (location=1)		flat in uvec2		vID;
+layout (location=2)		in vec4				vColor;
 
 layout (location=0)		out vec4			fFragColor; // location 0 is default GL_BACK_LEFT color buffer
 layout (location=1)		out unsigned int	fGID;
@@ -13,7 +14,7 @@ layout (binding = 0) uniform sampler2DArray 	uTex;
 uniform int		uPassNum;	
 
 void main(void){
-	vec4 col = texture(uTex, vec3(vTexCoord, vID.y) );
+	vec4 col = texture(uTex, vec3(vTexCoord, vID.y) ) * vColor;
 
 	if(uPassNum == 0)// Solid Pass
 	{

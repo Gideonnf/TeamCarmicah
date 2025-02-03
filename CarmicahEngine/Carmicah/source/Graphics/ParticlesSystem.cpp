@@ -19,7 +19,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/GOFactory.h"
 
 #include "Components/Transform.h"
-#include "Components/Renderer.h"
+#include "Components/Particles.h"
 
 #include "ECS/SystemManager.h"
 #include "ECS/ComponentManager.h"
@@ -33,7 +33,7 @@ namespace Carmicah
 	{
 		// Set the signature of the system
 		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
-		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Renderer>());
+		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Particles>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<ParticlesSystem>(mSignature);
 		BaseGraphicsSystem::Init(AssetManager::GetInstance()->enConfig.defaultShader);
@@ -51,40 +51,22 @@ namespace Carmicah
 
 	void ParticlesSystem::Update()
 	{
+		// Generate particles
 		for (std::unordered_map<unsigned int, EntityData>::iterator entity = mEntityBufferLoc.begin(); entity != mEntityBufferLoc.end();)
 		{
-			if (!ComponentManager::GetInstance()->HasComponent<Renderer>(entity->first) || !ComponentManager::GetInstance()->HasComponent<Transform>(entity->first))
-			{
-				DeleteBatchData(entity->first);
-				entity = mEntityBufferLoc.erase(entity);
-				continue;
-			}
+			auto& particles = ComponentManager::GetInstance()->GetComponent<Particles>(entity->first);
 
-			auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(entity->first);
 
-			if (!transform.Updated() && !ComponentManager::GetInstance()->GetComponent<Renderer>(entity->first).Updated())
-			{
-				++entity;
-				continue;
-			}
 
-			EditBatchData(entity->first, true, BASE_LAYER);
 			++entity;
 		}
 		
-		// Add new Data
-		if (mActiveEntityCount != mEntitiesSet.size())
-		{
-			for (auto& entity : mEntitiesSet)
-			{
-				// if entity is active -> skip
-				if (mEntityBufferLoc.find(entity) != mEntityBufferLoc.end())
-					continue;
+		// Batch Render Particles
 
-				SetNewEntity(entity, ComponentManager::GetInstance()->GetComponent<Renderer>(entity).model, 0, true, false);
-				EditBatchData(entity, true, BASE_LAYER);
-			}
-		}
+		//EditBatchData(entity->first, true, BASE_LAYER);
+		
+		//SetNewEntity(entity, ComponentManager::GetInstance()->GetComponent<Renderer>(entity).model, 0, true, false);
+		//EditBatchData(entity, true, BASE_LAYER);
 	}
 
 }
