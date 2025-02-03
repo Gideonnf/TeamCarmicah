@@ -78,7 +78,8 @@ struct Script : BaseComponent<Script>
 		for (const auto& [name, variant] : scriptableFieldMap)
 		{
 			writer.String(name.c_str(), static_cast<rapidjson::SizeType>(name.length()));
-			std::visit([&](auto&& arg) {
+			WriteVariant(variant, writer);
+			/*std::visit([&](auto&& arg) {
 				using T = std::decay_t<decltype(arg)>;
 				if constexpr (std::is_same_v<T, int>)
 				{
@@ -97,7 +98,7 @@ struct Script : BaseComponent<Script>
 					std::string var = arg;
 					writer.String(var.c_str());
 				}
-			}, variant);
+			}, variant);*/
 		}
 		writer.EndObject();
 		writer.EndArray();
