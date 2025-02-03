@@ -1,11 +1,11 @@
 ﻿/* File Documentation ----------------------------------------------------------------------------- 
-file:           PlayButton.cs
+file:           SkipButton.cs
 
 author:		    Micah Lim (100%)
 
 email:			micahshengyao.lim@digipen.edu
 
-brief:          This file defines the `PlayButton` class, a UI entity that triggers a scene change 
+brief:          This file defines the `SkipButton` class, a UI entity that triggers a scene change 
                 when clicked. It demonstrates interaction with the `Scene` system to switch to a 
                 specified scene within the Carmicah engine.
 
@@ -25,13 +25,11 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
-    public class PlayButton : Entity
+    public class SkipButton : Entity
     {
         void OnClick()
         {
-            Console.WriteLine($"Testing Play Button {mID}");
-
-            Scene.ChangeScene("Scene1");
+            Scene.ChangeScene("Scene3");
         }
     }
 }
