@@ -16,9 +16,13 @@ namespace Carmicah
         {
             if (trapEntity == null) return;
 
+            //CMConsole.Log("It shouldnt be here atm");
+
             //if (IsKeyHold(Keys.))
             Vector2 mousePos = Input.GetMousePos();
             trapEntity.Position = mousePos;
+
+
 
             if (Input.IsMouseReleased(MouseButtons.MOUSE_BUTTON_LEFT))
             {
