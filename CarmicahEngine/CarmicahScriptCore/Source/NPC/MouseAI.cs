@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 
@@ -63,7 +64,7 @@ namespace Carmicah
         public float ChanceToDie = 0.12f;
         public float TimeToDie = 1.5f;
         public float timer;
-        public float DeathTime = 1.5f;
+        public float DeathTime = 2.0f;
 
         int animType = 0;
         int randLane = 0;
@@ -199,8 +200,12 @@ namespace Carmicah
             }
 
             float dist = Position.Distance(endPos);
+            CMConsole.Log($"Distance to end {dist}");
+
             if (dist <= 0.3f)
             {
+                CMConsole.Log("Dying");
+
                 timer = 0.0f;
                 GetComponent<StateMachine>().SetStateCondition(1);
             }
@@ -216,6 +221,7 @@ namespace Carmicah
 
             timer = 0.0f;
             GetComponent<StateMachine>().SetStateCondition(1);
+            CMConsole.Log("Dying");
         }
 
         public void KillMouse()
@@ -231,6 +237,12 @@ namespace Carmicah
            // CMConsole.Log($"Update State Name: {stateName}");
             if (stateName == "Dead")
             {
+                timer = 0.0f;
+
+                GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                if (gm != null)
+                    gm.EntityDestroyed(this);
+
                 //CMConsole.Log("TESTING Enter State");
                 switch (animType)
                 {
@@ -281,12 +293,8 @@ namespace Carmicah
             else if (stateName == "Dead")
             {
                 timer += dt;
-
-                GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                 if (timer >= DeathTime)
                 {
-                    if (gm != null)
-                        gm.EntityDestroyed(this);
 
                     timer = 0.0f;
                     Destroy();
