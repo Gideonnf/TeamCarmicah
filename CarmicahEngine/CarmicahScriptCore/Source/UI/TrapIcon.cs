@@ -10,7 +10,7 @@ namespace Carmicah
     public class TrapIcon : Entity
     {
         public string trapPrefab = "Trap_1";
-        Entity trapEntity;
+        public Entity trapEntity;
 
         void OnUpdate(float dt)
         {
