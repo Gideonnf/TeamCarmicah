@@ -21,6 +21,16 @@ namespace Carmicah
 {
 	class ParticlesSystem : public BaseSystem, private BaseGraphicsSystem
 	{
+	private:
+		struct partic
+		{
+			Vec2f pos;
+			Vec2f vel;
+			float timeLeft;
+		};
+
+		std::vector<partic> mWorldParticles, mUIParticles;
+
 	public:
 		/*!*************************************************************************
 		brief
