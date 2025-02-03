@@ -811,14 +811,19 @@ namespace Carmicah
 				for (Entity entity2 : nearbyEntities)
 				{
 					auto& transform2 = componentManager->GetComponent<Transform>(entity2);
-
-
+					auto& transformSys = SystemManager::GetInstance()->GetSystem<TransformSystem>();
+					if (transformSys->CheckLayerInteraction(transform1.collisionMask, transform2.collisionMask))
+					{
 						if (TestIntersection(entity1, entity2))
 						{
+							//if (transformSys->CheckLayerInteraction(transform1.collisionMask, transform2.collisionMask))
+							//{
+							//	CM_CORE_INFO("why tf is it colliding");
+							//}
+
 							CollisionResponse(entity1, entity2);
 						}
-
-					
+					}
 				}
 			}
 			else if (rigidbody1.objectType == rbTypes::KINEMATIC)
@@ -834,6 +839,10 @@ namespace Carmicah
 					{
 						if (TestIntersection(entity1, entity2))
 						{
+							//if (transformSys->CheckLayerInteraction(transform1.collisionMask, transform2.collisionMask))
+							//{
+							//	CM_CORE_INFO("why tf is it colliding");
+							//}
 							CollisionResponse(entity1, entity2);
 						}
 

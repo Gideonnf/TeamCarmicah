@@ -23,11 +23,11 @@
         },
         {
             "Layer Index": 2,
-            "Layer Mask": 4294967291
+            "Layer Mask": 4294967283
         },
         {
             "Layer Index": 3,
-            "Layer Mask": 4294967295
+            "Layer Mask": 4294967291
         }
     ]
 }

@@ -182,7 +182,7 @@
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,
-                    "collisionMask": 0
+                    "collisionMask": 8
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -648,12 +648,12 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "LeftOrRight": false,
-                            "waveTimer": 0.0,
-                            "MousePrefabName": "MouseGO",
                             "StartingCake": "StartingCake",
-                            "spawnTimer": 1.5,
+                            "MousePrefabName": "MouseGO",
+                            "waveTimer": 0.0,
+                            "LeftOrRight": false,
                             "CakeHeightOffset": 5.349999904632568,
+                            "spawnTimer": 1.5,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
                             "PlayerName": "mainCharacter",
@@ -971,7 +971,7 @@
                     "xScale": 5.441271781921387,
                     "yScale": 0.6269400119781494,
                     "rot": -161.88571166992188,
-                    "collisionMask": 0
+                    "collisionMask": 8
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -1016,7 +1016,7 @@
                     "xScale": 5.441271781921387,
                     "yScale": 0.6269400119781494,
                     "rot": -30.095834732055665,
-                    "collisionMask": 0
+                    "collisionMask": 8
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -1061,7 +1061,7 @@
                     "xScale": 9.370100021362305,
                     "yScale": 0.6269400119781494,
                     "rot": -157.17616271972657,
-                    "collisionMask": 0
+                    "collisionMask": 8
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -1106,7 +1106,7 @@
                     "xScale": 5.441271781921387,
                     "yScale": 0.6269400119781494,
                     "rot": -198.91342163085938,
-                    "collisionMask": 0
+                    "collisionMask": 8
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
