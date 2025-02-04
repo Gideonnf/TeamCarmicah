@@ -31,7 +31,7 @@ namespace Carmicah
     {
         public float spawnTimer = 0.5f;
         public string MousePrefabName = "MouseGO";
-        public string CakePrefabName = "Cake";
+        public string CakePrefabName = "StartingCake";
         public string PlayerName = "mainCharacter";
         public float timer = 0.0f;
         public bool LeftOrRight = false;
@@ -45,8 +45,8 @@ namespace Carmicah
         public string EndPointEntityRight;
         public string EndPointEntityLeft2;
         public string EndPointEntityRight2;
-        public string ShooterNPC = "ShooterNPC";
-        public string ShooterNPC2 = "ShooterNPC_1";
+        public string HeroBuild = "HeroBuild";
+        public string HeroBuild1 = "HeroBuild_1";
 
         public bool GameStart = false;
         public float MobCounter = 0;
@@ -59,8 +59,9 @@ namespace Carmicah
         Entity endEntityRight;
         Entity endEntityLeft2;
         Entity endEntityRight2;
-        Entity shooterNPC;
-        Entity shooterNPC2;
+        List<Entity> npcList;
+        Entity heroBuildEntity;
+        Entity heroBuildEntity1;
 
         Entity wall;
         Entity wall1;
@@ -72,6 +73,7 @@ namespace Carmicah
         {
             mouseEntitiesLeft = new List<MouseAI>();
             mouseEntitiesRight = new List<MouseAI>();
+            npcList = new List<Entity>();
 
             endEntityLeft = FindEntityWithName(EndPointEntityLeft);
             endEntityRight = FindEntityWithName(EndPointEntityRight);
@@ -80,8 +82,8 @@ namespace Carmicah
 
             startingCakeEntity = FindEntityWithName(StartingCake);
             playerEntity = FindEntityWithName(PlayerName);
-            shooterNPC = FindEntityWithName(ShooterNPC);
-            shooterNPC2 = FindEntityWithName(ShooterNPC2);
+            heroBuildEntity = FindEntityWithName(HeroBuild);
+            heroBuildEntity1 = FindEntityWithName(HeroBuild1);
 
             wall = FindEntityWithName("Wall");
             wall1 = FindEntityWithName("Wall_1");
@@ -97,6 +99,18 @@ namespace Carmicah
                 if (pauseManager.As<PauseManager>().IsPaused)
                     return;
             }
+
+            // get rid of any npcs that got destroyed?? maybe??
+            // I havent gotten to killing NPCs yet so idk if this works
+            foreach (Entity npc in npcList)
+            {
+                if (npc.mID == 0)
+                {
+                    npcList.Remove(npc);
+                    break;
+                }
+            }
+
 
             waveTimer += dt;
 
@@ -171,79 +185,7 @@ namespace Carmicah
                     cakeEntity.Position = pos;
                     cakeCounter++;
 
-                    if (playerEntity != null)
-                    {
-                        pos = playerEntity.Position;
-                        pos.y += CakeHeightOffset;
-                        playerEntity.Position = pos;
-                    }
-
-                    if (endEntityLeft != null)
-                    {
-                        pos = endEntityLeft.Position;
-                        pos.y += CakeHeightOffset;
-                        endEntityLeft.Position = pos;
-                    }
-
-                    if (endEntityLeft2 != null)
-                    {
-                        pos = endEntityLeft2.Position;
-                        pos.y += CakeHeightOffset;
-                        endEntityLeft2.Position = pos;
-                    }
-
-                    if (endEntityRight != null)
-                    {
-                        pos = endEntityRight.Position;
-                        pos.y += CakeHeightOffset;
-                        endEntityRight.Position = pos;
-                    }
-
-                    if (endEntityRight2 != null)
-                    {
-                        pos = endEntityRight2.Position;
-                        pos.y += CakeHeightOffset;
-                        endEntityRight2.Position = pos;
-                    }
-
-                    if (shooterNPC != null)
-                    {
-                        pos = shooterNPC.Position;
-                        pos.y += CakeHeightOffset;
-                        shooterNPC.Position = pos;
-                    }
-
-                    if (shooterNPC2 != null)
-                    {
-                        pos = shooterNPC2.Position;
-                        pos.y += CakeHeightOffset;
-                        shooterNPC2.Position = pos;
-                    }
-
-                    if (wall != null)
-                    {
-                        pos = wall.Position;
-                        pos.y += CakeHeightOffset;
-                        wall.Position = pos;
-                    }
-                    if (wall1 != null)
-                    {
-                        pos = wall1.Position;
-                        pos.y += CakeHeightOffset;
-                        wall1.Position = pos;
-                    }
-                    if (wall2 != null)
-                    {
-                        pos = wall2.Position;
-                        pos.y += CakeHeightOffset;
-                        wall2.Position = pos;
-                    }
-                    if (wall3 != null)
-                    {
-                        pos = wall3.Position;
-                        pos.y += CakeHeightOffset;
-                        wall3.Position = pos;
-                    }
+                    UpdatePositions();
                 }
             }
         }
@@ -253,17 +195,13 @@ namespace Carmicah
             GameStart = true;
             MobCounter += NumOfMobs;
             waveCount++;
-            if (shooterNPC != null)
-            {
-                HeroAI npc = shooterNPC.As<HeroAI>();
-                npc.ToggleShooting();
 
-            }
-
-            if (shooterNPC2 != null)
+            foreach (Entity npc in npcList)
             {
-                HeroAI npc = shooterNPC2.As<HeroAI>();
-                npc.ToggleShooting();
+                if (npc.mID == 0) continue;
+
+                HeroAI heroNpc = npc.As<HeroAI>();
+                heroNpc.ToggleShooting();
             }
 
             GameStart = true;
@@ -274,17 +212,12 @@ namespace Carmicah
             if (GameStart)
             {
                 GameStart = false;
-                if (shooterNPC != null)
+                foreach (Entity npc in npcList)
                 {
-                    HeroAI npc = shooterNPC.As<HeroAI>();
-                    npc.ToggleIdle();
+                    if (npc.mID == 0) continue;
 
-                }
-
-                if (shooterNPC2 != null)
-                {
-                    HeroAI npc = shooterNPC2.As<HeroAI>();
-                    npc.ToggleIdle();
+                    HeroAI heroNpc = npc.As<HeroAI>();
+                    heroNpc.ToggleIdle();
                 }
             }
         }
@@ -355,10 +288,99 @@ namespace Carmicah
             return targetMouse;
         }
 
-        //public Entity GetFirstMouse()
-        //{
-        //    return mouseEntities.First();
-        //}
+        public void NewNPC(Entity entity)
+        {
+            npcList.Add(entity);
+            CMConsole.Log($"New NPC Entity{entity.mID}");
+        }
+
+        public void UpdatePositions()
+        {
+            Vector2 pos = new Vector2();
+
+            if (playerEntity != null)
+            {
+                pos = playerEntity.Position;
+                pos.y += CakeHeightOffset;
+                playerEntity.Position = pos;
+            }
+
+            if (endEntityLeft != null)
+            {
+                pos = endEntityLeft.Position;
+                pos.y += CakeHeightOffset;
+                endEntityLeft.Position = pos;
+            }
+
+            if (endEntityLeft2 != null)
+            {
+                pos = endEntityLeft2.Position;
+                pos.y += CakeHeightOffset;
+                endEntityLeft2.Position = pos;
+            }
+
+            if (endEntityRight != null)
+            {
+                pos = endEntityRight.Position;
+                pos.y += CakeHeightOffset;
+                endEntityRight.Position = pos;
+            }
+
+            if (endEntityRight2 != null)
+            {
+                pos = endEntityRight2.Position;
+                pos.y += CakeHeightOffset;
+                endEntityRight2.Position = pos;
+            }
+
+            if (heroBuildEntity != null)
+            {
+                pos = heroBuildEntity.Position;
+                pos.y += CakeHeightOffset;
+                heroBuildEntity.Position = pos;
+            }
+
+            if (heroBuildEntity1 != null)
+            {
+                pos = heroBuildEntity1.Position;
+                pos.y += CakeHeightOffset;
+                heroBuildEntity1.Position = pos;
+            }
+
+            if (wall != null)
+            {
+                pos = wall.Position;
+                pos.y += CakeHeightOffset;
+                wall.Position = pos;
+            }
+            if (wall1 != null)
+            {
+                pos = wall1.Position;
+                pos.y += CakeHeightOffset;
+                wall1.Position = pos;
+            }
+            if (wall2 != null)
+            {
+                pos = wall2.Position;
+                pos.y += CakeHeightOffset;
+                wall2.Position = pos;
+            }
+            if (wall3 != null)
+            {
+                pos = wall3.Position;
+                pos.y += CakeHeightOffset;
+                wall3.Position = pos;
+            }
+
+            foreach (Entity npc in npcList)
+            {
+                if (npc.mID == 0) continue;
+
+                pos = npc.Position;
+                pos.y += CakeHeightOffset;
+                npc.Position = pos;
+            }
+        }
 
     }
 }

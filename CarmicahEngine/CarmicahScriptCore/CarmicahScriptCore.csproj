@@ -64,6 +64,7 @@
     <Compile Include="Source\GameManager.cs" />
     <Compile Include="Source\GameObject.cs" />
     <Compile Include="Source\HealthSystem.cs" />
+    <Compile Include="Source\HeroBuild.cs" />
     <Compile Include="Source\NPC\HeroAI.cs" />
     <Compile Include="Source\NPC\MouseAI.cs" />
     <Compile Include="Source\NPC\MouseState.cs" />
@@ -79,7 +80,7 @@
     <Compile Include="Source\System\Keys.cs" />
     <Compile Include="Source\System\Scene.cs" />
     <Compile Include="Source\System\Sound.cs" />
-    <Compile Include="Source\System\StateMachine.cs" />
+    <Compile Include="Source\System\StateMachineOld.cs" />
     <Compile Include="Source\System\Vector2.cs" />
     <Compile Include="Source\Testing.cs" />
     <Compile Include="Source\TrapBuild.cs" />
