@@ -29,6 +29,8 @@ namespace Carmicah
 {
     public class MouseAI : Entity
     {
+        private HealthSystem healthSystem;
+
         public string SpawnPointEntityLeft;
         public string SpawnPointEntityRight;
         public string EndPointEntityLeft;
@@ -97,7 +99,7 @@ namespace Carmicah
             animType = rand.Next(0, 4); // rand between 1 to 3
             randLane = rand.Next(0, 4); // rand between 1 to 3
 
-            
+            healthSystem = new HealthSystem(100);
 
             switch (animType)
             {
@@ -221,9 +223,17 @@ namespace Carmicah
                 return;
             }
 
-            timer = 0.0f;
-            GetComponent<StateMachine>().SetStateCondition(1);
-            CMConsole.Log("Dying");
+            // apply damage 
+            healthSystem.TakeDamage(20);
+            CMConsole.Log($"Mouse Health: {healthSystem.CurrentHealth}");
+
+            // check if mouse should die
+            if (healthSystem.CurrentHealth == 0)
+            {
+                timer = 0.0f;
+                GetComponent<StateMachine>().SetStateCondition(1);
+                CMConsole.Log("Dying");
+            }
         }
 
         public void KillMouse()
@@ -240,6 +250,13 @@ namespace Carmicah
             
             if (stateName == "Dead")
             {
+                // check if mouse health above 0, if so, return
+                if (healthSystem.CurrentHealth > 0)
+                {
+                    CMConsole.Log($"Mouse {mID} still has health. Ignore 'Dead' state transition.");
+                    return;
+                }
+
                 timer = 0.0f;
 
                 GameManager gm = FindEntityWithName("GameManager").As<GameManager>();

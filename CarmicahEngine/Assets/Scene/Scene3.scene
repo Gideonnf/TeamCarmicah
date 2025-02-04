@@ -135,7 +135,11 @@
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.CreditsButton",
                     "ScriptableFieldMap": [
-                        {}
+                        {
+                            "IsCreated": false,
+                            "CreditsCloseButton": "Close_Button_2",
+                            "CreditsMenu": "Credits_Menu"
+                        }
                     ]
                 },
                 {
