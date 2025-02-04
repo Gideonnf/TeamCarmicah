@@ -52,8 +52,8 @@ namespace Carmicah
 		fileWatcher.Init(assetPath);
 #ifndef CM_INSTALLER
 		fileWatcher.Update();
-		RenderHelper::GetInstance()->LoadGizmos();
 #endif
+		RenderHelper::GetInstance()->LoadGizmos();
 		// load default scene files
 		//fileWatcher.LoadSceneFiles(enConfig.defaultScene);
 

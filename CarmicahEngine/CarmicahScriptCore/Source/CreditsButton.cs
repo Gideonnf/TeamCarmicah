@@ -13,7 +13,6 @@ Reproduction or disclosure of this file or its contents without the prior writte
 DigiPen Institute of Technology is prohibited.
 --------------------------------------------------------------------------------------------------*/
 
-// add the entitiy onto the enemy script
 
 using Carmicah;
 using System;
@@ -31,20 +30,21 @@ namespace Carmicah
 
         public CreditsButton()
         {
-            // init a HealthSystem instance with max health of 100
+            // Initialize a HealthSystem instance with max health of 100
             healthSystem = new HealthSystem(100);
         }
 
         void OnClick()
         {
-            // 1. pause game state
-            // 2. open credits scene
+            // 1. Pause game state
+            // 2. Open Credits Scene
             // Tell scene to open animation of the credits
 
             // test the HealthSystem's TakeDamage function
             healthSystem.TakeDamage(20); // Inflict 20 damage
             Console.WriteLine($"Testing Button {mID}: Current Health is {healthSystem.CurrentHealth}");
 
+            Console.WriteLine($"Testing Button {mID}");
         }
     }
 }

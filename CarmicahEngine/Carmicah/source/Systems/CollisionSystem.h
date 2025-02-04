@@ -14,12 +14,16 @@ DigiPen Institute of Technology is prohibited.
 #pragma once
 #include "ECS/BaseSystem.h"
 #include "../Math/Vec2.h"
+#include <bitset>
+
 
 namespace Carmicah
 {
+
 	class CollisionSystem : public BaseSystem
 	{
 	private:
+
 		static constexpr int MAX_ENTITIES = 1024;
 		static constexpr int GRID_WIDTH = 100;
 		static constexpr int GRID_HEIGHT = 100;
@@ -30,6 +34,7 @@ namespace Carmicah
 
 		std::unordered_map<Entity, int> entityIndexMap;
 		int entityCounter = 0;
+
 		
 	public:
 		void PrintEntities();

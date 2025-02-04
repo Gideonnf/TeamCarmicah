@@ -320,9 +320,13 @@ namespace Carmicah
 				for (int i = 0; i < 32; ++i)
 				{
 					uint32_t layerBit = 1 << i;
-					const char* layerName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
+					char const* layerName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
 					bool isEnabled = colMask & layerBit;
-					if (layerName == "NULL")
+
+					if (layerName == nullptr)
+						continue;
+
+					if (std::strcmp(layerName,"NULL") == 0)
 						continue;
 					if (isEnabled)
 					{
@@ -343,9 +347,12 @@ namespace Carmicah
 					for (int i = 0; i < 32; ++i)
 					{
 						uint32_t layerBit = 1 << i;
-						const char* layerName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
+						char const* layerName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
 						bool isEnabled = colMask & layerBit;
-						if (layerName == "NULL")
+						if (layerName == nullptr)
+							continue;
+
+						if (std::strcmp(layerName, "NULL") == 0)
 							continue;
 						if (!isEnabled)
 						{
@@ -542,6 +549,10 @@ namespace Carmicah
 					for (const auto& entry : textureMap->mAssetMap)
 					{
 						if (entry.first.empty()) continue; // TODO: Find out why "" is being added to asset map
+						if (entry.first.find("SpriteSheet") != std::string::npos)
+						{
+							continue;
+						}
 						if (ImGui::Button(entry.first.c_str()))
 						{
 							render.Texture(entry.first);
@@ -1217,11 +1228,13 @@ namespace Carmicah
 		}
 	}
 
+
+
 	template<typename T>
 	void InspectorWindow::RenderStateMachineTable(T* go, TABLETYPE type)
 	{
 		StateMachine& stateMachine = go->GetComponent<StateMachine>();
-		Entity id = go->GetID();
+		//Entity id = go->GetID();
 
 		if (ImGui::CollapsingHeader("State Machine Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
@@ -1229,8 +1242,8 @@ namespace Carmicah
 			{
 			case GAMEOBJECT:
 			{
-				InspectorWindow::RemoveComponentButton<StateMachine>(go);
-				break;
+				if (InspectorWindow::RemoveComponentButton<StateMachine>(go))
+					break;
 			}
 			case PREFAB:
 			{
@@ -1252,20 +1265,23 @@ namespace Carmicah
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Current State:");
+				std::string currState = stateMachine.currState;
 				ImGui::TableNextColumn();
-				ImGui::Text("WTV CURRENT");
+				ImGui::Text(currState.c_str());
 
-				ImGui::TableNextRow();
+				/*ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Next State:");
+				std::string nextState = stateMachine.nextState;
 				ImGui::TableNextColumn();
-				ImGui::Text("WTV NEXT");
+				ImGui::Text(nextState.c_str());*/
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Starting State:");
+				std::string startState = stateMachine.startingState;
 				ImGui::TableNextColumn();
-				ImGui::Text("WTV STARTING");
+				ImGui::Text(startState.c_str());
 
 
 				ImGui::EndTable();

@@ -56,7 +56,17 @@ namespace Carmicah
 		void Init(std::string filePath);
 		auto DestroyFile(File file);
 		void Update();
+		bool AssetExist(std::string assetName);
+		/// <summary>
+		/// Used to load from scene.asset file
+		/// </summary>
+		/// <param name="sceneFile"></param>
 		void LoadSceneFiles(std::string const& sceneFile);
+		/// <summary>
+		/// Used to load singular objects. Mainly used when breaking down prefabs and loading extra assets
+		/// </summary>
+		/// <param name="sceneFile"></param>
+		void LoadSceneFile(std::string const& sceneFile);
 		void LoadSoundFiles();
 
 	};

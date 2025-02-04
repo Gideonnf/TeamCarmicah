@@ -23,8 +23,7 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
-    // creat a HealthSystem class that inherits from Entity
-    public class HealthSystem
+    public class HealthSystem : Entity
     {
         // health vals
         private int mCurHealth;
@@ -41,8 +40,6 @@ namespace Carmicah
         // variable to represent current and max health
         public int CurrentHealth => mCurHealth;
         public int MaxHealth => mMaxHealth;
-
-
 
         // function to take damage
         public void TakeDamage(int damage)

@@ -72,6 +72,8 @@ namespace Carmicah
 		const uint32_t* GetLayerMap() const;
 
 		const char* GetLayerName(CollisionLayer layer);
+
+		bool CheckLayerInteraction(unsigned int layer1, unsigned int layer2);
 	};
 
 }
