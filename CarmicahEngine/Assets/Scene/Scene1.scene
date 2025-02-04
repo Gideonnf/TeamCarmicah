@@ -88,7 +88,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Walk 1"
+                    "texture": "MC_SpriteSheet_Walk 4"
                 },
                 {
                     "Component Name": "struct Script",
@@ -312,7 +312,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 9"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -387,12 +387,12 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "LeftOrRight": false,
-                            "waveTimer": 0.0,
-                            "MousePrefabName": "MouseGO",
                             "StartingCake": "StartingCake",
-                            "spawnTimer": 1.5,
+                            "MousePrefabName": "MouseGO",
+                            "waveTimer": 0.0,
+                            "LeftOrRight": false,
                             "CakeHeightOffset": 6.0,
+                            "spawnTimer": 1.5,
                             "timer": 0.0,
                             "CakePrefabName": "Cake",
                             "PlayerName": "mainCharacter",
@@ -611,7 +611,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Shooter_SpriteSheet_Shooter_Idle 9"
+                    "texture": "Shooter_SpriteSheet_Shooter_Idle 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -861,12 +861,57 @@
                             "stateCondition": 0,
                             "transitions": [
                                 {
-                                    "targetState": "Explode",
+                                    "targetState": "Attacking",
+                                    "condition": 2
+                                },
+                                {
+                                    "targetState": "Defending",
                                     "condition": 1
                                 },
                                 {
                                     "targetState": "Dead",
+                                    "condition": -1
+                                }
+                            ]
+                        },
+                        {
+                            "stateName": "Defending",
+                            "stateCondition": 1,
+                            "transitions": [
+                                {
+                                    "targetState": "Attacking",
                                     "condition": 2
+                                },
+                                {
+                                    "targetState": "Dead",
+                                    "condition": -1
+                                },
+                                {
+                                    "targetState": "bulletIdle",
+                                    "condition": 0
+                                }
+                            ]
+                        },
+                        {
+                            "stateName": "Dead",
+                            "stateCondition": -1,
+                            "transitions": []
+                        },
+                        {
+                            "stateName": "Attacking",
+                            "stateCondition": 2,
+                            "transitions": [
+                                {
+                                    "targetState": "bulletIdle",
+                                    "condition": 0
+                                },
+                                {
+                                    "targetState": "Defending",
+                                    "condition": 1
+                                },
+                                {
+                                    "targetState": "Dead",
+                                    "condition": -1
                                 }
                             ]
                         }
