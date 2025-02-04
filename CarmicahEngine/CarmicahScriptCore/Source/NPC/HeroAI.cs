@@ -59,9 +59,11 @@ namespace Carmicah
                    // CMConsole.Log($"Projectile Position: {projectile.Position.x}, {projectile.Position.y}");
 
                     Projectile bullet = projectile.As<Projectile>();
+                    Sound.PlaySFX("Shooter_Shooting");
                     if (bullet != null)
                     {
                         bullet.targetMouse = targetMouse;
+                        
                         bullet.SetUp(targetMouse);
                     }
                 }
@@ -76,6 +78,7 @@ namespace Carmicah
             //check if the npc is already shooting
             isShooting = true;
             ChangeAnim(shootAnim);
+            
         }
 
         public void ToggleIdle()
