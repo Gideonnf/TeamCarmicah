@@ -10,7 +10,7 @@
             "xScale": 0.25,
             "yScale": 0.25,
             "rot": 0.0,
-            "collisionMask": 1
+            "collisionMask": 32
         },
         {
             "Component Name": "struct Script",

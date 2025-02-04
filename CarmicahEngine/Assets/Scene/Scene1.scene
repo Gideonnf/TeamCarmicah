@@ -264,7 +264,7 @@
                             "xScale": 1.0,
                             "yScale": 1.0,
                             "rot": 0.05306386947631836,
-                            "collisionMask": 8
+                            "collisionMask": 16
                         },
                         {
                             "Component Name": "struct Carmicah::Renderer",

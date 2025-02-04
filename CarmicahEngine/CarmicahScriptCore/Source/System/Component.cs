@@ -96,5 +96,10 @@ namespace Carmicah
         {
             FunctionCalls.SetAlpha(Entity.mID, val);
         }
+
+        public void ChangeTexture(string textureName)
+        {
+            FunctionCalls.ChangeTexture(Entity.mID, textureName);
+        }
     }
 }

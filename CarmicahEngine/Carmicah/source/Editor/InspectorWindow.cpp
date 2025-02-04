@@ -1279,6 +1279,24 @@ namespace Carmicah
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Starting State:");
+				ImGui::SameLine();
+				if (ImGui::Button("v##smStartingState"))
+				{
+					ImGui::OpenPopup("Starting State Select");
+				}
+
+				if (ImGui::BeginPopup("Starting State Select"))
+				{
+					for (auto& state : stateMachine.stateMap)
+					{
+						if (ImGui::Selectable(state.first.c_str()))
+						{
+							stateMachine.startingState = state.first;
+						}
+					}
+
+					ImGui::EndPopup();
+				}
 				std::string startState = stateMachine.startingState;
 				ImGui::TableNextColumn();
 				ImGui::Text(startState.c_str());
