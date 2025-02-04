@@ -264,7 +264,7 @@
                             "xScale": 1.0,
                             "yScale": 1.0,
                             "rot": 0.05306386947631836,
-                            "collisionMask": 8
+                            "collisionMask": 16
                         },
                         {
                             "Component Name": "struct Carmicah::Renderer",
@@ -657,12 +657,12 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "LeftOrRight": false,
-                            "waveTimer": 0.0,
-                            "MousePrefabName": "MouseGO",
                             "StartingCake": "StartingCake",
-                            "spawnTimer": 1.5,
+                            "MousePrefabName": "MouseGO",
+                            "waveTimer": 0.0,
+                            "LeftOrRight": false,
                             "CakeHeightOffset": 5.349999904632568,
+                            "spawnTimer": 1.5,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
                             "PlayerName": "mainCharacter",
