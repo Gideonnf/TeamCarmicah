@@ -13,15 +13,6 @@
             "collisionMask": 1
         },
         {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "jellybean_spritesheet",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
-        },
-        {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.Projectile",
             "ScriptableFieldMap": [
@@ -31,6 +22,15 @@
                     "Speed": 2.0
                 }
             ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "jellybean_spritesheet_coral_bean 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         },
         {
             "Component Name": "struct Carmicah::Collider2D",

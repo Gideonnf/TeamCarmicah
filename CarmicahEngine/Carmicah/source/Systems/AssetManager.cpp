@@ -593,6 +593,11 @@ namespace Carmicah
 			std::getline(ifs, texName);
 			if (texName.back() == '\r')
 				texName.pop_back();
+			if (ifs.eof())
+			{
+				a.numLoops = std::stoi(texName);
+				break;
+			}
 			std::getline(ifs, texTime);
 
 			a.anim.emplace_back(std::make_pair(std::stof(texTime), texName));
