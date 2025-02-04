@@ -411,7 +411,7 @@ namespace Carmicah
 						//Scene Hierarchy
 						if (ImGui::BeginTabItem("Scene Hierarchy"))
 						{
-							if(ImGui::TreeNodeEx(gGOFactory->sceneGO.sceneName.c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow))
+							if(ImGui::TreeNodeEx(SceneToImgui::GetInstance()->currentScene.c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow))
 							{
 
 								gGOFactory->ForAllSceneGOs([this](GameObject& go)
