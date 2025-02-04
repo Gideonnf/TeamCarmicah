@@ -336,7 +336,8 @@ namespace Carmicah
 				}
 
 				ImGui::SameLine();
-				if (ImGui::Button("v#######"))
+
+				if (ImGui::Button("v##colFlags"))
 				{
 					ImGui::OpenPopup("Collision Flag Select");
 				}
@@ -525,7 +526,7 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("Texture");
 				ImGui::SameLine();
-				if (ImGui::Button("v##."))
+				if (ImGui::Button("v##textureSelect"))
 				{
 					ImGui::OpenPopup("Texture Select");
 				}
@@ -1044,7 +1045,7 @@ namespace Carmicah
 				if(script.scriptName.empty())
 				{
 					ImGui::SameLine();
-					if (ImGui::Button("v#####"))
+					if (ImGui::Button("v##scriptSelect"))
 					{
 						ImGui::OpenPopup("Script Select");
 					}
@@ -1099,10 +1100,12 @@ namespace Carmicah
 				if (script.scriptName.empty())
 				{
 					ImGui::SameLine();
-					if (ImGui::Button("v#####"))
+					ImGui::PushID(2);
+					if (ImGui::Button("v##scriptSelect"))
 					{
 						ImGui::OpenPopup("Script Select");
 					}
+					ImGui::PopID();
 				}
 
 				for (auto& [fieldName, fieldValue] : script.scriptableFieldMap)
