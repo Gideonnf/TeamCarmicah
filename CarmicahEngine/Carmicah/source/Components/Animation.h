@@ -19,9 +19,38 @@ namespace Carmicah
 
     struct Animation : public BaseComponent<Animation>
     {
+    protected:
+    public:
         std::string animAtlas;
-        int currPiece;
+        enum class ANIM_CODE : char
+        {
+            ANIM_CHANGED= -2,
+            STOP_ANIM   = -1,
+
+            INF_LOOP    = 0,
+            FINITE      = 1
+        };
+
+        ANIM_CODE animState = ANIM_CODE::ANIM_CHANGED;
+        int currPiece, loopsLeft;
         float time, maxTime;
+
+        std::string& AnimAtlas()
+        {
+            animState = ANIM_CODE::ANIM_CHANGED;
+            return animAtlas;
+        }
+
+        const std::string& GetAnimAtlas() const
+        {
+            return animAtlas;
+        }
+
+        void ChangeAnim(const std::string& animName)
+        {
+            animAtlas = animName;
+            animState = ANIM_CODE::ANIM_CHANGED;
+        }
 
         Animation& DeserializeComponent(const rapidjson::Value& component) override
         {
