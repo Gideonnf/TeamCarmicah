@@ -483,6 +483,14 @@ namespace Carmicah
 		}
 	}
 
+	static void ChangeTexture(unsigned int entityID, MonoString* string)
+	{
+		char* cStr = mono_string_to_utf8(string);
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		go.GetComponent<Renderer>().Texture(cStr);
+		mono_free(cStr);
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -540,6 +548,7 @@ namespace Carmicah
 
 		// Button function
 		ADD_INTERNAL_CALL(ChangeScene);
+		ADD_INTERNAL_CALL(ChangeTexture);
 
 		// Sound
 		ADD_INTERNAL_CALL(Sound_PlaySFX);
