@@ -36,11 +36,11 @@
                     "EndPointEntityRight2": "EndPointRight_1",
                     "Animation0": "Mouse_Climb_blue",
                     "Animation1": "Mouse_Climb_white",
-                    "Animation3": "Mouse_Climb_blue",
+                    "Animation3": "Bear_Climb",
                     "AnimationDie0": "Mouse_Death_blue",
                     "AnimationDie2": "Mouse_Death_brown",
                     "AnimationDie1": "Mouse_Death_white",
-                    "AnimationDie3": "Mouse_Death_blue",
+                    "AnimationDie3": "Bear_Death",
                     "SpawnPointEntityLeft2": "StartPointLeft_1",
                     "EndPointEntityLeft2": "EndPointLeft_1"
                 }
@@ -64,29 +64,6 @@
             "gravity": 0.0,
             "zposPrev": 1.0,
             "objectType": 1
-        },
-        {
-            "Component Name": "struct Carmicah::StateMachine",
-            "currState": "",
-            "nextState": "",
-            "startingState": "",
-            "stateMap": [
-                {
-                    "stateName": "Running",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Dead",
-                            "condition": 1
-                        }
-                    ]
-                },
-                {
-                    "stateName": "Dead",
-                    "stateCondition": 0,
-                    "transitions": []
-                }
-            ]
         }
     ]
 }

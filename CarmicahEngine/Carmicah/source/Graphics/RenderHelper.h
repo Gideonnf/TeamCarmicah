@@ -53,8 +53,6 @@ namespace Carmicah
 		static unsigned int sCapFontID;
 		static std::queue<unsigned int> sUnusedFontID;
 		std::map<unsigned int, unsigned int> mFontBufferToEntity;
-		static float zeroFiller[4];
-		static float oneFiller[4];
 
 	public:
 		// Buffer details

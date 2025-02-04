@@ -61,7 +61,6 @@
   <ItemGroup>
     <Compile Include="Source\BalloonBounce.cs" />
     <Compile Include="Source\Camera.cs" />
-    <Compile Include="Source\CreditsButton.cs" />
     <Compile Include="Source\GameManager.cs" />
     <Compile Include="Source\GameObject.cs" />
     <Compile Include="Source\HealthSystem.cs" />
@@ -72,7 +71,6 @@
     <Compile Include="Source\NPC\ShooterNPC.cs" />
     <Compile Include="Source\PauseManager.cs" />
     <Compile Include="Source\Player.cs" />
-    <Compile Include="Source\QuitButton.cs" />
     <Compile Include="Source\System\CMConsole.cs" />
     <Compile Include="Source\System\Component.cs" />
     <Compile Include="Source\System\Entity.cs" />
@@ -86,12 +84,14 @@
     <Compile Include="Source\Testing.cs" />
     <Compile Include="Source\TrapBuild.cs" />
     <Compile Include="Source\UI\BackButton.cs" />
-    <Compile Include="Source\UI\HeroIcon.cs" />
+    <Compile Include="Source\UI\CreditsButton.cs" />
+    <Compile Include="Source\UI\Intro.cs" />
     <Compile Include="Source\UI\PauseButton.cs" />
     <Compile Include="Source\UI\PlayButton.cs" />
+    <Compile Include="Source\UI\QuitButton.cs" />
     <Compile Include="Source\UI\ResumeButton.cs" />
     <Compile Include="Source\UI\SettingButton.cs" />
-    <Compile Include="Source\UI\TrapIcon.cs" />
+    <Compile Include="Source\UI\SkipButton.cs" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
