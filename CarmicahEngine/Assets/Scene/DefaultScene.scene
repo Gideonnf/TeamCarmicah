@@ -1,46 +1,21 @@
 {
-    "Scene": "DefaultScene",
-    "SceneObjects": [
+  "Scene": "DefaultScene",
+  "SceneObjects": [
+    {
+      "GameObject": "MainCamera",
+      "ID": 1,
+      "Components": [
         {
-            "GameObject": "MainCamera",
-            "ID": 1,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.0,
-                    "yPos": 0.0,
-                    "depth": 0.0,
-                    "xScale": 0.05299999937415123,
-                    "yScale": 0.10000000149011612,
-                    "rot": 0.0,
-                    "collisionMask": 1
-                }
-            ],
-            "Children": []
-        },
-        {
-            "GameObject": "CutsceneImage",
-            "ID": 24,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "panel_1",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
-                },
-                {
-                    "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 960.0,
-                    "yPos": 539.9998779296875,
-                    "depth": 0.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
-                    "rot": 0.0
-                }
-            ]
+          "Component Name": "struct Carmicah::Transform",
+          "xPos": 0.0,
+          "yPos": 0.0,
+          "depth": 0.0,
+          "xScale": 0.053,
+          "yScale": 0.1,
+          "rot": 0.0
         }
-    ]
+      ],
+      "Children": []
+    }
+  ]
 }

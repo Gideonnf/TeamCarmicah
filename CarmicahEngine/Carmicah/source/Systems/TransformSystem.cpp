@@ -92,10 +92,6 @@ namespace Carmicah
 			return "ENEMIES";
 		case CollisionLayer::ENVIRONMENT:
 			return "ENVIRONMENT";
-		case CollisionLayer::PROJECTILE:
-			return "PROJECTILE";
-		case CollisionLayer::TRAPS:
-			return "TRAPS";
 		default:
 			return "NULL";
 		}

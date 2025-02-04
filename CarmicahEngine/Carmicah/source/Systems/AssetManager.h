@@ -351,7 +351,7 @@ namespace Carmicah
 		param[extName]
 			Extension for the name when spliting the texture (added to the back of the textureName for readability) [ONLY IF NUM > 1]
 		***************************************************************************/
-		void AddTextureImage(Texture& t, const std::string& textureName, const int& num = 1, const std::string& extName = "", const bool forcedSpriteSheet = false);
+		void AddTextureImage(Texture& t, const std::string& textureName, const int& num = 1, const std::string& extName = "");
 		/*!*************************************************************************
 		brief
 			Load the Animation Atlas with reference to Texture Names, and time for the the animation should spend in that texture

@@ -76,25 +76,4 @@ namespace Carmicah
             FunctionCalls.Animation_ChangeAnim(Entity.mID, animName);
         }
     }
-
-    public class StateMachine : Component
-    {
-        public void SetStateCondition(object condition)
-        {
-            FunctionCalls.SetStateCondition(Entity.mID, condition);
-        }
-
-        public float GetStateTimer()
-        {
-           return FunctionCalls.GetStateTimer(Entity.mID);
-        }
-    }
-
-    public class Renderer : Component
-    {
-        public void SetAlpha(float val)
-        {
-            FunctionCalls.SetAlpha(Entity.mID, val);
-        }
-    }
 }

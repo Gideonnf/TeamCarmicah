@@ -8,9 +8,6 @@ Installer/INSTALLER
 *.user
 *.sln.docstates
 
-# Specifically this
-CarmicahEngine/CarmicahScriptCore/CarmicahScriptCore.dll
-
 # Project Settings
 *.vcxproj
 *.vcxproj.filters

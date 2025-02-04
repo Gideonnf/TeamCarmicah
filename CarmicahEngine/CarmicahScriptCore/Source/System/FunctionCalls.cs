@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 namespace Carmicah
 {
@@ -84,22 +83,5 @@ namespace Carmicah
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Log(string msg);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static void GetMousePos(out Vector2 position);
-
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static bool IsMousePressed(MouseButtons button);
-
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static bool IsMouseReleased(MouseButtons button);
-
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static void SetStateCondition(uint entityID, object condition);
-
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static float GetStateTimer(uint entityID);
-
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static void SetAlpha(uint entityID, float alpha);
     }
 }

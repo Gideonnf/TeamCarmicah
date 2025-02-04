@@ -421,6 +421,8 @@ namespace Carmicah
                     std::string var = scriptRef->GetFieldValue<std::string>(it.second.mName);
                     scriptComponent.scriptableFieldMap[it.first] = var;
                 }
+
+
             }
         }
     }

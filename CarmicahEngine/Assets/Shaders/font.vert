@@ -2,9 +2,8 @@
 
 layout (location=0) in vec2 aVertexPosition;
 layout (location=1) in vec2 aTextureCoord;
-layout (location=2) in vec4 aColor;
-layout (location=3) in float aDepth;
-layout (location=4) in uvec2 aID;
+layout (location=2) in float aDepth;
+layout (location=3) in uvec2 aID;
 
 layout (location=0) out vec2 vTexCoord;
 layout (location=1) flat out uvec2 vID;
