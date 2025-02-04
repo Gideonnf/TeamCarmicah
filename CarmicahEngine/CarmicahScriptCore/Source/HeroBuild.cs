@@ -73,6 +73,9 @@ namespace Carmicah
                             heroEntity.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
                         }
 
+                        GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                        gm.NewNPC(heroEntity);
+
                     }
                 }
             }
