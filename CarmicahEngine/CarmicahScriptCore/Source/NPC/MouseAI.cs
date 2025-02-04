@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 
@@ -55,7 +54,7 @@ namespace Carmicah
         Vector2 startPosRight;
         Vector2 startPosLeft2;
         Vector2 startPosRight2;
-        //StateMachine stateMachine;
+        StateMachine stateMachine;
         Entity endEntityLeft;
         Entity endEntityRight;
         Entity endEntityLeft2;
@@ -64,7 +63,7 @@ namespace Carmicah
         public float ChanceToDie = 0.12f;
         public float TimeToDie = 1.5f;
         public float timer;
-        public float DeathTime = 2.0f;
+        public float DeathTime = 1.5f;
 
         int animType = 0;
         int randLane = 0;
@@ -89,10 +88,10 @@ namespace Carmicah
             SetInitialPosition();
 
             // Initialize state machine
-            //stateMachine = new StateMachine();
-            //stateMachine.AddState(new MouseChase("Chase"));
-            //stateMachine.AddState(new MouseDead("Dead"));
-            //stateMachine.SetNextState("Chase");
+            stateMachine = new StateMachine();
+            stateMachine.AddState(new MouseChase("Chase"));
+            stateMachine.AddState(new MouseDead("Dead"));
+            stateMachine.SetNextState("Chase");
             Random rand = new Random();
             animType = rand.Next(0, 4); // rand between 1 to 3
             randLane = rand.Next(0, 4); // rand between 1 to 3
@@ -132,6 +131,68 @@ namespace Carmicah
             {
                 if (pauseManager.As<PauseManager>().IsPaused)
                     return;
+            }
+            stateMachine.Update(ref stateMachine);
+
+            // Only update movement if in chase state
+            if (stateMachine.GetCurrentState() == "Chase")
+            {
+                UpdateMovement(dt);
+                //timer += dt;
+                //if (timer >= TimeToDie)
+                //{
+                //    timer = 0.0f;
+                //    Random rand = new Random();
+
+                //    float randFloat = (float)rand.NextDouble();
+                //    //Console.WriteLine($"Random float : {randFloat}");
+                //    if (randFloat <= ChanceToDie)
+                //    {
+                //        timer = 0.0f;
+                //        stateMachine.SetNextState("Dead");
+
+                //        switch (animType)
+                //        {
+                //            case 0:
+                //                //Console.WriteLine($"Trying to change Anim {Animation0}");
+                //                ChangeAnim(AnimationDie0);
+
+                //                break;
+                //            case 1:
+                //                //Console.WriteLine($"Trying to change Anim {Animation1}");
+
+                //                ChangeAnim(AnimationDie1);
+
+                //                break;
+                //            case 2:
+                //                //Console.WriteLine($"Trying to change Anim {Animation2}");
+
+                //                ChangeAnim(AnimationDie2);
+
+                //                break;
+                //            case 3:
+                //                // Console.WriteLine($"Trying to change Anim {Animation3}");
+
+                //                ChangeAnim(AnimationDie3);
+
+                //                break;
+                //        }
+                //    }
+               // }
+            }
+            else if (stateMachine.GetCurrentState() == "Dead")
+            {
+                timer += dt;
+
+                GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                if(timer >= DeathTime)
+                {
+                    if(gm != null)
+                        gm.EntityDestroyed(this);
+
+                    timer = 0.0f;
+                    Destroy();
+                }
             }
         }
 
@@ -200,50 +261,10 @@ namespace Carmicah
             }
 
             float dist = Position.Distance(endPos);
-            CMConsole.Log($"Distance to end {dist}");
-
             if (dist <= 0.3f)
             {
-                CMConsole.Log("Dying");
-
                 timer = 0.0f;
-                GetComponent<StateMachine>().SetStateCondition(1);
-            }
-        }
-
-        void OnCollide()
-        {
-            // its alr dead
-            if (mID == 0)
-            {
-                return;
-            }
-
-            timer = 0.0f;
-            GetComponent<StateMachine>().SetStateCondition(1);
-            CMConsole.Log("Dying");
-        }
-
-        public void KillMouse()
-        {
-            timer = 0.0f;
-            GetComponent<StateMachine>().SetStateCondition(1);
-            //stateMachine.SetNextState("Dead");
-        }
-
-        public void OnStateEnter(string stateName)
-        {
-            //GetComponent<StateMachine>().SetStateCondition(1);
-           // CMConsole.Log($"Update State Name: {stateName}");
-            if (stateName == "Dead")
-            {
-                timer = 0.0f;
-
-                GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
-                if (gm != null)
-                    gm.EntityDestroyed(this);
-
-                //CMConsole.Log("TESTING Enter State");
+                stateMachine.SetNextState("Dead");
                 switch (animType)
                 {
                     case 0:
@@ -274,40 +295,56 @@ namespace Carmicah
             }
         }
 
-        public void OnStateUpdate(string stateName, float dt)
+        void OnCollide()
         {
-            Entity pauseManager = FindEntityWithName("PauseManager");
-            if (pauseManager != null)
+            // if its already destroyed or dying when colliding
+            if (mID == 0 || stateMachine.GetCurrentState() == "Dead") return;
+
+            timer = 0.0f;
+            CMConsole.Log($"Mouse Dying on collide {mID}");
+
+            stateMachine.SetNextState("Dead");
+            switch (animType)
             {
-                if (pauseManager.As<PauseManager>().IsPaused)
-                    return;
+                case 0:
+                    //Console.WriteLine($"Trying to change Anim {Animation0}");
+                    ChangeAnim(AnimationDie0);
+
+                    break;
+                case 1:
+                    //Console.WriteLine($"Trying to change Anim {Animation1}");
+
+                    ChangeAnim(AnimationDie1);
+
+                    break;
+                case 2:
+                    //Console.WriteLine($"Trying to change Anim {Animation2}");
+
+                    ChangeAnim(AnimationDie2);
+
+                    break;
+                case 3:
+                    // Console.WriteLine($"Trying to change Anim {Animation3}");
+
+                    ChangeAnim(AnimationDie3);
+
+                    break;
             }
 
-
-            // CMConsole.Log($"Update State Name: {stateName}");
-            if (stateName == "Running")
-            {
-                // CMConsole.Log("TESTING Update State");
-                UpdateMovement(dt);
-            }
-            else if (stateName == "Dead")
-            {
-                timer += dt;
-                if (timer >= DeathTime)
-                {
-
-                    timer = 0.0f;
-                    Destroy();
-                }
-            }
-            //CMConsole.Log($"mouse retrieved : {targetMouse}");
+            //  Console.WriteLine("Testing OnCollide");
         }
 
-        public void OnStateExit(string stateName)
+        public void KillMouse()
         {
-            //CMConsole.Log("TESTING Exit State");
-            //CMConsole.Log($"Exit State Name: {stateName}");
-
+            timer = 0.0f;
+            stateMachine.SetNextState("Dead");
         }
+
+        //void ResetPosition()
+        //{
+        //    GetComponent<RigidBody>().ApplyForce(new Vector2(0, 0), 0f);
+        //    //Position = isLeft ? waypointsLeft[0] : waypointsRight[0];
+        //    currPoint = 1;
+        //}
     }
 }

@@ -29,16 +29,14 @@ namespace Carmicah
     {
         DEFAULT = 1 << 0, // 0000 .... 0001
         PLAYER = 1 << 1, // 0000 .... 0010
-        ENEMIES = 1 << 2, // 0100
-        ENVIRONMENT = 1 << 3, // 1000
-        PROJECTILE = 1 << 4,
-        TRAPS = 1 << 5,
-        TOTAL_LAYERS = 1 << 6
+        ENEMIES = 1 << 2,
+        ENVIRONMENT = 1 << 3,
+        TOTAL_LAYERS = 1 << 4
     };
 
     struct Transform : BaseTransform<Transform>
     {
-        unsigned int collisionMask = (unsigned int)CollisionLayer::DEFAULT;
+        unsigned int collisionMask;
         Matrix3x3<float> worldSpace;
         Matrix3x3<float> rotTrans;
         // So there's 3 scales

@@ -4,13 +4,13 @@
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
-            "xPos": -5.0,
-            "yPos": -9.0,
-            "depth": 4.5,
-            "xScale": 0.20000000298023225,
-            "yScale": 0.20000000298023225,
+            "xPos": 0.0,
+            "yPos": 3.221694231033325,
+            "depth": 4.400000095367432,
+            "xScale": 0.05000000074505806,
+            "yScale": 0.10000000149011612,
             "rot": 0.0,
-            "collisionMask": 16
+            "collisionMask": 0
         },
         {
             "Component Name": "struct Script",
@@ -26,52 +26,49 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "jellybean_spritesheet_coral_bean 0",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
+            "texture": "portal_top"
         },
         {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "DebugSquare",
-            "customWidth": 2.0,
+            "customWidth": 7.300000190734863,
             "customRotation": 0.0,
-            "customHeight": 1.0
+            "customHeight": 5.0
         },
-        {
-            "Component Name": "struct Carmicah::RigidBody",
-            "velocityX": 0.0,
-            "velocityY": 0.0,
-            "angularVelocity": 0.0,
-            "posPrevX": 0.0,
-            "posPrevY": 0.0,
-            "mass": 1.0,
-            "gravity": 0.0,
-            "zposPrev": -1.0,
-            "objectType": 1
-        },
-        {
-            "Component Name": "struct Carmicah::StateMachine",
-            "currState": "Attacking",
-            "nextState": "",
-            "startingState": "",
-            "stateMap": [
-                {
-                    "stateName": "bulletIdle",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Explode",
-                            "condition": 1
-                        },
-                        {
-                            "targetState": "Dead",
-                            "condition": 2
-                        }
-                    ]
-                }
+      {
+        "Component Name": "struct Carmicah::RigidBody",
+        "velocityX": 0.0,
+        "velocityY": 0.0,
+        "angularVelocity": 0.0,
+        "posPrevX": 0.0,
+        "posPrevY": 0.0,
+        "mass": 1.0,
+        "gravity": 0.0,
+        "zposPrev": -1.0,
+        "objectType": 1
+      },
+      {
+        "Component Name": "struct Carmicah::StateMachine",
+        "currState": "Attacking",
+        "nextState": "Attacking",
+        "startingState": "Attacking",
+        "stateMap": [
+          {
+            "stateName": "bulletIdle",
+            "stateCondition":  0,
+            "transitions": [
+              {
+                "targetState": "Explode",
+                "condition": 1
+              },
+              {
+                "targetState": "Dead",
+                "condition": 2
+              }
             ]
-        }
+          }
+        ]
+
+      }
     ]
 }

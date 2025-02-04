@@ -47,7 +47,6 @@ namespace Carmicah
 	
 	struct Primitive : BasePrimitive
 	{
-		float color[4];
 		std::vector<Vec2f> texCoord;
 		std::vector<GLushort> idx;
 	};
@@ -76,7 +75,6 @@ namespace Carmicah
 	//};
 	struct AnimAtlas
 	{
-		int numLoops;
 		std::vector<std::pair<float, std::string>> anim;// MaxTime, TextureName
 	};
 	

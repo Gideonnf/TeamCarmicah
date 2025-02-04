@@ -13,8 +13,7 @@ namespace Carmicah
         //public string SettingsCloseButton = "Settings_Close";
         void OnClick()
         {
-            Sound.PlaySFX("SFX_Button");
-            Entity settings = FindEntityWithName(SettingsMenu);
+           Entity settings = FindEntityWithName(SettingsMenu);
             settings.Destroy();
             Destroy();
         }

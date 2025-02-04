@@ -10,43 +10,16 @@
             "xScale": 0.5,
             "yScale": 0.5,
             "rot": 0.0,
-            "collisionMask": 4
+            "collisionMask": 0
         },
         {
             "Component Name": "struct Carmicah::Animation",
             "Atlas": "Mouse_Climb_blue"
         },
         {
-            "Component Name": "struct Carmicah::StateMachine",
-            "currState": "",
-            "nextState": "",
-            "startingState": "",
-            "stateMap": [
-                {
-                    "stateName": "Running",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Dead",
-                            "condition": 1
-                        }
-                    ]
-                },
-                {
-                    "stateName": "Dead",
-                    "stateCondition": 0,
-                    "transitions": []
-                }
-            ]
-        },
-        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Mouse_SpriteSheet_Climb_blue 3",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
+            "texture": "Mouse_SpriteSheet_Climb_blue 3"
         },
         {
             "Component Name": "struct Script",
@@ -63,11 +36,11 @@
                     "EndPointEntityRight2": "EndPointRight_1",
                     "Animation0": "Mouse_Climb_blue",
                     "Animation1": "Mouse_Climb_white",
-                    "Animation3": "Mouse_Climb_blue",
+                    "Animation3": "Bear_Climb",
                     "AnimationDie0": "Mouse_Death_blue",
                     "AnimationDie2": "Mouse_Death_brown",
                     "AnimationDie1": "Mouse_Death_white",
-                    "AnimationDie3": "Mouse_Death_blue",
+                    "AnimationDie3": "Bear_Death",
                     "SpawnPointEntityLeft2": "StartPointLeft_1",
                     "EndPointEntityLeft2": "EndPointLeft_1"
                 }
@@ -90,7 +63,7 @@
             "mass": 1.0,
             "gravity": 0.0,
             "zposPrev": 1.0,
-            "objectType": 2
+            "objectType": 1
         }
     ]
 }

@@ -30,20 +30,11 @@ namespace Carmicah
 			{
 				fileMap.insert({ file.path().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED) });
 				std::string fileExt = file.path().extension().string();
-		
-
-				// NOTE: For anims to be able to be played properly
-				// the starting texture of the object has to be a sprite from the sprite sheet of the animations
-				// i.e bear_climb 0 is the starting texture
-				// and all animations it needs in the script is all bear
-				// if it uses an animation that isnt part of the original sprite sheet, it will crash.
-				// TODO: find a way to pull out the related spritesheet from animation needed 
-				// 
-				// meshes, shaders and scenes are loaded by default
-				// only images and animations are loaded when needed
+				// ignore some file types cause those will be all loaded from the start
+				// mainly frag, vert and txt files
+#ifdef CM_INSTALLER
 				if (fileExt != ".txt" || fileExt != ".vert" || fileExt != ".frag" || fileExt != ".scene" || fileExt != ".do" || fileExt != ".o")
 					assetMap.insert({ file.path().filename().stem().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED)});
-#ifdef CM_INSTALLER
 				//std::string fileExt = file.path().extension().string();
 
 				// TODO: Find a way to pull out audio files being used from C# scripting side
@@ -141,20 +132,6 @@ namespace Carmicah
 		}
 	}
 
-	void FileWatcher::LoadSceneFile(std::string const& file)
-	{
-		if (assetMap.count(file) != 0)
-		{
-			if (assetMap[file].fileStatus == FILE_CREATED)
-			{
-				if (AssetManager::GetInstance()->LoadAsset(assetMap[file]))
-				{
-					assetMap[file].fileStatus = FILE_OK;
-				}
-			}
-		}
-	}
-
 	void FileWatcher::LoadSceneFiles(std::string const& sceneFile)
 	{
 		for (auto& asset : AssetManager::GetInstance()->enConfig.assetsToLoad[sceneFile])
@@ -202,16 +179,6 @@ namespace Carmicah
 		{
 
 		}*/
-	}
-
-	bool FileWatcher::AssetExist(std::string assetName)
-	{
-		if (assetMap.count(assetName) != 0)
-		{
-			return true;
-		}
-
-		return false;
 	}
 
 	void FileWatcher::LoadSoundFiles()

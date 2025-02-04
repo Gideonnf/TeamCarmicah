@@ -29,8 +29,6 @@ namespace Carmicah
         void OnClick()
         {
             Console.WriteLine($"Testing Button {mID}");
-            Sound.PlaySFX("SFX_Button");
-
         }
     }
 }
