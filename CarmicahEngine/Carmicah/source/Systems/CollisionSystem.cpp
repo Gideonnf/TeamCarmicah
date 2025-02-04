@@ -192,11 +192,12 @@ namespace Carmicah
 
 				if (collider.OBBinit == false)
 				{
+					if (collider.customWidth == 0)
+						collider.CustomWidth( maxX - minX);
+					if (collider.customHeight == 0)
+						collider.CustomHeight(maxY - minY);
 
-					collider.CustomWidth( maxX - minX);
-					collider.CustomHeight(maxY - minY);
 					collider.OBBinit = true;
-
 				}
 
 				if (transform.Scale().x == 0 || transform.Scale().y == 0)
