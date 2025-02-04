@@ -476,6 +476,7 @@ namespace Carmicah
 	{
 		auto textureMap = AssetManager::GetInstance()->GetAssetMap<Texture>();
 		Renderer& render = go->GetComponent<Renderer>();
+		float tempValue = 0.f;
 		if (ImGui::CollapsingHeader("Renderer Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			switch (type)
@@ -559,6 +560,54 @@ namespace Carmicah
 						}
 					}
 					ImGui::EndPopup();
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("R");
+
+				ImGui::TableNextColumn();
+				float rValue = render.R();
+				tempValue = rValue;
+				if (ImGui::DragFloat("##R", &tempValue, 0.05f, 0.f, 1.f, "%.3f"))
+				{
+					render.SetR(tempValue);
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("G");
+
+				ImGui::TableNextColumn();
+				float gValue = render.G();
+				tempValue = gValue;
+				if (ImGui::DragFloat("##G", &tempValue, 0.05f, 0.f, 1.f, "%.3f"))
+				{
+					render.SetG(tempValue);
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("B");
+
+				ImGui::TableNextColumn();
+				float bValue = render.B();
+				tempValue = bValue;
+				if (ImGui::DragFloat("##B", &tempValue, 0.05f, 0.f, 1.f, "%.3f"))
+				{
+					render.SetB(tempValue);
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("A");
+
+				ImGui::TableNextColumn();
+				float aValue = render.A();
+				tempValue = aValue;
+				if (ImGui::DragFloat("##A", &tempValue, 0.05f, 0.f, 1.f, "%.3f"))
+				{
+					render.SetA(tempValue);
 				}
 				ImGui::EndTable();
 			}
