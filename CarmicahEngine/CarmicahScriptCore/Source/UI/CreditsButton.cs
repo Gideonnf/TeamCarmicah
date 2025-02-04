@@ -28,6 +28,9 @@ namespace Carmicah
     {
         //test
         private HealthSystem healthSystem;
+        public string CreditsMenu        = "Credits";
+        public string CreditsCloseButton = "Close_Button_2";
+        public bool IsCreated            = false;
 
         public CreditsButton()
         {
@@ -40,6 +43,11 @@ namespace Carmicah
             // 1. pause game state
             // 2. open credits scene
             // Tell scene to open animation of the credits
+            if (!IsCreated)
+            {
+                CreateGameObject(CreditsMenu);
+                CreateGameObject(CreditsCloseButton);
+            }
 
             // test the HealthSystem's TakeDamage function
             healthSystem.TakeDamage(20); // Inflict 20 damage

@@ -47,10 +47,8 @@ namespace Carmicah
         // function to take damage
         public void TakeDamage(int damage)
         {
-            // subtract damage from current health
             mCurHealth -= damage;
 
-            // print out to console how much health is left
             Console.WriteLine($"entity has {mCurHealth} health left");
 
             // if health is less than 0, set it to 0
@@ -70,7 +68,7 @@ namespace Carmicah
         public void OnDeath()
         {
             // log death
-            Console.WriteLine("entity has died like a biatch");
+            Console.WriteLine("entity has no more health");
 
             // remove entity logic down here if need be
         }
