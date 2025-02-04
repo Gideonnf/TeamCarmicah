@@ -103,7 +103,7 @@
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 960.0,
                     "yPos": 540.0,
-                    "depth": -1.0,
+                    "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0
@@ -123,7 +123,7 @@
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 960.0,
                     "yPos": 540.0,
-                    "depth": 0.0,
+                    "depth": -1.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0
@@ -159,6 +159,7 @@
                             "schoolBGEntity": "schoolBGName",
                             "gameLogoEntity": "gameLogoName",
                             "gameLogoName": "main_menu_bg",
+                            "schoolBGName": "black_background",
                             "schoolRightsName": "Digipen_Rights"
                         }
                     ]

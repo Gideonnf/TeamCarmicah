@@ -28,7 +28,7 @@ namespace Carmicah
     {
         public float timer = 0.0f;                          // track elapsed time
         public int state   = 0;                             // track which image is currently displayed
-        public const float DisplayDuration = 3.0f;          // duration for each image in seconds
+        public const float maxDuration = 3.0f;          // duration for each image in seconds
         public const float FadeDuration = 1.0f;             // duration for fade in/out in seconds
 
         public string schoolLogoName   = "Digipen_Logo";    // name of school logo entity
@@ -68,16 +68,18 @@ namespace Carmicah
             if (state == 0) 
             {
                 // display school logo 
-                if (timer < DisplayDuration)
+                if (timer < maxDuration)
                 {
                     return;
                 }
 
                 // timer to track fade out time
-                float fadeOutTime = timer - DisplayDuration;
+                float fadeOutTime = timer - maxDuration;
 
+
+                CMConsole.Log($"{fadeOutTime}");
                 // fade out school logo and school rights
-                if (fadeOutTime <= FadeDuration && schoolLogoEntity != null && schoolRightsEntity != null)
+                if (/*fadeOutTime <= FadeDuration && */ schoolLogoEntity != null && schoolRightsEntity != null)
                 {
                     //float alpha = 1.0f - (fadeOutTime / FadeDuration);
                     //schoolLogoEntity.GetComponent<Sprite>().SetTransparency(alpha);
@@ -86,6 +88,7 @@ namespace Carmicah
                     schoolLogoEntity.Destroy();
                     schoolRightsEntity.Destroy();
                     schoolBGEntity.Destroy();
+                    CMConsole.Log($"I arrived here");
                 }
                 else
                 {
@@ -97,14 +100,15 @@ namespace Carmicah
             // transition to game logo
             else if (state == 1) 
             {
-                if (timer <= FadeDuration && gameLogoEntity != null)
+                if (/*timer <= FadeDuration && */timer == 3.0f && gameLogoEntity != null)
                 {
                     //float alpha = timer / FadeDuration;
                     //gameLogoEntity.GetComponent<Sprite>().SetTransparency(alpha);
 
-                    //gameLogoEntity.Destroy();
+                    gameLogoEntity.Destroy();
+                    CMConsole.Log($"I arrived here too");
                 }
-                else if (timer > FadeDuration + DisplayDuration)
+                else if (timer > FadeDuration + maxDuration)
                 {
                     // transition to main menu, this works
                     Scene.ChangeScene("Scene3");
