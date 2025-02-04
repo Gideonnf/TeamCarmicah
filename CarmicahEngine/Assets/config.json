@@ -9,7 +9,7 @@
     "Asset Loc": "../Assets",
     "Image Min Depth": 100.0,
     "Image Max Depth": -100.0,
-    "Max Textures": 32,
+    "Max Textures": 64,
     "Max Texture Size": 4096,
     "Batch Render Size": 100,
     "Collision Layers": [
