@@ -31,7 +31,9 @@ namespace Carmicah
         PLAYER = 1 << 1, // 0000 .... 0010
         ENEMIES = 1 << 2, // 0100
         ENVIRONMENT = 1 << 3, // 1000
-        TOTAL_LAYERS = 1 << 4
+        PROJECTILE = 1 << 4,
+        TRAPS = 1 << 5,
+        TOTAL_LAYERS = 1 << 6
     };
 
     struct Transform : BaseTransform<Transform>

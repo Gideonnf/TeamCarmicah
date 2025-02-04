@@ -391,7 +391,8 @@ namespace Carmicah
 		char* cStr = mono_string_to_utf8(string);
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		//CM_CORE_INFO("Entity ID in changeAnim: {}", entityID);
-		go.GetComponent<Animation>().animAtlas = cStr;
+		//go.GetComponent<Animation>().animAtlas = cStr;
+		go.GetComponent<Animation>().ChangeAnim(cStr);
 		mono_free(cStr);
 	}
 
