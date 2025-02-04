@@ -64,8 +64,8 @@ namespace Carmicah
                         built = true;
                         heroEntity = CreateGameObject(HeroPrefab);
                         heroEntity.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
-
-                       // heroEntity.GetComponent<Transform>().Depth = depthVal;
+                        Sound.PlaySFX("trap_placement", 0.5f);
+                        // heroEntity.GetComponent<Transform>().Depth = depthVal;
 
                         if (IsLeft)
                         {

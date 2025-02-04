@@ -15,6 +15,7 @@ namespace Carmicah
             if (pauseManager != null)
             {
                 pauseManager.As<PauseManager>().UnPause();
+                Sound.PlaySFX("SFX_Button");
 
             }
 
