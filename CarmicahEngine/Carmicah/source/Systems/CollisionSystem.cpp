@@ -247,8 +247,8 @@ namespace Carmicah
 
 					// Compute combined scale
 					Vec2f combinedScale = {
-						transform.Scale().x * parent.accumulatedScale.x,
-						transform.Scale().y * parent.accumulatedScale.y
+						transform.Scale().x * transform.CalcedRenderingScale().x * parent.accumulatedScale.x,
+						transform.Scale().y * transform.CalcedRenderingScale().y * parent.accumulatedScale.y
 					};
 
 					// Compute combined rotation (assuming rotations are additive)
@@ -285,8 +285,8 @@ namespace Carmicah
 				else
 				{
 					// Calculate half-dimensions of the OBB
-					float halfWidth = collider.GetCustomWidth() * 0.5f * transform.Scale().x;
-					float halfHeight = collider.GetCustomHeight() * 0.5f * transform.Scale().y;
+					float halfWidth = collider.GetCustomWidth() * 0.5f * transform.CalcedRenderingScale().x * transform.Scale().x;
+					float halfHeight = collider.GetCustomHeight() * 0.5f * transform.CalcedRenderingScale().y * transform.Scale().y;
 
 					// Rotation in radians
 					float angle = transform.Rot() * (PI / 180.0f);
