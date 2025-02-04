@@ -22,7 +22,7 @@ namespace Carmicah
             Vector2 mousePos = Input.GetMousePos();
             trapEntity.Position = mousePos;
 
-
+                                             
 
             if (Input.IsMouseReleased(MouseButtons.MOUSE_BUTTON_LEFT))
             {
