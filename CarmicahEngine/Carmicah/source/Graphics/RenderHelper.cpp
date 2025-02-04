@@ -28,7 +28,8 @@ namespace Carmicah
 {
 	unsigned int RenderHelper::sCapFontID{};
 	std::queue<unsigned int> RenderHelper::sUnusedFontID{};
-
+	float RenderHelper::zeroFiller[4]{ 0.f,0.f,0.f,0.f };
+	float RenderHelper::oneFiller[4]{ 1.f,1.f,1.f,1.f };
 
 bool RenderHelper::UniformExists(const GLuint& shdr, const char* str, GLint& ref)
 {
@@ -102,106 +103,168 @@ void RenderHelper::UpdateEditorCam()
 void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 {
 	glClearColor(0.75294f, 1.f, 0.93333f, 1.f); // Gideon's favourite
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	// Just did discard instead, cuz this stopped working
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	// Needs RBO to depth test
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
 
 	GLuint mCurrShader{};
-
 	const int& mBatchSize = AssetManager::GetInstance()->enConfig.batchRenderSize;
+	SceneToImgui::FBOScene FBOScene = SceneToImgui::GetInstance()->GetCurrentFramebuffer();
+	glBindFramebuffer(GL_FRAMEBUFFER, FBOScene.FBO);
+	glEnable(GL_DEPTH_TEST);
+	glDepthMask(GL_TRUE);	// Write to depth
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearBufferfv(GL_COLOR, 1, zeroFiller);
 
-	BufferID currID(0, 0, std::numeric_limits<unsigned int>::max());
-	// Loops through all batch Buffers
-	for (const auto& it : mBufferMap)
+	for (int renderPass = 0; renderPass < 2; ++renderPass)
 	{
-		const auto& batchBuffer = it.second;
-		if (!(currID == it.first))
+		BufferID currID(0, std::numeric_limits<unsigned int>::max(), std::numeric_limits<unsigned int>::max());
+		if (renderPass == 1)
 		{
-			if (!isEditor && (it.first.dat[BUFFER_SHADER] == AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.debugShader).s))
-				continue;
-
-			GLint uniformLoc{};
-			// If shader changed or camera changed
-			if (currID.dat[BUFFER_SHADER] != it.first.dat[BUFFER_SHADER] || currID.dat[BUFFER_GAME_BASED] != it.first.dat[BUFFER_GAME_BASED])
-			{
-				mCurrShader = it.first.dat[BUFFER_SHADER];
-				glUseProgram(mCurrShader);
-
-				// Binds the entire 32 texture array
-				glBindTexture(GL_TEXTURE_2D_ARRAY, AssetManager::GetInstance()->mArrayTex);
-
-				// All Shaders have uNDC_to_Cam
-				if (it.first.dat[BUFFER_GAME_BASED])
-				{
-					if (!cam.has_value())
-						continue;
-					// Handle Camera Transform[
-					Mtx3x3f camSpace{};
-					camSpace.lookAtDeg(cam.value()->Pos(), cam.value()->Rot(), cam.value()->Scale());
-					if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
-						glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
-				}
-				else
-				{
-					if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
-						glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, screenMtx.m);
-				}
-
-			}
-			// If font shader
-			if (it.first.dat[BUFFER_SHADER] == AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.fontShader).s)
-			{
-				FontUniform* ft = GetFontUniforms(it.first.dat[BUFFER_ID]);
-				if (ft != nullptr)
-				{
-					if (UniformExists(mCurrShader, "uTextColor", uniformLoc))
-						glUniform3f(uniformLoc, ft->col[0], ft->col[1], ft->col[2]);
-					if (UniformExists(mCurrShader, "uFontDisplace", uniformLoc))
-						glUniform2f(uniformLoc, ft->offset.x, ft->offset.y);
-					if (UniformExists(mCurrShader, "uFontScale", uniformLoc))
-						glUniform2f(uniformLoc, ft->scale.x, ft->scale.y);
-
-				}
-			}
-
-			currID = it.first;
+			glClearBufferfv(GL_COLOR, 2, zeroFiller);
+			glClearBufferfv(GL_COLOR, 3, oneFiller);
 		}
-
-		glBindBuffer(GL_DRAW_INDIRECT_BUFFER, batchBuffer.ibo);
-		if (!batchBuffer.isDebug)
+		// Loops through all batch Buffers
+		for (const auto& it : mBufferMap)
 		{
-			for (auto& i : batchBuffer.buffer)
+			const auto& batchBuffer = it.second;
+			if (!(currID == it.first))
 			{
-				glBindVertexArray(i.vao);
+				if (!isEditor && (it.first.dat[BUFFER_SHADER] == AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.debugShader).s))
+					continue;
+				if (renderPass != 0 && it.first.dat[BUFFER_SHADER] != AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.defaultShader).s)
+					continue;
 
-				glMultiDrawElementsIndirect(GL_TRIANGLES,
-					GL_UNSIGNED_SHORT,// Indices
-					(GLvoid*)0,
-					mBatchSize,
-					0);
+				GLint uniformLoc{};
+				// If shader changed or camera changed
+				if (currID.dat[BUFFER_SHADER] != it.first.dat[BUFFER_SHADER] || currID.dat[BUFFER_GAME_BASED] != it.first.dat[BUFFER_GAME_BASED])
+				{
+					mCurrShader = it.first.dat[BUFFER_SHADER];
+					glUseProgram(mCurrShader);
+
+					// if Basic Shader, ie. the only shader using OIT (Order Independent Transparancy[Weighted])
+					if (it.first.dat[BUFFER_SHADER] == AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.defaultShader).s)
+					{
+						if(UniformExists(mCurrShader, "uPassNum", uniformLoc))
+							glUniform1i(uniformLoc, renderPass);
+						if (renderPass == 0)
+						{
+							glDisable(GL_BLEND);
+
+							glEnable(GL_DEPTH_TEST);
+							glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
+							glDepthMask(GL_TRUE);	// Enable writing to depth buffer
+							glDepthFunc(GL_LESS);	// When incoming depth is smaller, pass the test
+
+						}
+						else
+						{
+							glEnable(GL_BLEND);
+							glBlendFunci(0, GL_ZERO, GL_ONE);
+							glBlendFunci(1, GL_ZERO, GL_ONE);
+							glColorMaski(1, GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+							glBlendFunci(2, GL_ONE, GL_ONE);	// left - the amount of alpha of the newly rendered thing, right - the original thing at the back
+							glBlendFunci(3, GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
+							glBlendEquation(GL_FUNC_ADD);
+
+							glDepthMask(GL_FALSE);
+							glDepthFunc(GL_LEQUAL);
+						}
+					}
+					else
+					{
+						glEnable(GL_BLEND);
+						glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+						glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
+						glEnable(GL_DEPTH_TEST);
+						glDepthMask(GL_TRUE);
+						glDepthFunc(GL_LESS);
+					}
+					// Binds the entire 32 texture array
+					glBindTexture(GL_TEXTURE_2D_ARRAY, AssetManager::GetInstance()->mArrayTex);
+
+					// All Shaders have uNDC_to_Cam
+					if (it.first.dat[BUFFER_GAME_BASED])
+					{
+						if (!cam.has_value())
+							continue;
+						// Handle Camera Transform[
+						Mtx3x3f camSpace{};
+						camSpace.lookAtDeg(cam.value()->Pos(), cam.value()->Rot(), cam.value()->Scale());
+						if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
+							glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, camSpace.m);
+					}
+					else
+					{
+						if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
+							glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, screenMtx.m);
+					}
+
+				}
+				// If font shader
+				if (it.first.dat[BUFFER_SHADER] == AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.fontShader).s)
+				{
+					FontUniform* ft = GetFontUniforms(it.first.dat[BUFFER_ID]);
+					if (ft != nullptr)
+					{
+						if (UniformExists(mCurrShader, "uTextColor", uniformLoc))
+							glUniform3f(uniformLoc, ft->col[0], ft->col[1], ft->col[2]);
+						if (UniformExists(mCurrShader, "uFontDisplace", uniformLoc))
+							glUniform2f(uniformLoc, ft->offset.x, ft->offset.y);
+						if (UniformExists(mCurrShader, "uFontScale", uniformLoc))
+							glUniform2f(uniformLoc, ft->scale.x, ft->scale.y);
+
+					}
+				}
+
+				currID = it.first;
 			}
-		}
-		else
-		{
-			glLineWidth(4.f);
 
-			for (auto& i : batchBuffer.buffer)
+			glBindBuffer(GL_DRAW_INDIRECT_BUFFER, batchBuffer.ibo);
+			if (!batchBuffer.isDebug)
 			{
-				glBindVertexArray(i.vao);
+				for (auto& i : batchBuffer.buffer)
+				{
+					glBindVertexArray(i.vao);
 
-				glMultiDrawElementsIndirect(GL_LINE_LOOP,
-					GL_UNSIGNED_SHORT,// Indices
-					(GLvoid*)0,
-					mBatchSize,
-					0);
+					glMultiDrawElementsIndirect(GL_TRIANGLES,
+						GL_UNSIGNED_SHORT,// Indices
+						(GLvoid*)0,
+						mBatchSize,
+						0);
+				}
+			}
+			else
+			{
+				glLineWidth(4.f);
+
+				for (auto& i : batchBuffer.buffer)
+				{
+					glBindVertexArray(i.vao);
+
+					glMultiDrawElementsIndirect(GL_LINE_LOOP,
+						GL_UNSIGNED_SHORT,// Indices
+						(GLvoid*)0,
+						mBatchSize,
+						0);
+				}
 			}
 		}
 	}
+
+	glDepthFunc(GL_ALWAYS);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunci(1, GL_ZERO, GL_ONE);
+
+	mCurrShader = AssetManager::GetInstance()->GetAsset<Shader>("combi").s;
+	glUseProgram(mCurrShader);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, FBOScene.accumTex);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, FBOScene.revealTex);
+
+	GLModel& ScrnQuad = AssetManager::GetInstance()->GetAsset<GLModel>("Quad");
+	glBindVertexArray(ScrnQuad.vao);
+	glDrawArrays(ScrnQuad.primitive, 0, ScrnQuad.drawCnt);
+
 
 	// Gizmos
 	if (isEditor)
@@ -328,6 +391,10 @@ void RenderHelper::RenderGizmos()
 	GLint uniformLoc{};
 	glUseProgram(mCurrShader);
 	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
+
 
 	Mtx3x3f mtx{};
 	Vec2f translation{};

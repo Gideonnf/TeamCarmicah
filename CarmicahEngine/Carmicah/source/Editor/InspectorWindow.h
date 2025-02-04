@@ -27,6 +27,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Components/UITransform.h"
 #include "Scripting/ScriptSystem.h"
 #include "Components/Prefab.h"
+#include "Components/StateMachine.h"
 #include "Systems/GOFactory.h"
 #include "../Systems/AssetManager.h"
 
@@ -166,7 +167,20 @@ namespace Carmicah
 		 */
 		template<typename T>
 		void RenderScriptTable(T* data, TABLETYPE type);
-		//TODO: IF IT WORKS< APPLY IT FOR EVERYTHIGN ELSE
+		
+		
+		//void VariantVarSelectPopUp(std::string& varType);
+		/**
+		 * @brief Renders the StateMachine component table
+		 *
+		 * @tparam T
+		 * @param data
+		 * @param type
+		 */
+		template<typename T>
+		void RenderStateMachineTable(T* go, TABLETYPE type);
+
+
 		template <typename T>
 		void CheckForComponentChange(GameObject& go, T& newComponent, bool modified)
 		{

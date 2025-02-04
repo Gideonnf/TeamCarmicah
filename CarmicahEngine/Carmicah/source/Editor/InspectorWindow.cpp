@@ -82,9 +82,9 @@ namespace Carmicah
 		{
 			componentsToAdd.push_back("Script");
 		}
-		if (!go->HasComponent<Sound>())
+		if (!go->HasComponent<StateMachine>())
 		{
-			componentsToAdd.push_back("Sound");
+			componentsToAdd.push_back("StateMachine");
 		}
 
 
@@ -150,9 +150,9 @@ namespace Carmicah
 				selectedComponentToAdd = "";
 				selectedIndex = 0;
 			}
-			if (selectedComponentToAdd == "Sound")
+			if (selectedComponentToAdd == "StateMachine")
 			{
-				go->AddComponent<Sound>();
+				go->AddComponent<StateMachine>();
 				selectedComponentToAdd = "";
 				selectedIndex = 0;
 			}
@@ -175,9 +175,9 @@ namespace Carmicah
 				return false;
 			}
 
+			EntityManager::GetInstance()->RemoveComponent<T>(id);
 			ComponentManager::GetInstance()->RemoveComponent<T>(id);
 			//gGOFactory->
-			EntityManager::GetInstance()->RemoveComponent<T>(id);
 		}
 
 		return true;
@@ -320,9 +320,13 @@ namespace Carmicah
 				for (int i = 0; i < 32; ++i)
 				{
 					uint32_t layerBit = 1 << i;
-					const char* layerName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
+					char const* layerName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
 					bool isEnabled = colMask & layerBit;
-					if (layerName == "NULL")
+
+					if (layerName == nullptr)
+						continue;
+
+					if (std::strcmp(layerName,"NULL") == 0)
 						continue;
 					if (isEnabled)
 					{
@@ -332,7 +336,8 @@ namespace Carmicah
 				}
 
 				ImGui::SameLine();
-				if (ImGui::Button("v#######"))
+
+				if (ImGui::Button("v##colFlags"))
 				{
 					ImGui::OpenPopup("Collision Flag Select");
 				}
@@ -342,9 +347,12 @@ namespace Carmicah
 					for (int i = 0; i < 32; ++i)
 					{
 						uint32_t layerBit = 1 << i;
-						const char* layerName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
+						char const* layerName = SystemManager::GetInstance()->GetSystem<TransformSystem>()->GetLayerName(static_cast<CollisionLayer>(layerBit));
 						bool isEnabled = colMask & layerBit;
-						if (layerName == "NULL")
+						if (layerName == nullptr)
+							continue;
+
+						if (std::strcmp(layerName, "NULL") == 0)
 							continue;
 						if (!isEnabled)
 						{
@@ -518,7 +526,7 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("Texture");
 				ImGui::SameLine();
-				if (ImGui::Button("v##."))
+				if (ImGui::Button("v##textureSelect"))
 				{
 					ImGui::OpenPopup("Texture Select");
 				}
@@ -540,6 +548,10 @@ namespace Carmicah
 					for (const auto& entry : textureMap->mAssetMap)
 					{
 						if (entry.first.empty()) continue; // TODO: Find out why "" is being added to asset map
+						if (entry.first.find("SpriteSheet") != std::string::npos)
+						{
+							continue;
+						}
 						if (ImGui::Button(entry.first.c_str()))
 						{
 							render.Texture(entry.first);
@@ -1037,7 +1049,7 @@ namespace Carmicah
 				if(script.scriptName.empty())
 				{
 					ImGui::SameLine();
-					if (ImGui::Button("v#####"))
+					if (ImGui::Button("v##scriptSelect"))
 					{
 						ImGui::OpenPopup("Script Select");
 					}
@@ -1092,10 +1104,12 @@ namespace Carmicah
 				if (script.scriptName.empty())
 				{
 					ImGui::SameLine();
-					if (ImGui::Button("v#####"))
+					ImGui::PushID(2);
+					if (ImGui::Button("v##scriptSelect"))
 					{
 						ImGui::OpenPopup("Script Select");
 					}
+					ImGui::PopID();
 				}
 
 				for (auto& [fieldName, fieldValue] : script.scriptableFieldMap)
@@ -1165,6 +1179,67 @@ namespace Carmicah
 		}
 	}
 
+
+
+	template<typename T>
+	void InspectorWindow::RenderStateMachineTable(T* go, TABLETYPE type)
+	{
+		StateMachine& stateMachine = go->GetComponent<StateMachine>();
+		//Entity id = go->GetID();
+
+		if (ImGui::CollapsingHeader("State Machine Settings", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			switch (type)
+			{
+			case GAMEOBJECT:
+			{
+				if (InspectorWindow::RemoveComponentButton<StateMachine>(go))
+					break;
+			}
+			case PREFAB:
+			{
+				if (InspectorWindow::RemoveComponentButton<StateMachine>(go))
+					return;
+				break;
+			}
+			default:
+				break;
+			}
+
+			if (ImGui::BeginTable("StateMachine Settings", 2, ImGuiTableFlags_Borders))
+			{
+				ImGui::TableNextColumn();
+				ImGui::Text("Attribute");
+				ImGui::TableNextColumn();
+				ImGui::Text("Setting");
+				
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Current State:");
+				std::string currState = stateMachine.currState;
+				ImGui::TableNextColumn();
+				ImGui::Text(currState.c_str());
+
+				/*ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Next State:");
+				std::string nextState = stateMachine.nextState;
+				ImGui::TableNextColumn();
+				ImGui::Text(nextState.c_str());*/
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Starting State:");
+				std::string startState = stateMachine.startingState;
+				ImGui::TableNextColumn();
+				ImGui::Text(startState.c_str());
+
+
+				ImGui::EndTable();
+			}
+		}
+	}
+
 	/**
 	 * @brief Inspector Table that displays the components that are currently added.
 	 * 
@@ -1225,6 +1300,11 @@ namespace Carmicah
 		if (go->HasComponent<Script>())
 		{
 			RenderScriptTable(go, type);
+		}
+
+		if (go->HasComponent<StateMachine>())
+		{
+			RenderStateMachineTable(go, type);
 		}
 	}
 

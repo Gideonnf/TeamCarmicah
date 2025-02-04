@@ -50,11 +50,14 @@ namespace Carmicah
 		InitSound();
 		InitFontType();
 		fileWatcher.Init(assetPath);
+#ifndef CM_INSTALLER
 		fileWatcher.Update();
-
+#endif
 		RenderHelper::GetInstance()->LoadGizmos();
+		// load default scene files
+		//fileWatcher.LoadSceneFiles(enConfig.defaultScene);
 
-		}
+	}
 
 	bool AssetManager::LoadAsset(File const& file, bool reload)
 	{
@@ -171,9 +174,9 @@ namespace Carmicah
 			// only engine config uses it but carmicahCore loads it with:
 			// AssetManager::GetInstance()->LoadConfig("../Assets/config.json");
 		}
-		else
+		else 
 		{
-			CM_CORE_ERROR("Extension doesn't exist");
+			CM_CORE_ERROR("Extension doesn't exist {}", fileExt);
 			return false;
 		}
 		return true;
@@ -525,12 +528,12 @@ namespace Carmicah
 				texture.mtx.m[1] = static_cast<float>(spriteD[i].y);
 				texture.mtx.m[2] = static_cast<float>(spriteD[i].width);
 				texture.mtx.m[3] = static_cast<float>(spriteD[i].height);
-				AddTextureImage(texture, textureName, spriteD[i].num, std::string("_") + spriteD[i].name);
+				AddTextureImage(texture, textureName, spriteD[i].num, std::string("_") + spriteD[i].name, true);
 			}
 		}
 	}
 
-	void AssetManager::AddTextureImage(Texture& t, const std::string& textureName, const int& num, const std::string& extName)
+	void AssetManager::AddTextureImage(Texture& t, const std::string& textureName, const int& num, const std::string& extName, const bool forcedSpriteSheet)
 	{
 		float	x = t.mtx.m[0] / static_cast<float>(enConfig.maxTexSize),
 				y = t.mtx.m[1] / static_cast<float>(enConfig.maxTexSize),
@@ -538,11 +541,24 @@ namespace Carmicah
 				height = t.mtx.m[3] / static_cast<float>(enConfig.maxTexSize);
 		Mtx33Identity(t.mtx);
 
+		// temp to separate ss and non ss
+		// until i can think of a btr way
+		// if this stays here means i stopped thinking of a better way
+		if (num > 1)
+		{
+			t.isSpriteSheet = true;
+			t.spriteSheet = textureName;
+		}
+		else
+		{
+			t.isSpriteSheet = false;
+		}
+
 		t.mtx.translateThis(x, 1.f - y - height).scaleThis(width, height);
 		for (int i{}; i < num; ++i)
 		{
 			std::string name{ textureName };
-			if(num != 1)
+			if(num != 1 || forcedSpriteSheet)
 				name += extName + ' ' + std::to_string(i);
 			AddAsset(name, t);
 			t.mtx.m[6] += width;
@@ -577,6 +593,11 @@ namespace Carmicah
 			std::getline(ifs, texName);
 			if (texName.back() == '\r')
 				texName.pop_back();
+			if (ifs.eof())
+			{
+				a.numLoops = std::stoi(texName);
+				break;
+			}
 			std::getline(ifs, texTime);
 
 			a.anim.emplace_back(std::make_pair(std::stof(texTime), texName));

@@ -421,8 +421,6 @@ namespace Carmicah
                     std::string var = scriptRef->GetFieldValue<std::string>(it.second.mName);
                     scriptComponent.scriptableFieldMap[it.first] = var;
                 }
-
-
             }
         }
     }
@@ -652,6 +650,31 @@ namespace Carmicah
             if (mEntityInstances.count(castedMsg->entity))
             {
                 mEntityInstances[castedMsg->entity]->InvokeOnMouseHover();
+            }
+        }
+        else if (msg->mMsgType == MSG_ENTERSTATE)
+        {
+            auto castedMsg = dynamic_cast<OnStateEnterMsg*>(msg);
+            if (mEntityInstances.count(castedMsg->entity))
+            {
+                mEntityInstances[castedMsg->entity]->InvokeOnStateEnter(castedMsg->stateName);
+            }
+        }
+        else if (msg->mMsgType == MSG_UPDATESTATE)
+        {
+            auto castedMsg = dynamic_cast<OnStateUpdateMsg*>(msg);
+            if (mEntityInstances.count(castedMsg->entity))
+            {
+                mEntityInstances[castedMsg->entity]->InvokeOnStateUpdate(castedMsg->stateName, castedMsg->dt);
+            }
+
+        }
+        else if (msg->mMsgType == MSG_EXITSTATE)
+        {
+            auto castedMsg = dynamic_cast<OnStateExitMsg*>(msg);
+            if (mEntityInstances.count(castedMsg->entity))
+            {
+                mEntityInstances[castedMsg->entity]->InvokeOnStateExit(castedMsg->stateName);
             }
 
         }

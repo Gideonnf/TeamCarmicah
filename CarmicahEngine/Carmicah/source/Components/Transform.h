@@ -36,7 +36,7 @@ namespace Carmicah
 
     struct Transform : BaseTransform<Transform>
     {
-        unsigned int collisionMask;
+        unsigned int collisionMask = (unsigned int)CollisionLayer::DEFAULT;
         Matrix3x3<float> worldSpace;
         Matrix3x3<float> rotTrans;
         // So there's 3 scales

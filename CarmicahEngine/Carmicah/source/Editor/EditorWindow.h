@@ -19,6 +19,7 @@ DigiPen Institute of Technology is prohibited.
 #include <ImGUI/imgui.h>
 #include "../ECS/BaseSystem.h" // why does editor window need base system included
 
+
 namespace Carmicah
 {
 	class EditorWindow

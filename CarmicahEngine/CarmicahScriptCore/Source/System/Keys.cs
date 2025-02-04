@@ -117,9 +117,9 @@ namespace Carmicah
 
     public enum MouseButtons
     {
-        MOUSE_BUTTON_LEFT = 0x01,
-        MOUSE_BUTTON_RIGHT = 0x02,
-        MOUSE_BUTTON_WHEEL,
+        MOUSE_BUTTON_LEFT = 0,
+        MOUSE_BUTTON_RIGHT = 1,
+        MOUSE_BUTTON_WHEEL = 2,
         MAX_MOUSE_BUTONS,
     };
 }

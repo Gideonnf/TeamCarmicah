@@ -47,6 +47,7 @@ namespace Carmicah
 	
 	struct Primitive : BasePrimitive
 	{
+		float color[4];
 		std::vector<Vec2f> texCoord;
 		std::vector<GLushort> idx;
 	};
@@ -75,6 +76,7 @@ namespace Carmicah
 	//};
 	struct AnimAtlas
 	{
+		int numLoops;
 		std::vector<std::pair<float, std::string>> anim;// MaxTime, TextureName
 	};
 	
@@ -82,6 +84,11 @@ namespace Carmicah
 	{
 		GLuint t;
 		Mtx3x3f mtx;
+
+		// idk how else i can pull out sprite sheet info
+		// i need store if the asset is a spritesheet or not so i can serialise assets to load
+		bool isSpriteSheet;
+		std::string spriteSheet;
 	};
 	
 	struct FontTexture

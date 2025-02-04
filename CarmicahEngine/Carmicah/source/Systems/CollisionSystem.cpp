@@ -16,6 +16,7 @@ DigiPen Institute of Technology is prohibited.
 #include "pch.h"
 #include "Systems/CollisionSystem.h"
 #include "../Physics/PhysicsSystem.h"
+#include "TransformSystem.h"
 #include "Systems/GOFactory.h"
 #include "Systems/AssetManager.h"
 #include <ECS/ECSTypes.h>
@@ -220,11 +221,12 @@ namespace Carmicah
 
 				if (collider.OBBinit == false)
 				{
+					if (collider.customWidth == 0)
+						collider.CustomWidth( maxX - minX);
+					if (collider.customHeight == 0)
+						collider.CustomHeight(maxY - minY);
 
-					collider.CustomWidth( maxX - minX);
-					collider.CustomHeight(maxY - minY);
 					collider.OBBinit = true;
-
 				}
 
 				if (transform.Scale().x == 0 || transform.Scale().y == 0)
@@ -838,15 +840,20 @@ namespace Carmicah
 
 				for (Entity entity2 : nearbyEntities)
 				{
-					
-
-
+					auto& transform2 = componentManager->GetComponent<Transform>(entity2);
+					auto& transformSys = SystemManager::GetInstance()->GetSystem<TransformSystem>();
+					if (transformSys->CheckLayerInteraction(transform1.collisionMask, transform2.collisionMask))
+					{
 						if (TestIntersection(entity1, entity2))
 						{
+							//if (transformSys->CheckLayerInteraction(transform1.collisionMask, transform2.collisionMask))
+							//{
+							//	CM_CORE_INFO("why tf is it colliding");
+							//}
+
 							CollisionResponse(entity1, entity2);
 						}
-
-					
+					}
 				}
 			}
 			else if (rigidbody1.objectType == rbTypes::KINEMATIC)
@@ -857,11 +864,15 @@ namespace Carmicah
 				{
 
 					auto& transform2 = componentManager->GetComponent<Transform>(entity2);
-
-					if ((transform1.collisionMask | transform2.collisionMask) == 10) 
+					auto& transformSys = SystemManager::GetInstance()->GetSystem<TransformSystem>();
+					if (transformSys->CheckLayerInteraction(transform1.collisionMask, transform2.collisionMask))
 					{
 						if (TestIntersection(entity1, entity2))
 						{
+							//if (transformSys->CheckLayerInteraction(transform1.collisionMask, transform2.collisionMask))
+							//{
+							//	CM_CORE_INFO("why tf is it colliding");
+							//}
 							CollisionResponse(entity1, entity2);
 						}
 

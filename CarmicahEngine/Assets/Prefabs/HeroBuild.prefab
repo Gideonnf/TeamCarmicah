@@ -1,0 +1,56 @@
+{
+    "GameObject": "HeroBuild",
+    "ID": 20,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Transform",
+            "xPos": -1.6398595571517945,
+            "yPos": -5.6379618644714359,
+            "depth": 0.0,
+            "xScale": 1.0,
+            "yScale": 1.0,
+            "rot": 0.0,
+            "collisionMask": 1
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.HeroBuild",
+            "ScriptableFieldMap": [
+                {
+                    "HeroPrefab": "ShooterNPC",
+                    "TrapTranslucentPrefab": "TrapTranslucent",
+                    "IsLeft": true,
+                    "depthVal": 0.0
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "invisibleWall",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::Collider2D",
+            "shape": "",
+            "customWidth": 1.0,
+            "customRotation": 0.0,
+            "customHeight": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::RigidBody",
+            "velocityX": 0.0,
+            "velocityY": 0.0,
+            "angularVelocity": 0.0,
+            "posPrevX": 0.0,
+            "posPrevY": 0.0,
+            "mass": 1.0,
+            "gravity": 0.0,
+            "zposPrev": -107374176.0,
+            "objectType": 1
+        }
+    ]
+}

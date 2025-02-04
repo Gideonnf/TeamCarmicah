@@ -10,6 +10,9 @@
     <Filter Include="Editor">
       <UniqueIdentifier>{8C1A20B0-78BC-4A86-6177-5EDA4DB8D1D6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FSM">
+      <UniqueIdentifier>{ABE7870B-17F1-877C-A06C-9E7C0C75937C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Graphics">
       <UniqueIdentifier>{1653CE33-0220-293F-2B39-17E717655ECD}</UniqueIdentifier>
     </Filter>
@@ -68,6 +71,9 @@
     <ClInclude Include="source\Components\Sound.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="source\Components\StateMachine.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="source\Components\TextRenderer.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -113,6 +119,9 @@
     <ClInclude Include="source\Editor\EditorWindow.h">
       <Filter>Editor</Filter>
     </ClInclude>
+    <ClInclude Include="source\Editor\FSMWindow.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
     <ClInclude Include="source\Editor\HierarchyWindow.h">
       <Filter>Editor</Filter>
     </ClInclude>
@@ -125,6 +134,9 @@
     <ClInclude Include="source\Editor\SceneWindow.h">
       <Filter>Editor</Filter>
     </ClInclude>
+    <ClInclude Include="source\FSM\FSMSystem.h">
+      <Filter>FSM</Filter>
+    </ClInclude>
     <ClInclude Include="source\Graphics\AnimationSystem.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -132,6 +144,9 @@
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="source\Graphics\ColliderGraphicsSystem.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Graphics\ParticlesSystem.h">
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="source\Graphics\RenderHelper.h">
@@ -224,9 +239,7 @@
     </ClInclude>
     <ClInclude Include="source\log.h" />
     <ClInclude Include="source\pch.h" />
-    <ClInclude Include="source\FSM\BaseState.h" />
-    <ClInclude Include="source\Components\StateMachine.h" />
-    <ClInclude Include="source\FSM\FSMSystem.h" />
+    <ClInclude Include="source\Components\Particles.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />
@@ -258,6 +271,9 @@
     <ClCompile Include="source\Editor\EditorWindow.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
+    <ClCompile Include="source\Editor\FSMWindow.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
     <ClCompile Include="source\Editor\HierarchyWindow.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
@@ -270,6 +286,9 @@
     <ClCompile Include="source\Editor\SceneWindow.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
+    <ClCompile Include="source\FSM\FSMSystem.cpp">
+      <Filter>FSM</Filter>
+    </ClCompile>
     <ClCompile Include="source\Graphics\AnimationSystem.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -277,6 +296,9 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="source\Graphics\ColliderGraphicsSystem.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Graphics\ParticlesSystem.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="source\Graphics\RenderHelper.cpp">
@@ -353,6 +375,5 @@
     </ClCompile>
     <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\pch.cpp" />
-    <ClCompile Include="source\FSM\FSMSystem.cpp" />
   </ItemGroup>
 </Project>

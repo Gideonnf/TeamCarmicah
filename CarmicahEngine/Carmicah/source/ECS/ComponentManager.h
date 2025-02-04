@@ -32,6 +32,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Components/Button.h"
 #include "Components/Prefab.h"
 #include "Components/Sound.h"
+#include "Components/StateMachine.h"
 #include "Singleton.h"
 
 namespace Carmicah

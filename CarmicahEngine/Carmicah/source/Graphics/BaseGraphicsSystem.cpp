@@ -109,16 +109,21 @@ namespace Carmicah
 			glVertexArrayVertexBuffer(bufferData.vao, 1, bufferData.vbo, sizeof(Vec2f), sizeof(vtxTexd2D));
 			glVertexArrayAttribFormat(bufferData.vao, 1, 2, GL_FLOAT, GL_FALSE, 0);
 			glVertexArrayAttribBinding(bufferData.vao, 1, 1);
-			// layout (location=2) in float aDepth;
+			// layout (location=2) in vec4 aColor;
 			glEnableVertexArrayAttrib(bufferData.vao, 2);
 			glVertexArrayVertexBuffer(bufferData.vao, 2, bufferData.vbo, sizeof(Vec2f) * 2, sizeof(vtxTexd2D));
-			glVertexArrayAttribFormat(bufferData.vao, 2, 1, GL_FLOAT, GL_FALSE, 0);
+			glVertexArrayAttribFormat(bufferData.vao, 2, 4, GL_FLOAT, GL_FALSE, 0);
 			glVertexArrayAttribBinding(bufferData.vao, 2, 2);
-			// layout (location=3) in uvec2 aID;
+			// layout (location=3) in float aDepth;
 			glEnableVertexArrayAttrib(bufferData.vao, 3);
-			glVertexArrayVertexBuffer(bufferData.vao, 3, bufferData.vbo, sizeof(Vec2f) * 2 + sizeof(float), sizeof(vtxTexd2D));
-			glVertexArrayAttribIFormat(bufferData.vao, 3, 2, GL_UNSIGNED_INT, 0);
+			glVertexArrayVertexBuffer(bufferData.vao, 3, bufferData.vbo, sizeof(float) * 4 + sizeof(Vec2f) * 2, sizeof(vtxTexd2D));
+			glVertexArrayAttribFormat(bufferData.vao, 3, 1, GL_FLOAT, GL_FALSE, 0);
 			glVertexArrayAttribBinding(bufferData.vao, 3, 3);
+			// layout (location=4) in uvec2 aID;
+			glEnableVertexArrayAttrib(bufferData.vao, 4);
+			glVertexArrayVertexBuffer(bufferData.vao, 4, bufferData.vbo, sizeof(float) * 5 + sizeof(Vec2f) * 2, sizeof(vtxTexd2D));
+			glVertexArrayAttribIFormat(bufferData.vao, 4, 2, GL_UNSIGNED_INT, 0);
+			glVertexArrayAttribBinding(bufferData.vao, 4, 4);
 
 			if (newBatch)
 			{
@@ -225,6 +230,7 @@ namespace Carmicah
 			tt.pos = wSpace * p.vtx[i];
 			tt.ids[0] = entity;
 			tt.ids[1] = tryTex.t;
+			renderer.Color(tt.color);
 			tt.depth = depth;
 			tt.uv = tryTex.mtx * p.texCoord[i];
 			temp.emplace_back(tt);

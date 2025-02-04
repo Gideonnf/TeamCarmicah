@@ -45,6 +45,7 @@ namespace Carmicah
 		{
 			Vec2f pos{};
 			Vec2f uv{};
+			float color[4]{};
 			float depth{};
 			unsigned int ids[2]{};// Entity id,  Tex id
 		};
