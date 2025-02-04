@@ -101,6 +101,7 @@ project "Carmicah"
 project "Editor"
     location "Editor"
     kind "WindowedApp"
+    --kind "ConsoleApp"
     language "C++"
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin/" .. outputdir .. "int/%{prj.name}")

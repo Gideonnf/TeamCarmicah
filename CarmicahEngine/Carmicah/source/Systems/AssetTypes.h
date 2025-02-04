@@ -47,6 +47,7 @@ namespace Carmicah
 	
 	struct Primitive : BasePrimitive
 	{
+		float color[4];
 		std::vector<Vec2f> texCoord;
 		std::vector<GLushort> idx;
 	};

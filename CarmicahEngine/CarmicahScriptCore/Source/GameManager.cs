@@ -31,7 +31,7 @@ namespace Carmicah
     {
         public float spawnTimer = 0.5f;
         public string MousePrefabName = "MouseGO";
-        public string CakePrefabName = "Cake";
+        public string CakePrefabName = "StartingCake";
         public string PlayerName = "mainCharacter";
         public float timer = 0.0f;
         public bool LeftOrRight = false;

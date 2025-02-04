@@ -30,6 +30,7 @@ namespace Carmicah
         void OnUpdate(float dt)
         {
             if (pauseManager.IsPaused) { return; }
+           // CMConsole.Log("TESTING IF CMLOG WORKS");
 
             if (isShooting)
             {
@@ -83,6 +84,32 @@ namespace Carmicah
             isShooting = false;
             ChangeAnim(idleAnim);
         }
+        public void OnStateEnter(string stateName)
+        {
+            if (stateName == "Attacking")
+            {
+                //CMConsole.Log("TESTING Enter State");
 
+            }
+            //CMConsole.Log($"Enter State Name: {stateName}");
+        }
+
+        public void OnStateUpdate(string stateName, float dt)
+        {
+           // CMConsole.Log($"Update State Name: {stateName}");
+            if (stateName == "Attacking")
+            {
+               // CMConsole.Log("TESTING Update State");
+
+            }
+            //CMConsole.Log($"mouse retrieved : {targetMouse}");
+        }
+
+        public void OnStateExit(string stateName)
+        {
+            //CMConsole.Log("TESTING Exit State");
+            //CMConsole.Log($"Exit State Name: {stateName}");
+
+        }
     }
 }

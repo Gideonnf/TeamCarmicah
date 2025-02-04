@@ -4,7 +4,7 @@
 #include "../ECS/ComponentManager.h"
 #include "../ECS/EntityManager.h"
 #include "../ECS/SystemManager.h"
-
+#include "../Messaging/Message.h"
 namespace Carmicah
 {
 	FSMSystem::FSMSystem()
@@ -49,6 +49,14 @@ namespace Carmicah
 
 			stateMachine.stateTimer += dt;
 
+			// if its a runtime obj thats added and starting state isnt initalized properly
+			if (stateMachine.startingState.empty())
+			{
+				stateMachine.startingState = stateMachine.stateMap.begin()->first;
+				// initialize the next state to be the starting state
+				stateMachine.nextState = stateMachine.startingState;
+			}
+
 			// if there is a difference in the curr state vs next state
 			if (stateMachine.currState != stateMachine.nextState)
 			{
@@ -56,11 +64,11 @@ namespace Carmicah
 				if (stateMachine.currState.empty() == false)
 				{
 					// call the onExit function for the curr state
-					ExitState(stateMachine.stateMap[stateMachine.currState]);
+					ExitState(*it, stateMachine.stateMap[stateMachine.currState]);
 				}
 
 				// call the onEnter function for next state
-				EnterState(stateMachine.stateMap[stateMachine.nextState]);
+				EnterState(*it, stateMachine.stateMap[stateMachine.nextState]);
 
 				stateMachine.currState = stateMachine.nextState;
 				// reset the state timer when entering a new state
@@ -70,7 +78,7 @@ namespace Carmicah
 			else if (stateMachine.currState == stateMachine.nextState)
 			{
 				// call on upate function
-				UpdateState(stateMachine.stateMap[stateMachine.currState]);
+				UpdateState(*it, stateMachine.stateMap[stateMachine.currState], dt);
 			}
 
 			// check the transitions for this state
@@ -83,7 +91,6 @@ namespace Carmicah
 					break;
 				}
 			}
-
 		}
 	}
 
@@ -91,25 +98,70 @@ namespace Carmicah
 	// but now idk if i should make an entire new script map system for state scripts
 	// or just add in the function call to normal entity scripts
 
-	void FSMSystem::UpdateState(State state)
+	void FSMSystem::EnterState(Entity entity, State state)
 	{
 		// if it has an animation can trigger animation play here
 		// if it has an sound can trigger sound play here
 
+		OnStateEnterMsg newMsg(entity, state.stateName);
+		SendSysMessage(&newMsg);
+	}
+
+	void FSMSystem::UpdateState(Entity entity, State state, float dt)
+	{
+		// if it has an animation can trigger animation play here
+		// if it has an sound can trigger sound play here
+
+		OnStateUpdateMsg newMsg(entity, state.stateName, dt);
+		SendSysMessage(&newMsg);
+	}
+
+	void FSMSystem::ExitState(Entity entity, State state)
+	{
+		// if it has an animation can trigger animation play here
+		// if it has an sound can trigger sound play here
+
+
+		OnStateExitMsg newMsg(entity, state.stateName);
+		SendSysMessage(&newMsg);
+	}
+
+	void FSMSystem::SetCondition(Entity entity, variantVar var)
+	{
+		for (auto it = mEntitiesSet.begin(); it != mEntitiesSet.end(); ++it)
+		{
+			auto* componentManager = ComponentManager::GetInstance();
+			auto& stateMachine = componentManager->GetComponent<StateMachine>(*it);
+			if (stateMachine.stateMap.size() == 0) continue;
+
+			// if it found the entity
+			if (*it == entity)
+			{
+				stateMachine.stateMap[stateMachine.currState].stateCondition = var;
+				break;
+			}
+		}
+	}
+
+	void FSMSystem::SetState(Entity entity, std::string stateName)
+	{
 
 	}
 
-	void FSMSystem::EnterState(State state)
+	float FSMSystem::GetStateTimer(Entity entity)
 	{
-		// if it has an animation can trigger animation play here
-		// if it has an sound can trigger sound play here
+		for (auto it = mEntitiesSet.begin(); it != mEntitiesSet.end(); ++it)
+		{
+			auto* componentManager = ComponentManager::GetInstance();
+			auto& stateMachine = componentManager->GetComponent<StateMachine>(*it);
+			if (stateMachine.stateMap.size() == 0) continue;
 
-	}
-
-	void FSMSystem::ExitState(State state)
-	{
-		// if it has an animation can trigger animation play here
-		// if it has an sound can trigger sound play here
+			// if it found the entity
+			if (*it == entity)
+			{
+				return stateMachine.stateTimer;
+			}
+		}
 
 	}
 }

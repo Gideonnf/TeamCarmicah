@@ -21,7 +21,8 @@
     <OutputPath>..\bin\Debug-x86_64\CarmicahScriptCore\</OutputPath>
     <BaseIntermediateOutputPath>..\bin\Debug-x86_64int\CarmicahScriptCore\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -33,7 +34,8 @@
     <OutputPath>..\bin\Release-x86_64\CarmicahScriptCore\</OutputPath>
     <BaseIntermediateOutputPath>..\bin\Release-x86_64int\CarmicahScriptCore\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -45,7 +47,8 @@
     <OutputPath>..\bin\Installer-x86_64\CarmicahScriptCore\</OutputPath>
     <BaseIntermediateOutputPath>..\bin\Installer-x86_64int\CarmicahScriptCore\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -62,6 +65,7 @@
     <Compile Include="Source\GameManager.cs" />
     <Compile Include="Source\GameObject.cs" />
     <Compile Include="Source\HealthSystem.cs" />
+    <Compile Include="Source\HeroBuild.cs" />
     <Compile Include="Source\NPC\HeroAI.cs" />
     <Compile Include="Source\NPC\MouseAI.cs" />
     <Compile Include="Source\NPC\MouseState.cs" />
@@ -78,15 +82,17 @@
     <Compile Include="Source\System\Keys.cs" />
     <Compile Include="Source\System\Scene.cs" />
     <Compile Include="Source\System\Sound.cs" />
-    <Compile Include="Source\System\StateMachine.cs" />
+    <Compile Include="Source\System\StateMachineOld.cs" />
     <Compile Include="Source\System\Vector2.cs" />
     <Compile Include="Source\Testing.cs" />
     <Compile Include="Source\TrapBuild.cs" />
     <Compile Include="Source\UI\BackButton.cs" />
+    <Compile Include="Source\UI\HeroIcon.cs" />
     <Compile Include="Source\UI\PauseButton.cs" />
     <Compile Include="Source\UI\PlayButton.cs" />
     <Compile Include="Source\UI\ResumeButton.cs" />
     <Compile Include="Source\UI\SettingButton.cs" />
+    <Compile Include="Source\UI\TrapIcon.cs" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
