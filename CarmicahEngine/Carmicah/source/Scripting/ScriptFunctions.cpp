@@ -473,6 +473,15 @@ namespace Carmicah
 		*outPos = worldMousePos;
 	}
 
+	static void SetAlpha(unsigned int entityID, float alpha)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Renderer>())
+		{
+			go.GetComponent<Renderer>().SetA(alpha);
+		}
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -486,6 +495,7 @@ namespace Carmicah
 		RegisterComponent<RigidBody>();
 		RegisterComponent<Animation>();
 		RegisterComponent<StateMachine>();
+		RegisterComponent<Renderer>();
 	}
 
 	/// <summary>
@@ -514,6 +524,9 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);
 		ADD_INTERNAL_CALL(RigidBody_ApplyForceWithTime);
 
+		// renderer functions
+		ADD_INTERNAL_CALL(SetAlpha);
+
 		// Anim functions
 		ADD_INTERNAL_CALL(Animation_ChangeAnim);
 
@@ -535,5 +548,6 @@ namespace Carmicah
 
 		// FSM
 		ADD_INTERNAL_CALL(SetStateCondition);
+		ADD_INTERNAL_CALL(GetStateTimer);
 	}
 }

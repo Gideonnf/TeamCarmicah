@@ -441,8 +441,8 @@
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Transform",
-                            "xPos": -1.2525739669799805,
-                            "yPos": 2.712745428085327,
+                            "xPos": -1.1842474937438965,
+                            "yPos": 3.408339023590088,
                             "depth": 0.0,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -460,9 +460,14 @@
                         },
                         {
                             "Component Name": "struct Script",
-                            "scriptName": "",
+                            "scriptName": "Carmicah.HeroBuild",
                             "ScriptableFieldMap": [
-                                {}
+                                {
+                                    "HeroPrefab": "ShooterNPC",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "IsLeft": true,
+                                    "depthVal": 0.0
+                                }
                             ]
                         },
                         {
@@ -635,6 +640,15 @@
                     "colG": 1.0,
                     "colB": 1.0,
                     "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.HeroIcon",
+                    "ScriptableFieldMap": [
+                        {
+                            "heroPrefab": "ShooterNPC"
+                        }
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -934,7 +948,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -1.5775901079177857,
-                    "yPos": -5.711194038391113,
+                    "yPos": 3.8440608978271486,
                     "depth": 3.75,
                     "xScale": 0.30000001192092898,
                     "yScale": 0.30000001192092898,
@@ -1257,6 +1271,10 @@
                     ]
                 },
                 {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 19
+                },
+                {
                     "Component Name": "struct Carmicah::Animation",
                     "Atlas": "Shooter_Idle"
                 },
@@ -1359,6 +1377,15 @@
                     "colG": 1.0,
                     "colB": 1.0,
                     "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.HeroIcon",
+                    "ScriptableFieldMap": [
+                        {
+                            "heroPrefab": "ShooterNPC"
+                        }
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",

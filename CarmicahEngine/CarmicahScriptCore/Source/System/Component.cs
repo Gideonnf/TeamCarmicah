@@ -89,4 +89,12 @@ namespace Carmicah
            return FunctionCalls.GetStateTimer(Entity.mID);
         }
     }
+
+    public class Renderer : Component
+    {
+        public void SetAlpha(float val)
+        {
+            FunctionCalls.SetAlpha(Entity.mID, val);
+        }
+    }
 }
