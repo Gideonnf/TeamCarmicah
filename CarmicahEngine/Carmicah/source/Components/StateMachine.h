@@ -12,11 +12,6 @@ namespace Carmicah
 	{
 		std::string targetState;
 		variantVar condition;
-
-		bool operator==(const Transition& other) const
-		{
-			return targetState == other.targetState && condition == other.condition;
-		}
 	};
 
 	struct State
@@ -27,40 +22,6 @@ namespace Carmicah
 		std::string stateName;
 		variantVar stateCondition;
 		std::vector<Transition> transitions;
-
-		bool operator==(const State& other) const
-		{
-			bool retVal = true;
-
-			if (this->stateName != other.stateName)
-			{
-				retVal = false;
-			}
-
-			if (this->stateCondition != other.stateCondition)
-			{
-				retVal = false;
-			}
-
-			if (this->transitions != other.transitions)
-			{
-				retVal = false;
-			}
-
-			return retVal;
-		}
-
-		void DeleteTransition(Transition& selectedTransition)
-		{
-			auto it = std::remove_if(transitions.begin(), transitions.end(), [&](const Transition& t)
-				{
-					return t.condition == selectedTransition.condition;
-				});
-			if (it != transitions.end())
-			{
-				transitions.erase(it, transitions.end());
-			}
-		}
 
 		// If it links with any animation can add its info here
 	};
@@ -73,34 +34,6 @@ namespace Carmicah
 		std::unordered_map<std::string, State> stateMap;
 
 		float stateTimer;
-
-
-
-		void DeleteState(State& selectedState)
-		{
-			std::string stateName = selectedState.stateName;
-
-			for (auto& it = stateMap.begin(); it != stateMap.end(); ++it)
-			{
-				if (it->second == selectedState)
-				{
-					it = stateMap.erase(it);
-					break;
-				}
-			}
-
-			for (auto& it = stateMap.begin(); it != stateMap.end(); ++it)
-			{
-				for (auto& transIt = it->second.transitions.begin(); transIt != it->second.transitions.end(); ++transIt)
-				{
-					if (transIt->targetState == stateName)
-					{
-						it->second.DeleteTransition(*transIt);
-						break;
-					}
-				}
-			}
-		}
 
 		StateMachine& DeserializeComponent(const rapidjson::Value& component) override
 		{
@@ -116,7 +49,7 @@ namespace Carmicah
 				{
 					State newState;
 					newState.stateName = stateObj["stateName"].GetString();
-					newState.stateCondition = ReadVariant("stateCondition", stateObj); //stateObj["stateCondition"].GetInt(); //TODO: Make a function to get variant vars
+					newState.stateCondition = stateObj["stateCondition"].GetInt(); //TODO: Make a function to get variant vars
 					if (stateObj.HasMember("transitions") && stateObj["transitions"].IsArray())
 					{
 						const auto& transitions = stateObj["transitions"].GetArray();
@@ -124,7 +57,7 @@ namespace Carmicah
 						{
 							Transition transition;
 							transition.targetState = transitionObj["targetState"].GetString();
-							transition.condition = ReadVariant("condition", transitionObj);//transitionObj["condition"].GetInt(); // TODO: Make a unction to get variant var
+							transition.condition = transitionObj["condition"].GetInt(); // TODO: Make a unction to get variant var
 						
 							newState.transitions.push_back(transition);
 						}

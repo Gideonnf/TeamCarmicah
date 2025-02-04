@@ -40,10 +40,7 @@ namespace Carmicah
 		MSG_UPDATEHIERARCHY,
 		MSG_MOUSEENTER,
 		MSG_MOUSEHOVER,
-		MSG_MOUSEEXIT,
-		MSG_ENTERSTATE,
-		MSG_UPDATESTATE,
-		MSG_EXITSTATE
+		MSG_MOUSEEXIT
 	};
 
 	namespace
@@ -171,33 +168,6 @@ namespace Carmicah
 		OnMouseMsg(MessageType type, Entity go) : Message(type), entity(go) {}
 	};
 
-	class OnStateEnterMsg : public Message
-	{
-	public:
-		Entity entity;
-		std::string stateName;
-
-		OnStateEnterMsg(Entity go, std::string state) : Message(MSG_ENTERSTATE), entity(go), stateName(state) {}
-	};
-
-	class OnStateUpdateMsg : public Message
-	{
-	public:
-		Entity entity;
-		std::string stateName;
-		float dt;
-
-		OnStateUpdateMsg(Entity go, std::string state, float delta) : Message(MSG_UPDATESTATE), entity(go), stateName(state), dt(delta) {}
-	};
-
-	class OnStateExitMsg : public Message
-	{
-	public:
-		Entity entity;
-		std::string stateName;
-
-		OnStateExitMsg(Entity go, std::string state) : Message(MSG_EXITSTATE), entity(go), stateName(state) {}
-	};
 }
 
 #endif

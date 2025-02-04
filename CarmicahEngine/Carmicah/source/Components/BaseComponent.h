@@ -86,7 +86,7 @@ public:
 			}
 			else if (value.IsString())
 			{
-				var = std::string(value.GetString());
+				var = value.GetString();
 			}
 			else if (value.IsBool())
 			{

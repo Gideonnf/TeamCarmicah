@@ -50,7 +50,6 @@ namespace Carmicah
 		// set layer 2 to interact with layer 1
 		layerIndex = GetLayerIndex(layer2);
 		layerArr[layerIndex] |= static_cast<uint32_t>(layer1);
-
 	}
 
 	void TransformSystem::DisableLayerInteraction(CollisionLayer layer1, CollisionLayer layer2)
@@ -62,16 +61,11 @@ namespace Carmicah
 		// remove layer 1 interaction with layer 2
 		layerIndex = GetLayerIndex(layer2);
 		layerArr[layerIndex] &= ~static_cast<uint32_t>(layer1);
-
 	}
 
 	int TransformSystem::GetLayerIndex(CollisionLayer layer)
 	{
-		/*return static_cast<int>(std::log2(static_cast<uint32_t>(layer)));*/
-		uint32_t value = static_cast<uint32_t>(layer);
-		int index = 0;
-		while (value >>= 1) { ++index; }
-		return index;
+		return static_cast<int>(std::log2(static_cast<uint32_t>(layer)));
 	}
 
 	const uint32_t* TransformSystem::GetLayerMap() const
@@ -101,14 +95,6 @@ namespace Carmicah
 		default:
 			return "NULL";
 		}
-	}
-
-	bool TransformSystem::CheckLayerInteraction(unsigned int layer1, unsigned int  layer2)
-	{
-		int layerIndex = GetLayerIndex(static_cast<CollisionLayer>(layer1));
-		return layerArr[layerIndex] & static_cast<uint32_t>(layer2);
-
-		//return false;
 	}
 
 	void TransformSystem::AddToTransformMap(Entity e)

@@ -19,22 +19,5 @@ namespace Carmicah
         {
             return FunctionCalls.IsKeyHold(keyCode);
         }
-
-        public static bool IsMousePressed(MouseButtons button)
-        {
-            return FunctionCalls.IsMousePressed(button);
-        }
-
-        public static bool IsMouseReleased(MouseButtons button)
-        {
-            return FunctionCalls.IsMouseReleased(button);
-        }
-
-        public static Vector2 GetMousePos()
-        {
-            FunctionCalls.GetMousePos(out Vector2 mousePos);
-
-            return mousePos;
-        }
     }
 }

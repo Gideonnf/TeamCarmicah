@@ -72,10 +72,6 @@ namespace Carmicah
 		mOnMouseEnter = scClass->GetMethod("OnMouseEnter", 0);
 		mOnMouseExit = scClass->GetMethod("OnMouseExit", 0);
 		mOnMouseHover = scClass->GetMethod("OnMouseHover", 0);
-
-		mOnStateEnter = scClass->GetMethod("OnStateEnter", 1);
-		mOnStateUpdate = scClass->GetMethod("OnStateUpdate", 2);
-		mOnStateExit = scClass->GetMethod("OnStateExit", 1);
 	}
 
 	MonoObject* ScriptObject::GetInstance()
@@ -173,43 +169,6 @@ namespace Carmicah
 		if (mOnMouseHover)
 		{
 			mScriptClass->InvokeMethod(mMonoInstance, mOnMouseHover);
-		}
-	}
-
-	void ScriptObject::InvokeOnStateEnter(std::string stateName)
-	{
-		if (mOnStateEnter)
-		{
-			MonoString* monoStateName = mono_string_new(mono_domain_get(), stateName.c_str());
-
-			void* param = monoStateName;
-			mScriptClass->InvokeMethod(mMonoInstance, mOnStateEnter, &param);
-
-		}
-	}
-
-	void ScriptObject::InvokeOnStateUpdate(std::string stateName, float dt)
-	{
-		if (mOnStateUpdate)
-		{
-			void* param[2];
-			MonoString* monoStateName = mono_string_new(mono_domain_get(), stateName.c_str());
-			param[0] = monoStateName;
-			param[1] = &dt;
-
-			mScriptClass->InvokeMethod(mMonoInstance, mOnStateUpdate, param);
-		}
-	}
-
-	void ScriptObject::InvokeOnStateExit(std::string stateName)
-	{
-		if (mOnStateExit)
-		{
-			MonoString* monoStateName = mono_string_new(mono_domain_get(), stateName.c_str());
-
-			void* param = monoStateName;
-			mScriptClass->InvokeMethod(mMonoInstance, mOnStateExit, &param);
-
 		}
 	}
 

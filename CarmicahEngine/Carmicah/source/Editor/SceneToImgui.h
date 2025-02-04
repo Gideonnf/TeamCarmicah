@@ -29,22 +29,20 @@ namespace Carmicah
 			MAX_SCENES,
 			NO_SCENE
 		};
+	private:
 		struct FBOScene
 		{
 			GLuint FBO{};
-			//GLuint RBO{};
-			GLuint texture_id{}, picker_id{};
-			GLuint depthTex{}, accumTex{}, revealTex{};
+			GLuint RBO{};
+			GLuint texture_id{};
+			GLuint picker_id{};
 			bool isHovering{};
 		};
-	private:
 
-		SCENE_IMGUI currDrawingScene = NO_SCENE;
 		FBOScene mScenes[MAX_SCENES]{};
 	public:
 		std::string currentScene{};
 
-		void CreateScreenQuad();
 		/*!*************************************************************************
 		brief
 			Creates multiple framebuffers based on the enum SCENE_IMGUI
@@ -67,13 +65,7 @@ namespace Carmicah
 		param[scene]
 			the framebuffer to draw to
 		***************************************************************************/
-		void SelectFrameBuffer(SCENE_IMGUI scene);
-
-		/*!*************************************************************************
-		brief
-			Gets the data of the current Specified framebuffer
-		***************************************************************************/
-		FBOScene GetCurrentFramebuffer();
+		void BindFramebuffer(SCENE_IMGUI scene);
 
 		/*!*************************************************************************
 		brief
