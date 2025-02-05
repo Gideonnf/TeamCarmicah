@@ -39,8 +39,8 @@ namespace Carmicah
         public string StartingCake;
         public List<MouseAI> mouseEntitiesLeft; 
         public List<MouseAI> mouseEntitiesRight;
-        public float WaveStartTime = 25.0f;
-        public float waveTimer = 0.0f;
+        //public float WaveStartTime = 25.0f;
+        //public float waveTimer = 0.0f;
         public string EndPointEntityLeft;
         public string EndPointEntityRight;
         public string EndPointEntityLeft2;
@@ -49,8 +49,8 @@ namespace Carmicah
         public string HeroBuild1 = "HeroBuild_1";
 
         public bool GameStart = false;
-        public float MobCounter = 0;
-        public float NumOfMobs = 10;
+        public int MobCounter = 0;
+        //public float NumOfMobs = 10;
         
 
         Entity startingCakeEntity;
@@ -68,7 +68,7 @@ namespace Carmicah
         Entity wall2;
         Entity wall3;
         int cakeCounter = 1;
-        int waveCount = 0;
+
         void OnCreate()
         {
             mouseEntitiesLeft = new List<MouseAI>();
@@ -111,9 +111,6 @@ namespace Carmicah
                 }
             }
 
-
-            waveTimer += dt;
-
             if (MobCounter > 0)
             {
                 timer += dt;
@@ -141,33 +138,9 @@ namespace Carmicah
                         mouseEntitiesRight.Add(mouseAI);
                        // CMConsole.Log($"Mouse List right {mouseEntitiesRight.Count}");
                     }
-
-
-
-                    //Console.WriteLine();
-                    //Console.WriteLine($"Mouse List {mouseEntities.Count}");
-
-                    // mouseEntities.Add(mouseEntity);
                 }
             }
-            else
-            {
-                EndWave();
-            }
 
-
-            if (waveTimer > WaveStartTime)
-            {
-                waveTimer = 0.0f;
-                timer = spawnTimer;
-                StartNextWave();
-            }
-
-            if (Input.IsKeyPressed(Keys.KEY_1))
-            {
-                StartNextWave();
-                waveTimer = 0;
-            }
 
             if (Input.IsKeyPressed(Keys.KEY_SPACEBAR))
             {
@@ -190,36 +163,10 @@ namespace Carmicah
             }
         }
 
-        public void StartNextWave()
+        public void StartNextWave(int mobCount)
         {
             GameStart = true;
-            MobCounter += NumOfMobs;
-            waveCount++;
-
-            foreach (Entity npc in npcList)
-            {
-                if (npc.mID == 0) continue;
-
-                HeroAI heroNpc = npc.As<HeroAI>();
-                heroNpc.ToggleShooting();
-            }
-
-            GameStart = true;
-        }
-
-        public void EndWave()
-        {
-            if (GameStart)
-            {
-                GameStart = false;
-                foreach (Entity npc in npcList)
-                {
-                    if (npc.mID == 0) continue;
-
-                    HeroAI heroNpc = npc.As<HeroAI>();
-                    heroNpc.ToggleIdle();
-                }
-            }
+            MobCounter += mobCount;
         }
 
         public void EntityDestroyed(MouseAI entity)

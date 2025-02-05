@@ -95,6 +95,7 @@
     <Compile Include="Source\UI\ResumeButton.cs" />
     <Compile Include="Source\UI\SettingButton.cs" />
     <Compile Include="Source\UI\TrapIcon.cs" />
+    <Compile Include="Source\WaveSystem.cs" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
