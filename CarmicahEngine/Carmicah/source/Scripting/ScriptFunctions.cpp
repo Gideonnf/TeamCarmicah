@@ -396,6 +396,15 @@ namespace Carmicah
 		mono_free(cStr);
 	}
 
+	static float GetMaxTime(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Animation>())
+		{
+			return go.GetComponent<Animation>().maxTime;
+		}
+	}
+
 	static void SetStateCondition(unsigned int entityID, MonoObject* obj)
 	{
 		if (!obj) return;
@@ -538,6 +547,7 @@ namespace Carmicah
 
 		// Anim functions
 		ADD_INTERNAL_CALL(Animation_ChangeAnim);
+		ADD_INTERNAL_CALL(GetMaxTime);
 
 		// input functions
 		ADD_INTERNAL_CALL(IsKeyPressed);
