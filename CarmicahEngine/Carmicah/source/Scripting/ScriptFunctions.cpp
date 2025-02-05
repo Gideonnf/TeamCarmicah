@@ -396,6 +396,22 @@ namespace Carmicah
 		mono_free(cStr);
 	}
 
+	static float GetMaxTime(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Animation>())
+		{
+			AnimAtlas& a{ AssetManager::GetInstance()->GetAsset<AnimAtlas>(go.GetComponent<Animation>().GetAnimAtlas()) };
+			float time = 0.0f;
+			for each (auto iter in a.anim)
+			{
+				time += iter.first;
+			}
+
+			return time;
+		}
+	}
+
 	static void SetStateCondition(unsigned int entityID, MonoObject* obj)
 	{
 		if (!obj) return;
@@ -538,6 +554,7 @@ namespace Carmicah
 
 		// Anim functions
 		ADD_INTERNAL_CALL(Animation_ChangeAnim);
+		ADD_INTERNAL_CALL(GetMaxTime);
 
 		// input functions
 		ADD_INTERNAL_CALL(IsKeyPressed);

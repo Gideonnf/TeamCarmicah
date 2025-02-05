@@ -489,6 +489,24 @@ namespace Carmicah
                     }
                 }
             }
+            else if (HierarchyWindow::inspectedPrefab != nullptr)
+            {
+                if (HierarchyWindow::inspectedPrefab->HasComponent<StateMachine>())
+                {
+                    StateMachine& stateMach = HierarchyWindow::inspectedPrefab->GetComponent<StateMachine>();
+
+                    CreateNewState(stateMach);
+
+                    for (auto& [stateName, actualState] : stateMach.stateMap)
+                    {
+                        bool isModified = DisplayState(stateName, actualState, stateMach);
+                        ImGui::Dummy(ImVec2(10.0, 20.0f));
+
+                        if (isModified)
+                            break;
+                    }
+                }
+            }
         }
         ImGui::End();
     }
