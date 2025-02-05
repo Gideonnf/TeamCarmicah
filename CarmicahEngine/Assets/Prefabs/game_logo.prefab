@@ -1,0 +1,20 @@
+{
+    "GameObject": "game_logo",
+    "ID": 20,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "M3_Logo"
+        },
+        {
+            "Component Name": "struct Carmicah::UITransform",
+                "xPos": 960.0,
+                "yPos": 540.0,
+                "depth": 0.0,
+                "xScale": 1.0,
+                "yScale": 1.0,
+                "rot": 0.0
+        }
+    ]
+}
