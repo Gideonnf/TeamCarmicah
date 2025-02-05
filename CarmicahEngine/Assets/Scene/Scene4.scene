@@ -97,7 +97,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "wall_Black 0"
+                    "texture": "Wall_Black 0"
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
