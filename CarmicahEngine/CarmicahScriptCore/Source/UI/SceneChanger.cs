@@ -11,8 +11,31 @@ namespace Carmicah
     {
         
         float sceneChangeTimer = -1f;
+        Vector2 max;
+        Vector2 min;
+        Entity button;
         public string buttonType;
+        public string Animation0;
+        public string Animation1;
         string nextScene;
+
+        void OnCreate()
+        {
+            if (buttonType.ToLower() == "play")
+            {
+                button = FindEntityWithName("Play Button");
+
+            }
+            else if (buttonType.ToLower() == "quit")
+            {
+                button = FindEntityWithName("Quit Button");
+            }
+            
+            max.x = button.Position.x + (button.Position.x * 0.5f);
+            max.y = button.Position.y + (button.Position.y * 0.5f);
+            min.x = button.Position.x - (button.Position.x * 0.5f);
+            min.y = button.Position.y - (button.Position.y * 0.5f);
+        }
 
         public void SetScene(string sceneName, float delay = 1.0f)
         {
@@ -22,6 +45,8 @@ namespace Carmicah
 
         void OnUpdate(float dt)
         {
+
+            CheckHover();
 
             if (sceneChangeTimer > 0)
             {
@@ -40,6 +65,16 @@ namespace Carmicah
 
                     }
                 }
+            }
+        }
+
+        void CheckHover()
+        {
+            Vector2 mousePos = Input.GetMousePos();
+
+            if(mousePos.x < max.x && mousePos.y < max.y && mousePos.x >min.x && mousePos.y > min.y)
+            {
+                ChangeAnim(Animation0);
             }
         }
 

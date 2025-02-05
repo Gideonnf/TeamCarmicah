@@ -39,6 +39,8 @@ namespace Carmicah
             waveTimer += dt;
             if (waveCounter >= 5)
             {
+                CreateGameObject("WinScreen");
+                CreateGameObject("NextBtn");
                 return;
             }
 
