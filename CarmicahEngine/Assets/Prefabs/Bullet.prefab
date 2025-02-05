@@ -6,20 +6,11 @@
             "Component Name": "struct Carmicah::Transform",
             "xPos": -5.0,
             "yPos": -9.0,
-            "depth": 4.400000095367432,
+            "depth": 4.5,
             "xScale": 0.20000000298023225,
             "yScale": 0.20000000298023225,
             "rot": 0.0,
-            "collisionMask": 1
-        },
-        {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "jellybean_spritesheet",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
+            "collisionMask": 16
         },
         {
             "Component Name": "struct Script",
@@ -33,11 +24,20 @@
             ]
         },
         {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "jellybean_spritesheet_coral_bean 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "DebugSquare",
-            "customWidth": 7.300000190734863,
+            "customWidth": 2.0,
             "customRotation": 0.0,
-            "customHeight": 5.0
+            "customHeight": 1.0
         },
         {
             "Component Name": "struct Carmicah::RigidBody",

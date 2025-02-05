@@ -1,0 +1,3 @@
+Strawberry_Cake
+top left: 0 x 0, 1024 x 1024
+10 sprites

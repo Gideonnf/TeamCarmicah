@@ -75,6 +75,12 @@ namespace Carmicah
         {
             FunctionCalls.Animation_ChangeAnim(Entity.mID, animName);
         }
+
+        public float GetMaxTime()
+        {
+            //FunctionCalls.Transform_SetPosition(Entity.mID, ref value);
+            return FunctionCalls.GetMaxTime(Entity.mID);
+        }
     }
 
     public class StateMachine : Component
@@ -95,6 +101,11 @@ namespace Carmicah
         public void SetAlpha(float val)
         {
             FunctionCalls.SetAlpha(Entity.mID, val);
+        }
+
+        public void ChangeTexture(string textureName)
+        {
+            FunctionCalls.ChangeTexture(Entity.mID, textureName);
         }
     }
 }

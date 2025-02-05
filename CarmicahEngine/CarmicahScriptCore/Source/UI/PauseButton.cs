@@ -29,7 +29,7 @@ namespace Carmicah
         void OnClick()
         {
             Console.WriteLine($"Testing Button {mID}");
-            Sound.PlaySFX("SFX_Button");
+            Sound.PlaySFX("SFX_Button",0.5f);
 
         }
     }

@@ -101,5 +101,12 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void SetAlpha(uint entityID, float alpha);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void ChangeTexture(uint entityID, string texture);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float GetMaxTime(uint entityID);
+
     }
 }

@@ -82,6 +82,23 @@ namespace Carmicah
             col[3] = val;
             notUpdated = false;
         }
+        const float& R() const
+        {
+            return col[0];
+        }
+        const float& G() const
+        {
+            return col[1];
+        }
+        const float& B() const
+        {
+            return col[2];
+        }
+        const float& A() const
+        {
+            return col[3];
+        }
+
         float& GetR()
         {
             notUpdated = false;

@@ -70,6 +70,9 @@ namespace Carmicah
 				// call the onEnter function for next state
 				EnterState(*it, stateMachine.stateMap[stateMachine.nextState]);
 
+				// reset state condition
+				stateMachine.stateMap[stateMachine.currState].stateCondition = 0;
+
 				stateMachine.currState = stateMachine.nextState;
 				// reset the state timer when entering a new state
 				stateMachine.stateTimer = 0.0f;
