@@ -86,6 +86,10 @@ namespace Carmicah
 		{
 			componentsToAdd.push_back("StateMachine");
 		}
+		if (!go->HasComponent<ParticleEmitter>())
+		{
+			componentsToAdd.push_back("Particle");
+		}
 
 
 		if (ImGui::Combo("##Component", &selectedIndex, componentsToAdd.data(), (int)componentsToAdd.size()))
@@ -153,6 +157,12 @@ namespace Carmicah
 			if (selectedComponentToAdd == "StateMachine")
 			{
 				go->AddComponent<StateMachine>();
+				selectedComponentToAdd = "";
+				selectedIndex = 0;
+			}
+			if (selectedComponentToAdd == "Particle")
+			{
+				go->AddComponent<ParticleEmitter>();
 				selectedComponentToAdd = "";
 				selectedIndex = 0;
 			}
@@ -1179,8 +1189,6 @@ namespace Carmicah
 		}
 	}
 
-
-
 	template<typename T>
 	void InspectorWindow::RenderStateMachineTable(T* go, TABLETYPE type)
 	{
@@ -1258,6 +1266,123 @@ namespace Carmicah
 		}
 	}
 
+	template<typename T>
+	void InspectorWindow::RenderParticleTable(T* go, TABLETYPE type)
+	{
+		ParticleEmitter& particle = go->GetComponent<ParticleEmitter>();
+		float tempValue = 0.f;
+		int tempInt = 0;
+		if (ImGui::CollapsingHeader("Particle Settings", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			switch (type)
+			{
+			case GAMEOBJECT:
+			{
+				if (InspectorWindow::RemoveComponentButton<ParticleEmitter>(go))
+					break;
+			}
+			case PREFAB:
+			{
+				if (InspectorWindow::RemoveComponentButton<ParticleEmitter>(go))
+					return;
+				break;
+			}
+			default:
+				break;
+			}
+
+			if (ImGui::BeginTable("StateMachine Settings", 2, ImGuiTableFlags_Borders))
+			{
+				ImGui::TableNextColumn();
+				ImGui::Text("Attribute");
+				ImGui::TableNextColumn();
+				ImGui::Text("Setting");
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Texture");
+				ImGui::TableNextColumn();
+				ImGui::Text(particle.texture.c_str());
+
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Particle xSpeed");
+				ImGui::TableNextColumn();
+				tempValue = particle.particleSpeed.x;
+				if (ImGui::DragFloat("##xSpeed", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					particle.particleSpeed.x = tempValue;
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Particle ySpeed");
+				ImGui::TableNextColumn();
+				tempValue = particle.particleSpeed.y;
+				if (ImGui::DragFloat("##ySpeed", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					particle.particleSpeed.y = tempValue;
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Particles per second");
+				ImGui::TableNextColumn();
+				tempInt = static_cast<int>(particle.spawnPerSec);
+				if (ImGui::DragInt("##PPS", &tempInt))
+				{
+					particle.spawnPerSec = static_cast<size_t>(tempInt);
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Particle Lifetime");
+				ImGui::TableNextColumn();
+				tempValue = particle.lifeTime;
+				if (ImGui::DragFloat("##LifeTime", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					particle.lifeTime = tempValue;
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Particle Speedrange");
+				ImGui::TableNextColumn();
+				tempValue = particle.speedRange;
+				if (ImGui::DragFloat("##SpeedRange", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					particle.speedRange = tempValue;
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Particle AngleRange");
+				ImGui::TableNextColumn();
+				tempValue = particle.angleRange;
+				if (ImGui::DragFloat("##AngleRange", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					particle.angleRange = tempValue;
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Particle Fade");
+				ImGui::TableNextColumn();
+				ImGui::Checkbox("##ParticleFade", &particle.isFade);
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Particle Shrink");
+				ImGui::TableNextColumn();
+				ImGui::Checkbox("##ParticleShrink", &particle.isShrink);
+
+				ImGui::EndTable();
+			}
+		}
+	}
+
+
 	/**
 	 * @brief Inspector Table that displays the components that are currently added.
 	 * 
@@ -1323,6 +1448,11 @@ namespace Carmicah
 		if (go->HasComponent<StateMachine>())
 		{
 			RenderStateMachineTable(go, type);
+		}
+
+		if (go->HasComponent<ParticleEmitter>())
+		{
+			RenderParticleTable(go, type);
 		}
 	}
 

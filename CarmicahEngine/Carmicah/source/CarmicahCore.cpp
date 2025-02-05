@@ -54,6 +54,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Graphics/RigidbodyGraphicsSystem.h"
 #include "Graphics/RenderTransformSystem.h"
 #include "Graphics/RenderHelper.h"
+#include "Graphics/ParticlesSystem.h"
 #include "Systems/CollisionSystem.h"
 #include "Physics/PhysicsSystem.h"
 #include "Systems/SoundSystem.h"
@@ -196,6 +197,7 @@ namespace Carmicah
         REGISTER_COMPONENT(PrefabData);
         REGISTER_COMPONENT(Sound);
         REGISTER_COMPONENT(StateMachine);
+        REGISTER_COMPONENT(ParticleEmitter);
 
         CM_CORE_INFO("Starting system init");
 
@@ -220,6 +222,7 @@ namespace Carmicah
         auto transformSystem = REGISTER_SYSTEM(TransformSystem);
         auto rendTransformSystem = REGISTER_SYSTEM(RenderTransformSystem);
         auto fsmSystem = REGISTER_SYSTEM(FSMSystem);
+        auto particleSystem = REGISTER_SYSTEM(ParticlesSystem);
         AssetManager::GetInstance()->Init(prefabSystem);
         AssetManager::GetInstance()->LoadAll(AssetManager::GetInstance()->enConfig.assetLoc.c_str());
 
@@ -237,6 +240,7 @@ namespace Carmicah
         rrsSystem->Init();
         souSystem->Init();
         mouseSystem->Init();
+        particleSystem->Init();
 
         // Add goFactory to input system's messaging so that it can send msg to it
         Input.BindSystem(gGOFactory);
@@ -419,6 +423,7 @@ namespace Carmicah
                 crsSystem->Update();
                 rrsSystem->Update();
                 txtSystem->Update();
+                particleSystem->Update();
                 // Done with pushing transforms, reset updates of transforms
                 transformSystem->PostUpdate();
 

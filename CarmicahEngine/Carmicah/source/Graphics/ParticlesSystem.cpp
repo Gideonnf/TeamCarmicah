@@ -177,14 +177,17 @@ namespace Carmicah
 					mParticlesBufferSize[i] += static_cast<size_t>(mBatchSize);
 				}
 				RenderHelper::BufferID bufferID(p.uid, mCurrShader, true, mParticleBufferID);
-				BatchBuffer& bb = RenderHelper::GetInstance()->mBufferMap.find(bufferID)->second;
+				if (RenderHelper::GetInstance()->mBufferMap.find(bufferID) != RenderHelper::GetInstance()->mBufferMap.end())
+				{
+					BatchBuffer& bb = RenderHelper::GetInstance()->mBufferMap.find(bufferID)->second;
 
-				// Clear Data
-				for (int numVtx{}; numVtx < mParticlesBufferSize[i]; numVtx += mBatchSize)
-					glNamedBufferSubData(bb.buffer[numVtx / mBatchSize].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * mBatchSize, mClearData);
-				// Write Data
-				for (int numVtx{ static_cast<int>(mParticlesData[i].size()) }; numVtx > 0 ; numVtx -= mBatchSize)
-					glNamedBufferSubData(bb.buffer[numVtx / mBatchSize].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * std::min(numVtx, mBatchSize), mParticlesData[0].data() + mParticlesData[i].size() - numVtx);
+					// Clear Data
+					for (int numVtx{}; numVtx < mParticlesBufferSize[i]; numVtx += mBatchSize)
+						glNamedBufferSubData(bb.buffer[numVtx / mBatchSize].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * mBatchSize, mClearData);
+					// Write Data
+					for (int numVtx{ static_cast<int>(mParticlesData[i].size()) }; numVtx > 0; numVtx -= mBatchSize)
+						glNamedBufferSubData(bb.buffer[numVtx / mBatchSize].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * std::min(numVtx, mBatchSize), mParticlesData[0].data() + mParticlesData[i].size() - numVtx);
+				}
 			}
 			else if (i == 1)
 			{
@@ -195,14 +198,16 @@ namespace Carmicah
 				}
 
 				RenderHelper::BufferID bufferID(p.uid, mCurrShader, false, mParticleBufferID);
-				BatchBuffer& bb = RenderHelper::GetInstance()->mBufferMap.find(bufferID)->second;
-				// Clear Data
-				for (int numVtx{}; numVtx < mParticlesBufferSize[i]; numVtx += mBatchSize)
-					glNamedBufferSubData(bb.buffer[numVtx / mBatchSize].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * mBatchSize, mClearData);
-				for (int numVtx{ static_cast<int>(mParticlesData[i].size()) }; numVtx > 0; numVtx -= mBatchSize)
-					glNamedBufferSubData(bb.buffer[numVtx / mBatchSize].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * std::min(numVtx, mBatchSize), mParticlesData[0].data() + mParticlesData[i].size() - numVtx);
+				if (RenderHelper::GetInstance()->mBufferMap.find(bufferID) != RenderHelper::GetInstance()->mBufferMap.end())
+				{
+					BatchBuffer& bb = RenderHelper::GetInstance()->mBufferMap.find(bufferID)->second;
+					// Clear Data
+					for (int numVtx{}; numVtx < mParticlesBufferSize[i]; numVtx += mBatchSize)
+						glNamedBufferSubData(bb.buffer[numVtx / mBatchSize].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * mBatchSize, mClearData);
+					for (int numVtx{ static_cast<int>(mParticlesData[i].size()) }; numVtx > 0; numVtx -= mBatchSize)
+						glNamedBufferSubData(bb.buffer[numVtx / mBatchSize].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * std::min(numVtx, mBatchSize), mParticlesData[0].data() + mParticlesData[i].size() - numVtx);
+				}
 			}
-
 		}
 	}
 
