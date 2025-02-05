@@ -1,7 +1,0 @@
-Shooter_Idle
-Top left: 0 x 0, 391 x 391
-20 sprites
-
-Shooter_Shoot
-Top left: 0 x 792, 391 x 391
-14 sprites

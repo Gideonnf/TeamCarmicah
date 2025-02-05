@@ -28,6 +28,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Scripting/ScriptSystem.h"
 #include "Components/Prefab.h"
 #include "Components/StateMachine.h"
+#include "Components/ParticleEmitter.h"
 #include "Systems/GOFactory.h"
 #include "../Systems/AssetManager.h"
 
@@ -179,7 +180,15 @@ namespace Carmicah
 		 */
 		template<typename T>
 		void RenderStateMachineTable(T* go, TABLETYPE type);
-
+		/**
+		 * @brief Renders the Particle component table
+		 *
+		 * @tparam T
+		 * @param data
+		 * @param type
+		 */
+		template<typename T>
+		void RenderParticleTable(T* go, TABLETYPE type);
 
 		template <typename T>
 		void CheckForComponentChange(GameObject& go, T& newComponent, bool modified)

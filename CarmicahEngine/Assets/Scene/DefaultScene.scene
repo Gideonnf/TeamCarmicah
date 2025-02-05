@@ -25,7 +25,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "panel_1",
+                    "texture": "Opening_Cutscene1_SpriteSheet_Yes 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,

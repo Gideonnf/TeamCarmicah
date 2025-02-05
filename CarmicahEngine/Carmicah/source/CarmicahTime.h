@@ -87,7 +87,6 @@ namespace Carmicah
 
         double mCPUUsage{ 0.0 }; // Add CPU usage tracking
 
-
     public:
         void Init();
         void InitTime();
@@ -141,6 +140,10 @@ namespace Carmicah
         {
             mIsFixedDT = flag;
         }
+
+        float GenerateRandFloat(float min, float max);
+        int GenerateRandInt(int min, int max);
+
 
     };
     // Global accessor

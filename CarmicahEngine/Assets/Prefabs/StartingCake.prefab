@@ -15,7 +15,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Duck_ie 0"
+            "texture": "strawberry_cake_SpriteSheet_Squish 0"
         }
     ],
     "Children": [
@@ -36,7 +36,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "invisibleWall"
+                    "texture": "Wall_Invis 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -88,7 +88,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "invisibleWall"
+                    "texture": "Wall_Invis 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -144,7 +144,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "invisibleWall"
+                    "texture": "Wall_Invis 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -212,7 +212,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "invisibleWall"
+                    "texture": "Wall_Invis 0"
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",

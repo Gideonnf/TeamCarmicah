@@ -44,6 +44,8 @@ namespace Carmicah
     {
         //this->mFixedDeltaTime = 0.01667f;
         mUpdateInterval = 0.5;
+
+        std::srand(time(NULL));
     }
 
     void CarmicahTime::InitTime()
@@ -144,6 +146,25 @@ namespace Carmicah
     double CarmicahTime::GetGPUTime() const
     {
         return static_cast<double>(mGPUTime) / 1000000.0; // Convert nanoseconds to milliseconds
+    }
+
+
+    /*!*************************************************************************
+    \brief
+        Generates a random number between min (inclusive) and max (inclusive)
+    ***************************************************************************/
+    float CarmicahTime::GenerateRandFloat(float min, float max)// eg. 0, 100
+    {
+        return min + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX) / (max - min));
+    }
+
+    /*!*************************************************************************
+    \brief
+        Generates a random number between min (inclusive) and max (inclusive)
+    ***************************************************************************/
+    int CarmicahTime::GenerateRandInt(int min, int max)
+    {
+        return min + rand() % (max - min);
     }
 
 }

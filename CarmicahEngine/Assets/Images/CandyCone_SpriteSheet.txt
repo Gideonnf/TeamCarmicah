@@ -1,3 +1,0 @@
-CandyCone
-Top left: 0 x 0, 224 x 66
-8 sprites
