@@ -11,7 +11,8 @@ namespace Carmicah
     {
         
         float sceneChangeTimer = -1f;
-        public string nextScene;
+        public string buttonType;
+        string nextScene;
 
         public void SetScene(string sceneName, float delay = 1.0f)
         {
@@ -24,12 +25,20 @@ namespace Carmicah
 
             if (sceneChangeTimer > 0)
             {
-                Console.WriteLine("PLEASE");
                 sceneChangeTimer -= dt;
                 if (sceneChangeTimer <= 0)
                 {
                     sceneChangeTimer = -1f;
-                    Scene.ChangeScene(nextScene);
+                    if(nextScene == "quit")
+                    {
+                        Scene.CloseGame();
+                    }
+                    else
+                    {
+
+                        Scene.ChangeScene(nextScene);
+
+                    }
                 }
             }
         }
@@ -38,7 +47,15 @@ namespace Carmicah
         {
             Console.WriteLine($"Testing Play Button {mID}");
             Sound.PlaySFX("SFX_Button");
-            SetScene(nextScene);
+            if(buttonType.ToLower() == "play")
+            {
+                nextScene = "Scene1";
+
+            }else if(buttonType.ToLower() == "quit")
+            {
+                nextScene = "quit";
+            }
+                SetScene(nextScene);
         }
     }
 }

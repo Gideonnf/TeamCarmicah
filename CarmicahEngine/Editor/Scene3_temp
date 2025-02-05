@@ -76,8 +76,7 @@
                     "scriptName": "Carmicah.SceneChanger",
                     "ScriptableFieldMap": [
                         {
-                            "nextScene": "Scene1",
-                            "sceneChangeTimer": -1.0
+                            "buttonType": "PLAY"
                         }
                     ]
                 },
@@ -112,9 +111,11 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.QuitButton",
+                    "scriptName": "Carmicah.SceneChanger",
                     "ScriptableFieldMap": [
-                        {}
+                        {
+                            "buttonType": "qUit"
+                        }
                     ]
                 },
                 {
