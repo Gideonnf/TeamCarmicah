@@ -187,7 +187,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "6",
+                    "texture": "strawberry_cake_SpriteSheet_Squish 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -212,7 +212,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "invisibleWall",
+                            "texture": "Wall_Invis 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -269,7 +269,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "invisibleWall",
+                            "texture": "Wall_Invis 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -330,7 +330,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "invisibleWall",
+                            "texture": "Wall_Invis 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -391,7 +391,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "invisibleWall",
+                            "texture": "Wall_Invis 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -701,7 +701,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "6",
+                    "texture": "strawberry_cake_SpriteSheet_Squish 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -913,7 +913,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "invisibleWall",
+                    "texture": "Wall_Invis 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -958,7 +958,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "invisibleWall",
+                    "texture": "Wall_Invis 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -1003,7 +1003,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "invisibleWall",
+                    "texture": "Wall_Invis 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -1048,7 +1048,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "invisibleWall",
+                    "texture": "Wall_Invis 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -1093,7 +1093,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "invisibleWall",
+                    "texture": "Wall_Invis 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -1154,7 +1154,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "invisibleWall",
+                    "texture": "Wall_Invis 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,

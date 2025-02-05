@@ -1,3 +1,3 @@
-Main
+Yes
 Top left: 0 x 0, 1920 x 1080
-6 sprites
+2 sprites

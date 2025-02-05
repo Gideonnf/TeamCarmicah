@@ -26,7 +26,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "jellybean_spritesheet_coral_bean 0",
+            "texture": "Projectile_SpriteSheet_Shooter 0",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,

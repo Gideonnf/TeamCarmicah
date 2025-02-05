@@ -1,0 +1,11 @@
+Shooter
+Top left: 0 x 0, 29 x 29
+4 sprites
+
+Mage
+Top left: 0 x 39, 71 x 71
+5 sprites
+
+Mage_Impact
+Top left: 0 x 120, 480 x 480
+11 sprites

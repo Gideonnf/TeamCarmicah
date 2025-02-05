@@ -34,38 +34,62 @@ Hover_Credits
 Top left: 0 x 1040, 421 x 130
 9 sprites
 
+Hover_Skip
+Top left: 0 x 1170, 421 x 130
+9 sprites
+
+Hover_Replay
+Top left: 0 x 1300, 421 x 130
+9 sprites
+
+Hover_NextLevel
+Top left: 0 x 1430, 421 x 130
+9 sprites
+
 Click_Home
-Top left: 0 x 1180, 421 x 130
+Top left: 0 x 1560, 421 x 130
 9 sprites
 
 Click_HowToPlay
-Top left: 0 x 1310, 421 x 130
+Top left: 0 x 1690, 421 x 130
 9 sprites
 
 Click_Settings
-Top left: 0 x 1440, 421 x 130
+Top left: 0 x 1820, 421 x 130
 9 sprites
 
 Click_Resume
-Top left: 0 x 1570, 421 x 130
+Top left: 0 x 1950, 421 x 130
 9 sprites
 
 Click_Back
-Top left: 0 x 1700, 421 x 130
+Top left: 0 x 2080, 421 x 130
 9 sprites
 
 Click_Quit
-Top left: 0 x 1830, 421 x 130
+Top left: 0 x 2210, 421 x 130
 9 sprites
 
 Click_Play
-Top left: 0 x 1960, 421 x 130
+Top left: 0 x 2340, 421 x 130
 9 sprites
 
 Click_Menu
-Top left: 0 x 2090, 421 x 130
+Top left: 0 x 2470, 421 x 130
 9 sprites
 
 Click_Credits
-Top left: 0 x 2220, 421 x 130
+Top left: 0 x 2600, 421 x 130
+9 sprites
+
+Hover_Skip
+Top left: 0 x 2730, 421 x 130
+9 sprites
+
+Hover_Replay
+Top left: 0 x 2860, 421 x 130
+9 sprites
+
+Hover_NextLevel
+Top left: 0 x 2990, 421 x 130
 9 sprites
