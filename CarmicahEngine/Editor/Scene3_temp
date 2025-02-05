@@ -73,9 +73,11 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.PlayButton",
+                    "scriptName": "Carmicah.SceneChanger",
                     "ScriptableFieldMap": [
-                        {}
+                        {
+                            "buttonType": "PLAY"
+                        }
                     ]
                 },
                 {
@@ -109,9 +111,11 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.QuitButton",
+                    "scriptName": "Carmicah.SceneChanger",
                     "ScriptableFieldMap": [
-                        {}
+                        {
+                            "buttonType": "qUit"
+                        }
                     ]
                 },
                 {

@@ -16,12 +16,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	return 0;
 }
 
-//int main()
-//{
-//	Carmicah::Application* app = new Carmicah::Application();
-//	app->run();
-//
-//	delete app;
-//
-//	return 0;
-//}
+int main()
+{
+	Carmicah::Application* app = new Carmicah::Application();
+	app->run();
+
+	delete app;
+
+	return 0;
+}
