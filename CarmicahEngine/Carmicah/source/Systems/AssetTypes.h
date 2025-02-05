@@ -76,6 +76,7 @@ namespace Carmicah
 	//};
 	struct AnimAtlas
 	{
+		int numLoops;
 		std::vector<std::pair<float, std::string>> anim;// MaxTime, TextureName
 	};
 	

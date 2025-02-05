@@ -38,26 +38,53 @@ namespace Carmicah
 		{
 			auto& animation = ComponentManager::GetInstance()->GetComponent<Animation>(entity);
 
+			if (animation.animState == Animation::ANIM_CODE::STOP_ANIM)
+				continue;
+			else if (animation.animState == Animation::ANIM_CODE::ANIM_CHANGED)
+			{
+				AnimAtlas& a{ AssetManager::GetInstance()->GetAsset<AnimAtlas>(animation.GetAnimAtlas()) };
+				auto& rend = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
+				if (ComponentManager::GetInstance()->HasComponent<Transform>(entity))
+					ComponentManager::GetInstance()->GetComponent<Transform>(entity).Update();
+				animation.currPiece = 0;
+				rend.Texture(a.anim[animation.currPiece].second);
+				animation.time = 0.f;
+				animation.maxTime = a.anim[animation.currPiece].first;
+				if (a.numLoops == 0)
+					animation.animState = Animation::ANIM_CODE::INF_LOOP;
+				else
+				{
+					animation.animState = Animation::ANIM_CODE::FINITE;
+					animation.loopsLeft = a.numLoops;
+				}
+			}
+
+
+			// Animation loop
 			animation.time += static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
 			if (animation.time > animation.maxTime)
 			{
-				AnimAtlas& a{ AssetManager::GetInstance()->GetAsset<AnimAtlas>(animation.animAtlas) };
+				AnimAtlas& a{ AssetManager::GetInstance()->GetAsset<AnimAtlas>(animation.GetAnimAtlas()) };
 				auto& rend = ComponentManager::GetInstance()->GetComponent<Renderer>(entity);
 
 				if (ComponentManager::GetInstance()->HasComponent<Transform>(entity))
 					ComponentManager::GetInstance()->GetComponent<Transform>(entity).Update();
 
-				if (animation.currPiece > a.anim.size())
+				// Add Counter + check loop
+				if (++animation.currPiece >= a.anim.size())
+				{
+					// Only need check if Finite loops
+					if (animation.animState == Animation::ANIM_CODE::FINITE && --animation.loopsLeft == 0)
+						animation.animState = Animation::ANIM_CODE::STOP_ANIM;
 					animation.currPiece = 0;
+				}
 
+				// Updates texture
 				if (animation.currPiece <= a.anim.size() - 1)
 				{
 					rend.Texture(a.anim[animation.currPiece].second);
 					animation.maxTime = a.anim[animation.currPiece].first;
 				}
-
-				if (++animation.currPiece >= a.anim.size())
-					animation.currPiece = 0;
 				animation.time = 0.f;
 			}
 		}
