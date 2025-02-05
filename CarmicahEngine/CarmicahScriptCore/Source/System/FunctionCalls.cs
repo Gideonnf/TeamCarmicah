@@ -99,5 +99,7 @@ namespace Carmicah
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static float GetStateTimer(uint entityID);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SetAlpha(uint entityID, float alpha);
     }
 }

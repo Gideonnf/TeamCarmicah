@@ -10,8 +10,9 @@ namespace Carmicah
     public class HeroBuild : Entity
     {
         public string HeroPrefab = "";
+       // public string TrapTranslucentPrefab = "TrapTranslucent";
         public bool IsLeft = false;
-
+        public float depthVal;
         Entity translucentHero;
         Entity heroEntity;
         Entity heroIcon;
@@ -20,7 +21,7 @@ namespace Carmicah
 
         public void OnCreate()
         {
-            heroIcon = FindEntityWithName("HeroIcon");
+            heroIcon = FindEntityWithName("ShooterIcon");
         }
 
         public void OnUpdate(float dt)
@@ -39,7 +40,7 @@ namespace Carmicah
                     translucentHero = CreateGameObject(HeroPrefab);
 
                     // change the opacity here
-
+                    translucentHero.GetComponent<Renderer>().SetAlpha(0.3f);
                     translucentHero.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
                    // translucentHero.GetComponent<Transform>().Depth = depthVal;
                     if (IsLeft)
@@ -77,6 +78,21 @@ namespace Carmicah
             }
 
 
+        }
+
+        public void OnMouseEnter()
+        {
+            hovering = true;
+        }
+
+        public void OnMouseHover()
+        {
+            hovering = true;
+        }
+
+        public void OnMouseExit()
+        {
+            hovering = false;
         }
     }
 }

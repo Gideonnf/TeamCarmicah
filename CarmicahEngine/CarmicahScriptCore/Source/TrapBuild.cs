@@ -79,36 +79,15 @@ namespace Carmicah
         public void OnMouseEnter()
         {
             hovering = true;
-            //if (trapEntity != null) { return; }
-
-            //trapEntity = CreateGameObject(TrapPrefabName);
-            ////Vector2 newPos = new Vector2(-5, -5);
-            //Console.WriteLine($"Position of build: {Position.x}, {Position.y}");
-            ////Vector2 newPos = new Vector2(Position.x, Position.y);
-            ////trapEntity.As<Testing>().SetUpPosition(newPos);
-            //trapEntity.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
         }
 
         public void OnMouseHover()
         {
             hovering = true;
-
-           // Console.WriteLine($"Position of Trap: {Position.x}, {Position.y}");
-            //if (translucentTrap != null)
-            //{
-
-            //   // Console.WriteLine($"Position of build: {Position.x}, {Position.y}");
-            //   // trapEntity.Position = Position;
-            //  //  trapEntity.As<Testing>().SetUpPosition(Position);
-            //   // trapEntity.Position = new Vector2(Position.x, Position.y);
-            //    //Console.WriteLine($"Position of trap: {trapEntity.Position.x}, {trapEntity.Position.y}");
-            //}
         }
 
         public void OnMouseExit()
         {
-            //trapEntity.Destroy();
-            //trapEntity = null;
             hovering = false;
         }
     }
