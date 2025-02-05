@@ -223,6 +223,7 @@ namespace Carmicah
 
             timer = 0.0f;
             GetComponent<StateMachine>().SetStateCondition(1);
+            Sound.PlaySFX("mouse die", 0.5f);
             CMConsole.Log("Dying");
         }
 

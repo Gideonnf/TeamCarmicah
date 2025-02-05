@@ -152,7 +152,7 @@
                     "scriptName": "Carmicah.SettingButton",
                     "ScriptableFieldMap": [
                         {
-                            "IsCreated": false,
+                            "IsCreated": true,
                             "SettingsCloseButton": "Close_Button",
                             "SettingsMenu": "Settings_Menu"
                         }
