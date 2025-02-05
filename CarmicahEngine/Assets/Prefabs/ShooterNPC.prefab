@@ -41,11 +41,11 @@
             "startingState": "",
             "stateMap": [
                 {
-                    "stateName": "Attacking",
+                    "stateName": "Idle",
                     "stateCondition": 0,
                     "transitions": [
                         {
-                            "targetState": "Idle",
+                            "targetState": "Attacking",
                             "condition": 2
                         },
                         {
@@ -55,11 +55,11 @@
                     ]
                 },
                 {
-                    "stateName": "Idle",
+                    "stateName": "Attacking",
                     "stateCondition": 0,
                     "transitions": [
                         {
-                            "targetState": "Attacking",
+                            "targetState": "Idle",
                             "condition": 1
                         },
                         {

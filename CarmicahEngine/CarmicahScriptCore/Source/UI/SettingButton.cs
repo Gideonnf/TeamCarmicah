@@ -37,6 +37,7 @@ namespace Carmicah
                 CreateGameObject(SettingsCloseButton);
             }
             Console.WriteLine($"Testing Button {mID}");
+            Sound.PlaySFX("SFX_Button");
         }
     }
 }

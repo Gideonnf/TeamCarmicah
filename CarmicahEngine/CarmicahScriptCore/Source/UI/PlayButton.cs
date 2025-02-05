@@ -42,6 +42,7 @@ namespace Carmicah
             // this should pass the string of scene name to function call changescene in scenesystem and change the scene 
             // but it isnt doing it somehow idk why
             //FunctionCalls.ChangeScene("Scene1");
+            Sound.PlaySFX("SFX_Button");
             Scene.ChangeScene("Scene1");
         }
     }
