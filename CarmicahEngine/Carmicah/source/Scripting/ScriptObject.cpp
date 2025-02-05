@@ -46,9 +46,62 @@ namespace Carmicah
 
 	MonoObject* ScriptClass::InvokeMethod(MonoObject* instance, MonoMethod* method, void** params)
 	{
+		if (!method)
+		{
+			CM_CORE_ERROR("Instance something something");
+			return nullptr;
+		}
+
+		if (!instance)
+		{
+			CM_CORE_ERROR("Instance something something");
+			return nullptr;
+		}
+
+		if (mono_object_get_class(instance) == nullptr)
+		{
+			CM_CORE_ERROR("Instance something something");
+			return nullptr;
+		}
+
+		int paramCount = mono_signature_get_param_count(mono_method_signature(method));
+		if (paramCount > 0 && !params)
+		{
+			CM_CORE_ERROR("Instance something something");
+			return nullptr;
+		}
+
+		if (!mono_domain_get())
+		{
+			CM_CORE_ERROR("Instance something something");
+			return nullptr;
+
+		}
+
 		// Exception so that we can check if any invoke fails
 		MonoObject* exception = nullptr;
-		return mono_runtime_invoke(method, instance, params, &exception);
+		MonoObject* result = nullptr;
+		try
+		{
+			result = mono_runtime_invoke(method, instance, params, &exception);
+		}
+		catch (...)
+		{
+			CM_CORE_ERROR("Instance something something");
+			return nullptr;
+
+		}
+
+		if (exception)
+		{
+			MonoString* exceptionMsg = mono_object_to_string(exception, nullptr);
+			char* errorMsg = mono_string_to_utf8(exceptionMsg);
+			std::cerr << "Mono Exception: " << errorMsg << std::endl;
+			mono_free(errorMsg);
+			return nullptr;
+		}
+
+		return result;
 	}
 #pragma endregion 
 	
