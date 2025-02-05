@@ -10,10 +10,10 @@ namespace Carmicah
     public class SceneChanger : Entity
     {
         
-        private static float sceneChangeTimer = -1f;
-        private static string nextScene = "";
+        float sceneChangeTimer = -1f;
+        public string nextScene;
 
-        public static void SetScene(string sceneName, float delay = 2.0f)
+        public void SetScene(string sceneName, float delay = 1.0f)
         {
             sceneChangeTimer = delay;
             nextScene = sceneName;
@@ -21,6 +21,7 @@ namespace Carmicah
 
         void OnUpdate(float dt)
         {
+
             if (sceneChangeTimer > 0)
             {
                 Console.WriteLine("PLEASE");
@@ -31,6 +32,13 @@ namespace Carmicah
                     Scene.ChangeScene(nextScene);
                 }
             }
+        }
+
+        void OnClick()
+        {
+            Console.WriteLine($"Testing Play Button {mID}");
+            Sound.PlaySFX("SFX_Button");
+            SetScene(nextScene);
         }
     }
 }

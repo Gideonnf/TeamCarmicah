@@ -27,7 +27,7 @@ namespace Carmicah
 {
     public class PlayButton : Entity
     {
-        public string nextScene = "Scene1";
+        
         void OnClick()
         {
             Console.WriteLine($"Testing Play Button {mID}");
@@ -44,7 +44,7 @@ namespace Carmicah
             // but it isnt doing it somehow idk why
             //FunctionCalls.ChangeScene("Scene1");
             Sound.PlaySFX("SFX_Button");
-            SceneChanger.SetScene(nextScene, 2.0f);
+            //SceneChanger.SetScene(nextScene, 2.0f);
 
         }
     }
