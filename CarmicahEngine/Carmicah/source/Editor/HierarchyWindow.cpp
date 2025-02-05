@@ -411,7 +411,7 @@ namespace Carmicah
 						//Scene Hierarchy
 						if (ImGui::BeginTabItem("Scene Hierarchy"))
 						{
-							if(ImGui::TreeNodeEx(gGOFactory->sceneGO.sceneName.c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow))
+							if(ImGui::TreeNodeEx(SceneToImgui::GetInstance()->currentScene.c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow))
 							{
 
 								gGOFactory->ForAllSceneGOs([this](GameObject& go)
@@ -592,7 +592,7 @@ namespace Carmicah
 				if (ImGui::Button(buttonName.c_str()))
 				{
 					std::string sceneFile;
-					AssetManager::GetInstance()->GetScene(gGOFactory->sceneGO.sceneName, sceneFile);
+					AssetManager::GetInstance()->GetScene(SceneToImgui::GetInstance()->currentScene, sceneFile);
 					SerializerSystem::GetInstance()->SerializeScene(sceneFile);
 					//gGOFactory->DestroyAll();
 				}
