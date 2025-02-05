@@ -85,6 +85,7 @@
     <Compile Include="Source\Testing.cs" />
     <Compile Include="Source\TrapBuild.cs" />
     <Compile Include="Source\UI\BackButton.cs" />
+    <Compile Include="Source\UI\SceneChanger.cs" />
     <Compile Include="Source\UI\CreditsButton.cs" />
     <Compile Include="Source\UI\Cutscene.cs" />
     <Compile Include="Source\UI\HeroIcon.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Source\UI\ResumeButton.cs" />
     <Compile Include="Source\UI\SettingButton.cs" />
     <Compile Include="Source\UI\TrapIcon.cs" />
+    <Compile Include="Source\WaveSystem.cs" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
