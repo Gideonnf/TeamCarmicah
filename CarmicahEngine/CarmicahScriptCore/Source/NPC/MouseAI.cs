@@ -97,7 +97,9 @@ namespace Carmicah
             animType = rand.Next(0, 4); // rand between 1 to 3
             randLane = rand.Next(0, 4); // rand between 1 to 3
 
-            switch(animType)
+            
+
+            switch (animType)
             {
                 case 0:
                     //Console.WriteLine($"Trying to change Anim {Animation0}");
@@ -200,7 +202,7 @@ namespace Carmicah
             }
 
             float dist = Position.Distance(endPos);
-            CMConsole.Log($"Distance to end {dist}");
+            //CMConsole.Log($"Distance to end {dist}");
 
             if (dist <= 0.3f)
             {
@@ -234,7 +236,8 @@ namespace Carmicah
         public void OnStateEnter(string stateName)
         {
             //GetComponent<StateMachine>().SetStateCondition(1);
-           // CMConsole.Log($"Update State Name: {stateName}");
+            // CMConsole.Log($"Update State Name: {stateName}");
+            
             if (stateName == "Dead")
             {
                 timer = 0.0f;

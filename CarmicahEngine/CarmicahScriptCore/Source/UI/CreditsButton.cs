@@ -45,6 +45,7 @@ namespace Carmicah
             Console.WriteLine($"Testing Button {mID}: Current Health is {healthSystem.CurrentHealth}");
 
             Console.WriteLine($"Testing Button {mID}");
+            Sound.PlaySFX("SFX_Button", 0.5f);
         }
     }
 }

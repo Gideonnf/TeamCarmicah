@@ -8,7 +8,11 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Menu_SpriteSheet_Menu_Ani 2"
+                    "texture": "Menu_SpriteSheet_Menu_Ani 2",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
@@ -26,8 +30,8 @@
                     "xPos": 960.0,
                     "yPos": 540.0,
                     "depth": -500.0,
-                    "xScale": 1920.0,
-                    "yScale": 1080.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
                     "rot": 0.0
                 }
             ]
@@ -41,9 +45,10 @@
                     "xPos": 4.0,
                     "yPos": 4.0,
                     "depth": 0.0,
-                    "xScale": 0.05263157933950424,
+                    "xScale": 0.05299999937415123,
                     "yScale": 0.10000000149011612,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "collisionMask": 0
                 }
             ],
             "Children": []
@@ -60,13 +65,19 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Play 0"
+                    "texture": "Button_SpriteSheet_Hover_Play 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.PlayButton",
+                    "scriptName": "Carmicah.SceneChanger",
                     "ScriptableFieldMap": [
-                        {}
+                        {
+                            "buttonType": "PLAY"
+                        }
                     ]
                 },
                 {
@@ -74,8 +85,8 @@
                     "xPos": 1300.0,
                     "yPos": 400.0,
                     "depth": 1.0,
-                    "xScale": 200.0,
-                    "yScale": 100.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
                     "rot": 0.0
                 }
             ]
@@ -92,13 +103,19 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Quit 0"
+                    "texture": "Button_SpriteSheet_Hover_Quit 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.QuitButton",
+                    "scriptName": "Carmicah.SceneChanger",
                     "ScriptableFieldMap": [
-                        {}
+                        {
+                            "buttonType": "qUit"
+                        }
                     ]
                 },
                 {
@@ -106,8 +123,8 @@
                     "xPos": 1300.0,
                     "yPos": 100.0,
                     "depth": 1.0,
-                    "xScale": 200.0,
-                    "yScale": 100.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
                     "rot": 0.0
                 }
             ]
@@ -124,7 +141,11 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Settings 0"
+                    "texture": "Button_SpriteSheet_Hover_Settings 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
@@ -142,8 +163,8 @@
                     "xPos": 1300.0,
                     "yPos": 300.0,
                     "depth": 1.0,
-                    "xScale": 200.0,
-                    "yScale": 100.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
                     "rot": 0.0
                 }
             ]
@@ -160,7 +181,11 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Credits 0"
+                    "texture": "Button_SpriteSheet_Hover_Credits 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
@@ -174,8 +199,8 @@
                     "xPos": 1300.0,
                     "yPos": 200.0,
                     "depth": 1.0,
-                    "xScale": 200.0,
-                    "yScale": 100.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
                     "rot": 0.0
                 }
             ]
@@ -191,43 +216,11 @@
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "collisionMask": 1
                 }
             ],
-            "Children": [
-                {
-                    "GameObject": "1",
-                    "ID": 34,
-                    "Components": [
-                        {
-                            "Component Name": "struct Carmicah::Transform",
-                            "xPos": 0.0,
-                            "yPos": 0.0,
-                            "depth": 0.0,
-                            "xScale": 1.0,
-                            "yScale": 1.0,
-                            "rot": 0.0
-                        }
-                    ],
-                    "Children": []
-                },
-                {
-                    "GameObject": "2",
-                    "ID": 35,
-                    "Components": [
-                        {
-                            "Component Name": "struct Carmicah::Transform",
-                            "xPos": 0.0,
-                            "yPos": 0.0,
-                            "depth": 0.0,
-                            "xScale": 1.0,
-                            "yScale": 1.0,
-                            "rot": 0.0
-                        }
-                    ],
-                    "Children": []
-                }
-            ]
+            "Children": []
         }
     ]
 }

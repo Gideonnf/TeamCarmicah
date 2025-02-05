@@ -20,7 +20,9 @@ namespace Carmicah
         bool built = false;
         public void OnCreate()
         {
+            
             TrapIcon = FindEntityWithName("TrapIcon");
+            
 
         }
 
@@ -63,6 +65,7 @@ namespace Carmicah
                         trapEntity = CreateGameObject(TrapPrefabName);
                         trapEntity.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
                         trapEntity.GetComponent<Transform>().Depth = depthVal;
+                        Sound.PlaySFX("trap_placement", 0.5f);
 
                         if (IsLeft)
                         {

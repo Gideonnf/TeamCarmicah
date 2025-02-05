@@ -391,8 +391,25 @@ namespace Carmicah
 		char* cStr = mono_string_to_utf8(string);
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		//CM_CORE_INFO("Entity ID in changeAnim: {}", entityID);
-		go.GetComponent<Animation>().animAtlas = cStr;
+		//go.GetComponent<Animation>().animAtlas = cStr;
+		go.GetComponent<Animation>().ChangeAnim(cStr);
 		mono_free(cStr);
+	}
+
+	static float GetMaxTime(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Animation>())
+		{
+			AnimAtlas& a{ AssetManager::GetInstance()->GetAsset<AnimAtlas>(go.GetComponent<Animation>().GetAnimAtlas()) };
+			float time = 0.0f;
+			for each (auto iter in a.anim)
+			{
+				time += iter.first;
+			}
+
+			return time;
+		}
 	}
 
 	static void SetStateCondition(unsigned int entityID, MonoObject* obj)
@@ -482,6 +499,14 @@ namespace Carmicah
 		}
 	}
 
+	static void ChangeTexture(unsigned int entityID, MonoString* string)
+	{
+		char* cStr = mono_string_to_utf8(string);
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		go.GetComponent<Renderer>().Texture(cStr);
+		mono_free(cStr);
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -529,6 +554,7 @@ namespace Carmicah
 
 		// Anim functions
 		ADD_INTERNAL_CALL(Animation_ChangeAnim);
+		ADD_INTERNAL_CALL(GetMaxTime);
 
 		// input functions
 		ADD_INTERNAL_CALL(IsKeyPressed);
@@ -539,6 +565,7 @@ namespace Carmicah
 
 		// Button function
 		ADD_INTERNAL_CALL(ChangeScene);
+		ADD_INTERNAL_CALL(ChangeTexture);
 
 		// Sound
 		ADD_INTERNAL_CALL(Sound_PlaySFX);

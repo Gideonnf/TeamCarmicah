@@ -28,6 +28,7 @@ namespace Carmicah
 
         void OnClick()
         {
+            Sound.PlaySFX("SFX_Button");
             Scene.CloseGame();
             //Console.WriteLine($"Testing Button {mID}");
         }
