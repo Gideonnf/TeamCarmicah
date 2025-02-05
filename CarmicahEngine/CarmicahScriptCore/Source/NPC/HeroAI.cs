@@ -24,6 +24,7 @@ namespace Carmicah
         GameManager gameManager;
         PauseManager pauseManager;
         MouseAI targetMouse;
+        float animationTime;
 
         void OnCreate()
         {
@@ -103,9 +104,10 @@ namespace Carmicah
             {
                 //CMConsole.Log("TESTING Enter State");
                 ChangeAnim(shootAnim);
+                animationTime = GetComponent<Animation>().GetMaxTime();
                 timer = 0.0f;
                 shot = false;
-                CMConsole.Log("ATTACKING ANIM");
+                CMConsole.Log($"Max Anim Time : {animationTime}");
 
             }
 
@@ -123,8 +125,8 @@ namespace Carmicah
                 CMConsole.Log("I AM HERE");
                 targetMouse = null;
                 // Change back to idle state
-                if (stateName == "Attacking")
-                    GetComponent<StateMachine>().SetStateCondition(1);
+                //if (stateName == "Attacking")
+                //    GetComponent<StateMachine>().SetStateCondition(1);
                 return;
             }
 
@@ -148,17 +150,17 @@ namespace Carmicah
                 timer += dt;
                 if (timer > shootTime)
                 {
-                    if (!shot)
+                    if (!shot && targetMouse != null)
                     {
                         ShootProjectile();
                         shot = true;
 
                         // reset the timer
-                        timer = 0.0f;
+                       // timer = 0.0f;
                     }
                     else
                     {
-                        if (timer >= GetComponent<Animation>().GetMaxTime())
+                        if (timer >= animationTime)
                             GetComponent<StateMachine>().SetStateCondition(1);
                     }
 

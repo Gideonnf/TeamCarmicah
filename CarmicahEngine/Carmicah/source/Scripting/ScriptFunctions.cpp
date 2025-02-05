@@ -401,7 +401,14 @@ namespace Carmicah
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		if (go.HasComponent<Animation>())
 		{
-			return go.GetComponent<Animation>().maxTime;
+			AnimAtlas& a{ AssetManager::GetInstance()->GetAsset<AnimAtlas>(go.GetComponent<Animation>().GetAnimAtlas()) };
+			float time = 0.0f;
+			for each (auto iter in a.anim)
+			{
+				time += iter.first;
+			}
+
+			return time;
 		}
 	}
 
