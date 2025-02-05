@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:			Particles.h
+ file:			ParticleEmitter.h
 
  author:		Won Yu Xuan Rainne(100%)
 
@@ -11,8 +11,8 @@ Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
 DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-#ifndef PARTICLES_COMPONENT_H
-#define PARTICLES_COMPONENT_H
+#ifndef PARTICLE_EMITTER_COMPONENT_H
+#define PARTICLE_EMITTER_COMPONENT_H
 
 #include <string>
 #include "BaseComponent.h"
@@ -20,20 +20,29 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-    struct Particles : BaseComponent<Particles>
+    struct ParticleEmitter : BaseComponent<ParticleEmitter>
     {
     public:
         std::string texture;
-        Vec2f particleSpeed;
-        float spawnPerSec, speedRange;
-        bool drawOverUI, isBurst;
+        Vec2f particleSpeed;    // Direction as well
+        size_t spawnPerSec;     // Number of particles to spawn per sec
+        float timePassed,       // Counting how long ago since a last particle spawn
+            lifeTime,           // Particle lifetime
+            speedRange,         // +-= Speed (equily on both x&y)
+            angleRange;         // Rotate by +- angle/2
+        bool isFade,             // Will fade to 0
+            isShrink;           // Will shrink to 0
 
-        Particles() : texture("Default"), particleSpeed(), spawnPerSec(), speedRange(), drawOverUI(), isBurst()
+        ParticleEmitter() : texture("Default"),
+            particleSpeed(),
+            spawnPerSec(),
+            timePassed(), lifeTime(), speedRange(), angleRange(),
+            isFade(), isShrink()
         {
 
         }
 
-        Particles& DeserializeComponent(const rapidjson::Value& component) override
+        ParticleEmitter& DeserializeComponent(const rapidjson::Value& component) override
         {
             //texture = component["texture"].GetString();
             
