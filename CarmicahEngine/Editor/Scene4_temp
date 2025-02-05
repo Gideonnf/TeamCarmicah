@@ -8,7 +8,11 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "black_background"
+                    "texture": "black_background",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -50,7 +54,11 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Play 0"
+                    "texture": "Button_SpriteSheet_Hover_Play 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
@@ -89,18 +97,24 @@
                     "scriptName": "Carmicah.Intro",
                     "ScriptableFieldMap": [
                         {
-                            "timer" : 0.0,
-                            "state" : 0,
-                            "DisplayDuration"    : 3.0,
-                            "FadeDuration"       : 1.0,
-                            "schoolLogoEntity"   : "digipen_logo",
-                            "schoolRightsEntity" : "digipen_rights",
-                            "schoolBGEntity"     : "black_background",
-                            "gameLogoEntity"     : "game_logo"
+                            "timer": 0.0,
+                            "state": 0,
+                            "schoolRightsEntity": "digipen_rights",
+                            "schoolLogoEntity": "digipen_logo",
+                            "schoolLogoName": "digipen_logo",
+                            "DisplayDuration": 3.0,
+                            "FadeDuration": -107374176.0,
+                            "schoolBGEntity": "black_background",
+                            "gameLogoEntity": "game_logo",
+                            "gameLogoName": "game_logo",
+                            "maxDuration": -107374176.0,
+                            "schoolBGName": "black_background",
+                            "schoolRightsName": "digipen_rights"
                         }
                     ]
                 }
-            ]
+            ],
+            "Children": []
         },
         {
             "GameObject": "Default",
