@@ -39,20 +39,42 @@ namespace Carmicah
             timePassed(), lifeTime(), speedRange(), angleRange(),
             isFade(), isShrink()
         {
-
         }
 
         ParticleEmitter& DeserializeComponent(const rapidjson::Value& component) override
         {
-            //texture = component["texture"].GetString();
-            
+            texture         = component["texture"].GetString();
+            particleSpeed.x = static_cast<float>(component["VelX"].GetDouble());
+            particleSpeed.y = static_cast<float>(component["VelY"].GetDouble());
+            spawnPerSec     = static_cast<size_t>(component["SpawnPSec"].GetInt());
+            lifeTime        = static_cast<float>(component["Lifetime"].GetDouble());
+            speedRange      = static_cast<float>(component["SpeedRange"].GetDouble());
+            angleRange      = static_cast<float>(component["AngleRange"].GetDouble());
+            isFade          = component["WillFade"].GetBool();
+            isShrink        = component["WillShrink"].GetBool();
             return *this;
         }
 
         void SerializeComponent(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer) override
         {
-            //writer.String("texture");
-            //writer.String(texture.c_str());
+            writer.String("texture");
+            writer.String(texture.c_str());
+            writer.String("VelX");
+            writer.Double(static_cast<double>(particleSpeed.x));
+            writer.String("VelY");
+            writer.Double(static_cast<double>(particleSpeed.y));
+            writer.String("SpawnPSec");
+            writer.Int(static_cast<int>(spawnPerSec));
+            writer.String("Lifetime");
+            writer.Double(static_cast<double>(lifeTime));
+            writer.String("SpeedRange");
+            writer.Double(static_cast<double>(speedRange));
+            writer.String("AngleRange");
+            writer.Double(static_cast<double>(angleRange));
+            writer.String("WillFade");
+            writer.Bool(isFade);
+            writer.String("WillShrink");
+            writer.Bool(isShrink);
         }
     };
 }
