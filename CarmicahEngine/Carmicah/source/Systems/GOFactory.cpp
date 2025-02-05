@@ -25,6 +25,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Components/Animation.h"
 #include "Components/TextRenderer.h"
 #include "Components/UITransform.h"
+#include "Components/ParticleEmitter.h"
 #include "Components/RigidBody.h"
 #include "Components/Script.h"
 #include "Components/Prefab.h"
@@ -309,6 +310,7 @@ namespace Carmicah
 		AddComponent<Renderer>(obj, componentName, componentData);
 		AddComponent<RigidBody>(obj, componentName, componentData);
 		AddComponent<TextRenderer>(obj, componentName, componentData);
+		AddComponent<ParticleEmitter>(obj, componentName, componentData);
 		AddComponent<Script>(obj, componentName, componentData);
 		AddComponent<Button>(obj, componentName, componentData);
 		AddComponent<PrefabData>(obj, componentName, componentData);

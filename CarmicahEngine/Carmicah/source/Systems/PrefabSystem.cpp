@@ -150,6 +150,10 @@ namespace Carmicah
 			{
 				newPrefab.mComponents.insert({ componentName, prefabComponent });
 			}
+			else if (MakeAny<ParticleEmitter>(componentName, go, prefabComponent))
+			{
+				newPrefab.mComponents.insert({ componentName, prefabComponent });
+			}
 			else if (MakeAny<Script>(componentName, go, prefabComponent))
 			{
 				newPrefab.mComponents.insert({ componentName, prefabComponent });

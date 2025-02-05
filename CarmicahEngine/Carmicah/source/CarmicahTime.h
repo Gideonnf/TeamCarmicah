@@ -19,7 +19,6 @@ DigiPen Institute of Technology is prohibited.
 #define CARMICAH_TIME_H
 
 #include <chrono>
-#include <random>
 #include <unordered_map>
 #include <string>
 #include "Singleton.h"
@@ -87,10 +86,6 @@ namespace Carmicah
         static const size_t MAX_FRAME_HISTORY = 300; //Should be enough to show a few seconds of history
 
         double mCPUUsage{ 0.0 }; // Add CPU usage tracking
-
-        // Rand things
-        std::default_random_engine* randGenerator;
-        std::uniform_real_distribution<float> urdf;
 
     public:
         void Init();

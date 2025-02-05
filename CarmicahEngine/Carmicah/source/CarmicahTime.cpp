@@ -45,9 +45,7 @@ namespace Carmicah
         //this->mFixedDeltaTime = 0.01667f;
         mUpdateInterval = 0.5;
 
-        std::random_device rd;
-        randGenerator = new std::default_random_engine(rd());
-        urdf = std::uniform_real_distribution<float>(-1.f, std::nextafterf(1.f, 1.f));
+        std::srand(time(NULL));
     }
 
     void CarmicahTime::InitTime()
@@ -157,8 +155,7 @@ namespace Carmicah
     ***************************************************************************/
     float CarmicahTime::GenerateRandFloat(float min, float max)// eg. 0, 100
     {
-        float mid = (max - min) / 2.f; // eg. 50
-        return urdf(*randGenerator) * mid + mid + min;
+        return min + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX) / (max - min));
     }
 
     /*!*************************************************************************
@@ -167,8 +164,7 @@ namespace Carmicah
     ***************************************************************************/
     int CarmicahTime::GenerateRandInt(int min, int max)
     {
-        std::uniform_int_distribution<int> uid(min, max);
-        return uid(*randGenerator);
+        return min + rand() % (max - min);
     }
 
 }

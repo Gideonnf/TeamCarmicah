@@ -193,11 +193,11 @@ namespace Carmicah
         REGISTER_COMPONENT(Renderer);
         REGISTER_COMPONENT(Animation);
         REGISTER_COMPONENT(TextRenderer);
+        REGISTER_COMPONENT(ParticleEmitter);
         REGISTER_COMPONENT(UITransform);
         REGISTER_COMPONENT(PrefabData);
         REGISTER_COMPONENT(Sound);
         REGISTER_COMPONENT(StateMachine);
-        REGISTER_COMPONENT(ParticleEmitter);
 
         CM_CORE_INFO("Starting system init");
 

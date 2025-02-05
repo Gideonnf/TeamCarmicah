@@ -559,6 +559,10 @@ if (ValueExist(doc, val) == false) { \
 				{
 					std::any_cast<TextRenderer>(component).SerializeComponent(writer);
 				}
+				if (name == typeid(ParticleEmitter).name())
+				{
+					std::any_cast<ParticleEmitter>(component).SerializeComponent(writer);
+				}
 				if (name == typeid(PrefabData).name())
 				{
 					std::any_cast<PrefabData>(component).SerializeComponent(writer);

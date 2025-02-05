@@ -102,6 +102,7 @@ namespace Carmicah
 		else if (DeserializeComponent<RigidBody>(val, component)) return component;
 		else if (DeserializeComponent<UITransform>(val, component)) return component;
 		else if (DeserializeComponent<TextRenderer>(val, component)) return component;
+		else if (DeserializeComponent<ParticleEmitter>(val, component)) return component;
 		else if (DeserializeComponent<Script>(val, component)) return component;
 		else if (DeserializeComponent<Button>(val, component)) return component;
 		else if (DeserializeComponent<PrefabData>(val, component)) return component;
