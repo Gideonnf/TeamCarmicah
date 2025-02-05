@@ -19,54 +19,191 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/GOFactory.h"
 
 #include "Components/Transform.h"
-#include "Components/Particles.h"
+#include "Components/ParticleEmitter.h"
 
 #include "ECS/SystemManager.h"
 #include "ECS/ComponentManager.h"
+#include "Graphics/RenderHelper.h"
 
 #include "Systems/AssetManager.h"
 #include "log.h"
 
 namespace Carmicah
 {
+	ParticlesSystem::vtxTexd2D ParticlesSystem::mClearData[100]{};
+
 	void ParticlesSystem::Init()
 	{
 		// Set the signature of the system
-		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Transform>());
-		mSignature.set(ComponentManager::GetInstance()->GetComponentID<Particles>());
+		mSignature.set(ComponentManager::GetInstance()->GetComponentID<ParticleEmitter>());
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<ParticlesSystem>(mSignature);
 		BaseGraphicsSystem::Init(AssetManager::GetInstance()->enConfig.defaultShader);
 	}
 
-	void ParticlesSystem::EntityDestroyed(Entity id)
-	{
-		auto test =  mEntityBufferLoc.find(id);
-		if (test != mEntityBufferLoc.end())
-		{
-			DeleteBatchData(id);
-			mEntityBufferLoc.erase(id);
-		}
-	}
-
+	// Uses basic.vert/frag
+	// Unwrites id buffer
 	void ParticlesSystem::Update()
 	{
+		float dt = static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
 		// Generate particles
-		for (std::unordered_map<unsigned int, EntityData>::iterator entity = mEntityBufferLoc.begin(); entity != mEntityBufferLoc.end();)
+		for (std::unordered_map<unsigned int, EntityData>::iterator entity = mEntityBufferLoc.begin(); entity != mEntityBufferLoc.end(); ++entity)
 		{
-			auto& particles = ComponentManager::GetInstance()->GetComponent<Particles>(entity->first);
+			auto& emitter = ComponentManager::GetInstance()->GetComponent<ParticleEmitter>(entity->first);
 
+			emitter.timePassed += dt;
+			float spawnTime = 1.f / static_cast<float>(emitter.spawnPerSec);
+			if (emitter.timePassed > spawnTime)
+			{
+				float emitterSpeed = emitter.particleSpeed.length();
+				float emitterDir = emitter.particleSpeed.angleRad();
 
+				// World Space == array 0
+				if (ComponentManager::GetInstance()->HasComponent<Transform>(entity->first))
+				{
+					do
+					{
+						particle par;
+						auto& tf = ComponentManager::GetInstance()->GetComponent<Transform>(entity->first);
 
-			++entity;
+						par.texture = emitter.texture;
+						par.timeLeft = emitter.lifeTime;
+						par.mtx = tf.worldSpace;
+						par.vel = Vector2DGenerateFromAngleRad(emitterDir + CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.angleRange / 2.f, emitter.angleRange / 2.f) * PI / 180.f) *
+							(emitterSpeed + CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.speedRange / 2.f, emitter.speedRange / 2.f));
+						par.alpha.x = 1.f;
+						if (emitter.isFade)
+							par.alpha.y = 1.f / emitter.lifeTime;
+						//if (emitter.isShrink)
+						//	par.scaling = 
+
+						mParticles[0].emplace_back(par);
+						emitter.timePassed -= spawnTime;
+					} while (emitter.timePassed > spawnTime);
+				}
+				// UI Space == array 1
+				else
+				{
+					do
+					{
+						particle par;
+						auto& tf = ComponentManager::GetInstance()->GetComponent<UITransform>(entity->first);
+
+						par.texture = emitter.texture;
+						par.timeLeft = emitter.lifeTime;
+						par.mtx.translateThis(tf.Pos()).scaleThis(tf.Scale());
+						par.vel = Vector2DGenerateFromAngleRad(emitterDir + CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.angleRange / 2.f, emitter.angleRange / 2.f) * PI / 180.f) *
+							(emitterSpeed + CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.speedRange / 2.f, emitter.speedRange / 2.f));
+						par.alpha.x = 1.f;
+						if (emitter.isFade)
+							par.alpha.y = 1.f / emitter.lifeTime;
+						//if (emitter.isShrink)
+						//	par.scaling = 
+
+						mParticles[1].emplace_back(par);
+						emitter.timePassed -= spawnTime;
+					} while (emitter.timePassed > spawnTime);
+				}
+			}
 		}
-		
-		// Batch Render Particles
 
-		//EditBatchData(entity->first, true, BASE_LAYER);
+		// Gets ready data
+		mParticlesData[0].clear();
+		mParticlesData[0].reserve(mParticles[0].size() * 4);
+		mParticlesData[1].clear();
+		mParticlesData[1].reserve(mParticles[1].size() * 4);
+		auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>("Square")};
+
 		
-		//SetNewEntity(entity, ComponentManager::GetInstance()->GetComponent<Renderer>(entity).model, 0, true, false);
-		//EditBatchData(entity, true, BASE_LAYER);
+		for (size_t i{}; i < 2; ++i)// WorldSpace, UISpace
+		{
+			size_t eraseCounter{}, arrSize{ mParticles[i].size() };
+			float depth{};
+			if(i == 0)
+				depth = CalcDepth(mNearestDepth, BASE_LAYER);
+			else if(i == 1)
+				depth = CalcDepth(mNearestDepth, UI_LAYER);
+
+			// Loops through all active particles and updates
+			for (size_t it{}; it < mParticles[i].size();)
+			{
+				particle& par = mParticles[i][it];
+				// Swap this with the last particle, continue (don't advance)
+				if ((par.timeLeft -= dt) < 0.f)
+				{
+					std::swap(par, mParticles[i][arrSize - (++eraseCounter)]);
+					continue;
+				}
+				// Update the particle
+				par.mtx.m[6] += par.vel.x * dt;
+				par.mtx.m[7] += par.vel.y * dt;
+				//par.mtx.scaleThis(par.scaling * dt, par.scaling * dt);
+				par.alpha.x += par.alpha.y * dt;
+
+				// Store the particle data into 
+				auto& texture = AssetManager::GetInstance()->GetAsset<Texture>(par.texture);
+				for (unsigned int i{}; i < p.vtx.size(); ++i)
+				{
+					vtxTexd2D vtx;
+					vtx.pos = par.mtx * p.vtx[i];
+					//tt.ids[0] = entity;		// Used for id-picking
+					vtx.ids[1] = texture.t;
+					vtx.color[0] = 1.f;
+					vtx.color[1] = 1.f;
+					vtx.color[2] = 1.f;
+					vtx.color[3] = par.alpha.x;
+
+					vtx.depth = depth;
+					vtx.uv = texture.mtx * p.texCoord[i];
+					mParticlesData[i].emplace_back(vtx);
+				}
+				++it;
+			}
+
+
+			// Remove non-active particles from the list
+			if(eraseCounter > 0)
+				mParticles[i].erase(mParticles[i].begin() + (arrSize - eraseCounter), mParticles[i].end());
+			
+
+			int& mBatchSize = AssetManager::GetInstance()->enConfig.batchRenderSize;
+
+			// Batch push data
+			if (i == 0)
+			{
+				while (mParticlesData[i].size() > mParticlesBufferSize[i])
+				{
+					GenBatch("Square", mParticleBufferID, true, false, true);
+					mParticlesBufferSize[i] += static_cast<size_t>(mBatchSize);
+				}
+				RenderHelper::BufferID bufferID(p.uid, mCurrShader, true, mParticleBufferID);
+				BatchBuffer& bb = RenderHelper::GetInstance()->mBufferMap.find(bufferID)->second;
+
+				// Clear Data
+				for (int numVtx{}; numVtx < mParticlesBufferSize[i]; numVtx += mBatchSize)
+					glNamedBufferSubData(bb.buffer[numVtx / mBatchSize].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * mBatchSize, mClearData);
+				// Write Data
+				for (int numVtx{ static_cast<int>(mParticlesData[i].size()) }; numVtx > 0 ; numVtx -= mBatchSize)
+					glNamedBufferSubData(bb.buffer[numVtx / mBatchSize].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * std::min(numVtx, mBatchSize), mParticlesData[0].data() + mParticlesData[i].size() - numVtx);
+			}
+			else if (i == 1)
+			{
+				while (mParticlesData[i].size() > mParticlesBufferSize[i])
+				{
+					GenBatch("Square", mParticleBufferID, false, false, true);
+					mParticlesBufferSize[i] += static_cast<size_t>(mBatchSize);
+				}
+
+				RenderHelper::BufferID bufferID(p.uid, mCurrShader, false, mParticleBufferID);
+				BatchBuffer& bb = RenderHelper::GetInstance()->mBufferMap.find(bufferID)->second;
+				// Clear Data
+				for (int numVtx{}; numVtx < mParticlesBufferSize[i]; numVtx += mBatchSize)
+					glNamedBufferSubData(bb.buffer[numVtx / mBatchSize].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * mBatchSize, mClearData);
+				for (int numVtx{ static_cast<int>(mParticlesData[i].size()) }; numVtx > 0; numVtx -= mBatchSize)
+					glNamedBufferSubData(bb.buffer[numVtx / mBatchSize].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * std::min(numVtx, mBatchSize), mParticlesData[0].data() + mParticlesData[i].size() - numVtx);
+			}
+
+		}
 	}
 
 }

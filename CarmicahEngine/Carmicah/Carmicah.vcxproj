@@ -179,7 +179,7 @@ xcopy /Q /E /Y /I "..\bin\Installer-x86_64\CarmicahScriptCore\**.**" "..\Carmica
     <ClInclude Include="source\Components\Button.h" />
     <ClInclude Include="source\Components\Camera.h" />
     <ClInclude Include="source\Components\Collider2D.h" />
-    <ClInclude Include="source\Components\Particles.h" />
+    <ClInclude Include="source\Components\ParticleEmitter.h" />
     <ClInclude Include="source\Components\Prefab.h" />
     <ClInclude Include="source\Components\Renderer.h" />
     <ClInclude Include="source\Components\RigidBody.h" />

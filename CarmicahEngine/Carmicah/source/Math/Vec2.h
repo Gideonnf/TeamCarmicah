@@ -126,6 +126,11 @@ namespace Carmicah
 		{
 			return(x * other.y - y * other.x);
 		}
+		// Angle Calculation
+		T angleRad()
+		{
+			return atan2(y, x);
+		}
 
 
 		//Default Vectors
@@ -237,6 +242,11 @@ namespace Carmicah
 	template<typename T> bool Vector2DIsSimilar(const Vector2D<T>& pVec0, const Vector2D<T>& pVec1)
 	{
 		return fabs(pVec0.x - pVec1.x) < DBL_EPSILON && fabs(pVec0.y - pVec1.y) < DBL_EPSILON;
+	}
+
+	template<typename T> Vector2D<T> Vector2DGenerateFromAngleRad(T angle)
+	{
+		return Vector2D<T>{cos(angle), sin(angle)};
 	}
 
 	//<< Operator Overload

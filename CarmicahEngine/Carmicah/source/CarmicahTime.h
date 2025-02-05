@@ -19,6 +19,7 @@ DigiPen Institute of Technology is prohibited.
 #define CARMICAH_TIME_H
 
 #include <chrono>
+#include <random>
 #include <unordered_map>
 #include <string>
 #include "Singleton.h"
@@ -87,6 +88,9 @@ namespace Carmicah
 
         double mCPUUsage{ 0.0 }; // Add CPU usage tracking
 
+        // Rand things
+        std::default_random_engine* randGenerator;
+        std::uniform_real_distribution<float> urdf;
 
     public:
         void Init();
@@ -141,6 +145,10 @@ namespace Carmicah
         {
             mIsFixedDT = flag;
         }
+
+        float GenerateRandFloat(float min, float max);
+        int GenerateRandInt(int min, int max);
+
 
     };
     // Global accessor

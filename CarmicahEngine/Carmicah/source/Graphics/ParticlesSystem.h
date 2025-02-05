@@ -22,29 +22,29 @@ namespace Carmicah
 	class ParticlesSystem : public BaseSystem, private BaseGraphicsSystem
 	{
 	private:
-		struct partic
+		struct particle
 		{
-			Vec2f pos;
-			Vec2f vel;
-			float timeLeft;
+			std::string texture;
+			Mtx3x3f mtx;
+			Vec2f vel,			// Vel Change per second
+				alpha;			// Curr Alpha, Alpha change per second
+			// --TODO--
+			//float scaling,	// uses a (y = a^x) when x = 1, y ~= 1, z ?= 0.01, so just use this and multiply by how long
+			float	timeLeft;
 		};
+		static vtxTexd2D mClearData[100];
 
-		std::vector<partic> mWorldParticles, mUIParticles;
+		std::vector<particle> mParticles[2];		// Actual Particle data
+		std::vector<vtxTexd2D> mParticlesData[2];	// Particle data according to graphics
+		size_t mParticlesBufferSize[2];				// TotalBufferSizeGenerated
 
+		const unsigned int mParticleBufferID = 1; //yes, hard-coded ik
 	public:
 		/*!*************************************************************************
 		brief
 			Sets which components the system references, and load the shader
 		***************************************************************************/
 		void Init();
-
-		/*!*************************************************************************
-		brief
-			Remove the entity from the buffer when it is destroyed
-		param[id]
-			the entity id being destroyed
-		***************************************************************************/
-		void EntityDestroyed(Entity id);
 
 		/*!*************************************************************************
 		brief
