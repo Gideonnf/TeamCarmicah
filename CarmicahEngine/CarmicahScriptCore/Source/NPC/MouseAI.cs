@@ -97,7 +97,7 @@ namespace Carmicah
             animType = rand.Next(0, 4); // rand between 1 to 3
             randLane = rand.Next(0, 4); // rand between 1 to 3
 
-            
+            Sound.PlaySFX("Portal_Spawn", 0.3f);
 
             switch (animType)
             {
@@ -295,10 +295,11 @@ namespace Carmicah
             }
             else if (stateName == "Dead")
             {
+                
                 timer += dt;
                 if (timer >= DeathTime)
                 {
-
+                    Sound.PlaySFX("mouse die btr", 0.5f);
                     timer = 0.0f;
                     Destroy();
                 }

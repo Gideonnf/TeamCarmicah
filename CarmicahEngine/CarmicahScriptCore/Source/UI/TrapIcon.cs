@@ -22,7 +22,7 @@ namespace Carmicah
             //if (IsKeyHold(Keys.))
             Vector2 mousePos = Input.GetMousePos();
             trapEntity.Position = mousePos;
-            Console.WriteLine($"{trapEntity.Scale.x}");
+            
 
             if(trapEntity.Position.x < 0.0f && flipped != true)
             {

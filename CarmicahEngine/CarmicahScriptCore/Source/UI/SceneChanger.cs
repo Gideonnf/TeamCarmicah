@@ -46,7 +46,7 @@ namespace Carmicah
         void OnClick()
         {
             Console.WriteLine($"Testing Play Button {mID}");
-            Sound.PlaySFX("SFX_Button");
+            Sound.PlaySFX("SFX_Button",0.5f);
             if(buttonType.ToLower() == "play")
             {
                 nextScene = "Scene1";
