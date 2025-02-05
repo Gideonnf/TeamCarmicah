@@ -1,0 +1,15 @@
+Top
+Top left: 0 x 0, 525 x 130
+7 sprites
+
+Top2
+Top left: 0 x 260, 525 x 130
+1 sprites
+
+Bottom
+Top left: 0 x 130, 525 x 130
+7 sprites
+
+Bottom2
+Top left: 0 x 390, 525 x 130
+1 sprites
