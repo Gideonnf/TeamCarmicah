@@ -63,6 +63,12 @@ namespace Carmicah
 				{
 					do
 					{
+						if (mParticles[0].size() + mParticles[1].size() >= mMaxParticles)
+						{
+							emitter.timePassed = 0.0f;
+							break;
+						}
+
 						particle par;
 						auto& tf = ComponentManager::GetInstance()->GetComponent<Transform>(e);
 
@@ -86,6 +92,12 @@ namespace Carmicah
 				{
 					do
 					{
+						if (mParticles[0].size() + mParticles[1].size() >= mMaxParticles)
+						{
+							emitter.timePassed = 0.0f;
+							break;
+						}
+
 						particle par;
 						auto& tf = ComponentManager::GetInstance()->GetComponent<UITransform>(e);
 
@@ -212,7 +224,7 @@ namespace Carmicah
 					bufferNum = 0;
 					for (int numVtx{ static_cast<int>(mParticlesData[i].size()) }; numVtx > 0; numVtx -= mBatchSize)
 					{
-						glNamedBufferSubData(bb.buffer[bufferNum++].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * std::min(numVtx, mBatchSize), mParticlesData[i].data() + ((mParticlesData[i].size() - numVtx) * p.vtx.size()));
+						glNamedBufferSubData(bb.buffer[bufferNum++].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * std::min(numVtx, mBatchSize), mParticlesData[i].data() + (mParticlesData[i].size() - numVtx));
 					}
 				}
 			}
