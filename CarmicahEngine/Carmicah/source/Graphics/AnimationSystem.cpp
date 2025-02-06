@@ -34,6 +34,8 @@ namespace Carmicah
 
 	void AnimationSystem::Update()
 	{
+		float dt = static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
+
 		for (auto& entity : mEntitiesSet)
 		{
 			auto& animation = ComponentManager::GetInstance()->GetComponent<Animation>(entity);
@@ -61,7 +63,7 @@ namespace Carmicah
 
 
 			// Animation loop
-			animation.time += static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
+			animation.time += dt;
 			if (animation.time > animation.maxTime)
 			{
 				AnimAtlas& a{ AssetManager::GetInstance()->GetAsset<AnimAtlas>(animation.GetAnimAtlas()) };

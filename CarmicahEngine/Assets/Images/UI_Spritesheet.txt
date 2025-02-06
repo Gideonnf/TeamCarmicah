@@ -1,0 +1,31 @@
+Speech
+Top Left: 0 x 0, 304 x 350
+3 Sprites
+
+UI_Bar
+Top Left: 914 x 0, 113 x 738
+1 Sprite
+
+Shooter_Icon
+Top Left: 0 x 351, 71 x 100
+1 Sprite
+
+Mage_Icon
+Top Left: 72 x 351, 70 x 136
+1 Sprite
+
+Bear_Icon
+Top Left: 143 x 351, 133 x 102
+1 Sprite
+
+Sparkle_VFX
+Top Left: 277 x 351, 177 x 186
+1 Sprite
+
+Cursor
+Top Left: 455 x 351, 58 x 61
+1 Sprite
+
+Texture
+Top Left: 1028 x 0, 1920 x 1080
+1 Sprite

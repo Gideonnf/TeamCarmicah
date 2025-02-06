@@ -34,6 +34,18 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+	std::string MonoToString(MonoString* monoStr)
+	{
+		if (!monoStr) return "";
+
+		char* utf8Str = mono_string_to_utf8(monoStr);
+		if (!utf8Str) return "";
+
+		std::string result(utf8Str);
+		mono_free(utf8Str);
+
+		return result;
+	}
 
 	static std::unordered_map<MonoType*, std::function<bool(GameObject)>> mGameObjectHasComponentFuncs;
 
@@ -100,26 +112,26 @@ namespace Carmicah
 	/// <returns>ID of the entity</returns>
 	static unsigned int Entity_FindEntityWithName(MonoString* name)
 	{
-		char* cStrName = mono_string_to_utf8(name);
+		std::string cStrName = MonoToString(name);
 
 		GameObject go{};
 		gGOFactory->FetchGO(cStrName, go);
 
-		mono_free(cStrName);
+		//mono_free(cStrName);
 
 		return go.GetID();
 	}
 
-	/// <summary>
+	/// <summary>SS
 	/// Internal function call to play sound effects between C# and C++
 	/// </summary>
 	/// <param name="name">Name of the sound file to play</param>
 	static void Sound_PlaySFX(MonoString* name, float volume)
 	{
-		char* cStrname = mono_string_to_utf8(name);
+		std::string cStrName = MonoToString(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySoundThis(cStrname, SoundCategory::SFX, SoundSystem::SOUND_INGAME, false, volume);
-		mono_free(cStrname);
+		souSystem->PlaySoundThis(cStrName, SoundCategory::SFX, SoundSystem::SOUND_INGAME, false, volume);
+		//mono_free(cStrname);
 	}
 
 	//static void Sound_PlayBGM(MonoString* name, float volume)
@@ -329,17 +341,17 @@ namespace Carmicah
 	static bool ChangeScene(MonoString* sceneName)
 	{
 		// char* that is allocated on the heap
-		char* cStrName = mono_string_to_utf8(sceneName);
+		std::string cStrName = MonoToString(sceneName);
 		// call the system manager to get instance of scene system
 		auto sceneSystem = SystemManager::GetInstance()->GetSystem<SceneSystem>();
 		// change the scene
 		if (!sceneSystem->ChangeScene(cStrName))
 		{
-			mono_free(cStrName);
+			//mono_free(cStrName);
 			return false;
 		}
 		// free the memory
-		mono_free(cStrName);
+		//mono_free(cStrName);
 		return true;
 	}
 
@@ -350,9 +362,9 @@ namespace Carmicah
 
 	static unsigned int CreateNewGameObject(MonoString* prefabName)
 	{
-		char* cStrName = mono_string_to_utf8(prefabName);
+		std::string cStrName = MonoToString(prefabName);
 		GameObject newGO = gGOFactory->CreatePrefab(cStrName);
-		mono_free(cStrName);
+		//mono_free(cStrName);
 
 		return newGO.GetID();
 	}
@@ -388,12 +400,28 @@ namespace Carmicah
 
 	static void Animation_ChangeAnim(unsigned int entityID, MonoString* string)
 	{
-		char* cStr = mono_string_to_utf8(string);
+		std::string cStrName = MonoToString(string);
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		//CM_CORE_INFO("Entity ID in changeAnim: {}", entityID);
 		//go.GetComponent<Animation>().animAtlas = cStr;
-		go.GetComponent<Animation>().ChangeAnim(cStr);
-		mono_free(cStr);
+		go.GetComponent<Animation>().ChangeAnim(cStrName);
+		//mono_free(cStr);
+	}
+
+	static float GetMaxTime(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Animation>())
+		{
+			AnimAtlas& a{ AssetManager::GetInstance()->GetAsset<AnimAtlas>(go.GetComponent<Animation>().GetAnimAtlas()) };
+			float time = 0.0f;
+			for each (auto iter in a.anim)
+			{
+				time += iter.first;
+			}
+
+			return time;
+		}
 	}
 
 	static void SetStateCondition(unsigned int entityID, MonoObject* obj)
@@ -425,10 +453,10 @@ namespace Carmicah
 		else if (strcmp(className, "String") == 0)
 		{
 			MonoString* monoStr = (MonoString*)obj;
-			char* utf8Str = mono_string_to_utf8(monoStr);
-			var = std::string(utf8Str);
+			std::string cStrName = MonoToString(monoStr);
+			var = cStrName;
 			//std::cout << "Received string: " << utf8Str << std::endl;
-			mono_free(utf8Str); // Free Mono allocated memory
+			//mono_free(utf8Str); // Free Mono allocated memory
 		}
 		else
 		{
@@ -463,9 +491,9 @@ namespace Carmicah
 
 	static void Log(MonoString* string)
 	{
-		char* cStr = mono_string_to_utf8(string);
-		CM_CORE_INFO(cStr);
-		mono_free(cStr);
+		std::string cStrName = MonoToString(string);
+		CM_CORE_INFO(cStrName);
+		//mono_free(cStr);
 	}
 
 	static void GetMousePos(Vec2f* outPos)
@@ -485,10 +513,10 @@ namespace Carmicah
 
 	static void ChangeTexture(unsigned int entityID, MonoString* string)
 	{
-		char* cStr = mono_string_to_utf8(string);
+		std::string cStrName = MonoToString(string);
 		GameObject& go = gGOFactory->FetchGO(entityID);
-		go.GetComponent<Renderer>().Texture(cStr);
-		mono_free(cStr);
+		go.GetComponent<Renderer>().Texture(cStrName);
+		//mono_free(cStr);
 	}
 
 	/// <summary>
@@ -538,6 +566,7 @@ namespace Carmicah
 
 		// Anim functions
 		ADD_INTERNAL_CALL(Animation_ChangeAnim);
+		ADD_INTERNAL_CALL(GetMaxTime);
 
 		// input functions
 		ADD_INTERNAL_CALL(IsKeyPressed);

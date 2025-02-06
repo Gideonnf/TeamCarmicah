@@ -204,7 +204,7 @@ namespace Carmicah
             }
 
             float dist = Position.Distance(endPos);
-            CMConsole.Log($"Distance to end {dist}");
+            //CMConsole.Log($"Distance to end {dist}");
 
             if (dist <= 0.3f)
             {
@@ -313,7 +313,7 @@ namespace Carmicah
             else if (stateName == "Dead")
             {
                 timer += dt;
-                if (timer >= DeathTime)
+                if (timer >= GetComponent<Animation>().GetMaxTime())
                 {
 
                     timer = 0.0f;
