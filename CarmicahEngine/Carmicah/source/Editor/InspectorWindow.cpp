@@ -1475,10 +1475,20 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("Particle xSpawnRadius");
 				ImGui::TableNextColumn();
-				tempValue = particle.xSpawnRadius;
+				tempValue = particle.spawnRadius.x;
 				if (ImGui::DragFloat("##xSpawnRadius", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
-					particle.xSpawnRadius = tempValue;
+					particle.spawnRadius.x = tempValue;
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Particle ySpawnRadius");
+				ImGui::TableNextColumn();
+				tempValue = particle.spawnRadius.y;
+				if (ImGui::DragFloat("##ySpawnRadius", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					particle.spawnRadius.y = tempValue;
 				}
 
 
@@ -1512,7 +1522,7 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				checkBoxCheckedBoxedDiff = particle.HasEmitterQualities(ParticleEmitter::PARTICLES_FRICTION);
 				if(ImGui::Checkbox("##ParticleFriction", &checkBoxCheckedBoxedDiff))
-					particle.SetEmitterQualities(ParticleEmitter::PARTICLES_FADE, checkBoxCheckedBoxedDiff);
+					particle.SetEmitterQualities(ParticleEmitter::PARTICLES_FRICTION, checkBoxCheckedBoxedDiff);
 				
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
@@ -1521,6 +1531,14 @@ namespace Carmicah
 				checkBoxCheckedBoxedDiff = particle.HasEmitterQualities(ParticleEmitter::PARTICLES_GRAVITY);
 				if(ImGui::Checkbox("##ParticleGravity", &checkBoxCheckedBoxedDiff))
 					particle.SetEmitterQualities(ParticleEmitter::PARTICLES_GRAVITY, checkBoxCheckedBoxedDiff);
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Particle Radial");
+				ImGui::TableNextColumn();
+				checkBoxCheckedBoxedDiff = particle.HasEmitterQualities(ParticleEmitter::PARTICLES_RADIAL);
+				if(ImGui::Checkbox("##ParticleRadial", &checkBoxCheckedBoxedDiff))
+					particle.SetEmitterQualities(ParticleEmitter::PARTICLES_RADIAL, checkBoxCheckedBoxedDiff);
 
 				ImGui::EndTable();
 			}
