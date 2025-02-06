@@ -213,6 +213,9 @@ namespace Carmicah
 
                 timer = 0.0f;
                 GetComponent<StateMachine>().SetStateCondition(1);
+
+                Entity mainCharacter = FindEntityWithName("mainCharacter");
+                mainCharacter.As<Player>().TakeDamage(10);
             }
         }
 
