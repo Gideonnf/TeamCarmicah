@@ -52,6 +52,9 @@ namespace Carmicah
         internal extern static void Sound_SetVolume(string soundName, float volume);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Sound_StopBGM(string soundName);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_Stop(string soundName);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -74,6 +77,9 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static object GetScriptInstance(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static object GetScriptInstanceFromChildren(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Animation_ChangeAnim(uint entityID, string prefabName);
@@ -119,5 +125,11 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Transform_GetLocalPosition(uint entityID, out Vector2 position);
+
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static string Transform_GetTag(uint entityID);
+
+
     }
 }

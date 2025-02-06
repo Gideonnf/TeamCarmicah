@@ -65,6 +65,7 @@ namespace Carmicah
         public float TimeToDie = 1.5f;
         public float timer;
         public float DeathTime = 2.0f;
+        public float Speed = 1.0f;
 
         int animType = 0;
         int randLane = 0;
@@ -197,7 +198,7 @@ namespace Carmicah
             Vector2 dir = (endPos - Position).Normalize();
             if (HasComponent<RigidBody>())
             {
-                GetComponent<RigidBody>().ApplyForce(dir, 1.0f);
+                GetComponent<RigidBody>().ApplyForce(dir, Speed);
 
             }
 
@@ -206,25 +207,46 @@ namespace Carmicah
 
             if (dist <= 0.3f)
             {
-                CMConsole.Log("Dying");
+               // CMConsole.Log("Dying");
 
                 timer = 0.0f;
                 GetComponent<StateMachine>().SetStateCondition(1);
             }
         }
 
-        void OnCollide()
+        void OnCollide(uint id)
         {
+
             // its alr dead
             if (mID == 0)
             {
                 return;
             }
 
-            timer = 0.0f;
-            GetComponent<StateMachine>().SetStateCondition(1);
-            Sound.PlaySFX("mouse die", 0.5f);
-            CMConsole.Log("Dying");
+            Entity collidedEntity = FindEntityWithID(id);
+            if (collidedEntity != null)
+            {
+                if (collidedEntity.GetTag() == "Trap")
+                {
+                    this.AsChild<HealthSystem>().TakeDamage(100);
+                }
+                else if (collidedEntity.GetTag() == "Bullet")
+                {
+                    CMConsole.Log($"Collided Entity : {collidedEntity.mID} with tag {collidedEntity.GetTag()}");
+                    this.AsChild<HealthSystem>().TakeDamage(50);
+                }
+            }
+
+            if (this.AsChild<HealthSystem>().mCurHealth <= 0)
+            {
+                GetComponent<StateMachine>().SetStateCondition(1);
+
+            }
+
+            //timer = 0.0f;
+            //GetComponent<StateMachine>().SetStateCondition(1);
+            //Sound.PlaySFX("mouse die", 0.5f);
+            //CMConsole.Log("Dying");
         }
 
         public void KillMouse()
@@ -242,7 +264,7 @@ namespace Carmicah
             if (stateName == "Dead")
             {
                 timer = 0.0f;
-
+                Sound.PlaySFX("mouse die", 0.5f);
                 GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                 if (gm != null)
                     gm.EntityDestroyed(this);

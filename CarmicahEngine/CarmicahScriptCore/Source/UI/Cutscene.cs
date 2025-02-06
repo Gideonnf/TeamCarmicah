@@ -9,12 +9,21 @@ namespace Carmicah
     public class Cutscene : Entity
     {
         public float timer = 0.0f;
-        public float timeToChange = 2.0f;
+        //public float timeToChange = 2.0f;
+        public float panelDisplayTime = 10.0f;     // How long each panel stays visible
+        public float fadeTransitionTime = 3.0f;   // How long the fade transition takes
+        public float fadeSpeed = 0.25f;
+
         public string cutscenePrefab = "CutSceneImage";
         public string panel1Name = "Opening_Cutscene1_SpriteSheet_Yes";
         public int numOfPanels1 = 6;
         public string panel2Name = "Opening_Cutscene2_SpriteSheet_Yes";
         public int numOfPanels = 8;
+
+        // Background music configuration  
+        public string backgroundMusicTrack = "Cutscene";
+        private bool musicStarted = false;
+
         int currentPanel = 1;
         Entity cutsceneEntity;
         Entity nextCutsceneEntity;
@@ -26,6 +35,14 @@ namespace Carmicah
         void OnCreate()
         {
             cutsceneEntity = FindEntityWithName("CutSceneImage");
+
+            // Start background music when cutscene begins
+            if (!musicStarted)
+            {
+
+                Sound.PlaySFX(backgroundMusicTrack, 0.5f);
+                musicStarted = true;
+            } 
         }
 
         void OnUpdate(float dt)
@@ -44,6 +61,7 @@ namespace Carmicah
                     nextCutsceneEntity = CreateGameObject(cutscenePrefab);
                     nextCutsceneEntity.Depth = cutsceneEntity.Depth - 0.5f;
                     currAlpha = 1.0f;
+
                     string imageName;
                     if (currentPanel < numOfPanels1)
                         imageName = panel1Name + " " + currentPanel;
@@ -70,7 +88,7 @@ namespace Carmicah
             CMConsole.Log($"Alpha : {currAlpha}, timer: {timer}");
             if (stateName == "ChangeImage")
             {
-                currAlpha -= 0.2f * dt;
+                currAlpha -= fadeSpeed * dt;
                 cutsceneEntity.GetComponent<Renderer>().SetAlpha(currAlpha);
                 if (currAlpha < 0.0f)
                 {
@@ -86,13 +104,22 @@ namespace Carmicah
             if (stateName == "Idle")
             {
                 timer += dt;
-                if (timer >= timeToChange)
+                if (timer >= panelDisplayTime)
                 {
                     //CMConsole.Log("Changing??");
                     // change image state
                     currentPanel++;
                     if (currentPanel <= numOfPanels)
                         GetComponent<StateMachine>().SetStateCondition(2);
+                    else
+                        Scene.ChangeScene("Scene1");
+                }
+
+
+                else
+                {
+                    Sound.StopSoundBGM(backgroundMusicTrack);
+                    //Scene.ChangeScene("Scene1");
                 }
             }
 

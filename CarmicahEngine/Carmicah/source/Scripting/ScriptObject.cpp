@@ -121,7 +121,7 @@ namespace Carmicah
 		mOnUpdate = scClass->GetMethod("OnUpdate", 1);
 		mOnFixedUpdate = scClass->GetMethod("OnFixedUpdate", 1);
 		mOnClick = scClass->GetMethod("OnClick", 0);
-		mOnCollide = scClass->GetMethod("OnCollide", 0);
+		mOnCollide = scClass->GetMethod("OnCollide", 1);
 
 		mOnMouseEnter = scClass->GetMethod("OnMouseEnter", 0);
 		mOnMouseExit = scClass->GetMethod("OnMouseExit", 0);
@@ -186,12 +186,13 @@ namespace Carmicah
 		}
 	}
 
-	void ScriptObject::InvokeOnCollide()
+	void ScriptObject::InvokeOnCollide(unsigned int id)
 	{
 		//UNUSED(otherID);
 		if (mOnCollide)
 		{
-			mScriptClass->InvokeMethod(mMonoInstance, mOnCollide);
+			void* param = &id;
+			mScriptClass->InvokeMethod(mMonoInstance, mOnCollide, &param);
 		}
 	}
 

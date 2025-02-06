@@ -10,6 +10,7 @@
             "xScale": 0.25,
             "yScale": 0.25,
             "rot": 0.0,
+            "transformTag": "Trap",
             "collisionMask": 32
         },
         {

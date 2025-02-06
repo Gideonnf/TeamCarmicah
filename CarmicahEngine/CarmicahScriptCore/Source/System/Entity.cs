@@ -94,6 +94,13 @@ namespace Carmicah
             return component;
         }
 
+        public T AsChild<T>() where T : Entity, new()
+        {
+            Object scriptInstance = FunctionCalls.GetScriptInstanceFromChildren(mID);
+
+            return scriptInstance as T;
+        }
+
         public T As<T>() where T : Entity, new()
         {
             Object scriptInstance = FunctionCalls.GetScriptInstance(mID);
@@ -154,6 +161,11 @@ namespace Carmicah
         public void ChangeAnim(string animName)
         {
             FunctionCalls.Animation_ChangeAnim(mID, animName);
+        }
+
+        public string GetTag()
+        {
+            return FunctionCalls.Transform_GetTag(mID);
         }
 
         //public T GetComponent<T>() 

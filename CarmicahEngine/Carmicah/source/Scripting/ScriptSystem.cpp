@@ -621,7 +621,7 @@ namespace Carmicah
             //CM_CORE_INFO("Entity id in ScriptSys {}", castedMsg->mEntityID);
             if (mEntityInstances.count(castedMsg->mEntityID))
             {
-                mEntityInstances[castedMsg->mEntityID]->InvokeOnCollide();
+                mEntityInstances[castedMsg->mEntityID]->InvokeOnCollide(castedMsg->mCollidedEntity);
             }
         }
         else if (msg->mMsgType == MSG_MOUSEENTER)

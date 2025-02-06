@@ -23,22 +23,53 @@ namespace Carmicah
     struct ParticleEmitter : BaseComponent<ParticleEmitter>
     {
     public:
+        enum EMITTER_TYPE : unsigned char
+        {
+            EMITTER_ACTIVE      = 0x01,
+            EMITTER_BURST       = 0x02,
+            PARTICLES_FADE      = 0x04,
+            PARTICLES_SHRINK    = 0x08, // --TODO--
+            PARTICLES_FRICTION  = 0x10,
+            PARTICLES_GRAVITY   = 0x20
+        };
+
         std::string texture;
         Vec2f particleSpeed;    // Direction as well
         size_t spawnPerSec;     // Number of particles to spawn per sec
-        float timePassed,       // Counting how long ago since a last particle spawn
-            lifeTime,           // Particle lifetime
+        float particleLifeTime, // Particle lifetime
+            spawnBurstTime,     // How long to burst spawn
             speedRange,         // +-= Speed (equily on both x&y)
-            angleRange;         // Rotate by +- angle/2
-        bool isFade,             // Will fade to 0
-            isShrink;           // Will shrink to 0
+            sizeRange,          // +- Scale
+            angleRange,         // Rotate by +- angle/2
+            xSpawnRadius;       // x-Pos Spawn Radius
+        float timePassed,       // Counting how long ago since a last particle spawn
+            optAliveTime;       // If is burst, how long alive
+        unsigned char emitterStatus;
 
         ParticleEmitter() : texture("Default"),
             particleSpeed(),
             spawnPerSec(),
-            timePassed(), lifeTime(), speedRange(), angleRange(),
-            isFade(), isShrink()
+            particleLifeTime(), spawnBurstTime(), speedRange(), sizeRange(), angleRange(), xSpawnRadius(),
+            timePassed(), optAliveTime(),
+            emitterStatus(EMITTER_ACTIVE)
         {
+        }
+
+        bool HasEmitterQualities(EMITTER_TYPE test)
+        {
+            return (emitterStatus & test) != 0;
+        }
+
+        void SetEmitterQualities(EMITTER_TYPE test, bool toggleTrue)
+        {
+            if (toggleTrue)
+            {
+                emitterStatus = emitterStatus | test;
+                if (test == EMITTER_ACTIVE)
+                    optAliveTime = spawnBurstTime;
+            }
+            else if (HasEmitterQualities(test))
+                emitterStatus = emitterStatus ^ test;
         }
 
         ParticleEmitter& DeserializeComponent(const rapidjson::Value& component) override
@@ -47,11 +78,11 @@ namespace Carmicah
             particleSpeed.x = static_cast<float>(component["VelX"].GetDouble());
             particleSpeed.y = static_cast<float>(component["VelY"].GetDouble());
             spawnPerSec     = static_cast<size_t>(component["SpawnPSec"].GetInt());
-            lifeTime        = static_cast<float>(component["Lifetime"].GetDouble());
+            particleLifeTime= static_cast<float>(component["Lifetime"].GetDouble());
+            optAliveTime = spawnBurstTime  = static_cast<float>(component["BurstTime"].GetDouble());
             speedRange      = static_cast<float>(component["SpeedRange"].GetDouble());
             angleRange      = static_cast<float>(component["AngleRange"].GetDouble());
-            isFade          = component["WillFade"].GetBool();
-            isShrink        = component["WillShrink"].GetBool();
+            emitterStatus   = static_cast<unsigned char>(component["EmitterStatus"].GetInt());
             return *this;
         }
 
@@ -66,15 +97,15 @@ namespace Carmicah
             writer.String("SpawnPSec");
             writer.Int(static_cast<int>(spawnPerSec));
             writer.String("Lifetime");
-            writer.Double(static_cast<double>(lifeTime));
+            writer.Double(static_cast<double>(particleLifeTime));
+            writer.String("BurstTime");
+            writer.Double(static_cast<double>(spawnBurstTime));
             writer.String("SpeedRange");
             writer.Double(static_cast<double>(speedRange));
             writer.String("AngleRange");
             writer.Double(static_cast<double>(angleRange));
-            writer.String("WillFade");
-            writer.Bool(isFade);
-            writer.String("WillShrink");
-            writer.Bool(isShrink);
+            writer.String("EmitterStatus");
+            writer.Int(static_cast<int>(emitterStatus));
         }
     };
 }

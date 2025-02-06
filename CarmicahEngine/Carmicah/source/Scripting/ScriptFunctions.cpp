@@ -156,13 +156,21 @@ namespace Carmicah
 		//mono_free(cStrname);
 	}
 
-	//static void Sound_PlayBGM(MonoString* name, float volume)
-	//{
-	//	char* cStrname = mono_string_to_utf8(name);
-	//	auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-	//	souSystem->PlaySoundThis(cStrname, SoundCategory::BGM, SoundSystem::SOUND_BGM, true, volume);
-	//	mono_free(cStrname);
-	//}
+	static void Sound_PlayBGM(MonoString* name, float volume)
+	{
+		char* cStrname = mono_string_to_utf8(name);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->PlaySoundThis(cStrname, SoundCategory::BGM, SoundSystem::SOUND_BGM, true, volume);
+		mono_free(cStrname);
+	}
+
+	static void Sound_StopBGM(MonoString* name)
+	{
+		char* cStrname = mono_string_to_utf8(name);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->StopSound(SoundSystem::SOUND_BGM);
+		mono_free(cStrname);
+	}
 
 	//static void Sound_Stop(MonoString* name)
 	//{
@@ -419,6 +427,48 @@ namespace Carmicah
 		}
 	}
 
+	static MonoObject* GetScriptInstanceFromChildren(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+
+		if (go.HasComponent<Transform>())
+		{
+			if (go.GetComponent<Transform>().children.size() > 0)
+			{
+				for each (Entity child in go.GetComponent<Transform>().children)
+				{
+					if (gScriptSystem->mEntityInstances.count(child))
+					{
+						return gScriptSystem->mEntityInstances[child]->GetInstance();
+					}
+				}
+			}
+		}
+		else if (go.HasComponent<UITransform>())
+		{
+			if (go.GetComponent<UITransform>().children.size() > 0)
+			{
+				for each (Entity child in go.GetComponent<UITransform>().children)
+				{
+					if (gScriptSystem->mEntityInstances.count(child))
+					{
+						return gScriptSystem->mEntityInstances[child]->GetInstance();
+					}
+				}
+			}
+		}
+
+		/*if (gScriptSystem->mEntityInstances.count(entityID) > 0)
+		{
+			return gScriptSystem->mEntityInstances[entityID]->GetInstance();
+		}
+		else
+		{
+			CM_CORE_ERROR("Entity does not have script attached");
+			return nullptr;
+		}*/
+	}
+
 	static void Transform_GetDepth(unsigned int entityID, float* outFloat)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -433,6 +483,20 @@ namespace Carmicah
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		if (go.HasComponent<Transform>())
 			go.GetComponent<Transform>().Depth(*inFloat);
+	}
+
+	static MonoString* Transform_GetTag(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Transform>())
+		{
+			return mono_string_new(mono_domain_get(), go.GetComponent<Transform>().transformTag.c_str());
+		}
+		else if (go.HasComponent<UITransform>())
+		{
+			return mono_string_new(mono_domain_get(), go.GetComponent<UITransform>().transformTag.c_str());
+
+		}
 	}
 
 	static void Animation_ChangeAnim(unsigned int entityID, MonoString* string)
@@ -567,6 +631,16 @@ namespace Carmicah
 		//mono_free(cStr);
 	}
 
+	static void ChangeText(unsigned int entityID, MonoString* string)
+	{
+		std::string cStrName = MonoToString(string);
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<TextRenderer>())
+		{
+			go.GetComponent<TextRenderer>().txt = cStrName;
+		}
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -581,6 +655,7 @@ namespace Carmicah
 		RegisterComponent<Animation>();
 		RegisterComponent<StateMachine>();
 		RegisterComponent<Renderer>();
+		RegisterComponent<TextRenderer>();
 	}
 
 	/// <summary>
@@ -598,6 +673,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Transform_SetPosition);
 		ADD_INTERNAL_CALL(Transform_GetDepth);
 		ADD_INTERNAL_CALL(Transform_SetDepth);
+		ADD_INTERNAL_CALL(Transform_GetTag);
 
 		//Entity functions
 		ADD_INTERNAL_CALL(Entity_HasComponent);
@@ -607,6 +683,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Destroy);
 		ADD_INTERNAL_CALL(CreateNewGameObject);
 		ADD_INTERNAL_CALL(GetScriptInstance);
+		ADD_INTERNAL_CALL(GetScriptInstanceFromChildren);
 
 		// Rigidbody functions
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);
@@ -633,6 +710,8 @@ namespace Carmicah
 
 		// Sound
 		ADD_INTERNAL_CALL(Sound_PlaySFX);
+		ADD_INTERNAL_CALL(Sound_PlayBGM);
+		ADD_INTERNAL_CALL(Sound_StopBGM);
 
 		// Debug
 		ADD_INTERNAL_CALL(Log);
