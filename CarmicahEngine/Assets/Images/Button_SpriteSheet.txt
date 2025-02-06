@@ -71,7 +71,7 @@ Top left: 0 x 2210, 421 x 130
 9 sprites
 
 Click_Play
-Top left: 0 x 2340, 421 x 130
+Top left: 0 x 2350, 421 x 130
 9 sprites
 
 Click_Menu

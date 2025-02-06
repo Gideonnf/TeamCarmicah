@@ -97,8 +97,8 @@
                 {
                     "Component Name": "struct Carmicah::StateMachine",
                     "currState": "",
-                    "nextState": "Idle",
-                    "startingState": "Idle",
+                    "nextState": "",
+                    "startingState": "",
                     "stateMap": [
                         {
                             "stateName": "Hover",
@@ -206,6 +206,10 @@
                     ]
                 },
                 {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": ""
+                },
+                {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 1300.0,
                     "yPos": 300.0,
@@ -240,6 +244,10 @@
                     "ScriptableFieldMap": [
                         {}
                     ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": ""
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",

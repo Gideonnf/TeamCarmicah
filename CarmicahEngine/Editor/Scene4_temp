@@ -1,0 +1,204 @@
+{
+    "Scene": "Scene4",
+    "SceneObjects": [
+        {
+            "GameObject": "BackgroundGO",
+            "ID": 1,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Digipen_Logo",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 960.0,
+                    "yPos": 540.0,
+                    "depth": 0.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0
+                }
+            ]
+        },
+        {
+            "GameObject": "MainCamera",
+            "ID": 2,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 4.0,
+                    "yPos": 4.0,
+                    "depth": 0.0,
+                    "xScale": 0.05299999937415123,
+                    "yScale": 0.10000000149011612,
+                    "rot": 0.0,
+                    "collisionMask": 0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "Skip Button",
+            "ID": 3,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button",
+                    "ButtonImage": "Button_SpriteSheet_Hover_Play 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_Click_Play 0"
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_Hover_Play 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.SkipButton",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1700.0,
+                    "yPos": 100.0,
+                    "depth": 1.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0
+                }
+            ]
+        },
+        {
+            "GameObject": "Digipen_Rights",
+            "ID": 4,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Digipen_Rights",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 900.0,
+                    "yPos": 100.0,
+                    "depth": 0.0,
+                    "xScale": 0.75,
+                    "yScale": 0.75,
+                    "rot": 0.0
+                }
+            ]
+        },
+        {
+            "GameObject": "black_background",
+            "ID": 5,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_Black 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 960.0,
+                    "yPos": 540.0,
+                    "depth": 0.0,
+                    "xScale": 38.400001525878909,
+                    "yScale": 21.600000381469728,
+                    "rot": 0.0
+                }
+            ]
+        },
+        {
+            "GameObject": "main_menu_bg",
+            "ID": 6,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Menu_SpriteSheet_Main 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 960.0,
+                    "yPos": 540.0,
+                    "depth": -1.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0
+                }
+            ]
+        },
+        {
+            "GameObject": "Intro",
+            "ID": 7,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 0.0,
+                    "yScale": 0.0,
+                    "rot": 0.0,
+                    "collisionMask": 0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.Intro",
+                    "ScriptableFieldMap": [
+                        {
+                            "timer": 0.0,
+                            "state": 0,
+                            "DisplayDuration": 3.0,
+                            "schoolLogoEntity": "schoolLogoName",
+                            "schoolRightsEntity": "schoolRightsName",
+                            "FadeDuration": 1.0,
+                            "schoolBGEntity": "schoolBGName",
+                            "gameLogoEntity": "gameLogoName"
+                        }
+                    ]
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "Default",
+            "ID": 33,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "collisionMask": 0
+                }
+            ],
+            "Children": []
+        }
+    ]
+}

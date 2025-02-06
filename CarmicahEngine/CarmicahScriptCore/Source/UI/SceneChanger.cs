@@ -11,13 +11,12 @@ namespace Carmicah
     {
         
         float sceneChangeTimer = -1f;
-        Vector2 max;
-        Vector2 min;
         Entity button;
         public string buttonType;
         string Animation0;
-        public string Animation1;
+        string Animation1;
         string nextScene;
+        bool hovering = false;
 
         void OnCreate()
         {
@@ -39,7 +38,7 @@ namespace Carmicah
             //min.y = button.Position.y - 10.0f;
         }
 
-        public void SetScene(string sceneName, float delay = 1.0f)
+        public void SetScene(string sceneName, float delay = 2.0f)
         {
             sceneChangeTimer = delay;
             nextScene = sceneName;
@@ -81,18 +80,34 @@ namespace Carmicah
         //    }
         //}
 
-        public void OnMouseEnter()
+        public void OnMouseHover()
         {
-            if (buttonType.ToLower() == "play")
-            {
-                Animation0 = "Button_Play";
+            
 
-            }
-            else if (buttonType.ToLower() == "quit")
+            if(!hovering)
             {
-                Animation0 = "Button_Quit";
+                hovering = true;
+                if (buttonType.ToLower() == "play")
+                {
+                    Animation1 = "Button_Play";
+                }
+                else if(buttonType.ToLower() == "quit")
+                {
+                    Animation1 = "Button_Quit";
+                }
+                ChangeAnim(Animation1);
             }
-            ChangeAnim(Animation0);
+        }
+
+        public void OnMouseClick()
+        {
+            hovering = false;
+        }
+
+        public void OnMouseExit()
+        {
+            hovering = false;
+            ChangeAnim("Bear_Climb");
         }
 
         void OnClick()
@@ -102,12 +117,19 @@ namespace Carmicah
             if(buttonType.ToLower() == "play")
             {
                 nextScene = "Scene1";
+                Animation0 = "Button_Click_Play";
 
             }else if(buttonType.ToLower() == "quit")
             {
                 nextScene = "quit";
+                Animation0 = "Button_Click_Quit";
             }
-                SetScene(nextScene);
+
+            
+            ChangeAnim(Animation0);
+            
+            SetScene(nextScene);
+
         }
 
 
