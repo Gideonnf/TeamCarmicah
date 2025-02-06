@@ -116,5 +116,9 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Transform_GetLocalPosition(uint entityID, out Vector2 position);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static object GetScriptInstanceFromChildren(uint entityID);
+
     }
 }

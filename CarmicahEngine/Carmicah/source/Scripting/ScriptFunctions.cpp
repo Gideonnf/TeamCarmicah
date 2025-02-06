@@ -419,6 +419,48 @@ namespace Carmicah
 		}
 	}
 
+	static MonoObject* GetScriptInstanceFromChildren(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+
+		if (go.HasComponent<Transform>())
+		{
+			if (go.GetComponent<Transform>().children.size() > 0)
+			{
+				for each (Entity child in go.GetComponent<Transform>().children)
+				{
+					if (gScriptSystem->mEntityInstances.count(child))
+					{
+						return gScriptSystem->mEntityInstances[child]->GetInstance();
+					}
+				}
+			}
+		}
+		else if (go.HasComponent<UITransform>())
+		{
+			if (go.GetComponent<UITransform>().children.size() > 0)
+			{
+				for each (Entity child in go.GetComponent<UITransform>().children)
+				{
+					if (gScriptSystem->mEntityInstances.count(child))
+					{
+						return gScriptSystem->mEntityInstances[child]->GetInstance();
+					}
+				}
+			}
+		}
+
+		/*if (gScriptSystem->mEntityInstances.count(entityID) > 0)
+		{
+			return gScriptSystem->mEntityInstances[entityID]->GetInstance();
+		}
+		else
+		{
+			CM_CORE_ERROR("Entity does not have script attached");
+			return nullptr;
+		}*/
+	}
+
 	static void Transform_GetDepth(unsigned int entityID, float* outFloat)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);

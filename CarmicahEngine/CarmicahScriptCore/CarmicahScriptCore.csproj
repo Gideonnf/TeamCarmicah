@@ -67,9 +67,7 @@
     <Compile Include="Source\HeroBuild.cs" />
     <Compile Include="Source\NPC\HeroAI.cs" />
     <Compile Include="Source\NPC\MouseAI.cs" />
-    <Compile Include="Source\NPC\MouseState.cs" />
     <Compile Include="Source\NPC\Projectile.cs" />
-    <Compile Include="Source\NPC\ShooterNPC.cs" />
     <Compile Include="Source\PauseManager.cs" />
     <Compile Include="Source\Player.cs" />
     <Compile Include="Source\System\CMConsole.cs" />
