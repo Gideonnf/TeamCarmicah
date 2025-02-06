@@ -145,7 +145,7 @@ namespace Carmicah
             }
             else if (stateName == "Attacking")
             {
-                CMConsole.Log($"Shooting timer : {timer}");
+                //CMConsole.Log($"Shooting timer : {timer}");
 
                 timer += dt;
                 if (timer > shootTime)

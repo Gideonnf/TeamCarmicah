@@ -10,7 +10,17 @@
             "xScale": 5.0,
             "yScale": 5.0,
             "rot": 0.0,
+            "transformTag": "Bullet",
             "collisionMask": 16
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Projectile_SpriteSheet_Shooter 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         },
         {
             "Component Name": "struct Script",
@@ -22,15 +32,6 @@
                     "Speed": 2.0
                 }
             ]
-        },
-        {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "Projectile_SpriteSheet_Shooter 0",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
         },
         {
             "Component Name": "struct Carmicah::Collider2D",
