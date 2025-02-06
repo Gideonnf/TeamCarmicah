@@ -26,8 +26,8 @@ namespace Carmicah
     public class HealthSystem : Entity
     {
         // health vals
-        public int mCurHealth;
-        private int mMaxHealth = 100;
+        public float mCurHealth;
+        public float mMaxHealth = 100;
 
         Entity parentEntity;
 

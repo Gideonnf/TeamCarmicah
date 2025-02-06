@@ -14,6 +14,10 @@
             "collisionMask": 4
         },
         {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Bear_Climb"
+        },
+        {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.MouseAI",
             "ScriptableFieldMap": [
@@ -92,10 +96,6 @@
                     "transitions": []
                 }
             ]
-        },
-        {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Bear_Climb"
         }
     ],
     "Children": [
@@ -151,9 +151,11 @@
                         {
                             "endPos": 0.0,
                             "endScale": 4.400000095367432,
+                            "mCurHealth": 0.0,
                             "posDiff": 0.0,
                             "startPos": 0.0,
-                            "startScale": 0.0
+                            "startScale": 0.0,
+                            "mMaxHealth": 200.0
                         }
                     ]
                 },
