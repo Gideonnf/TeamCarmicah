@@ -30,7 +30,8 @@ namespace Carmicah
     public class GameManager : Entity
     {
         public float spawnTimer = 0.5f;
-        public string MousePrefabName = "MouseGO";
+        public string MousePrefabName = "MouseGONew";
+        public string BearPrefabName = "BearGO";
         public string CakePrefabName = "StartingCake";
         public string PlayerName = "mainCharacter";
         public string WaveSystemObject = "Something";
@@ -53,6 +54,7 @@ namespace Carmicah
         public bool WaveStarted = false;
         public bool WaveEnded = false;
         public int MobCounter = 0;
+        public int BearCounter = 0;
         //public float NumOfMobs = 10;
         
         bool Musicplay = false;
@@ -154,9 +156,38 @@ namespace Carmicah
                     }
                 }
             }
+            else if (BearCounter > 0)
+            {
+                timer += dt;
+
+                if (timer > spawnTimer)
+                {
+                    timer = 0.0f;
+                    Entity mouseEntity = CreateGameObject(BearPrefabName);
+                    MouseAI mouseAI = mouseEntity.As<MouseAI>();
+                    mouseAI.isLeft = LeftOrRight;
+                    LeftOrRight = !LeftOrRight;
+                    mouseAI.SetInitialPosition(); // Reset initial position
+                    BearCounter--;
+
+                    CMConsole.Log($"Adding bear entity {mouseAI.mID}");
+
+                    if (mouseAI.isLeft)
+                    {
+                        mouseEntitiesLeft.Add(mouseAI);
+                        //CMConsole.Log($"Mouse List left {mouseEntitiesLeft.Count}");
+
+                    }
+                    else
+                    {
+                        mouseEntitiesRight.Add(mouseAI);
+                        // CMConsole.Log($"Mouse List right {mouseEntitiesRight.Count}");
+                    }
+                }
+            }
 
             //Wave Ending Checking
-            if(MobCounter == 0 && mouseEntitiesLeft.Count == 0 && mouseEntitiesRight.Count == 0 && GameStart == true)
+            if(BearCounter == 0 && MobCounter == 0 && mouseEntitiesLeft.Count == 0 && mouseEntitiesRight.Count == 0 && GameStart == true)
             {
                 WaveEnded = true;
             }
@@ -192,12 +223,13 @@ namespace Carmicah
             }
         }
 
-        public void StartNextWave(int mobCount)
+        public void StartNextWave(int mobCount, int bearCount)
         {
             GameStart = true;
             WaveStarted = true;
             WaveEnded = false;
             MobCounter += mobCount;
+            BearCounter += bearCount;
             Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
             Sound.PlayBGM("BGM_LevelMusic_FullTrack_Vers1",0.4f);
         }
