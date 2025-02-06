@@ -29,17 +29,45 @@ namespace Carmicah
         private int mCurHealth;
         private int mMaxHealth = 100;
 
+        Entity parentEntity;
+
+        public float endPos = 0.0f;
+        public float endScale = 4.4f;
+        public float startPos = 0.0f;
+        public float startScale = 0.0f;
+        public float posDiff = 0.0f;
+
         // constructor
-        public HealthSystem(int maxHealth)
-        {
-            // set health vals
-            mCurHealth = maxHealth;
-            mMaxHealth = maxHealth;
-        }
+        //public HealthSystem(int maxHealth)
+        //{
+        //    // set health vals
+        //    mCurHealth = maxHealth;
+        //    mMaxHealth = maxHealth;
+        //}
 
         // variable to represent current and max health
-        public int CurrentHealth => mCurHealth;
-        public int MaxHealth => mMaxHealth;
+        //public int CurrentHealth => mCurHealth;
+        //public int MaxHealth => mMaxHealth;
+
+        public void OnCreate()
+        {
+            parentEntity = GetParent();
+            SetMaxHealth(100);
+            mCurHealth = 100;
+            startPos = LocalPosition.x;
+            startScale = Scale.x;
+            posDiff = endPos - startPos;
+        }
+
+        public void OnUpdate(float dt)
+        {
+            if (Input.IsKeyPressed(Keys.KEY_Q))
+            {
+                CMConsole.Log($"CurrHealth: {mCurHealth}");
+
+                TakeDamage(20);
+            }
+        }
 
         // function to take damage
         public void TakeDamage(int damage)
@@ -48,7 +76,23 @@ namespace Carmicah
             mCurHealth -= damage;
 
             // print out to console how much health is left
-            Console.WriteLine($"entity has {mCurHealth} health left");
+            // Console.WriteLine($"entity has {mCurHealth} health left");
+            CMConsole.Log($"CurrHealth: {mCurHealth}");
+
+            // health loss / max health
+            float scalePercentage = (float)(mMaxHealth - mCurHealth) / (float)mMaxHealth;
+            // start val + the value to scale up by
+            float scaleVal = startScale + ((endScale - startScale) * scalePercentage);
+
+            Scale = new Vector2(scaleVal, Scale.y);
+
+            float posPercentage = (float)(posDiff) * scalePercentage;
+            float posVal = startPos + posPercentage;
+
+            //CMConsole.Log($"posPercentage: {posPercentage}, posVal: {posVal}");
+           // CMConsole.Log($"Position: {Position.x}, {Position.y}");
+            Position = new Vector2(posVal, LocalPosition.y);
+
 
             // if health is less than 0, set it to 0
             if (mCurHealth < 0)

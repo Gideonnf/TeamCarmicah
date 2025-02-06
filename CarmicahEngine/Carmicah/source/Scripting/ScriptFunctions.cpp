@@ -241,6 +241,20 @@ namespace Carmicah
 
 	}
 
+	static void Transform_GetLocalPosition(unsigned int entityID, Vec2f* outPos)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+
+		if (!go.HasComponent<Transform>())
+		{
+			*outPos = { 0, 0 };
+		}
+		else
+		{
+			*outPos = go.GetComponent<Transform>().Pos();
+		}
+	}
+
 	/// <summary>
 	/// Get the position of the entity
 	/// </summary>
@@ -568,6 +582,7 @@ namespace Carmicah
 		// Transform functions
 		ADD_INTERNAL_CALL(Transform_GetScale);
 		ADD_INTERNAL_CALL(Transform_SetScale);
+		ADD_INTERNAL_CALL(Transform_GetLocalPosition);
 		ADD_INTERNAL_CALL(Transform_GetPosition);
 		ADD_INTERNAL_CALL(Transform_SetPosition);
 		ADD_INTERNAL_CALL(Transform_GetDepth);
