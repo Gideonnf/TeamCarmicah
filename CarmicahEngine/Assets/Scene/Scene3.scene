@@ -8,11 +8,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Menu_SpriteSheet_Main 2",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
+                    "texture": "Menu_SpriteSheet_Main 2"
                 },
                 {
                     "Component Name": "struct Script",
@@ -59,13 +55,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "Button_SpriteSheet_Hover_Play 0",
-                    "ButtonImagePressed": "Button_SpriteSheet_Click_Play 0"
+                    "ButtonImage": "Button_SpriteSheet_H_Play 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_C_Play 0"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Play 0",
+                    "texture": "Button_SpriteSheet_H_Play 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -73,17 +69,10 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.SceneChanger",
+                    "scriptName": "Carmicah.PlayButton",
                     "ScriptableFieldMap": [
-                        {
-                            "buttonType": "PLAY",
-                            "Animation1": ""
-                        }
+                        {}
                     ]
-                },
-                {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": ""
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -139,13 +128,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "Button_SpriteSheet_Hover_Quit 0",
-                    "ButtonImagePressed": "Button_SpriteSheet_Click_Quit 0"
+                    "ButtonImage": "Button_SpriteSheet_H_Quit 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_C_Quit 0"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Quit 0",
+                    "texture": "Button_SpriteSheet_H_Quit 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -182,13 +171,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "Button_SpriteSheet_Hover_Settings 0",
-                    "ButtonImagePressed": "Button_SpriteSheet_Click_Settings 0"
+                    "ButtonImage": "Button_SpriteSheet_H_Settings 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_C_Settings 0"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Settings 0",
+                    "texture": "Button_SpriteSheet_H_Settings 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -199,7 +188,7 @@
                     "scriptName": "Carmicah.SettingButton",
                     "ScriptableFieldMap": [
                         {
-                            "IsCreated": true,
+                            "IsCreated": false,
                             "SettingsCloseButton": "Close_Button",
                             "SettingsMenu": "Settings_Menu"
                         }
@@ -219,20 +208,20 @@
                     "rot": 0.0
                 }
             ]
-        },
+        },      
         {
             "GameObject": "Credits Button",
             "ID": 6,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "Button_SpriteSheet_Hover_Credits 0",
-                    "ButtonImagePressed": "Button_SpriteSheet_Click_Credits 0"
+                    "ButtonImage": "Button_SpriteSheet_H_Credits 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_C_Credits 0"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Credits 0",
+                    "texture": "Button_SpriteSheet_H_Credits 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -242,7 +231,11 @@
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.CreditsButton",
                     "ScriptableFieldMap": [
-                        {}
+                        {
+                            "IsCreated": false,
+                            "CreditsCloseButton": "Close_Button_2",
+                            "CreditsMenu": "Credits_Menu"
+                        }
                     ]
                 },
                 {
@@ -261,6 +254,38 @@
             ]
         },
         {
+            "GameObject": "Quit Button",
+            "ID": 4,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button",
+                    "ButtonImage": "Button_SpriteSheet_Hover_Quit 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_Click_Quit 0"
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_Hover_Quit 0"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.QuitButton",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1300.0,
+                    "yPos": 100.0,
+                    "depth": 1.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0
+                }
+            ]
+        },  
+        {
             "GameObject": "Default",
             "ID": 33,
             "Components": [
@@ -271,11 +296,9 @@
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0,
-                    "collisionMask": 1
+                    "rot": 0.0
                 }
-            ],
-            "Children": []
+            ]
         }
     ]
 }

@@ -47,6 +47,23 @@ namespace Carmicah
             }
         }
 
+        public Vector2 LocalPosition
+        {
+            get
+            {
+                //Console.WriteLine($"Transform GetEntity ID:{mID}");
+
+                FunctionCalls.Transform_GetLocalPosition(mID, out Vector2 position);
+                return position;
+            }
+            set
+            {
+                // Console.WriteLine($"Transform Set Entity ID:{mID}");
+
+                FunctionCalls.Transform_SetPosition(mID, ref value);
+            }
+        }
+
         public float Depth
         {
             get
@@ -87,6 +104,24 @@ namespace Carmicah
         {
             uint entityID = FunctionCalls.Entity_FindEntityWithName(name);
             
+            if (entityID == 0)
+                return null;
+
+            return new Entity(entityID);
+        }
+
+        public Entity FindEntityWithID(uint id)
+        {
+            uint entityID = FunctionCalls.Entity_FindEntityWithID(id);  
+
+            if ( entityID == 0)
+                return null;
+            return new Entity(entityID);
+        }
+
+        public Entity GetParent()
+        {
+            uint entityID = FunctionCalls.Entity_GetParent(mID);
             if (entityID == 0)
                 return null;
 

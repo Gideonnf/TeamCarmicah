@@ -11,7 +11,9 @@ namespace Carmicah
         public float timer = 0.0f;
         public float timeToChange = 2.0f;
         public string cutscenePrefab = "CutSceneImage";
-        public string panelName = "panel";
+        public string panel1Name = "Opening_Cutscene1_SpriteSheet_Yes";
+        public int numOfPanels1 = 6;
+        public string panel2Name = "Opening_Cutscene2_SpriteSheet_Yes";
         public int numOfPanels = 8;
         int currentPanel = 1;
         Entity cutsceneEntity;
@@ -42,7 +44,11 @@ namespace Carmicah
                     nextCutsceneEntity = CreateGameObject(cutscenePrefab);
                     nextCutsceneEntity.Depth = cutsceneEntity.Depth - 0.5f;
                     currAlpha = 1.0f;
-                    string imageName = panelName + "_" + currentPanel;
+                    string imageName;
+                    if (currentPanel < numOfPanels1)
+                        imageName = panel1Name + " " + currentPanel;
+                    else
+                        imageName = panel2Name + " " + (currentPanel - numOfPanels1);
                     CMConsole.Log($"image name:{imageName}");
                     // change texture for image
                     nextCutsceneEntity.GetComponent<Renderer>().ChangeTexture(imageName);

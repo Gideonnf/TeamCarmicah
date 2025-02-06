@@ -597,7 +597,7 @@ namespace Carmicah
 					//gGOFactory->DestroyAll();
 				}
 				//Remove PrefabData
-				if(selectedGO != nullptr)
+				if(selectedGO != nullptr && selectedGO->HasComponent<PrefabData>())
 				{
 					if (ImGui::Button("Un-prefab Object"))
 					{

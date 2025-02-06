@@ -63,7 +63,7 @@
     <Compile Include="Source\Camera.cs" />
     <Compile Include="Source\GameManager.cs" />
     <Compile Include="Source\GameObject.cs" />
-    <Compile Include="Source\HealthSystem.cs" />
+    <Compile Include="Source\NPC\HealthSystem.cs" />
     <Compile Include="Source\HeroBuild.cs" />
     <Compile Include="Source\NPC\HeroAI.cs" />
     <Compile Include="Source\NPC\MouseAI.cs" />
@@ -85,6 +85,8 @@
     <Compile Include="Source\Testing.cs" />
     <Compile Include="Source\TrapBuild.cs" />
     <Compile Include="Source\UI\BackButton.cs" />
+    <Compile Include="Source\UI\Intro.cs" />
+    <Compile Include="Source\UI\LoadingScreen.cs" />
     <Compile Include="Source\UI\SceneChanger.cs" />
     <Compile Include="Source\UI\CreditsButton.cs" />
     <Compile Include="Source\UI\Cutscene.cs" />

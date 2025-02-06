@@ -83,7 +83,14 @@ namespace Carmicah
         public void OnMouseHover()
         {
             
-
+            if (buttonType.ToLower() == "play")
+            {
+                Animation0 = "Button_HS_Play";
+            }else if(buttomType.ToLower() == "quit")
+            {
+                Animation0 = "Button_HS_Quit";
+            }
+            
             if(!hovering)
             {
                 hovering = true;

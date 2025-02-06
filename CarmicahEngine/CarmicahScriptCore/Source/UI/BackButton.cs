@@ -15,16 +15,27 @@ namespace Carmicah
         string Animation0 = "Button_Click_Back";
         string Animation1 = "Button_Back";
         bool hovering = false;
+        public string CreditsMenu = "Credits_Menu";
         //public string SettingsCloseButton = "Settings_Close";
         void OnClick()
         {
-            Sound.PlaySFX("SFX_Button");
             Entity settings = FindEntityWithName(SettingsMenu);
             SettingButton.IsCreated = false;
             ChangeAnim(Animation0);
-            settings.Destroy();
-            Destroy();
+            // settings.Destroy();
+            // Destroy();
+            if (settings != null)
+            {
+                settings.Destroy();
+                Destroy();
+            }
 
+            Entity credits = FindEntityWithName(CreditsMenu);
+            if (credits != null)
+            {
+                credits.Destroy();
+                Destroy();
+            }
         }
 
         public void OnMouseHover()

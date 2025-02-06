@@ -107,7 +107,7 @@ namespace Carmicah
 			// if this works this will be q cool
 			DESERIALIZE_IF_HAVE(currState, component, "currState", GetString, std::string);
 			DESERIALIZE_IF_HAVE(nextState, component, "nextState", GetString, std::string);
-			DESERIALIZE_IF_HAVE(nextState, component, "startingState", GetString, std::string);
+			DESERIALIZE_IF_HAVE(startingState, component, "startingState", GetString, std::string);
 			//DESERIALIZE_IF_HAVE(nextState, component, "startingState", GetString, std::string);
 			if (component.HasMember("stateMap"))
 			{

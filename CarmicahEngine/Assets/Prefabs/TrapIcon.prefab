@@ -5,7 +5,7 @@
         {
             "Component Name": "struct Carmicah::Button",
             "ButtonImage": "",
-            "ButtonImagePressed": "Candy _Con _Spritesheet_CandyCon_Ani 0"
+            "ButtonImagePressed": "candy_trap_spritesheet_Spike 0"
         },
         {
             "Component Name": "struct Script",

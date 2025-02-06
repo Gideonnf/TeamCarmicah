@@ -30,25 +30,35 @@ namespace Carmicah
         string Animation1 = "Button_Credits";
         bool hovering = false;
         private HealthSystem healthSystem;
+        //private HealthSystem healthSystem;
+        public string CreditsMenu = "Credits";
+        public string CreditsCloseButton = "Close_Button_2";
+        public bool IsCreated = false;
 
         public CreditsButton()
         {
-            // Initialize a HealthSystem instance with max health of 100
-            healthSystem = new HealthSystem(100);
+            // init a HealthSystem instance with max health of 100
+            //ealthSystem = new HealthSystem(100);
         }
 
         void OnClick()
         {
-            // 1. Pause game state
-            // 2. Open Credits Scene
+            // 1. pause game state
+            // 2. open credits scene
             // Tell scene to open animation of the credits
+            if (!IsCreated)
+            {
+                CreateGameObject(CreditsMenu);
+                CreateGameObject(CreditsCloseButton);
+            }
 
             // test the HealthSystem's TakeDamage function
-            healthSystem.TakeDamage(20); // Inflict 20 damage
-            Console.WriteLine($"Testing Button {mID}: Current Health is {healthSystem.CurrentHealth}");
+            //healthSystem.TakeDamage(20); // Inflict 20 damage
+            //Console.WriteLine($"Testing Button {mID}: Current Health is {healthSystem.CurrentHealth}");
 
             Console.WriteLine($"Testing Button {mID}");
             ChangeAnim(Animation0);
+            //Console.WriteLine($"Testing Button {mID}");
             Sound.PlaySFX("SFX_Button", 0.5f);
         }
 
