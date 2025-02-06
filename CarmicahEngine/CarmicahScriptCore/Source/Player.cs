@@ -77,7 +77,7 @@ namespace Carmicah
             {
                 ToggleWalkAnim();
 
-                PlaySoundEffect("walk");
+                PlaySoundEffect("walk2");
                 //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
 
                 GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
@@ -86,7 +86,7 @@ namespace Carmicah
             {
                 ToggleWalkAnim();
 
-                PlaySoundEffect("walk");
+                PlaySoundEffect("walk2");
 
                 Vector2 scale = Scale;
                 if (scale.x < 0)
@@ -104,7 +104,7 @@ namespace Carmicah
             {
                 ToggleWalkAnim();
 
-                PlaySoundEffect("walk");
+                PlaySoundEffect("walk2");
 
                 //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
 
@@ -114,7 +114,7 @@ namespace Carmicah
             {
                 ToggleWalkAnim();
 
-                PlaySoundEffect("walk");
+                PlaySoundEffect("walk2");
 
                 Vector2 scale = Scale;
                 if (scale.x > 0)

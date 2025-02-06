@@ -125,7 +125,7 @@ namespace Carmicah
                     mouseAI.SetInitialPosition(); // Reset initial position
                     MobCounter--;
 
-                   // CMConsole.Log($"Adding mouse entity {mouseAI}");
+                    CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
 
                     if (mouseAI.isLeft)
                     {

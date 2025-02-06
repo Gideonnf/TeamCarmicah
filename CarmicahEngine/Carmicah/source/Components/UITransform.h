@@ -19,8 +19,10 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+
     struct UITransform : BaseTransform<UITransform>
     {
+        bool mouseEnter = false;
 
         UITransform& DeserializeComponent(const rapidjson::Value& component) override
         {
