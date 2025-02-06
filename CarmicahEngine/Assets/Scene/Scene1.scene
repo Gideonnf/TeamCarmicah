@@ -578,7 +578,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "UIBar",
+                    "texture": "UI_Spritesheet_UI_Bar 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -1277,7 +1277,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "shooter_icon",
+                    "texture": "UI_Spritesheet_Shooter_Icon 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,

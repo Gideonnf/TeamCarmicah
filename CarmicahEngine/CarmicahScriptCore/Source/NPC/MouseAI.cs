@@ -298,7 +298,7 @@ namespace Carmicah
             {
                 
                 timer += dt;
-                if (timer >= DeathTime)
+                if (timer >= GetComponent<Animation>().GetMaxTime())
                 {
                     Sound.PlaySFX("mouse die btr", 0.5f);
                     timer = 0.0f;

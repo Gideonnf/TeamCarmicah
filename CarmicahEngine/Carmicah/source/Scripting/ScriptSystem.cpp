@@ -76,7 +76,8 @@ namespace Carmicah
             if (it.first == id)
             {
                 // can call ondestroy here maybe if we do that
-
+                //CM_CORE_INFO("Destroying entity {}", id);
+                mono_gchandle_free(it.second->mHandle);
                 // erase it from the map
                 mEntityInstances.erase(it.first);
                 break;

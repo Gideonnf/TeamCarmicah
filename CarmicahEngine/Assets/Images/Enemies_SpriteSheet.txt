@@ -3,11 +3,11 @@ Top left: 0 x 0, 321 x 321
 6 sprites
 
 Mouse_Climb_Brown
-Top left: 0 x 0, 321 x 321
+Top left: 0 x 321, 321 x 321
 6 sprites
 
 Mouse_Climb_White
-Top left: 0 x 0, 321 x 321
+Top left: 0 x 642, 321 x 321
 6 sprites
 
 Mouse_Death_Blue

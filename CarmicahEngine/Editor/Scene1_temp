@@ -537,7 +537,7 @@
                     "scriptName": "Carmicah.SettingButton",
                     "ScriptableFieldMap": [
                         {
-                            "IsCreated": true,
+                            "IsCreated": false,
                             "SettingsCloseButton": "Close_Button",
                             "SettingsMenu": "Settings_Menu"
                         }
@@ -701,7 +701,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "matcha_cake_SpriteSheet_Squish 0",
+                    "texture": "strawberry_cake_SpriteSheet_Squish 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -712,7 +712,7 @@
                     "scriptName": "Carmicah.WaveSystem",
                     "ScriptableFieldMap": [
                         {
-                            "waveStartTime": 20.0,
+                            "waveStartTime": 10.0,
                             "waveTimer": 0.0
                         }
                     ]

@@ -13,15 +13,6 @@
             "collisionMask": 32
         },
         {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.Testing",
-            "ScriptableFieldMap": [
-                {
-                    "testVar": 0.0
-                }
-            ]
-        },
-        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "Trap",
