@@ -84,10 +84,18 @@ namespace Carmicah
 						par.texture = emitter.texture;
 						par.timeLeft = emitter.particleLifeTime;
 						par.mtx = tf.worldSpace;
-						par.mtx.m[6] += CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.xSpawnRadius, emitter.xSpawnRadius);
-
-						par.vel = Vector2DGenerateFromAngleRad(emitterDir + CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.angleRange / 2.f, emitter.angleRange / 2.f) * PI / 180.f) *
-							(emitterSpeed + CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.speedRange / 2.f, emitter.speedRange / 2.f));
+						float xAddition = CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.spawnRadius.x, emitter.spawnRadius.x);
+						par.mtx.m[6] += xAddition;
+						par.mtx.m[7] += CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.spawnRadius.y, emitter.spawnRadius.y);
+						if (emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_RADIAL))
+						{
+							float percentage = xAddition / emitter.spawnRadius.x;
+							par.vel = Vector2DGenerateFromAngleRad(emitterDir + (emitter.angleRange / 2.f * percentage) * PI / 180.f);
+						}
+						else
+							par.vel = Vector2DGenerateFromAngleRad(emitterDir + CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.angleRange / 2.f, emitter.angleRange / 2.f) * PI / 180.f);
+						
+						par.vel *= emitterSpeed + CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.speedRange / 2.f, emitter.speedRange / 2.f);
 						par.alpha.x = 1.f;
 						if (emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_FADE))
 							par.alpha.y = 1.f / par.timeLeft;
@@ -119,10 +127,18 @@ namespace Carmicah
 						par.texture = emitter.texture;
 						par.timeLeft = emitter.particleLifeTime;
 						par.mtx.translateThis(tf.Pos()).scaleThis(tf.Scale());
-						par.mtx.m[6] += CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.xSpawnRadius, emitter.xSpawnRadius);
+						float xAddition = CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.spawnRadius.x, emitter.spawnRadius.x);
+						par.mtx.m[6] += xAddition;
+						par.mtx.m[7] += CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.spawnRadius.y, emitter.spawnRadius.y);
+						if (emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_RADIAL))
+						{
+							float percentage = xAddition / emitter.spawnRadius.x;
+							par.vel = Vector2DGenerateFromAngleRad(emitterDir + (emitter.angleRange / 2.f * percentage) * PI / 180.f);
+						}
+						else
+							par.vel = Vector2DGenerateFromAngleRad(emitterDir + CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.angleRange / 2.f, emitter.angleRange / 2.f) * PI / 180.f);
 
-						par.vel = Vector2DGenerateFromAngleRad(emitterDir + CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.angleRange / 2.f, emitter.angleRange / 2.f) * PI / 180.f) *
-							(emitterSpeed + CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.speedRange / 2.f, emitter.speedRange / 2.f));
+						par.vel *= emitterSpeed + CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.speedRange / 2.f, emitter.speedRange / 2.f);
 						par.alpha.x = 1.f;
 						if (emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_FADE))
 							par.alpha.y = 1.f / par.timeLeft;

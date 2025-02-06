@@ -27,5 +27,5 @@ Top Left: 455 x 351, 58 x 61
 1 Sprite
 
 Texture
-Top Left: 1028 x 0, 1920 x 1080
+Top Left: 1028 x 0, 1920 x 4096
 1 Sprite
