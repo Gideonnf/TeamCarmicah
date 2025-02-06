@@ -189,6 +189,17 @@ namespace Carmicah
 				}
 			}
 		}
+		else if (go.HasComponent<UITransform>())
+		{
+			if (go.GetComponent<UITransform>().children.size() > 0)
+			{
+				for (auto entity : go.GetComponent<UITransform>().children)
+				{
+					GameObject& childGO = gGOFactory->FetchGO(entity);
+					newPrefab.childList.push_back(MakePrefab(childGO));
+				}
+			}
+		}
 
 		// if it doesnt have prefab component, then add it and make it a prefab
 		if (!go.HasComponent<PrefabData>())
