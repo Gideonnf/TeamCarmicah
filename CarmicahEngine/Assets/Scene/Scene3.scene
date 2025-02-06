@@ -8,7 +8,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Menu_SpriteSheet_Menu_Ani 2"
+                    "texture": "Menu_SpriteSheet_Main 2"
                 },
                 {
                     "Component Name": "struct Script",
