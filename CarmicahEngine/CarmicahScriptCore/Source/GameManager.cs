@@ -33,6 +33,7 @@ namespace Carmicah
         public string MousePrefabName = "MouseGO";
         public string CakePrefabName = "StartingCake";
         public string PlayerName = "mainCharacter";
+        public string WaveSystemObject = "Something";
         public float timer = 0.0f;
         public bool LeftOrRight = false;
         public float CakeHeightOffset;
@@ -49,6 +50,8 @@ namespace Carmicah
         public string HeroBuild1 = "HeroBuild_1";
 
         public bool GameStart = false;
+        public bool WaveStarted = false;
+        public bool WaveEnded = false;
         public int MobCounter = 0;
         //public float NumOfMobs = 10;
         
@@ -70,6 +73,8 @@ namespace Carmicah
         Entity wall3;
         int cakeCounter = 1;
 
+        Entity waveSystem;
+
         void OnCreate()
         {
             mouseEntitiesLeft = new List<MouseAI>();
@@ -90,6 +95,8 @@ namespace Carmicah
             wall1 = FindEntityWithName("Wall_1");
             wall2 = FindEntityWithName("Wall_2");
             wall3 = FindEntityWithName("Wall_3");
+
+            waveSystem = FindEntityWithName(WaveSystemObject);
 
             Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
         }
@@ -148,6 +155,21 @@ namespace Carmicah
                 }
             }
 
+            //Wave Ending Checking
+            if(MobCounter == 0 && mouseEntitiesLeft.Count == 0 && mouseEntitiesRight.Count == 0 && GameStart == true)
+            {
+                WaveEnded = true;
+            }
+
+            if(WaveStarted && WaveEnded)
+            {
+                WaveStarted = false;
+                CMConsole.Log("Ending Wave");
+                waveSystem.As<WaveSystem>().EndOfWave();
+                Sound.StopSoundBGM("BGM_LevelMusic_FullTrack_Vers1");
+                Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
+            }
+
 
             if (Input.IsKeyPressed(Keys.KEY_SPACEBAR))
             {
@@ -173,9 +195,11 @@ namespace Carmicah
         public void StartNextWave(int mobCount)
         {
             GameStart = true;
+            WaveStarted = true;
+            WaveEnded = false;
             MobCounter += mobCount;
             Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
-            Sound.PlayBGM("BGM_LevelMusic_FullTrack_Vers1");
+            Sound.PlayBGM("BGM_LevelMusic_FullTrack_Vers1",0.4f);
         }
 
         public void EntityDestroyed(MouseAI entity)
