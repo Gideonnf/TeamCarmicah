@@ -1284,6 +1284,7 @@ namespace Carmicah
 	template<typename T>
 	void InspectorWindow::RenderParticleTable(T* go, TABLETYPE type)
 	{
+		auto textureMap = AssetManager::GetInstance()->GetAssetMap<Texture>();
 		ParticleEmitter& particle = go->GetComponent<ParticleEmitter>();
 		float tempValue = 0.f;
 		int tempInt = 0;
@@ -1316,8 +1317,41 @@ namespace Carmicah
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("Texture");
+				ImGui::SameLine();
+				if (ImGui::Button("v##ParticleTextureSelect"))
+				{
+					ImGui::OpenPopup("ParticleTexture Select");
+				}
 				ImGui::TableNextColumn();
-				ImGui::Text(particle.texture.c_str());
+				ImGui::Text("%s", particle.texture.c_str());
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TEXTURE_PAYLOAD"))
+					{
+						std::string textureName = *(const std::string*)payload->Data;
+						particle.texture = textureName;
+					}
+
+					ImGui::EndDragDropTarget();
+				}
+				ImGui::SetNextWindowSize(ImVec2(300, 500));
+				if (ImGui::BeginPopup("ParticleTexture Select"))
+				{
+					for (const auto& entry : textureMap->mAssetMap)
+					{
+						if (entry.first.empty()) continue; // TODO: Find out why "" is being added to asset map
+						if (entry.first.find("SpriteSheet") != std::string::npos)
+						{
+							continue;
+						}
+						if (ImGui::Button(entry.first.c_str()))
+						{
+							particle.texture = entry.first;
+							ImGui::CloseCurrentPopup();
+						}
+					}
+					ImGui::EndPopup();
+				}
 
 
 				ImGui::TableNextRow();
@@ -1354,20 +1388,40 @@ namespace Carmicah
 				ImGui::TableNextColumn();
 				ImGui::Text("Particle Lifetime");
 				ImGui::TableNextColumn();
-				tempValue = particle.lifeTime;
+				tempValue = particle.particleLifeTime;
 				if (ImGui::DragFloat("##LifeTime", &tempValue, 0.05f, 0.f, FLT_MAX, "%.3f"))
 				{
-					particle.lifeTime = tempValue;
+					particle.particleLifeTime = tempValue;
 				}
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
-				ImGui::Text("Particle Speedrange");
+				ImGui::Text("Spawn BurstTime");
+				ImGui::TableNextColumn();
+				tempValue = particle.spawnBurstTime;
+				if (ImGui::DragFloat("##SpawnBurstTime", &tempValue, 0.05f, 0.f, FLT_MAX, "%.3f"))
+				{
+					particle.spawnBurstTime = tempValue;
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Particle SpeedRange");
 				ImGui::TableNextColumn();
 				tempValue = particle.speedRange;
 				if (ImGui::DragFloat("##SpeedRange", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
 					particle.speedRange = tempValue;
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Particle SizeRange");
+				ImGui::TableNextColumn();
+				tempValue = particle.sizeRange;
+				if (ImGui::DragFloat("##sizeRange", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					particle.sizeRange = tempValue;
 				}
 
 				ImGui::TableNextRow();
@@ -1382,15 +1436,54 @@ namespace Carmicah
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
-				ImGui::Text("Particle Fade");
+				ImGui::Text("Particle xSpawnRadius");
 				ImGui::TableNextColumn();
-				ImGui::Checkbox("##ParticleFade", &particle.isFade);
+				tempValue = particle.xSpawnRadius;
+				if (ImGui::DragFloat("##xSpawnRadius", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					particle.xSpawnRadius = tempValue;
+				}
+
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
-				ImGui::Text("Particle Shrink");
+				ImGui::Text("Emitter Active");
 				ImGui::TableNextColumn();
-				ImGui::Checkbox("##ParticleShrink", &particle.isShrink);
+				bool checkBoxCheckedBoxedDiff = particle.HasEmitterQualities(ParticleEmitter::EMITTER_ACTIVE);
+				if (ImGui::Checkbox("##EmitterActive", &checkBoxCheckedBoxedDiff))
+					particle.SetEmitterQualities(ParticleEmitter::EMITTER_ACTIVE, checkBoxCheckedBoxedDiff);
+				
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Emitter Burst type");
+				ImGui::TableNextColumn();
+				checkBoxCheckedBoxedDiff = particle.HasEmitterQualities(ParticleEmitter::EMITTER_BURST);
+				if (ImGui::Checkbox("##EmitterBurst", &checkBoxCheckedBoxedDiff))
+					particle.SetEmitterQualities(ParticleEmitter::EMITTER_BURST, checkBoxCheckedBoxedDiff);
+				
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Particle Fade");
+				ImGui::TableNextColumn();
+				checkBoxCheckedBoxedDiff = particle.HasEmitterQualities(ParticleEmitter::PARTICLES_FADE);
+				if (ImGui::Checkbox("##ParticleFade", &checkBoxCheckedBoxedDiff))
+					particle.SetEmitterQualities(ParticleEmitter::PARTICLES_FADE, checkBoxCheckedBoxedDiff);
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Particle Friction");
+				ImGui::TableNextColumn();
+				checkBoxCheckedBoxedDiff = particle.HasEmitterQualities(ParticleEmitter::PARTICLES_FRICTION);
+				if(ImGui::Checkbox("##ParticleFriction", &checkBoxCheckedBoxedDiff))
+					particle.SetEmitterQualities(ParticleEmitter::PARTICLES_FADE, checkBoxCheckedBoxedDiff);
+				
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Particle Gravity");
+				ImGui::TableNextColumn();
+				checkBoxCheckedBoxedDiff = particle.HasEmitterQualities(ParticleEmitter::PARTICLES_GRAVITY);
+				if(ImGui::Checkbox("##ParticleGravity", &checkBoxCheckedBoxedDiff))
+					particle.SetEmitterQualities(ParticleEmitter::PARTICLES_GRAVITY, checkBoxCheckedBoxedDiff);
 
 				ImGui::EndTable();
 			}
