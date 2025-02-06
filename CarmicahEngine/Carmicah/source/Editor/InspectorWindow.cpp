@@ -1163,12 +1163,10 @@ namespace Carmicah
 				if (script.scriptName.empty())
 				{
 					ImGui::SameLine();
-					ImGui::PushID(2);
 					if (ImGui::Button("v##scriptSelect"))
 					{
 						ImGui::OpenPopup("Script Select");
 					}
-					ImGui::PopID();
 				}
 
 				for (auto& [fieldName, fieldValue] : script.scriptableFieldMap)
