@@ -213,8 +213,14 @@ namespace Carmicah
             }
         }
 
-        void OnCollide()
+        void OnCollide(uint id)
         {
+            Entity collidedEntity = FindEntityWithID(id);
+            if (collidedEntity != null)
+            {
+                CMConsole.Log($"Collided Entity : {collidedEntity.mID}");
+            }
+
             // its alr dead
             if (mID == 0)
             {
