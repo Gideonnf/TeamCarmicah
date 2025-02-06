@@ -548,6 +548,17 @@ namespace Carmicah
 		}
 	}
 
+	static void SetColour(unsigned int entityID, float r, float g, float b)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Renderer>())
+		{
+			go.GetComponent<Renderer>().SetR(r);
+			go.GetComponent<Renderer>().SetG(g);
+			go.GetComponent<Renderer>().SetB(b);
+		}
+	}
+
 	static void ChangeTexture(unsigned int entityID, MonoString* string)
 	{
 		std::string cStrName = MonoToString(string);
@@ -603,6 +614,7 @@ namespace Carmicah
 
 		// renderer functions
 		ADD_INTERNAL_CALL(SetAlpha);
+		ADD_INTERNAL_CALL(SetColour);
 
 		// Anim functions
 		ADD_INTERNAL_CALL(Animation_ChangeAnim);
