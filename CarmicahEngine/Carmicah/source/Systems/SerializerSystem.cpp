@@ -503,7 +503,7 @@ if (ValueExist(doc, val) == false) { \
 		if (prefab.HasComponent<Animation>())
 		{
 			Animation& animation = prefab.GetComponent<Animation>();
-			PUSH_BACK_STR(document, animation.animAtlas.c_str(), allocator);
+			PUSH_BACK_STR(document, animation.GetAnimAtlas().c_str(), allocator);
 
 		}
 

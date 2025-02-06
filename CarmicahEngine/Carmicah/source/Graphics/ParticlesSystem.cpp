@@ -51,6 +51,15 @@ namespace Carmicah
 		{
 			auto& emitter = ComponentManager::GetInstance()->GetComponent<ParticleEmitter>(e);
 
+			if (emitter.HasEmitterQualities(ParticleEmitter::EMITTER_BURST))
+			{
+				emitter.optAliveTime -= dt;
+				if (emitter.optAliveTime < 0)
+					emitter.SetEmitterQualities(ParticleEmitter::EMITTER_ACTIVE, false);
+			}
+			if (!emitter.HasEmitterQualities(ParticleEmitter::EMITTER_ACTIVE))
+				continue;
+
 			emitter.timePassed += dt;
 			float spawnTime = 1.f / static_cast<float>(emitter.spawnPerSec);
 			if (emitter.timePassed > spawnTime)
@@ -73,15 +82,21 @@ namespace Carmicah
 						auto& tf = ComponentManager::GetInstance()->GetComponent<Transform>(e);
 
 						par.texture = emitter.texture;
-						par.timeLeft = emitter.lifeTime;
+						par.timeLeft = emitter.particleLifeTime;
 						par.mtx = tf.worldSpace;
+						par.mtx.m[6] += CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.xSpawnRadius, emitter.xSpawnRadius);
+
 						par.vel = Vector2DGenerateFromAngleRad(emitterDir + CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.angleRange / 2.f, emitter.angleRange / 2.f) * PI / 180.f) *
 							(emitterSpeed + CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.speedRange / 2.f, emitter.speedRange / 2.f));
 						par.alpha.x = 1.f;
-						if (emitter.isFade)
-							par.alpha.y = 1.f / emitter.lifeTime;
+						if (emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_FADE))
+							par.alpha.y = 1.f / par.timeLeft;
 						//if (emitter.isShrink)
 						//	par.scaling = 
+
+						par.hasFriction = emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_FRICTION);
+						par.hasGrav = emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_GRAVITY);
+
 
 						mParticles[0].emplace_back(par);
 						emitter.timePassed -= spawnTime;
@@ -102,15 +117,19 @@ namespace Carmicah
 						auto& tf = ComponentManager::GetInstance()->GetComponent<UITransform>(e);
 
 						par.texture = emitter.texture;
-						par.timeLeft = emitter.lifeTime;
+						par.timeLeft = emitter.particleLifeTime;
 						par.mtx.translateThis(tf.Pos()).scaleThis(tf.Scale());
+						par.mtx.m[6] += CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.xSpawnRadius, emitter.xSpawnRadius);
+
 						par.vel = Vector2DGenerateFromAngleRad(emitterDir + CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.angleRange / 2.f, emitter.angleRange / 2.f) * PI / 180.f) *
 							(emitterSpeed + CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.speedRange / 2.f, emitter.speedRange / 2.f));
 						par.alpha.x = 1.f;
-						if (emitter.isFade)
-							par.alpha.y = 1.f / emitter.lifeTime;
-						//if (emitter.isShrink)
-						//	par.scaling = 
+						if (emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_FADE))
+							par.alpha.y = 1.f / par.timeLeft;
+
+						par.hasFriction = emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_FRICTION);
+						par.hasGrav = emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_GRAVITY);
+
 
 						mParticles[1].emplace_back(par);
 						emitter.timePassed -= spawnTime;
@@ -149,6 +168,12 @@ namespace Carmicah
 					continue;
 				}
 				// Update the particle
+				if (par.hasGrav)
+					par.vel.y -= mGrav * dt;
+				if (par.hasFriction)
+					par.vel *= mFriction;
+
+
 				par.mtx.m[6] += par.vel.x * dt;
 				par.mtx.m[7] += par.vel.y * dt;
 				//par.mtx.scaleThis(par.scaling * dt, par.scaling * dt);

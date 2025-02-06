@@ -20,8 +20,8 @@ namespace Carmicah
     struct Animation : public BaseComponent<Animation>
     {
     protected:
-    public:
         std::string animAtlas;
+    public:
         enum class ANIM_CODE : char
         {
             ANIM_CHANGED= -2,
