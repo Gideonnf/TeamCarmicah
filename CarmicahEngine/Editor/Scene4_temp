@@ -99,10 +99,10 @@
                         {
                             "timer": 0.0,
                             "state": 0,
-                            "schoolRightsEntity": "digipen_rights",
-                            "schoolLogoEntity": "digipen_logo",
-                            "schoolLogoName": "digipen_logo",
                             "DisplayDuration": 3.0,
+                            "schoolLogoName": "digipen_logo",
+                            "schoolLogoEntity": "digipen_logo",
+                            "schoolRightsEntity": "digipen_rights",
                             "FadeDuration": -107374176.0,
                             "schoolBGEntity": "black_background",
                             "gameLogoEntity": "game_logo",
