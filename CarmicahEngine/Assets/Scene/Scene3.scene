@@ -73,10 +73,16 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.PlayButton",
+                    "scriptName": "Carmicah.SceneChanger",
                     "ScriptableFieldMap": [
-                        {}
+                        {
+                            "buttonType": "play"
+                        }
                     ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Button_HE_Play"
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -236,8 +242,8 @@
                     "scriptName": "Carmicah.CreditsButton",
                     "ScriptableFieldMap": [
                         {
-                            "IsCreated": false,
                             "CreditsCloseButton": "Close_Button_2",
+                            "IsCreated": false,
                             "CreditsMenu": "Credits_Menu"
                         }
                     ]

@@ -28,7 +28,7 @@ namespace Carmicah
     {
         public string SettingsMenu = "Settings_Menu";
         public string SettingsCloseButton = "Close_Button";
-        public bool IsCreated = false;
+        public static bool IsCreated = false;
         bool hovering = false;
         void OnClick()
         {
@@ -62,7 +62,12 @@ namespace Carmicah
         public void OnMouseExit()
         {
             hovering = false;
-            ChangeAnim("Button_HE_Settings");
+            if(!IsCreated)
+            {
+                
+                ChangeAnim("Button_HE_Settings");
+
+            }
         }
     }
 }

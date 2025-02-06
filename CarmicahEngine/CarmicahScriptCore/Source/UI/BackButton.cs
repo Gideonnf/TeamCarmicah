@@ -24,12 +24,12 @@ namespace Carmicah
         void OnClick()
         {
             Entity settings = FindEntityWithName(SettingsMenu);
-            //SettingButton.IsCreated = false;
             ChangeAnim(Animation0);
             //settings.Destroy();
             //Destroy();
             if (settings != null)
             {
+                SettingButton.IsCreated = false;
                 settings.Destroy();
                 Destroy();
             }
@@ -37,6 +37,7 @@ namespace Carmicah
             Entity credits = FindEntityWithName(CreditsMenu);
             if (credits != null)
             {
+                SettingButton.IsCreated = false;
                 credits.Destroy();
                 Destroy();
             }

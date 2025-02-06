@@ -26,8 +26,8 @@ namespace Carmicah
     public class CreditsButton : Entity
     {
         //test
-        string Animation0 = "Button_Click_Credits";
-        string Animation1 = "Button_Credits";
+        string Animation0 = "Button_C_Credits";
+        string Animation1 = "Button_HS_Credits";
         bool hovering = false;
         private HealthSystem healthSystem;
         //private HealthSystem healthSystem;
@@ -82,7 +82,8 @@ namespace Carmicah
         public void OnMouseExit()
         {
             hovering = false;
-            ChangeAnim("Bear_Climb");
+            
+            ChangeAnim("Button_HE_Credits");
         }
     }
 }
