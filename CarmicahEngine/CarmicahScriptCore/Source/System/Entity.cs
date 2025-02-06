@@ -47,6 +47,7 @@ namespace Carmicah
             }
         }
 
+        
         public Vector2 LocalPosition
         {
             get
