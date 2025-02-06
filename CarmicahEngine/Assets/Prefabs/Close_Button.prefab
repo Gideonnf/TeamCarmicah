@@ -4,13 +4,8 @@
     "Components": [
         {
             "Component Name": "struct Carmicah::Button",
-            "ButtonImage": "Button_SpriteSheet_Hover_Settings 0",
-            "ButtonImagePressed": "Button_SpriteSheet_Click_Settings 0"
-        },
-        {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "Button_SpriteSheet_Hover_Back 1"
+            "ButtonImage": "Button_SpriteSheet_H_Back 0",
+            "ButtonImagePressed": "Button_SpriteSheet_C_Back 0"
         },
         {
             "Component Name": "struct Script",
@@ -20,6 +15,15 @@
             ]
         },
         {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Button_SpriteSheet_H_Back 1",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
             "Component Name": "struct Carmicah::UITransform",
             "xPos": 977.153076171875,
             "yPos": 273.1087646484375,
@@ -27,6 +31,10 @@
             "xScale": 1.0,
             "yScale": 1.0,
             "rot": 0.0
+        },
+        {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Button_HE_Back"
         }
     ]
 }

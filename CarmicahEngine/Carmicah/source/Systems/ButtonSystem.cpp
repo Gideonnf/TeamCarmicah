@@ -110,10 +110,10 @@ namespace Carmicah
 				Vec2f min;
 				Vec2f max;
 
-				max.x = uiTransform.Pos().x + 30.0f;
-				max.y = uiTransform.Pos().y + 30.0f;
-				min.x = uiTransform.Pos().x - 30.0f;
-				min.y = uiTransform.Pos().y - 30.0f;
+				max.x = uiTransform.Pos().x + 20.0f;
+				max.y = uiTransform.Pos().y + 20.0f;
+				min.x = uiTransform.Pos().x - 20.0f;
+				min.y = uiTransform.Pos().y - 20.0f;
 
 				if (mousePosI.y > min.y && mousePosI.y < max.y)
 				{

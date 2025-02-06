@@ -78,7 +78,8 @@ namespace Carmicah
 					// Only need check if Finite loops
 					if (animation.animState == Animation::ANIM_CODE::FINITE && --animation.loopsLeft == 0)
 						animation.animState = Animation::ANIM_CODE::STOP_ANIM;
-					animation.currPiece = 0;
+					else
+						animation.currPiece = 0;
 				}
 
 				// Updates texture
