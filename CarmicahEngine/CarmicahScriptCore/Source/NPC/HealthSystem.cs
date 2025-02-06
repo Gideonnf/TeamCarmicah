@@ -89,8 +89,8 @@ namespace Carmicah
             float posPercentage = (float)(posDiff) * scalePercentage;
             float posVal = startPos + posPercentage;
 
-            CMConsole.Log($"posPercentage: {posPercentage}, posVal: {posVal}");
-            CMConsole.Log($"Position: {Position.x}, {Position.y}");
+            //CMConsole.Log($"posPercentage: {posPercentage}, posVal: {posVal}");
+           // CMConsole.Log($"Position: {Position.x}, {Position.y}");
             Position = new Vector2(posVal, LocalPosition.y);
 
 

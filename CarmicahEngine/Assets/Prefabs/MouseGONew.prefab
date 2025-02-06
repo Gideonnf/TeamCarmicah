@@ -13,6 +13,10 @@
             "collisionMask": 4
         },
         {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Mouse_Climb_blue"
+        },
+        {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.MouseAI",
             "ScriptableFieldMap": [
@@ -91,10 +95,6 @@
                     "transitions": []
                 }
             ]
-        },
-        {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Mouse_Climb_blue"
         }
     ],
     "Children": [
