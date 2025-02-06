@@ -32,6 +32,8 @@ namespace Carmicah
             Console.WriteLine($"Testing Play Button {mID}");
             Sound.PlaySFX("SFX_Button");
             Scene.ChangeScene("Scene1");
+            // change to scene 5 for cutscene
+            //Scene.ChangeScene("Scene5");
         }
     }
 }

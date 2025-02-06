@@ -5,7 +5,7 @@ author:		    Micah Lim (100%)
 
 email:			micahshengyao.lim@digipen.edu
 
-brief:          
+brief:          I hate that this took me so long.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of

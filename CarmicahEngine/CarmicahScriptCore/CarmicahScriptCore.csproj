@@ -89,6 +89,7 @@
     <Compile Include="Source\UI\Cutscene.cs" />
     <Compile Include="Source\UI\HeroIcon.cs" />
     <Compile Include="Source\UI\Intro.cs" />
+    <Compile Include="Source\UI\LoadingScreen.cs" />
     <Compile Include="Source\UI\PauseButton.cs" />
     <Compile Include="Source\UI\PlayButton.cs" />
     <Compile Include="Source\UI\QuitButton.cs" />
