@@ -174,6 +174,8 @@ namespace Carmicah
         {
             GameStart = true;
             MobCounter += mobCount;
+            Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
+            Sound.PlayBGM("BGM_LevelMusic_FullTrack_Vers1");
         }
 
         public void EntityDestroyed(MouseAI entity)
