@@ -15,7 +15,7 @@ namespace Carmicah
         Vector2 min;
         Entity button;
         public string buttonType;
-        public string Animation0;
+        string Animation0;
         public string Animation1;
         string nextScene;
 
@@ -30,11 +30,13 @@ namespace Carmicah
             {
                 button = FindEntityWithName("Quit Button");
             }
-            
-            max.x = button.Position.x + (button.Position.x * 0.5f);
-            max.y = button.Position.y + (button.Position.y * 0.5f);
-            min.x = button.Position.x - (button.Position.x * 0.5f);
-            min.y = button.Position.y - (button.Position.y * 0.5f);
+
+
+
+            //max.x = button.Position.x + 10.0f;
+            //max.y = button.Position.y + 10.0f;
+            //min.x = button.Position.x - 10.0f;
+            //min.y = button.Position.y - 10.0f;
         }
 
         public void SetScene(string sceneName, float delay = 1.0f)
@@ -46,7 +48,7 @@ namespace Carmicah
         void OnUpdate(float dt)
         {
 
-            CheckHover();
+            //CheckHover();
 
             if (sceneChangeTimer > 0)
             {
@@ -68,14 +70,29 @@ namespace Carmicah
             }
         }
 
-        void CheckHover()
-        {
-            Vector2 mousePos = Input.GetMousePos();
+        //void CheckHover()
+        //{
+        //    Vector2 mousePos = Input.GetMousePos();
 
-            if(mousePos.x < max.x && mousePos.y < max.y && mousePos.x >min.x && mousePos.y > min.y)
+        //    if (mousePos.x < max.x && mousePos.y < max.y && mousePos.x > min.x && mousePos.y > min.y)
+        //    {
+        //        Console.WriteLine("Inside");
+        //        ChangeAnim(Animation0);
+        //    }
+        //}
+
+        public void OnMouseEnter()
+        {
+            if (buttonType.ToLower() == "play")
             {
-                ChangeAnim(Animation0);
+                Animation0 = "Button_Play";
+
             }
+            else if (buttonType.ToLower() == "quit")
+            {
+                Animation0 = "Button_Quit";
+            }
+            ChangeAnim(Animation0);
         }
 
         void OnClick()
@@ -92,5 +109,7 @@ namespace Carmicah
             }
                 SetScene(nextScene);
         }
+
+
     }
 }

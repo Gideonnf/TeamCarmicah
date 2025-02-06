@@ -45,6 +45,9 @@ namespace Carmicah
 		// button functions
 		void OnPress(Button& buttonComponent, Entity entityID);
 		void OnRelease(Button&);
+		void OnEnter(Entity entityID);
+		void OnExit(Entity entityID);
+		void OnHover(Entity entityID);
 
 		#pragma region Potential Button Functions
 		//void OnHover(std::string name);
