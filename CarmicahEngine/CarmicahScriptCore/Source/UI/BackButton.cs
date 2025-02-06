@@ -12,18 +12,22 @@ namespace Carmicah
 
         public string SettingsMenu = "Settings_Menu";
         public string buttonType;
-        string Animation0 = "Button_Click_Back";
-        string Animation1 = "Button_Back";
+        string Animation0 = "Button_C_Back";
+        string Animation1 = "Button_HS_Back";
         bool hovering = false;
         public string CreditsMenu = "Credits_Menu";
-        //public string SettingsCloseButton = "Settings_Close";
+        public string SettingsCloseButton = "Settings_Close";
+        //void OnCreate()
+        //{
+        //    ChangeAnim("Button_HE_Back");
+        //}
         void OnClick()
         {
             Entity settings = FindEntityWithName(SettingsMenu);
-            SettingButton.IsCreated = false;
+            //SettingButton.IsCreated = false;
             ChangeAnim(Animation0);
-            // settings.Destroy();
-            // Destroy();
+            //settings.Destroy();
+            //Destroy();
             if (settings != null)
             {
                 settings.Destroy();
@@ -58,7 +62,7 @@ namespace Carmicah
         public void OnMouseExit()
         {
             hovering = false;
-            ChangeAnim("Bear_Climb");
+            ChangeAnim("Button_HE_Back");
         }
     }
 }

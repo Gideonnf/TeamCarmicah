@@ -15,6 +15,8 @@ namespace Carmicah
         public string buttonType;
         string Animation0;
         string Animation1;
+        string Animation2;
+        string Animation3;
         string nextScene;
         bool hovering = false;
 
@@ -23,14 +25,16 @@ namespace Carmicah
             if (buttonType.ToLower() == "play")
             {
                 button = FindEntityWithName("Play Button");
+                Animation3 = "Button_HE_Play";
 
             }
             else if (buttonType.ToLower() == "quit")
             {
                 button = FindEntityWithName("Quit Button");
+                Animation3 = "Button_HE_Quit";
             }
 
-
+            ChangeAnim(Animation3);
 
             //max.x = button.Position.x + 10.0f;
             //max.y = button.Position.y + 10.0f;
@@ -83,24 +87,16 @@ namespace Carmicah
         public void OnMouseHover()
         {
             
-            if (buttonType.ToLower() == "play")
-            {
-                Animation0 = "Button_HS_Play";
-            }else if(buttomType.ToLower() == "quit")
-            {
-                Animation0 = "Button_HS_Quit";
-            }
-            
             if(!hovering)
             {
                 hovering = true;
                 if (buttonType.ToLower() == "play")
                 {
-                    Animation1 = "Button_Play";
+                    Animation1 = "Button_HS_Play";
                 }
                 else if(buttonType.ToLower() == "quit")
                 {
-                    Animation1 = "Button_Quit";
+                    Animation1 = "Button_HS_Quit";
                 }
                 ChangeAnim(Animation1);
             }
@@ -114,7 +110,16 @@ namespace Carmicah
         public void OnMouseExit()
         {
             hovering = false;
-            ChangeAnim("Bear_Climb");
+            if (buttonType.ToLower() == "play")
+            {
+                Animation2 = "Button_HE_Play";
+            }
+            else if (buttonType.ToLower() == "quit")
+            {
+                Animation2 = "Button_HE_Quit";
+            }
+
+            ChangeAnim(Animation2);
         }
 
         void OnClick()
@@ -124,12 +129,12 @@ namespace Carmicah
             if(buttonType.ToLower() == "play")
             {
                 nextScene = "Scene1";
-                Animation0 = "Button_Click_Play";
+                Animation0 = "Button_C_Play";
 
             }else if(buttonType.ToLower() == "quit")
             {
                 nextScene = "quit";
-                Animation0 = "Button_Click_Quit";
+                Animation0 = "Button_C_Quit";
             }
 
             

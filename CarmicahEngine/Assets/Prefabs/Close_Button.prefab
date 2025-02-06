@@ -8,11 +8,6 @@
             "ButtonImagePressed": "Button_SpriteSheet_C_Back 0"
         },
         {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "Button_SpriteSheet_H_Back 1"
-        },
-        {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.BackButton",
             "ScriptableFieldMap": [
@@ -22,7 +17,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Button_SpriteSheet_Hover_Back 1",
+            "texture": "Button_SpriteSheet_H_Back 1",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
@@ -39,7 +34,7 @@
         },
         {
             "Component Name": "struct Carmicah::Animation",
-            "Atlas": ""
+            "Atlas": "Button_HE_Back"
         }
     ]
 }
