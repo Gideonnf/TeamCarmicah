@@ -166,7 +166,7 @@ namespace Carmicah
 		/// <summary>
 		/// Call when obj collides, if it has a script with an onCollide function
 		/// </summary>
-		void InvokeOnCollide();
+		void InvokeOnCollide(unsigned int id);
 
 		/// <summary>
 		/// Call when a mouse enters the collider box of an object

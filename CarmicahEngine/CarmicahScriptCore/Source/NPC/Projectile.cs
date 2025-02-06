@@ -106,8 +106,14 @@ namespace Carmicah
             facingRight = right;
         }
 
-        void OnCollide()
+        void OnCollide(uint id)
         {
+            Entity collidedEntity = FindEntityWithID(id);
+            if (collidedEntity != null)
+            {
+                CMConsole.Log($"Collided Entity : {collidedEntity.mID} with tag {collidedEntity.GetTag()}");
+            }
+
             // Optional: Play some effect
             Destroy();
         }

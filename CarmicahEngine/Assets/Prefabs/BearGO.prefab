@@ -1,6 +1,6 @@
 {
-    "GameObject": "MouseGONew",
-    "ID": 29,
+    "GameObject": "BearGO",
+    "ID": 31,
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
@@ -10,12 +10,65 @@
             "xScale": 0.5,
             "yScale": 0.5,
             "rot": 0.0,
-            "transformTag": "Enemy",
+            "transformTag": "",
             "collisionMask": 4
         },
         {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Mouse_Climb_blue"
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.MouseAI",
+            "ScriptableFieldMap": [
+                {
+                    "SpawnPointEntityLeft": "StartPointLeft",
+                    "isLeft": false,
+                    "SpawnPointEntityRight2": "StartPointRight_1",
+                    "Animation2": "Bear_Climb",
+                    "SpawnPointEntityRight": "StartPointRight",
+                    "EndPointEntityLeft": "EndPointLeft",
+                    "ChanceToDie": 0.11999999731779099,
+                    "EndPointEntityRight": "EndPointRight",
+                    "EndPointEntityRight2": "EndPointRight_1",
+                    "Animation0": "Bear_Climb",
+                    "Animation1": "Bear_Climb",
+                    "Animation3": "Bear_Climb",
+                    "AnimationDie0": "Bear_Death",
+                    "AnimationDie2": "Bear_Death",
+                    "AnimationDie1": "Bear_Death",
+                    "AnimationDie3": "Bear_Death",
+                    "SpawnPointEntityLeft2": "StartPointLeft_1",
+                    "EndPointEntityLeft2": "EndPointLeft_1",
+                    "DeathTime": 2.0,
+                    "TimeToDie": 1.5,
+                    "timer": 0.0
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Enemies_SpriteSheet_Bear_Climb 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::Collider2D",
+            "shape": "DebugSquare",
+            "customWidth": 1.0,
+            "customRotation": 0.0,
+            "customHeight": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::RigidBody",
+            "velocityX": 0.0,
+            "velocityY": 0.0,
+            "angularVelocity": 0.0,
+            "posPrevX": 2.0,
+            "posPrevY": 2.0,
+            "mass": 1.0,
+            "gravity": 0.0,
+            "zposPrev": 1.0,
+            "objectType": 2
         },
         {
             "Component Name": "struct Carmicah::StateMachine",
@@ -41,67 +94,14 @@
             ]
         },
         {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.MouseAI",
-            "ScriptableFieldMap": [
-                {
-                    "isLeft": false,
-                    "SpawnPointEntityLeft": "StartPointLeft",
-                    "SpawnPointEntityRight2": "StartPointRight_1",
-                    "Animation2": "Mouse_Climb_brown",
-                    "SpawnPointEntityRight": "StartPointRight",
-                    "EndPointEntityLeft": "EndPointLeft",
-                    "ChanceToDie": 0.11999999731779099,
-                    "EndPointEntityRight2": "EndPointRight_1",
-                    "EndPointEntityRight": "EndPointRight",
-                    "Animation0": "Mouse_Climb_blue",
-                    "Animation1": "Mouse_Climb_white",
-                    "Animation3": "Mouse_Climb_blue",
-                    "AnimationDie0": "Mouse_Death_blue",
-                    "AnimationDie2": "Mouse_Death_brown",
-                    "AnimationDie1": "Mouse_Death_white",
-                    "SpawnPointEntityLeft2": "StartPointLeft_1",
-                    "AnimationDie3": "Mouse_Death_blue",
-                    "EndPointEntityLeft2": "EndPointLeft_1",
-                    "DeathTime": 2.0,
-                    "TimeToDie": 1.5,
-                    "timer": 0.0
-                }
-            ]
-        },
-        {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "Enemies_SpriteSheet_Mouse_Climb_Blue 3",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
-        },
-        {
-            "Component Name": "struct Carmicah::Collider2D",
-            "shape": "DebugSquare",
-            "customWidth": 1.0,
-            "customRotation": 0.0,
-            "customHeight": 1.0
-        },
-        {
-            "Component Name": "struct Carmicah::RigidBody",
-            "velocityX": 0.0,
-            "velocityY": 0.0,
-            "angularVelocity": 0.0,
-            "posPrevX": 2.0,
-            "posPrevY": 2.0,
-            "mass": 1.0,
-            "gravity": 0.0,
-            "zposPrev": 1.0,
-            "objectType": 2
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Bear_Climb"
         }
     ],
     "Children": [
         {
             "GameObject": "Healthbar",
-            "ID": 30,
+            "ID": 32,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
@@ -122,6 +122,10 @@
                     "colG": 1.0,
                     "colB": 1.0,
                     "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 30
                 }
             ]
         },
@@ -144,7 +148,13 @@
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.HealthSystem",
                     "ScriptableFieldMap": [
-                        {}
+                        {
+                            "endPos": 0.0,
+                            "endScale": 4.400000095367432,
+                            "posDiff": 0.0,
+                            "startPos": 0.0,
+                            "startScale": 0.0
+                        }
                     ]
                 },
                 {
@@ -158,7 +168,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::PrefabData",
-                    "prefabRef": 32
+                    "prefabRef": 33
                 }
             ]
         }

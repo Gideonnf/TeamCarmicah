@@ -96,7 +96,8 @@ namespace Carmicah
 	{
 	public:
 		Entity mEntityID;
-		EntityCollidedMessage(Entity id) : Message(MSG_ENTITYCOLLIDED), mEntityID(id) {}
+		Entity mCollidedEntity;
+		EntityCollidedMessage(Entity id, Entity collidedEntity) : Message(MSG_ENTITYCOLLIDED), mEntityID(id), mCollidedEntity (collidedEntity) {}
 	};
 
 	class EditorEntityPicked : public Message
