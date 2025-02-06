@@ -1,0 +1,130 @@
+{
+    "GameObject": "mainCharacter",
+    "ID": 12,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Transform",
+            "xPos": -0.8816788196563721,
+            "yPos": -4.722804069519043,
+            "depth": 4.0,
+            "xScale": 0.4000000059604645,
+            "yScale": 0.4000000059604645,
+            "rot": 0.0,
+            "transformTag": "",
+            "collisionMask": 0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.Player",
+            "ScriptableFieldMap": [
+                {
+                    "HealAnim": "MC_Heal",
+                    "IdleAnim": "MC_Idle",
+                    "WalkAnim": "MC_Walk",
+                    "isWalking": true
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "MC_SpriteSheet_Idle 9",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::Collider2D",
+            "shape": "DebugSquare",
+            "customWidth": 1.0,
+            "customRotation": 0.0,
+            "customHeight": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::RigidBody",
+            "velocityX": 0.0,
+            "velocityY": 0.0,
+            "angularVelocity": 0.0,
+            "posPrevX": -0.8816788196563721,
+            "posPrevY": -4.722804069519043,
+            "mass": 1.0,
+            "gravity": 0.0,
+            "zposPrev": 4.0,
+            "objectType": 1
+        },
+        {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "MC_Idle"
+        }
+    ],
+    "Children": [
+        {
+            "GameObject": "Healthbar",
+            "ID": 32,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 1.3412744998931885,
+                    "depth": 15.0,
+                    "xScale": 2.5,
+                    "yScale": 2.5,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "health_bar",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                }
+            ]
+        },
+        {
+            "GameObject": "Healthbar_Cover",
+            "ID": 33,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 1.100000023841858,
+                    "yPos": 1.3278452157974244,
+                    "depth": 16.0,
+                    "xScale": 0.0625,
+                    "yScale": 0.3499999940395355,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.HealthSystem",
+                    "ScriptableFieldMap": [
+                        {
+                            "endPos": 0.0,
+                            "endScale": 4.400000095367432,
+                            "mCurHealth": 0.0,
+                            "posDiff": 0.0,
+                            "startPos": 0.0,
+                            "startScale": 0.0,
+                            "mMaxHealth": 200.0
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_White 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 0.0,
+                    "colA": 1.0
+                }
+            ]
+        }
+    ]
+}
