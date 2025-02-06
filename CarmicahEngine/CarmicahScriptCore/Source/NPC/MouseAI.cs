@@ -50,6 +50,8 @@ namespace Carmicah
         public string AnimationDie2;
         public string AnimationDie3;
 
+        public string DeathSound = "mouse die btr";
+
         //int currPoint;
         Vector2 startPosLeft;
         Vector2 startPosRight;
