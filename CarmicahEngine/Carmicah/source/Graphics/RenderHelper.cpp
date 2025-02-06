@@ -149,7 +149,12 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 							glDisable(GL_BLEND);
 
 							glEnable(GL_DEPTH_TEST);
-							glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
+
+							// Specifically disable writting to ID 1 since id 1 is particles, yes, ik, it's dumb
+							if(it.first.dat[BUFFER_ID] == 0)
+								glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
+							else if(it.first.dat[BUFFER_ID] == 1)
+								glColorMaski(1, GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 							glDepthMask(GL_TRUE);	// Enable writing to depth buffer
 							glDepthFunc(GL_LESS);	// When incoming depth is smaller, pass the test
 
@@ -217,6 +222,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 				currID = it.first;
 			}
 
+			// Rendering part
 			glBindBuffer(GL_DRAW_INDIRECT_BUFFER, batchBuffer.ibo);
 			if (!batchBuffer.isDebug)
 			{

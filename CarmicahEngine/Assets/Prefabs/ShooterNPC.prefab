@@ -28,7 +28,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Shooter_SpriteSheet_Shooter_Idle 18",
+            "texture": "NPC_SpriteSheet_Shooter_Idle 18",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,

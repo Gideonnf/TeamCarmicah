@@ -33,9 +33,9 @@
         {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "",
-            "customWidth": 5.300000190734863,
+            "customWidth": 1.0,
             "customRotation": 0.0,
-            "customHeight": 3.0
+            "customHeight": 1.0
         },
         {
             "Component Name": "struct Carmicah::RigidBody",

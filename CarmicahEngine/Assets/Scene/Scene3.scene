@@ -8,7 +8,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Menu_SpriteSheet_Menu_Ani 2",
+                    "texture": "Menu_SpriteSheet_Main 2",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -76,9 +76,15 @@
                     "scriptName": "Carmicah.SceneChanger",
                     "ScriptableFieldMap": [
                         {
-                            "buttonType": "PLAY"
+                            "buttonType": "PLAY",
+                            "Animation0": "Button_Play",
+                            "Animation1": ""
                         }
                     ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": ""
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -114,7 +120,9 @@
                     "scriptName": "Carmicah.SceneChanger",
                     "ScriptableFieldMap": [
                         {
-                            "buttonType": "qUit"
+                            "buttonType": "qUit",
+                            "Animation0": "",
+                            "Animation1": ""
                         }
                     ]
                 },
@@ -152,7 +160,7 @@
                     "scriptName": "Carmicah.SettingButton",
                     "ScriptableFieldMap": [
                         {
-                            "IsCreated": false,
+                            "IsCreated": true,
                             "SettingsCloseButton": "Close_Button",
                             "SettingsMenu": "Settings_Menu"
                         }

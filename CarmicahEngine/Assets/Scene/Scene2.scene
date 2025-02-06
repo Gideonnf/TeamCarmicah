@@ -130,7 +130,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "wall2"
+                    "texture": "wall_2 0"
                 }
             ],
             "Children": []
@@ -151,7 +151,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "wall2"
+                    "texture": "wall_2 0"
                 }
             ],
             "Children": []
@@ -242,7 +242,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Duck_ie 0"
+                    "texture": "strawberry_cake_SpriteSheet_Squish 0"
                 }
             ],
             "Children": []
@@ -263,7 +263,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Duck_ie 0"
+                    "texture": "strawberry_cake_SpriteSheet_Squish 0"
                 }
             ],
             "Children": [
@@ -283,7 +283,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "Duck_ie 1"
+                            "texture": "strawberry_cake_SpriteSheet_Squish 0"
                         }
                     ],
                     "Children": []
@@ -306,7 +306,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "wall2"
+                    "texture": "wall_2 0"
                 }
             ],
             "Children": []
@@ -352,7 +352,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "wall2"
+                    "texture": "wall_2 0"
                 }
             ],
             "Children": []
@@ -421,7 +421,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "wall2"
+                    "texture": "wall_2 0"
                 }
             ],
             "Children": []
@@ -442,7 +442,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "wall2"
+                    "texture": "wall_2 0"
                 }
             ],
             "Children": []
@@ -463,7 +463,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Duck_ie 2"
+                    "texture": "strawberry_cake_SpriteSheet_Squish 0"
                 }
             ],
             "Children": []

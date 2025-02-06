@@ -13,6 +13,7 @@
 #include <unordered_map>
 #include <bitset>
 #include <optional>
+#include <cstdlib>
 #include "CarmicahCore.h"
 #include "CarmicahTime.h"
 

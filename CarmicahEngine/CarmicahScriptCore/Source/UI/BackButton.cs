@@ -15,8 +15,10 @@ namespace Carmicah
         {
             Sound.PlaySFX("SFX_Button");
             Entity settings = FindEntityWithName(SettingsMenu);
+            SettingButton.IsCreated = false;
             settings.Destroy();
             Destroy();
+
         }
     }
 }
