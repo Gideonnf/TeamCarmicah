@@ -26,32 +26,58 @@ namespace Carmicah
 {
     public class LoadingScreen : Entity
     {
-        //float timer = 0.0f;
-        //public string PolkaDotAnim = "Polka_Dots";
-        //bool isCreated = false;
-        // changeAnim(PolkaDotAnim)
+        private string fullText = "Good morning, my name is Micah, i'm a shit coder";
+        private StringBuilder currentText = new StringBuilder();
+        private int currentIndex = 0;
+        private float timePerChar = 0.1f;  // delay between each character (in seconds)
+        private float timer = 0.0f;
+        private bool isTyping = true;
 
         void OnCreate()
         {
-
+            currentText.Clear();
+            StartTyping(fullText, 10f);
         }
 
         void OnUpdate(float dt)
         {
-            //timer += dt;
+            if (!isTyping) return;
 
-            //if (!isCreated)
-            //{
-            //    CreateGameObject(PolkaDotAnim);
-            //    isCreated = true;
-            //}
+            timer += dt;
 
-            //ChangeAnim(PolkaDotAnim);
-            //if (timer >= 2.5f)
-            //{
-            //    Scene.ChangeScene("Scene3");
-            //}
+            // check if it's time to add a new character
+            if (timer >= timePerChar && currentIndex < fullText.Length)
+            {
+                // add next character
+                currentText.Append(fullText[currentIndex]);
+                currentIndex++;
 
+                // reset timer for next character
+                timer = 0.0f;
+
+                // add print/display logic here, currently only for console
+                Console.Write("\r" + currentText.ToString() + " "); // console output
+
+                // use game's text rendering system for scene, lowk embarassed how long it took me to do this logic bruh
+
+                // check if finished typing
+                if (currentIndex >= fullText.Length)
+                {
+                    isTyping = false;
+                }
+            }
         }
+
+        // helper method to start typing a new text
+        public void StartTyping(string text, float charactersPerSecond = 10f)
+        {
+            fullText = text;
+            timePerChar = 1f / charactersPerSecond;
+            currentIndex = 0;
+            currentText.Clear();
+            timer = 0.0f;
+            isTyping = true;
+        }
+        
     }
 }
