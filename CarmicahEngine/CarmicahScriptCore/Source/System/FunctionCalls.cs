@@ -52,6 +52,9 @@ namespace Carmicah
         internal extern static void Sound_SetVolume(string soundName, float volume);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Sound_StopBGM(string soundName);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_Stop(string soundName);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]

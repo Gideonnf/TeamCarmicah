@@ -26,9 +26,9 @@ namespace Carmicah
         }
 
         // Sound controls
-        public static void StopSound(string soundName)
+        public static void StopSoundBGM(string soundName)
         {
-            FunctionCalls.Sound_Stop(soundName);
+            FunctionCalls.Sound_StopBGM(soundName);
         }
 
         public static void PauseSound(string soundName)
