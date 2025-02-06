@@ -28,16 +28,17 @@ namespace Carmicah
     {
         public string SettingsMenu = "Settings_Menu";
         public string SettingsCloseButton = "Close_Button";
-        public bool IsCreated = false;
+        public static bool IsCreated = false;
         void OnClick()
         {
             if (!IsCreated)
             {
                 CreateGameObject(SettingsMenu);
                 CreateGameObject(SettingsCloseButton);
+                IsCreated = true;
             }
             Console.WriteLine($"Testing Button {mID}");
-            Sound.PlaySFX("SFX_Button");
+            Sound.PlaySFX("SFX_Button",0.5f);
         }
     }
 }

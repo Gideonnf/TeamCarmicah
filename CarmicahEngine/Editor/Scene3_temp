@@ -98,7 +98,7 @@
                     "Component Name": "struct Carmicah::StateMachine",
                     "currState": "",
                     "nextState": "Idle",
-                    "startingState": "Idle",
+                    "startingState": "",
                     "stateMap": [
                         {
                             "stateName": "Hover",

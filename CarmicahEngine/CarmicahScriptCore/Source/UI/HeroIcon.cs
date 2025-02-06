@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace Carmicah
     {
         public string heroPrefab = "Trap_1";
         public Entity heroEntity;
+        bool flipped;
 
         void OnUpdate(float dt)
         {
@@ -21,13 +23,25 @@ namespace Carmicah
             Vector2 mousePos = Input.GetMousePos();
             heroEntity.Position = mousePos;
 
-
+            if (heroEntity.Position.x < 0.0f && flipped != true)
+            {
+                Vector2 scale = heroEntity.GetComponent<Transform>().Scale;
+                heroEntity.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
+                flipped = true;
+            }
+            else if (heroEntity.Position.x > 0.0f && flipped == true)
+            {
+                Vector2 scale = heroEntity.GetComponent<Transform>().Scale;
+                heroEntity.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
+                flipped = false;
+            }
 
             if (Input.IsMouseReleased(MouseButtons.MOUSE_BUTTON_LEFT))
             {
                 CMConsole.Log($"Destroying entity with {heroEntity.mID}");
                 heroEntity.Destroy();
                 heroEntity = null;
+                flipped = false;
             }
         }
 
