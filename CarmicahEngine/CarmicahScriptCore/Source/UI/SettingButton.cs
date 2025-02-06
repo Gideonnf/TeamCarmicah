@@ -29,6 +29,7 @@ namespace Carmicah
         public string SettingsMenu = "Settings_Menu";
         public string SettingsCloseButton = "Close_Button";
         public static bool IsCreated = false;
+        bool hovering = false;
         void OnClick()
         {
             if (!IsCreated)
@@ -38,7 +39,35 @@ namespace Carmicah
                 IsCreated = true;
             }
             Console.WriteLine($"Testing Button {mID}");
-            Sound.PlaySFX("SFX_Button",0.5f);
+            Sound.PlaySFX("SFX_Button", 0.5f);
+        }
+
+        public void OnMouseHover()
+        {
+
+
+            if (!hovering && !IsCreated)
+            {
+                hovering = true;
+
+                ChangeAnim("Button_HS_Settings");
+            }
+        }
+
+        public void OnMouseClick()
+        {
+            hovering = false;
+        }
+
+        public void OnMouseExit()
+        {
+            hovering = false;
+            if(!IsCreated)
+            {
+                
+                ChangeAnim("Button_HE_Settings");
+
+            }
         }
     }
 }

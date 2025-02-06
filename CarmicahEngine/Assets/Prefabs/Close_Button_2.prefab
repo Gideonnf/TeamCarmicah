@@ -10,7 +10,11 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Button_SpriteSheet_Hover_Back 1"
+            "texture": "Button_SpriteSheet_Hover_Back 1",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         },
         {
             "Component Name": "struct Script",
@@ -27,6 +31,10 @@
             "xScale": 1.0,
             "yScale": 1.0,
             "rot": 0.0
+        },
+        {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Button_HE_Back"
         }
     ]
 }

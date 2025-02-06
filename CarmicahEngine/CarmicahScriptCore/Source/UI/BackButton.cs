@@ -9,14 +9,27 @@ namespace Carmicah
 {
     public class BackButton : Entity
     {
+
         public string SettingsMenu = "Settings_Menu";
+        public string buttonType;
+        string Animation0 = "Button_C_Back";
+        string Animation1 = "Button_HS_Back";
+        bool hovering = false;
         public string CreditsMenu = "Credits_Menu";
-        //public string SettingsCloseButton = "Settings_Close";
+        public string SettingsCloseButton = "Settings_Close";
+        //void OnCreate()
+        //{
+        //    ChangeAnim("Button_HE_Back");
+        //}
         void OnClick()
         {
             Entity settings = FindEntityWithName(SettingsMenu);
+            ChangeAnim(Animation0);
+            //settings.Destroy();
+            //Destroy();
             if (settings != null)
             {
+                SettingButton.IsCreated = false;
                 settings.Destroy();
                 Destroy();
             }
@@ -24,9 +37,33 @@ namespace Carmicah
             Entity credits = FindEntityWithName(CreditsMenu);
             if (credits != null)
             {
+                SettingButton.IsCreated = false;
                 credits.Destroy();
                 Destroy();
             }
+        }
+
+        public void OnMouseHover()
+        {
+
+
+            if (!hovering)
+            {
+                hovering = true;
+                
+                ChangeAnim(Animation1);
+            }
+        }
+
+        public void OnMouseClick()
+        {
+            hovering = false;
+        }
+
+        public void OnMouseExit()
+        {
+            hovering = false;
+            ChangeAnim("Button_HE_Back");
         }
     }
 }

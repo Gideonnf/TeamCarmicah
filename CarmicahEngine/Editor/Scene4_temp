@@ -8,7 +8,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "black_background",
+                    "texture": "Digipen_Logo",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -18,7 +18,7 @@
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 960.0,
                     "yPos": 540.0,
-                    "depth": -10.0,
+                    "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0
@@ -69,9 +69,33 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1750.0,
-                    "yPos": 75.0,
+                    "xPos": 1700.0,
+                    "yPos": 100.0,
                     "depth": 1.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0
+                }
+            ]
+        },
+        {
+            "GameObject": "Digipen_Rights",
+            "ID": 4,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Digipen_Rights",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 900.0,
+                    "yPos": 100.0,
+                    "depth": 0.0,
                     "xScale": 0.75,
                     "yScale": 0.75,
                     "rot": 0.0
@@ -79,8 +103,56 @@
             ]
         },
         {
+            "GameObject": "black_background",
+            "ID": 5,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_Black 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 960.0,
+                    "yPos": 540.0,
+                    "depth": 0.0,
+                    "xScale": 38.400001525878909,
+                    "yScale": 21.600000381469728,
+                    "rot": 0.0
+                }
+            ]
+        },
+        {
+            "GameObject": "main_menu_bg",
+            "ID": 6,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Menu_SpriteSheet_Main 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 960.0,
+                    "yPos": 540.0,
+                    "depth": -1.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0
+                }
+            ]
+        },
+        {
             "GameObject": "Intro",
-            "ID": 4,
+            "ID": 7,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
@@ -100,18 +172,11 @@
                             "timer": 0.0,
                             "state": 0,
                             "DisplayDuration": 3.0,
-                            "schoolLogoName": "digipen_logo",
-                            "schoolLogoEntity": "digipen_logo",
-                            "schoolRightsEntity": "digipen_rights",
-                            "FadeDuration": -107374176.0,
-                            "schoolBGEntity": "black_background",
-                            "gameLogoEntity": "game_logo",
-                            "teamLogoEntity": "team_logo",
-                            "gameLogoName": "game_logo",
-                            "maxDuration": -107374176.0,
-                            "schoolBGName": "black_background",
-                            "schoolRightsName": "digipen_rights",
-                            "teamLogoName": "team_logo"
+                            "schoolLogoEntity": "schoolLogoName",
+                            "schoolRightsEntity": "schoolRightsName",
+                            "FadeDuration": 1.0,
+                            "schoolBGEntity": "schoolBGName",
+                            "gameLogoEntity": "gameLogoName"
                         }
                     ]
                 }
