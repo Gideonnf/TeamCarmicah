@@ -574,51 +574,19 @@ namespace Carmicah
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
-				ImGui::Text("R");
-
+				ImGui::Text("Colour");
+				
 				ImGui::TableNextColumn();
-				float rValue = render.R();
-				tempValue = rValue;
-				if (ImGui::DragFloat("##R", &tempValue, 0.05f, 0.f, 1.f, "%.3f"))
+				float color[4] = { render.R(),render.G(),render.B(),render.A() };
+
+				if (ImGui::ColorPicker4("##ColorPicker", color))
 				{
-					render.SetR(tempValue);
+					render.SetR(color[0]);
+					render.SetG(color[1]);
+					render.SetB(color[2]);
+					render.SetA(color[3]);
 				}
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("G");
-
-				ImGui::TableNextColumn();
-				float gValue = render.G();
-				tempValue = gValue;
-				if (ImGui::DragFloat("##G", &tempValue, 0.05f, 0.f, 1.f, "%.3f"))
-				{
-					render.SetG(tempValue);
-				}
-
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("B");
-
-				ImGui::TableNextColumn();
-				float bValue = render.B();
-				tempValue = bValue;
-				if (ImGui::DragFloat("##B", &tempValue, 0.05f, 0.f, 1.f, "%.3f"))
-				{
-					render.SetB(tempValue);
-				}
-
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("A");
-
-				ImGui::TableNextColumn();
-				float aValue = render.A();
-				tempValue = aValue;
-				if (ImGui::DragFloat("##A", &tempValue, 0.05f, 0.f, 1.f, "%.3f"))
-				{
-					render.SetA(tempValue);
-				}
 				ImGui::EndTable();
 			}
 		}
