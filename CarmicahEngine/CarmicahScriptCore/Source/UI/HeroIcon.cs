@@ -12,6 +12,8 @@ namespace Carmicah
         public string heroPrefab = "Trap_1";
         public Entity heroEntity;
         bool flipped;
+        bool hovering = false;
+        
 
         void OnUpdate(float dt)
         {
@@ -43,6 +45,11 @@ namespace Carmicah
                 heroEntity = null;
                 flipped = false;
             }
+
+            if(hovering)
+            {
+
+            }
         }
 
         void OnClick()
@@ -51,6 +58,23 @@ namespace Carmicah
 
             heroEntity = CreateGameObject(heroPrefab);
             CMConsole.Log($"Creating entity with {heroEntity.mID}");
+        }
+
+        void OnMouseHover()
+        {
+            if (!hovering)
+            {
+                Sound.PlaySFX("SFX__Magic");
+                this.GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
+                
+                hovering = true;
+            }
+        }
+
+        void OnMouseExit()
+        {
+            hovering = false;
+            this.GetComponent<Renderer>().SetColour(1.0f, 1.0f, 1.0f);
         }
 
     }

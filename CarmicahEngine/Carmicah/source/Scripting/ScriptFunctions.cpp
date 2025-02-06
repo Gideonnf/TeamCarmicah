@@ -612,12 +612,33 @@ namespace Carmicah
 		}
 	}
 
+	static void SetColour(unsigned int entityID, float r, float g, float b)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Renderer>())
+		{
+			go.GetComponent<Renderer>().SetR(r);
+			go.GetComponent<Renderer>().SetG(g);
+			go.GetComponent<Renderer>().SetB(b);
+		}
+	}
+
 	static void ChangeTexture(unsigned int entityID, MonoString* string)
 	{
 		std::string cStrName = MonoToString(string);
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		go.GetComponent<Renderer>().Texture(cStrName);
 		//mono_free(cStr);
+	}
+
+	static void ChangeText(unsigned int entityID, MonoString* string)
+	{
+		std::string cStrName = MonoToString(string);
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<TextRenderer>())
+		{
+			go.GetComponent<TextRenderer>().txt = cStrName;
+		}
 	}
 
 	/// <summary>
@@ -634,6 +655,7 @@ namespace Carmicah
 		RegisterComponent<Animation>();
 		RegisterComponent<StateMachine>();
 		RegisterComponent<Renderer>();
+		RegisterComponent<TextRenderer>();
 	}
 
 	/// <summary>
@@ -669,6 +691,7 @@ namespace Carmicah
 
 		// renderer functions
 		ADD_INTERNAL_CALL(SetAlpha);
+		ADD_INTERNAL_CALL(SetColour);
 
 		// Anim functions
 		ADD_INTERNAL_CALL(Animation_ChangeAnim);
@@ -696,5 +719,8 @@ namespace Carmicah
 		// FSM
 		ADD_INTERNAL_CALL(SetStateCondition);
 		ADD_INTERNAL_CALL(GetStateTimer);
+
+		// Text Renderer
+		ADD_INTERNAL_CALL(ChangeText);
 	}
 }

@@ -53,15 +53,14 @@
                     "scriptName": "Carmicah.Cutscene",
                     "ScriptableFieldMap": [
                         {
+                            "panel1Name": "Opening_Cutscene1_SpriteSheet_Yes",
                             "cutscenePrefab": "CutSceneImage",
                             "fadeSpeed": 0.25,
-                            "backgroundMusicTrack1": "BGM_SetupPhase_Mix1",
                             "panelName": "panel",
                             "fadeTransitionTime": 3.0,
                             "timeToChange": 5.0,
                             "timer": 0.0,
                             "backgroundMusicTrack": "Cutscene",
-                            "panel1Name": "Opening_Cutscene1_SpriteSheet_Yes",
                             "panel2Name": "Opening_Cutscene2_SpriteSheet_Yes",
                             "panelDisplayTime": 10.0
                         }
