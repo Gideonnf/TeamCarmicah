@@ -107,6 +107,11 @@ namespace Carmicah
         {
             FunctionCalls.ChangeTexture(Entity.mID, textureName);
         }
+
+        public void SetColour(float r, float g, float b)
+        {
+            FunctionCalls.SetColour(Entity.mID, r, g, b);
+        }
     }
 
     public class TextRenderer : Component

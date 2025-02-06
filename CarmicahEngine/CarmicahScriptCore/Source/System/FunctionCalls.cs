@@ -109,6 +109,9 @@ namespace Carmicah
         internal extern static void SetAlpha(uint entityID, float alpha);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SetColour(uint entityID, float r, float g, float b);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void ChangeTexture(uint entityID, string texture);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
