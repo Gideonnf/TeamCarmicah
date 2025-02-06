@@ -44,13 +44,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "Button_SpriteSheet_Hover_Play 0",
-                    "ButtonImagePressed": "Button_SpriteSheet_Click_Play 0"
+                    "ButtonImage": "Button_SpriteSheet_H_Skip 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_C_Skip 0"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Play 0"
+                    "texture": "Button_SpriteSheet_H_Skip 0"
                 },
                 {
                     "Component Name": "struct Script",

@@ -654,7 +654,7 @@ namespace Carmicah
 				ImGui::Text("Animation");
 
 				ImGui::TableNextColumn();
-				ImGui::Text("%s", anim.animAtlas.c_str());
+				ImGui::Text("%s", anim.GetAnimAtlas().c_str());
 				ImGui::SameLine();
 				if (ImGui::Button("v##"))
 				{
@@ -670,7 +670,7 @@ namespace Carmicah
 						{
 							if (ImGui::Button(entry.first.c_str()))
 							{
-								anim.animAtlas = entry.first;
+								anim.ChangeAnim(entry.first);
 								ImGui::CloseCurrentPopup();
 							}
 						}

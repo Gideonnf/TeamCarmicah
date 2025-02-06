@@ -59,13 +59,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "Button_SpriteSheet_Hover_Play 0",
-                    "ButtonImagePressed": "Button_SpriteSheet_Click_Play 0"
+                    "ButtonImage": "Button_SpriteSheet_H_Play 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_C_Play 0"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Play 0",
+                    "texture": "Button_SpriteSheet_H_Play 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -139,13 +139,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "Button_SpriteSheet_Hover_Quit 0",
-                    "ButtonImagePressed": "Button_SpriteSheet_Click_Quit 0"
+                    "ButtonImage": "Button_SpriteSheet_H_Quit 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_C_Quit 0"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Quit 0",
+                    "texture": "Button_SpriteSheet_H_Quit 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -182,13 +182,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "Button_SpriteSheet_Hover_Settings 0",
-                    "ButtonImagePressed": "Button_SpriteSheet_Click_Settings 0"
+                    "ButtonImage": "Button_SpriteSheet_H_Settings 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_C_Settings 0"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Settings 0",
+                    "texture": "Button_SpriteSheet_H_Settings 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -222,13 +222,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "Button_SpriteSheet_Hover_Credits 0",
-                    "ButtonImagePressed": "Button_SpriteSheet_Click_Credits 0"
+                    "ButtonImage": "Button_SpriteSheet_H_Credits 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_C_Credits 0"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Credits 0",
+                    "texture": "Button_SpriteSheet_H_Credits 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,

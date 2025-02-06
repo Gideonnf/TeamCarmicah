@@ -515,18 +515,18 @@
             "Children": []
         },
         {
-            "GameObject": "TemporaryButton",
+            "GameObject": "SettingsButton",
             "ID": 11,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "Button_SpriteSheet_Hover_Settings 0",
-                    "ButtonImagePressed": "Button_SpriteSheet_Hover_Back 0"
+                    "ButtonImage": "Button_SpriteSheet_H_Settings 0",
+                    "ButtonImagePressed": "Button_SpriteSheet_H_Back 0"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Settings 0",
+                    "texture": "Button_SpriteSheet_H_Settings 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -542,6 +542,10 @@
                             "SettingsMenu": "Settings_Menu"
                         }
                     ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Button_HS_Settings"
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -657,12 +661,12 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "StartingCake": "StartingCake",
-                            "MousePrefabName": "MouseGO",
-                            "waveTimer": 0.0,
                             "LeftOrRight": false,
-                            "CakeHeightOffset": 5.349999904632568,
+                            "waveTimer": 0.0,
+                            "MousePrefabName": "MouseGO",
+                            "StartingCake": "StartingCake",
                             "spawnTimer": 1.5,
+                            "CakeHeightOffset": 5.349999904632568,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
                             "PlayerName": "mainCharacter",
