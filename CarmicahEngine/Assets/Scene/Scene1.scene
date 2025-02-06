@@ -553,7 +553,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Button_HS_Settings"
+                    "Atlas": "Button_HE_Settings"
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",

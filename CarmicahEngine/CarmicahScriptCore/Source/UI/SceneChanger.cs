@@ -81,16 +81,16 @@ namespace Carmicah
         //    }
         //}
 
-        public void OnMouseEnter()
+        public void OnMouseHover()
         {
             if (buttonType.ToLower() == "play")
             {
-                Animation0 = "Button_Play";
+                Animation0 = "Button_HS_Play";
 
             }
             else if (buttonType.ToLower() == "quit")
             {
-                Animation0 = "Button_Quit";
+                Animation0 = "Button_HS_Quit";
             }
             ChangeAnim(Animation0);
         }
