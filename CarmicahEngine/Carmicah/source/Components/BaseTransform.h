@@ -32,7 +32,9 @@ namespace Carmicah
         float depth{};
 
         bool notUpdated{};
+
     public:
+        std::string transformTag;
         unsigned int grandChildLvl{};
         Entity parent; // Hold 0 if no parent
         std::vector<Entity> children;
@@ -174,6 +176,7 @@ namespace Carmicah
             scale.y = static_cast<float>(component["yScale"].GetDouble());
             rot = static_cast<float>(component["rot"].GetDouble());
             notUpdated = true;
+            DESERIALIZE_IF_HAVE(transformTag, component, "transformTag", GetString, std::string);
         }
 
         virtual void SerializeComponent(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer) override
@@ -190,6 +193,8 @@ namespace Carmicah
             writer.Double(scale.y);
             writer.String("rot");
             writer.Double(rot);
+            writer.String("transformTag");
+            writer.String(transformTag.c_str());
 
         }
     };
