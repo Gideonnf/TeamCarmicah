@@ -106,6 +106,8 @@ namespace Carmicah
 
 
 	public:
+		uint32_t mHandle;
+
 		friend class ScriptSystem;
 
 		/// <summary>

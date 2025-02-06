@@ -78,6 +78,7 @@ namespace Carmicah
 
 		}
 
+		
 		// Exception so that we can check if any invoke fails
 		MonoObject* exception = nullptr;
 		MonoObject* result = nullptr;
@@ -129,6 +130,8 @@ namespace Carmicah
 		mOnStateEnter = scClass->GetMethod("OnStateEnter", 1);
 		mOnStateUpdate = scClass->GetMethod("OnStateUpdate", 2);
 		mOnStateExit = scClass->GetMethod("OnStateExit", 1);
+
+		mHandle = mono_gchandle_new(mMonoInstance, true);
 	}
 
 	MonoObject* ScriptObject::GetInstance()
@@ -243,7 +246,7 @@ namespace Carmicah
 
 	void ScriptObject::InvokeOnStateUpdate(std::string stateName, float dt)
 	{
-		if (mOnStateUpdate)
+		if (mOnStateUpdate && mMonoInstance)
 		{
 			void* param[2];
 			MonoString* monoStateName = mono_string_new(mono_domain_get(), stateName.c_str());
