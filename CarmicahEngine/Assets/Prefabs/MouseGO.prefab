@@ -13,10 +13,6 @@
             "collisionMask": 4
         },
         {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Mouse_Climb_blue"
-        },
-        {
             "Component Name": "struct Carmicah::StateMachine",
             "currState": "",
             "nextState": "",
@@ -40,27 +36,22 @@
             ]
         },
         {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "Mouse_SpriteSheet_Climb_blue 3",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Mouse_Climb_blue"
         },
         {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.MouseAI",
             "ScriptableFieldMap": [
                 {
-                    "isLeft": false,
                     "SpawnPointEntityLeft": "StartPointLeft",
-                    "SpawnPointEntityRight": "StartPointRight",
-                    "Animation2": "Mouse_Climb_brown",
+                    "isLeft": false,
                     "SpawnPointEntityRight2": "StartPointRight_1",
+                    "Animation2": "Mouse_Climb_brown",
+                    "SpawnPointEntityRight": "StartPointRight",
                     "EndPointEntityLeft": "EndPointLeft",
-                    "EndPointEntityRight": "EndPointRight",
                     "EndPointEntityRight2": "EndPointRight_1",
+                    "EndPointEntityRight": "EndPointRight",
                     "Animation0": "Mouse_Climb_blue",
                     "Animation1": "Mouse_Climb_white",
                     "Animation3": "Mouse_Climb_blue",
@@ -74,11 +65,20 @@
             ]
         },
         {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Enemies_SpriteSheet_Mouse_Climb_Blue 3",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "DebugSquare",
-            "customWidth": 3.2100000381469728,
+            "customWidth": 1.0,
             "customRotation": 0.0,
-            "customHeight": 3.2100000381469728
+            "customHeight": 1.0
         },
         {
             "Component Name": "struct Carmicah::RigidBody",

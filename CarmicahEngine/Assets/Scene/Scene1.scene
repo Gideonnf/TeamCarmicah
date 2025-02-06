@@ -81,8 +81,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.12209402769804001,
-                    "yPos": -5.252597332000732,
+                    "xPos": -0.2280000001192093,
+                    "yPos": -5.002999782562256,
                     "depth": 4.0,
                     "xScale": 0.4000000059604645,
                     "yScale": 0.4000000059604645,
@@ -176,18 +176,18 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -0.45561209321022036,
+                    "xPos": -0.9079999923706055,
                     "yPos": -9.046300888061524,
                     "depth": 3.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
+                    "xScale": 0.6000000238418579,
+                    "yScale": 0.6000000238418579,
                     "rot": 0.0,
                     "collisionMask": 8
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Duck_ie 0",
+                    "texture": "strawberry_cake_SpriteSheet_Squish 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -212,7 +212,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "invisibleWall",
+                            "texture": "Wall_Invis 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -269,7 +269,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "invisibleWall",
+                            "texture": "Wall_Invis 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -330,7 +330,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "invisibleWall",
+                            "texture": "Wall_Invis 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -391,7 +391,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "invisibleWall",
+                            "texture": "Wall_Invis 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -443,18 +443,18 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -2.7675344944000246,
-                    "yPos": -17.756385803222658,
+                    "xPos": -3.0049173831939699,
+                    "yPos": -18.509920120239259,
                     "depth": 1.2000000476837159,
-                    "xScale": 0.4000000059604645,
-                    "yScale": 0.4000000059604645,
-                    "rot": 337.2090148925781,
+                    "xScale": 0.699999988079071,
+                    "yScale": 0.699999988079071,
+                    "rot": 350.0,
                     "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "portal_top",
+                    "texture": "Portal_SpriteSheet_Top 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -473,18 +473,18 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -3.1989893913269045,
-                    "yPos": -18.83650779724121,
+                    "xPos": -3.3811519145965578,
+                    "yPos": -20.25578498840332,
                     "depth": 6.5,
-                    "xScale": 0.4000000059604645,
-                    "yScale": 0.4000000059604645,
-                    "rot": 336.9490051269531,
+                    "xScale": 0.699999988079071,
+                    "yScale": 0.699999988079071,
+                    "rot": 350.0,
                     "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "portal_bottom",
+                    "texture": "Portal_SpriteSheet_Bottom 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -578,7 +578,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "UIBar",
+                    "texture": "UI_Spritesheet_UI_Bar 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -657,12 +657,12 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "LeftOrRight": false,
-                            "waveTimer": 0.0,
-                            "MousePrefabName": "MouseGO",
                             "StartingCake": "StartingCake",
-                            "spawnTimer": 1.5,
+                            "MousePrefabName": "MouseGO",
+                            "waveTimer": 0.0,
+                            "LeftOrRight": false,
                             "CakeHeightOffset": 5.349999904632568,
+                            "spawnTimer": 1.5,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
                             "PlayerName": "mainCharacter",
@@ -690,22 +690,32 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -0.5084383487701416,
-                    "yPos": -14.343667030334473,
+                    "xPos": -0.9079999923706055,
+                    "yPos": -14.144000053405762,
                     "depth": 1.2000000476837159,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
+                    "xScale": 0.6000000238418579,
+                    "yScale": 0.6000000238418579,
                     "rot": 0.0,
                     "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Duck_ie 0",
+                    "texture": "matcha_cake_SpriteSheet_Squish 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
                     "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.WaveSystem",
+                    "ScriptableFieldMap": [
+                        {
+                            "waveStartTime": 20.0,
+                            "waveTimer": 0.0
+                        }
+                    ]
                 }
             ],
             "Children": []
@@ -733,18 +743,18 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 2.2638020515441896,
-                    "yPos": -17.84112548828125,
+                    "xPos": 1.7621402740478516,
+                    "yPos": -18.347640991210939,
                     "depth": 1.2000000476837159,
-                    "xScale": 0.4000000059604645,
-                    "yScale": 0.4000000059604645,
-                    "rot": 16.20921516418457,
+                    "xScale": 0.699999988079071,
+                    "yScale": 0.699999988079071,
+                    "rot": 50.0,
                     "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "portal_top",
+                    "texture": "Portal_SpriteSheet_Top 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -840,23 +850,23 @@
             "Children": []
         },
         {
-            "GameObject": "Duck_1_1",
+            "GameObject": "PortalBottom_1",
             "ID": 22,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 2.58717679977417,
-                    "yPos": -18.96051597595215,
+                    "xPos": 3.124666452407837,
+                    "yPos": -19.526302337646486,
                     "depth": 6.5,
-                    "xScale": 0.4000000059604645,
-                    "yScale": 0.4000000059604645,
-                    "rot": 15.949092864990235,
+                    "xScale": 0.699999988079071,
+                    "yScale": 0.699999988079071,
+                    "rot": 50.0,
                     "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "portal_bottom",
+                    "texture": "Portal_SpriteSheet_Bottom 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -903,7 +913,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "invisibleWall",
+                    "texture": "Wall_Invis 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -948,7 +958,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "invisibleWall",
+                    "texture": "Wall_Invis 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -993,7 +1003,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "invisibleWall",
+                    "texture": "Wall_Invis 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -1038,7 +1048,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "invisibleWall",
+                    "texture": "Wall_Invis 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -1083,7 +1093,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "invisibleWall",
+                    "texture": "Wall_Invis 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -1144,7 +1154,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "invisibleWall",
+                    "texture": "Wall_Invis 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -1246,8 +1256,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1820.92529296875,
-                    "yPos": 756.0,
+                    "xPos": 1826.0499267578126,
+                    "yPos": 757.830322265625,
                     "depth": 0.5,
                     "xScale": 0.15000000596046449,
                     "yScale": 0.15000000596046449,
@@ -1267,7 +1277,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "shooter npc",
+                    "texture": "UI_Spritesheet_Shooter_Icon 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -1284,12 +1294,12 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1820.9251708984376,
-                    "yPos": 669.9658813476563,
+                    "xPos": 1822.824951171875,
+                    "yPos": 682.7659912109375,
                     "depth": 1.0,
-                    "xScale": 0.11999999731779099,
-                    "yScale": 0.11999999731779099,
-                    "rot": 0.0
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 352.0
                 }
             ]
         }

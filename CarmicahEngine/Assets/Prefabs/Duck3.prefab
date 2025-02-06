@@ -21,7 +21,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Duck_ie 6"
+            "texture": "UI_Spritesheet_Bear_Icon 0"
         }
     ],
     "Children": [
@@ -41,7 +41,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Duck_ie 5"
+                    "texture": "UI_Spritesheet_Bear_Icon 0"
                 }
             ]
         }

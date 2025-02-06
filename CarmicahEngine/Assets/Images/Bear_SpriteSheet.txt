@@ -1,7 +1,0 @@
-Bear_Climb
-Top left: 0 x 0, 321 x 321
-6 sprites
-
-Bear_Death
-Top left 0 x 331, 321 x 321
-8 sprites

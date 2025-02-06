@@ -299,8 +299,9 @@ namespace Carmicah
 			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(castedMsg->mEntityID))
 			{
 				UITransform& entityTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(castedMsg->mEntityID);
-
+				UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(castedMsg->mParentID);
 				entityTransform.parent = castedMsg->mParentID;
+				parentTransform.children.push_back(castedMsg->mEntityID);
 			}
 		}
 	}

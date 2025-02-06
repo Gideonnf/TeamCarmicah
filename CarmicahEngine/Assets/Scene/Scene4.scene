@@ -8,13 +8,13 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "black_background"
+                    "texture": "Digipen_Logo"
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 960.0,
                     "yPos": 540.0,
-                    "depth": -10.0,
+                    "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0
@@ -71,6 +71,66 @@
             ]
         },
         {
+            "GameObject": "Digipen_Rights",
+            "ID": 4,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Digipen_Rights"
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 900.0,
+                    "yPos": 100.0,
+                    "depth": 0.0,
+                    "xScale": 0.75,
+                    "yScale": 0.75,
+                    "rot": 0.0
+                }
+            ]
+        },
+        {
+            "GameObject": "black_background",
+            "ID": 5,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_Black 0"
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 960.0,
+                    "yPos": 540.0,
+                    "depth": 0.0,
+                    "xScale": 38.4,
+                    "yScale": 21.6,
+                    "rot": 0.0
+                }
+            ]
+        },
+        {
+            "GameObject": "main_menu_bg",
+            "ID": 6,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Menu_SpriteSheet_Main 0"
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 960.0,
+                    "yPos": 540.0,
+                    "depth": -1.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0
+                }
+            ]
+        },
+        {
             "GameObject": "Intro",
             "ID": 7,
             "Components": [
@@ -93,10 +153,10 @@
                             "state" : 0,
                             "DisplayDuration"    : 3.0,
                             "FadeDuration"       : 1.0,
-                            "schoolLogoEntity"   : "digipen_logo",
-                            "schoolRightsEntity" : "digipen_rights",
-                            "schoolBGEntity"     : "black_background",
-                            "gameLogoEntity"     : "game_logo"
+                            "schoolLogoEntity"   : "schoolLogoName",
+                            "schoolRightsEntity" : "schoolRightsName",
+                            "schoolBGEntity"     : "schoolBGName",
+                            "gameLogoEntity"     : "gameLogoName"
                         }
                     ]
                 }

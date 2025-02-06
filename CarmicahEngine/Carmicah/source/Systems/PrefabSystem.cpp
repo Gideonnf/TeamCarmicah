@@ -150,6 +150,10 @@ namespace Carmicah
 			{
 				newPrefab.mComponents.insert({ componentName, prefabComponent });
 			}
+			else if (MakeAny<ParticleEmitter>(componentName, go, prefabComponent))
+			{
+				newPrefab.mComponents.insert({ componentName, prefabComponent });
+			}
 			else if (MakeAny<Script>(componentName, go, prefabComponent))
 			{
 				newPrefab.mComponents.insert({ componentName, prefabComponent });
@@ -179,6 +183,17 @@ namespace Carmicah
 				// Recursively go through all children GOs
 				// if that child has children then itll go in to ensure all children and children of children is read properly
 				for (auto entity : go.GetComponent<Transform>().children)
+				{
+					GameObject& childGO = gGOFactory->FetchGO(entity);
+					newPrefab.childList.push_back(MakePrefab(childGO));
+				}
+			}
+		}
+		else if (go.HasComponent<UITransform>())
+		{
+			if (go.GetComponent<UITransform>().children.size() > 0)
+			{
+				for (auto entity : go.GetComponent<UITransform>().children)
 				{
 					GameObject& childGO = gGOFactory->FetchGO(entity);
 					newPrefab.childList.push_back(MakePrefab(childGO));

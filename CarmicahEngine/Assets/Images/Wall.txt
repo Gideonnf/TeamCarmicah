@@ -1,0 +1,11 @@
+2
+Top left: 0 x 0, 50 x 50
+1 sprites
+
+Black
+Top left: 50 x 0, 50 x 50
+1 sprites
+
+Invis
+Top left: 100 x 0, 50 x 50
+1 sprites

@@ -24,7 +24,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "invisibleWall"
+            "texture": "Wall_Invis 0"
         },
         {
             "Component Name": "struct Carmicah::Collider2D",
