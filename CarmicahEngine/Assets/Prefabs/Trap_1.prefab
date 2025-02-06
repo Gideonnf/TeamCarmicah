@@ -13,15 +13,6 @@
             "collisionMask": 32
         },
         {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.Testing",
-            "ScriptableFieldMap": [
-                {
-                    "testVar": 0.0
-                }
-            ]
-        },
-        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "Trap",
@@ -33,9 +24,9 @@
         {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "",
-            "customWidth": 5.300000190734863,
+            "customWidth": 1.0,
             "customRotation": 0.0,
-            "customHeight": 3.0
+            "customHeight": 1.0
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
