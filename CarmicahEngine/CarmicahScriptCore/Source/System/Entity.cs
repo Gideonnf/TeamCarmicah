@@ -162,6 +162,11 @@ namespace Carmicah
             FunctionCalls.Animation_ChangeAnim(mID, animName);
         }
 
+        public string GetTag()
+        {
+            return FunctionCalls.Transform_GetTag(mID);
+        }
+
         //public T GetComponent<T>() 
     }
 }

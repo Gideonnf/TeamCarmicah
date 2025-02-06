@@ -120,5 +120,9 @@ namespace Carmicah
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static object GetScriptInstanceFromChildren(uint entityID);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static string Transform_GetTag(uint entityID);
+
+
     }
 }

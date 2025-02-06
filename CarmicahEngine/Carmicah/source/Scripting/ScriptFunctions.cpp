@@ -477,6 +477,20 @@ namespace Carmicah
 			go.GetComponent<Transform>().Depth(*inFloat);
 	}
 
+	static MonoString* Transform_GetTag(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Transform>())
+		{
+			return mono_string_new(mono_domain_get(), go.GetComponent<Transform>().transformTag.c_str());
+		}
+		else if (go.HasComponent<UITransform>())
+		{
+			return mono_string_new(mono_domain_get(), go.GetComponent<UITransform>().transformTag.c_str());
+
+		}
+	}
+
 	static void Animation_ChangeAnim(unsigned int entityID, MonoString* string)
 	{
 		std::string cStrName = MonoToString(string);
@@ -629,6 +643,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Transform_SetPosition);
 		ADD_INTERNAL_CALL(Transform_GetDepth);
 		ADD_INTERNAL_CALL(Transform_SetDepth);
+		ADD_INTERNAL_CALL(Transform_GetTag);
 
 		//Entity functions
 		ADD_INTERNAL_CALL(Entity_HasComponent);
