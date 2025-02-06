@@ -93,6 +93,24 @@ namespace Carmicah
             return new Entity(entityID);
         }
 
+        public Entity FindEntityWithID(uint id)
+        {
+            uint entityID = FunctionCalls.Entity_FindEntityWithID(id);  
+
+            if ( entityID == 0)
+                return null;
+            return new Entity(entityID);
+        }
+
+        public Entity GetParent()
+        {
+            uint entityID = FunctionCalls.Entity_GetParent(mID);
+            if (entityID == 0)
+                return null;
+
+            return new Entity(entityID);
+        }
+
         public Entity CreateGameObject(string prefabName)
         {
             Entity newEntity = new Entity(FunctionCalls.CreateNewGameObject(prefabName));
