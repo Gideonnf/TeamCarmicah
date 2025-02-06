@@ -1,5 +1,5 @@
 {
-    "Scene": "Scene3",
+    "Scene": "Scene4",
     "SceneObjects": [
         {
             "GameObject": "BackgroundGO",
@@ -8,28 +8,17 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Menu_SpriteSheet_Menu_Ani 2",
+                    "texture": "Digipen_Logo",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
                     "colA": 1.0
                 },
                 {
-                    "Component Name": "struct Script",
-                    "scriptName": "",
-                    "ScriptableFieldMap": [
-                        {}
-                    ]
-                },
-                {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Main_memu"
-                },
-                {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 960.0,
                     "yPos": 540.0,
-                    "depth": -500.0,
+                    "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0
@@ -54,7 +43,7 @@
             "Children": []
         },
         {
-            "GameObject": "Play Button",
+            "GameObject": "Skip Button",
             "ID": 3,
             "Components": [
                 {
@@ -73,50 +62,14 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.PlayButton",
+                    "scriptName": "Carmicah.SkipButton",
                     "ScriptableFieldMap": [
                         {}
                     ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1300.0,
-                    "yPos": 400.0,
-                    "depth": 1.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
-                    "rot": 0.0
-                }
-            ]
-        },
-        {
-            "GameObject": "Quit Button",
-            "ID": 4,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "Button_SpriteSheet_Hover_Quit 0",
-                    "ButtonImagePressed": "Button_SpriteSheet_Click_Quit 0"
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Quit 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
-                },
-                {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.QuitButton",
-                    "ScriptableFieldMap": [
-                        {}
-                    ]
-                },
-                {
-                    "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1300.0,
+                    "xPos": 1700.0,
                     "yPos": 100.0,
                     "depth": 1.0,
                     "xScale": 1.0,
@@ -126,39 +79,71 @@
             ]
         },
         {
-            "GameObject": "Settings Button",
-            "ID": 5,
+            "GameObject": "Digipen_Rights",
+            "ID": 4,
             "Components": [
-                {
-                    "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "Button_SpriteSheet_Hover_Settings 0",
-                    "ButtonImagePressed": "Button_SpriteSheet_Click_Settings 0"
-                },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Settings 0",
+                    "texture": "Digipen_Rights",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
                     "colA": 1.0
                 },
                 {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.SettingButton",
-                    "ScriptableFieldMap": [
-                        {
-                            "IsCreated": false,
-                            "SettingsCloseButton": "Close_Button",
-                            "SettingsMenu": "Settings_Menu"
-                        }
-                    ]
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 900.0,
+                    "yPos": 100.0,
+                    "depth": 0.0,
+                    "xScale": 0.75,
+                    "yScale": 0.75,
+                    "rot": 0.0
+                }
+            ]
+        },
+        {
+            "GameObject": "black_background",
+            "ID": 5,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_Black 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1300.0,
-                    "yPos": 300.0,
-                    "depth": 1.0,
+                    "xPos": 960.0,
+                    "yPos": 540.0,
+                    "depth": 0.0,
+                    "xScale": 38.400001525878909,
+                    "yScale": 21.600000381469728,
+                    "rot": 0.0
+                }
+            ]
+        },
+        {
+            "GameObject": "main_menu_bg",
+            "ID": 6,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Menu_SpriteSheet_Main 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 960.0,
+                    "yPos": 540.0,
+                    "depth": -1.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0
@@ -166,44 +151,37 @@
             ]
         },
         {
-            "GameObject": "Credits Button",
-            "ID": 6,
+            "GameObject": "Intro",
+            "ID": 7,
             "Components": [
                 {
-                    "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "Button_SpriteSheet_Hover_Credits 0",
-                    "ButtonImagePressed": "Button_SpriteSheet_Click_Credits 0"
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Button_SpriteSheet_Hover_Credits 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 0.0,
+                    "yScale": 0.0,
+                    "rot": 0.0,
+                    "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.CreditsButton",
+                    "scriptName": "Carmicah.Intro",
                     "ScriptableFieldMap": [
                         {
-                            "IsCreated": false,
-                            "CreditsCloseButton": "Close_Button_2",
-                            "CreditsMenu": "Credits_Menu"
+                            "timer": 0.0,
+                            "state": 0,
+                            "DisplayDuration": 3.0,
+                            "schoolLogoEntity": "schoolLogoName",
+                            "schoolRightsEntity": "schoolRightsName",
+                            "FadeDuration": 1.0,
+                            "schoolBGEntity": "schoolBGName",
+                            "gameLogoEntity": "gameLogoName"
                         }
                     ]
-                },
-                {
-                    "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1300.0,
-                    "yPos": 200.0,
-                    "depth": 1.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
-                    "rot": 0.0
                 }
-            ]
+            ],
+            "Children": []
         },
         {
             "GameObject": "Default",
@@ -217,7 +195,7 @@
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,
-                    "collisionMask": 1
+                    "collisionMask": 0
                 }
             ],
             "Children": []

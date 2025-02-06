@@ -31,6 +31,8 @@ namespace Carmicah
 			// --TODO--
 			//float scaling,	// uses a (y = a^x) when x = 1, y ~= 1, z ?= 0.01, so just use this and multiply by how long
 			float	timeLeft;
+			bool hasFriction;
+			bool hasGrav;
 		};
 		static vtxTexd2D mClearData[100];
 
@@ -40,6 +42,8 @@ namespace Carmicah
 
 		const size_t mMaxParticles = 200;
 		const unsigned int mParticleBufferID = 1; //yes, hard-coded ik
+		const float mGrav = 5.4f;
+		const float mFriction = 0.99f;
 	public:
 		/*!*************************************************************************
 		brief

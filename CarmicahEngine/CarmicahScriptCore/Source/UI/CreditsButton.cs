@@ -26,6 +26,10 @@ namespace Carmicah
     public class CreditsButton : Entity
     {
         //test
+        string Animation0 = "Button_C_Credits";
+        string Animation1 = "Button_HS_Credits";
+        bool hovering = false;
+        private HealthSystem healthSystem;
         //private HealthSystem healthSystem;
         public string CreditsMenu = "Credits";
         public string CreditsCloseButton = "Close_Button_2";
@@ -52,8 +56,34 @@ namespace Carmicah
             //healthSystem.TakeDamage(20); // Inflict 20 damage
             //Console.WriteLine($"Testing Button {mID}: Current Health is {healthSystem.CurrentHealth}");
 
+            Console.WriteLine($"Testing Button {mID}");
+            ChangeAnim(Animation0);
             //Console.WriteLine($"Testing Button {mID}");
             Sound.PlaySFX("SFX_Button", 0.5f);
+        }
+
+        public void OnMouseHover()
+        {
+
+
+            if (!hovering)
+            {
+                hovering = true;
+
+                ChangeAnim(Animation1);
+            }
+        }
+
+        public void OnMouseClick()
+        {
+            hovering = false;
+        }
+
+        public void OnMouseExit()
+        {
+            hovering = false;
+            
+            ChangeAnim("Button_HE_Credits");
         }
     }
 }

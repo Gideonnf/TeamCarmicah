@@ -111,8 +111,13 @@ namespace Carmicah
             Entity collidedEntity = FindEntityWithID(id);
             if (collidedEntity != null)
             {
-                CMConsole.Log($"Collided Entity : {collidedEntity.mID} with tag {collidedEntity.GetTag()}");
+                //CMConsole.Log($"Collided Entity : {collidedEntity.mID} with tag {collidedEntity.GetTag()}");
+                //if (collidedEntity.GetTag() == "Enemy")
+                //{
+                //    collidedEntity.AsChild<HealthSystem>().TakeDamage(50)
+                //}
             }
+
 
             // Optional: Play some effect
             Destroy();
