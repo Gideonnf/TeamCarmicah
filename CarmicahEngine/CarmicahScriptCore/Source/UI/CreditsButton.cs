@@ -49,10 +49,10 @@ namespace Carmicah
             }
 
             // test the HealthSystem's TakeDamage function
-            healthSystem.TakeDamage(20); // Inflict 20 damage
-            Console.WriteLine($"Testing Button {mID}: Current Health is {healthSystem.CurrentHealth}");
+            //healthSystem.TakeDamage(20); // Inflict 20 damage
+            //Console.WriteLine($"Testing Button {mID}: Current Health is {healthSystem.CurrentHealth}");
 
-            Console.WriteLine($"Testing Button {mID}");
+            //Console.WriteLine($"Testing Button {mID}");
             Sound.PlaySFX("SFX_Button", 0.5f);
         }
     }
