@@ -1,0 +1,7 @@
+Splat
+top left: 1008 x 0, 504 x 283
+22 sprites
+
+Splat2
+4th row: 0 x 851, 504 x 283
+2 sprites

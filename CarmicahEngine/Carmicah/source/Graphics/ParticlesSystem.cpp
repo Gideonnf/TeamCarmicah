@@ -144,6 +144,8 @@ namespace Carmicah
 				if ((par.timeLeft -= dt) < 0.f)
 				{
 					std::swap(par, mParticles[i][arrSize - (++eraseCounter)]);
+					if (eraseCounter == arrSize)
+						break;
 					continue;
 				}
 				// Update the particle
@@ -196,7 +198,7 @@ namespace Carmicah
 					// Clear Data
 					int bufferNum{};
 					for (int numVtx{}; numVtx < mParticlesBufferSize[i]; numVtx += mBatchSize)
-						glNamedBufferSubData(bb.buffer[bufferNum++].vbo, 0, sizeof(vtxTexd2D) * mBatchSize, mClearData);
+						glNamedBufferSubData(bb.buffer[bufferNum++].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * mBatchSize, mClearData);
 					// Write Data
 					bufferNum = 0;
 					for (int numVtx{ static_cast<int>(mParticlesData[i].size()) }; numVtx > 0; numVtx -= mBatchSize)

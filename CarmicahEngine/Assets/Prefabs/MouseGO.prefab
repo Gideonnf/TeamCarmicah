@@ -67,7 +67,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Mouse_SpriteSheet_Climb_blue 3",
+            "texture": "Enemies_SpriteSheet_Mouse_Climb_Blue 3",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,

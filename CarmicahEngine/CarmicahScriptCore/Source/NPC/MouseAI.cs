@@ -296,7 +296,7 @@ namespace Carmicah
             else if (stateName == "Dead")
             {
                 timer += dt;
-                if (timer >= DeathTime)
+                if (timer >= GetComponent<Animation>().GetMaxTime())
                 {
 
                     timer = 0.0f;

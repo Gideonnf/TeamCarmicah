@@ -1,25 +1,47 @@
-coral_bean
+coral
 Top left: 0 x 0, 180 x 90
 1 sprites
 
-yellow_bean
+yellow
 Top left: 0 x 90, 180 x 90
 1 sprites
 
-orange_bean
+orange
 Top left: 0 x 180, 180 x 90
 1 sprites
 
-red_bean
-Top left: 0x270, 180 x 90
+red
+Top left: 0 x 270, 180 x 90
 1 sprites
 
-blue_bean
-Top left: 0x360, 180 x 90
+blue
+Top left: 0 x 360, 180 x 90
 1 sprites
 
-pink_bean
-Top left: 0x450, 180 x 90
+pink
+Top left: 0 x 450, 180 x 90
 1 sprites
 
+black
+Top left: 180 x 0, 180 x 90
+1 sprites
 
+lime
+Top left: 180 x 90, 180 x 90
+1 sprites
+
+cyan
+Top left: 180 x 180, 180 x 90
+1 sprites
+
+magenta
+Top left: 180 x 270, 180 x 90
+1 sprites
+
+purple
+Top left: 180 x 360, 180 x 90
+1 sprites
+
+white
+Top left: 180 x 450, 180 x 90
+1 sprites

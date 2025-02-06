@@ -1379,7 +1379,7 @@ namespace Carmicah
 				ImGui::Text("Particles per second");
 				ImGui::TableNextColumn();
 				tempInt = static_cast<int>(particle.spawnPerSec);
-				if (ImGui::DragInt("##PPS", &tempInt))
+				if (ImGui::DragInt("##PPS", &tempInt,1.f,0,100))
 				{
 					particle.spawnPerSec = static_cast<size_t>(tempInt);
 				}
@@ -1389,7 +1389,7 @@ namespace Carmicah
 				ImGui::Text("Particle Lifetime");
 				ImGui::TableNextColumn();
 				tempValue = particle.lifeTime;
-				if (ImGui::DragFloat("##LifeTime", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				if (ImGui::DragFloat("##LifeTime", &tempValue, 0.05f, 0.f, FLT_MAX, "%.3f"))
 				{
 					particle.lifeTime = tempValue;
 				}
