@@ -317,6 +317,25 @@ namespace Carmicah
 				{
 					selectedTransform.ScaleY(tempValue);
 				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("transformTag");
+				ImGui::TableNextColumn();
+				char inputBuffer[1024];
+				std::strncpy(inputBuffer, selectedTransform.transformTag.c_str(), sizeof(inputBuffer) - 1);
+				if (ImGui::InputText("##TransformTag", inputBuffer, sizeof(inputBuffer), ImGuiInputTextFlags_EnterReturnsTrue))
+				{
+					if (inputBuffer[0] != '\0')
+					{
+						selectedTransform.transformTag = inputBuffer;
+					}
+					if (inputBuffer[0] == '\0')
+					{
+						CM_CORE_ERROR("Trying to make empty transformTag name!");
+					}
+				}
+
 				ImGui::EndTable();
 
 
