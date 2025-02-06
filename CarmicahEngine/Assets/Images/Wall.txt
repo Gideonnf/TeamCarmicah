@@ -6,6 +6,10 @@ Black
 Top left: 50 x 0, 50 x 50
 1 sprites
 
+White
+Top left: 0 x 50, 50 x 50
+1 sprites
+
 Invis
-Top left: 100 x 0, 50 x 50
+Top left: 50 x 50, 50 x 50
 1 sprites

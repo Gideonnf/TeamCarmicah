@@ -17,23 +17,23 @@
             "scriptName": "Carmicah.MouseAI",
             "ScriptableFieldMap": [
                 {
-                    "isLeft": false,
                     "SpawnPointEntityLeft": "StartPointLeft",
+                    "isLeft": false,
                     "SpawnPointEntityRight2": "StartPointRight_1",
                     "Animation2": "Mouse_Climb_brown",
                     "SpawnPointEntityRight": "StartPointRight",
                     "EndPointEntityLeft": "EndPointLeft",
                     "ChanceToDie": 0.11999999731779099,
-                    "EndPointEntityRight2": "EndPointRight_1",
                     "EndPointEntityRight": "EndPointRight",
+                    "EndPointEntityRight2": "EndPointRight_1",
                     "Animation0": "Mouse_Climb_blue",
                     "Animation1": "Mouse_Climb_white",
                     "Animation3": "Mouse_Climb_blue",
                     "AnimationDie0": "Mouse_Death_blue",
                     "AnimationDie2": "Mouse_Death_brown",
                     "AnimationDie1": "Mouse_Death_white",
-                    "SpawnPointEntityLeft2": "StartPointLeft_1",
                     "AnimationDie3": "Mouse_Death_blue",
+                    "SpawnPointEntityLeft2": "StartPointLeft_1",
                     "EndPointEntityLeft2": "EndPointLeft_1",
                     "DeathTime": 2.0,
                     "TimeToDie": 1.5,
@@ -138,12 +138,19 @@
                     "collisionMask": 1
                 },
                 {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.HealthSystem",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                },
+                {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Wall_Black 0",
+                    "texture": "Wall_White 0",
                     "colR": 1.0,
                     "colG": 1.0,
-                    "colB": 1.0,
+                    "colB": 0.0,
                     "colA": 1.0
                 },
                 {

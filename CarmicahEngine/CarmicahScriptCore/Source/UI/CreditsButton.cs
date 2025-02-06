@@ -26,7 +26,7 @@ namespace Carmicah
     public class CreditsButton : Entity
     {
         //test
-        private HealthSystem healthSystem;
+        //private HealthSystem healthSystem;
         public string CreditsMenu = "Credits";
         public string CreditsCloseButton = "Close_Button_2";
         public bool IsCreated = false;
@@ -34,7 +34,7 @@ namespace Carmicah
         public CreditsButton()
         {
             // init a HealthSystem instance with max health of 100
-            healthSystem = new HealthSystem(100);
+            //ealthSystem = new HealthSystem(100);
         }
 
         void OnClick()

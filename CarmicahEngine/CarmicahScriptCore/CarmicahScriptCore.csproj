@@ -63,7 +63,7 @@
     <Compile Include="Source\Camera.cs" />
     <Compile Include="Source\GameManager.cs" />
     <Compile Include="Source\GameObject.cs" />
-    <Compile Include="Source\HealthSystem.cs" />
+    <Compile Include="Source\NPC\HealthSystem.cs" />
     <Compile Include="Source\HeroBuild.cs" />
     <Compile Include="Source\NPC\HeroAI.cs" />
     <Compile Include="Source\NPC\MouseAI.cs" />

@@ -47,6 +47,23 @@ namespace Carmicah
             }
         }
 
+        public Vector2 LocalPosition
+        {
+            get
+            {
+                //Console.WriteLine($"Transform GetEntity ID:{mID}");
+
+                FunctionCalls.Transform_GetLocalPosition(mID, out Vector2 position);
+                return position;
+            }
+            set
+            {
+                // Console.WriteLine($"Transform Set Entity ID:{mID}");
+
+                FunctionCalls.Transform_SetPosition(mID, ref value);
+            }
+        }
+
         public float Depth
         {
             get
