@@ -108,4 +108,12 @@ namespace Carmicah
             FunctionCalls.ChangeTexture(Entity.mID, textureName);
         }
     }
+
+    public class TextRenderer : Component
+    {
+        public void SetText(string text)
+        {
+            FunctionCalls.ChangeText(Entity.mID, text);
+        }
+    }
 }
