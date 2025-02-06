@@ -1,21 +1,33 @@
 {
-    "GameObject": "Trap_1",
-    "ID": 14,
+    "GameObject": "HeroBuild_3",
+    "ID": 23,
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
-            "xPos": 1.4690403938293458,
-            "yPos": -9.699479103088379,
-            "depth": 3.450000047683716,
-            "xScale": 0.25,
-            "yScale": 0.25,
+            "xPos": 2.9100000858306886,
+            "yPos": -5.638000011444092,
+            "depth": 0.0,
+            "xScale": 1.0,
+            "yScale": 1.0,
             "rot": 0.0,
-            "collisionMask": 32
+            "collisionMask": 1
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.HeroBuild",
+            "ScriptableFieldMap": [
+                {
+                    "HeroPrefab": "ShooterNPC",
+                    "TrapTranslucentPrefab": "TrapTranslucent",
+                    "IsLeft": true,
+                    "depthVal": 0.0
+                }
+            ]
         },
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Trap",
+            "texture": "invisibleWall",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
@@ -27,6 +39,10 @@
             "customWidth": 1.0,
             "customRotation": 0.0,
             "customHeight": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::PrefabData",
+            "prefabRef": 20
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
