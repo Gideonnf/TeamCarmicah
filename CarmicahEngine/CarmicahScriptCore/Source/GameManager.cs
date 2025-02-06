@@ -90,6 +90,8 @@ namespace Carmicah
             wall1 = FindEntityWithName("Wall_1");
             wall2 = FindEntityWithName("Wall_2");
             wall3 = FindEntityWithName("Wall_3");
+
+            Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
         }
 
         void OnUpdate(float dt)

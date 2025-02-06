@@ -156,13 +156,13 @@ namespace Carmicah
 		//mono_free(cStrname);
 	}
 
-	//static void Sound_PlayBGM(MonoString* name, float volume)
-	//{
-	//	char* cStrname = mono_string_to_utf8(name);
-	//	auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-	//	souSystem->PlaySoundThis(cStrname, SoundCategory::BGM, SoundSystem::SOUND_BGM, true, volume);
-	//	mono_free(cStrname);
-	//}
+	static void Sound_PlayBGM(MonoString* name, float volume)
+	{
+		char* cStrname = mono_string_to_utf8(name);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->PlaySoundThis(cStrname, SoundCategory::BGM, SoundSystem::SOUND_BGM, true, volume);
+		mono_free(cStrname);
+	}
 
 	//static void Sound_Stop(MonoString* name)
 	//{
@@ -678,6 +678,7 @@ namespace Carmicah
 
 		// Sound
 		ADD_INTERNAL_CALL(Sound_PlaySFX);
+		ADD_INTERNAL_CALL(Sound_PlayBGM);
 
 		// Debug
 		ADD_INTERNAL_CALL(Log);
