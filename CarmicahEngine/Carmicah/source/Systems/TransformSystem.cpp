@@ -181,6 +181,7 @@ namespace Carmicah
 			transform.rotTrans.translateThis(transform.Pos()).rotDegThis(transform.Rot());
 			transform.worldSpace = transform.rotTrans;
 			transform.worldSpace.scaleThis(transform.CalcedRenderingScale() * transform.accumulatedScale);
+
 		}
 	}
 
