@@ -631,6 +631,16 @@ namespace Carmicah
 		//mono_free(cStr);
 	}
 
+	static void ChangeText(unsigned int entityID, MonoString* string)
+	{
+		std::string cStrName = MonoToString(string);
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<TextRenderer>())
+		{
+			go.GetComponent<TextRenderer>().txt = cStrName;
+		}
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -645,6 +655,7 @@ namespace Carmicah
 		RegisterComponent<Animation>();
 		RegisterComponent<StateMachine>();
 		RegisterComponent<Renderer>();
+		RegisterComponent<TextRenderer>();
 	}
 
 	/// <summary>

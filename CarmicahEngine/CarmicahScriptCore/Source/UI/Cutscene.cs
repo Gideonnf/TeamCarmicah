@@ -111,12 +111,15 @@ namespace Carmicah
                     currentPanel++;
                     if (currentPanel <= numOfPanels)
                         GetComponent<StateMachine>().SetStateCondition(2);
+                    else
+                        Scene.ChangeScene("Scene1");
                 }
 
 
                 else
                 {
-                    Sound.StopSound(backgroundMusicTrack);
+                    Sound.StopSoundBGM(backgroundMusicTrack);
+                    //Scene.ChangeScene("Scene1");
                 }
             }
 
