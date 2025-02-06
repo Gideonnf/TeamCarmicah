@@ -65,6 +65,7 @@ namespace Carmicah
         public float TimeToDie = 1.5f;
         public float timer;
         public float DeathTime = 2.0f;
+        public float Speed = 1.0f;
 
         int animType = 0;
         int randLane = 0;
@@ -197,7 +198,7 @@ namespace Carmicah
             Vector2 dir = (endPos - Position).Normalize();
             if (HasComponent<RigidBody>())
             {
-                GetComponent<RigidBody>().ApplyForce(dir, 1.0f);
+                GetComponent<RigidBody>().ApplyForce(dir, Speed);
 
             }
 
