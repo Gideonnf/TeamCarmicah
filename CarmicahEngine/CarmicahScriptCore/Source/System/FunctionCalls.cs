@@ -76,6 +76,9 @@ namespace Carmicah
         internal extern static object GetScriptInstance(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static object GetScriptInstanceFromChildren(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Animation_ChangeAnim(uint entityID, string prefabName);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -117,8 +120,6 @@ namespace Carmicah
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Transform_GetLocalPosition(uint entityID, out Vector2 position);
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static object GetScriptInstanceFromChildren(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static string Transform_GetTag(uint entityID);

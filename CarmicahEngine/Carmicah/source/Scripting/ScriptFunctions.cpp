@@ -653,6 +653,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Destroy);
 		ADD_INTERNAL_CALL(CreateNewGameObject);
 		ADD_INTERNAL_CALL(GetScriptInstance);
+		ADD_INTERNAL_CALL(GetScriptInstanceFromChildren);
 
 		// Rigidbody functions
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);
