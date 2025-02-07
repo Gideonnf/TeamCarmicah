@@ -253,13 +253,19 @@ namespace Carmicah
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
 
-		if (!go.HasComponent<Transform>())
+		if (go.HasComponent<Transform>())
 		{
-			*outPos = { 0, 0 };
+			*outPos = go.GetComponent<Transform>().Pos();
+
+			//
+		}
+		else if (go.HasComponent<UITransform>())
+		{
+			*outPos = go.GetComponent<UITransform>().Pos();
 		}
 		else
 		{
-			*outPos = go.GetComponent<Transform>().Pos();
+			*outPos = { 0, 0 };
 		}
 	}
 
@@ -276,11 +282,7 @@ namespace Carmicah
 
 		//CM_CORE_INFO("Entity ID scriptFunctions {}", go.GetID());
 
-		if (!go.HasComponent<Transform>())
-		{
-			*outPos = { 0, 0 };
-		}
-		else
+		if (go.HasComponent<Transform>())
 		{
 			*outPos = go.GetComponent<Transform>().Pos();
 			// If it has a parent
@@ -290,10 +292,18 @@ namespace Carmicah
 				*outPos += parentTransform.Pos();
 
 			}
+		}
+		else if (go.HasComponent<UITransform>())
+		{
+			
+			*outPos = go.GetComponent<UITransform>().Pos();
 
 		/*	if (entityID == 29)
 				CM_CORE_INFO("{}, {}", outPos->x, outPos->y);*/
-			
+		}
+		else
+		{
+			*outPos = { 0 , 0 };
 		}
 	}
 
@@ -307,6 +317,8 @@ namespace Carmicah
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		if (go.HasComponent<Transform>())
 			go.GetComponent<Transform>().Pos(*inPos);
+		else if (go.HasComponent<UITransform>())
+			go.GetComponent<UITransform>().Pos(*inPos);
 	}
 
 	/// <summary>
