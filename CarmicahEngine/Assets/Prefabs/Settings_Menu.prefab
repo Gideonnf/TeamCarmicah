@@ -5,7 +5,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "credits_panel_2",
+            "texture": "settings panel",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,

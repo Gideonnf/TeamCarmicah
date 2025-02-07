@@ -1,17 +1,17 @@
 {
-    "GameObject": "Settings_Menu",
-    "ID": 17,
+    "GameObject": "Credits_Menu",
+    "ID": 40,
     "Components": [
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "credits_panel"
+            "texture": "credits_panel_2"
         },
         {
             "Component Name": "struct Carmicah::UITransform",
             "xPos": 960.0,
             "yPos": 540.0,
-            "depth": 0.0,
+            "depth": 14.0,
             "xScale": 1.0,
             "yScale": 1.0,
             "rot": 0.0
