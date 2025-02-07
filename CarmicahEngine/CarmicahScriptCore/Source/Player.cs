@@ -31,7 +31,7 @@ namespace Carmicah
         public string HealAnim;
         public string IdleAnim;
         public string WalkAnim;
-        bool isCreated = false;
+        public static bool GameLost = false;
 
         public bool isWalking = true;
         
@@ -151,15 +151,16 @@ namespace Carmicah
             if (this.AsChild<HealthSystem>().mCurHealth <= 0)
             {
                 // game end
-                //if(!isCreated)
-                //{
-                    //CreateGameObject("LoseScreen");
-                    //CreateGameObject("HomeButton");
-                    //CreateGameObject("MC_Lose");
-                    //CreateGameObject("ReplayButton");
-                    //CreateGameObject("Break_Wand");
-                    //isCreated = true;
-                //}
+                if (!GameLost)
+                {
+                    CreateGameObject("LoseScreen");
+                    CreateGameObject("HomeButton");
+                    CreateGameObject("MC_Lose");
+                    CreateGameObject("ReplayButton");
+                    CreateGameObject("Break_Wand");
+                    CreateGameObject("LoseText");
+                    GameLost = true;
+                }
             }
         }
     }

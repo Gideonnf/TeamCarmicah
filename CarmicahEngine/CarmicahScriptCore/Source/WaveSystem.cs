@@ -35,6 +35,7 @@ namespace Carmicah
         void OnCreate()
         {
             gameManager = FindEntityWithName("GameManager");
+            Player.GameLost = false;
             mobWaves[0] = mobWave0;
             mobWaves[1] = mobWave1;
             mobWaves[2] = mobWave2;
@@ -50,34 +51,40 @@ namespace Carmicah
 
         void OnUpdate(float dt)
         {
-            waveTimer += dt;
-
-            if (waveCounter >= 5)
+            if(!Player.GameLost)
             {
-                //CreateGameObject("WinScreen");
+                waveTimer += dt;
+
+                if (waveCounter >= 5)
+                {
+                    //CreateGameObject("WinScreen");
                 
-                waveCounter--;
-            }
+                    waveCounter--;
+                }
 
-            if (waveTimer > waveStartTime && startNewWave)
-            {
-                // start next wave
-                gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
-                CMConsole.Log("Starting New Wave");
+                if (waveTimer > waveStartTime && startNewWave)
+                {
+                    // start next wave
+                    gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
+                    CMConsole.Log("Starting New Wave");
                 
-                waveCounter++;
-                waveTimer = 0.0f;
-                startNewWave = false;
+                    waveCounter++;
+                    waveTimer = 0.0f;
+                    startNewWave = false;
+                }
+
+                if (Input.IsKeyPressed(Keys.KEY_1))
+                {
+                    // start next wave
+                    gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
+
+                    waveCounter++;
+                    waveTimer = 0.0f;
+                }
+
             }
 
-            if (Input.IsKeyPressed(Keys.KEY_1))
-            {
-                // start next wave
-                gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
-
-                waveCounter++;
-                waveTimer = 0.0f;
-            }
+           
         }
 
         public void EndOfWave()

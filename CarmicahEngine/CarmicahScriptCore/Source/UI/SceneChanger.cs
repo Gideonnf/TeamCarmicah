@@ -22,23 +22,23 @@ namespace Carmicah
 
         void OnCreate()
         {
-            if (buttonType.ToLower() == "play")
-            {
-                button = FindEntityWithName("Play Button");
-                Animation3 = "Button_HE_Play";
+            //if (buttonType.ToLower() == "play")
+            //{
+            //    button = FindEntityWithName("Play Button");
+            //    Animation3 = "Button_HE_Play";
 
-            }
-            else if (buttonType.ToLower() == "quit")
-            {
-                button = FindEntityWithName("Quit Button");
-                Animation3 = "Button_HE_Quit";
-            }else if(buttonType.ToLower() == "home")
-            {
-                button = FindEntityWithName("HomeButton");
-                Animation3 = "Button_HE_Home";
-            }
+            //}
+            //else if (buttonType.ToLower() == "quit")
+            //{
+            //    button = FindEntityWithName("Quit Button");
+            //    Animation3 = "Button_HE_Quit";
+            //}else if(buttonType.ToLower() == "home")
+            //{
+            //    button = FindEntityWithName("HomeButton");
+            //    Animation3 = "Button_HE_Home";
+            //}
 
-            ChangeAnim(Animation3);
+            //ChangeAnim(Animation3);
 
             //max.x = button.Position.x + 10.0f;
             //max.y = button.Position.y + 10.0f;
@@ -93,6 +93,7 @@ namespace Carmicah
             
             if(!hovering)
             {
+                
                 hovering = true;
                 if (buttonType.ToLower() == "play")
                 {
