@@ -41,30 +41,30 @@ namespace Carmicah
 				// 
 				// meshes, shaders and scenes are loaded by default
 				// only images and animations are loaded when needed
-				if (fileExt != ".txt" || fileExt != ".vert" || fileExt != ".frag" || fileExt != ".scene" || fileExt != ".do" || fileExt != ".o")
-					assetMap.insert({ file.path().filename().stem().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED)});
-#ifdef CM_INSTALLER
-				//std::string fileExt = file.path().extension().string();
-
-				// TODO: Find a way to pull out audio files being used from C# scripting side
-				// for now we just load all audio
-				if (fileExt == ".wav" || fileExt == ".ogg" || fileExt == ".mp3")
-				{
-					if (AssetManager::GetInstance()->LoadAsset(assetMap[file.path().filename().stem().string()]))
-					{
-						assetMap[file.path().filename().stem().string()].fileStatus = FILE_OK;
-					}
-				}
-
-				// Load all shaders here  and primitives
-				if (fileExt == ".vert" || fileExt == ".frag" || fileExt == ".scene" || fileExt == ".do" || fileExt == ".o")
-				{
-					if (AssetManager::GetInstance()->LoadAsset(fileMap[file.path().string()]))
-					{
-						fileMap[file.path().string()].fileStatus = FILE_OK;
-					}
-				}
-#endif
+				//if (fileExt != ".txt" || fileExt != ".vert" || fileExt != ".frag" || fileExt != ".scene" || fileExt != ".do" || fileExt != ".o")
+				//	assetMap.insert({ file.path().filename().stem().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED)});
+//#ifdef CM_INSTALLER
+//				//std::string fileExt = file.path().extension().string();
+//
+//				// TODO: Find a way to pull out audio files being used from C# scripting side
+//				// for now we just load all audio
+//				if (fileExt == ".wav" || fileExt == ".ogg" || fileExt == ".mp3")
+//				{
+//					if (AssetManager::GetInstance()->LoadAsset(assetMap[file.path().filename().stem().string()]))
+//					{
+//						assetMap[file.path().filename().stem().string()].fileStatus = FILE_OK;
+//					}
+//				}
+//
+//				// Load all shaders here  and primitives
+//				if (fileExt == ".vert" || fileExt == ".frag" || fileExt == ".scene" || fileExt == ".do" || fileExt == ".o")
+//				{
+//					if (AssetManager::GetInstance()->LoadAsset(fileMap[file.path().string()]))
+//					{
+//						fileMap[file.path().string()].fileStatus = FILE_OK;
+//					}
+//				}
+//#endif
 			}
 		}
 

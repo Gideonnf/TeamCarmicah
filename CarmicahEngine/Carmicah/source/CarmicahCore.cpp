@@ -266,7 +266,7 @@ namespace Carmicah
         //glfwSetWindowUserPointer(window, inputSystem.get());
         gScriptSystem->Init();
         Input.Init(window);
-        //gameSystem->SetScene("Scene1");
+        gameSystem->SetScene("Scene4");
 #ifndef CM_INSTALLER
         gameSystem->Init(); // Load all GOs from scene file
         

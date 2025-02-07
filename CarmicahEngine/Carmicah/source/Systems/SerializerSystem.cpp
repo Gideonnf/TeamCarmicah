@@ -189,9 +189,9 @@ if (ValueExist(doc, val) == false) { \
 			return false;
 		}
 
-#ifdef CM_INSTALLER
-		DeserializeLevelAssets(sceneFile);
-#endif
+//#ifdef CM_INSTALLER
+//		DeserializeLevelAssets(sceneFile);
+//#endif
 
 		gGOFactory->ImportGO(doc);
 
@@ -217,7 +217,7 @@ if (ValueExist(doc, val) == false) { \
 		PrettyWriter<OStreamWrapper> writer(osw);
 		gGOFactory->ExportGOs(writer);
 
-		SerializeLevelAssets(sceneFile);
+		//SerializeLevelAssets(sceneFile);
 		ofs.close();
 		return true;
 	}

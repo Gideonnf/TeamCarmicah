@@ -73,7 +73,7 @@ namespace Carmicah
 
 		if (!mono_domain_get())
 		{
-			CM_CORE_ERROR("Instance something something");
+			CM_CORE_ERROR("Instance 1something something");
 			return nullptr;
 
 		}

@@ -50,9 +50,9 @@ namespace Carmicah
 		InitSound();
 		InitFontType();
 		fileWatcher.Init(assetPath);
-#ifndef CM_INSTALLER
 		fileWatcher.Update();
-#endif
+		// load default scene files
+		fileWatcher.LoadSceneFiles(enConfig.defaultScene);
 		RenderHelper::GetInstance()->LoadGizmos();
 		// load default scene files
 		//fileWatcher.LoadSceneFiles(enConfig.defaultScene);
