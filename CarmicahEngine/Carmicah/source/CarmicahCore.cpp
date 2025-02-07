@@ -440,12 +440,11 @@ namespace Carmicah
                 }
                 else
                 {
-                    RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
-                    // Editor Cam
                     SceneToImgui::GetInstance()->SelectFrameBuffer(SceneToImgui::GAME_SCENE);
                     RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
-                    SceneToImgui::GetInstance()->UnbindFramebuffer();
-
+#ifdef CM_INSTALLER
+                    RenderHelper::GetInstance()->FinalRender();
+#endif
                 }
 
                 CarmicahTime::GetInstance()->StopSystemTimer("RenderingSystems");
@@ -459,6 +458,8 @@ namespace Carmicah
                 mouseSystem->Update();
 
                // glfwMakeContextCurrent(window);
+
+
 
                 glfwSwapBuffers(window);
                 gGOFactory->UpdateDestroyed();

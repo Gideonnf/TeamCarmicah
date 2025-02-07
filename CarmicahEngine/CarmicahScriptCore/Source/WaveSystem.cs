@@ -55,8 +55,10 @@ namespace Carmicah
             if (waveCounter >= 5)
             {
                 //CreateGameObject("WinScreen");
-                
-                waveCounter--;
+
+                gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
+                waveCounter = 0;
+                startNewWave = true;
             }
 
             if (waveTimer > waveStartTime && startNewWave)
@@ -75,8 +77,9 @@ namespace Carmicah
                 // start next wave
                 gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
 
-                waveCounter++;
+                waveCounter = 5;
                 waveTimer = 0.0f;
+                startNewWave = false;
             }
         }
 

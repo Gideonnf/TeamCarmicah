@@ -216,6 +216,9 @@ namespace Carmicah
 		***************************************************************************/
 		void Render(const unsigned int& cam, bool isEditor = false);
 
+
+		void FinalRender();
+
 		// Fonts
 		/*!*************************************************************************
 		brief

@@ -57,6 +57,45 @@ namespace Carmicah
             quad.drawCnt = 4;
             AssetManager::GetInstance()->AddAsset<GLModel>("Quad", quad);
         }
+        if (!AssetManager::GetInstance()->AssetExist<GLModel>("QuadTex"))
+        {
+            GLModel quad;
+            //GLenum primitive{};
+            //GLuint drawCnt{};
+            //GLuint vao{};
+            //GLuint vbo{};
+            std::vector<Vec2f> p
+            {
+                Vec2f(1.f, -1.0f), Vec2f(1.0f, 1.0f),
+                Vec2f(-1.0f, -1.0f), Vec2f(-1.0f, 1.0f),
+                Vec2f(1.f, 0.0f), Vec2f(1.0f, 1.0f),
+                Vec2f(0.0f, 0.0f), Vec2f(0.0f, 1.0f)
+            };
+
+            glCreateBuffers(1, &quad.vbo);
+            glNamedBufferStorage(quad.vbo, p.size() * sizeof(Vec2f), p.data(), GL_MAP_WRITE_BIT);
+            glCreateVertexArrays(1, &quad.vao);
+            // layout=0
+            glEnableVertexArrayAttrib(quad.vao, 0);
+            glVertexArrayVertexBuffer(quad.vao, 0, quad.vbo, 0, sizeof(Vec2f));
+            glVertexArrayAttribFormat(quad.vao, 0, 2, GL_FLOAT, GL_FALSE, 0);
+            glVertexArrayAttribBinding(quad.vao, 0, 0);
+            // layout=1
+            glEnableVertexArrayAttrib(quad.vao, 1);
+            glVertexArrayVertexBuffer(quad.vao, 1, quad.vbo, sizeof(Vec2f) * 4, sizeof(Vec2f));
+            glVertexArrayAttribFormat(quad.vao, 1, 2, GL_FLOAT, GL_FALSE, 0);
+            glVertexArrayAttribBinding(quad.vao, 1, 1);
+
+            GLuint ebo;
+            std::vector<GLushort> idx_vtx{ 0,1,2,3 };
+            glCreateBuffers(1, &ebo);
+            glNamedBufferStorage(ebo, sizeof(GLushort) * 4, reinterpret_cast<GLvoid*>(idx_vtx.data()), GL_MAP_WRITE_BIT);
+            glVertexArrayElementBuffer(quad.vao, ebo);
+
+            quad.primitive = GL_TRIANGLE_STRIP;
+            quad.drawCnt = 4;
+            AssetManager::GetInstance()->AddAsset<GLModel>("QuadTex", quad);
+        }
     }
 
     void SceneToImgui::CreateFramebuffer(int width, int height)
