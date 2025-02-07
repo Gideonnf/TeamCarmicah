@@ -31,7 +31,7 @@ namespace Carmicah
         public string HealAnim;
         public string IdleAnim;
         public string WalkAnim;
-        bool isCreated = false;
+        public static bool GameLost = false;
 
         public bool isWalking = true;
         
