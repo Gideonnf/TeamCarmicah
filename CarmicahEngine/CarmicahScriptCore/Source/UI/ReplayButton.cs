@@ -33,6 +33,10 @@ namespace Carmicah
             {
                 hovering = false;
                 ChangeAnim(buttonClick);
+                if (buttonType == "Replay")
+                    Scene.ChangeScene("Scene1");
+                else
+                    Scene.ChangeScene("Scene3");
             }
             //settings.Destroy();
             //Destroy();
@@ -56,6 +60,10 @@ namespace Carmicah
             {
                 hovering = false;
                 ChangeAnim(buttonClick);
+                if (buttonType == "Replay")
+                    Scene.ChangeScene("Scene1");
+                else
+                    Scene.ChangeScene("Scene3");
             }
             //hovering = false;
 
