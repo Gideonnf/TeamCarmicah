@@ -4,18 +4,23 @@
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
-            "xPos": -0.45561209321022036,
-            "yPos": -9.046300888061524,
+            "xPos": -0.10599999874830246,
+            "yPos": -9.496000289916993,
             "depth": 3.0,
-            "xScale": 0.8,
-            "yScale": 0.8,
+            "xScale": 0.800000011920929,
+            "yScale": 0.800000011920929,
             "rot": 0.0,
+            "transformTag": "",
             "collisionMask": 0
         },
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "strawberry_cake_SpriteSheet_Squish 0"
+            "texture": "strawberry_cake_SpriteSheet_Squish 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         }
     ],
     "Children": [
@@ -25,18 +30,14 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 1.844833254814148,
-                    "yPos": -0.7042598724365234,
+                    "xPos": 2.0,
+                    "yPos": -2.0,
                     "depth": 0.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
+                    "xScale": 3.0,
+                    "yScale": 3.0,
                     "rot": 0.05306386947631836,
+                    "transformTag": "",
                     "collisionMask": 0
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Wall_Invis 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -49,6 +50,15 @@
                             "depthVal": 3.450000047683716
                         }
                     ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_Invis 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",
@@ -77,18 +87,23 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 3.2417614459991457,
-                    "yPos": -0.31932544708251955,
+                    "xPos": 5.8420000076293949,
+                    "yPos": -1.11899995803833,
                     "depth": 0.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
+                    "xScale": 3.0,
+                    "yScale": 3.0,
                     "rot": 0.05306386947631836,
+                    "transformTag": "",
                     "collisionMask": 0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Wall_Invis 0"
+                    "texture": "Wall_Invis 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
@@ -133,18 +148,14 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -0.829282283782959,
-                    "yPos": -0.7042598724365234,
+                    "xPos": -2.0,
+                    "yPos": -1.003999948501587,
                     "depth": 0.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
+                    "xScale": 3.0,
+                    "yScale": 3.0,
                     "rot": 0.05306386947631836,
+                    "transformTag": "",
                     "collisionMask": 0
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Wall_Invis 0"
                 },
                 {
                     "Component Name": "struct Script",
@@ -159,8 +170,13 @@
                     ]
                 },
                 {
-                    "Component Name": "struct Carmicah::PrefabData",
-                    "prefabRef": 15
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_Invis 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",
@@ -168,6 +184,10 @@
                     "customWidth": 1.0,
                     "customRotation": 0.0,
                     "customHeight": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 15
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -189,12 +209,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -2.3822829723358156,
-                    "yPos": -0.2839641571044922,
+                    "xPos": -5.48199987411499,
+                    "yPos": -0.7839999794960022,
                     "depth": 0.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
+                    "xScale": 3.0,
+                    "yScale": 3.0,
                     "rot": 0.05306386947631836,
+                    "transformTag": "",
                     "collisionMask": 0
                 },
                 {
@@ -212,7 +233,11 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Wall_Invis 0"
+                    "texture": "Wall_Invis 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",
