@@ -20,6 +20,31 @@
             "Children": []
         },
         {
+            "GameObject": "LoadingTipsText",
+            "ID": 4,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "model": "Square",
+                    "font": "arial",
+                    "text": "",
+                    "colorR": 1.0,
+                    "colorG": 1.0,
+                    "colorB": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 400.0,
+                    "yPos": 230.0,
+                    "depth": 0.0,
+                    "xScale": 1.3,
+                    "yScale": 1.3,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
             "GameObject": "BackgroundTop",
             "ID": 24,
             "Components": [
@@ -51,7 +76,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "LoadingDots_SpriteSheet_Polka 24",
+                    "texture": "LoadingDots_SpriteSheet_Polka 19",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,

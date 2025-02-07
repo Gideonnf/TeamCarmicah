@@ -118,6 +118,9 @@ namespace Carmicah
         internal extern static float GetMaxTime(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float Animation_GetCurrFrameTime(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static uint Entity_GetParent(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]

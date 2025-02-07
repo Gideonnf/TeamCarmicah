@@ -26,73 +26,98 @@ namespace Carmicah
     public class LoadingDots : Entity
     {
         public int maxLoops = 4;
-        
 
+        Entity Text;
         Entity cake1;
         Entity cake2;
         Entity cake3;
         Entity cake4;
 
-        float timeForOneLoop;
-        float animationTime = 0.0025f;
-        float elapsedTime = 0.0f;
+        //float timeForOneLoop;
+        //float animationTime = 0.0025f;
         int numberOfLoops = 0;
         bool cake1Created = false;
         bool cake2Created = false;
         bool cake3Created = false;
         bool cake4Created = false;
+        bool thingHappened = false;
+
+
+        float elapsedTime = 0.0f;
+        int textProgress = 0;
+        string currText = "";
+        string finalText = "Tips: Use Buffs To Increase Your Chances Of Survival";
         void OnCreate()
         {
-            timeForOneLoop = GetComponent<Animation>().GetMaxTime();
-            CMConsole.Log($"{timeForOneLoop}");
+            //timeForOneLoop = GetComponent<Animation>().GetMaxTime();
+            //CMConsole.Log($"{timeForOneLoop}");
+            Text = FindEntityWithName("LoadingTipsText");
         }
 
         void OnUpdate(float dt)
         {
             elapsedTime += dt;
-
-            //float quarterTime = timeForOneLoop / 4;
-
-
-            if (elapsedTime >= 0.5 && !cake1Created)
+            float currFrameMaxTime = GetComponent<Animation>().GetFrameMaxTime() - 0.251f;
+            if (currFrameMaxTime > 0.0f)
             {
-                cake1 = CreateGameObject("LoadingCake1");
-                cake1Created = true;
-                
+                if (!thingHappened)
+                {
+                    if (!cake1Created)
+                    {
+                        cake1 = CreateGameObject("LoadingCake1");
+                        cake1Created = true;
+
+                    }
+                    else if (!cake2Created)
+                    {
+                        cake2 = CreateGameObject("LoadingCake2");
+                        cake2Created = true;
+                    }
+                    else if (!cake3Created)
+                    {
+                        cake3 = CreateGameObject("LoadingCake3");
+                        cake3Created = true;
+                    }
+                    else if (!cake4Created)
+                    {
+                        cake4 = CreateGameObject("LoadingCake4");
+                        cake4Created = true;
+                    }
+                    else
+                    {
+                        CMConsole.Log("DESTROY!");
+                        cake1.Destroy();
+                        cake2.Destroy();
+                        cake3.Destroy();
+                        cake4.Destroy();
+
+                        cake1Created = false;
+                        cake2Created = false;
+                        cake3Created = false;
+                        cake4Created = false;
+                        numberOfLoops++;
+                    }
+                    thingHappened = true;
+                }
             }
+            else thingHappened = false;
 
-            if (elapsedTime >= 0.775 && !cake2Created)
+            if(elapsedTime > 0.1f)
             {
-                cake2 = CreateGameObject("LoadingCake2");
-                cake2Created = true;
-            }
-
-            if (elapsedTime >= 1.0 && !cake3Created)
-            {
-                cake3 = CreateGameObject("LoadingCake3");
-                cake3Created = true;
-            }
-
-            if (elapsedTime >= 1.075 && !cake4Created)
-            {
-                cake4 = CreateGameObject("LoadingCake4");
-                cake4Created = true;
-            }
-
-            if (elapsedTime >= timeForOneLoop)
-            {
-                CMConsole.Log("DESTROY!");
-                cake1.Destroy();
-                cake2.Destroy();
-                cake3.Destroy();
-                cake4.Destroy();
-
-                cake1Created = false;
-                cake2Created = false;
-                cake3Created = false;
-                cake4Created = false;
-                numberOfLoops++;
-                elapsedTime = 0.0f;
+                if (textProgress != finalText.Length)
+                {
+                    currText += finalText[textProgress];
+                    Text.GetComponent<TextRenderer>().SetText(currText);
+                    elapsedTime = 0.0f;
+                    ++textProgress;
+                }
+                else
+                {
+                    currText = "";
+                    Text.GetComponent<TextRenderer>().SetText(currText);
+                    ++numberOfLoops;
+                    textProgress = 0;
+                }
             }
         }
     }
