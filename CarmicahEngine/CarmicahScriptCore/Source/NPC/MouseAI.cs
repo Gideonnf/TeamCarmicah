@@ -51,6 +51,7 @@ namespace Carmicah
         public string AnimationDie3;
 
         public string DeathSound = "mouse die btr";
+        public string InjuredSound = "mouse die";
 
         //int currPoint;
         Vector2 startPosLeft;
@@ -269,7 +270,7 @@ namespace Carmicah
             if (stateName == "Dead")
             {
                 timer = 0.0f;
-                Sound.PlaySFX("mouse die", 0.5f);
+                Sound.PlaySFX(InjuredSound, 0.5f);
                 GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                 if (gm != null)
                     gm.EntityDestroyed(this);
@@ -327,7 +328,7 @@ namespace Carmicah
                 timer += dt;
                 if (timer >= GetComponent<Animation>().GetMaxTime())
                 {
-                    Sound.PlaySFX("mouse die btr", 0.5f);
+                    Sound.PlaySFX(DeathSound, 0.5f);
                     timer = 0.0f;
                     Destroy();
                 }
