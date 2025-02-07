@@ -41,7 +41,10 @@
                     "scriptName": "Carmicah.ReplayButton",
                     "ScriptableFieldMap": [
                         {
-                            "buttonType": ""
+                            "buttonType": "Button_HE_Replay",
+                            "buttonExit": "Button_C_Replay",
+                            "buttonHover": "Button_HS_Replay",
+                            "buttonClick": "Replay"
                         }
                     ]
                 },
@@ -58,6 +61,11 @@
                     "yScale": 0.800000011920929,
                     "rot": 0.0,
                     "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::Button",
+                    "ButtonImage": "",
+                    "ButtonImagePressed": ""
                 }
             ]
         },
@@ -124,15 +132,6 @@
             "ID": 42,
             "Components": [
                 {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.ReplayButton",
-                    "ScriptableFieldMap": [
-                        {
-                            "buttonType": ""
-                        }
-                    ]
-                },
-                {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "Button_SpriteSheet_H_Replay 0",
@@ -140,6 +139,18 @@
                     "colG": 1.0,
                     "colB": 1.0,
                     "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ReplayButton",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "Home",
+                            "buttonExit": "Button_HE_Home",
+                            "buttonHover": "Button_HS_Home",
+                            "buttonClick": "Button_C_Home"
+                        }
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
@@ -154,6 +165,11 @@
                     "yScale": 0.800000011920929,
                     "rot": 0.0,
                     "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::Button",
+                    "ButtonImage": "",
+                    "ButtonImagePressed": ""
                 }
             ]
         }

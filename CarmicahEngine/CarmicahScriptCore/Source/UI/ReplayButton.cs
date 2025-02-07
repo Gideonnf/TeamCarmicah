@@ -10,10 +10,15 @@ namespace Carmicah
     public class ReplayButton : Entity
     {
 
+        public string buttonType;
+
+        public string buttonClick;
+        public string buttonHover;
+        public string buttonExit;
+
         
-        
-        string Animation0 = "Button_C_Replay";
-        string Animation1 = "Button_HS_Replay";
+        //string Animation0 = "Button_C_Replay";
+        //string Animation1 = "Button_HS_Replay";
         bool hovering = false;
         //void OnCreate()
         //{
@@ -22,7 +27,13 @@ namespace Carmicah
         void OnClick()
         {
             Sound.PlaySFX("SFX_Button", 0.5f);
-            ChangeAnim(Animation0);
+            //ChangeAnim(Animation0);
+
+            if (hovering)
+            {
+                hovering = false;
+                ChangeAnim(buttonClick);
+            }
             //settings.Destroy();
             //Destroy();
         }
@@ -35,19 +46,29 @@ namespace Carmicah
             {
                 hovering = true;
 
-                ChangeAnim(Animation1);
+                ChangeAnim(buttonHover);
             }
         }
 
         public void OnMouseClick()
         {
-            hovering = false;
+            if (hovering)
+            {
+                hovering = false;
+                ChangeAnim(buttonClick);
+            }
+            //hovering = false;
+
         }
 
         public void OnMouseExit()
         {
-            hovering = false;
-            ChangeAnim("Button_HE_Replay");
+            if (hovering)
+            {
+                hovering = false;
+                ChangeAnim(buttonExit);
+
+            }
         }
     }
 }

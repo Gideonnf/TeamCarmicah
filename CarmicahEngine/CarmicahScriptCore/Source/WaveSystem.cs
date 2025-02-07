@@ -11,7 +11,7 @@ namespace Carmicah
         public float waveStartTime = 20.0f;
         public float waveTimer = 0.0f;
         public bool startNewWave = true;
-        
+
         public int mobWave0 = 5;
         public int mobWave1 = 10;
         public int mobWave2 = 15;
@@ -51,23 +51,19 @@ namespace Carmicah
 
         void OnUpdate(float dt)
         {
-            if(!Player.GameLost)
+            if (!Player.GameLost)
             {
-                //CreateGameObject("WinScreen");
+                    //CreateGameObject("WinScreen");
 
-                gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
-                waveCounter = 0;
-                startNewWave = true;
-            }
                 waveTimer += dt;
 
                 if (waveCounter >= 5)
                 {
                     //CreateGameObject("WinScreen");
-                    gameManager.As<GameManager>.GetComponent<StateMachine>().SetStateCondition(2);
+                    gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
                     waveCounter = 0;
                     startNewWave = true;
-                   // waveCounter--;
+                    // waveCounter--;
                 }
 
                 if (waveTimer > waveStartTime && startNewWave)
@@ -75,7 +71,7 @@ namespace Carmicah
                     // start next wave
                     gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
                     CMConsole.Log("Starting New Wave");
-                
+
                     waveCounter++;
                     waveTimer = 0.0f;
                     startNewWave = false;
@@ -101,9 +97,7 @@ namespace Carmicah
                 }
             }
 
-           
         }
-
         public void EndOfWave()
         {
             waveTimer = 0.0f;

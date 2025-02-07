@@ -34,6 +34,7 @@ namespace Carmicah
         public static bool GameLost = false;
 
         public bool isWalking = true;
+        public bool isCreated = false;
         
         void OnCreate()
         {
