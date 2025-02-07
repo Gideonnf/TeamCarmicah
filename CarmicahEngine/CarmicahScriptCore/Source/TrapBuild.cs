@@ -45,6 +45,7 @@ namespace Carmicah
                 {
                     //CMConsole.Log("It shouldnt be here atm");
                     translucentTrap = CreateGameObject(TrapTranslucentPrefab);
+                    CMConsole.Log($"{Position.x} , {Position.y}");
                     translucentTrap.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
                     translucentTrap.GetComponent<Transform>().Depth = depthVal;
                     if (IsLeft)
@@ -68,6 +69,7 @@ namespace Carmicah
                         // build a trap
                         built = true;
                         trapEntity = CreateGameObject(TrapPrefabName);
+                        CMConsole.Log($"{Position.x} , {Position.y}");
                         trapEntity.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
                         trapEntity.GetComponent<Transform>().Depth = depthVal;
                         Sound.PlaySFX("trap_placement", 0.5f);

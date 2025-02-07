@@ -30,6 +30,11 @@ namespace Carmicah
         public string SettingsCloseButton = "Close_Button";
         public static bool IsCreated = false;
         bool hovering = false;
+
+        void OnCreate()
+        {
+            Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
+        }
         void OnClick()
         {
             if (!IsCreated)
