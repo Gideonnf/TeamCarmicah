@@ -66,6 +66,10 @@ namespace Carmicah
         Entity endEntityLeft2;
         Entity endEntityRight2;
         List<Entity> npcList;
+
+        List<Vector2> npcSavedPos;
+        Vector2 playerPos;
+
         Entity heroBuildEntity;
         Entity heroBuildEntity1;
 
@@ -310,6 +314,17 @@ namespace Carmicah
         {
             Vector2 pos = new Vector2();
 
+            // return them back to the original position
+            for (int i = 0; i < npcSavedPos.Count; i++)
+            {
+                npcList[i].Position = npcSavedPos[i];
+            }
+
+            playerEntity.Position = playerPos;
+
+
+            playerPos = playerEntity.Position;
+
             if (playerEntity != null)
             {
                 pos = playerEntity.Position;
@@ -394,5 +409,30 @@ namespace Carmicah
             }
         }
 
+        public void SavePositions()
+        {
+            foreach (Entity npc in npcList)
+            {
+                if (npc.mID == 0) continue;
+
+                npcSavedPos.Add(npc.Position);
+            }
+
+            playerPos = playerEntity.Position;
+        }
+
+        public void HideEntities()
+        {
+            foreach (Entity npc in npcList)
+            {
+                if (npc.mID == 0) continue;
+
+                
+                npc.Position = new Vector2(200, 200);
+            }
+
+            playerPos = new Vector2(200, 200);
+
+        }
     }
 }
