@@ -2,12 +2,17 @@
     "Scene": "Scene1",
     "SceneObjects": [
         {
+            "GameObject": "",
+            "ID": 0,
+            "Components": []
+        },
+        {
             "GameObject": "BackgroundGO",
             "ID": 1,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 1.0,
+                    "xPos": 0.6807026863098145,
                     "yPos": 0.08424292504787445,
                     "depth": 1.0,
                     "xScale": 1.0,
@@ -120,7 +125,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -1.871000051498413,
+                    "xPos": -0.4415467381477356,
                     "yPos": -6.860000133514404,
                     "depth": 3.0,
                     "xScale": 0.800000011920929,
@@ -360,7 +365,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -0.9224217534065247,
+                    "xPos": 0.4745073914527893,
                     "yPos": 0.0,
                     "depth": 0.0,
                     "xScale": 0.0,
@@ -374,13 +379,13 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "StartingCake": "StartingCake",
-                            "MousePrefabName": "MouseGONew",
-                            "waveTimer": 0.0,
                             "LeftOrRight": false,
-                            "WaveStarted": false,
-                            "CakeHeightOffset": 6.849999904632568,
+                            "waveTimer": 0.0,
+                            "MousePrefabName": "MouseGONew",
+                            "StartingCake": "StartingCake",
                             "spawnTimer": 1.5,
+                            "CakeHeightOffset": 6.849999904632568,
+                            "WaveStarted": false,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
                             "PlayerName": "mainCharacter",
@@ -401,8 +406,9 @@
                             "WaveEnded": false,
                             "ySpawnPos": 9.699999809265137,
                             "yTargetPos": 0.8999999761581421,
-                            "yVFXSpawn": 1.0,
-                            "PlayerHealthBar": "Healthbar"
+                            "yVFXSpawn": 2.200000047683716,
+                            "PlayerHealthBar": "Healthbar",
+                            "CakeVFXPrefab": "CakeVFX"
                         }
                     ]
                 },
@@ -463,7 +469,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -0.9079999923706055,
+                    "xPos": 0.3758007884025574,
                     "yPos": -12.994000434875489,
                     "depth": 1.2000000476837159,
                     "xScale": 0.800000011920929,
@@ -519,12 +525,12 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 1.7621402740478516,
-                    "yPos": -18.347640991210939,
+                    "xPos": 3.569999933242798,
+                    "yPos": -18.720699310302736,
                     "depth": 1.2000000476837159,
                     "xScale": 0.699999988079071,
                     "yScale": 0.699999988079071,
-                    "rot": 50.0,
+                    "rot": 39.6349983215332,
                     "transformTag": "",
                     "collisionMask": 0
                 },
@@ -634,12 +640,12 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 3.124666452407837,
-                    "yPos": -19.526302337646486,
+                    "xPos": 4.662032604217529,
+                    "yPos": -20.12318992614746,
                     "depth": 6.5,
                     "xScale": 0.699999988079071,
                     "yScale": 0.699999988079071,
-                    "rot": 50.0,
+                    "rot": 40.101531982421878,
                     "transformTag": "",
                     "collisionMask": 0
                 },
@@ -683,7 +689,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -1.086660623550415,
+                    "xPos": 0.1544017195701599,
                     "yPos": -1.7207679748535157,
                     "depth": 4.0,
                     "xScale": 0.4000000059604645,
@@ -827,8 +833,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 3.2769999504089357,
-                    "yPos": -4.0269999504089359,
+                    "xPos": 3.516148090362549,
+                    "yPos": -4.810421466827393,
                     "depth": 0.0,
                     "xScale": 8.390999794006348,
                     "yScale": 0.6269400119781494,
@@ -873,8 +879,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 2.8399999141693117,
-                    "yPos": -0.621999979019165,
+                    "xPos": 4.274874687194824,
+                    "yPos": 0.012197088450193406,
                     "depth": 0.0,
                     "xScale": 6.390999794006348,
                     "yScale": 0.6269400119781494,
@@ -1011,8 +1017,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -4.190000057220459,
-                    "yPos": -1.850000023841858,
+                    "xPos": -2.5501461029052736,
+                    "yPos": -2.4841973781585695,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -1073,8 +1079,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 2.4079999923706056,
-                    "yPos": -1.8109999895095826,
+                    "xPos": 3.091273546218872,
+                    "yPos": -2.407891273498535,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -1165,7 +1171,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 1.873999834060669,
+                    "xPos": 2.4889488220214845,
                     "yPos": -8.513999938964844,
                     "depth": 0.0,
                     "xScale": 1.720000147819519,
@@ -1303,7 +1309,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 4.170999526977539,
+                    "xPos": 4.888433933258057,
                     "yPos": -7.379000186920166,
                     "depth": 0.0,
                     "xScale": 1.720000147819519,
@@ -1367,7 +1373,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -3.950000047683716,
+                    "xPos": -2.036837577819824,
                     "yPos": -8.564000129699707,
                     "depth": 0.0,
                     "xScale": 1.720000147819519,
@@ -1431,7 +1437,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -6.203000068664551,
+                    "xPos": -4.255668640136719,
                     "yPos": -7.194000244140625,
                     "depth": 0.0,
                     "xScale": 1.720000147819519,

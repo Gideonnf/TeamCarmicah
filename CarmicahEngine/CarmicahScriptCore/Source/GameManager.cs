@@ -36,6 +36,7 @@ namespace Carmicah
         public string PlayerName = "mainCharacter";
         public string PlayerHealthBar = "Healthbar";
         public string WaveSystemObject = "Something";
+        public string CakeVFXPrefab = "CakeVFX";
         public float timer = 0.0f;
         public bool LeftOrRight = false;
         public float CakeHeightOffset;
@@ -86,7 +87,7 @@ namespace Carmicah
         public float yVFXSpawn;
 
         Entity towerPrefab;
-
+        Entity VFXPrefab;
         Entity waveSystem;
 
         void OnCreate()
@@ -434,26 +435,26 @@ namespace Carmicah
 
         public void SavePositions()
         {
-            foreach (Entity npc in npcList)
-            {
-                if (npc.mID == 0) continue;
+            //foreach (Entity npc in npcList)
+            //{
+            //    if (npc.mID == 0) continue;
 
-                CMConsole.Log("Adding to npcList");
-                npcSavedPos.Add(npc.Position);
-            }
+            //    CMConsole.Log("Adding to npcList");
+            //    npcSavedPos.Add(npc.Position);
+            //}
 
             playerPos = playerEntity.Position;
         }
 
         public void HideEntities()
         {
-            foreach (Entity npc in npcList)
-            {
-                if (npc.mID == 0) continue;
+            //foreach (Entity npc in npcList)
+            //{
+            //    if (npc.mID == 0) continue;
 
-                npc.GetComponent<Renderer>().SetAlpha(0);
-                //npc.Position = new Vector2(200, 200);
-            }
+            //    npc.GetComponent<Renderer>().SetAlpha(0);
+            //    //npc.Position = new Vector2(200, 200);
+            //}
 
             playerEntity.GetComponent<Renderer>().SetAlpha(0);
             playerHealth.GetComponent<Renderer>().SetAlpha(0);
@@ -470,6 +471,8 @@ namespace Carmicah
             else if (stateName == "TowerCreate")
             {
                 //CMConsole.Log("TESTING TOWER CREATE ");
+
+                if (cakeCounter >= 2) return;
 
                 towerPrefab = CreateGameObject(CakePrefabName);
                 towerPrefab.Position = new Vector2(Position.x, ySpawnPos);
@@ -521,6 +524,8 @@ namespace Carmicah
                 if (towerPrefab.Position.y <= yVFXSpawn)
                 {
                     // create the vfx prefab
+                    if (VFXPrefab == null)
+                        VFXPrefab = CreateGameObject(CakeVFXPrefab);
                 }
                 CMConsole.Log($"IN TOWER DROP UPDATE {towerPrefab.Position.x}, {towerPrefab.Position.y}");
                 if (towerPrefab.Position.y > yTargetPos)
@@ -534,6 +539,7 @@ namespace Carmicah
                     // tower landed
                     towerPrefab.Position = new Vector2(towerPrefab.Position.x, yTargetPos);
                     GetComponent<StateMachine>().SetStateCondition(4);
+                    VFXPrefab.Destroy();
                 }
             }
         }
