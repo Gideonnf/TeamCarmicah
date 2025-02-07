@@ -61,6 +61,8 @@
                     "AnimationDie2": "Mouse_Death_white",
                     "AnimationDie1": "Mouse_Death_white",
                     "AnimationDie3": "Mouse_Death_white",
+                    "DeathSound": "mouse die btr",
+                    "InjuredSound": "mouse die",
                     "SpawnPointEntityLeft2": "StartPointLeft_1",
                     "EndPointEntityLeft2": "EndPointLeft_1",
                     "DeathTime": 2.0,

@@ -248,7 +248,7 @@
                     "ScriptableFieldMap": [
                         {
                             "CreditsCloseButton": "Close_Button_2",
-                            "IsCreated": false,
+                            "IsCreated": true,
                             "CreditsMenu": "Credits_Menu"
                         }
                     ]

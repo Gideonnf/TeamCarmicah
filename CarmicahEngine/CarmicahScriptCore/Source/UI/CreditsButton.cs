@@ -31,9 +31,9 @@ namespace Carmicah
         bool hovering = false;
         private HealthSystem healthSystem;
         //private HealthSystem healthSystem;
-        public string CreditsMenu = "Credits";
+        public string CreditsMenu = "Credits_Menu";
         public string CreditsCloseButton = "Close_Button_2";
-        public bool IsCreated = false;
+        public static bool IsCreated = false;
 
         public CreditsButton()
         {

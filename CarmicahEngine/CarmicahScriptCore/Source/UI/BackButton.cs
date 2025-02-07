@@ -24,6 +24,7 @@ namespace Carmicah
         void OnClick()
         {
             Entity settings = FindEntityWithName(SettingsMenu);
+            Sound.PlaySFX("SFX_Button", 0.5f);
             ChangeAnim(Animation0);
             //settings.Destroy();
             //Destroy();
@@ -37,7 +38,7 @@ namespace Carmicah
             Entity credits = FindEntityWithName(CreditsMenu);
             if (credits != null)
             {
-                SettingButton.IsCreated = false;
+                CreditsButton.IsCreated = false;
                 credits.Destroy();
                 Destroy();
             }
