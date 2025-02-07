@@ -298,6 +298,7 @@ void RenderHelper::FinalRender()
 {
 	GLuint mCurrShader{ AssetManager::GetInstance()->GetAsset<Shader>("installer").s };
 	GLint uniformLoc{};
+	UNUSED(uniformLoc);
 	SceneToImgui::FBOScene FBOScene = SceneToImgui::GetInstance()->GetCurrentFramebuffer();
 
 

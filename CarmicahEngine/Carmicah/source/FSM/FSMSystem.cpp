@@ -164,7 +164,8 @@ namespace Carmicah
 
 	void FSMSystem::SetState(Entity entity, std::string stateName)
 	{
-
+		UNUSED(entity);
+		UNUSED(stateName);
 	}
 
 	float FSMSystem::GetStateTimer(Entity entity)
@@ -181,6 +182,6 @@ namespace Carmicah
 				return stateMachine.stateTimer;
 			}
 		}
-
+		return 0.0f;
 	}
 }

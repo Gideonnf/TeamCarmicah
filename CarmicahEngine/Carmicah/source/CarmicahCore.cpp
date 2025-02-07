@@ -385,7 +385,7 @@ namespace Carmicah
           
                     }
                 
-                    fsmSystem->OnUpdate(CarmicahTime::GetInstance()->GetDeltaTime());
+                    fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->GetDeltaTime());
                 
                 
                     CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");

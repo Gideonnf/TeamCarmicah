@@ -627,7 +627,7 @@ namespace Carmicah
         else if (msg->mMsgType == MSG_MOUSEENTER)
         {
             auto castedMsg = dynamic_cast<OnMouseMsg*>(msg);
-            CM_CORE_INFO("Enter " + std::to_string(castedMsg->entity));
+           // CM_CORE_INFO("Enter " + std::to_string(castedMsg->entity));
             if (mEntityInstances.count(castedMsg->entity))
             {
                 mEntityInstances[castedMsg->entity]->InvokeOnMouseEnter();
@@ -637,7 +637,7 @@ namespace Carmicah
         else if (msg->mMsgType == MSG_MOUSEEXIT)
         {
             auto castedMsg = dynamic_cast<OnMouseMsg*>(msg);
-            CM_CORE_INFO("Exit " + std::to_string(castedMsg->entity));
+            //CM_CORE_INFO("Exit " + std::to_string(castedMsg->entity));
             if (mEntityInstances.count(castedMsg->entity))
             {
                 mEntityInstances[castedMsg->entity]->InvokeOnMouseExit();

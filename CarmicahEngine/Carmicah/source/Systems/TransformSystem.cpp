@@ -190,6 +190,7 @@ namespace Carmicah
 	// TODO: HOW TO DESTROY CHILDREN - Can't orphan since transform is gone by this call
 	void TransformSystem::EntityDestroyed(Entity id)
 	{
+		UNUSED(id);
 		//auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(id);
 
 		//for (auto child : transform.children)

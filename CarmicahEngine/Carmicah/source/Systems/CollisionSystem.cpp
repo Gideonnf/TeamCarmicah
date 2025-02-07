@@ -842,7 +842,7 @@ namespace Carmicah
 				for (Entity entity2 : nearbyEntities)
 				{
 					auto& transform2 = componentManager->GetComponent<Transform>(entity2);
-					auto& transformSys = SystemManager::GetInstance()->GetSystem<TransformSystem>();
+					auto transformSys = SystemManager::GetInstance()->GetSystem<TransformSystem>();
 					if (transformSys->CheckLayerInteraction(transform1.collisionMask, transform2.collisionMask))
 					{
 						if (TestIntersection(entity1, entity2))
@@ -865,7 +865,7 @@ namespace Carmicah
 				{
 
 					auto& transform2 = componentManager->GetComponent<Transform>(entity2);
-					auto& transformSys = SystemManager::GetInstance()->GetSystem<TransformSystem>();
+					auto transformSys = SystemManager::GetInstance()->GetSystem<TransformSystem>();
 					if (transformSys->CheckLayerInteraction(transform1.collisionMask, transform2.collisionMask))
 					{
 						if (TestIntersection(entity1, entity2))

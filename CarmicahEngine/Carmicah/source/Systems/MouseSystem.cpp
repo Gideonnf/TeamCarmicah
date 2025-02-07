@@ -95,7 +95,7 @@ namespace Carmicah
 
 	void MouseSystem::ReceiveMessage(Message* msg)
 	{
-
+		UNUSED(msg);
 	}
 
 	void MouseSystem::OnEnter(Entity entityID)

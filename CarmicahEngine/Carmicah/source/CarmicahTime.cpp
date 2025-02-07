@@ -45,7 +45,7 @@ namespace Carmicah
         //this->mFixedDeltaTime = 0.01667f;
         mUpdateInterval = 0.5;
 
-        std::srand(time(NULL));
+        std::srand((unsigned int)time(NULL));
     }
 
     void CarmicahTime::InitTime()

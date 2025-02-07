@@ -276,7 +276,7 @@ namespace Carmicah
             ImGui::Text("Target State: ");
             ImGui::SameLine();
 
-            if (ImGui::Combo("##StateNames", &selectedState, stateNames.data(), stateNames.size()))
+            if (ImGui::Combo("##StateNames", &selectedState, stateNames.data(), (int)stateNames.size()))
             {
                 std::strncpy(buffer, stateNames[selectedState], sizeof(buffer));
             }
@@ -388,6 +388,8 @@ namespace Carmicah
         ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanTextWidth;
         std::string varType = GetVarType(actualState.stateCondition);
         variantVar& var = actualState.stateCondition;
+
+        UNUSED(var);
 
         if (ImGui::TreeNodeEx(stateName.c_str(), flags))
         {

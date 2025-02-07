@@ -470,6 +470,8 @@ namespace Carmicah
 			}
 		}
 
+		return nullptr;
+
 		/*if (gScriptSystem->mEntityInstances.count(entityID) > 0)
 		{
 			return gScriptSystem->mEntityInstances[entityID]->GetInstance();
@@ -509,6 +511,9 @@ namespace Carmicah
 			return mono_string_new(mono_domain_get(), go.GetComponent<UITransform>().transformTag.c_str());
 
 		}
+
+		std::string ret = "";
+		return mono_string_new(mono_domain_get(), ret.c_str());
 	}
 
 	static void Animation_ChangeAnim(unsigned int entityID, MonoString* string)
@@ -535,6 +540,7 @@ namespace Carmicah
 
 			return time;
 		}
+		return 0.0f;
 	}
 
 	static float Animation_GetCurrFrameTime(unsigned entityID)
@@ -545,6 +551,8 @@ namespace Carmicah
 			Animation& a{ go.GetComponent<Animation>() };
 			return a.maxTime;
 		}
+
+		return 0.0f;
 	}
 
 	static void SetStateCondition(unsigned int entityID, MonoObject* obj)
@@ -586,14 +594,14 @@ namespace Carmicah
 			std::cout << "Unknown object type: " << className << std::endl;
 		}
 	
-		auto& fsmSystem = SystemManager::GetInstance()->GetSystem<FSMSystem>();
+		auto fsmSystem = SystemManager::GetInstance()->GetSystem<FSMSystem>();
 	
 		fsmSystem->SetCondition(entityID, var);
 	}
 
 	static float GetStateTimer(unsigned int entityID)
 	{
-		auto& fsmSystem = SystemManager::GetInstance()->GetSystem<FSMSystem>();
+		auto fsmSystem = SystemManager::GetInstance()->GetSystem<FSMSystem>();
 
 		return fsmSystem->GetStateTimer(entityID);
 	}

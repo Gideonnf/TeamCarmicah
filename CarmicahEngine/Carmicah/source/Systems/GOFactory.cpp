@@ -623,7 +623,7 @@ namespace Carmicah
 					// Add to the child list
 					parentTransform.children.push_back(entityID);
 
-					CM_CORE_INFO("Parenting entity: " + std::to_string(entityID) + " to " + std::to_string(newParentID));
+					//CM_CORE_INFO("Parenting entity: " + std::to_string(entityID) + " to " + std::to_string(newParentID));
 				}
 				else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
 				{

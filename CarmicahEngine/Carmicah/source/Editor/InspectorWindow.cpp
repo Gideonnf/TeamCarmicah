@@ -524,6 +524,7 @@ namespace Carmicah
 		auto textureMap = AssetManager::GetInstance()->GetAssetMap<Texture>();
 		Renderer& render = go->GetComponent<Renderer>();
 		float tempValue = 0.f;
+		UNUSED(tempValue);
 		if (ImGui::CollapsingHeader("Renderer Settings", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			switch (type)
