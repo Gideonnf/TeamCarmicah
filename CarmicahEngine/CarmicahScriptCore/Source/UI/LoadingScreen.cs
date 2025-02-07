@@ -5,7 +5,9 @@ author:		    Micah Lim (100%)
 
 email:			micahshengyao.lim@digipen.edu
 
-brief:          
+brief:          This file defines the `LoadingScreen` class, a UI entity that displays a series of 
+                images to introduce the game. It demonstrates the use of the `Renderer` component to 
+                control the transparency of entities within the Carmicah engine.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
