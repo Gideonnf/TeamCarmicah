@@ -40,10 +40,6 @@ namespace Carmicah
         void OnUpdate(float dt)
         {
             Vector2 pos = Position;
-
-            CMConsole.Log("Not Null!");
-            CMConsole.Log($"{Position.x}, {Position.y}");
-            CMConsole.Log($"{pos.y}");
             pos.y += (yOffset*dt);
             Position = pos;
 
