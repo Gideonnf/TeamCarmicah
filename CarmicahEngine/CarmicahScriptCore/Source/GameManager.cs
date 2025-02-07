@@ -34,6 +34,7 @@ namespace Carmicah
         public string BearPrefabName = "BearGO";
         public string CakePrefabName = "StartingCake";
         public string PlayerName = "mainCharacter";
+        public string PlayerHealthBar = "Healthbar";
         public string WaveSystemObject = "Something";
         public float timer = 0.0f;
         public bool LeftOrRight = false;
@@ -61,6 +62,7 @@ namespace Carmicah
 
         Entity startingCakeEntity;
         Entity playerEntity;
+        Entity playerHealth;
         Entity endEntityLeft;
         Entity endEntityRight;
         Entity endEntityLeft2;
@@ -100,6 +102,7 @@ namespace Carmicah
 
             startingCakeEntity = FindEntityWithName(StartingCake);
             playerEntity = FindEntityWithName(PlayerName);
+            playerHealth = FindEntityWithName(PlayerHealthBar);
             heroBuildEntity = FindEntityWithName(HeroBuild);
             heroBuildEntity1 = FindEntityWithName(HeroBuild1);
 
@@ -341,7 +344,7 @@ namespace Carmicah
             }
 
             playerEntity.GetComponent<Renderer>().SetAlpha(1);
-
+            playerHealth.GetComponent<Renderer>().SetAlpha(1);  
 
             //playerPos = playerEntity.Position;
 
@@ -453,6 +456,7 @@ namespace Carmicah
             }
 
             playerEntity.GetComponent<Renderer>().SetAlpha(0);
+            playerHealth.GetComponent<Renderer>().SetAlpha(0);
             //playerPos = new Vector2(200, 200);
 
         }
