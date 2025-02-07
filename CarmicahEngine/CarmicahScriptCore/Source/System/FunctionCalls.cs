@@ -130,6 +130,8 @@ namespace Carmicah
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static string Transform_GetTag(uint entityID);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void ChangeText(uint entityID, string text);
 
     }
 }

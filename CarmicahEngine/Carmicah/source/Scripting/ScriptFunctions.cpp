@@ -719,5 +719,8 @@ namespace Carmicah
 		// FSM
 		ADD_INTERNAL_CALL(SetStateCondition);
 		ADD_INTERNAL_CALL(GetStateTimer);
+
+		// Text Renderer
+		ADD_INTERNAL_CALL(ChangeText);
 	}
 }

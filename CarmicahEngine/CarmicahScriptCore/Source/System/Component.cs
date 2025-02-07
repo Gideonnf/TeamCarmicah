@@ -113,4 +113,12 @@ namespace Carmicah
             FunctionCalls.SetColour(Entity.mID, r, g, b);
         }
     }
+
+    public class TextRenderer : Component
+    {
+        public void SetText(string text)
+        {
+            FunctionCalls.ChangeText(Entity.mID, text);
+        }
+    }
 }

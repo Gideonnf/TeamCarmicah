@@ -26,8 +26,8 @@ namespace Carmicah
     public class HealthSystem : Entity
     {
         // health vals
-        public int mCurHealth;
-        private int mMaxHealth = 100;
+        public float mCurHealth;
+        public float mMaxHealth = 100;
 
         Entity parentEntity;
 
@@ -72,8 +72,12 @@ namespace Carmicah
         // function to take damage
         public void TakeDamage(int damage)
         {
+            if (mCurHealth <= 0) return;
+
             // subtract damage from current health
             mCurHealth -= damage;
+
+            if (mCurHealth <= 0) { mCurHealth = 0; }
 
             // print out to console how much health is left
             // Console.WriteLine($"entity has {mCurHealth} health left");
@@ -111,7 +115,7 @@ namespace Carmicah
         public void OnDeath()
         {
             // log death
-            Console.WriteLine("entity has died like a biatch");
+            //Console.WriteLine("entity has died like a biatch");
 
             // remove entity logic down here if need be
         }

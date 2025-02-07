@@ -50,6 +50,8 @@ namespace Carmicah
         public string AnimationDie2;
         public string AnimationDie3;
 
+        public string DeathSound = "mouse die btr";
+
         //int currPoint;
         Vector2 startPosLeft;
         Vector2 startPosRight;
@@ -211,6 +213,9 @@ namespace Carmicah
 
                 timer = 0.0f;
                 GetComponent<StateMachine>().SetStateCondition(1);
+
+                Entity mainCharacter = FindEntityWithName("mainCharacter");
+                mainCharacter.As<Player>().TakeDamage(10);
             }
         }
 

@@ -40,7 +40,7 @@ namespace Carmicah
 		std::vector<vtxTexd2D> mParticlesData[2];	// Particle data according to graphics
 		size_t mParticlesBufferSize[2];				// TotalBufferSizeGenerated
 
-		const size_t mMaxParticles = 200;
+		const size_t mMaxParticles = 100;
 		const unsigned int mParticleBufferID = 1; //yes, hard-coded ik
 		const float mGrav = 5.4f;
 		const float mFriction = 0.99f;
