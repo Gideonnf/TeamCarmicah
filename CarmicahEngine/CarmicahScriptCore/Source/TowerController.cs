@@ -10,13 +10,13 @@ namespace Carmicah
     {
         public int towerHealth = 10;
         public string TowerPrefabStr;
-        Entity gm;
-        Entity towerPrefab;
+        //Entity gm;
+        //Entity towerPrefab;
         int cakeCounter = 0;
 
         void onCreate()
         {
-            gm = FindEntityWithName("GameManager");
+            //gm = FindEntityWithName("GameManager");
         }
 
         void OnUpdate(float dt)

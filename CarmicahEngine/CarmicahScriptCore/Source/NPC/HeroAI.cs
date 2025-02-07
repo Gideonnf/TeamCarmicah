@@ -18,7 +18,7 @@ namespace Carmicah
         float timer = 0.0f;
         public bool IsLeft = false;
 
-        float shootTimer = 0.0f;
+       // float shootTimer = 0.0f;
         bool isShooting = false;
         bool shot = false;
         GameManager gameManager;

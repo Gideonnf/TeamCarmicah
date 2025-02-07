@@ -20,7 +20,7 @@ namespace Carmicah
         Entity TrapIcon;
         bool hovering = false;
         bool built = false;
-        bool isActive = false;
+       // bool isActive = false;
 
         public void OnCreate()
         {

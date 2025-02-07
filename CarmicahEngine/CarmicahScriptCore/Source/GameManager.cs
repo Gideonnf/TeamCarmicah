@@ -59,7 +59,7 @@ namespace Carmicah
         public int BearCounter = 0;
         //public float NumOfMobs = 10;
         
-        bool Musicplay = false;
+        //bool Musicplay = false;
 
         Entity startingCakeEntity;
         Entity playerEntity;
@@ -70,8 +70,8 @@ namespace Carmicah
         Entity endEntityRight2;
         List<Entity> npcList;
 
-        List<Vector2> npcSavedPos;
-        Vector2 playerPos;
+        //List<Vector2> npcSavedPos;
+        //Vector2 playerPos;
 
         Entity heroBuildEntity;
         Entity heroBuildEntity1;
@@ -443,7 +443,7 @@ namespace Carmicah
             //    npcSavedPos.Add(npc.Position);
             //}
 
-            playerPos = playerEntity.Position;
+            //playerPos = playerEntity.Position;
         }
 
         public void HideEntities()

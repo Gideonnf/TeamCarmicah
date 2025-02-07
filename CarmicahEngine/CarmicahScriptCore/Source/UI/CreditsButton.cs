@@ -29,7 +29,7 @@ namespace Carmicah
         string Animation0 = "Button_C_Credits";
         string Animation1 = "Button_HS_Credits";
         bool hovering = false;
-        private HealthSystem healthSystem;
+        //private HealthSystem healthSystem;
         //private HealthSystem healthSystem;
         public string CreditsMenu = "Credits_Menu";
         public string CreditsCloseButton = "Close_Button_2";

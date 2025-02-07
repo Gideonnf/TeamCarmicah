@@ -29,7 +29,7 @@ namespace Carmicah
        // public string attachedEntityName = "TrueBackGround";
 
 
-        float maxDescent;
+        //float maxDescent;
        // Entity attachedEntity;
         //Vector2 pos;
         void OnCreate()

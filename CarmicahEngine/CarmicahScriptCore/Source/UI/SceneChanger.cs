@@ -11,12 +11,12 @@ namespace Carmicah
     {
         
         float sceneChangeTimer = -1f;
-        Entity button;
+       // Entity button;
         public string buttonType;
         string Animation0;
         string Animation1;
         string Animation2;
-        string Animation3;
+        //string Animation3;
         string nextScene;
         bool hovering = false;
 

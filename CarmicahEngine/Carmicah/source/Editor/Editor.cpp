@@ -145,11 +145,11 @@ namespace Carmicah
 
 				if (ImGui::BeginMenu("Window"))
 				{
-					for (const auto& window : mWindows)
+					for (const auto& win : mWindows)
 					{
 
 						//Toggle Asset Browser Visibility
-						if (auto assetWindow = dynamic_cast<AssetWindow*>(window.get()))
+						if (auto assetWindow = dynamic_cast<AssetWindow*>(win.get()))
 						{
 							if (ImGui::MenuItem("Asset Browser", nullptr, assetWindow->mIsVisible))
 							{
@@ -158,7 +158,7 @@ namespace Carmicah
 						}
 
 						//Toggle Debug Window Visibility
-						if (auto debugWindow = dynamic_cast<DebugWindow*>(window.get()))
+						if (auto debugWindow = dynamic_cast<DebugWindow*>(win.get()))
 						{
 							if (ImGui::MenuItem("Debug", nullptr, debugWindow->mIsVisible))
 							{
@@ -167,7 +167,7 @@ namespace Carmicah
 						}
 
 						//Toggle Heirarchy Window Visibility
-						if (auto heirarchyWindow = dynamic_cast<HierarchyWindow*>(window.get()))
+						if (auto heirarchyWindow = dynamic_cast<HierarchyWindow*>(win.get()))
 						{
 							if (ImGui::MenuItem("Hierarchy", nullptr, heirarchyWindow->mIsVisible))
 							{
@@ -175,7 +175,7 @@ namespace Carmicah
 							}
 						}
 						//Toggle Inspector Window Visibility
-						if (auto inspectorWindow = dynamic_cast<InspectorWindow*>(window.get()))
+						if (auto inspectorWindow = dynamic_cast<InspectorWindow*>(win.get()))
 						{
 							if (ImGui::MenuItem("Inspector", nullptr, inspectorWindow->mIsVisible))
 							{
@@ -183,7 +183,7 @@ namespace Carmicah
 							}
 						}
 						//Toggle Scene Window Visibility
-						if (auto sceneWindow = dynamic_cast<SceneWindow*>(window.get()))
+						if (auto sceneWindow = dynamic_cast<SceneWindow*>(win.get()))
 						{
 							if (ImGui::MenuItem("Scene", nullptr, sceneWindow->mIsVisible))
 							{
@@ -204,28 +204,28 @@ namespace Carmicah
 		}
 
 		//Window Update Stuff
-		for (auto& window : mWindows) 
+		for (auto& win : mWindows) 
 		{
 
-			ImGui::SetNextWindowSize(window->mSize, ImGuiCond_FirstUseEver);
-			ImGui::SetNextWindowPos(window->mPos, ImGuiCond_FirstUseEver);
+			ImGui::SetNextWindowSize(win->mSize, ImGuiCond_FirstUseEver);
+			ImGui::SetNextWindowPos(win->mPos, ImGuiCond_FirstUseEver);
 
-			if(window->mIsVisible)
+			if(win->mIsVisible)
 			{
-				window->Update();
+				win->Update();
 
 				// Check for messages
-				if (window->mMessages.size() > 0)
+				if (win->mMessages.size() > 0)
 				{
 					// Go through any messages the window has
-					for (auto msg : window->mMessages)
+					for (auto msg : win->mMessages)
 					{
 						// send it 
 						SendSysMessage(msg.get());
 					}
 
 					// Clear the messages after
-					window->mMessages.clear();
+					win->mMessages.clear();
 				}
 			}
 		}
