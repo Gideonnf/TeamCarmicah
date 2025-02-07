@@ -165,6 +165,7 @@ namespace Carmicah
 		GameObject newGO;
 		std::string goName = CreateGOName(prefab);
 		newGO.mID = EntityManager::GetInstance()->CreateEntity();
+		//CM_CORE_INFO("Creating GO with ID {}", newGO.mID);
 		newGO.mName = goName;
 		// Store in two maps. Testing use for fetching GO by name
 		mNameToID.insert(std::make_pair(newGO.mName, newGO.mID));
@@ -224,6 +225,8 @@ namespace Carmicah
 		GameObject newGO;
 		std::string goName = CreateGOName(prefab.mName);
 		newGO.mID = EntityManager::GetInstance()->CreateEntity();
+		//CM_CORE_INFO("Creating GO with ID {}", newGO.mID);
+
 		newGO.mName = goName;
 		// Store in two maps. Testing use for fetching GO by name
 		mNameToID.insert(std::make_pair(newGO.mName, newGO.mID));
@@ -341,6 +344,8 @@ namespace Carmicah
 			CM_CORE_ERROR("Trying to delete a gameobject that does not exist");
 			return;
 		}
+		CM_CORE_INFO("Deleting GO with ID {}", entity);
+
 		// To destroy at the end of update
 		mDeleteList.insert(DestroyEntity(entity));
 
@@ -351,15 +356,15 @@ namespace Carmicah
 		GameObject& go = mIDToGO[entity];
 
 		// Remove it from the parent since its being destroyed
-		if(go.HasComponent<Transform>())
-		{
-			UpdateParent(entity, go.GetComponent<Transform>().parent, true);
-		}
+		//if(go.HasComponent<Transform>())
+		//{
+		//	UpdateParent(entity, go.GetComponent<Transform>().parent, true);
+		//}
 
-		else if (go.HasComponent<UITransform>())
-		{
-			UpdateParent(entity, go.GetComponent<UITransform>().parent, true);
-		}
+		//else if (go.HasComponent<UITransform>())
+		//{
+		//	UpdateParent(entity, go.GetComponent<UITransform>().parent, true);
+		//}
 
 		// Check if has any children
 		if (go.HasComponent<Transform>())
@@ -377,12 +382,14 @@ namespace Carmicah
 		}
 		else if (go.HasComponent<UITransform>())
 		{
+			CM_CORE_INFO("Children size {}", go.GetComponent<UITransform>().children.size());
 			if (go.GetComponent<UITransform>().children.size() > 0)
 			{
 				for (auto& id : go.GetComponent<UITransform>().children)
 				{
 					// Recall the function so any children within that child is also inserted
 					// NOTE: I have only tested this with 1 layer of parent-child, so if it dies next time, cehck this part 
+					
 					mDeleteList.insert(DestroyEntity(id));
 				}
 			}
@@ -402,6 +409,8 @@ namespace Carmicah
 	{
 		for (auto& entity : mDeleteList)
 		{
+			//CM_CORE_INFO("Destroying GO with ID {}", entity);
+
 			SystemManager::GetInstance()->EntityDestroyed(entity);
 			EntityKilledMessage msg(entity);
 			SendSysMessage(&msg);
@@ -426,6 +435,7 @@ namespace Carmicah
 			newGOName = goName + "_" + std::to_string(counter);
 			counter++;
 		}
+
 
 		return newGOName;
 	}
