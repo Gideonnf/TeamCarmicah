@@ -81,6 +81,11 @@ namespace Carmicah
             //FunctionCalls.Transform_SetPosition(Entity.mID, ref value);
             return FunctionCalls.GetMaxTime(Entity.mID);
         }
+
+        public float GetFrameMaxTime()
+        {
+            return FunctionCalls.Animation_GetCurrFrameTime(Entity.mID);
+        }
     }
 
     public class StateMachine : Component
