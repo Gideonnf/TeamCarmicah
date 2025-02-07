@@ -79,13 +79,11 @@ namespace Carmicah
 				if (mEntityBufferLoc.find(entity) != mEntityBufferLoc.end())
 					continue;
 
-				std::string& primName = ComponentManager::GetInstance()->GetComponent<TextRenderer>(entity).model;
-
 				unsigned int specificId = RenderHelper::GetInstance()->AssignFont(entity);
-				RenderHelper::BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>(primName).uid, mCurrShader, false, specificId);
+				RenderHelper::BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>(model).uid, mCurrShader, false, specificId);
 
 				if (RenderHelper::GetInstance()->mBufferMap.find(bufferID) == RenderHelper::GetInstance()->mBufferMap.end())
-					GenBatch(primName, specificId, false, false);
+					GenBatch(model, specificId, false, false);
 
 				EntityData newDat;
 				ToggleActiveEntity(true);
@@ -100,7 +98,7 @@ namespace Carmicah
 
 			auto& txtRenderer{ ComponentManager::GetInstance()->GetComponent<TextRenderer>(entity) };
 			auto& foundFontTex{ AssetManager::GetInstance()->GetAsset<Font>(txtRenderer.font) };
-			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(txtRenderer.model) };
+			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(model) };
 			auto& UITrans{ ComponentManager::GetInstance()->GetComponent<UITransform>(entity) };
 
 			// Pass in uniforms
@@ -149,7 +147,7 @@ namespace Carmicah
 				for (int i = 0;
 					i < static_cast<int>(txtRenderer.txt.size()) - (static_cast<int>(ebl.second.mBufferData->buffer.size()) * mBatchSize);
 					i += mBatchSize)
-					GenBatch(txtRenderer.model, fontBufferID, false, false, true);
+					GenBatch(model, fontBufferID, false, false, true);
 				
 
 				// Find the xTrack

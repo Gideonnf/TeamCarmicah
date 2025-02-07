@@ -22,6 +22,8 @@ namespace Carmicah
 	class TextGraphicsSystem : public BaseSystem, private BaseGraphicsSystem
 	{
 	private:
+		const std::string model{ "Square" };
+
 		/*!*************************************************************************
 		brief
 			Replaces a chunk of the buffer data being used to store fonts all at once

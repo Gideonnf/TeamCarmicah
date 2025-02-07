@@ -20,7 +20,6 @@ namespace Carmicah
 {
     struct TextRenderer : BaseComponent<TextRenderer>
     {
-        std::string model;
         std::string font;
         std::string txt;
         std::string oldTxt;
@@ -28,7 +27,6 @@ namespace Carmicah
 
         TextRenderer& DeserializeComponent(const rapidjson::Value& component) override
         {
-            model = component["model"].GetString();
             font = component["font"].GetString();
             txt = component["text"].GetString();
             colorR = component["colorR"].GetFloat();
@@ -39,8 +37,6 @@ namespace Carmicah
 
         void SerializeComponent(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer) override
         {
-            writer.String("model");
-            writer.String(model.c_str());
             writer.String("font");
             writer.String(font.c_str());
             writer.String("text");
