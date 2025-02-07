@@ -1,0 +1,176 @@
+{
+    "GameObject": "MouseGONew",
+    "ID": 29,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Transform",
+            "xPos": 8.947422981262207,
+            "yPos": -18.05034828186035,
+            "depth": 5.0,
+            "xScale": 0.5,
+            "yScale": 0.5,
+            "rot": 0.0,
+            "transformTag": "Enemy",
+            "collisionMask": 4
+        },
+        {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Mouse_Climb_blue"
+        },
+        {
+            "Component Name": "struct Carmicah::StateMachine",
+            "currState": "",
+            "nextState": "",
+            "startingState": "",
+            "stateMap": [
+                {
+                    "stateName": "Running",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Dead",
+                            "condition": 1
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Dead",
+                    "stateCondition": 0,
+                    "transitions": []
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.MouseAI",
+            "ScriptableFieldMap": [
+                {
+                    "SpawnPointEntityLeft": "StartPointLeft",
+                    "isLeft": false,
+                    "SpawnPointEntityRight2": "StartPointRight_1",
+                    "Animation2": "Mouse_Climb_white",
+                    "SpawnPointEntityRight": "StartPointRight",
+                    "EndPointEntityLeft": "EndPointLeft",
+                    "ChanceToDie": 0.11999999731779099,
+                    "EndPointEntityRight": "EndPointRight",
+                    "EndPointEntityRight2": "EndPointRight_1",
+                    "Animation0": "Mouse_Climb_white",
+                    "Animation1": "Mouse_Climb_white",
+                    "Animation3": "Mouse_Climb_white",
+                    "AnimationDie0": "Mouse_Death_white",
+                    "AnimationDie2": "Mouse_Death_white",
+                    "AnimationDie1": "Mouse_Death_white",
+                    "AnimationDie3": "Mouse_Death_white",
+                    "DeathSound": "mouse die btr",
+                    "InjuredSound": "mouse die",
+                    "SpawnPointEntityLeft2": "StartPointLeft_1",
+                    "EndPointEntityLeft2": "EndPointLeft_1",
+                    "DeathTime": 2.0,
+                    "TimeToDie": 1.5,
+                    "timer": 0.0
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Enemies_SpriteSheet_Mouse_Climb_White 3",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::Collider2D",
+            "shape": "DebugSquare",
+            "customWidth": 1.0,
+            "customRotation": 0.0,
+            "customHeight": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::RigidBody",
+            "velocityX": 0.0,
+            "velocityY": 0.0,
+            "angularVelocity": 0.0,
+            "posPrevX": 2.0,
+            "posPrevY": 2.0,
+            "mass": 1.0,
+            "gravity": 0.0,
+            "zposPrev": 1.0,
+            "objectType": 2
+        }
+    ],
+    "Children": [
+        {
+            "GameObject": "Healthbar",
+            "ID": 30,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 1.940338134765625,
+                    "depth": 15.0,
+                    "xScale": 2.0,
+                    "yScale": 2.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "health_bar",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                }
+            ]
+        },
+        {
+            "GameObject": "Healthbar_Cover",
+            "ID": 33,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 1.100000023841858,
+                    "yPos": 1.92034912109375,
+                    "depth": 16.0,
+                    "xScale": 0.05000000074505806,
+                    "yScale": 0.2800000011920929,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.HealthSystem",
+                    "ScriptableFieldMap": [
+                        {
+                            "mCurHealth": 0.0,
+                            "endScale": 4.400000095367432,
+                            "endPos": 0.0,
+                            "posDiff": 0.0,
+                            "startScale": 0.0,
+                            "startPos": 0.0,
+                            "mMaxHealth": 100.0
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_White 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 0.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 32
+                }
+            ]
+        }
+    ]
+}

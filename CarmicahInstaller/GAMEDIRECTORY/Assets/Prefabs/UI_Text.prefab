@@ -5,7 +5,7 @@
         {
             "Component Name": "struct Carmicah::TextRenderer",
             "model": "Square",
-            "font": "arial",
+            "font": "Chewy-Regular",
             "text": "This is sample text",
             "colorR": 1.0,
             "colorG": 0.0,

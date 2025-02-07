@@ -1,0 +1,25 @@
+{
+    "GameObject": "LoseText",
+    "ID": 38,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::TextRenderer",
+            "model": "Square",
+            "font": "Sigmar-Regular",
+            "text": "You Lose",
+            "colorR": 0.779411792755127,
+            "colorG": 0.09169550240039826,
+            "colorB": 0.09169550240039826
+        },
+        {
+            "Component Name": "struct Carmicah::UITransform",
+            "xPos": 705.0,
+            "yPos": 798.0,
+            "depth": 0.0,
+            "xScale": 1.5,
+            "yScale": 1.5,
+            "rot": 0.0,
+            "transformTag": ""
+        }
+    ]
+}

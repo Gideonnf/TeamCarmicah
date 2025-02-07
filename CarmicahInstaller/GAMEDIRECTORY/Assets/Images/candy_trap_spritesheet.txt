@@ -1,0 +1,3 @@
+Spike
+top left: 0 x 0, 450 x 235
+10 sprites

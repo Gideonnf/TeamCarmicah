@@ -7,9 +7,33 @@
             "xPos": 3.0712671279907228,
             "yPos": -19.734413146972658,
             "depth": 5.0,
-            "xScale": 2.0,
-            "yScale": 2.0,
-            "rot": 0.0
+            "xScale": 0.5,
+            "yScale": 0.5,
+            "rot": 0.0,
+            "collisionMask": 4
+        },
+        {
+            "Component Name": "struct Carmicah::StateMachine",
+            "currState": "",
+            "nextState": "",
+            "startingState": "",
+            "stateMap": [
+                {
+                    "stateName": "Running",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Dead",
+                            "condition": 1
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Dead",
+                    "stateCondition": 0,
+                    "transitions": []
+                }
+            ]
         },
         {
             "Component Name": "struct Carmicah::Animation",
@@ -18,39 +42,43 @@
         {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.MouseAI",
-           "ScriptableFieldMap": [
-            {
-                "SpawnPointEntityLeft": "StartPointLeft",
-                "isLeft": false,
-                "Animation2": "Mouse_Climb_brown",
-                "SpawnPointEntityRight": "StartPointRight",
-                "EndPointEntityLeft": "EndPointLeft",
-                "EndPointEntityRight": "EndPointRight",
-                "Animation0": "Mouse_Climb_blue",
-                "Animation1": "Mouse_Climb_white",
-                "Animation3": "Bear_Climb",
-                "AnimationDie0": "Mouse_Death_blue",
-                "AnimationDie2": "Mouse_Death_brown",
-                "AnimationDie1": "Mouse_Death_white",
-                "AnimationDie3": "Bear_Death",
-                "SpawnPointEntityRight2": "StartPointRight_1",
-                "EndPointEntityLeft2": "EndPointLeft_1",
-                "EndPointEntityRight2": "EndPointRight_1",
-                "SpawnPointEntityLeft2": "StartPointLeft_1"
-            }
+            "ScriptableFieldMap": [
+                {
+                    "SpawnPointEntityLeft": "StartPointLeft",
+                    "isLeft": false,
+                    "SpawnPointEntityRight2": "StartPointRight_1",
+                    "Animation2": "Mouse_Climb_brown",
+                    "SpawnPointEntityRight": "StartPointRight",
+                    "EndPointEntityLeft": "EndPointLeft",
+                    "EndPointEntityRight2": "EndPointRight_1",
+                    "EndPointEntityRight": "EndPointRight",
+                    "Animation0": "Mouse_Climb_blue",
+                    "Animation1": "Mouse_Climb_white",
+                    "Animation3": "Mouse_Climb_blue",
+                    "AnimationDie0": "Mouse_Death_blue",
+                    "AnimationDie2": "Mouse_Death_brown",
+                    "AnimationDie1": "Mouse_Death_white",
+                    "AnimationDie3": "Mouse_Death_blue",
+                    "SpawnPointEntityLeft2": "StartPointLeft_1",
+                    "EndPointEntityLeft2": "EndPointLeft_1"
+                }
             ]
         },
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Mouse_SpriteSheet_Climb_blue 3"
+            "texture": "Enemies_SpriteSheet_Mouse_Climb_Blue 3",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         },
         {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "DebugSquare",
-            "customWidth": 3.2100000381469728,
+            "customWidth": 1.0,
             "customRotation": 0.0,
-            "customHeight": 3.2100000381469728
+            "customHeight": 1.0
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
@@ -62,7 +90,7 @@
             "mass": 1.0,
             "gravity": 0.0,
             "zposPrev": 1.0,
-            "objectType": 1
+            "objectType": 2
         }
     ]
 }

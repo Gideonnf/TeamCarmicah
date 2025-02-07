@@ -1,0 +1,83 @@
+{
+    "GameObject": "ShooterNPC",
+    "ID": 19,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Transform",
+            "xPos": 1.5219999551773072,
+            "yPos": -5.711194038391113,
+            "depth": 3.75,
+            "xScale": -0.30000001192092898,
+            "yScale": 0.30000001192092898,
+            "rot": 0.0,
+            "collisionMask": 0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.HeroAI",
+            "ScriptableFieldMap": [
+                {
+                    "IsLeft": true,
+                    "projectilePrefab": "Bullet",
+                    "idleAnim": "Shooter_Idle",
+                    "shootRate": 1.0,
+                    "shootAnim": "Shooter_Shoot"
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "NPC_SpriteSheet_Shooter_Idle 18",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::StateMachine",
+            "currState": "",
+            "nextState": "",
+            "startingState": "",
+            "stateMap": [
+                {
+                    "stateName": "Idle",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Attacking",
+                            "condition": 2
+                        },
+                        {
+                            "targetState": "Dead",
+                            "condition": 3
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Attacking",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
+                        },
+                        {
+                            "targetState": "Dead",
+                            "condition": 3
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Dead",
+                    "stateCondition": 0,
+                    "transitions": []
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Shooter_Idle"
+        }
+    ]
+}

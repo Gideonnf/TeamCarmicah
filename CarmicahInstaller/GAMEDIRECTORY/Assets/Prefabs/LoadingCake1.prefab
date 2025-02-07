@@ -1,0 +1,25 @@
+{
+    "GameObject": "LoadingCake1",
+    "ID": 32,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "strawberry_pop_in",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::UITransform",
+            "xPos": 390.0,
+            "yPos": 480.0,
+            "depth": 1.5,
+            "xScale": 0.30000001192092898,
+            "yScale": 0.30000001192092898,
+            "rot": 15.132911682128907,
+            "transformTag": ""
+        }
+    ]
+}

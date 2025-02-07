@@ -1,0 +1,29 @@
+{
+    "GameObject": "Break_Wand",
+    "ID": 33,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Wand_SpriteSheet_Break 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Wand_Lose"
+        },
+        {
+            "Component Name": "struct Carmicah::UITransform",
+            "xPos": 557.3980102539063,
+            "yPos": 792.8812255859375,
+            "depth": 0.0,
+            "xScale": 0.800000011920929,
+            "yScale": 0.800000011920929,
+            "rot": 0.0,
+            "transformTag": ""
+        }
+    ]
+}

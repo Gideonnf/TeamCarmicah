@@ -1,20 +1,25 @@
 {
     "GameObject": "Settings_Menu",
-    "ID": 12,
+    "ID": 17,
     "Components": [
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "settings panel"
+            "texture": "settings panel",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         },
         {
             "Component Name": "struct Carmicah::UITransform",
             "xPos": 960.0,
             "yPos": 540.0,
-            "depth": 10.0,
-            "xScale": 1920.0,
-            "yScale": 1080.0,
-            "rot": 0.0
+            "depth": 14.0,
+            "xScale": 1.0,
+            "yScale": 1.0,
+            "rot": 0.0,
+            "transformTag": ""
         }
     ]
 }
