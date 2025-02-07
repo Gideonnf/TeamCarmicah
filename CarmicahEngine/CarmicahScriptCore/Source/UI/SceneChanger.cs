@@ -128,7 +128,7 @@ namespace Carmicah
             Sound.PlaySFX("SFX_Button",0.5f);
             if(buttonType.ToLower() == "play")
             {
-                nextScene = "Scene1";
+                nextScene = "Loading";
                 Animation0 = "Button_C_Play";
 
             }else if(buttonType.ToLower() == "quit")

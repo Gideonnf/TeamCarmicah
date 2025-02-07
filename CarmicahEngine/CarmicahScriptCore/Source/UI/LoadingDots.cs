@@ -96,6 +96,7 @@ namespace Carmicah
                         cake3Created = false;
                         cake4Created = false;
                         numberOfLoops++;
+                        Scene.ChangeScene("Scene1");
                     }
                     thingHappened = true;
                 }
