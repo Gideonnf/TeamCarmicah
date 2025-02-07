@@ -79,6 +79,88 @@
             ]
         },
         {
+            "GameObject": "TowerController",
+            "ID": 4,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": -1.0249109268188477,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 0.0,
+                    "yScale": 0.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.TowerController",
+                    "ScriptableFieldMap": [
+                        {
+                            "TowerPrefabStr": "StartingCake",
+                            "yVFXSpawn": 1.0,
+                            "ySpawnPos": 9.800000190734864,
+                            "yTargetPos": 1.5700000524520875
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 33
+                },
+                {
+                    "Component Name": "struct Carmicah::StateMachine",
+                    "currState": "",
+                    "nextState": "",
+                    "startingState": "TowerIdle",
+                    "stateMap": [
+                        {
+                            "stateName": "TowerCreate",
+                            "stateCondition": 0,
+                            "transitions": [
+                                {
+                                    "targetState": "TowerDrop",
+                                    "condition": 3
+                                }
+                            ]
+                        },
+                        {
+                            "stateName": "TowerDrop",
+                            "stateCondition": 0,
+                            "transitions": [
+                                {
+                                    "targetState": "TowerLand",
+                                    "condition": 4
+                                }
+                            ]
+                        },
+                        {
+                            "stateName": "TowerLand",
+                            "stateCondition": 0,
+                            "transitions": [
+                                {
+                                    "targetState": "TowerIdle",
+                                    "condition": 1
+                                }
+                            ]
+                        },
+                        {
+                            "stateName": "TowerIdle",
+                            "stateCondition": 0,
+                            "transitions": [
+                                {
+                                    "targetState": "TowerCreate",
+                                    "condition": 2
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "Children": []
+        },
+        {
             "GameObject": "StartPointRight",
             "ID": 5,
             "Components": [
@@ -613,7 +695,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -0.9224217534065247,
+                    "xPos": 0.0,
                     "yPos": 0.0,
                     "depth": 0.0,
                     "xScale": 0.0,
@@ -632,7 +714,7 @@
                             "waveTimer": 0.0,
                             "LeftOrRight": false,
                             "WaveStarted": false,
-                            "CakeHeightOffset": 6.849999904632568,
+                            "CakeHeightOffset": 5.349999904632568,
                             "spawnTimer": 1.5,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
@@ -651,58 +733,7 @@
                             "HeroBuild1": "HeroBuild_1",
                             "WaveSystemObject": "Something",
                             "BearPrefabName": "BearGO",
-                            "WaveEnded": false,
-                            "ySpawnPos": 9.699999809265137,
-                            "yTargetPos": 0.8999999761581421,
-                            "yVFXSpawn": 1.0
-                        }
-                    ]
-                },
-                {
-                    "Component Name": "struct Carmicah::StateMachine",
-                    "currState": "",
-                    "nextState": "",
-                    "startingState": "TowerIdle",
-                    "stateMap": [
-                        {
-                            "stateName": "TowerCreate",
-                            "stateCondition": 0,
-                            "transitions": [
-                                {
-                                    "targetState": "TowerDrop",
-                                    "condition": 3
-                                }
-                            ]
-                        },
-                        {
-                            "stateName": "TowerDrop",
-                            "stateCondition": 0,
-                            "transitions": [
-                                {
-                                    "targetState": "TowerLand",
-                                    "condition": 4
-                                }
-                            ]
-                        },
-                        {
-                            "stateName": "TowerLand",
-                            "stateCondition": 0,
-                            "transitions": [
-                                {
-                                    "targetState": "TowerIdle",
-                                    "condition": 1
-                                }
-                            ]
-                        },
-                        {
-                            "stateName": "TowerIdle",
-                            "stateCondition": 0,
-                            "transitions": [
-                                {
-                                    "targetState": "TowerCreate",
-                                    "condition": 2
-                                }
-                            ]
+                            "WaveEnded": false
                         }
                     ]
                 }

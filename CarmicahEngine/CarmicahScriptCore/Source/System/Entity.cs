@@ -113,7 +113,10 @@ namespace Carmicah
             uint entityID = FunctionCalls.Entity_FindEntityWithName(name);
             
             if (entityID == 0)
+            {
+                CMConsole.Log("entity not found");
                 return null;
+            }
 
             return new Entity(entityID);
         }
@@ -167,6 +170,7 @@ namespace Carmicah
         {
             return FunctionCalls.Transform_GetTag(mID);
         }
+
 
         //public T GetComponent<T>() 
     }

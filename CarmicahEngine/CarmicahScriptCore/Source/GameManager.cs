@@ -34,6 +34,7 @@ namespace Carmicah
         public string BearPrefabName = "BearGO";
         public string CakePrefabName = "StartingCake";
         public string PlayerName = "mainCharacter";
+        public string PlayerHealthBar = "Healthbar";
         public string WaveSystemObject = "Something";
         public float timer = 0.0f;
         public bool LeftOrRight = false;
@@ -61,11 +62,16 @@ namespace Carmicah
 
         Entity startingCakeEntity;
         Entity playerEntity;
+        Entity playerHealth;
         Entity endEntityLeft;
         Entity endEntityRight;
         Entity endEntityLeft2;
         Entity endEntityRight2;
         List<Entity> npcList;
+
+        List<Vector2> npcSavedPos;
+        Vector2 playerPos;
+
         Entity heroBuildEntity;
         Entity heroBuildEntity1;
 
@@ -74,6 +80,12 @@ namespace Carmicah
         Entity wall2;
         Entity wall3;
         int cakeCounter = 1;
+
+        public float ySpawnPos;
+        public float yTargetPos;
+        public float yVFXSpawn;
+
+        Entity towerPrefab;
 
         Entity waveSystem;
 
@@ -90,6 +102,7 @@ namespace Carmicah
 
             startingCakeEntity = FindEntityWithName(StartingCake);
             playerEntity = FindEntityWithName(PlayerName);
+            playerHealth = FindEntityWithName(PlayerHealthBar);
             heroBuildEntity = FindEntityWithName(HeroBuild);
             heroBuildEntity1 = FindEntityWithName(HeroBuild1);
 
@@ -204,22 +217,23 @@ namespace Carmicah
 
             if (Input.IsKeyPressed(Keys.KEY_SPACEBAR))
             {
-                if (cakeCounter < 3)
-                {
-                    Entity cakeEntity = CreateGameObject(CakePrefabName);
-                    // Set the cake position
-                    cakeEntity.Position = startingCakeEntity.Position;
-                    cakeEntity.Scale = startingCakeEntity.Scale;
-                    cakeEntity.Depth = startingCakeEntity.Depth;
+                GetComponent<StateMachine>().SetStateCondition(2);
+                //if (cakeCounter < 3)
+                //{
+                //    Entity cakeEntity = CreateGameObject(CakePrefabName);
+                //    // Set the cake position
+                //    cakeEntity.Position = startingCakeEntity.Position;
+                //    cakeEntity.Scale = startingCakeEntity.Scale;
+                //    cakeEntity.Depth = startingCakeEntity.Depth;
 
-                    cakeEntity.Depth = cakeEntity.Depth + (0.1f * cakeCounter);
-                    Vector2 pos = cakeEntity.Position;
-                    pos.y += (CakeHeightOffset * cakeCounter);
-                    cakeEntity.Position = pos;
-                    cakeCounter++;
+                //    cakeEntity.Depth = cakeEntity.Depth + (0.1f * cakeCounter);
+                //    Vector2 pos = cakeEntity.Position;
+                //    pos.y += (CakeHeightOffset * cakeCounter);
+                //    cakeEntity.Position = pos;
+                //    cakeCounter++;
 
-                    UpdatePositions();
-                }
+                //    UpdatePositions();
+                //}
             }
         }
 
@@ -310,6 +324,30 @@ namespace Carmicah
         {
             Vector2 pos = new Vector2();
 
+            // return them back to the original position
+            //for (int i = 0; i < npcSavedPos.Count; i++)
+            //{
+            //    CMConsole.Log($"Old Pos {npcList[i].Position.y}, vs new pos {npcSavedPos[i].y}");
+            //    //npcList[i].Position = npcSavedPos[i];
+            //}
+
+            //CMConsole.Log($"Old Pos {playerEntity.Position.y}, vs new pos {playerPos.y}");
+
+            //playerEntity.Position = playerPos;
+
+            foreach (Entity npc in npcList)
+            {
+                if (npc.mID == 0) continue;
+
+                npc.GetComponent<Renderer>().SetAlpha(1);
+                //npc.Position = new Vector2(200, 200);
+            }
+
+            playerEntity.GetComponent<Renderer>().SetAlpha(1);
+            playerHealth.GetComponent<Renderer>().SetAlpha(1);  
+
+            //playerPos = playerEntity.Position;
+
             if (playerEntity != null)
             {
                 pos = playerEntity.Position;
@@ -392,6 +430,117 @@ namespace Carmicah
                 pos.y += CakeHeightOffset;
                 npc.Position = pos;
             }
+        }
+
+        public void SavePositions()
+        {
+            foreach (Entity npc in npcList)
+            {
+                if (npc.mID == 0) continue;
+
+                CMConsole.Log("Adding to npcList");
+                npcSavedPos.Add(npc.Position);
+            }
+
+            playerPos = playerEntity.Position;
+        }
+
+        public void HideEntities()
+        {
+            foreach (Entity npc in npcList)
+            {
+                if (npc.mID == 0) continue;
+
+                npc.GetComponent<Renderer>().SetAlpha(0);
+                //npc.Position = new Vector2(200, 200);
+            }
+
+            playerEntity.GetComponent<Renderer>().SetAlpha(0);
+            playerHealth.GetComponent<Renderer>().SetAlpha(0);
+            //playerPos = new Vector2(200, 200);
+
+        }
+
+        public void OnStateEnter(string stateName)
+        {
+            if (stateName == "TowerIdle")
+            {
+                //CMConsole.Log("TESTING TOWER IDLE");
+            }
+            else if (stateName == "TowerCreate")
+            {
+                //CMConsole.Log("TESTING TOWER CREATE ");
+
+                towerPrefab = CreateGameObject(CakePrefabName);
+                towerPrefab.Position = new Vector2(Position.x, ySpawnPos);
+
+                towerPrefab.Depth = startingCakeEntity.Depth;
+                towerPrefab.Depth = towerPrefab.Depth + (0.1f * cakeCounter);
+                cakeCounter++;
+                // if (gameManager != null)
+                // {
+                //Entity gm = FindEntityWithName("GameManager");
+
+                SavePositions();
+                HideEntities();
+
+                // }
+                //CMConsole.Log("TESTING TOWER CREATE 2");
+
+                GetComponent<StateMachine>().SetStateCondition(3);
+            }
+            else if (stateName == "TowerLand")
+            {
+                // gm = FindEntityWithName("GameManager");
+                UpdatePositions();
+                ySpawnPos += CakeHeightOffset;
+                yTargetPos += CakeHeightOffset;
+                GetComponent<StateMachine>().SetStateCondition(1);
+
+            }
+        }
+
+        public void OnStateUpdate(string stateName, float dt)
+        {
+            //gameManager = FindEntityWithName("GameManager");
+
+            if (stateName == "TowerIdle")
+            {
+                //CMConsole.Log("TESTING TOWER IDLE");
+            }
+
+            if (stateName == "TowerCreate")
+            {
+                CMConsole.Log("Testing tower create");
+                GetComponent<StateMachine>().SetStateCondition(3);
+
+            }
+
+            if (stateName == "TowerDrop")
+            {
+                if (towerPrefab.Position.y <= yVFXSpawn)
+                {
+                    // create the vfx prefab
+                }
+                CMConsole.Log($"IN TOWER DROP UPDATE {towerPrefab.Position.x}, {towerPrefab.Position.y}");
+                if (towerPrefab.Position.y > yTargetPos)
+                {
+                    Vector2 pos = towerPrefab.Position;
+                    pos.y -= 1.5f * dt;
+                    towerPrefab.Position = pos;
+                }
+                else if (towerPrefab.Position.y <= yTargetPos)
+                {
+                    // tower landed
+                    towerPrefab.Position = new Vector2(towerPrefab.Position.x, yTargetPos);
+                    GetComponent<StateMachine>().SetStateCondition(4);
+                }
+            }
+        }
+
+        public void OnStateExit(string stateName)
+        {
+
         }
 
     }
