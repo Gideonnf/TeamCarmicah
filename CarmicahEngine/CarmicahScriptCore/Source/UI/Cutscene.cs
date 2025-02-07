@@ -22,7 +22,12 @@ namespace Carmicah
 
         // Background music configuration  
         public string backgroundMusicTrack = "Cutscene";
+        public string backgroundMusicTrack1 = "BGM_SetupPhase_Mix1";
+
+        // Dictionary to store custom display times for each panel
+        private Dictionary<int, float> panelTimings = new Dictionary<int, float>();
         private bool musicStarted = false;
+
 
         int currentPanel = 1;
         Entity cutsceneEntity;
@@ -34,19 +39,51 @@ namespace Carmicah
 
         void OnCreate()
         {
+
+            Sound.StopSoundBGM(backgroundMusicTrack1);
             cutsceneEntity = FindEntityWithName("CutSceneImage");
+
+            //initialize panel timings
+            SetupPanelTimings();
 
             // Start background music when cutscene begins
             if (!musicStarted)
             {
-
                 Sound.PlaySFX(backgroundMusicTrack, 0.5f);
                 musicStarted = true;
-            } 
+            }
+
+        }
+        void SetupPanelTimings()
+        {
+
+            panelTimings[1] = 25.0f;
+            panelTimings[2] = 3.0f;
+            panelTimings[3] = 10.0f;
+            panelTimings[4] = 10.0f;
+            panelTimings[5] = 10.0f;
+            panelTimings[6] = 15.0f;
+
+            panelTimings[7] = 10.0f;
+            panelTimings[8] = 20.0f;
+        }
+
+        float GetCurrentPanelTime()
+        {
+            // Get the custom timing for current panel, or use default if not specified
+            if (panelTimings.ContainsKey(currentPanel))
+            {
+                return panelTimings[currentPanel];
+            }
+            return 5.0f; // Default display time if no custom timing is set
         }
 
         void OnUpdate(float dt)
         {
+            if(Input.IsKeyPressed(Keys.KEY_5))
+            {
+                Scene.ChangeScene("Loading");
+            }
         }
 
         public void OnStateEnter(string stateName)
@@ -104,22 +141,27 @@ namespace Carmicah
             if (stateName == "Idle")
             {
                 timer += dt;
-                if (timer >= panelDisplayTime)
+                float currentPanelDisplayTime = GetCurrentPanelTime();
+
+                if (timer >= currentPanelDisplayTime)
                 {
                     //CMConsole.Log("Changing??");
                     // change image state
                     currentPanel++;
                     if (currentPanel <= numOfPanels)
+                    {
                         GetComponent<StateMachine>().SetStateCondition(2);
+                    }
                     else
-                        Scene.ChangeScene("Scene1");
+                    {
+                        Scene.ChangeScene("Loading");
+                    }
                 }
 
 
                 else
                 {
-                    Sound.StopSoundBGM(backgroundMusicTrack);
-                    //Scene.ChangeScene("Scene1");
+                    //Sound.StopSound(backgroundMusicTrack);
                 }
             }
 
