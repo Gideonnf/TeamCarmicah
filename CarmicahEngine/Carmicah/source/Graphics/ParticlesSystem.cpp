@@ -83,9 +83,9 @@ namespace Carmicah
 
 						par.texture = emitter.texture;
 						par.timeLeft = emitter.particleLifeTime;
-						par.mtx = tf.worldSpace;
+						par.mtx = tf.rotTrans;
 						float scaleMod{ CarmicahTime::GetInstance()->GenerateRandFloat(std::max(0.f, emitter.scaleRange.x), std::max(emitter.scaleRange.x, emitter.scaleRange.y)) };
-						par.mtx.scaleThis(scaleMod, scaleMod);
+						par.mtx.scaleThis(tf.accumulatedScale.x * scaleMod, tf.accumulatedScale.y * scaleMod);
 						float xAddition = CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.spawnRadius.x, emitter.spawnRadius.x);
 						par.mtx.m[6] += xAddition;
 						par.mtx.m[7] += CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.spawnRadius.y, emitter.spawnRadius.y);
