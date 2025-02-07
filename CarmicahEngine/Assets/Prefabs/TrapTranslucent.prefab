@@ -10,6 +10,7 @@
             "xScale": 0.25,
             "yScale": 0.25,
             "rot": 0.0,
+            "transformTag": "",
             "collisionMask": 1
         },
         {
@@ -22,7 +23,11 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "TrapTranslucent"
+            "texture": "Trap",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 0.5607843399047852
         },
         {
             "Component Name": "struct Carmicah::Collider2D",
