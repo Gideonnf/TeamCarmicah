@@ -92,11 +92,8 @@ namespace Carmicah
                 cake3Created = false;
                 cake4Created = false;
                 numberOfLoops++;
-                elapsedTime = 0;
+                elapsedTime = 0.0f;
             }
-
-
-
         }
     }
 }
