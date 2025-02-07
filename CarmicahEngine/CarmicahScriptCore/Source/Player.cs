@@ -142,5 +142,15 @@ namespace Carmicah
                 timer = 0.0f;
             }
         }
+
+        public void TakeDamage(int damage)
+        {
+            this.AsChild<HealthSystem>().TakeDamage(damage);
+
+            if (this.AsChild<HealthSystem>().mCurHealth <= 0)
+            {
+                // game end
+            }
+        }
     }
 }
