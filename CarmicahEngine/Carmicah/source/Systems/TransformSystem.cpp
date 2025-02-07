@@ -1,9 +1,11 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  file:			TransformSystem.cpp
-  
- author:		Won Yu Xuan Rainne(100%)
+
+ author:		Won Yu Xuan Rainne(60%)
+				YANG YUJIE (40%)
 
  email:			won.m@digipen.edu
+				y.yujie@digien.edu
 
  brief:			Transform System. Header file that contains the function declarations of the transform system. In charge of updating the transform
 				of entities when parenting/unparenting between entities and scene

@@ -1,4 +1,24 @@
-﻿using Carmicah;
+﻿/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			TransformSystem.cpp
+  
+ author:		YANG YUJIE (40%)
+
+ email:		    y.yujie@digien.edu
+
+ brief:			The projectile system is responsible for managing the projectile. It will move the projectile towards the target enemy. 
+                The projectile will be destroyed if it hits the target enemy or if it reaches the end of its lifetime. 
+                The projectile will also be destroyed if the target enemy is destroyed. 
+                The system will also handle the collision detection between the projectile and the target enemy.
+                The system will also play the sound effect when the projectile hits the target enemy.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+
+using Carmicah;
 using System;
 using System.Collections.Generic;
 using System.Linq;

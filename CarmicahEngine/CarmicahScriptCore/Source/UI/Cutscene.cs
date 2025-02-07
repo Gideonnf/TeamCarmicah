@@ -1,4 +1,21 @@
-﻿using System;
+﻿/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ file:			TransformSystem.cpp
+  
+ author:		YANG YUJIE (40%)
+
+ email:		    y.yujie@digien.edu
+
+ brief:			The cut scene system is responsible for managing the cut scene. It will change the image of the cut scene every few seconds.
+                The cut scene will be displayed for a few seconds before transitioning to the next image. The system will also handle the fade in and fade out effect.
+                The system will also play the background music for the cut scene.
+
+Copyright (C) 2024 DigiPen Institute of Technology.
+Reproduction or disclosure of this file or its contents without the prior written consent of
+DigiPen Institute of Technology is prohibited.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -56,7 +73,7 @@ namespace Carmicah
         }
         void SetupPanelTimings()
         {
-
+            // Set custom display times for each panel
             panelTimings[1] = 25.0f;
             panelTimings[2] = 3.0f;
             panelTimings[3] = 10.0f;
@@ -80,6 +97,7 @@ namespace Carmicah
 
         void OnUpdate(float dt)
         {
+            //CMConsole.Log($"Current Panel: {currentPanel}");
             if(Input.IsKeyPressed(Keys.KEY_5))
             {
                 Scene.ChangeScene("Loading");
@@ -91,6 +109,7 @@ namespace Carmicah
             timer = 0.0f;
             CMConsole.Log($"State : {stateName}");
 
+            // Change image state
             if (stateName == "ChangeImage")
             {
                 if (nextCutsceneEntity == null)
@@ -110,6 +129,7 @@ namespace Carmicah
                 }
 
             }
+            // Idle state
             else if (stateName == "Idle")
             {
                 if (cutsceneEntity == null)
