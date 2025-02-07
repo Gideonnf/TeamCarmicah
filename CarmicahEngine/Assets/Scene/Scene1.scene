@@ -60,7 +60,7 @@
                 {
                     "Component Name": "struct Carmicah::TextRenderer",
                     "model": "Square",
-                    "font": "arial",
+                    "font": "Chewy-Regular",
                     "text": "Sugar Strike",
                     "colorR": 1.0,
                     "colorG": 1.0,
