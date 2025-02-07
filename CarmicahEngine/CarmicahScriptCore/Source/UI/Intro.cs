@@ -5,7 +5,10 @@ author:		    Micah Lim (100%)
 
 email:			micahshengyao.lim@digipen.edu
 
-brief:          I hate that this took me so long.
+brief:          I hate that this took me so long. This file defines the `Intro` class, a UI entity 
+                that displays a series of images in sequence. It is intended for testing the 
+                functionality of the Carmicah engine's UI system. It displays the DigiPen logo, 
+                game logo, and team logo in sequence, fading in and out between each image.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
