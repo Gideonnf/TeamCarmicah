@@ -294,6 +294,32 @@ void RenderHelper::Render(const unsigned int& cam, bool isEditor)
 		Render(std::nullopt, isEditor);
 }
 
+void RenderHelper::FinalRender()
+{
+	GLuint mCurrShader{ AssetManager::GetInstance()->GetAsset<Shader>("installer").s };
+	GLint uniformLoc{};
+	SceneToImgui::FBOScene FBOScene = SceneToImgui::GetInstance()->GetCurrentFramebuffer();
+
+
+	glUseProgram(mCurrShader);
+	glDisable(GL_DEPTH_TEST);
+	glDepthMask(GL_TRUE);
+	glDisable(GL_BLEND);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	//if (UniformExists(mCurrShader, "screen", uniformLoc))
+	//	glUniform1i(uniformLoc, FBOScene.FBO);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, FBOScene.texture_id);
+
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	GLModel& ScrnQuad = AssetManager::GetInstance()->GetAsset<GLModel>("QuadTex");
+	glBindVertexArray(ScrnQuad.vao);
+	glDrawArrays(ScrnQuad.primitive, 0, ScrnQuad.drawCnt);
+
+}
+
 RenderHelper::FontUniform* RenderHelper::GetFontUniforms(const unsigned int& bufferID)
 {
 	auto fbtE = mFontBufferToEntity.find(bufferID);
