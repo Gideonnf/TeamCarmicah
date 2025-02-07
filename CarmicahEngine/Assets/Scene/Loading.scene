@@ -66,8 +66,8 @@
                     "xPos": 960.0,
                     "yPos": 540.0,
                     "depth": 0.0,
-                    "xScale": 1.5,
-                    "yScale": 1.5,
+                    "xScale": 1.4500000476837159,
+                    "yScale": 1.4500000476837159,
                     "rot": 0.0,
                     "transformTag": ""
                 }
@@ -110,6 +110,16 @@
                     "colG": 1.0,
                     "colB": 1.0,
                     "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.LoadingBackground",
+                    "ScriptableFieldMap": [
+                        {
+                            "yOffset": 100.0,
+                            "attachedEntityName": "TrueBackGround"
+                        }
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -194,6 +204,122 @@
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "LoadingCake1",
+            "ID": 47,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "strawberry_pop_in",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 32
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 366.1460876464844,
+                    "yPos": 454.23724365234377,
+                    "depth": 1.5,
+                    "xScale": 0.25,
+                    "yScale": 0.25,
+                    "rot": 15.132911682128907,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "LoadingCake2",
+            "ID": 51,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "strawberry_pop_in",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 33
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 774.4022827148438,
+                    "yPos": 499.99993896484377,
+                    "depth": 1.5,
+                    "xScale": 0.25,
+                    "yScale": 0.25,
+                    "rot": 326.13299560546877,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "LoadingCake3",
+            "ID": 52,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "strawberry_pop_in",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 34
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1220.2135009765626,
+                    "yPos": 622.64404296875,
+                    "depth": 1.5,
+                    "xScale": 0.25,
+                    "yScale": 0.25,
+                    "rot": 17.132999420166017,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "LoadingCake4",
+            "ID": 53,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "strawberry_pop_in",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 34
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1512.77587890625,
+                    "yPos": 496.3389892578125,
+                    "depth": 1.5,
+                    "xScale": 0.25,
+                    "yScale": 0.25,
+                    "rot": 326.13299560546877,
                     "transformTag": ""
                 }
             ]
