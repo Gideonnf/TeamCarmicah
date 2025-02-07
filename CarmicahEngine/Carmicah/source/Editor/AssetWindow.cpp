@@ -253,37 +253,37 @@ namespace Carmicah
 
 					if (ImGui::BeginPopup(name.c_str()))
 					{
-						std::strncpy(inputBuffer, entry.first.c_str(), sizeof(inputBuffer) - 1);
+						//std::strncpy(inputBuffer, entry.first.c_str(), sizeof(inputBuffer) - 1);
 
-						ImGui::Text("Rename Scene: ");
-						ImGui::SameLine();
+						//ImGui::Text("Rename Scene: ");
+						//ImGui::SameLine();
 
-						if (ImGui::InputText("##Scene Name:", inputBuffer, sizeof(inputBuffer), ImGuiInputTextFlags_EnterReturnsTrue))
-						{
-							/*if (inputBuffer[0] != '\0')
-							{
-								gGOFactory->sceneGO.sceneName = inputBuffer;
-							}*/
+						//if (ImGui::InputText("##Scene Name:", inputBuffer, sizeof(inputBuffer), ImGuiInputTextFlags_EnterReturnsTrue))
+						//{
+						//	/*if (inputBuffer[0] != '\0')
+						//	{
+						//		gGOFactory->sceneGO.sceneName = inputBuffer;
+						//	}*/
 
-							if (inputBuffer != entry.first)
-							{
-								assetManager->RenameScene(entry.first, inputBuffer, AssetManager::GetInstance()->enConfig.assetLoc.c_str());
-								mSceneModified = true;
-								AssetManager::GetInstance()->fileWatcher.Update();
-								AssetManager::GetInstance()->fileWatcher.Update();
-								/*std::string sceneFile;
-								AssetManager::GetInstance()->GetScene(inputBuffer, sceneFile);
-								SerializerSystem::GetInstance()->SerializeScene(sceneFile);*/
-								
-							}
+						//	if (inputBuffer != entry.first)
+						//	{
+						//		assetManager->RenameScene(entry.first, inputBuffer, AssetManager::GetInstance()->enConfig.assetLoc.c_str());
+						//		mSceneModified = true;
+						//		AssetManager::GetInstance()->fileWatcher.Update();
+						//		AssetManager::GetInstance()->fileWatcher.Update();
+						//		/*std::string sceneFile;
+						//		AssetManager::GetInstance()->GetScene(inputBuffer, sceneFile);
+						//		SerializerSystem::GetInstance()->SerializeScene(sceneFile);*/
+						//		
+						//	}
 
-							if (inputBuffer[0] == '\0')
-							{
-								CM_CORE_ERROR("Empty Scene Name!");
-							}
+						//	if (inputBuffer[0] == '\0')
+						//	{
+						//		CM_CORE_ERROR("Empty Scene Name!");
+						//	}
 
-							ImGui::CloseCurrentPopup();
-						}
+						//	ImGui::CloseCurrentPopup();
+						//}
 
 						if (ImGui::Selectable("Duplicate Scene"))
 						{

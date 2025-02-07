@@ -537,6 +537,16 @@ namespace Carmicah
 		}
 	}
 
+	static float Animation_GetCurrFrameTime(unsigned entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Animation>())
+		{
+			Animation& a{ go.GetComponent<Animation>() };
+			return a.maxTime;
+		}
+	}
+
 	static void SetStateCondition(unsigned int entityID, MonoObject* obj)
 	{
 		if (!obj) return;
@@ -708,6 +718,7 @@ namespace Carmicah
 		// Anim functions
 		ADD_INTERNAL_CALL(Animation_ChangeAnim);
 		ADD_INTERNAL_CALL(GetMaxTime);
+		ADD_INTERNAL_CALL(Animation_GetCurrFrameTime);
 
 		// input functions
 		ADD_INTERNAL_CALL(IsKeyPressed);

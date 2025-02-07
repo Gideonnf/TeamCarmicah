@@ -56,6 +56,9 @@
     <ClInclude Include="source\Components\Collider2D.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="source\Components\ParticleEmitter.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="source\Components\Prefab.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -239,7 +242,6 @@
     </ClInclude>
     <ClInclude Include="source\log.h" />
     <ClInclude Include="source\pch.h" />
-    <ClInclude Include="source\Components\Particles.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CarmicahCore.cpp" />

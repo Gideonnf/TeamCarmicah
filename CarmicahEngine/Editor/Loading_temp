@@ -20,6 +20,31 @@
             "Children": []
         },
         {
+            "GameObject": "LoadingTipsText",
+            "ID": 4,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "model": "Square",
+                    "font": "Chewy-Regular",
+                    "text": "",
+                    "colorR": 1.0,
+                    "colorG": 1.0,
+                    "colorB": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 530.0,
+                    "yPos": 230.0,
+                    "depth": 0.0,
+                    "xScale": 1.2999999523162842,
+                    "yScale": 1.2999999523162842,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
             "GameObject": "BackgroundTop",
             "ID": 24,
             "Components": [
@@ -51,11 +76,18 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "LoadingDots_SpriteSheet_Polka 24",
+                    "texture": "LoadingDots_SpriteSheet_Polka 19",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
                     "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.LoadingDots",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
@@ -66,8 +98,8 @@
                     "xPos": 960.0,
                     "yPos": 540.0,
                     "depth": 0.0,
-                    "xScale": 1.5,
-                    "yScale": 1.5,
+                    "xScale": 1.4500000476837159,
+                    "yScale": 1.4500000476837159,
                     "rot": 0.0,
                     "transformTag": ""
                 }
@@ -110,6 +142,16 @@
                     "colG": 1.0,
                     "colB": 1.0,
                     "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.LoadingBackground",
+                    "ScriptableFieldMap": [
+                        {
+                            "yOffset": 100.0,
+                            "attachedEntityName": "TrueBackGround"
+                        }
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",

@@ -1,0 +1,29 @@
+{
+    "GameObject": "LoadingCake2",
+    "ID": 33,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "matcha_cake_SpriteSheet_Squish 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::UITransform",
+            "xPos": 774.4022827148438,
+            "yPos": 499.99993896484377,
+            "depth": 1.5,
+            "xScale": 0.25,
+            "yScale": 0.25,
+            "rot": 326.13299560546877,
+            "transformTag": ""
+        },
+        {
+            "Component Name": "struct Carmicah::PrefabData",
+            "prefabRef": 32
+        }
+    ]
+}
