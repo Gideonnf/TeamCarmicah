@@ -1,5 +1,5 @@
 /* file documentation -----------------------------------------------------------------------------
-\file       ButtonSystem.cpp
+\file       MouseSystem.cpp
 \author     Gideon Francis
 \course     CSD 2400
 \date       14/01/25
@@ -86,69 +86,6 @@ namespace Carmicah
 				collider.mouseEnter = false;
 			}
 		}
-
-		//// Entity set contains this entity
-		//if (mEntitiesSet.count(currEntity) != 0)
-		//{
-		//	//CM_CORE_INFO("Entity hovering " + std::to_string(currEntity) + " and prev entity : " + std::to_string(prevEntity));
-
-		//	// If prev entity was not set || its not hovering anything so its only the parent scene
-		//	if (prevEntity == 0)
-		//	{
-		//		prevEntity = currEntity;
-		//	}
-
-		//	// Check for exit first so the prev object exit function is called before the new object's enter/hover is called
-		//	// The entity being hovered has been changed
-		//	// so call the OnExit
-		//	if (prevEntity != currEntity)
-		//	{
-		//		Collider2D& prevCollider = ComponentManager::GetInstance()->GetComponent<Collider2D>(prevEntity);
-
-		//		// Mouse entered was true
-		//		if (prevCollider.mouseEnter)
-		//		{
-		//			OnExit(prevEntity);
-		//			prevCollider.mouseEnter = false;
-		//		}
-		//	}
-
-		//	Collider2D& collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(currEntity);
-
-		//	if (!collider.mouseEnter)
-		//	{
-		//		OnEnter(currEntity);
-		//		collider.mouseEnter = true;
-		//	}
-		//	else if (collider.mouseEnter)
-		//	{
-		//		OnHover(currEntity);
-		//	}
-
-
-		//	prevEntity = currEntity;
-
-		//	return;
-		//}
-
-		//// if its no longer hovering an entity that is part of the set
-		//// check if hte previous one might be 
-		//// so that we can call the exit function
-		//if (mEntitiesSet.count(prevEntity))
-		//{
-		//	if (prevEntity != currEntity)
-		//	{
-		//		Collider2D& prevCollider = ComponentManager::GetInstance()->GetComponent<Collider2D>(prevEntity);
-
-		//		 //Mouse entered was true
-		//		if (prevCollider.mouseEnter)
-		//		{
-		//			OnExit(prevEntity);
-		//			prevEntity = 0; // reset prevEntity
-		//			prevCollider.mouseEnter = false;
-		//		}
-		//	}
-		//}
 	}
 
 	void MouseSystem::Exit()
