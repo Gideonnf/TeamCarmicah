@@ -108,7 +108,6 @@ namespace Carmicah
                 {
                     currText += finalText[textProgress];
                     Text.GetComponent<TextRenderer>().SetText(currText);
-                    elapsedTime = 0.0f;
                     ++textProgress;
                 }
                 else
@@ -118,6 +117,7 @@ namespace Carmicah
                     ++numberOfLoops;
                     textProgress = 0;
                 }
+                elapsedTime = 0.0f;
             }
         }
     }

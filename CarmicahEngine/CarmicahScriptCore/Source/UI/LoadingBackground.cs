@@ -41,6 +41,8 @@ namespace Carmicah
         {
             Vector2 pos = Position;
             pos.y += (yOffset*dt);
+            if (pos.y > 2200.0f)
+                pos.y = 2200.0f;
             Position = pos;
 
         }
