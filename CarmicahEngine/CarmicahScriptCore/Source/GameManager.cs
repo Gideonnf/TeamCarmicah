@@ -52,6 +52,7 @@ namespace Carmicah
         public int MobCounter = 0;
         //public float NumOfMobs = 10;
         
+        bool Musicplay = false;
 
         Entity startingCakeEntity;
         Entity playerEntity;
@@ -93,6 +94,10 @@ namespace Carmicah
 
         void OnUpdate(float dt)
         {
+
+            // if soundPlay
+            
+
             Entity pauseManager = FindEntityWithName("PauseManager");
             if (pauseManager != null)
             {
@@ -125,7 +130,7 @@ namespace Carmicah
                     mouseAI.SetInitialPosition(); // Reset initial position
                     MobCounter--;
 
-                   // CMConsole.Log($"Adding mouse entity {mouseAI}");
+                    CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
 
                     if (mouseAI.isLeft)
                     {

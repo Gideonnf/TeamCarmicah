@@ -122,6 +122,28 @@ namespace Carmicah
 		return go.GetID();
 	}
 
+	static unsigned int Entity_FindEntityWithID(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+
+		return go.GetID();
+	}
+
+	static unsigned int Entity_GetParent(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Transform>())
+		{
+			return go.GetComponent<Transform>().parent;
+		}
+		else if (go.HasComponent<UITransform>())
+		{
+			return go.GetComponent<UITransform>().parent;
+		}
+
+		return 0;
+	}
+
 	/// <summary>SS
 	/// Internal function call to play sound effects between C# and C++
 	/// </summary>
@@ -357,6 +379,7 @@ namespace Carmicah
 
 	static void Destroy(unsigned int entityID)
 	{
+		CM_CORE_INFO("Destroying entity {}", entityID);
 		gGOFactory->Destroy(entityID);
 	}
 
@@ -553,6 +576,8 @@ namespace Carmicah
 		//Entity functions
 		ADD_INTERNAL_CALL(Entity_HasComponent);
 		ADD_INTERNAL_CALL(Entity_FindEntityWithName);
+		ADD_INTERNAL_CALL(Entity_GetParent);
+		ADD_INTERNAL_CALL(Entity_FindEntityWithID);
 		ADD_INTERNAL_CALL(Destroy);
 		ADD_INTERNAL_CALL(CreateNewGameObject);
 		ADD_INTERNAL_CALL(GetScriptInstance);

@@ -32,6 +32,7 @@ DigiPen Institute of Technology is prohibited.
 #include "SoundSystem.h"
 #include <algorithm>
 
+
 namespace Carmicah
 {
 	/* function documentation--------------------------------------------------------------------------
@@ -94,7 +95,76 @@ namespace Carmicah
 		//	//	OnRelease(button.ButtonOG);
 		//	//}
 		//}
+
+		Vec2i mousePosI = { static_cast<int>(Input.GetMousePosition().x), 1080 - static_cast<int>(Input.GetMousePosition().y) };
+
+		Vec2f worldMousePos = Input.GetMouseWorldPosition();
+
+		for (auto& entity : mEntitiesSet)
+		{
+
+			if (ComponentManager::GetInstance()->HasComponent<UITransform>(entity))
+			{
+				UITransform& uiTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(entity);
+
+				Vec2f min;
+				Vec2f max;
+
+				max.x = uiTransform.Pos().x + 30.0f;
+				max.y = uiTransform.Pos().y + 30.0f;
+				min.x = uiTransform.Pos().x - 30.0f;
+				min.y = uiTransform.Pos().y - 30.0f;
+
+				if (mousePosI.y > min.y && mousePosI.y < max.y)
+				{
+					if (!uiTransform.mouseEnter)
+					{
+						
+						OnEnter(entity);
+						uiTransform.mouseEnter = true;
+					}
+					else if (uiTransform.mouseEnter)
+					{
+						OnHover(entity);
+					}
+
+					continue;
+				}
+
+			if (uiTransform.mouseEnter)
+			{
+				OnExit(entity);
+				uiTransform.mouseEnter = false;
+			}
+
+			}
+
+		}
 	}
+
+	void ButtonSystem::OnEnter(Entity entityID)
+	{
+		//CM_CORE_INFO("Enter " + std::to_string(entityID));
+		OnMouseMsg newMsg(MSG_MOUSEENTER, entityID);
+		SendSysMessage(&newMsg);
+	}
+
+	void ButtonSystem::OnExit(Entity entityID)
+	{
+		//CM_CORE_INFO("Exit" + std::to_string(entityID));
+		OnMouseMsg newMsg(MSG_MOUSEEXIT, entityID);
+		SendSysMessage(&newMsg);
+
+	}
+
+	void ButtonSystem::OnHover(Entity entityID)
+	{
+		//CM_CORE_INFO("OnHover");
+		OnMouseMsg newMsg(MSG_MOUSEHOVER, entityID);
+		SendSysMessage(&newMsg);
+
+	}
+
 
 
 	/* function documentation--------------------------------------------------------------------------
@@ -142,6 +212,7 @@ namespace Carmicah
 			}
 		}
 	}
+
 
 
 	/* function documentation--------------------------------------------------------------------------

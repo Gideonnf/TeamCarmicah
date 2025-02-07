@@ -8,7 +8,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 1.0,
-                    "yPos": 0.08424292504787445,
+                    "yPos": 0.23399999737739564,
                     "depth": 1.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -81,7 +81,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -0.2280000001192093,
+                    "xPos": -0.6779999732971191,
                     "yPos": -5.002999782562256,
                     "depth": 4.0,
                     "xScale": 0.4000000059604645,
@@ -201,8 +201,8 @@
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Transform",
-                            "xPos": 1.844833254814148,
-                            "yPos": -0.7042598724365234,
+                            "xPos": 1.5950000286102296,
+                            "yPos": -1.3040000200271607,
                             "depth": 0.0,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -258,8 +258,8 @@
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Transform",
-                            "xPos": 3.2417614459991457,
-                            "yPos": -0.31932544708251955,
+                            "xPos": 3.191999912261963,
+                            "yPos": -0.718999981880188,
                             "depth": 0.0,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -319,8 +319,8 @@
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Transform",
-                            "xPos": -0.829282283782959,
-                            "yPos": -0.7042598724365234,
+                            "xPos": -1.128999948501587,
+                            "yPos": -1.253999948501587,
                             "depth": 0.0,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -380,8 +380,8 @@
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Transform",
-                            "xPos": -2.3822829723358156,
-                            "yPos": -0.2839641571044922,
+                            "xPos": -2.881999969482422,
+                            "yPos": -0.4339999854564667,
                             "depth": 0.0,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -537,11 +537,15 @@
                     "scriptName": "Carmicah.SettingButton",
                     "ScriptableFieldMap": [
                         {
-                            "IsCreated": false,
+                            "IsCreated": true,
                             "SettingsCloseButton": "Close_Button",
                             "SettingsMenu": "Settings_Menu"
                         }
                     ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": ""
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -1082,7 +1086,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -1.6398595571517945,
+                    "xPos": -2.490000009536743,
                     "yPos": -5.6379618644714359,
                     "depth": 0.0,
                     "xScale": 1.0,
@@ -1143,7 +1147,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 1.7081853151321412,
+                    "xPos": 1.2079999446868897,
                     "yPos": -5.711182117462158,
                     "depth": 0.0,
                     "xScale": 1.0,
