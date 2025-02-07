@@ -29,7 +29,7 @@
             "Component Name": "struct Carmicah::StateMachine",
             "currState": "",
             "nextState": "",
-            "startingState": "",
+            "startingState": "TowerIdle",
             "stateMap": [
                 {
                     "stateName": "TowerCreate",
