@@ -81,7 +81,7 @@
     <Compile Include="Source\System\StateMachineOld.cs" />
     <Compile Include="Source\System\Vector2.cs" />
     <Compile Include="Source\Testing.cs" />
-    <Compile Include="Source\TrapAI.cs" />
+    <Compile Include="Source\TowerController.cs" />
     <Compile Include="Source\TrapBuild.cs" />
     <Compile Include="Source\UI\BackButton.cs" />
     <Compile Include="Source\UI\Intro.cs" />
