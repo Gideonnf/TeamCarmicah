@@ -36,21 +36,21 @@ namespace Carmicah
 
         std::string texture;
         Vec2f particleSpeed,    // Direction as well
-            spawnRadius;        // Pos Spawn Radius
+            spawnRadius,        // Pos Spawn Radius
+            scaleRange;         // Scale Range
         size_t spawnPerSec;     // Number of particles to spawn per sec
         float particleLifeTime, // Particle lifetime
             spawnBurstTime,     // How long to burst spawn
             speedRange,         // +-= Speed (equily on both x&y)
-            sizeRange,          // +- Scale
             angleRange;         // Rotate by +- angle/2
         float timePassed,       // Counting how long ago since a last particle spawn
             optAliveTime;       // If is burst, how long alive
         unsigned char emitterStatus;
 
         ParticleEmitter() : texture("Default"),
-            particleSpeed(), spawnRadius(),
+            particleSpeed(), spawnRadius(), scaleRange(1.f, 1.f),
             spawnPerSec(),
-            particleLifeTime(), spawnBurstTime(), speedRange(), sizeRange(), angleRange(),
+            particleLifeTime(), spawnBurstTime(), speedRange(), angleRange(),
             timePassed(), optAliveTime(),
             emitterStatus(EMITTER_ACTIVE)
         {
@@ -80,11 +80,12 @@ namespace Carmicah
             particleSpeed.y = static_cast<float>(component["VelY"].GetDouble());
             spawnRadius.x   = static_cast<float>(component["RadiusX"].GetDouble());
             spawnRadius.y   = static_cast<float>(component["RadiusY"].GetDouble());
+            scaleRange.x    = static_cast<float>(component["SizeRangeMin"].GetDouble());
+            scaleRange.y    = static_cast<float>(component["SizeRangeMax"].GetDouble());
             spawnPerSec     = static_cast<size_t>(component["SpawnPSec"].GetInt());
             particleLifeTime= static_cast<float>(component["Lifetime"].GetDouble());
             optAliveTime = spawnBurstTime  = static_cast<float>(component["BurstTime"].GetDouble());
             speedRange      = static_cast<float>(component["SpeedRange"].GetDouble());
-            sizeRange       = static_cast<float>(component["SizeRange"].GetDouble());
             angleRange      = static_cast<float>(component["AngleRange"].GetDouble());
             emitterStatus   = static_cast<unsigned char>(component["EmitterStatus"].GetInt());
             return *this;
@@ -102,6 +103,10 @@ namespace Carmicah
             writer.Double(static_cast<double>(spawnRadius.x));
             writer.String("RadiusY");
             writer.Double(static_cast<double>(spawnRadius.y));
+            writer.String("SizeRangeMin");
+            writer.Double(static_cast<double>(scaleRange.x));
+            writer.String("SizeRangeMax");
+            writer.Double(static_cast<double>(scaleRange.y));
             writer.String("SpawnPSec");
             writer.Int(static_cast<int>(spawnPerSec));
             writer.String("Lifetime");
@@ -110,8 +115,6 @@ namespace Carmicah
             writer.Double(static_cast<double>(spawnBurstTime));
             writer.String("SpeedRange");
             writer.Double(static_cast<double>(speedRange));
-            writer.String("SizeRange");
-            writer.Double(static_cast<double>(sizeRange));
             writer.String("AngleRange");
             writer.Double(static_cast<double>(angleRange));
             writer.String("EmitterStatus");

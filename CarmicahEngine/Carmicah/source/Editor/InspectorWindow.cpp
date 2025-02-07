@@ -1453,12 +1453,22 @@ namespace Carmicah
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
-				ImGui::Text("Particle SizeRange");
+				ImGui::Text("Particle SizeRangeMin");
 				ImGui::TableNextColumn();
-				tempValue = particle.sizeRange;
-				if (ImGui::DragFloat("##sizeRange", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				tempValue = particle.scaleRange.x;
+				if (ImGui::DragFloat("##SizeRangeMin", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
-					particle.sizeRange = tempValue;
+					particle.scaleRange.x = tempValue;
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Particle SizeRangeMax");
+				ImGui::TableNextColumn();
+				tempValue = particle.scaleRange.y;
+				if (ImGui::DragFloat("##SizeRangeMax", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					particle.scaleRange.y = tempValue;
 				}
 
 				ImGui::TableNextRow();
