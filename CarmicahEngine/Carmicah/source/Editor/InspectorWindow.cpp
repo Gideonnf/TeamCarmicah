@@ -699,6 +699,7 @@ namespace Carmicah
 	bool InspectorWindow::RenderRigidBodyTable(T* go, TABLETYPE type)
 	{
 		bool modified = false;
+		bool wasModified = false;
 		float tempValue = 0;
 		RigidBody& rb = go->GetComponent<RigidBody>();
 		if (ImGui::CollapsingHeader("Rigid Body Settings", ImGuiTreeNodeFlags_DefaultOpen))
@@ -726,7 +727,9 @@ namespace Carmicah
 				ImGui::Text("Velocity X");
 				ImGui::TableNextColumn();
 				tempValue = rb.velocity.x;
-				if (modified |= ImGui::DragFloat("##VelocityX", &tempValue, 0.1f, -FLT_MAX, FLT_MAX, "%.3f"))
+				wasModified = ImGui::DragFloat("##VelocityX", &tempValue, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+				modified |= wasModified;
+				if (wasModified)
 				{
 					rb.velocity.x = tempValue;
 				}
@@ -736,7 +739,9 @@ namespace Carmicah
 				ImGui::Text("Velocity Y");
 				ImGui::TableNextColumn();
 				tempValue = rb.velocity.y;
-				if (modified |= ImGui::DragFloat("##VelocityY", &tempValue, 0.1f, -FLT_MAX, FLT_MAX, "%.3f"))
+				wasModified = ImGui::DragFloat("##VelocityY", &tempValue, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+				modified |= wasModified;
+				if (wasModified)
 				{
 					rb.velocity.y = tempValue;
 				}
@@ -746,7 +751,9 @@ namespace Carmicah
 				ImGui::Text("Mass");
 				ImGui::TableNextColumn();
 				tempValue = rb.mass;
-				if (modified |= ImGui::DragFloat("##Mass", &tempValue, 0.1f, -FLT_MAX, FLT_MAX, "%.3f"))
+				wasModified = ImGui::DragFloat("##Mass", &tempValue, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+				modified |= wasModified;
+				if (wasModified)
 				{
 					rb.mass = tempValue;
 				}
@@ -756,7 +763,9 @@ namespace Carmicah
 				ImGui::Text("Gravity");
 				ImGui::TableNextColumn();
 				tempValue = rb.gravity;
-				if (modified |= ImGui::DragFloat("##Gravity", &tempValue, 0.1f, -FLT_MAX, FLT_MAX, "%.3f"))
+				wasModified = ImGui::DragFloat("##Gravity", &tempValue, 0.1f, -FLT_MAX, FLT_MAX, "%.3f");
+				modified |= wasModified;
+				if (wasModified)
 				{
 					rb.gravity = tempValue;
 				}
