@@ -1,11 +1,11 @@
 {
-    "GameObject": "Settings_Menu",
-    "ID": 17,
+    "GameObject": "LoseScreen",
+    "ID": 32,
     "Components": [
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "settings panel",
+            "texture": "Board",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
@@ -13,11 +13,11 @@
         },
         {
             "Component Name": "struct Carmicah::UITransform",
-            "xPos": 960.0,
-            "yPos": 540.0,
-            "depth": 14.0,
-            "xScale": 1.0,
-            "yScale": 1.0,
+            "xPos": 891.3720092773438,
+            "yPos": 813.3829956054688,
+            "depth": -3.0,
+            "xScale": 0.5,
+            "yScale": 0.5,
             "rot": 0.0,
             "transformTag": ""
         }

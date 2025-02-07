@@ -32,6 +32,10 @@ namespace Carmicah
             {
                 button = FindEntityWithName("Quit Button");
                 Animation3 = "Button_HE_Quit";
+            }else if(buttonType.ToLower() == "home")
+            {
+                button = FindEntityWithName("HomeButton");
+                Animation3 = "Button_HE_Home";
             }
 
             ChangeAnim(Animation3);
@@ -97,6 +101,9 @@ namespace Carmicah
                 else if(buttonType.ToLower() == "quit")
                 {
                     Animation1 = "Button_HS_Quit";
+                }else if(buttonType.ToLower() == "home")
+                {
+                    Animation1 = "Button_HS_Home";
                 }
                 ChangeAnim(Animation1);
             }
@@ -117,6 +124,9 @@ namespace Carmicah
             else if (buttonType.ToLower() == "quit")
             {
                 Animation2 = "Button_HE_Quit";
+            }else if(buttonType.ToLower() == "home")
+            {
+                Animation2 = "Button_HE_Home";
             }
 
             ChangeAnim(Animation2);
@@ -135,6 +145,10 @@ namespace Carmicah
             {
                 nextScene = "quit";
                 Animation0 = "Button_C_Quit";
+            }else if(buttonType.ToLower() == "home")
+            {
+                nextScene = "Scene3";
+                Animation0 = "Button_C_Home";
             }
 
             
