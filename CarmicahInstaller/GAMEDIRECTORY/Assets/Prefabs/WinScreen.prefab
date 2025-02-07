@@ -1,6 +1,6 @@
 {
-    "GameObject": "WinScreen",
-    "ID": 29,
+    "GameObject": "LosePrefab",
+    "ID": 37,
     "Components": [
         {
             "Component Name": "struct Carmicah::Renderer",
@@ -13,12 +13,91 @@
         },
         {
             "Component Name": "struct Carmicah::UITransform",
-            "xPos": 885.19091796875,
-            "yPos": 734.0335083007813,
-            "depth": 0.0,
-            "xScale": 0.4000000059604645,
-            "yScale": 0.4000000059604645,
-            "rot": 0.0
+            "xPos": 891.3720092773438,
+            "yPos": 813.3829956054688,
+            "depth": -3.0,
+            "xScale": 0.5,
+            "yScale": 0.5,
+            "rot": 0.0,
+            "transformTag": ""
+        }
+    ],
+    "Children": [
+        {
+            "GameObject": "ReplayButton",
+            "ID": 38,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_H_Replay 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ReplayButton",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": ""
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Button_HE_Replay"
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1053.131591796875,
+                    "yPos": 600.0,
+                    "depth": 0.0,
+                    "xScale": 0.800000011920929,
+                    "yScale": 0.800000011920929,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HomeButton",
+            "ID": 42,
+            "Components": [
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ReplayButton",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": ""
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_H_Replay 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Button_HE_Home"
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 650.0,
+                    "yPos": 600.0,
+                    "depth": 0.0,
+                    "xScale": 0.800000011920929,
+                    "yScale": 0.800000011920929,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
         }
     ]
 }
