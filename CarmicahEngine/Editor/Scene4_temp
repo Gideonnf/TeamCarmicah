@@ -56,7 +56,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Play 0",
+                    "texture": "Button_SpriteSheet_H_Skip 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
