@@ -15,7 +15,9 @@ namespace Carmicah
         public string projectilePrefab = "Bullet";
         public float shootRate = 1.0f;
         public float shootTime = 1.0f;
+        public int lane;
         float timer = 0.0f;
+        public bool active = false;
         public bool IsLeft = false;
 
        // float shootTimer = 0.0f;
@@ -117,6 +119,8 @@ namespace Carmicah
 
         public void OnStateUpdate(string stateName, float dt)
         {
+            if (active == false) return;
+
             // idk if this will happen but if the mouse dies
             // this script might still hold a refeence to a 0 id mouse
             // which will cause crashes

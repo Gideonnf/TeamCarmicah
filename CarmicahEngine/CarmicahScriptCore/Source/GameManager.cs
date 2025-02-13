@@ -41,8 +41,14 @@ namespace Carmicah
         public bool LeftOrRight = false;
         public float CakeHeightOffset;
         public string StartingCake;
-        public List<MouseAI> mouseEntitiesLeft; 
-        public List<MouseAI> mouseEntitiesRight;
+        //public List<MouseAI> mouseEntitiesLeft; 
+       // public List<MouseAI> mouseEntitiesRight;
+
+        public List<MouseAI> mouseLaneOne;
+        public List<MouseAI> mouseLaneTwo;
+        public List<MouseAI> mouseLaneThree;
+        public List<MouseAI> mouseLaneFour;
+
         //public float WaveStartTime = 25.0f;
         //public float waveTimer = 0.0f;
         public string EndPointEntityLeft;
@@ -92,8 +98,10 @@ namespace Carmicah
 
         void OnCreate()
         {
-            mouseEntitiesLeft = new List<MouseAI>();
-            mouseEntitiesRight = new List<MouseAI>();
+            mouseLaneOne = new List<MouseAI>();
+            mouseLaneTwo = new List<MouseAI>();
+            mouseLaneThree = new List<MouseAI>();
+            mouseLaneFour = new List<MouseAI>();
             npcList = new List<Entity>();
 
             endEntityLeft = FindEntityWithName(EndPointEntityLeft);
@@ -148,26 +156,7 @@ namespace Carmicah
                 if (timer > spawnTimer)
                 {
                     timer = 0.0f;
-                    Entity mouseEntity = CreateGameObject(MousePrefabName);
-                    MouseAI mouseAI = mouseEntity.As<MouseAI>();
-                    mouseAI.isLeft = LeftOrRight;
-                    LeftOrRight = !LeftOrRight;
-                    mouseAI.SetInitialPosition(); // Reset initial position
-                    MobCounter--;
-
-                    CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
-
-                    if (mouseAI.isLeft)
-                    {
-                        mouseEntitiesLeft.Add(mouseAI);
-                        //CMConsole.Log($"Mouse List left {mouseEntitiesLeft.Count}");
-
-                    }
-                    else
-                    {
-                        mouseEntitiesRight.Add(mouseAI);
-                       // CMConsole.Log($"Mouse List right {mouseEntitiesRight.Count}");
-                    }
+                    CreateEnemy(MousePrefabName);
                 }
             }
             else if (BearCounter > 0)
@@ -177,31 +166,32 @@ namespace Carmicah
                 if (timer > spawnTimer)
                 {
                     timer = 0.0f;
-                    Entity mouseEntity = CreateGameObject(BearPrefabName);
-                    MouseAI mouseAI = mouseEntity.As<MouseAI>();
-                    mouseAI.isLeft = LeftOrRight;
-                    LeftOrRight = !LeftOrRight;
-                    mouseAI.SetInitialPosition(); // Reset initial position
-                    BearCounter--;
+                    CreateEnemy(BearPrefabName);
+                    //Entity mouseEntity = CreateGameObject(BearPrefabName);
+                    //MouseAI mouseAI = mouseEntity.As<MouseAI>();
+                    //mouseAI.isLeft = LeftOrRight;
+                    //LeftOrRight = !LeftOrRight;
+                    //mouseAI.SetInitialPosition(); // Reset initial position
+                    //BearCounter--;
 
-                    CMConsole.Log($"Adding bear entity {mouseAI.mID}");
+                    //CMConsole.Log($"Adding bear entity {mouseAI.mID}");
 
-                    if (mouseAI.isLeft)
-                    {
-                        mouseEntitiesLeft.Add(mouseAI);
-                        //CMConsole.Log($"Mouse List left {mouseEntitiesLeft.Count}");
+                    //if (mouseAI.isLeft)
+                    //{
+                    //    mouseEntitiesLeft.Add(mouseAI);
+                    //    //CMConsole.Log($"Mouse List left {mouseEntitiesLeft.Count}");
 
-                    }
-                    else
-                    {
-                        mouseEntitiesRight.Add(mouseAI);
-                        // CMConsole.Log($"Mouse List right {mouseEntitiesRight.Count}");
-                    }
+                    //}
+                    //else
+                    //{
+                    //    mouseEntitiesRight.Add(mouseAI);
+                    //    // CMConsole.Log($"Mouse List right {mouseEntitiesRight.Count}");
+                    //}
                 }
             }
 
             //Wave Ending Checking
-            if(BearCounter == 0 && MobCounter == 0 && mouseEntitiesLeft.Count == 0 && mouseEntitiesRight.Count == 0 && GameStart == true)
+            if(BearCounter == 0 && MobCounter == 0 && IsLanesEmpty() && GameStart == true)
             {
                 WaveEnded = true;
             }
@@ -249,23 +239,57 @@ namespace Carmicah
             Sound.PlayBGM("BGM_LevelMusic_FullTrack_Vers1",0.4f);
         }
 
+        public void CreateEnemy(string prefabName)
+        {
+            Entity mouseEntity = CreateGameObject(prefabName);
+            MouseAI mouseAI = mouseEntity.As<MouseAI>();
+
+            mouseAI.SetInitialPosition(); // Reset initial position
+            MobCounter--;
+
+            CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
+
+            switch (mouseAI.lane)
+            {
+                case 0:
+                    mouseLaneOne.Add(mouseAI);
+                    break;
+                case 1:
+                    mouseLaneTwo.Add(mouseAI);
+                    break;
+                case 2:
+                    mouseLaneThree.Add(mouseAI);
+                    break;
+                case 3:
+                    mouseLaneFour.Add(mouseAI);
+                    break;
+            }
+        }
+
+        public bool IsLanesEmpty()
+        {
+            return mouseLaneOne.Count() == 0 && mouseLaneTwo.Count() == 0 && mouseLaneThree.Count() == 0 && mouseLaneFour.Count() == 0;
+        }
+
         public void EntityDestroyed(MouseAI entity)
         {
-           // CMConsole.Log($"Removing mouse entity {entity}");
-            if (entity.As<MouseAI>().isLeft)
+            switch (entity.As<MouseAI>().lane)
             {
-                mouseEntitiesLeft.Remove(entity);
-                //if ()
-                //    CMConsole.Log($"Mouse List left Removal {mouseEntitiesLeft.Count}");
-
+                case 0:
+                    mouseLaneOne.Remove(entity);
+                    break;
+                case 1:
+                    mouseLaneTwo.Remove(entity);
+                    break;
+                case 2:
+                    mouseLaneThree.Remove(entity);
+                    break;
+                case 3:
+                    mouseLaneFour.Remove(entity);
+                    break;
             }
-            else
-            {
-                mouseEntitiesRight.Remove(entity);
-                //if ()
-                //    CMConsole.Log($"Mouse List right Removal {mouseEntitiesRight.Count}");
 
-            }
+            // CMConsole.Log($"Removing mouse entity {entity}");
             //
             // ($"Mouse Destroyed {mouse}");
             //mouseEntities.Remove(mouse);
@@ -276,41 +300,61 @@ namespace Carmicah
 
             MouseAI targetMouse = null;
             float distance = float.MaxValue;
-            // if its on left side
-            if (entity.IsLeft)
+            switch (entity.lane)
             {
-                foreach (MouseAI mouse in mouseEntitiesLeft)
-                {
-                    // Get distance to 
-                    float dist = mouse.Position.Distance(entity.Position);
-                    //CMConsole.Log($"left {dist}");
-
-                    if (dist < distance)
+                case 0:
+                    foreach(MouseAI mouse in mouseLaneOne)
                     {
-                        distance = dist;
-                        targetMouse = mouse;
+                        float dist = mouse.Position.Distance(entity.Position);
+                        //CMConsole.Log($"left {dist}");
+
+                        if (dist < distance)
+                        {
+                            distance = dist;
+                            targetMouse = mouse;
+                        }
                     }
-                }
-            }
-            // if its on right side
-            else
-            {
-                foreach (MouseAI mouse in mouseEntitiesRight)
-                {
-                    // Get distance to 
-                    float dist = mouse.Position.Distance(entity.Position);
-                   // CMConsole.Log($"right {dist}");
-                    if (dist < distance)
+                    break;
+                case 1:
+                    foreach (MouseAI mouse in mouseLaneTwo)
                     {
-                        distance = dist;
-                        targetMouse = mouse;
+                        float dist = mouse.Position.Distance(entity.Position);
+                        //CMConsole.Log($"left {dist}");
+
+                        if (dist < distance)
+                        {
+                            distance = dist;
+                            targetMouse = mouse;
+                        }
                     }
-                }
+                    break;
+                case 2:
+                    foreach (MouseAI mouse in mouseLaneThree)
+                    {
+                        float dist = mouse.Position.Distance(entity.Position);
+                        //CMConsole.Log($"left {dist}");
 
+                        if (dist < distance)
+                        {
+                            distance = dist;
+                            targetMouse = mouse;
+                        }
+                    }
+                    break;
+                case 3:
+                    foreach (MouseAI mouse in mouseLaneFour)
+                    {
+                        float dist = mouse.Position.Distance(entity.Position);
+                        //CMConsole.Log($"left {dist}");
+
+                        if (dist < distance)
+                        {
+                            distance = dist;
+                            targetMouse = mouse;
+                        }
+                    }
+                    break;
             }
-
-            //if (targetMouse != null)
-            //    CMConsole.Log($"Target mouse : {targetMouse.mID}");
 
             return targetMouse;
         }

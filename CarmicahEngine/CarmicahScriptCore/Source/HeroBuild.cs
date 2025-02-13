@@ -10,6 +10,7 @@ namespace Carmicah
     public class HeroBuild : Entity
     {
         public string HeroPrefab = "";
+        public float lane; // float cause i dont rmb if imgui can show script int vars yet and i lazy check now
        // public string TrapTranslucentPrefab = "TrapTranslucent";
         public bool IsLeft = false;
         public float depthVal;
@@ -64,6 +65,8 @@ namespace Carmicah
                         built = true;
                         heroEntity = CreateGameObject(HeroPrefab);
                         heroEntity.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
+                        heroEntity.As<HeroAI>().lane = (int)lane;
+                        heroEntity.As<HeroAI>().active = true;
                         Sound.PlaySFX("trap_placement", 0.5f);
                         // heroEntity.GetComponent<Transform>().Depth = depthVal;
 

@@ -39,7 +39,7 @@ namespace Carmicah
         public string EndPointEntityLeft2;
         public string EndPointEntityRight2;
 
-        public bool isLeft = false;
+        //public bool isLeft = false;
         public string Animation0;
         public string Animation1;
         public string Animation2;
@@ -52,6 +52,8 @@ namespace Carmicah
 
         public string DeathSound = "mouse die btr";
         public string InjuredSound = "mouse die";
+
+        public int lane;
 
         //int currPoint;
         Vector2 startPosLeft;
@@ -98,8 +100,10 @@ namespace Carmicah
             //stateMachine.AddState(new MouseDead("Dead"));
             //stateMachine.SetNextState("Chase");
             Random rand = new Random();
-            animType = rand.Next(0, 4); // rand between 1 to 3
-            randLane = rand.Next(0, 4); // rand between 1 to 3
+            animType = rand.Next(0, 4); // rand between 0 to 3
+            randLane = rand.Next(0, 4); // rand between 0 to 3
+
+            lane = randLane;
 
             Sound.PlaySFX("Portal_Spawn", 0.3f);
 
