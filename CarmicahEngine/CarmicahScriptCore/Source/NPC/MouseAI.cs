@@ -155,19 +155,21 @@ namespace Carmicah
                 case 0:
        
                     Position = startPosLeft;
-
+                    lane = 1;
                     break;
                 case 1:
                     Position = startPosLeft2;
+                    lane = 3;
                     scale.x *= -1;
                     Scale = scale;
                     break;
                 case 2:
                     Position = startPosRight;
-
+                    lane = 0;
                     break;
                 case 3:
                     Position = startPosRight2;
+                    lane = 2;
                     scale.x *= -1;
                     Scale = scale;
                     break;
