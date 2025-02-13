@@ -68,6 +68,7 @@ namespace Carmicah
 
                 if (waveTimer > waveStartTime && startNewWave)
                 {
+                    CMConsole.Log("Starting next wave!");
                     // start next wave
                     gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
                     CMConsole.Log("Starting New Wave");
@@ -85,6 +86,12 @@ namespace Carmicah
                 //     waveCounter++;
                 //     waveTimer = 0.0f;
                 // }
+                if (Input.IsKeyPressed(Keys.KEY_2))
+                {
+                    waveTimer = 0.0f;
+                    startNewWave = true;
+
+                }
 
                 if (Input.IsKeyPressed(Keys.KEY_1))
                 {

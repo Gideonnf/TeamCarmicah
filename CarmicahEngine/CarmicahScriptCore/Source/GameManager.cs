@@ -157,6 +157,7 @@ namespace Carmicah
                 {
                     timer = 0.0f;
                     CreateEnemy(MousePrefabName);
+                    MobCounter--;
                 }
             }
             else if (BearCounter > 0)
@@ -167,32 +168,16 @@ namespace Carmicah
                 {
                     timer = 0.0f;
                     CreateEnemy(BearPrefabName);
-                    //Entity mouseEntity = CreateGameObject(BearPrefabName);
-                    //MouseAI mouseAI = mouseEntity.As<MouseAI>();
-                    //mouseAI.isLeft = LeftOrRight;
-                    //LeftOrRight = !LeftOrRight;
-                    //mouseAI.SetInitialPosition(); // Reset initial position
-                    //BearCounter--;
+                    BearCounter--;
 
-                    //CMConsole.Log($"Adding bear entity {mouseAI.mID}");
-
-                    //if (mouseAI.isLeft)
-                    //{
-                    //    mouseEntitiesLeft.Add(mouseAI);
-                    //    //CMConsole.Log($"Mouse List left {mouseEntitiesLeft.Count}");
-
-                    //}
-                    //else
-                    //{
-                    //    mouseEntitiesRight.Add(mouseAI);
-                    //    // CMConsole.Log($"Mouse List right {mouseEntitiesRight.Count}");
-                    //}
                 }
             }
-
+            // CMConsole.Log($"Counters: {MobCounter}, {BearCounter}");
             //Wave Ending Checking
             if(BearCounter == 0 && MobCounter == 0 && IsLanesEmpty() && GameStart == true)
             {
+                CMConsole.Log("Ending Wave");
+
                 WaveEnded = true;
             }
 
@@ -209,22 +194,6 @@ namespace Carmicah
             if (Input.IsKeyPressed(Keys.KEY_SPACEBAR))
             {
                 GetComponent<StateMachine>().SetStateCondition(2);
-                //if (cakeCounter < 3)
-                //{
-                //    Entity cakeEntity = CreateGameObject(CakePrefabName);
-                //    // Set the cake position
-                //    cakeEntity.Position = startingCakeEntity.Position;
-                //    cakeEntity.Scale = startingCakeEntity.Scale;
-                //    cakeEntity.Depth = startingCakeEntity.Depth;
-
-                //    cakeEntity.Depth = cakeEntity.Depth + (0.1f * cakeCounter);
-                //    Vector2 pos = cakeEntity.Position;
-                //    pos.y += (CakeHeightOffset * cakeCounter);
-                //    cakeEntity.Position = pos;
-                //    cakeCounter++;
-
-                //    UpdatePositions();
-                //}
             }
         }
 
@@ -245,7 +214,7 @@ namespace Carmicah
             MouseAI mouseAI = mouseEntity.As<MouseAI>();
 
             mouseAI.SetInitialPosition(); // Reset initial position
-            MobCounter--;
+            
 
             CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
 
@@ -268,7 +237,10 @@ namespace Carmicah
 
         public bool IsLanesEmpty()
         {
-            return mouseLaneOne.Count() == 0 && mouseLaneTwo.Count() == 0 && mouseLaneThree.Count() == 0 && mouseLaneFour.Count() == 0;
+            CMConsole.Log($"Lanes : {mouseLaneOne.Count()}, {mouseLaneTwo.Count()}, {mouseLaneThree.Count()}, {mouseLaneFour.Count()}");
+            if (mouseLaneOne.Count() == 0 && mouseLaneTwo.Count() == 0 && mouseLaneThree.Count() == 0 && mouseLaneFour.Count() == 0)
+                    return true;
+            return false;
         }
 
         public void EntityDestroyed(MouseAI entity)

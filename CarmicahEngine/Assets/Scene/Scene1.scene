@@ -499,7 +499,7 @@
                     "scriptName": "Carmicah.WaveSystem",
                     "ScriptableFieldMap": [
                         {
-                            "waveStartTime": 20.0,
+                            "waveStartTime": 7.0,
                             "waveTimer": 0.0,
                             "startNewWave": true
                         }
@@ -1041,7 +1041,7 @@
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": "",
-                    "collisionMask": 1
+                    "collisionMask": 8
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -1104,7 +1104,7 @@
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": "",
-                    "collisionMask": 1
+                    "collisionMask": 8
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -1335,7 +1335,7 @@
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": "",
-                    "collisionMask": 1
+                    "collisionMask": 8
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -1398,7 +1398,7 @@
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": "",
-                    "collisionMask": 1
+                    "collisionMask": 8
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
