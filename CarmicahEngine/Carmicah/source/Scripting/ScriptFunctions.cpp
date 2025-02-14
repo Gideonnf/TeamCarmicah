@@ -555,6 +555,20 @@ namespace Carmicah
 		return 0.0f;
 	}
 
+	static void SetCollisionLayer(unsigned int entityID, unsigned int layer)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		unsigned int& prevColMask = go.GetComponent<Transform>().collisionMask;
+		uint32_t prevLayerBit = 1 << prevColMask;
+
+		//go.AddCollisionLayer(CollisionLayer(layer));
+		uint32_t newLayer = 1 << layer;
+
+
+		go.AddCollisionLayer(static_cast<CollisionLayer>(newLayer));
+		go.RemoveCollisionLayer(static_cast<CollisionLayer>(prevLayerBit));
+	}
+
 	static void SetStateCondition(unsigned int entityID, MonoObject* obj)
 	{
 		if (!obj) return;
@@ -714,6 +728,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(CreateNewGameObject);
 		ADD_INTERNAL_CALL(GetScriptInstance);
 		ADD_INTERNAL_CALL(GetScriptInstanceFromChildren);
+		//ADD_INTERNAL_CALL(SetCollisionLayer);
 
 		// Rigidbody functions
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);

@@ -240,6 +240,8 @@ namespace Carmicah
             {
                 if (collidedEntity.GetTag() == "Trap")
                 {
+                    if (!collidedEntity.As<TrapAI>().built) return;
+
                     this.AsChild<HealthSystem>().TakeDamage(100);
                 }
                 else if (collidedEntity.GetTag() == "Bullet")

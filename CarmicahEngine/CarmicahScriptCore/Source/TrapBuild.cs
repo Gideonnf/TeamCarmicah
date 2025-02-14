@@ -72,6 +72,8 @@ namespace Carmicah
                         CMConsole.Log($"{Position.x} , {Position.y}");
                         trapEntity.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
                         trapEntity.GetComponent<Transform>().Depth = depthVal;
+                        trapEntity.As<TrapAI>().built = true;
+                        
                         Sound.PlaySFX("trap_placement", 0.5f);
 
                         if (IsLeft)

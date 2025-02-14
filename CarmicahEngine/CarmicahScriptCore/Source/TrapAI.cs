@@ -9,9 +9,12 @@ namespace Carmicah
 {
     public class TrapAI : Entity
     {
+        public bool built = false;
 
         void OnCollide(uint id)
         {
+            if (!built) return;
+
             if (mID == 0)
             {
                 return;
