@@ -149,7 +149,7 @@ namespace Carmicah
         {
             this.AsChild<HealthSystem>().TakeDamage(damage);
 
-            CMConsole.Log($"Health :{this.AsChild<HealthSystem>().mCurHealth}");
+            //CMConsole.Log($"Health :{this.AsChild<HealthSystem>().mCurHealth}");
             if (this.AsChild<HealthSystem>().mCurHealth <= 0)
             {
                 // game end

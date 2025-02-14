@@ -40,7 +40,7 @@ namespace Carmicah
 
             if (Input.IsMouseReleased(MouseButtons.MOUSE_BUTTON_LEFT))
             {
-                CMConsole.Log($"Destroying entity with {trapEntity.mID}");
+               // CMConsole.Log($"Destroying entity with {trapEntity.mID}");
                 trapEntity.Destroy();
                 trapEntity = null;
                 flipped = false;
@@ -52,7 +52,7 @@ namespace Carmicah
             if (trapEntity != null) return;
 
             trapEntity = CreateGameObject(trapPrefab);
-            CMConsole.Log($"Creating entity with {trapEntity.mID}");
+            //CMConsole.Log($"Creating entity with {trapEntity.mID}");
         }
 
         void OnMouseHover()

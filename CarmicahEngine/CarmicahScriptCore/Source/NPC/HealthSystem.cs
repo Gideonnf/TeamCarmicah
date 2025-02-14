@@ -63,7 +63,7 @@ namespace Carmicah
         {
             if (Input.IsKeyPressed(Keys.KEY_Q))
             {
-                CMConsole.Log($"CurrHealth: {mCurHealth}");
+                //CMConsole.Log($"CurrHealth: {mCurHealth}");
 
                 TakeDamage(20);
             }
@@ -81,7 +81,7 @@ namespace Carmicah
 
             // print out to console how much health is left
             // Console.WriteLine($"entity has {mCurHealth} health left");
-            CMConsole.Log($"CurrHealth: {mCurHealth}");
+            ///CMConsole.Log($"CurrHealth: {mCurHealth}");
 
             // health loss / max health
             float scalePercentage = (float)(mMaxHealth - mCurHealth) / (float)mMaxHealth;

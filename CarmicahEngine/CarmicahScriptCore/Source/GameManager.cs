@@ -58,11 +58,12 @@ namespace Carmicah
         public string HeroBuild = "HeroBuild";
         public string HeroBuild1 = "HeroBuild_1";
 
-        public bool GameStart = false;
-        public bool WaveStarted = false;
-        public bool WaveEnded = false;
+        //public bool GameStart = false;
+        //public bool WaveStarted = false;
+        //public bool WaveEnded = false;
         public int MobCounter = 0;
         public int BearCounter = 0;
+        public int activeEnemies = 0;
         //public float NumOfMobs = 10;
         
         //bool Musicplay = false;
@@ -172,18 +173,24 @@ namespace Carmicah
 
                 }
             }
-            // CMConsole.Log($"Counters: {MobCounter}, {BearCounter}");
+            
+            //CMConsole.Log($"Active enemies: {activeEnemies}");
             //Wave Ending Checking
-            if(BearCounter == 0 && MobCounter == 0 && IsLanesEmpty() && GameStart == true)
-            {
-                CMConsole.Log("Ending Wave");
+            //if(BearCounter == 0 && MobCounter == 0 && IsLanesEmpty() && GameStart == true)
+            //{
+            //    CMConsole.Log("Ending Wave");
 
-                WaveEnded = true;
-            }
+            //    WaveEnded = true;
+            //}
 
-            if(WaveStarted && WaveEnded)
+            //CMConsole.Log($"Lane one: {mouseLaneOne.Count()}");
+            //CMConsole.Log($"Lane two: {mouseLaneTwo.Count()}");
+            //CMConsole.Log($"Lane three: {mouseLaneThree.Count()}");
+            //CMConsole.Log($"Lane four: {mouseLaneFour.Count()}");
+
+            if (waveSystem.As<WaveSystem>().waveStart && activeEnemies == 0)
             {
-                WaveStarted = false;
+               // WaveStarted = false;
                 CMConsole.Log("Ending Wave");
                 waveSystem.As<WaveSystem>().EndOfWave();
                 Sound.StopSoundBGM("BGM_LevelMusic_FullTrack_Vers1");
@@ -199,11 +206,13 @@ namespace Carmicah
 
         public void StartNextWave(int mobCount, int bearCount)
         {
-            GameStart = true;
-            WaveStarted = true;
-            WaveEnded = false;
+            //GameStart = true;
+            //WaveStarted = true;
+            //WaveEnded = false;
             MobCounter += mobCount;
             BearCounter += bearCount;
+
+            activeEnemies = MobCounter + BearCounter;
             Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
             Sound.PlayBGM("BGM_LevelMusic_FullTrack_Vers1",0.4f);
         }
@@ -237,14 +246,22 @@ namespace Carmicah
 
         public bool IsLanesEmpty()
         {
-            CMConsole.Log($"Lanes : {mouseLaneOne.Count()}, {mouseLaneTwo.Count()}, {mouseLaneThree.Count()}, {mouseLaneFour.Count()}");
-            if (mouseLaneOne.Count() == 0 && mouseLaneTwo.Count() == 0 && mouseLaneThree.Count() == 0 && mouseLaneFour.Count() == 0)
+           if (MobCounter == 0 && BearCounter == 0)
+            {
+                if (mouseLaneOne.Count() == 0 && mouseLaneTwo.Count() == 0 && mouseLaneThree.Count() == 0 && mouseLaneFour.Count() == 0)
+                {
                     return true;
+                }
+            }
+
             return false;
         }
 
         public void EntityDestroyed(MouseAI entity)
         {
+            CMConsole.Log("Enemy died");
+            activeEnemies--;
+
             switch (entity.As<MouseAI>().lane)
             {
                 case 0:

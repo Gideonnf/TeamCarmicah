@@ -40,7 +40,7 @@ namespace Carmicah
 
             if (Input.IsMouseReleased(MouseButtons.MOUSE_BUTTON_LEFT))
             {
-                CMConsole.Log($"Destroying entity with {heroEntity.mID}");
+                //CMConsole.Log($"Destroying entity with {heroEntity.mID}");
                 heroEntity.Destroy();
                 heroEntity = null;
                 flipped = false;
@@ -57,7 +57,7 @@ namespace Carmicah
             if (heroEntity != null) return;
 
             heroEntity = CreateGameObject(heroPrefab);
-            CMConsole.Log($"Creating entity with {heroEntity.mID}");
+            //CMConsole.Log($"Creating entity with {heroEntity.mID}");
         }
 
         void OnMouseHover()

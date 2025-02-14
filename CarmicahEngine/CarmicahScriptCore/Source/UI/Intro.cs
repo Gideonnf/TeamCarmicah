@@ -97,7 +97,7 @@ namespace Carmicah
             // move to next state after 3 secs
             if (timer >= maxDuration)
             {
-                CMConsole.Log($"Transitioning to state {state + 1}");
+                //CMConsole.Log($"Transitioning to state {state + 1}");
                 state += 1;
                 timer = 0.0f;
 

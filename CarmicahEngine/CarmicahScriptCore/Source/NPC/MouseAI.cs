@@ -244,7 +244,7 @@ namespace Carmicah
                 }
                 else if (collidedEntity.GetTag() == "Bullet")
                 {
-                    CMConsole.Log($"Collided Entity : {collidedEntity.mID} with tag {collidedEntity.GetTag()}");
+                    //CMConsole.Log($"Collided Entity : {collidedEntity.mID} with tag {collidedEntity.GetTag()}");
                     this.AsChild<HealthSystem>().TakeDamage(50);
                 }
             }

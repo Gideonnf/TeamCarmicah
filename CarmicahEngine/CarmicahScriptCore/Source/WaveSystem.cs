@@ -10,7 +10,9 @@ namespace Carmicah
     {
         public float waveStartTime = 20.0f;
         public float waveTimer = 0.0f;
-        public bool startNewWave = true;
+
+        public bool waveStart = false;
+
 
         public int mobWave0 = 5;
         public int mobWave1 = 10;
@@ -51,22 +53,24 @@ namespace Carmicah
 
         void OnUpdate(float dt)
         {
-            if (!Player.GameLost)
+            if (!Player.GameLost )
             {
                     //CreateGameObject("WinScreen");
 
-                waveTimer += dt;
+                if (waveStart == false)
+                    waveTimer += dt;
 
                 if (waveCounter >= 5)
                 {
                     //CreateGameObject("WinScreen");
                     gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
                     waveCounter = 0;
-                    startNewWave = true;
+                    waveTimer = 0.0f;
+                    //startNewWave = true;
                     // waveCounter--;
                 }
 
-                if (waveTimer > waveStartTime && startNewWave)
+                if ((waveTimer > waveStartTime && waveStart == false) || Input.IsKeyPressed(Keys.KEY_2))
                 {
                     CMConsole.Log("Starting next wave!");
                     // start next wave
@@ -75,7 +79,7 @@ namespace Carmicah
 
                     waveCounter++;
                     waveTimer = 0.0f;
-                    startNewWave = false;
+                    waveStart = true;
                 }
 
                 // if (Input.IsKeyPressed(Keys.KEY_1))
@@ -86,12 +90,12 @@ namespace Carmicah
                 //     waveCounter++;
                 //     waveTimer = 0.0f;
                 // }
-                if (Input.IsKeyPressed(Keys.KEY_2))
-                {
-                    waveTimer = 0.0f;
-                    startNewWave = true;
+                //if (Input.IsKeyPressed(Keys.KEY_2))
+                //{
+                //    //waveTimer = 0.0f;
+                //   // startNewWave = true;
 
-                }
+                //}
 
                 if (Input.IsKeyPressed(Keys.KEY_1))
                 {
@@ -100,7 +104,7 @@ namespace Carmicah
 
                     waveCounter = 5;
                     waveTimer = 0.0f;
-                    startNewWave = false;
+                    waveStart = true;
                 }
             }
 
@@ -108,7 +112,7 @@ namespace Carmicah
         public void EndOfWave()
         {
             waveTimer = 0.0f;
-            startNewWave = true;
+            waveStart = false;
         }
     }
 }
