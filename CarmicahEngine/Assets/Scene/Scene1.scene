@@ -501,7 +501,8 @@
                         {
                             "waveStartTime": 7.0,
                             "waveTimer": 0.0,
-                            "startNewWave": true
+                            "startNewWave": true,
+                            "waveStart": false
                         }
                     ]
                 }
@@ -1449,6 +1450,65 @@
             "Children": []
         },
         {
+            "GameObject": "WaveCounter",
+            "ID": 39,
+            "Components": [
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "CarmicahScript.WaveCounter",
+                    "ScriptableFieldMap": [
+                        {
+                            "IsTimer": false,
+                            "WaveSystemObject": "Something"
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Chewy-Regular",
+                    "text": "0/5",
+                    "colorR": 0.8676470518112183,
+                    "colorG": 0.0935698002576828,
+                    "colorB": 0.822113037109375
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 109.32386779785156,
+                    "yPos": 984.813232421875,
+                    "depth": 0.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "Default",
+            "ID": 40,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "jellybean_spritesheet_coral 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 150.32029724121095,
+                    "yPos": 983.2194213867188,
+                    "depth": -0.800000011920929,
+                    "xScale": 1.2999999523162842,
+                    "yScale": 1.2999999523162842,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
             "GameObject": "TrapBuild_1",
             "ID": 41,
             "Components": [
@@ -1639,6 +1699,40 @@
                 }
             ],
             "Children": []
+        },
+        {
+            "GameObject": "WaveCounter_1",
+            "ID": 44,
+            "Components": [
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "CarmicahScript.WaveCounter",
+                    "ScriptableFieldMap": [
+                        {
+                            "IsTimer": true,
+                            "WaveSystemObject": "Something"
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Chewy-Regular",
+                    "text": "1",
+                    "colorR": 0.8676470518112183,
+                    "colorG": 0.0935698002576828,
+                    "colorB": 0.822113037109375
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 128.11390686035157,
+                    "yPos": 948.203125,
+                    "depth": 0.0,
+                    "xScale": 0.800000011920929,
+                    "yScale": 0.800000011920929,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
         }
     ]
 }
