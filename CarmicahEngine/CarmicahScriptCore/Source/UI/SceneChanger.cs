@@ -77,17 +77,6 @@ namespace Carmicah
             }
         }
 
-        //void CheckHover()
-        //{
-        //    Vector2 mousePos = Input.GetMousePos();
-
-        //    if (mousePos.x < max.x && mousePos.y < max.y && mousePos.x > min.x && mousePos.y > min.y)
-        //    {
-        //        Console.WriteLine("Inside");
-        //        ChangeAnim(Animation0);
-        //    }
-        //}
-
         public void OnMouseHover()
         {
             

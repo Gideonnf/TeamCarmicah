@@ -43,7 +43,7 @@ namespace Carmicah
                 CreateGameObject(SettingsCloseButton);
                 IsCreated = true;
             }
-            Console.WriteLine($"Testing Button {mID}");
+            CMConsole.Log($"Testing Button {mID}");
             Sound.PlaySFX("SFX_Button", 0.5f);
         }
 

@@ -27,10 +27,15 @@ namespace Carmicah
 {
     public class PlayButton : Entity
     {
+        public string Type;
         
+        void OnCreate()
+        {
+            CMConsole.Log("Hello");
+        }
         void OnClick()
         {
-            Console.WriteLine($"Testing Play Button {mID}");
+            CMConsole.Log($"Testing Play Button {mID}");
             //Entity sceneSystem = FindEntityWithName("SceneSystem");
             //if (sceneSystem != null)
             //{
@@ -43,9 +48,16 @@ namespace Carmicah
             // this should pass the string of scene name to function call changescene in scenesystem and change the scene 
             // but it isnt doing it somehow idk why
             //FunctionCalls.ChangeScene("Scene1");
-            Sound.PlaySFX("SFX_Button");
+            
             //SceneChanger.SetScene(nextScene, 2.0f);
-
+            if(Type == "Play")
+            {
+                
+                Sound.PlayBGM("BGM_SetupPhase_Mix1");
+            }else
+            {
+                Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
+            }
         }
     }
 }
