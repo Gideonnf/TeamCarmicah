@@ -669,6 +669,12 @@ namespace Carmicah
 
 				if (ImGui::BeginPopup("Animation Select"))
 				{
+					static char buffer[256] = "";
+					if (ImGui::InputText("##animSelect", buffer, sizeof(buffer))
+					{
+
+					}
+
 					for (const auto& entry : animMap->mAssetMap)
 					{
 						if(entry.first.empty()){}
