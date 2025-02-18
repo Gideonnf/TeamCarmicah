@@ -61,7 +61,10 @@ namespace Carmicah
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
 
-		*outScale = go.GetComponent<Transform>().Scale();
+		if (go.HasComponent<Transform>())
+			*outScale = go.GetComponent<Transform>().Scale();
+		else if (go.HasComponent<UITransform>())
+			*outScale = go.GetComponent<UITransform>().Scale();
 	}
 
 	/// <summary>
@@ -73,7 +76,10 @@ namespace Carmicah
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
 
-		go.GetComponent<Transform>().Scale(*inScale);
+		if (go.HasComponent<Transform>())
+			go.GetComponent<Transform>().Scale(*inScale);
+		else if (go.HasComponent<UITransform>())
+			go.GetComponent<UITransform>().Scale(*inScale);
 	}
 	
 	/// <summary>
@@ -256,8 +262,6 @@ namespace Carmicah
 		if (go.HasComponent<Transform>())
 		{
 			*outPos = go.GetComponent<Transform>().Pos();
-
-			//
 		}
 		else if (go.HasComponent<UITransform>())
 		{
@@ -284,14 +288,7 @@ namespace Carmicah
 
 		if (go.HasComponent<Transform>())
 		{
-			*outPos = go.GetComponent<Transform>().Pos();
-			// If it has a parent
-			if (go.GetComponent<Transform>().parent != 0)
-			{
-				Transform parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(go.GetComponent<Transform>().parent);
-				*outPos += parentTransform.Pos();
-
-			}
+			*outPos = go.GetComponent<Transform>().ExtractWorldPos();
 		}
 		else if (go.HasComponent<UITransform>())
 		{
@@ -486,10 +483,12 @@ namespace Carmicah
 	static void Transform_GetDepth(unsigned int entityID, float* outFloat)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
-		if (!go.HasComponent<Transform>())
-			*outFloat = 0.0f;
-		else
+		if (go.HasComponent<Transform>())
 			*outFloat = go.GetComponent<Transform>().GetDepth();
+		else if(go.HasComponent<UITransform>())
+			*outFloat = go.GetComponent<UITransform>().GetDepth();
+		else
+			*outFloat = 0.0f;
 	}
 
 	static void Transform_SetDepth(unsigned int entityID, float* inFloat)
@@ -497,6 +496,8 @@ namespace Carmicah
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		if (go.HasComponent<Transform>())
 			go.GetComponent<Transform>().Depth(*inFloat);
+		else if (go.HasComponent<UITransform>())
+			go.GetComponent<UITransform>().Depth(*inFloat);
 	}
 
 	static MonoString* Transform_GetTag(unsigned int entityID)
