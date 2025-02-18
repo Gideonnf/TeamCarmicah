@@ -17,6 +17,8 @@ DigiPen Institute of Technology is prohibited.
 #include "ECS/EntityManager.h"
 #include "ECS/ComponentManager.h"
 #include "Systems/AssetManager.h"
+#include "ECS/SystemManager.h"
+#include "TransformSystem.h"
 #include "Editor/Editor.h"
 
 #include "Components/Transform.h"
@@ -195,6 +197,9 @@ namespace Carmicah
 
 			NewPrefabGOMsg msg(newGO.mID, goPrefab.mPrefabID);
 			SendSysMessage(&msg);
+			CM_CORE_INFO("Prefab Pos {}, {}", goPrefab.GetComponent<Transform>().Pos().x, goPrefab.GetComponent<Transform>().Pos().y);
+			CM_CORE_INFO("GO Pos 1 {}, {}", newGO.GetComponent<Transform>().Pos().x, newGO.GetComponent<Transform>().Pos().y);
+			CM_CORE_INFO("worldPos 1 {}, {}", newGO.GetComponent<Transform>().ExtractWorldPos().x, newGO.GetComponent<Transform>().ExtractWorldPos().y);
 
 			// Parent it to the scene on creation
 			UpdateParent(newGO.mID, sceneGO.sceneID);
@@ -210,6 +215,14 @@ namespace Carmicah
 					CreatePrefabChild(it, newGO.mID);
 				}
 			}
+
+			// Update the transform and children transform after creating
+			UpdatePrefabTransform(newGO.mID);
+			CM_CORE_INFO("GO Pos 2 {}, {}", newGO.GetComponent<Transform>().Pos().x, newGO.GetComponent<Transform>().Pos().y);
+
+			CM_CORE_INFO("worldPos 2 {}, {}", newGO.GetComponent<Transform>().ExtractWorldPos().x, newGO.GetComponent<Transform>().ExtractWorldPos().y);
+
+
 		}
 		else
 		{
@@ -280,6 +293,29 @@ namespace Carmicah
 		// Blank transform
 		//sceneGO.sceneTransform = Transform{};
 	}
+
+	void GOFactory::UpdatePrefabTransform(Entity entityID)
+	{
+		Transform& transformComponent = ComponentManager::GetInstance()->GetComponent<Transform>(entityID);
+		SystemManager::GetInstance()->GetSystem<TransformSystem>()->UpdateTransform(entityID);
+		if (transformComponent.children.size() > 0)
+		{
+			for (auto& it : transformComponent.children)
+			{
+				//SystemManager::GetInstance()->GetSystem<TransformSystem>()->UpdateTransform(it);
+				UpdatePrefabTransform(it);
+			}
+
+		}
+
+	}
+
+	//void GOFactory::UpdatePrefabChildTransform(Entity entityID)
+	//{
+	//	Transform& transformComponent = ComponentManager::GetInstance()->GetComponent<Transform>(entityID);
+
+	//}
+
 
 	void GOFactory::FetchGO(std::string GOName, GameObject& go)
 	{
@@ -472,15 +508,15 @@ namespace Carmicah
 		else if (go.HasComponent<Transform>() && go.GetComponent<Transform>().parent == 0 && newParentID == 0)
 		{
 			// its a new object
-			sceneGO.children.insert(entityID);
-			return;
+			//sceneGO.children.insert(entityID);
+			//return;
 		}
 
 		else if (go.HasComponent<UITransform>() && go.GetComponent<UITransform>().parent == 0 && newParentID == 0)
 		{
 			// its a new object
-			sceneGO.children.insert(entityID);
-			return;
+			//sceneGO.children.insert(entityID);
+			//return;
 		}
 		
 		// Find out what is the current parent
@@ -516,8 +552,8 @@ namespace Carmicah
 				// Important to send here because if parenting back to scene
 				// we need the original parent's transform so that we can convert the entity's local transform
 				// back to world transform
-				UpdateTransformMessage msg(entityID, newParentID);
-				SendSysMessage(&msg);
+				/*UpdateTransformMessage msg(entityID, newParentID);
+				SendSysMessage(&msg);*/
 			}
 
 
@@ -593,12 +629,6 @@ namespace Carmicah
 				else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
 					parentLevel = ComponentManager::GetInstance()->GetComponent<UITransform>(newParentID).grandChildLvl;
 
-				// Send msg to UpdateTransform
-				// Important to send here because if parenting back to scene
-				// we need the original parent's transform so that we can convert the entity's local transform
-				// back to world transform
-				UpdateTransformMessage msg(entityID, newParentID);
-				SendSysMessage(&msg);
 
 				
 
@@ -616,23 +646,31 @@ namespace Carmicah
 					go.GetComponent<UITransform>().grandChildLvl = ++parentLevel;
 				}
 
-				if (ComponentManager::GetInstance()->HasComponent<Transform>(newParentID))
-				{
-					// Get the transform
-					Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(newParentID);
-					// Add to the child list
-					parentTransform.children.push_back(entityID);
+				//if (ComponentManager::GetInstance()->HasComponent<Transform>(newParentID))
+				//{
+				//	// Get the transform
+				//	Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(newParentID);
+				//	// Add to the child list
+				//	parentTransform.children.push_back(entityID);
 
-					//CM_CORE_INFO("Parenting entity: " + std::to_string(entityID) + " to " + std::to_string(newParentID));
-				}
-				else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
-				{
-					// Get the transform
-					UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(newParentID);
-					// Add to the child list
-					parentTransform.children.push_back(entityID);
-				}
+				//	//CM_CORE_INFO("Parenting entity: " + std::to_string(entityID) + " to " + std::to_string(newParentID));
+				//}
+				//else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
+				//{
+				//	// Get the transform
+				//	UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(newParentID);
+				//	// Add to the child list
+				//	parentTransform.children.push_back(entityID);
+				//}
 			}
+		
+			// Send msg to UpdateTransform
+			// Important to send here because if parenting back to scene
+			// we need the original parent's transform so that we can convert the entity's local transform
+			// back to world transform
+			UpdateTransformMessage msg(entityID, newParentID);
+			SendSysMessage(&msg);
+
 		}
 	}
 #pragma endregion
