@@ -497,6 +497,8 @@ namespace Carmicah
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		if (go.HasComponent<Transform>())
 			go.GetComponent<Transform>().Depth(*inFloat);
+		else if (go.HasComponent<UITransform>())
+			go.GetComponent<UITransform>().Depth(*inFloat);
 	}
 
 	static MonoString* Transform_GetTag(unsigned int entityID)
