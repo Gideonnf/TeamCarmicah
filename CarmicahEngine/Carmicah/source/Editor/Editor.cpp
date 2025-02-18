@@ -23,7 +23,7 @@ namespace Carmicah
 	bool Editor::mShowCloseConfirmation = false;
 	std::vector<Entity> Editor::mSceneHierarchy;
 	std::vector<Entity> Editor::mSceneUIHierarchy;
-	std::unordered_map<Entity, std::vector<Entity>> Editor::mChildrenHierarchy;
+	std::unordered_map<Entity, std::vector<Entity>> Editor::mChildrenHierarchy; //Once it creates the key, even if the key becomes empty, the key will remain existing
 
 	Editor::Editor()
 	{
