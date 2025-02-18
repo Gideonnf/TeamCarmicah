@@ -172,6 +172,14 @@ namespace Carmicah
 		mono_free(cStrname);
 	}
 
+	static void Sound_SwitchBGM(MonoString* name, float volume)
+	{
+		char* cStrname = mono_string_to_utf8(name);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->SwitchSound(SoundSystem::SOUND_BGM, cStrname, SoundCategory::BGM, true, volume, 1.0f);
+		mono_free(cStrname);
+	}
+
 	//static void Sound_Stop(MonoString* name)
 	//{
 	//	char* cStrname = mono_string_to_utf8(name);
@@ -758,6 +766,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Sound_PlaySFX);
 		ADD_INTERNAL_CALL(Sound_PlayBGM);
 		ADD_INTERNAL_CALL(Sound_StopBGM);
+		ADD_INTERNAL_CALL(Sound_SwitchBGM);
 
 		// Debug
 		ADD_INTERNAL_CALL(Log);
