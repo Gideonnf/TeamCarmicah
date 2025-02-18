@@ -577,6 +577,7 @@ namespace Carmicah
 				ImGui::SameLine();
 				if (ImGui::Button("v##textureSelect"))
 				{
+					ImGui::SetNextWindowSizeConstraints(ImVec2(0, 0), ImVec2(400, 400));
 					ImGui::OpenPopup("Texture Select");
 				}
 				ImGui::TableNextColumn();
@@ -594,17 +595,39 @@ namespace Carmicah
 				ImGui::SetNextWindowSize(ImVec2(300, 500));
 				if (ImGui::BeginPopup("Texture Select"))
 				{
+					static char buffer[256];
+					static std::string searchPrompt;
+					ImGui::Text("Search:");
+					ImGui::SameLine();
+					if (ImGui::InputText("##TextureSearch", buffer, sizeof(buffer)))
+					{
+						searchPrompt = buffer;
+					}
+
 					for (const auto& entry : textureMap->mAssetMap)
 					{
-						if (entry.first.empty()) continue; // TODO: Find out why "" is being added to asset map
-						if (entry.first.find("SpriteSheet") != std::string::npos)
+						if (entry.first.empty()) {}
+						else
 						{
-							continue;
-						}
-						if (ImGui::Button(entry.first.c_str()))
-						{
-							render.Texture(entry.first);
-							ImGui::CloseCurrentPopup();
+							if(searchPrompt.empty())
+							{
+								if (ImGui::Button(entry.first.c_str()))
+								{
+									render.Texture(entry.first);
+									ImGui::CloseCurrentPopup();
+								}
+							}
+							else
+							{
+								if (entry.first.find(searchPrompt) != std::string::npos)
+								{
+									if (ImGui::Button(entry.first.c_str()))
+									{
+										render.Texture(entry.first);
+										ImGui::CloseCurrentPopup();
+									}
+								}
+							}
 						}
 					}
 					ImGui::EndPopup();
@@ -664,26 +687,46 @@ namespace Carmicah
 				ImGui::SameLine();
 				if (ImGui::Button("v##"))
 				{
+					ImGui::SetNextWindowSizeConstraints(ImVec2(0, 0), ImVec2(400, 400));
 					ImGui::OpenPopup("Animation Select");
 				}
 
+				
 				if (ImGui::BeginPopup("Animation Select"))
 				{
 					static char buffer[256] = "";
-					if (ImGui::InputText("##animSelect", buffer, sizeof(buffer))
+					static std::string searchPrompt;
+					ImGui::Text("Search:");
+					ImGui::SameLine();
+					if (ImGui::InputText("##animSelect", buffer, sizeof(buffer)))
 					{
-
+						searchPrompt = buffer;
 					}
+					
 
 					for (const auto& entry : animMap->mAssetMap)
 					{
 						if(entry.first.empty()){}
 						else
 						{
-							if (ImGui::Button(entry.first.c_str()))
+							if(searchPrompt.empty())
 							{
-								anim.ChangeAnim(entry.first);
-								ImGui::CloseCurrentPopup();
+								if (ImGui::Button(entry.first.c_str()))
+								{
+									anim.ChangeAnim(entry.first);
+									ImGui::CloseCurrentPopup();
+								}
+							}
+							else
+							{
+								if (entry.first.find(searchPrompt) != std::string::npos)
+								{
+									if (ImGui::Button(entry.first.c_str()))
+									{
+										anim.ChangeAnim(entry.first);
+										ImGui::CloseCurrentPopup();
+									}
+								}
 							}
 						}
 
