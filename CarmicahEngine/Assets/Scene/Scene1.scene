@@ -40,7 +40,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 1.0,
-                    "yPos": -8.850000381469727,
+                    "yPos": -2.5,
                     "depth": 0.0,
                     "xScale": 0.05299999937415123,
                     "yScale": 0.10000000149011612,
@@ -382,13 +382,13 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "StartingCake": "StartingCake",
-                            "MousePrefabName": "MouseGONew",
-                            "waveTimer": 0.0,
                             "LeftOrRight": false,
-                            "WaveStarted": false,
-                            "CakeHeightOffset": 6.849999904632568,
+                            "waveTimer": 0.0,
+                            "MousePrefabName": "MouseGONew",
+                            "StartingCake": "StartingCake",
                             "spawnTimer": 1.5,
+                            "CakeHeightOffset": 6.849999904632568,
+                            "WaveStarted": false,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
                             "PlayerName": "mainCharacter",
@@ -1265,7 +1265,7 @@
                     "scriptName": "Carmicah.TrapIcon",
                     "ScriptableFieldMap": [
                         {
-                            "trapPrefab": "Trap_1"
+                            "trapPrefab": "Trap_2"
                         }
                     ]
                 },

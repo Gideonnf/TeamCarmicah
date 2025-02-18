@@ -31,6 +31,8 @@ namespace Carmicah
 
         public virtual void OnMouseExit() { }
 
+        public virtual void OnClick() { }
+
         public virtual void OnStateEnter(string stateName) { }
 
         public virtual void OnStateUpdate(string stateName, float dt) { }
