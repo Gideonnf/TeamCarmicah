@@ -46,7 +46,7 @@
             "mass": 1.0,
             "gravity": 0.0,
             "zposPrev": -107374176.0,
-            "objectType": 1
+            "objectType": 2
         },
         {
             "Component Name": "struct Carmicah::Animation",

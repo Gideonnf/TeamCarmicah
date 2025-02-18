@@ -45,27 +45,27 @@
             "scriptName": "Carmicah.MouseAI",
             "ScriptableFieldMap": [
                 {
-                    "SpawnPointEntityLeft": "StartPointLeft",
                     "isLeft": false,
+                    "SpawnPointEntityLeft": "StartPointLeft",
                     "SpawnPointEntityRight2": "StartPointRight_1",
                     "Animation2": "Mouse_Climb_white",
                     "SpawnPointEntityRight": "StartPointRight",
                     "EndPointEntityLeft": "EndPointLeft",
                     "ChanceToDie": 0.11999999731779099,
-                    "EndPointEntityRight": "EndPointRight",
                     "EndPointEntityRight2": "EndPointRight_1",
+                    "EndPointEntityRight": "EndPointRight",
                     "Animation0": "Mouse_Climb_white",
                     "Animation1": "Mouse_Climb_white",
                     "Animation3": "Mouse_Climb_white",
                     "AnimationDie0": "Mouse_Death_white",
                     "AnimationDie2": "Mouse_Death_white",
                     "AnimationDie1": "Mouse_Death_white",
+                    "SpawnPointEntityLeft2": "StartPointLeft_1",
                     "AnimationDie3": "Mouse_Death_white",
+                    "DeathTime": 2.0,
                     "DeathSound": "mouse die btr",
                     "InjuredSound": "mouse die",
-                    "SpawnPointEntityLeft2": "StartPointLeft_1",
                     "EndPointEntityLeft2": "EndPointLeft_1",
-                    "DeathTime": 2.0,
                     "TimeToDie": 1.5,
                     "timer": 0.0
                 }
@@ -97,7 +97,7 @@
             "mass": 1.0,
             "gravity": 0.0,
             "zposPrev": 1.0,
-            "objectType": 2
+            "objectType": 1
         }
     ],
     "Children": [
@@ -147,12 +147,12 @@
                     "scriptName": "Carmicah.HealthSystem",
                     "ScriptableFieldMap": [
                         {
-                            "mCurHealth": 0.0,
-                            "endScale": 4.400000095367432,
                             "endPos": 0.0,
+                            "endScale": 4.400000095367432,
+                            "mCurHealth": 0.0,
                             "posDiff": 0.0,
-                            "startScale": 0.0,
                             "startPos": 0.0,
+                            "startScale": 0.0,
                             "mMaxHealth": 100.0
                         }
                     ]
