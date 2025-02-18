@@ -77,6 +77,15 @@ namespace Carmicah
 
 			if (ImGui::CollapsingHeader("Texture"))
 			{
+				for (const auto& entry : textureMap->mAssetMap)
+				{
+					name = entry.first + "##texture";
+				}
+			}
+
+
+			if (ImGui::CollapsingHeader("Texture"))
+			{
 				ImGui::Indent();
 				//ImGui::BeginChild("TextureTableRegion", ImVec2(400, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
 				if (ImGui::BeginTable("TextureTable", 5))
