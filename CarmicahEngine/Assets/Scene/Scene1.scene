@@ -154,14 +154,14 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -4.781428337097168,
-                    "yPos": -21.70977783203125,
+                    "xPos": -5.659003257751465,
+                    "yPos": -21.167631149291993,
                     "depth": 1.2000000476837159,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 350.0,
+                    "rot": 0.0,
                     "transformTag": "",
-                    "collisionMask": 0
+                    "collisionMask": 1
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -171,10 +171,6 @@
                     "colG": 1.0,
                     "colB": 1.0,
                     "colA": 1.0
-                },
-                {
-                    "Component Name": "struct Carmicah::PrefabData",
-                    "prefabRef": 4
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
@@ -188,14 +184,14 @@
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Transform",
-                            "xPos": -0.06735196709632874,
-                            "yPos": -2.511770009994507,
+                            "xPos": 0.0,
+                            "yPos": -2.5627124309539797,
                             "depth": 6.5,
                             "xScale": 1.0,
                             "yScale": 1.0,
-                            "rot": 360.0,
+                            "rot": 0.0,
                             "transformTag": "",
-                            "collisionMask": 0
+                            "collisionMask": 1
                         },
                         {
                             "Component Name": "struct Carmicah::Renderer",
@@ -205,10 +201,6 @@
                             "colG": 1.0,
                             "colB": 1.0,
                             "colA": 1.0
-                        },
-                        {
-                            "Component Name": "struct Carmicah::PrefabData",
-                            "prefabRef": 4
                         },
                         {
                             "Component Name": "struct Carmicah::Animation",
