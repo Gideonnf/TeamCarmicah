@@ -288,7 +288,13 @@ namespace Carmicah
 
 		if (go.HasComponent<Transform>())
 		{
-			*outPos = go.GetComponent<Transform>().ExtractWorldPos();
+			//*outPos = go.GetComponent<Transform>().ExtractWorldPos();
+			*outPos = go.GetComponent<Transform>().Pos();
+			if (go.GetComponent<Transform>().parent != 0)
+			{
+				Transform parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(go.GetComponent<Transform>().parent);
+				*outPos += parentTransform.Pos();
+			}
 		}
 		else if (go.HasComponent<UITransform>())
 		{
