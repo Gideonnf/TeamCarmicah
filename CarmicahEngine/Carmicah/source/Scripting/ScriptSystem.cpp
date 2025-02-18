@@ -607,12 +607,12 @@ namespace Carmicah
         // Button entity was clicked
         if (msg->mMsgType == MSG_ONCLICK)
         {
-            auto castedMsg = dynamic_cast<OnClickMsg*>(msg);
+            auto castedMsg = dynamic_cast<OnMouseMsg*>(msg);
 
             // If it has a script instance
-            if (mEntityInstances.count(castedMsg->buttonEntity))
+            if (mEntityInstances.count(castedMsg->entity))
             {
-                mEntityInstances[castedMsg->buttonEntity]->InvokeOnClick();
+                mEntityInstances[castedMsg->entity]->InvokeOnClick();
             }
         }
         else if (msg->mMsgType == MSG_ENTITYCOLLIDED)
