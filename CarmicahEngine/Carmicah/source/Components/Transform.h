@@ -47,6 +47,11 @@ namespace Carmicah
         // accumulatedScale -> the scale that is the combination of parents and itself
         Vector2D<float> accumulatedScale = Vector2D<float>::one();
 
+        Vec2f ExtractWorldPos()
+        {
+            return Vec2f(rotTrans.m[6], rotTrans.m[7]);
+        }
+
         Transform& DeserializeComponent(const rapidjson::Value& component) override
         {           
             BaseTransform::DeserializeComponentBuffer(component);
