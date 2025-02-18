@@ -11,6 +11,32 @@ namespace Carmicah
         protected Entity() { mID = 0; }
         ~Entity() { mID = 0; }
 
+        public virtual void OnCreate() { }
+
+        public virtual void OnUpdate(float dt) { }
+
+        public virtual void OnFixedUpdate(float fixedDt) { }
+
+        public virtual void OnCollide(Entity collidedEntity) { }
+
+        public virtual void OnTriggerEnter(Entity collidedEntity) { }
+
+        public virtual void OnTriggerStay() { }
+
+        public virtual void OnTriggerExit() { }
+
+        public virtual void OnMouseEnter() { }
+
+        public virtual void OnMouseHover() { }
+
+        public virtual void OnMouseExit() { }
+
+        public virtual void OnStateEnter(string stateName) { }
+
+        public virtual void OnStateUpdate(string stateName, float dt) { }
+
+        public virtual void OnStateExit(string stateName) { }
+
         internal Entity(uint id) { mID = id; }
 
         public Vector2 Scale
@@ -47,7 +73,6 @@ namespace Carmicah
             }
         }
 
-        
         public Vector2 LocalPosition
         {
             get
@@ -77,7 +102,6 @@ namespace Carmicah
                 FunctionCalls.Transform_SetDepth(mID, ref value);
             }
         }
-
 
         public bool HasComponent<T>() where T : Component, new()
         {
@@ -145,16 +169,7 @@ namespace Carmicah
 
             return newEntity;
         }
-        
-        //public void RemoveFromGM()
-        //{
-        //    GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
-        //    CMConsole.Log($"In Entity RemoveFromGM {this}");
-        //    if (gm != null)
-        //        gm.EntityDestroyed(this);
-
-        //}
-
+ 
         public void Destroy()
         {
             FunctionCalls.Destroy(mID);

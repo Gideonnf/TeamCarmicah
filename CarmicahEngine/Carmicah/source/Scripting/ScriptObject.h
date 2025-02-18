@@ -92,6 +92,12 @@ namespace Carmicah
 
 		// Standard object functions
 		MonoMethod* mOnCollide = nullptr;
+		MonoMethod* mOnTriggerEnter = nullptr;
+		MonoMethod* mOnTriggerStay = nullptr;
+		MonoMethod* mOnTriggerExit = nullptr;
+
+
+		// Mouse functions
 		MonoMethod* mOnMouseEnter = nullptr;
 		MonoMethod* mOnMouseExit = nullptr;
 		MonoMethod* mOnMouseHover = nullptr;
