@@ -1,6 +1,0 @@
-GLFW
-GLAD
-PREMAKE
-rapidJSON
-stb
-freetype

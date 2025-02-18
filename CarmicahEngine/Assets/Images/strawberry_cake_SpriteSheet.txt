@@ -1,7 +1,0 @@
-Squish
-Top left: 0 x 0, 1024 x 1024
-10 sprites
-
-vfx
-Top left: 2048 x 2048, 1024 x 1024
-6 sprites
