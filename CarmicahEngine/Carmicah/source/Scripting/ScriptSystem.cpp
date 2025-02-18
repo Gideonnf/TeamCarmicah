@@ -628,14 +628,25 @@ namespace Carmicah
             }
             else if (castedMsg->mCollidedType == TRIGGER_ENTER)
             {
-
+                if (mEntityInstances.count(castedMsg->mEntityID))
+                {
+                    mEntityInstances[castedMsg->mEntityID]->InvokeOnTriggerEnter(castedMsg->mCollidedEntity);
+                }
             }
             else if (castedMsg->mCollidedType == TRIGGER_STAY)
             {
-                
+                if (mEntityInstances.count(castedMsg->mEntityID))
+                {
+                    mEntityInstances[castedMsg->mEntityID]->InvokeOnTriggerStay();
+                }
+
             }
             else if (castedMsg->mCollidedType == TRIGGER_EXIT)
             {
+                if (mEntityInstances.count(castedMsg->mEntityID))
+                {
+                    mEntityInstances[castedMsg->mEntityID]->InvokeOnTriggerExit();
+                }
 
             }
 

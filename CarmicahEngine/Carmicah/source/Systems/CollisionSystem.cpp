@@ -905,12 +905,15 @@ namespace Carmicah
 
 				// if entity 1 was already colliding but no longer
 				// then call on trigger exit
-				if (ComponentManager::GetInstance()->GetComponent<RigidBody>(entity1).collided)
+				if (collided != true)
 				{
-					// 0 on 2nd entity cause trigger exit doesnt care about collided entity
-					EntityCollidedMessage newMsg(entity1, 0, CollideType::TRIGGER_EXIT);
-					SendSysMessage(&newMsg);
-					ComponentManager::GetInstance()->GetComponent<RigidBody>(entity1).collided = false;
+					if (ComponentManager::GetInstance()->GetComponent<RigidBody>(entity1).collided)
+					{
+						// 0 on 2nd entity cause trigger exit doesnt care about collided entity
+						EntityCollidedMessage newMsg(entity1, 0, CollideType::TRIGGER_EXIT);
+						SendSysMessage(&newMsg);
+						ComponentManager::GetInstance()->GetComponent<RigidBody>(entity1).collided = false;
+					}
 				}
 			}
 		}

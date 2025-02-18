@@ -202,6 +202,32 @@ namespace Carmicah
 		}
 	}
 
+	void ScriptObject::InvokeOnTriggerEnter(unsigned int id)
+	{
+		if (mOnTriggerEnter)
+		{
+			void* param = &id;
+			mScriptClass->InvokeMethod(mMonoInstance, mOnTriggerEnter, &param);
+
+		}
+	}
+
+	void ScriptObject::InvokeOnTriggerStay()
+	{
+		if (mOnTriggerStay)
+		{
+			mScriptClass->InvokeMethod(mMonoInstance, mOnTriggerStay);
+		}
+	}
+
+	void ScriptObject::InvokeOnTriggerExit()
+	{
+		if (mOnTriggerExit)
+		{
+			mScriptClass->InvokeMethod(mMonoInstance, mOnTriggerExit);
+		}
+	}
+
 
 	/// <summary>
 	/// Call when a mouse enters the collider box of an object

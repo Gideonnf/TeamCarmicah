@@ -175,6 +175,16 @@ namespace Carmicah
 		void InvokeOnCollide(unsigned int id);
 
 		/// <summary>
+		/// Call when kinematic vs kinematic trigger
+		/// </summary>
+		/// <param name="id"></param>
+		void InvokeOnTriggerEnter(unsigned int id);
+
+		void InvokeOnTriggerStay();
+
+		void InvokeOnTriggerExit();
+
+		/// <summary>
 		/// Call when a mouse enters the collider box of an object
 		/// </summary>
 		void InvokeOnMouseEnter();
