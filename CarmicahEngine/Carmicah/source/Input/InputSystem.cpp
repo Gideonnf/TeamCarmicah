@@ -164,19 +164,7 @@ namespace Carmicah
 		// DRAG CHECK
 		if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_LEFT)
 		{
-			// mouse is now dragging
-			Vec2i mousePosI = { static_cast<int>(Input.GetMousePosition().x), 1080 - static_cast<int>(Input.GetMousePosition().y) };
-
-			#ifndef CM_INSTALLER
-			SceneToImgui::SCENE_IMGUI currScene = SceneToImgui::GetInstance()->GetHovering();
-			if (currScene == SceneToImgui::NO_SCENE)
-			{
-				return;
-			}
-			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(static_cast<SceneToImgui::SCENE_IMGUI>(SceneToImgui::GetInstance()->GetHovering()), mousePosI.x, mousePosI.y));
-			#else
-			EntityPickedMessage msg(SceneToImgui::GetInstance()->IDPick(SceneToImgui::GAME_SCENE, mousePosI.x, mousePosI.y));
-			#endif
+			EntityPickedMessage msg(SceneToImgui::GetInstance()->GetIDObjPick());
 
 			Input.ProxySend(&msg);
 		}

@@ -1074,28 +1074,6 @@ namespace Carmicah
 			{
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
-				ImGui::Text("Pressed Image");
-				ImGui::SameLine();
-				if (ImGui::Button("v#####"))
-				{
-					ImGui::OpenPopup("Pressed Image Select");
-				}
-				ImGui::TableNextColumn();
-				ImGui::Text(butt.ButtonImagePressed.c_str());
-				if (ImGui::BeginPopup("Pressed Image Select"))
-				{
-					for (const auto& entry : textureMap->mAssetMap)
-					{
-						if (ImGui::Button(entry.first.c_str()))
-						{
-							butt.ButtonImagePressed = entry.first;
-							ImGui::CloseCurrentPopup();
-						}
-					}
-					ImGui::EndPopup();
-				}
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
 				ImGui::Text("isPressed = %s", butt.isPressed ? "true" : "false");
 				ImGui::TableNextColumn();
 				if (ImGui::Button("Toggle Pressed State"))

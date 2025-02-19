@@ -187,7 +187,6 @@ namespace Carmicah
 	{
 		if (mOnClick)
 		{
-
 			mScriptClass->InvokeMethod(mMonoInstance, mOnClick);
 		}
 	}
