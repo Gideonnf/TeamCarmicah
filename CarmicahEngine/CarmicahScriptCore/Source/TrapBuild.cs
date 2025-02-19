@@ -14,6 +14,8 @@ namespace Carmicah
         public string TrapTranslucentPrefab = "TrapTranslucent";
         public bool IsLeft = false;
         public float depthVal = 3.45f;
+        public float trapOffset = 1.6f;
+
 
         Entity translucentTrap;
         Entity trapEntity;
@@ -46,12 +48,14 @@ namespace Carmicah
                     //CMConsole.Log("It shouldnt be here atm");
                     translucentTrap = CreateGameObject(TrapTranslucentPrefab);
                     CMConsole.Log($"{Position.x} , {Position.y}");
-                    translucentTrap.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
+                    translucentTrap.GetComponent<Transform>().Position = new Vector2(Position.x + trapOffset, Position.y);
                     translucentTrap.GetComponent<Transform>().Depth = depthVal;
                     if (IsLeft)
                     {
                         Vector2 scale = translucentTrap.GetComponent<Transform>().Scale;
                         translucentTrap.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
+                        translucentTrap.GetComponent<Transform>().Position = new Vector2(Position.x - trapOffset, Position.y);
+
                     }
 
                 }
@@ -60,8 +64,6 @@ namespace Carmicah
             {
                 if (translucentTrap != null)
                 {
-                    translucentTrap.Destroy();
-                    translucentTrap = null;
 
                     // if the player let go when its hovering a build spot
                     if (hovering && trapEntity == null)
@@ -70,7 +72,7 @@ namespace Carmicah
                         built = true;
                         trapEntity = CreateGameObject(TrapPrefabName);
                         CMConsole.Log($"{Position.x} , {Position.y}");
-                        trapEntity.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
+                        trapEntity.GetComponent<Transform>().Position = new Vector2(translucentTrap.Position.x, translucentTrap.Position.y);
                         trapEntity.GetComponent<Transform>().Depth = depthVal;
                         trapEntity.As<TrapAI>().built = true;
                         
@@ -80,9 +82,16 @@ namespace Carmicah
                         {
                             Vector2 scale = trapEntity.GetComponent<Transform>().Scale;
                             trapEntity.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
+
+                            //trapEntity.Position = new Vector2(translucentTrap.Position.x, translucentTrap.Position.y);
                         }
 
+                       // trapEntity.Position = new Vector2(trapEntity.Position.x + trapOffset, trapEntity.Position.y);
                     }
+
+                    translucentTrap.Destroy();
+                    translucentTrap = null;
+
                 }
             }
         }

@@ -26,7 +26,8 @@ namespace Carmicah
 {
     public class Camera : Entity
     {
-        
+        public float bottomLimit = -10.0f;
+        public float topLimit = 10.0f;
         void OnCreate()
         {
 
@@ -37,7 +38,7 @@ namespace Carmicah
             if (Input.IsKeyHold(Keys.KEY_R))
             {
                 Vector2 pos = GetComponent<Transform>().Position;
-                if (pos.y <= 10.0f)
+                if (pos.y <= topLimit)
                 {
                     pos.y += 4 * dt;
                     GetComponent<Transform>().Position = pos;
@@ -47,7 +48,7 @@ namespace Carmicah
             if (Input.IsKeyHold(Keys.KEY_F))
             {
                 Vector2 pos = GetComponent<Transform>().Position;
-                if (pos.y >= -9.5f)
+                if (pos.y >= bottomLimit)
                 {
                     pos.y -= 4 * dt;
                     GetComponent<Transform>().Position = pos;

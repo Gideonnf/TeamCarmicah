@@ -175,7 +175,7 @@ namespace Carmicah
             scale.x = static_cast<float>(component["xScale"].GetDouble());
             scale.y = static_cast<float>(component["yScale"].GetDouble());
             rot = static_cast<float>(component["rot"].GetDouble());
-            notUpdated = true;
+            notUpdated = false;
             DESERIALIZE_IF_HAVE(transformTag, component, "transformTag", GetString, std::string);
         }
 
