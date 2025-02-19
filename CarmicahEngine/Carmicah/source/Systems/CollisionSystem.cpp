@@ -674,6 +674,7 @@ namespace Carmicah
 
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
 				SendSysMessage(&newMsg);
+				rigidbody1.collided = true;
 			}
 			else
 			{
@@ -707,6 +708,7 @@ namespace Carmicah
 
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
 				SendSysMessage(&newMsg);
+				rigidbody1.collided = true;
 			}
 			else
 			{
@@ -742,6 +744,7 @@ namespace Carmicah
 
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
 				SendSysMessage(&newMsg);
+				rigidbody1.collided = true;
 			}
 			else
 			{
@@ -768,6 +771,7 @@ namespace Carmicah
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
 				SendSysMessage(&newMsg);
+				rigidbody1.collided = true;
 			}
 			else if (rigidbody1.collided)
 			{
@@ -778,13 +782,14 @@ namespace Carmicah
 		else if (rigidbody1.objectType == rbTypes::KINEMATIC && rigidbody2.objectType == rbTypes::KINEMATIC)
 		{
 			// trigger
-			if (rigidbody1.collided == false)
+			if (rigidbody1.triggerCollide == false)
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
 				SendSysMessage(&newMsg);
+				rigidbody1.triggerCollide = true;
 
 			}
-			else if (rigidbody1.collided)
+			else if (rigidbody1.triggerCollide)
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_STAY);
 				SendSysMessage(&newMsg);
@@ -795,7 +800,7 @@ namespace Carmicah
 		// set collided to true at the end
 		// so that we can differentiate on trigger enter
 		// vs on trigger stay
-		rigidbody1.collided = true;
+		//rigidbody1.collided = true;
 		//rigidbody2.collided = true;
 	}
 
@@ -886,6 +891,7 @@ namespace Carmicah
 		}
 
 		bool collided = false;
+		bool triggerCollide = false;
 
 		// Perform collision detection
 		for (auto entity1 : mEntitiesSet)
@@ -937,7 +943,15 @@ namespace Carmicah
 
 							
 							CollisionResponse(entity1, entity2);
-							collided = true;
+							if (rigidbody2.objectType == rbTypes::KINEMATIC)
+							{
+								triggerCollide = true;
+							}
+							else
+							{
+								collided = true;
+							}
+							//collided = true;
 						}
 					}
 				}
@@ -945,9 +959,9 @@ namespace Carmicah
 
 			// if entity 1 was already colliding but no longer
 				// then call on trigger exit
-			if (collided != true)
+			if (triggerCollide != true)
 			{
-				if (rigidbody1.collided)
+				if (rigidbody1.triggerCollide)
 				{
 					// OKAY TECHNICALLY ANY OBJECT WILL GET THIS CALL IF IT HAS THIS FUNCTION
 					// JUST DONT USE IT OK? 
@@ -958,6 +972,14 @@ namespace Carmicah
 					// 0 on 2nd entity cause trigger exit doesnt care about collided entity
 					EntityCollidedMessage newMsg(entity1, 0, CollideType::TRIGGER_EXIT);
 					SendSysMessage(&newMsg);
+					rigidbody1.triggerCollide = false;
+				}
+			}
+
+			if (collided != true)
+			{
+				if (rigidbody1.collided)
+				{
 					rigidbody1.collided = false;
 				}
 			}

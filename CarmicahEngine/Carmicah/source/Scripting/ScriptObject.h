@@ -180,7 +180,7 @@ namespace Carmicah
 		/// <param name="id"></param>
 		void InvokeOnTriggerEnter(unsigned int id);
 
-		void InvokeOnTriggerStay();
+		void InvokeOnTriggerStay(unsigned int id);
 
 		void InvokeOnTriggerExit();
 

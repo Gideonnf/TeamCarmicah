@@ -125,7 +125,7 @@ namespace Carmicah
 		// Collision functions
 		mOnCollide = scClass->GetMethod("OnCollide", 1);
 		mOnTriggerEnter = scClass->GetMethod("OnTriggerEnter", 1);
-		mOnTriggerStay = scClass->GetMethod("OnTriggerStay", 0);
+		mOnTriggerStay = scClass->GetMethod("OnTriggerStay", 1);
 		mOnTriggerExit = scClass->GetMethod("OnTriggerExit", 0);
 
 		// Mouse functions
@@ -211,11 +211,13 @@ namespace Carmicah
 		}
 	}
 
-	void ScriptObject::InvokeOnTriggerStay()
+	void ScriptObject::InvokeOnTriggerStay(unsigned int id)
 	{
 		if (mOnTriggerStay)
 		{
-			mScriptClass->InvokeMethod(mMonoInstance, mOnTriggerStay);
+			void* param = &id;
+
+			mScriptClass->InvokeMethod(mMonoInstance, mOnTriggerStay, &param);
 		}
 	}
 

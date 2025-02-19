@@ -637,7 +637,7 @@ namespace Carmicah
             {
                 if (mEntityInstances.count(castedMsg->mEntityID))
                 {
-                    mEntityInstances[castedMsg->mEntityID]->InvokeOnTriggerStay();
+                    mEntityInstances[castedMsg->mEntityID]->InvokeOnTriggerStay(castedMsg->mCollidedEntity);
                 }
 
             }

@@ -250,7 +250,8 @@
                     "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
                         {
-                            "buttonType": "Settings"
+                            "buttonType": "Settings",
+                            "nextScene": ""
                         }
                     ]
                 },
@@ -491,7 +492,7 @@
                     "scriptName": "Carmicah.WaveSystem",
                     "ScriptableFieldMap": [
                         {
-                            "waveStartTime": 7.0,
+                            "waveStartTime": 21.0,
                             "waveTimer": 0.0,
                             "startNewWave": true,
                             "waveStart": false
@@ -1191,7 +1192,7 @@
                     "yScale": 1.720000147819519,
                     "rot": 0.05306386575102806,
                     "transformTag": "",
-                    "collisionMask": 8
+                    "collisionMask": 32
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -1212,7 +1213,8 @@
                             "CandyAnim": "CandyCone",
                             "IsLeft": false,
                             "depthVal": 3.450000047683716,
-                            "DetectionRadius": 2.0
+                            "DetectionRadius": 2.0,
+                            "trapOffset": 1.600000023841858
                         }
                     ]
                 },
@@ -1259,7 +1261,8 @@
                     "scriptName": "Carmicah.TrapIcon",
                     "ScriptableFieldMap": [
                         {
-                            "trapPrefab": "Trap_2"
+                            "trapPrefab": "Trap_2",
+                            "trapOffset": 1.600000023841858
                         }
                     ]
                 },
@@ -1510,7 +1513,7 @@
                     "yScale": 1.720000147819519,
                     "rot": 0.05306386575102806,
                     "transformTag": "",
-                    "collisionMask": 8
+                    "collisionMask": 32
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -1531,7 +1534,8 @@
                             "CandyAnim": "CandyCone",
                             "IsLeft": false,
                             "depthVal": 3.200000047683716,
-                            "DetectionRadius": 2.0
+                            "DetectionRadius": 2.0,
+                            "trapOffset": 1.600000023841858
                         }
                     ]
                 },
@@ -1574,7 +1578,7 @@
                     "yScale": 1.720000147819519,
                     "rot": 0.05306386575102806,
                     "transformTag": "",
-                    "collisionMask": 8
+                    "collisionMask": 32
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -1595,7 +1599,8 @@
                             "CandyAnim": "CandyCone",
                             "IsLeft": true,
                             "depthVal": 3.450000047683716,
-                            "DetectionRadius": 2.0
+                            "DetectionRadius": 2.0,
+                            "trapOffset": 1.600000023841858
                         }
                     ]
                 },
@@ -1638,7 +1643,7 @@
                     "yScale": 1.720000147819519,
                     "rot": 0.05306386575102806,
                     "transformTag": "",
-                    "collisionMask": 8
+                    "collisionMask": 32
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -1659,7 +1664,8 @@
                             "CandyAnim": "CandyCone",
                             "IsLeft": true,
                             "depthVal": 3.200000047683716,
-                            "DetectionRadius": 2.0
+                            "DetectionRadius": 2.0,
+                            "trapOffset": 1.600000023841858
                         }
                     ]
                 },
@@ -1722,6 +1728,11 @@
                     "transformTag": ""
                 }
             ]
+        },
+        {
+            "GameObject": "",
+            "ID": 0,
+            "Components": []
         }
     ]
 }

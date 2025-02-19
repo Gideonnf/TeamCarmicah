@@ -22,6 +22,7 @@ namespace Carmicah
         Entity TrapIcon;
         bool hovering = false;
         bool built = false;
+        bool enemyCollided = false;
        // bool isActive = false;
 
         public void OnCreate()
@@ -70,6 +71,14 @@ namespace Carmicah
             {
                 if (translucentTrap != null)
                 {
+                    // dont let them build if an enemy is taking the spot
+                    if (enemyCollided)
+                    {
+                        translucentTrap.Destroy();
+                        translucentTrap = null;
+                        return;
+                    }
+
 
                     // if the player let go when its hovering a build spot
                     if (hovering && trapEntity == null)
@@ -123,6 +132,34 @@ namespace Carmicah
         {
             trapEntity = null;
             built = false;
+        }
+
+        public override void OnTriggerEnter(uint collidedEntity)
+        {
+            Entity mouseEntity = FindEntityWithID(collidedEntity);
+            if (mouseEntity.GetTag() == "Enemy")
+            {
+                //CMConsole.Log("Colliding with enemy");
+                enemyCollided = true;
+            }
+
+            //CMConsole.Log("Colliding with smth");
+        }
+
+        public override void OnTriggerStay(uint collidedEntity)
+        {
+            Entity mouseEntity = FindEntityWithID(collidedEntity);
+            if (mouseEntity.GetTag() == "Enemy")
+            {
+                //CMConsole.Log("Colliding with enemy");
+                enemyCollided = true;
+            }
+        }
+
+        public override void OnTriggerExit()
+        {
+           // CMConsole.Log("Not colliding with enemy");
+            enemyCollided = false;
         }
     }
 }
