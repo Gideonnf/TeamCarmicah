@@ -1067,6 +1067,10 @@ namespace Carmicah
 				{
 					for (const auto& entry : fontMap->mAssetMap)
 					{
+						if (entry.first.empty())
+						{
+							continue;
+						}
 						if (ImGui::Button(entry.first.c_str()))
 						{
 							text.font = entry.first;
