@@ -172,11 +172,11 @@ namespace Carmicah
 		mono_free(cStrname);
 	}
 
-	static void Sound_SwitchBGM(MonoString* name, float volume)
+	static void Sound_SwitchBGM(MonoString* name, float fadeTimer, float fadeDuration)
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->SwitchSound(SoundSystem::SOUND_BGM, cStrname, SoundCategory::BGM, true, volume, 1.0f);
+		souSystem->SwitchSound(SoundSystem::SOUND_BGM, cStrname, SoundCategory::BGM, true, 1.0f, fadeTimer, fadeDuration);
 		mono_free(cStrname);
 	}
 

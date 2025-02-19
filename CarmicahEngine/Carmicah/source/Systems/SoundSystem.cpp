@@ -89,7 +89,7 @@ namespace Carmicah
         return false;
     }
 
-    void SoundSystem::SwitchSound(INTSOUND internalCatergoy, const std::string& newSoundName, SoundCategory category, bool isLoop, float volume, float fadeDuration)
+    void SoundSystem::SwitchSound(INTSOUND internalCatergoy, const std::string& newSoundName, SoundCategory category, bool isLoop, float volume, float fadeTimer, float fadeDuration)
     {
         if (mSoundTracks[internalCatergoy].empty())
         {
@@ -113,37 +113,39 @@ namespace Carmicah
             currentChannel->addDSP(0, volumeDSP);
             volumeDSP->setParameterFloat(FMOD_DSP_FADER_GAIN, 1.0f);
 
-            fadeStartTime = (float)CarmicahTime::GetInstance()->GetDeltaTime();
-            fadingOut = true;
-            fadeInNewSound = true;
+            fadeTimerSeconds = fadeTimer;
             fadeDurationSeconds = fadeDuration;
+            fadingOut = true;
+            fadeInNewSound = false;
             oldChannel = currentChannel;
             newSoundNamePending = newSoundName;
             newSoundCategory = category;
             newSoundInternalCatergoy = internalCatergoy;
             newSoundLoop = isLoop;
             newSoundVolume = volume;
-            fadeInProgress = true;
+            
             
         }
     }
 
     void SoundSystem::UpdateFadeEffect()
     {
-        if (!fadeInProgress)
+        if (fadeTimerSeconds <= 0.0f)
         {
             return;
         }
 
-        float elapsedTime = (float)CarmicahTime::GetInstance()->GetDeltaTime() - fadeStartTime;
-        float fadeProgress = elapsedTime / fadeDurationSeconds;
+        // Decrease fadeTimer
+        fadeTimerSeconds -= (float)CarmicahTime::GetInstance()->GetDeltaTime();
 
         if (fadingOut)
         {
-            float newVolume = 1.0f - fadeProgress;
-
+            // Fade-out progress: Starts at 1.0 and decreases to 0.0
+            float fadeOutProgress = 1.0f - (fadeTimerSeconds / fadeDurationSeconds);
+            float newVolume = 1.0f - fadeOutProgress;
             oldChannel->setVolume(std::max(0.0f, newVolume));
-            if (fadeProgress >= 1.0f)
+
+            if (fadeTimerSeconds <= 0.0f)
             {
                 oldChannel->stop();
                 oldChannel = nullptr;
@@ -151,26 +153,29 @@ namespace Carmicah
 
                 StopSound(newSoundInternalCatergoy);
 
-                PlaySoundThis(newSoundNamePending, newSoundCategory, newSoundInternalCatergoy,newSoundLoop, newSoundVolume);
+                PlaySoundThis(newSoundNamePending, newSoundCategory, newSoundInternalCatergoy, newSoundLoop, newSoundVolume);
                 FMOD::Channel* newChannel = mSoundTracks[newSoundInternalCatergoy].back()->channel;
-                if (newChannel) 
+                if (newChannel)
                 {
-                    newChannel->setVolume(0.0f);
+                    newChannel->setVolume(0.0f); // Start at 0 volume
                     newSoundChannel = newChannel;
                     fadeInNewSound = true;
-                    fadeStartTime = (float)CarmicahTime::GetInstance()->GetDeltaTime(); // Restart timer
+                    fadeTimerSeconds = 1.0f; // Restart timer for fade-in
                 }
             }
         }
         else if (fadeInNewSound)
         {
-            float newVolume = fadeProgress * newSoundVolume;
+            // Fade-in progress: Starts at 0.0 and increases to 1.0
+            float fadeInProgress = 1.0f - (fadeTimerSeconds / fadeDurationSeconds);
+            float newVolume = fadeInProgress * newSoundVolume;
             newSoundChannel->setVolume(std::min(newSoundVolume, newVolume));
 
-            if (fadeProgress >= 1.0f) 
+            if (fadeTimerSeconds <= 0.0f)
             {
                 fadeInNewSound = false;
                 fadeInProgress = false;
+                fadeTimerSeconds = 0.0f; // Reset timer
             }
         }
     }

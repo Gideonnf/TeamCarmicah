@@ -49,7 +49,7 @@ namespace Carmicah
         internal extern static void Sound_PlayBGM(string soundName, float volume);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static void Sound_SwitchBGM(string soundName, float volume);
+        internal extern static void Sound_SwitchBGM(string soundName, float fadeTimer, float fadeDuration);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_SetVolume(string soundName, float volume);
