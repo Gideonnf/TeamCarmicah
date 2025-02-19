@@ -44,9 +44,9 @@ namespace Carmicah
 	class AssetWindow : public EditorWindow
 	{
 	private:
+		std::string assetDir;
 
 	public:
-		static std::string soundToPlay;
 		static Prefab* selectedPrefab;
 		static bool mSceneModified;
 
@@ -62,8 +62,11 @@ namespace Carmicah
 		 */
 		void Update() override;
 
+		template<typename T>
+		void DisplayAllAssets(std::filesystem::path path, std::shared_ptr<Carmicah::AssetType<T>>);
 
-		void TextureBrowser(std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map);
+		void TextureBrowserOld(std::string& name, std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map);
+		void TextureBrowserNew(std::string& name, std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map);
 
 	};
 }

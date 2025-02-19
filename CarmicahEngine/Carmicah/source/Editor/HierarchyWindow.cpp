@@ -392,8 +392,8 @@ namespace Carmicah
 	{
 		if (ImGui::Begin(mTitle))
 		{
-			static int counter = 0;
-			//Temporary Debugging Area
+#pragma region Debug Region
+			/*static int counter = 0;
 			if(counter++ % 300 == 0)
 			{
 				std::string GOFactoryChildren = "No. of children sceneGO has: " + std::to_string(gGOFactory->sceneGO.children.size());
@@ -428,8 +428,8 @@ namespace Carmicah
 				{
 					
 				}
-			}
-
+			}*/
+#pragma endregion
 
 			if (ImGui::BeginChild("Game Object List: ", ImVec2(0, 400), ImGuiChildFlags_AlwaysUseWindowPadding))
 			{
