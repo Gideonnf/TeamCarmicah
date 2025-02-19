@@ -35,14 +35,19 @@ namespace Carmicah
 
         public void OnUpdate(float dt)
         {
+
             // incase trap entity gets destroyed, it needs to update to null here
             if (trapEntity != null && trapEntity.mID == 0)
             {
+                CMConsole.Log("Trap entity destroyed");
                 trapEntity = null;
+                built = false;
             }
+           
 
             if (TrapIcon != null && TrapIcon.As<TrapIcon>().trapEntity != null)
             {
+                CMConsole.Log("Trying to build a trap");
                 if (translucentTrap == null && built == false)
                 {
                     //CMConsole.Log("It shouldnt be here atm");
@@ -59,6 +64,7 @@ namespace Carmicah
                     }
 
                 }
+                
             }
             else if (TrapIcon != null && TrapIcon.As<TrapIcon>().trapEntity == null)
             {
@@ -75,6 +81,7 @@ namespace Carmicah
                         trapEntity.GetComponent<Transform>().Position = new Vector2(translucentTrap.Position.x, translucentTrap.Position.y);
                         trapEntity.GetComponent<Transform>().Depth = depthVal;
                         trapEntity.As<TrapAI>().built = true;
+                        trapEntity.As<TrapAI>().SetBuildEntity(this);
                         
                         Sound.PlaySFX("trap_placement", 0.5f);
 
@@ -110,6 +117,12 @@ namespace Carmicah
         public void OnMouseExit()
         {
             hovering = false;
+        }
+
+        public void TrapDead()
+        {
+            trapEntity = null;
+            built = false;
         }
     }
 }

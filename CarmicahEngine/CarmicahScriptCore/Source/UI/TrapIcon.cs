@@ -23,10 +23,13 @@ namespace Carmicah
 
             //if (IsKeyHold(Keys.))
             Vector2 mousePos = Input.GetMousePos();
-            trapEntity.Position = new Vector2(mousePos.x + trapOffset, mousePos.y);
-            
+            if (!flipped)
+                trapEntity.Position = new Vector2(mousePos.x + trapOffset, mousePos.y);
+            else
+                trapEntity.Position = new Vector2(mousePos.x - trapOffset, mousePos.y);
 
-            if(trapEntity.Position.x < 0.0f && flipped != true)
+
+            if (trapEntity.Position.x < 0.0f && flipped != true)
             {
                 Vector2 scale = trapEntity.GetComponent<Transform>().Scale;
                 trapEntity.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);

@@ -10,9 +10,10 @@ namespace Carmicah
     public class TrapAI : Entity
     {
         public bool built = false;
-        public float life = 2.0f;
+        public float life = 4.0f;
         public float timer = 0.0f;
         public bool isDead = false;
+        public Entity buildSpotEntity = null;
 
         public override void OnCollide(uint id)
         {
@@ -76,12 +77,19 @@ namespace Carmicah
                 {
                     // Play death sound?
 
+                    buildSpotEntity.As<TrapBuild>().TrapDead();
                     // Die
                     timer = 0.0f;
                     // for now
                     Destroy();
                 }
             }
+        }
+
+        public void SetBuildEntity(Entity entity)
+        {
+            if (buildSpotEntity == null)
+                buildSpotEntity = entity;
         }
 
         public override void OnStateExit(string stateName)
