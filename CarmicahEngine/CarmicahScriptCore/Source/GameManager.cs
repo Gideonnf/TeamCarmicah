@@ -173,7 +173,7 @@ namespace Carmicah
 
                 }
             }
-            
+
             //CMConsole.Log($"Active enemies: {activeEnemies}");
             //Wave Ending Checking
             //if(BearCounter == 0 && MobCounter == 0 && IsLanesEmpty() && GameStart == true)
@@ -188,14 +188,14 @@ namespace Carmicah
             //CMConsole.Log($"Lane three: {mouseLaneThree.Count()}");
             //CMConsole.Log($"Lane four: {mouseLaneFour.Count()}");
 
-            if (waveSystem.As<WaveSystem>().waveStart && activeEnemies == 0)
-            {
-               // WaveStarted = false;
-                CMConsole.Log("Ending Wave");
-                waveSystem.As<WaveSystem>().EndOfWave();
-                Sound.StopSoundBGM("BGM_LevelMusic_FullTrack_Vers1");
-                Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
-            }
+            //if (waveSystem.As<WaveSystem>().waveStart && activeEnemies == 0)
+            //{
+            //    // WaveStarted = false;
+            //    CMConsole.Log("Ending Wave");
+            //    waveSystem.As<WaveSystem>().EndOfWave();
+            //    Sound.StopSoundBGM("BGM_LevelMusic_FullTrack_Vers1");
+            //    Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
+            //}
 
 
             if (Input.IsKeyPressed(Keys.KEY_SPACEBAR))
@@ -213,8 +213,8 @@ namespace Carmicah
             BearCounter += bearCount;
 
             activeEnemies = MobCounter + BearCounter;
-            Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
-            Sound.PlayBGM("BGM_LevelMusic_FullTrack_Vers1",0.4f);
+            //Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
+            //Sound.PlayBGM("BGM_LevelMusic_FullTrack_Vers1",0.4f);
         }
 
         public void CreateEnemy(string prefabName)
@@ -478,6 +478,8 @@ namespace Carmicah
 
             //playerPos = playerEntity.Position;
         }
+
+        
 
         public void HideEntities()
         {
