@@ -38,13 +38,10 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.ReplayButton",
+                    "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
                         {
-                            "buttonType": "Button_HE_Replay",
-                            "buttonExit": "Button_C_Replay",
-                            "buttonHover": "Button_HS_Replay",
-                            "buttonClick": "Replay"
+                            "buttonType": "Replay"
                         }
                     ]
                 },
@@ -142,13 +139,10 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.ReplayButton",
+                    "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
                         {
-                            "buttonType": "Home",
-                            "buttonExit": "Button_HE_Home",
-                            "buttonHover": "Button_HS_Home",
-                            "buttonClick": "Button_C_Home"
+                            "buttonType": "Home"
                         }
                     ]
                 },
@@ -167,9 +161,7 @@
                     "transformTag": ""
                 },
                 {
-                    "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "",
-                    "ButtonImagePressed": ""
+                    "Component Name": "struct Carmicah::Button"
                 }
             ]
         }

@@ -41,6 +41,19 @@ namespace Carmicah
 
 		SCENE_IMGUI currDrawingScene = NO_SCENE;
 		FBOScene mScenes[MAX_SCENES]{};
+		unsigned int mIDHovered;
+
+		/*!*************************************************************************
+		brief
+			Finds the ID of the selected in-game game object given the mouse coordinates (based on the framebuffer's width and height)
+		param[scene]
+			the framebuffer to select
+		param[mouseX]
+			the mouse X position
+		param[mouseY]
+			the mouse Y position
+		***************************************************************************/
+		unsigned int IDPick(SCENE_IMGUI scene, const int& mouseX, const int& mouseY);
 	public:
 		std::string currentScene{};
 
@@ -91,15 +104,15 @@ namespace Carmicah
 
 		/*!*************************************************************************
 		brief
-			Finds the ID of the selected in-game game object given the mouse coordinates (based on the framebuffer's width and height)
-		param[scene]
-			the framebuffer to select
-		param[mouseX]
-			the mouse X position
-		param[mouseY]
-			the mouse Y position
+			Finds the ID of what the mouse is hovering
 		***************************************************************************/
-		unsigned int IDPick(SCENE_IMGUI scene, const int& mouseX, const int& mouseY);
+		void SelectMouseIDObjPick();
+
+		/*!*************************************************************************
+		brief
+			Gets the already selected ID
+		***************************************************************************/
+		unsigned int GetIDObjPick();
 
 		/*!*************************************************************************
 		brief

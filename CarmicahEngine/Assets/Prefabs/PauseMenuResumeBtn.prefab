@@ -14,9 +14,11 @@
         },       
         {
             "Component Name": "struct Script",
-            "scriptName": "Carmicah.ResumeButton",
+            "scriptName": "Carmicah.ButtonGeneric",
             "ScriptableFieldMap": [
-                {}
+                {
+                    "buttonType": "reSUME"
+                }
             ]
         },
         {

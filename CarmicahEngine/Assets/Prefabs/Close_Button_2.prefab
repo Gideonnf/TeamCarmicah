@@ -3,9 +3,7 @@
     "ID": 18,
     "Components": [
         {
-            "Component Name": "struct Carmicah::Button",
-            "ButtonImage": "Button_SpriteSheet_Hover_Settings 0",
-            "ButtonImagePressed": "Button_SpriteSheet_Click_Settings 0"
+            "Component Name": "struct Carmicah::Button"
         },
         {
             "Component Name": "struct Carmicah::Renderer",
@@ -18,9 +16,11 @@
         },
         {
             "Component Name": "struct Script",
-            "scriptName": "Carmicah.BackButton",
+            "scriptName": "Carmicah.ButtonGeneric",
             "ScriptableFieldMap": [
-                {}
+                {
+                    "buttonType": "backCredits"
+                }
             ]
         },
         {
