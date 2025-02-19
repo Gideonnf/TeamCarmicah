@@ -87,7 +87,11 @@ namespace Carmicah
 						for (const auto& entry : textureMap->mAssetMap)
 						{
 							name = entry.first + "##texture";
-							if (name.find("SpriteSheet") == std::string::npos && name.find("Spritesheet") == std::string::npos && name.find("spritesheet") == std::string::npos)
+							std::transform(name.begin(), name.end(), name.begin(), [](char& ch)
+								{
+									return std::tolower(ch);
+								});
+							if (name.find("spritesheet") == std::string::npos)
 							{
 								continue;
 							}
@@ -154,7 +158,11 @@ namespace Carmicah
 						for (const auto& entry : textureMap->mAssetMap)
 						{
 							name = entry.first + "##texture";
-							if (name.find("SpriteSheet") != std::string::npos || name.find("Spritesheet") != std::string::npos || name.find("spritesheet") != std::string::npos)
+							std::transform(name.begin(), name.end(), name.begin(), [](char& ch)
+								{
+									return std::tolower(ch);
+								});
+							if (name.find("spritesheet") != std::string::npos)
 							{
 								continue;
 							}
