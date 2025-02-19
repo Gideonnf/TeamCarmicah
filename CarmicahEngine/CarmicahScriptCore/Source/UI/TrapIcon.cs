@@ -13,6 +13,7 @@ namespace Carmicah
         public Entity trapEntity;
         bool flipped = false;
         bool hovering = false;
+        public float trapOffset = 1.6f;
 
         void OnUpdate(float dt)
         {
@@ -22,19 +23,21 @@ namespace Carmicah
 
             //if (IsKeyHold(Keys.))
             Vector2 mousePos = Input.GetMousePos();
-            trapEntity.Position = mousePos;
+            trapEntity.Position = new Vector2(mousePos.x + trapOffset, mousePos.y);
             
 
             if(trapEntity.Position.x < 0.0f && flipped != true)
             {
                 Vector2 scale = trapEntity.GetComponent<Transform>().Scale;
                 trapEntity.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
+                //trapEntity.Position = new Vector2(mousePos.x + trapOffset, mousePos.y);
                 flipped = true;
             }
             else if ( trapEntity.Position.x > 0.0f && flipped == true)
             {
                 Vector2 scale = trapEntity.GetComponent<Transform>().Scale;
                 trapEntity.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
+               // trapEntity.Position = new Vector2(mousePos.x - trapOffset, mousePos.y);
                 flipped = false;
             }
 

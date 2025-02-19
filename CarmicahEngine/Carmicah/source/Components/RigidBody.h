@@ -49,7 +49,7 @@ namespace Carmicah
 
         ForcesManager forcesManager;
 
-
+        bool collided;
 
         float zposPrev;
 

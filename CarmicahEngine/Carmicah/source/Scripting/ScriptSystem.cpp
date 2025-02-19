@@ -618,11 +618,38 @@ namespace Carmicah
         else if (msg->mMsgType == MSG_ENTITYCOLLIDED)
         {
             auto castedMsg = dynamic_cast<EntityCollidedMessage*>(msg);
-            //CM_CORE_INFO("Entity id in ScriptSys {}", castedMsg->mEntityID);
-            if (mEntityInstances.count(castedMsg->mEntityID))
+            //CM_CORE_INFO("Entity id in ScriptSys {}", castedMsg->mEntityID);w
+            if (castedMsg->mCollidedType == ON_COLLIDE)
             {
-                mEntityInstances[castedMsg->mEntityID]->InvokeOnCollide(castedMsg->mCollidedEntity);
+                if (mEntityInstances.count(castedMsg->mEntityID))
+                {
+                    mEntityInstances[castedMsg->mEntityID]->InvokeOnCollide(castedMsg->mCollidedEntity);
+                }
             }
+            else if (castedMsg->mCollidedType == TRIGGER_ENTER)
+            {
+                if (mEntityInstances.count(castedMsg->mEntityID))
+                {
+                    mEntityInstances[castedMsg->mEntityID]->InvokeOnTriggerEnter(castedMsg->mCollidedEntity);
+                }
+            }
+            else if (castedMsg->mCollidedType == TRIGGER_STAY)
+            {
+                if (mEntityInstances.count(castedMsg->mEntityID))
+                {
+                    mEntityInstances[castedMsg->mEntityID]->InvokeOnTriggerStay();
+                }
+
+            }
+            else if (castedMsg->mCollidedType == TRIGGER_EXIT)
+            {
+                if (mEntityInstances.count(castedMsg->mEntityID))
+                {
+                    mEntityInstances[castedMsg->mEntityID]->InvokeOnTriggerExit();
+                }
+
+            }
+
         }
         else if (msg->mMsgType == MSG_MOUSEENTER)
         {

@@ -92,6 +92,12 @@ namespace Carmicah
 
 		// Standard object functions
 		MonoMethod* mOnCollide = nullptr;
+		MonoMethod* mOnTriggerEnter = nullptr;
+		MonoMethod* mOnTriggerStay = nullptr;
+		MonoMethod* mOnTriggerExit = nullptr;
+
+
+		// Mouse functions
 		MonoMethod* mOnMouseEnter = nullptr;
 		MonoMethod* mOnMouseExit = nullptr;
 		MonoMethod* mOnMouseHover = nullptr;
@@ -167,6 +173,16 @@ namespace Carmicah
 		/// Call when obj collides, if it has a script with an onCollide function
 		/// </summary>
 		void InvokeOnCollide(unsigned int id);
+
+		/// <summary>
+		/// Call when kinematic vs kinematic trigger
+		/// </summary>
+		/// <param name="id"></param>
+		void InvokeOnTriggerEnter(unsigned int id);
+
+		void InvokeOnTriggerStay();
+
+		void InvokeOnTriggerExit();
 
 		/// <summary>
 		/// Call when a mouse enters the collider box of an object

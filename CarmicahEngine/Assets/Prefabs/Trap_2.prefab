@@ -1,6 +1,6 @@
 {
-    "GameObject": "Trap_1",
-    "ID": 14,
+    "GameObject": "Trap_2",
+    "ID": 50,
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
@@ -12,13 +12,6 @@
             "rot": 0.0,
             "transformTag": "Trap",
             "collisionMask": 32
-        },
-        {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.TrapAI",
-            "ScriptableFieldMap": [
-                {}
-            ]
         },
         {
             "Component Name": "struct Carmicah::Renderer",
@@ -46,7 +39,7 @@
             "mass": 1.0,
             "gravity": 0.0,
             "zposPrev": -107374176.0,
-            "objectType": 2
+            "objectType": 1
         },
         {
             "Component Name": "struct Carmicah::Animation",

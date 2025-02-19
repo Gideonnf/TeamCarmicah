@@ -121,8 +121,14 @@ namespace Carmicah
 		mOnUpdate = scClass->GetMethod("OnUpdate", 1);
 		mOnFixedUpdate = scClass->GetMethod("OnFixedUpdate", 1);
 		mOnClick = scClass->GetMethod("OnClick", 0);
-		mOnCollide = scClass->GetMethod("OnCollide", 1);
 
+		// Collision functions
+		mOnCollide = scClass->GetMethod("OnCollide", 1);
+		mOnTriggerEnter = scClass->GetMethod("OnTriggerEnter", 1);
+		mOnTriggerStay = scClass->GetMethod("OnTriggerStay", 0);
+		mOnTriggerExit = scClass->GetMethod("OnTriggerExit", 0);
+
+		// Mouse functions
 		mOnMouseEnter = scClass->GetMethod("OnMouseEnter", 0);
 		mOnMouseExit = scClass->GetMethod("OnMouseExit", 0);
 		mOnMouseHover = scClass->GetMethod("OnMouseHover", 0);
@@ -192,6 +198,32 @@ namespace Carmicah
 		{
 			void* param = &id;
 			mScriptClass->InvokeMethod(mMonoInstance, mOnCollide, &param);
+		}
+	}
+
+	void ScriptObject::InvokeOnTriggerEnter(unsigned int id)
+	{
+		if (mOnTriggerEnter)
+		{
+			void* param = &id;
+			mScriptClass->InvokeMethod(mMonoInstance, mOnTriggerEnter, &param);
+
+		}
+	}
+
+	void ScriptObject::InvokeOnTriggerStay()
+	{
+		if (mOnTriggerStay)
+		{
+			mScriptClass->InvokeMethod(mMonoInstance, mOnTriggerStay);
+		}
+	}
+
+	void ScriptObject::InvokeOnTriggerExit()
+	{
+		if (mOnTriggerExit)
+		{
+			mScriptClass->InvokeMethod(mMonoInstance, mOnTriggerExit);
 		}
 	}
 
