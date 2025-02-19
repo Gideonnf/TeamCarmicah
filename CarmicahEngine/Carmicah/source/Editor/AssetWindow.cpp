@@ -37,8 +37,11 @@ namespace Carmicah
 	void AssetWindow::DisplayAllAssets(std::filesystem::path path, std::shared_ptr<Carmicah::AssetType<T>> map)
 	{
 		std::string ext;
+		std::string name;
 		for (const auto& entry : std::filesystem::directory_iterator(path))
 		{
+			name = entry.path().stem().string();
+			ext = entry.path().extension().string();
 			if (entry.is_directory())
 			{
 				if (ImGui::TreeNodeEx(entry.path().filename().string().c_str(),ImGuiTreeNodeFlags_OpenOnArrow))
@@ -49,10 +52,41 @@ namespace Carmicah
 			}
 			else
 			{
-				ext = entry.path().extension().string();
-				if (ImGui::TreeNodeEx(entry.path().stem().string().c_str(), ImGuiTreeNodeFlags_Leaf))
+				if(ext == ".png")
 				{
-					ImGui::TreePop();
+					auto it = map->mAssetMap.find(name);
+
+					if (it != map->mAssetMap.end())
+					{
+						const auto& entry = *it;
+						Mtx3x3f matrix = map->mAssetList[entry.second].mtx;
+						//GLuint textureID = assetManager->mArrayTex;
+						Vec2f uv0(0, 0);
+						Vec2f uv1(1, 1);
+						uv0 = matrix * uv0;
+						uv1 = matrix * uv1;
+						float temp = -uv0.y;
+						uv0.y = -uv1.y;
+						uv1.y = temp;
+
+						//ImGui::TableNextColumn();
+						if (ImGui::ImageButton(name.c_str(),
+							reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[map->mAssetList[entry.second].t])),
+							ImVec2(50, 50),
+							ImVec2(uv0.x, uv0.y),
+							ImVec2(uv1.x, uv1.y)))
+						{
+						}
+					}
+
+				}
+				else
+				{
+					if (ImGui::TreeNodeEx(entry.path().stem().string().c_str()))
+					{
+
+						ImGui::TreePop();
+					}
 				}
 			}
 		}
