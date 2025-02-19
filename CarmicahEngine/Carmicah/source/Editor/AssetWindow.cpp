@@ -77,84 +77,219 @@ namespace Carmicah
 
 			if (ImGui::CollapsingHeader("Texture"))
 			{
-				for (const auto& entry : textureMap->mAssetMap)
-				{
-					name = entry.first + "##texture";
-				}
-			}
 
-
-			if (ImGui::CollapsingHeader("Texture"))
-			{
 				ImGui::Indent();
-				//ImGui::BeginChild("TextureTableRegion", ImVec2(400, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
-				if (ImGui::BeginTable("TextureTable", 5))
+
+				if (ImGui::TreeNodeEx("Spritesheets"))
 				{
-
-					
-					for (const auto& entry : textureMap->mAssetMap)
+					if(ImGui::BeginTable("##SpritesheetTable", 5))
 					{
-						name = entry.first + "##texture";
-						if (name.find("SpriteSheet") != std::string::npos)
+						for (const auto& entry : textureMap->mAssetMap)
 						{
-							continue;
-						}
-
-						Mtx3x3f matrix = textureMap->mAssetList[entry.second].mtx;
-						//GLuint textureID = assetManager->mArrayTex;
-						Vec2f uv0(0, 0);
-						Vec2f uv1(1, 1);
-						uv0 = matrix * uv0;
-						uv1 = matrix * uv1;
-						float temp = -uv0.y;
-						uv0.y = -uv1.y;
-						uv1.y = temp;
-
-						ImGui::TableNextColumn();
-						if (ImGui::ImageButton(name.c_str(),
-							reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[textureMap->mAssetList[entry.second].t])),
-							ImVec2(50, 50),
-							ImVec2(uv0.x, uv0.y),
-							ImVec2(uv1.x, uv1.y)))
-						{}
-						if(ImGui::IsItemClicked(ImGuiMouseButton_Left))
-						{
-							if (ImGui::GetIO().MouseClickedCount[ImGuiMouseButton_Left] == 2)
+							name = entry.first + "##texture";
+							if (name.find("SpriteSheet") == std::string::npos && name.find("Spritesheet") == std::string::npos && name.find("spritesheet") == std::string::npos)
 							{
-								if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Renderer>())
+								continue;
+							}
+
+							Mtx3x3f matrix = textureMap->mAssetList[entry.second].mtx;
+							//GLuint textureID = assetManager->mArrayTex;
+							Vec2f uv0(0, 0);
+							Vec2f uv1(1, 1);
+							uv0 = matrix * uv0;
+							uv1 = matrix * uv1;
+							float temp = -uv0.y;
+							uv0.y = -uv1.y;
+							uv1.y = temp;
+
+							ImGui::TableNextColumn();
+							if (ImGui::ImageButton(name.c_str(),
+								reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[textureMap->mAssetList[entry.second].t])),
+								ImVec2(50, 50),
+								ImVec2(uv0.x, uv0.y),
+								ImVec2(uv1.x, uv1.y)))
+							{}
+							if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+							{
+								if (ImGui::GetIO().MouseClickedCount[ImGuiMouseButton_Left] == 2)
 								{
-									Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
-									for (const auto& textureEntry : textureMap->mAssetMap)
+									if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Renderer>())
 									{
-										if (entry.second == textureEntry.second)
+										Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
+										for (const auto& textureEntry : textureMap->mAssetMap)
 										{
-											render.Texture(textureEntry.first);
+											if (entry.second == textureEntry.second)
+											{
+												render.Texture(textureEntry.first);
+											}
 										}
 									}
 								}
 							}
-						}
-						if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
-						{
-							ImGui::SetDragDropPayload("TEXTURE_PAYLOAD", &entry.first, sizeof(entry.first));
-							ImVec2 dragSize(50, 50);
-							ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[textureMap->mAssetList[entry.second].t])),
-								dragSize,
-								ImVec2(uv0.x, uv0.y),
-								ImVec2(uv1.x, uv1.y));
+							if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+							{
+								ImGui::SetDragDropPayload("TEXTURE_PAYLOAD", &entry.first, sizeof(entry.first));
+								ImVec2 dragSize(50, 50);
+								ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[textureMap->mAssetList[entry.second].t])),
+									dragSize,
+									ImVec2(uv0.x, uv0.y),
+									ImVec2(uv1.x, uv1.y));
+								ImGui::Text("%s", entry.first.c_str());
+
+								ImGui::EndDragDropSource();
+							}
+							ImGui::SameLine();
 							ImGui::Text("%s", entry.first.c_str());
 
-							ImGui::EndDragDropSource();
 						}
-						ImGui::SameLine();
-						ImGui::Text("%s", entry.first.c_str());
-
+						ImGui::EndTable();
 					}
-					ImGui::EndTable();
+					ImGui::TreePop();
 				}
-				//ImGui::EndChild();
+
+				if (ImGui::TreeNodeEx("Image Textures"))
+				{
+					if (ImGui::BeginTable("##ImageTextureTable", 5))
+					{
+						for (const auto& entry : textureMap->mAssetMap)
+						{
+							name = entry.first + "##texture";
+							if (name.find("SpriteSheet") != std::string::npos || name.find("Spritesheet") != std::string::npos || name.find("spritesheet") != std::string::npos)
+							{
+								continue;
+							}
+
+							Mtx3x3f matrix = textureMap->mAssetList[entry.second].mtx;
+							//GLuint textureID = assetManager->mArrayTex;
+							Vec2f uv0(0, 0);
+							Vec2f uv1(1, 1);
+							uv0 = matrix * uv0;
+							uv1 = matrix * uv1;
+							float temp = -uv0.y;
+							uv0.y = -uv1.y;
+							uv1.y = temp;
+
+							ImGui::TableNextColumn();
+							if (ImGui::ImageButton(name.c_str(),
+								reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[textureMap->mAssetList[entry.second].t])),
+								ImVec2(50, 50),
+								ImVec2(uv0.x, uv0.y),
+								ImVec2(uv1.x, uv1.y)))
+							{
+							}
+							if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+							{
+								if (ImGui::GetIO().MouseClickedCount[ImGuiMouseButton_Left] == 2)
+								{
+									if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Renderer>())
+									{
+										Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
+										for (const auto& textureEntry : textureMap->mAssetMap)
+										{
+											if (entry.second == textureEntry.second)
+											{
+												render.Texture(textureEntry.first);
+											}
+										}
+									}
+								}
+							}
+							if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+							{
+								ImGui::SetDragDropPayload("TEXTURE_PAYLOAD", &entry.first, sizeof(entry.first));
+								ImVec2 dragSize(50, 50);
+								ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[textureMap->mAssetList[entry.second].t])),
+									dragSize,
+									ImVec2(uv0.x, uv0.y),
+									ImVec2(uv1.x, uv1.y));
+								ImGui::Text("%s", entry.first.c_str());
+
+								ImGui::EndDragDropSource();
+							}
+							ImGui::SameLine();
+							ImGui::Text("%s", entry.first.c_str());
+
+						}
+						ImGui::EndTable();
+					}
+					ImGui::TreePop();
+				}
+
 				ImGui::Unindent();
 			}
+
+
+			//if (ImGui::CollapsingHeader("Textures"))
+			//{
+			//	ImGui::Indent();
+			//	//ImGui::BeginChild("TextureTableRegion", ImVec2(400, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+			//	if (ImGui::BeginTable("TextureTable", 5))
+			//	{
+
+			//		
+			//		for (const auto& entry : textureMap->mAssetMap)
+			//		{
+			//			name = entry.first + "##texture";
+			//			if (name.find("SpriteSheet") != std::string::npos)
+			//			{
+			//				continue;
+			//			}
+
+			//			Mtx3x3f matrix = textureMap->mAssetList[entry.second].mtx;
+			//			//GLuint textureID = assetManager->mArrayTex;
+			//			Vec2f uv0(0, 0);
+			//			Vec2f uv1(1, 1);
+			//			uv0 = matrix * uv0;
+			//			uv1 = matrix * uv1;
+			//			float temp = -uv0.y;
+			//			uv0.y = -uv1.y;
+			//			uv1.y = temp;
+
+			//			ImGui::TableNextColumn();
+			//			if (ImGui::ImageButton(name.c_str(),
+			//				reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[textureMap->mAssetList[entry.second].t])),
+			//				ImVec2(50, 50),
+			//				ImVec2(uv0.x, uv0.y),
+			//				ImVec2(uv1.x, uv1.y)))
+			//			{}
+			//			if(ImGui::IsItemClicked(ImGuiMouseButton_Left))
+			//			{
+			//				if (ImGui::GetIO().MouseClickedCount[ImGuiMouseButton_Left] == 2)
+			//				{
+			//					if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Renderer>())
+			//					{
+			//						Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
+			//						for (const auto& textureEntry : textureMap->mAssetMap)
+			//						{
+			//							if (entry.second == textureEntry.second)
+			//							{
+			//								render.Texture(textureEntry.first);
+			//							}
+			//						}
+			//					}
+			//				}
+			//			}
+			//			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+			//			{
+			//				ImGui::SetDragDropPayload("TEXTURE_PAYLOAD", &entry.first, sizeof(entry.first));
+			//				ImVec2 dragSize(50, 50);
+			//				ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[textureMap->mAssetList[entry.second].t])),
+			//					dragSize,
+			//					ImVec2(uv0.x, uv0.y),
+			//					ImVec2(uv1.x, uv1.y));
+			//				ImGui::Text("%s", entry.first.c_str());
+
+			//				ImGui::EndDragDropSource();
+			//			}
+			//			ImGui::SameLine();
+			//			ImGui::Text("%s", entry.first.c_str());
+
+			//		}
+			//		ImGui::EndTable();
+			//	}
+			//	//ImGui::EndChild();
+			//	ImGui::Unindent();
+			//}
 
 			if (ImGui::CollapsingHeader("Font"))
 			{
