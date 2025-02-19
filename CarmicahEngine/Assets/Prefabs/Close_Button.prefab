@@ -6,6 +6,10 @@
             "Component Name": "struct Carmicah::Button"
         },
         {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": ""
+        },
+        {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.ButtonGeneric",
             "ScriptableFieldMap": [
@@ -25,16 +29,12 @@
         },
         {
             "Component Name": "struct Carmicah::UITransform",
-            "xPos": 977.153076171875,
-            "yPos": 273.1087646484375,
+            "xPos": 977.0,
+            "yPos": 273.0,
             "depth": 15.0,
             "xScale": 1.0,
             "yScale": 1.0,
             "rot": 0.0
-        },
-        {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Button_HE_Back"
         }
     ]
 }

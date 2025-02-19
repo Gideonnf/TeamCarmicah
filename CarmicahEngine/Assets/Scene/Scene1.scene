@@ -234,9 +234,7 @@
             "ID": 11,
             "Components": [
                 {
-                    "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "Button_SpriteSheet_H_Settings 0",
-                    "ButtonImagePressed": "Button_SpriteSheet_H_Back 0"
+                    "Component Name": "struct Carmicah::Button"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -1245,9 +1243,7 @@
             "ID": 35,
             "Components": [
                 {
-                    "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "",
-                    "ButtonImagePressed": ""
+                    "Component Name": "struct Carmicah::Button"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -1284,9 +1280,7 @@
             "ID": 36,
             "Components": [
                 {
-                    "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "",
-                    "ButtonImagePressed": ""
+                    "Component Name": "struct Carmicah::Button"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",

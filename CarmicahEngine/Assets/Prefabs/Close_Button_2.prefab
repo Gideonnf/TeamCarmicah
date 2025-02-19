@@ -6,13 +6,8 @@
             "Component Name": "struct Carmicah::Button"
         },
         {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "Button_SpriteSheet_Hover_Back 1",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": ""
         },
         {
             "Component Name": "struct Script",
@@ -24,6 +19,15 @@
             ]
         },
         {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Button_SpriteSheet_H_Back 1",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
             "Component Name": "struct Carmicah::UITransform",
             "xPos": 1700.0,
             "yPos": 100.0,
@@ -31,10 +35,6 @@
             "xScale": 1.0,
             "yScale": 1.0,
             "rot": 0.0
-        },
-        {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Button_HE_Back"
         }
     ]
 }

@@ -23,14 +23,13 @@ namespace Carmicah
         Dictionary<int, string> destroyList = new Dictionary<int, string>();
 
         float sceneChangerTimer = -1f;
+        const float timeToChangeScene = 0.2f;
         string hoverEnterAnim;
         string hoverExitAnim;
         string clickAnim;
 
         public override void OnCreate()
         {
-            //Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
-
             buttonType = buttonType.ToLower();
             switch(buttonType)
             {
@@ -111,7 +110,9 @@ namespace Carmicah
                     createList[0]   = "Settings_Menu";
                     createList[1]   = "Close_Button";
 
-                    hoverEnterAnim  = "Button_HS_Settings";
+                    Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
+
+                    hoverEnterAnim = "Button_HS_Settings";
                     hoverExitAnim   = "Button_HE_Settings";
                     clickAnim       = "Button_C_Settings";
                     break;
@@ -138,6 +139,8 @@ namespace Carmicah
                     clickAnim       = "Button_C_Next";
                     */
             }
+
+            ChangeAnim(hoverExitAnim);
         }
 
         public override void OnUpdate(float dt)
@@ -173,7 +176,7 @@ namespace Carmicah
 
             if (willChangeScene && sceneChangerTimer < 0.0f)
             {
-                sceneChangerTimer = 2.0f;
+                sceneChangerTimer = timeToChangeScene;
             }
             if (willUnpause)
             {
