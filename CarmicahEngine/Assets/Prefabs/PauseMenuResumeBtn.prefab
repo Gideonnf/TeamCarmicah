@@ -3,9 +3,7 @@
     "ID": 11,
     "Components": [
         {
-            "Component Name": "struct Carmicah::Button",
-            "ButtonImage": "",
-            "ButtonImagePressed": "Button_SpriteSheet_C_Resume 0"
+            "Component Name": "struct Carmicah::Button"
         },
         {
             "Component Name": "struct Carmicah::Renderer",
@@ -14,9 +12,11 @@
         },       
         {
             "Component Name": "struct Script",
-            "scriptName": "Carmicah.ResumeButton",
+            "scriptName": "Carmicah.ButtonGeneric",
             "ScriptableFieldMap": [
-                {}
+                {
+                    "buttonType": "reSUME"
+                }
             ]
         },
         {

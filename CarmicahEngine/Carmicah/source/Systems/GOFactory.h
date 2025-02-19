@@ -74,6 +74,9 @@ namespace Carmicah
 		GameObject LoadGO(std::string name, Entity entityID);
 		GameObject CreatePrefab(std::string prefab);
 		void CreatePrefabChild(Prefab& prefab, Entity parentID);
+		void UpdatePrefabTransform(Entity entityID);
+		void UpdatePrefabChildTransform(Entity entityID);
+
 		void CreateSceneObject(std::string sceneName);
 		void FetchGO(std::string GOName, GameObject& go);
 		GameObject& FetchGO(Entity id);

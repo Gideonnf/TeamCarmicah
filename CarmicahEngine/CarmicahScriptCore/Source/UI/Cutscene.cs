@@ -55,12 +55,23 @@ namespace Carmicah
 
         // Dictionary to store custom display times for each panel
         private float[] panelTimings = new float[9];
+        private string[] panelWords = new string[9]{ "In a land far far away, filled with sweet treats and goodness",
+                                        "The Candy Kingdom stood proud and tall under the rule of princess Strawberry",
+                                        "But one day everything changed",
+                                        "When the Critters attacked!",
+                                        "Known for devouring everything in their path,",
+                                        "the fall of the Candy Kingdom would be imminent if nothing was done",
+                                        "Determined to save her kingdom, the princess rallied her troops to prepare for the oncoming threat.",
+                                        "With courage in their hearts, the fate of the Candy Kingdom lied in the palm of their hands",
+                                        "And thus began the battle all would remember as..."};
         private bool musicStarted = false;
 
 
         int currentPanel = 0;
         Entity cutsceneEntity;
         Entity nextCutsceneEntity;
+        Entity textObj;
+        string currText = "";
         float currAlpha;
 
         // If i need to load all the panels
@@ -71,6 +82,7 @@ namespace Carmicah
             Sound.StopSoundBGM(backgroundMusicTrack1);
             cutsceneEntity = FindEntityWithName("CutSceneImage");
             cutsceneEntity.Depth = cutsceneEntity.Depth + 1.0f;
+            textObj = FindEntityWithName("CutsceneText");
 
             //initialize panel timings
             SetupPanelTimings();
@@ -97,14 +109,6 @@ namespace Carmicah
             panelTimings[8] = panel7;
         }
 
-        // Default return 5.f when no elements
-        private float GetPanelTiming()
-        {
-            if(currentPanel < panelTimings.Length)
-                return panelTimings[currentPanel];
-            return 5.0f;
-        }
-
         private string GetCurrPanelName()
         {
             int panelCounter = currentPanel;
@@ -125,6 +129,23 @@ namespace Carmicah
             return "";
         }
 
+        private void UpdateCutsceneText()
+        {
+            if (currentPanel < panelWords.Length)
+            {
+                float startTime = 0;
+                if (currentPanel != 0)
+                    startTime = panelTimings[currentPanel - 1];
+                float percentage = (timer - startTime) / (panelTimings[currentPanel] - startTime - 1.0f);
+                int numTextToAdd = Math.Min((int)(percentage * panelWords[currentPanel].Length), panelWords[currentPanel].Length);
+                while (numTextToAdd > currText.Length)
+                {
+                    currText += panelWords[currentPanel][currText.Length];
+                }
+                textObj.GetComponent<TextRenderer>().SetText(currText);
+            }
+        }
+
         private void ProgressScene()
         {
             Scene.ChangeScene("Loading");
@@ -132,7 +153,6 @@ namespace Carmicah
 
         void OnUpdate(float dt)
         {
-            //CMConsole.Log($"Current Panel: {currentPanel}");
             if(Input.IsKeyPressed(Keys.KEY_5))
             {
                 ProgressScene();
@@ -156,7 +176,8 @@ namespace Carmicah
                     // change texture for image
                     nextCutsceneEntity.GetComponent<Renderer>().ChangeTexture(imageName);
                 }
-
+                currText = "";
+                textObj.GetComponent<TextRenderer>().SetText(currText);
             }
             // Idle state
             else if (stateName == "Idle")
@@ -172,9 +193,10 @@ namespace Carmicah
 
         public void OnStateUpdate(string stateName, float dt)
         {
-            //CMConsole.Log($"Count {panelTimings.Count()}");
-
             timer += dt;
+
+            UpdateCutsceneText();
+
             //Console.WriteLine(panelTimings.Count());
             CMConsole.Log($"Alpha : {currAlpha}, timer: {timer}");
             if (stateName == "ChangeImage")
@@ -194,7 +216,7 @@ namespace Carmicah
 
             if (stateName == "Idle")
             {
-                float currentPanelDisplayTime = GetPanelTiming();
+                float currentPanelDisplayTime = panelTimings[currentPanel];
 
                 if (timer >= currentPanelDisplayTime)
                 {

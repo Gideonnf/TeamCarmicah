@@ -167,13 +167,6 @@ namespace Carmicah
 		NewPrefabMsg(Entity go) : Message(MSG_NEWPREFAB), goEntity(go) {}
 	};
 
-	class OnClickMsg : public Message
-	{
-	public:
-		Entity buttonEntity;
-		OnClickMsg(Entity go) : Message(MSG_ONCLICK), buttonEntity(go) {}
-	};
-
 	class OnMouseMsg : public Message
 	{
 	public:

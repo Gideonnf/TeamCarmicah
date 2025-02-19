@@ -13,10 +13,10 @@
         },
         {
             "Component Name": "struct Script",
-            "scriptName": "Carmicah.ReplayButton",
+            "scriptName": "Carmicah.ButtonGeneric",
             "ScriptableFieldMap": [
                 {
-                    "buttonType": ""
+                    "buttonType": "Replay"
                 }
             ]
         },
