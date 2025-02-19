@@ -14,13 +14,6 @@
             "collisionMask": 1
         },
         {
-            "Component Name": "struct Script",
-            "scriptName": "",
-            "ScriptableFieldMap": [
-                {}
-            ]
-        },
-        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "candy_trap_spritesheet_Spike 0",

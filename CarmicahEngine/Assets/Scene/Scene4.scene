@@ -21,7 +21,8 @@
                     "depth": -10.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "transformTag": ""
                 }
             ]
         },
@@ -37,6 +38,7 @@
                     "xScale": 0.05299999937415123,
                     "yScale": 0.10000000149011612,
                     "rot": 0.0,
+                    "transformTag": "",
                     "collisionMask": 0
                 }
             ],
@@ -47,9 +49,7 @@
             "ID": 3,
             "Components": [
                 {
-                    "Component Name": "struct Carmicah::Button",
-                    "ButtonImage": "Button_SpriteSheet_H_Skip 0",
-                    "ButtonImagePressed": "Button_SpriteSheet_C_Skip 0"
+                    "Component Name": "struct Carmicah::Button"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -62,10 +62,17 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.SkipButton",
+                    "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
-                        {}
+                        {
+                            "buttonType": "skipSplash",
+                            "nextScene": ""
+                        }
                     ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": ""
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -74,7 +81,8 @@
                     "depth": 1.0,
                     "xScale": 0.75,
                     "yScale": 0.75,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "transformTag": ""
                 }
             ]
         },
@@ -90,6 +98,7 @@
                     "xScale": 0.0,
                     "yScale": 0.0,
                     "rot": 0.0,
+                    "transformTag": "",
                     "collisionMask": 0
                 },
                 {
@@ -99,10 +108,10 @@
                         {
                             "timer": 0.0,
                             "state": 0,
-                            "schoolRightsEntity": "digipen_rights",
-                            "schoolLogoEntity": "digipen_logo",
-                            "schoolLogoName": "digipen_logo",
                             "DisplayDuration": 3.0,
+                            "schoolLogoName": "digipen_logo",
+                            "schoolLogoEntity": "digipen_logo",
+                            "schoolRightsEntity": "digipen_rights",
                             "FadeDuration": -107374176.0,
                             "schoolBGEntity": "black_background",
                             "gameLogoEntity": "game_logo",
@@ -130,6 +139,7 @@
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,
+                    "transformTag": "",
                     "collisionMask": 0
                 }
             ],

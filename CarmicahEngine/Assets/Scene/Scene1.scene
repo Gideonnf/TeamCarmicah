@@ -249,12 +249,10 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.SettingButton",
+                    "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
                         {
-                            "IsCreated": true,
-                            "SettingsCloseButton": "Close_Button",
-                            "SettingsMenu": "Settings_Menu"
+                            "buttonType": "Settings"
                         }
                     ]
                 },

@@ -14,9 +14,11 @@
         },
         {
             "Component Name": "struct Script",
-            "scriptName": "Carmicah.QuitButton",
+            "scriptName": "Carmicah.ButtonGeneric",
             "ScriptableFieldMap": [
-                {}
+                {
+                    "buttonType": "QUit"
+                }
             ]
         },
         {

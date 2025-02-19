@@ -15,13 +15,6 @@
                     "colA": 1.0
                 },
                 {
-                    "Component Name": "struct Script",
-                    "scriptName": "",
-                    "ScriptableFieldMap": [
-                        {}
-                    ]
-                },
-                {
                     "Component Name": "struct Carmicah::Animation",
                     "Atlas": "Main_memu"
                 },
@@ -73,10 +66,10 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.SceneChanger",
+                    "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
                         {
-                            "buttonType": "play"
+                            "buttonType": "pLAY"
                         }
                     ]
                 },
@@ -152,11 +145,10 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.SceneChanger",
+                    "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
                         {
-                            "buttonType": "qUit",
-                            "Animation1": ""
+                            "buttonType": "qUit"
                         }
                     ]
                 },
@@ -195,12 +187,10 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.SettingButton",
+                    "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
                         {
-                            "IsCreated": true,
-                            "SettingsCloseButton": "Close_Button",
-                            "SettingsMenu": "Settings_Menu"
+                            "buttonType": "Settings"
                         }
                     ]
                 },
@@ -239,12 +229,10 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.CreditsButton",
+                    "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
                         {
-                            "CreditsCloseButton": "Close_Button_2",
-                            "IsCreated": false,
-                            "CreditsMenu": "Credits_Menu"
+                            "buttonType": "cREDIts"
                         }
                     ]
                 },

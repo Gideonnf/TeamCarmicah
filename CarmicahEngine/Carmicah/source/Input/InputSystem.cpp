@@ -164,9 +164,13 @@ namespace Carmicah
 		// DRAG CHECK
 		if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_LEFT)
 		{
-			EntityPickedMessage msg(SceneToImgui::GetInstance()->GetIDObjPick());
+			if (SceneToImgui::GetInstance()->GetHovering() != SceneToImgui::NO_SCENE)
+			{
 
-			Input.ProxySend(&msg);
+				EntityPickedMessage msg(SceneToImgui::GetInstance()->GetIDObjPick());
+
+				Input.ProxySend(&msg);
+			}
 		}
 		else if (action == GLFW_RELEASE) // stop dragging when button is released
 		{
