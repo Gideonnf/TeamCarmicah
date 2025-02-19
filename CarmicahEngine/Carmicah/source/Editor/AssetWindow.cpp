@@ -18,20 +18,9 @@ DigiPen Institute of Technology is prohibited.
 
 #include "pch.h"
 #include <ImGUI/imgui.h>
-#include <ImGUI/imgui_impl_glfw.h>
-#include <ImGUI/imgui_impl_opengl3.h>
-#include "EditorWindow.h"
 #include "AssetWindow.h"
-#include "HierarchyWindow.h"
-#include "InspectorWindow.h"
-#include "../Systems/AssetManager.h"
-#include "../Systems/SceneSystem.h"
-#include "../Systems/SoundSystem.h"
-#include "Systems/GOFactory.h"
-#include "Components/Transform.h"
-#include "Components/Collider2D.h"
-#include "Components/Renderer.h"
-#include "Components/UITransform.h"
+
+
 
 namespace Carmicah
 {
@@ -40,6 +29,11 @@ namespace Carmicah
 	Prefab* AssetWindow::selectedPrefab = nullptr;
 	std::string AssetWindow::soundToPlay;
 	bool AssetWindow::mSceneModified = false;
+
+
+
+
+
 	/**
 	 * @brief Update function for the AssetWindow
 	 * 

@@ -18,10 +18,24 @@ DigiPen Institute of Technology is prohibited.
 
 #include <GLFW/glfw3.h>
 #include <ImGUI/imgui.h>
+#include <ImGUI/imgui_impl_glfw.h>
+#include <ImGUI/imgui_impl_opengl3.h>
 #include "EditorWindow.h"
 #include "ECS/GameObject.h"
 #include "Editor.h"
+#include "EditorWindow.h"
+#include "HierarchyWindow.h"
+#include "InspectorWindow.h"
 #include "../Systems/AssetManager.h"
+#include "../Systems/AssetManager.h"
+#include "../Systems/SceneSystem.h"
+#include "../Systems/SoundSystem.h"
+#include "Systems/GOFactory.h"
+#include "Components/Transform.h"
+#include "Components/Collider2D.h"
+#include "Components/Renderer.h"
+#include "Components/UITransform.h"
+
 #include <algorithm>
 
 
@@ -47,6 +61,9 @@ namespace Carmicah
 		 *
 		 */
 		void Update() override;
+
+
+		void TextureBrowser(std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map);
 
 	};
 }
