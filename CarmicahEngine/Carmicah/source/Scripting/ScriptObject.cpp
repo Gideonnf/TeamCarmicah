@@ -234,7 +234,7 @@ namespace Carmicah
 	/// </summary>
 	void ScriptObject::InvokeOnMouseEnter()
 	{
-		CM_CORE_INFO("Testing");
+		//CM_CORE_INFO("Testing");
 
 		if (mOnMouseEnter)
 		{
@@ -247,7 +247,7 @@ namespace Carmicah
 	/// </summary>
 	void ScriptObject::InvokeOnMouseExit()
 	{
-		CM_CORE_INFO("Testing");
+		//CM_CORE_INFO("Testing");
 		if (mOnMouseExit)
 		{
 			mScriptClass->InvokeMethod(mMonoInstance, mOnMouseExit);
