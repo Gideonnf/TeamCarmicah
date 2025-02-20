@@ -99,6 +99,35 @@ namespace Carmicah
 											ImVec2(uv1.x, uv1.y)))
 										{
 										}
+										if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+										{
+											if (ImGui::GetIO().MouseClickedCount[ImGuiMouseButton_Left] == 2)
+											{
+												if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Renderer>())
+												{
+													Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
+													for (const auto& textureEntry : map->mAssetMap)
+													{
+														if (entry.second == textureEntry.second)
+														{
+															render.Texture(textureEntry.first);
+														}
+													}
+												}
+											}
+										}
+										if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+										{
+											ImGui::SetDragDropPayload("TEXTURE_PAYLOAD", &entry.first, sizeof(entry.first));
+											ImVec2 dragSize(50, 50);
+											ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[map->mAssetList[entry.second].t])),
+												dragSize,
+												ImVec2(uv0.x, uv0.y),
+												ImVec2(uv1.x, uv1.y));
+											ImGui::Text("%s", entry.first.c_str());
+
+											ImGui::EndDragDropSource();
+										}
 										ImGui::SameLine();
 										ImGui::Text("%s", entry.first.c_str());
 									}
@@ -130,6 +159,35 @@ namespace Carmicah
 								ImVec2(uv0.x, uv0.y),
 								ImVec2(uv1.x, uv1.y)))
 							{
+							}
+							if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+							{
+								if (ImGui::GetIO().MouseClickedCount[ImGuiMouseButton_Left] == 2)
+								{
+									if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Renderer>())
+									{
+										Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
+										for (const auto& textureEntry : map->mAssetMap)
+										{
+											if (imageFound.second == textureEntry.second)
+											{
+												render.Texture(textureEntry.first);
+											}
+										}
+									}
+								}
+							}
+							if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+							{
+								ImGui::SetDragDropPayload("TEXTURE_PAYLOAD", &imageFound.first, sizeof(imageFound.first));
+								ImVec2 dragSize(50, 50);
+								ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[map->mAssetList[imageFound.second].t])),
+									dragSize,
+									ImVec2(uv0.x, uv0.y),
+									ImVec2(uv1.x, uv1.y));
+								ImGui::Text("%s", imageFound.first.c_str());
+
+								ImGui::EndDragDropSource();
 							}
 							ImGui::SameLine();
 							ImGui::Text("%s", imageFound.first.c_str());
