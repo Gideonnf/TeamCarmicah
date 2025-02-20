@@ -48,7 +48,7 @@ namespace Carmicah
 
 	public:
 		static Prefab* selectedPrefab;
-		static bool mSceneModified;
+		static bool mAssetModified;
 
 		/**
 		 * @brief Construct a new Asset Window object
@@ -66,7 +66,7 @@ namespace Carmicah
 		void DisplayAllAssets(std::filesystem::path path, std::shared_ptr<Carmicah::AssetType<T>>);
 
 		void TextureBrowserOld(std::string& name, std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map);
-		void TextureBrowserNew(std::string& name, std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map);
+		void TextureBrowser(std::string& name, std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map);
 
 	};
 }

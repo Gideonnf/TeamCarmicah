@@ -31,7 +31,7 @@ namespace Carmicah
 	}
 
 	Prefab* AssetWindow::selectedPrefab = nullptr;
-	bool AssetWindow::mSceneModified = false;
+	bool AssetWindow::mAssetModified = false;
 
 	template<typename T>
 	void AssetWindow::DisplayAllAssets(std::filesystem::path path, std::shared_ptr<Carmicah::AssetType<T>> map)
@@ -81,7 +81,7 @@ namespace Carmicah
 						if (ImGui::BeginTable(tableName.c_str(), 5))
 						{
 							//Iterate over the map to find the entries that are related to the spritesheet
-							std::for_each(map->mAssetMap.begin(), map->mAssetMap.end(), [&](const auto& entry)
+							std::for_each(map->mAssetMap.begin(), map->mAssetMap.end(), [&name,&map](const auto& entry)
 								{
 									auto it = entry.first.find(name);
 									if (it != std::string::npos)
@@ -308,7 +308,7 @@ namespace Carmicah
 		}
 	}
 
-	void AssetWindow::TextureBrowserNew(std::string& name, std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map)
+	void AssetWindow::TextureBrowser(std::string& name, std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map)
 	{
 		std::filesystem::path pathLoc = assetDir.c_str() + std::string("/Images");
 
@@ -323,7 +323,7 @@ namespace Carmicah
 		}
 	}
 	
-	void AssetWindow::TextureBrowserOld(std::string& name, std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map)
+	/*void AssetWindow::TextureBrowserOld(std::string& name, std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map)
 	{
 		
 		if (ImGui::CollapsingHeader("Texture"))
@@ -478,7 +478,7 @@ namespace Carmicah
 
 			ImGui::Unindent();
 		}
-	}
+	}*/
 
 
 	/**
@@ -526,83 +526,7 @@ namespace Carmicah
 			}
 
 
-			TextureBrowserNew(name, textureMap);
-
-
-			//TextureBrowserOld(name, textureMap);
-
-
-			//if (ImGui::CollapsingHeader("Textures"))
-			//{
-			//	ImGui::Indent();
-			//	//ImGui::BeginChild("TextureTableRegion", ImVec2(400, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
-			//	if (ImGui::BeginTable("TextureTable", 5))
-			//	{
-
-			//		
-			//		for (const auto& entry : textureMap->mAssetMap)
-			//		{
-			//			name = entry.first + "##texture";
-			//			if (name.find("SpriteSheet") != std::string::npos)
-			//			{
-			//				continue;
-			//			}
-
-			//			Mtx3x3f matrix = textureMap->mAssetList[entry.second].mtx;
-			//			//GLuint textureID = assetManager->mArrayTex;
-			//			Vec2f uv0(0, 0);
-			//			Vec2f uv1(1, 1);
-			//			uv0 = matrix * uv0;
-			//			uv1 = matrix * uv1;
-			//			float temp = -uv0.y;
-			//			uv0.y = -uv1.y;
-			//			uv1.y = temp;
-
-			//			ImGui::TableNextColumn();
-			//			if (ImGui::ImageButton(name.c_str(),
-			//				reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[textureMap->mAssetList[entry.second].t])),
-			//				ImVec2(50, 50),
-			//				ImVec2(uv0.x, uv0.y),
-			//				ImVec2(uv1.x, uv1.y)))
-			//			{}
-			//			if(ImGui::IsItemClicked(ImGuiMouseButton_Left))
-			//			{
-			//				if (ImGui::GetIO().MouseClickedCount[ImGuiMouseButton_Left] == 2)
-			//				{
-			//					if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Renderer>())
-			//					{
-			//						Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
-			//						for (const auto& textureEntry : textureMap->mAssetMap)
-			//						{
-			//							if (entry.second == textureEntry.second)
-			//							{
-			//								render.Texture(textureEntry.first);
-			//							}
-			//						}
-			//					}
-			//				}
-			//			}
-			//			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
-			//			{
-			//				ImGui::SetDragDropPayload("TEXTURE_PAYLOAD", &entry.first, sizeof(entry.first));
-			//				ImVec2 dragSize(50, 50);
-			//				ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[textureMap->mAssetList[entry.second].t])),
-			//					dragSize,
-			//					ImVec2(uv0.x, uv0.y),
-			//					ImVec2(uv1.x, uv1.y));
-			//				ImGui::Text("%s", entry.first.c_str());
-
-			//				ImGui::EndDragDropSource();
-			//			}
-			//			ImGui::SameLine();
-			//			ImGui::Text("%s", entry.first.c_str());
-
-			//		}
-			//		ImGui::EndTable();
-			//	}
-			//	//ImGui::EndChild();
-			//	ImGui::Unindent();
-			//}
+			TextureBrowser(name, textureMap);
 
 			if (ImGui::CollapsingHeader("Font"))
 			{
@@ -673,7 +597,23 @@ namespace Carmicah
 							HierarchyWindow::selectedGO = nullptr;
 							ImGui::CloseCurrentPopup();
 						}
+
+						if (ImGui::Button("Delete Prefab"))
+						{
+							std::filesystem::path deletePath = std::filesystem::path(assetDir.c_str()) / "Prefabs" / (entry.first + ".prefab");
+							std::filesystem::remove(deletePath);
+							AssetManager::GetInstance()->fileWatcher.Update();
+							mAssetModified = true;
+							ImGui::CloseCurrentPopup();
+						}
+
 						ImGui::EndPopup();
+					}
+
+					if (mAssetModified)
+					{
+						mAssetModified = false;
+						break;
 					}
 
 					if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
@@ -752,15 +692,15 @@ namespace Carmicah
 							if (ImGui::Selectable("Delete Scene"))
 							{
 								AssetManager::GetInstance()->DeleteScene(entry.first);
-								mSceneModified = true;
+								mAssetModified = true;
 							}
 						}
 						ImGui::EndPopup();
 					}
 
-					if (mSceneModified)
+					if (mAssetModified)
 					{
-						mSceneModified = false;
+						mAssetModified = false;
 						break;
 					}
 				}

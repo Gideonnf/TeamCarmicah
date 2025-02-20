@@ -807,6 +807,38 @@ namespace Carmicah
 				}
 			}
 		}
+		if (fileExt == ".prefab")
+		{
+			if (!AssetExist<Prefab>(fileName))
+			{
+				CM_CORE_WARN("Prefab: " + fileName + " does not exist");
+			}
+
+			AssetManager::GetInstance()->GetAssetMap<Prefab>()->mAssetList.erase(
+				std::remove_if(AssetManager::GetInstance()->GetAssetMap<Prefab>()->mAssetList.begin(),
+					AssetManager::GetInstance()->GetAssetMap<Prefab>()->mAssetList.end(),
+					[&fileName](const Prefab& prefab)
+					{
+						std::string prefabName = prefab.mName;
+						return prefabName == fileName;
+					}), AssetManager::GetInstance()->GetAssetMap<Prefab>()->mAssetList.end());
+
+			for (auto it = AssetManager::GetInstance()->GetAssetMap<Prefab>()->mAssetMap.begin(); it != AssetManager::GetInstance()->GetAssetMap<Prefab>()->mAssetMap.end();)
+			{
+				if (it->first == fileName)
+				{
+					it = AssetManager::GetInstance()->GetAssetMap<Scene>()->mAssetMap.erase(it);
+					break;
+				}
+				else
+				{
+					it++;
+				}
+			}
+
+		}
+
+
 	}
 	/*
 	@beief: This function copies assets from wherever they are in the windows file explorer to the assets folder if the asset is compatiable
