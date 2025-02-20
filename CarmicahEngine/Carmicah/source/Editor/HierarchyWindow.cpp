@@ -101,7 +101,7 @@ namespace Carmicah
 
 						if (targettedGOParent == gGOFactory->sceneGO.sceneID)
 						{
-							droppedGO.SetParent(gGOFactory->GetMIDToGO()[gGOFactory->sceneGO.sceneID]);
+							droppedGO.SetParent(gGOFactory->sceneGO.sceneID);
 
 							//If the droppedGO and the targetted GO has the same parent(only works for sceneGO, children no vectors rn)
 							auto droppedIt = std::find(Editor::mSceneHierarchy.begin(), Editor::mSceneHierarchy.end(), droppedGO.GetID());
