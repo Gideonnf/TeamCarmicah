@@ -36,8 +36,10 @@ namespace Carmicah
 	template<typename T>
 	void AssetWindow::DisplayAllAssets(std::filesystem::path path, std::shared_ptr<Carmicah::AssetType<T>> map)
 	{
+		auto& fileMap = AssetManager::GetInstance()->fileWatcher.fileMap;
 		std::string ext;
 		std::string name;
+
 		for (const auto& entry : std::filesystem::directory_iterator(path))
 		{
 			name = entry.path().stem().string();
@@ -52,34 +54,95 @@ namespace Carmicah
 			}
 			else
 			{
-				if(ext == ".png")
+				if(ext == ".png") //Its an image
 				{
-					auto it = map->mAssetMap.find(name);
+					
+					bool isSpritesheet = false;
+					std::string txtCheck = name + ".txt";
 
-					if (it != map->mAssetMap.end())
-					{
-						const auto& entry = *it;
-						Mtx3x3f matrix = map->mAssetList[entry.second].mtx;
-						//GLuint textureID = assetManager->mArrayTex;
-						Vec2f uv0(0, 0);
-						Vec2f uv1(1, 1);
-						uv0 = matrix * uv0;
-						uv1 = matrix * uv1;
-						float temp = -uv0.y;
-						uv0.y = -uv1.y;
-						uv1.y = temp;
-
-						//ImGui::TableNextColumn();
-						if (ImGui::ImageButton(name.c_str(),
-							reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[map->mAssetList[entry.second].t])),
-							ImVec2(50, 50),
-							ImVec2(uv0.x, uv0.y),
-							ImVec2(uv1.x, uv1.y)))
+					//Check if its a spritesheet
+					auto fileIt = std::find_if(fileMap.begin(), fileMap.end(), [&](const auto& entry)
 						{
+							return entry.first.find(txtCheck) != std::string::npos;
+						});
+
+					if (fileIt != fileMap.end()) //Its a spritesheet
+					{
+						isSpritesheet = true;
+					}
+
+					if (isSpritesheet)
+					{
+						std::string tableName = "##" + txtCheck;
+						if (ImGui::BeginTable(tableName.c_str(), 5))
+						{
+							std::for_each(map->mAssetMap.begin(), map->mAssetMap.end(), [&](const auto& entry)
+								{
+									auto it = entry.first.find(name);
+									if (it != std::string::npos)
+									{
+										Mtx3x3f matrix = map->mAssetList[entry.second].mtx;
+										//GLuint textureID = assetManager->mArrayTex;
+										Vec2f uv0(0, 0);
+										Vec2f uv1(1, 1);
+										uv0 = matrix * uv0;
+										uv1 = matrix * uv1;
+										float temp = -uv0.y;
+										uv0.y = -uv1.y;
+										uv1.y = temp;
+
+										ImGui::TableNextColumn();
+										if (ImGui::ImageButton(entry.first.c_str(),
+											reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[map->mAssetList[entry.second].t])),
+											ImVec2(50, 50),
+											ImVec2(uv0.x, uv0.y),
+											ImVec2(uv1.x, uv1.y)))
+										{
+										}
+										ImGui::SameLine();
+										ImGui::Text("%s", entry.first.c_str());
+									}
+								});
+							ImGui::EndTable();
 						}
 					}
 
+					else
+					{
+						auto it = map->mAssetMap.find(name);
+						if (it != map->mAssetMap.end())
+						{
+							const auto& imageFound = *it;
+							Mtx3x3f matrix = map->mAssetList[imageFound.second].mtx;
+							//GLuint textureID = assetManager->mArrayTex;
+							Vec2f uv0(0, 0);
+							Vec2f uv1(1, 1);
+							uv0 = matrix * uv0;
+							uv1 = matrix * uv1;
+							float temp = -uv0.y;
+							uv0.y = -uv1.y;
+							uv1.y = temp;
+
+							//ImGui::TableNextColumn();
+							if (ImGui::ImageButton(name.c_str(),
+								reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[map->mAssetList[imageFound.second].t])),
+								ImVec2(50, 50),
+								ImVec2(uv0.x, uv0.y),
+								ImVec2(uv1.x, uv1.y)))
+							{
+							}
+							ImGui::SameLine();
+							ImGui::Text("%s", imageFound.first.c_str());
+						}
+					}
+
+
 				}
+				else if (ext == ".txt")
+				{
+					continue;
+				}
+
 				else
 				{
 					if (ImGui::TreeNodeEx(entry.path().stem().string().c_str()))
@@ -282,6 +345,23 @@ namespace Carmicah
 		auto prefabMap = assetManager->GetAssetMap<Prefab>();
 		auto sceneMap = assetManager->GetAssetMap<Scene>();
 		char inputBuffer[1024] = "";
+
+#pragma region Debugging
+		for (const auto& entry : AssetManager::GetInstance()->fileWatcher.fileMap)
+		{
+			/*if (entry.first.find("bg.png") != std::string::npos)
+			{
+				CM_CORE_INFO("FOUND PNG!");
+			}
+			if (entry.first.find("bg.txt") != std::string::npos)
+			{
+				CM_CORE_INFO("FOUND TXT!");
+			}*/
+		}
+
+#pragma endregion
+
+
 
 		if (ImGui::Begin(mTitle))
 		{
