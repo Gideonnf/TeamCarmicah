@@ -123,7 +123,7 @@ namespace Carmicah
 							uv0.y = -uv1.y;
 							uv1.y = temp;
 
-							//ImGui::TableNextColumn();
+							ImGui::TableNextColumn();
 							if (ImGui::ImageButton(name.c_str(),
 								reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[map->mAssetList[imageFound.second].t])),
 								ImVec2(50, 50),
@@ -135,10 +135,8 @@ namespace Carmicah
 							ImGui::Text("%s", imageFound.first.c_str());
 						}
 					}
-
-
 				}
-				else if (ext == ".txt")
+				else if (ext == ".txt") //Ignore .txts for the asset browser
 				{
 					continue;
 				}
