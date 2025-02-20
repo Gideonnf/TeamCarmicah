@@ -39,10 +39,13 @@ namespace Carmicah
 		auto& fileMap = AssetManager::GetInstance()->fileWatcher.fileMap;
 		std::string ext;
 		std::string name;
+		std::string fileName;
+		static std::string selectedAssetName;
 
 		for (const auto& entry : std::filesystem::directory_iterator(path))
 		{
 			name = entry.path().stem().string();
+			fileName = entry.path().filename().string();
 			ext = entry.path().extension().string();
 			if (entry.is_directory())
 			{
@@ -59,6 +62,7 @@ namespace Carmicah
 					
 					bool isSpritesheet = false;
 					std::string txtCheck = name + ".txt";
+					
 
 					//Check if its a spritesheet
 					auto fileIt = std::find_if(fileMap.begin(), fileMap.end(), [&](const auto& entry)
@@ -70,12 +74,13 @@ namespace Carmicah
 					{
 						isSpritesheet = true;
 					}
-
+					//Is a spritesheet
 					if (isSpritesheet)
 					{
 						std::string tableName = "##" + txtCheck;
 						if (ImGui::BeginTable(tableName.c_str(), 5))
 						{
+							//Iterate over the map to find the entries that are related to the spritesheet
 							std::for_each(map->mAssetMap.begin(), map->mAssetMap.end(), [&](const auto& entry)
 								{
 									auto it = entry.first.find(name);
@@ -99,6 +104,7 @@ namespace Carmicah
 											ImVec2(uv1.x, uv1.y)))
 										{
 										}
+										//Setting the texture when selectedGO
 										if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
 										{
 											if (ImGui::GetIO().MouseClickedCount[ImGuiMouseButton_Left] == 2)
@@ -116,6 +122,11 @@ namespace Carmicah
 												}
 											}
 										}
+										if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
+										{
+											selectedAssetName = entry.first;
+											ImGui::OpenPopup("Delete Asset");
+										}
 										if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
 										{
 											ImGui::SetDragDropPayload("TEXTURE_PAYLOAD", &entry.first, sizeof(entry.first));
@@ -132,10 +143,50 @@ namespace Carmicah
 										ImGui::Text("%s", entry.first.c_str());
 									}
 								});
+
+							if (ImGui::BeginPopup("Delete Asset"))
+							{
+								if (ImGui::Selectable("Delete Asset"))
+								{
+									bool isDerived = true;
+									std::filesystem::directory_entry foundPath;
+
+									for (const auto& pathName : std::filesystem::directory_iterator(path))
+									{
+										if (pathName.path().extension().string() == ".txt")
+										{
+											continue;
+										}
+										std::string entryName = pathName.path().stem().string();
+										if (entryName == selectedAssetName)
+										{
+											isDerived = false;
+											foundPath = pathName;
+										}
+										else
+										{
+										}
+									}
+									if (isDerived)
+									{
+										CM_CORE_WARN("Cannot delete derived asset!");
+										selectedAssetName = "";
+										ImGui::CloseCurrentPopup();
+									}
+									else
+									{
+										std::filesystem::remove(foundPath);
+										AssetManager::GetInstance()->fileWatcher.Update();
+										selectedAssetName = "";
+										ImGui::CloseCurrentPopup();
+									}
+								}
+								ImGui::EndPopup();
+							}
 							ImGui::EndTable();
 						}
 					}
-
+					//It is not a spritesheet
 					else
 					{
 						auto it = map->mAssetMap.find(name);
@@ -152,7 +203,7 @@ namespace Carmicah
 							uv0.y = -uv1.y;
 							uv1.y = temp;
 
-							ImGui::TableNextColumn();
+							//ImGui::TableNextColumn();
 							if (ImGui::ImageButton(name.c_str(),
 								reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[map->mAssetList[imageFound.second].t])),
 								ImVec2(50, 50),
@@ -160,6 +211,7 @@ namespace Carmicah
 								ImVec2(uv1.x, uv1.y)))
 							{
 							}
+							//Setting the texture when selectedGO
 							if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
 							{
 								if (ImGui::GetIO().MouseClickedCount[ImGuiMouseButton_Left] == 2)
@@ -177,6 +229,11 @@ namespace Carmicah
 									}
 								}
 							}
+							if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
+							{
+								selectedAssetName = imageFound.first;
+								ImGui::OpenPopup("Delete Asset");
+							}
 							if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
 							{
 								ImGui::SetDragDropPayload("TEXTURE_PAYLOAD", &imageFound.first, sizeof(imageFound.first));
@@ -193,12 +250,13 @@ namespace Carmicah
 							ImGui::Text("%s", imageFound.first.c_str());
 						}
 					}
+
 				}
 				else if (ext == ".txt") //Ignore .txts for the asset browser
 				{
 					continue;
 				}
-
+				//Other kinds of extensions
 				else
 				{
 					if (ImGui::TreeNodeEx(entry.path().stem().string().c_str()))
@@ -208,6 +266,45 @@ namespace Carmicah
 					}
 				}
 			}
+		}
+		if (ImGui::BeginPopup("Delete Asset"))
+		{
+			if (ImGui::Selectable("Delete Asset"))
+			{
+				bool isDerived = true;
+				std::filesystem::directory_entry foundPath;
+
+				for (const auto& pathName : std::filesystem::directory_iterator(path))
+				{
+					if (pathName.path().extension().string() == ".txt")
+					{
+						continue;
+					}
+					std::string entryName = pathName.path().stem().string();
+					if (entryName == selectedAssetName)
+					{
+						isDerived = false;
+						foundPath = pathName;
+					}
+					else
+					{
+					}
+				}
+				if (isDerived)
+				{
+					CM_CORE_WARN("Cannot delete derived asset!");
+					selectedAssetName = "";
+					ImGui::CloseCurrentPopup();
+				}
+				else
+				{
+					std::filesystem::remove(foundPath);
+					AssetManager::GetInstance()->fileWatcher.Update();
+					selectedAssetName = "";
+					ImGui::CloseCurrentPopup();
+				}
+			}
+			ImGui::EndPopup();
 		}
 	}
 
