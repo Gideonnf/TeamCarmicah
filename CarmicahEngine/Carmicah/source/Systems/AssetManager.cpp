@@ -773,7 +773,7 @@ namespace Carmicah
 		}
 	}
 	
-	void AssetManager::RemoveAsset(std::string filePath)
+	void AssetManager::RemoveFromAssetManager(std::string filePath)
 	{
 		std::string fileName = std::filesystem::path(filePath).stem().string();
 		std::string fileExt = std::filesystem::path(filePath).extension().string();
@@ -809,6 +809,10 @@ namespace Carmicah
 		}
 		if (fileExt == ".prefab")
 		{
+			//& asset = GetAsset<Prefab>(fileName);
+			RemoveAsset<Prefab>(fileName);
+
+			/*
 			if (!AssetExist<Prefab>(fileName))
 			{
 				CM_CORE_WARN("Prefab: " + fileName + " does not exist");
@@ -834,7 +838,8 @@ namespace Carmicah
 				{
 					it++;
 				}
-			}
+			}*/
+
 
 		}
 
