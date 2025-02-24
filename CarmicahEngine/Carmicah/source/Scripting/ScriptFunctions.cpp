@@ -154,11 +154,11 @@ namespace Carmicah
 	/// Internal function call to play sound effects between C# and C++
 	/// </summary>
 	/// <param name="name">Name of the sound file to play</param>
-	static void Sound_PlaySFX(MonoString* name, float volume)
+	static void Sound_PlaySFX(MonoString* name, float volume, bool isLoop)
 	{
 		std::string cStrName = MonoToString(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySoundThis(cStrName, SoundCategory::SFX, SoundSystem::SOUND_INGAME, false, volume);
+		souSystem->PlaySoundThis(cStrName, SoundCategory::SFX, SoundSystem::SOUND_INGAME, isLoop, volume);
 		//mono_free(cStrname);
 	}
 
@@ -175,6 +175,14 @@ namespace Carmicah
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 		souSystem->StopSound(SoundSystem::SOUND_BGM);
+		mono_free(cStrname);
+	}
+
+	static void Sound_StopSFXWithFade(MonoString* name, float fadeTimer, float fadeDuration)
+	{
+		char* cStrname = mono_string_to_utf8(name);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->StopSoundWithFade(SoundSystem::SOUND_INGAME, fadeTimer, fadeDuration);
 		mono_free(cStrname);
 	}
 

@@ -105,7 +105,7 @@ namespace Carmicah
 
             lane = randLane;
 
-            Sound.PlaySFX("Portal_Spawn", 0.3f);
+            Sound.PlaySFX("Portal_Spawn_v2", 0.3f);
 
             switch (animType)
             {
@@ -328,6 +328,7 @@ namespace Carmicah
             if (stateName == "Running")
             {
                 // CMConsole.Log("TESTING Update State");
+                Sound.PlaySFX("Mice_Running_01", 0.3f, true);
                 UpdateMovement(dt);
             }
             else if (stateName == "Dead")

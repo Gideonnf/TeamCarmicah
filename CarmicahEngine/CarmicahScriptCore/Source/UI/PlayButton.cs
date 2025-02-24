@@ -50,7 +50,14 @@ namespace Carmicah
             //FunctionCalls.ChangeScene("Scene1");
             
             //SceneChanger.SetScene(nextScene, 2.0f);
-            
+            if(Type == "Play")
+            {
+                
+                Sound.PlaySFX("BGM_SetupPhase_Mix1",1.0f, true);
+            }else
+            {
+                Sound.SwitchBGM("BGM_LevelMusic_FullTrack_Vers1",1.0f, 1.5f);
+            }
         }
     }
 }

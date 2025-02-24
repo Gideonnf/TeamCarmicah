@@ -76,7 +76,7 @@ namespace Carmicah
                         trapEntity.GetComponent<Transform>().Depth = depthVal;
                         trapEntity.As<TrapAI>().built = true;
                         
-                        Sound.PlaySFX("trap_placement", 0.5f);
+                        Sound.PlaySFX("Trap_Placement_v2", 0.5f);
 
                         if (IsLeft)
                         {
