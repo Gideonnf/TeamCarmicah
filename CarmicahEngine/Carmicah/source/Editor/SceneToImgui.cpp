@@ -207,6 +207,9 @@ namespace Carmicah
         if (scene == NO_SCENE)
             return std::numeric_limits<unsigned int>().max();
 
+        if(mouseX > 1920 || mouseX < 0 || mouseY > 1080 || mouseY < 0)
+            return std::numeric_limits<unsigned int>().max();
+
         GLint prevBinding{};
         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &prevBinding);
 
@@ -230,6 +233,26 @@ namespace Carmicah
         glReadBuffer(GL_NONE);
         glBindFramebuffer(GL_FRAMEBUFFER, prevBinding);
         return goID;
+    }
+
+    void SceneToImgui::SelectMouseIDObjPick()
+    {
+        Vec2i mousePosI = { static_cast<int>(Input.GetMousePosition().x), 1080 - static_cast<int>(Input.GetMousePosition().y) };
+#ifndef CM_INSTALLER
+        SceneToImgui::SCENE_IMGUI currScene = SceneToImgui::GetInstance()->GetHovering();
+        if (currScene == SceneToImgui::NO_SCENE)
+        {
+            return;
+        }
+        mIDHovered = IDPick(currScene, mousePosI.x, mousePosI.y);
+#else
+        mIDHovered = IDPick(GAME_SCENE, mousePosI.x, mousePosI.y);
+#endif
+    }
+
+    unsigned int SceneToImgui::GetIDObjPick()
+    {
+        return mIDHovered;
     }
 
     void SceneToImgui::SetHovering(SCENE_IMGUI scene, bool hoverState)

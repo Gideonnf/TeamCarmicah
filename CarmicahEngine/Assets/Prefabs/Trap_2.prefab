@@ -1,17 +1,17 @@
 {
-    "GameObject": "TrapTranslucent",
-    "ID": 17,
+    "GameObject": "Trap_2",
+    "ID": 50,
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
-            "xPos": 1.5037634372711182,
-            "yPos": -9.738299369812012,
-            "depth": 3.3499999046325685,
+            "xPos": 1.4690403938293458,
+            "yPos": -9.699479103088379,
+            "depth": 3.450000047683716,
             "xScale": 0.6000000238418579,
             "yScale": 0.6000000238418579,
             "rot": 0.0,
-            "transformTag": "",
-            "collisionMask": 1
+            "transformTag": "Trap",
+            "collisionMask": 32
         },
         {
             "Component Name": "struct Carmicah::Renderer",
@@ -20,7 +20,7 @@
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
-            "colA": 0.5607843399047852
+            "colA": 1.0
         },
         {
             "Component Name": "struct Carmicah::Collider2D",

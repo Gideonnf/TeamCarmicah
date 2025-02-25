@@ -8,6 +8,7 @@ namespace Carmicah
 {
     public class WaveSystem : Entity
     {
+        public float waveSetupTime = 20.0f;
         public float waveStartTime = 20.0f;
         public float waveTimer = 0.0f;
 
@@ -55,12 +56,37 @@ namespace Carmicah
         {
             if (!Player.GameLost )
             {
-                    //CreateGameObject("WinScreen");
-
-                if (waveStart == false)
+                // Only increment time for as long as theres a wave coming
+                if (waveCounter < 5)
                     waveTimer += dt;
+                // Initial wave start
+                if (waveTimer > waveSetupTime && waveStart == false)
+                {
+                    waveStart = true;
+                    gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
+                    //CMConsole.Log("Starting New Wave");
 
-                if (waveCounter >= 5)
+                    waveCounter++;
+                    waveTimer = 0.0f;
+                    Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
+                    Sound.PlayBGM("BGM_LevelMusic_FullTrack_Vers1", 0.4f);
+                }
+
+                // Subsequent wave starts or skip the waves
+                if (waveTimer > waveStartTime || Input.IsKeyPressed(Keys.KEY_2))
+                {
+                    CMConsole.Log("Starting next wave!");
+                    // start next wave
+                    gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
+                    //CMConsole.Log("Starting New Wave");
+
+                    waveCounter++;
+                    waveTimer = 0.0f;
+                    // waveStart = true;
+                }
+
+                // end of level only when all enemies are dead
+                if (waveCounter >= 5 && gameManager.As<GameManager>().activeEnemies == 0)
                 {
                     //CreateGameObject("WinScreen");
                     gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
@@ -70,17 +96,7 @@ namespace Carmicah
                     // waveCounter--;
                 }
 
-                if ((waveTimer > waveStartTime && waveStart == false) || Input.IsKeyPressed(Keys.KEY_2))
-                {
-                    CMConsole.Log("Starting next wave!");
-                    // start next wave
-                    gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
-                    CMConsole.Log("Starting New Wave");
 
-                    waveCounter++;
-                    waveTimer = 0.0f;
-                    waveStart = true;
-                }
 
                 // if (Input.IsKeyPressed(Keys.KEY_1))
                 // {
@@ -97,6 +113,7 @@ namespace Carmicah
 
                 //}
 
+                // Skip to end of wave
                 if (Input.IsKeyPressed(Keys.KEY_1))
                 {
                     // start next wave

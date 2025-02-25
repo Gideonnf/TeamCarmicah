@@ -14,7 +14,8 @@
             "depth": 0.0,
             "xScale": 1.0,
             "yScale": 1.0,
-            "rot": 0.0
+            "rot": 0.0,
+            "transformTag": ""
         }
     ]
 }

@@ -7,8 +7,8 @@
             "xPos": 1.4690403938293458,
             "yPos": -9.699479103088379,
             "depth": 3.450000047683716,
-            "xScale": 0.5,
-            "yScale": 0.5,
+            "xScale": 0.6000000238418579,
+            "yScale": 0.6000000238418579,
             "rot": 0.0,
             "transformTag": "Trap",
             "collisionMask": 32
@@ -17,13 +17,18 @@
             "Component Name": "struct Script",
             "scriptName": "Carmicah.TrapAI",
             "ScriptableFieldMap": [
-                {}
+                {
+                    "built": false,
+                    "isDead": false,
+                    "life": 2.0,
+                    "timer": 0.0
+                }
             ]
         },
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Trap",
+            "texture": "candy_trap_spritesheet_Spike 0",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
@@ -46,7 +51,30 @@
             "mass": 1.0,
             "gravity": 0.0,
             "zposPrev": -107374176.0,
-            "objectType": 1
+            "objectType": 2
+        },
+        {
+            "Component Name": "struct Carmicah::StateMachine",
+            "currState": "",
+            "nextState": "",
+            "startingState": "",
+            "stateMap": [
+                {
+                    "stateName": "Idle",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Dead",
+                            "condition": 1
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Dead",
+                    "stateCondition": 0,
+                    "transitions": []
+                }
+            ]
         },
         {
             "Component Name": "struct Carmicah::Animation",

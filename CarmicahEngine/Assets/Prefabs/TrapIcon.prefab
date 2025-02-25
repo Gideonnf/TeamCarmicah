@@ -3,9 +3,7 @@
     "ID": 22,
     "Components": [
         {
-            "Component Name": "struct Carmicah::Button",
-            "ButtonImage": "",
-            "ButtonImagePressed": "candy_trap_spritesheet_Spike 0"
+            "Component Name": "struct Carmicah::Button"
         },
         {
             "Component Name": "struct Script",
