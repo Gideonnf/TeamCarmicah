@@ -136,7 +136,11 @@ namespace Carmicah
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void ChangeText(uint entityID, string text);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float GetRedColour(uint entityID, out float red);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SetRedColour(uint entityID, ref float red);
         //[MethodImplAttribute(MethodImplOptions.InternalCall)]
         //internal extern static void SetCollisionLayer(uint entityID, int layer);
     }

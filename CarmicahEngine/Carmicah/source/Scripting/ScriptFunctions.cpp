@@ -509,6 +509,28 @@ namespace Carmicah
 			go.GetComponent<UITransform>().Depth(*inFloat);
 	}
 
+	static void GetRedColour(unsigned int entityID, float* outFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Renderer>())
+		{
+			*outFloat = go.GetComponent<Renderer>().GetR();
+		}
+		else
+		{
+			*outFloat = 0.0f;
+		}
+	}
+	
+	static void SetRedColour(unsigned int entityID, float* inFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Renderer>())
+		{
+			go.GetComponent<Renderer>().SetR(*inFloat);
+		}
+	}
+
 	static MonoString* Transform_GetTag(unsigned int entityID)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -748,6 +770,8 @@ namespace Carmicah
 		// renderer functions
 		ADD_INTERNAL_CALL(SetAlpha);
 		ADD_INTERNAL_CALL(SetColour);
+		ADD_INTERNAL_CALL(GetRedColour);
+		ADD_INTERNAL_CALL(SetRedColour);
 
 		// Anim functions
 		ADD_INTERNAL_CALL(Animation_ChangeAnim);
