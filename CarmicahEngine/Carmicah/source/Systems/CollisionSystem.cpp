@@ -668,9 +668,17 @@ namespace Carmicah
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
 
-			EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
-			SendSysMessage(&newMsg);
+			if (rigidbody1.collided == false)
+			{
+				CM_CORE_INFO(" COLLISION");
 
+				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
+				SendSysMessage(&newMsg);
+			}
+			else
+			{
+
+			}
 
 			//gGOFactory->Destroy(obj1);
 
@@ -693,9 +701,17 @@ namespace Carmicah
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
 
-			EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
-			SendSysMessage(&newMsg);
+			if (rigidbody1.collided == false)
+			{
+				CM_CORE_INFO(" COLLISION");
 
+				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
+				SendSysMessage(&newMsg);
+			}
+			else
+			{
+
+			}
 			/*rigidbody2.velocity.x = 0;
 			rigidbody2.velocity.y = 0;*/
 
@@ -719,10 +735,18 @@ namespace Carmicah
 
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
-			CM_CORE_INFO("Obj 1 {}, Obj 2 {}", obj1, obj2);
-			EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
-			SendSysMessage(&newMsg);
+			//CM_CORE_INFO("Obj 1 {}, Obj 2 {}", obj1, obj2);
+			if (rigidbody1.collided == false)
+			{
+				CM_CORE_INFO(" COLLISION");
 
+				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
+				SendSysMessage(&newMsg);
+			}
+			else
+			{
+
+			}
 
 			/*rigidbody2.velocity.x = 0;
 			rigidbody2.velocity.y = 0;*/
@@ -740,8 +764,16 @@ namespace Carmicah
 			rigidbody1.velocity.y = 0;
 			//CM_CORE_INFO("ID in CollisionSystem 2nd {}", obj1);
 			CM_CORE_INFO("Obj 1 {}, Obj 2 {}", obj1, obj2);
-			EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
-			SendSysMessage(&newMsg);
+			if (rigidbody1.collided == false)
+			{
+				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
+				SendSysMessage(&newMsg);
+			}
+			else if (rigidbody1.collided)
+			{
+				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_STAY);
+				SendSysMessage(&newMsg);
+			}
 		}
 		else if (rigidbody1.objectType == rbTypes::KINEMATIC && rigidbody2.objectType == rbTypes::KINEMATIC)
 		{
@@ -750,6 +782,7 @@ namespace Carmicah
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
 				SendSysMessage(&newMsg);
+
 			}
 			else if (rigidbody1.collided)
 			{
@@ -852,6 +885,8 @@ namespace Carmicah
 			InsertEntityToGrid(entity, transform.Pos());
 		}
 
+		bool collided = false;
+
 		// Perform collision detection
 		for (auto entity1 : mEntitiesSet)
 		{
@@ -876,6 +911,7 @@ namespace Carmicah
 							//}
 
 							CollisionResponse(entity1, entity2);
+							collided = true;
 						}
 					}
 				}
@@ -883,11 +919,12 @@ namespace Carmicah
 			else if (rigidbody1.objectType == rbTypes::KINEMATIC)
 			{
 				std::vector<Entity> nearbyEntities = GetPotentialCollisions(entity1, transform1.Pos());
-				bool collided = false;
+				
 				for (Entity entity2 : nearbyEntities)
 				{
 
 					auto& transform2 = componentManager->GetComponent<Transform>(entity2);
+					auto& rigidbody2 = componentManager->GetComponent<RigidBody>(entity2);
 					auto transformSys = SystemManager::GetInstance()->GetSystem<TransformSystem>();
 					if (transformSys->CheckLayerInteraction(transform1.collisionMask, transform2.collisionMask))
 					{
@@ -897,23 +934,31 @@ namespace Carmicah
 							//{
 							//	CM_CORE_INFO("why tf is it colliding");
 							//}
+
+							
 							CollisionResponse(entity1, entity2);
 							collided = true;
 						}
 					}
 				}
+			}
 
-				// if entity 1 was already colliding but no longer
+			// if entity 1 was already colliding but no longer
 				// then call on trigger exit
-				if (collided != true)
+			if (collided != true)
+			{
+				if (rigidbody1.collided)
 				{
-					if (ComponentManager::GetInstance()->GetComponent<RigidBody>(entity1).collided)
-					{
-						// 0 on 2nd entity cause trigger exit doesnt care about collided entity
-						EntityCollidedMessage newMsg(entity1, 0, CollideType::TRIGGER_EXIT);
-						SendSysMessage(&newMsg);
-						ComponentManager::GetInstance()->GetComponent<RigidBody>(entity1).collided = false;
-					}
+					// OKAY TECHNICALLY ANY OBJECT WILL GET THIS CALL IF IT HAS THIS FUNCTION
+					// JUST DONT USE IT OK? 
+					// I KINDA LAZY TO FIND A WAY TO DIFFERENTIATE KINEMATIC w KINEMATIC COLLISION EXIT
+					// VS KINEMATIC w OTHER TYPE COLLISION EXIT
+					CM_CORE_INFO("ENDING COLLISION");
+
+					// 0 on 2nd entity cause trigger exit doesnt care about collided entity
+					EntityCollidedMessage newMsg(entity1, 0, CollideType::TRIGGER_EXIT);
+					SendSysMessage(&newMsg);
+					rigidbody1.collided = false;
 				}
 			}
 		}

@@ -17,9 +17,9 @@ namespace Carmicah
 
         public virtual void OnFixedUpdate(float fixedDt) { }
 
-        public virtual void OnCollide(Entity collidedEntity) { }
+        public virtual void OnCollide(uint collidedEntity) { }
 
-        public virtual void OnTriggerEnter(Entity collidedEntity) { }
+        public virtual void OnTriggerEnter(uint collidedEntity) { }
 
         public virtual void OnTriggerStay() { }
 
