@@ -14,6 +14,8 @@ namespace Carmicah
 
         public bool waveStart = false;
 
+        public LevelManager levelManager;
+
 
         public int mobWave0 = 5;
         public int mobWave1 = 10;
