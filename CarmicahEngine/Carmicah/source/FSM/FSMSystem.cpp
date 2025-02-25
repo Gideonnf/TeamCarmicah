@@ -48,6 +48,7 @@ namespace Carmicah
 			if (stateMachine.startingState.empty())
 			{
 				stateMachine.startingState = stateMachine.stateMap.begin()->first;
+				stateMachine.fsmInit = true;
 			}
 
 			// initialize the next state to be the starting state
@@ -66,12 +67,17 @@ namespace Carmicah
 			stateMachine.stateTimer += dt;
 
 			// if its a runtime obj thats added and starting state isnt initalized properly
-			if (stateMachine.startingState.empty())
+			if(!stateMachine.fsmInit)
 			{
-				stateMachine.startingState = stateMachine.stateMap.begin()->first;
-				// initialize the next state to be the starting state
+				if (stateMachine.startingState.empty())
+				{
+					stateMachine.startingState = stateMachine.stateMap.begin()->first;
+				}
 				stateMachine.nextState = stateMachine.startingState;
+				stateMachine.fsmInit = true;
 			}
+
+			// initialize the next state to be the starting state
 
 			// if there is a difference in the curr state vs next state
 			if (stateMachine.currState != stateMachine.nextState)
