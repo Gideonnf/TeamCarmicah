@@ -164,14 +164,17 @@ namespace Carmicah
 		// DRAG CHECK
 		if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_LEFT)
 		{
+#ifndef CM_INSTALLER
 			if (SceneToImgui::GetInstance()->GetHovering() != SceneToImgui::NO_SCENE)
 			{
-
+#endif
 				EntityPickedMessage msg(SceneToImgui::GetInstance()->GetIDObjPick());
 
 				Input.ProxySend(&msg);
+#ifndef CM_INSTALLER
 			}
-		}
+#endif
+	}
 		else if (action == GLFW_RELEASE) // stop dragging when button is released
 		{
 			//Vec2d mousePosD = Input.GetMousePosition();
@@ -191,10 +194,14 @@ namespace Carmicah
 		UNUSED(window);
 		// NOTE: SetMousePos is being used in SceneWindow for wrapping position of the cursor so that the mouse pos can pick accurately 
 		// since IMGUI makes the whole window 1920 by 1080 but we have to treat the scene as 1920 by 1080
+#ifndef CM_INSTALLER
 		if (SceneToImgui::GetInstance()->GetHovering() == SceneToImgui::NO_SCENE)
 		{
+#endif
 			Input.SetMousePosition(xPos, yPos);
+#ifndef CM_INSTALLER
 		}
+#endif
 	}
 
 	/* function documentation--------------------------------------------------------------------------

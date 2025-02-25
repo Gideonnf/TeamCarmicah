@@ -532,7 +532,8 @@ namespace Carmicah
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		//CM_CORE_INFO("Entity ID in changeAnim: {}", entityID);
 		//go.GetComponent<Animation>().animAtlas = cStr;
-		go.GetComponent<Animation>().ChangeAnim(cStrName);
+		if (go.HasComponent<Animation>())
+			go.GetComponent<Animation>().ChangeAnim(cStrName);
 		//mono_free(cStr);
 	}
 
