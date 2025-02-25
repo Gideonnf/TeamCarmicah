@@ -640,6 +640,7 @@ namespace Carmicah
 					{
 						isPlaying = false;
 						isPaused = false;
+						soundSystem->StopSound(SoundSystem::INTSOUND::SOUND_EDITOR);
 						ImGui::CloseCurrentPopup();
 					}
 					ImGui::EndPopup();
