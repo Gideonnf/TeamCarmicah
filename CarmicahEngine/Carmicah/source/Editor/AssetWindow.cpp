@@ -573,6 +573,9 @@ namespace Carmicah
 				ImGui::Unindent();
 				if (ImGui::BeginPopupModal("Audio Preview",nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 				{
+					static bool isPaused = false;
+					static bool isPlaying = false;
+					auto soundSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 					ImGui::Text("Sound Track: ");
 					ImGui::SameLine();
 					ImGui::Text(selectedAudio.first.c_str());
@@ -594,13 +597,49 @@ namespace Carmicah
 						ImGui::Text(lengthText.c_str());
 					}
 					
-					if (ImGui::Button("Play Sound"))
+					if(!isPlaying)
 					{
-						
+						if (ImGui::Button("Play Sound"))
+						{
+							isPlaying = true;
+							isPaused = false;
+							soundSystem->PlaySoundThis(selectedAudio.first, SoundCategory::EDITOR, SoundSystem::INTSOUND::SOUND_EDITOR, false, 1.0);
+						}
+					}
+
+
+					if(isPlaying)
+					{
+						if(!isPaused)
+						{
+							if (ImGui::Button("Pause Sound"))
+							{
+								isPaused = true;
+								soundSystem->PauseSound(SoundSystem::INTSOUND::SOUND_EDITOR);
+							}
+						}
+						else
+						{
+							if (ImGui::Button("Unpause Sound"))
+							{
+								isPaused = false;
+								soundSystem->ResumeSound(SoundSystem::INTSOUND::SOUND_EDITOR);
+							}
+						}
+
+						ImGui::SameLine();
+						if (ImGui::Button("Stop Sound"))
+						{
+							isPlaying = false;
+							isPaused = false;
+							soundSystem->StopSound(SoundSystem::INTSOUND::SOUND_EDITOR);
+						}
 					}
 							
 					if (ImGui::Button("Close Popup"))
 					{
+						isPlaying = false;
+						isPaused = false;
 						ImGui::CloseCurrentPopup();
 					}
 					ImGui::EndPopup();

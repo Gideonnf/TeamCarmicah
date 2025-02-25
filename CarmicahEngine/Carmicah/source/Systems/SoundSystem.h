@@ -61,6 +61,7 @@ namespace Carmicah
             SOUND_INGAME,
             SOUND_INMENU,
             SOUND_BGM,
+            SOUND_EDITOR,
             SOUND_MAX_SOUNDS
         };
 
