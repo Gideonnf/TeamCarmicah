@@ -65,7 +65,7 @@ namespace Carmicah
 		template<typename T>
 		void DisplayAllAssets(std::filesystem::path path, std::shared_ptr<Carmicah::AssetType<T>>);
 
-		void TextureBrowserOld(std::string& name, std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map);
+		//void TextureBrowserOld(std::string& name, std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map);
 		void TextureBrowser(std::string& name, std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map);
 
 	};
