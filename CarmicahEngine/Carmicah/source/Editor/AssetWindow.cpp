@@ -555,16 +555,60 @@ namespace Carmicah
 
 			if (ImGui::CollapsingHeader("Audio"))
 			{
+				static std::pair<std::string, unsigned int> selectedAudio;
 				ImGui::Indent();
 				for (const auto& entry : audioMap->mAssetMap)
 				{
 					if (ImGui::Button(entry.first.c_str()))
 					{
-						
+
+					}
+					if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
+					{
+						selectedAudio = entry;
+						ImGui::OpenPopup("Audio Preview");
+
 					}
 				}
 				ImGui::Unindent();
+				if (ImGui::BeginPopupModal("Audio Preview",nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+				{
+					ImGui::Text("Sound Track: ");
+					ImGui::SameLine();
+					ImGui::Text(selectedAudio.first.c_str());
+					ImGui::Text("Soundtrack Length: ");
+					unsigned int trackLength = 0;
+					audioMap->mAssetList[selectedAudio.second]->getLength(&trackLength, FMOD_TIMEUNIT_MS);
+					unsigned int minutes = ((trackLength / 1000) / 60);
+					unsigned int seconds = (trackLength / 1000) - (minutes * 60);
+					std::string lengthText = std::to_string(minutes) + " min " + std::to_string(seconds) + " s";
+					if(seconds != 0 || minutes != 0)
+					{
+						ImGui::SameLine();
+						ImGui::Text(lengthText.c_str());
+					}
+					else
+					{
+						lengthText = "Sound is " + std::to_string(trackLength) + " ms";
+						ImGui::SameLine();
+						ImGui::Text(lengthText.c_str());
+					}
+					
+					if (ImGui::Button("Play Sound"))
+					{
+						
+					}
+							
+					if (ImGui::Button("Close Popup"))
+					{
+						ImGui::CloseCurrentPopup();
+					}
+					ImGui::EndPopup();
+				}
 			}
+
+			//Audio Preview Popup Handling
+			
 
 			if (ImGui::CollapsingHeader("Prefab"))
 			{
