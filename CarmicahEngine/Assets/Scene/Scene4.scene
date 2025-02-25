@@ -8,10 +8,10 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "black_background",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
+                    "texture": "sky",
+                    "colR": 0.0,
+                    "colG": 0.0,
+                    "colB": 0.0,
                     "colA": 1.0
                 },
                 {
