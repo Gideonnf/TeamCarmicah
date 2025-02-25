@@ -773,7 +773,7 @@ namespace Carmicah
 		}
 	}
 	
-	void AssetManager::RemoveAsset(std::string filePath)
+	void AssetManager::RemoveFromAssetManager(std::string filePath)
 	{
 		std::string fileName = std::filesystem::path(filePath).stem().string();
 		std::string fileExt = std::filesystem::path(filePath).extension().string();
@@ -807,6 +807,18 @@ namespace Carmicah
 				}
 			}
 		}
+		if (fileExt == ".prefab")
+		{
+			//& asset = GetAsset<Prefab>(fileName);
+			RemoveAsset<Prefab>(fileName);
+		}
+
+		if (fileExt == ".png")
+		{
+			RemoveAsset<Texture>(fileName); //Check with Rainne
+		}
+
+
 	}
 	/*
 	@beief: This function copies assets from wherever they are in the windows file explorer to the assets folder if the asset is compatiable

@@ -18,10 +18,25 @@ DigiPen Institute of Technology is prohibited.
 
 #include <GLFW/glfw3.h>
 #include <ImGUI/imgui.h>
+#include <ImGUI/imgui_impl_glfw.h>
+#include <ImGUI/imgui_impl_opengl3.h>
 #include "EditorWindow.h"
 #include "ECS/GameObject.h"
 #include "Editor.h"
+#include "EditorWindow.h"
+#include "HierarchyWindow.h"
+#include "InspectorWindow.h"
 #include "../Systems/AssetManager.h"
+#include "../Systems/AssetManager.h"
+#include "../Systems/SceneSystem.h"
+#include "../Systems/SoundSystem.h"
+#include "Systems/GOFactory.h"
+#include "Components/Transform.h"
+#include "Components/Collider2D.h"
+#include "Components/Renderer.h"
+#include "Components/UITransform.h"
+
+#include <algorithm>
 
 
 namespace Carmicah
@@ -29,11 +44,11 @@ namespace Carmicah
 	class AssetWindow : public EditorWindow
 	{
 	private:
+		std::string assetDir;
 
 	public:
-		static std::string soundToPlay;
 		static Prefab* selectedPrefab;
-		static bool mSceneModified;
+		static bool mAssetModified;
 
 		/**
 		 * @brief Construct a new Asset Window object
@@ -46,6 +61,12 @@ namespace Carmicah
 		 *
 		 */
 		void Update() override;
+
+		template<typename T>
+		void DisplayAllAssets(std::filesystem::path path, std::shared_ptr<Carmicah::AssetType<T>>);
+
+		//void TextureBrowserOld(std::string& name, std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map);
+		void TextureBrowser(std::string& name, std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map);
 
 	};
 }

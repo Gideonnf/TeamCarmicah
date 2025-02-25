@@ -159,21 +159,23 @@ namespace Carmicah
 							newParentID = go.GetComponent<Transform>().parent;
 
 							//Set the parent (should auto-update the mChildrenHierarchy too,setting it at the end)
-							droppedGO.SetParent(newParentID);
-
-							//Sort it accordingly
-							auto droppedIt = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), droppedGO.GetID());
-							auto targettedGO = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), go.GetID());
-
-							if (targettedGO < droppedIt)
+							if(droppedGO.SetParent(gGOFactory->GetMIDToGO()[newParentID]))
 							{
-								Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
-								Editor::mChildrenHierarchy[newParentID].insert(targettedGO, droppedGO.GetID());
-							}
-							else
-							{
-								Editor::mChildrenHierarchy[newParentID].insert(targettedGO, droppedGO.GetID());
-								Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
+
+								//Sort it accordingly
+								auto droppedIt = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), droppedGO.GetID());
+								auto targettedGO = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), go.GetID());
+
+								if (targettedGO < droppedIt)
+								{
+									Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
+									Editor::mChildrenHierarchy[newParentID].insert(targettedGO, droppedGO.GetID());
+								}
+								else
+								{
+									Editor::mChildrenHierarchy[newParentID].insert(targettedGO, droppedGO.GetID());
+									Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
+								}
 							}
 						}
 
@@ -182,21 +184,23 @@ namespace Carmicah
 							newParentID = go.GetComponent<UITransform>().parent;
 
 							//Set the parent (should auto-update the mChildrenHierarchy too,setting it at the end)
-							droppedGO.SetParent(newParentID);
-
-							//Sort it accordingly
-							auto droppedIt = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), droppedGO.GetID());
-							auto targettedGO = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), go.GetID());
-
-							if (targettedGO < droppedIt)
+							if(droppedGO.SetParent(gGOFactory->GetMIDToGO()[newParentID]))
 							{
-								Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
-								Editor::mChildrenHierarchy[newParentID].insert(targettedGO, droppedGO.GetID());
-							}
-							else
-							{
-								Editor::mChildrenHierarchy[newParentID].insert(targettedGO, droppedGO.GetID());
-								Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
+
+								//Sort it accordingly
+								auto droppedIt = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), droppedGO.GetID());
+								auto targettedGO = std::find(Editor::mChildrenHierarchy[newParentID].begin(), Editor::mChildrenHierarchy[newParentID].end(), go.GetID());
+
+								if (targettedGO < droppedIt)
+								{
+									Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
+									Editor::mChildrenHierarchy[newParentID].insert(targettedGO, droppedGO.GetID());
+								}
+								else
+								{
+									Editor::mChildrenHierarchy[newParentID].insert(targettedGO, droppedGO.GetID());
+									Editor::mChildrenHierarchy[newParentID].erase(droppedIt);
+								}
 							}
 						}
 					}
@@ -388,18 +392,44 @@ namespace Carmicah
 	{
 		if (ImGui::Begin(mTitle))
 		{
+#pragma region Debug Region
+			/*static int counter = 0;
+			if(counter++ % 300 == 0)
+			{
+				std::string GOFactoryChildren = "No. of children sceneGO has: " + std::to_string(gGOFactory->sceneGO.children.size());
+				CM_CORE_INFO(GOFactoryChildren);
+				std::string parentedObjects = "No of objects parented to sceneHierarchy: " + std::to_string(Editor::mSceneHierarchy.size());
+				CM_CORE_INFO(parentedObjects);
+				std::string UIparentedObjects = "No of objects parented to sceneHierarchy: " + std::to_string(Editor::mSceneUIHierarchy.size());
+				CM_CORE_INFO(UIparentedObjects);
 
-			//Temporary Debugging Area
-			/*if (selectedGO != nullptr)
+				std::string equalParented = "Total Number of Parented Objects: " + std::to_string(Editor::mSceneHierarchy.size() + Editor::mSceneUIHierarchy.size()) + " = " + GOFactoryChildren;
+				CM_CORE_INFO(equalParented);
+				std::string parentsWithChildren = "No of objects with children: " + std::to_string(Editor::mChildrenHierarchy.size());
+				CM_CORE_INFO(parentsWithChildren);
+
+				for (const auto& entry : Editor::mChildrenHierarchy)
+				{
+					std::string entityChildren = "Entity ID(Editor) " + std::to_string(entry.first) + " has " + std::to_string(entry.second.size()) + " children";
+					CM_CORE_INFO(entityChildren);
+					if (gGOFactory->GetMIDToGO()[entry.first].HasComponent<Transform>())
+					{
+						std::string actualChildrenNo = "Entity ID " + std::to_string(gGOFactory->GetMIDToGO()[entry.first].GetID()) + " actually has " + std::to_string(gGOFactory->GetMIDToGO()[entry.first].GetComponent<Transform>().children.size()) + " children";
+						CM_CORE_INFO(actualChildrenNo);
+					}
+				}
+
+				CM_CORE_INFO("--------------------");
+			}
+			
+			if (selectedGO != nullptr)
 			{
 				if (selectedGO->HasComponent<Transform>())
 				{
-					unsigned int childrenNum = selectedGO->GetComponent<Transform>().collisionMask;
-					std::string text = std::to_string(childrenNum);
-					CM_CORE_INFO("Collision Mask: " + text);
+					
 				}
 			}*/
-
+#pragma endregion
 
 			if (ImGui::BeginChild("Game Object List: ", ImVec2(0, 400), ImGuiChildFlags_AlwaysUseWindowPadding))
 			{
