@@ -23,6 +23,8 @@ namespace Carmicah
         bool hovering = false;
         bool built = false;
         bool enemyCollided = false;
+
+        float redCol;
        // bool isActive = false;
 
         public void OnCreate()
@@ -44,11 +46,25 @@ namespace Carmicah
                 trapEntity = null;
                 built = false;
             }
-           
+
+            if (enemyCollided && translucentTrap != null)
+            {
+                // change color to red
+                translucentTrap.GetComponent<Renderer>().SetColour(1.0f, 0.2f, 0.2f);
+               // CMConsole.Log($"Setting red color to new");
+
+            }
+            else if (translucentTrap != null)
+            {
+                translucentTrap.GetComponent<Renderer>().SetColour(1.0f, 1.0f, 1.0f);
+                //CMConsole.Log($"Setting red color to original");
+
+            }
+
 
             if (TrapIcon != null && TrapIcon.As<TrapIcon>().trapEntity != null)
             {
-                CMConsole.Log("Trying to build a trap");
+               // CMConsole.Log("Trying to build a trap");
                 if (translucentTrap == null && built == false)
                 {
                     //CMConsole.Log("It shouldnt be here atm");
@@ -63,7 +79,8 @@ namespace Carmicah
                         translucentTrap.GetComponent<Transform>().Position = new Vector2(Position.x - trapOffset, Position.y);
 
                     }
-
+                    //redCol = translucentTrap.GetComponent<Renderer>().Red;
+                    //CMConsole.Log($"Red Color : {redCol}");
                 }
                 
             }
