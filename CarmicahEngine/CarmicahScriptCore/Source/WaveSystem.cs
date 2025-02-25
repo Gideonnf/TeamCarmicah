@@ -16,22 +16,6 @@ namespace Carmicah
 
         public LevelManager levelManager;
 
-
-        public int mobWave0 = 5;
-        public int mobWave1 = 10;
-        public int mobWave2 = 15;
-        public int mobWave3 = 20;
-        public int mobWave4 = 25;
-
-        public int bearWave0 = 0;
-        public int bearWave1 = 2;
-        public int bearWave2 = 3;
-        public int bearWave3 = 4;
-        public int bearWave4 = 5;
-
-        //public int[] mobWaves = { 5, 10, 15, 20, 25 };
-        int[] mobWaves = new int[5];
-        int[] bearWaves = new int[5];
         public int mobCounter = 0;
         public int waveCounter = 0;
 
@@ -42,17 +26,7 @@ namespace Carmicah
             levelManager = new LevelManager();
             gameManager = FindEntityWithName("GameManager");
             Player.GameLost = false;
-            mobWaves[0] = mobWave0;
-            mobWaves[1] = mobWave1;
-            mobWaves[2] = mobWave2;
-            mobWaves[3] = mobWave3;
-            mobWaves[4] = mobWave4;
 
-            bearWaves[0] = bearWave0;
-            bearWaves[1] = bearWave1;
-            bearWaves[2] = bearWave2;
-            bearWaves[3] = bearWave3;
-            bearWaves[4] = bearWave4;
         }
 
         void OnUpdate(float dt)
@@ -66,7 +40,9 @@ namespace Carmicah
                 if (waveTimer > waveSetupTime && waveStart == false)
                 {
                     waveStart = true;
-                    gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
+                    //Level level = levelManager.GetLevel();
+
+                    gameManager.As<GameManager>().StartNextWave(levelManager.GetWave());
                     //CMConsole.Log("Starting New Wave");
 
                     waveCounter++;
@@ -80,7 +56,7 @@ namespace Carmicah
                 {
                     CMConsole.Log("Starting next wave!");
                     // start next wave
-                    gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
+                    gameManager.As<GameManager>().StartNextWave(levelManager.GetWave());
                     //CMConsole.Log("Starting New Wave");
 
                     waveCounter++;
@@ -89,7 +65,7 @@ namespace Carmicah
                 }
 
                 // end of level only when all enemies are dead
-                if (waveCounter >= 5 && gameManager.As<GameManager>().activeEnemies == 0)
+                if (levelManager.EndOfLevel() && gameManager.As<GameManager>().activeEnemies == 0)
                 {
                     //CreateGameObject("WinScreen");
                     gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
@@ -117,15 +93,15 @@ namespace Carmicah
                 //}
 
                 // Skip to end of wave
-                if (Input.IsKeyPressed(Keys.KEY_1))
-                {
-                    // start next wave
-                    gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
+                //if (Input.IsKeyPressed(Keys.KEY_1))
+                //{
+                //    // start next wave
+                //    gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
 
-                    waveCounter = 5;
-                    waveTimer = 0.0f;
-                    waveStart = true;
-                }
+                //    waveCounter = 5;
+                //    waveTimer = 0.0f;
+                //    waveStart = true;
+                //}
             }
 
         }

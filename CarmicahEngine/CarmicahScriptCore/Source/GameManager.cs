@@ -204,7 +204,7 @@ namespace Carmicah
             }
         }
 
-        public void StartNextWave(int mobCount, int bearCount)
+        public void StartNextWave(Wave level)
         {
             //GameStart = true;
             //WaveStarted = true;

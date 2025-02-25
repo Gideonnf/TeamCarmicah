@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 
 
 namespace Carmicah
@@ -21,14 +22,18 @@ namespace Carmicah
 
     public class Level
     {
+        public int currWave = 0;
         public List<Wave> waves = new List<Wave>();
     }
     public class LevelManager
     {
+        public int currentLevel = 1; // level starts at 1
+       // public int currentWave = 0; // waves start at 0 cause access list at [0]
         private Dictionary<int, Level> levelMap = new Dictionary<int, Level>();
        // string basePath;
         string fileName = "LevelData.txt";
         int NumOfLevels = 0;
+        
         public LevelManager() 
         {
             CMConsole.Log($"Testing Level Manager!");
@@ -106,9 +111,58 @@ namespace Carmicah
             }
         }
     
-        public Level GetLevel(int level)
+        //public Level GetLevel(int level)
+        //{
+        //    return levelMap.ContainsKey(level) ? levelMap[level] : null;
+        //}
+
+        //public Level GetLevel()
+        //{
+        //    return levelMap.ContainsKey(currentLevel) ? levelMap[currentLevel] : null;
+        //}
+
+        public void SetLevel(int level)
         {
-            return levelMap.ContainsKey(level) ? levelMap[level] : null;
+            currentLevel = level;
+        }
+
+        public Wave GetWave()
+        {
+            Wave currWave = levelMap[currentLevel].waves[levelMap[currentLevel].currWave];
+            if (levelMap[currentLevel].currWave < levelMap[currentLevel].waves.Count)
+                levelMap[currentLevel].currWave++;
+            return currWave;
+        }
+
+        public Wave GetWave(int wave)
+        {
+            levelMap[currentLevel].currWave = wave;
+            Wave currWave = levelMap[currentLevel].waves[levelMap[currentLevel].currWave];
+            return currWave;
+        }
+
+        public bool EndOfLevel()
+        {
+            Level currLevel = levelMap[currentLevel];
+            // end of level
+            if (currLevel.currWave >= currLevel.waves.Count)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public int GetLevel()
+        {
+            return currentLevel;
+        }
+
+        public void NextLevel()
+        {
+            if (currentLevel <= levelMap.Count)
+            {
+                currentLevel++;
+            }
         }
 
         public void DebugPrint(int j, int count)
