@@ -140,11 +140,11 @@ namespace Carmicah
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		if (go.HasComponent<Transform>())
 		{
-			return go.GetComponent<Transform>().parent;
+			return go.GetComponent<Transform>().ParentID();
 		}
 		else if (go.HasComponent<UITransform>())
 		{
-			return go.GetComponent<UITransform>().parent;
+			return go.GetComponent<UITransform>().ParentID();
 		}
 
 		return 0;
@@ -289,7 +289,7 @@ namespace Carmicah
 		if (go.HasComponent<Transform>())
 		{
 			*outPos = go.GetComponent<Transform>().Pos();
-			if (go.GetComponent<Transform>().parent != 0)
+			if (go.GetComponent<Transform>().ParentID() != 0)
 			{
 				//Transform parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(go.GetComponent<Transform>().parent);
 				//*outPos += parentTransform.Pos();
