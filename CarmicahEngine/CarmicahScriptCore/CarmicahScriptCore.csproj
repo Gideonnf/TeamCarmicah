@@ -59,7 +59,7 @@
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Installer|x64' ">
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LevelManager.cs" />
+    <Compile Include="Source\LevelManager.cs" />
     <Compile Include="Source\BalloonBounce.cs" />
     <Compile Include="Source\Camera.cs" />
     <Compile Include="Source\GameManager.cs" />
@@ -74,6 +74,7 @@
     <Compile Include="Source\System\CMConsole.cs" />
     <Compile Include="Source\System\Component.cs" />
     <Compile Include="Source\System\Entity.cs" />
+    <Compile Include="Source\System\CMFileReader.cs" />
     <Compile Include="Source\System\FunctionCalls.cs" />
     <Compile Include="Source\System\Input.cs" />
     <Compile Include="Source\System\Keys.cs" />

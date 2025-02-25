@@ -548,6 +548,14 @@ namespace Carmicah
 		return mono_string_new(mono_domain_get(), ret.c_str());
 	}
 
+	static MonoString* GetFilePath()
+	{
+		/*std::filesystem::path fileDir = AssetManager::GetInstance()->enConfig.assetLoc;*/
+		std::string filePath = (std::filesystem::current_path().parent_path() / "Assets").string();
+		CM_CORE_INFO("File Path {}", filePath);
+		return mono_string_new(mono_domain_get(), filePath.c_str());
+	}
+
 	static void Animation_ChangeAnim(unsigned int entityID, MonoString* string)
 	{
 		std::string cStrName = MonoToString(string);
@@ -803,5 +811,7 @@ namespace Carmicah
 
 		// Text Renderer
 		ADD_INTERNAL_CALL(ChangeText);
+
+		ADD_INTERNAL_CALL(GetFilePath);
 	}
 }

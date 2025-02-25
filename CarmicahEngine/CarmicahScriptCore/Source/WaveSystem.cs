@@ -39,6 +39,7 @@ namespace Carmicah
 
         void OnCreate()
         {
+            levelManager = new LevelManager();
             gameManager = FindEntityWithName("GameManager");
             Player.GameLost = false;
             mobWaves[0] = mobWave0;

@@ -129,7 +129,6 @@ namespace Carmicah
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Transform_GetLocalPosition(uint entityID, out Vector2 position);
 
-
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static string Transform_GetTag(uint entityID);
 
@@ -153,6 +152,10 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void SetGreenColour(uint entityID, ref float Green);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static string GetFilePath();
+
         //[MethodImplAttribute(MethodImplOptions.InternalCall)]
         //internal extern static void SetCollisionLayer(uint entityID, int layer);
     }
