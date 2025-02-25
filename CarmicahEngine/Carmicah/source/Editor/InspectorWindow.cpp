@@ -1196,6 +1196,15 @@ namespace Carmicah
 								gScriptSystem->UpdateScriptComponent(id);
 							}
 						}
+						else if (it.second.mType == ScriptFieldType::Int)
+						{
+							int data = scriptRef->GetFieldValue<int>(it.second.mName);
+							if (ImGui::DragInt(it.second.mName.c_str(), &data))
+							{
+								scriptRef->SetFieldValue(it.second.mName, data);
+								gScriptSystem->UpdateScriptComponent(id);
+							}
+						}
 					}
 				}
 

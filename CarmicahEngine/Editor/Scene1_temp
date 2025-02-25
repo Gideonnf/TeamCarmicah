@@ -397,7 +397,7 @@
                             "EndPointEntityRight2": "EndPointRight_1",
                             "ShooterNPC": "ShooterNPC",
                             "ShooterNPC2": "ShooterNPC_1",
-                            "MobCounter": 0.0,
+                            "MobCounter": 0,
                             "NumOfMobs": 18.0,
                             "HeroBuild": "HeroBuild",
                             "HeroBuild1": "HeroBuild_1",
@@ -406,9 +406,11 @@
                             "WaveEnded": false,
                             "ySpawnPos": 9.699999809265137,
                             "yTargetPos": 0.8999999761581421,
+                            "activeEnemies": 0,
                             "yVFXSpawn": 2.200000047683716,
                             "PlayerHealthBar": "Healthbar",
-                            "CakeVFXPrefab": "CakeVFX"
+                            "CakeVFXPrefab": "CakeVFX",
+                            "BearCounter": 0
                         }
                     ]
                 },
@@ -492,10 +494,22 @@
                     "scriptName": "Carmicah.WaveSystem",
                     "ScriptableFieldMap": [
                         {
+                            "bearWave1": 2,
                             "waveStartTime": 21.0,
                             "waveTimer": 0.0,
+                            "bearWave0": 0,
                             "startNewWave": true,
+                            "bearWave2": 3,
                             "waveStart": false,
+                            "bearWave3": 4,
+                            "bearWave4": 5,
+                            "mobCounter": 0,
+                            "mobWave0": 5,
+                            "mobWave1": 10,
+                            "mobWave2": 15,
+                            "mobWave3": 20,
+                            "mobWave4": 25,
+                            "waveCounter": 0,
                             "waveSetupTime": 20.0
                         }
                     ]
