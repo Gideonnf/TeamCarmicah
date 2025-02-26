@@ -245,6 +245,11 @@ namespace Carmicah
             MouseAI mouseAI = mouseEntity.As<MouseAI>();
 
             mouseAI.SetInitialPosition(); // Reset initial position
+
+            // Get current wave from WaveSystem and scale mouse speed
+            WaveSystem waveSystem = FindEntityWithName(WaveSystemObject).As<WaveSystem>();
+            mouseAI.SetTypeAndSpeedWithWaveScaling(waveSystem.waveCounter);
+
             MobCounter--;
 
             CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
@@ -590,6 +595,7 @@ namespace Carmicah
 
         public void OnStateExit(string stateName)
         {
+
 
         }
 
