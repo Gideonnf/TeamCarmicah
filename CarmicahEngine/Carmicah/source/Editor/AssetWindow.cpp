@@ -27,7 +27,7 @@ namespace Carmicah
 	AssetWindow::AssetWindow() : EditorWindow("Asset Browser", ImVec2(900, 300), ImVec2(0, 0)) 
 	{ 
 		mIsVisible = true; 
-		assetDir = AssetManager::GetInstance()->enConfig.assetLoc;
+		//assetDir = AssetManager::GetInstance()->enConfig.assetLoc;
 	}
 
 	Prefab* AssetWindow::selectedPrefab = nullptr;
@@ -310,7 +310,7 @@ namespace Carmicah
 
 	void AssetWindow::TextureBrowser(std::string& name, std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map)
 	{
-		std::filesystem::path pathLoc = assetDir.c_str() + std::string("/Images");
+		std::filesystem::path pathLoc = AssetManager::GetInstance()->enConfig.assetLoc.c_str() + std::string("/Images");
 
 		if (!std::filesystem::exists(pathLoc))
 		{
@@ -684,7 +684,7 @@ namespace Carmicah
 
 						if (ImGui::Button("Delete Prefab"))
 						{
-							std::filesystem::path deletePath = std::filesystem::path(assetDir.c_str()) / "Prefabs" / (entry.first + ".prefab");
+							std::filesystem::path deletePath = std::filesystem::path(AssetManager::GetInstance()->enConfig.assetLoc.c_str()) / "Prefabs" / (entry.first + ".prefab");
 							std::filesystem::remove(deletePath);
 							AssetManager::GetInstance()->fileWatcher.Update();
 							mAssetModified = true;

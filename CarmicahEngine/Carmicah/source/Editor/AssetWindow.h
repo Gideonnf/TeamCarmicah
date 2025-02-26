@@ -44,7 +44,7 @@ namespace Carmicah
 	class AssetWindow : public EditorWindow
 	{
 	private:
-		std::string assetDir;
+		//std::string assetDir;
 
 	public:
 		static Prefab* selectedPrefab;
