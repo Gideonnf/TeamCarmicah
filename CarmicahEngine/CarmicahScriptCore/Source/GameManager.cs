@@ -262,13 +262,13 @@ namespace Carmicah
         {
             CMConsole.Log("Starting next wave");
             // Add it onto wave data
-            //mobCounter = mobCounter + level;
-            //for(int i = 0; i < level.enemySpawns.Length; ++i)
-            //{
-            //    // add how many enemies are coming this wave
-            //    activeEnemies += level.enemySpawns[i];
-            //    CMConsole.Log("Adding Enemy");
-            //}
+            mobCounter = mobCounter + level;
+            for (int i = 0; i < level.enemySpawns.Length; ++i)
+            {
+                // add how many enemies are coming this wave
+                activeEnemies += level.enemySpawns[i];
+                CMConsole.Log("Adding Enemy");
+            }
         }
 
         public void CreateEnemy(string prefabName, EnemyTypes type)
