@@ -195,62 +195,12 @@ namespace Carmicah
                         }
                         default:
                         {
-                            CMConsole.Log("Shouldn't be here tbh");
+                          //  CMConsole.Log("Shouldn't be here tbh");
                             break;
                         }
                     }
                 }
             }
-
-            //if (MobCounter > 0)
-            //{
-            //    timer += dt;
-
-            //    if (timer > spawnTimer)
-            //    {
-            //        timer = 0.0f;
-            //        CreateEnemy(MousePrefabName);
-            //        MobCounter--;
-            //    }
-            //}
-            //else if (BearCounter > 0)
-            //{
-            //    timer += dt;
-
-            //    if (timer > spawnTimer)
-            //    {
-            //        timer = 0.0f;
-            //        CreateEnemy(BearPrefabName);
-            //        BearCounter--;
-
-            //    }
-            //}
-
-
-
-            //CMConsole.Log($"Active enemies: {activeEnemies}");
-            //Wave Ending Checking
-            //if(BearCounter == 0 && MobCounter == 0 && IsLanesEmpty() && GameStart == true)
-            //{
-            //    CMConsole.Log("Ending Wave");
-
-            //    WaveEnded = true;
-            //}
-
-            //CMConsole.Log($"Lane one: {mouseLaneOne.Count()}");
-            //CMConsole.Log($"Lane two: {mouseLaneTwo.Count()}");
-            //CMConsole.Log($"Lane three: {mouseLaneThree.Count()}");
-            //CMConsole.Log($"Lane four: {mouseLaneFour.Count()}");
-
-            //if (waveSystem.As<WaveSystem>().waveStart && activeEnemies == 0)
-            //{
-            //    // WaveStarted = false;
-            //    CMConsole.Log("Ending Wave");
-            //    waveSystem.As<WaveSystem>().EndOfWave();
-            //    Sound.StopSoundBGM("BGM_LevelMusic_FullTrack_Vers1");
-            //    Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
-            //}
-
 
             if (Input.IsKeyPressed(Keys.KEY_SPACEBAR))
             {
@@ -260,14 +210,14 @@ namespace Carmicah
 
         public void StartNextWave(Wave level)
         {
-            CMConsole.Log("Starting next wave");
+            //CMConsole.Log("Starting next wave");
             // Add it onto wave data
             mobCounter = mobCounter + level;
             for (int i = 0; i < level.enemySpawns.Length; ++i)
             {
                 // add how many enemies are coming this wave
                 activeEnemies += level.enemySpawns[i];
-                CMConsole.Log("Adding Enemy");
+                //CMConsole.Log("Adding Enemy");
             }
         }
 
@@ -278,8 +228,8 @@ namespace Carmicah
 
             mouseAI.SetInitialPosition(); // Reset initial position
             
-
-            CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
+            
+            //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
 
             switch (mouseAI.lane)
             {
@@ -344,7 +294,7 @@ namespace Carmicah
 
         public void EntityDestroyed(MouseAI entity)
         {
-            CMConsole.Log("Enemy died");
+            //CMConsole.Log("Enemy died");
             activeEnemies--;
 
             switch (entity.As<MouseAI>().lane)

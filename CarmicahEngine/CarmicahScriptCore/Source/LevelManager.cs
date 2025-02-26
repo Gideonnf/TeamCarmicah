@@ -100,7 +100,7 @@ namespace Carmicah
             CMConsole.Log($"Testing Level Manager! file path : {filePath}");
             LoadLevels(filePath);
 
-            DebugPrintLevelMap();
+            //DebugPrintLevelMap();
 
             NumOfLevels = levelMap.Count;
             // Load from text file
@@ -123,7 +123,7 @@ namespace Carmicah
                 //start at 3 because first 3 lines is format example
                 for (int i = 3; i < lines.Length; i++)
                 {
-                    CMConsole.Log($"Line:{lines[i]} and i {i}");
+                   // CMConsole.Log($"Line:{lines[i]} and i {i}");
 
                     // skip any empty lines
                     if (string.IsNullOrWhiteSpace(lines[i]))
@@ -199,7 +199,7 @@ namespace Carmicah
         public Wave GetWave()
         {
             CMConsole.Log("Get Next Wave");
-            DebugPrintLevelMap();
+            //DebugPrintLevelMap();
             CMConsole.Log($"current level: {currentLevel} and wave {levelMap[currentLevel].currWave}");
             Wave currWave = levelMap[currentLevel].waves[levelMap[currentLevel].currWave];
             if (levelMap[currentLevel].currWave < levelMap[currentLevel].waves.Count)
