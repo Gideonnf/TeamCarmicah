@@ -9,14 +9,43 @@ namespace Carmicah
 {
     public class TrapIcon : Entity
     {
+        public string WaveSystemObject = "Something";
         public string trapPrefab = "Trap_1";
         public Entity trapEntity;
         bool flipped = false;
         bool hovering = false;
         public float trapOffset = 1.6f;
+        public bool cooldown = false;
+        public float cooldownTime = 3.0f;
+        float timer;
+        Entity waveSystem;
+
+        Vector2 minScale = new Vector2(0.05f, 0.05f);
+        Vector2 maxScale;
+
+        public override void OnCreate()
+        {
+            // use its current scale as the max
+            maxScale = Scale;
+            waveSystem = FindEntityWithName(WaveSystemObject);
+        }
 
         void OnUpdate(float dt)
         {
+            if (cooldown)
+            {
+                CMConsole.Log("On COoldown");
+                timer += dt;
+                float progress = 1 - (timer / cooldownTime);
+                Scale = Vector2.lerp(maxScale, minScale, progress);
+
+                if (timer > cooldownTime)
+                {
+                    timer = 0.0f;
+                    cooldown = false;
+                }
+            }
+
             if (trapEntity == null) return;
 
             //CMConsole.Log("It shouldnt be here atm");
@@ -53,11 +82,24 @@ namespace Carmicah
             }            
         }
 
+        public void ActivateCooldown()
+        {
+            if (waveSystem.As<WaveSystem>().waveStart)
+            {
+                cooldown = true;
+            }
+
+        }
+
         void OnClick()
         {
             if (trapEntity != null) return;
 
-            trapEntity = CreateGameObject(trapPrefab);
+
+            if (cooldown == false)
+            {
+                trapEntity = CreateGameObject(trapPrefab);
+            }
             //CMConsole.Log($"Creating entity with {trapEntity.mID}");
         }
 
