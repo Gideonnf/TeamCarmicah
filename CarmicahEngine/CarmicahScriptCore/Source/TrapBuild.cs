@@ -67,6 +67,7 @@ namespace Carmicah
                // CMConsole.Log("Trying to build a trap");
                 if (translucentTrap == null && built == false)
                 {
+
                     //CMConsole.Log("It shouldnt be here atm");
                     translucentTrap = CreateGameObject(TrapTranslucentPrefab);
                     CMConsole.Log($"{Position.x} , {Position.y}");
@@ -100,6 +101,9 @@ namespace Carmicah
                     // if the player let go when its hovering a build spot
                     if (hovering && trapEntity == null)
                     {
+                        // If its wave start, this will trigger cooldown
+                        TrapIcon.As<TrapIcon>().ActivateCooldown();
+
                         // build a trap
                         built = true;
                         trapEntity = CreateGameObject(TrapPrefabName);

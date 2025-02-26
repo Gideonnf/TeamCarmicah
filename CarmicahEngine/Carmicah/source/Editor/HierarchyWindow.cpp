@@ -97,7 +97,7 @@ namespace Carmicah
 				{
 					if(go.HasComponent<Transform>())
 					{
-						targettedGOParent = go.GetComponent<Transform>().parent;
+						targettedGOParent = go.GetComponent<Transform>().ParentID();
 
 						if (targettedGOParent == gGOFactory->sceneGO.sceneID)
 						{
@@ -124,7 +124,7 @@ namespace Carmicah
 
 					else if (go.HasComponent<UITransform>())
 					{
-						targettedGOParent = go.GetComponent<UITransform>().parent;
+						targettedGOParent = go.GetComponent<UITransform>().ParentID();
 
 						if (targettedGOParent == gGOFactory->sceneGO.sceneID)
 						{
@@ -156,7 +156,7 @@ namespace Carmicah
 
 						if (go.HasComponent<Transform>())
 						{
-							newParentID = go.GetComponent<Transform>().parent;
+							newParentID = go.GetComponent<Transform>().ParentID();
 
 							//Set the parent (should auto-update the mChildrenHierarchy too,setting it at the end)
 							if(droppedGO.SetParent(gGOFactory->GetMIDToGO()[newParentID]))
@@ -181,7 +181,7 @@ namespace Carmicah
 
 						else if (go.HasComponent<UITransform>())
 						{
-							newParentID = go.GetComponent<UITransform>().parent;
+							newParentID = go.GetComponent<UITransform>().ParentID();
 
 							//Set the parent (should auto-update the mChildrenHierarchy too,setting it at the end)
 							if(droppedGO.SetParent(gGOFactory->GetMIDToGO()[newParentID]))
