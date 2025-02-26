@@ -56,7 +56,7 @@ namespace Carmicah
                 if (enemySpawns[i] != 0)
                 {
                     enemySpawns[i]--;
-                    CMConsole.Log($"Getting enemy of type {i}");
+                    //CMConsole.Log($"Getting enemy of type {i}");
                     return (EnemyTypes)i;
                 }
             }
