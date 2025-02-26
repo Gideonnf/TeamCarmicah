@@ -393,7 +393,7 @@ namespace Carmicah
 		if (currentGO.HasComponent<Transform>())
 		{
 			// Get the parent ID
-			parentID = currentGO.GetComponent<Transform>().parent;
+			parentID = currentGO.GetComponent<Transform>().ParentID();
 			if (parentID == gGOFactory->sceneGO.sceneID)
 			{
 				mSceneHierarchy.erase(std::remove_if(mSceneHierarchy.begin(), mSceneHierarchy.end(), [id](const auto& element)
@@ -409,7 +409,7 @@ namespace Carmicah
 		}
 		else if (currentGO.HasComponent<UITransform>())
 		{
-			parentID = currentGO.GetComponent<UITransform>().parent;
+			parentID = currentGO.GetComponent<UITransform>().ParentID();
 
 			if (parentID == gGOFactory->sceneGO.sceneID)
 			{
@@ -474,7 +474,7 @@ namespace Carmicah
 				if (currentGO.HasComponent<Transform>())
 				{
 					// Get the parent ID
-					oldParentID = currentGO.GetComponent<Transform>().parent;
+					oldParentID = currentGO.GetComponent<Transform>().ParentID();
 
 					if (oldParentID != 0)
 					{
@@ -493,7 +493,7 @@ namespace Carmicah
 				}
 				else if (currentGO.HasComponent<UITransform>())
 				{
-					oldParentID = currentGO.GetComponent<UITransform>().parent;
+					oldParentID = currentGO.GetComponent<UITransform>().ParentID();
 
 					if (oldParentID != 0)
 					{
@@ -551,11 +551,11 @@ namespace Carmicah
 						// Get the parent ID
 						if (currentGO.HasComponent<Transform>())
 						{
-							oldParentID = currentGO.GetComponent<Transform>().parent;
+							oldParentID = currentGO.GetComponent<Transform>().ParentID();
 						}
 						else if (currentGO.HasComponent<UITransform>())
 						{
-							oldParentID = currentGO.GetComponent<UITransform>().parent;
+							oldParentID = currentGO.GetComponent<UITransform>().ParentID();
 						}
 
 
@@ -587,11 +587,11 @@ namespace Carmicah
 						// Get the parent ID
 						if (currentGO.HasComponent<Transform>())
 						{
-							oldParentID = currentGO.GetComponent<Transform>().parent;
+							oldParentID = currentGO.GetComponent<Transform>().ParentID();
 						}
 						else if (currentGO.HasComponent<UITransform>())
 						{
-							oldParentID = currentGO.GetComponent<UITransform>().parent;
+							oldParentID = currentGO.GetComponent<UITransform>().ParentID();
 						}
 
 

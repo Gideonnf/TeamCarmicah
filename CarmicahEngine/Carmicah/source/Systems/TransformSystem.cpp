@@ -120,17 +120,18 @@ namespace Carmicah
 	void TransformSystem::AddToTransformMap(Entity e)
 	{
 		auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(e);
+		const unsigned int& level = transform.GrandChildLevel();
 		// Can't add to non-existant map value
-		auto i = transformedMap.find(transform.grandChildLvl);
+		auto i = transformedMap.find(level);
 		if (i == transformedMap.end())
 		{
-			transformedMap.emplace(transform.grandChildLvl, std::unordered_set<unsigned int>());
-			i = transformedMap.find(transform.grandChildLvl);
+			transformedMap.emplace(level, std::unordered_set<unsigned int>());
+			i = transformedMap.find(level);
 		}
 
 		// Adding part
-		if (transformedMap[transform.grandChildLvl].find(e) == transformedMap[transform.grandChildLvl].end())
-			transformedMap[transform.grandChildLvl].emplace(e);
+		if (transformedMap[level].find(e) == transformedMap[level].end())
+			transformedMap[level].emplace(e);
 		else
 			return;
 
@@ -164,7 +165,7 @@ namespace Carmicah
 		auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(e);
 		//CM_CORE_INFO("entity updating: " + std::to_string(entity));
 		// if no parent
-		if (transform.parent == 0)
+		if (transform.ParentID() == 0)
 		{
 			Mtx33Identity(transform.rotTrans);
 			transform.accumulatedScale = transform.Scale();
@@ -176,7 +177,7 @@ namespace Carmicah
 		else
 		{
 			// get parent's transform
-			Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(transform.parent);
+			Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(transform.ParentID());
 
 			transform.accumulatedScale = parentTransform.accumulatedScale * transform.Scale();
 			transform.rotTrans = parentTransform.rotTrans;
@@ -215,9 +216,9 @@ namespace Carmicah
 		Transform& entityTransform = ComponentManager::GetInstance()->GetComponent<Transform>(entityID);
 
 		// No Parent
-		if (parentID == 0 && entityTransform.parent != 0)
+		if (parentID == 0 && entityTransform.ParentID() != 0)
 		{
-			Transform& oldParentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(entityTransform.parent);
+			Transform& oldParentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(entityTransform.ParentID());
 
 			// Reverse Calc from Matrix
 			entityTransform.Pos(entityTransform.rotTrans.m[6], entityTransform.rotTrans.m[7]);
@@ -234,8 +235,7 @@ namespace Carmicah
 
 			// Clear old parents data
 			oldParentTransform.children.erase(std::find(oldParentTransform.children.begin(), oldParentTransform.children.end(), entityID));
-			entityTransform.parent = 0;
-			entityTransform.grandChildLvl = 0;
+			entityTransform.SetParent(0, 0);
 		}
 		else
 		{
@@ -261,8 +261,7 @@ namespace Carmicah
 			entityTransform.worldSpace = entityTransform.rotTrans;
 			entityTransform.worldSpace.scaleThis(entityTransform.CalcedRenderingScale() * entityTransform.accumulatedScale);
 
-			entityTransform.parent = parentID;
-			entityTransform.grandChildLvl = parentTransform.grandChildLvl + 1;
+			entityTransform.SetParent(parentID, parentTransform.GrandChildLevel());
 			parentTransform.children.push_back(entityID);
 		}
 	}
@@ -287,7 +286,7 @@ namespace Carmicah
 				// so we have to use its old's parent ID and reset it
 				// if the entity transform parent is already 0, that means its already in world pos
 				// so no calculation needed
-				if (castedMsg->mParentID == 0 && entityTransform.parent != 0)
+				if (castedMsg->mParentID == 0 && entityTransform.ParentID() != 0)
 				{
 					ChangeParent(castedMsg->mEntityID, 0);
 				}
@@ -305,7 +304,7 @@ namespace Carmicah
 				UITransform& entityTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(castedMsg->mEntityID);
 				UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(castedMsg->mParentID);
 				parentTransform.children.push_back(castedMsg->mEntityID);
-				entityTransform.parent = castedMsg->mParentID;
+				entityTransform.SetParent(castedMsg->mParentID, parentTransform.GrandChildLevel());
 				
 			}
 		}

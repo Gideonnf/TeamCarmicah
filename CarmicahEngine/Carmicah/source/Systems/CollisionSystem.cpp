@@ -235,9 +235,9 @@ namespace Carmicah
 					transform.ScaleY(1.0f);
 				}
 			
-				if (transform.parent != 0)
+				if (transform.ParentID() != 0)
 				{
-					auto& parent = componentManager->GetComponent<Transform>(transform.parent);
+					auto& parent = componentManager->GetComponent<Transform>(transform.ParentID());
 
 					// Compute the world position of the child object
 					Vec2f worldPos = {
