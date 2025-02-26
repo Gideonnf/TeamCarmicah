@@ -198,15 +198,20 @@ namespace Carmicah
 
         public Wave GetWave()
         {
-            CMConsole.Log("Get Next Wave");
+            //CMConsole.Log("Get Next Wave");
             //DebugPrintLevelMap();
-            CMConsole.Log($"current level: {currentLevel} and wave {levelMap[currentLevel].currWave}");
+            //CMConsole.Log($"current level: {currentLevel} and wave {levelMap[currentLevel].currWave}");
             Wave currWave = levelMap[currentLevel].waves[levelMap[currentLevel].currWave];
             if (levelMap[currentLevel].currWave < levelMap[currentLevel].waves.Count)
             {
                 levelMap[currentLevel].currWave++;
             }
-            CMConsole.Log("Get Next Wave 2");
+            else
+            {
+                levelMap[currentLevel].currWave++;
+                return null;
+            }
+           // CMConsole.Log("Get Next Wave 2");
 
             currWave.PrintWaveData();
             return currWave;
