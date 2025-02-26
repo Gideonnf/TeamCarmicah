@@ -422,6 +422,11 @@ namespace Carmicah
                     std::string var = scriptRef->GetFieldValue<std::string>(it.second.mName);
                     scriptComponent.scriptableFieldMap[it.first] = var;
                 }
+                else if (it.second.mType == ScriptFieldType::Int)
+                {
+                    int var = scriptRef->GetFieldValue<int>(it.second.mName);
+                    scriptComponent.scriptableFieldMap[it.first] = var;
+                }
             }
         }
     }
@@ -446,6 +451,11 @@ namespace Carmicah
             else if (it.second.mType == ScriptFieldType::String)
             {
                 std::string var{};
+                scriptComponent.scriptableFieldMap[it.first] = var;
+            }
+            else if (it.second.mType == ScriptFieldType::Int)
+            {
+                int var{};
                 scriptComponent.scriptableFieldMap[it.first] = var;
             }
         }

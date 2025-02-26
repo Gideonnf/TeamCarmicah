@@ -11,10 +11,12 @@ namespace Carmicah
     {
         public string idleAnim = "Shooter_Idle";
         public string shootAnim = "Shooter_Shoot";
+        public string manaAnim = "Shooter_Idle";
 
         public string projectilePrefab = "Bullet";
         public float shootRate = 1.0f;
         public float shootTime = 1.0f;
+        public int mana = 10;
         public int lane;
         float timer = 0.0f;
         public bool active = false;
@@ -23,6 +25,7 @@ namespace Carmicah
        // float shootTimer = 0.0f;
         bool isShooting = false;
         bool shot = false;
+        bool hasAmmo = true;
         GameManager gameManager;
         PauseManager pauseManager;
         MouseAI targetMouse;
@@ -72,6 +75,11 @@ namespace Carmicah
                         bullet.targetMouse = targetMouse;
                         
                         bullet.SetUp(targetMouse);
+
+                        if(mana > 0)
+                        {
+                            mana--;
+                        }
                     }
                 }
             }
@@ -112,6 +120,11 @@ namespace Carmicah
                 CMConsole.Log($"Max Anim Time : {animationTime}");
 
             }
+            else if (stateName == "NoMana")
+            {
+                ChangeAnim(manaAnim);
+                CMConsole.Log("Out of Ammo!");
+            }
 
 
             //CMConsole.Log($"Enter State Name: {stateName}");
@@ -144,7 +157,15 @@ namespace Carmicah
                     CMConsole.Log($"Target mouse : {targetMouse.mID}");
 
                     // change to attacking state
-                    GetComponent<StateMachine>().SetStateCondition(2);
+                    if(mana > 0)
+                    {
+                        //CMConsole.Log("Trying to attack!");
+                        GetComponent<StateMachine>().SetStateCondition(2);
+                    }
+                    else
+                    {
+                        GetComponent<StateMachine>().SetStateCondition(3);
+                    }
                 }
             }
             else if (stateName == "Attacking")
@@ -169,6 +190,11 @@ namespace Carmicah
                     }
 
                 }
+            }
+            else if (stateName == "NoMana")
+            {
+                //TODO: Implement Logic with MC
+                //CMConsole.Log("This NPC " + this.ToString() + " is now very sad, no mana. L.");
             }
 
         }
