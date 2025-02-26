@@ -41,8 +41,9 @@ namespace Carmicah
                 {
                     waveStart = true;
                     //Level level = levelManager.GetLevel();
-
-                    gameManager.As<GameManager>().StartNextWave(levelManager.GetWave());
+                    Wave nextWave = levelManager.GetWave();
+                    nextWave.PrintWaveData();
+                    gameManager.As<GameManager>().StartNextWave(nextWave);
                     //CMConsole.Log("Starting New Wave");
 
                     waveCounter++;

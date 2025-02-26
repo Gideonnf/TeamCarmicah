@@ -1,5 +1,6 @@
 Level
-Mouse1 Mouse2 Mouse3 Bear Flying for each wave
+Mouse1 Mouse2 Mouse3 Bear Flying 
+for each wave
 
 1
 4

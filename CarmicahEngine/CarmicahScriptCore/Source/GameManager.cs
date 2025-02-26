@@ -61,11 +61,17 @@ namespace Carmicah
         //public bool GameStart = false;
         //public bool WaveStarted = false;
         //public bool WaveEnded = false;
-        public int MobCounter = 0;
-        public int BearCounter = 0;
+        //public int MobCounter = 0;
+        //public int BearCounter = 0;
         public int activeEnemies = 0;
         //public float NumOfMobs = 10;
-        
+
+        // keep track of active enemies
+        Wave waveData;
+        // Keep track of enemies to spawn
+        Wave mobCounter;
+        //public int[] mobCounter = new int[(int)EnemyTypes.TOTAL_ENEMIES];
+
         //bool Musicplay = false;
 
         Entity startingCakeEntity;
@@ -99,6 +105,8 @@ namespace Carmicah
 
         void OnCreate()
         {
+            waveData = new Wave();
+            mobCounter = new Wave();
             mouseLaneOne = new List<MouseAI>();
             mouseLaneTwo = new List<MouseAI>();
             mouseLaneThree = new List<MouseAI>();
@@ -150,29 +158,75 @@ namespace Carmicah
                 }
             }
 
-            if (MobCounter > 0)
+            if (mobCounter.GetWaveNumbers() > 0)
             {
                 timer += dt;
 
                 if (timer > spawnTimer)
                 {
                     timer = 0.0f;
-                    CreateEnemy(MousePrefabName);
-                    MobCounter--;
+                    // Get the next enemy type to spawn
+                    EnemyTypes type = mobCounter.GetNextEnemy();
+                    
+                    switch (type)
+                    {
+                        case EnemyTypes.MOUSE1:
+                        {
+                            CreateEnemy(MousePrefabName, type);
+                            break;
+                        }
+                        case EnemyTypes.MOUSE2:
+                        {
+                            CreateEnemy(MousePrefabName, type);
+
+                            break;
+                        }
+                        case EnemyTypes.MOUSE3:
+                        {
+                            CreateEnemy(MousePrefabName, type);
+
+                            break;
+                        }
+                        case EnemyTypes.BEAR:
+                        {
+                            CreateEnemy(BearPrefabName, type);
+
+                            break;
+                        }
+                        default:
+                        {
+                            CMConsole.Log("Shouldn't be here tbh");
+                            break;
+                        }
+                    }
                 }
             }
-            else if (BearCounter > 0)
-            {
-                timer += dt;
 
-                if (timer > spawnTimer)
-                {
-                    timer = 0.0f;
-                    CreateEnemy(BearPrefabName);
-                    BearCounter--;
+            //if (MobCounter > 0)
+            //{
+            //    timer += dt;
 
-                }
-            }
+            //    if (timer > spawnTimer)
+            //    {
+            //        timer = 0.0f;
+            //        CreateEnemy(MousePrefabName);
+            //        MobCounter--;
+            //    }
+            //}
+            //else if (BearCounter > 0)
+            //{
+            //    timer += dt;
+
+            //    if (timer > spawnTimer)
+            //    {
+            //        timer = 0.0f;
+            //        CreateEnemy(BearPrefabName);
+            //        BearCounter--;
+
+            //    }
+            //}
+
+
 
             //CMConsole.Log($"Active enemies: {activeEnemies}");
             //Wave Ending Checking
@@ -206,18 +260,18 @@ namespace Carmicah
 
         public void StartNextWave(Wave level)
         {
-            //GameStart = true;
-            //WaveStarted = true;
-            //WaveEnded = false;
-            MobCounter += mobCount;
-            BearCounter += bearCount;
-
-            activeEnemies = MobCounter + BearCounter;
-            //Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
-            //Sound.PlayBGM("BGM_LevelMusic_FullTrack_Vers1",0.4f);
+            CMConsole.Log("Starting next wave");
+            // Add it onto wave data
+            //mobCounter = mobCounter + level;
+            //for(int i = 0; i < level.enemySpawns.Length; ++i)
+            //{
+            //    // add how many enemies are coming this wave
+            //    activeEnemies += level.enemySpawns[i];
+            //    CMConsole.Log("Adding Enemy");
+            //}
         }
 
-        public void CreateEnemy(string prefabName)
+        public void CreateEnemy(string prefabName, EnemyTypes type)
         {
             Entity mouseEntity = CreateGameObject(prefabName);
             MouseAI mouseAI = mouseEntity.As<MouseAI>();
@@ -242,20 +296,51 @@ namespace Carmicah
                     mouseLaneFour.Add(mouseAI);
                     break;
             }
-        }
 
-        public bool IsLanesEmpty()
-        {
-           if (MobCounter == 0 && BearCounter == 0)
+            // any special behavour can add here
+            switch (type)
             {
-                if (mouseLaneOne.Count() == 0 && mouseLaneTwo.Count() == 0 && mouseLaneThree.Count() == 0 && mouseLaneFour.Count() == 0)
-                {
-                    return true;
-                }
+                case EnemyTypes.MOUSE1:
+                    {
+
+                        break;
+                    }
+                case EnemyTypes.MOUSE2:
+                    {
+
+                        break;
+                    }
+                case EnemyTypes.MOUSE3:
+                    {
+
+                        break;
+                    }
+                case EnemyTypes.BEAR:
+                    {
+
+                        break;
+                    }
+                default:
+                    {
+                        CMConsole.Log("Shouldn't be here tbh");
+                        break;
+                    }
             }
 
-            return false;
         }
+
+        //public bool IsLanesEmpty()
+        //{
+        //   if (MobCounter == 0 && BearCounter == 0)
+        //    {
+        //        if (mouseLaneOne.Count() == 0 && mouseLaneTwo.Count() == 0 && mouseLaneThree.Count() == 0 && mouseLaneFour.Count() == 0)
+        //        {
+        //            return true;
+        //        }
+        //    }
+
+        //    return false;
+        //}
 
         public void EntityDestroyed(MouseAI entity)
         {
