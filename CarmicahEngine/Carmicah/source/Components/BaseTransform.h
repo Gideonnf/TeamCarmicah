@@ -30,13 +30,13 @@ namespace Carmicah
 
         float rot;
         float depth{};
+        Entity parent{}; // Hold 0 if no parent
+        unsigned int grandChildLvl{};
 
         bool notUpdated{};
 
     public:
         std::string transformTag;
-        unsigned int grandChildLvl{};
-        Entity parent; // Hold 0 if no parent
         std::vector<Entity> children;
 
 #pragma region Getter Setters
@@ -151,6 +151,22 @@ namespace Carmicah
         void RotAdd(const float& rhs)
         {
             Rot(rot + rhs);
+        }
+        void SetParent(const Entity& parentID, const unsigned int& parentGrandChildLevel)
+        {
+            parent = parentID;
+            if (parentID == 0)
+                grandChildLvl = 0;
+            else
+                grandChildLvl = parentGrandChildLevel + 1;
+        }
+        const Entity& ParentID()
+        {
+            return parent;
+        }
+        const unsigned int& GrandChildLevel()
+        {
+            return grandChildLvl;
         }
         bool Updated()
         {

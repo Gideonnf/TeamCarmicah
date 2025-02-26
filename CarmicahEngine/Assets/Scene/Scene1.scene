@@ -2,11 +2,6 @@
     "Scene": "Scene1",
     "SceneObjects": [
         {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
-        },
-        {
             "GameObject": "BackgroundGO",
             "ID": 1,
             "Components": [
@@ -1728,11 +1723,6 @@
                     "transformTag": ""
                 }
             ]
-        },
-        {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
         }
     ]
 }

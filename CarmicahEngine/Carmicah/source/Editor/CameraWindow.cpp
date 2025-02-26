@@ -119,11 +119,11 @@ namespace Carmicah
 									float worldDeltaY = -static_cast<float>((delta.y / AssetManager::GetInstance()->enConfig.Height * 2.0)) / camTrans.GetScale().y;
 									Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
 
-									if(selectedTransform.parent == 0)
+									if(selectedTransform.ParentID() == 0)
 										selectedTransform.GetPos() += Vec2f(worldDeltaX, worldDeltaY);
 									else
 									{
-										Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
+										Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.ParentID());
 										selectedTransform.GetPos() += Vec2f(
 											worldDeltaX * parentTransform.rotTrans.m[0] + worldDeltaY * parentTransform.rotTrans.m[1],
 											worldDeltaX * parentTransform.rotTrans.m[3] + worldDeltaY * parentTransform.rotTrans.m[4]
