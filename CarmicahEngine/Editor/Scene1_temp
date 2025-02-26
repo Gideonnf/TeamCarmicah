@@ -379,13 +379,13 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "StartingCake": "StartingCake",
-                            "MousePrefabName": "MouseGONew",
-                            "waveTimer": 0.0,
                             "LeftOrRight": false,
-                            "WaveStarted": false,
-                            "CakeHeightOffset": 6.849999904632568,
+                            "waveTimer": 0.0,
+                            "MousePrefabName": "MouseGONew",
+                            "StartingCake": "StartingCake",
                             "spawnTimer": 1.5,
+                            "CakeHeightOffset": 6.849999904632568,
+                            "WaveStarted": false,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
                             "PlayerName": "mainCharacter",
@@ -397,7 +397,7 @@
                             "EndPointEntityRight2": "EndPointRight_1",
                             "ShooterNPC": "ShooterNPC",
                             "ShooterNPC2": "ShooterNPC_1",
-                            "MobCounter": 0,
+                            "MobCounter": 0.0,
                             "NumOfMobs": 18.0,
                             "HeroBuild": "HeroBuild",
                             "HeroBuild1": "HeroBuild_1",
@@ -409,8 +409,7 @@
                             "activeEnemies": 0,
                             "yVFXSpawn": 2.200000047683716,
                             "PlayerHealthBar": "Healthbar",
-                            "CakeVFXPrefab": "CakeVFX",
-                            "BearCounter": 0
+                            "CakeVFXPrefab": "CakeVFX"
                         }
                     ]
                 },
@@ -494,23 +493,13 @@
                     "scriptName": "Carmicah.WaveSystem",
                     "ScriptableFieldMap": [
                         {
-                            "bearWave1": 2,
                             "waveStartTime": 21.0,
                             "waveTimer": 0.0,
-                            "bearWave0": 0,
                             "startNewWave": true,
-                            "bearWave2": 3,
                             "waveStart": false,
-                            "bearWave3": 4,
-                            "bearWave4": 5,
-                            "mobCounter": 0,
-                            "mobWave0": 5,
-                            "mobWave1": 10,
-                            "mobWave2": 15,
-                            "mobWave3": 20,
-                            "mobWave4": 25,
                             "waveCounter": 0,
-                            "waveSetupTime": 20.0
+                            "waveSetupTime": 20.0,
+                            "mobCounter": 0
                         }
                     ]
                 }
@@ -772,6 +761,61 @@
                 {
                     "Component Name": "struct Carmicah::Animation",
                     "Atlas": "MC_Idle"
+                },
+                {
+                    "Component Name": "struct Carmicah::StateMachine",
+                    "currState": "",
+                    "nextState": "",
+                    "startingState": "Idle",
+                    "stateMap": [
+                        {
+                            "stateName": "Idle",
+                            "stateCondition": 0,
+                            "transitions": [
+                                {
+                                    "targetState": "Walking",
+                                    "condition": 2
+                                },
+                                {
+                                    "targetState": "Heal",
+                                    "condition": 3
+                                }
+                            ]
+                        },
+                        {
+                            "stateName": "Heal",
+                            "stateCondition": 0,
+                            "transitions": [
+                                {
+                                    "targetState": "Idle",
+                                    "condition": 1
+                                },
+                                {
+                                    "targetState": "Walking",
+                                    "condition": 2
+                                }
+                            ]
+                        },
+                        {
+                            "stateName": "Attacking",
+                            "stateCondition": 0,
+                            "transitions": []
+                        },
+                        {
+                            "stateName": "Walking",
+                            "stateCondition": 0,
+                            "transitions": [
+                                {
+                                    "targetState": "Idle",
+                                    "condition": 1
+                                },
+                                {
+                                    "targetState": "Heal",
+                                    "condition": 3
+                                }
+                            ]
+                        }
+                    ]
                 }
             ],
             "Children": [
@@ -1277,7 +1321,10 @@
                     "ScriptableFieldMap": [
                         {
                             "trapPrefab": "Trap_2",
-                            "trapOffset": 1.600000023841858
+                            "cooldown": false,
+                            "trapOffset": 1.600000023841858,
+                            "WaveSystemObject": "Something",
+                            "cooldownTime": 3.0
                         }
                     ]
                 },

@@ -75,64 +75,155 @@ namespace Carmicah
             }
             timer += dt;
 
-            if (Input.IsKeyHold(Keys.KEY_W))
+            //if (Input.IsKeyPressed(Keys.KEY_W))
+            //{
+
+            //    GetComponent<StateMachine>().SetStateCondition(1);
+
+            //    PlaySoundEffect("walk2");
+            //    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+            //    GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
+            //}
+            //if (Input.IsKeyHold(Keys.KEY_A))
+            //{
+            //    ToggleWalkAnim();
+
+            //    PlaySoundEffect("walk2");
+
+            //    Vector2 scale = Scale;
+            //    if (scale.x < 0)
+            //    {
+            //        scale.x *= -1;
+            //    }
+
+            //    Scale = scale;
+
+            //    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+            //    GetComponent<RigidBody>().ApplyForce(new Vector2(-1, 0), 2.0f);
+            //}
+            //else if (Input.IsKeyHold(Keys.KEY_S))
+            //{
+            //    ToggleWalkAnim();
+
+            //    PlaySoundEffect("walk2");
+
+            //    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+            //    GetComponent<RigidBody>().ApplyForce(new Vector2(0, -1), 2.0f);
+            //}
+            //else if (Input.IsKeyHold(Keys.KEY_D))
+            //{
+            //    ToggleWalkAnim();
+
+            //    PlaySoundEffect("walk2");
+
+            //    Vector2 scale = Scale;
+            //    if (scale.x > 0)
+            //    {
+            //        scale.x *= -1;
+            //    }
+
+            //    Scale = scale;
+
+            //    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+            //    GetComponent<RigidBody>().ApplyForce(new Vector2(1,0), 2.0f);
+            //}
+            //else
+            //{
+            //    ToggleIdle();
+            //}
+        }
+
+        public void OnStateEnter(string stateName)
+        {
+            if(stateName == "Idle")
             {
-                ToggleWalkAnim();
-
-                PlaySoundEffect("walk2");
-                //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
-
-                GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
+                ChangeAnim(IdleAnim);
+                CMConsole.Log("MC IS IDLE YAY");
             }
-            else if (Input.IsKeyHold(Keys.KEY_A))
+
+            else if(stateName == "Walking")
             {
-                ToggleWalkAnim();
+                ChangeAnim(WalkAnim);
+            }
+        }
 
-                PlaySoundEffect("walk2");
-
-                Vector2 scale = Scale;
-                if (scale.x < 0)
+        public void OnStateUpdate(string stateName, float dt)
+        {
+            if(stateName == "Idle")
+            {
+                if (Input.IsKeyHold(Keys.KEY_W) || Input.IsKeyHold(Keys.KEY_A)|| Input.IsKeyHold(Keys.KEY_S) || Input.IsKeyHold(Keys.KEY_D))
                 {
-                    scale.x *= -1;
+                    //CMConsole.Log("Should be changing to Walking State");
+                    isWalking = true;
+                    GetComponent<StateMachine>().SetStateCondition(2);
+
+                    //PlaySoundEffect("walk2");
+                    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+                    //GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
                 }
-
-                Scale = scale;
-
-                //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
-
-                GetComponent<RigidBody>().ApplyForce(new Vector2(-1, 0), 2.0f);
             }
-            else if (Input.IsKeyHold(Keys.KEY_S))
+
+            else if (stateName == "Walking")
             {
-                ToggleWalkAnim();
-
-                PlaySoundEffect("walk2");
-
-                //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
-
-                GetComponent<RigidBody>().ApplyForce(new Vector2(0, -1), 2.0f);
-            }
-            else if (Input.IsKeyHold(Keys.KEY_D))
-            {
-                ToggleWalkAnim();
-
-                PlaySoundEffect("walk2");
-
-                Vector2 scale = Scale;
-                if (scale.x > 0)
+                if (Input.IsKeyHold(Keys.KEY_W))
                 {
-                    scale.x *= -1;
+                    PlaySoundEffect("walk2");
+                    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+                    GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
                 }
+                else if (Input.IsKeyHold(Keys.KEY_A))
+                {
 
-                Scale = scale;
+                    PlaySoundEffect("walk2");
 
-                //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+                    Vector2 scale = Scale;
+                    if (scale.x < 0)
+                    {
+                        scale.x *= -1;
+                    }
 
-                GetComponent<RigidBody>().ApplyForce(new Vector2(1,0), 2.0f);
-            }
-            else
-            {
-                ToggleIdle();
+                    Scale = scale;
+
+                    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+                    GetComponent<RigidBody>().ApplyForce(new Vector2(-1, 0), 2.0f);
+                }
+                else if (Input.IsKeyHold(Keys.KEY_S))
+                {
+
+                    PlaySoundEffect("walk2");
+
+                    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+                    GetComponent<RigidBody>().ApplyForce(new Vector2(0, -1), 2.0f);
+                }
+                else if (Input.IsKeyHold(Keys.KEY_D))
+                {
+
+                    PlaySoundEffect("walk2");
+
+                    Vector2 scale = Scale;
+                    if (scale.x > 0)
+                    {
+                        scale.x *= -1;
+                    }
+
+                    Scale = scale;
+
+                    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+                    GetComponent<RigidBody>().ApplyForce(new Vector2(1, 0), 2.0f);
+                }
+                else
+                {
+                    GetComponent<StateMachine>().SetStateCondition(1);
+                }
             }
         }
 
