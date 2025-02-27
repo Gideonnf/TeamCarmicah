@@ -70,7 +70,7 @@ namespace Carmicah
 
         public override void OnFixedUpdate(float fixedDt)
         {
-            if (isDead)
+            if (!isDead)
             {
                 timer += fixedDt;
             }
@@ -78,8 +78,16 @@ namespace Carmicah
             if (life <= 0)
             {
                 // change to dead state
-                GetComponent<StateMachine>().SetStateCondition(1);
+                GetComponent<StateMachine>().SetStateCondition(4);
                 //CMConsole.Log($"Dead");
+            }
+
+            if(type == TrapType.HONEY)
+            {
+                if(timer > life)
+                {
+                    GetComponent<StateMachine>().SetStateCondition(4);
+                }    
             }
         }
 
@@ -111,11 +119,16 @@ namespace Carmicah
             }
             else if (stateName == "Dead")
             {
-                CMConsole.Log($"State name : {stateName}");
-
-                isDead = true;
-                CMConsole.Log($"isDead : {isDead}");
                 // change to dead anim
+                if (!string.IsNullOrEmpty(exitAnim))
+                {
+                    ChangeAnim(exitAnim);
+                    maxAnimTime = GetComponent<Animation>().GetMaxTime();
+                    animTimer = 0.0f;
+                }
+                isDead = true;
+
+                
 
                
             }
@@ -140,14 +153,11 @@ namespace Carmicah
 
             else if (stateName == "Dead")
             {
-                if (timer >= 2)
+                animTimer += dt;
+                if (animTimer > maxAnimTime && isDead)
                 {
-                    // Play death sound?
-
                     buildSpotEntity.As<TrapBuild>().TrapDead();
-                    // Die
                     timer = 0.0f;
-                    // for now
                     Destroy();
                 }
             }

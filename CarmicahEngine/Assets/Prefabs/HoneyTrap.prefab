@@ -99,7 +99,7 @@
                     "idleAnim": "TrapHoneyIdle",
                     "timer": 0.0,
                     "isDead": false,
-                    "life": 4.0
+                    "life": 15.0
                 }
             ]
         },
