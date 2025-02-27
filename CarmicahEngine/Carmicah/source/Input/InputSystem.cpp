@@ -168,7 +168,6 @@ namespace Carmicah
 			if (SceneToImgui::GetInstance()->GetHovering() != SceneToImgui::NO_SCENE)
 			{
 #endif
-				SceneToImgui::GetInstance()->SelectMouseIDObjPick();
 				EntityPickedMessage msg(SceneToImgui::GetInstance()->GetIDObjPick());
 
 				Input.ProxySend(&msg);
