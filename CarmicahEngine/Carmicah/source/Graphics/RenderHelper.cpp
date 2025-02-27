@@ -445,7 +445,7 @@ void RenderHelper::RenderGizmos()
 	}
 	else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
 	{
-		translation = HierarchyWindow::selectedGO->GetComponent<UITransform>().Pos();
+		translation = HierarchyWindow::selectedGO->GetComponent<UITransform>().ExtractWorldPos();
 		Mtx3x3f temp{};
 		temp.scaleThis(1.f / gizmoScale.x, 1.f / gizmoScale.y);
 		translation = temp * screenMtx * translation;

@@ -2,11 +2,6 @@
     "Scene": "Scene1",
     "SceneObjects": [
         {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
-        },
-        {
             "GameObject": "BackgroundGO",
             "ID": 1,
             "Components": [
@@ -384,7 +379,7 @@
                             "MousePrefabName": "MouseGONew",
                             "StartingCake": "StartingCake",
                             "spawnTimer": 1.5,
-                            "CakeHeightOffset": 6.849999904632568,
+                            "CakeHeightOffset": 11.600000381469727,
                             "WaveStarted": false,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
@@ -404,9 +399,10 @@
                             "WaveSystemObject": "Something",
                             "BearPrefabName": "BearGO",
                             "WaveEnded": false,
-                            "ySpawnPos": 9.699999809265137,
-                            "yTargetPos": 0.8999999761581421,
-                            "yVFXSpawn": 2.200000047683716,
+                            "ySpawnPos": 30.600000381469728,
+                            "yTargetPos": 7.449999809265137,
+                            "activeEnemies": 0,
+                            "yVFXSpawn": 9.400000047683716,
                             "PlayerHealthBar": "Healthbar",
                             "CakeVFXPrefab": "CakeVFX"
                         }
@@ -495,7 +491,8 @@
                             "waveStartTime": 21.0,
                             "waveTimer": 0.0,
                             "startNewWave": true,
-                            "waveStart": false
+                            "waveStart": false,
+                            "waveSetupTime": 3.0
                         }
                     ]
                 }
@@ -1262,7 +1259,10 @@
                     "ScriptableFieldMap": [
                         {
                             "trapPrefab": "Trap_2",
-                            "trapOffset": 1.600000023841858
+                            "cooldown": false,
+                            "trapOffset": 1.600000023841858,
+                            "WaveSystemObject": "Something",
+                            "cooldownTime": 3.0
                         }
                     ]
                 },
@@ -1728,11 +1728,6 @@
                     "transformTag": ""
                 }
             ]
-        },
-        {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
         }
     ]
 }

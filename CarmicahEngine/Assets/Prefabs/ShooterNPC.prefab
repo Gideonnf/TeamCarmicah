@@ -10,6 +10,7 @@
             "xScale": -0.30000001192092898,
             "yScale": 0.30000001192092898,
             "rot": 0.0,
+            "transformTag": "",
             "collisionMask": 0
         },
         {
@@ -38,7 +39,7 @@
             "Component Name": "struct Carmicah::StateMachine",
             "currState": "",
             "nextState": "",
-            "startingState": "",
+            "startingState": "Idle",
             "stateMap": [
                 {
                     "stateName": "Idle",
@@ -49,7 +50,7 @@
                             "condition": 2
                         },
                         {
-                            "targetState": "Dead",
+                            "targetState": "NoMana",
                             "condition": 3
                         }
                     ]
@@ -61,15 +62,11 @@
                         {
                             "targetState": "Idle",
                             "condition": 1
-                        },
-                        {
-                            "targetState": "Dead",
-                            "condition": 3
                         }
                     ]
                 },
                 {
-                    "stateName": "Dead",
+                    "stateName": "NoMana",
                     "stateCondition": 0,
                     "transitions": []
                 }

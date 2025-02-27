@@ -7,8 +7,8 @@
             "xPos": -0.10599999874830246,
             "yPos": -9.496000289916993,
             "depth": 3.0,
-            "xScale": 0.800000011920929,
-            "yScale": 0.800000011920929,
+            "xScale": 1.2,
+            "yScale": 1.2,
             "rot": 0.0,
             "transformTag": "",
             "collisionMask": 0
@@ -30,11 +30,11 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 2.0,
-                    "yPos": -2.0,
+                    "xPos": 2.5,
+                    "yPos": -2.6,
                     "depth": 0.0,
-                    "xScale": 3.0,
-                    "yScale": 3.0,
+                    "xScale": 1.6,
+                    "yScale": 1.4,
                     "rot": 0.05306386947631836,
                     "transformTag": "",
                     "collisionMask": 0
@@ -90,8 +90,8 @@
                     "xPos": 5.8420000076293949,
                     "yPos": -1.11899995803833,
                     "depth": 0.0,
-                    "xScale": 3.0,
-                    "yScale": 3.0,
+                    "xScale": 1.6,
+                    "yScale": 1.4,
                     "rot": 0.05306386947631836,
                     "transformTag": "",
                     "collisionMask": 0
@@ -148,11 +148,11 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -2.0,
-                    "yPos": -1.003999948501587,
+                    "xPos": -2.1,
+                    "yPos": -2.85,
                     "depth": 0.0,
-                    "xScale": 3.0,
-                    "yScale": 3.0,
+                    "xScale": 1.6,
+                    "yScale": 1.4,
                     "rot": 0.05306386947631836,
                     "transformTag": "",
                     "collisionMask": 0
@@ -212,8 +212,8 @@
                     "xPos": -5.48199987411499,
                     "yPos": -0.7839999794960022,
                     "depth": 0.0,
-                    "xScale": 3.0,
-                    "yScale": 3.0,
+                    "xScale": 1.6,
+                    "yScale": 1.4,
                     "rot": 0.05306386947631836,
                     "transformTag": "",
                     "collisionMask": 0

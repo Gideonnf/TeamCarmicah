@@ -232,7 +232,7 @@ namespace Carmicah
 				if (ImGui::DragFloat("##xPos", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
 					selectedTransform.PosX(tempValue);
-					if (selectedTransform.parent != 0)
+					if (selectedTransform.ParentID() != 0)
 					{
 						//Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
 
@@ -253,7 +253,7 @@ namespace Carmicah
 				if (ImGui::DragFloat("##yPos", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
 					selectedTransform.PosY(tempValue);
-					if (selectedTransform.parent != 0)
+					if (selectedTransform.ParentID() != 0)
 					{
 						//Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
 						//CM_CORE_INFO("Parent World X : " + std::to_string(parentTransform.worldSpace.m20) + ", Parent World Y : " + std::to_string(parentTransform.worldSpace.m21));
@@ -1193,6 +1193,15 @@ namespace Carmicah
 							if (ImGui::InputText(it.second.mName.c_str(), buffer, sizeof(buffer)))
 							{
 								scriptRef->SetFieldValue<std::string>(it.second.mName, buffer);
+								gScriptSystem->UpdateScriptComponent(id);
+							}
+						}
+						else if (it.second.mType == ScriptFieldType::Int)
+						{
+							int data = scriptRef->GetFieldValue<int>(it.second.mName);
+							if (ImGui::DragInt(it.second.mName.c_str(), &data))
+							{
+								scriptRef->SetFieldValue(it.second.mName, data);
 								gScriptSystem->UpdateScriptComponent(id);
 							}
 						}

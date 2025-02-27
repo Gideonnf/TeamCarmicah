@@ -54,6 +54,7 @@ namespace Carmicah
         public string InjuredSound = "mouse die";
 
         public int lane;
+        public int enemyType;
 
         //int currPoint;
         Vector2 startPosLeft;
