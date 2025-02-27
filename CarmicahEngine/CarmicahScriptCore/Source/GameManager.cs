@@ -313,60 +313,118 @@ namespace Carmicah
 
             MouseAI targetMouse = null;
             float distance = float.MaxValue;
-            switch (entity.lane)
+            if(entity.type == HeroType.SHOOTER)
             {
-                case 0:
-                    foreach(MouseAI mouse in mouseLaneOne)
-                    {
-                        float dist = mouse.Position.Distance(entity.Position);
-                        //CMConsole.Log($"left {dist}");
-
-                        if (dist < distance)
+                switch (entity.lane)
+                {
+                    case 0:
+                        foreach (MouseAI mouse in mouseLaneOne)
                         {
-                            distance = dist;
-                            targetMouse = mouse;
-                        }
-                    }
-                    break;
-                case 1:
-                    foreach (MouseAI mouse in mouseLaneTwo)
-                    {
-                        float dist = mouse.Position.Distance(entity.Position);
-                        //CMConsole.Log($"left {dist}");
+                            float dist = mouse.Position.Distance(entity.Position);
+                            //CMConsole.Log($"left {dist}");
 
-                        if (dist < distance)
-                        {
-                            distance = dist;
-                            targetMouse = mouse;
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
                         }
-                    }
-                    break;
-                case 2:
-                    foreach (MouseAI mouse in mouseLaneThree)
-                    {
-                        float dist = mouse.Position.Distance(entity.Position);
-                        //CMConsole.Log($"left {dist}");
+                        break;
+                    case 1:
+                        foreach (MouseAI mouse in mouseLaneTwo)
+                        {
+                            float dist = mouse.Position.Distance(entity.Position);
+                            //CMConsole.Log($"left {dist}");
 
-                        if (dist < distance)
-                        {
-                            distance = dist;
-                            targetMouse = mouse;
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
                         }
-                    }
-                    break;
-                case 3:
-                    foreach (MouseAI mouse in mouseLaneFour)
-                    {
-                        float dist = mouse.Position.Distance(entity.Position);
-                        //CMConsole.Log($"left {dist}");
+                        break;
+                    case 2:
+                        foreach (MouseAI mouse in mouseLaneThree)
+                        {
+                            float dist = mouse.Position.Distance(entity.Position);
+                            //CMConsole.Log($"left {dist}");
 
-                        if (dist < distance)
-                        {
-                            distance = dist;
-                            targetMouse = mouse;
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
                         }
-                    }
-                    break;
+                        break;
+                    case 3:
+                        foreach (MouseAI mouse in mouseLaneFour)
+                        {
+                            float dist = mouse.Position.Distance(entity.Position);
+                            //CMConsole.Log($"left {dist}");
+
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
+                        }
+                        break;
+                }
+            }
+            else if(entity.type == HeroType.MAGE)
+            {
+                switch (entity.IsLeft)
+                {
+                    case true:
+                        foreach (MouseAI mouse in mouseLaneThree)
+                        {
+                            float dist = mouse.Position.Distance(entity.Position);
+                            //CMConsole.Log($"left {dist}");
+
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
+                        }
+
+                        foreach (MouseAI mouse in mouseLaneFour)
+                        {
+                            float dist = mouse.Position.Distance(entity.Position);
+                            //CMConsole.Log($"left {dist}");
+
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
+                        }
+                        break;
+                    case false:
+                        foreach (MouseAI mouse in mouseLaneOne)
+                        {
+                            float dist = mouse.Position.Distance(entity.Position);
+                            //CMConsole.Log($"left {dist}");
+
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
+                        }
+                        foreach (MouseAI mouse in mouseLaneTwo)
+                        {
+                            float dist = mouse.Position.Distance(entity.Position);
+                            //CMConsole.Log($"left {dist}");
+
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
+                        }
+                        break;
+                }
             }
 
             return targetMouse;
