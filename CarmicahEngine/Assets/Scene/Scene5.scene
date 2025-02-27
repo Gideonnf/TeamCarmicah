@@ -1,5 +1,5 @@
 {
-    "Scene": "Scene4",
+    "Scene": "Scene5",
     "SceneObjects": [
         {
             "GameObject": "BackgroundGO",
@@ -40,7 +40,7 @@
         },
         {
             "GameObject": "LoadingScreen",
-            "ID": 7,
+            "ID": 3,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
@@ -60,7 +60,7 @@
                     ]
                 }
             ]
-        },
+        },      
         {
             "GameObject": "Default",
             "ID": 33,
