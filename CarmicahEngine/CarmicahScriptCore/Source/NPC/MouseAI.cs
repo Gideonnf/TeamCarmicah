@@ -27,6 +27,12 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
+    public enum MouseType
+    {
+        Regular,
+        Fast,
+        Heavy
+    }
     public class MouseAI : Entity
     {
         public string SpawnPointEntityLeft;
@@ -68,12 +74,6 @@ namespace Carmicah
 
         public float ChanceToDie = 0.12f;
 
-        public enum MouseType
-        {
-            Regular,
-            Fast,
-            Heavy
-        }
 
         public MouseType mouseType = MouseType.Regular;
 
