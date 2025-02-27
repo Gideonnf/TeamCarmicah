@@ -40,7 +40,7 @@ namespace Carmicah
             {
                 case HeroType.SHOOTER:
                     {
-                        CMConsole.Log("Carrying out Shooter Build");
+                        //CMConsole.Log("Carrying out Shooter Build");
                         if (shooterIcon != null && shooterIcon.As<HeroIcon>().heroEntity != null)
                         {
 
@@ -105,7 +105,7 @@ namespace Carmicah
                     }
                 case HeroType.MAGE:
                     {
-                        CMConsole.Log("MageNPC Build");
+                        //CMConsole.Log("MageNPC Build");
                         if (mageIcon != null && mageIcon.As<HeroIcon>().heroEntity != null)
                         {
                             CMConsole.Log("Condition 1 fufilled");

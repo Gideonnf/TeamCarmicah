@@ -27,12 +27,12 @@
             "scriptName": "Carmicah.HeroAI",
             "ScriptableFieldMap": [
                 {
-                    "projectilePrefab": "Bullet",
                     "IsLeft": false,
-                    "lane": 0,
+                    "projectilePrefab": "MageBullet",
                     "active": false,
-                    "mana": 10,
+                    "lane": 0,
                     "idleAnim": "Mage_Idle",
+                    "mana": 10,
                     "manaAnim": "Mage_Idle",
                     "shootAnim": "Mage_Attack",
                     "shootRate": 1.0,
@@ -71,6 +71,16 @@
             "startingState": "Idle",
             "stateMap": [
                 {
+                    "stateName": "Attacking",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
+                        }
+                    ]
+                },
+                {
                     "stateName": "Idle",
                     "stateCondition": 0,
                     "transitions": [
@@ -81,16 +91,6 @@
                         {
                             "targetState": "NoMana",
                             "condition": 3
-                        }
-                    ]
-                },
-                {
-                    "stateName": "Attacking",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Idle",
-                            "condition": 1
                         }
                     ]
                 },

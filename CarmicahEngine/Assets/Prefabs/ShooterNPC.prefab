@@ -18,12 +18,12 @@
             "scriptName": "Carmicah.HeroAI",
             "ScriptableFieldMap": [
                 {
-                    "IsLeft": false,
                     "projectilePrefab": "Bullet",
-                    "active": false,
+                    "IsLeft": false,
                     "lane": 0,
+                    "active": false,
+                    "mana": 5,
                     "idleAnim": "Shooter_Idle",
-                    "mana": 0,
                     "manaAnim": "Shooter_Idle",
                     "shootAnim": "Shooter_Shoot",
                     "shootRate": 1.0,
@@ -47,16 +47,6 @@
             "startingState": "Idle",
             "stateMap": [
                 {
-                    "stateName": "Attacking",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Idle",
-                            "condition": 1
-                        }
-                    ]
-                },
-                {
                     "stateName": "Idle",
                     "stateCondition": 0,
                     "transitions": [
@@ -67,6 +57,16 @@
                         {
                             "targetState": "NoMana",
                             "condition": 3
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Attacking",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
                         }
                     ]
                 },
@@ -84,7 +84,8 @@
         },
         {
             "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Shooter_Idle"
+            "Atlas": "Shooter_Idle",
+            "AnimSpeed": 1.0
         },
         {
             "Component Name": "struct Carmicah::Collider2D",

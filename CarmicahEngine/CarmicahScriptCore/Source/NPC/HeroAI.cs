@@ -79,6 +79,15 @@ namespace Carmicah
                     // CMConsole.Log($"Projectile Position: {projectile.Position.x}, {projectile.Position.y}");
 
                     Projectile bullet = projectile.As<Projectile>();
+                    switch(type)
+                    {
+                        case HeroType.SHOOTER:
+                            bullet.bulletType = BulletType.SHOOTER_BULLET;
+                            break;
+                        case HeroType.MAGE:
+                            bullet.bulletType = BulletType.MAGE_BULLET;
+                            break;
+                    }
                     Sound.PlaySFX("Shooter_Shooting");
                     if (bullet != null)
                     {
@@ -217,13 +226,13 @@ namespace Carmicah
 
         public void OnMouseEnter()
         {
-            CMConsole.Log("Hovering!");
+            //CMConsole.Log("Hovering!");
             hovering = true;
         }
 
         public void OnMouseHover()
         {
-            CMConsole.Log("Hovering!");
+            //CMConsole.Log("Hovering!");
             hovering = true;
         }
 
