@@ -67,6 +67,14 @@ namespace Carmicah
                         heroEntity.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
                         heroEntity.As<HeroAI>().lane = (int)lane;
                         heroEntity.As<HeroAI>().active = true;
+                        if(IsLeft)
+                        {
+                            heroEntity.As<HeroAI>().IsLeft = true;
+                        }
+                        else
+                        {
+                            heroEntity.As<HeroAI>().IsLeft = false;
+                        }
                         Sound.PlaySFX("trap_placement", 0.5f);
                         // heroEntity.GetComponent<Transform>().Depth = depthVal;
 
