@@ -19,7 +19,12 @@ namespace Carmicah
         //public int mobCounter = 0;
         //public int waveCounter = 0;
 
+        public string winPrefab = "Win_Screen";
+        public string losePrefab = "LoseScreen";
+
         Entity gameManager;
+
+
 
         void OnCreate()
         {
@@ -75,6 +80,8 @@ namespace Carmicah
                     // NOTE FOR NOW COMMENTING OUT SO I CAN DO WIN SCREEN HERE
                     // THEN WIN SCREEN WILL TRANSITION TO NEXT LEVEL DEPENDING
                     //gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
+
+                    CreateGameObject(winPrefab);
 
                     //waveCounter = 0;
                     waveTimer = 0.0f;

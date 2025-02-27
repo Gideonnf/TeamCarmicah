@@ -59,45 +59,26 @@ namespace Carmicah
         public string HeroBuild1 = "HeroBuild_1";
         public string HeroBuild2 = "HeroBuild_2";
         public string HeroBuild3 = "HeroBuild_3";
-
-        //public bool GameStart = false;
-        //public bool WaveStarted = false;
-        //public bool WaveEnded = false;
-        //public int MobCounter = 0;
-        //public int BearCounter = 0;
-        public int activeEnemies = 0;
-        //public float NumOfMobs = 10;
+        public bool GameOver = false;
 
         // keep track of active enemies
-        Wave waveData;
+        public int activeEnemies = 0;
         // Keep track of enemies to spawn
         Wave mobCounter;
-        //public int[] mobCounter = new int[(int)EnemyTypes.TOTAL_ENEMIES];
-
-        //bool Musicplay = false;
 
         Entity startingCakeEntity;
         Entity playerEntity;
         Entity playerHealth;
         Entity playerHealthCover;
-        Entity endEntityLeft;
-        Entity endEntityRight;
-        Entity endEntityLeft2;
-        Entity endEntityRight2;
+
+        Entity[] endEntities = new Entity[4];
+
         List<Entity> npcList;
 
-        //List<Vector2> npcSavedPos;
-        //Vector2 playerPos;
+        Entity[] heroBuildEntities = new Entity[4];
 
-        Entity heroBuildEntity;
-        Entity heroBuildEntity1;
-        Entity heroBuildEntity2;
-        Entity heroBuildEntity3;
+        Entity[] walls = new Entity[4];
 
-        Entity wall;
-        Entity wall1;
-        Entity wall2;
-        Entity wall3;
         int cakeCounter = 1;
 
         public float ySpawnPos;
@@ -111,7 +92,6 @@ namespace Carmicah
 
         void OnCreate()
         {
-            waveData = new Wave();
             mobCounter = new Wave();
             mouseLaneOne = new List<MouseAI>();
             mouseLaneTwo = new List<MouseAI>();
@@ -119,24 +99,24 @@ namespace Carmicah
             mouseLaneFour = new List<MouseAI>();
             npcList = new List<Entity>();
 
-            endEntityLeft = FindEntityWithName(EndPointEntityLeft);
-            endEntityRight = FindEntityWithName(EndPointEntityRight);
-            endEntityLeft2 = FindEntityWithName(EndPointEntityLeft2);
-            endEntityRight2 = FindEntityWithName(EndPointEntityRight2);
+            endEntities[0] = FindEntityWithName(EndPointEntityLeft);
+            endEntities[1] = FindEntityWithName(EndPointEntityRight);
+            endEntities[2] = FindEntityWithName(EndPointEntityLeft2);
+            endEntities[3] = FindEntityWithName(EndPointEntityRight2);
 
             startingCakeEntity = FindEntityWithName(StartingCake);
             playerEntity = FindEntityWithName(PlayerName);
             playerHealth = FindEntityWithName(PlayerHealthBar);
             playerHealthCover = FindEntityWithName("Healthbar_Cover");
-            heroBuildEntity = FindEntityWithName(HeroBuild);
-            heroBuildEntity1 = FindEntityWithName(HeroBuild1);
-            heroBuildEntity2 = FindEntityWithName(HeroBuild2);
-            heroBuildEntity3 = FindEntityWithName(HeroBuild3);
+            heroBuildEntities[0] = FindEntityWithName(HeroBuild);
+            heroBuildEntities[1] = FindEntityWithName(HeroBuild1);
+            heroBuildEntities[2] = FindEntityWithName(HeroBuild2);
+            heroBuildEntities[3] = FindEntityWithName(HeroBuild3);
 
-            wall = FindEntityWithName("Wall");
-            wall1 = FindEntityWithName("Wall_1");
-            wall2 = FindEntityWithName("Wall_2");
-            wall3 = FindEntityWithName("Wall_3");
+            walls[0] = FindEntityWithName("Wall");
+            walls[1] = FindEntityWithName("Wall_1");
+            walls[2] = FindEntityWithName("Wall_2");
+            walls[3] = FindEntityWithName("Wall_3");
 
             waveSystem = FindEntityWithName(WaveSystemObject);
 
@@ -433,86 +413,32 @@ namespace Carmicah
                 playerEntity.Position = pos;
             }
 
-            if (endEntityLeft != null)
+            for (int i = 0; i < 4; ++i)
             {
-                pos = endEntityLeft.Position;
-                pos.y += CakeHeightOffset;
-                endEntityLeft.Position = pos;
+                if (endEntities[i] == null) continue;
+
+                Vector2 position = endEntities[i].Position;
+                position.y += CakeHeightOffset;
+                endEntities[i].Position = position;
             }
 
-            if (endEntityLeft2 != null)
+            for (int i = 0; i < 4; ++i)
             {
-                pos = endEntityLeft2.Position;
-                pos.y += CakeHeightOffset;
-                endEntityLeft2.Position = pos;
+                if (heroBuildEntities[i] == null) continue;
+
+                Vector2 position = heroBuildEntities[i].Position;
+                position.y += CakeHeightOffset;
+                heroBuildEntities[i].Position = position;
             }
 
-            if (endEntityRight != null)
+            for (int i = 0; i < 4; ++i)
             {
-                pos = endEntityRight.Position;
-                pos.y += CakeHeightOffset;
-                endEntityRight.Position = pos;
-            }
+                if (walls[i] == null) continue;
 
-            if (endEntityRight2 != null)
-            {
-                pos = endEntityRight2.Position;
-                pos.y += CakeHeightOffset;
-                endEntityRight2.Position = pos;
-            }
+                Vector2 position = walls[i].Position;
+                position.y += CakeHeightOffset;
+                walls[i].Position = position;
 
-            if (heroBuildEntity != null)
-            {
-                pos = heroBuildEntity.Position;
-                pos.y += CakeHeightOffset;
-                heroBuildEntity.Position = pos;
-            }
-
-            if (heroBuildEntity1 != null)
-            {
-                pos = heroBuildEntity1.Position;
-                pos.y += CakeHeightOffset;
-                heroBuildEntity1.Position = pos;
-            }
-
-            if (heroBuildEntity2 != null)
-            {
-                pos = heroBuildEntity2.Position;
-                pos.y += CakeHeightOffset;
-                heroBuildEntity2.Position = pos;
-            }
-
-            if (heroBuildEntity3 != null)
-            {
-                pos = heroBuildEntity3.Position;
-                pos.y += CakeHeightOffset;
-                heroBuildEntity3.Position = pos;
-            }
-
-
-            if (wall != null)
-            {
-                pos = wall.Position;
-                pos.y += CakeHeightOffset;
-                wall.Position = pos;
-            }
-            if (wall1 != null)
-            {
-                pos = wall1.Position;
-                pos.y += CakeHeightOffset;
-                wall1.Position = pos;
-            }
-            if (wall2 != null)
-            {
-                pos = wall2.Position;
-                pos.y += CakeHeightOffset;
-                wall2.Position = pos;
-            }
-            if (wall3 != null)
-            {
-                pos = wall3.Position;
-                pos.y += CakeHeightOffset;
-                wall3.Position = pos;
             }
 
             foreach (Entity npc in npcList)
