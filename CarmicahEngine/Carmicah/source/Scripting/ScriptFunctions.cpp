@@ -302,7 +302,8 @@ namespace Carmicah
 		else if (go.HasComponent<UITransform>())
 		{
 			
-			*outPos = go.GetComponent<UITransform>().Pos();
+			//*outPos = go.GetComponent<UITransform>().Pos();
+			*outPos = go.GetComponent<UITransform>().ExtractWorldPos();
 
 		/*	if (entityID == 29)
 				CM_CORE_INFO("{}, {}", outPos->x, outPos->y);*/
