@@ -542,6 +542,12 @@ namespace Carmicah
 
         }
 
+        public void LoseGame()
+        {
+            GameOver = true;
+            CreateGameObject("LoseScreen");
+        }
+
         public void OnStateEnter(string stateName)
         {
             if (stateName == "TowerIdle")

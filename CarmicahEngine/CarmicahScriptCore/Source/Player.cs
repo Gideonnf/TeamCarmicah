@@ -268,15 +268,17 @@ namespace Carmicah
             this.AsChild<HealthSystem>().TakeDamage(damage);
 
             //CMConsole.Log($"Health :{this.AsChild<HealthSystem>().mCurHealth}");
-            //if (this.AsChild<HealthSystem>().mCurHealth <= 0)
-            //{
-            //    // game end
-            //    if (!isCreated)
-            //    {
-            //        CreateGameObject("LosePrefab");
-            //        isCreated = true;
-            //    }
-            //}
+            if (this.AsChild<HealthSystem>().mCurHealth <= 0)
+            {
+                // game end
+                if (!isCreated)
+                {
+                    Entity gameManager = FindEntityWithName("GameManager");
+                    gameManager.As<GameManager>().LoseGame();
+                    //CreateGameObject("LosePrefab");
+                    isCreated = true;
+                }
+            }
         }
     }
 }

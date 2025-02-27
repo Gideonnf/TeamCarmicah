@@ -365,6 +365,11 @@ namespace Carmicah
                 if (pauseManager.As<PauseManager>().IsPaused)
                     return;
             }
+            Entity gameManager = FindEntityWithName("GameManager");
+            CMConsole.Log($"game manager gameOver :{gameManager.As<GameManager>().GameOver}");
+            if (gameManager.As<GameManager>().GameOver)
+                return;
+
 
 
             // CMConsole.Log($"Update State Name: {stateName}");
