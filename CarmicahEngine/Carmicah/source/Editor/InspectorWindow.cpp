@@ -734,11 +734,11 @@ namespace Carmicah
 					ImGui::EndPopup();
 				}
 
-				/*ImGui::TableNextRow();
+				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
-				ImGui::Text("MaxTime");
+				ImGui::Text("Speed Modifier");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##MaxTime", &anim.maxTime, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");*/
+				ImGui::DragFloat("##AnimSpeed", &anim.speed, 0.05f, 0.01f, FLT_MAX, "%.3f");
 				ImGui::EndTable();
 			}
 		}
