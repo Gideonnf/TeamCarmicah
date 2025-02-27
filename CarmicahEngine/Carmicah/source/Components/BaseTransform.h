@@ -39,7 +39,20 @@ namespace Carmicah
         std::string transformTag;
         std::vector<Entity> children;
 
+        Matrix3x3<float> worldSpace;
+        Matrix3x3<float> rotTrans;
+        // So there's 3 scales
+        // Scale()          -> the scale you see in the editor
+        // InternalScale    -> the scale needed for graphics calc
+        // accumulatedScale -> the scale that is the combination of parents and itself
+        Vector2D<float> accumulatedScale = Vector2D<float>::one();
+
 #pragma region Getter Setters
+        Vec2f ExtractWorldPos()
+        {
+            return Vec2f(rotTrans.m[6], rotTrans.m[7]);
+        }
+
         const Vec2f& Pos() const
         {
             return pos;

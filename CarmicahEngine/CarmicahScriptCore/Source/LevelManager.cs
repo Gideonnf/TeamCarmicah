@@ -100,7 +100,7 @@ namespace Carmicah
             CMConsole.Log($"Testing Level Manager! file path : {filePath}");
             LoadLevels(filePath);
 
-            //DebugPrintLevelMap();
+            DebugPrintLevelMap();
 
             NumOfLevels = levelMap.Count;
             // Load from text file
@@ -123,20 +123,23 @@ namespace Carmicah
                 //start at 3 because first 3 lines is format example
                 for (int i = 3; i < lines.Length; i++)
                 {
-                   // CMConsole.Log($"Line:{lines[i]} and i {i}");
+                    //CMConsole.Log($"Line:{lines[i]} and i {i}");
 
                     // skip any empty lines
                     if (string.IsNullOrWhiteSpace(lines[i]))
                     {
+                        //CMConsole.Log($"White Space Detected at {i}");
                         // end of a level chunk
                         // next line will be a new level
                         i++;
 
                         if (i >= lines.Length) break;
 
+                        //CMConsole.Log($"Next line to parse: {lines[i]}");
+
                         if (int.TryParse(lines[i], out int levelNumber))
                         {
-                            //CMConsole.Log($"Level:{levelNumber}");
+                            CMConsole.Log($"Level:{levelNumber}");
                             currentLevel = levelNumber;
                             currLevel = new Level();
                             levelMap[currentLevel] = currLevel;
@@ -198,15 +201,24 @@ namespace Carmicah
 
         public Wave GetWave()
         {
-            CMConsole.Log("Get Next Wave");
+            //CMConsole.Log("Get Next Wave");
             //DebugPrintLevelMap();
-            CMConsole.Log($"current level: {currentLevel} and wave {levelMap[currentLevel].currWave}");
+            //CMConsole.Log($"current level: {currentLevel} and wave {levelMap[currentLevel].currWave}");
+            CMConsole.Log($"curr wave bfor: {levelMap[currentLevel].currWave}");
             Wave currWave = levelMap[currentLevel].waves[levelMap[currentLevel].currWave];
             if (levelMap[currentLevel].currWave < levelMap[currentLevel].waves.Count)
             {
                 levelMap[currentLevel].currWave++;
+                CMConsole.Log($"curr wave aft: {levelMap[currentLevel].currWave}");
+
             }
-            CMConsole.Log("Get Next Wave 2");
+            else
+            {
+                levelMap[currentLevel].currWave++;
+                CMConsole.Log($"curr wave aft: {levelMap[currentLevel].currWave}");
+                return null;
+            }
+           // CMConsole.Log("Get Next Wave 2");
 
             currWave.PrintWaveData();
             return currWave;

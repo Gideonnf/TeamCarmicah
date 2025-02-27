@@ -96,7 +96,7 @@ namespace Carmicah
 						{
 							UITransform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<UITransform>();
 
-							mSelectedObjPos = Vec2f(selectedTransform.Pos().x, AssetManager::GetInstance()->enConfig.Height - selectedTransform.Pos().y);
+							mSelectedObjPos = Vec2f(selectedTransform.worldSpace.m20, AssetManager::GetInstance()->enConfig.Height - selectedTransform.worldSpace.m21);
 							mOriginalAngle = selectedTransform.Rot();
 						}
 					}
@@ -133,8 +133,16 @@ namespace Carmicah
 								else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
 								{
 									UITransform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<UITransform>();
-									selectedTransform.PosXAdd(static_cast<float>(delta.x));
-									selectedTransform.PosYAdd(static_cast<float>(-delta.y));
+									if (selectedTransform.ParentID() == 0)
+										selectedTransform.GetPos() += Vec2f(static_cast<float>(delta.x), static_cast<float>(-delta.y));
+									else
+									{
+										UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(selectedTransform.ParentID());
+										selectedTransform.GetPos() += Vec2f(
+											static_cast<float>(delta.x) * parentTransform.rotTrans.m[0] + static_cast<float>(-delta.y) * parentTransform.rotTrans.m[1],
+											static_cast<float>(delta.x) * parentTransform.rotTrans.m[3] + static_cast<float>(-delta.y) * parentTransform.rotTrans.m[4]
+										);
+									}
 								}
 								break;
 							}

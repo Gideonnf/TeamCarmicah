@@ -16,8 +16,8 @@ namespace Carmicah
 
         public LevelManager levelManager;
 
-        public int mobCounter = 0;
-        public int waveCounter = 0;
+        //public int mobCounter = 0;
+        //public int waveCounter = 0;
 
         Entity gameManager;
 
@@ -34,8 +34,7 @@ namespace Carmicah
             if (!Player.GameLost )
             {
                 // Only increment time for as long as theres a wave coming
-                if (waveCounter < 5)
-                    waveTimer += dt;
+                waveTimer += dt;
                 // Initial wave start
                 if (waveTimer > waveSetupTime && waveStart == false)
                 {
@@ -43,10 +42,11 @@ namespace Carmicah
                     //Level level = levelManager.GetLevel();
                     Wave nextWave = levelManager.GetWave();
                     //nextWave.PrintWaveData();
-                    gameManager.As<GameManager>().StartNextWave(nextWave);
+                    if (nextWave != null)
+                        gameManager.As<GameManager>().StartNextWave(nextWave);
                     //CMConsole.Log("Starting New Wave");
 
-                    waveCounter++;
+                   // waveCounter++;
                     waveTimer = 0.0f;
                     Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
                     Sound.PlayBGM("BGM_LevelMusic_FullTrack_Vers1", 0.4f);
@@ -57,10 +57,12 @@ namespace Carmicah
                 {
                     CMConsole.Log("Starting next wave!");
                     // start next wave
-                    gameManager.As<GameManager>().StartNextWave(levelManager.GetWave());
+                    Wave nextWave = levelManager.GetWave();
+                    if (nextWave != null)
+                        gameManager.As<GameManager>().StartNextWave(nextWave);
                     //CMConsole.Log("Starting New Wave");
 
-                    waveCounter++;
+                    //waveCounter++;
                     waveTimer = 0.0f;
                     // waveStart = true;
                 }
@@ -69,8 +71,12 @@ namespace Carmicah
                 if (levelManager.EndOfLevel() && gameManager.As<GameManager>().activeEnemies == 0)
                 {
                     //CreateGameObject("WinScreen");
-                    gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
-                    waveCounter = 0;
+
+                    // NOTE FOR NOW COMMENTING OUT SO I CAN DO WIN SCREEN HERE
+                    // THEN WIN SCREEN WILL TRANSITION TO NEXT LEVEL DEPENDING
+                    //gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
+
+                    //waveCounter = 0;
                     waveTimer = 0.0f;
                     //startNewWave = true;
                     // waveCounter--;

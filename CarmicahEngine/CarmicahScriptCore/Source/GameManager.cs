@@ -57,6 +57,8 @@ namespace Carmicah
         public string EndPointEntityRight2;
         public string HeroBuild = "HeroBuild";
         public string HeroBuild1 = "HeroBuild_1";
+        public string HeroBuild2 = "HeroBuild_2";
+        public string HeroBuild3 = "HeroBuild_3";
 
         //public bool GameStart = false;
         //public bool WaveStarted = false;
@@ -77,6 +79,7 @@ namespace Carmicah
         Entity startingCakeEntity;
         Entity playerEntity;
         Entity playerHealth;
+        Entity playerHealthCover;
         Entity endEntityLeft;
         Entity endEntityRight;
         Entity endEntityLeft2;
@@ -88,6 +91,8 @@ namespace Carmicah
 
         Entity heroBuildEntity;
         Entity heroBuildEntity1;
+        Entity heroBuildEntity2;
+        Entity heroBuildEntity3;
 
         Entity wall;
         Entity wall1;
@@ -98,6 +103,7 @@ namespace Carmicah
         public float ySpawnPos;
         public float yTargetPos;
         public float yVFXSpawn;
+        public float yVFXLocation = 1.5f;
 
         Entity towerPrefab;
         Entity VFXPrefab;
@@ -121,8 +127,11 @@ namespace Carmicah
             startingCakeEntity = FindEntityWithName(StartingCake);
             playerEntity = FindEntityWithName(PlayerName);
             playerHealth = FindEntityWithName(PlayerHealthBar);
+            playerHealthCover = FindEntityWithName("Healthbar_Cover");
             heroBuildEntity = FindEntityWithName(HeroBuild);
             heroBuildEntity1 = FindEntityWithName(HeroBuild1);
+            heroBuildEntity2 = FindEntityWithName(HeroBuild2);
+            heroBuildEntity3 = FindEntityWithName(HeroBuild3);
 
             wall = FindEntityWithName("Wall");
             wall1 = FindEntityWithName("Wall_1");
@@ -227,7 +236,7 @@ namespace Carmicah
             MouseAI mouseAI = mouseEntity.As<MouseAI>();
 
             mouseAI.SetInitialPosition(); // Reset initial position
-            
+            mouseEntity.As<MouseAI>().enemyType = type;
             
             //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
 
@@ -252,17 +261,17 @@ namespace Carmicah
             {
                 case EnemyTypes.MOUSE1:
                     {
-
+                        mouseEntity.As<MouseAI>().Speed = 1.0f;
                         break;
                     }
                 case EnemyTypes.MOUSE2:
                     {
-
+                        mouseEntity.As<MouseAI>().Speed = 1.5f;
                         break;
                     }
                 case EnemyTypes.MOUSE3:
                     {
-
+                        mouseEntity.As<MouseAI>().Speed = 1.85f;
                         break;
                     }
                 case EnemyTypes.BEAR:
@@ -413,8 +422,8 @@ namespace Carmicah
             }
 
             playerEntity.GetComponent<Renderer>().SetAlpha(1);
-            playerHealth.GetComponent<Renderer>().SetAlpha(1);  
-
+            playerHealth.GetComponent<Renderer>().SetAlpha(1);
+            playerHealthCover.GetComponent<Renderer>().SetAlpha(1);
             //playerPos = playerEntity.Position;
 
             if (playerEntity != null)
@@ -465,6 +474,21 @@ namespace Carmicah
                 pos.y += CakeHeightOffset;
                 heroBuildEntity1.Position = pos;
             }
+
+            if (heroBuildEntity2 != null)
+            {
+                pos = heroBuildEntity2.Position;
+                pos.y += CakeHeightOffset;
+                heroBuildEntity2.Position = pos;
+            }
+
+            if (heroBuildEntity3 != null)
+            {
+                pos = heroBuildEntity3.Position;
+                pos.y += CakeHeightOffset;
+                heroBuildEntity3.Position = pos;
+            }
+
 
             if (wall != null)
             {
@@ -518,16 +542,17 @@ namespace Carmicah
 
         public void HideEntities()
         {
-            //foreach (Entity npc in npcList)
-            //{
-            //    if (npc.mID == 0) continue;
+            foreach (Entity npc in npcList)
+            {
+                if (npc.mID == 0) continue;
 
-            //    npc.GetComponent<Renderer>().SetAlpha(0);
-            //    //npc.Position = new Vector2(200, 200);
-            //}
+                npc.GetComponent<Renderer>().SetAlpha(0);
+                //npc.Position = new Vector2(200, 200);
+            }
 
             playerEntity.GetComponent<Renderer>().SetAlpha(0);
             playerHealth.GetComponent<Renderer>().SetAlpha(0);
+            playerHealthCover.GetComponent<Renderer>().SetAlpha(0);
             //playerPos = new Vector2(200, 200);
 
         }
@@ -568,6 +593,7 @@ namespace Carmicah
                 UpdatePositions();
                 ySpawnPos += CakeHeightOffset;
                 yTargetPos += CakeHeightOffset;
+                yVFXLocation += CakeHeightOffset;
                 GetComponent<StateMachine>().SetStateCondition(1);
 
             }
@@ -595,7 +621,10 @@ namespace Carmicah
                 {
                     // create the vfx prefab
                     if (VFXPrefab == null)
+                    {
                         VFXPrefab = CreateGameObject(CakeVFXPrefab);
+                        VFXPrefab.Position = new Vector2(VFXPrefab.Position.x, yVFXLocation);
+                    }
                 }
                 CMConsole.Log($"IN TOWER DROP UPDATE {towerPrefab.Position.x}, {towerPrefab.Position.y}");
                 if (towerPrefab.Position.y > yTargetPos)
@@ -616,6 +645,7 @@ namespace Carmicah
 
         public void OnStateExit(string stateName)
         {
+
 
         }
 

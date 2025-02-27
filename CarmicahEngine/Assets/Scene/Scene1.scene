@@ -379,13 +379,13 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "StartingCake": "StartingCake",
-                            "MousePrefabName": "MouseGONew",
-                            "waveTimer": 0.0,
                             "LeftOrRight": false,
-                            "WaveStarted": false,
-                            "CakeHeightOffset": 6.849999904632568,
+                            "waveTimer": 0.0,
+                            "MousePrefabName": "MouseGONew",
+                            "StartingCake": "StartingCake",
                             "spawnTimer": 1.5,
+                            "CakeHeightOffset": 11.600000381469727,
+                            "WaveStarted": false,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
                             "PlayerName": "mainCharacter",
@@ -404,10 +404,10 @@
                             "WaveSystemObject": "Something",
                             "BearPrefabName": "BearGO",
                             "WaveEnded": false,
-                            "ySpawnPos": 9.699999809265137,
-                            "yTargetPos": 0.8999999761581421,
+                            "ySpawnPos": 30.600000381469728,
+                            "yTargetPos": 7.449999809265137,
                             "activeEnemies": 0,
-                            "yVFXSpawn": 2.200000047683716,
+                            "yVFXSpawn": 9.400000047683716,
                             "PlayerHealthBar": "Healthbar",
                             "CakeVFXPrefab": "CakeVFX"
                         }
@@ -497,9 +497,7 @@
                             "waveTimer": 0.0,
                             "startNewWave": true,
                             "waveStart": false,
-                            "waveCounter": 0,
-                            "waveSetupTime": 20.0,
-                            "mobCounter": 0
+                            "waveSetupTime": 3.0
                         }
                     ]
                 }
