@@ -199,11 +199,18 @@ namespace Carmicah
                 
             }
 
+            if (buttonType == "nextlevel")
+            {
+                Entity waveSystem = FindEntityWithName("Something");
+                waveSystem.As<WaveSystem>().EndOfLevel();
+            }
+
             for(int i = 0; destroyList.ContainsKey(i); ++i)
             {
                 Entity toDestroy = FindEntityWithName(destroyList[i]);
                 if(toDestroy != null) 
                 {
+                    CMConsole.Log("Destroying an object");
                     toDestroy.Destroy();
                 }
             }

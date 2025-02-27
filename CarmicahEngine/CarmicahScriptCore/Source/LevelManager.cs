@@ -258,6 +258,7 @@ namespace Carmicah
             {
                 currentLevel++;
             }
+            DebugPrintLevelMap(currentLevel);
         }
 
         public void DebugPrint(int j, int count)
@@ -282,6 +283,21 @@ namespace Carmicah
                     }
                     CMConsole.Log(debugStr);
                 }
+            }
+        }
+
+        public void DebugPrintLevelMap(int level)
+        {
+            Level lvl = levelMap[level];
+            for(int i = 0; i < lvl.waves.Count; i++)
+            {
+                string debugStr = "";
+                for (int j = 0; j < lvl.waves[i].enemySpawns.Length; j++)
+                {
+                    debugStr += lvl.waves[i].enemySpawns[j] + " ";
+                }
+
+                CMConsole.Log(debugStr);
             }
         }
     }
