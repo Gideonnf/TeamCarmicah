@@ -174,7 +174,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "PortalTop"
+                    "Atlas": "PortalTop",
+                    "AnimSpeed": 1.0
                 }
             ],
             "Children": [
@@ -204,7 +205,8 @@
                         },
                         {
                             "Component Name": "struct Carmicah::Animation",
-                            "Atlas": "PortalBot"
+                            "Atlas": "PortalBot",
+                            "AnimSpeed": 1.0
                         }
                     ],
                     "Children": []
@@ -257,7 +259,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Button_HE_Settings"
+                    "Atlas": "Button_HE_Settings",
+                    "AnimSpeed": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -407,7 +410,7 @@
                             "ySpawnPos": 30.600000381469728,
                             "yTargetPos": 7.449999809265137,
                             "activeEnemies": 0,
-                            "yVFXSpawn": 9.400000047683716,
+                            "yVFXSpawn": 9.399999618530274,
                             "PlayerHealthBar": "Healthbar",
                             "CakeVFXPrefab": "CakeVFX"
                         }
@@ -497,7 +500,9 @@
                             "waveTimer": 0.0,
                             "startNewWave": true,
                             "waveStart": false,
-                            "waveSetupTime": 3.0
+                            "waveSetupTime": 3.0,
+                            "waveCounter": 0,
+                            "mobCounter": 0
                         }
                     ]
                 }
@@ -552,7 +557,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "PortalTop"
+                    "Atlas": "PortalTop",
+                    "AnimSpeed": 1.0
                 }
             ],
             "Children": [
@@ -586,7 +592,8 @@
                         },
                         {
                             "Component Name": "struct Carmicah::Animation",
-                            "Atlas": "PortalBot"
+                            "Atlas": "PortalBot",
+                            "AnimSpeed": 1.0
                         }
                     ],
                     "Children": []
@@ -758,7 +765,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "MC_Idle"
+                    "Atlas": "MC_Idle",
+                    "AnimSpeed": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::StateMachine",
@@ -1810,7 +1818,7 @@
                     "scriptName": "Carmicah.HeroIcon",
                     "ScriptableFieldMap": [
                         {
-                            "heroPrefab": "ShooterNPC"
+                            "heroPrefab": "MageNPC"
                         }
                     ]
                 },
