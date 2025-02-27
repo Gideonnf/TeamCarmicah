@@ -446,7 +446,7 @@ namespace Carmicah
                     RenderHelper::GetInstance()->FinalRender();
 #endif
                 }
-                SceneToImgui::GetInstance()->SelectMouseIDObjPick();
+                //SceneToImgui::GetInstance()->SelectMouseIDObjPick();
 
                 CarmicahTime::GetInstance()->StopSystemTimer("RenderingSystems");
                 //SceneToImgui::GetInstance()->IDPick();
