@@ -59,6 +59,7 @@
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Installer|x64' ">
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\CakeControl.cs" />
     <Compile Include="Source\LevelManager.cs" />
     <Compile Include="Source\BalloonBounce.cs" />
     <Compile Include="Source\Camera.cs" />
