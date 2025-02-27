@@ -98,6 +98,7 @@ namespace Carmicah
         public float ySpawnPos;
         public float yTargetPos;
         public float yVFXSpawn;
+        public float yVFXLocation = 1.5f;
 
         Entity towerPrefab;
         Entity VFXPrefab;
@@ -568,6 +569,7 @@ namespace Carmicah
                 UpdatePositions();
                 ySpawnPos += CakeHeightOffset;
                 yTargetPos += CakeHeightOffset;
+                yVFXLocation += CakeHeightOffset;
                 GetComponent<StateMachine>().SetStateCondition(1);
 
             }
@@ -595,7 +597,10 @@ namespace Carmicah
                 {
                     // create the vfx prefab
                     if (VFXPrefab == null)
+                    {
                         VFXPrefab = CreateGameObject(CakeVFXPrefab);
+                        VFXPrefab.Position = new Vector2(VFXPrefab.Position.x, yVFXLocation);
+                    }
                 }
                 CMConsole.Log($"IN TOWER DROP UPDATE {towerPrefab.Position.x}, {towerPrefab.Position.y}");
                 if (towerPrefab.Position.y > yTargetPos)
