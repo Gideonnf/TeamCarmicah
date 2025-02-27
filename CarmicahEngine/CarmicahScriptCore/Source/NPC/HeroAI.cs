@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
+    public enum HeroType
+    {
+        SHOOTER,
+        MAGE,
+        SPEAR
+    }
     public class HeroAI : Entity
     {
         public string idleAnim = "Shooter_Idle";
@@ -21,6 +27,7 @@ namespace Carmicah
         float timer = 0.0f;
         public bool active = false;
         public bool IsLeft = false;
+        public HeroType type;
 
         // float shootTimer = 0.0f;
         bool isShooting = false;
@@ -86,24 +93,6 @@ namespace Carmicah
                     }
                 }
             }
-        }
-
-        // TODO: This should be done in the update loop when shooting
-        // it should call shoot anim when shooting and idle at the end of shooting animation
-        // either do it by animation state or get the time of the animation and change when ending
-        public void ToggleShooting()
-        {
-            //check if the npc is already shooting
-            isShooting = true;
-            // ChangeAnim(shootAnim);
-
-        }
-
-        public void ToggleIdle()
-        {
-            //check if the npc is already idle
-            isShooting = false;
-            // ChangeAnim(idleAnim);
         }
 
         public void HealAmmo()

@@ -379,13 +379,13 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "LeftOrRight": false,
-                            "waveTimer": 0.0,
-                            "MousePrefabName": "MouseGONew",
                             "StartingCake": "StartingCake",
-                            "spawnTimer": 1.5,
-                            "CakeHeightOffset": 6.849999904632568,
+                            "MousePrefabName": "MouseGONew",
+                            "waveTimer": 0.0,
+                            "LeftOrRight": false,
                             "WaveStarted": false,
+                            "CakeHeightOffset": 6.849999904632568,
+                            "spawnTimer": 1.5,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
                             "PlayerName": "mainCharacter",
@@ -1787,6 +1787,43 @@
                     "xScale": 0.800000011920929,
                     "yScale": 0.800000011920929,
                     "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "ShooterIcon_1",
+            "ID": 45,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI_Spritesheet_Mage_Icon 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.HeroIcon",
+                    "ScriptableFieldMap": [
+                        {
+                            "heroPrefab": "ShooterNPC"
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1822.824951171875,
+                    "yPos": 584.20361328125,
+                    "depth": 1.0,
+                    "xScale": 0.8999999761581421,
+                    "yScale": 0.8999999761581421,
+                    "rot": 352.0,
                     "transformTag": ""
                 }
             ]

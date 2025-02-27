@@ -12,6 +12,7 @@ namespace Carmicah
         public string heroPrefab = "Trap_1";
         public Entity heroEntity;
         bool flipped;
+        HeroType type;
         bool hovering = false;
         
 

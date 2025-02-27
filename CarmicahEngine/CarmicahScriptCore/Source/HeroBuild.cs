@@ -16,13 +16,16 @@ namespace Carmicah
         public float depthVal;
         Entity translucentHero;
         Entity heroEntity;
-        Entity heroIcon;
+        Entity shooterIcon;
+        Entity mageIcon;
+        HeroType type;
         bool hovering = false;
         bool built = false;
 
         public void OnCreate()
         {
-            heroIcon = FindEntityWithName("ShooterIcon");
+            shooterIcon = FindEntityWithName("ShooterIcon");
+            mageIcon = FindEntityWithName("MageIcon");
         }
 
         public void OnUpdate(float dt)
@@ -33,8 +36,9 @@ namespace Carmicah
                 heroEntity = null;
             }
 
-            if (heroIcon != null && heroIcon.As<HeroIcon>().heroEntity != null)
+            if (shooterIcon != null && shooterIcon.As<HeroIcon>().heroEntity != null)
             {
+
                 if (translucentHero == null && built == false)
                 {
                     //CMConsole.Log("It shouldnt be here atm");
@@ -43,7 +47,7 @@ namespace Carmicah
                     // change the opacity here
                     translucentHero.GetComponent<Renderer>().SetAlpha(0.3f);
                     translucentHero.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
-                   // translucentHero.GetComponent<Transform>().Depth = depthVal;
+                    // translucentHero.GetComponent<Transform>().Depth = depthVal;
                     if (IsLeft)
                     {
                         Vector2 scale = translucentHero.GetComponent<Transform>().Scale;
@@ -51,7 +55,7 @@ namespace Carmicah
                     }
                 }
             }
-            else if (heroIcon != null && heroIcon.As<HeroIcon>().heroEntity == null)
+            else if (shooterIcon != null && shooterIcon.As<HeroIcon>().heroEntity == null)
             {
                 if (translucentHero != null)
                 {
@@ -93,6 +97,7 @@ namespace Carmicah
 
 
         }
+
 
         public void OnMouseEnter()
         {
