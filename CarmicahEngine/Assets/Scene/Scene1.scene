@@ -434,14 +434,14 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "StartingCake": "StartingCake",
-                            "MousePrefabName": "MouseGONew",
-                            "waveTimer": 0.0,
-                            "GameOver": false,
                             "LeftOrRight": false,
-                            "WaveStarted": false,
-                            "CakeHeightOffset": 11.600000381469727,
+                            "GameOver": false,
+                            "waveTimer": 0.0,
+                            "MousePrefabName": "MouseGONew",
+                            "StartingCake": "StartingCake",
                             "spawnTimer": 1.5,
+                            "CakeHeightOffset": 11.600000381469727,
+                            "WaveStarted": false,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
                             "PlayerName": "mainCharacter",
@@ -507,9 +507,9 @@
                             "waveStartTime": 21.0,
                             "waveTimer": 0.0,
                             "startNewWave": true,
-                            "waveStart": false,
-                            "waveSetupTime": 3.0,
                             "waveCounter": 0,
+                            "waveSetupTime": 3.0,
+                            "waveStart": false,
                             "mobCounter": 0,
                             "losePrefab": "LoseScreen",
                             "winPrefab": "Win_Screen"
@@ -1150,7 +1150,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "ShooterNPC",
+                            "HeroPrefab": "",
                             "TrapTranslucentPrefab": "TrapTranslucent",
                             "lane": 3.0,
                             "IsLeft": true,
@@ -1214,7 +1214,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "ShooterNPC",
+                            "HeroPrefab": "",
                             "lane": 0.0,
                             "IsLeft": false,
                             "depthVal": 0.0
@@ -1302,8 +1302,8 @@
                     "scriptName": "Carmicah.TrapBuild",
                     "ScriptableFieldMap": [
                         {
-                            "TrapPrefabName": "Trap_1",
-                            "TrapTranslucentPrefab": "TrapTranslucent",
+                            "TrapPrefabName": "CandyConeTrap",
+                            "TrapTranslucentPrefab": "FakeCandyConeTrap",
                             "CandyAnim": "CandyCone",
                             "IsLeft": false,
                             "depthVal": 3.450000047683716,
@@ -1316,7 +1316,7 @@
             "Children": []
         },
         {
-            "GameObject": "TrapIcon",
+            "GameObject": "CandyConeTrapIcon",
             "ID": 35,
             "Components": [
                 {
@@ -1346,11 +1346,17 @@
                     "scriptName": "Carmicah.TrapIcon",
                     "ScriptableFieldMap": [
                         {
-                            "trapPrefab": "Trap_2",
+                            "TrapBuild2": "TrapBuild_2",
                             "cooldown": false,
+                            "trapPrefab": "FakeCandyConeTrap",
                             "trapOffset": 1.600000023841858,
+                            "TrapBuild": "TrapBuild",
                             "WaveSystemObject": "Something",
-                            "cooldownTime": 3.0
+                            "TrapBuild1": "TrapBuild_1",
+                            "cooldownTime": 3.0,
+                            "TrapBuild3": "TrapBuild_3",
+                            "actualTrapPrefabName": "CandyConeTrap",
+                            "fakeTrapPrefab": "FakeCandyConeTrap"
                         }
                     ]
                 }
@@ -1450,7 +1456,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "ShooterNPC",
+                            "HeroPrefab": "",
                             "lane": 2.0,
                             "IsLeft": true,
                             "depthVal": 0.0
@@ -1513,7 +1519,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "ShooterNPC",
+                            "HeroPrefab": "",
                             "lane": 1.0,
                             "IsLeft": false,
                             "depthVal": 0.0
@@ -1634,8 +1640,8 @@
                     "scriptName": "Carmicah.TrapBuild",
                     "ScriptableFieldMap": [
                         {
-                            "TrapPrefabName": "Trap_1",
-                            "TrapTranslucentPrefab": "TrapTranslucent",
+                            "TrapPrefabName": "CandyConeTrap",
+                            "TrapTranslucentPrefab": "FakeCandyConeTrap",
                             "CandyAnim": "CandyCone",
                             "IsLeft": false,
                             "depthVal": 3.200000047683716,
@@ -1699,8 +1705,8 @@
                     "scriptName": "Carmicah.TrapBuild",
                     "ScriptableFieldMap": [
                         {
-                            "TrapPrefabName": "Trap_1",
-                            "TrapTranslucentPrefab": "TrapTranslucent",
+                            "TrapPrefabName": "CandyConeTrap",
+                            "TrapTranslucentPrefab": "FakeCandyConeTrap",
                             "CandyAnim": "CandyCone",
                             "IsLeft": true,
                             "depthVal": 3.450000047683716,
@@ -1764,8 +1770,8 @@
                     "scriptName": "Carmicah.TrapBuild",
                     "ScriptableFieldMap": [
                         {
-                            "TrapPrefabName": "Trap_1",
-                            "TrapTranslucentPrefab": "TrapTranslucent",
+                            "TrapPrefabName": "CandyConeTrap",
+                            "TrapTranslucentPrefab": "FakeCandyConeTrap",
                             "CandyAnim": "CandyCone",
                             "IsLeft": true,
                             "depthVal": 3.200000047683716,
@@ -1847,6 +1853,53 @@
                             "HeroBuild2": "HeroBuild_2",
                             "HeroBuild1": "HeroBuild_1",
                             "HeroBuild3": "HeroBuild_3"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "GameObject": "HoneyTrapIcon",
+            "ID": 46,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "honey_spritesheet_Splat 5",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1817.509033203125,
+                    "yPos": 474.101318359375,
+                    "depth": 0.5,
+                    "xScale": 0.3499999940395355,
+                    "yScale": 0.3499999940395355,
+                    "rot": 22.860260009765626,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.TrapIcon",
+                    "ScriptableFieldMap": [
+                        {
+                            "TrapBuild2": "TrapBuild_2",
+                            "cooldown": false,
+                            "trapPrefab": "FakeCandyConeTrap",
+                            "trapOffset": 0.0,
+                            "TrapBuild": "TrapBuild",
+                            "WaveSystemObject": "Something",
+                            "TrapBuild1": "TrapBuild_1",
+                            "cooldownTime": 3.0,
+                            "TrapBuild3": "TrapBuild_3",
+                            "actualTrapPrefabName": "HoneyTrap",
+                            "fakeTrapPrefab": "FakeHoneyTrap"
                         }
                     ]
                 }

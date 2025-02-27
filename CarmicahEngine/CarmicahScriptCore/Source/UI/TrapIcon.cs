@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,15 +11,26 @@ namespace Carmicah
     public class TrapIcon : Entity
     {
         public string WaveSystemObject = "Something";
-        public string trapPrefab = "Trap_1";
+        public string fakeTrapPrefab = "";
+        public string actualTrapPrefabName = "";
         public Entity trapEntity;
         bool flipped = false;
         bool hovering = false;
         public float trapOffset = 1.6f;
         public bool cooldown = false;
         public float cooldownTime = 3.0f;
+        public string TrapBuild = "TrapBuild";
+        public string TrapBuild1 = "TrapBuild_1";
+        public string TrapBuild2 = "TrapBuild_2";
+        public string TrapBuild3 = "TrapBuild_3";
+        public TrapType type;
+
         float timer;
         Entity waveSystem;
+        Entity trapBuildEntity;
+        Entity trapBuildEntity1;
+        Entity trapBuildEntity2;
+        Entity trapBuildEntity3;
 
         Vector2 minScale = new Vector2(0.05f, 0.05f);
         Vector2 maxScale;
@@ -28,13 +40,27 @@ namespace Carmicah
             // use its current scale as the max
             maxScale = Scale;
             waveSystem = FindEntityWithName(WaveSystemObject);
+            trapBuildEntity = FindEntityWithName(TrapBuild);
+            trapBuildEntity1 = FindEntityWithName(TrapBuild1);
+            trapBuildEntity2 = FindEntityWithName(TrapBuild2);
+            trapBuildEntity3 = FindEntityWithName(TrapBuild3);
+
+            if(actualTrapPrefabName == "CandyConeTrap")
+            {
+                type = TrapType.CANDY_CONE;
+            }
+            else if(actualTrapPrefabName == "HoneyTrap")
+            {
+                type = TrapType.HONEY;
+            }
+
         }
 
         void OnUpdate(float dt)
         {
             if (cooldown)
             {
-                CMConsole.Log("On COoldown");
+                //CMConsole.Log("On COoldown");
                 timer += dt;
                 float progress = 1 - (timer / cooldownTime);
                 Scale = Vector2.lerp(maxScale, minScale, progress);
@@ -98,7 +124,13 @@ namespace Carmicah
 
             if (cooldown == false)
             {
-                trapEntity = CreateGameObject(trapPrefab);
+                trapEntity = CreateGameObject(fakeTrapPrefab);
+
+                //Sets the translucent for the trap type
+                trapBuildEntity.As<TrapBuild>().SetTrapType(type, actualTrapPrefabName, fakeTrapPrefab);
+                trapBuildEntity1.As<TrapBuild>().SetTrapType(type, actualTrapPrefabName, fakeTrapPrefab);
+                trapBuildEntity2.As<TrapBuild>().SetTrapType (type, actualTrapPrefabName, fakeTrapPrefab);
+                trapBuildEntity3.As<TrapBuild>().SetTrapType(type, actualTrapPrefabName, fakeTrapPrefab);
             }
             //CMConsole.Log($"Creating entity with {trapEntity.mID}");
         }
