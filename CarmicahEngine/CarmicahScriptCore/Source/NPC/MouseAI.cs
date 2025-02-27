@@ -27,6 +27,12 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
+    public enum MouseType
+    {
+        Regular,
+        Fast,
+        Heavy
+    }
     public class MouseAI : Entity
     {
         public string SpawnPointEntityLeft;
@@ -68,10 +74,22 @@ namespace Carmicah
         Entity endEntityRight2;
 
         public float ChanceToDie = 0.12f;
+
+
+        public MouseType mouseType = MouseType.Regular;
+
+        // Base speeds for each type
+        private float baseRegularSpeed = 1.0f;
+        private float baseFastSpeed = 1.5f;
+        private float baseHeavySpeed = 1.8f;
+
+
         public float TimeToDie = 1.5f;
         public float timer;
         public float DeathTime = 2.0f;
         public float Speed = 1.0f;
+
+
 
         int animType = 0;
         int randLane = 0;
@@ -95,6 +113,10 @@ namespace Carmicah
             // InitWaypoints();
             SetInitialPosition();
 
+
+            if (FindEntityWithName(SpawnPointEntityLeft) != null)
+                startPosLeft = FindEntityWithName(SpawnPointEntityLeft).Position;
+
             // Initialize state machine
             //stateMachine = new StateMachine();
             //stateMachine.AddState(new MouseChase("Chase"));
@@ -105,6 +127,24 @@ namespace Carmicah
             randLane = rand.Next(0, 4); // rand between 0 to 3
 
             lane = randLane;
+
+            int mouseTypeRand = rand.Next(0, 3); // Random type
+
+            switch (mouseTypeRand)
+            {
+                case 0:
+                    mouseType = MouseType.Regular;
+                    Speed = baseRegularSpeed;
+                    break;
+                case 1:
+                    mouseType = MouseType.Fast;
+                    Speed = baseFastSpeed;
+                    break;
+                case 2:
+                    mouseType = MouseType.Heavy;
+                    Speed = baseHeavySpeed;
+                    break;
+            }
 
             Sound.PlaySFX("Portal_Spawn", 0.3f);
 
@@ -351,5 +391,24 @@ namespace Carmicah
             //CMConsole.Log($"Exit State Name: {stateName}");
 
         }
+
+        public void SetTypeAndSpeedWithWaveScaling(int waveNumber)
+        {
+            // Wave-based speed scaling
+            float waveMultiplier = 1.0f + (waveNumber * 0.15f); // 15% increase per wave
+            Speed *= waveMultiplier;
+
+            // Optional: You can adjust other properties based on wave number
+            // For example, higher health for later waves
+            if (this.AsChild<HealthSystem>() != null)
+            {
+                int baseHealth = 100;
+                int bonusHealth = waveNumber * 10; // 10 extra health per wave
+                this.AsChild<HealthSystem>().SetMaxHealth(baseHealth + bonusHealth);
+            }
+
+            CMConsole.Log($"Mouse type: {mouseType}, Wave: {waveNumber}, Final Speed: {Speed}");
+        }
+
     }
 }
