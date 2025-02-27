@@ -63,7 +63,7 @@ namespace Carmicah
 
 
 			// Animation loop
-			animation.time += dt;
+			animation.time += dt * animation.speed;
 			if (animation.time > animation.maxTime)
 			{
 				AnimAtlas& a{ AssetManager::GetInstance()->GetAsset<AnimAtlas>(animation.GetAnimAtlas()) };
