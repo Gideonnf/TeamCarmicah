@@ -62,7 +62,7 @@ namespace Carmicah
         public int currentIndex = 0;
         public float timer = 0.0f;
         public float durationPerText = 1.0f; // time text stays on screen
-        public float bounceDuration = 0.5f; // duration of bounce effect
+        public float bounceDuration = 0.5f; // duration of bounce effect1
         public float bounceScale = 1.5f; // maximum scale during bounce
 
         private Vector2 originalScale;
