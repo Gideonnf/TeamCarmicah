@@ -71,7 +71,11 @@ namespace Carmicah
                 if (levelManager.EndOfLevel() && gameManager.As<GameManager>().activeEnemies == 0)
                 {
                     //CreateGameObject("WinScreen");
-                    gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
+
+                    // NOTE FOR NOW COMMENTING OUT SO I CAN DO WIN SCREEN HERE
+                    // THEN WIN SCREEN WILL TRANSITION TO NEXT LEVEL DEPENDING
+                    //gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
+
                     //waveCounter = 0;
                     waveTimer = 0.0f;
                     //startNewWave = true;
