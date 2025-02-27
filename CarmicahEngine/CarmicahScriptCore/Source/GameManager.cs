@@ -41,7 +41,7 @@ namespace Carmicah
         public bool LeftOrRight = false;
         public float CakeHeightOffset;
         public string StartingCake;
-        public float dropSpeed = 15.0f;
+        public float dropSpeed = 12.0f;
         //public List<MouseAI> mouseEntitiesLeft; 
         // public List<MouseAI> mouseEntitiesRight;
 
