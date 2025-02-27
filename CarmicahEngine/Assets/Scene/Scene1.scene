@@ -310,7 +310,11 @@
                     "scriptName": "Carmicah.HeroIcon",
                     "ScriptableFieldMap": [
                         {
-                            "heroPrefab": "ShooterNPC"
+                            "heroPrefab": "ShooterNPC",
+                            "HeroBuild": "HeroBuild",
+                            "HeroBuild2": "HeroBuild_2",
+                            "HeroBuild1": "HeroBuild_1",
+                            "HeroBuild3": "HeroBuild_3"
                         }
                     ]
                 },
@@ -382,13 +386,13 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "LeftOrRight": false,
-                            "waveTimer": 0.0,
-                            "MousePrefabName": "MouseGONew",
                             "StartingCake": "StartingCake",
-                            "spawnTimer": 1.5,
-                            "CakeHeightOffset": 11.600000381469727,
+                            "MousePrefabName": "MouseGONew",
+                            "waveTimer": 0.0,
+                            "LeftOrRight": false,
                             "WaveStarted": false,
+                            "CakeHeightOffset": 11.600000381469727,
+                            "spawnTimer": 1.5,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
                             "PlayerName": "mainCharacter",
@@ -400,6 +404,7 @@
                             "EndPointEntityRight2": "EndPointRight_1",
                             "ShooterNPC": "ShooterNPC",
                             "ShooterNPC2": "ShooterNPC_1",
+                            "HeroBuild3": "HeroBuild_3",
                             "MobCounter": 0.0,
                             "NumOfMobs": 18.0,
                             "HeroBuild": "HeroBuild",
@@ -412,7 +417,9 @@
                             "activeEnemies": 0,
                             "yVFXSpawn": 9.399999618530274,
                             "PlayerHealthBar": "Healthbar",
-                            "CakeVFXPrefab": "CakeVFX"
+                            "yVFXLocation": 1.5,
+                            "CakeVFXPrefab": "CakeVFX",
+                            "HeroBuild2": "HeroBuild_2"
                         }
                     ]
                 },
@@ -1117,7 +1124,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "ShooterNPC",
+                            "HeroPrefab": "",
                             "TrapTranslucentPrefab": "TrapTranslucent",
                             "lane": 3.0,
                             "IsLeft": true,
@@ -1181,7 +1188,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "ShooterNPC",
+                            "HeroPrefab": "",
                             "lane": 0.0,
                             "IsLeft": false,
                             "depthVal": 0.0
@@ -1367,7 +1374,11 @@
                     "scriptName": "Carmicah.HeroIcon",
                     "ScriptableFieldMap": [
                         {
-                            "heroPrefab": "ShooterNPC"
+                            "heroPrefab": "ShooterNPC",
+                            "HeroBuild": "HeroBuild",
+                            "HeroBuild2": "HeroBuild_2",
+                            "HeroBuild1": "HeroBuild_1",
+                            "HeroBuild3": "HeroBuild_3"
                         }
                     ]
                 },
@@ -1413,7 +1424,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "ShooterNPC",
+                            "HeroPrefab": "",
                             "lane": 2.0,
                             "IsLeft": true,
                             "depthVal": 0.0
@@ -1476,7 +1487,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "ShooterNPC",
+                            "HeroPrefab": "",
                             "lane": 1.0,
                             "IsLeft": false,
                             "depthVal": 0.0
@@ -1798,7 +1809,7 @@
             ]
         },
         {
-            "GameObject": "ShooterIcon_1",
+            "GameObject": "MageIcon",
             "ID": 45,
             "Components": [
                 {
@@ -1818,7 +1829,11 @@
                     "scriptName": "Carmicah.HeroIcon",
                     "ScriptableFieldMap": [
                         {
-                            "heroPrefab": "MageNPC"
+                            "heroPrefab": "MageNPC",
+                            "HeroBuild": "HeroBuild",
+                            "HeroBuild2": "HeroBuild_2",
+                            "HeroBuild1": "HeroBuild_1",
+                            "HeroBuild3": "HeroBuild_3"
                         }
                     ]
                 },

@@ -22,7 +22,7 @@ namespace Carmicah
         public string projectilePrefab = "Bullet";
         public float shootRate = 1.0f;
         public float shootTime = 1.0f;
-        public int mana = 0;
+        public int mana = 5;
         public int lane;
         float timer = 0.0f;
         public bool active = false;
@@ -97,7 +97,7 @@ namespace Carmicah
 
         public void HealAmmo()
         {
-            mana = 10;
+            mana = 5;
             CMConsole.Log("Restocking Ammo");
             GetComponent<StateMachine>().SetStateCondition(1);
         }
@@ -165,6 +165,11 @@ namespace Carmicah
                     {
                         GetComponent<StateMachine>().SetStateCondition(3);
                     }
+                }
+
+                if(mana == 0)
+                {
+                    GetComponent<StateMachine>().SetStateCondition(3);
                 }
             }
             else if (stateName == "Attacking")
