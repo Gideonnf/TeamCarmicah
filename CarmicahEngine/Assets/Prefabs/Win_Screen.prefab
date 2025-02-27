@@ -16,62 +16,120 @@
             "xPos": 980.0,
             "yPos": 540.0,
             "depth": 0.0,
-            "xScale": 1.0,
-            "yScale": 1.0,
+            "xScale": 0.800000011920929,
+            "yScale": 0.800000011920929,
             "rot": 0.0,
             "transformTag": ""
         }
     ],
     "Children": [
         {
-            "GameObject": "Default_2",
-            "ID": 2,
+            "GameObject": "WinText",
+            "ID": 23,
             "Components": [
                 {
-                    "Component Name": "struct Carmicah::TextRenderer",
-                    "font": "Sigmar-Regular",
-                    "text": "You win",
-                    "colorR": 0.7215686440467835,
-                    "colorG": 1.0,
-                    "colorB": 0.5529412031173706
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 2
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 532.7999877929688,
-                    "yPos": 540.0,
+                    "xPos": -519.4419555664063,
+                    "yPos": 118.44564819335938,
                     "depth": 0.0,
-                    "xScale": 5.0,
-                    "yScale": 5.0,
+                    "xScale": 3.0,
+                    "yScale": 3.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Sigmar-Regular",
+                    "text": "You win!",
+                    "colorR": 0.9019607901573181,
+                    "colorG": 0.159169539809227,
+                    "colorB": 0.159169539809227
+                }
+            ]
+        },
+        {
+            "GameObject": "DescText",
+            "ID": 24,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -427.20001220703127,
+                    "yPos": -2.7978515625,
+                    "depth": 0.0,
+                    "xScale": 1.600000023841858,
+                    "yScale": 1.600000023841858,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 3
+                },
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Sigmar-Regular",
+                    "text": "You did it!",
+                    "colorR": 0.9647058844566345,
+                    "colorG": 0.16470588743686677,
+                    "colorB": 0.6235294342041016
+                }
+            ]
+        },
+        {
+            "GameObject": "DescText_1",
+            "ID": 41,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "",
+                    "text": "You won!",
+                    "colorR": 0.9647058844566345,
+                    "colorG": 0.16470588743686677,
+                    "colorB": 0.6235294342041016
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -351.38787841796877,
+                    "yPos": -77.40924072265625,
+                    "depth": 0.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": ""
                 }
             ]
         },
         {
-            "GameObject": "Default_2",
-            "ID": 3,
+            "GameObject": "MC_Win",
+            "ID": 42,
             "Components": [
                 {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "MC_SpriteSheet_Win 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "MC_Win",
+                    "AnimSpeed": 1.0
+                },
+                {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 532.7999877929688,
-                    "yPos": 540.0,
-                    "depth": 0.0,
-                    "xScale": 5.0,
-                    "yScale": 5.0,
+                    "xPos": 198.64773559570313,
+                    "yPos": 15.8548583984375,
+                    "depth": 0.6499999761581421,
+                    "xScale": 1.5,
+                    "yScale": 1.5,
                     "rot": 0.0,
                     "transformTag": ""
-                },
-                {
-                    "Component Name": "struct Carmicah::PrefabData",
-                    "prefabRef": 2
-                },
-                {
-                    "Component Name": "struct Carmicah::TextRenderer",
-                    "font": "Sigmar-Regular",
-                    "text": "You win",
-                    "colorR": 0.7215686440467835,
-                    "colorG": 1.0,
-                    "colorB": 0.5529412031173706
                 }
             ]
         }

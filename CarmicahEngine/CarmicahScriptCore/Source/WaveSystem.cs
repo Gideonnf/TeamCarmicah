@@ -23,6 +23,7 @@ namespace Carmicah
         public string losePrefab = "LoseScreen";
 
         Entity gameManager;
+        Entity winScreen;
 
 
 
@@ -36,11 +37,10 @@ namespace Carmicah
 
         void OnUpdate(float dt)
         {
-            if (!Player.GameLost )
-            {
                 // Only increment time for as long as theres a wave coming
                 waveTimer += dt;
                 // Initial wave start
+                //CMConsole.Log("Test");
                 if (waveTimer > waveSetupTime && waveStart == false)
                 {
                     waveStart = true;
@@ -56,68 +56,36 @@ namespace Carmicah
                     Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
                     Sound.PlayBGM("BGM_LevelMusic_FullTrack_Vers1", 0.4f);
                 }
+                // CMConsole.Log("Test1");
 
                 // Subsequent wave starts or skip the waves
                 if (waveTimer > waveStartTime || Input.IsKeyPressed(Keys.KEY_2))
                 {
-                    CMConsole.Log("Starting next wave!");
-                    // start next wave
                     Wave nextWave = levelManager.GetWave();
                     if (nextWave != null)
                         gameManager.As<GameManager>().StartNextWave(nextWave);
-                    //CMConsole.Log("Starting New Wave");
 
-                    //waveCounter++;
                     waveTimer = 0.0f;
-                    // waveStart = true;
                 }
+                //CMConsole.Log($"{gameManager.As<GameManager>().activeEnemies} and {levelManager.EndOfLevel()}");
 
                 // end of level only when all enemies are dead
                 if (levelManager.EndOfLevel() && gameManager.As<GameManager>().activeEnemies == 0)
                 {
-                    //CreateGameObject("WinScreen");
-
                     // NOTE FOR NOW COMMENTING OUT SO I CAN DO WIN SCREEN HERE
                     // THEN WIN SCREEN WILL TRANSITION TO NEXT LEVEL DEPENDING
                     //gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
-
-                    CreateGameObject(winPrefab);
+                    if (winScreen == null)
+                    {
+                        winScreen = CreateGameObject(winPrefab);
+                    }
+                    //CreateGameObject(winPrefab);
 
                     //waveCounter = 0;
                     waveTimer = 0.0f;
                     //startNewWave = true;
                     // waveCounter--;
                 }
-
-
-
-                // if (Input.IsKeyPressed(Keys.KEY_1))
-                // {
-                //     // start next wave
-                //     gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
-
-                //     waveCounter++;
-                //     waveTimer = 0.0f;
-                // }
-                //if (Input.IsKeyPressed(Keys.KEY_2))
-                //{
-                //    //waveTimer = 0.0f;
-                //   // startNewWave = true;
-
-                //}
-
-                // Skip to end of wave
-                //if (Input.IsKeyPressed(Keys.KEY_1))
-                //{
-                //    // start next wave
-                //    gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
-
-                //    waveCounter = 5;
-                //    waveTimer = 0.0f;
-                //    waveStart = true;
-                //}
-            }
-
         }
         public void EndOfWave()
         {

@@ -204,18 +204,21 @@ namespace Carmicah
             //CMConsole.Log("Get Next Wave");
             //DebugPrintLevelMap();
             //CMConsole.Log($"current level: {currentLevel} and wave {levelMap[currentLevel].currWave}");
-            CMConsole.Log($"curr wave bfor: {levelMap[currentLevel].currWave}");
+            //CMConsole.Log($"curr wave bfor: {levelMap[currentLevel].currWave}");
+            if (levelMap[currentLevel].currWave >= levelMap[currentLevel].waves.Count)
+                return null;
+
             Wave currWave = levelMap[currentLevel].waves[levelMap[currentLevel].currWave];
             if (levelMap[currentLevel].currWave < levelMap[currentLevel].waves.Count)
             {
                 levelMap[currentLevel].currWave++;
-                CMConsole.Log($"curr wave aft: {levelMap[currentLevel].currWave}");
+                //CMConsole.Log($"curr wave aft: {levelMap[currentLevel].currWave}");
 
             }
             else
             {
                 levelMap[currentLevel].currWave++;
-                CMConsole.Log($"curr wave aft: {levelMap[currentLevel].currWave}");
+                //CMConsole.Log($"curr wave aft: {levelMap[currentLevel].currWave}");
                 return null;
             }
            // CMConsole.Log("Get Next Wave 2");
@@ -235,6 +238,8 @@ namespace Carmicah
         {
             Level currLevel = levelMap[currentLevel];
             // end of level
+            //CMConsole.Log($"curr level: {currentLevel} and {currLevel.currWave} and {currLevel.waves.Count}");
+
             if (currLevel.currWave >= currLevel.waves.Count)
             {
                 return true;
