@@ -125,6 +125,14 @@ namespace Carmicah
                     hoverExitAnim   = "Button_HE_Back";
                     clickAnim       = "Button_C_Back";
                     break;
+                case "nextlevel":
+                    destroyList[0] = "Win_Screen";
+
+                    hoverEnterAnim = "Button_HS_Next";
+                    hoverExitAnim = "Button_HE_Next";
+                    clickAnim = "Button_C_Next";
+
+                    break;
                     /*
                     hoverEnterAnim  = "Button_HS_HowTo";
                     hoverExitAnim   = "Button_HE_HowTo";
