@@ -12,6 +12,39 @@ Reproduction or disclosure of this file or its contents without the prior writte
 DigiPen Institute of Technology is prohibited.
 --------------------------------------------------------------------------------------------------*/
 
+//{
+//    "GameObject": "Countdown",
+//            "ID": 5,
+//            "Components": 
+//            [
+//                {
+//        "Component Name": "struct Carmicah::Transform",
+//                    "xPos": 0.0,
+//                    "yPos": 0.0,
+//                    "depth": 0.0,
+//                    "xScale": 0.0,
+//                    "yScale": 0.0,
+//                    "rot": 0.0,
+//                    "transformTag": "",
+//                },
+//                {
+//        "Component Name": "struct Script",
+//                    "scriptName": "Countdown",
+//                    "ScriptableFieldMap": 
+//                    [
+//                        {
+//            "currentIndex" : 0,
+//                            "timer" : 0.0,
+//                            "durationPerText" : 1.0,
+//                            "bounceDuration" : 0.5,
+//                            "bounceScale" : 1.5
+//                        }
+//                    ]
+//                },
+//            ],
+//            "Children": []
+//        },  
+
 
 using System;
 using System.Collections.Generic;
@@ -74,9 +107,4 @@ namespace Carmicah
             }
         }
     }
-
-
-
-
-
 }
