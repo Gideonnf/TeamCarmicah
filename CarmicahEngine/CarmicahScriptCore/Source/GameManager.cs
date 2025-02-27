@@ -41,8 +41,9 @@ namespace Carmicah
         public bool LeftOrRight = false;
         public float CakeHeightOffset;
         public string StartingCake;
+        public float dropSpeed = 15.0f;
         //public List<MouseAI> mouseEntitiesLeft; 
-       // public List<MouseAI> mouseEntitiesRight;
+        // public List<MouseAI> mouseEntitiesRight;
 
         public List<MouseAI> mouseLaneOne;
         public List<MouseAI> mouseLaneTwo;
@@ -614,7 +615,7 @@ namespace Carmicah
                 if (towerPrefab.Position.y > yTargetPos)
                 {
                     Vector2 pos = towerPrefab.Position;
-                    pos.y -= 1.5f * dt;
+                    pos.y -= dropSpeed * dt;
                     towerPrefab.Position = pos;
                 }
                 else if (towerPrefab.Position.y <= yTargetPos)

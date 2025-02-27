@@ -210,7 +210,6 @@ namespace Carmicah
                 Entity toDestroy = FindEntityWithName(destroyList[i]);
                 if(toDestroy != null) 
                 {
-                    CMConsole.Log("Destroying an object");
                     toDestroy.Destroy();
                 }
             }
