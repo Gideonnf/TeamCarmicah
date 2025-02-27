@@ -228,7 +228,7 @@ namespace Carmicah
             MouseAI mouseAI = mouseEntity.As<MouseAI>();
 
             mouseAI.SetInitialPosition(); // Reset initial position
-            
+            mouseEntity.As<MouseAI>().enemyType = type;
             
             //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
 
@@ -253,17 +253,17 @@ namespace Carmicah
             {
                 case EnemyTypes.MOUSE1:
                     {
-
+                        mouseEntity.As<MouseAI>().Speed = 1.0f;
                         break;
                     }
                 case EnemyTypes.MOUSE2:
                     {
-
+                        mouseEntity.As<MouseAI>().Speed = 1.5f;
                         break;
                     }
                 case EnemyTypes.MOUSE3:
                     {
-
+                        mouseEntity.As<MouseAI>().Speed = 1.85f;
                         break;
                     }
                 case EnemyTypes.BEAR:

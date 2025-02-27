@@ -60,7 +60,7 @@ namespace Carmicah
         public string InjuredSound = "mouse die";
 
         public int lane;
-        public int enemyType;
+        public EnemyTypes enemyType;
 
         //int currPoint;
         Vector2 startPosLeft;
@@ -82,6 +82,8 @@ namespace Carmicah
         private float baseRegularSpeed = 1.0f;
         private float baseFastSpeed = 1.5f;
         private float baseHeavySpeed = 1.8f;
+
+       
 
 
         public float TimeToDie = 1.5f;
@@ -128,23 +130,23 @@ namespace Carmicah
 
             lane = randLane;
 
-            int mouseTypeRand = rand.Next(0, 3); // Random type
+            //int mouseTypeRand = rand.Next(0, 3); // Random type
 
-            switch (mouseTypeRand)
-            {
-                case 0:
-                    mouseType = MouseType.Regular;
-                    Speed = baseRegularSpeed;
-                    break;
-                case 1:
-                    mouseType = MouseType.Fast;
-                    Speed = baseFastSpeed;
-                    break;
-                case 2:
-                    mouseType = MouseType.Heavy;
-                    Speed = baseHeavySpeed;
-                    break;
-            }
+            //switch (mouseTypeRand)
+            //{
+            //    case 0:
+            //        mouseType = MouseType.Regular;
+            //        Speed = baseRegularSpeed;
+            //        break;
+            //    case 1:
+            //        mouseType = MouseType.Fast;
+            //        Speed = baseFastSpeed;
+            //        break;
+            //    case 2:
+            //        mouseType = MouseType.Heavy;
+            //        Speed = baseHeavySpeed;
+            //        break;
+            //}
 
             Sound.PlaySFX("Portal_Spawn", 0.3f);
 
@@ -392,23 +394,23 @@ namespace Carmicah
 
         }
 
-        public void SetTypeAndSpeedWithWaveScaling(int waveNumber)
-        {
-            // Wave-based speed scaling
-            float waveMultiplier = 1.0f + (waveNumber * 0.15f); // 15% increase per wave
-            Speed *= waveMultiplier;
+        //public void SetTypeAndSpeedWithWaveScaling(int waveNumber)
+        //{
+        //    // Wave-based speed scaling
+        //    float waveMultiplier = 1.0f + (waveNumber * 0.15f); // 15% increase per wave
+        //    Speed *= waveMultiplier;
 
-            // Optional: You can adjust other properties based on wave number
-            // For example, higher health for later waves
-            if (this.AsChild<HealthSystem>() != null)
-            {
-                int baseHealth = 100;
-                int bonusHealth = waveNumber * 10; // 10 extra health per wave
-                this.AsChild<HealthSystem>().SetMaxHealth(baseHealth + bonusHealth);
-            }
+        //    // Optional: You can adjust other properties based on wave number
+        //    // For example, higher health for later waves
+        //    if (this.AsChild<HealthSystem>() != null)
+        //    {
+        //        int baseHealth = 100;
+        //        int bonusHealth = waveNumber * 10; // 10 extra health per wave
+        //        this.AsChild<HealthSystem>().SetMaxHealth(baseHealth + bonusHealth);
+        //    }
 
-            CMConsole.Log($"Mouse type: {mouseType}, Wave: {waveNumber}, Final Speed: {Speed}");
-        }
+        //    CMConsole.Log($"Mouse type: {mouseType}, Wave: {waveNumber}, Final Speed: {Speed}");
+        //}
 
     }
 }
