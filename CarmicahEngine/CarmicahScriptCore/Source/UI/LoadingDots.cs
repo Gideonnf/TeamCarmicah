@@ -1,9 +1,9 @@
 /* File Documentation ----------------------------------------------------------------------------- 
-file:           LoadingBackground.cs
+file:           LoadingDots.cs
 
-author:		    Nicholas Lai (100%)
+author:		    Rainne Won (100%)
 
-email:			n.lai@digipen.edu
+email:			@digipen.edu
 
 brief:          
 

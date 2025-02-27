@@ -89,6 +89,7 @@
     <Compile Include="Source\TrapAI.cs" />
     <Compile Include="Source\TrapBuild.cs" />
     <Compile Include="Source\UI\ButtonGeneric.cs" />
+    <Compile Include="Source\UI\Countdown.cs" />
     <Compile Include="Source\UI\Cutscene.cs" />
     <Compile Include="Source\UI\HeroIcon.cs" />
     <Compile Include="Source\UI\Intro.cs" />
