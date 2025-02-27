@@ -7,14 +7,26 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
+    public enum TrapType
+    {
+        CANDY_CONE,
+        HONEY
+    }
     public class TrapAI : Entity
     {
+        public string idleAnim;
+        public string enterAnim;
+        public string exitAnim;
         public bool built = false;
         public float life = 4.0f;
         public float timer = 0.0f;
         public bool isDead = false;
         public Entity buildSpotEntity = null;
+        public TrapType type;
 
+
+        float maxAnimTime;
+        float animTimer;
         public override void OnCollide(uint id)
         {
             if (!built) return;
@@ -38,6 +50,24 @@ namespace Carmicah
             }
         }
 
+        public override void OnTriggerEnter(uint id)
+        {
+            if (!built) return;
+
+            if (isDead) return;
+
+            if (mID == 0)
+            {
+                return;
+            }
+
+            Entity collidedEntity = FindEntityWithID(id);
+            if (collidedEntity != null)
+            {
+
+            }
+        }
+
         public override void OnFixedUpdate(float fixedDt)
         {
             if (isDead)
@@ -57,7 +87,29 @@ namespace Carmicah
         {
             CMConsole.Log($"State name : {stateName}");
 
-            if (stateName == "Dead")
+            if(stateName == "Created")
+            {
+                ChangeAnim(enterAnim);
+            }
+            else if (stateName == "Enter")
+            {
+                //CMConsole.Log("Bitch go into Enter pls");
+                if(!string.IsNullOrEmpty(enterAnim))
+                {
+                    ChangeAnim(enterAnim);
+                    maxAnimTime = GetComponent<Animation>().GetMaxTime();
+                    animTimer = 0.0f;
+                }
+                else
+                {
+                    GetComponent<StateMachine>().SetStateCondition(3);
+                }
+            }
+            else if (stateName == "Idle")
+            {
+                ChangeAnim(idleAnim);
+            }
+            else if (stateName == "Dead")
             {
                 CMConsole.Log($"State name : {stateName}");
 
@@ -71,7 +123,22 @@ namespace Carmicah
 
         public override void OnStateUpdate(string stateName, float dt)
         {
-            if (stateName == "Dead")
+            if(stateName == "Created")
+            {
+                GetComponent<StateMachine>().SetStateCondition(2);
+            }
+            else if(stateName == "Enter")
+            {
+                animTimer += dt;
+
+                if(animTimer > maxAnimTime)
+                {
+                    GetComponent<StateMachine>().SetStateCondition(3);
+                }
+            }
+
+
+            else if (stateName == "Dead")
             {
                 if (timer >= 2)
                 {

@@ -1,5 +1,5 @@
 {
-    "GameObject": "Trap_2",
+    "GameObject": "FakeCandyConeTrap",
     "ID": 50,
     "Components": [
         {
@@ -43,7 +43,8 @@
         },
         {
             "Component Name": "struct Carmicah::Animation",
-            "Atlas": "CandyCone_Idle"
+            "Atlas": "CandyCone_Idle",
+            "AnimSpeed": 1.0
         }
     ]
 }
