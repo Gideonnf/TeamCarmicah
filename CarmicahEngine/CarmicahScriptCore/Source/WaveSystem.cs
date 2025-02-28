@@ -19,7 +19,13 @@ namespace Carmicah
         //public int mobCounter = 0;
         //public int waveCounter = 0;
 
+        public string winPrefab = "Win_Screen";
+        public string losePrefab = "LoseScreen";
+
         Entity gameManager;
+        Entity winScreen;
+
+
 
         void OnCreate()
         {
@@ -31,91 +37,89 @@ namespace Carmicah
 
         void OnUpdate(float dt)
         {
-            if (!Player.GameLost )
+            // Only increment time for as long as theres a wave coming
+            if (!gameManager.As<GameManager>().GameOver)
             {
-                // Only increment time for as long as theres a wave coming
                 waveTimer += dt;
-                // Initial wave start
-                if (waveTimer > waveSetupTime && waveStart == false)
+
+            }
+            // Initial wave start
+            //CMConsole.Log("Test");
+
+            if (waveTimer > waveSetupTime && waveStart == false)
+            {
+                waveStart = true;
+                //Level level = levelManager.GetLevel();
+                Wave nextWave = levelManager.GetWave();
+                //nextWave.PrintWaveData();
+                if (nextWave != null)
+                    gameManager.As<GameManager>().StartNextWave(nextWave);
+                //CMConsole.Log("Starting New Wave");
+
+                // waveCounter++;
+                waveTimer = 0.0f;
+                Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
+                Sound.PlayBGM("BGM_LevelMusic_FullTrack_Vers1", 0.4f);
+            }
+            // CMConsole.Log("Test1");
+
+            // Subsequent wave starts or skip the waves
+            if (waveTimer > waveStartTime || Input.IsKeyPressed(Keys.KEY_2))
+            {
+                Wave nextWave = levelManager.GetWave();
+                if (nextWave != null)
+                    gameManager.As<GameManager>().StartNextWave(nextWave);
+
+                waveTimer = 0.0f;
+            }
+            //CMConsole.Log($"{gameManager.As<GameManager>().activeEnemies} and {levelManager.EndOfLevel()}");
+
+            // end of level only when all enemies are dead
+            if (levelManager.EndOfLevel() && gameManager.As<GameManager>().activeEnemies == 0)
+            {
+                // NOTE FOR NOW COMMENTING OUT SO I CAN DO WIN SCREEN HERE
+                // THEN WIN SCREEN WILL TRANSITION TO NEXT LEVEL DEPENDING
+                //gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
+                if (winScreen == null)
                 {
-                    waveStart = true;
-                    //Level level = levelManager.GetLevel();
-                    Wave nextWave = levelManager.GetWave();
-                    //nextWave.PrintWaveData();
-                    if (nextWave != null)
-                        gameManager.As<GameManager>().StartNextWave(nextWave);
-                    //CMConsole.Log("Starting New Wave");
-
-                   // waveCounter++;
-                    waveTimer = 0.0f;
-                    Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
-                    Sound.PlayBGM("BGM_LevelMusic_FullTrack_Vers1", 0.4f);
+                    gameManager.As<GameManager>().GameOver = true;
+                    winScreen = CreateGameObject(winPrefab);
                 }
-
-                // Subsequent wave starts or skip the waves
-                if (waveTimer > waveStartTime || Input.IsKeyPressed(Keys.KEY_2))
-                {
-                    CMConsole.Log("Starting next wave!");
-                    // start next wave
-                    Wave nextWave = levelManager.GetWave();
-                    if (nextWave != null)
-                        gameManager.As<GameManager>().StartNextWave(nextWave);
-                    //CMConsole.Log("Starting New Wave");
-
-                    //waveCounter++;
-                    waveTimer = 0.0f;
-                    // waveStart = true;
-                }
-
-                // end of level only when all enemies are dead
-                if (levelManager.EndOfLevel() && gameManager.As<GameManager>().activeEnemies == 0)
-                {
-                    //CreateGameObject("WinScreen");
-
-                    // NOTE FOR NOW COMMENTING OUT SO I CAN DO WIN SCREEN HERE
-                    // THEN WIN SCREEN WILL TRANSITION TO NEXT LEVEL DEPENDING
-                    //gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
-
-                    //waveCounter = 0;
-                    waveTimer = 0.0f;
-                    //startNewWave = true;
-                    // waveCounter--;
-                }
-
-
-
-                // if (Input.IsKeyPressed(Keys.KEY_1))
-                // {
-                //     // start next wave
-                //     gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
-
-                //     waveCounter++;
-                //     waveTimer = 0.0f;
-                // }
-                //if (Input.IsKeyPressed(Keys.KEY_2))
-                //{
-                //    //waveTimer = 0.0f;
-                //   // startNewWave = true;
-
-                //}
-
-                // Skip to end of wave
-                //if (Input.IsKeyPressed(Keys.KEY_1))
-                //{
-                //    // start next wave
-                //    gameManager.As<GameManager>().StartNextWave(mobWaves[waveCounter], bearWaves[waveCounter]);
-
-                //    waveCounter = 5;
-                //    waveTimer = 0.0f;
-                //    waveStart = true;
-                //}
+                //CreateGameObject(winPrefab);
+                waveStart = false;
+                //waveCounter = 0;
+                waveTimer = 0.0f;
+                //startNewWave = true;
+                // waveCounter--;
             }
 
+
+           //CMConsole.Log("PLEASE GO TO A NEW LEVEL PLS PLS PLS");
+
+          //  if (winScreen != null && winScreen.mID == 0)
+          //      winScreen = null;
+          ////  CMConsole.Log("ASDASASDASDA");
+          //  //CMConsole.Log($"{gameManager.As<GameManager>().GameOver} and {winScreen == null}");
+          //  if (winScreen != null)
+          //      // CMConsole.Log($"{winScreen.mID}");
+          //      // win screen was deleted
+          //      if (gameManager.As<GameManager>().GameOver && winScreen == null)
+          //      {
+          //          CMConsole.Log("PLEASE GO TO A NEW LEVEL PLS PLS PLS");
+          //      }
         }
-        public void EndOfWave()
+
+        public void EndOfLevel()
         {
-            waveTimer = 0.0f;
-            waveStart = false;
+            gameManager.As<GameManager>().GameOver = false;
+            gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
+            levelManager.NextLevel();
         }
+
+        //public void EndOfWave()
+        //{
+        //    waveTimer = 0.0f;
+        //    waveStart = false;
+        //}
     }
 }

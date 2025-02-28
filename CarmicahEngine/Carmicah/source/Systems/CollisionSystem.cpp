@@ -257,8 +257,8 @@ namespace Carmicah
 					float cosTheta = cos(angle);
 					float sinTheta = sin(angle);
 
-					float halfWidth = collider.GetCustomWidth() * 0.5f * combinedScale.x;
-					float halfHeight = collider.GetCustomHeight() * 0.5f * combinedScale.y;
+					float halfWidth = collider.GetCustomWidth() * 0.5f * std::abs(combinedScale.x);
+					float halfHeight = collider.GetCustomHeight() * 0.5f * std::abs(combinedScale.y);
 
 					// Clear existing OBB vertices
 					collider.objVert.clear();
@@ -285,8 +285,8 @@ namespace Carmicah
 				else
 				{
 					// Calculate half-dimensions of the OBB
-					float halfWidth = collider.GetCustomWidth() * 0.5f * transform.CalcedRenderingScale().x * transform.Scale().x;
-					float halfHeight = collider.GetCustomHeight() * 0.5f * transform.CalcedRenderingScale().y * transform.Scale().y;
+					float halfWidth = collider.GetCustomWidth() * 0.5f * transform.CalcedRenderingScale().x * std::abs(transform.Scale().x);
+					float halfHeight = collider.GetCustomHeight() * 0.5f * transform.CalcedRenderingScale().y * std::abs(transform.Scale().y);
 
 					// Rotation in radians
 					float angle = transform.Rot() * (PI / 180.0f);

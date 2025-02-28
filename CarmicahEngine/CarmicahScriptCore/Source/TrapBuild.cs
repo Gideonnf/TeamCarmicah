@@ -9,17 +9,20 @@ namespace Carmicah
    public class TrapBuild : Entity
     {
         public string TrapPrefabName = "Trap_1";
-
-
         public string TrapTranslucentPrefab = "TrapTranslucent";
+        
         public bool IsLeft = false;
         public float depthVal = 3.45f;
-        public float trapOffset = 1.6f;
+        float trapOffset;
 
 
         Entity translucentTrap;
         Entity trapEntity;
-        Entity TrapIcon;
+        Entity CandyConeTrapIcon;
+        Entity HoneyTrapIcon;
+
+        public TrapType type;
+
         bool hovering = false;
         bool built = false;
         bool enemyCollided = false;
@@ -29,9 +32,9 @@ namespace Carmicah
 
         public void OnCreate()
         {
-            
-            TrapIcon = FindEntityWithName("TrapIcon");
 
+            CandyConeTrapIcon = FindEntityWithName("CandyConeTrapIcon");
+            HoneyTrapIcon = FindEntityWithName("HoneyTrapIcon");
 
 
         }
@@ -61,10 +64,98 @@ namespace Carmicah
 
             }
 
-
-            if (TrapIcon != null && TrapIcon.As<TrapIcon>().trapEntity != null)
+            switch(type)
             {
-               // CMConsole.Log("Trying to build a trap");
+                case TrapType.CANDY_CONE:
+                    TrapBuildChecks(CandyConeTrapIcon);
+                    break;
+
+                case TrapType.HONEY:
+                    TrapBuildChecks(HoneyTrapIcon);
+                    break;
+
+            }
+
+
+            //if (CandyConeTrapIcon != null && CandyConeTrapIcon.As<TrapIcon>().trapEntity != null)
+            //{
+            //   // CMConsole.Log("Trying to build a trap");
+            //    if (translucentTrap == null && built == false)
+            //    {
+
+            //        //CMConsole.Log("It shouldnt be here atm");
+            //        translucentTrap = CreateGameObject(TrapTranslucentPrefab);
+            //        CMConsole.Log($"{Position.x} , {Position.y}");
+            //        translucentTrap.GetComponent<Transform>().Position = new Vector2(Position.x + trapOffset, Position.y);
+            //        translucentTrap.GetComponent<Transform>().Depth = depthVal;
+            //        translucentTrap.GetComponent<Renderer>().SetAlpha(0.3f);
+            //        if (IsLeft)
+            //        {
+            //            Vector2 scale = translucentTrap.GetComponent<Transform>().Scale;
+            //            translucentTrap.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
+            //            translucentTrap.GetComponent<Transform>().Position = new Vector2(Position.x - trapOffset, Position.y);
+
+            //        }
+            //        //redCol = translucentTrap.GetComponent<Renderer>().Red;
+            //        //CMConsole.Log($"Red Color : {redCol}");
+            //    }
+                
+            //}
+            //else if (CandyConeTrapIcon != null && CandyConeTrapIcon.As<TrapIcon>().trapEntity == null)
+            //{
+            //    if (translucentTrap != null)
+            //    {
+            //        // dont let them build if an enemy is taking the spot
+            //        if (enemyCollided)
+            //        {
+            //            translucentTrap.Destroy();
+            //            translucentTrap = null;
+            //            return;
+            //        }
+
+
+            //        // if the player let go when its hovering a build spot
+            //        if (hovering && trapEntity == null)
+            //        {
+            //            // If its wave start, this will trigger cooldown
+            //            CandyConeTrapIcon.As<TrapIcon>().ActivateCooldown();
+
+            //            // build a trap
+            //            built = true;
+            //            trapEntity = CreateGameObject(TrapPrefabName);
+            //            CMConsole.Log($"{Position.x} , {Position.y}");
+            //            trapEntity.GetComponent<Transform>().Position = new Vector2(translucentTrap.Position.x, translucentTrap.Position.y);
+            //            trapEntity.GetComponent<Transform>().Depth = depthVal;
+            //            trapEntity.As<TrapAI>().built = true;
+            //            trapEntity.As<TrapAI>().SetBuildEntity(this);
+                        
+            //            Sound.PlaySFX("trap_placement", 0.5f);
+
+            //            if (IsLeft)
+            //            {
+            //                Vector2 scale = trapEntity.GetComponent<Transform>().Scale;
+            //                trapEntity.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
+
+            //                //trapEntity.Position = new Vector2(translucentTrap.Position.x, translucentTrap.Position.y);
+            //            }
+
+            //           // trapEntity.Position = new Vector2(trapEntity.Position.x + trapOffset, trapEntity.Position.y);
+            //        }
+
+            //        translucentTrap.Destroy();
+            //        translucentTrap = null;
+
+            //    }
+            //}
+        }
+
+
+        void TrapBuildChecks(Entity entity)
+        {
+            trapOffset = entity.As<TrapIcon>().trapOffset;
+            if (entity != null && entity.As<TrapIcon>().trapEntity != null)
+            {
+                // CMConsole.Log("Trying to build a trap");
                 if (translucentTrap == null && built == false)
                 {
 
@@ -73,6 +164,7 @@ namespace Carmicah
                     CMConsole.Log($"{Position.x} , {Position.y}");
                     translucentTrap.GetComponent<Transform>().Position = new Vector2(Position.x + trapOffset, Position.y);
                     translucentTrap.GetComponent<Transform>().Depth = depthVal;
+                    translucentTrap.GetComponent<Renderer>().SetAlpha(0.3f);
                     if (IsLeft)
                     {
                         Vector2 scale = translucentTrap.GetComponent<Transform>().Scale;
@@ -83,9 +175,9 @@ namespace Carmicah
                     //redCol = translucentTrap.GetComponent<Renderer>().Red;
                     //CMConsole.Log($"Red Color : {redCol}");
                 }
-                
+
             }
-            else if (TrapIcon != null && TrapIcon.As<TrapIcon>().trapEntity == null)
+            else if (entity != null && entity.As<TrapIcon>().trapEntity == null)
             {
                 if (translucentTrap != null)
                 {
@@ -102,7 +194,7 @@ namespace Carmicah
                     if (hovering && trapEntity == null)
                     {
                         // If its wave start, this will trigger cooldown
-                        TrapIcon.As<TrapIcon>().ActivateCooldown();
+                        entity.As<TrapIcon>().ActivateCooldown();
 
                         // build a trap
                         built = true;
@@ -112,7 +204,16 @@ namespace Carmicah
                         trapEntity.GetComponent<Transform>().Depth = depthVal;
                         trapEntity.As<TrapAI>().built = true;
                         trapEntity.As<TrapAI>().SetBuildEntity(this);
-                        
+                        if(type == TrapType.CANDY_CONE)
+                        {
+                            trapEntity.As<TrapAI>().type = TrapType.CANDY_CONE;
+                        }
+                        else if(type == TrapType.HONEY)
+                        {
+                            trapEntity.As<TrapAI>().type = TrapType.HONEY;
+                        }
+
+
                         Sound.PlaySFX("trap_placement", 0.5f);
 
                         if (IsLeft)
@@ -123,7 +224,7 @@ namespace Carmicah
                             //trapEntity.Position = new Vector2(translucentTrap.Position.x, translucentTrap.Position.y);
                         }
 
-                       // trapEntity.Position = new Vector2(trapEntity.Position.x + trapOffset, trapEntity.Position.y);
+                        // trapEntity.Position = new Vector2(trapEntity.Position.x + trapOffset, trapEntity.Position.y);
                     }
 
                     translucentTrap.Destroy();
@@ -132,6 +233,7 @@ namespace Carmicah
                 }
             }
         }
+
 
 
         public void OnMouseEnter()
@@ -153,6 +255,24 @@ namespace Carmicah
         {
             trapEntity = null;
             built = false;
+        }
+
+        public void SetTrapType(TrapType trapType, string trapPrefabName, string fakeTrapName)
+        {
+            //CMConsole.Log("Shouldnt Honey be running this too?");
+            type = trapType;
+            TrapPrefabName = trapPrefabName;
+            TrapTranslucentPrefab = fakeTrapName;
+
+            //switch(type)
+            //{
+            //    case TrapType.CANDY_CONE:
+            //        trapOffset = 1.6f;
+            //        break;
+            //    case TrapType.HONEY:
+            //        trapOffset = 0.0f;
+            //        break;
+            //}
         }
 
         public override void OnTriggerEnter(uint collidedEntity)

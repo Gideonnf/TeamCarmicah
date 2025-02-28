@@ -1,15 +1,15 @@
 {
-    "GameObject": "Bullet",
-    "ID": 16,
+    "GameObject": "MageBullet",
+    "ID": 24,
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
-            "xPos": -5.0,
-            "yPos": -9.0,
+            "xPos": -5.41450309753418,
+            "yPos": -1.311687707901001,
             "depth": 14.5,
-            "xScale": 2.5,
-            "yScale": 2.5,
-            "rot": 180.0,
+            "xScale": 1.2000000476837159,
+            "yScale": 1.2000000476837159,
+            "rot": 329.89801025390627,
             "transformTag": "Bullet",
             "collisionMask": 16
         },
@@ -38,36 +38,15 @@
         },
         {
             "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Shooter_Projectile",
+            "Atlas": "Mage_Projectile",
             "AnimSpeed": 1.0
-        },
-        {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.Projectile",
-            "ScriptableFieldMap": [
-                {
-                    "BulletAnim": "Shooter_Projectile",
-                    "BulletImpactAnim": "",
-                    "LifeTime": 10.0,
-                    "Speed": 2.0
-                }
-            ]
-        },
-        {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "Projectile_SpriteSheet_Shooter 0",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
         },
         {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "DebugSquare",
-            "customWidth": 2.0,
+            "customWidth": 0.5,
             "customRotation": 0.0,
-            "customHeight": 1.0
+            "customHeight": 0.25
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
@@ -80,6 +59,27 @@
             "gravity": 0.0,
             "zposPrev": -1.0,
             "objectType": 2
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.Projectile",
+            "ScriptableFieldMap": [
+                {
+                    "BulletAnim": "Mage_Projectile",
+                    "BulletImpactAnim": "Mage_Impact_Projectile",
+                    "LifeTime": 10.0,
+                    "Speed": 2.0
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Projectile_SpriteSheet_Mage 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         }
     ]
 }
