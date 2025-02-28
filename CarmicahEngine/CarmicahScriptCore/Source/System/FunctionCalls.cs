@@ -162,6 +162,10 @@ namespace Carmicah
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static string GetFilePath();
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void RigidBody_StopForces();
+
+
         //[MethodImplAttribute(MethodImplOptions.InternalCall)]
         //internal extern static void SetCollisionLayer(uint entityID, int layer);
     }

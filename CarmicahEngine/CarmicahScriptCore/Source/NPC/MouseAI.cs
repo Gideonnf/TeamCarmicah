@@ -409,14 +409,19 @@ namespace Carmicah
             }
             Entity gameManager = FindEntityWithName("GameManager");
           //  CMConsole.Log($"game manager gameOver :{gameManager.As<GameManager>().GameOver}");
-            if (gameManager.As<GameManager>().GameOver)
-                return;
 
 
 
             // CMConsole.Log($"Update State Name: {stateName}");
             if (stateName == "Running")
             {
+                if (gameManager.As<GameManager>().GameOver)
+                {
+                    GetComponent<RigidBody>().StopForces();
+                    return;
+
+                }
+
                 // CMConsole.Log("TESTING Update State");
                 UpdateMovement(dt);
             }

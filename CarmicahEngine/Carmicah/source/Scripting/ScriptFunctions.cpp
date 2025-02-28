@@ -255,6 +255,16 @@ namespace Carmicah
 
 	}
 
+	static void RigidBody_StopForces(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+
+		if (go.HasComponent<RigidBody>())
+		{
+			go.GetComponent<RigidBody>().forcesManager.RemoveForce();
+		}
+	}
+
 	static void Transform_GetLocalPosition(unsigned int entityID, Vec2f* outPos)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -797,6 +807,7 @@ namespace Carmicah
 		// Rigidbody functions
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);
 		ADD_INTERNAL_CALL(RigidBody_ApplyForceWithTime);
+		ADD_INTERNAL_CALL(RigidBody_StopForces);
 
 		// renderer functions
 		ADD_INTERNAL_CALL(SetAlpha);
