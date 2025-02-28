@@ -117,6 +117,45 @@ namespace Carmicah
         {
             FunctionCalls.SetColour(Entity.mID, r, g, b);
         }
+
+        public float Red
+        {
+            get
+            {
+                FunctionCalls.GetRedColour(Entity.mID, out float red);
+                return red;
+            }
+            set
+            {
+                FunctionCalls.SetRedColour(Entity.mID, ref value);
+            }
+        }
+
+        //public float Blue
+        //{
+        //    get
+        //    {
+        //        FunctionCalls.GetBlueColour(Entity.mID, out float blue);
+        //        return blue;
+        //    }
+        //    set
+        //    {
+        //        FunctionCalls.SetBlueColour(Entity.mID, ref value);
+        //    }
+        //}
+
+        //public float Green
+        //{
+        //    get
+        //    {
+        //        FunctionCalls.GetRedColour(Entity.mID, out float red);
+        //        return red;
+        //    }
+        //    set
+        //    {
+        //        FunctionCalls.SetRedColour(Entity.mID, ref value);
+        //    }
+        //}
     }
 
     public class TextRenderer : Component

@@ -41,8 +41,9 @@ namespace Carmicah
         public bool LeftOrRight = false;
         public float CakeHeightOffset;
         public string StartingCake;
+        public float dropSpeed = 12.0f;
         //public List<MouseAI> mouseEntitiesLeft; 
-       // public List<MouseAI> mouseEntitiesRight;
+        // public List<MouseAI> mouseEntitiesRight;
 
         public List<MouseAI> mouseLaneOne;
         public List<MouseAI> mouseLaneTwo;
@@ -57,41 +58,34 @@ namespace Carmicah
         public string EndPointEntityRight2;
         public string HeroBuild = "HeroBuild";
         public string HeroBuild1 = "HeroBuild_1";
+        public string HeroBuild2 = "HeroBuild_2";
+        public string HeroBuild3 = "HeroBuild_3";
+        public bool GameOver = false;
 
-        //public bool GameStart = false;
-        //public bool WaveStarted = false;
-        //public bool WaveEnded = false;
-        public int MobCounter = 0;
-        public int BearCounter = 0;
+        // keep track of active enemies
         public int activeEnemies = 0;
-        //public float NumOfMobs = 10;
-        
-        //bool Musicplay = false;
+        // Keep track of enemies to spawn
+        Wave mobCounter;
 
         Entity startingCakeEntity;
         Entity playerEntity;
         Entity playerHealth;
-        Entity endEntityLeft;
-        Entity endEntityRight;
-        Entity endEntityLeft2;
-        Entity endEntityRight2;
+        Entity playerHealthCover;
+
+        Entity[] endEntities = new Entity[4];
+
         List<Entity> npcList;
 
-        //List<Vector2> npcSavedPos;
-        //Vector2 playerPos;
+        Entity[] heroBuildEntities = new Entity[4];
 
-        Entity heroBuildEntity;
-        Entity heroBuildEntity1;
+        Entity[] walls = new Entity[4];
 
-        Entity wall;
-        Entity wall1;
-        Entity wall2;
-        Entity wall3;
         int cakeCounter = 1;
 
         public float ySpawnPos;
         public float yTargetPos;
         public float yVFXSpawn;
+        public float yVFXLocation = 1.5f;
 
         Entity towerPrefab;
         Entity VFXPrefab;
@@ -99,27 +93,31 @@ namespace Carmicah
 
         void OnCreate()
         {
+            mobCounter = new Wave();
             mouseLaneOne = new List<MouseAI>();
             mouseLaneTwo = new List<MouseAI>();
             mouseLaneThree = new List<MouseAI>();
             mouseLaneFour = new List<MouseAI>();
             npcList = new List<Entity>();
 
-            endEntityLeft = FindEntityWithName(EndPointEntityLeft);
-            endEntityRight = FindEntityWithName(EndPointEntityRight);
-            endEntityLeft2 = FindEntityWithName(EndPointEntityLeft2);
-            endEntityRight2 = FindEntityWithName(EndPointEntityRight2);
+            endEntities[0] = FindEntityWithName(EndPointEntityLeft);
+            endEntities[1] = FindEntityWithName(EndPointEntityRight);
+            endEntities[2] = FindEntityWithName(EndPointEntityLeft2);
+            endEntities[3] = FindEntityWithName(EndPointEntityRight2);
 
             startingCakeEntity = FindEntityWithName(StartingCake);
             playerEntity = FindEntityWithName(PlayerName);
             playerHealth = FindEntityWithName(PlayerHealthBar);
-            heroBuildEntity = FindEntityWithName(HeroBuild);
-            heroBuildEntity1 = FindEntityWithName(HeroBuild1);
+            playerHealthCover = FindEntityWithName("Healthbar_Cover");
+            heroBuildEntities[0] = FindEntityWithName(HeroBuild);
+            heroBuildEntities[1] = FindEntityWithName(HeroBuild1);
+            heroBuildEntities[2] = FindEntityWithName(HeroBuild2);
+            heroBuildEntities[3] = FindEntityWithName(HeroBuild3);
 
-            wall = FindEntityWithName("Wall");
-            wall1 = FindEntityWithName("Wall_1");
-            wall2 = FindEntityWithName("Wall_2");
-            wall3 = FindEntityWithName("Wall_3");
+            walls[0] = FindEntityWithName("Wall");
+            walls[1] = FindEntityWithName("Wall_1");
+            walls[2] = FindEntityWithName("Wall_2");
+            walls[3] = FindEntityWithName("Wall_3");
 
             waveSystem = FindEntityWithName(WaveSystemObject);
 
@@ -150,53 +148,49 @@ namespace Carmicah
                 }
             }
 
-            if (MobCounter > 0)
+            if (mobCounter.GetWaveNumbers() > 0)
             {
                 timer += dt;
 
                 if (timer > spawnTimer)
                 {
                     timer = 0.0f;
-                    CreateEnemy(MousePrefabName);
-                    MobCounter--;
+                    // Get the next enemy type to spawn
+                    EnemyTypes type = mobCounter.GetNextEnemy();
+                    
+                    switch (type)
+                    {
+                        case EnemyTypes.MOUSE1:
+                        {
+                            CreateEnemy(MousePrefabName, type);
+                            break;
+                        }
+                        case EnemyTypes.MOUSE2:
+                        {
+                            CreateEnemy(MousePrefabName, type);
+
+                            break;
+                        }
+                        case EnemyTypes.MOUSE3:
+                        {
+                            CreateEnemy(MousePrefabName, type);
+
+                            break;
+                        }
+                        case EnemyTypes.BEAR:
+                        {
+                            CreateEnemy(BearPrefabName, type);
+
+                            break;
+                        }
+                        default:
+                        {
+                          //  CMConsole.Log("Shouldn't be here tbh");
+                            break;
+                        }
+                    }
                 }
             }
-            else if (BearCounter > 0)
-            {
-                timer += dt;
-
-                if (timer > spawnTimer)
-                {
-                    timer = 0.0f;
-                    CreateEnemy(BearPrefabName);
-                    BearCounter--;
-
-                }
-            }
-            
-            //CMConsole.Log($"Active enemies: {activeEnemies}");
-            //Wave Ending Checking
-            //if(BearCounter == 0 && MobCounter == 0 && IsLanesEmpty() && GameStart == true)
-            //{
-            //    CMConsole.Log("Ending Wave");
-
-            //    WaveEnded = true;
-            //}
-
-            //CMConsole.Log($"Lane one: {mouseLaneOne.Count()}");
-            //CMConsole.Log($"Lane two: {mouseLaneTwo.Count()}");
-            //CMConsole.Log($"Lane three: {mouseLaneThree.Count()}");
-            //CMConsole.Log($"Lane four: {mouseLaneFour.Count()}");
-
-            if (waveSystem.As<WaveSystem>().waveStart && activeEnemies == 0)
-            {
-               // WaveStarted = false;
-                CMConsole.Log("Ending Wave");
-                waveSystem.As<WaveSystem>().EndOfWave();
-                Sound.StopSoundBGM("BGM_LevelMusic_FullTrack_Vers1");
-                Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
-            }
-
 
             if (Input.IsKeyPressed(Keys.KEY_SPACEBAR))
             {
@@ -204,28 +198,28 @@ namespace Carmicah
             }
         }
 
-        public void StartNextWave(int mobCount, int bearCount)
+        public void StartNextWave(Wave level)
         {
-            //GameStart = true;
-            //WaveStarted = true;
-            //WaveEnded = false;
-            MobCounter += mobCount;
-            BearCounter += bearCount;
-
-            activeEnemies = MobCounter + BearCounter;
-            Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
-            Sound.PlayBGM("BGM_LevelMusic_FullTrack_Vers1",0.4f);
+            //CMConsole.Log("Starting next wave");
+            // Add it onto wave data
+            mobCounter = mobCounter + level;
+            for (int i = 0; i < level.enemySpawns.Length; ++i)
+            {
+                // add how many enemies are coming this wave
+                activeEnemies += level.enemySpawns[i];
+                //CMConsole.Log("Adding Enemy");
+            }
         }
 
-        public void CreateEnemy(string prefabName)
+        public void CreateEnemy(string prefabName, EnemyTypes type)
         {
             Entity mouseEntity = CreateGameObject(prefabName);
             MouseAI mouseAI = mouseEntity.As<MouseAI>();
 
             mouseAI.SetInitialPosition(); // Reset initial position
+            mouseEntity.As<MouseAI>().enemyType = type;
             
-
-            CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
+            //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
 
             switch (mouseAI.lane)
             {
@@ -242,24 +236,55 @@ namespace Carmicah
                     mouseLaneFour.Add(mouseAI);
                     break;
             }
-        }
 
-        public bool IsLanesEmpty()
-        {
-           if (MobCounter == 0 && BearCounter == 0)
+            // any special behavour can add here
+            switch (type)
             {
-                if (mouseLaneOne.Count() == 0 && mouseLaneTwo.Count() == 0 && mouseLaneThree.Count() == 0 && mouseLaneFour.Count() == 0)
-                {
-                    return true;
-                }
+                case EnemyTypes.MOUSE1:
+                    {
+                        mouseEntity.As<MouseAI>().Speed = 1.0f;
+                        break;
+                    }
+                case EnemyTypes.MOUSE2:
+                    {
+                        mouseEntity.As<MouseAI>().Speed = 1.5f;
+                        break;
+                    }
+                case EnemyTypes.MOUSE3:
+                    {
+                        mouseEntity.As<MouseAI>().Speed = 1.85f;
+                        break;
+                    }
+                case EnemyTypes.BEAR:
+                    {
+
+                        break;
+                    }
+                default:
+                    {
+                        CMConsole.Log("Shouldn't be here tbh");
+                        break;
+                    }
             }
 
-            return false;
         }
+
+        //public bool IsLanesEmpty()
+        //{
+        //   if (MobCounter == 0 && BearCounter == 0)
+        //    {
+        //        if (mouseLaneOne.Count() == 0 && mouseLaneTwo.Count() == 0 && mouseLaneThree.Count() == 0 && mouseLaneFour.Count() == 0)
+        //        {
+        //            return true;
+        //        }
+        //    }
+
+        //    return false;
+        //}
 
         public void EntityDestroyed(MouseAI entity)
         {
-            CMConsole.Log("Enemy died");
+            //CMConsole.Log("Enemy died");
             activeEnemies--;
 
             switch (entity.As<MouseAI>().lane)
@@ -289,60 +314,118 @@ namespace Carmicah
 
             MouseAI targetMouse = null;
             float distance = float.MaxValue;
-            switch (entity.lane)
+            if(entity.type == HeroType.SHOOTER)
             {
-                case 0:
-                    foreach(MouseAI mouse in mouseLaneOne)
-                    {
-                        float dist = mouse.Position.Distance(entity.Position);
-                        //CMConsole.Log($"left {dist}");
-
-                        if (dist < distance)
+                switch (entity.lane)
+                {
+                    case 0:
+                        foreach (MouseAI mouse in mouseLaneOne)
                         {
-                            distance = dist;
-                            targetMouse = mouse;
-                        }
-                    }
-                    break;
-                case 1:
-                    foreach (MouseAI mouse in mouseLaneTwo)
-                    {
-                        float dist = mouse.Position.Distance(entity.Position);
-                        //CMConsole.Log($"left {dist}");
+                            float dist = mouse.Position.Distance(entity.Position);
+                            //CMConsole.Log($"left {dist}");
 
-                        if (dist < distance)
-                        {
-                            distance = dist;
-                            targetMouse = mouse;
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
                         }
-                    }
-                    break;
-                case 2:
-                    foreach (MouseAI mouse in mouseLaneThree)
-                    {
-                        float dist = mouse.Position.Distance(entity.Position);
-                        //CMConsole.Log($"left {dist}");
+                        break;
+                    case 1:
+                        foreach (MouseAI mouse in mouseLaneTwo)
+                        {
+                            float dist = mouse.Position.Distance(entity.Position);
+                            //CMConsole.Log($"left {dist}");
 
-                        if (dist < distance)
-                        {
-                            distance = dist;
-                            targetMouse = mouse;
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
                         }
-                    }
-                    break;
-                case 3:
-                    foreach (MouseAI mouse in mouseLaneFour)
-                    {
-                        float dist = mouse.Position.Distance(entity.Position);
-                        //CMConsole.Log($"left {dist}");
+                        break;
+                    case 2:
+                        foreach (MouseAI mouse in mouseLaneThree)
+                        {
+                            float dist = mouse.Position.Distance(entity.Position);
+                            //CMConsole.Log($"left {dist}");
 
-                        if (dist < distance)
-                        {
-                            distance = dist;
-                            targetMouse = mouse;
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
                         }
-                    }
-                    break;
+                        break;
+                    case 3:
+                        foreach (MouseAI mouse in mouseLaneFour)
+                        {
+                            float dist = mouse.Position.Distance(entity.Position);
+                            //CMConsole.Log($"left {dist}");
+
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
+                        }
+                        break;
+                }
+            }
+            else if(entity.type == HeroType.MAGE)
+            {
+                switch (entity.IsLeft)
+                {
+                    case true:
+                        foreach (MouseAI mouse in mouseLaneThree)
+                        {
+                            float dist = mouse.Position.Distance(entity.Position);
+                            //CMConsole.Log($"left {dist}");
+
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
+                        }
+
+                        foreach (MouseAI mouse in mouseLaneFour)
+                        {
+                            float dist = mouse.Position.Distance(entity.Position);
+                            //CMConsole.Log($"left {dist}");
+
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
+                        }
+                        break;
+                    case false:
+                        foreach (MouseAI mouse in mouseLaneOne)
+                        {
+                            float dist = mouse.Position.Distance(entity.Position);
+                            //CMConsole.Log($"left {dist}");
+
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
+                        }
+                        foreach (MouseAI mouse in mouseLaneTwo)
+                        {
+                            float dist = mouse.Position.Distance(entity.Position);
+                            //CMConsole.Log($"left {dist}");
+
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
+                        }
+                        break;
+                }
             }
 
             return targetMouse;
@@ -378,8 +461,8 @@ namespace Carmicah
             }
 
             playerEntity.GetComponent<Renderer>().SetAlpha(1);
-            playerHealth.GetComponent<Renderer>().SetAlpha(1);  
-
+            playerHealth.GetComponent<Renderer>().SetAlpha(1);
+            playerHealthCover.GetComponent<Renderer>().SetAlpha(1);
             //playerPos = playerEntity.Position;
 
             if (playerEntity != null)
@@ -389,71 +472,32 @@ namespace Carmicah
                 playerEntity.Position = pos;
             }
 
-            if (endEntityLeft != null)
+            for (int i = 0; i < 4; ++i)
             {
-                pos = endEntityLeft.Position;
-                pos.y += CakeHeightOffset;
-                endEntityLeft.Position = pos;
+                if (endEntities[i] == null) continue;
+
+                Vector2 position = endEntities[i].Position;
+                position.y += CakeHeightOffset;
+                endEntities[i].Position = position;
             }
 
-            if (endEntityLeft2 != null)
+            for (int i = 0; i < 4; ++i)
             {
-                pos = endEntityLeft2.Position;
-                pos.y += CakeHeightOffset;
-                endEntityLeft2.Position = pos;
+                if (heroBuildEntities[i] == null) continue;
+
+                Vector2 position = heroBuildEntities[i].Position;
+                position.y += CakeHeightOffset;
+                heroBuildEntities[i].Position = position;
             }
 
-            if (endEntityRight != null)
+            for (int i = 0; i < 4; ++i)
             {
-                pos = endEntityRight.Position;
-                pos.y += CakeHeightOffset;
-                endEntityRight.Position = pos;
-            }
+                if (walls[i] == null) continue;
 
-            if (endEntityRight2 != null)
-            {
-                pos = endEntityRight2.Position;
-                pos.y += CakeHeightOffset;
-                endEntityRight2.Position = pos;
-            }
+                Vector2 position = walls[i].Position;
+                position.y += CakeHeightOffset;
+                walls[i].Position = position;
 
-            if (heroBuildEntity != null)
-            {
-                pos = heroBuildEntity.Position;
-                pos.y += CakeHeightOffset;
-                heroBuildEntity.Position = pos;
-            }
-
-            if (heroBuildEntity1 != null)
-            {
-                pos = heroBuildEntity1.Position;
-                pos.y += CakeHeightOffset;
-                heroBuildEntity1.Position = pos;
-            }
-
-            if (wall != null)
-            {
-                pos = wall.Position;
-                pos.y += CakeHeightOffset;
-                wall.Position = pos;
-            }
-            if (wall1 != null)
-            {
-                pos = wall1.Position;
-                pos.y += CakeHeightOffset;
-                wall1.Position = pos;
-            }
-            if (wall2 != null)
-            {
-                pos = wall2.Position;
-                pos.y += CakeHeightOffset;
-                wall2.Position = pos;
-            }
-            if (wall3 != null)
-            {
-                pos = wall3.Position;
-                pos.y += CakeHeightOffset;
-                wall3.Position = pos;
             }
 
             foreach (Entity npc in npcList)
@@ -479,20 +523,29 @@ namespace Carmicah
             //playerPos = playerEntity.Position;
         }
 
+        
+
         public void HideEntities()
         {
-            //foreach (Entity npc in npcList)
-            //{
-            //    if (npc.mID == 0) continue;
+            foreach (Entity npc in npcList)
+            {
+                if (npc.mID == 0) continue;
 
-            //    npc.GetComponent<Renderer>().SetAlpha(0);
-            //    //npc.Position = new Vector2(200, 200);
-            //}
+                npc.GetComponent<Renderer>().SetAlpha(0);
+                //npc.Position = new Vector2(200, 200);
+            }
 
             playerEntity.GetComponent<Renderer>().SetAlpha(0);
             playerHealth.GetComponent<Renderer>().SetAlpha(0);
+            playerHealthCover.GetComponent<Renderer>().SetAlpha(0);
             //playerPos = new Vector2(200, 200);
 
+        }
+
+        public void LoseGame()
+        {
+            GameOver = true;
+            CreateGameObject("LoseScreen");
         }
 
         public void OnStateEnter(string stateName)
@@ -531,6 +584,7 @@ namespace Carmicah
                 UpdatePositions();
                 ySpawnPos += CakeHeightOffset;
                 yTargetPos += CakeHeightOffset;
+                yVFXLocation += CakeHeightOffset;
                 GetComponent<StateMachine>().SetStateCondition(1);
 
             }
@@ -558,13 +612,16 @@ namespace Carmicah
                 {
                     // create the vfx prefab
                     if (VFXPrefab == null)
+                    {
                         VFXPrefab = CreateGameObject(CakeVFXPrefab);
+                        VFXPrefab.Position = new Vector2(VFXPrefab.Position.x, yVFXLocation);
+                    }
                 }
                 CMConsole.Log($"IN TOWER DROP UPDATE {towerPrefab.Position.x}, {towerPrefab.Position.y}");
                 if (towerPrefab.Position.y > yTargetPos)
                 {
                     Vector2 pos = towerPrefab.Position;
-                    pos.y -= 1.5f * dt;
+                    pos.y -= dropSpeed * dt;
                     towerPrefab.Position = pos;
                 }
                 else if (towerPrefab.Position.y <= yTargetPos)
@@ -579,6 +636,7 @@ namespace Carmicah
 
         public void OnStateExit(string stateName)
         {
+
 
         }
 

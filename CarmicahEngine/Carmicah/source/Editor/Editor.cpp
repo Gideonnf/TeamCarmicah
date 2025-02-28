@@ -23,7 +23,7 @@ namespace Carmicah
 	bool Editor::mShowCloseConfirmation = false;
 	std::vector<Entity> Editor::mSceneHierarchy;
 	std::vector<Entity> Editor::mSceneUIHierarchy;
-	std::unordered_map<Entity, std::vector<Entity>> Editor::mChildrenHierarchy;
+	std::unordered_map<Entity, std::vector<Entity>> Editor::mChildrenHierarchy; //Once it creates the key, even if the key becomes empty, the key will remain existing
 
 	Editor::Editor()
 	{
@@ -108,7 +108,7 @@ namespace Carmicah
 				ImGui::DockBuilderAddNode(dockspaceID, ImGuiDockNodeFlags_DockSpace);*/
 				ImGuiID dockMain = dockspaceID; // Main area
 				ImGuiID dockBottom = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Down, 0.4f, nullptr, &dockMain);
-				ImGuiID dockBotLeft = ImGui::DockBuilderSplitNode(dockBottom, ImGuiDir_Left, 0.5f, nullptr, &dockBottom);
+				ImGuiID dockBotLeft = ImGui::DockBuilderSplitNode(dockBottom, ImGuiDir_Left, 0.7f, nullptr, &dockBottom);
 				ImGuiID dockBotRight = dockBottom;
 				ImGuiID dockLeft = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Left, 0.2f, nullptr, &dockMain);
 				ImGuiID dockRight = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Right, 0.25f, nullptr,&dockMain);
@@ -393,7 +393,7 @@ namespace Carmicah
 		if (currentGO.HasComponent<Transform>())
 		{
 			// Get the parent ID
-			parentID = currentGO.GetComponent<Transform>().parent;
+			parentID = currentGO.GetComponent<Transform>().ParentID();
 			if (parentID == gGOFactory->sceneGO.sceneID)
 			{
 				mSceneHierarchy.erase(std::remove_if(mSceneHierarchy.begin(), mSceneHierarchy.end(), [id](const auto& element)
@@ -409,7 +409,7 @@ namespace Carmicah
 		}
 		else if (currentGO.HasComponent<UITransform>())
 		{
-			parentID = currentGO.GetComponent<UITransform>().parent;
+			parentID = currentGO.GetComponent<UITransform>().ParentID();
 
 			if (parentID == gGOFactory->sceneGO.sceneID)
 			{
@@ -474,7 +474,7 @@ namespace Carmicah
 				if (currentGO.HasComponent<Transform>())
 				{
 					// Get the parent ID
-					oldParentID = currentGO.GetComponent<Transform>().parent;
+					oldParentID = currentGO.GetComponent<Transform>().ParentID();
 
 					if (oldParentID != 0)
 					{
@@ -493,7 +493,7 @@ namespace Carmicah
 				}
 				else if (currentGO.HasComponent<UITransform>())
 				{
-					oldParentID = currentGO.GetComponent<UITransform>().parent;
+					oldParentID = currentGO.GetComponent<UITransform>().ParentID();
 
 					if (oldParentID != 0)
 					{
@@ -551,11 +551,11 @@ namespace Carmicah
 						// Get the parent ID
 						if (currentGO.HasComponent<Transform>())
 						{
-							oldParentID = currentGO.GetComponent<Transform>().parent;
+							oldParentID = currentGO.GetComponent<Transform>().ParentID();
 						}
 						else if (currentGO.HasComponent<UITransform>())
 						{
-							oldParentID = currentGO.GetComponent<UITransform>().parent;
+							oldParentID = currentGO.GetComponent<UITransform>().ParentID();
 						}
 
 
@@ -587,11 +587,11 @@ namespace Carmicah
 						// Get the parent ID
 						if (currentGO.HasComponent<Transform>())
 						{
-							oldParentID = currentGO.GetComponent<Transform>().parent;
+							oldParentID = currentGO.GetComponent<Transform>().ParentID();
 						}
 						else if (currentGO.HasComponent<UITransform>())
 						{
-							oldParentID = currentGO.GetComponent<UITransform>().parent;
+							oldParentID = currentGO.GetComponent<UITransform>().ParentID();
 						}
 
 

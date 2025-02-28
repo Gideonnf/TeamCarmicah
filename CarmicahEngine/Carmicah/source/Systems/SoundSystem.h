@@ -39,7 +39,8 @@ namespace Carmicah
         BGM,        // Background music
         VOICE,      // Voice/dialogue
         AMBIENT,    // Ambient sounds
-        UI         // UI sounds
+        UI,         // UI sounds
+        EDITOR      // For Editor Use
     };
 
     // Track information for each sound
@@ -61,6 +62,7 @@ namespace Carmicah
             SOUND_INGAME,
             SOUND_INMENU,
             SOUND_BGM,
+            SOUND_EDITOR,
             SOUND_MAX_SOUNDS
         };
 

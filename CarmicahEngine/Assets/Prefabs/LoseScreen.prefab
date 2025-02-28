@@ -1,6 +1,6 @@
 {
     "GameObject": "LoseScreen",
-    "ID": 32,
+    "ID": 23,
     "Components": [
         {
             "Component Name": "struct Carmicah::Renderer",
@@ -13,13 +13,276 @@
         },
         {
             "Component Name": "struct Carmicah::UITransform",
-            "xPos": 891.3720092773438,
-            "yPos": 813.3829956054688,
+            "xPos": 916.9947509765625,
+            "yPos": 673.486572265625,
             "depth": -3.0,
             "xScale": 0.5,
             "yScale": 0.5,
             "rot": 0.0,
             "transformTag": ""
+        }
+    ],
+    "Children": [
+        {
+            "GameObject": "LoseText",
+            "ID": 41,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Sigmar-Regular",
+                    "text": "You Lose.",
+                    "colorR": 0.7892156839370728,
+                    "colorG": 0.09284889698028565,
+                    "colorB": 0.09284889698028565
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -247.3863525390625,
+                    "yPos": 57.705169677734378,
+                    "depth": 0.0,
+                    "xScale": 2.0,
+                    "yScale": 2.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "DescText",
+            "ID": 42,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Sigmar-Regular",
+                    "text": "Uh oh...",
+                    "colorR": 0.9647058844566345,
+                    "colorG": 0.16470588743686677,
+                    "colorB": 0.5960784554481506
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -131.22964477539063,
+                    "yPos": -26.23260498046875,
+                    "depth": 0.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "DescText_1_2",
+            "ID": 43,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Sigmar-Regular",
+                    "text": "You died",
+                    "colorR": 0.9647058844566345,
+                    "colorG": 0.16470588743686677,
+                    "colorB": 0.5960784554481506
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -138.36297607421876,
+                    "yPos": -89.5338134765625,
+                    "depth": 1.399999976158142,
+                    "xScale": 1.0,
+                    "yScale": 1.2000000476837159,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "WandLose",
+            "ID": 44,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Wand_Lose",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wand_SpriteSheet_Break 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -278.13360595703127,
+                    "yPos": -7.57989501953125,
+                    "depth": 0.0,
+                    "xScale": 1.5,
+                    "yScale": 1.5,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "MCLose",
+            "ID": 45,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "MC_Lose",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "MC_Lose",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 251.4036865234375,
+                    "yPos": -7.579833984375,
+                    "depth": 0.0,
+                    "xScale": 1.600000023841858,
+                    "yScale": 1.600000023841858,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "Setting",
+            "ID": 46,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Button_HE_Settings",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_H_Settings 1",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "settings",
+                            "nextScene": ""
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -271.3009033203125,
+                    "yPos": -231.41400146484376,
+                    "depth": 0.0,
+                    "xScale": 1.2000000476837159,
+                    "yScale": 1.2000000476837159,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "Replay",
+            "ID": 47,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Button_HE_Replay",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_H_Replay 7",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "replay",
+                            "nextScene": ""
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -9.94830322265625,
+                    "yPos": -233.27935791015626,
+                    "depth": 0.0,
+                    "xScale": 1.2000000476837159,
+                    "yScale": 1.2000000476837159,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "Home",
+            "ID": 48,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Button_HE_Home",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_C_Home 5",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "home",
+                            "nextScene": ""
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 241.1549072265625,
+                    "yPos": -231.41412353515626,
+                    "depth": 0.0,
+                    "xScale": 1.2000000476837159,
+                    "yScale": 1.2000000476837159,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
         }
     ]
 }

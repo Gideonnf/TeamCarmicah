@@ -196,6 +196,51 @@ namespace Carmicah
 			}
 		}
 
+		template <typename T>
+		void RemoveAsset(std::string name)
+		{
+			std::string assetType = typeid(T).name();
+
+			// asset type doesn't exist
+			if (mAssetTypeMap.count(assetType) == 0)
+			{
+				return;
+			}
+
+			auto& assetMap = GetAssetMap<T>()->mAssetMap;
+			auto& assetList = GetAssetMap<T>()->mAssetList;
+
+
+			// erase from the vector first
+			if (assetMap.count(name) == 0)
+			{
+				CM_CORE_ERROR("Asset being removed does not exist");
+			}
+
+			unsigned int index = assetMap[name];
+
+			assetMap.erase(name);
+
+			// check if the index is correct before accessing vector
+			if (index < assetList.size() - 1)
+			{
+				// swap with the back element
+				std::swap(assetList[index], assetList.back());
+				for (auto& pair : assetMap)
+				{
+					// find the old index of the asset before the swap
+					if (pair.second == assetList.size() - 1)
+					{
+						// and set it to its new index
+						pair.second = index;
+						break;
+					}
+				}
+			}
+
+			assetList.pop_back();
+		}
+
 		/*!*************************************************************************
 		brief
 			Checks if the asset exists based on the name
@@ -222,10 +267,29 @@ namespace Carmicah
 
 			return true;
 		}
+
+		template <>
+		bool AssetExist<Prefab>(std::string name)
+		{
+			std::string assetType = typeid(Prefab).name();
+			if (mAssetTypeMap.count(assetType) == 0)
+			{
+				// If the asset doesn't exist yet, then create it
+				RegisterAsset<Prefab>();
+			}
+
+			if (GetAssetMap<Prefab>()->mAssetList.size() == 0)
+				return false;
+			if (GetAssetMap<Prefab>()->mAssetMap.count(name) == 0)
+				return false;
+
+			return true;
+		}
+
 		// TODO: Handle removal of assets
 		// cant rlly be done/tested until editor has ways to delete and add assets
 
-		void RemoveAsset(std::string filePath);
+		void RemoveFromAssetManager(std::string filePath);
 
 
 

@@ -96,7 +96,7 @@ namespace Carmicah
 						{
 							UITransform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<UITransform>();
 
-							mSelectedObjPos = Vec2f(selectedTransform.Pos().x, AssetManager::GetInstance()->enConfig.Height - selectedTransform.Pos().y);
+							mSelectedObjPos = Vec2f(selectedTransform.worldSpace.m20, AssetManager::GetInstance()->enConfig.Height - selectedTransform.worldSpace.m21);
 							mOriginalAngle = selectedTransform.Rot();
 						}
 					}
@@ -119,11 +119,11 @@ namespace Carmicah
 									float worldDeltaY = -static_cast<float>((delta.y / AssetManager::GetInstance()->enConfig.Height * 2.0)) / camTrans.GetScale().y;
 									Transform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<Transform>();
 
-									if(selectedTransform.parent == 0)
+									if(selectedTransform.ParentID() == 0)
 										selectedTransform.GetPos() += Vec2f(worldDeltaX, worldDeltaY);
 									else
 									{
-										Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
+										Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.ParentID());
 										selectedTransform.GetPos() += Vec2f(
 											worldDeltaX * parentTransform.rotTrans.m[0] + worldDeltaY * parentTransform.rotTrans.m[1],
 											worldDeltaX * parentTransform.rotTrans.m[3] + worldDeltaY * parentTransform.rotTrans.m[4]
@@ -133,8 +133,16 @@ namespace Carmicah
 								else if (HierarchyWindow::selectedGO->HasComponent<UITransform>())
 								{
 									UITransform& selectedTransform = HierarchyWindow::selectedGO->GetComponent<UITransform>();
-									selectedTransform.PosXAdd(static_cast<float>(delta.x));
-									selectedTransform.PosYAdd(static_cast<float>(-delta.y));
+									if (selectedTransform.ParentID() == 0)
+										selectedTransform.GetPos() += Vec2f(static_cast<float>(delta.x), static_cast<float>(-delta.y));
+									else
+									{
+										UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(selectedTransform.ParentID());
+										selectedTransform.GetPos() += Vec2f(
+											static_cast<float>(delta.x) * parentTransform.rotTrans.m[0] + static_cast<float>(-delta.y) * parentTransform.rotTrans.m[1],
+											static_cast<float>(delta.x) * parentTransform.rotTrans.m[3] + static_cast<float>(-delta.y) * parentTransform.rotTrans.m[4]
+										);
+									}
 								}
 								break;
 							}

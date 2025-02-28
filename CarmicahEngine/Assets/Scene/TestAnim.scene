@@ -1,0 +1,81 @@
+{
+    "Scene": "DefaultScene",
+    "SceneObjects": [
+        {
+            "GameObject": "MainCamera",
+            "ID": 1,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 0.05299999937415123,
+                    "yScale": 0.10000000149011612,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "Anim",
+            "ID": 5,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wand",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Mouse_Death_blue"
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "BG",
+            "ID": 6,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": -100.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "bg",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                }
+            ],
+            "Children": []
+        }
+    ]
+}

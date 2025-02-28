@@ -140,11 +140,11 @@ namespace Carmicah
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		if (go.HasComponent<Transform>())
 		{
-			return go.GetComponent<Transform>().parent;
+			return go.GetComponent<Transform>().ParentID();
 		}
 		else if (go.HasComponent<UITransform>())
 		{
-			return go.GetComponent<UITransform>().parent;
+			return go.GetComponent<UITransform>().ParentID();
 		}
 
 		return 0;
@@ -304,12 +304,22 @@ namespace Carmicah
 
 		if (go.HasComponent<Transform>())
 		{
+			*outPos = go.GetComponent<Transform>().Pos();
+			if (go.GetComponent<Transform>().ParentID() != 0)
+			{
+				//Transform parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(go.GetComponent<Transform>().parent);
+				//*outPos += parentTransform.Pos();
+				
+			}
 			*outPos = go.GetComponent<Transform>().ExtractWorldPos();
+			//CM_CORE_INFO("outPos {}, {}", outPos->x, outPos->y);
+			//CM_CORE_INFO("worldPos {}, {}", go.GetComponent<Transform>().ExtractWorldPos().x, go.GetComponent<Transform>().ExtractWorldPos().y);
 		}
 		else if (go.HasComponent<UITransform>())
 		{
 			
-			*outPos = go.GetComponent<UITransform>().Pos();
+			//*outPos = go.GetComponent<UITransform>().Pos();
+			*outPos = go.GetComponent<UITransform>().ExtractWorldPos();
 
 		/*	if (entityID == 29)
 				CM_CORE_INFO("{}, {}", outPos->x, outPos->y);*/
@@ -516,6 +526,28 @@ namespace Carmicah
 			go.GetComponent<UITransform>().Depth(*inFloat);
 	}
 
+	static void GetRedColour(unsigned int entityID, float* outFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Renderer>())
+		{
+			*outFloat = go.GetComponent<Renderer>().GetR();
+		}
+		else
+		{
+			*outFloat = 0.0f;
+		}
+	}
+	
+	static void SetRedColour(unsigned int entityID, float* inFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Renderer>())
+		{
+			go.GetComponent<Renderer>().SetR(*inFloat);
+		}
+	}
+
 	static MonoString* Transform_GetTag(unsigned int entityID)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -533,13 +565,22 @@ namespace Carmicah
 		return mono_string_new(mono_domain_get(), ret.c_str());
 	}
 
+	static MonoString* GetFilePath()
+	{
+		/*std::filesystem::path fileDir = AssetManager::GetInstance()->enConfig.assetLoc;*/
+		std::string filePath = (std::filesystem::current_path().parent_path() / "Assets").string();
+		CM_CORE_INFO("File Path {}", filePath);
+		return mono_string_new(mono_domain_get(), filePath.c_str());
+	}
+
 	static void Animation_ChangeAnim(unsigned int entityID, MonoString* string)
 	{
 		std::string cStrName = MonoToString(string);
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		//CM_CORE_INFO("Entity ID in changeAnim: {}", entityID);
 		//go.GetComponent<Animation>().animAtlas = cStr;
-		go.GetComponent<Animation>().ChangeAnim(cStrName);
+		if (go.HasComponent<Animation>())
+			go.GetComponent<Animation>().ChangeAnim(cStrName);
 		//mono_free(cStr);
 	}
 
@@ -754,6 +795,8 @@ namespace Carmicah
 		// renderer functions
 		ADD_INTERNAL_CALL(SetAlpha);
 		ADD_INTERNAL_CALL(SetColour);
+		ADD_INTERNAL_CALL(GetRedColour);
+		ADD_INTERNAL_CALL(SetRedColour);
 
 		// Anim functions
 		ADD_INTERNAL_CALL(Animation_ChangeAnim);
@@ -786,5 +829,7 @@ namespace Carmicah
 
 		// Text Renderer
 		ADD_INTERNAL_CALL(ChangeText);
+
+		ADD_INTERNAL_CALL(GetFilePath);
 	}
 }

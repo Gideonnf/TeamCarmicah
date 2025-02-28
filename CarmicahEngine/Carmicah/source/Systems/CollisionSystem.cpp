@@ -235,9 +235,9 @@ namespace Carmicah
 					transform.ScaleY(1.0f);
 				}
 			
-				if (transform.parent != 0)
+				if (transform.ParentID() != 0)
 				{
-					auto& parent = componentManager->GetComponent<Transform>(transform.parent);
+					auto& parent = componentManager->GetComponent<Transform>(transform.ParentID());
 
 					// Compute the world position of the child object
 					Vec2f worldPos = {
@@ -257,8 +257,8 @@ namespace Carmicah
 					float cosTheta = cos(angle);
 					float sinTheta = sin(angle);
 
-					float halfWidth = collider.GetCustomWidth() * 0.5f * combinedScale.x;
-					float halfHeight = collider.GetCustomHeight() * 0.5f * combinedScale.y;
+					float halfWidth = collider.GetCustomWidth() * 0.5f * std::abs(combinedScale.x);
+					float halfHeight = collider.GetCustomHeight() * 0.5f * std::abs(combinedScale.y);
 
 					// Clear existing OBB vertices
 					collider.objVert.clear();
@@ -285,8 +285,8 @@ namespace Carmicah
 				else
 				{
 					// Calculate half-dimensions of the OBB
-					float halfWidth = collider.GetCustomWidth() * 0.5f * transform.CalcedRenderingScale().x * transform.Scale().x;
-					float halfHeight = collider.GetCustomHeight() * 0.5f * transform.CalcedRenderingScale().y * transform.Scale().y;
+					float halfWidth = collider.GetCustomWidth() * 0.5f * transform.CalcedRenderingScale().x * std::abs(transform.Scale().x);
+					float halfHeight = collider.GetCustomHeight() * 0.5f * transform.CalcedRenderingScale().y * std::abs(transform.Scale().y);
 
 					// Rotation in radians
 					float angle = transform.Rot() * (PI / 180.0f);
@@ -668,9 +668,18 @@ namespace Carmicah
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
 
-			EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
-			SendSysMessage(&newMsg);
+			if (rigidbody1.collided == false)
+			{
+				CM_CORE_INFO(" COLLISION");
 
+				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
+				SendSysMessage(&newMsg);
+				rigidbody1.collided = true;
+			}
+			else
+			{
+
+			}
 
 			//gGOFactory->Destroy(obj1);
 
@@ -693,9 +702,18 @@ namespace Carmicah
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
 
-			EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
-			SendSysMessage(&newMsg);
+			if (rigidbody1.collided == false)
+			{
+				CM_CORE_INFO(" COLLISION");
 
+				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
+				SendSysMessage(&newMsg);
+				rigidbody1.collided = true;
+			}
+			else
+			{
+
+			}
 			/*rigidbody2.velocity.x = 0;
 			rigidbody2.velocity.y = 0;*/
 
@@ -719,10 +737,19 @@ namespace Carmicah
 
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
-			CM_CORE_INFO("Obj 1 {}, Obj 2 {}", obj1, obj2);
-			EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
-			SendSysMessage(&newMsg);
+			//CM_CORE_INFO("Obj 1 {}, Obj 2 {}", obj1, obj2);
+			if (rigidbody1.collided == false)
+			{
+				CM_CORE_INFO(" COLLISION");
 
+				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
+				SendSysMessage(&newMsg);
+				rigidbody1.collided = true;
+			}
+			else
+			{
+
+			}
 
 			/*rigidbody2.velocity.x = 0;
 			rigidbody2.velocity.y = 0;*/
@@ -740,18 +767,29 @@ namespace Carmicah
 			rigidbody1.velocity.y = 0;
 			//CM_CORE_INFO("ID in CollisionSystem 2nd {}", obj1);
 			CM_CORE_INFO("Obj 1 {}, Obj 2 {}", obj1, obj2);
-			EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
-			SendSysMessage(&newMsg);
-		}
-		else if (rigidbody1.objectType == rbTypes::KINEMATIC && rigidbody2.objectType == rbTypes::KINEMATIC)
-		{
-			// trigger
 			if (rigidbody1.collided == false)
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
 				SendSysMessage(&newMsg);
+				rigidbody1.collided = true;
 			}
 			else if (rigidbody1.collided)
+			{
+				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_STAY);
+				SendSysMessage(&newMsg);
+			}
+		}
+		else if (rigidbody1.objectType == rbTypes::KINEMATIC && rigidbody2.objectType == rbTypes::KINEMATIC)
+		{
+			// trigger
+			if (rigidbody1.triggerCollide == false)
+			{
+				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
+				SendSysMessage(&newMsg);
+				rigidbody1.triggerCollide = true;
+
+			}
+			else if (rigidbody1.triggerCollide)
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_STAY);
 				SendSysMessage(&newMsg);
@@ -762,7 +800,7 @@ namespace Carmicah
 		// set collided to true at the end
 		// so that we can differentiate on trigger enter
 		// vs on trigger stay
-		rigidbody1.collided = true;
+		//rigidbody1.collided = true;
 		//rigidbody2.collided = true;
 	}
 
@@ -852,6 +890,9 @@ namespace Carmicah
 			InsertEntityToGrid(entity, transform.Pos());
 		}
 
+		bool collided = false;
+		bool triggerCollide = false;
+
 		// Perform collision detection
 		for (auto entity1 : mEntitiesSet)
 		{
@@ -876,6 +917,7 @@ namespace Carmicah
 							//}
 
 							CollisionResponse(entity1, entity2);
+							collided = true;
 						}
 					}
 				}
@@ -883,11 +925,12 @@ namespace Carmicah
 			else if (rigidbody1.objectType == rbTypes::KINEMATIC)
 			{
 				std::vector<Entity> nearbyEntities = GetPotentialCollisions(entity1, transform1.Pos());
-				bool collided = false;
+				
 				for (Entity entity2 : nearbyEntities)
 				{
 
 					auto& transform2 = componentManager->GetComponent<Transform>(entity2);
+					auto& rigidbody2 = componentManager->GetComponent<RigidBody>(entity2);
 					auto transformSys = SystemManager::GetInstance()->GetSystem<TransformSystem>();
 					if (transformSys->CheckLayerInteraction(transform1.collisionMask, transform2.collisionMask))
 					{
@@ -897,23 +940,47 @@ namespace Carmicah
 							//{
 							//	CM_CORE_INFO("why tf is it colliding");
 							//}
+
+							
 							CollisionResponse(entity1, entity2);
-							collided = true;
+							if (rigidbody2.objectType == rbTypes::KINEMATIC)
+							{
+								triggerCollide = true;
+							}
+							else
+							{
+								collided = true;
+							}
+							//collided = true;
 						}
 					}
 				}
+			}
 
-				// if entity 1 was already colliding but no longer
+			// if entity 1 was already colliding but no longer
 				// then call on trigger exit
-				if (collided != true)
+			if (triggerCollide != true)
+			{
+				if (rigidbody1.triggerCollide)
 				{
-					if (ComponentManager::GetInstance()->GetComponent<RigidBody>(entity1).collided)
-					{
-						// 0 on 2nd entity cause trigger exit doesnt care about collided entity
-						EntityCollidedMessage newMsg(entity1, 0, CollideType::TRIGGER_EXIT);
-						SendSysMessage(&newMsg);
-						ComponentManager::GetInstance()->GetComponent<RigidBody>(entity1).collided = false;
-					}
+					// OKAY TECHNICALLY ANY OBJECT WILL GET THIS CALL IF IT HAS THIS FUNCTION
+					// JUST DONT USE IT OK? 
+					// I KINDA LAZY TO FIND A WAY TO DIFFERENTIATE KINEMATIC w KINEMATIC COLLISION EXIT
+					// VS KINEMATIC w OTHER TYPE COLLISION EXIT
+					CM_CORE_INFO("ENDING COLLISION");
+
+					// 0 on 2nd entity cause trigger exit doesnt care about collided entity
+					EntityCollidedMessage newMsg(entity1, 0, CollideType::TRIGGER_EXIT);
+					SendSysMessage(&newMsg);
+					rigidbody1.triggerCollide = false;
+				}
+			}
+
+			if (collided != true)
+			{
+				if (rigidbody1.collided)
+				{
+					rigidbody1.collided = false;
 				}
 			}
 		}

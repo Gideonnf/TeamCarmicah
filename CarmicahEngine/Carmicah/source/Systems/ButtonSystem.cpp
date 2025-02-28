@@ -30,6 +30,7 @@ DigiPen Institute of Technology is prohibited.
 #include "../Input/InputSystem.h"
 #include "ButtonSystem.h"
 #include "SoundSystem.h"
+#include "Editor/SceneToImgui.h"
 #include <algorithm>
 
 
@@ -96,48 +97,30 @@ namespace Carmicah
 		//	//}
 		//}
 
-		Vec2i mousePosI = { static_cast<int>(Input.GetMousePosition().x), 1080 - static_cast<int>(Input.GetMousePosition().y) };
-
-		Vec2f worldMousePos = Input.GetMouseWorldPosition();
+		Entity hoveredID = SceneToImgui::GetInstance()->GetIDObjPick();
 
 		for (auto& entity : mEntitiesSet)
 		{
+			UITransform& uiTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(entity);
 
-			if (ComponentManager::GetInstance()->HasComponent<UITransform>(entity))
+			if (entity == hoveredID)
 			{
-				UITransform& uiTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(entity);
-
-				Vec2f min;
-				Vec2f max;
-
-				max.x = uiTransform.Pos().x + 40.0f;
-				max.y = uiTransform.Pos().y + 20.0f;
-				min.x = uiTransform.Pos().x - 40.0f;
-				min.y = uiTransform.Pos().y - 20.0f;
-
-				if (mousePosI.x > min.x && mousePosI.x < max.x &&
-					mousePosI.y > min.y && mousePosI.y < max.y)
+				if (!uiTransform.mouseEnter)
 				{
-					if (!uiTransform.mouseEnter)
-					{
-						
-						OnEnter(entity);
-						uiTransform.mouseEnter = true;
-					}
-					else if (uiTransform.mouseEnter)
-					{
-						OnHover(entity);
-					}
-
-					continue;
+					OnEnter(entity);
+					uiTransform.mouseEnter = true;
 				}
+				else if (uiTransform.mouseEnter)
+				{
+					OnHover(entity);
+				}
+				continue;
+			}
 
 			if (uiTransform.mouseEnter)
 			{
 				OnExit(entity);
 				uiTransform.mouseEnter = false;
-			}
-
 			}
 
 		}
@@ -230,7 +213,7 @@ namespace Carmicah
 
 		buttonComponent.isPressed = true;
 
-		OnClickMsg newMsg(entityID);
+		OnMouseMsg newMsg(MSG_ONCLICK, entityID);
 		SendSysMessage(&newMsg);
 	}
 

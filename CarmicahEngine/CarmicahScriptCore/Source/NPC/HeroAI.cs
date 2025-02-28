@@ -7,24 +7,36 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
+    public enum HeroType
+    {
+        SHOOTER,
+        MAGE,
+        SPEAR
+    }
     public class HeroAI : Entity
     {
         public string idleAnim = "Shooter_Idle";
         public string shootAnim = "Shooter_Shoot";
+        public string manaAnim = "Shooter_Idle";
 
         public string projectilePrefab = "Bullet";
         public float shootRate = 1.0f;
         public float shootTime = 1.0f;
+        public int mana = 5;
         public int lane;
         float timer = 0.0f;
         public bool active = false;
         public bool IsLeft = false;
+        public HeroType type;
 
-       // float shootTimer = 0.0f;
+        // float shootTimer = 0.0f;
         bool isShooting = false;
         bool shot = false;
+        bool hasAmmo = true;
+        bool hovering = false;
         GameManager gameManager;
         PauseManager pauseManager;
+        Player player;
         MouseAI targetMouse;
         float animationTime;
 
@@ -32,12 +44,13 @@ namespace Carmicah
         {
             gameManager = FindEntityWithName("GameManager").As<GameManager>();
             pauseManager = FindEntityWithName("PauseManager").As<PauseManager>();
+            player = FindEntityWithName("mainCharacter").As<Player>();
         }
 
         void OnUpdate(float dt)
         {
             if (pauseManager.IsPaused) { return; }
-           // CMConsole.Log("TESTING IF CMLOG WORKS");
+            // CMConsole.Log("TESTING IF CMLOG WORKS");
 
             if (isShooting)
             {
@@ -59,40 +72,43 @@ namespace Carmicah
             {
                 // CMConsole.Log($"mouse retrieved : {targetMouse}");
                 Entity projectile = CreateGameObject(projectilePrefab);
-                if (projectile != null) 
+                if (projectile != null)
                 {
-                  //  CMConsole.Log($"Hero Position: {Position.x}, {Position.y}");
+                    //  CMConsole.Log($"Hero Position: {Position.x}, {Position.y}");
                     projectile.Position = Position;
-                   // CMConsole.Log($"Projectile Position: {projectile.Position.x}, {projectile.Position.y}");
+                    // CMConsole.Log($"Projectile Position: {projectile.Position.x}, {projectile.Position.y}");
 
                     Projectile bullet = projectile.As<Projectile>();
-                    Sound.PlaySFX("Shooter_v2");
+                    switch(type)
+                    {
+                        case HeroType.SHOOTER:
+                            bullet.bulletType = BulletType.SHOOTER_BULLET;
+                            break;
+                        case HeroType.MAGE:
+                            bullet.bulletType = BulletType.MAGE_BULLET;
+                            break;
+                    }
+                    Sound.PlaySFX("Shooter_Shooting");
                     if (bullet != null)
                     {
                         bullet.targetMouse = targetMouse;
-                        
+
                         bullet.SetUp(targetMouse);
+
+                        if (mana > 0)
+                        {
+                            mana--;
+                        }
                     }
                 }
             }
         }
 
-        // TODO: This should be done in the update loop when shooting
-        // it should call shoot anim when shooting and idle at the end of shooting animation
-        // either do it by animation state or get the time of the animation and change when ending
-        public void ToggleShooting()
+        public void HealAmmo()
         {
-            //check if the npc is already shooting
-            isShooting = true;
-           // ChangeAnim(shootAnim);
-            
-        }
-
-        public void ToggleIdle()
-        {
-            //check if the npc is already idle
-            isShooting = false;
-           // ChangeAnim(idleAnim);
+            mana = 5;
+            CMConsole.Log("Restocking Ammo");
+            GetComponent<StateMachine>().SetStateCondition(1);
         }
 
         public void OnStateEnter(string stateName)
@@ -111,6 +127,11 @@ namespace Carmicah
                 shot = false;
                 CMConsole.Log($"Max Anim Time : {animationTime}");
 
+            }
+            else if (stateName == "NoMana")
+            {
+                ChangeAnim(manaAnim);
+                CMConsole.Log("Out of Ammo!");
             }
 
 
@@ -144,7 +165,20 @@ namespace Carmicah
                     CMConsole.Log($"Target mouse : {targetMouse.mID}");
 
                     // change to attacking state
-                    GetComponent<StateMachine>().SetStateCondition(2);
+                    if(mana > 0)
+                    {
+                        //CMConsole.Log("Trying to attack!");
+                        GetComponent<StateMachine>().SetStateCondition(2);
+                    }
+                    else
+                    {
+                        GetComponent<StateMachine>().SetStateCondition(3);
+                    }
+                }
+
+                if(mana == 0)
+                {
+                    GetComponent<StateMachine>().SetStateCondition(3);
                 }
             }
             else if (stateName == "Attacking")
@@ -170,6 +204,15 @@ namespace Carmicah
 
                 }
             }
+            else if (stateName == "NoMana")
+            {
+                //TODO: Implement Logic with MC
+                if(Input.IsMousePressed(MouseButtons.MOUSE_BUTTON_LEFT) && hovering)
+                {
+                    CMConsole.Log("MC Should try to heal " + mID.ToString());
+                    player.HealAI(mID);
+                }
+            }
 
         }
 
@@ -178,6 +221,24 @@ namespace Carmicah
             //CMConsole.Log("TESTING Exit State");
             //CMConsole.Log($"Exit State Name: {stateName}");
 
+        }
+
+
+        public void OnMouseEnter()
+        {
+            //CMConsole.Log("Hovering!");
+            hovering = true;
+        }
+
+        public void OnMouseHover()
+        {
+            //CMConsole.Log("Hovering!");
+            hovering = true;
+        }
+
+        public void OnMouseExit()
+        {
+            hovering = false;
         }
     }
 }

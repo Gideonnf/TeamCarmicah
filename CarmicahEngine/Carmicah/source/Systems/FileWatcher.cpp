@@ -86,7 +86,7 @@ namespace Carmicah
 				it = fileMap.erase(it);
 				//Erase from the respective assetMap too
 
-				AssetManager::GetInstance()->RemoveAsset(filePath);
+				AssetManager::GetInstance()->RemoveFromAssetManager(filePath);
 				break;
 			}
 			else if (it->second.fileStatus != FILE_OK)

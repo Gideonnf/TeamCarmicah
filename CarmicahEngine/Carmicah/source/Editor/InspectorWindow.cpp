@@ -232,7 +232,7 @@ namespace Carmicah
 				if (ImGui::DragFloat("##xPos", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
 					selectedTransform.PosX(tempValue);
-					if (selectedTransform.parent != 0)
+					if (selectedTransform.ParentID() != 0)
 					{
 						//Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
 
@@ -253,7 +253,7 @@ namespace Carmicah
 				if (ImGui::DragFloat("##yPos", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
 					selectedTransform.PosY(tempValue);
-					if (selectedTransform.parent != 0)
+					if (selectedTransform.ParentID() != 0)
 					{
 						//Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
 						//CM_CORE_INFO("Parent World X : " + std::to_string(parentTransform.worldSpace.m20) + ", Parent World Y : " + std::to_string(parentTransform.worldSpace.m21));
@@ -577,6 +577,7 @@ namespace Carmicah
 				ImGui::SameLine();
 				if (ImGui::Button("v##textureSelect"))
 				{
+					ImGui::SetNextWindowSizeConstraints(ImVec2(0, 0), ImVec2(400, 400));
 					ImGui::OpenPopup("Texture Select");
 				}
 				ImGui::TableNextColumn();
@@ -594,17 +595,39 @@ namespace Carmicah
 				ImGui::SetNextWindowSize(ImVec2(300, 500));
 				if (ImGui::BeginPopup("Texture Select"))
 				{
+					static char buffer[256];
+					static std::string searchPrompt;
+					ImGui::Text("Search:");
+					ImGui::SameLine();
+					if (ImGui::InputText("##TextureSearch", buffer, sizeof(buffer)))
+					{
+						searchPrompt = buffer;
+					}
+
 					for (const auto& entry : textureMap->mAssetMap)
 					{
-						if (entry.first.empty()) continue; // TODO: Find out why "" is being added to asset map
-						if (entry.first.find("SpriteSheet") != std::string::npos)
+						if (entry.first.empty()) {}
+						else
 						{
-							continue;
-						}
-						if (ImGui::Button(entry.first.c_str()))
-						{
-							render.Texture(entry.first);
-							ImGui::CloseCurrentPopup();
+							if(searchPrompt.empty())
+							{
+								if (ImGui::Button(entry.first.c_str()))
+								{
+									render.Texture(entry.first);
+									ImGui::CloseCurrentPopup();
+								}
+							}
+							else
+							{
+								if (entry.first.find(searchPrompt) != std::string::npos)
+								{
+									if (ImGui::Button(entry.first.c_str()))
+									{
+										render.Texture(entry.first);
+										ImGui::CloseCurrentPopup();
+									}
+								}
+							}
 						}
 					}
 					ImGui::EndPopup();
@@ -664,20 +687,46 @@ namespace Carmicah
 				ImGui::SameLine();
 				if (ImGui::Button("v##"))
 				{
+					ImGui::SetNextWindowSizeConstraints(ImVec2(0, 0), ImVec2(400, 400));
 					ImGui::OpenPopup("Animation Select");
 				}
 
+				
 				if (ImGui::BeginPopup("Animation Select"))
 				{
+					static char buffer[256] = "";
+					static std::string searchPrompt;
+					ImGui::Text("Search:");
+					ImGui::SameLine();
+					if (ImGui::InputText("##animSelect", buffer, sizeof(buffer)))
+					{
+						searchPrompt = buffer;
+					}
+					
+
 					for (const auto& entry : animMap->mAssetMap)
 					{
 						if(entry.first.empty()){}
 						else
 						{
-							if (ImGui::Button(entry.first.c_str()))
+							if(searchPrompt.empty())
 							{
-								anim.ChangeAnim(entry.first);
-								ImGui::CloseCurrentPopup();
+								if (ImGui::Button(entry.first.c_str()))
+								{
+									anim.ChangeAnim(entry.first);
+									ImGui::CloseCurrentPopup();
+								}
+							}
+							else
+							{
+								if (entry.first.find(searchPrompt) != std::string::npos)
+								{
+									if (ImGui::Button(entry.first.c_str()))
+									{
+										anim.ChangeAnim(entry.first);
+										ImGui::CloseCurrentPopup();
+									}
+								}
 							}
 						}
 
@@ -685,11 +734,11 @@ namespace Carmicah
 					ImGui::EndPopup();
 				}
 
-				/*ImGui::TableNextRow();
+				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
-				ImGui::Text("MaxTime");
+				ImGui::Text("Speed Modifier");
 				ImGui::TableNextColumn();
-				ImGui::DragFloat("##MaxTime", &anim.maxTime, 0.05f, -FLT_MAX, FLT_MAX, "%.3f");*/
+				ImGui::DragFloat("##AnimSpeed", &anim.speed, 0.05f, 0.01f, FLT_MAX, "%.3f");
 				ImGui::EndTable();
 			}
 		}
@@ -1018,6 +1067,10 @@ namespace Carmicah
 				{
 					for (const auto& entry : fontMap->mAssetMap)
 					{
+						if (entry.first.empty())
+						{
+							continue;
+						}
 						if (ImGui::Button(entry.first.c_str()))
 						{
 							text.font = entry.first;
@@ -1072,28 +1125,6 @@ namespace Carmicah
 			}
 			if (ImGui::BeginTable("Button Table", 2, ImGuiTableFlags_Borders))
 			{
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("Pressed Image");
-				ImGui::SameLine();
-				if (ImGui::Button("v#####"))
-				{
-					ImGui::OpenPopup("Pressed Image Select");
-				}
-				ImGui::TableNextColumn();
-				ImGui::Text(butt.ButtonImagePressed.c_str());
-				if (ImGui::BeginPopup("Pressed Image Select"))
-				{
-					for (const auto& entry : textureMap->mAssetMap)
-					{
-						if (ImGui::Button(entry.first.c_str()))
-						{
-							butt.ButtonImagePressed = entry.first;
-							ImGui::CloseCurrentPopup();
-						}
-					}
-					ImGui::EndPopup();
-				}
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
 				ImGui::Text("isPressed = %s", butt.isPressed ? "true" : "false");
@@ -1162,6 +1193,15 @@ namespace Carmicah
 							if (ImGui::InputText(it.second.mName.c_str(), buffer, sizeof(buffer)))
 							{
 								scriptRef->SetFieldValue<std::string>(it.second.mName, buffer);
+								gScriptSystem->UpdateScriptComponent(id);
+							}
+						}
+						else if (it.second.mType == ScriptFieldType::Int)
+						{
+							int data = scriptRef->GetFieldValue<int>(it.second.mName);
+							if (ImGui::DragInt(it.second.mName.c_str(), &data))
+							{
+								scriptRef->SetFieldValue(it.second.mName, data);
 								gScriptSystem->UpdateScriptComponent(id);
 							}
 						}

@@ -109,7 +109,7 @@ namespace Carmicah
 			}
 			else
 			{
-				RenderHelper::GetInstance()->mFontUniforms[entity].offset = UITrans.Pos();
+				RenderHelper::GetInstance()->mFontUniforms[entity].offset = UITrans.ExtractWorldPos();
 				RenderHelper::GetInstance()->mFontUniforms[entity].scale = UITrans.Scale();
 				RenderHelper::GetInstance()->mFontUniforms[entity].SetColor(txtRenderer.colorR, txtRenderer.colorG, txtRenderer.colorB);
 			}

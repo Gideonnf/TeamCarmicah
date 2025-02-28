@@ -1,61 +1,72 @@
 {
-  "Scene": "DefaultScene",
-  "SceneObjects": [
-    {
-      "GameObject": "MainCamera",
-      "ID": 1,
-      "Components": [
+    "Scene": "DefaultScene",
+    "SceneObjects": [
         {
-          "Component Name": "struct Carmicah::Transform",
-          "xPos": 0.0,
-          "yPos": 0.0,
-          "depth": 0.0,
-          "xScale": 0.053,
-          "yScale": 0.1,
-          "rot": 0.0
-        }
-      ],
-      "Children": []
-    },
-    {
-        "GameObject": "PortalTop",
-        "ID": 8,
-        "Components": [
-            {
-                "Component Name": "struct Carmicah::Transform",
-                "xPos": -5.659003257751465,
-                "yPos": -21.167631149291993,
-                "depth": 1.2000000476837159,
-                "xScale": 1.0,
-                "yScale": 1.0,
-                "rot": 0.0,
-                "transformTag": "",
-                "collisionMask": 1
-            },
-            {
-                "Component Name": "struct Carmicah::Renderer",
-                "model": "Square",
-                "texture": "Portal_SpriteSheet_Top 0",
-                "colR": 1.0,
-                "colG": 1.0,
-                "colB": 1.0,
-                "colA": 1.0
-            },
-            {
-                "Component Name": "struct Carmicah::Animation",
-                "Atlas": "PortalTop"
-            }
-        ],
-        "Children": [
-        {
-            "GameObject": "PortalBottom",
-            "ID": 9,
+            "GameObject": "MainCamera",
+            "ID": 1,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.0,
-                    "yPos": -2.5627124309539797,
-                    "depth": 6.5,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 0.05299999937415123,
+                    "yScale": 0.10000000149011612,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "Countdown",
+            "ID": 5,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 500.0,
+                    "yPos": 800.0,
+                    "depth": 18.5,
+                    "xScale": 7.5,
+                    "yScale": 7.75,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.Countdown",
+                    "ScriptableFieldMap": [
+                        {
+                            "bounceDuration": 0.5,
+                            "bounceScale": 1.5,
+                            "currentIndex": 0,
+                            "durationPerText": 1.0,
+                            "timer": 0.0
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Sigmar-Regular",
+                    "text": "",
+                    "colorR": 0.0,
+                    "colorG": 0.0,
+                    "colorB": 0.0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "PortalTop",
+            "ID": 8,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": -5.659003257751465,
+                    "yPos": -21.167631149291993,
+                    "depth": 1.2000000476837159,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,
@@ -65,7 +76,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Portal_SpriteSheet_Bottom 0",
+                    "texture": "Portal_SpriteSheet_Top 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -73,14 +84,44 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "PortalBot"
+                    "Atlas": "PortalTop"
                 }
             ],
-            "Children": []
-        }
-        ]
-    },
-            {
+            "Children": [
+                {
+                    "GameObject": "PortalBottom",
+                    "ID": 9,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 0.0,
+                            "yPos": -2.5627124309539797,
+                            "depth": 6.5,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Portal_SpriteSheet_Bottom 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Animation",
+                            "Atlas": "PortalBot"
+                        }
+                    ],
+                    "Children": []
+                }
+            ]
+        },
+        {
             "GameObject": "PortalTop_1",
             "ID": 19,
             "Components": [
@@ -150,6 +191,47 @@
                     "Children": []
                 }
             ]
+        },
+        {
+            "GameObject": "Countdown_1",
+            "ID": 45,
+            "Components": [
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.Countdown",
+                    "ScriptableFieldMap": [
+                        {
+                            "bounceDuration": 0.5,
+                            "bounceScale": 1.5,
+                            "currentIndex": 0,
+                            "durationPerText": 1.0,
+                            "timer": 0.0
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 3
+                },
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Sigmar-Regular",
+                    "text": "",
+                    "colorR": 0.0,
+                    "colorG": 0.0,
+                    "colorB": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 500.0,
+                    "yPos": 800.0,
+                    "depth": 4.449999809265137,
+                    "xScale": 5.25,
+                    "yScale": 5.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
         }
-  ]
+    ]
 }

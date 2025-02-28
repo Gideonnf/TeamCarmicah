@@ -70,6 +70,7 @@ namespace Carmicah
 		std::string currState;
 		std::string nextState;
 		std::string startingState;
+		bool fsmInit = false;
 		std::unordered_map<std::string, State> stateMap;
 
 		float stateTimer;

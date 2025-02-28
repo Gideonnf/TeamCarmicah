@@ -422,6 +422,11 @@ namespace Carmicah
                     std::string var = scriptRef->GetFieldValue<std::string>(it.second.mName);
                     scriptComponent.scriptableFieldMap[it.first] = var;
                 }
+                else if (it.second.mType == ScriptFieldType::Int)
+                {
+                    int var = scriptRef->GetFieldValue<int>(it.second.mName);
+                    scriptComponent.scriptableFieldMap[it.first] = var;
+                }
             }
         }
     }
@@ -446,6 +451,11 @@ namespace Carmicah
             else if (it.second.mType == ScriptFieldType::String)
             {
                 std::string var{};
+                scriptComponent.scriptableFieldMap[it.first] = var;
+            }
+            else if (it.second.mType == ScriptFieldType::Int)
+            {
+                int var{};
                 scriptComponent.scriptableFieldMap[it.first] = var;
             }
         }
@@ -607,12 +617,12 @@ namespace Carmicah
         // Button entity was clicked
         if (msg->mMsgType == MSG_ONCLICK)
         {
-            auto castedMsg = dynamic_cast<OnClickMsg*>(msg);
+            auto castedMsg = dynamic_cast<OnMouseMsg*>(msg);
 
             // If it has a script instance
-            if (mEntityInstances.count(castedMsg->buttonEntity))
+            if (mEntityInstances.count(castedMsg->entity))
             {
-                mEntityInstances[castedMsg->buttonEntity]->InvokeOnClick();
+                mEntityInstances[castedMsg->entity]->InvokeOnClick();
             }
         }
         else if (msg->mMsgType == MSG_ENTITYCOLLIDED)
@@ -637,7 +647,7 @@ namespace Carmicah
             {
                 if (mEntityInstances.count(castedMsg->mEntityID))
                 {
-                    mEntityInstances[castedMsg->mEntityID]->InvokeOnTriggerStay();
+                    mEntityInstances[castedMsg->mEntityID]->InvokeOnTriggerStay(castedMsg->mCollidedEntity);
                 }
 
             }

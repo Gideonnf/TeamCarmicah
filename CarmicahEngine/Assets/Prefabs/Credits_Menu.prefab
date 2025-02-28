@@ -5,7 +5,11 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "credits_panel_2"
+            "texture": "credits_panel_2",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         },
         {
             "Component Name": "struct Carmicah::UITransform",
@@ -14,7 +18,8 @@
             "depth": 14.0,
             "xScale": 1.0,
             "yScale": 1.0,
-            "rot": 0.0
+            "rot": 0.0,
+            "transformTag": ""
         }
     ]
 }
