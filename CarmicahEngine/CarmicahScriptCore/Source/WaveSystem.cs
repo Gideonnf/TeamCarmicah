@@ -11,6 +11,7 @@ namespace Carmicah
         public float waveSetupTime = 20.0f;
         public float waveStartTime = 20.0f;
         public float waveTimer = 0.0f;
+        public float countdownStartTime = 4.0f;
 
         public bool waveStart = false;
 
@@ -21,9 +22,11 @@ namespace Carmicah
 
         public string winPrefab = "Win_Screen";
         public string losePrefab = "LoseScreen";
+        public string countdownPrefab = "Countdown_1";
 
         Entity gameManager;
         Entity winScreen;
+        Entity countdown;
 
 
 
@@ -43,6 +46,14 @@ namespace Carmicah
                 waveTimer += dt;
 
             }
+
+            if (waveStart == false && (waveSetupTime - waveTimer) <= countdownStartTime)
+            {
+                if (countdown == null)
+                {
+                    countdown = CreateGameObject(countdownPrefab);
+                }
+            }
             // Initial wave start
             //CMConsole.Log("Test");
 
@@ -60,6 +71,13 @@ namespace Carmicah
                 waveTimer = 0.0f;
                 Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
                 Sound.PlayBGM("BGM_LevelMusic_FullTrack_Vers1", 0.4f);
+
+                if (countdown != null)
+                {
+                    countdown.Destroy();
+
+                }
+
             }
             // CMConsole.Log("Test1");
 

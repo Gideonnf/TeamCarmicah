@@ -3,6 +3,24 @@
     "ID": 3,
     "Components": [
         {
+            "Component Name": "struct Carmicah::UITransform",
+            "xPos": 750.0,
+            "yPos": 450.0,
+            "depth": 4.449999809265137,
+            "xScale": 5.25,
+            "yScale": 5.0,
+            "rot": 0.0,
+            "transformTag": ""
+        },
+        {
+            "Component Name": "struct Carmicah::TextRenderer",
+            "font": "Sigmar-Regular",
+            "text": "test",
+            "colorR": 0.19117647409439088,
+            "colorG": 1.0,
+            "colorB": 0.9286331534385681
+        },
+        {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.Countdown",
             "ScriptableFieldMap": [
@@ -14,24 +32,6 @@
                     "timer": 0.0
                 }
             ]
-        },
-        {
-            "Component Name": "struct Carmicah::TextRenderer",
-            "font": "Sigmar-Regular",
-            "text": "",
-            "colorR": 0.0,
-            "colorG": 0.0,
-            "colorB": 0.0
-        },
-        {
-            "Component Name": "struct Carmicah::UITransform",
-            "xPos": 500.0,
-            "yPos": 800.0,
-            "depth": 4.449999809265137,
-            "xScale": 5.25,
-            "yScale": 5.0,
-            "rot": 0.0,
-            "transformTag": ""
         }
     ]
 }
