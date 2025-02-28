@@ -77,16 +77,16 @@ namespace Carmicah
 
         void DisplayText()
         {
-            if (currentIndex < countdownTexts.Length)
+            if (currentIndex <= countdownTexts.Length)
             {
                 GetComponent<TextRenderer>().SetText(countdownTexts[currentIndex]); // iterate through the string array
                 Scale = new Vector2(originalScale.x * 0.5f, originalScale.y * 0.5f); // start small
                 timer = 0.0f; // just follow rainne's code
             }
-            else
-            {
-                Scene.ChangeScene("GameStart"); // move to next scene after countdown
-            }
+            //else
+            //{
+            //    Scene.ChangeScene("GameStart"); // move to next scene after countdown
+            //}
         }
 
         void OnUpdate(float dt)
