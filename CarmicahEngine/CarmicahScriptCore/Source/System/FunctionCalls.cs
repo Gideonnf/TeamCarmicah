@@ -38,6 +38,12 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Transform_SetDepth(uint entityID, ref float depth);
+        
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Transform_GetRot(uint entityID, out float rot);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Transform_SetRot(uint entityID, ref float rot);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static uint Entity_FindEntityWithName(string name);

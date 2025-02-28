@@ -391,7 +391,7 @@ namespace Carmicah
 
 	static bool IsMouseReleased(MouseButtons button)
 	{
-		//if (Input.IsMouseReleased(button))
+		//if (Input.IsMouseReleased(De))
 		//{
 		//	CM_CORE_INFO("LEFT MOUSE BUTTON RELEASE");
 		//}
@@ -508,6 +508,26 @@ namespace Carmicah
 			go.GetComponent<Transform>().Depth(*inFloat);
 		else if (go.HasComponent<UITransform>())
 			go.GetComponent<UITransform>().Depth(*inFloat);
+	}
+
+	static void Transform_GetRot(unsigned int entityID, float* outFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Transform>())
+			*outFloat = go.GetComponent<Transform>().GetRot();
+		else if (go.HasComponent<UITransform>())
+			*outFloat = go.GetComponent<UITransform>().GetRot();
+		else
+			*outFloat = 0.0f;
+	}
+
+	static void Transform_SetRot(unsigned int entityID, float* inFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Transform>())
+			go.GetComponent<Transform>().Rot(*inFloat);
+		else if (go.HasComponent<UITransform>())
+			go.GetComponent<UITransform>().Rot(*inFloat);
 	}
 
 	static void GetRedColour(unsigned int entityID, float* outFloat)

@@ -105,6 +105,19 @@ namespace Carmicah
             }
         }
 
+        public float Rot
+        {
+            get
+            {
+                FunctionCalls.Transform_GetRot(mID, out float rot);
+                return rot;
+            }
+            set
+            {
+                FunctionCalls.Transform_SetRot(mID, ref value);
+            }
+        }
+
         public bool HasComponent<T>() where T : Component, new()
         {
             Type componentType = typeof(T);
