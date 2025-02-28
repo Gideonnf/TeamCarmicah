@@ -30,16 +30,29 @@ namespace Carmicah
 
         float rot;
         float depth{};
+        Entity parent{}; // Hold 0 if no parent
+        unsigned int grandChildLvl{};
 
         bool notUpdated{};
 
     public:
         std::string transformTag;
-        unsigned int grandChildLvl{};
-        Entity parent; // Hold 0 if no parent
         std::vector<Entity> children;
 
+        Matrix3x3<float> worldSpace;
+        Matrix3x3<float> rotTrans;
+        // So there's 3 scales
+        // Scale()          -> the scale you see in the editor
+        // InternalScale    -> the scale needed for graphics calc
+        // accumulatedScale -> the scale that is the combination of parents and itself
+        Vector2D<float> accumulatedScale = Vector2D<float>::one();
+
 #pragma region Getter Setters
+        Vec2f ExtractWorldPos()
+        {
+            return Vec2f(rotTrans.m[6], rotTrans.m[7]);
+        }
+
         const Vec2f& Pos() const
         {
             return pos;
@@ -152,6 +165,22 @@ namespace Carmicah
         {
             Rot(rot + rhs);
         }
+        void SetParent(const Entity& parentID, const unsigned int& parentGrandChildLevel)
+        {
+            parent = parentID;
+            if (parentID == 0)
+                grandChildLvl = 0;
+            else
+                grandChildLvl = parentGrandChildLevel + 1;
+        }
+        const Entity& ParentID()
+        {
+            return parent;
+        }
+        const unsigned int& GrandChildLevel()
+        {
+            return grandChildLvl;
+        }
         bool Updated()
         {
             return !notUpdated;
@@ -175,7 +204,7 @@ namespace Carmicah
             scale.x = static_cast<float>(component["xScale"].GetDouble());
             scale.y = static_cast<float>(component["yScale"].GetDouble());
             rot = static_cast<float>(component["rot"].GetDouble());
-            notUpdated = true;
+            notUpdated = false;
             DESERIALIZE_IF_HAVE(transformTag, component, "transformTag", GetString, std::string);
         }
 

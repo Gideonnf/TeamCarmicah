@@ -38,6 +38,7 @@ namespace Carmicah
         mCategoryVolumes[SoundCategory::VOICE] = 1.0f;
         mCategoryVolumes[SoundCategory::AMBIENT] = 1.0f;
         mCategoryVolumes[SoundCategory::UI] = 1.0f;
+        mCategoryVolumes[SoundCategory::EDITOR] = 1.0f;
     }
 
     void SoundSystem::Init()

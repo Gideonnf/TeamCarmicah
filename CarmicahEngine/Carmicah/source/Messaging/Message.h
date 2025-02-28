@@ -46,6 +46,14 @@ namespace Carmicah
 		MSG_EXITSTATE
 	};
 
+	enum CollideType
+	{
+		TRIGGER_ENTER,
+		TRIGGER_STAY,
+		TRIGGER_EXIT,
+		ON_COLLIDE
+	};
+
 	namespace
 	{
 		// Keep track of how many messages has been sent around since system start
@@ -97,7 +105,8 @@ namespace Carmicah
 	public:
 		Entity mEntityID;
 		Entity mCollidedEntity;
-		EntityCollidedMessage(Entity id, Entity collidedEntity) : Message(MSG_ENTITYCOLLIDED), mEntityID(id), mCollidedEntity (collidedEntity) {}
+		CollideType mCollidedType;
+		EntityCollidedMessage(Entity id, Entity collidedEntity = 0, CollideType CollidedType = CollideType::ON_COLLIDE) : Message(MSG_ENTITYCOLLIDED), mEntityID(id), mCollidedEntity (collidedEntity), mCollidedType(CollidedType) {}
 	};
 
 	class EditorEntityPicked : public Message
@@ -156,13 +165,6 @@ namespace Carmicah
 	public:
 		Entity goEntity;
 		NewPrefabMsg(Entity go) : Message(MSG_NEWPREFAB), goEntity(go) {}
-	};
-
-	class OnClickMsg : public Message
-	{
-	public:
-		Entity buttonEntity;
-		OnClickMsg(Entity go) : Message(MSG_ONCLICK), buttonEntity(go) {}
 	};
 
 	class OnMouseMsg : public Message

@@ -40,7 +40,7 @@ namespace Carmicah
             }
         }
 
-        void Pause()
+        public void Pause()
         {
             IsPaused = true;
             PauseMenuEntity = CreateGameObject(PauseMenu);

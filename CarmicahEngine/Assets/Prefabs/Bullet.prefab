@@ -14,6 +14,46 @@
             "collisionMask": 16
         },
         {
+            "Component Name": "struct Carmicah::StateMachine",
+            "currState": "",
+            "nextState": "",
+            "startingState": "Alive",
+            "stateMap": [
+                {
+                    "stateName": "Dead",
+                    "stateCondition": 0,
+                    "transitions": []
+                },
+                {
+                    "stateName": "Alive",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Dead",
+                            "condition": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Shooter_Projectile",
+            "AnimSpeed": 1.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.Projectile",
+            "ScriptableFieldMap": [
+                {
+                    "BulletAnim": "Shooter_Projectile",
+                    "BulletImpactAnim": "",
+                    "LifeTime": 10.0,
+                    "Speed": 2.0
+                }
+            ]
+        },
+        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "Projectile_SpriteSheet_Shooter 0",
@@ -21,17 +61,6 @@
             "colG": 1.0,
             "colB": 1.0,
             "colA": 1.0
-        },
-        {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.Projectile",
-            "ScriptableFieldMap": [
-                {
-                    "BulletAnim": "",
-                    "LifeTime": 10.0,
-                    "Speed": 2.0
-                }
-            ]
         },
         {
             "Component Name": "struct Carmicah::Collider2D",
@@ -50,33 +79,7 @@
             "mass": 1.0,
             "gravity": 0.0,
             "zposPrev": -1.0,
-            "objectType": 1
-        },
-        {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Shooter_Projectile"
-        },
-        {
-            "Component Name": "struct Carmicah::StateMachine",
-            "currState": "Attacking",
-            "nextState": "",
-            "startingState": "",
-            "stateMap": [
-                {
-                    "stateName": "bulletIdle",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Explode",
-                            "condition": 1
-                        },
-                        {
-                            "targetState": "Dead",
-                            "condition": 2
-                        }
-                    ]
-                }
-            ]
+            "objectType": 2
         }
     ]
 }

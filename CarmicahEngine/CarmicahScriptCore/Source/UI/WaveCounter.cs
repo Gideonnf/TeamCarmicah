@@ -23,7 +23,7 @@ namespace CarmicahScript
         {
             if (!IsTimer)
             {
-                string text = waveSystem.As<WaveSystem>().waveCounter.ToString() + "/ 5";
+                string text = "/ 5";
                 GetComponent<TextRenderer>().SetText(text);
             }
             else

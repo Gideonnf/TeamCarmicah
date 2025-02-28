@@ -71,6 +71,7 @@ namespace Carmicah
                 if (ImGui::Button("Stop"))
                 {
                     mIsPlaying = !mIsPlaying;
+                    mIsPaused = false;
                     mChangeState = true;
                 }
             }

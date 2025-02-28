@@ -61,7 +61,10 @@ namespace Carmicah
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
 
-		*outScale = go.GetComponent<Transform>().Scale();
+		if (go.HasComponent<Transform>())
+			*outScale = go.GetComponent<Transform>().Scale();
+		else if (go.HasComponent<UITransform>())
+			*outScale = go.GetComponent<UITransform>().Scale();
 	}
 
 	/// <summary>
@@ -73,7 +76,10 @@ namespace Carmicah
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
 
-		go.GetComponent<Transform>().Scale(*inScale);
+		if (go.HasComponent<Transform>())
+			go.GetComponent<Transform>().Scale(*inScale);
+		else if (go.HasComponent<UITransform>())
+			go.GetComponent<UITransform>().Scale(*inScale);
 	}
 	
 	/// <summary>
@@ -134,11 +140,11 @@ namespace Carmicah
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		if (go.HasComponent<Transform>())
 		{
-			return go.GetComponent<Transform>().parent;
+			return go.GetComponent<Transform>().ParentID();
 		}
 		else if (go.HasComponent<UITransform>())
 		{
-			return go.GetComponent<UITransform>().parent;
+			return go.GetComponent<UITransform>().ParentID();
 		}
 
 		return 0;
@@ -264,8 +270,6 @@ namespace Carmicah
 		if (go.HasComponent<Transform>())
 		{
 			*outPos = go.GetComponent<Transform>().Pos();
-
-			//
 		}
 		else if (go.HasComponent<UITransform>())
 		{
@@ -293,18 +297,21 @@ namespace Carmicah
 		if (go.HasComponent<Transform>())
 		{
 			*outPos = go.GetComponent<Transform>().Pos();
-			// If it has a parent
-			if (go.GetComponent<Transform>().parent != 0)
+			if (go.GetComponent<Transform>().ParentID() != 0)
 			{
-				Transform parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(go.GetComponent<Transform>().parent);
-				*outPos += parentTransform.Pos();
-
+				//Transform parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(go.GetComponent<Transform>().parent);
+				//*outPos += parentTransform.Pos();
+				
 			}
+			*outPos = go.GetComponent<Transform>().ExtractWorldPos();
+			//CM_CORE_INFO("outPos {}, {}", outPos->x, outPos->y);
+			//CM_CORE_INFO("worldPos {}, {}", go.GetComponent<Transform>().ExtractWorldPos().x, go.GetComponent<Transform>().ExtractWorldPos().y);
 		}
 		else if (go.HasComponent<UITransform>())
 		{
 			
-			*outPos = go.GetComponent<UITransform>().Pos();
+			//*outPos = go.GetComponent<UITransform>().Pos();
+			*outPos = go.GetComponent<UITransform>().ExtractWorldPos();
 
 		/*	if (entityID == 29)
 				CM_CORE_INFO("{}, {}", outPos->x, outPos->y);*/
@@ -494,10 +501,12 @@ namespace Carmicah
 	static void Transform_GetDepth(unsigned int entityID, float* outFloat)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
-		if (!go.HasComponent<Transform>())
-			*outFloat = 0.0f;
-		else
+		if (go.HasComponent<Transform>())
 			*outFloat = go.GetComponent<Transform>().GetDepth();
+		else if(go.HasComponent<UITransform>())
+			*outFloat = go.GetComponent<UITransform>().GetDepth();
+		else
+			*outFloat = 0.0f;
 	}
 
 	static void Transform_SetDepth(unsigned int entityID, float* inFloat)
@@ -505,6 +514,30 @@ namespace Carmicah
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		if (go.HasComponent<Transform>())
 			go.GetComponent<Transform>().Depth(*inFloat);
+		else if (go.HasComponent<UITransform>())
+			go.GetComponent<UITransform>().Depth(*inFloat);
+	}
+
+	static void GetRedColour(unsigned int entityID, float* outFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Renderer>())
+		{
+			*outFloat = go.GetComponent<Renderer>().GetR();
+		}
+		else
+		{
+			*outFloat = 0.0f;
+		}
+	}
+	
+	static void SetRedColour(unsigned int entityID, float* inFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Renderer>())
+		{
+			go.GetComponent<Renderer>().SetR(*inFloat);
+		}
 	}
 
 	static MonoString* Transform_GetTag(unsigned int entityID)
@@ -524,13 +557,22 @@ namespace Carmicah
 		return mono_string_new(mono_domain_get(), ret.c_str());
 	}
 
+	static MonoString* GetFilePath()
+	{
+		/*std::filesystem::path fileDir = AssetManager::GetInstance()->enConfig.assetLoc;*/
+		std::string filePath = (std::filesystem::current_path().parent_path() / "Assets").string();
+		CM_CORE_INFO("File Path {}", filePath);
+		return mono_string_new(mono_domain_get(), filePath.c_str());
+	}
+
 	static void Animation_ChangeAnim(unsigned int entityID, MonoString* string)
 	{
 		std::string cStrName = MonoToString(string);
 		GameObject& go = gGOFactory->FetchGO(entityID);
 		//CM_CORE_INFO("Entity ID in changeAnim: {}", entityID);
 		//go.GetComponent<Animation>().animAtlas = cStr;
-		go.GetComponent<Animation>().ChangeAnim(cStrName);
+		if (go.HasComponent<Animation>())
+			go.GetComponent<Animation>().ChangeAnim(cStrName);
 		//mono_free(cStr);
 	}
 
@@ -745,6 +787,8 @@ namespace Carmicah
 		// renderer functions
 		ADD_INTERNAL_CALL(SetAlpha);
 		ADD_INTERNAL_CALL(SetColour);
+		ADD_INTERNAL_CALL(GetRedColour);
+		ADD_INTERNAL_CALL(SetRedColour);
 
 		// Anim functions
 		ADD_INTERNAL_CALL(Animation_ChangeAnim);
@@ -777,5 +821,7 @@ namespace Carmicah
 
 		// Text Renderer
 		ADD_INTERNAL_CALL(ChangeText);
+
+		ADD_INTERNAL_CALL(GetFilePath);
 	}
 }

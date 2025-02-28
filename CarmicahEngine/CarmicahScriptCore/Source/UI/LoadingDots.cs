@@ -1,9 +1,9 @@
 /* File Documentation ----------------------------------------------------------------------------- 
-file:           LoadingBackground.cs
+file:           LoadingDots.cs
 
-author:		    Nicholas Lai (100%)
+author:		    Rainne Won (100%)
 
-email:			n.lai@digipen.edu
+email:			@digipen.edu
 
 brief:          
 
@@ -111,13 +111,13 @@ namespace Carmicah
                     Text.GetComponent<TextRenderer>().SetText(currText);
                     ++textProgress;
                 }
-                else
-                {
-                    currText = "";
-                    Text.GetComponent<TextRenderer>().SetText(currText);
-                    ++numberOfLoops;
-                    textProgress = 0;
-                }
+                //else
+                //{
+                //    currText = "";
+                //    Text.GetComponent<TextRenderer>().SetText(currText);
+                //    ++numberOfLoops;
+                //    textProgress = 0;
+                //}
                 elapsedTime = 0.0f;
             }
         }

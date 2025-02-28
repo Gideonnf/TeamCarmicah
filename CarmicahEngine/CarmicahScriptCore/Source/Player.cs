@@ -35,6 +35,10 @@ namespace Carmicah
 
         public bool isWalking = true;
         public bool isCreated = false;
+
+        Entity healTarget;
+
+        float healAnimTime;
         
         void OnCreate()
         {
@@ -59,10 +63,11 @@ namespace Carmicah
             }
         }
 
-        void ToggleHeal()
+        public void HealAI(uint id)
         {
-            isWalking = false;
-            ChangeAnim(HealAnim);
+            healTarget = FindEntityWithID(id);
+            CMConsole.Log("Healing " + id.ToString());
+            GetComponent<StateMachine>().SetStateCondition(3);
         }
 
         void OnUpdate(float dt)
@@ -73,18 +78,19 @@ namespace Carmicah
                 if (pauseManager.As<PauseManager>().IsPaused)
                     return;
             }
-            timer += dt;
+            
 
-            if (Input.IsKeyHold(Keys.KEY_W))
+            /*if (Input.IsKeyPressed(Keys.KEY_W))
             {
-                ToggleWalkAnim();
+
+                GetComponent<StateMachine>().SetStateCondition(1);
 
                 PlaySoundEffect("walk2");
                 //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
 
                 GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
             }
-            else if (Input.IsKeyHold(Keys.KEY_A))
+            if (Input.IsKeyHold(Keys.KEY_A))
             {
                 ToggleWalkAnim();
 
@@ -128,12 +134,124 @@ namespace Carmicah
 
                 //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
 
-                GetComponent<RigidBody>().ApplyForce(new Vector2(1,0), 2.0f);
+                GetComponent<RigidBody>().ApplyForce(new Vector2(1, 0), 2.0f);
             }
             else
             {
                 ToggleIdle();
+            }*/
+        }
+
+        public void OnStateEnter(string stateName)
+        {
+            if (stateName == "Idle")
+            {
+                ChangeAnim(IdleAnim);
+                CMConsole.Log("MC IS IDLE YAY");
             }
+
+            else if (stateName == "Walking")
+            {
+                ChangeAnim(WalkAnim);
+            }
+            else if (stateName == "Heal")
+            {
+                ChangeAnim(HealAnim);
+                healAnimTime = GetComponent<Animation>().GetMaxTime();
+                timer = 0.0f;
+                CMConsole.Log("MC HEAL");
+            }
+        }
+
+        public void OnStateUpdate(string stateName, float dt)
+        {
+            if(stateName == "Idle")
+            {
+                if (Input.IsKeyHold(Keys.KEY_W) || Input.IsKeyHold(Keys.KEY_A)|| Input.IsKeyHold(Keys.KEY_S) || Input.IsKeyHold(Keys.KEY_D))
+                {
+                    //CMConsole.Log("Should be changing to Walking State");
+                    isWalking = true;
+                    GetComponent<StateMachine>().SetStateCondition(2);
+
+                    //PlaySoundEffect("walk2");
+                    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+                    //GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
+                }
+            }
+
+            else if (stateName == "Walking")
+            {
+                if (Input.IsKeyHold(Keys.KEY_W))
+                {
+                    PlaySoundEffect("walk2");
+                    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+                    GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
+                }
+                else if (Input.IsKeyHold(Keys.KEY_A))
+                {
+
+                    PlaySoundEffect("walk2");
+
+                    Vector2 scale = Scale;
+                    if (scale.x < 0)
+                    {
+                        scale.x *= -1;
+                    }
+
+                    Scale = scale;
+
+                    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+                    GetComponent<RigidBody>().ApplyForce(new Vector2(-1, 0), 2.0f);
+                }
+                else if (Input.IsKeyHold(Keys.KEY_S))
+                {
+
+                    PlaySoundEffect("walk2");
+
+                    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+                    GetComponent<RigidBody>().ApplyForce(new Vector2(0, -1), 2.0f);
+                }
+                else if (Input.IsKeyHold(Keys.KEY_D))
+                {
+
+                    PlaySoundEffect("walk2");
+
+                    Vector2 scale = Scale;
+                    if (scale.x > 0)
+                    {
+                        scale.x *= -1;
+                    }
+
+                    Scale = scale;
+
+                    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
+
+                    GetComponent<RigidBody>().ApplyForce(new Vector2(1, 0), 2.0f);
+                }
+                else
+                {
+                    GetComponent<StateMachine>().SetStateCondition(1);
+                }
+            }
+            else if (stateName == "Heal")
+            {
+                timer += dt;
+                if(timer > healAnimTime)
+                {
+                    CMConsole.Log("Healing Target!");
+                    healTarget.As<HeroAI>().HealAmmo();
+                    GetComponent<StateMachine>().SetStateCondition(1);
+                }
+            }
+        }
+
+        public void OnStateExit(string stateName)
+        {
+
         }
 
         void PlaySoundEffect(string name)
@@ -155,7 +273,9 @@ namespace Carmicah
                 // game end
                 if (!isCreated)
                 {
-                    CreateGameObject("LosePrefab");
+                    Entity gameManager = FindEntityWithName("GameManager");
+                    gameManager.As<GameManager>().LoseGame();
+                    //CreateGameObject("LosePrefab");
                     isCreated = true;
                 }
             }

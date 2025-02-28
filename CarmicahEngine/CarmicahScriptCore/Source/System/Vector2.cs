@@ -61,5 +61,22 @@ namespace Carmicah
             float dy = other.y - y;
             return (float)Math.Sqrt(dx * dx + dy * dy);
         }
+
+        public static Vector2 lerp(Vector2 end, Vector2 start, float t)
+        {
+            t = Clamp(t);
+            return new Vector2(
+                    end.x + (start.x - end.x) * t,
+                    end.y + (start.y - end.y) * t
+                );
+        }
+
+        private static float Clamp(float value)
+        {
+            if (value < 0) return 0;
+            if (value > 1) return 1;
+
+            return value;
+        }
     }
 }

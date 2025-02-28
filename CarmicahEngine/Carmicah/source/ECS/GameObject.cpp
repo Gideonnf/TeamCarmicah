@@ -90,10 +90,10 @@ namespace Carmicah
 	{
 		
 		// Check if the parent is the same (i.e accidentally dragging it back onto the same parent
-		if (HasComponent<Transform>() && GetComponent<Transform>().parent == parentID)
+		if (HasComponent<Transform>() && GetComponent<Transform>().ParentID() == parentID)
 			return false;
 
-		if (HasComponent<UITransform>() && GetComponent<UITransform>().parent == parentID)
+		if (HasComponent<UITransform>() && GetComponent<UITransform>().ParentID() == parentID)
 			return false;
 
 
@@ -118,7 +118,7 @@ namespace Carmicah
 
 					if (parentGO->HasComponent<Transform>())
 					{
-						Entity parentID = parentGO->GetComponent<Transform>().parent;
+						Entity parentID = parentGO->GetComponent<Transform>().ParentID();
 
 						if (parentID == 0)
 							break;
@@ -134,7 +134,7 @@ namespace Carmicah
 					}
 					else if (parentGO->HasComponent<UITransform>())
 					{
-						Entity parentID = parentGO->GetComponent<UITransform>().parent;
+						Entity parentID = parentGO->GetComponent<UITransform>().ParentID();
 
 						if (parentID == 0)
 						{
@@ -162,20 +162,20 @@ namespace Carmicah
 		}
 		
 		// Check if the parent is the same (i.e accidentally dragging it back onto the same parent)
-		if (HasComponent<Transform>() && GetComponent<Transform>().parent == parentObj.mID)
+		if (HasComponent<Transform>() && GetComponent<Transform>().ParentID() == parentObj.mID)
 			return false;
 
 
-		if (HasComponent<UITransform>() && GetComponent<UITransform>().parent == parentObj.mID)
+		if (HasComponent<UITransform>() && GetComponent<UITransform>().ParentID() == parentObj.mID)
 			return false;
 
 		//Trying to parent the GO into a child object (TODO: Grandchildren and onwards is an issue)
-		if (parentObj.HasComponent<Transform>() && parentObj.GetComponent<Transform>().parent == this->GetID())
+		if (parentObj.HasComponent<Transform>() && parentObj.GetComponent<Transform>().ParentID() == this->GetID())
 		{
 			return false;
 		}
 
-		if (parentObj.HasComponent<UITransform>() && parentObj.GetComponent<UITransform>().parent == this->GetID())
+		if (parentObj.HasComponent<UITransform>() && parentObj.GetComponent<UITransform>().ParentID() == this->GetID())
 		{
 			return false;
 		}

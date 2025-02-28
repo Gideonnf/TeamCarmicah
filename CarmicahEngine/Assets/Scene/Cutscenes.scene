@@ -13,7 +13,59 @@
                     "xScale": 0.05299999937415123,
                     "yScale": 0.10000000149011612,
                     "rot": 0.0,
+                    "transformTag": "",
                     "collisionMask": 1
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "CutsceneText",
+            "ID": 5,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Chewy-Regular",
+                    "text": "",
+                    "colorR": 1.0,
+                    "colorG": 1.0,
+                    "colorB": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 10.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "BlackBG",
+            "ID": 6,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 40.0,
+                    "yScale": 20.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_Black 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 }
             ],
             "Children": []
@@ -38,7 +90,8 @@
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "transformTag": ""
                 }
             ]
         },
@@ -53,8 +106,11 @@
                         {
                             "cutscenePrefab": "CutSceneImage",
                             "panelName": "panel",
+                            "backgroundMusicTrack1": "BGM_SetupPhase_Mix1",
+                            "fadeSpeed": 0.5,
                             "timeToChange": 5.0,
-                            "timer": 0.0
+                            "timer": 0.0,
+                            "backgroundMusicTrack": "Cutscene"
                         }
                     ]
                 },
@@ -65,7 +121,8 @@
                     "depth": 0.0,
                     "xScale": 0.0,
                     "yScale": 0.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "transformTag": ""
                 },
                 {
                     "Component Name": "struct Carmicah::StateMachine",

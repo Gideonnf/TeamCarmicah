@@ -34,6 +34,7 @@ namespace Carmicah
         ANIM_CODE animState = ANIM_CODE::ANIM_CHANGED;
         int currPiece, loopsLeft;
         float time, maxTime;
+        float speed = 1.f;
 
         std::string& AnimAtlas()
         {
@@ -55,6 +56,12 @@ namespace Carmicah
         Animation& DeserializeComponent(const rapidjson::Value& component) override
         {
             animAtlas = component["Atlas"].GetString();
+            if (component.HasMember("AnimSpeed"))
+            {
+                speed = component["AnimSpeed"].GetFloat();
+            }
+            else
+                speed = 1.f;
             return *this;
         }
 
@@ -62,6 +69,8 @@ namespace Carmicah
         {
             writer.String("Atlas");
 			writer.String(animAtlas.c_str());
+            writer.String("AnimSpeed");
+            writer.Double(static_cast<double>(speed));
         }
     };
 }
