@@ -7,8 +7,8 @@
             "xPos": 1.5219999551773072,
             "yPos": -5.711194038391113,
             "depth": 3.75,
-            "xScale": -0.30000001192092898,
-            "yScale": 0.30000001192092898,
+            "xScale": -0.44999998807907107,
+            "yScale": 0.44999998807907107,
             "rot": 0.0,
             "transformTag": "",
             "collisionMask": 0
@@ -18,12 +18,12 @@
             "scriptName": "Carmicah.HeroAI",
             "ScriptableFieldMap": [
                 {
-                    "projectilePrefab": "Bullet",
                     "IsLeft": false,
-                    "lane": 0,
+                    "projectilePrefab": "Bullet",
                     "active": false,
-                    "mana": 5,
+                    "lane": 0,
                     "idleAnim": "Shooter_Idle",
+                    "mana": 5,
                     "manaAnim": "Shooter_Idle",
                     "shootAnim": "Shooter_Shoot",
                     "shootRate": 1.0,
@@ -47,6 +47,16 @@
             "startingState": "Idle",
             "stateMap": [
                 {
+                    "stateName": "Attacking",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
+                        }
+                    ]
+                },
+                {
                     "stateName": "Idle",
                     "stateCondition": 0,
                     "transitions": [
@@ -57,16 +67,6 @@
                         {
                             "targetState": "NoMana",
                             "condition": 3
-                        }
-                    ]
-                },
-                {
-                    "stateName": "Attacking",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Idle",
-                            "condition": 1
                         }
                     ]
                 },

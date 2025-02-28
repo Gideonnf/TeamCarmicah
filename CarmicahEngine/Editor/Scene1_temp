@@ -434,14 +434,14 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "StartingCake": "StartingCake",
-                            "MousePrefabName": "MouseGONew",
-                            "waveTimer": 0.0,
-                            "GameOver": false,
                             "LeftOrRight": false,
-                            "WaveStarted": false,
-                            "CakeHeightOffset": 11.600000381469727,
+                            "GameOver": false,
+                            "waveTimer": 0.0,
+                            "MousePrefabName": "MouseGONew",
+                            "StartingCake": "StartingCake",
                             "spawnTimer": 1.5,
+                            "CakeHeightOffset": 11.600000381469727,
+                            "WaveStarted": false,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
                             "PlayerName": "mainCharacter",
@@ -508,14 +508,12 @@
                             "waveStartTime": 21.0,
                             "waveTimer": 0.0,
                             "startNewWave": true,
-                            "waveStart": false,
-                            "waveSetupTime": 18.0,
                             "waveCounter": 0,
+                            "waveSetupTime": 18.0,
+                            "waveStart": false,
                             "mobCounter": 0,
                             "losePrefab": "LoseScreen",
-                            "winPrefab": "Win_Screen",
-                            "countdownPrefab": "Countdown_1",
-                            "countdownStartTime": 5.0
+                            "winPrefab": "Win_Screen"
                         }
                     ]
                 }
@@ -724,8 +722,8 @@
                     "xPos": 0.1544017195701599,
                     "yPos": 3.6750621795654299,
                     "depth": 4.0,
-                    "xScale": 0.699999988079071,
-                    "yScale": 0.699999988079071,
+                    "xScale": 0.4000000059604645,
+                    "yScale": 0.4000000059604645,
                     "rot": 0.0,
                     "transformTag": "",
                     "collisionMask": 2
@@ -742,9 +740,9 @@
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "DebugSquare",
-                    "customWidth": 0.5,
+                    "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 0.5
+                    "customHeight": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1349,14 +1347,14 @@
                     "scriptName": "Carmicah.TrapIcon",
                     "ScriptableFieldMap": [
                         {
-                            "trapPrefab": "FakeCandyConeTrap",
-                            "cooldown": false,
                             "TrapBuild2": "TrapBuild_2",
+                            "cooldown": false,
+                            "trapPrefab": "FakeCandyConeTrap",
                             "trapOffset": 1.600000023841858,
-                            "WaveSystemObject": "Something",
                             "TrapBuild": "TrapBuild",
-                            "cooldownTime": 3.0,
+                            "WaveSystemObject": "Something",
                             "TrapBuild1": "TrapBuild_1",
+                            "cooldownTime": 3.0,
                             "TrapBuild3": "TrapBuild_3",
                             "actualTrapPrefabName": "CandyConeTrap",
                             "fakeTrapPrefab": "FakeCandyConeTrap"
@@ -1892,14 +1890,14 @@
                     "scriptName": "Carmicah.TrapIcon",
                     "ScriptableFieldMap": [
                         {
-                            "trapPrefab": "FakeCandyConeTrap",
-                            "cooldown": false,
                             "TrapBuild2": "TrapBuild_2",
+                            "cooldown": false,
+                            "trapPrefab": "FakeCandyConeTrap",
                             "trapOffset": 0.0,
-                            "WaveSystemObject": "Something",
                             "TrapBuild": "TrapBuild",
-                            "cooldownTime": 3.0,
+                            "WaveSystemObject": "Something",
                             "TrapBuild1": "TrapBuild_1",
+                            "cooldownTime": 3.0,
                             "TrapBuild3": "TrapBuild_3",
                             "actualTrapPrefabName": "HoneyTrap",
                             "fakeTrapPrefab": "FakeHoneyTrap"

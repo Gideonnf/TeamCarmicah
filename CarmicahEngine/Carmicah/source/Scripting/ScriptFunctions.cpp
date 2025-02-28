@@ -255,6 +255,16 @@ namespace Carmicah
 
 	}
 
+	static void RigidBody_StopForces(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+
+		if (go.HasComponent<RigidBody>())
+		{
+			go.GetComponent<RigidBody>().forcesManager.RemoveForce();
+		}
+	}
+
 	static void Transform_GetLocalPosition(unsigned int entityID, Vec2f* outPos)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -391,7 +401,7 @@ namespace Carmicah
 
 	static bool IsMouseReleased(MouseButtons button)
 	{
-		//if (Input.IsMouseReleased(button))
+		//if (Input.IsMouseReleased(De))
 		//{
 		//	CM_CORE_INFO("LEFT MOUSE BUTTON RELEASE");
 		//}
@@ -508,6 +518,26 @@ namespace Carmicah
 			go.GetComponent<Transform>().Depth(*inFloat);
 		else if (go.HasComponent<UITransform>())
 			go.GetComponent<UITransform>().Depth(*inFloat);
+	}
+
+	static void Transform_GetRot(unsigned int entityID, float* outFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Transform>())
+			*outFloat = go.GetComponent<Transform>().GetRot();
+		else if (go.HasComponent<UITransform>())
+			*outFloat = go.GetComponent<UITransform>().GetRot();
+		else
+			*outFloat = 0.0f;
+	}
+
+	static void Transform_SetRot(unsigned int entityID, float* inFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Transform>())
+			go.GetComponent<Transform>().Rot(*inFloat);
+		else if (go.HasComponent<UITransform>())
+			go.GetComponent<UITransform>().Rot(*inFloat);
 	}
 
 	static void GetRedColour(unsigned int entityID, float* outFloat)
@@ -760,6 +790,8 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Transform_GetDepth);
 		ADD_INTERNAL_CALL(Transform_SetDepth);
 		ADD_INTERNAL_CALL(Transform_GetTag);
+		ADD_INTERNAL_CALL(Transform_GetRot);
+		ADD_INTERNAL_CALL(Transform_SetRot);
 
 		//Entity functions
 		ADD_INTERNAL_CALL(Entity_HasComponent);
@@ -775,6 +807,7 @@ namespace Carmicah
 		// Rigidbody functions
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);
 		ADD_INTERNAL_CALL(RigidBody_ApplyForceWithTime);
+		ADD_INTERNAL_CALL(RigidBody_StopForces);
 
 		// renderer functions
 		ADD_INTERNAL_CALL(SetAlpha);

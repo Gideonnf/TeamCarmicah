@@ -48,7 +48,7 @@ namespace Carmicah
         float animTimer = 0.0f;
         float maxAnimTime;
 
-        bool facingRight = false;
+        public bool facingRight = false;
         bool playDeathAnimation = false;
 
         void OnCreate()
@@ -167,6 +167,18 @@ namespace Carmicah
             {
                 if (!string.IsNullOrEmpty(BulletImpactAnim))
                 {
+                    if(bulletType == BulletType.MAGE_BULLET)
+                    {
+                        if(facingRight)
+                        { 
+                            Rot = 40.0f; 
+                        }
+                        else
+                        {
+                            Rot = 20.0f;
+                        }
+                    }
+
                     ChangeAnim(BulletImpactAnim);
                     maxAnimTime = GetComponent<Animation>().GetMaxTime();
                     animTimer = 0.0f;
