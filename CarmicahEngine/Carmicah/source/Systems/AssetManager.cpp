@@ -815,6 +815,7 @@ namespace Carmicah
 
 		if (fileExt == ".png")
 		{
+			//if(std::tolower(fileName))
 			RemoveAsset<Texture>(fileName); //Check with Rainne
 		}
 
