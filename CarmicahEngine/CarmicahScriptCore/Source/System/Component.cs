@@ -54,6 +54,19 @@ namespace Carmicah
                 FunctionCalls.Transform_SetDepth(Entity.mID, ref value);
             }
         }
+
+        public float Rot
+        {
+            get
+            {
+                FunctionCalls.Transform_GetRot(Entity.mID, out float rot);
+                return rot;
+            }
+            set
+            {
+                FunctionCalls.Transform_SetRot(Entity.mID, ref value);
+            }
+        }
     }
 
     public class RigidBody : Component
