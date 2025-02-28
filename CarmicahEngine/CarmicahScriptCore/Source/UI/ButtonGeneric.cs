@@ -177,7 +177,7 @@ namespace Carmicah
 
         public override void OnClick()
         {
-            //Sound.PlaySFX("SFX_Button", 0.5f);
+            Sound.PlaySFX("UI_Select 2", 0.5f);
             //Sound.PlaySFX("SFX_Button");
 
             ChangeAnim(clickAnim);
@@ -228,6 +228,7 @@ namespace Carmicah
         }
         public override void OnMouseEnter()
         {
+            Sound.PlaySFX("UI_Hover 2", 0.5f);
             ChangeAnim(hoverEnterAnim);
         }
         public override void OnMouseExit()

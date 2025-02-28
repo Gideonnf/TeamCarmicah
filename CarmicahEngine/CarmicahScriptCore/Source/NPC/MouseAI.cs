@@ -148,7 +148,7 @@ namespace Carmicah
             //        break;
             //}
 
-            Sound.PlaySFX("Portal_Spawn", 0.3f);
+            Sound.PlaySFX("Portal_Spawn_v2", 0.3f);
 
             switch (animType)
             {
