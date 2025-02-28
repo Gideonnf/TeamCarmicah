@@ -513,7 +513,9 @@
                             "waveCounter": 0,
                             "mobCounter": 0,
                             "losePrefab": "LoseScreen",
-                            "winPrefab": "Win_Screen"
+                            "winPrefab": "Win_Screen",
+                            "countdownPrefab": "Countdown_1",
+                            "countdownStartTime": 5.0
                         }
                     ]
                 }
@@ -722,8 +724,8 @@
                     "xPos": 0.1544017195701599,
                     "yPos": 3.6750621795654299,
                     "depth": 4.0,
-                    "xScale": 0.4000000059604645,
-                    "yScale": 0.4000000059604645,
+                    "xScale": 0.699999988079071,
+                    "yScale": 0.699999988079071,
                     "rot": 0.0,
                     "transformTag": "",
                     "collisionMask": 2
@@ -740,9 +742,9 @@
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "DebugSquare",
-                    "customWidth": 1.0,
+                    "customWidth": 0.5,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 0.5
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",

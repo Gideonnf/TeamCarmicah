@@ -64,6 +64,10 @@ namespace Carmicah
 			return nullptr;
 		}
 
+		MonoClass* methodClass = mono_method_get_class(method);
+		const char* className = methodClass ? mono_class_get_name(methodClass) : "UnknownClass";
+		const char* methodName = mono_method_get_name(method);
+
 		int paramCount = mono_signature_get_param_count(mono_method_signature(method));
 		if (paramCount > 0 && !params)
 		{
@@ -88,7 +92,7 @@ namespace Carmicah
 		}
 		catch (...)
 		{
-			CM_CORE_ERROR("Instance something something");
+			CM_CORE_ERROR("InvokeMethod: Unknown exception occurred while invoking {} in Class: {}", methodName, className);
 			return nullptr;
 
 		}

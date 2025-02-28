@@ -14,21 +14,6 @@
             "collisionMask": 32
         },
         {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.TrapAI",
-            "ScriptableFieldMap": [
-                {
-                    "built": false,
-                    "enterAnim": "CandyCone_Idle",
-                    "exitAnim": "CandyCone_Idle",
-                    "idleAnim": "CandyCone_Idle",
-                    "timer": 0.0,
-                    "isDead": false,
-                    "life": 2.0
-                }
-            ]
-        },
-        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "candy_trap_spritesheet_Spike 0",
@@ -105,6 +90,21 @@
                             "condition": 3
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.TrapAI",
+            "ScriptableFieldMap": [
+                {
+                    "built": false,
+                    "enterAnim": "CandyCone_Idle",
+                    "exitAnim": "CandyCone_Idle",
+                    "idleAnim": "CandyCone_Idle",
+                    "timer": 0.0,
+                    "isDead": false,
+                    "life": 2.0
                 }
             ]
         }

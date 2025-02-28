@@ -10,7 +10,7 @@
             "xScale": 0.6000000238418579,
             "yScale": 0.6000000238418579,
             "rot": 0.0,
-            "transformTag": "Trap",
+            "transformTag": "fuck",
             "collisionMask": 32
         },
         {
@@ -19,15 +19,15 @@
             "AnimSpeed": 1.0
         },
         {
-            "Component Name": "struct Carmicah::PrefabData",
-            "prefabRef": 50
-        },
-        {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "",
             "customWidth": 1.0,
             "customRotation": 0.0,
             "customHeight": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::PrefabData",
+            "prefabRef": 50
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
