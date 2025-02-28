@@ -41,6 +41,8 @@ namespace Carmicah
 
 		SCENE_IMGUI currDrawingScene = NO_SCENE;
 		FBOScene mScenes[MAX_SCENES]{};
+		GLuint pboIds[2];
+		GLuint pboIdx[2];
 		unsigned int mIDHovered;
 
 		/*!*************************************************************************
