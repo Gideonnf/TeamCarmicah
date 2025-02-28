@@ -780,6 +780,8 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Transform_GetDepth);
 		ADD_INTERNAL_CALL(Transform_SetDepth);
 		ADD_INTERNAL_CALL(Transform_GetTag);
+		ADD_INTERNAL_CALL(Transform_GetRot);
+		ADD_INTERNAL_CALL(Transform_SetRot);
 
 		//Entity functions
 		ADD_INTERNAL_CALL(Entity_HasComponent);
