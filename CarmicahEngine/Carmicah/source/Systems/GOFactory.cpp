@@ -281,6 +281,29 @@ namespace Carmicah
 		//sceneGO.sceneTransform = Transform{};
 	}
 
+	std::vector<Entity> GOFactory::GetEntitiesWithTag(std::string tagName)
+	{
+		std::vector<Entity> entityIDs;
+		for (auto& entity : mEntitiesSet)
+		{
+			if (ComponentManager::GetInstance()->HasComponent<Transform>(entity))
+			{
+				if (ComponentManager::GetInstance()->GetComponent<Transform>(entity).transformTag == tagName)
+				{
+					entityIDs.push_back(entity);
+				}
+			}
+			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(entity))
+			{
+				// NOTE: I dont know if we need to support UITransform also
+				// i think since this is transform itll just be normal transform and not UI transform
+			}
+		}
+
+		return entityIDs;
+	}
+
+
 	void GOFactory::FetchGO(std::string GOName, GameObject& go)
 	{
 		if (mNameToID.count(GOName) == 0)

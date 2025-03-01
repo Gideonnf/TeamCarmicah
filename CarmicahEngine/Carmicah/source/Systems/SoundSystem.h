@@ -20,6 +20,7 @@ DigiPen Institute of Technology is prohibited.
 
 #include "ECS/BaseSystem.h"
 #include "FMOD/fmod.hpp"
+#include "../CarmicahTime.h"
 #include <string>
 #include <memory>
 #include <vector>
@@ -72,6 +73,17 @@ namespace Carmicah
         const float defaultVolume = 1.0f;
         float mMasterVolume;
         bool mIsMuted;
+        bool fadingOut = false; 
+        bool fadeInNewSound = false; 
+        float fadeTimerSeconds = 0.0f; 
+        float fadeDurationSeconds = 0.0f;
+        FMOD::Channel* oldChannel = nullptr; 
+        FMOD::Channel* newSoundChannel = nullptr; 
+        std::string newSoundNamePending; 
+        SoundCategory newSoundCategory;
+        INTSOUND newSoundInternalCatergoy;
+        bool newSoundLoop = false; 
+        float newSoundVolume = 0.0f;
 
     public:
         SoundSystem();
@@ -82,6 +94,8 @@ namespace Carmicah
 
         // Enhanced playback controls
         bool PlaySoundThis(const std::string& soundName, SoundCategory category = SoundCategory::SFX, INTSOUND internalCatergoy = SOUND_INGAME, bool isLoop = false, float volume = -1.0f);
+        void SwitchSound(INTSOUND internalCatergoy, const std::string& newSoundName, SoundCategory category, bool isLoop, float volume, float fadeTimer, float fadeDuration);
+        void UpdateFadeEffect();
         void StopSound(INTSOUND internalCatergoy);
         void PauseSound(INTSOUND internalCatergoy);
         void ResumeSound(INTSOUND internalCatergoy);

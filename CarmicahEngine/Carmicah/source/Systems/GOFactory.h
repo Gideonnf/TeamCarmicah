@@ -73,6 +73,7 @@ namespace Carmicah
 		GameObject CloneGO(GameObject const& go, Entity parentID = 0);
 		GameObject LoadGO(std::string name, Entity entityID);
 		GameObject CreatePrefab(std::string prefab);
+		std::vector<Entity> GetEntitiesWithTag(std::string tagName);
 		void CreatePrefabChild(Prefab& prefab, Entity parentID);
 		void UpdatePrefabTransform(Entity entityID);
 		void UpdatePrefabChildTransform(Entity entityID);

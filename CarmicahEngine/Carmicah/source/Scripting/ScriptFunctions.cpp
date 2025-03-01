@@ -128,6 +128,24 @@ namespace Carmicah
 		return go.GetID();
 	}
 
+	static MonoArray* Entity_FindEntitiesWithTag(MonoString* tag)
+	{
+		std::string cStrName = MonoToString(tag);
+
+		std::vector<Entity> entityIDs = gGOFactory->GetEntitiesWithTag(cStrName);
+
+
+		MonoDomain* domain = mono_domain_get();
+		MonoArray* monoArray = mono_array_new(domain, mono_get_uint32_class(), entityIDs.size());
+
+		for (size_t i = 0; i < entityIDs.size(); ++i)
+		{
+			mono_array_set(monoArray, uint32_t, i, entityIDs[i]);
+		}
+
+		return monoArray;
+	}
+
 	static unsigned int Entity_FindEntityWithID(unsigned int entityID)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -175,6 +193,14 @@ namespace Carmicah
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 		souSystem->StopSound(SoundSystem::SOUND_BGM);
+		mono_free(cStrname);
+	}
+
+	static void Sound_SwitchBGM(MonoString* name, float fadeTimer, float fadeDuration)
+	{
+		char* cStrname = mono_string_to_utf8(name);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->SwitchSound(SoundSystem::SOUND_BGM, cStrname, SoundCategory::BGM, true, 1.0f, fadeTimer, fadeDuration);
 		mono_free(cStrname);
 	}
 
@@ -253,6 +279,16 @@ namespace Carmicah
 			CM_CORE_ERROR("Entity does not have rigidBody");
 		}
 
+	}
+
+	static void RigidBody_StopForces(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+
+		if (go.HasComponent<RigidBody>())
+		{
+			go.GetComponent<RigidBody>().forcesManager.RemoveForce();
+		}
 	}
 
 	static void Transform_GetLocalPosition(unsigned int entityID, Vec2f* outPos)
@@ -780,10 +816,13 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Transform_GetDepth);
 		ADD_INTERNAL_CALL(Transform_SetDepth);
 		ADD_INTERNAL_CALL(Transform_GetTag);
+		ADD_INTERNAL_CALL(Transform_GetRot);
+		ADD_INTERNAL_CALL(Transform_SetRot);
 
 		//Entity functions
 		ADD_INTERNAL_CALL(Entity_HasComponent);
 		ADD_INTERNAL_CALL(Entity_FindEntityWithName);
+		ADD_INTERNAL_CALL(Entity_FindEntitiesWithTag);
 		ADD_INTERNAL_CALL(Entity_GetParent);
 		ADD_INTERNAL_CALL(Entity_FindEntityWithID);
 		ADD_INTERNAL_CALL(Destroy);
@@ -795,6 +834,7 @@ namespace Carmicah
 		// Rigidbody functions
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);
 		ADD_INTERNAL_CALL(RigidBody_ApplyForceWithTime);
+		ADD_INTERNAL_CALL(RigidBody_StopForces);
 
 		// renderer functions
 		ADD_INTERNAL_CALL(SetAlpha);
@@ -822,6 +862,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Sound_PlaySFX);
 		ADD_INTERNAL_CALL(Sound_PlayBGM);
 		ADD_INTERNAL_CALL(Sound_StopBGM);
+		ADD_INTERNAL_CALL(Sound_SwitchBGM);
 
 		// Debug
 		ADD_INTERNAL_CALL(Log);

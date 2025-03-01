@@ -55,6 +55,9 @@ namespace Carmicah
         internal extern static void Sound_PlayBGM(string soundName, float volume);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Sound_SwitchBGM(string soundName, float fadeTimer, float fadeDuration);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_SetVolume(string soundName, float volume);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -133,6 +136,9 @@ namespace Carmicah
         internal extern static uint Entity_FindEntityWithID(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static uint[] Entity_FindEntitiesWithTag(string tag);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Transform_GetLocalPosition(uint entityID, out Vector2 position);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -161,6 +167,10 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static string GetFilePath();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void RigidBody_StopForces();
+
 
         //[MethodImplAttribute(MethodImplOptions.InternalCall)]
         //internal extern static void SetCollisionLayer(uint entityID, int layer);
