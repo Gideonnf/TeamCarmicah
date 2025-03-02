@@ -209,36 +209,55 @@ namespace Carmicah
 
 			auto& assetMap = GetAssetMap<T>()->mAssetMap;
 			auto& assetList = GetAssetMap<T>()->mAssetList;
-
-
-			// erase from the vector first
-			if (assetMap.count(name) == 0)
-			{
-				CM_CORE_ERROR("Asset being removed does not exist");
-			}
-
-			unsigned int index = assetMap[name];
-
-			assetMap.erase(name);
-
-			// check if the index is correct before accessing vector
-			if (index < assetList.size() - 1)
-			{
-				// swap with the back element
-				std::swap(assetList[index], assetList.back());
-				for (auto& pair : assetMap)
+			std::string lowerFileName = name;
+			std::transform(lowerFileName.begin(), lowerFileName.end(), lowerFileName.begin(), [](unsigned char c)
 				{
-					// find the old index of the asset before the swap
-					if (pair.second == assetList.size() - 1)
-					{
-						// and set it to its new index
-						pair.second = index;
-						break;
-					}
+					return std::tolower(c);
+				});
+
+			std::vector<std::string> assetsToRemove;
+
+			for (const auto& entry : assetMap)
+			{
+				if (entry.first.find(name) == 0)
+				{
+					assetsToRemove.push_back(entry.first);
 				}
 			}
 
-			assetList.pop_back();
+			//assetsToRemove.push_back(name);
+
+			for(const auto& assetName : assetsToRemove)
+			{
+				// erase from the vector first
+				if (assetMap.count(assetName) == 0)
+				{
+					CM_CORE_ERROR("Asset being removed does not exist");
+				}
+
+				unsigned int index = assetMap[assetName];
+
+				assetMap.erase(assetName);
+
+				// check if the index is correct before accessing vector
+				if (index < assetList.size() - 1)
+				{
+					// swap with the back element
+					std::swap(assetList[index], assetList.back());
+					for (auto& pair : assetMap)
+					{
+						// find the old index of the asset before the swap
+						if (pair.second == assetList.size() - 1)
+						{
+							// and set it to its new index
+							pair.second = index;
+							break;
+						}
+					}
+				}
+
+				assetList.pop_back();
+			}
 		}
 
 		/*!*************************************************************************
