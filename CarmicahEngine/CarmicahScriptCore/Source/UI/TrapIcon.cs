@@ -19,18 +19,19 @@ namespace Carmicah
         public float trapOffset = 1.6f;
         public bool cooldown = false;
         public float cooldownTime = 3.0f;
-        public string TrapBuild = "TrapBuild";
-        public string TrapBuild1 = "TrapBuild_1";
-        public string TrapBuild2 = "TrapBuild_2";
-        public string TrapBuild3 = "TrapBuild_3";
+        //public string TrapBuild = "TrapBuild";
+        //public string TrapBuild1 = "TrapBuild_1";
+        //public string TrapBuild2 = "TrapBuild_2";
+        //public string TrapBuild3 = "TrapBuild_3";
         public TrapType type;
+        public bool activeTrapIcon = false;
 
         float timer;
         Entity waveSystem;
-        Entity trapBuildEntity;
-        Entity trapBuildEntity1;
-        Entity trapBuildEntity2;
-        Entity trapBuildEntity3;
+        //Entity trapBuildEntity;
+        //Entity trapBuildEntity1;
+        //Entity trapBuildEntity2;
+        //Entity trapBuildEntity3;
 
         Vector2 minScale = new Vector2(0.05f, 0.05f);
         Vector2 maxScale;
@@ -40,10 +41,10 @@ namespace Carmicah
             // use its current scale as the max
             maxScale = Scale;
             waveSystem = FindEntityWithName(WaveSystemObject);
-            trapBuildEntity = FindEntityWithName(TrapBuild);
-            trapBuildEntity1 = FindEntityWithName(TrapBuild1);
-            trapBuildEntity2 = FindEntityWithName(TrapBuild2);
-            trapBuildEntity3 = FindEntityWithName(TrapBuild3);
+            //trapBuildEntity = FindEntityWithName(TrapBuild);
+            //trapBuildEntity1 = FindEntityWithName(TrapBuild1);
+            //trapBuildEntity2 = FindEntityWithName(TrapBuild2);
+            //trapBuildEntity3 = FindEntityWithName(TrapBuild3);
 
             if(actualTrapPrefabName == "CandyConeTrap")
             {
@@ -105,6 +106,7 @@ namespace Carmicah
                 trapEntity.Destroy();
                 trapEntity = null;
                 flipped = false;
+                activeTrapIcon = false;
             }            
         }
 
@@ -125,12 +127,19 @@ namespace Carmicah
             if (cooldown == false)
             {
                 trapEntity = CreateGameObject(fakeTrapPrefab);
+                activeTrapIcon = true;
+                CMConsole.Log($"Actual trap prefab name {actualTrapPrefabName}");
 
+                Entity[] trapBuildSpots = FindEntitiesWithTag("TrapBuild");
+                for(int i = 0; i < trapBuildSpots.Length; i++)
+                {
+                    trapBuildSpots[i].As<TrapBuild>().SetTrapType(type, actualTrapPrefabName, fakeTrapPrefab);
+                }
                 //Sets the translucent for the trap type
-                trapBuildEntity.As<TrapBuild>().SetTrapType(type, actualTrapPrefabName, fakeTrapPrefab);
-                trapBuildEntity1.As<TrapBuild>().SetTrapType(type, actualTrapPrefabName, fakeTrapPrefab);
-                trapBuildEntity2.As<TrapBuild>().SetTrapType (type, actualTrapPrefabName, fakeTrapPrefab);
-                trapBuildEntity3.As<TrapBuild>().SetTrapType(type, actualTrapPrefabName, fakeTrapPrefab);
+                //trapBuildEntity.As<TrapBuild>().SetTrapType(type, actualTrapPrefabName, fakeTrapPrefab);
+                //trapBuildEntity1.As<TrapBuild>().SetTrapType(type, actualTrapPrefabName, fakeTrapPrefab);
+                //trapBuildEntity2.As<TrapBuild>().SetTrapType (type, actualTrapPrefabName, fakeTrapPrefab);
+                //trapBuildEntity3.As<TrapBuild>().SetTrapType(type, actualTrapPrefabName, fakeTrapPrefab);
             }
             //CMConsole.Log($"Creating entity with {trapEntity.mID}");
         }
