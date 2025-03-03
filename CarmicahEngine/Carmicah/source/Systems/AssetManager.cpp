@@ -815,11 +815,11 @@ namespace Carmicah
 
 		if (fileExt == ".png")
 		{
-				RemoveAsset<Texture>(fileName); //Check with Rainne
+			RemoveAsset<Texture>(fileName); //Check with Rainne
 		}
 		if (fileExt == ".wav")
 		{
-			RemoveAsset<FMOD::Sound>(fileName);
+			//RemoveAsset<FMOD::Sound*>(fileName);
 		}
 
 
