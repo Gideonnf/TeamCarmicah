@@ -317,7 +317,7 @@ namespace Carmicah
 			CM_CORE_WARN("Path Location does not exist!");
 			return;
 		}
-		if(ImGui::CollapsingHeader("TextureNew"))
+		if(ImGui::CollapsingHeader("Texture"))
 		{
 			DisplayAllAssets<Texture>(pathLoc, map);
 		}
