@@ -31,13 +31,15 @@ namespace Carmicah
 
         public override void OnCreate()
         {
+           // CMConsole.Log("IOADNASNIODANSOID");
             mainCamera = FindEntityWithName("MainCamera");
             // Set position 
-            Position = new Vector2(0.0f, mainCamera.Position.y + heightOffset);
+           // Position = new Vector2(0.0f, mainCamera.Position.y + heightOffset);
         }
 
         public override void OnUpdate(float dt)
         {
+           // CMConsole.Log("does thsi function work");
             // fall down
             if (!stop)
             {
@@ -59,27 +61,27 @@ namespace Carmicah
 
         public override void OnTriggerEnter(uint collidedEntity)
         {
-            Entity entity = FindEntityWithID(collidedEntity);
-           // CMConsole.Log($"Entity collided {collidedEntity}");
+          //  Entity entity = FindEntityWithID(collidedEntity);
+           CMConsole.Log($"Entity collided {collidedEntity}");
             // if colliding with player
-            if (entity.GetTag() == "Player")
-            {
-                // add icon to the UI bar
-               if(stop)
-               {
-                    Destroy();
-               }
-            }
-            else if (entity.GetTag() == "TowerTopMiddle")
-            {
-                touched = true;
-                stopTime = CMRand.Range(middleMin, middleMax);
-            }
-            else if (entity.GetTag() == "TowerTopSide")
-            {
-                touched = true;
-                stopTime = CMRand.Range(sideMin, sideMin);
-            }
+        //    if (entity.GetTag() == "Player")
+        //    {
+        //        // add icon to the UI bar
+        //       if(stop)
+        //       {
+        //            Destroy();
+        //       }
+        //    }
+        //    else if (entity.GetTag() == "TowerTopMiddle")
+        //    {
+        //        touched = true;
+        //        stopTime = CMRand.Range(middleMin, middleMax);
+        //    }
+        //    else if (entity.GetTag() == "TowerTopSide")
+        //    {
+        //        touched = true;
+        //        stopTime = CMRand.Range(sideMin, sideMin);
+        //    }
 
         }
     }

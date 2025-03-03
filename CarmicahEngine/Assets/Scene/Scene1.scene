@@ -1911,9 +1911,37 @@
             ]
         },
         {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
+            "GameObject": "PowerUpControl",
+            "ID": 47,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 0.0,
+                    "yScale": 0.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.PowerUpControl",
+                    "ScriptableFieldMap": [
+                        {
+                            "HoneyPrefab": "HoneyBall",
+                            "MagePrefab": "MageBall",
+                            "ShooterPrefab": "ShooterBall",
+                            "SpawnTimer": 1.5,
+                            "TrapPrefab": "TrapBall",
+                            "timer": 0.0,
+                            "xOffset": 2.0
+                        }
+                    ]
+                }
+            ],
+            "Children": []
         },
         {
             "GameObject": "TopTowerBox",
@@ -2052,21 +2080,6 @@
                 }
             ],
             "Children": []
-        },
-        {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
-        },
-        {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
-        },
-        {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
         }
     ]
 }
