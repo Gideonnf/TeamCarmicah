@@ -59,20 +59,19 @@
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Installer|x64' ">
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Source\CakeControl.cs" />
-    <Compile Include="Source\LevelManager.cs" />
+    <Compile Include="Source\Managers\CakeControl.cs" />
+    <Compile Include="Source\Managers\LevelManager.cs" />
     <Compile Include="Source\BalloonBounce.cs" />
     <Compile Include="Source\Camera.cs" />
-    <Compile Include="Source\GameManager.cs" />
-    <Compile Include="Source\GameObject.cs" />
-    <Compile Include="Source\HeroBuild.cs" />
-    <Compile Include="Source\NPC\BaseTest.cs" />
+    <Compile Include="Source\Managers\GameManager.cs" />
+    <Compile Include="Source\NPC\HeroBuild.cs" />
+    <Compile Include="Source\Testing\BaseTest.cs" />
     <Compile Include="Source\NPC\HealthSystem.cs" />
     <Compile Include="Source\NPC\HeroAI.cs" />
     <Compile Include="Source\NPC\MouseAI.cs" />
     <Compile Include="Source\NPC\Projectile.cs" />
-    <Compile Include="Source\NPC\TestScript.cs" />
-    <Compile Include="Source\PauseManager.cs" />
+    <Compile Include="Source\Testing\TestScript.cs" />
+    <Compile Include="Source\Managers\PauseManager.cs" />
     <Compile Include="Source\Player.cs" />
     <Compile Include="Source\System\CMConsole.cs" />
     <Compile Include="Source\System\Component.cs" />
@@ -86,10 +85,9 @@
     <Compile Include="Source\System\StateMachineOld.cs" />
     <Compile Include="Source\System\Vector2.cs" />
     <Compile Include="Source\System\Vector3.cs" />
-    <Compile Include="Source\Testing.cs" />
-    <Compile Include="Source\TowerController.cs" />
-    <Compile Include="Source\TrapAI.cs" />
-    <Compile Include="Source\TrapBuild.cs" />
+    <Compile Include="Source\Testing\Testing.cs" />
+    <Compile Include="Source\Traps\TrapAI.cs" />
+    <Compile Include="Source\Traps\TrapBuild.cs" />
     <Compile Include="Source\UI\ButtonGeneric.cs" />
     <Compile Include="Source\UI\Countdown.cs" />
     <Compile Include="Source\UI\Cutscene.cs" />
@@ -100,7 +98,7 @@
     <Compile Include="Source\UI\LoadingScreen.cs" />
     <Compile Include="Source\UI\TrapIcon.cs" />
     <Compile Include="Source\UI\WaveCounter.cs" />
-    <Compile Include="Source\WaveSystem.cs" />
+    <Compile Include="Source\Managers\WaveSystem.cs" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
