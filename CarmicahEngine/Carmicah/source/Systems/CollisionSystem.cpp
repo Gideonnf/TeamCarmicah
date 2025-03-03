@@ -670,7 +670,7 @@ namespace Carmicah
 
 			if (rigidbody1.collided == false)
 			{
-				CM_CORE_INFO(" COLLISION");
+				//CM_CORE_INFO(" COLLISION");
 
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
 				SendSysMessage(&newMsg);
@@ -704,7 +704,7 @@ namespace Carmicah
 
 			if (rigidbody1.collided == false)
 			{
-				CM_CORE_INFO(" COLLISION");
+				//CM_CORE_INFO(" COLLISION");
 
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
 				SendSysMessage(&newMsg);
@@ -740,7 +740,7 @@ namespace Carmicah
 			//CM_CORE_INFO("Obj 1 {}, Obj 2 {}", obj1, obj2);
 			if (rigidbody1.collided == false)
 			{
-				CM_CORE_INFO(" COLLISION");
+				//CM_CORE_INFO(" COLLISION");
 
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
 				SendSysMessage(&newMsg);
@@ -766,7 +766,7 @@ namespace Carmicah
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
 			//CM_CORE_INFO("ID in CollisionSystem 2nd {}", obj1);
-			CM_CORE_INFO("Obj 1 {}, Obj 2 {}", obj1, obj2);
+			//CM_CORE_INFO("Obj 1 {}, Obj 2 {}", obj1, obj2);
 			if (rigidbody1.collided == false)
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
