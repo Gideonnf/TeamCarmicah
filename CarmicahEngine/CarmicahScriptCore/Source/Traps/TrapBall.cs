@@ -28,11 +28,13 @@ namespace Carmicah
         public float middleMax = 1.0f;
         public float sideMin = 0.2f;
         public float sideMax = 0.5f;
+        Entity playerEntity;
 
         public override void OnCreate()
         {
            // CMConsole.Log("IOADNASNIODANSOID");
             mainCamera = FindEntityWithName("MainCamera");
+            playerEntity = FindEntityWithName("mainCharacter");
             // Set position 
            // Position = new Vector2(0.0f, mainCamera.Position.y + heightOffset);
         }
@@ -46,6 +48,15 @@ namespace Carmicah
                 Vector2 pos = Position;
                 pos.y -= fallSpeed * dt;
                 Position = pos;
+            }
+            else
+            {
+                float distance = playerEntity.Position.Distance(Position);
+                CMConsole.Log($"Distance {distance}");
+                if (distance <= 0.5f)
+                {
+                    Destroy();
+                }
             }
 
             if (touched)
@@ -61,28 +72,46 @@ namespace Carmicah
 
         public override void OnTriggerEnter(uint collidedEntity)
         {
-          //  Entity entity = FindEntityWithID(collidedEntity);
+            Entity entity = FindEntityWithID(collidedEntity);
            CMConsole.Log($"Entity collided {collidedEntity}");
             // if colliding with player
-        //    if (entity.GetTag() == "Player")
-        //    {
-        //        // add icon to the UI bar
-        //       if(stop)
-        //       {
-        //            Destroy();
-        //       }
-        //    }
-        //    else if (entity.GetTag() == "TowerTopMiddle")
-        //    {
-        //        touched = true;
-        //        stopTime = CMRand.Range(middleMin, middleMax);
-        //    }
-        //    else if (entity.GetTag() == "TowerTopSide")
-        //    {
-        //        touched = true;
-        //        stopTime = CMRand.Range(sideMin, sideMin);
-        //    }
+            if (entity.GetTag() == "Player")
+            {
+                // add icon to the UI bar
+                if (stop)
+                {
+                    Destroy();
+                }
+            }
+            else if (entity.GetTag() == "TowerTopMiddle")
+            {
+                touched = true;
+                stopTime = CMRand.Range(middleMin, middleMax);
+            }
+            else if (entity.GetTag() == "TowerTopSide")
+            {
+                touched = true;
+                stopTime = CMRand.Range(sideMin, sideMin);
+            }
 
+        }
+
+        // this doesnt work for player
+        public override void OnTriggerStay(uint collidedEntity)
+        {
+            Entity entity = FindEntityWithID(collidedEntity);
+            if (collidedEntity == 24)
+            {
+                CMConsole.Log("Colliding with player");
+            }
+            if (entity.GetTag() == "Player")
+            {
+                // add icon to the UI bar
+                if (stop)
+                {
+                    Destroy();
+                }
+            }
         }
     }
 }

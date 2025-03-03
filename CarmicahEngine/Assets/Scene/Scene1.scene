@@ -721,13 +721,13 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.1544017195701599,
-                    "yPos": 3.6750621795654299,
+                    "xPos": 0.530199408531189,
+                    "yPos": 3.973508358001709,
                     "depth": 4.0,
                     "xScale": 0.699999988079071,
                     "yScale": 0.699999988079071,
                     "rot": 0.0,
-                    "transformTag": "",
+                    "transformTag": "Player",
                     "collisionMask": 2
                 },
                 {
@@ -1932,11 +1932,12 @@
                         {
                             "HoneyPrefab": "HoneyBall",
                             "MagePrefab": "MageBall",
+                            "heightOffset": 12.0,
                             "ShooterPrefab": "ShooterBall",
                             "SpawnTimer": 1.5,
                             "TrapPrefab": "TrapBall",
                             "timer": 0.0,
-                            "xOffset": 2.0
+                            "xOffset": 5.0
                         }
                     ]
                 }

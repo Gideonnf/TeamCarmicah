@@ -8,6 +8,7 @@ namespace Carmicah
 {
     public class PowerUpControl : Entity
     {
+        public string WaveSystemObject = "Something";
         public string TrapPrefab = "TrapBall";
         public string ShooterPrefab = "ShooterBall";
         public string MagePrefab = "MageBall";
@@ -16,9 +17,12 @@ namespace Carmicah
         public float xOffset = 2.0f;
         public float heightOffset = 12.0f;
 
-        public float SpawnTimer = 1.5f;
+        public float SpawnTimer = 8.5f;
         public float timer = 0.0f;
         Entity camera;
+        Entity gameManager;
+        Entity pauseManager;
+        Entity waveSystem;
 
         //public Dictionary<IconType, float> weights = new Dictionary<IconType, float>();
 
@@ -41,6 +45,9 @@ namespace Carmicah
                     };
              */
             camera = FindEntityWithName("MainCamera");
+            gameManager = FindEntityWithName("GameManager");
+            pauseManager = FindEntityWithName("PauseManager");
+            waveSystem = FindEntityWithName(WaveSystemObject);
             //weights.Add(IconType.CANDY_ICON, 0.4f);
             //weights.Add(IconType.SHOOTER_ICON, 0.1f);
             //weights.Add(IconType.HONEY_ICON, 0.4f);
@@ -79,6 +86,13 @@ namespace Carmicah
 
         public override void OnFixedUpdate(float fixedDt)
         {
+            if (pauseManager.As<PauseManager>().IsPaused)
+                return;
+            if (gameManager.As<GameManager>().GameOver)
+                return;
+            if (!waveSystem.As<WaveSystem>().waveStart)
+                return;
+
             timer += fixedDt;
            // CMConsole.Log($"{timer}");
             if (timer >= SpawnTimer)
