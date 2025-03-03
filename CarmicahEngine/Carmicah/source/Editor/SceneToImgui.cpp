@@ -158,6 +158,17 @@ namespace Carmicah
             }
 #endif
         }
+        
+        glGenBuffers(2, pboIds);
+        glBindBuffer(GL_PIXEL_PACK_BUFFER, pboIds[0]);
+        glBufferData(GL_PIXEL_PACK_BUFFER, 4, 0, GL_STREAM_READ);
+        glBindBuffer(GL_PIXEL_PACK_BUFFER, pboIds[1]);
+        glBufferData(GL_PIXEL_PACK_BUFFER, 4, 0, GL_STREAM_READ);
+        pboIdx[0] = 0;
+        pboIdx[1] = 1;
+
+
+        glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glBindTexture(GL_TEXTURE_2D, 0);
         //glBindRenderbuffer(GL_RENDERBUFFER, 0);
@@ -175,6 +186,7 @@ namespace Carmicah
             glDeleteTextures(1, &mScenes[i].revealTex);
             glDeleteFramebuffers(1, &mScenes[i].FBO);
         }
+        glDeleteBuffers(2, pboIds);
     }
 
     void SceneToImgui::SelectFrameBuffer(SCENE_IMGUI scene)
@@ -214,22 +226,26 @@ namespace Carmicah
         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &prevBinding);
 
         glBindFramebuffer(GL_FRAMEBUFFER, mScenes[scene].FBO);
+        glBindBuffer(GL_PIXEL_PACK_BUFFER, pboIds[pboIdx[0]]);
 
         unsigned int goID{};
         glNamedFramebufferReadBuffer(mScenes[scene].FBO, GL_COLOR_ATTACHMENT1);
         glReadPixels(mouseX, mouseY, 1, 1,
-            GL_RED_INTEGER, GL_UNSIGNED_INT, &goID);
+            GL_RED_INTEGER, GL_UNSIGNED_INT, 0);
 
-        //std::stringstream ss;
-        //ss << "ID: " << goID << "[" << mouseX << ',' << mouseY << "]";
-        //CM_CORE_INFO(ss.str());
-
+        glBindBuffer(GL_PIXEL_PACK_BUFFER, pboIds[pboIdx[1]]);
+        GLuint* src = (GLuint*)glMapBuffer(GL_PIXEL_PACK_BUFFER, GL_READ_ONLY);
+        if (src)
+        {
+            goID = *src;
+            glUnmapBuffer(GL_PIXEL_PACK_BUFFER);
+        }
         if (RenderHelper::GetInstance()->mEditorWindowActive)
             RenderHelper::GetInstance()->mSelectedID = goID;
         if (goID >= MAX_ENTITIES)
             goID = 0;
             
-
+        glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
         glReadBuffer(GL_NONE);
         glBindFramebuffer(GL_FRAMEBUFFER, prevBinding);
         return goID;
@@ -248,6 +264,7 @@ namespace Carmicah
 #else
         mIDHovered = IDPick(GAME_SCENE, mousePosI.x, mousePosI.y);
 #endif
+        std::swap(pboIdx[0], pboIdx[1]);
     }
 
     unsigned int SceneToImgui::GetIDObjPick()

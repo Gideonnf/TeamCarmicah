@@ -196,6 +196,8 @@ namespace Carmicah
 			}
 		}
 
+#pragma region REMOVE_ASSETS
+	
 		template <typename T>
 		void RemoveAsset(std::string name)
 		{
@@ -209,6 +211,104 @@ namespace Carmicah
 
 			auto& assetMap = GetAssetMap<T>()->mAssetMap;
 			auto& assetList = GetAssetMap<T>()->mAssetList;
+
+
+			// erase from the vector first
+			if (assetMap.count(name) == 0)
+			{
+				CM_CORE_ERROR("Asset being removed does not exist");
+			}
+
+			unsigned int index = assetMap[name];
+
+			if constexpr (std::is_same_v <T, FMOD::Sound>)
+			{
+				assetList[index].release();
+			}
+
+			assetMap.erase(name);
+
+			// check if the index is correct before accessing vector
+			if (index < assetList.size() - 1)
+			{
+				// swap with the back element
+				std::swap(assetList[index], assetList.back());
+				for (auto& pair : assetMap)
+				{
+					// find the old index of the asset before the swap
+					if (pair.second == assetList.size() - 1)
+					{
+						// and set it to its new index
+						pair.second = index;
+						break;
+					}
+				}
+			}
+
+			assetList.pop_back();
+		}
+
+		template <>
+		void RemoveAsset<FMOD::Sound>(std::string name)
+		{
+			std::string assetType = typeid(FMOD::Sound).name();
+
+			// asset type doesn't exist
+			if (mAssetTypeMap.count(assetType) == 0)
+			{
+				return;
+			}
+
+			auto& assetMap = GetAssetMap<FMOD::Sound>()->mAssetMap;
+			auto& assetList = GetAssetMap<FMOD::Sound>()->mAssetList;
+
+			// erase from the vector first
+			if (assetMap.count(name) == 0)
+			{
+				CM_CORE_ERROR("Asset being removed does not exist");
+			}
+
+			unsigned int index = assetMap[name];
+			assetList[index].release();
+			assetMap.erase(name);
+
+			// check if the index is correct before accessing vector
+			if (index < assetList.size() - 1)
+			{
+				// swap with the back element
+				//std::swap(assetList[index], assetList.back());
+				//FMOD::Sound temp = assetList[index];
+				assetList[index] = assetList.back();
+
+				for (auto& pair : assetMap)
+				{
+					// find the old index of the asset before the swap
+					if (pair.second == assetList.size() - 1)
+					{
+						// and set it to its new index
+						pair.second = index;
+						break;
+					}
+				}
+			}
+
+			assetList.pop_back();
+		}
+
+		template <>
+		void RemoveAsset<Texture>(std::string name)
+		{
+			std::string assetType = typeid(Texture).name();
+
+			// asset type doesn't exist
+			if (mAssetTypeMap.count(assetType) == 0)
+			{
+				return;
+			}
+
+			auto& assetMap = GetAssetMap<Texture>()->mAssetMap;
+			auto& assetList = GetAssetMap<Texture>()->mAssetList;
+
 			std::string lowerFileName = name;
 			std::transform(lowerFileName.begin(), lowerFileName.end(), lowerFileName.begin(), [](unsigned char c)
 				{
@@ -227,7 +327,7 @@ namespace Carmicah
 
 			//assetsToRemove.push_back(name);
 
-			for(const auto& assetName : assetsToRemove)
+			for (const auto& assetName : assetsToRemove)
 			{
 				// erase from the vector first
 				if (assetMap.count(assetName) == 0)
@@ -259,6 +359,7 @@ namespace Carmicah
 				assetList.pop_back();
 			}
 		}
+#pragma endregion
 
 		/*!*************************************************************************
 		brief
