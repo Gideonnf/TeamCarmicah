@@ -28,6 +28,8 @@ namespace Carmicah
     {
         float timer = 0.5f;
 
+        public float walkingSpeed = 2.0f;
+
         public string HealAnim;
         public string IdleAnim;
         public string WalkAnim;
@@ -182,14 +184,17 @@ namespace Carmicah
 
             else if (stateName == "Walking")
             {
+                Vector2 position = Position;
                 if (Input.IsKeyHold(Keys.KEY_W))
                 {
                     PlaySoundEffect("walk2");
                     //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
 
-                    GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
+                    //GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
+                    //Position = new Vector2(Position.x, Position.y + (walkingSpeed * dt));
+                    position.y += walkingSpeed * dt;
                 }
-                else if (Input.IsKeyHold(Keys.KEY_A))
+                if (Input.IsKeyHold(Keys.KEY_A))
                 {
 
                     PlaySoundEffect("walk2");
@@ -204,18 +209,21 @@ namespace Carmicah
 
                     //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
 
-                    GetComponent<RigidBody>().ApplyForce(new Vector2(-1, 0), 2.0f);
+                    // Position = new Vector2(Position.x - (walkingSpeed * dt), Position.y);
+                    position.x -= walkingSpeed * dt;
+                    // GetComponent<RigidBody>().ApplyForce(new Vector2(-1, 0), 2.0f);
                 }
-                else if (Input.IsKeyHold(Keys.KEY_S))
+                if (Input.IsKeyHold(Keys.KEY_S))
                 {
 
                     PlaySoundEffect("walk2");
 
                     //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
-
-                    GetComponent<RigidBody>().ApplyForce(new Vector2(0, -1), 2.0f);
+                    // Position = new Vector2(Position.x, Position.y - (walkingSpeed * dt));
+                    position.y -= walkingSpeed * dt;
+                    // GetComponent<RigidBody>().ApplyForce(new Vector2(0, -1), 2.0f);
                 }
-                else if (Input.IsKeyHold(Keys.KEY_D))
+                if (Input.IsKeyHold(Keys.KEY_D))
                 {
 
                     PlaySoundEffect("walk2");
@@ -229,13 +237,17 @@ namespace Carmicah
                     Scale = scale;
 
                     //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
-
-                    GetComponent<RigidBody>().ApplyForce(new Vector2(1, 0), 2.0f);
+                    // Position = new Vector2(Position.x + (walkingSpeed * dt), Position.y);
+                    position.x += walkingSpeed * dt;
+                    //GetComponent<RigidBody>().ApplyForce(new Vector2(1, 0), 2.0f);
                 }
-                else
+                
+                if((!Input.IsKeyHold(Keys.KEY_W) && !Input.IsKeyHold(Keys.KEY_A) && !Input.IsKeyHold(Keys.KEY_S) && !Input.IsKeyHold(Keys.KEY_D)))
                 {
                     GetComponent<StateMachine>().SetStateCondition(1);
                 }
+
+                Position = position;
             }
             else if (stateName == "Heal")
             {
