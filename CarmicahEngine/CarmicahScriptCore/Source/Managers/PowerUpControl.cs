@@ -17,12 +17,14 @@ namespace Carmicah
         public float xOffset = 2.0f;
         public float heightOffset = 12.0f;
 
-        public float SpawnTimer = 8.5f;
+        public float SpawnTimer = 16.0f;
         public float timer = 0.0f;
         Entity camera;
         Entity gameManager;
         Entity pauseManager;
         Entity waveSystem;
+
+        List<TrapBall> listOfPowerups = new List<TrapBall>();
 
         //public Dictionary<IconType, float> weights = new Dictionary<IconType, float>();
 
@@ -72,7 +74,7 @@ namespace Carmicah
             for(int i = 0; i < trapWeights.Count; i++)
             {
                 cumulative += trapWeights[i];
-                CMConsole.Log($"Cumulative : {cumulative} vs {random}");
+                //CMConsole.Log($"Cumulative : {cumulative} vs {random}");
                 if (random <= cumulative)
                 {
                   //  CMConsole.Log("does this work");
@@ -82,6 +84,21 @@ namespace Carmicah
 
             //CMConsole.Log("does this work");
             return IconType.CANDY_ICON;
+        }
+
+        public void PowerUpDestroyed(TrapBall entity)
+        {
+            listOfPowerups.Remove(entity);
+            CMConsole.Log($"List of power ups: {listOfPowerups.Count}");
+        }
+
+        // to use when going next level
+        public void WipePowerups()
+        {
+            foreach(TrapBall trap in listOfPowerups)
+            {
+                trap.Destroy();
+            }
         }
 
         public override void OnFixedUpdate(float fixedDt)
@@ -134,6 +151,8 @@ namespace Carmicah
                 if (newTrap != null)
                 {
                    // CMConsole.Log($"Creating a trap");
+                   listOfPowerups.Add(newTrap.As<TrapBall>());
+                    CMConsole.Log($"List of power ups: {listOfPowerups.Count}");
 
                     // random a range from - and + and x offset from camera's position.x
                     float randXPos = CMRand.Range(camera.Position.x - xOffset, camera.Position.x + xOffset);

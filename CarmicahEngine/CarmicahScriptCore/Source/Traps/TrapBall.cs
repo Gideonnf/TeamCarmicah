@@ -29,14 +29,16 @@ namespace Carmicah
         public float sideMin = 0.2f;
         public float sideMax = 0.5f;
         Entity playerEntity;
+        Entity powerControl;
 
         public override void OnCreate()
         {
            // CMConsole.Log("IOADNASNIODANSOID");
             mainCamera = FindEntityWithName("MainCamera");
             playerEntity = FindEntityWithName("mainCharacter");
+            powerControl = FindEntityWithName("PowerUpControl");
             // Set position 
-           // Position = new Vector2(0.0f, mainCamera.Position.y + heightOffset);
+            // Position = new Vector2(0.0f, mainCamera.Position.y + heightOffset);
         }
 
         public override void OnUpdate(float dt)
@@ -52,9 +54,11 @@ namespace Carmicah
             else
             {
                 float distance = playerEntity.Position.Distance(Position);
-                CMConsole.Log($"Distance {distance}");
-                if (distance <= 0.5f)
+                //CMConsole.Log($"Distance {distance}");
+                if (distance <= 1.0f)
                 {
+                    powerControl.As<PowerUpControl>().PowerUpDestroyed(this);
+
                     Destroy();
                 }
             }
