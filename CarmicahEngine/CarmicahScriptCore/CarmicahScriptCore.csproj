@@ -64,10 +64,12 @@
     <Compile Include="Source\BalloonBounce.cs" />
     <Compile Include="Source\Camera.cs" />
     <Compile Include="Source\Managers\GameManager.cs" />
+    <Compile Include="Source\Managers\PowerUpControl.cs" />
     <Compile Include="Source\NPC\BaseNPC.cs" />
     <Compile Include="Source\NPC\HeroBuild.cs" />
     <Compile Include="Source\NPC\MageNPC.cs" />
     <Compile Include="Source\NPC\ShooterNPC.cs" />
+    <Compile Include="Source\System\CMRandom.cs" />
     <Compile Include="Source\Testing\BaseTest.cs" />
     <Compile Include="Source\NPC\HealthSystem.cs" />
     <Compile Include="Source\NPC\HeroAI.cs" />

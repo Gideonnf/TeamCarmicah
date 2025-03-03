@@ -28,11 +28,9 @@ namespace Carmicah
         public float middleMax = 1.0f;
         public float sideMin = 0.2f;
         public float sideMax = 0.5f;
-        Random random;
 
         public override void OnCreate()
         {
-            random = new Random();
             mainCamera = FindEntityWithName("MainCamera");
             // Set position 
             Position = new Vector2(0.0f, mainCamera.Position.y + heightOffset);
@@ -75,12 +73,12 @@ namespace Carmicah
             else if (entity.GetTag() == "TowerTopMiddle")
             {
                 touched = true;
-                stopTime = (float)(random.NextDouble() * (middleMax - middleMin) + middleMin);
+                stopTime = CMRand.Range(middleMin, middleMax);
             }
             else if (entity.GetTag() == "TowerTopSide")
             {
                 touched = true;
-                stopTime = (float)(random.NextDouble() * (sideMax - sideMin) + sideMin);
+                stopTime = CMRand.Range(sideMin, sideMin);
             }
 
         }
