@@ -33,6 +33,7 @@ namespace Carmicah
         {
             testEntity = FindEntityWithName("TestEntity");
             testEntity.As<BaseTest>().Shoot();
+            testEntity.As<TestScript>().Shoot();
            // Console.WriteLine($"On Create {mID}");
         }
 

@@ -11,6 +11,7 @@ namespace Carmicah
         public override void OnCreate()
         {
             temp = 5;
+            CMConsole.Log("Test SCript Create");
             base.OnCreate();
             GetTarget();
             Shoot();

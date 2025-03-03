@@ -561,19 +561,27 @@ namespace Carmicah
                 std::shared_ptr<ScriptClass> script = std::make_shared<ScriptClass>(nameSpace, name);
                 mEntityClasses[className] = script;
 
-                // get all the fields from the c# script (i.e variables from c# script side)
-                void* iterator = nullptr;
-                while (MonoClassField* field = mono_class_get_fields(monoClass, &iterator))
+                MonoClass* currentClass = monoClass;
+                while (currentClass)
                 {
-                    std::string fieldName = mono_field_get_name(field);
-                    // Only access public variables from the mono class
-                    if (mono_field_get_flags(field) & FIELD_ATTRIBUTE_PUBLIC)
+                    // get all the fields from the c# script (i.e variables from c# script side)
+                    void* iterator = nullptr;
+                    while (MonoClassField* field = mono_class_get_fields(currentClass, &iterator))
                     {
-                        MonoType* type = mono_field_get_type(field);
-                        ScriptFieldType fieldType = GetScriptFieldType(type);
-                        // Store it in the script's field map
-                        script->mFields[fieldName] = { fieldType, fieldName, field };
+                        std::string fieldName = mono_field_get_name(field);
+                        // Only access public variables from the mono class
+                        if (mono_field_get_flags(field) & FIELD_ATTRIBUTE_PUBLIC)
+                        {
+                            MonoType* type = mono_field_get_type(field);
+                            ScriptFieldType fieldType = GetScriptFieldType(type);
+                            // Store it in the script's field map
+                            script->mFields[fieldName] = { fieldType, fieldName, field };
+                        }
                     }
+
+                    currentClass = mono_class_get_parent(currentClass);
+                    if (currentClass == entityClass)
+                        break;
                 }
             }
 
