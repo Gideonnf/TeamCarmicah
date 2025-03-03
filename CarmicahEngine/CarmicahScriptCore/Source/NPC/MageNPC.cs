@@ -7,22 +7,22 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
-    public class ShooterNPC : BaseNPC
+    public class MageNPC : BaseNPC
     {
+        // TODO: Mage NPC shouldn't be using target mouse
+        // it just needs a target position then the projectile should have its own mageProjectile class
+        // that just reaches the position and explodes compared to shooter npc
+
+        // Ill leave it the exact same as shooter for now
+        // some one else do this pls
+
         MouseAI targetMouse;
         float timer = 0.0f;
+
         public override void OnCreate()
         {
+            // call base NPC on Create
             base.OnCreate();
-
-        }
-
-        public override void OnUpdate(float dt)
-        {
-            if (Input.IsKeyPressed(Keys.KEY_L))
-            {
-                GetTarget();
-            }
         }
 
         public override void ShootProjectile()
@@ -42,15 +42,11 @@ namespace Carmicah
                     if (mana > 0)
                         mana--;
                 }
+
             }
         }
-
         public override void GetTarget()
         {
-            //CMConsole.Log($"Mouse lane one: {gameManager.mouseLaneOne.Count}");
-            //CMConsole.Log($"Mouse lane two: {gameManager.mouseLaneTwo.Count}");
-            //CMConsole.Log($"Mouse lane three: {gameManager.mouseLaneThree.Count}");
-            //CMConsole.Log($"Mouse lane four: {gameManager.mouseLaneFour.Count}");
 
             float distance = float.MaxValue;
 
@@ -73,7 +69,7 @@ namespace Carmicah
                     break;
                 case 1:
                     {
-                        foreach(MouseAI mouse in gameManager.mouseLaneTwo)
+                        foreach (MouseAI mouse in gameManager.mouseLaneTwo)
                         {
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
@@ -88,7 +84,7 @@ namespace Carmicah
                     break;
                 case 2:
                     {
-                        foreach(MouseAI mouse in gameManager.mouseLaneThree)
+                        foreach (MouseAI mouse in gameManager.mouseLaneThree)
                         {
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
@@ -103,7 +99,7 @@ namespace Carmicah
                     break;
                 case 3:
                     {
-                        foreach(MouseAI mouse in gameManager.mouseLaneFour)
+                        foreach (MouseAI mouse in gameManager.mouseLaneFour)
                         {
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
@@ -117,6 +113,7 @@ namespace Carmicah
                     }
                     break;
             }
+
         }
 
         public void OnStateEnter(string stateName)
@@ -155,7 +152,7 @@ namespace Carmicah
             // which will cause crashes
             if (targetMouse != null && targetMouse.mID == 0)
             {
-                CMConsole.Log("I AM HERE");
+                //CMConsole.Log("I AM HERE");
                 targetMouse = null;
                 // Change back to idle state
                 //if (stateName == "Attacking")
@@ -167,11 +164,11 @@ namespace Carmicah
             if (stateName == "Idle")
             {
                 // Get nearest enemy 
-                //targetMouse = gameManager.GetClosestMouse(this);
-                GetTarget(); // get targetMouse
+                // targetMouse = gameManager.GetClosestMouse(this);
+                GetTarget();
                 if (targetMouse != null)
                 {
-                    CMConsole.Log($"Target mouse : {targetMouse.mID}");
+                   // CMConsole.Log($"Target mouse : {targetMouse.mID}");
 
                     // change to attacking state
                     if (mana > 0)

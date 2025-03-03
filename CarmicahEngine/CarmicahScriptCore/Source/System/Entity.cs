@@ -143,7 +143,7 @@ namespace Carmicah
         public T As<T>() where T : Entity, new()
         {
             string baseClassName = typeof(T).Name;
-            CMConsole.Log($"Trying to retrieve script instance of {baseClassName} for entity {mID}");
+            //CMConsole.Log($"Trying to retrieve script instance of {baseClassName} for entity {mID}");
             Object scriptInstance = FunctionCalls.GetScriptInstance(mID, baseClassName);
 
             if (scriptInstance == null)
