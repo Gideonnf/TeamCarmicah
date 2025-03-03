@@ -66,10 +66,12 @@
     <Compile Include="Source\GameManager.cs" />
     <Compile Include="Source\GameObject.cs" />
     <Compile Include="Source\HeroBuild.cs" />
+    <Compile Include="Source\NPC\BaseTest.cs" />
     <Compile Include="Source\NPC\HealthSystem.cs" />
     <Compile Include="Source\NPC\HeroAI.cs" />
     <Compile Include="Source\NPC\MouseAI.cs" />
     <Compile Include="Source\NPC\Projectile.cs" />
+    <Compile Include="Source\NPC\TestScript.cs" />
     <Compile Include="Source\PauseManager.cs" />
     <Compile Include="Source\Player.cs" />
     <Compile Include="Source\System\CMConsole.cs" />

@@ -142,7 +142,15 @@ namespace Carmicah
 
         public T As<T>() where T : Entity, new()
         {
-            Object scriptInstance = FunctionCalls.GetScriptInstance(mID);
+            string baseClassName = typeof(T).Name;
+            CMConsole.Log($"Trying to retrieve script instance of {baseClassName} for entity {mID}");
+            Object scriptInstance = FunctionCalls.GetScriptInstance(mID, baseClassName);
+
+            if (scriptInstance == null)
+            {
+                CMConsole.Log($"Script instance is null");
+                return null;
+            }
 
             return scriptInstance as T;
         }
