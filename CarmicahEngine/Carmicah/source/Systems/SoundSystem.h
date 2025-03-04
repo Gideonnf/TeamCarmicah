@@ -45,6 +45,7 @@ namespace Carmicah
 
     // Track information for each sound
     struct SoundTrack {
+        unsigned int entityID;
         FMOD::Sound* sound = nullptr;
         FMOD::Channel* channel = nullptr;
         float defaultVolume = 1.0f;
@@ -71,6 +72,7 @@ namespace Carmicah
         std::vector<std::unique_ptr<SoundTrack>> mSoundTracks[SOUND_MAX_SOUNDS];
         std::unordered_map<SoundCategory, float> mCategoryVolumes;
         const float defaultVolume = 1.0f;
+        unsigned int currentEntityID;
         float mMasterVolume;
         bool mIsMuted;
         bool switchBGM = false;
@@ -94,11 +96,11 @@ namespace Carmicah
         void Exit();
 
         // Enhanced playback controls
-        bool PlaySoundThis(const std::string& soundName, SoundCategory category = SoundCategory::SFX, INTSOUND internalCatergoy = SOUND_INGAME, bool isLoop = false, float volume = -1.0f);
-        void SwitchSound(INTSOUND internalCatergoy, const std::string& newSoundName, SoundCategory category, bool isLoop, float volume, float fadeTimer, float fadeDuration);
+        bool PlaySoundThis(unsigned int entityID, const std::string& soundName, SoundCategory category = SoundCategory::SFX, INTSOUND internalCatergoy = SOUND_INGAME, bool isLoop = false, float volume = -1.0f);
+        void SwitchSound(unsigned int entityID, INTSOUND internalCatergoy, const std::string& newSoundName, SoundCategory category, bool isLoop, float volume, float fadeTimer, float fadeDuration);
         void UpdateFadeEffect();
-        void StopSound(INTSOUND internalCatergoy);
-        void StopSoundWithFade(INTSOUND internalCatergoy, float fadeTimer, float fadeDuration);
+        void StopSound(unsigned int entityID, INTSOUND internalCatergoy);
+        void StopSoundWithFade(unsigned int entityID, INTSOUND internalCatergoy, float fadeTimer, float fadeDuration);
         void PauseSound(INTSOUND internalCatergoy);
         void ResumeSound(INTSOUND internalCatergoy);
         void StopAllSounds();

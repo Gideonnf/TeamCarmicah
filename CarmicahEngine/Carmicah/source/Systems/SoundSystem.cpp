@@ -62,7 +62,7 @@ namespace Carmicah
         StopAllSounds();
     }
 
-    bool SoundSystem::PlaySoundThis(const std::string& soundName, SoundCategory category, INTSOUND internalCatergoy, bool isLoop, float volume)
+    bool SoundSystem::PlaySoundThis(unsigned int entityID, const std::string& soundName, SoundCategory category, INTSOUND internalCatergoy, bool isLoop, float volume)
     {
 
         if (!AssetManager::GetInstance()->AssetExist<FMOD::Sound*>(soundName))
@@ -80,6 +80,7 @@ namespace Carmicah
             mSoundSystem->playSound(sound, nullptr, false, &channel);
             // Store in tracks for management
             auto track = std::make_unique<SoundTrack>();
+            track->entityID = entityID;
             track->sound = sound;
             track->category = category;
             track->channel = channel;
@@ -87,7 +88,14 @@ namespace Carmicah
             track->currentVolume = track->defaultVolume * mMasterVolume;
 
             if (!isLoop)
+            {
                 channel->setLoopCount(0);
+
+            }
+            else
+            {
+                channel->setLoopCount(-1);
+            }
             channel->setVolume(track->currentVolume);
             mSoundTracks[internalCatergoy].emplace_back(std::move(track));
             return true;
@@ -95,14 +103,20 @@ namespace Carmicah
         return false;
     }
 
-    void SoundSystem::SwitchSound(INTSOUND internalCatergoy, const std::string& newSoundName, SoundCategory category, bool isLoop, float volume, float fadeTimer, float fadeDuration)
+    void SoundSystem::SwitchSound(unsigned int entityID, INTSOUND internalCatergoy, const std::string& newSoundName, SoundCategory category, bool isLoop, float volume, float fadeTimer, float fadeDuration)
     {
-        if (mSoundTracks[internalCatergoy].empty())
+        auto& tracks = mSoundTracks[internalCatergoy];
+        auto it = std::find_if(tracks.begin(), tracks.end(), [&](const std::unique_ptr<SoundTrack>& track) {
+            return track->entityID == entityID;
+            });
+
+        if (it == tracks.end())
         {
-            return;
+            return; // No track found for this entity
         }
 
-        FMOD::Channel* currentChannel = mSoundTracks[internalCatergoy].back()->channel;
+        SoundTrack* soundTrack = it->get();
+        FMOD::Channel* currentChannel = soundTrack->channel;
         if (!currentChannel)
         {
             return;
@@ -130,7 +144,7 @@ namespace Carmicah
             newSoundLoop = isLoop;
             newSoundVolume = volume;
             switchBGM = true;
-            
+            currentEntityID = entityID;
             
         }
     }
@@ -163,7 +177,7 @@ namespace Carmicah
                 if (switchBGM)
                 {
                     
-                    PlaySoundThis(newSoundNamePending, newSoundCategory, newSoundInternalCatergoy, newSoundLoop, newSoundVolume);
+                    PlaySoundThis(currentEntityID, newSoundNamePending, newSoundCategory, newSoundInternalCatergoy, newSoundLoop, newSoundVolume);
                     FMOD::Channel* newChannel = mSoundTracks[newSoundInternalCatergoy].back()->channel;
                     if (newChannel)
                     {
@@ -195,17 +209,17 @@ namespace Carmicah
         }
     }
 
-    void SoundSystem::StopSound(INTSOUND internalCatergoy)
+    void SoundSystem::StopSound(unsigned int entityID, INTSOUND internalCatergoy)
     {
         for (auto it = mSoundTracks[internalCatergoy].begin(); it != mSoundTracks[internalCatergoy].end(); ++it)
         {
-            if (it->get()->channel)
+            if (it->get()->entityID == entityID)
                 it->get()->channel->stop();
         }
         mSoundTracks[internalCatergoy].clear();
     }
 
-    void SoundSystem::StopSoundWithFade(INTSOUND internalCatergoy, float fadeTimer, float fadeDuration)
+    void SoundSystem::StopSoundWithFade(unsigned int entityID, INTSOUND internalCatergoy, float fadeTimer, float fadeDuration)
     {
         if (mSoundTracks[internalCatergoy].empty())
         {
@@ -233,7 +247,7 @@ namespace Carmicah
             fadeDurationSeconds = fadeDuration;
             fadingOut = true;
             oldChannel = currentChannel;
-            
+            currentEntityID = entityID;
 
 
         }

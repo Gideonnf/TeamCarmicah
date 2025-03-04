@@ -154,43 +154,43 @@ namespace Carmicah
 	/// Internal function call to play sound effects between C# and C++
 	/// </summary>
 	/// <param name="name">Name of the sound file to play</param>
-	static void Sound_PlaySFX(MonoString* name, float volume, bool isLoop)
+	static void Sound_PlaySFX(unsigned int entityID, MonoString* name, float volume, bool isLoop)
 	{
 		std::string cStrName = MonoToString(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySoundThis(cStrName, SoundCategory::SFX, SoundSystem::SOUND_INGAME, isLoop, volume);
+		souSystem->PlaySoundThis(entityID, cStrName, SoundCategory::SFX, SoundSystem::SOUND_INGAME, isLoop, volume);
 		//mono_free(cStrname);
 	}
 
-	static void Sound_PlayBGM(MonoString* name, float volume)
+	static void Sound_PlayBGM(unsigned int entityID, MonoString* name, float volume)
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySoundThis(cStrname, SoundCategory::BGM, SoundSystem::SOUND_BGM, true, volume);
+		souSystem->PlaySoundThis(entityID, cStrname, SoundCategory::BGM, SoundSystem::SOUND_BGM, true, volume);
 		mono_free(cStrname);
 	}
 
-	static void Sound_StopBGM(MonoString* name)
+	static void Sound_StopBGM(unsigned int entityID, MonoString* name)
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->StopSound(SoundSystem::SOUND_BGM);
+		souSystem->StopSound(entityID, SoundSystem::SOUND_BGM);
 		mono_free(cStrname);
 	}
 
-	static void Sound_StopSFXWithFade(MonoString* name, float fadeTimer, float fadeDuration)
+	static void Sound_StopSFXWithFade(unsigned int entityID, MonoString* name, float fadeTimer, float fadeDuration)
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->StopSoundWithFade(SoundSystem::SOUND_INGAME, fadeTimer, fadeDuration);
+		souSystem->StopSoundWithFade(entityID, SoundSystem::SOUND_INGAME, fadeTimer, fadeDuration);
 		mono_free(cStrname);
 	}
 
-	static void Sound_SwitchBGM(MonoString* name, float fadeTimer, float fadeDuration)
+	static void Sound_SwitchBGM(unsigned int entityID, MonoString* name, float fadeTimer, float fadeDuration)
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->SwitchSound(SoundSystem::SOUND_BGM, cStrname, SoundCategory::BGM, true, 1.0f, fadeTimer, fadeDuration);
+		souSystem->SwitchSound(entityID, SoundSystem::SOUND_BGM, cStrname, SoundCategory::BGM, true, 1.0f, fadeTimer, fadeDuration);
 		mono_free(cStrname);
 	}
 
