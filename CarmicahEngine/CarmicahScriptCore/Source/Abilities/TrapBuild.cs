@@ -50,6 +50,21 @@ namespace Carmicah
             if (trapIcon != null && trapIcon.mID == 0)
             {
                 trapIcon = null;
+                if (translucentTrap != null)
+                {
+                    translucentTrap.Destroy();
+                    translucentTrap = null;
+                }
+                return;
+            }
+
+            // for some reason destroying it will leave a reference here
+            // even tho i set null???
+            // so i have to add these
+            // same as trapicon above
+            if (translucentTrap != null && translucentTrap.mID == 0)
+            {
+                translucentTrap = null;
                 return;
             }
 
