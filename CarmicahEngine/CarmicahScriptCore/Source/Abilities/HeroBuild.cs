@@ -38,6 +38,15 @@ namespace Carmicah
                 heroEntity = null;
             }
 
+            if (heroIcon != null && heroIcon.mID == 0)
+            {
+                if (translucentHero != null)
+                {
+                    translucentHero.Destroy();
+                }
+                heroIcon = null;
+            }
+
             //CMConsole.Log("Carrying out Shooter Build");
             if (heroIcon != null && heroIcon.As<BaseIcon>().trapEntity != null)
             {
@@ -95,6 +104,9 @@ namespace Carmicah
 
                         GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                         gm.NewNPC(heroEntity);
+
+                        heroIcon.As<HeroIcon>().HeroBuilt();
+                        heroIcon = null;
                     }
                 }
             }

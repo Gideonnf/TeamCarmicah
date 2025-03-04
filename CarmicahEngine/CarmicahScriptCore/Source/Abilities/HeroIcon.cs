@@ -105,6 +105,13 @@ namespace Carmicah
             }
         }
 
+        public void HeroBuilt()
+        {
+            Entity abilityBar = FindEntityWithName("UIBar");
+            abilityBar.As<AbilityBar>().IconRemoved(this.As<BaseIcon>());
+            Destroy();
+        }
+
         void OnMouseExit()
         {
             hovering = false;
