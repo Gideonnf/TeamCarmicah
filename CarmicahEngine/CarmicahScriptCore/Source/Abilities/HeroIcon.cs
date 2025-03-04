@@ -87,10 +87,10 @@ namespace Carmicah
 
             trapEntity = CreateGameObject(heroPrefab);
             //Not sure if this belongs here but shld work.
-            heroBuildEntity.As<HeroBuild>().SetHeroType(type, heroPrefab);
-            heroBuildEntity1.As<HeroBuild>().SetHeroType(type, heroPrefab);
-            heroBuildEntity2.As<HeroBuild>().SetHeroType(type, heroPrefab);
-            heroBuildEntity3.As<HeroBuild>().SetHeroType(type, heroPrefab);
+            heroBuildEntity.As<HeroBuild>().SetHeroType(type, heroPrefab, this);
+            heroBuildEntity1.As<HeroBuild>().SetHeroType(type, heroPrefab, this);
+            heroBuildEntity2.As<HeroBuild>().SetHeroType(type, heroPrefab, this);
+            heroBuildEntity3.As<HeroBuild>().SetHeroType(type, heroPrefab, this);
 
         }
 
