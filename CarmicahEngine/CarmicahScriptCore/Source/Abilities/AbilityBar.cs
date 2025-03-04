@@ -19,16 +19,27 @@ namespace Carmicah
 
         public override void OnCreate()
         {
-            
+            CreateIcon(IconType.CANDY_ICON);
+            CreateIcon(IconType.SHOOTER_ICON);
+            CreateIcon(IconType.MAGE_ICON);
+            CreateIcon(IconType.HONEY_ICON);
+
         }
 
         public void IconRemoved(BaseIcon icon)
         {
-
+            trapIcons.Remove(icon);
+            CMConsole.Log("Removing base icon");
         }
 
         public void CreateIcon(IconType type)
         {
+            CMConsole.Log($"Icon list{trapIcons.Count}");
+            if (trapIcons.Count >= 6)
+            {
+                return;
+            }
+
             Entity newIcon = null;
             switch (type)
             {
@@ -59,7 +70,9 @@ namespace Carmicah
 
             if (newIcon != null)
             {
-                newIcon.Position = new Vector2(Position.x, startingPos + (yOffset * trapIcons.Count));
+                // I dont know if we should just hard code the 7 spot positions
+                // because the offset is uneven since the size of sprites are different
+                newIcon.Position = new Vector2(Position.x, startingPos - ((yOffset * trapIcons.Count) + (15 * trapIcons.Count)));
                 trapIcons.Add(newIcon.As<BaseIcon>());
             }
 

@@ -120,12 +120,12 @@ namespace Carmicah
             {
                 trapEntity = CreateGameObject(fakeTrapPrefab);
                 activeTrapIcon = true;
-                CMConsole.Log($"Actual trap prefab name {actualTrapPrefab}");
+                //CMConsole.Log($"Actual trap prefab name {actualTrapPrefab}");
 
                 Entity[] trapBuildSpots = FindEntitiesWithTag("TrapBuild");
                 for(int i = 0; i < trapBuildSpots.Length; i++)
                 {
-                    trapBuildSpots[i].As<TrapBuild>().SetTrapType(type, actualTrapPrefab, fakeTrapPrefab);
+                    trapBuildSpots[i].As<TrapBuild>().SetTrapType(type, actualTrapPrefab, fakeTrapPrefab, this);
                 }
                 //Sets the translucent for the trap type
                 //trapBuildEntity.As<TrapBuild>().SetTrapType(type, actualTrapPrefabName, fakeTrapPrefab);
@@ -150,6 +150,13 @@ namespace Carmicah
         {
             hovering = false;
             this.GetComponent<Renderer>().SetColour(1.0f, 1.0f, 1.0f);
+        }
+
+        public void TrapBuilt()
+        {
+            //Entity abilityBar = FindEntityWithName("UIBar");
+            //abilityBar.As<AbilityBar>().IconRemoved(this.As<BaseIcon>());
+            Destroy();
         }
     }
 }

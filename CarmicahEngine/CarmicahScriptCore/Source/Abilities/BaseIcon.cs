@@ -22,6 +22,7 @@ namespace Carmicah
         public Entity trapEntity;
         public bool flipped = false;
         public bool hovering = false;
+        
 
         public AbilityType type;
         public Entity waveSystem;

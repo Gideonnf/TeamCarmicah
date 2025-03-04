@@ -18,9 +18,9 @@ namespace Carmicah
 
         Entity translucentTrap;
         Entity trapEntity;
-        Entity CandyConeTrapIcon;
-        Entity HoneyTrapIcon;
-
+        //Entity CandyConeTrapIcon;
+        //Entity HoneyTrapIcon;
+        Entity trapIcon;
         public AbilityType type;
 
         bool hovering = false;
@@ -32,8 +32,8 @@ namespace Carmicah
 
         public void OnCreate()
         {
-            CandyConeTrapIcon = FindEntityWithName("CandyConeTrapIcon");
-            HoneyTrapIcon = FindEntityWithName("HoneyTrapIcon");
+            //CandyConeTrapIcon = FindEntityWithName("CandyConeTrapIcon");
+            //HoneyTrapIcon = FindEntityWithName("HoneyTrapIcon");
         }
 
         public void OnUpdate(float dt)
@@ -61,16 +61,21 @@ namespace Carmicah
 
             }
 
-            switch(type)
+            if (trapIcon != null)
             {
-                case AbilityType.CANDY_CONE:
-                    TrapBuildChecks(CandyConeTrapIcon);
-                    break;
-
-                case AbilityType.HONEY:
-                    TrapBuildChecks(HoneyTrapIcon);
-                    break;
+                TrapBuildChecks(trapIcon);
             }
+
+            //switch(type)
+            //{
+            //    case AbilityType.CANDY_CONE:
+            //        TrapBuildChecks(CandyConeTrapIcon);
+            //        break;
+
+            //    case AbilityType.HONEY:
+            //        TrapBuildChecks(HoneyTrapIcon);
+            //        break;
+            //}
         }
 
 
@@ -153,7 +158,8 @@ namespace Carmicah
 
                     translucentTrap.Destroy();
                     translucentTrap = null;
-
+                   // trapIcon.As<TrapIcon>().TrapBuilt();
+                    trapIcon = null;
                 }
             }
         }
@@ -181,13 +187,13 @@ namespace Carmicah
             built = false;
         }
 
-        public void SetTrapType(AbilityType trapType, string trapPrefabName, string fakeTrapName)
+        public void SetTrapType(AbilityType trapType, string trapPrefabName, string fakeTrapName, Entity icon)
         {
             //CMConsole.Log("Shouldnt Honey be running this too?");
             type = trapType;
             TrapPrefabName = trapPrefabName;
             TrapTranslucentPrefab = fakeTrapName;
-
+            trapIcon = icon;
             //switch(type)
             //{
             //    case TrapType.CANDY_CONE:
