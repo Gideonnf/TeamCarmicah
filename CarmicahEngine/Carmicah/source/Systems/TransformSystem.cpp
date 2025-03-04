@@ -99,6 +99,8 @@ namespace Carmicah
 			return "PROJECTILE";
 		case CollisionLayer::TRAPS:
 			return "TRAPS";
+		case CollisionLayer::TOWER:
+			return "TOWER";
 		default:
 			return "NULL";
 		}
