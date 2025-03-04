@@ -47,6 +47,12 @@ namespace Carmicah
                 built = false;
             }
 
+            if (trapIcon != null && trapIcon.mID == 0)
+            {
+                trapIcon = null;
+                return;
+            }
+
             if (enemyCollided && translucentTrap != null)
             {
                 // change color to red
@@ -153,13 +159,16 @@ namespace Carmicah
                             //trapEntity.Position = new Vector2(translucentTrap.Position.x, translucentTrap.Position.y);
                         }
 
+                        trapIcon.As<TrapIcon>().TrapBuilt();
+
                         // trapEntity.Position = new Vector2(trapEntity.Position.x + trapOffset, trapEntity.Position.y);
                     }
 
                     translucentTrap.Destroy();
                     translucentTrap = null;
-                   // trapIcon.As<TrapIcon>().TrapBuilt();
+                    //
                     trapIcon = null;
+                    return;
                 }
             }
         }

@@ -154,8 +154,8 @@ namespace Carmicah
 
         public void TrapBuilt()
         {
-            //Entity abilityBar = FindEntityWithName("UIBar");
-            //abilityBar.As<AbilityBar>().IconRemoved(this.As<BaseIcon>());
+            Entity abilityBar = FindEntityWithName("UIBar");
+            abilityBar.As<AbilityBar>().IconRemoved(this.As<BaseIcon>());
             Destroy();
         }
     }
