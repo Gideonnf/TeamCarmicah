@@ -670,7 +670,7 @@ namespace Carmicah
 
 			if (rigidbody1.collided == false)
 			{
-				CM_CORE_INFO(" COLLISION");
+				//CM_CORE_INFO(" COLLISION");
 
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
 				SendSysMessage(&newMsg);
@@ -704,7 +704,7 @@ namespace Carmicah
 
 			if (rigidbody1.collided == false)
 			{
-				CM_CORE_INFO(" COLLISION");
+				//CM_CORE_INFO(" COLLISION");
 
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
 				SendSysMessage(&newMsg);
@@ -740,7 +740,7 @@ namespace Carmicah
 			//CM_CORE_INFO("Obj 1 {}, Obj 2 {}", obj1, obj2);
 			if (rigidbody1.collided == false)
 			{
-				CM_CORE_INFO(" COLLISION");
+				//CM_CORE_INFO(" COLLISION");
 
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
 				SendSysMessage(&newMsg);
@@ -766,7 +766,6 @@ namespace Carmicah
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
 			//CM_CORE_INFO("ID in CollisionSystem 2nd {}", obj1);
-			CM_CORE_INFO("Obj 1 {}, Obj 2 {}", obj1, obj2);
 			if (rigidbody1.collided == false)
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
@@ -781,6 +780,8 @@ namespace Carmicah
 		}
 		else if (rigidbody1.objectType == rbTypes::KINEMATIC && rigidbody2.objectType == rbTypes::KINEMATIC)
 		{
+			//CM_CORE_INFO("Obj 1 {}, Obj 2 {}", obj1, obj2);
+
 			// trigger
 			if (rigidbody1.triggerCollide == false)
 			{
@@ -967,7 +968,7 @@ namespace Carmicah
 					// JUST DONT USE IT OK? 
 					// I KINDA LAZY TO FIND A WAY TO DIFFERENTIATE KINEMATIC w KINEMATIC COLLISION EXIT
 					// VS KINEMATIC w OTHER TYPE COLLISION EXIT
-					CM_CORE_INFO("ENDING COLLISION");
+					//CM_CORE_INFO("ENDING COLLISION");
 
 					// 0 on 2nd entity cause trigger exit doesnt care about collided entity
 					EntityCollidedMessage newMsg(entity1, 0, CollideType::TRIGGER_EXIT);

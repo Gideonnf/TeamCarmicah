@@ -469,16 +469,19 @@ namespace Carmicah
 		return newGO.GetID();
 	}
 
-	static MonoObject* GetScriptInstance(unsigned int entityID)
+	static MonoObject* GetScriptInstance(unsigned int entityID, MonoString* baseName)
 	{
-		if (gScriptSystem->mEntityInstances.count(entityID) > 0)
-		{
-			return gScriptSystem->mEntityInstances[entityID]->GetInstance();
-		}
-		else
+		if (gScriptSystem->mEntityInstances.count(entityID) == 0)
 		{
 			CM_CORE_ERROR("Entity does not have script attached");
 			return nullptr;
+		}
+
+		std::string cStrName = MonoToString(baseName);
+
+		if (gScriptSystem->mEntityInstances.count(entityID) > 0)
+		{
+			return gScriptSystem->mEntityInstances[entityID]->GetInstance();
 		}
 	}
 

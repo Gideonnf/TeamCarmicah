@@ -17,7 +17,6 @@ DigiPen Institute of Technology is prohibited.
 
 
 using Carmicah;
-using CarmicahScriptCore.Source;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,6 +71,8 @@ namespace Carmicah
         Entity playerHealth;
         Entity playerHealthCover;
 
+        Entity[] topTowerBoxes = new Entity[3];
+
         Entity[] endEntities = new Entity[4];
 
         List<Entity> npcList;
@@ -118,6 +119,10 @@ namespace Carmicah
             walls[1] = FindEntityWithName("Wall_1");
             walls[2] = FindEntityWithName("Wall_2");
             walls[3] = FindEntityWithName("Wall_3");
+
+            topTowerBoxes[0] = FindEntityWithName("TopTowerBox");
+            topTowerBoxes[1] = FindEntityWithName("TopTowerBox_1");
+            topTowerBoxes[2] = FindEntityWithName("TopTowerBox_2");
 
             waveSystem = FindEntityWithName(WaveSystemObject);
 
@@ -507,6 +512,15 @@ namespace Carmicah
                 pos = npc.Position;
                 pos.y += CakeHeightOffset;
                 npc.Position = pos;
+            }
+
+            foreach(Entity towerBox in topTowerBoxes)
+            {
+                if (towerBox.mID == 0) continue;
+
+                pos = towerBox.Position;
+                pos.y += CakeHeightOffset;
+                towerBox.Position = pos;
             }
         }
 
