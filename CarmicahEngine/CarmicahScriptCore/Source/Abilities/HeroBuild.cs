@@ -17,16 +17,17 @@ namespace Carmicah
         public float depthVal;
         Entity translucentHero;
         Entity heroEntity;
-        Entity shooterIcon;
-        Entity mageIcon;
+        //Entity shooterIcon;
+        //Entity mageIcon;
         AbilityType type;
         bool hovering = false;
         bool built = false;
+        Entity heroIcon;
 
         public void OnCreate()
         {
-            shooterIcon = FindEntityWithName("ShooterIcon");
-            mageIcon = FindEntityWithName("MageIcon");
+            //shooterIcon = FindEntityWithName("ShooterIcon");
+            //mageIcon = FindEntityWithName("MageIcon");
         }
 
         public void OnUpdate(float dt)
@@ -41,7 +42,7 @@ namespace Carmicah
                 case AbilityType.SHOOTER:
                     {
                         //CMConsole.Log("Carrying out Shooter Build");
-                        if (shooterIcon != null && shooterIcon.As<HeroIcon>().trapEntity!= null)
+                        if (heroIcon != null && heroIcon.As<BaseIcon>().trapEntity!= null)
                         {
 
                             if (translucentHero == null && built == false)
@@ -173,7 +174,7 @@ namespace Carmicah
         }
 
 
-        public void SetHeroType(AbilityType heroType, string heroPrefabName)
+        public void SetHeroType(AbilityType heroType, string heroPrefabName, Entity icon)
         {
             CMConsole.Log("Setting heroType and prefab to" + heroPrefabName);
             type = heroType;
