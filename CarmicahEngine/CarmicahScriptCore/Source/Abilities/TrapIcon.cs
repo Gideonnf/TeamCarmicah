@@ -8,14 +8,8 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
-    public class TrapIcon : Entity
+    public class TrapIcon : BaseIcon
     {
-        public string WaveSystemObject = "Something";
-        public string fakeTrapPrefab = "";
-        public string actualTrapPrefabName = "";
-        public Entity trapEntity;
-        bool flipped = false;
-        bool hovering = false;
         public float trapOffset = 1.6f;
         public bool cooldown = false;
         public float cooldownTime = 3.0f;
@@ -23,11 +17,9 @@ namespace Carmicah
         //public string TrapBuild1 = "TrapBuild_1";
         //public string TrapBuild2 = "TrapBuild_2";
         //public string TrapBuild3 = "TrapBuild_3";
-        public TrapType type;
         public bool activeTrapIcon = false;
 
         float timer;
-        Entity waveSystem;
         //Entity trapBuildEntity;
         //Entity trapBuildEntity1;
         //Entity trapBuildEntity2;
@@ -46,13 +38,13 @@ namespace Carmicah
             //trapBuildEntity2 = FindEntityWithName(TrapBuild2);
             //trapBuildEntity3 = FindEntityWithName(TrapBuild3);
 
-            if(actualTrapPrefabName == "CandyConeTrap")
+            if(actualTrapPrefab == "CandyConeTrap")
             {
-                type = TrapType.CANDY_CONE;
+                type = AbilityType.CANDY_CONE;
             }
-            else if(actualTrapPrefabName == "HoneyTrap")
+            else if(actualTrapPrefab == "HoneyTrap")
             {
-                type = TrapType.HONEY;
+                type = AbilityType.HONEY;
             }
 
         }
@@ -128,12 +120,12 @@ namespace Carmicah
             {
                 trapEntity = CreateGameObject(fakeTrapPrefab);
                 activeTrapIcon = true;
-                CMConsole.Log($"Actual trap prefab name {actualTrapPrefabName}");
+                CMConsole.Log($"Actual trap prefab name {actualTrapPrefab}");
 
                 Entity[] trapBuildSpots = FindEntitiesWithTag("TrapBuild");
                 for(int i = 0; i < trapBuildSpots.Length; i++)
                 {
-                    trapBuildSpots[i].As<TrapBuild>().SetTrapType(type, actualTrapPrefabName, fakeTrapPrefab);
+                    trapBuildSpots[i].As<TrapBuild>().SetTrapType(type, actualTrapPrefab, fakeTrapPrefab);
                 }
                 //Sets the translucent for the trap type
                 //trapBuildEntity.As<TrapBuild>().SetTrapType(type, actualTrapPrefabName, fakeTrapPrefab);

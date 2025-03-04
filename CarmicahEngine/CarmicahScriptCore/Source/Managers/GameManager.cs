@@ -319,7 +319,7 @@ namespace Carmicah
 
             MouseAI targetMouse = null;
             float distance = float.MaxValue;
-            if(entity.type == HeroType.SHOOTER)
+            if(entity.type == AbilityType.SHOOTER)
             {
                 switch (entity.lane)
                 {
@@ -377,7 +377,7 @@ namespace Carmicah
                         break;
                 }
             }
-            else if(entity.type == HeroType.MAGE)
+            else if(entity.type == AbilityType.MAGE)
             {
                 switch (entity.IsLeft)
                 {

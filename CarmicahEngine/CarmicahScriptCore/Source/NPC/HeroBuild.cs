@@ -19,7 +19,7 @@ namespace Carmicah
         Entity heroEntity;
         Entity shooterIcon;
         Entity mageIcon;
-        HeroType type;
+        AbilityType type;
         bool hovering = false;
         bool built = false;
 
@@ -38,10 +38,10 @@ namespace Carmicah
             }
             switch (type)
             {
-                case HeroType.SHOOTER:
+                case AbilityType.SHOOTER:
                     {
                         //CMConsole.Log("Carrying out Shooter Build");
-                        if (shooterIcon != null && shooterIcon.As<HeroIcon>().heroEntity != null)
+                        if (shooterIcon != null && shooterIcon.As<HeroIcon>().trapEntity!= null)
                         {
 
                             if (translucentHero == null && built == false)
@@ -61,7 +61,7 @@ namespace Carmicah
                             }
                         }
 
-                        else if (shooterIcon != null && shooterIcon.As<HeroIcon>().heroEntity == null)
+                        else if (shooterIcon != null && shooterIcon.As<HeroIcon>().trapEntity == null)
                         {
                             if (translucentHero != null)
                             {
@@ -77,7 +77,7 @@ namespace Carmicah
                                     heroEntity.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
                                     heroEntity.As<HeroAI>().lane = (int)lane;
                                     heroEntity.As<HeroAI>().active = true;
-                                    heroEntity.As<HeroAI>().type = HeroType.SHOOTER;
+                                    heroEntity.As<HeroAI>().type = AbilityType.SHOOTER;
                                     if (IsLeft)
                                     {
                                         heroEntity.As<HeroAI>().IsLeft = true;
@@ -103,10 +103,10 @@ namespace Carmicah
                         }
                         break;
                     }
-                case HeroType.MAGE:
+                case AbilityType.MAGE:
                     {
                         //CMConsole.Log("MageNPC Build");
-                        if (mageIcon != null && mageIcon.As<HeroIcon>().heroEntity != null)
+                        if (mageIcon != null && mageIcon.As<HeroIcon>().trapEntity != null)
                         {
                             CMConsole.Log("Condition 1 fufilled");
                             if (translucentHero == null && built == false)
@@ -127,7 +127,7 @@ namespace Carmicah
                             }
                         }
 
-                        else if (mageIcon != null && mageIcon.As<HeroIcon>().heroEntity == null)
+                        else if (mageIcon != null && mageIcon.As<HeroIcon>().trapEntity == null)
                         {
                             if (translucentHero != null)
                             {
@@ -143,7 +143,7 @@ namespace Carmicah
                                     heroEntity.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
                                     heroEntity.As<HeroAI>().lane = (int)lane;
                                     heroEntity.As<HeroAI>().active = true;
-                                    heroEntity.As<HeroAI>().type = HeroType.MAGE;
+                                    heroEntity.As<HeroAI>().type = AbilityType.MAGE;
                                     if (IsLeft)
                                     {
                                         heroEntity.As<HeroAI>().IsLeft = true;
@@ -173,7 +173,7 @@ namespace Carmicah
         }
 
 
-        public void SetHeroType(HeroType heroType, string heroPrefabName)
+        public void SetHeroType(AbilityType heroType, string heroPrefabName)
         {
             CMConsole.Log("Setting heroType and prefab to" + heroPrefabName);
             type = heroType;

@@ -59,6 +59,10 @@
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Installer|x64' ">
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Abilities\BaseIcon.cs" />
+    <Compile Include="Source\Abilities\TrapAI.cs" />
+    <Compile Include="Source\Abilities\TrapBall.cs" />
+    <Compile Include="Source\Abilities\TrapBuild.cs" />
     <Compile Include="Source\Managers\CakeControl.cs" />
     <Compile Include="Source\Managers\LevelManager.cs" />
     <Compile Include="Source\BalloonBounce.cs" />
@@ -91,18 +95,16 @@
     <Compile Include="Source\System\Vector2.cs" />
     <Compile Include="Source\System\Vector3.cs" />
     <Compile Include="Source\Testing\Testing.cs" />
-    <Compile Include="Source\Traps\TrapAI.cs" />
-    <Compile Include="Source\Traps\TrapBall.cs" />
-    <Compile Include="Source\Traps\TrapBuild.cs" />
+    <Compile Include="Source\Abilities\AbilityBar.cs" />
     <Compile Include="Source\UI\ButtonGeneric.cs" />
     <Compile Include="Source\UI\Countdown.cs" />
     <Compile Include="Source\UI\Cutscene.cs" />
-    <Compile Include="Source\UI\HeroIcon.cs" />
+    <Compile Include="Source\Abilities\HeroIcon.cs" />
     <Compile Include="Source\UI\Intro.cs" />
     <Compile Include="Source\UI\LoadingBackground.cs" />
     <Compile Include="Source\UI\LoadingDots.cs" />
     <Compile Include="Source\UI\LoadingScreen.cs" />
-    <Compile Include="Source\UI\TrapIcon.cs" />
+    <Compile Include="Source\Abilities\TrapIcon.cs" />
     <Compile Include="Source\UI\WaveCounter.cs" />
     <Compile Include="Source\Managers\WaveSystem.cs" />
   </ItemGroup>

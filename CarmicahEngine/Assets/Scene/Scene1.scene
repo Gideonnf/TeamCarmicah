@@ -324,7 +324,12 @@
                             "HeroBuild": "HeroBuild",
                             "HeroBuild2": "HeroBuild_2",
                             "HeroBuild1": "HeroBuild_1",
-                            "HeroBuild3": "HeroBuild_3"
+                            "WaveSystemObject": "Something",
+                            "actualTrapPrefab": "",
+                            "HeroBuild3": "HeroBuild_3",
+                            "fakeTrapPrefab": "",
+                            "flipped": false,
+                            "hovering": false
                         }
                     ]
                 }
@@ -832,7 +837,8 @@
                             "WalkAnim": "MC_Walk",
                             "GameLost": true,
                             "isWalking": true,
-                            "isCreated": false
+                            "isCreated": false,
+                            "walkingSpeed": 2.0
                         }
                     ]
                 }
@@ -1360,7 +1366,10 @@
                             "TrapBuild3": "TrapBuild_3",
                             "actualTrapPrefabName": "CandyConeTrap",
                             "fakeTrapPrefab": "FakeCandyConeTrap",
-                            "activeTrapIcon": false
+                            "activeTrapIcon": false,
+                            "actualTrapPrefab": "CandyConeTrap",
+                            "flipped": false,
+                            "hovering": false
                         }
                     ]
                 }
@@ -1401,7 +1410,12 @@
                             "HeroBuild": "HeroBuild",
                             "HeroBuild2": "HeroBuild_2",
                             "HeroBuild1": "HeroBuild_1",
-                            "HeroBuild3": "HeroBuild_3"
+                            "WaveSystemObject": "Something",
+                            "actualTrapPrefab": "",
+                            "HeroBuild3": "HeroBuild_3",
+                            "fakeTrapPrefab": "",
+                            "flipped": false,
+                            "hovering": false
                         }
                     ]
                 }
@@ -1856,7 +1870,12 @@
                             "HeroBuild": "HeroBuild",
                             "HeroBuild2": "HeroBuild_2",
                             "HeroBuild1": "HeroBuild_1",
-                            "HeroBuild3": "HeroBuild_3"
+                            "WaveSystemObject": "Something",
+                            "actualTrapPrefab": "",
+                            "HeroBuild3": "HeroBuild_3",
+                            "fakeTrapPrefab": "",
+                            "flipped": false,
+                            "hovering": false
                         }
                     ]
                 }
@@ -1904,7 +1923,10 @@
                             "TrapBuild3": "TrapBuild_3",
                             "actualTrapPrefabName": "HoneyTrap",
                             "fakeTrapPrefab": "FakeHoneyTrap",
-                            "activeTrapIcon": false
+                            "activeTrapIcon": false,
+                            "actualTrapPrefab": "HoneyTrap",
+                            "flipped": false,
+                            "hovering": false
                         }
                     ]
                 }
@@ -1937,7 +1959,8 @@
                             "SpawnTimer": 1.5,
                             "TrapPrefab": "TrapBall",
                             "timer": 0.0,
-                            "xOffset": 5.0
+                            "xOffset": 5.0,
+                            "WaveSystemObject": "Something"
                         }
                     ]
                 }
