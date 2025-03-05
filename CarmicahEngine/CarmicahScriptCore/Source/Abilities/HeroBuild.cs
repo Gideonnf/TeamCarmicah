@@ -54,6 +54,7 @@ namespace Carmicah
                 if (translucentHero == null && built == false)
                 {
                     //CMConsole.Log("It shouldnt be here atm");
+                    CMConsole.Log("Creating the translucent hero");
                     translucentHero = CreateGameObject(HeroPrefab);
 
                     // change the opacity here
@@ -74,24 +75,26 @@ namespace Carmicah
                 {
                     translucentHero.Destroy();
                     translucentHero = null;
+                    CMConsole.Log("Deleting the translucent hero");
 
                     // if the player let go when its hovering a build spot
                     if (hovering && heroEntity == null)
                     {
                         // build a trap
+                        CMConsole.Log("Setting Built to true");
                         built = true;
                         heroEntity = CreateGameObject(HeroPrefab);
                         heroEntity.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
-                        heroEntity.As<HeroAI>().lane = (int)lane;
-                        heroEntity.As<HeroAI>().active = true;
-                        heroEntity.As<HeroAI>().type = heroIcon.As<HeroIcon>().type;
+                        heroEntity.As<BaseNPC>().lane = (int)lane;
+                        heroEntity.As<BaseNPC>().active = true;
+                        heroEntity.As<BaseNPC>().npcType = heroIcon.As<HeroIcon>().type;
                         if (IsLeft)
                         {
-                            heroEntity.As<HeroAI>().IsLeft = true;
+                            heroEntity.As<BaseNPC>().IsLeft = true;
                         }
                         else
                         {
-                            heroEntity.As<HeroAI>().IsLeft = false;
+                            heroEntity.As<BaseNPC>().IsLeft = false;
                         }
                         Sound.PlaySFX("trap_placement", 0.5f);
                         // heroEntity.GetComponent<Transform>().Depth = depthVal;

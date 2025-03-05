@@ -19,9 +19,10 @@ namespace Carmicah
         public string idleAnim = "Shooter_Idle";
         public string shootAnim = "Shooter_Shoot";
         public string manaAnim = "Shooter_Idle";
+        public string placeSound = "Shooter_Appear";
         public string shootSound = "Shooter_Shooting";
         public string deathSound = "Shooter_Death";
-        public int npcType = 0;
+        public AbilityType npcType = 0;
         public float shootRate = 1.0f;
         public float shootTime = 1.0f;
         public string projectilePrefab = "Bullet";
@@ -57,6 +58,32 @@ namespace Carmicah
         public virtual void GetTarget()
         {
 
+        }
+
+        public virtual void OnStateEnter()
+        {
+
+        }
+        public virtual void OnStateUpdate()
+        {
+
+        }
+
+        public void OnMouseEnter()
+        {
+            //CMConsole.Log("Hovering!");
+            hovering = true;
+        }
+
+        public void OnMouseHover()
+        {
+            //CMConsole.Log("Hovering!");
+            hovering = true;
+        }
+
+        public void OnMouseExit()
+        {
+            hovering = false;
         }
     }
 }

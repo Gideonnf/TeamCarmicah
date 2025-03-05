@@ -14,14 +14,15 @@ namespace Carmicah
         public override void OnCreate()
         {
             base.OnCreate();
+            npcType = AbilityType.SHOOTER;
 
         }
 
         public override void OnUpdate(float dt)
         {
-            if (Input.IsKeyPressed(Keys.KEY_L))
+            if(pauseManager.IsPaused)
             {
-                GetTarget();
+                return;
             }
         }
 
@@ -119,7 +120,7 @@ namespace Carmicah
             }
         }
 
-        public void OnStateEnter(string stateName)
+        public override void OnStateEnter(string stateName)
         {
             if (stateName == "Idle")
             {
@@ -146,7 +147,7 @@ namespace Carmicah
             //CMConsole.Log($"Enter State Name: {stateName}");
         }
 
-        public void OnStateUpdate(string stateName, float dt)
+        public override void OnStateUpdate(string stateName, float dt)
         {
             if (active == false) return;
 
@@ -225,30 +226,11 @@ namespace Carmicah
 
         }
 
-        public void OnStateExit(string stateName)
+        public new void OnStateExit(string stateName)
         {
             //CMConsole.Log("TESTING Exit State");
             //CMConsole.Log($"Exit State Name: {stateName}");
 
         }
-
-
-        public void OnMouseEnter()
-        {
-            //CMConsole.Log("Hovering!");
-            hovering = true;
-        }
-
-        public void OnMouseHover()
-        {
-            //CMConsole.Log("Hovering!");
-            hovering = true;
-        }
-
-        public void OnMouseExit()
-        {
-            hovering = false;
-        }
-
     }
 }
