@@ -59,25 +59,25 @@ namespace Carmicah
 
         public IconType GetRandomTrap()
         {
-           // CMConsole.Log("hellodsdsds");
+            // CMConsole.Log("hellodsdsds");
             float totalWeight = 0.0f;
-            foreach(var val in trapWeights)
+            foreach (var val in trapWeights)
             {
                 totalWeight += val;
             }
-           // CMConsole.Log($"Total weight sum {totalWeight}");
+            // CMConsole.Log($"Total weight sum {totalWeight}");
             float random = CMRand.Range(0.0f, totalWeight);
             //CMConsole.Log("hello 2");
 
             float cumulative = 0.0f;
 
-            for(int i = 0; i < trapWeights.Count; i++)
+            for (int i = 0; i < trapWeights.Count; i++)
             {
                 cumulative += trapWeights[i];
                 //CMConsole.Log($"Cumulative : {cumulative} vs {random}");
                 if (random <= cumulative)
                 {
-                  //  CMConsole.Log("does this work");
+                    //  CMConsole.Log("does this work");
                     return (IconType)i;
                 }
             }

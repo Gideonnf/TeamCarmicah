@@ -28,8 +28,15 @@ namespace Carmicah
         public float middleMax = 1.0f;
         public float sideMin = 0.2f;
         public float sideMax = 0.5f;
+        public float lifeTime = 8.0f;
+        // flash settings
+        public float flashTime = 4.0f;
+        public float flashInterval = 0.25f;
+        public float flashTimer = 0.0f;
+        bool invisible = false;
         Entity playerEntity;
         Entity powerControl;
+
 
         public override void OnCreate()
         {
@@ -53,25 +60,56 @@ namespace Carmicah
             }
             else
             {
+                timer += dt;
                 float distance = playerEntity.Position.Distance(Position);
                 //CMConsole.Log($"Distance {distance}");
                 if (distance <= 1.0f)
                 {
-                    powerControl.As<PowerUpControl>().PowerUpDestroyed(this);
                     Entity abilityBar = FindEntityWithName("UIBar");
 
-                    abilityBar.As<AbilityBar>().CreateIcon((IconType)iconType);
+                    if (abilityBar.As<AbilityBar>().CreateIcon((IconType)iconType))
+                    {
+                        powerControl.As<PowerUpControl>().PowerUpDestroyed(this);
+                        Destroy();
+                        return;
+                    }
+                }
 
+               // CMConsole.Log($"timer {timer}, vs {flashTime}");
+                if (timer > flashTime)
+                {
+                    //CMConsole.Log("I AM IN HERE");
+                    flashTimer += dt;
+                    if (flashTimer > flashInterval)
+                    {
+                        flashTimer = 0.0f;
+                        invisible = !invisible;
+                        if (invisible)
+                        {
+                            GetComponent<Renderer>().SetAlpha(0.0f);
+                        }
+                        else
+                        {
+                            GetComponent<Renderer>().SetAlpha(1.0f);
+                        }
+                    }
+                }
+
+                if (timer > lifeTime)
+                {
+                    powerControl.As<PowerUpControl>().PowerUpDestroyed(this);
                     Destroy();
+                    return;
                 }
             }
 
-            if (touched)
+            if (touched && !stop)
             {
                 timer += dt;
                 if (timer >= stopTime)
                 {
-                   //CMConsole.Log($"DASDASDASDA {stopTime} and {timer}");
+                    //CMConsole.Log($"DASDASDASDA {stopTime} and {timer}");
+                    timer = 0.0f;
                     stop = true;
                 }
             }
