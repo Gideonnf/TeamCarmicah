@@ -325,7 +325,11 @@
                             "ShooterIconPrefab": "ShooterIcon",
                             "TrapIconPrefab": "TrapIcon",
                             "startingPos": 760.0,
-                            "yOffset": 75.0
+                            "shake": false,
+                            "shakeMagnitude": 1.5,
+                            "yOffset": 75.0,
+                            "shakeTimer": 1.0,
+                            "timer": 0.0
                         }
                     ]
                 }
@@ -1319,11 +1323,6 @@
                 }
             ],
             "Children": []
-        },
-        {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
         },
         {
             "GameObject": "HeroBuild_2",
