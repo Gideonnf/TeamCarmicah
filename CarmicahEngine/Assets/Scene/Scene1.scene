@@ -317,14 +317,15 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.HeroIcon",
+                    "scriptName": "Carmicah.AbilityBar",
                     "ScriptableFieldMap": [
                         {
-                            "heroPrefab": "ShooterNPC",
-                            "HeroBuild": "HeroBuild",
-                            "HeroBuild2": "HeroBuild_2",
-                            "HeroBuild1": "HeroBuild_1",
-                            "HeroBuild3": "HeroBuild_3"
+                            "HoneyIconPrefab": "HoneyIcon",
+                            "MageIconPrefab": "MageIcon",
+                            "ShooterIconPrefab": "ShooterIcon",
+                            "TrapIconPrefab": "TrapIcon",
+                            "startingPos": 760.0,
+                            "yOffset": 75.0
                         }
                     ]
                 }
@@ -434,14 +435,14 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "StartingCake": "StartingCake",
-                            "MousePrefabName": "MouseGONew",
-                            "waveTimer": 0.0,
-                            "GameOver": false,
                             "LeftOrRight": false,
-                            "WaveStarted": false,
-                            "CakeHeightOffset": 11.600000381469727,
+                            "GameOver": false,
+                            "waveTimer": 0.0,
+                            "MousePrefabName": "MouseGONew",
+                            "StartingCake": "StartingCake",
                             "spawnTimer": 1.5,
+                            "CakeHeightOffset": 11.600000381469727,
+                            "WaveStarted": false,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
                             "PlayerName": "mainCharacter",
@@ -508,9 +509,9 @@
                             "waveStartTime": 21.0,
                             "waveTimer": 0.0,
                             "startNewWave": true,
-                            "waveStart": false,
-                            "waveSetupTime": 15.0,
                             "waveCounter": 0,
+                            "waveSetupTime": 15.0,
+                            "waveStart": false,
                             "mobCounter": 0,
                             "losePrefab": "LoseScreen",
                             "winPrefab": "Win_Screen",
@@ -832,7 +833,8 @@
                             "WalkAnim": "MC_Walk",
                             "GameLost": true,
                             "isWalking": true,
-                            "isCreated": false
+                            "isCreated": false,
+                            "walkingSpeed": 2.0
                         }
                     ]
                 }
@@ -1319,93 +1321,9 @@
             "Children": []
         },
         {
-            "GameObject": "CandyConeTrapIcon",
-            "ID": 35,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::Button"
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Trap",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
-                },
-                {
-                    "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1826.0499267578126,
-                    "yPos": 757.830322265625,
-                    "depth": 0.5,
-                    "xScale": 0.15000000596046449,
-                    "yScale": 0.15000000596046449,
-                    "rot": 22.860260009765626,
-                    "transformTag": ""
-                },
-                {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.TrapIcon",
-                    "ScriptableFieldMap": [
-                        {
-                            "trapPrefab": "FakeCandyConeTrap",
-                            "cooldown": false,
-                            "TrapBuild2": "TrapBuild_2",
-                            "trapOffset": 1.600000023841858,
-                            "WaveSystemObject": "Something",
-                            "TrapBuild": "TrapBuild",
-                            "cooldownTime": 3.0,
-                            "TrapBuild1": "TrapBuild_1",
-                            "TrapBuild3": "TrapBuild_3",
-                            "actualTrapPrefabName": "CandyConeTrap",
-                            "fakeTrapPrefab": "FakeCandyConeTrap",
-                            "activeTrapIcon": false
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "GameObject": "ShooterIcon",
-            "ID": 36,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::Button"
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "UI_Spritesheet_Shooter_Icon 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
-                },
-                {
-                    "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1822.824951171875,
-                    "yPos": 682.7659912109375,
-                    "depth": 1.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
-                    "rot": 352.0,
-                    "transformTag": ""
-                },
-                {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.HeroIcon",
-                    "ScriptableFieldMap": [
-                        {
-                            "heroPrefab": "ShooterNPC",
-                            "HeroBuild": "HeroBuild",
-                            "HeroBuild2": "HeroBuild_2",
-                            "HeroBuild1": "HeroBuild_1",
-                            "HeroBuild3": "HeroBuild_3"
-                        }
-                    ]
-                }
-            ]
+            "GameObject": "",
+            "ID": 0,
+            "Components": []
         },
         {
             "GameObject": "HeroBuild_2",
@@ -1814,97 +1732,8 @@
                     "scriptName": "CarmicahScript.WaveCounter",
                     "ScriptableFieldMap": [
                         {
-                            "IsTimer": true,
-                            "WaveSystemObject": "Something"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "GameObject": "MageIcon",
-            "ID": 45,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::Button"
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "UI_Spritesheet_Mage_Icon 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
-                },
-                {
-                    "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1822.824951171875,
-                    "yPos": 584.20361328125,
-                    "depth": 1.0,
-                    "xScale": 0.8999999761581421,
-                    "yScale": 0.8999999761581421,
-                    "rot": 352.0,
-                    "transformTag": ""
-                },
-                {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.HeroIcon",
-                    "ScriptableFieldMap": [
-                        {
-                            "heroPrefab": "MageNPC",
-                            "HeroBuild": "HeroBuild",
-                            "HeroBuild2": "HeroBuild_2",
-                            "HeroBuild1": "HeroBuild_1",
-                            "HeroBuild3": "HeroBuild_3"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "GameObject": "HoneyTrapIcon",
-            "ID": 46,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::Button"
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "honey_spritesheet_Splat 5",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
-                },
-                {
-                    "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1817.509033203125,
-                    "yPos": 474.101318359375,
-                    "depth": 0.5,
-                    "xScale": 0.3499999940395355,
-                    "yScale": 0.3499999940395355,
-                    "rot": 13.331457138061524,
-                    "transformTag": ""
-                },
-                {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.TrapIcon",
-                    "ScriptableFieldMap": [
-                        {
-                            "trapPrefab": "FakeCandyConeTrap",
-                            "cooldown": false,
-                            "TrapBuild2": "TrapBuild_2",
-                            "trapOffset": 0.0,
                             "WaveSystemObject": "Something",
-                            "TrapBuild": "TrapBuild",
-                            "cooldownTime": 3.0,
-                            "TrapBuild1": "TrapBuild_1",
-                            "TrapBuild3": "TrapBuild_3",
-                            "actualTrapPrefabName": "HoneyTrap",
-                            "fakeTrapPrefab": "FakeHoneyTrap",
-                            "activeTrapIcon": false
+                            "IsTimer": true
                         }
                     ]
                 }
@@ -1931,13 +1760,14 @@
                     "ScriptableFieldMap": [
                         {
                             "HoneyPrefab": "HoneyBall",
-                            "MagePrefab": "MageBall",
                             "heightOffset": 12.0,
+                            "MagePrefab": "MageBall",
+                            "SpawnTimer": 18.0,
                             "ShooterPrefab": "ShooterBall",
-                            "SpawnTimer": 1.5,
                             "TrapPrefab": "TrapBall",
                             "timer": 0.0,
-                            "xOffset": 5.0
+                            "xOffset": 5.0,
+                            "WaveSystemObject": "Something"
                         }
                     ]
                 }
