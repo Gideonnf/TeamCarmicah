@@ -39,12 +39,18 @@ namespace Carmicah
         public bool isCreated = false;
 
         Entity healTarget;
-
+        Entity redBorder;
         float healAnimTime;
-        
+
+        public bool damaged = false;
+        public float flashTime = 1.0f;
+        public float flashInterval = 0.25f;
+        public float flashTimer = 0.0f; // Keep track for interval flashing
+        public float elapsedTime = 0.0f; // keep track of total time for flashTime
+        bool invisible = true;
         void OnCreate()
         {
-
+            redBorder = FindEntityWithName("RedBorder");
         }
 
         void ToggleWalkAnim()
@@ -79,6 +85,36 @@ namespace Carmicah
             {
                 if (pauseManager.As<PauseManager>().IsPaused)
                     return;
+            }
+
+            if (damaged)
+            {
+                elapsedTime += dt;
+
+                if (elapsedTime >= flashTime)
+                {
+                    damaged = false;
+                    invisible = true;
+                    redBorder.GetComponent<Renderer>().SetAlpha(0.0f);
+                    elapsedTime = 0.0f;
+                    return;
+                }
+
+                flashTimer += dt;
+
+                if (flashTimer >= flashInterval)
+                {
+                    flashTimer = 0.0f;
+                    invisible = !invisible;
+                    if (invisible)
+                    {
+                        redBorder.GetComponent<Renderer>().SetAlpha(0.0f);
+                    }
+                    else
+                    {
+                        redBorder.GetComponent<Renderer>().SetAlpha(1.0f);
+                    }
+                }
             }
             
 
@@ -275,10 +311,11 @@ namespace Carmicah
             }
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage, EnemyTypes enemyType)
         {
             this.AsChild<HealthSystem>().TakeDamage(damage);
 
+            damaged = true;
             //CMConsole.Log($"Health :{this.AsChild<HealthSystem>().mCurHealth}");
             if (this.AsChild<HealthSystem>().mCurHealth <= 0)
             {
