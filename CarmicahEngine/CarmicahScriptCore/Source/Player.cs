@@ -43,10 +43,12 @@ namespace Carmicah
         float healAnimTime;
 
         public bool damaged = false;
-        public float flashTime = 1.0f;
+        public float flashTotalTime = 1.0f;
         public float flashInterval = 0.25f;
         public float flashTimer = 0.0f; // Keep track for interval flashing
-        public float elapsedTime = 0.0f; // keep track of total time for flashTime
+        public float flashTime = 0.0f; // keep track of total time for flashTime
+
+
         bool invisible = true;
         void OnCreate()
         {
@@ -89,14 +91,14 @@ namespace Carmicah
 
             if (damaged)
             {
-                elapsedTime += dt;
+                flashTime += dt;
 
-                if (elapsedTime >= flashTime)
+                if (flashTime >= flashTotalTime)
                 {
                     damaged = false;
                     invisible = true;
                     redBorder.GetComponent<Renderer>().SetAlpha(0.0f);
-                    elapsedTime = 0.0f;
+                    flashTime = 0.0f;
                     return;
                 }
 
@@ -116,6 +118,7 @@ namespace Carmicah
                     }
                 }
             }
+
             
 
             /*if (Input.IsKeyPressed(Keys.KEY_W))
@@ -316,6 +319,16 @@ namespace Carmicah
             this.AsChild<HealthSystem>().TakeDamage(damage);
 
             damaged = true;
+            if (enemyType == EnemyTypes.BEAR)
+            {
+                Entity camera = FindEntityWithName("MainCamera");
+                camera.As<Camera>().ShakeCamera();
+                //if (!shake)
+                //{
+                //    shake = true;
+                //    shakeTimer = 0.0f;
+                //}
+            }
             //CMConsole.Log($"Health :{this.AsChild<HealthSystem>().mCurHealth}");
             if (this.AsChild<HealthSystem>().mCurHealth <= 0)
             {
