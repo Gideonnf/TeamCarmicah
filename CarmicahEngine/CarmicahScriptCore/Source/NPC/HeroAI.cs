@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
-    public enum HeroType
-    {
-        SHOOTER,
-        MAGE,
-        SPEAR
-    }
+    //public enum HeroType
+    //{
+    //    SHOOTER,
+    //    MAGE,
+    //    SPEAR
+    //}
     public class HeroAI : Entity
     {
         public string idleAnim = "Shooter_Idle";
@@ -27,7 +27,7 @@ namespace Carmicah
         float timer = 0.0f;
         public bool active = false;
         public bool IsLeft = false;
-        public HeroType type;
+        public AbilityType type;
 
         // float shootTimer = 0.0f;
         bool isShooting = false;
@@ -81,10 +81,10 @@ namespace Carmicah
                     Projectile bullet = projectile.As<Projectile>();
                     switch(type)
                     {
-                        case HeroType.SHOOTER:
+                        case AbilityType.SHOOTER:
                             bullet.bulletType = BulletType.SHOOTER_BULLET;
                             break;
-                        case HeroType.MAGE:
+                        case AbilityType.MAGE:
                             bullet.bulletType = BulletType.MAGE_BULLET;
                             break;
                     }

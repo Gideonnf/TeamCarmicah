@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
-    public enum TrapType
-    {
-        CANDY_CONE,
-        HONEY
-    }
+    //public enum TrapType
+    //{
+    //    CANDY_CONE,
+    //    HONEY
+    //}
     public class TrapAI : Entity
     {
         public string idleAnim;
@@ -22,7 +22,7 @@ namespace Carmicah
         public float timer = 0.0f;
         public bool isDead = false;
         public Entity buildSpotEntity = null;
-        public TrapType type;
+        public AbilityType type;
 
 
         float maxAnimTime;
@@ -82,7 +82,7 @@ namespace Carmicah
                 //CMConsole.Log($"Dead");
             }
 
-            if(type == TrapType.HONEY)
+            if(type == AbilityType.HONEY)
             {
                 if(timer > life)
                 {

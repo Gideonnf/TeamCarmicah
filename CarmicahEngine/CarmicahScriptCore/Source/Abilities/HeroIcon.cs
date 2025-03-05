@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
-    public class HeroIcon : Entity
+    public class HeroIcon : BaseIcon
     {
         public string heroPrefab = "Trap_1";
-        public Entity heroEntity;
+        //public Entity heroEntity;
         public string HeroBuild = "HeroBuild";
         public string HeroBuild1 = "HeroBuild_1";
         public string HeroBuild2 = "HeroBuild_2";
@@ -21,9 +21,6 @@ namespace Carmicah
         Entity heroBuildEntity1;
         Entity heroBuildEntity2;
         Entity heroBuildEntity3;
-        bool flipped;
-        HeroType type;
-        bool hovering = false;
         
 
         void OnCreate()
@@ -35,46 +32,46 @@ namespace Carmicah
 
             if(heroPrefab == "ShooterNPC")
             {
-                type = HeroType.SHOOTER;
+                type = AbilityType.SHOOTER;
             }
             else if(heroPrefab == "MageNPC")
             {
-                type = HeroType.MAGE;
+                type = AbilityType.MAGE;
             }
             else if(heroPrefab == "SpearNPC")
             {
-                type = HeroType.SPEAR;
+                type = AbilityType.SPEAR;
             }
         }
 
         void OnUpdate(float dt)
         {
-            if (heroEntity == null) return;
+            if (trapEntity == null) return;
 
             //CMConsole.Log("It shouldnt be here atm");
 
             //if (IsKeyHold(Keys.))
             Vector2 mousePos = Input.GetMousePos();
-            heroEntity.Position = mousePos;
+            trapEntity.Position = mousePos;
 
-            if (heroEntity.Position.x < 0.0f && flipped != true)
+            if (trapEntity.Position.x < 0.0f && flipped != true)
             {
-                Vector2 scale = heroEntity.GetComponent<Transform>().Scale;
-                heroEntity.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
+                Vector2 scale = trapEntity.GetComponent<Transform>().Scale;
+                trapEntity.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
                 flipped = true;
             }
-            else if (heroEntity.Position.x > 0.0f && flipped == true)
+            else if (trapEntity.Position.x > 0.0f && flipped == true)
             {
-                Vector2 scale = heroEntity.GetComponent<Transform>().Scale;
-                heroEntity.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
+                Vector2 scale = trapEntity.GetComponent<Transform>().Scale;
+                trapEntity.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
                 flipped = false;
             }
 
             if (Input.IsMouseReleased(MouseButtons.MOUSE_BUTTON_LEFT))
             {
                 //CMConsole.Log($"Destroying entity with {heroEntity.mID}");
-                heroEntity.Destroy();
-                heroEntity = null;
+                trapEntity.Destroy();
+                trapEntity = null;
                 flipped = false;
             }
 
@@ -86,14 +83,14 @@ namespace Carmicah
 
         void OnClick()
         {
-            if (heroEntity != null) return;
+            if (trapEntity != null) return;
 
-            heroEntity = CreateGameObject(heroPrefab);
+            trapEntity = CreateGameObject(heroPrefab);
             //Not sure if this belongs here but shld work.
-            heroBuildEntity.As<HeroBuild>().SetHeroType(type, heroPrefab);
-            heroBuildEntity1.As<HeroBuild>().SetHeroType(type, heroPrefab);
-            heroBuildEntity2.As<HeroBuild>().SetHeroType(type, heroPrefab);
-            heroBuildEntity3.As<HeroBuild>().SetHeroType(type, heroPrefab);
+            heroBuildEntity.As<HeroBuild>().SetHeroType(type, heroPrefab, this);
+            heroBuildEntity1.As<HeroBuild>().SetHeroType(type, heroPrefab, this);
+            heroBuildEntity2.As<HeroBuild>().SetHeroType(type, heroPrefab, this);
+            heroBuildEntity3.As<HeroBuild>().SetHeroType(type, heroPrefab, this);
 
         }
 
@@ -106,6 +103,13 @@ namespace Carmicah
                 
                 hovering = true;
             }
+        }
+
+        public void HeroBuilt()
+        {
+            Entity abilityBar = FindEntityWithName("UIBar");
+            abilityBar.As<AbilityBar>().IconRemoved(this.As<BaseIcon>());
+            Destroy();
         }
 
         void OnMouseExit()

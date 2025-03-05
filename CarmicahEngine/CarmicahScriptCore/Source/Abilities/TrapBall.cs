@@ -58,6 +58,9 @@ namespace Carmicah
                 if (distance <= 1.0f)
                 {
                     powerControl.As<PowerUpControl>().PowerUpDestroyed(this);
+                    Entity abilityBar = FindEntityWithName("UIBar");
+
+                    abilityBar.As<AbilityBar>().CreateIcon((IconType)iconType);
 
                     Destroy();
                 }
