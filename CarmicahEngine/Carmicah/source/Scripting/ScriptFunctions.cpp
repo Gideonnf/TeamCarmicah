@@ -655,6 +655,18 @@ namespace Carmicah
 
 		return 0.0f;
 	}
+	
+	static bool Animation_IsAnimFinished(unsigned entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Animation>())
+		{
+			Animation& a{ go.GetComponent<Animation>() };
+			return a.animState == Animation::ANIM_CODE::STOP_ANIM;
+		}
+
+		return 0;
+	}
 
 	static void SetCollisionLayer(unsigned int entityID, unsigned int layer)
 	{
@@ -849,6 +861,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Animation_ChangeAnim);
 		ADD_INTERNAL_CALL(GetMaxTime);
 		ADD_INTERNAL_CALL(Animation_GetCurrFrameTime);
+		ADD_INTERNAL_CALL(Animation_IsAnimFinished);
 
 		// input functions
 		ADD_INTERNAL_CALL(IsKeyPressed);
