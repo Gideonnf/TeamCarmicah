@@ -22,6 +22,9 @@ namespace Carmicah
         internal extern static void RigidBody_ApplyForce(uint entityID, Vector2 dir, float magnitude);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void RigidBody_Move(uint entityID, Vector2 pos);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool IsKeyPressed(Keys keyCode);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
