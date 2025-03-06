@@ -39,12 +39,20 @@ namespace Carmicah
         public bool isCreated = false;
 
         Entity healTarget;
-
+        Entity redBorder;
         float healAnimTime;
-        
+
+        public bool damaged = false;
+        public float flashTotalTime = 1.0f;
+        public float flashInterval = 0.25f;
+        public float flashTimer = 0.0f; // Keep track for interval flashing
+        public float flashTime = 0.0f; // keep track of total time for flashTime
+
+
+        bool invisible = true;
         void OnCreate()
         {
-
+            redBorder = FindEntityWithName("RedBorder");
         }
 
         void ToggleWalkAnim()
@@ -80,6 +88,37 @@ namespace Carmicah
                 if (pauseManager.As<PauseManager>().IsPaused)
                     return;
             }
+
+            if (damaged)
+            {
+                flashTime += dt;
+
+                if (flashTime >= flashTotalTime)
+                {
+                    damaged = false;
+                    invisible = true;
+                    redBorder.GetComponent<Renderer>().SetAlpha(0.0f);
+                    flashTime = 0.0f;
+                    return;
+                }
+
+                flashTimer += dt;
+
+                if (flashTimer >= flashInterval)
+                {
+                    flashTimer = 0.0f;
+                    invisible = !invisible;
+                    if (invisible)
+                    {
+                        redBorder.GetComponent<Renderer>().SetAlpha(0.0f);
+                    }
+                    else
+                    {
+                        redBorder.GetComponent<Renderer>().SetAlpha(1.0f);
+                    }
+                }
+            }
+
             
 
             /*if (Input.IsKeyPressed(Keys.KEY_W))
@@ -275,10 +314,21 @@ namespace Carmicah
             }
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage, EnemyTypes enemyType)
         {
             this.AsChild<HealthSystem>().TakeDamage(damage);
 
+            damaged = true;
+            if (enemyType == EnemyTypes.BEAR)
+            {
+                Entity camera = FindEntityWithName("MainCamera");
+                camera.As<Camera>().ShakeCamera();
+                //if (!shake)
+                //{
+                //    shake = true;
+                //    shakeTimer = 0.0f;
+                //}
+            }
             //CMConsole.Log($"Health :{this.AsChild<HealthSystem>().mCurHealth}");
             if (this.AsChild<HealthSystem>().mCurHealth <= 0)
             {

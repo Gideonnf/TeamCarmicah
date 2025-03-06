@@ -33,6 +33,7 @@ namespace Carmicah
         Fast,
         Heavy
     }
+
     public class MouseAI : Entity
     {
         public string SpawnPointEntityLeft;
@@ -230,7 +231,7 @@ namespace Carmicah
                 GetComponent<StateMachine>().SetStateCondition(1);
 
                 Entity mainCharacter = FindEntityWithName("mainCharacter");
-                mainCharacter.As<Player>().TakeDamage(10);
+                mainCharacter.As<Player>().TakeDamage(10, enemyType);
             }
         }
 
