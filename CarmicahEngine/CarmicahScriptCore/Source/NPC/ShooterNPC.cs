@@ -234,11 +234,26 @@ namespace Carmicah
 
         }
 
-        public new void OnStateExit(string stateName)
+        public override void OnStateExit(string stateName)
         {
             //CMConsole.Log("TESTING Exit State");
             //CMConsole.Log($"Exit State Name: {stateName}");
 
+        }
+
+        public override void OnMouseEnter()
+        {
+            base.OnMouseEnter();
+        }
+
+        public override void OnMouseHover()
+        {
+            base.OnMouseHover();
+        }
+
+        public override void OnMouseExit()
+        {
+            base.OnMouseExit();
         }
     }
 }

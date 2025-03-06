@@ -29,6 +29,7 @@ namespace Carmicah
         public bool active = false;
         public bool IsLeft = false;
         public int mana = 5;
+        public int maxMana = 5;
         public int lane;
 
         public GameManager gameManager;
@@ -54,6 +55,11 @@ namespace Carmicah
         {
 
         }
+        public void HealAmmo()
+        {
+            mana = maxMana;
+            GetComponent<StateMachine>().SetStateCondition(1);
+        }
 
         public virtual void GetTarget()
         {
@@ -69,19 +75,19 @@ namespace Carmicah
 
         }
 
-        public void OnMouseEnter()
+        public override void OnMouseEnter()
         {
             //CMConsole.Log("Hovering!");
             hovering = true;
         }
 
-        public void OnMouseHover()
+        public override void OnMouseHover()
         {
             //CMConsole.Log("Hovering!");
             hovering = true;
         }
 
-        public void OnMouseExit()
+        public override void OnMouseExit()
         {
             hovering = false;
         }
