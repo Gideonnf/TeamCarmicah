@@ -54,7 +54,12 @@
                     "ScriptableFieldMap": [
                         {
                             "bottomLimit": -12.0,
-                            "topLimit": 10.0
+                            "topLimit": 10.0,
+                            "xPos": 0.0,
+                            "shake": false,
+                            "shakeMagnitude": 0.10000000149011612,
+                            "shakeTimer": 0.0,
+                            "shakeTotalTimer": 0.25
                         }
                     ]
                 }
@@ -71,7 +76,8 @@
                     "text": "Sugar Strike",
                     "colorR": 1.0,
                     "colorG": 1.0,
-                    "colorB": 1.0
+                    "colorB": 1.0,
+                    "textAlign": 0
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -843,6 +849,7 @@
                             "damaged": false,
                             "flashInterval": 0.25,
                             "flashTime": 1.0,
+                            "flashTotalTime": 1.0,
                             "flashTimer": 0.0
                         }
                     ]
@@ -1125,7 +1132,7 @@
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": "",
-                    "collisionMask": 8
+                    "collisionMask": 32
                 },
                 {
                     "Component Name": "struct Carmicah::PrefabData",
@@ -1164,7 +1171,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "TrapTranslucentPrefab": "TrapTranslucent",
                             "lane": 3.0,
                             "IsLeft": true,
@@ -1188,7 +1195,7 @@
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": "",
-                    "collisionMask": 8
+                    "collisionMask": 32
                 },
                 {
                     "Component Name": "struct Carmicah::PrefabData",
@@ -1228,7 +1235,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 0.0,
                             "IsLeft": false,
                             "depthVal": 0.0
@@ -1367,7 +1374,7 @@
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": "",
-                    "collisionMask": 8
+                    "collisionMask": 32
                 },
                 {
                     "Component Name": "struct Carmicah::PrefabData",
@@ -1407,7 +1414,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 2.0,
                             "IsLeft": true,
                             "depthVal": 0.0
@@ -1430,7 +1437,7 @@
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": "",
-                    "collisionMask": 8
+                    "collisionMask": 32
                 },
                 {
                     "Component Name": "struct Carmicah::PrefabData",
@@ -1470,7 +1477,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 1.0,
                             "IsLeft": false,
                             "depthVal": 0.0
@@ -1490,7 +1497,8 @@
                     "text": "0/5",
                     "colorR": 0.8676470518112183,
                     "colorG": 0.0935698002576828,
-                    "colorB": 0.822113037109375
+                    "colorB": 0.822113037109375,
+                    "textAlign": 0
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -1744,7 +1752,8 @@
                     "text": "1",
                     "colorR": 0.8676470518112183,
                     "colorG": 0.0935698002576828,
-                    "colorB": 0.822113037109375
+                    "colorB": 0.822113037109375,
+                    "textAlign": 0
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",

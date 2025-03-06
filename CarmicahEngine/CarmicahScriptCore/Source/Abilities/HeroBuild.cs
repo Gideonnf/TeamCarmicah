@@ -42,7 +42,7 @@ namespace Carmicah
             {
                 if (translucentHero != null)
                 {
-                    CMConsole.Log("This is sus");
+                    //CMConsole.Log("This is sus");
                     translucentHero.Destroy();
                     translucentHero = null;
                 }
