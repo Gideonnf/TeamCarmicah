@@ -12,8 +12,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.6807026863098145,
-                    "yPos": 0.08424292504787445,
+                    "xPos": 0.9198528528213501,
+                    "yPos": -0.2452477514743805,
                     "depth": 1.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -941,8 +941,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 5.173318862915039,
-                    "yPos": -0.6440210938453674,
+                    "xPos": 4.59253454208374,
+                    "yPos": -0.16808907687664033,
                     "depth": 0.0,
                     "xScale": 10.270000457763672,
                     "yScale": 0.6269400119781494,
@@ -987,8 +987,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 4.274874687194824,
-                    "yPos": 5.408025741577148,
+                    "xPos": 4.923981666564941,
+                    "yPos": 4.895483016967773,
                     "depth": 0.0,
                     "xScale": 10.319815635681153,
                     "yScale": 0.6269400119781494,
@@ -1079,8 +1079,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -4.084555625915527,
-                    "yPos": -0.7476013898849487,
+                    "xPos": -3.5037734508514406,
+                    "yPos": -0.12522825598716737,
                     "depth": 0.0,
                     "xScale": 9.649003982543946,
                     "yScale": 0.6269400119781494,
@@ -1171,7 +1171,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "MageNPC",
+                            "HeroPrefab": "ShooterNPC",
                             "TrapTranslucentPrefab": "TrapTranslucent",
                             "lane": 3.0,
                             "IsLeft": true,
@@ -1235,7 +1235,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "MageNPC",
+                            "HeroPrefab": "ShooterNPC",
                             "lane": 0.0,
                             "IsLeft": false,
                             "depthVal": 0.0
@@ -1414,7 +1414,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "MageNPC",
+                            "HeroPrefab": "ShooterNPC",
                             "lane": 2.0,
                             "IsLeft": true,
                             "depthVal": 0.0
@@ -1477,7 +1477,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "MageNPC",
+                            "HeroPrefab": "ShooterNPC",
                             "lane": 1.0,
                             "IsLeft": false,
                             "depthVal": 0.0
