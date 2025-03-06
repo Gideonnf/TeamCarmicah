@@ -69,6 +69,8 @@ namespace Carmicah
 
 		void CollisionCheck();
 
+		bool CollisionCheck(Entity id, Vec2f displacement);
+
 		void Init();
 
 		void Update();
