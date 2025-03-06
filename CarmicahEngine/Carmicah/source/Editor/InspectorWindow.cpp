@@ -1082,6 +1082,53 @@ namespace Carmicah
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
+				ImGui::Text("Alignment");
+				ImGui::TableNextColumn();
+				ImGui::Text("%s", text.TextAlignmentName().c_str());
+				ImGui::SameLine();
+				if (ImGui::Button("v##Alignment Select"))
+				{
+					ImGui::OpenPopup("Alignment Select");
+				}
+
+				if (ImGui::BeginPopup("Alignment Select"))
+				{
+					if (ImGui::Button("Left"))
+					{
+						text.ChangeTextAlignmentX(TextRenderer::TXT_LEFT);
+						ImGui::CloseCurrentPopup();
+					}
+					if (ImGui::Button("Middle"))
+					{
+						text.ChangeTextAlignmentX(TextRenderer::TXT_MIDDLE);
+						ImGui::CloseCurrentPopup();
+					}
+					if (ImGui::Button("Right"))
+					{
+						text.ChangeTextAlignmentX(TextRenderer::TXT_RIGHT);
+						ImGui::CloseCurrentPopup();
+					}
+					if (ImGui::Button("Bottom"))
+					{
+						text.ChangeTextAlignmentY(TextRenderer::TXT_BOT);
+						ImGui::CloseCurrentPopup();
+					}
+					if (ImGui::Button("Center"))
+					{
+						text.ChangeTextAlignmentY(TextRenderer::TXT_CENTER);
+						ImGui::CloseCurrentPopup();
+					}
+					if (ImGui::Button("Top"))
+					{
+						text.ChangeTextAlignmentY(TextRenderer::TXT_TOP);
+						ImGui::CloseCurrentPopup();
+					}
+					ImGui::EndPopup();
+				}
+
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
 				ImGui::Text("Color");
 
 				// Add RGB color picker
