@@ -39,9 +39,17 @@ namespace Carmicah
                     Projectile bullet = projectile.As<Projectile>();
 
                     Sound.PlaySFX(shootSound);
+                    if (bullet != null)
+                    {
+                        bullet.targetMouse = targetMouse;
+
+                        bullet.SetUp(targetMouse);
+                    }
 
                     if (mana > 0)
-                        mana--;
+                    {
+                        mana--; 
+                    }
                 }
             }
         }

@@ -42,7 +42,9 @@ namespace Carmicah
             {
                 if (translucentHero != null)
                 {
+                    CMConsole.Log("This is sus");
                     translucentHero.Destroy();
+                    translucentHero = null;
                 }
                 heroIcon = null;
             }
@@ -73,9 +75,9 @@ namespace Carmicah
             {
                 if (translucentHero != null)
                 {
+                    CMConsole.Log("Deleting the translucent hero");
                     translucentHero.Destroy();
                     translucentHero = null;
-                    CMConsole.Log("Deleting the translucent hero");
 
                     // if the player let go when its hovering a build spot
                     if (hovering && heroEntity == null)
@@ -110,6 +112,7 @@ namespace Carmicah
 
                         heroIcon.As<HeroIcon>().HeroBuilt();
                         heroIcon = null;
+                        CMConsole.Log("HeroIcon set as null!");
                     }
                 }
             }
