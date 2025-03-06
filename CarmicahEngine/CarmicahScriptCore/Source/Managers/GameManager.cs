@@ -110,10 +110,10 @@ namespace Carmicah
             playerEntity = FindEntityWithName(PlayerName);
             playerHealth = FindEntityWithName(PlayerHealthBar);
             playerHealthCover = FindEntityWithName("Healthbar_Cover");
-            heroBuildEntities[0] = FindEntityWithName(HeroBuild);
-            heroBuildEntities[1] = FindEntityWithName(HeroBuild1);
-            heroBuildEntities[2] = FindEntityWithName(HeroBuild2);
-            heroBuildEntities[3] = FindEntityWithName(HeroBuild3);
+            heroBuildEntities[0] = FindEntityWithName(HeroBuild1);
+            heroBuildEntities[1] = FindEntityWithName(HeroBuild3);
+            heroBuildEntities[2] = FindEntityWithName(HeroBuild);
+            heroBuildEntities[3] = FindEntityWithName(HeroBuild2);
 
             walls[0] = FindEntityWithName("Wall");
             walls[1] = FindEntityWithName("Wall_1");
@@ -223,9 +223,9 @@ namespace Carmicah
 
             mouseAI.SetInitialPosition(); // Reset initial position
             mouseEntity.As<MouseAI>().enemyType = type;
-            
-            //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
 
+            //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
+            CMConsole.Log($"Lane : {mouseAI.lane}");
             switch (mouseAI.lane)
             {
                 case 0:
@@ -537,7 +537,41 @@ namespace Carmicah
             //playerPos = playerEntity.Position;
         }
 
-        
+        public void KillNPC(MouseAI mouse)
+        {
+            //switch(mouse.lane)
+            //{
+            //    case 0:
+            //        {
+
+            //        }
+            //        break;
+            //    case 1:
+            //        {
+
+            //        }
+            //        break;
+            //    case 2:
+            //        {
+
+            //        }
+            //        break;
+            //    case 3:
+            //        {
+
+            //        }
+            //        break;
+            //}
+
+            // if the mouse's lane has an NPC in it when it dies at the top
+            // kil the npc
+            // NOTE: I dont know if checking for mID == 0 in the list of hero npcs is enough to delete from here
+            // if it crashes, check that
+            if (heroBuildEntities[mouse.lane].As<HeroBuild>().heroEntity != null && heroBuildEntities[mouse.lane].As<HeroBuild>().heroEntity.mID != 0)
+            {
+                heroBuildEntities[mouse.lane].As<HeroBuild>().KillNPC();
+            }
+        }
 
         public void HideEntities()
         {

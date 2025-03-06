@@ -16,7 +16,7 @@ namespace Carmicah
         public bool IsLeft = false;
         public float depthVal;
         Entity translucentHero;
-        Entity heroEntity;
+        public Entity heroEntity;
         //Entity shooterIcon;
         //Entity mageIcon;
         AbilityType type;
@@ -192,6 +192,16 @@ namespace Carmicah
             //            break;
             //        }
             //}
+        }
+
+        public void KillNPC()
+        {
+            // if it exist
+            if (heroEntity != null && heroEntity.mID != 0)
+            {
+                heroEntity.As<BaseNPC>().KillHero();
+                heroEntity = null;
+            }
         }
 
 

@@ -19,6 +19,7 @@ namespace Carmicah
         public string idleAnim = "Shooter_Idle";
         public string shootAnim = "Shooter_Shoot";
         public string manaAnim = "Shooter_Idle";
+        public string dissolveAnim = "Dissolve";
         public string placeSound = "Shooter_Appear";
         public string shootSound = "Shooter_Shooting";
         public string deathSound = "Shooter_Death";
@@ -30,6 +31,7 @@ namespace Carmicah
         public bool IsLeft = false;
         public int mana = 5;
         public int maxMana = 5;
+        
         public int lane;
 
         public GameManager gameManager;
@@ -59,6 +61,11 @@ namespace Carmicah
         {
             mana = maxMana;
             GetComponent<StateMachine>().SetStateCondition(1);
+        }
+
+        public void KillHero()
+        {
+            GetComponent<StateMachine>().SetStateCondition(4);
         }
 
         public virtual void GetTarget()

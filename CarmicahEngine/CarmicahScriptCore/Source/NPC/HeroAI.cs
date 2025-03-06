@@ -133,6 +133,10 @@ namespace Carmicah
                 ChangeAnim(manaAnim);
                 CMConsole.Log("Out of Ammo!");
             }
+            //else if (stateName == "Dead")
+            //{
+            //    ChangeAnim(dissolve)
+            //}
 
 
             //CMConsole.Log($"Enter State Name: {stateName}");
