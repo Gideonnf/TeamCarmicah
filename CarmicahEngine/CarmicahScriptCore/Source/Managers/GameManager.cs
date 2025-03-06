@@ -120,8 +120,8 @@ namespace Carmicah
             heroBuildEntities[2] = FindEntityWithName(HeroBuild2);
             heroBuildEntities[3] = FindEntityWithName(HeroBuild);
 
-            laneIndicators[0] = FindEntityWithName("Bubble");
-            laneIndicators[1] = FindEntityWithName("Bubble_1");
+            laneIndicators[0] = FindEntityWithName("Bubble_1");
+            laneIndicators[1] = FindEntityWithName("Bubble");
             laneIndicators[2] = FindEntityWithName("Bubble_2");
             laneIndicators[3] = FindEntityWithName("Bubble_3");
 
