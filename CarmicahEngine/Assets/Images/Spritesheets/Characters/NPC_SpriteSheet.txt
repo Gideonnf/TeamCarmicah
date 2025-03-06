@@ -13,3 +13,7 @@ Top left: 0 x 1584, 468 x 468
 Mage_Attack
 Top left: 0 x 2530, 468 x 468
 14 sprites
+
+NPC_Mana
+Top left: 0 x 3466, 513 x 513
+3 sprites

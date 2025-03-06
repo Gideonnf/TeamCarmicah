@@ -1,44 +1,17 @@
 {
     "GameObject": "ShooterNPC",
-    "ID": 19,
+    "ID": 49,
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
-            "xPos": 1.5219999551773072,
-            "yPos": -5.711194038391113,
+            "xPos": -10.845258712768555,
+            "yPos": -1.354583501815796,
             "depth": 3.75,
             "xScale": -0.44999998807907107,
             "yScale": 0.44999998807907107,
             "rot": 0.0,
             "transformTag": "",
             "collisionMask": 0
-        },
-        {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.HeroAI",
-            "ScriptableFieldMap": [
-                {
-                    "IsLeft": false,
-                    "projectilePrefab": "Bullet",
-                    "active": false,
-                    "lane": 0,
-                    "idleAnim": "Shooter_Idle",
-                    "mana": 5,
-                    "manaAnim": "Shooter_Idle",
-                    "shootAnim": "Shooter_Shoot",
-                    "shootRate": 1.0,
-                    "shootTime": 1.0
-                }
-            ]
-        },
-        {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "NPC_SpriteSheet_Shooter_Idle 18",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
         },
         {
             "Component Name": "struct Carmicah::StateMachine",
@@ -90,9 +63,9 @@
         {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "",
-            "customWidth": 0.0,
+            "customWidth": 1.0,
             "customRotation": 0.0,
-            "customHeight": 0.0
+            "customHeight": 1.0
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
@@ -105,6 +78,43 @@
             "gravity": 0.0,
             "zposPrev": -107374176.0,
             "objectType": 0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.ShooterNPC",
+            "ScriptableFieldMap": [
+                {
+                    "IsLeft": false,
+                    "isShooting": false,
+                    "active": false,
+                    "animationTime": 0.0,
+                    "deathSound": "Shooter_Death",
+                    "hasAmmo": true,
+                    "hovering": false,
+                    "idleAnim": "Shooter_Idle",
+                    "lane": 0,
+                    "mana": 5,
+                    "manaAnim": "Shooter_Idle",
+                    "npcType": 0,
+                    "placeSound": "Shooter_Appear",
+                    "projectilePrefab": "Bullet",
+                    "shootAnim": "Shooter_Shoot",
+                    "shot": false,
+                    "shootRate": 1.0,
+                    "shootSound": "Shooter_Shooting",
+                    "shootTime": 1.0,
+                    "maxMana": 5
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "NPC_SpriteSheet_Shooter_Idle 18",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         }
     ]
 }

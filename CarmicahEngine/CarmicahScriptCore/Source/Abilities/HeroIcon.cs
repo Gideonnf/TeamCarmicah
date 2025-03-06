@@ -109,6 +109,7 @@ namespace Carmicah
         {
             Entity abilityBar = FindEntityWithName("UIBar");
             abilityBar.As<AbilityBar>().IconRemoved(this.As<BaseIcon>());
+            CMConsole.Log("Deleting the icon from the bar!");
             Destroy();
         }
 

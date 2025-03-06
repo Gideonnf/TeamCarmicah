@@ -18,11 +18,19 @@ namespace Carmicah
 
         MouseAI targetMouse;
         float timer = 0.0f;
-
         public override void OnCreate()
         {
-            // call base NPC on Create
             base.OnCreate();
+            npcType = AbilityType.MAGE;
+
+        }
+
+        public override void OnUpdate(float dt)
+        {
+            if (pauseManager.IsPaused)
+            {
+                return;
+            }
         }
 
         public override void ShootProjectile()
@@ -38,15 +46,27 @@ namespace Carmicah
                     Projectile bullet = projectile.As<Projectile>();
 
                     Sound.PlaySFX(shootSound);
+                    if (bullet != null)
+                    {
+                        bullet.targetMouse = targetMouse;
+
+                        bullet.SetUp(targetMouse);
+                    }
 
                     if (mana > 0)
+                    {
                         mana--;
+                    }
                 }
-
             }
         }
+
         public override void GetTarget()
         {
+            //CMConsole.Log($"Mouse lane one: {gameManager.mouseLaneOne.Count}");
+            //CMConsole.Log($"Mouse lane two: {gameManager.mouseLaneTwo.Count}");
+            //CMConsole.Log($"Mouse lane three: {gameManager.mouseLaneThree.Count}");
+            //CMConsole.Log($"Mouse lane four: {gameManager.mouseLaneFour.Count}");
 
             float distance = float.MaxValue;
 
@@ -65,10 +85,34 @@ namespace Carmicah
                                 targetMouse = mouse;
                             }
                         }
+
+                        foreach (MouseAI mouse in gameManager.mouseLaneTwo)
+                        {
+                            float dist = mouse.Position.Distance(Position);
+                            //CMConsole.Log($"left {dist}");
+
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
+                        }
                     }
                     break;
                 case 1:
                     {
+                        foreach (MouseAI mouse in gameManager.mouseLaneOne)
+                        {
+                            float dist = mouse.Position.Distance(Position);
+                            //CMConsole.Log($"left {dist}");
+
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
+                        }
+
                         foreach (MouseAI mouse in gameManager.mouseLaneTwo)
                         {
                             float dist = mouse.Position.Distance(Position);
@@ -95,10 +139,34 @@ namespace Carmicah
                                 targetMouse = mouse;
                             }
                         }
+
+                        foreach (MouseAI mouse in gameManager.mouseLaneFour)
+                        {
+                            float dist = mouse.Position.Distance(Position);
+                            //CMConsole.Log($"left {dist}");
+
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
+                        }
                     }
                     break;
                 case 3:
                     {
+                        foreach (MouseAI mouse in gameManager.mouseLaneThree)
+                        {
+                            float dist = mouse.Position.Distance(Position);
+                            //CMConsole.Log($"left {dist}");
+
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                targetMouse = mouse;
+                            }
+                        }
+
                         foreach (MouseAI mouse in gameManager.mouseLaneFour)
                         {
                             float dist = mouse.Position.Distance(Position);
@@ -113,10 +181,9 @@ namespace Carmicah
                     }
                     break;
             }
-
         }
 
-        public void OnStateEnter(string stateName)
+        public override void OnStateEnter(string stateName)
         {
             if (stateName == "Idle")
             {
@@ -143,7 +210,7 @@ namespace Carmicah
             //CMConsole.Log($"Enter State Name: {stateName}");
         }
 
-        public void OnStateUpdate(string stateName, float dt)
+        public override void OnStateUpdate(string stateName, float dt)
         {
             if (active == false) return;
 
@@ -152,7 +219,7 @@ namespace Carmicah
             // which will cause crashes
             if (targetMouse != null && targetMouse.mID == 0)
             {
-                //CMConsole.Log("I AM HERE");
+                CMConsole.Log("I AM HERE");
                 targetMouse = null;
                 // Change back to idle state
                 //if (stateName == "Attacking")
@@ -164,11 +231,11 @@ namespace Carmicah
             if (stateName == "Idle")
             {
                 // Get nearest enemy 
-                // targetMouse = gameManager.GetClosestMouse(this);
-                GetTarget();
+                //targetMouse = gameManager.GetClosestMouse(this);
+                GetTarget(); // get targetMouse
                 if (targetMouse != null)
                 {
-                   // CMConsole.Log($"Target mouse : {targetMouse.mID}");
+                    CMConsole.Log($"Target mouse : {targetMouse.mID}");
 
                     // change to attacking state
                     if (mana > 0)
@@ -222,29 +289,26 @@ namespace Carmicah
 
         }
 
-        public void OnStateExit(string stateName)
+        public override void OnStateExit(string stateName)
         {
             //CMConsole.Log("TESTING Exit State");
             //CMConsole.Log($"Exit State Name: {stateName}");
 
         }
 
-
-        public void OnMouseEnter()
+        public override void OnMouseEnter()
         {
-            //CMConsole.Log("Hovering!");
-            hovering = true;
+            base.OnMouseEnter();
         }
 
-        public void OnMouseHover()
+        public override void OnMouseHover()
         {
-            //CMConsole.Log("Hovering!");
-            hovering = true;
+            base.OnMouseHover();
         }
 
-        public void OnMouseExit()
+        public override void OnMouseExit()
         {
-            hovering = false;
+            base.OnMouseExit();
         }
 
     }

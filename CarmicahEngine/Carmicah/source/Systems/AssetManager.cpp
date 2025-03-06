@@ -819,7 +819,7 @@ namespace Carmicah
 		}
 		if (fileExt == ".wav")
 		{
-			RemoveAsset<FMOD::Sound>(fileName);
+			//RemoveAsset<FMOD::Sound*>(fileName);
 		}
 
 

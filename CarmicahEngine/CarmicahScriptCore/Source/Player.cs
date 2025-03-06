@@ -296,7 +296,7 @@ namespace Carmicah
                 if(timer > healAnimTime)
                 {
                     CMConsole.Log("Healing Target!");
-                    healTarget.As<HeroAI>().HealAmmo();
+                    healTarget.As<BaseNPC>().HealAmmo();
                     GetComponent<StateMachine>().SetStateCondition(1);
                 }
             }
