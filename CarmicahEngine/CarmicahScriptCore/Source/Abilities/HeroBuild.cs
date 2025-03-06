@@ -201,6 +201,7 @@ namespace Carmicah
             {
                 heroEntity.As<BaseNPC>().KillHero();
                 heroEntity = null;
+                built = false;
             }
         }
 

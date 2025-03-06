@@ -112,8 +112,8 @@ namespace Carmicah
             playerHealthCover = FindEntityWithName("Healthbar_Cover");
             heroBuildEntities[0] = FindEntityWithName(HeroBuild1);
             heroBuildEntities[1] = FindEntityWithName(HeroBuild3);
-            heroBuildEntities[2] = FindEntityWithName(HeroBuild);
-            heroBuildEntities[3] = FindEntityWithName(HeroBuild2);
+            heroBuildEntities[2] = FindEntityWithName(HeroBuild2);
+            heroBuildEntities[3] = FindEntityWithName(HeroBuild);
 
             walls[0] = FindEntityWithName("Wall");
             walls[1] = FindEntityWithName("Wall_1");
