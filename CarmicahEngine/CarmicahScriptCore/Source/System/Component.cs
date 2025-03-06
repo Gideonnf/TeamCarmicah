@@ -104,6 +104,11 @@ namespace Carmicah
         {
             return FunctionCalls.Animation_GetCurrFrameTime(Entity.mID);
         }
+
+        public bool IsAnimFinished()
+        {
+            return FunctionCalls.Animation_IsAnimFinished(Entity.mID);
+        }
     }
 
     public class StateMachine : Component
