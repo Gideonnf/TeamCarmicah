@@ -169,28 +169,6 @@ namespace Carmicah
 		return 0;
 	}
 
-	/// <summary>
-	/// Returns the first child 
-	/// </summary>
-	/// <param name="entityID"></param>
-	/// <returns></returns>
-	static unsigned int Entity_GetChild(unsigned int entityID)
-	{
-		GameObject& go = gGOFactory->FetchGO(entityID);
-		if (go.HasComponent<Transform>())
-		{
-			if (go.GetComponent<Transform>().children.size() > 0)
-				return go.GetComponent<Transform>().children[0];
-		}
-		else if (go.HasComponent<UITransform>())
-		{
-			if (go.GetComponent<UITransform>().children.size() > 0)
-				return go.GetComponent<UITransform>().children[0];
-		}
-
-		return 0;
-	}
-
 	/// <summary>SS
 	/// Internal function call to play sound effects between C# and C++
 	/// </summary>
@@ -881,7 +859,6 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Entity_HasComponent);
 		ADD_INTERNAL_CALL(Entity_FindEntityWithName);
 		ADD_INTERNAL_CALL(Entity_FindEntitiesWithTag);
-		ADD_INTERNAL_CALL(Entity_GetChild);
 		ADD_INTERNAL_CALL(Entity_GetParent);
 		ADD_INTERNAL_CALL(Entity_FindEntityWithID);
 		ADD_INTERNAL_CALL(Destroy);

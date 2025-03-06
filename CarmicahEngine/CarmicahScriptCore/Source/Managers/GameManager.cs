@@ -79,6 +79,8 @@ namespace Carmicah
 
         Entity[] heroBuildEntities = new Entity[4];
 
+        Entity[] waveIndicators = new Entity[4];
+
         Entity[] walls = new Entity[4];
 
         int cakeCounter = 1;
@@ -114,6 +116,11 @@ namespace Carmicah
             heroBuildEntities[1] = FindEntityWithName(HeroBuild3);
             heroBuildEntities[2] = FindEntityWithName(HeroBuild2);
             heroBuildEntities[3] = FindEntityWithName(HeroBuild);
+
+            waveIndicators[0] = FindEntityWithName("Bubble");
+            waveIndicators[1] = FindEntityWithName("Bubble_1");
+            waveIndicators[2] = FindEntityWithName("Bubble_2");
+            waveIndicators[3] = FindEntityWithName("Bubble_3");
 
             walls[0] = FindEntityWithName("Wall");
             walls[1] = FindEntityWithName("Wall_1");

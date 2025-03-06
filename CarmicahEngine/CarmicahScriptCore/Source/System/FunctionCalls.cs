@@ -16,6 +16,9 @@ namespace Carmicah
         internal extern static bool Entity_HasComponent(uint entityID, Type componentType);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static uint Entity_GetChild(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void RigidBody_ApplyForceWithTime(uint entityID, Vector2 dir, float magnitude, float lifeTime);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
