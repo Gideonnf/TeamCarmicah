@@ -17,55 +17,13 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/AssetTypes.h"
 #include "Math/Vec2.h"
 #include "Math/Matrix3x3.h"
+#include "Graphics/GraphicsAssetTypes.h"
 
 namespace Carmicah
 {
 	class BaseGraphicsSystem
 	{
 	protected:
-#pragma region Structs
-		// Rendering layers
-		enum RENDER_LAYERS
-		{
-			BASE_LAYER = 0,
-			DEBUG_LAYER,
-			UI_LAYER,
-			DEBUG_UI_LAYER,
-			MAX_LAYERS
-		};
-
-		// Batch Rendering details
-		struct DrawElemCmd
-		{
-			GLuint vtxCnt{}, instanceCnt{}, firstIdx{}, baseVtx{}, baseInstance{};
-		};
-
-		// Data stored in this order used for instancing of basic / fonts shader with textures
-		struct vtxTexd2D
-		{
-			Vec2f pos{};
-			Vec2f uv{};
-			float color[4]{};
-			float depth{};
-			unsigned int ids[2]{};// Entity id,  Tex id
-		};
-
-		// Data stored in this order used for instancing of debug shader
-		struct vtx2D
-		{
-			Vec2f pos{};
-			float depth{};
-			unsigned int id{};
-		};
-
-		// Data store for finding out the bufferLocation which is linked to the entity of Primitive / BasePrimitive Type
-		struct EntityData
-		{
-			BatchBuffer* mBufferData{};
-			unsigned int posInMemory{};
-		};
-#pragma endregion
-
 		GLuint mCurrShader{}, mActiveEntityCount{};
 		float mFurtherstDepth{}, mNearestDepth{};
 		std::unordered_map<unsigned int, EntityData> mEntityBufferLoc{}; // copy of mEntitySet for use of tracking valid entities
@@ -76,7 +34,6 @@ namespace Carmicah
 			name of shader to use
 		***************************************************************************/
 		virtual void Init(const std::string& shdr);
-
 
 		/*!*************************************************************************
 		brief

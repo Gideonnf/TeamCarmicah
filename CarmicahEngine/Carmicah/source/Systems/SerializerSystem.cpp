@@ -61,7 +61,6 @@ if (ValueExist(doc, val) == false) { \
 		enConfig.defaultScene = config["Default Scene"].GetString();
 		enConfig.defaultShader = config["Default Shader"].GetString();
 		enConfig.debugShader = config["Debug Shader"].GetString();
-		enConfig.fontShader = config["Font Shader"].GetString();
 		enConfig.assetLoc = config["Asset Loc"].GetString();
 		enConfig.fontSize = config["Font Size"].GetInt();
 		enConfig.minImgDepth = static_cast<float>(config["Image Min Depth"].GetDouble());
@@ -126,9 +125,6 @@ if (ValueExist(doc, val) == false) { \
 
 		writer.String("Debug Shader");
 		writer.String(enConfig.debugShader.c_str(), static_cast<SizeType>(enConfig.debugShader.length()));
-
-		writer.String("Font Shader");
-		writer.String(enConfig.fontShader.c_str(), static_cast<SizeType>(enConfig.fontShader.length()));
 
 		writer.String("Font Size");
 		writer.Int(enConfig.fontSize);
