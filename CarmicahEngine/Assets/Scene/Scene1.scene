@@ -133,8 +133,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -0.9604043364524841,
-                    "yPos": -3.9599106311798097,
+                    "xPos": -1.0287331342697144,
+                    "yPos": -3.483977794647217,
                     "depth": 3.0,
                     "xScale": 1.2000000476837159,
                     "yScale": 1.2000000476837159,
@@ -480,7 +480,8 @@
                             "PlayerHealthBar": "Healthbar",
                             "yVFXLocation": 1.5,
                             "CakeVFXPrefab": "CakeVFX",
-                            "HeroBuild2": "HeroBuild_2"
+                            "HeroBuild2": "HeroBuild_2",
+                            "cameraHeight": 10.0
                         }
                     ]
                 }
@@ -2089,8 +2090,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 852.3843383789063,
-                    "yPos": 89.69488525390625,
+                    "xPos": 830.1778564453125,
+                    "yPos": 93.35589599609375,
                     "depth": 0.0,
                     "xScale": 0.5,
                     "yScale": 0.5,
@@ -2149,8 +2150,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 674.7327880859375,
-                    "yPos": 93.3558349609375,
+                    "xPos": 626.9035034179688,
+                    "yPos": 95.18634033203125,
                     "depth": 0.0,
                     "xScale": 0.5,
                     "yScale": 0.5,
