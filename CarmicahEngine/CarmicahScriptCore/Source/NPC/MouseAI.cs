@@ -46,15 +46,8 @@ namespace Carmicah
         public string EndPointEntityRight2;
 
         //public bool isLeft = false;
-        public string Animation0;
-        public string Animation1;
-        public string Animation2;
-        public string Animation3;
-
-        public string AnimationDie0;
-        public string AnimationDie1;
-        public string AnimationDie2;
-        public string AnimationDie3;
+        public string baseAnimation;
+        public string baseAnimationDie;
 
         public string DeathSound = "mouse die btr";
         public string InjuredSound = "mouse die";
@@ -83,13 +76,10 @@ namespace Carmicah
         private float baseFastSpeed = 1.5f;
         private float baseHeavySpeed = 1.8f;
 
-       
-
-
         public float TimeToDie = 1.5f;
         public float timer;
         public float DeathTime = 2.0f;
-        public float Speed = 1.0f;
+        public float Speed;
         public float speedDebuff = 0.4f; // 60% slower
         float debuff = 1.0f;
 
@@ -150,32 +140,7 @@ namespace Carmicah
 
             Sound.PlaySFX("Portal_Spawn", 0.3f);
 
-            switch (animType)
-            {
-                case 0:
-                    //Console.WriteLine($"Trying to change Anim {Animation0}");
-                    ChangeAnim(Animation0);
-
-                    break;
-                case 1:
-                    //Console.WriteLine($"Trying to change Anim {Animation1}");
-
-                    ChangeAnim(Animation1);
-
-                    break;
-                case 2:
-                    //Console.WriteLine($"Trying to change Anim {Animation2}");
-
-                    ChangeAnim(Animation2);
-
-                    break;
-                case 3:
-                   // Console.WriteLine($"Trying to change Anim {Animation3}");
-
-                    ChangeAnim(Animation3);
-
-                    break;
-            }
+            ChangeAnim(baseAnimation);
         }
 
         void OnUpdate(float dt)
@@ -369,33 +334,8 @@ namespace Carmicah
                     gm.EntityDestroyed(this);
 
                 //CMConsole.Log("TESTING Enter State");
-                switch (animType)
-                {
-                    case 0:
-                        //Console.WriteLine($"Trying to change Anim {Animation0}");
-                        ChangeAnim(AnimationDie0);
 
-                        break;
-                    case 1:
-                        //Console.WriteLine($"Trying to change Anim {Animation1}");
-
-                        ChangeAnim(AnimationDie1);
-
-                        break;
-                    case 2:
-                        //Console.WriteLine($"Trying to change Anim {Animation2}");
-
-                        ChangeAnim(AnimationDie2);
-
-                        break;
-                    case 3:
-                        // Console.WriteLine($"Trying to change Anim {Animation3}");
-
-                        ChangeAnim(AnimationDie3);
-
-                        break;
-                }
-
+                ChangeAnim(baseAnimationDie);
             }
         }
 
