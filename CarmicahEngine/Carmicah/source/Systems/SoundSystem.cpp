@@ -284,7 +284,7 @@ namespace Carmicah
     {
         for (int i = 0; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
         {
-            for (const auto& track : mSoundTracks[i])
+            for (const auto& track : mSoundTracks[static_cast<INTSOUND>(i)])
             {
                 if (track)
                 {

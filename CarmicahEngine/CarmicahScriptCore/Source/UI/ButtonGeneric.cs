@@ -110,7 +110,6 @@ namespace Carmicah
                     createList[0]   = "Settings_Menu";
                     createList[1]   = "Close_Button";
 
-                    Sound.PlayBGM(this.mID,"BGM_SetupPhase_Mix1", 0.4f);
 
                     hoverEnterAnim = "Button_HS_Settings";
                     hoverExitAnim   = "Button_HE_Settings";

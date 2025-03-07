@@ -136,7 +136,7 @@ namespace Carmicah
 
             waveSystem = FindEntityWithName(WaveSystemObject);
 
-            Sound.PlayBGM(waveSystem.mID,"BGM_SetupPhase_Mix1", 0.4f);
+            Sound.PlayBGM(this.mID,"BGM_SetupPhase_Mix1", 0.4f);
         }
 
         void OnUpdate(float dt)
