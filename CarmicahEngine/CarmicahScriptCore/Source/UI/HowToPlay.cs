@@ -196,17 +196,17 @@ namespace Carmicah
                         enemyBear.LocalPosition = pos;
                     }
 
-                    if (mouse1Climbing && enemyMouse1.LocalPosition.y > -20)
+                    if (mouse1Climbing && enemyMouse1.LocalPosition.y > -60)
                     {
                         enemyMouse1.GetComponent<Animation>().ChangeAnim("Mouse_Death_blue");
                         mouse1Climbing = false;
                     }
-                    if (mouse2Climbing && enemyMouse2.LocalPosition.y > 40)
+                    if (mouse2Climbing && enemyMouse2.LocalPosition.y > 0)
                     {
                         enemyMouse2.GetComponent<Animation>().ChangeAnim("Mouse_Death_brown");
                         mouse2Climbing = false;
                     }
-                    if (bearClimbing && enemyBear.LocalPosition.y > -20)
+                    if (bearClimbing && enemyBear.LocalPosition.y > -60)
                     {
                         enemyBear.GetComponent<Animation>().ChangeAnim("Bear_Death");
                         bearClimbing = false;
@@ -218,18 +218,19 @@ namespace Carmicah
                         enemyMouse2.GetComponent<Animation>().ChangeAnim("Mouse_Climb_brown");
                         enemyBear.GetComponent<Animation>().ChangeAnim("Bear_Climb");
                         pos = enemyMouse1.LocalPosition;
-                        pos.y = -270.0f;
+                        pos.y = -310.0f;
                         enemyMouse1.LocalPosition = pos;
                         pos = enemyMouse2.LocalPosition;
-                        pos.y = -220.2f;
+                        pos.y = -260.0f;
                         enemyMouse2.LocalPosition = pos;
                         pos = enemyBear.LocalPosition;
-                        pos.y = -240.0f;
+                        pos.y = -280.0f;
                         enemyBear.LocalPosition = pos;
                         mouse1Climbing = mouse2Climbing = bearClimbing = true;
                     }
                     break;
                 case 2:
+                    /*
                     switch(aniProgress)
                     {
                         case 0:
@@ -253,6 +254,7 @@ namespace Carmicah
                         case 2:
                             break;
                     }
+                    */
                     // Cursor moves to 465, 155 (trap)
                     // Cursor moves to 465, 80 (Shooter)
                     // Cursor moves to -130, 75 (place shooter)
@@ -267,9 +269,9 @@ namespace Carmicah
                             pos = power1Ico.LocalPosition;
                             pos.y -= 150.0f * dt;
                             power1Ico.LocalPosition = pos;
-                            if (pos.y < 115.0f)
+                            if (pos.y < 75.0f)
                             {
-                                someDir = (new Vector2(55.0f, 115.0f)) - playerWalk.LocalPosition;
+                                someDir = (new Vector2(55.0f, 75.0f)) - playerWalk.LocalPosition;
                                 someDir = someDir.Normalize();
 
                                 playerWalk.Scale = new Vector2(-0.666f, 0.666f);
@@ -287,7 +289,6 @@ namespace Carmicah
                             // Thing grows to 1.3333
                             if(pos.x > 55.0f)
                             {
-                                playerWalk.LocalPosition = new Vector2(55.0f, 115.0f);
                                 playerWalk.GetComponent<Animation>().ChangeAnim("MC_Idle");
 
                                 power1Ico.LocalPosition = new Vector2(450.0f, 190.0f);
@@ -323,7 +324,7 @@ namespace Carmicah
                                 isPlayerFacingLeft = false;
                                 // Converts Head to Mage (scale 0.666)
                                 power1Ico.Scale = new Vector2(-0.666f, 0.666f);
-                                someDir = (new Vector2(-15.0f, 125.0f)) - cursor.LocalPosition;
+                                someDir = (new Vector2(-15.0f, 85.0f)) - cursor.LocalPosition;
                                 someDir = someDir.Normalize();
                                 power1Ico.GetComponent<Renderer>().ChangeTexture("NPC_SpriteSheet_Mage_Idle 0");
                                 FindEntityWithName("HowToMage").GetComponent<Renderer>().SetAlpha(0.3f);
@@ -347,7 +348,7 @@ namespace Carmicah
                             cursor.LocalPosition = pos;
                             if(pos.x < -15.0f)
                             {
-                                someDir = (new Vector2(180.0f, 125.0f)) - cursor.LocalPosition;
+                                someDir = (new Vector2(180.0f, 85.0f)) - cursor.LocalPosition;
                                 someDir = someDir.Normalize();
                                 power1Ico.GetComponent<Renderer>().ChangeTexture("UI_Spritesheet_Mage_Icon 0");
                                 power1Ico.LocalPosition = new Vector2(100.0f, 450.0f);
@@ -394,10 +395,11 @@ namespace Carmicah
                                 pos.x += dt;
                                 if (pos.x > 2.0f)
                                 {
-                                    playerWalk.LocalPosition = new Vector2(-160.0f, 145.0f);
+                                    playerWalk.LocalPosition = new Vector2(-160.0f, 105.0f);
                                     playerWalk.Scale = new Vector2(0.666f, 0.666f);
                                     FindEntityWithName("HowToMage").GetComponent<Renderer>().SetAlpha(0.0f);
                                     power2Ico.GetComponent<Animation>().ChangeAnim("Shooter_Mana");
+                                    power1Ico.Scale = new Vector2(1, 1);
                                     cursor.LocalPosition = new Vector2(1000.0f, 100.0f);
                                     isPlayerFacingLeft = true;
                                     aniProgress = 0;
@@ -405,7 +407,6 @@ namespace Carmicah
                             }
                             break;
                     }
-
                     // Mouse moves back to 1'000, 100
                     break;
             }
