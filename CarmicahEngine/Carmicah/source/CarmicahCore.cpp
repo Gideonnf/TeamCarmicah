@@ -361,12 +361,12 @@ namespace Carmicah
 
                     while (accumulatedTime >= CarmicahTime::GetInstance()->GetDeltaTime())
                     {
-                        gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
-
                         // NOTE im putting both here cause im lazy to change every script to fixed dt
                         // cause it runs some shit faster than normal
                         // since im using scripts to do animations also i need it ot be consistent
                         gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT()); // TODO: Add this to profiler
+
+                        gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
 
                         if (CarmicahTime::GetInstance()->IsFixedDT())
                         {
