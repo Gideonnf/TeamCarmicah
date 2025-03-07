@@ -140,9 +140,9 @@ namespace Carmicah
             {
                 // I dont know if we should just hard code the 7 spot positions
                 // because the offset is uneven since the size of sprites are different
-                CMConsole.Log($"Position {Position.x}, {Position.y}");
+               // CMConsole.Log($"Position {Position.x}, {Position.y}");
                 newIcon.Position = new Vector2(startingXPos, startingYPos - ((yOffset * lastIcon) + (15 * lastIcon)));
-                CMConsole.Log($"new Icon Pos {newIcon.Position.x}, {newIcon.Position.y}");
+               // CMConsole.Log($"new Icon Pos {newIcon.Position.x}, {newIcon.Position.y}");
                 listOfIcons[lastIcon] = newIcon.As<BaseIcon>();
                 //CMConsole.Log("HSUDHIASDHIA");
                 iconOriginalPos[lastIcon] = new Vector2(startingXPos, startingYPos - ((yOffset * lastIcon) + (15 * lastIcon)));
