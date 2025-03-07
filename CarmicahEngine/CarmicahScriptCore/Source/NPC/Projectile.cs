@@ -30,7 +30,8 @@ namespace Carmicah
     public enum BulletType
     {
         SHOOTER_BULLET,
-        MAGE_BULLET
+        MAGE_BULLET,
+        SPEAR_BULLET
     }
     public class Projectile : Entity
     {

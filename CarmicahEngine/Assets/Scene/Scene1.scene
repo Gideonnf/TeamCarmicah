@@ -335,7 +335,9 @@
                             "shakeMagnitude": 1.5,
                             "yOffset": 75.0,
                             "shakeTimer": 1.0,
-                            "timer": 0.0
+                            "timer": 0.0,
+                            "startingXPos": 1820.0,
+                            "startingYPos": 760.0
                         }
                     ]
                 }
@@ -474,11 +476,11 @@
                             "BearPrefabName": "BearGO",
                             "WaveEnded": false,
                             "ySpawnPos": 30.600000381469728,
-                            "yTargetPos": 7.449999809265137,
+                            "yTargetPos": 11.5,
                             "activeEnemies": 0,
-                            "yVFXSpawn": 9.399999618530274,
+                            "yVFXSpawn": 14.100000381469727,
                             "PlayerHealthBar": "Healthbar",
-                            "yVFXLocation": 1.5,
+                            "yVFXLocation": 2.3499999046325685,
                             "CakeVFXPrefab": "CakeVFX",
                             "HeroBuild2": "HeroBuild_2",
                             "cameraHeight": 10.0
@@ -633,7 +635,7 @@
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -14.120736122131348,
                     "yPos": 13.722321510314942,
-                    "depth": 1.0,
+                    "depth": 2.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,
@@ -675,7 +677,7 @@
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 15.443731307983399,
                     "yPos": 13.68924617767334,
-                    "depth": 1.0,
+                    "depth": 2.049999952316284,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,

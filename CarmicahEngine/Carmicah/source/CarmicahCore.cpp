@@ -328,6 +328,11 @@ namespace Carmicah
             // If the next state was set to ONSTART, means sceneSystem received a play messag
             if (gameSystem->mNextState == SceneState::ONSTART)
             {
+
+                // Update world and local transforms before rendering
+                rendTransformSystem->Update();
+                transformSystem->Update();
+
                 //souSystem->PlaySoundThis("BGM_SetupPhase_Mix1", SoundCategory::BGM, SoundSystem::SOUND_INGAME, true, 0.4f);
                 gScriptSystem->OnStart();
                 fsmSystem->Init();
@@ -350,7 +355,6 @@ namespace Carmicah
                     // script system normal update and fixed update is both called
                     // so force normal dt into normal onUpdate
                     // and force fixed dt into fixed update
-                    gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime()); // TODO: Add this to profiler
                     //gameLogic->Update(window);
 
                     accumulatedTime += CarmicahTime::GetInstance()->GetDeltaTime();
@@ -358,6 +362,11 @@ namespace Carmicah
                     while (accumulatedTime >= CarmicahTime::GetInstance()->GetDeltaTime())
                     {
                         gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
+
+                        // NOTE im putting both here cause im lazy to change every script to fixed dt
+                        // cause it runs some shit faster than normal
+                        // since im using scripts to do animations also i need it ot be consistent
+                        gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT()); // TODO: Add this to profiler
 
                         if (CarmicahTime::GetInstance()->IsFixedDT())
                         {
@@ -368,6 +377,11 @@ namespace Carmicah
                             phySystem->Update();
                             CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
                         }
+
+
+                        CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
+                        aniSystem->Update();
+                        CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
 
                         accumulatedTime -= CarmicahTime::GetInstance()->GetDeltaTime();
                     }
@@ -387,10 +401,6 @@ namespace Carmicah
                 
                     fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->GetDeltaTime());
                 
-                
-                    CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
-                    aniSystem->Update();
-                    CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
 
                     CarmicahTime::GetInstance()->StartSystemTimer("SoundSystem");
                     souSystem->Update();

@@ -13,6 +13,7 @@ namespace Carmicah
         public string MageIconPrefab = "MageIcon";
         public string TrapIconPrefab = "TrapIcon";
         public string HoneyIconPrefab = "HoneyIcon";
+        public string SpearIconPrefab = "SpearIcon";
 
        // public List<BaseIcon> trapIcons = new List<BaseIcon>();
 
@@ -30,10 +31,10 @@ namespace Carmicah
 
         public override void OnCreate()
         {
-            CreateIcon(IconType.SHOOTER_ICON);
-            CreateIcon(IconType.SHOOTER_ICON);
-            CreateIcon(IconType.SHOOTER_ICON);
-            CreateIcon(IconType.SHOOTER_ICON);
+            CreateIcon(IconType.SPEAR_ICON);
+            CreateIcon(IconType.SPEAR_ICON);
+            CreateIcon(IconType.MAGE_ICON);
+            CreateIcon(IconType.MAGE_ICON);
             CreateIcon(IconType.SHOOTER_ICON);
             CreateIcon(IconType.SHOOTER_ICON);
 
@@ -130,6 +131,12 @@ namespace Carmicah
                 case IconType.MAGE_ICON:
                     {
                         newIcon = CreateGameObject(MageIconPrefab);
+
+                        break;
+                    }
+                case IconType.SPEAR_ICON:
+                    {
+                        newIcon = CreateGameObject(SpearIconPrefab);
 
                         break;
                     }

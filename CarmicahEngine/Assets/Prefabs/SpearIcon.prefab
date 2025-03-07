@@ -1,18 +1,9 @@
 {
-    "GameObject": "ShooterIcon",
-    "ID": 45,
+    "GameObject": "SpearIcon",
+    "ID": 53,
     "Components": [
         {
             "Component Name": "struct Carmicah::Button"
-        },
-        {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "UI_Spritesheet_Shooter_Icon 0",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
         },
         {
             "Component Name": "struct Carmicah::UITransform",
@@ -25,22 +16,35 @@
             "transformTag": ""
         },
         {
+            "Component Name": "struct Carmicah::PrefabData",
+            "prefabRef": 45
+        },
+        {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.HeroIcon",
             "ScriptableFieldMap": [
                 {
-                    "HeroBuild2": "HeroBuild_2",
+                    "heroPrefab": "SpearNPC",
                     "HeroBuild": "HeroBuild",
-                    "heroPrefab": "ShooterNPC",
-                    "actualTrapPrefab": "",
+                    "HeroBuild2": "HeroBuild_2",
                     "WaveSystemObject": "Something",
                     "HeroBuild1": "HeroBuild_1",
+                    "actualTrapPrefab": "",
                     "HeroBuild3": "HeroBuild_3",
                     "fakeTrapPrefab": "",
-                    "flipped": false,
-                    "hovering": false
+                    "hovering": false,
+                    "flipped": false
                 }
             ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "UI_Spritesheet_Bear_Icon 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         }
     ]
 }
