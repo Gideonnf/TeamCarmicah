@@ -24,7 +24,7 @@
     ],
   "Children": [
     {
-      "GameObject": "Mice1",
+      "GameObject": "HowToMice1",
       "ID": 3,
       "Components": [
         {
@@ -54,7 +54,7 @@
       ]
     },
     {
-      "GameObject": "Mice2",
+      "GameObject": "HowToBear",
       "ID": 24,
       "Components": [
         {
@@ -84,7 +84,7 @@
       ]
     },
     {
-        "GameObject": "Bear1",
+        "GameObject": "HowToMice2",
         "ID": 42,
         "Components": [
             {

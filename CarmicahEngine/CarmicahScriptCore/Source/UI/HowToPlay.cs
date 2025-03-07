@@ -27,7 +27,19 @@ namespace Carmicah
         Entity nextBtn = null;
         Entity backBtn = null;
         Entity playBtn = null;
-       
+        bool isPlayerFacingLeft = true;
+        int frameChanged = 2;
+
+        Entity playerWalk   = null;
+        Entity cursor       = null;
+        Entity enemyMouse1  = null;
+        Entity enemyMouse2  = null;
+        Entity enemyBear    = null;
+        bool mouse1Climbing = true;
+        bool mouse2Climbing = true;
+        bool bearClimbing   = true;
+        Entity power1Ico    = null;
+        Entity power2Ico    = null;
 
         void OnCreate()
         {
@@ -61,7 +73,7 @@ namespace Carmicah
             }
             else if (currentPanel == 5)
             {
-                backBtn.GetComponent<Renderer>().SetAlpha(0.0f);
+                nextBtn.GetComponent<Renderer>().SetAlpha(1.0f);
                 playBtn.GetComponent<Renderer>().SetAlpha(0.0f);
             }
 
@@ -81,6 +93,7 @@ namespace Carmicah
                 nextBtn.GetComponent<Renderer>().SetAlpha(1.0f);
                 backBtn.GetComponent<Renderer>().SetAlpha(0.0f);
                 currentPanel = 0;
+                isPlayerFacingLeft = true;
             }
             // Last Panel
             else if(currentPanel == 5)
@@ -93,13 +106,101 @@ namespace Carmicah
             {
                 CreateGameObject("HowToStep" + currentPanel);
             }
+            frameChanged = 2;
         }
 
         void OnUpdate(float dt)
         {
-            if (Input.IsKeyPressed(Keys.KEY_6))
+            // Whole purpose to allow for creation of things before getting entites
+            if(frameChanged > 0)
             {
-                ProgressScene(1);
+                if(frameChanged == 1)
+                {
+                    switch(currentPanel)
+                    {
+                        case 1:
+                            enemyMouse1 = FindEntityWithName("HowToMice1");
+                            enemyMouse2 = FindEntityWithName("HowToMice2");
+                            enemyBear = FindEntityWithName("HowToBear");
+                            mouse1Climbing = mouse2Climbing = bearClimbing = true;
+                            break;
+                    }
+
+                }
+                --frameChanged;
+                return;
+            }
+            switch (currentPanel)
+            {
+                case 0:
+                    if (Input.IsKeyPressed(Keys.KEY_A))
+                    {
+                        if (!isPlayerFacingLeft)
+                        {
+                            Entity et = FindEntityWithName("HowToPlayerWalk");
+                            Vector2 scale = et.Scale;
+                            scale.x = 1.0f;
+                            et.Scale = scale;
+                        }
+
+                        isPlayerFacingLeft = true;
+                    }
+                    if (Input.IsKeyPressed(Keys.KEY_D))
+                    {
+                        if (isPlayerFacingLeft)
+                        {
+                            Entity et = FindEntityWithName("HowToPlayerWalk");
+                            Vector2 scale = et.Scale;
+                            scale.x = -1.0f;
+                            et.Scale = scale;
+                        }
+
+                        isPlayerFacingLeft = false;
+                    }
+                break;
+                case 1:
+                    Vector2 pos;
+                    if (mouse1Climbing)
+                    {
+                        pos = enemyMouse1.LocalPosition;
+                        pos.y += 150 * dt;
+                        enemyMouse1.LocalPosition = pos;
+                    }
+                    if (mouse2Climbing)
+                    {
+                        pos = enemyMouse2.LocalPosition;
+                        pos.y += 200 * dt;
+                        enemyMouse2.LocalPosition = pos;
+                    }
+                    if (bearClimbing)
+                    {
+                        pos = enemyBear.LocalPosition;
+                        pos.y += 100 * dt;
+                        enemyBear.LocalPosition = pos;
+                    }
+
+                    if (mouse1Climbing && enemyMouse1.LocalPosition.y > 20)
+                    {
+                        enemyMouse1.GetComponent<Animation>().ChangeAnim("Mouse_Death_blue");
+                        mouse1Climbing = false;
+                    }
+                    if (mouse2Climbing && enemyMouse2.LocalPosition.y > 20)
+                    {
+                        enemyMouse2.GetComponent<Animation>().ChangeAnim("Mouse_Death_brown");
+                        mouse2Climbing = false;
+                    }
+                    if (bearClimbing && enemyBear.LocalPosition.y > 20)
+                    {
+                        enemyBear.GetComponent<Animation>().ChangeAnim("Bear_Death");
+                        bearClimbing = false;
+                    }
+                break;
+                case 2:
+
+                break;
+                case 3:
+
+                break;
             }
         }
     }
