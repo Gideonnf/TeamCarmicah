@@ -302,16 +302,7 @@
             "GameObject": "UIBar",
             "ID": 13,
             "Components": [
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "UI_Spritesheet_UI_Bar 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
-                },
-                {
+                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 1820.9251708984376,
                     "yPos": 530.8475341796875,
@@ -320,6 +311,15 @@
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI_Spritesheet_UI_Bar 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Script",

@@ -3,7 +3,26 @@
     "ID": 47,
     "Components": [
         {
+            "Component Name": "struct Carmicah::UITransform",
+            "xPos": 1817.509033203125,
+            "yPos": 474.101318359375,
+            "depth": 0.5,
+            "xScale": 0.3499999940395355,
+            "yScale": 0.3499999940395355,
+            "rot": 13.331457138061524,
+            "transformTag": ""
+        },
+        {
             "Component Name": "struct Carmicah::Button"
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "honey_spritesheet_Splat 5",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         },
         {
             "Component Name": "struct Script",
@@ -27,25 +46,6 @@
                     "hovering": false
                 }
             ]
-        },
-        {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "honey_spritesheet_Splat 5",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
-        },
-        {
-            "Component Name": "struct Carmicah::UITransform",
-            "xPos": 1817.509033203125,
-            "yPos": 474.101318359375,
-            "depth": 0.5,
-            "xScale": 0.3499999940395355,
-            "yScale": 0.3499999940395355,
-            "rot": 13.331457138061524,
-            "transformTag": ""
         }
     ]
 }
