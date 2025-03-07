@@ -1,11 +1,11 @@
 N1
-Top left: 0 x 0, 410 x 306
+Top left: 0 x 0, 410 x 345
 10 Sprites
 
 N2
-Top left: 0 x 306, 410 x 306
+Top left: 0 x 345, 410 x 345
 10 Sprites
 
 N3
-Top left: 0 x 612, 410 x 306
+Top left: 0 x 690, 410 x 345
 10 Sprites

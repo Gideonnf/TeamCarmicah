@@ -430,6 +430,7 @@ namespace Carmicah
 						mAssetModified = true;
 						ImGui::CloseCurrentPopup();
 					}*/
+					ImGui::EndPopup();
 				}
 
 
