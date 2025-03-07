@@ -1559,15 +1559,15 @@
                     "Component Name": "struct Carmicah::TextRenderer",
                     "font": "Chewy-Regular",
                     "text": "0/5",
-                    "colorR": 0.8676470518112183,
-                    "colorG": 0.0935698002576828,
-                    "colorB": 0.822113037109375,
-                    "textAlign": 0
+                    "colorR": 1.0,
+                    "colorG": 1.0,
+                    "colorB": 1.0,
+                    "textAlign": 17
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 109.32386779785156,
-                    "yPos": 984.813232421875,
+                    "xPos": 134.94664001464845,
+                    "yPos": 990.3047485351563,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -1593,7 +1593,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "jellybean_spritesheet_coral 0",
+                    "texture": "UI_Spritesheet_Bear_Icon 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -1601,8 +1601,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 150.32029724121095,
-                    "yPos": 983.2194213867188,
+                    "xPos": 140.07119750976563,
+                    "yPos": 1012.5075073242188,
                     "depth": -0.800000011920929,
                     "xScale": 1.2999999523162842,
                     "yScale": 1.2999999523162842,
@@ -1805,41 +1805,6 @@
                 }
             ],
             "Children": []
-        },
-        {
-            "GameObject": "WaveCounter_1",
-            "ID": 44,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::TextRenderer",
-                    "font": "Chewy-Regular",
-                    "text": "1",
-                    "colorR": 0.8676470518112183,
-                    "colorG": 0.0935698002576828,
-                    "colorB": 0.822113037109375,
-                    "textAlign": 0
-                },
-                {
-                    "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 128.11390686035157,
-                    "yPos": 948.203125,
-                    "depth": 0.0,
-                    "xScale": 0.800000011920929,
-                    "yScale": 0.800000011920929,
-                    "rot": 0.0,
-                    "transformTag": ""
-                },
-                {
-                    "Component Name": "struct Script",
-                    "scriptName": "CarmicahScript.WaveCounter",
-                    "ScriptableFieldMap": [
-                        {
-                            "WaveSystemObject": "Something",
-                            "IsTimer": true
-                        }
-                    ]
-                }
-            ]
         },
         {
             "GameObject": "Bubble_1",
@@ -2191,6 +2156,31 @@
                             "transformTag": ""
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "GameObject": "WaveText",
+            "ID": 62,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Chewy-Regular",
+                    "text": "Waves",
+                    "colorR": 1.0,
+                    "colorG": 1.0,
+                    "colorB": 1.0,
+                    "textAlign": 17
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 140.0966033935547,
+                    "yPos": 1023.4819946289063,
+                    "depth": 0.0,
+                    "xScale": 0.6000000238418579,
+                    "yScale": 0.6000000238418579,
+                    "rot": 0.0,
+                    "transformTag": ""
                 }
             ]
         }
