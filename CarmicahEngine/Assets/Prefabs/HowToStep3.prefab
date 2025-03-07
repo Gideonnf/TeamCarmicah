@@ -1,0 +1,107 @@
+{
+    "GameObject": "HowToStep3",
+    "ID": 49,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "matcha_cake_SpriteSheet_Squish 9",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::UITransform",
+            "xPos": 960.0,
+            "yPos": 647.234130859375,
+            "depth": 51.0,
+            "xScale": 0.75,
+            "yScale": 0.75,
+            "rot": 0.0,
+            "transformTag": ""
+        }
+    ],
+    "Children": [
+        {
+            "GameObject": "PwFall",
+            "ID": 51,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI_Spritesheet_Mage_Icon 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 92.373291015625,
+                    "yPos": 426.6385498046875,
+                    "depth": 52.0,
+                    "xScale": 1.3333333730697632,
+                    "yScale": 1.3333333730697632,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "Princess",
+            "ID": 53,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "MC_SpriteSheet_Idle 1",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "MC_Idle",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -8.89520263671875,
+                    "yPos": 150.8936767578125,
+                    "depth": 53.0,
+                    "xScale": 0.6666666865348816,
+                    "yScale": 0.6666666865348816,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "UIBar",
+            "ID": 55,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI_Spritesheet_UI_Bar 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 450.0,
+                    "yPos": 0.0,
+                    "depth": 51.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        }
+    ]
+}

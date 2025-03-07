@@ -112,23 +112,38 @@ namespace Carmicah
 
                     Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
 
-                    hoverEnterAnim = "Button_HS_Settings";
+                    hoverEnterAnim  = "Button_HS_Settings";
                     hoverExitAnim   = "Button_HE_Settings";
                     clickAnim       = "Button_C_Settings";
                     break;
                 case "backsettings":
-                    destroyList[0] = "Settings_Menu";
+                    destroyList[0]  = "Settings_Menu";
                     willUnpause     = true;
                     willSelfDestruct = true;
 
-                    hoverEnterAnim = "Button_HS_Back";
+                    hoverEnterAnim  = "Button_HS_Back";
                     hoverExitAnim   = "Button_HE_Back";
                     clickAnim       = "Button_C_Back";
                     break;
-                    /*
-                    hoverEnterAnim  = "Button_HS_HowTo";
+                case "howtonext":
+                    hoverEnterAnim  = "Button_HowToNext";
+                    hoverExitAnim   = "Button_HowToNext";
+                    clickAnim       = "Button_HowToNext";
+                    break;
+                case "howtoback":
+                    hoverEnterAnim  = "Button_HowToBack";
+                    hoverExitAnim   = "Button_HowToBack";
+                    clickAnim       = "Button_HowToBack";
+                    break;
+                case "howtoplay":
+                    createList[0] = "HowToBG";
+                    createList[1] = "HowToStep0";
+
+                    hoverEnterAnim = "Button_HS_HowTo";
                     hoverExitAnim   = "Button_HE_HowTo";
                     clickAnim       = "Button_C_HowTo";
+                    break;
+                    /*
 
                     hoverEnterAnim  = "Button_HS_Menu";
                     hoverExitAnim   = "Button_HE_Menu";
@@ -210,6 +225,17 @@ namespace Carmicah
             if (willSelfDestruct)
             {
                 Destroy();
+            }
+
+            switch(buttonType)
+            {
+                case "howtonext":
+                    FindEntityWithName("HowToBG").As<HowToPlay>().ProgressScene(1);
+                    break;
+                case "howtoback":
+                    FindEntityWithName("HowToBG").As<HowToPlay>().ProgressScene(-1);
+                    break;
+
             }
         }
         public override void OnMouseEnter()
