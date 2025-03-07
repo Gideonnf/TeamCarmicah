@@ -19,14 +19,15 @@ namespace Carmicah
 
     public class FlyingEnemyAI : Entity
     {
-        public string SpawnPointEntityLeft;
-        public string SpawnPointEntityRight;
-        public string EndPointEntityLeft;
-        public string EndPointEntityRight;
-        public string SpawnPointEntityLeft2;
-        public string SpawnPointEntityRight2;
-        public string EndPointEntityLeft2;
-        public string EndPointEntityRight2;
+        // Updated entity names for spawn and end points
+        public string SpawnPointEntityLeft = "StartTopLeft";
+        public string SpawnPointEntityRight = "StartTopRight";
+        public string EndPointEntityLeft = "StartTopLeft_end";
+        public string EndPointEntityRight = "StartTopRight_end";
+        public string SpawnPointEntityLeft2 = "StartTopLeft_1";
+        public string SpawnPointEntityRight2 = "StartTopRight_1";
+        public string EndPointEntityLeft2 = "StartTopLeft_end";
+        public string EndPointEntityRight2 = "StartTopRight_end";
 
         public string HorizontalAnim = "Flying_Horizontal";
         public string StationaryAnim = "Flying_Stationary";
@@ -41,7 +42,7 @@ namespace Carmicah
         public float horizontalSpeed = 1.0f;
         public float diagonalSpeed = 1.8f;  // Increased speed when gg down 45 degrees
         public float stationaryTime = 3.0f;  // Time to stay station
-        public float stationaryTimer = 0.0f;  
+        public float stationaryTimer = 0.0f;
 
         public int lane;
         public EnemyTypes enemyType;
@@ -61,7 +62,7 @@ namespace Carmicah
         public float timer = 0.0f;
         public bool isDead = false;
 
-        // Movement tracking
+        // Movement tracking - updated with new names
         Vector2 startPosLeft;
         Vector2 startPosRight;
         Vector2 startPosLeft2;
@@ -98,7 +99,7 @@ namespace Carmicah
             GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
             if (gm != null)
             {
-                gm.activeEnemies++; 
+                gm.activeEnemies++;
             }
         }
 
@@ -179,7 +180,7 @@ namespace Carmicah
 
         void OnUpdate(float dt)
         {
-      
+
             Entity pauseManager = FindEntityWithName("PauseManager");
             if (pauseManager != null)
             {
@@ -340,7 +341,7 @@ namespace Carmicah
                 GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                 if (gm != null)
                 {
-                    gm.activeEnemies--; 
+                    gm.activeEnemies--;
                 }
 
                 ChangeAnim(DeathAnim);
@@ -390,24 +391,5 @@ namespace Carmicah
             //CMConsole.Log($"Exit State Name: {stateName}");
 
         }
-
-        //public void SetTypeAndSpeedWithWaveScaling(int waveNumber)
-        //{
-        //    // Wave-based speed scaling
-        //    float waveMultiplier = 1.0f + (waveNumber * 0.15f); // 15% increase per wave
-        //    Speed *= waveMultiplier;
-
-        //    // Optional: You can adjust other properties based on wave number
-        //    // For example, higher health for later waves
-        //    if (this.AsChild<HealthSystem>() != null)
-        //    {
-        //        int baseHealth = 100;
-        //        int bonusHealth = waveNumber * 10; // 10 extra health per wave
-        //        this.AsChild<HealthSystem>().SetMaxHealth(baseHealth + bonusHealth);
-        //    }
-
-        //    CMConsole.Log($"Mouse type: {mouseType}, Wave: {waveNumber}, Final Speed: {Speed}");
-        //}
-
     }
 }

@@ -13,7 +13,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.6807026863098145,
-                    "yPos": 0.08424292504787445,
+                    "yPos": 0.22405502200126649,
                     "depth": 1.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -54,7 +54,12 @@
                     "ScriptableFieldMap": [
                         {
                             "bottomLimit": -12.0,
-                            "topLimit": 10.0
+                            "topLimit": 10.0,
+                            "xPos": 0.0,
+                            "shake": false,
+                            "shakeMagnitude": 0.10000000149011612,
+                            "shakeTimer": 0.0,
+                            "shakeTotalTimer": 0.25
                         }
                     ]
                 }
@@ -843,6 +848,7 @@
                             "damaged": false,
                             "flashInterval": 0.25,
                             "flashTime": 1.0,
+                            "flashTotalTime": 1.0,
                             "flashTimer": 0.0
                         }
                     ]
@@ -1355,6 +1361,71 @@
             ]
         },
         {
+            "GameObject": "PortalTop_left",
+            "ID": 36,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": -15.0,
+                    "yPos": 19.0,
+                    "depth": 1.2000000476837159,
+                    "xScale": 0.30000001192092898,
+                    "yScale": 1.0,
+                    "rot": 320.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "PortalTop",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Portal_SpriteSheet_Top 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "PortalBottom_left",
+                    "ID": 45,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 0.0,
+                            "yPos": -2.562711715698242,
+                            "depth": 6.5,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Animation",
+                            "Atlas": "PortalBot",
+                            "AnimSpeed": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Portal_SpriteSheet_Bottom 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        }
+                    ],
+                    "Children": []
+                }
+            ]
+        },
+        {
             "GameObject": "HeroBuild_2",
             "ID": 37,
             "Components": [
@@ -1769,6 +1840,71 @@
             ]
         },
         {
+            "GameObject": "PortalTop_right",
+            "ID": 46,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 16.0,
+                    "yPos": 19.0,
+                    "depth": 1.2000000476837159,
+                    "xScale": 0.30000001192092898,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "PortalTop",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Portal_SpriteSheet_Top 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "PortalBottom_right",
+                    "ID": 51,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 0.0,
+                            "yPos": -2.562711715698242,
+                            "depth": 6.5,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Animation",
+                            "Atlas": "PortalBot",
+                            "AnimSpeed": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Portal_SpriteSheet_Bottom 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        }
+                    ],
+                    "Children": []
+                }
+            ]
+        },
+        {
             "GameObject": "PowerUpControl",
             "ID": 47,
             "Components": [
@@ -1937,6 +2073,114 @@
                     "colG": 1.0,
                     "colB": 1.0,
                     "colA": 1.0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "StartTopRight",
+            "ID": 52,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 15.85200023651123,
+                    "yPos": 18.0,
+                    "depth": 4.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "StartTopRight_1",
+            "ID": 53,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 8.0,
+                    "yPos": 18.0,
+                    "depth": 4.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "StartTopRight_end",
+            "ID": 54,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 4.9019999504089359,
+                    "yPos": 3.3499999046325685,
+                    "depth": 4.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "StartTopLeft",
+            "ID": 55,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": -15.597999572753907,
+                    "yPos": 18.0,
+                    "depth": 4.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "StartTopLeft_1",
+            "ID": 56,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": -8.0,
+                    "yPos": 18.0,
+                    "depth": 4.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "StartTopLeft_1_1",
+            "ID": 57,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": -4.0980000495910648,
+                    "yPos": 2.700000047683716,
+                    "depth": 4.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 0
                 }
             ],
             "Children": []
