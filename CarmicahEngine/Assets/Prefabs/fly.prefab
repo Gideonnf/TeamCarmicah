@@ -1,0 +1,65 @@
+{
+    "GameObject": "fly",
+    "ID": 48,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Transform",
+            "xPos": 0.0,
+            "yPos": 0.0,
+            "depth": 0.0,
+            "xScale": 0.0,
+            "yScale": 0.0,
+            "rot": 0.0,
+            "transformTag": "",
+            "collisionMask": 1
+        },
+        {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Pigeon_Fly",
+            "AnimSpeed": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::RigidBody",
+            "velocityX": 0.0,
+            "velocityY": 0.0,
+            "angularVelocity": 0.0,
+            "posPrevX": 0.0,
+            "posPrevY": 0.0,
+            "mass": 1.0,
+            "gravity": 0.0,
+            "zposPrev": -107374176.0,
+            "objectType": 0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.FlyingEnemyAI",
+            "ScriptableFieldMap": [
+                {
+                    "EndPointEntityLeft": "StartTopLeft_end",
+                    "ChanceToDie": 0.11999999731779099,
+                    "DeathAnim": "Flying_Death",
+                    "EndPointEntityLeft2": "StartTopLeft_end",
+                    "horizontalSpeed": 1.0,
+                    "DeathSound": "flying_die",
+                    "EndPointEntityRight2": "StartTopRight_end",
+                    "EndPointEntityRight": "StartTopRight_end",
+                    "DiagonalAnim": "Flying_Diagonal",
+                    "HorizontalAnim": "Flying_Horizontal",
+                    "InjuredSound": "flying_hurt",
+                    "SpawnPointEntityLeft": "StartTopLeft",
+                    "SpawnPointEntityLeft2": "StartTopLeft_1",
+                    "SpawnPointEntityRight": "StartTopRight",
+                    "SpawnPointEntityRight2": "StartTopRight_1",
+                    "StationaryAnim": "Flying_Stationary",
+                    "speedDebuff": 0.4000000059604645,
+                    "diagonalSpeed": 1.7999999523162842,
+                    "isDead": false,
+                    "lane": 0,
+                    "stationaryTime": 3.0,
+                    "stationaryTimer": 0.0,
+                    "timer": 0.0
+                }
+            ]
+        }
+    ]
+}

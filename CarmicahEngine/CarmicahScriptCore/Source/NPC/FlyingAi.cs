@@ -90,6 +90,7 @@ namespace Carmicah
             endEntityLeft2 = FindEntityWithName(EndPointEntityLeft2);
             endEntityRight2 = FindEntityWithName(EndPointEntityRight2);
 
+            // InitWaypoints();
             SetInitialPosition();
 
             Sound.PlaySFX("Portal_Spawn", 0.3f);
