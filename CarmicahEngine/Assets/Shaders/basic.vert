@@ -11,9 +11,19 @@ layout (location=1) flat out uvec2 vID;
 layout (location=2) out vec4 vColor;
 
 uniform mat3	uNDC_to_Cam;
+uniform bool	uIsText;
+uniform vec2	uTextOffset;
+uniform vec2	uTextScale;
+
 
 void main(void){
-	gl_Position	= vec4(vec2(uNDC_to_Cam * vec3(aVertexPosition, 1.0)), aDepth, 1.0);
+	if(uIsText)
+	{
+		vec2 calcPos = uTextOffset + vec2(aVertexPosition.x * uTextScale.x, aVertexPosition.y * uTextScale.y);
+		gl_Position	= vec4(vec2(uNDC_to_Cam * vec3(calcPos, 1.0)), aDepth, 1.0);
+	}
+	else
+		gl_Position	= vec4(vec2(uNDC_to_Cam * vec3(aVertexPosition, 1.0)), aDepth, 1.0);
 
 	vTexCoord	= vec2(aTextureCoord.x, -aTextureCoord.y);
 	vID = aID;

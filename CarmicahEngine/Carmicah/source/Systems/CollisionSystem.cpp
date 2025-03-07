@@ -670,7 +670,7 @@ namespace Carmicah
 
 			if (rigidbody1.collided == false)
 			{
-				CM_CORE_INFO(" COLLISION");
+				//CM_CORE_INFO(" COLLISION");
 
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
 				SendSysMessage(&newMsg);
@@ -704,7 +704,7 @@ namespace Carmicah
 
 			if (rigidbody1.collided == false)
 			{
-				CM_CORE_INFO(" COLLISION");
+				//CM_CORE_INFO(" COLLISION");
 
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
 				SendSysMessage(&newMsg);
@@ -740,7 +740,7 @@ namespace Carmicah
 			//CM_CORE_INFO("Obj 1 {}, Obj 2 {}", obj1, obj2);
 			if (rigidbody1.collided == false)
 			{
-				CM_CORE_INFO(" COLLISION");
+				//CM_CORE_INFO(" COLLISION");
 
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::ON_COLLIDE);
 				SendSysMessage(&newMsg);
@@ -766,7 +766,6 @@ namespace Carmicah
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
 			//CM_CORE_INFO("ID in CollisionSystem 2nd {}", obj1);
-			CM_CORE_INFO("Obj 1 {}, Obj 2 {}", obj1, obj2);
 			if (rigidbody1.collided == false)
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
@@ -781,6 +780,8 @@ namespace Carmicah
 		}
 		else if (rigidbody1.objectType == rbTypes::KINEMATIC && rigidbody2.objectType == rbTypes::KINEMATIC)
 		{
+			//CM_CORE_INFO("Obj 1 {}, Obj 2 {}", obj1, obj2);
+
 			// trigger
 			if (rigidbody1.triggerCollide == false)
 			{
@@ -811,74 +812,6 @@ namespace Carmicah
 	 */
 	void CollisionSystem::CollisionCheck()
 	{
-		/*ClearGrid();
-
-		auto* componentManager = ComponentManager::GetInstance();
-
-		for (auto entity : mEntitiesSet)
-		{
-			auto& transform = componentManager->GetComponent<Transform>(entity);
-			InsertEntityToGrid(entity, transform.Pos());
-		}
-
-		for (auto it1 = mEntitiesSet.begin(); it1 != mEntitiesSet.end(); ++it1)
-		{
-			Entity entity1 = *it1;
-
-			auto& transform1 = componentManager->GetComponent<Transform>(entity1);
-
-			auto& rigidbody1 = componentManager->GetComponent<RigidBody>(entity1);
-
-			if (rigidbody1.objectType == rbTypes::DYNAMIC)
-			{
-				std::vector<Entity> nearbyEntities = GetPotentialCollisions(entity1, transform1.Pos());
-
-				for (auto it2 = nearbyEntities.begin(); it2 != nearbyEntities.end(); ++it2)
-				{
-
-					Entity entity2 = *it2;
-
-
-					if (entity2 == entity1)
-					{
-						continue;
-					}
-
-					auto& rigidbody2 = componentManager->GetComponent<RigidBody>(entity2);
-					UNUSED(rigidbody2);
-
-					if (TestIntersection(entity1, entity2))
-					{
-						CollisionResponse(entity1, entity2);
-					}
-				}
-			}
-			else if (rigidbody1.objectType == rbTypes::KINEMATIC)
-			{
-				std::vector<Entity> nearbyEntities = GetPotentialCollisions(entity1, transform1.Pos());
-
-				for (auto it2 = nearbyEntities.begin(); it2 != nearbyEntities.end(); ++it2)
-				{
-					Entity entity2 = *it2;
-
-					if (entity2 == entity1)
-					{
-						continue;
-					}
-
-					auto& rigidbody2 = componentManager->GetComponent<RigidBody>(entity2);
-					UNUSED(rigidbody2);
-
-					if (TestIntersection(entity1, entity2))
-					{
-
-						CollisionResponse(entity1, entity2);
-						
-					}
-				}
-			}
-		}*/
-
 		ClearGrid(); // Reset grid
 
 		auto* componentManager = ComponentManager::GetInstance();
@@ -967,7 +900,7 @@ namespace Carmicah
 					// JUST DONT USE IT OK? 
 					// I KINDA LAZY TO FIND A WAY TO DIFFERENTIATE KINEMATIC w KINEMATIC COLLISION EXIT
 					// VS KINEMATIC w OTHER TYPE COLLISION EXIT
-					CM_CORE_INFO("ENDING COLLISION");
+					//CM_CORE_INFO("ENDING COLLISION");
 
 					// 0 on 2nd entity cause trigger exit doesnt care about collided entity
 					EntityCollidedMessage newMsg(entity1, 0, CollideType::TRIGGER_EXIT);
@@ -984,6 +917,80 @@ namespace Carmicah
 				}
 			}
 		}
+	}
+
+	/// <summary>
+	/// If this function works, bless
+	/// im just ducktaping something to move without linear forces so its more snappy
+	/// </summary>
+	/// <param name="entity1"></param>
+	/// <param name="displacement"></param>
+	/// <returns></returns>
+	bool CollisionSystem::CollisionCheck(Entity entity1, Vec2f displacement)
+	{
+		ClearGrid(); // Reset grid
+
+		auto* componentManager = ComponentManager::GetInstance();
+
+		// Insert all entities into the grid
+		for (auto entity : mEntitiesSet)
+		{
+			auto& transform = componentManager->GetComponent<Transform>(entity);
+			InsertEntityToGrid(entity, transform.Pos() + displacement);
+		}
+
+		auto& transform1 = componentManager->GetComponent<Transform>(entity1);
+		auto& rigidbody1 = componentManager->GetComponent<RigidBody>(entity1);
+
+		if (rigidbody1.objectType == rbTypes::DYNAMIC)
+		{
+			std::vector<Entity> nearbyEntities = GetPotentialCollisions(entity1, transform1.Pos() + displacement);
+
+			for (Entity entity2 : nearbyEntities)
+			{
+				auto& transform2 = componentManager->GetComponent<Transform>(entity2);
+				auto transformSys = SystemManager::GetInstance()->GetSystem<TransformSystem>();
+				if (transformSys->CheckLayerInteraction(transform1.collisionMask, transform2.collisionMask))
+				{
+					if (TestIntersection(entity1, entity2))
+					{
+						//if (transformSys->CheckLayerInteraction(transform1.collisionMask, transform2.collisionMask))
+						//{
+						//	CM_CORE_INFO("why tf is it colliding");
+						//}
+
+						return true;
+					}
+				}
+			}
+		}
+		else if (rigidbody1.objectType == rbTypes::KINEMATIC)
+		{
+			std::vector<Entity> nearbyEntities = GetPotentialCollisions(entity1, transform1.Pos() + displacement);
+
+			for (Entity entity2 : nearbyEntities)
+			{
+
+				auto& transform2 = componentManager->GetComponent<Transform>(entity2);
+				auto& rigidbody2 = componentManager->GetComponent<RigidBody>(entity2);
+				auto transformSys = SystemManager::GetInstance()->GetSystem<TransformSystem>();
+				if (transformSys->CheckLayerInteraction(transform1.collisionMask, transform2.collisionMask))
+				{
+					if (TestIntersection(entity1, entity2))
+					{
+						//if (transformSys->CheckLayerInteraction(transform1.collisionMask, transform2.collisionMask))
+						//{
+						//	CM_CORE_INFO("why tf is it colliding");
+						//}
+
+
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**

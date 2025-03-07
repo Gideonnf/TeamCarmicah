@@ -7,8 +7,8 @@
             "xPos": 8.947422981262207,
             "yPos": -18.05034828186035,
             "depth": 5.0,
-            "xScale": 0.375,
-            "yScale": 0.375,
+            "xScale": 0.6,
+            "yScale": 0.6,
             "rot": 0.0,
             "transformTag": "Enemy",
             "collisionMask": 4

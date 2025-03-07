@@ -34,89 +34,57 @@ namespace Carmicah
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<TextGraphicsSystem>(mSignature);
 
-		BaseGraphicsSystem::Init(AssetManager::GetInstance()->enConfig.fontShader);
+		BaseGraphicsSystem::Init(AssetManager::GetInstance()->enConfig.defaultShader);
+
+		BaseGraphicsSystem::GenBatch("Square", 1, false, false);
 	}
 
 	void TextGraphicsSystem::EntityDestroyed(Entity id)
 	{
-		auto test = mEntityBufferLoc.find(id);
-		if (test != mEntityBufferLoc.end())
-		{
-			if (test->second.mBufferData->isDebug)
-				ReplaceTextBuffer(id, std::vector<vtx2D>());
-			else
-				ReplaceTextBuffer(id, std::vector<vtxTexd2D>());
-			mEntityBufferLoc.erase(id);
-		}
+		RenderHelper::GetInstance()->UnassignFont(id);
+		mCpyEntitySet.erase(id);
 	}
-
+	
 	void TextGraphicsSystem::Update()
 	{
-		for (std::unordered_map<unsigned int, EntityData>::iterator it{ mEntityBufferLoc.begin() };
-			it != mEntityBufferLoc.end();)
+		// Remove data
+		for (std::set<unsigned int>::iterator entity = mCpyEntitySet.begin(); entity != mCpyEntitySet.end();)
 		{
-			if (!ComponentManager::GetInstance()->HasComponent<TextRenderer>(it->first) || !ComponentManager::GetInstance()->HasComponent<UITransform>(it->first))
+			if (!ComponentManager::GetInstance()->HasComponent<TextRenderer>(*entity) || !ComponentManager::GetInstance()->HasComponent<UITransform>(*entity))
 			{
-				auto test = mEntityBufferLoc.find(it->first);
-				if (test != mEntityBufferLoc.end())
-				{
-					if (test->second.mBufferData->isDebug)
-						ReplaceTextBuffer(it->first, std::vector<vtx2D>());
-					else
-						ReplaceTextBuffer(it->first, std::vector<vtxTexd2D>());
-					it = mEntityBufferLoc.erase(it);
-					continue;
-				}
+				RenderHelper::GetInstance()->UnassignFont(*entity);
+				entity = mCpyEntitySet.erase(entity);
+				continue;
 			}
-			++it;
-		}
-		// Add new Data
-		if (mActiveEntityCount != mEntitiesSet.size())
-		{
-			for (auto& entity : mEntitiesSet)
-			{
-				// if entity is active -> skip
-				if (mEntityBufferLoc.find(entity) != mEntityBufferLoc.end())
-					continue;
-
-				unsigned int specificId = RenderHelper::GetInstance()->AssignFont(entity);
-				RenderHelper::BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>(model).uid, mCurrShader, false, specificId);
-
-				if (RenderHelper::GetInstance()->mBufferMap.find(bufferID) == RenderHelper::GetInstance()->mBufferMap.end())
-					GenBatch(model, specificId, false, false);
-
-				EntityData newDat;
-				ToggleActiveEntity(true);
-				newDat.mBufferData = &RenderHelper::GetInstance()->mBufferMap.find(bufferID)->second;
-				mEntityBufferLoc.emplace(entity, newDat);
-			}
+			++entity;
 		}
 
-		for (auto& ebl : mEntityBufferLoc)
+		for (auto& entity : mEntitiesSet)
 		{
-			auto& entity = ebl.first;
-
 			auto& txtRenderer{ ComponentManager::GetInstance()->GetComponent<TextRenderer>(entity) };
-			auto& foundFontTex{ AssetManager::GetInstance()->GetAsset<Font>(txtRenderer.font) };
+			auto& font{ AssetManager::GetInstance()->GetAsset<Font>(txtRenderer.font) };
 			auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>(model) };
 			auto& UITrans{ ComponentManager::GetInstance()->GetComponent<UITransform>(entity) };
 
-			// Pass in uniforms
-			if (RenderHelper::GetInstance()->mFontUniforms.find(entity) == RenderHelper::GetInstance()->mFontUniforms.end())
-			{
-				CM_CORE_WARN("No Font Uniform linked to this font");
-				continue;
-			}
-			else
-			{
-				RenderHelper::GetInstance()->mFontUniforms[entity].offset = UITrans.ExtractWorldPos();
-				RenderHelper::GetInstance()->mFontUniforms[entity].scale = UITrans.Scale();
-				RenderHelper::GetInstance()->mFontUniforms[entity].SetColor(txtRenderer.colorR, txtRenderer.colorG, txtRenderer.colorB);
-			}
-
 			// Find first char that is stored differently in the buffer
-			if (txtRenderer.oldTxt.compare(txtRenderer.txt) == 0)
+			if (txtRenderer.oldTxt.compare(txtRenderer.txt) == 0 && txtRenderer.colorR && !UITrans.Updated())
 				continue;
+			// Get Buffer
+			auto buff = RenderHelper::GetInstance()->mFontData.find(entity);
+			// Pass in uniforms
+			if (buff == RenderHelper::GetInstance()->mFontData.end())
+			{
+				RenderHelper::GetInstance()->AssignFont(entity);
+				mCpyEntitySet.insert(entity);
+				buff = RenderHelper::GetInstance()->mFontData.find(entity);
+			}
+			
+			// Store Font Uniforms
+			buff->second.offset = UITrans.ExtractWorldPos();
+			buff->second.scale = UITrans.Scale();
+			buff->second.SetColor(txtRenderer.colorR, txtRenderer.colorG, txtRenderer.colorB);
+			float depth{ CalcDepth(UITrans.Depth(), UI_LAYER) };
+
 			size_t smallerLength{ std::min(txtRenderer.oldTxt.size(), txtRenderer.txt.size()) },
 				firstDiff{ smallerLength };
 			for (size_t i{}; i < smallerLength; ++i)
@@ -132,39 +100,25 @@ namespace Carmicah
 			// if (old text changed) && (New text is smaller than old text[need to explicitly delete])
 			if (firstDiff != txtRenderer.oldTxt.size() && txtRenderer.txt.size() < txtRenderer.oldTxt.size())
 			{
-				if (ebl.second.mBufferData->isDebug)
-					ReplaceTextBuffer(entity, std::vector<vtx2D>(), firstDiff, txtRenderer.oldTxt.size());
-				else
-					ReplaceTextBuffer(entity, std::vector<vtxTexd2D>(), firstDiff, txtRenderer.oldTxt.size());
+				buff->second.vtxSize = static_cast<int>(txtRenderer.txt.size());
 			}
 
 			if (charsToWrite > 0)
 			{
-				const int& mBatchSize = AssetManager::GetInstance()->enConfig.batchRenderSize;
-
-				unsigned int fontBufferID = RenderHelper::GetInstance()->mFontUniforms.find(entity)->second.bufferID;
-
-				for (int i = 0;
-					i < static_cast<int>(txtRenderer.txt.size()) - (static_cast<int>(ebl.second.mBufferData->buffer.size()) * mBatchSize);
-					i += mBatchSize)
-					GenBatch(model, fontBufferID, false, false, true);
-				
-
 				// Find the xTrack
 				float xTrack{};
 				for (size_t txtCount{}; txtCount < firstDiff; ++txtCount)
 				{
-					Font::FontChar ch = foundFontTex.mFontMaps[txtRenderer.txt[txtCount] - charOffset];
+					Font::FontChar ch = font.mFontMaps[txtRenderer.txt[txtCount] - charOffset];
 					xTrack += (ch.advance >> 7); // bitshift by 6 to get value in pixels (2^6 = 64)
 				}
 
 				// Continue with actual mem alloc
-				std::vector<vtxTexd2D> charData;
-				charData.reserve(p.vtx.size() * charsToWrite);
+				RenderHelper::GetInstance()->ReserveFontBuffer(buff->second, charsToWrite);
 				// iterate through all characters (alot of it divides by 2 since quad is based on [-1,1])
 				for (size_t txtCount{ firstDiff }; txtCount < txtRenderer.txt.size(); ++txtCount)
 				{
-					Font::FontChar ch = foundFontTex.mFontMaps[txtRenderer.txt[txtCount] - charOffset];
+					Font::FontChar ch = font.mFontMaps[txtRenderer.txt[txtCount] - charOffset];
 
 					xTrack += (ch.advance >> 7) * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
 					Mtx3x3f charTransform{};
@@ -177,28 +131,35 @@ namespace Carmicah
 						.scaleThis(static_cast<float>(ch.width) * 0.5f,
 							static_cast<float>(ch.height) * 0.5f);
 
-					const FontTexture& t{ AssetManager::GetInstance()->GetAsset<FontTexture>(ch.texRef) };
+					txtRenderer.totalHeight = std::max(txtRenderer.totalHeight, charTransform.m[7]);
 
-					float depth{ CalcDepth(UITrans.Depth(), UI_LAYER) };
+					const FontTexture& t{ AssetManager::GetInstance()->GetAsset<FontTexture>(ch.texRef) };
 
 					for (unsigned int i{}; i < p.vtx.size(); ++i)
 					{
-						vtxTexd2D tt;
+						vtxTexd2D& tt = buff->second.vtx[txtCount * p.vtx.size() + i];
 						tt.pos = charTransform * p.vtx[i];
 						tt.ids[0] = entity;
 						tt.ids[1] = t.t;
 						tt.depth = depth;
 						tt.uv = t.mtx * p.texCoord[i];
-						charData.emplace_back(tt);
 					}
 
 					// now advance cursors for next glyph (note that advance is number of 1/64 pixels)
 					xTrack += (ch.advance >> 7) * 0.5f; // bitshift by 6 to get value in pixels (2^6 = 64)
 				}
-				// Push to Buffer
-				ReplaceTextBuffer(entity, charData, firstDiff);
+				txtRenderer.totalWidth = xTrack;
+				buff->second.vtxSize = static_cast<int>(txtRenderer.txt.size());
 			}
-		
+
+			buff->second.offset.y -= (txtRenderer.totalHeight * 0.5f * buff->second.scale.y) * (txtRenderer.txtAlign & TextRenderer::TXTALIGN::TXT_CHECKY);
+			buff->second.offset.x -= (txtRenderer.totalWidth * 0.5f * buff->second.scale.x) * ((txtRenderer.txtAlign & TextRenderer::TXTALIGN::TXT_CHECKX) >> 4);
+
+			for (unsigned int i{}; i < std::min(txtRenderer.oldTxt.size(), txtRenderer.txt.size()) * p.vtx.size(); ++i)
+			{
+				buff->second.vtx[i].depth = depth;
+			}
+
 			txtRenderer.oldTxt = txtRenderer.txt;
 		}
 	}

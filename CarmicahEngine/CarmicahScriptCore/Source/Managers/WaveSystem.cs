@@ -132,6 +132,10 @@ namespace Carmicah
             gameManager.As<GameManager>().GameOver = false;
             gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
             levelManager.NextLevel();
+
+
+            Entity powerController = FindEntityWithName("PowerUpControl");
+            powerController.As<PowerUpControl>().WipePowerups();
         }
 
         //public void EndOfWave()

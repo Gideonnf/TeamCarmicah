@@ -23,6 +23,7 @@ DigiPen Institute of Technology is prohibited.
 #include "SceneToImgui.h"
 #include "Systems/GOFactory.h"
 #include "Input/InputSystem.h"
+#include "Graphics/GraphicsAssetTypes.h"
 #include "Graphics/RenderHelper.h"
 
 
@@ -34,13 +35,13 @@ namespace Carmicah
     void CameraWindow::Update()
     {
 		if (Input.IsKeyPressed(KEY_Q))
-			RenderHelper::GetInstance()->mEditorMode = RenderHelper::GIZMOS_MODE::GIZMOS_NONE;
+			RenderHelper::GetInstance()->mEditorMode = GIZMOS_MODE::GIZMOS_NONE;
 		else if (Input.IsKeyPressed(KEY_W))
-			RenderHelper::GetInstance()->mEditorMode = RenderHelper::GIZMOS_MODE::GIZMOS_TRANSLATE;
+			RenderHelper::GetInstance()->mEditorMode = GIZMOS_MODE::GIZMOS_TRANSLATE;
 		else if (Input.IsKeyPressed(KEY_E))
-			RenderHelper::GetInstance()->mEditorMode = RenderHelper::GIZMOS_MODE::GIZMOS_SCALE;
+			RenderHelper::GetInstance()->mEditorMode = GIZMOS_MODE::GIZMOS_SCALE;
 		else if (Input.IsKeyPressed(KEY_R))
-			RenderHelper::GetInstance()->mEditorMode = RenderHelper::GIZMOS_MODE::GIZMOS_ROTATE;
+			RenderHelper::GetInstance()->mEditorMode = GIZMOS_MODE::GIZMOS_ROTATE;
 
 
 		bool camWindowActive = ImGui::Begin(mTitle);
@@ -110,7 +111,7 @@ namespace Carmicah
 						{
 							switch (RenderHelper::GetInstance()->mEditorMode)
 							{
-							case RenderHelper::GIZMOS_MODE::GIZMOS_NONE:
+							case GIZMOS_MODE::GIZMOS_NONE:
 							{
 								if (HierarchyWindow::selectedGO->HasComponent<Transform>())
 								{
@@ -146,7 +147,7 @@ namespace Carmicah
 								}
 								break;
 							}
-							case RenderHelper::GIZMOS_MODE::GIZMOS_ROTATE:
+							case GIZMOS_MODE::GIZMOS_ROTATE:
 							{
 								if (RenderHelper::GetInstance()->mSelectedID == std::numeric_limits<unsigned int>().max())
 								{
@@ -170,7 +171,7 @@ namespace Carmicah
 								}
 								break;
 							}
-							case RenderHelper::GIZMOS_MODE::GIZMOS_TRANSLATE:
+							case GIZMOS_MODE::GIZMOS_TRANSLATE:
 							{
 								if (RenderHelper::GetInstance()->mSelectedID == std::numeric_limits<unsigned int>().max())
 								{
@@ -206,7 +207,7 @@ namespace Carmicah
 								}
 								break;
 							}
-							case RenderHelper::GIZMOS_MODE::GIZMOS_SCALE:
+							case GIZMOS_MODE::GIZMOS_SCALE:
 							{
 								if (RenderHelper::GetInstance()->mSelectedID == std::numeric_limits<unsigned int>().max())
 								{

@@ -33,6 +33,7 @@ namespace Carmicah
         Fast,
         Heavy
     }
+
     public class MouseAI : Entity
     {
         public string SpawnPointEntityLeft;
@@ -124,9 +125,9 @@ namespace Carmicah
             //stateMachine.AddState(new MouseChase("Chase"));
             //stateMachine.AddState(new MouseDead("Dead"));
             //stateMachine.SetNextState("Chase");
-            Random rand = new Random();
-            animType = rand.Next(0, 4); // rand between 0 to 3
-            randLane = rand.Next(0, 4); // rand between 0 to 3
+            //Random rand = new Random();
+            animType = CMRand.Range(0, 3); // rand between 0 to 3
+            randLane = CMRand.Range(0, 3); // rand between 0 to 3
 
             lane = randLane;
 
@@ -259,13 +260,17 @@ namespace Carmicah
 
             if (dist <= 0.3f)
             {
-               // CMConsole.Log("Dying");
+                // CMConsole.Log("Dying");
+                Entity gameManager = FindEntityWithName("GameManager");
+                gameManager.As<GameManager>().KillNPC(this);
 
                 timer = 0.0f;
                 GetComponent<StateMachine>().SetStateCondition(1);
 
                 Entity mainCharacter = FindEntityWithName("mainCharacter");
-                mainCharacter.As<Player>().TakeDamage(10);
+                mainCharacter.As<Player>().TakeDamage(10, enemyType);
+
+
             }
         }
 
@@ -409,14 +414,19 @@ namespace Carmicah
             }
             Entity gameManager = FindEntityWithName("GameManager");
           //  CMConsole.Log($"game manager gameOver :{gameManager.As<GameManager>().GameOver}");
-            if (gameManager.As<GameManager>().GameOver)
-                return;
 
 
 
             // CMConsole.Log($"Update State Name: {stateName}");
             if (stateName == "Running")
             {
+                if (gameManager.As<GameManager>().GameOver)
+                {
+                    GetComponent<RigidBody>().StopForces();
+                    return;
+
+                }
+
                 // CMConsole.Log("TESTING Update State");
                 UpdateMovement(dt);
             }

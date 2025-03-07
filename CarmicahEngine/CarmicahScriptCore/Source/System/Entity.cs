@@ -105,6 +105,19 @@ namespace Carmicah
             }
         }
 
+        public float Rot
+        {
+            get
+            {
+                FunctionCalls.Transform_GetRot(mID, out float rot);
+                return rot;
+            }
+            set
+            {
+                FunctionCalls.Transform_SetRot(mID, ref value);
+            }
+        }
+
         public bool HasComponent<T>() where T : Component, new()
         {
             Type componentType = typeof(T);
@@ -120,6 +133,18 @@ namespace Carmicah
             return component;
         }
 
+        public T GetComponentInChildren<T>() where T : Component, new()
+        {
+            uint child = FunctionCalls.Entity_GetChild(mID);
+            Entity childEntity = new Entity(child);
+
+            if (!childEntity.HasComponent<T>()) return null;
+
+            T component = new T() { Entity = childEntity };
+
+            return component;
+        }
+
         public T AsChild<T>() where T : Entity, new()
         {
             Object scriptInstance = FunctionCalls.GetScriptInstanceFromChildren(mID);
@@ -129,7 +154,15 @@ namespace Carmicah
 
         public T As<T>() where T : Entity, new()
         {
-            Object scriptInstance = FunctionCalls.GetScriptInstance(mID);
+            string baseClassName = typeof(T).Name;
+            //CMConsole.Log($"Trying to retrieve script instance of {baseClassName} for entity {mID}");
+            Object scriptInstance = FunctionCalls.GetScriptInstance(mID, baseClassName);
+
+            if (scriptInstance == null)
+            {
+                CMConsole.Log($"Script instance is null");
+                return null;
+            }
 
             return scriptInstance as T;
         }
@@ -154,6 +187,20 @@ namespace Carmicah
             if ( entityID == 0)
                 return null;
             return new Entity(entityID);
+        }
+
+        public Entity[] FindEntitiesWithTag(string tag)
+        {
+            uint[] entityIDs = FunctionCalls.Entity_FindEntitiesWithTag(tag);
+
+            Entity[] entities = new Entity[entityIDs.Length];  
+
+            for (int i = 0; i < entityIDs.Length; ++i)
+            {
+                entities[i] = new Entity(entityIDs[i]);
+            }
+
+            return entities;
         }
 
         public Entity GetParent()

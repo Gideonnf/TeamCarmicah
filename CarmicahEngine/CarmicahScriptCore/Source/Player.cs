@@ -15,7 +15,7 @@ DigiPen Institute of Technology is prohibited.
 --------------------------------------------------------------------------------------------------*/
 
 
-using CarmicahScriptCore.Source;
+using Carmicah;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +28,8 @@ namespace Carmicah
     {
         float timer = 0.5f;
 
+        public float walkingSpeed = 2.0f;
+
         public string HealAnim;
         public string IdleAnim;
         public string WalkAnim;
@@ -37,12 +39,20 @@ namespace Carmicah
         public bool isCreated = false;
 
         Entity healTarget;
-
+        Entity redBorder;
         float healAnimTime;
-        
+
+        public bool damaged = false;
+        public float flashTotalTime = 1.0f;
+        public float flashInterval = 0.25f;
+        public float flashTimer = 0.0f; // Keep track for interval flashing
+        public float flashTime = 0.0f; // keep track of total time for flashTime
+
+
+        bool invisible = true;
         void OnCreate()
         {
-
+            redBorder = FindEntityWithName("RedBorder");
         }
 
         void ToggleWalkAnim()
@@ -78,6 +88,37 @@ namespace Carmicah
                 if (pauseManager.As<PauseManager>().IsPaused)
                     return;
             }
+
+            if (damaged)
+            {
+                flashTime += dt;
+
+                if (flashTime >= flashTotalTime)
+                {
+                    damaged = false;
+                    invisible = true;
+                    redBorder.GetComponent<Renderer>().SetAlpha(0.0f);
+                    flashTime = 0.0f;
+                    return;
+                }
+
+                flashTimer += dt;
+
+                if (flashTimer >= flashInterval)
+                {
+                    flashTimer = 0.0f;
+                    invisible = !invisible;
+                    if (invisible)
+                    {
+                        redBorder.GetComponent<Renderer>().SetAlpha(0.0f);
+                    }
+                    else
+                    {
+                        redBorder.GetComponent<Renderer>().SetAlpha(1.0f);
+                    }
+                }
+            }
+
             
 
             /*if (Input.IsKeyPressed(Keys.KEY_W))
@@ -182,14 +223,17 @@ namespace Carmicah
 
             else if (stateName == "Walking")
             {
+                Vector2 position = Vector2.Zero;
                 if (Input.IsKeyHold(Keys.KEY_W))
                 {
                     PlaySoundEffect("walk2");
                     //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
 
-                    GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
+                    //GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
+                    //Position = new Vector2(Position.x, Position.y + (walkingSpeed * dt));
+                    position.y += walkingSpeed * dt;
                 }
-                else if (Input.IsKeyHold(Keys.KEY_A))
+                if (Input.IsKeyHold(Keys.KEY_A))
                 {
 
                     PlaySoundEffect("walk2");
@@ -204,18 +248,21 @@ namespace Carmicah
 
                     //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
 
-                    GetComponent<RigidBody>().ApplyForce(new Vector2(-1, 0), 2.0f);
+                    // Position = new Vector2(Position.x - (walkingSpeed * dt), Position.y);
+                    position.x -= walkingSpeed * dt;
+                    // GetComponent<RigidBody>().ApplyForce(new Vector2(-1, 0), 2.0f);
                 }
-                else if (Input.IsKeyHold(Keys.KEY_S))
+                if (Input.IsKeyHold(Keys.KEY_S))
                 {
 
                     PlaySoundEffect("walk2");
 
                     //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
-
-                    GetComponent<RigidBody>().ApplyForce(new Vector2(0, -1), 2.0f);
+                    // Position = new Vector2(Position.x, Position.y - (walkingSpeed * dt));
+                    position.y -= walkingSpeed * dt;
+                    // GetComponent<RigidBody>().ApplyForce(new Vector2(0, -1), 2.0f);
                 }
-                else if (Input.IsKeyHold(Keys.KEY_D))
+                if (Input.IsKeyHold(Keys.KEY_D))
                 {
 
                     PlaySoundEffect("walk2");
@@ -229,13 +276,19 @@ namespace Carmicah
                     Scale = scale;
 
                     //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
-
-                    GetComponent<RigidBody>().ApplyForce(new Vector2(1, 0), 2.0f);
+                    // Position = new Vector2(Position.x + (walkingSpeed * dt), Position.y);
+                    position.x += walkingSpeed * dt;
+                    //GetComponent<RigidBody>().ApplyForce(new Vector2(1, 0), 2.0f);
                 }
-                else
+                
+                if((!Input.IsKeyHold(Keys.KEY_W) && !Input.IsKeyHold(Keys.KEY_A) && !Input.IsKeyHold(Keys.KEY_S) && !Input.IsKeyHold(Keys.KEY_D)))
                 {
                     GetComponent<StateMachine>().SetStateCondition(1);
                 }
+
+                //if (position != Position)
+                    GetComponent<RigidBody>().Move(position);
+                //Position = position;
             }
             else if (stateName == "Heal")
             {
@@ -243,7 +296,7 @@ namespace Carmicah
                 if(timer > healAnimTime)
                 {
                     CMConsole.Log("Healing Target!");
-                    healTarget.As<HeroAI>().HealAmmo();
+                    healTarget.As<BaseNPC>().HealAmmo();
                     GetComponent<StateMachine>().SetStateCondition(1);
                 }
             }
@@ -263,10 +316,21 @@ namespace Carmicah
             }
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage, EnemyTypes enemyType)
         {
             this.AsChild<HealthSystem>().TakeDamage(damage);
 
+            damaged = true;
+            if (enemyType == EnemyTypes.BEAR)
+            {
+                Entity camera = FindEntityWithName("MainCamera");
+                camera.As<Camera>().ShakeCamera();
+                //if (!shake)
+                //{
+                //    shake = true;
+                //    shakeTimer = 0.0f;
+                //}
+            }
             //CMConsole.Log($"Health :{this.AsChild<HealthSystem>().mCurHealth}");
             if (this.AsChild<HealthSystem>().mCurHealth <= 0)
             {

@@ -28,6 +28,7 @@ DigiPen Institute of Technology is prohibited.
 #include "../Input/InputSystem.h"
 #include "../Systems/SoundSystem.h"
 #include "../ECS/SystemManager.h"
+#include "../Systems/CollisionSystem.h"
 #include "../Systems/SceneSystem.h"
 #include "../Editor/SceneWindow.h"
 #include "../FSM/FSMSystem.h"
@@ -128,6 +129,24 @@ namespace Carmicah
 		return go.GetID();
 	}
 
+	static MonoArray* Entity_FindEntitiesWithTag(MonoString* tag)
+	{
+		std::string cStrName = MonoToString(tag);
+
+		std::vector<Entity> entityIDs = gGOFactory->GetEntitiesWithTag(cStrName);
+
+
+		MonoDomain* domain = mono_domain_get();
+		MonoArray* monoArray = mono_array_new(domain, mono_get_uint32_class(), entityIDs.size());
+
+		for (size_t i = 0; i < entityIDs.size(); ++i)
+		{
+			mono_array_set(monoArray, uint32_t, i, entityIDs[i]);
+		}
+
+		return monoArray;
+	}
+
 	static unsigned int Entity_FindEntityWithID(unsigned int entityID)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -145,6 +164,28 @@ namespace Carmicah
 		else if (go.HasComponent<UITransform>())
 		{
 			return go.GetComponent<UITransform>().ParentID();
+		}
+
+		return 0;
+	}
+
+	/// <summary>
+	/// Returns the first child 
+	/// </summary>
+	/// <param name="entityID"></param>
+	/// <returns></returns>
+	static unsigned int Entity_GetChild(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Transform>())
+		{
+			if (go.GetComponent<Transform>().children.size() > 0)
+				return go.GetComponent<Transform>().children[0];
+		}
+		else if (go.HasComponent<UITransform>())
+		{
+			if (go.GetComponent<UITransform>().children.size() > 0)
+				return go.GetComponent<UITransform>().children[0];
 		}
 
 		return 0;
@@ -269,6 +310,36 @@ namespace Carmicah
 			CM_CORE_ERROR("Entity does not have rigidBody");
 		}
 
+	}
+
+	static void RigidBody_Move(unsigned int entityID, Vec2f pos)
+	{
+		// ideally this should be in rigidbody system or smth but idk idc now
+
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		auto colSys = SystemManager::GetInstance()->GetSystem<CollisionSystem>();
+
+		// move it to it's new pos
+		//Vec2f oldPos = go.GetComponent<Transform>().Pos();
+		////CM_CORE_INFO("Old pos {},{}", oldPos.x, oldPos.y);
+		//go.GetComponent<Transform>().Pos(pos);
+		//CM_CORE_INFO("Old pos {},{}", go.GetComponent<Transform>().Pos().x, go.GetComponent<Transform>().Pos().y);
+
+		// if its not colliding with something then set the position
+		if (!colSys->CollisionCheck(entityID, pos))
+		{
+			go.GetComponent<Transform>().Pos(go.GetComponent<Transform>().Pos() + pos);
+		}
+	}
+
+	static void RigidBody_StopForces(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+
+		if (go.HasComponent<RigidBody>())
+		{
+			go.GetComponent<RigidBody>().forcesManager.RemoveForce();
+		}
 	}
 
 	static void Transform_GetLocalPosition(unsigned int entityID, Vec2f* outPos)
@@ -407,7 +478,7 @@ namespace Carmicah
 
 	static bool IsMouseReleased(MouseButtons button)
 	{
-		//if (Input.IsMouseReleased(button))
+		//if (Input.IsMouseReleased(De))
 		//{
 		//	CM_CORE_INFO("LEFT MOUSE BUTTON RELEASE");
 		//}
@@ -449,16 +520,19 @@ namespace Carmicah
 		return newGO.GetID();
 	}
 
-	static MonoObject* GetScriptInstance(unsigned int entityID)
+	static MonoObject* GetScriptInstance(unsigned int entityID, MonoString* baseName)
 	{
-		if (gScriptSystem->mEntityInstances.count(entityID) > 0)
-		{
-			return gScriptSystem->mEntityInstances[entityID]->GetInstance();
-		}
-		else
+		if (gScriptSystem->mEntityInstances.count(entityID) == 0)
 		{
 			CM_CORE_ERROR("Entity does not have script attached");
 			return nullptr;
+		}
+
+		std::string cStrName = MonoToString(baseName);
+
+		if (gScriptSystem->mEntityInstances.count(entityID) > 0)
+		{
+			return gScriptSystem->mEntityInstances[entityID]->GetInstance();
 		}
 	}
 
@@ -524,6 +598,26 @@ namespace Carmicah
 			go.GetComponent<Transform>().Depth(*inFloat);
 		else if (go.HasComponent<UITransform>())
 			go.GetComponent<UITransform>().Depth(*inFloat);
+	}
+
+	static void Transform_GetRot(unsigned int entityID, float* outFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Transform>())
+			*outFloat = go.GetComponent<Transform>().GetRot();
+		else if (go.HasComponent<UITransform>())
+			*outFloat = go.GetComponent<UITransform>().GetRot();
+		else
+			*outFloat = 0.0f;
+	}
+
+	static void Transform_SetRot(unsigned int entityID, float* inFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Transform>())
+			go.GetComponent<Transform>().Rot(*inFloat);
+		else if (go.HasComponent<UITransform>())
+			go.GetComponent<UITransform>().Rot(*inFloat);
 	}
 
 	static void GetRedColour(unsigned int entityID, float* outFloat)
@@ -611,6 +705,18 @@ namespace Carmicah
 		}
 
 		return 0.0f;
+	}
+	
+	static bool Animation_IsAnimFinished(unsigned entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Animation>())
+		{
+			Animation& a{ go.GetComponent<Animation>() };
+			return a.animState == Animation::ANIM_CODE::STOP_ANIM;
+		}
+
+		return 0;
 	}
 
 	static void SetCollisionLayer(unsigned int entityID, unsigned int layer)
@@ -776,10 +882,14 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Transform_GetDepth);
 		ADD_INTERNAL_CALL(Transform_SetDepth);
 		ADD_INTERNAL_CALL(Transform_GetTag);
+		ADD_INTERNAL_CALL(Transform_GetRot);
+		ADD_INTERNAL_CALL(Transform_SetRot);
 
 		//Entity functions
 		ADD_INTERNAL_CALL(Entity_HasComponent);
 		ADD_INTERNAL_CALL(Entity_FindEntityWithName);
+		ADD_INTERNAL_CALL(Entity_FindEntitiesWithTag);
+		ADD_INTERNAL_CALL(Entity_GetChild);
 		ADD_INTERNAL_CALL(Entity_GetParent);
 		ADD_INTERNAL_CALL(Entity_FindEntityWithID);
 		ADD_INTERNAL_CALL(Destroy);
@@ -791,6 +901,8 @@ namespace Carmicah
 		// Rigidbody functions
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);
 		ADD_INTERNAL_CALL(RigidBody_ApplyForceWithTime);
+		ADD_INTERNAL_CALL(RigidBody_StopForces);
+		ADD_INTERNAL_CALL(RigidBody_Move);
 
 		// renderer functions
 		ADD_INTERNAL_CALL(SetAlpha);
@@ -802,6 +914,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Animation_ChangeAnim);
 		ADD_INTERNAL_CALL(GetMaxTime);
 		ADD_INTERNAL_CALL(Animation_GetCurrFrameTime);
+		ADD_INTERNAL_CALL(Animation_IsAnimFinished);
 
 		// input functions
 		ADD_INTERNAL_CALL(IsKeyPressed);

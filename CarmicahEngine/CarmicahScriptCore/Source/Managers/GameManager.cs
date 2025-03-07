@@ -17,7 +17,6 @@ DigiPen Institute of Technology is prohibited.
 
 
 using Carmicah;
-using CarmicahScriptCore.Source;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,11 +71,15 @@ namespace Carmicah
         Entity playerHealth;
         Entity playerHealthCover;
 
+        Entity[] topTowerBoxes = new Entity[3];
+
         Entity[] endEntities = new Entity[4];
 
         List<Entity> npcList;
 
         Entity[] heroBuildEntities = new Entity[4];
+
+        Entity[] laneIndicators = new Entity[4];
 
         Entity[] walls = new Entity[4];
 
@@ -86,13 +89,16 @@ namespace Carmicah
         public float yTargetPos;
         public float yVFXSpawn;
         public float yVFXLocation = 1.5f;
+        public float cameraHeight = 10.0f;
 
         Entity towerPrefab;
         Entity VFXPrefab;
         Entity waveSystem;
+        Entity mainCamera;
 
         void OnCreate()
         {
+            mainCamera = FindEntityWithName("MainCamera");
             mobCounter = new Wave();
             mouseLaneOne = new List<MouseAI>();
             mouseLaneTwo = new List<MouseAI>();
@@ -109,15 +115,24 @@ namespace Carmicah
             playerEntity = FindEntityWithName(PlayerName);
             playerHealth = FindEntityWithName(PlayerHealthBar);
             playerHealthCover = FindEntityWithName("Healthbar_Cover");
-            heroBuildEntities[0] = FindEntityWithName(HeroBuild);
-            heroBuildEntities[1] = FindEntityWithName(HeroBuild1);
+            heroBuildEntities[0] = FindEntityWithName(HeroBuild1);
+            heroBuildEntities[1] = FindEntityWithName(HeroBuild3);
             heroBuildEntities[2] = FindEntityWithName(HeroBuild2);
-            heroBuildEntities[3] = FindEntityWithName(HeroBuild3);
+            heroBuildEntities[3] = FindEntityWithName(HeroBuild);
+
+            laneIndicators[0] = FindEntityWithName("Bubble_1");
+            laneIndicators[1] = FindEntityWithName("Bubble");
+            laneIndicators[2] = FindEntityWithName("Bubble_2");
+            laneIndicators[3] = FindEntityWithName("Bubble_3");
 
             walls[0] = FindEntityWithName("Wall");
             walls[1] = FindEntityWithName("Wall_1");
             walls[2] = FindEntityWithName("Wall_2");
             walls[3] = FindEntityWithName("Wall_3");
+
+            topTowerBoxes[0] = FindEntityWithName("TopTowerBox");
+            topTowerBoxes[1] = FindEntityWithName("TopTowerBox_1");
+            topTowerBoxes[2] = FindEntityWithName("TopTowerBox_2");
 
             waveSystem = FindEntityWithName(WaveSystemObject);
 
@@ -196,6 +211,8 @@ namespace Carmicah
             {
                 GetComponent<StateMachine>().SetStateCondition(2);
             }
+
+            CheckLaneIndicators();
         }
 
         public void StartNextWave(Wave level)
@@ -218,9 +235,9 @@ namespace Carmicah
 
             mouseAI.SetInitialPosition(); // Reset initial position
             mouseEntity.As<MouseAI>().enemyType = type;
-            
-            //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
 
+            //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
+            CMConsole.Log($"Lane : {mouseAI.lane}");
             switch (mouseAI.lane)
             {
                 case 0:
@@ -266,21 +283,7 @@ namespace Carmicah
                         break;
                     }
             }
-
         }
-
-        //public bool IsLanesEmpty()
-        //{
-        //   if (MobCounter == 0 && BearCounter == 0)
-        //    {
-        //        if (mouseLaneOne.Count() == 0 && mouseLaneTwo.Count() == 0 && mouseLaneThree.Count() == 0 && mouseLaneFour.Count() == 0)
-        //        {
-        //            return true;
-        //        }
-        //    }
-
-        //    return false;
-        //}
 
         public void EntityDestroyed(MouseAI entity)
         {
@@ -314,7 +317,7 @@ namespace Carmicah
 
             MouseAI targetMouse = null;
             float distance = float.MaxValue;
-            if(entity.type == HeroType.SHOOTER)
+            if(entity.type == AbilityType.SHOOTER)
             {
                 switch (entity.lane)
                 {
@@ -372,7 +375,7 @@ namespace Carmicah
                         break;
                 }
             }
-            else if(entity.type == HeroType.MAGE)
+            else if(entity.type == AbilityType.MAGE)
             {
                 switch (entity.IsLeft)
                 {
@@ -508,22 +511,28 @@ namespace Carmicah
                 pos.y += CakeHeightOffset;
                 npc.Position = pos;
             }
+
+            foreach(Entity towerBox in topTowerBoxes)
+            {
+                if (towerBox.mID == 0) continue;
+
+                pos = towerBox.Position;
+                pos.y += CakeHeightOffset;
+                towerBox.Position = pos;
+            }
         }
 
-        public void SavePositions()
+        public void KillNPC(MouseAI mouse)
         {
-            //foreach (Entity npc in npcList)
-            //{
-            //    if (npc.mID == 0) continue;
-
-            //    CMConsole.Log("Adding to npcList");
-            //    npcSavedPos.Add(npc.Position);
-            //}
-
-            //playerPos = playerEntity.Position;
+            // if the mouse's lane has an NPC in it when it dies at the top
+            // kil the npc
+            // NOTE: I dont know if checking for mID == 0 in the list of hero npcs is enough to delete from here
+            // if it crashes, check that
+            if (heroBuildEntities[mouse.lane].As<HeroBuild>().heroEntity != null && heroBuildEntities[mouse.lane].As<HeroBuild>().heroEntity.mID != 0)
+            {
+                heroBuildEntities[mouse.lane].As<HeroBuild>().KillNPC();
+            }
         }
-
-        
 
         public void HideEntities()
         {
@@ -570,7 +579,7 @@ namespace Carmicah
                 // {
                 //Entity gm = FindEntityWithName("GameManager");
 
-                SavePositions();
+                //SavePositions();
                 HideEntities();
 
                 // }
@@ -588,6 +597,150 @@ namespace Carmicah
                 GetComponent<StateMachine>().SetStateCondition(1);
 
             }
+        }
+
+        public void CheckLaneIndicators()
+        {
+            bool visible = false;
+            if (mouseLaneOne.Count > 0)
+            {
+                foreach (MouseAI mouse in mouseLaneOne) // left lane of right side
+                {
+                    // if it is belo the camera
+                    if (mouse.Position.y < (mainCamera.Position.y - cameraHeight))
+                    {
+                        visible = false;
+                    }
+                    else if (mouse.Position.y > (mainCamera.Position.y - cameraHeight))
+                    {
+                        visible = true;
+                       // CMConsole.Log($"Visible Lane 1 {visible}");
+                        break;
+                    }
+                }
+                if (!visible)
+                {
+                    laneIndicators[0].GetComponent<Renderer>().SetAlpha(1.0f);
+                    laneIndicators[0].GetComponentInChildren<Renderer>().SetAlpha(1.0f);
+                }
+                else
+                {
+                    laneIndicators[0].GetComponent<Renderer>().SetAlpha(0.0f);
+                    laneIndicators[0].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+                }
+            }
+            else
+            {
+                laneIndicators[0].GetComponent<Renderer>().SetAlpha(0.0f);
+                laneIndicators[0].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+            }
+
+            // reset visible flag
+            visible = false;
+            if (mouseLaneTwo.Count > 0)
+            {
+                foreach (MouseAI mouse in mouseLaneTwo) // right lane of right side
+                {
+                    if (mouse.Position.y < (mainCamera.Position.y - cameraHeight))
+                    {
+                        visible = false;
+                    }
+                    else if (mouse.Position.y > (mainCamera.Position.y - cameraHeight))
+                    {
+                        visible = true;
+                        //CMConsole.Log($"Visible Lane 2 {visible}");
+                        break;
+                    }
+                }
+
+                if (!visible)
+                {
+                    laneIndicators[1].GetComponent<Renderer>().SetAlpha(1.0f);
+                    laneIndicators[1].GetComponentInChildren<Renderer>().SetAlpha(1.0f);
+                }
+                else
+                {
+                    laneIndicators[1].GetComponent<Renderer>().SetAlpha(0.0f);
+                    laneIndicators[1].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+                }
+            }
+            else
+            {
+                laneIndicators[1].GetComponent<Renderer>().SetAlpha(0.0f);
+                laneIndicators[1].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+            }
+
+            visible = false;
+            if (mouseLaneThree.Count > 0)
+            {
+                foreach (MouseAI mouse in mouseLaneThree) //right lane of left side
+                {
+                    if (mouse.Position.y < (mainCamera.Position.y - cameraHeight))
+                    {
+                        visible = false;
+                    }
+                    else if (mouse.Position.y > (mainCamera.Position.y - cameraHeight))
+                    {
+                        visible = true;
+                        //CMConsole.Log($"Visible Lane 3 {visible}");
+                        break;
+                    }
+                }
+
+
+                if (!visible)
+                {
+                    laneIndicators[2].GetComponent<Renderer>().SetAlpha(1.0f);
+                    laneIndicators[2].GetComponentInChildren<Renderer>().SetAlpha(1.0f);
+                }
+                else
+                {
+                    laneIndicators[2].GetComponent<Renderer>().SetAlpha(0.0f);
+                    laneIndicators[2].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+                }
+
+            }
+            else
+            {
+                laneIndicators[2].GetComponent<Renderer>().SetAlpha(0.0f);
+                laneIndicators[2].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+            }
+
+            visible = false;
+            if (mouseLaneFour.Count > 0)
+            {
+                foreach (MouseAI mouse in mouseLaneFour) // left side of left side
+                {
+                    if (mouse.Position.y < (mainCamera.Position.y - cameraHeight))
+                    {
+                        visible = false;
+                    }
+                    else if (mouse.Position.y > (mainCamera.Position.y - cameraHeight))
+                    {
+                        visible = true;
+                        //CMConsole.Log($"Visible Lane 4 {visible}");
+                        break;
+                    }
+                }
+
+                if (!visible)
+                {
+                    laneIndicators[3].GetComponent<Renderer>().SetAlpha(1.0f);
+                    laneIndicators[3].GetComponentInChildren<Renderer>().SetAlpha(1.0f);
+                }
+                else
+                {
+                    laneIndicators[3].GetComponent<Renderer>().SetAlpha(0.0f);
+                    laneIndicators[3].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+                }
+            }
+            else
+            {
+                laneIndicators[3].GetComponent<Renderer>().SetAlpha(0.0f);
+                laneIndicators[3].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+            }
+
+
         }
 
         public void OnStateUpdate(string stateName, float dt)

@@ -817,6 +817,10 @@ namespace Carmicah
 		{
 			RemoveAsset<Texture>(fileName); //Check with Rainne
 		}
+		if (fileExt == ".wav")
+		{
+			//RemoveAsset<FMOD::Sound*>(fileName);
+		}
 
 
 	}

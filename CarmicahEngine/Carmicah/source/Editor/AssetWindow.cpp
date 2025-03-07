@@ -317,169 +317,12 @@ namespace Carmicah
 			CM_CORE_WARN("Path Location does not exist!");
 			return;
 		}
-		if(ImGui::CollapsingHeader("TextureNew"))
+		if(ImGui::CollapsingHeader("Texture"))
 		{
 			DisplayAllAssets<Texture>(pathLoc, map);
 		}
 	}
 	
-	/*void AssetWindow::TextureBrowserOld(std::string& name, std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map)
-	{
-		
-		if (ImGui::CollapsingHeader("Texture"))
-		{
-			
-			ImGui::Indent();
-
-			if (ImGui::TreeNodeEx("Spritesheets"))
-			{
-				if (ImGui::BeginTable("##SpritesheetTable", 5))
-				{
-					for (const auto& entry : map->mAssetMap)
-					{
-						name = entry.first + "##texture";
-						std::transform(name.begin(), name.end(), name.begin(), [](char& ch)
-							{
-								return std::tolower(ch);
-							});
-						if (name.find("spritesheet") == std::string::npos)
-						{
-							continue;
-						}
-
-						Mtx3x3f matrix = map->mAssetList[entry.second].mtx;
-						//GLuint textureID = assetManager->mArrayTex;
-						Vec2f uv0(0, 0);
-						Vec2f uv1(1, 1);
-						uv0 = matrix * uv0;
-						uv1 = matrix * uv1;
-						float temp = -uv0.y;
-						uv0.y = -uv1.y;
-						uv1.y = temp;
-
-						ImGui::TableNextColumn();
-						if (ImGui::ImageButton(name.c_str(),
-							reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[map->mAssetList[entry.second].t])),
-							ImVec2(50, 50),
-							ImVec2(uv0.x, uv0.y),
-							ImVec2(uv1.x, uv1.y)))
-						{
-						}
-						if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
-						{
-							if (ImGui::GetIO().MouseClickedCount[ImGuiMouseButton_Left] == 2)
-							{
-								if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Renderer>())
-								{
-									Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
-									for (const auto& textureEntry : map->mAssetMap)
-									{
-										if (entry.second == textureEntry.second)
-										{
-											render.Texture(textureEntry.first);
-										}
-									}
-								}
-							}
-						}
-						if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
-						{
-							ImGui::SetDragDropPayload("TEXTURE_PAYLOAD", &entry.first, sizeof(entry.first));
-							ImVec2 dragSize(50, 50);
-							ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[map->mAssetList[entry.second].t])),
-								dragSize,
-								ImVec2(uv0.x, uv0.y),
-								ImVec2(uv1.x, uv1.y));
-							ImGui::Text("%s", entry.first.c_str());
-
-							ImGui::EndDragDropSource();
-						}
-						ImGui::SameLine();
-						ImGui::Text("%s", entry.first.c_str());
-
-					}
-					ImGui::EndTable();
-				}
-				ImGui::TreePop();
-			}
-
-			if (ImGui::TreeNodeEx("Image Textures"))
-			{
-				if (ImGui::BeginTable("##ImageTextureTable", 5))
-				{
-					for (const auto& entry : map->mAssetMap)
-					{
-						name = entry.first + "##texture";
-						std::transform(name.begin(), name.end(), name.begin(), [](char& ch)
-							{
-								return std::tolower(ch);
-							});
-						if (name.find("spritesheet") != std::string::npos)
-						{
-							continue;
-						}
-
-						//Area for Rainne's Texture Magic
-						Mtx3x3f matrix = map->mAssetList[entry.second].mtx;
-						//GLuint textureID = assetManager->mArrayTex;
-						Vec2f uv0(0, 0);
-						Vec2f uv1(1, 1);
-						uv0 = matrix * uv0;
-						uv1 = matrix * uv1;
-						float temp = -uv0.y;
-						uv0.y = -uv1.y;
-						uv1.y = temp;
-
-						ImGui::TableNextColumn();
-						if (ImGui::ImageButton(name.c_str(),
-							reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[map->mAssetList[entry.second].t])),
-							ImVec2(50, 50),
-							ImVec2(uv0.x, uv0.y),
-							ImVec2(uv1.x, uv1.y)))
-						{
-						}
-						if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
-						{
-							if (ImGui::GetIO().MouseClickedCount[ImGuiMouseButton_Left] == 2)
-							{
-								if (HierarchyWindow::selectedGO != nullptr && HierarchyWindow::selectedGO->HasComponent<Renderer>())
-								{
-									Renderer& render = HierarchyWindow::selectedGO->GetComponent<Renderer>();
-									for (const auto& textureEntry : map->mAssetMap)
-									{
-										if (entry.second == textureEntry.second)
-										{
-											render.Texture(textureEntry.first);
-										}
-									}
-								}
-							}
-						}
-						if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
-						{
-							ImGui::SetDragDropPayload("TEXTURE_PAYLOAD", &entry.first, sizeof(entry.first));
-							ImVec2 dragSize(50, 50);
-							ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(AssetManager::GetInstance()->mPreviewTexs[map->mAssetList[entry.second].t])),
-								dragSize,
-								ImVec2(uv0.x, uv0.y),
-								ImVec2(uv1.x, uv1.y));
-							ImGui::Text("%s", entry.first.c_str());
-
-							ImGui::EndDragDropSource();
-						}
-						ImGui::SameLine();
-						ImGui::Text("%s", entry.first.c_str());
-
-					}
-					ImGui::EndTable();
-				}
-				ImGui::TreePop();
-			}
-
-			ImGui::Unindent();
-		}
-	}*/
-
 
 	/**
 	 * @brief Update function for the AssetWindow
@@ -566,11 +409,30 @@ namespace Carmicah
 					if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
 					{
 						selectedAudio = entry;
-						ImGui::OpenPopup("Audio Preview");
+						ImGui::OpenPopup("Audio Options");
 
 					}
 				}
 				ImGui::Unindent();
+				if (ImGui::BeginPopup("Audio Options"))
+				{
+					if(ImGui::Selectable("Preview Audio"))
+					{
+						ImGui::CloseCurrentPopup();
+						ImGui::OpenPopup("Audio Preview");
+					}
+
+					/*if (ImGui::Selectable("Delete Asset"))
+					{
+						
+						std::filesystem::remove(deletePath);
+						AssetManager::GetInstance()->fileWatcher.Update();
+						mAssetModified = true;
+						ImGui::CloseCurrentPopup();
+					}*/
+				}
+
+
 				if (ImGui::BeginPopupModal("Audio Preview",nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 				{
 					static bool isPaused = false;

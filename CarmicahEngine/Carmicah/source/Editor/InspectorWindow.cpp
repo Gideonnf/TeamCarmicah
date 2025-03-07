@@ -326,14 +326,15 @@ namespace Carmicah
 				std::strncpy(inputBuffer, selectedTransform.transformTag.c_str(), sizeof(inputBuffer) - 1);
 				if (ImGui::InputText("##TransformTag", inputBuffer, sizeof(inputBuffer), ImGuiInputTextFlags_EnterReturnsTrue))
 				{
-					if (inputBuffer[0] != '\0')
+					selectedTransform.transformTag = inputBuffer;
+					/*if (inputBuffer[0] != '\0')
 					{
 						selectedTransform.transformTag = inputBuffer;
 					}
 					if (inputBuffer[0] == '\0')
 					{
 						CM_CORE_ERROR("Trying to make empty transformTag name!");
-					}
+					}*/
 				}
 
 				ImGui::EndTable();
@@ -1079,6 +1080,53 @@ namespace Carmicah
 					}
 					ImGui::EndPopup();
 				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Alignment");
+				ImGui::TableNextColumn();
+				ImGui::Text("%s", text.TextAlignmentName().c_str());
+				ImGui::SameLine();
+				if (ImGui::Button("v##Alignment Select"))
+				{
+					ImGui::OpenPopup("Alignment Select");
+				}
+
+				if (ImGui::BeginPopup("Alignment Select"))
+				{
+					if (ImGui::Button("Left"))
+					{
+						text.ChangeTextAlignmentX(TextRenderer::TXT_LEFT);
+						ImGui::CloseCurrentPopup();
+					}
+					if (ImGui::Button("Middle"))
+					{
+						text.ChangeTextAlignmentX(TextRenderer::TXT_MIDDLE);
+						ImGui::CloseCurrentPopup();
+					}
+					if (ImGui::Button("Right"))
+					{
+						text.ChangeTextAlignmentX(TextRenderer::TXT_RIGHT);
+						ImGui::CloseCurrentPopup();
+					}
+					if (ImGui::Button("Bottom"))
+					{
+						text.ChangeTextAlignmentY(TextRenderer::TXT_BOT);
+						ImGui::CloseCurrentPopup();
+					}
+					if (ImGui::Button("Center"))
+					{
+						text.ChangeTextAlignmentY(TextRenderer::TXT_CENTER);
+						ImGui::CloseCurrentPopup();
+					}
+					if (ImGui::Button("Top"))
+					{
+						text.ChangeTextAlignmentY(TextRenderer::TXT_TOP);
+						ImGui::CloseCurrentPopup();
+					}
+					ImGui::EndPopup();
+				}
+
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();

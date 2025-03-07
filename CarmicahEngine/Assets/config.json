@@ -4,7 +4,6 @@
     "Default Scene": "Scene1",
     "Default Shader": "basic",
     "Debug Shader": "debug",
-    "Font Shader": "font",
     "Font Size": 72,
     "Asset Loc": "../Assets",
     "Image Min Depth": 100.0,
@@ -15,27 +14,31 @@
     "Collision Layers": [
         {
             "Layer Index": 0,
-            "Layer Mask": 4294967295
+            "Layer Mask": 4294967231
         },
         {
             "Layer Index": 1,
-            "Layer Mask": 4294967295
+            "Layer Mask": 4294967199
         },
         {
             "Layer Index": 2,
-            "Layer Mask": 4294967283
+            "Layer Mask": 4294967219
         },
         {
             "Layer Index": 3,
-            "Layer Mask": 4294967243
+            "Layer Mask": 4294967179
         },
         {
             "Layer Index": 4,
-            "Layer Mask": 3435973828
+            "Layer Mask": 3435973764
         },
         {
             "Layer Index": 5,
             "Layer Mask": 3435973828
+        },
+        {
+            "Layer Index": 6,
+            "Layer Mask": 3435973856
         }
     ]
 }
