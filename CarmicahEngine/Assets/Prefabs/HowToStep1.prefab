@@ -14,7 +14,7 @@
         {
             "Component Name": "struct Carmicah::UITransform",
             "xPos": 960.0,
-            "yPos": 690.5848388671875,
+            "yPos": 690.0,
             "depth": 51.0,
             "xScale": 0.75,
             "yScale": 0.75,
@@ -43,8 +43,8 @@
         },
         {
           "Component Name": "struct Carmicah::UITransform",
-          "xPos": 78.576416015625,
-          "yPos": -270.89569091796877,
+          "xPos": 80.0,
+          "yPos": -270.0,
           "depth": 52.0,
           "xScale": 0.800000011920929,
           "yScale": 0.800000011920929,
@@ -55,7 +55,7 @@
     },
     {
       "GameObject": "HowToBear",
-      "ID": 24,
+      "ID": 4,
       "Components": [
         {
           "Component Name": "struct Carmicah::Renderer",
@@ -73,8 +73,8 @@
         },
         {
           "Component Name": "struct Carmicah::UITransform",
-          "xPos": -145.19537353515626,
-          "yPos": -214.93719482421876,
+          "xPos": -105.0,
+          "yPos": -240.0,
           "depth": 52.0,
           "xScale": -1.0666667222976685,
           "yScale": 1.0666667222976685,
@@ -85,7 +85,7 @@
     },
     {
         "GameObject": "HowToMice2",
-        "ID": 42,
+        "ID": 5,
         "Components": [
             {
                 "Component Name": "struct Carmicah::Renderer",
@@ -103,8 +103,8 @@
             },
             {
                 "Component Name": "struct Carmicah::UITransform",
-                "xPos": 223.7723388671875,
-                "yPos": -227.994140625,
+                "xPos": 225.0,
+                "yPos": -220.0,
                 "depth": 52.0,
                 "xScale": 0.800000011920929,
                 "yScale": 0.800000011920929,

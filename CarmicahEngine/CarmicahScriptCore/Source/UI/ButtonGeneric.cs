@@ -90,8 +90,8 @@ namespace Carmicah
                     clickAnim       = "Button_C_Skip";
                     break;
                 case "credits":
-                    createList[0]   = "Credits_Menu";
-                    createList[1]   = "Close_Button_2";
+                    createList.Add(0,"Credits_Menu");
+                    createList.Add(1,"Close_Button_2");
 
                     hoverEnterAnim  = "Button_HS_Credits";
                     hoverExitAnim   = "Button_HE_Credits";
@@ -107,8 +107,8 @@ namespace Carmicah
                     clickAnim       = "Button_C_Back";
                     break;
                 case "settings":
-                    createList[0]   = "Settings_Menu";
-                    createList[1]   = "Close_Button";
+                    createList.Add(0, "Settings_Menu");
+                    createList.Add(1, "Close_Button");
 
                     Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
 
@@ -117,7 +117,7 @@ namespace Carmicah
                     clickAnim       = "Button_C_Settings";
                     break;
                 case "backsettings":
-                    destroyList[0]  = "Settings_Menu";
+                    destroyList.Add(0,"Settings_Menu");
                     willUnpause     = true;
                     willSelfDestruct = true;
 
@@ -136,15 +136,15 @@ namespace Carmicah
                     clickAnim       = "Button_HowToBack";
                     break;
                 case "howtoplay":
-                    createList[0] = "HowToBG";
-                    createList[1] = "HowToStep0";
+                    createList.Add(0, "HowToBG");
+                    createList.Add(1, "HowToStep0");
 
                     hoverEnterAnim = "Button_HS_HowTo";
                     hoverExitAnim = "Button_HE_HowTo";
                     clickAnim = "Button_C_HowTo";
                     break;
                 case "nextlevel":
-                    destroyList[0] = "Win_Screen";
+                    destroyList.Add(0, "Win_Screen");
 
                     hoverEnterAnim = "Button_HS_Next";
                     hoverExitAnim = "Button_HE_Next";
@@ -189,7 +189,7 @@ namespace Carmicah
                     }
                 }
             }
-            if (createListCreated && FindEntityWithName(createList[0]) == null)
+            if (createListCreated && createList.Count() > 0 && FindEntityWithName(createList[0]) == null)
             {
                 createListCreated = false;
             }
