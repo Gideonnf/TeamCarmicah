@@ -35,6 +35,11 @@
                     "collisionMask": 1
                 },
                 {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "N2",
+                    "AnimSpeed": 1.0
+                },
+                {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "Wand",
@@ -42,10 +47,6 @@
                     "colG": 1.0,
                     "colB": 1.0,
                     "colA": 1.0
-                },
-                {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Mouse_Death_blue"
                 }
             ],
             "Children": []
@@ -69,6 +70,70 @@
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "bg",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "Anim_1",
+            "ID": 78,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "N3",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wand",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "Anim_2",
+            "ID": 79,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "N1",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wand",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
