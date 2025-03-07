@@ -1,0 +1,104 @@
+{
+    "GameObject": "HowToStep2",
+    "ID": 3,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "strawberry_cake_SpriteSheet_Squish 9",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::UITransform",
+            "xPos": 960.0,
+            "yPos": 690.0,
+            "depth": 51.0,
+            "xScale": 0.75,
+            "yScale": 0.75,
+            "rot": 0.0,
+            "transformTag": ""
+        }
+    ],
+    "Children": [
+        {
+            "GameObject": "UI_Bar",
+            "ID": 23,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI_Spritesheet_UI_Bar 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 450.0,
+                    "yPos": 0.0,
+                    "depth": 51.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "TrapIco",
+                    "ID": 24,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "candy_trap_spritesheet_Spike 9",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 49.2415771484375,
+                            "yPos": 176.7850341796875,
+                            "depth": 52.0,
+                            "xScale": 0.800000011920929,
+                            "yScale": 0.800000011920929,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
+                },
+                {
+                    "GameObject": "ShootIco",
+                    "ID": 42,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "UI_Spritesheet_Shooter_Icon 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 1.7080078125,
+                            "yPos": 114.71484375,
+                            "depth": 53.0,
+                            "xScale": 1.3333333730697632,
+                            "yScale": 1.3333333730697632,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

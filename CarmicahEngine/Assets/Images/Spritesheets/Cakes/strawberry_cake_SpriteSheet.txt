@@ -1,3 +1,3 @@
 Squish
-Top left: 0 x 0, 1007 x 1130
+Top left: 0 x 0, 1007 x 1134
 10 sprites

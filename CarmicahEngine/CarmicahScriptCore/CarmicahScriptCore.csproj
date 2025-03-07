@@ -101,6 +101,7 @@
     <Compile Include="Source\UI\Countdown.cs" />
     <Compile Include="Source\UI\Cutscene.cs" />
     <Compile Include="Source\Abilities\HeroIcon.cs" />
+    <Compile Include="Source\UI\HowToPlay.cs" />
     <Compile Include="Source\UI\Intro.cs" />
     <Compile Include="Source\UI\LoadingBackground.cs" />
     <Compile Include="Source\UI\LoadingDots.cs" />
