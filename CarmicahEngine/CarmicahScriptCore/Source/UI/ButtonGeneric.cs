@@ -178,7 +178,7 @@ namespace Carmicah
                 sceneChangerTimer -= dt;
                 if(sceneChangerTimer < 0)
                 {
-                    sceneChangerTimer = 0;
+                    sceneChangerTimer = -1f;
                     if(nextScene == "quit")
                     {
                         Scene.CloseGame();
@@ -189,7 +189,7 @@ namespace Carmicah
                     }
                 }
             }
-            if (createListCreated && createList.Count() > 0 && FindEntityWithName(createList[0]) == null)
+            if (createListCreated && createList.Count > 0 && FindEntityWithName(createList[0]) == null)
             {
                 createListCreated = false;
             }
@@ -241,11 +241,7 @@ namespace Carmicah
                 }
                 createListCreated = true;
             }
-            if (willSelfDestruct)
-            {
-                Destroy();
-            }
-
+            // Specific other behaviours ig
             switch(buttonType)
             {
                 case "howtonext":
@@ -255,6 +251,11 @@ namespace Carmicah
                     FindEntityWithName("HowToBG").As<HowToPlay>().ProgressScene(-1);
                     break;
 
+            }
+            // Destroy self always last
+            if (willSelfDestruct)
+            {
+                Destroy();
             }
         }
         public override void OnMouseEnter()
