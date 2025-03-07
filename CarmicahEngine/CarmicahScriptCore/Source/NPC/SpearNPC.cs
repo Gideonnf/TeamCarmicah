@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,21 +7,14 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
-    public class MageNPC : BaseNPC
+    public class SpearNPC : BaseNPC
     {
-        // TODO: Mage NPC shouldn't be using target mouse
-        // it just needs a target position then the projectile should have its own mageProjectile class
-        // that just reaches the position and explodes compared to shooter npc
-
-        // Ill leave it the exact same as shooter for now
-        // some one else do this pls
-
         MouseAI targetMouse;
         float timer = 0.0f;
         public override void OnCreate()
         {
             base.OnCreate();
-            npcType = AbilityType.MAGE;
+            npcType = AbilityType.SPEAR;
 
         }
 
@@ -44,7 +37,7 @@ namespace Carmicah
                     // CMConsole.Log($"Projectile Position: {projectile.Position.x}, {projectile.Position.y}");
 
                     Projectile bullet = projectile.As<Projectile>();
-                    bullet.As<Projectile>().bulletType = BulletType.MAGE_BULLET;
+                    bullet.As<Projectile>().bulletType = BulletType.SPEAR_BULLET;
 
                     Sound.PlaySFX(shootSound);
                     if (bullet != null)
@@ -86,34 +79,10 @@ namespace Carmicah
                                 targetMouse = mouse;
                             }
                         }
-
-                        foreach (MouseAI mouse in gameManager.mouseLaneTwo)
-                        {
-                            float dist = mouse.Position.Distance(Position);
-                            //CMConsole.Log($"left {dist}");
-
-                            if (dist < distance)
-                            {
-                                distance = dist;
-                                targetMouse = mouse;
-                            }
-                        }
                     }
                     break;
                 case 1:
                     {
-                        foreach (MouseAI mouse in gameManager.mouseLaneOne)
-                        {
-                            float dist = mouse.Position.Distance(Position);
-                            //CMConsole.Log($"left {dist}");
-
-                            if (dist < distance)
-                            {
-                                distance = dist;
-                                targetMouse = mouse;
-                            }
-                        }
-
                         foreach (MouseAI mouse in gameManager.mouseLaneTwo)
                         {
                             float dist = mouse.Position.Distance(Position);
@@ -140,34 +109,10 @@ namespace Carmicah
                                 targetMouse = mouse;
                             }
                         }
-
-                        foreach (MouseAI mouse in gameManager.mouseLaneFour)
-                        {
-                            float dist = mouse.Position.Distance(Position);
-                            //CMConsole.Log($"left {dist}");
-
-                            if (dist < distance)
-                            {
-                                distance = dist;
-                                targetMouse = mouse;
-                            }
-                        }
                     }
                     break;
                 case 3:
                     {
-                        foreach (MouseAI mouse in gameManager.mouseLaneThree)
-                        {
-                            float dist = mouse.Position.Distance(Position);
-                            //CMConsole.Log($"left {dist}");
-
-                            if (dist < distance)
-                            {
-                                distance = dist;
-                                targetMouse = mouse;
-                            }
-                        }
-
                         foreach (MouseAI mouse in gameManager.mouseLaneFour)
                         {
                             float dist = mouse.Position.Distance(Position);
@@ -205,6 +150,11 @@ namespace Carmicah
             {
                 ChangeAnim(manaAnim);
                 CMConsole.Log("Out of Ammo!");
+            }
+            else if (stateName == "Dead")
+            {
+                ChangeAnim(dissolveAnim);
+                CMConsole.Log("NPC Dying");
             }
 
 
@@ -287,6 +237,13 @@ namespace Carmicah
                     player.HealAI(mID);
                 }
             }
+            else if (stateName == "Dead")
+            {
+                if (GetComponent<Animation>().IsAnimFinished())
+                {
+                    Destroy();
+                }
+            }
 
         }
 
@@ -311,6 +268,5 @@ namespace Carmicah
         {
             base.OnMouseExit();
         }
-
     }
 }

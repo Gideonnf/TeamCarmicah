@@ -52,6 +52,16 @@
                     ]
                 },
                 {
+                    "stateName": "Attacking",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
+                        }
+                    ]
+                },
+                {
                     "stateName": "NoMana",
                     "stateCondition": 0,
                     "transitions": [

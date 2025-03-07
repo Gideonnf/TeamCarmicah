@@ -1,0 +1,50 @@
+{
+    "GameObject": "SpearIcon",
+    "ID": 53,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Button"
+        },
+        {
+            "Component Name": "struct Carmicah::UITransform",
+            "xPos": 1822.824951171875,
+            "yPos": 682.7659912109375,
+            "depth": 1.0,
+            "xScale": 1.0,
+            "yScale": 1.0,
+            "rot": 352.0,
+            "transformTag": ""
+        },
+        {
+            "Component Name": "struct Carmicah::PrefabData",
+            "prefabRef": 45
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.HeroIcon",
+            "ScriptableFieldMap": [
+                {
+                    "heroPrefab": "SpearNPC",
+                    "HeroBuild": "HeroBuild",
+                    "HeroBuild2": "HeroBuild_2",
+                    "WaveSystemObject": "Something",
+                    "HeroBuild1": "HeroBuild_1",
+                    "actualTrapPrefab": "",
+                    "HeroBuild3": "HeroBuild_3",
+                    "fakeTrapPrefab": "",
+                    "hovering": false,
+                    "flipped": false
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "UI_Spritesheet_Bear_Icon 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        }
+    ]
+}

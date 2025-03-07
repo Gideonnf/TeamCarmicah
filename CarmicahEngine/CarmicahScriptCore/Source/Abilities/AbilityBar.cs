@@ -13,14 +13,14 @@ namespace Carmicah
         public string MageIconPrefab = "MageIcon";
         public string TrapIconPrefab = "TrapIcon";
         public string HoneyIconPrefab = "HoneyIcon";
+        public string SpearIconPrefab = "SpearIcon";
 
        // public List<BaseIcon> trapIcons = new List<BaseIcon>();
 
         public BaseIcon[] listOfIcons = new BaseIcon[6];
         int lastIcon = 0;
         public float yOffset = 75.0f;
-        public float startingYPos = 760.0f;
-        public float startingXPos = 1820.0f;
+        public float startingPos = 760.0f;
 
         public float shakeTimer = 1.0f;
         public float shakeMagnitude = 0.2f;
@@ -31,10 +31,10 @@ namespace Carmicah
 
         public override void OnCreate()
         {
-            CreateIcon(IconType.HONEY_ICON);
-            CreateIcon(IconType.HONEY_ICON);
-            CreateIcon(IconType.HONEY_ICON);
-            CreateIcon(IconType.SHOOTER_ICON);
+            CreateIcon(IconType.SPEAR_ICON);
+            CreateIcon(IconType.SPEAR_ICON);
+            CreateIcon(IconType.MAGE_ICON);
+            CreateIcon(IconType.MAGE_ICON);
             CreateIcon(IconType.SHOOTER_ICON);
             CreateIcon(IconType.SHOOTER_ICON);
 
@@ -134,18 +134,22 @@ namespace Carmicah
 
                         break;
                     }
+                case IconType.SPEAR_ICON:
+                    {
+                        newIcon = CreateGameObject(SpearIconPrefab);
+
+                        break;
+                    }
             }
 
             if (newIcon != null)
             {
                 // I dont know if we should just hard code the 7 spot positions
                 // because the offset is uneven since the size of sprites are different
-               // CMConsole.Log($"Position {Position.x}, {Position.y}");
-                newIcon.Position = new Vector2(startingXPos, startingYPos - ((yOffset * lastIcon) + (15 * lastIcon)));
-               // CMConsole.Log($"new Icon Pos {newIcon.Position.x}, {newIcon.Position.y}");
+                newIcon.Position = new Vector2(Position.x, startingPos - ((yOffset * lastIcon) + (15 * lastIcon)));
                 listOfIcons[lastIcon] = newIcon.As<BaseIcon>();
                 //CMConsole.Log("HSUDHIASDHIA");
-                iconOriginalPos[lastIcon] = new Vector2(startingXPos, startingYPos - ((yOffset * lastIcon) + (15 * lastIcon)));
+                iconOriginalPos[lastIcon] = new Vector2(Position.x, startingPos - ((yOffset * lastIcon) + (15 * lastIcon)));
                 //CMConsole.Log($"Position of icons {iconOriginalPos[lastIcon].x}, {iconOriginalPos[lastIcon].y}");
                 lastIcon++;
                 // trapIcons.Add(newIcon.As<BaseIcon>());

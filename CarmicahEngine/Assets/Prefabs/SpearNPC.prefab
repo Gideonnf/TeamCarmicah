@@ -1,6 +1,6 @@
 {
-    "GameObject": "ShooterNPC",
-    "ID": 49,
+    "GameObject": "SpearNPC",
+    "ID": 54,
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
@@ -14,11 +14,26 @@
             "collisionMask": 0
         },
         {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Shooter_Idle",
+            "AnimSpeed": 1.0
+        },
+        {
             "Component Name": "struct Carmicah::StateMachine",
             "currState": "",
             "nextState": "",
             "startingState": "Idle",
             "stateMap": [
+                {
+                    "stateName": "Attacking",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
+                        }
+                    ]
+                },
                 {
                     "stateName": "Idle",
                     "stateCondition": 0,
@@ -31,33 +46,9 @@
                             "targetState": "NoMana",
                             "condition": 3
                         },
-                         {
-                            "targetState": "Dead",
-                            "condition": 4
-                        }
-                    ]
-                },
-                {
-                    "stateName": "Attacking",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Idle",
-                            "condition": 1
-                        },
                         {
                             "targetState": "Dead",
                             "condition": 4
-                        }
-                    ]
-                },
-                {
-                    "stateName": "Attacking",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Idle",
-                            "condition": 1
                         }
                     ]
                 },
@@ -69,7 +60,7 @@
                             "targetState": "Idle",
                             "condition": 1
                         },
-                         {
+                        {
                             "targetState": "Dead",
                             "condition": 4
                         }
@@ -81,11 +72,6 @@
                     "transitions": []
                 }
             ]
-        },
-        {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Shooter_Idle",
-            "AnimSpeed": 1.0
         },
         {
             "Component Name": "struct Carmicah::Collider2D",
@@ -107,41 +93,41 @@
             "objectType": 0
         },
         {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.ShooterNPC",
-            "ScriptableFieldMap": [
-                {
-                    "isShooting": false,
-                    "IsLeft": false,
-                    "active": false,
-                    "deathSound": "Shooter_Death",
-                    "animationTime": 0.0,
-                    "hasAmmo": true,
-                    "hovering": false,
-                    "idleAnim": "Shooter_Idle",
-                    "lane": 0,
-                    "mana": 5,
-                    "manaAnim": "Shooter_Mana",
-                    "npcType": 0,
-                    "placeSound": "Shooter_Appear",
-                    "projectilePrefab": "Bullet",
-                    "shot": false,
-                    "shootAnim": "Shooter_Shoot",
-                    "shootRate": 1.0,
-                    "shootSound": "Shooter_Shooting",
-                    "shootTime": 1.0,
-                    "maxMana": 5
-                }
-            ]
-        },
-        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "NPC_SpriteSheet_Shooter_Idle 18",
+            "texture": "Spear_SpriteSheet_Spear_Idle 0",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
             "colA": 1.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.SpearNPC",
+            "ScriptableFieldMap": [
+                {
+                    "IsLeft": false,
+                    "active": false,
+                    "deathSound": "Shooter_Death",
+                    "animationTime": 0.0,
+                    "hovering": false,
+                    "manaAnim": "Spear_Mana",
+                    "dissolveAnim": "Dissolve",
+                    "hasAmmo": true,
+                    "idleAnim": "Spear_Idle",
+                    "isShooting": false,
+                    "lane": 0,
+                    "mana": 3,
+                    "maxMana": 3,
+                    "placeSound": "Shooter_Appear",
+                    "projectilePrefab": "SpearBullet",
+                    "shot": false,
+                    "shootAnim": "Spear_Throw",
+                    "shootRate": 1.0,
+                    "shootSound": "Shooter_Shooting",
+                    "shootTime": 1.0
+                }
+            ]
         }
     ]
 }
