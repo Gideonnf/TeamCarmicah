@@ -37,8 +37,8 @@ namespace Carmicah
                     // CMConsole.Log($"Projectile Position: {projectile.Position.x}, {projectile.Position.y}");
 
                     Projectile bullet = projectile.As<Projectile>();
-
-                    Sound.PlaySFX(this.mID, shootSound);
+                    bullet.As<Projectile>().bulletType = BulletType.SHOOTER_BULLET;
+                    Sound.PlaySFX(shootSound);
                     if (bullet != null)
                     {
                         bullet.targetMouse = targetMouse;
