@@ -369,6 +369,7 @@ namespace Carmicah
             {
                 timer = 0.0f;
                 Sound.PlaySFX(this.mID, InjuredSound, 0.5f);
+                
                 GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                 if (gm != null)
                     gm.EntityDestroyed(this);
@@ -428,6 +429,7 @@ namespace Carmicah
                 }
 
                 // CMConsole.Log("TESTING Update State");
+                Sound.PlaySFX(this.mID, "Mice_Running_02", 0.3f, true);
                 UpdateMovement(dt);
             }
             else if (stateName == "Dead")
@@ -437,6 +439,7 @@ namespace Carmicah
                 if (timer >= GetComponent<Animation>().GetMaxTime())
                 {
                     Sound.PlaySFX(this.mID, DeathSound, 0.5f);
+                    Sound.StopSoundSFXWithFade(this.mID, "Mice_Running_02");
                     timer = 0.0f;
                     Destroy();
                 }

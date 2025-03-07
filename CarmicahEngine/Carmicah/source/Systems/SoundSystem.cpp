@@ -205,14 +205,14 @@ namespace Carmicah
                 if (switchBGM)
                 {
                     
-                    PlaySoundThis(currentEntityID, newSoundNamePending, newSoundCategory, newSoundInternalCatergoy, newSoundLoop, newSoundVolume);
+                    PlaySoundThis(currentEntityID, newSoundNamePending, newSoundCategory, newSoundInternalCatergoy, newSoundLoop, 0.0f);
                     FMOD::Channel* newChannel = mSoundTracks[newSoundInternalCatergoy].back()->channel;
                     if (newChannel)
                     {
                         newChannel->setVolume(0.0f); // Start at 0 volume
                         newSoundChannel = newChannel;
                         fadeInNewSound = true;
-                        fadeTimerSeconds = 1.0f; // Restart timer for fade-in
+                        fadeTimerSeconds = 0.5f; // Restart timer for fade-in
                         
                     }
 

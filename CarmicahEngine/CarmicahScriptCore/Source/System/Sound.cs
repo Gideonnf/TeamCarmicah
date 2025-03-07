@@ -19,7 +19,7 @@ namespace Carmicah
             FunctionCalls.Sound_PlayBGM(entityID, soundName, volume);
         }
 
-        public static void SwitchBGM(uint entityID, string soundName, float fadeTimer, float fadeDuration)
+        public static void SwitchBGM(uint entityID, string soundName, float fadeTimer = 0.5f, float fadeDuration = 0.3f)
         {
             FunctionCalls.Sound_SwitchBGM(entityID, soundName, fadeTimer, fadeDuration);
         }
@@ -36,9 +36,9 @@ namespace Carmicah
             FunctionCalls.Sound_StopBGM(entityID, soundName);
         }
 
-        public static void StopSoundSFXWithFade(string soundName, float fadeTimer, float fadeDuration)
+        public static void StopSoundSFXWithFade(uint entityID, string soundName, float fadeTimer = 0.3f, float fadeDuration = 0.2f)
         {
-            FunctionCalls.Sound_StopSFXWithFade(soundName, fadeTimer, fadeDuration);
+            FunctionCalls.Sound_StopSFXWithFade(entityID, soundName, fadeTimer, fadeDuration);
         }
 
         public static void PauseSound(string soundName)

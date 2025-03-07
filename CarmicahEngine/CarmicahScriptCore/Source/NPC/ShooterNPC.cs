@@ -38,7 +38,7 @@ namespace Carmicah
 
                     Projectile bullet = projectile.As<Projectile>();
                     bullet.As<Projectile>().bulletType = BulletType.SHOOTER_BULLET;
-                    Sound.PlaySFX(shootSound);
+                    Sound.PlaySFX(this.mID, shootSound);
                     if (bullet != null)
                     {
                         bullet.targetMouse = targetMouse;
