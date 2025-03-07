@@ -10,6 +10,13 @@ namespace Carmicah
     //create flying enemy afrom the top left and right 
     //then the enemy will move 
     //then try to dive and kill the npc
+    public enum FlyingStage
+    {
+        HORIZONTAL,  // Moving horizontally
+        STATIONARY,  // Stationary for 3 seconds
+        DIAGONAL     // 45 degree dive
+    }
+
     public class FlyingEnemyAI : Entity
     {
         public string SpawnPointEntityLeft;
@@ -40,12 +47,6 @@ namespace Carmicah
         public EnemyTypes enemyType;
         public float ChanceToDie = 0.12f;
 
-        public enum FlyingStage
-        {
-            HORIZONTAL,  // Moving horizontally
-            STATIONARY,  // Stationary for 3 seconds
-            DIAGONAL     // 45 degree dive
-        }
 
         public FlyingStage currentStage = FlyingStage.HORIZONTAL;
 
