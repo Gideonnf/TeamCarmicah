@@ -96,6 +96,10 @@ namespace Carmicah
         Entity waveSystem;
         Entity mainCamera;
 
+        public string[] CakeFallAnimations = new string[4];
+        public string[] CakeSquishAnimations = new string[4];
+
+
         void OnCreate()
         {
             mainCamera = FindEntityWithName("MainCamera");
@@ -135,6 +139,16 @@ namespace Carmicah
             topTowerBoxes[2] = FindEntityWithName("TopTowerBox_2");
 
             waveSystem = FindEntityWithName(WaveSystemObject);
+
+            CakeFallAnimations[0] = "CakeStrawberry_Fall";
+            CakeFallAnimations[1] = "";
+            CakeFallAnimations[2] = "";
+            CakeFallAnimations[3] = "";
+
+            CakeSquishAnimations[0] = "CakeStrawberry_Squish";
+            CakeSquishAnimations[1] = "";
+            CakeSquishAnimations[2] = "";
+            CakeSquishAnimations[3] = "";
 
             Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
         }
@@ -557,47 +571,6 @@ namespace Carmicah
             CreateGameObject("LoseScreen");
         }
 
-        public void OnStateEnter(string stateName)
-        {
-            if (stateName == "TowerIdle")
-            {
-                //CMConsole.Log("TESTING TOWER IDLE");
-            }
-            else if (stateName == "TowerCreate")
-            {
-                //CMConsole.Log("TESTING TOWER CREATE ");
-
-                if (cakeCounter >= 2) return;
-
-                towerPrefab = CreateGameObject(CakePrefabName);
-                towerPrefab.Position = new Vector2(Position.x, ySpawnPos);
-
-                towerPrefab.Depth = startingCakeEntity.Depth;
-                towerPrefab.Depth = towerPrefab.Depth + (0.1f * cakeCounter);
-                cakeCounter++;
-                // if (gameManager != null)
-                // {
-                //Entity gm = FindEntityWithName("GameManager");
-
-                //SavePositions();
-                HideEntities();
-
-                // }
-                //CMConsole.Log("TESTING TOWER CREATE 2");
-
-                GetComponent<StateMachine>().SetStateCondition(3);
-            }
-            else if (stateName == "TowerLand")
-            {
-                // gm = FindEntityWithName("GameManager");
-                UpdatePositions();
-                ySpawnPos += CakeHeightOffset;
-                yTargetPos += CakeHeightOffset;
-                yVFXLocation += CakeHeightOffset;
-                GetComponent<StateMachine>().SetStateCondition(1);
-
-            }
-        }
 
         public void CheckLaneIndicators()
         {
@@ -614,7 +587,7 @@ namespace Carmicah
                     else if (mouse.Position.y > (mainCamera.Position.y - cameraHeight))
                     {
                         visible = true;
-                       // CMConsole.Log($"Visible Lane 1 {visible}");
+                        // CMConsole.Log($"Visible Lane 1 {visible}");
                         break;
                     }
                 }
@@ -743,6 +716,45 @@ namespace Carmicah
 
         }
 
+        public void OnStateEnter(string stateName)
+        {
+            if (stateName == "TowerIdle")
+            {
+                //CMConsole.Log("TESTING TOWER IDLE");
+            }
+            else if (stateName == "TowerCreate")
+            {
+                //CMConsole.Log("TESTING TOWER CREATE ");
+
+                if (cakeCounter >= 2) return;
+
+                towerPrefab = CreateGameObject(CakePrefabName);
+                towerPrefab.Position = new Vector2(Position.x, ySpawnPos);
+
+                towerPrefab.GetComponent<Animation>().ChangeAnim(CakeFallAnimations[0]);
+
+                towerPrefab.Depth = startingCakeEntity.Depth;
+                towerPrefab.Depth = towerPrefab.Depth + (0.1f * cakeCounter);
+                cakeCounter++;
+                // if (gameManager != null)
+                // {
+                //Entity gm = FindEntityWithName("GameManager");
+
+                //SavePositions();
+                HideEntities();
+
+                // }
+                //CMConsole.Log("TESTING TOWER CREATE 2");
+
+                GetComponent<StateMachine>().SetStateCondition(3);
+            }
+            else if (stateName == "TowerLand")
+            {
+                // gm = FindEntityWithName("GameManager");
+               
+
+            }
+        }
         public void OnStateUpdate(string stateName, float dt)
         {
             //gameManager = FindEntityWithName("GameManager");
@@ -779,10 +791,24 @@ namespace Carmicah
                 }
                 else if (towerPrefab.Position.y <= yTargetPos)
                 {
+                    towerPrefab.GetComponent<Animation>().ChangeAnim(CakeSquishAnimations[0]);
                     // tower landed
                     towerPrefab.Position = new Vector2(towerPrefab.Position.x, yTargetPos);
                     GetComponent<StateMachine>().SetStateCondition(4);
                     VFXPrefab.Destroy();
+                }
+                
+            }
+
+            if (stateName == "TowerLand")
+            {
+                if (towerPrefab.GetComponent<Animation>().IsAnimFinished())
+                {
+                    UpdatePositions();
+                    ySpawnPos += CakeHeightOffset;
+                    yTargetPos += CakeHeightOffset;
+                    yVFXLocation += CakeHeightOffset;
+                    GetComponent<StateMachine>().SetStateCondition(1);
                 }
             }
         }
