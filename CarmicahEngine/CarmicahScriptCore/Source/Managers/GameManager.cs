@@ -20,6 +20,7 @@ using Carmicah;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -90,7 +91,7 @@ namespace Carmicah
         public float yVFXSpawn;
         public float yVFXLocation = 1.5f;
         public float cameraHeight = 10.0f;
-
+        int cakeType = 0; // 0 - 3
         Entity towerPrefab;
         Entity VFXPrefab;
         Entity waveSystem;
@@ -141,14 +142,14 @@ namespace Carmicah
             waveSystem = FindEntityWithName(WaveSystemObject);
 
             CakeFallAnimations[0] = "CakeStrawberry_Fall";
-            CakeFallAnimations[1] = "";
-            CakeFallAnimations[2] = "";
-            CakeFallAnimations[3] = "";
+            CakeFallAnimations[1] = "CakeRainbow_Fall";
+            CakeFallAnimations[2] = "CakeMatcha_Fall";
+            CakeFallAnimations[3] = "CakeFruit_Fall";
 
             CakeSquishAnimations[0] = "CakeStrawberry_Squish";
-            CakeSquishAnimations[1] = "";
-            CakeSquishAnimations[2] = "";
-            CakeSquishAnimations[3] = "";
+            CakeSquishAnimations[1] = "CakeRainbow_Squish";
+            CakeSquishAnimations[2] = "CakeMatcha_Squish";
+            CakeSquishAnimations[3] = "CakeFruit_Squish";
 
             Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
         }
@@ -728,10 +729,12 @@ namespace Carmicah
 
                 if (cakeCounter >= 2) return;
 
+                cakeType = CMRand.Range(0, 3);
+                CMConsole.Log($"cake type {cakeType}");
                 towerPrefab = CreateGameObject(CakePrefabName);
                 towerPrefab.Position = new Vector2(Position.x, ySpawnPos);
 
-                towerPrefab.GetComponent<Animation>().ChangeAnim(CakeFallAnimations[0]);
+                towerPrefab.GetComponent<Animation>().ChangeAnim(CakeFallAnimations[cakeType]);
 
                 towerPrefab.Depth = startingCakeEntity.Depth;
                 towerPrefab.Depth = towerPrefab.Depth + (0.1f * cakeCounter);
@@ -791,7 +794,7 @@ namespace Carmicah
                 }
                 else if (towerPrefab.Position.y <= yTargetPos)
                 {
-                    towerPrefab.GetComponent<Animation>().ChangeAnim(CakeSquishAnimations[0]);
+                    towerPrefab.GetComponent<Animation>().ChangeAnim(CakeSquishAnimations[cakeType]);
                     // tower landed
                     towerPrefab.Position = new Vector2(towerPrefab.Position.x, yTargetPos);
                     GetComponent<StateMachine>().SetStateCondition(4);

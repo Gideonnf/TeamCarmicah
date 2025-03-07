@@ -1,3 +1,7 @@
-Squish
+Fall
 Top left: 0 x 0, 1007 x 1134
-10 sprites
+6 sprites
+
+Squish
+Top left: 2014 x 1134, 1007 x 1134
+4 sprites
