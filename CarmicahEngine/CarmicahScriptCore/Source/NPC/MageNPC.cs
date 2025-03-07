@@ -44,6 +44,7 @@ namespace Carmicah
                     // CMConsole.Log($"Projectile Position: {projectile.Position.x}, {projectile.Position.y}");
 
                     Projectile bullet = projectile.As<Projectile>();
+                    bullet.As<Projectile>().bulletType = BulletType.MAGE_BULLET;
 
                     Sound.PlaySFX(shootSound);
                     if (bullet != null)
