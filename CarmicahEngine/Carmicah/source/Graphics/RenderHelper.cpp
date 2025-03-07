@@ -26,8 +26,6 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	unsigned int RenderHelper::sCapFontID{};
-	std::queue<unsigned int> RenderHelper::sUnusedFontID{};
 	float RenderHelper::zeroFiller[4]{ 0.f,0.f,0.f,0.f };
 	float RenderHelper::oneFiller[4]{ 1.f,1.f,1.f,1.f };
 
@@ -104,6 +102,9 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 {
 	glClearColor(0.75294f, 1.f, 0.93333f, 1.f); // Gideon's favourite
 
+	static unsigned int debugShaderID = AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.debugShader).s;
+	static unsigned int defaultShaderID = AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.defaultShader).s;
+
 	GLuint mCurrShader{};
 	const int& mBatchSize = AssetManager::GetInstance()->enConfig.batchRenderSize;
 	SceneToImgui::FBOScene FBOScene = SceneToImgui::GetInstance()->GetCurrentFramebuffer();
@@ -115,7 +116,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 
 	for (int renderPass = 0; renderPass < 2; ++renderPass)
 	{
-		BufferID currID(0, std::numeric_limits<unsigned int>::max(), std::numeric_limits<unsigned int>::max());
+		BufferID currID(0, std::numeric_limits<unsigned int>::max(), std::numeric_limits<unsigned int>::max(), std::numeric_limits<unsigned int>::max());
 		if (renderPass == 1)
 		{
 			glClearBufferfv(GL_COLOR, 2, zeroFiller);
@@ -127,9 +128,9 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 			const auto& batchBuffer = it.second;
 			if (!(currID == it.first))
 			{
-				if (!isEditor && (it.first.dat[BUFFER_SHADER] == AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.debugShader).s))
+				if (!isEditor && (it.first.dat[BUFFER_SHADER] == debugShaderID))
 					continue;
-				if (renderPass != 0 && it.first.dat[BUFFER_SHADER] != AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.defaultShader).s)
+				if (renderPass != 0 && it.first.dat[BUFFER_SHADER] != defaultShaderID)
 					continue;
 
 				GLint uniformLoc{};
@@ -140,7 +141,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 					glUseProgram(mCurrShader);
 
 					// if Basic Shader, ie. the only shader using OIT (Order Independent Transparancy[Weighted])
-					if (it.first.dat[BUFFER_SHADER] == AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.defaultShader).s)
+					if (it.first.dat[BUFFER_SHADER] == defaultShaderID)
 					{
 						if(UniformExists(mCurrShader, "uPassNum", uniformLoc))
 							glUniform1i(uniformLoc, renderPass);
@@ -150,10 +151,10 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 
 							glEnable(GL_DEPTH_TEST);
 
-							// Specifically disable writting to ID 1 since id 1 is particles, yes, ik, it's dumb
+							// Specifically disable writting to ID 2 since id 1 is particles, yes, ik, it's dumb
 							if(it.first.dat[BUFFER_ID] == 0)
 								glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
-							else if(it.first.dat[BUFFER_ID] == 1)
+							else if(it.first.dat[BUFFER_ID] == 2)
 								glColorMaski(1, GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 							glDepthMask(GL_TRUE);	// Enable writing to depth buffer
 							glDepthFunc(GL_LESS);	// When incoming depth is smaller, pass the test
@@ -201,21 +202,12 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 						if (UniformExists(mCurrShader, "uNDC_to_Cam", uniformLoc))
 							glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, screenMtx.m);
 					}
-
-				}
-				// If font shader
-				if (it.first.dat[BUFFER_SHADER] == AssetManager::GetInstance()->GetAsset<Shader>(AssetManager::GetInstance()->enConfig.fontShader).s)
-				{
-					FontUniform* ft = GetFontUniforms(it.first.dat[BUFFER_ID]);
-					if (ft != nullptr)
+					// Reset for this mode
+					if (it.first.dat[BUFFER_SHADER] == defaultShaderID &&
+						it.first.dat[BUFFER_ID] == 0)
 					{
-						if (UniformExists(mCurrShader, "uTextColor", uniformLoc))
-							glUniform3f(uniformLoc, ft->col[0], ft->col[1], ft->col[2]);
-						if (UniformExists(mCurrShader, "uFontDisplace", uniformLoc))
-							glUniform2f(uniformLoc, ft->offset.x, ft->offset.y);
-						if (UniformExists(mCurrShader, "uFontScale", uniformLoc))
-							glUniform2f(uniformLoc, ft->scale.x, ft->scale.y);
-
+						if (UniformExists(mCurrShader, "uIsText", uniformLoc))
+							glUniform1i(uniformLoc, 0);
 					}
 				}
 
@@ -224,7 +216,52 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 
 			// Rendering part
 			glBindBuffer(GL_DRAW_INDIRECT_BUFFER, batchBuffer.ibo);
-			if (!batchBuffer.isDebug)
+			if (it.first.dat[BUFFER_ID] == 1)
+			{
+				// Specifically for rendering fonts / particles
+				if (it.first.dat[BUFFER_SHADER] == defaultShaderID)
+				{
+					if (mFontData.empty() || mFontData.begin()->second.vtxSize == 0)
+						continue;
+					GLint uniformLoc{};
+					if (UniformExists(mCurrShader, "uIsText", uniformLoc))
+						glUniform1i(uniformLoc, 1);
+
+
+					auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>("Square") };
+
+					for (auto& font : mFontData)
+					{
+						if (UniformExists(mCurrShader, "uTextColor", uniformLoc))
+							glUniform3f(uniformLoc, font.second.col[0], font.second.col[1], font.second.col[2]);
+						if (UniformExists(mCurrShader, "uTextOffset", uniformLoc))
+							glUniform2f(uniformLoc, font.second.offset.x, font.second.offset.y);
+						if (UniformExists(mCurrShader, "uTextScale", uniformLoc))
+							glUniform2f(uniformLoc, font.second.scale.x, font.second.scale.y);
+
+						auto& buff = batchBuffer.buffer[0];
+						int bSize = static_cast<int>(p.vtx.size() * mBatchSize);
+						glBindVertexArray(buff.vao);
+
+						for(int off = 0; off < static_cast<int>(font.second.vtx.size()); off += bSize)
+						{
+							int drawCnt = std::min(font.second.vtxSize, mBatchSize);
+							if (drawCnt == 0)
+								break;
+							int vtxCnt = std::min(drawCnt * static_cast<int>(p.vtx.size()), bSize);
+
+							glNamedBufferSubData(buff.vbo, sizeof(vtxTexd2D) * off, sizeof(vtxTexd2D) * vtxCnt, font.second.vtx.data() + off);
+
+							glMultiDrawElementsIndirect(GL_TRIANGLES,
+								GL_UNSIGNED_SHORT,// Indices
+								(GLvoid*)0,
+								drawCnt,
+								0);
+						}
+					}
+				}
+			}
+			else if (!batchBuffer.isDebug)
 			{
 				for (auto& i : batchBuffer.buffer)
 				{
@@ -245,7 +282,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 				{
 					glBindVertexArray(i.vao);
 
-					glMultiDrawElementsIndirect(GL_LINE_LOOP,
+					glMultiDrawElementsIndirect(batchBuffer.pRef->drawMode,
 						GL_UNSIGNED_SHORT,// Indices
 						(GLvoid*)0,
 						mBatchSize,
@@ -321,48 +358,28 @@ void RenderHelper::FinalRender()
 
 }
 
-RenderHelper::FontUniform* RenderHelper::GetFontUniforms(const unsigned int& bufferID)
+void RenderHelper::AssignFont(const unsigned int& e)
 {
-	auto fbtE = mFontBufferToEntity.find(bufferID);
-	if (fbtE != mFontBufferToEntity.end())
-	{
-		auto ftU = mFontUniforms.find(fbtE->second);
-		if (ftU != mFontUniforms.end())
-		{
-			return &ftU->second;
-		}
-	}
-	return nullptr;
+	BufferCPUSide buff{};
+	mFontData.emplace(e, buff);
+	buff.vtx.resize(400);
 }
 
-unsigned int RenderHelper::AssignFont(const unsigned int& e)
+void RenderHelper::ReserveFontBuffer(BufferCPUSide& buff, const size_t& sz)
 {
-	FontUniform ftU{};
-	if (sUnusedFontID.size() != 0)
+	if (buff.vtx.size() < sz * 4)
 	{
-		ftU.bufferID = sUnusedFontID.front();
-		sUnusedFontID.pop();
+		size_t numBatches = sz / 100 + (sz % 100 > 0);
+
+		buff.vtx.resize(numBatches * 400);
 	}
-	else
-		ftU.bufferID = sCapFontID++;
-	mFontBufferToEntity.emplace(ftU.bufferID, e);
-	mFontUniforms.emplace(e, ftU);
-	
-	return ftU.bufferID;
 }
 
 void RenderHelper::UnassignFont(const unsigned int& e)
 {
-	auto ftU = mFontUniforms.find(e);
-	if (ftU != mFontUniforms.end())
-	{
-		auto fbtE = mFontBufferToEntity.find(ftU->second.bufferID);
-		if (fbtE != mFontBufferToEntity.end())
-			mFontBufferToEntity.erase(fbtE->first);
-
-		sUnusedFontID.push(ftU->first);
-		mFontUniforms.erase(e);
-	}
+	auto buff = mFontData.find(e);
+	if (buff != mFontData.end())
+		mFontData.erase(buff);
 }
 
 void RenderHelper::LoadGizmos()

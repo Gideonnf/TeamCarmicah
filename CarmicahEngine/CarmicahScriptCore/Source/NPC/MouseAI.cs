@@ -260,13 +260,17 @@ namespace Carmicah
 
             if (dist <= 0.3f)
             {
-               // CMConsole.Log("Dying");
+                // CMConsole.Log("Dying");
+                Entity gameManager = FindEntityWithName("GameManager");
+                gameManager.As<GameManager>().KillNPC(this);
 
                 timer = 0.0f;
                 GetComponent<StateMachine>().SetStateCondition(1);
 
                 Entity mainCharacter = FindEntityWithName("mainCharacter");
                 mainCharacter.As<Player>().TakeDamage(10, enemyType);
+
+
             }
         }
 

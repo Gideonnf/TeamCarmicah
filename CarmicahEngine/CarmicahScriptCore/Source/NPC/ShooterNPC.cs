@@ -150,6 +150,11 @@ namespace Carmicah
                 ChangeAnim(manaAnim);
                 CMConsole.Log("Out of Ammo!");
             }
+            else if (stateName == "Dead")
+            {
+                ChangeAnim(dissolveAnim);
+                CMConsole.Log("NPC Dying");
+            }
 
 
             //CMConsole.Log($"Enter State Name: {stateName}");
@@ -229,6 +234,13 @@ namespace Carmicah
                 {
                     CMConsole.Log("MC Should try to heal " + mID.ToString());
                     player.HealAI(mID);
+                }
+            }
+            else if(stateName == "Dead")
+            {
+                if (GetComponent<Animation>().IsAnimFinished())
+                {
+                    Destroy();
                 }
             }
 

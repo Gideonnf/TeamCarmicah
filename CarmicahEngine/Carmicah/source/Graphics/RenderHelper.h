@@ -21,6 +21,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/AssetTypes.h"
 #include "Components/BaseComponent.h"
 #include "Components/Transform.h"
+#include "GraphicsAssetTypes.h"
 
 namespace Carmicah
 {
@@ -49,118 +50,11 @@ namespace Carmicah
 		Mtx3x3f screenMtx{};	// Calculated Screen Matrix multiplier to use for UI rendering
 
 		const float MIN_HEIGHT_SCALE{ 0.01f }, EDITOR_ZOOM_SPEED{ 0.1f }, GIZMO_SCALE{ 250.f };
-		// Data storage for managing fonts
-		static unsigned int sCapFontID;
-		static std::queue<unsigned int> sUnusedFontID;
-		std::map<unsigned int, unsigned int> mFontBufferToEntity;
+		// Data for clearing FBO texture data
 		static float zeroFiller[4];
 		static float oneFiller[4];
 
 	public:
-		// Buffer details
-		enum BUFFER_BITS : unsigned char
-		{
-			BUFFER_SHADER = 0,
-			BUFFER_ID,
-			BUFFER_GAME_BASED,
-			BUFFER_PRIMTIVE,
-			BUFFER_MAXBITS
-		};
-		struct BufferID 
-		{
-			unsigned int dat[BUFFER_MAXBITS];
-
-			/*!*************************************************************************
-			brief
-				Constructor for a Buffer ID
-			param[primitive]
-				Buffer ID related sorting data
-			param[shader]
-				Buffer ID related sorting data
-			param[worldSpace]
-				Buffer ID related sorting data
-			param[id]
-				Buffer ID related sorting data
-			***************************************************************************/
-			BufferID(unsigned int primitive, unsigned int shader, unsigned int worldSpace, unsigned int id = 0)
-			{
-				dat[BUFFER_SHADER] = shader;
-				dat[BUFFER_ID] = id;
-				dat[BUFFER_GAME_BASED] = worldSpace;
-				dat[BUFFER_PRIMTIVE] = primitive;
-			}
-
-			/*!*************************************************************************
-			brief
-				Comparison test for Buffer IDs for sorting
-			param[0]
-				Buffer ID to compare against
-			return
-				if this BufferID is less than the other BufferID
-			***************************************************************************/
-			const bool operator<(const BufferID& o) const
-			{
-				for (unsigned char i{}; i < BUFFER_MAXBITS; ++i)
-				{
-					if (dat[i] < o.dat[i])
-						return true;
-					if (dat[i] > o.dat[i])
-						return false;
-				}
-				return false;
-			}
-
-			/*!*************************************************************************
-			brief
-				Comparison test for Buffer IDs for sorting
-			param[0]
-				Buffer ID to compare against
-			return
-				if this BufferID is equilviant to the other BufferID
-			***************************************************************************/
-			const bool operator==(const BufferID& o) const
-			{
-				for (unsigned char i{}; i < BUFFER_MAXBITS; ++i)
-				{
-					if (dat[i] != o.dat[i])
-						return false;
-				}
-				return true;
-			}
-		};
-		// Font details
-		struct FontUniform
-		{
-			float col[3];
-			unsigned int bufferID;
-			Vec2f offset;
-			Vec2f scale;
-
-			/*!*************************************************************************
-			brief
-				Sets the color for the Font uniform
-			param[r]
-				Red (0.f ~ 1.f)
-			param[g]
-				Green (0.f ~ 1.f)
-			param[b]
-				Blue (0.f ~ 1.f)
-			***************************************************************************/
-			void SetColor(const float& r, const float& g, const float& b)
-			{
-				col[0] = r;
-				col[1] = g;
-				col[2] = b;
-			}
-		};
-		// Editor Gizmos specific things
-		enum class GIZMOS_MODE
-		{
-			GIZMOS_NONE,
-			GIZMOS_TRANSLATE,
-			GIZMOS_SCALE,
-			GIZMOS_ROTATE
-		};
 		
 		// Editor mode things
 		Vec2d mOldMousePos{};
@@ -171,8 +65,8 @@ namespace Carmicah
 		GIZMOS_MODE mEditorMode{ GIZMOS_MODE::GIZMOS_NONE };
 
 		std::map<BufferID, BatchBuffer> mBufferMap;//shder << 8 | primitive // use switch(num) case AssetManager::getShder(enConfig::Baisc)
-		// Map for the font uniform for the corresponding entity ID
-		std::map<unsigned int, FontUniform> mFontUniforms;
+
+		std::map<unsigned int, BufferCPUSide> mFontData;
 
 		// General
 
@@ -216,29 +110,24 @@ namespace Carmicah
 		***************************************************************************/
 		void Render(const unsigned int& cam, bool isEditor = false);
 
-
+		/*!*************************************************************************
+		brief
+			Final rendering of the FBO onto the screen
+		***************************************************************************/
 		void FinalRender();
 
 		// Fonts
-		/*!*************************************************************************
-		brief
-			Gets the uniforms needed to render the specific font (for editing)
-		param[bufferID]
-			the id to find the uniforms from
-		return
-			pointer to the font uniform found
-		***************************************************************************/
-		FontUniform* GetFontUniforms(const unsigned int& bufferID);
-
 		/*!*************************************************************************
 		brief
 			Handles the data allocation for fonts uniforms and buffers
 		param[e]
 			the entity id for the font game object
 		return
-			the unique id for the buffer that the font uses
+			the buffer that the font uses
 		***************************************************************************/
-		unsigned int AssignFont(const unsigned int& e);
+		void AssignFont(const unsigned int& e);
+
+		void ReserveFontBuffer(BufferCPUSide& buff, const size_t& sz);
 
 		/*!*************************************************************************
 		brief

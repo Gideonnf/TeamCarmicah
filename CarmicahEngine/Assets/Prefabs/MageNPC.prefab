@@ -30,6 +30,24 @@
                         {
                             "targetState": "NoMana",
                             "condition": 3
+                        },
+                         {
+                            "targetState": "Dead",
+                            "condition": 4
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Attacking",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
+                        },
+                        {
+                            "targetState": "Dead",
+                            "condition": 4
                         }
                     ]
                 },
@@ -50,8 +68,17 @@
                         {
                             "targetState": "Idle",
                             "condition": 1
+                        },
+                         {
+                            "targetState": "Dead",
+                            "condition": 4
                         }
                     ]
+                },
+                {
+                    "stateName": "Dead",
+                    "stateCondition": 0,
+                    "transitions": []
                 }
             ]
         },

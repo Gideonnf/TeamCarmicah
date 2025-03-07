@@ -81,6 +81,11 @@ namespace Carmicah
             FunctionCalls.RigidBody_ApplyForce(Entity.mID, direction, magnitude);
         }
 
+        public void Move(Vector2 pos)
+        {
+
+            FunctionCalls.RigidBody_Move(Entity.mID, pos);
+        }
         public void StopForces()
         {
             FunctionCalls.RigidBody_StopForces();
@@ -103,6 +108,11 @@ namespace Carmicah
         public float GetFrameMaxTime()
         {
             return FunctionCalls.Animation_GetCurrFrameTime(Entity.mID);
+        }
+
+        public bool IsAnimFinished()
+        {
+            return FunctionCalls.Animation_IsAnimFinished(Entity.mID);
         }
     }
 

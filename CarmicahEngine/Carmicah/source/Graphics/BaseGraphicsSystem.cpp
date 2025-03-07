@@ -40,7 +40,7 @@ namespace Carmicah
 
 	void BaseGraphicsSystem::SetNewEntity(const unsigned int& entity, const std::string& primitiveName, const unsigned int& id, bool worldSpace, bool isDebug)
 	{
-		RenderHelper::BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>(primitiveName).uid, mCurrShader, worldSpace, id);
+		BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>(primitiveName).uid, mCurrShader, worldSpace, id);
 
 		if (RenderHelper::GetInstance()->mBufferMap.find(bufferID) == RenderHelper::GetInstance()->mBufferMap.end())
 			GenBatch(primitiveName, id, worldSpace, isDebug);
@@ -67,7 +67,7 @@ namespace Carmicah
 	void BaseGraphicsSystem::GenBatch(const std::string& primitiveName, unsigned int id, bool worldSpace, bool isDebug, bool isForced)
 	{
 		bool newBatch{ false };
-		RenderHelper::BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>(primitiveName).uid, mCurrShader, worldSpace, id);
+		BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>(primitiveName).uid, mCurrShader, worldSpace, id);
 
 		if (RenderHelper::GetInstance()->mBufferMap.find(bufferID) == RenderHelper::GetInstance()->mBufferMap.end())
 		{
