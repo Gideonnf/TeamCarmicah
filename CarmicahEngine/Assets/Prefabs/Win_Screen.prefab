@@ -1,0 +1,172 @@
+{
+    "GameObject": "Win_Screen",
+    "ID": 1,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Board",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::UITransform",
+            "xPos": 980.0,
+            "yPos": 540.0,
+            "depth": 0.0,
+            "xScale": 0.800000011920929,
+            "yScale": 0.800000011920929,
+            "rot": 0.0,
+            "transformTag": ""
+        }
+    ],
+    "Children": [
+        {
+            "GameObject": "WinText",
+            "ID": 23,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -519.4419555664063,
+                    "yPos": 118.44564819335938,
+                    "depth": 0.0,
+                    "xScale": 3.0,
+                    "yScale": 3.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Sigmar-Regular",
+                    "text": "You win!",
+                    "colorR": 0.9019607901573181,
+                    "colorG": 0.159169539809227,
+                    "colorB": 0.159169539809227
+                }
+            ]
+        },
+        {
+            "GameObject": "DescText",
+            "ID": 24,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -427.20001220703127,
+                    "yPos": -2.7978515625,
+                    "depth": 0.0,
+                    "xScale": 1.600000023841858,
+                    "yScale": 1.600000023841858,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Sigmar-Regular",
+                    "text": "You did it!",
+                    "colorR": 0.9647058844566345,
+                    "colorG": 0.16470588743686677,
+                    "colorB": 0.6235294342041016
+                }
+            ]
+        },
+        {
+            "GameObject": "DescText_1",
+            "ID": 41,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "",
+                    "text": "You won!",
+                    "colorR": 0.9647058844566345,
+                    "colorG": 0.16470588743686677,
+                    "colorB": 0.6235294342041016
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -351.38787841796877,
+                    "yPos": -77.40924072265625,
+                    "depth": 0.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "MC_Win",
+            "ID": 42,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "MC_SpriteSheet_Win 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "MC_Win",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 198.64773559570313,
+                    "yPos": 15.8548583984375,
+                    "depth": 0.6499999761581421,
+                    "xScale": 1.5,
+                    "yScale": 1.5,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "Default_1",
+            "ID": 50,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -18.2918701171875,
+                    "yPos": -346.0103759765625,
+                    "depth": 0.8999999761581421,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "nextlevel",
+                            "nextScene": ""
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_H_Next 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                }
+            ]
+        }
+    ]
+}

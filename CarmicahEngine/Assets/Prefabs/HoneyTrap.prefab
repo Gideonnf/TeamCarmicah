@@ -1,0 +1,116 @@
+{
+    "GameObject": "HoneyTrap",
+    "ID": 23,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Transform",
+            "xPos": 8.096799850463868,
+            "yPos": -4.317785263061523,
+            "depth": 3.450000047683716,
+            "xScale": 0.6000000238418579,
+            "yScale": 0.6000000238418579,
+            "rot": 0.0,
+            "transformTag": "Trap",
+            "collisionMask": 32
+        },
+        {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "TrapHoneyIdle",
+            "AnimSpeed": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::StateMachine",
+            "currState": "",
+            "nextState": "",
+            "startingState": "Created",
+            "stateMap": [
+                {
+                    "stateName": "Idle",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Dead",
+                            "condition": 4
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Created",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 3
+                        },
+                        {
+                            "targetState": "Enter",
+                            "condition": 2
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Dead",
+                    "stateCondition": 0,
+                    "transitions": []
+                },
+                {
+                    "stateName": "Enter",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 3
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::PrefabData",
+            "prefabRef": 14
+        },
+        {
+            "Component Name": "struct Carmicah::Collider2D",
+            "shape": "",
+            "customWidth": 1.0,
+            "customRotation": 0.0,
+            "customHeight": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::RigidBody",
+            "velocityX": 0.0,
+            "velocityY": 0.0,
+            "angularVelocity": 0.0,
+            "posPrevX": 0.0,
+            "posPrevY": 0.0,
+            "mass": 1.0,
+            "gravity": 0.0,
+            "zposPrev": -107374176.0,
+            "objectType": 1
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.TrapAI",
+            "ScriptableFieldMap": [
+                {
+                    "built": false,
+                    "enterAnim": "TrapHoneyEnter",
+                    "exitAnim": "TrapHoneyFade",
+                    "idleAnim": "TrapHoneyIdle",
+                    "timer": 0.0,
+                    "isDead": false,
+                    "life": 15.0
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "honey_spritesheet_Splat 5",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        }
+    ]
+}

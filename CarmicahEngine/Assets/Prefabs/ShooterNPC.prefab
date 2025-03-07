@@ -1,39 +1,17 @@
 {
     "GameObject": "ShooterNPC",
-    "ID": 19,
+    "ID": 49,
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
-            "xPos": 1.5219999551773072,
-            "yPos": -5.711194038391113,
+            "xPos": -10.845258712768555,
+            "yPos": -1.354583501815796,
             "depth": 3.75,
-            "xScale": -0.30000001192092898,
-            "yScale": 0.30000001192092898,
+            "xScale": -0.44999998807907107,
+            "yScale": 0.44999998807907107,
             "rot": 0.0,
             "transformTag": "",
             "collisionMask": 0
-        },
-        {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.HeroAI",
-            "ScriptableFieldMap": [
-                {
-                    "IsLeft": true,
-                    "projectilePrefab": "Bullet",
-                    "idleAnim": "Shooter_Idle",
-                    "shootRate": 1.0,
-                    "shootAnim": "Shooter_Shoot"
-                }
-            ]
-        },
-        {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "NPC_SpriteSheet_Shooter_Idle 18",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
         },
         {
             "Component Name": "struct Carmicah::StateMachine",
@@ -52,6 +30,10 @@
                         {
                             "targetState": "NoMana",
                             "condition": 3
+                        },
+                         {
+                            "targetState": "Dead",
+                            "condition": 4
                         }
                     ]
                 },
@@ -62,11 +44,29 @@
                         {
                             "targetState": "Idle",
                             "condition": 1
+                        },
+                        {
+                            "targetState": "Dead",
+                            "condition": 4
                         }
                     ]
                 },
                 {
                     "stateName": "NoMana",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
+                        },
+                         {
+                            "targetState": "Dead",
+                            "condition": 4
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Dead",
                     "stateCondition": 0,
                     "transitions": []
                 }
@@ -74,7 +74,64 @@
         },
         {
             "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Shooter_Idle"
+            "Atlas": "Shooter_Idle",
+            "AnimSpeed": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::Collider2D",
+            "shape": "",
+            "customWidth": 1.0,
+            "customRotation": 0.0,
+            "customHeight": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::RigidBody",
+            "velocityX": 0.0,
+            "velocityY": 0.0,
+            "angularVelocity": 0.0,
+            "posPrevX": 0.0,
+            "posPrevY": 0.0,
+            "mass": 1.0,
+            "gravity": 0.0,
+            "zposPrev": -107374176.0,
+            "objectType": 0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.ShooterNPC",
+            "ScriptableFieldMap": [
+                {
+                    "isShooting": false,
+                    "IsLeft": false,
+                    "active": false,
+                    "deathSound": "Shooter_Death",
+                    "animationTime": 0.0,
+                    "hasAmmo": true,
+                    "hovering": false,
+                    "idleAnim": "Shooter_Idle",
+                    "lane": 0,
+                    "mana": 5,
+                    "manaAnim": "Shooter_Mana",
+                    "npcType": 0,
+                    "placeSound": "Shooter_Appear",
+                    "projectilePrefab": "Bullet",
+                    "shot": false,
+                    "shootAnim": "Shooter_Shoot",
+                    "shootRate": 1.0,
+                    "shootSound": "Shooter_Shooting",
+                    "shootTime": 1.0,
+                    "maxMana": 5
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "NPC_SpriteSheet_Shooter_Idle 18",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         }
     ]
 }

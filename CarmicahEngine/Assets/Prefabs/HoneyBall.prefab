@@ -1,0 +1,62 @@
+{
+    "GameObject": "HoneyBall",
+    "ID": 44,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Transform",
+            "xPos": 3.3526275157928469,
+            "yPos": 13.56417179107666,
+            "depth": 4.300000190734863,
+            "xScale": 0.30000001192092898,
+            "yScale": 0.30000001192092898,
+            "rot": 0.0,
+            "transformTag": "",
+            "collisionMask": 32
+        },
+        {
+            "Component Name": "struct Carmicah::Collider2D",
+            "shape": "",
+            "customWidth": 0.5,
+            "customRotation": 0.0,
+            "customHeight": 0.6000000238418579
+        },
+        {
+            "Component Name": "struct Carmicah::RigidBody",
+            "velocityX": 0.0,
+            "velocityY": 0.0,
+            "angularVelocity": 0.0,
+            "posPrevX": 0.0,
+            "posPrevY": 0.0,
+            "mass": 1.0,
+            "gravity": 0.0,
+            "zposPrev": -107374176.0,
+            "objectType": 1
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "honey_spritesheet_Splat 5",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.TrapBall",
+            "ScriptableFieldMap": [
+                {
+                    "fallSpeed": 2.0,
+                    "heightOffset": 12.0,
+                    "sideMax": 1.0,
+                    "iconType": 2,
+                    "middleMax": 1.5,
+                    "stopTime": 1.0,
+                    "middleMin": 0.800000011920929,
+                    "sideMin": 0.5,
+                    "timer": 0.0
+                }
+            ]
+        }
+    ]
+}

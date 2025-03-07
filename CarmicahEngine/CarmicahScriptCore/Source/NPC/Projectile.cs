@@ -24,26 +24,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CarmicahScriptCore.Source;
-
 
 namespace Carmicah
 {
+    public enum BulletType
+    {
+        SHOOTER_BULLET,
+        MAGE_BULLET
+    }
     public class Projectile : Entity
     {
-        public string BulletAnim;
+        public string BulletAnim = "Shooter_Projectile";
+        public string BulletImpactAnim;
         public float Speed = 5.0f;
         public float LifeTime = 10.0f;
+        public BulletType bulletType;
         //target enemy
         public MouseAI targetMouse;
+
         float timer = 0.0f;
-        bool facingRight = false;
+        float animTimer = 0.0f;
+        float maxAnimTime;
+
+        public bool facingRight = false;
+        bool playDeathAnimation = false;
 
         void OnCreate()
         {
             // Set initial animation
             if (!string.IsNullOrEmpty(BulletAnim))
             {
+                CMConsole.Log("Changing animation to " + BulletAnim);
                 ChangeAnim(BulletAnim);
             }
 
@@ -77,6 +88,7 @@ namespace Carmicah
                 Destroy();
                 return;
             }
+
             else
             {
                 if (targetMouse.mID == 0)
@@ -126,6 +138,11 @@ namespace Carmicah
             facingRight = right;
         }
 
+        void BulletDeathAnimation()
+        {
+
+        }
+        
         void OnCollide(uint id)
         {
             Entity collidedEntity = FindEntityWithID(id);
@@ -138,9 +155,50 @@ namespace Carmicah
                 //}
             }
 
+            //Set to dead state
+            GetComponent<StateMachine>().SetStateCondition(1);
+        }
 
-            // Optional: Play some effect
-            Destroy();
+        void OnStateEnter(string stateName)
+        {
+            if (stateName == "Dead")
+            {
+                if (!string.IsNullOrEmpty(BulletImpactAnim))
+                {
+                    if(bulletType == BulletType.MAGE_BULLET)
+                    {
+                        if(facingRight)
+                        { 
+                            Rot = 40.0f; 
+                        }
+                        else
+                        {
+                            Rot = 20.0f;
+                        }
+                    }
+
+                    ChangeAnim(BulletImpactAnim);
+                    maxAnimTime = GetComponent<Animation>().GetMaxTime();
+                    animTimer = 0.0f;
+                }
+                else
+                {
+                    Destroy();
+                }
+            }
+        }
+
+        void OnStateUpdate(string stateName, float dt)
+        {
+            if(stateName == "Dead")
+            {
+                animTimer += dt;
+
+                if(animTimer > maxAnimTime)
+                {
+                    Destroy();
+                }
+            }
         }
     }
 }

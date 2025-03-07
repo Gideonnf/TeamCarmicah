@@ -54,6 +54,19 @@ namespace Carmicah
                 FunctionCalls.Transform_SetDepth(Entity.mID, ref value);
             }
         }
+
+        public float Rot
+        {
+            get
+            {
+                FunctionCalls.Transform_GetRot(Entity.mID, out float rot);
+                return rot;
+            }
+            set
+            {
+                FunctionCalls.Transform_SetRot(Entity.mID, ref value);
+            }
+        }
     }
 
     public class RigidBody : Component
@@ -66,6 +79,16 @@ namespace Carmicah
         public void ApplyForce(Vector2 direction, float magnitude)
         {
             FunctionCalls.RigidBody_ApplyForce(Entity.mID, direction, magnitude);
+        }
+
+        public void Move(Vector2 pos)
+        {
+
+            FunctionCalls.RigidBody_Move(Entity.mID, pos);
+        }
+        public void StopForces()
+        {
+            FunctionCalls.RigidBody_StopForces();
         }
     }
 
@@ -85,6 +108,11 @@ namespace Carmicah
         public float GetFrameMaxTime()
         {
             return FunctionCalls.Animation_GetCurrFrameTime(Entity.mID);
+        }
+
+        public bool IsAnimFinished()
+        {
+            return FunctionCalls.Animation_IsAnimFinished(Entity.mID);
         }
     }
 

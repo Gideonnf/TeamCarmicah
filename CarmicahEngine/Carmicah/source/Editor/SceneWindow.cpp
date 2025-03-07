@@ -79,6 +79,12 @@ namespace Carmicah
 
             if (!mIsPaused)
             {
+                /*if (SystemManager::GetInstance()->GetSystem<InputSystem>()->IsKeyPressed(Keys::KEY_P))
+                {
+                    mIsPaused = !mIsPaused;
+                    auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+                    souSystem->PauseAllSounds();
+                }*/
                 if (ImGui::Button("Pause"))
                 {
                     mIsPaused = !mIsPaused;

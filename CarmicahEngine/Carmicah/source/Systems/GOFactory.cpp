@@ -281,6 +281,29 @@ namespace Carmicah
 		//sceneGO.sceneTransform = Transform{};
 	}
 
+	std::vector<Entity> GOFactory::GetEntitiesWithTag(std::string tagName)
+	{
+		std::vector<Entity> entityIDs;
+		for (auto& entity : mEntitiesSet)
+		{
+			if (ComponentManager::GetInstance()->HasComponent<Transform>(entity))
+			{
+				if (ComponentManager::GetInstance()->GetComponent<Transform>(entity).transformTag == tagName)
+				{
+					entityIDs.push_back(entity);
+				}
+			}
+			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(entity))
+			{
+				// NOTE: I dont know if we need to support UITransform also
+				// i think since this is transform itll just be normal transform and not UI transform
+			}
+		}
+
+		return entityIDs;
+	}
+
+
 	void GOFactory::FetchGO(std::string GOName, GameObject& go)
 	{
 		if (mNameToID.count(GOName) == 0)
@@ -601,33 +624,33 @@ namespace Carmicah
 				
 
 				// Change the current transform parent ID
-				if (go.HasComponent<Transform>())
-				{
-					// Change the parent
-					go.GetComponent<Transform>().SetParent(newParentID, parentLevel);
-				}
-				else if (go.HasComponent<UITransform>())
-				{
-					// Change the parent
-					go.GetComponent<UITransform>().SetParent(newParentID, parentLevel);
-				}
+				//if (go.HasComponent<Transform>())
+				//{
+				//	// Change the parent
+				//	go.GetComponent<Transform>().SetParent(newParentID, parentLevel);
+				//}
+				//else if (go.HasComponent<UITransform>())
+				//{
+				//	// Change the parent
+				//	go.GetComponent<UITransform>().SetParent(newParentID, parentLevel);
+				//}
 
-				if (ComponentManager::GetInstance()->HasComponent<Transform>(newParentID))
-				{
-					// Get the transform
-					Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(newParentID);
-					// Add to the child list
-					parentTransform.children.push_back(entityID);
+				//if (ComponentManager::GetInstance()->HasComponent<Transform>(newParentID))
+				//{
+				//	// Get the transform
+				//	Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(newParentID);
+				//	// Add to the child list
+				//	parentTransform.children.push_back(entityID);
 
-					//CM_CORE_INFO("Parenting entity: " + std::to_string(entityID) + " to " + std::to_string(newParentID));
-				}
-				else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
-				{
-					// Get the transform
-					UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(newParentID);
-					// Add to the child list
-					parentTransform.children.push_back(entityID);
-				}
+				//	//CM_CORE_INFO("Parenting entity: " + std::to_string(entityID) + " to " + std::to_string(newParentID));
+				//}
+				//else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
+				//{
+				//	// Get the transform
+				//	UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(newParentID);
+				//	// Add to the child list
+				//	parentTransform.children.push_back(entityID);
+				//}
 			}
 		}
 	}

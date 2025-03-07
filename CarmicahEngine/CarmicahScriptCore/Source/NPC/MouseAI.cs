@@ -33,6 +33,7 @@ namespace Carmicah
         Fast,
         Heavy
     }
+
     public class MouseAI : Entity
     {
         public string SpawnPointEntityLeft;
@@ -90,8 +91,8 @@ namespace Carmicah
         public float timer;
         public float DeathTime = 2.0f;
         public float Speed = 1.0f;
-
-
+        public float speedDebuff = 0.4f; // 60% slower
+        float debuff = 1.0f;
 
         int animType = 0;
         int randLane = 0;
@@ -124,9 +125,9 @@ namespace Carmicah
             //stateMachine.AddState(new MouseChase("Chase"));
             //stateMachine.AddState(new MouseDead("Dead"));
             //stateMachine.SetNextState("Chase");
-            Random rand = new Random();
-            animType = rand.Next(0, 4); // rand between 0 to 3
-            randLane = rand.Next(0, 4); // rand between 0 to 3
+            //Random rand = new Random();
+            animType = CMRand.Range(0, 3); // rand between 0 to 3
+            randLane = CMRand.Range(0, 3); // rand between 0 to 3
 
             lane = randLane;
 
@@ -250,7 +251,7 @@ namespace Carmicah
             Vector2 dir = (endPos - Position).Normalize();
             if (HasComponent<RigidBody>())
             {
-                GetComponent<RigidBody>().ApplyForce(dir, Speed);
+                GetComponent<RigidBody>().ApplyForce(dir, Speed * debuff);
 
             }
 
@@ -259,13 +260,17 @@ namespace Carmicah
 
             if (dist <= 0.3f)
             {
-               // CMConsole.Log("Dying");
+                // CMConsole.Log("Dying");
+                Entity gameManager = FindEntityWithName("GameManager");
+                gameManager.As<GameManager>().KillNPC(this);
 
                 timer = 0.0f;
                 GetComponent<StateMachine>().SetStateCondition(1);
 
                 Entity mainCharacter = FindEntityWithName("mainCharacter");
-                mainCharacter.As<Player>().TakeDamage(10);
+                mainCharacter.As<Player>().TakeDamage(10, enemyType);
+
+
             }
         }
 
@@ -306,6 +311,48 @@ namespace Carmicah
             //CMConsole.Log("Dying");
         }
 
+        public override void OnTriggerEnter(uint collidedEntity)
+        {
+            if (mID == 0)
+            {
+                return;
+            }
+
+            Entity entity = FindEntityWithID(collidedEntity);
+            if (entity != null)
+            {
+                if (entity.GetTag() == "Trap")
+                {
+                    if (!entity.As<TrapAI>().built) return;
+
+                   // CMConsole.Log("COLLIDING WITH HONEY TRAP");
+                    //this.AsChild<HealthSystem>().TakeDamage(100);
+                }
+
+            }
+        }
+
+        public override void OnTriggerStay(uint collidedEntity)
+        {
+            Entity entity = FindEntityWithID(collidedEntity);
+            if (entity != null)
+            {
+                if (entity.GetTag() == "Trap")
+                {
+                    if (!entity.As<TrapAI>().built) return;
+
+                    CMConsole.Log("COLLIDING WITH HONEY TRAP");
+                    debuff = speedDebuff;
+                    //this.AsChild<HealthSystem>().TakeDamage(100);
+                }
+            }
+        }
+
+        public override void OnTriggerExit()
+        {
+            // reset
+            debuff = 1.0f;
+        }
         public void KillMouse()
         {
             timer = 0.0f;
@@ -365,11 +412,21 @@ namespace Carmicah
                 if (pauseManager.As<PauseManager>().IsPaused)
                     return;
             }
+            Entity gameManager = FindEntityWithName("GameManager");
+          //  CMConsole.Log($"game manager gameOver :{gameManager.As<GameManager>().GameOver}");
+
 
 
             // CMConsole.Log($"Update State Name: {stateName}");
             if (stateName == "Running")
             {
+                if (gameManager.As<GameManager>().GameOver)
+                {
+                    GetComponent<RigidBody>().StopForces();
+                    return;
+
+                }
+
                 // CMConsole.Log("TESTING Update State");
                 UpdateMovement(dt);
             }

@@ -186,18 +186,18 @@ namespace Carmicah
 
         glViewport(0, 0, (GLsizei)Width, (GLsizei)Height);
         REGISTER_COMPONENT(Button);
-        REGISTER_COMPONENT(Script);
         REGISTER_COMPONENT(Transform);
+        REGISTER_COMPONENT(Animation);
         REGISTER_COMPONENT(Collider2D);
         REGISTER_COMPONENT(RigidBody);
         REGISTER_COMPONENT(Renderer);
-        REGISTER_COMPONENT(Animation);
         REGISTER_COMPONENT(TextRenderer);
         REGISTER_COMPONENT(ParticleEmitter);
         REGISTER_COMPONENT(UITransform);
         REGISTER_COMPONENT(PrefabData);
         REGISTER_COMPONENT(Sound);
         REGISTER_COMPONENT(StateMachine);
+        REGISTER_COMPONENT(Script);
 
         CM_CORE_INFO("Starting system init");
 

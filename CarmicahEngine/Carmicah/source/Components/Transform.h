@@ -33,7 +33,8 @@ namespace Carmicah
         ENVIRONMENT = 1 << 3, // 1000
         PROJECTILE = 1 << 4,
         TRAPS = 1 << 5,
-        TOTAL_LAYERS = 1 << 6
+        TOWER = 1 << 6,
+        TOTAL_LAYERS = 1 << 7
     };
 
     struct Transform : BaseTransform<Transform>

@@ -19,6 +19,11 @@ namespace Carmicah
             FunctionCalls.Sound_PlayBGM(soundName, volume);
         }
 
+        public static void SwitchBGM(string soundName, float fadeTimer, float fadeDuration)
+        {
+            FunctionCalls.Sound_SwitchBGM(soundName, fadeTimer, fadeDuration);
+        }
+
         // Volume controls
         public static void SetSoundVolume(string soundName, float volume)
         {

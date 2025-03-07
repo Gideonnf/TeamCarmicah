@@ -326,14 +326,15 @@ namespace Carmicah
 				std::strncpy(inputBuffer, selectedTransform.transformTag.c_str(), sizeof(inputBuffer) - 1);
 				if (ImGui::InputText("##TransformTag", inputBuffer, sizeof(inputBuffer), ImGuiInputTextFlags_EnterReturnsTrue))
 				{
-					if (inputBuffer[0] != '\0')
+					selectedTransform.transformTag = inputBuffer;
+					/*if (inputBuffer[0] != '\0')
 					{
 						selectedTransform.transformTag = inputBuffer;
 					}
 					if (inputBuffer[0] == '\0')
 					{
 						CM_CORE_ERROR("Trying to make empty transformTag name!");
-					}
+					}*/
 				}
 
 				ImGui::EndTable();

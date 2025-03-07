@@ -7,8 +7,8 @@
             "xPos": 8.947422981262207,
             "yPos": -18.05034828186035,
             "depth": 5.0,
-            "xScale": 0.5,
-            "yScale": 0.5,
+            "xScale": 0.6,
+            "yScale": 0.6,
             "rot": 0.0,
             "transformTag": "Enemy",
             "collisionMask": 4
@@ -45,25 +45,25 @@
             "scriptName": "Carmicah.MouseAI",
             "ScriptableFieldMap": [
                 {
-                    "isLeft": false,
                     "SpawnPointEntityLeft": "StartPointLeft",
+                    "isLeft": false,
                     "SpawnPointEntityRight2": "StartPointRight_1",
                     "Animation2": "Mouse_Climb_white",
                     "SpawnPointEntityRight": "StartPointRight",
                     "EndPointEntityLeft": "EndPointLeft",
                     "ChanceToDie": 0.11999999731779099,
-                    "EndPointEntityRight2": "EndPointRight_1",
                     "EndPointEntityRight": "EndPointRight",
+                    "EndPointEntityRight2": "EndPointRight_1",
                     "Animation0": "Mouse_Climb_white",
                     "Animation1": "Mouse_Climb_white",
                     "Animation3": "Mouse_Climb_white",
                     "AnimationDie0": "Mouse_Death_white",
                     "AnimationDie2": "Mouse_Death_white",
                     "AnimationDie1": "Mouse_Death_white",
-                    "SpawnPointEntityLeft2": "StartPointLeft_1",
                     "AnimationDie3": "Mouse_Death_white",
-                    "DeathTime": 2.0,
+                    "SpawnPointEntityLeft2": "StartPointLeft_1",
                     "DeathSound": "mouse die btr",
+                    "DeathTime": 2.0,
                     "InjuredSound": "mouse die",
                     "EndPointEntityLeft2": "EndPointLeft_1",
                     "TimeToDie": 1.5,
@@ -147,12 +147,12 @@
                     "scriptName": "Carmicah.HealthSystem",
                     "ScriptableFieldMap": [
                         {
-                            "endPos": 0.0,
-                            "endScale": 4.400000095367432,
                             "mCurHealth": 0.0,
+                            "endScale": 4.400000095367432,
+                            "endPos": 0.0,
                             "posDiff": 0.0,
-                            "startPos": 0.0,
                             "startScale": 0.0,
+                            "startPos": 0.0,
                             "mMaxHealth": 100.0
                         }
                     ]

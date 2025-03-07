@@ -16,10 +16,16 @@ namespace Carmicah
         internal extern static bool Entity_HasComponent(uint entityID, Type componentType);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static uint Entity_GetChild(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void RigidBody_ApplyForceWithTime(uint entityID, Vector2 dir, float magnitude, float lifeTime);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void RigidBody_ApplyForce(uint entityID, Vector2 dir, float magnitude);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void RigidBody_Move(uint entityID, Vector2 pos);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool IsKeyPressed(Keys keyCode);
@@ -38,6 +44,12 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Transform_SetDepth(uint entityID, ref float depth);
+        
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Transform_GetRot(uint entityID, out float rot);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Transform_SetRot(uint entityID, ref float rot);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static uint Entity_FindEntityWithName(string name);
@@ -47,6 +59,9 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_PlayBGM(string soundName, float volume);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Sound_SwitchBGM(string soundName, float fadeTimer, float fadeDuration);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_SetVolume(string soundName, float volume);
@@ -76,7 +91,7 @@ namespace Carmicah
         internal extern static uint CreateNewGameObject(string prefabName);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static object GetScriptInstance(uint entityID);
+        internal extern static object GetScriptInstance(uint entityID, string baseClassName);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static object GetScriptInstanceFromChildren(uint entityID);
@@ -121,10 +136,16 @@ namespace Carmicah
         internal extern static float Animation_GetCurrFrameTime(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static bool Animation_IsAnimFinished(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static uint Entity_GetParent(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static uint Entity_FindEntityWithID(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static uint[] Entity_FindEntitiesWithTag(string tag);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Transform_GetLocalPosition(uint entityID, out Vector2 position);
@@ -155,6 +176,10 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static string GetFilePath();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void RigidBody_StopForces();
+
 
         //[MethodImplAttribute(MethodImplOptions.InternalCall)]
         //internal extern static void SetCollisionLayer(uint entityID, int layer);

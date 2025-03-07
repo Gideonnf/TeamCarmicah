@@ -140,6 +140,19 @@ namespace Carmicah
                     createList[1] = "HowToStep0";
 
                     hoverEnterAnim = "Button_HS_HowTo";
+                    hoverExitAnim = "Button_HE_HowTo";
+                    clickAnim = "Button_C_HowTo";
+                    break;
+                case "nextlevel":
+                    destroyList[0] = "Win_Screen";
+
+                    hoverEnterAnim = "Button_HS_Next";
+                    hoverExitAnim = "Button_HE_Next";
+                    clickAnim = "Button_C_Next";
+
+                    break;
+                    /*
+                    hoverEnterAnim  = "Button_HS_HowTo";
                     hoverExitAnim   = "Button_HE_HowTo";
                     clickAnim       = "Button_C_HowTo";
                     break;
@@ -204,6 +217,12 @@ namespace Carmicah
             else if (willPause)
             {
                 
+            }
+
+            if (buttonType == "nextlevel")
+            {
+                Entity waveSystem = FindEntityWithName("Something");
+                waveSystem.As<WaveSystem>().EndOfLevel();
             }
 
             for(int i = 0; destroyList.ContainsKey(i); ++i)
