@@ -120,7 +120,7 @@ namespace Carmicah
     void SoundSystem::SwitchSound(unsigned int entityID, INTSOUND internalCatergoy, const std::string& newSoundName, SoundCategory category, bool isLoop, float volume, float fadeTimer, float fadeDuration)
     {
         auto& tracks = mSoundTracks[internalCatergoy];
-        for (auto k = mSoundTracks[internalCatergoy].begin(); k != mSoundTracks[internalCatergoy].end(); ++k)
+        /*for (auto k = mSoundTracks[internalCatergoy].begin(); k != mSoundTracks[internalCatergoy].end(); ++k)
         {
             bool isPlaying = false;
             k->get()->channel->isPlaying(&isPlaying);
@@ -129,16 +129,13 @@ namespace Carmicah
                 playingEntityID = k->get()->entityID;
             }
                 
-        }
+        }*/
 
         auto it = std::find_if(tracks.begin(), tracks.end(), [&](const std::unique_ptr<SoundTrack>& track) {
             return track->entityID == entityID;
             });
 
-        if (it == tracks.end())
-        {
-            return; // No track found for this entity
-        }
+      
 
         SoundTrack* soundTrack = it->get();
         FMOD::Channel* currentChannel = soundTrack->channel;
@@ -147,6 +144,9 @@ namespace Carmicah
             return;
         }
 
+        float currentVol = 1.0f;
+        currentChannel->getVolume(&currentVol);
+        soundTrack->currentVolume = currentVol;
 
 
         FMOD::DSP* volumeDSP = nullptr;
@@ -165,6 +165,7 @@ namespace Carmicah
             fadingOut = true;
             fadeInNewSound = false;
             oldChannel = currentChannel;
+            currentVolume = currentVol;
             newSoundNamePending = newSoundName;
             newSoundCategory = category;
             newSoundInternalCatergoy = internalCatergoy;
@@ -190,7 +191,7 @@ namespace Carmicah
         {
             // Fade-out progress: Starts at 1.0 and decreases to 0.0
             float fadeOutProgress = 1.0f - (fadeTimerSeconds / fadeDurationSeconds);
-            float newVolume = 1.0f - fadeOutProgress;
+            float newVolume = currentVolume *(1.0f - fadeOutProgress);
             oldChannel->setVolume(std::max(0.0f, newVolume));
 
             if (fadeTimerSeconds <= 0.0f)
@@ -199,7 +200,7 @@ namespace Carmicah
                 oldChannel = nullptr;
                 fadingOut = false;
 
-                StopSound(playingEntityID, newSoundInternalCatergoy);
+                StopSound(currentEntityID, newSoundInternalCatergoy);
 
                 if (switchBGM)
                 {

@@ -231,7 +231,7 @@ namespace Carmicah
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->SwitchSound(entityID, SoundSystem::SOUND_BGM, cStrname, SoundCategory::BGM, true, 1.0f, fadeTimer, fadeDuration);
+		souSystem->SwitchSound(entityID, SoundSystem::SOUND_BGM, cStrname, SoundCategory::BGM, true, 0.4f, fadeTimer, fadeDuration);
 		mono_free(cStrname);
 	}
 

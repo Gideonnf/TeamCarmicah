@@ -16,7 +16,6 @@ namespace Carmicah
 
         public static void PlayBGM(uint entityID, string soundName, float volume = -1.0f)
         {
-            CMConsole.Log($"pLAYINH entity: {entityID}");
             FunctionCalls.Sound_PlayBGM(entityID, soundName, volume);
         }
 

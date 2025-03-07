@@ -69,8 +69,8 @@ namespace Carmicah
 
                 // waveCounter++;
                 waveTimer = 0.0f;
-                Sound.StopSoundBGM(this.mID,"BGM_SetupPhase_Mix1");
-                Sound.PlayBGM(this.mID, "BGM_LevelMusic_FullTrack_Vers1", 0.4f);
+                //Sound.StopSoundBGM(this.mID,"BGM_SetupPhase_Mix1");
+                Sound.SwitchBGM(FindEntityWithName("GameManager").mID, "BGM_LevelMusic_FullTrack_Vers1", 0.5f, 0.5f);
 
                 if (countdown != null)
                 {
