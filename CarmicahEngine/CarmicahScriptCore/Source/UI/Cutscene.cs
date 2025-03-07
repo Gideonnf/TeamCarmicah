@@ -79,7 +79,7 @@ namespace Carmicah
 
         void OnCreate()
         {
-            Sound.StopSoundBGM(backgroundMusicTrack1);
+            Sound.StopSoundBGM(this.mID, backgroundMusicTrack1);
             cutsceneEntity = FindEntityWithName("CutSceneImage");
             cutsceneEntity.Depth = cutsceneEntity.Depth + 1.0f;
             textObj = FindEntityWithName("CutsceneText");
@@ -90,7 +90,7 @@ namespace Carmicah
             // Start background music when cutscene begins
             if (!musicStarted)
             {
-                Sound.PlaySFX(backgroundMusicTrack, 0.5f);
+                Sound.PlaySFX(this.mID, backgroundMusicTrack, 0.5f);
                 musicStarted = true;
             }
 

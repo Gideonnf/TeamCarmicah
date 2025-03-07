@@ -110,7 +110,7 @@ namespace Carmicah
                     createList[0]   = "Settings_Menu";
                     createList[1]   = "Close_Button";
 
-                    Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
+                    Sound.PlayBGM(this.mID,"BGM_SetupPhase_Mix1", 0.4f);
 
                     hoverEnterAnim = "Button_HS_Settings";
                     hoverExitAnim   = "Button_HE_Settings";
@@ -177,7 +177,7 @@ namespace Carmicah
 
         public override void OnClick()
         {
-            Sound.PlaySFX("UI_Select 2", 0.5f);
+            Sound.PlaySFX(this.mID, "UI_Select 2", 0.5f);
             //Sound.PlaySFX("SFX_Button");
 
             ChangeAnim(clickAnim);
@@ -228,7 +228,7 @@ namespace Carmicah
         }
         public override void OnMouseEnter()
         {
-            Sound.PlaySFX("UI_Hover 2", 0.5f);
+            Sound.PlaySFX(this.mID, "UI_Hover 2", 0.5f);
             ChangeAnim(hoverEnterAnim);
         }
         public override void OnMouseExit()

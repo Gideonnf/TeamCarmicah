@@ -43,7 +43,7 @@ namespace Carmicah
             {
                 if(collidedEntity.GetTag() == "Enemy")
                 {
-                    Sound.PlaySFX("trap extend");
+                    Sound.PlaySFX(this.mID, "trap extend");
                     ChangeAnim("CandyCone");
                     life -= 1;
                 }

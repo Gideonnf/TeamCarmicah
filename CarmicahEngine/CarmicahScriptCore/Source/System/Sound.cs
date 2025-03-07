@@ -9,19 +9,19 @@ namespace Carmicah
     public static class Sound
     {
         // Sound playback with categories
-        public static void PlaySFX(string soundName, float volume = -1.0f, bool isLoop = false)
+        public static void PlaySFX(uint entityID, string soundName, float volume = -1.0f, bool isLoop = false)
         {
-            FunctionCalls.Sound_PlaySFX(soundName, volume, isLoop);
+            FunctionCalls.Sound_PlaySFX(entityID, soundName, volume, isLoop);
         }
 
-        public static void PlayBGM(string soundName, float volume = -1.0f)
+        public static void PlayBGM(uint entityID, string soundName, float volume = -1.0f)
         {
-            FunctionCalls.Sound_PlayBGM(soundName, volume);
+            FunctionCalls.Sound_PlayBGM(entityID, soundName, volume);
         }
 
-        public static void SwitchBGM(string soundName, float fadeTimer, float fadeDuration)
+        public static void SwitchBGM(uint entityID, string soundName, float fadeTimer, float fadeDuration)
         {
-            FunctionCalls.Sound_SwitchBGM(soundName, fadeTimer, fadeDuration);
+            FunctionCalls.Sound_SwitchBGM(entityID, soundName, fadeTimer, fadeDuration);
         }
 
         // Volume controls
@@ -31,9 +31,9 @@ namespace Carmicah
         }
 
         // Sound controls
-        public static void StopSoundBGM(string soundName)
+        public static void StopSoundBGM(uint entityID, string soundName)
         {
-            FunctionCalls.Sound_StopBGM(soundName);
+            FunctionCalls.Sound_StopBGM(entityID, soundName);
         }
 
         public static void StopSoundSFXWithFade(string soundName, float fadeTimer, float fadeDuration)

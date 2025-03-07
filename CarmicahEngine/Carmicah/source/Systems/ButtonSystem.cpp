@@ -188,7 +188,7 @@ namespace Carmicah
 					else
 					{
 						//buttonRenderer.Texture(button.ButtonImage);
-						OnRelease(button);
+						OnRelease(button, castedMsg->mEntityID);
 					}
 
 					button.isPressed = !button.isPressed;
@@ -209,7 +209,7 @@ namespace Carmicah
 	{
 		UNUSED(buttonComponent);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySoundThis("pop", SoundCategory::UI, SoundSystem::SOUND_INMENU, false, 0.5f);
+		souSystem->PlaySoundThis(entityID, "pop", SoundCategory::UI, SoundSystem::SOUND_INMENU, false, 0.5f);
 
 		buttonComponent.isPressed = true;
 
@@ -224,10 +224,10 @@ namespace Carmicah
 				The name of the button that was pressed.
 	\return     void
 	-------------------------------------------------------------------------------------------------*/
-	void ButtonSystem::OnRelease(Button& buttonComponent)
+	void ButtonSystem::OnRelease(Button& buttonComponent, Entity entityID)
 	{
 		UNUSED(buttonComponent);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySoundThis("pop", SoundCategory::UI, SoundSystem::SOUND_INMENU, false, 0.5f);
+		souSystem->PlaySoundThis(entityID, "pop", SoundCategory::UI, SoundSystem::SOUND_INMENU, false, 0.5f);
 	}
 }

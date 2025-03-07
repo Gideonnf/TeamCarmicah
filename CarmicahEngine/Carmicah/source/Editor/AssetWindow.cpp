@@ -603,7 +603,7 @@ namespace Carmicah
 						{
 							isPlaying = true;
 							isPaused = false;
-							soundSystem->PlaySoundThis(selectedAudio.first, SoundCategory::EDITOR, SoundSystem::INTSOUND::SOUND_EDITOR, false, 1.0);
+							//soundSystem->PlaySoundThis(selectedAudio.first, SoundCategory::EDITOR, SoundSystem::INTSOUND::SOUND_EDITOR, false, 1.0);
 						}
 					}
 
@@ -632,7 +632,7 @@ namespace Carmicah
 						{
 							isPlaying = false;
 							isPaused = false;
-							soundSystem->StopSound(SoundSystem::INTSOUND::SOUND_EDITOR);
+							//soundSystem->StopSound(SoundSystem::INTSOUND::SOUND_EDITOR);
 						}
 					}
 							
@@ -640,7 +640,7 @@ namespace Carmicah
 					{
 						isPlaying = false;
 						isPaused = false;
-						soundSystem->StopSound(SoundSystem::INTSOUND::SOUND_EDITOR);
+						//soundSystem->StopSound(SoundSystem::INTSOUND::SOUND_EDITOR);
 						ImGui::CloseCurrentPopup();
 					}
 					ImGui::EndPopup();

@@ -139,7 +139,7 @@ namespace Carmicah
         {
             if(!hovering)
             {
-                Sound.PlaySFX("SFX__Magic");
+                Sound.PlaySFX(this.mID, "SFX__Magic");
                 this.GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
                 hovering = true;
             }

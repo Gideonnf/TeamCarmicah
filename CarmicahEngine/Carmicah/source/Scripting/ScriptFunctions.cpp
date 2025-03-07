@@ -194,13 +194,13 @@ namespace Carmicah
 		mono_free(cStrname);
 	}
 
-	//static void Sound_Stop(MonoString* name)
-	//{
-	//	char* cStrname = mono_string_to_utf8(name);
-	//	auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-	//	souSystem->StopSound(SoundSystem::SOUND_INGAME);
-	//	mono_free(cStrname);
-	//}
+	/*static void Sound_Stop(unsigned int entityID, MonoString* name)
+	{
+		char* cStrname = mono_string_to_utf8(name);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->StopSound(SoundSystem::SOUND_INGAME);
+		mono_free(cStrname);
+	}*/
 
 	//static void Sound_Pause(MonoString* name)
 	//{

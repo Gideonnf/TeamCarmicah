@@ -72,6 +72,7 @@ namespace Carmicah
         std::vector<std::unique_ptr<SoundTrack>> mSoundTracks[SOUND_MAX_SOUNDS];
         std::unordered_map<SoundCategory, float> mCategoryVolumes;
         const float defaultVolume = 1.0f;
+        unsigned int playingEntityID;
         unsigned int currentEntityID;
         float mMasterVolume;
         bool mIsMuted;

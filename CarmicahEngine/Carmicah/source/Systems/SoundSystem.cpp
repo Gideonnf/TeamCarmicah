@@ -72,40 +72,65 @@ namespace Carmicah
         }
 
         FMOD::Sound* sound = AssetManager::GetInstance()->GetAsset<FMOD::Sound*>(soundName);
-        FMOD::Channel* channel = mSoundTracks[internalCatergoy].back()->channel;
-
         
         
-        if (channel == NULL) {
-            mSoundSystem->playSound(sound, nullptr, false, &channel);
-            // Store in tracks for management
-            auto track = std::make_unique<SoundTrack>();
-            track->entityID = entityID;
-            track->sound = sound;
-            track->category = category;
-            track->channel = channel;
-            track->defaultVolume = (volume >= 0 ? volume : defaultVolume) * mCategoryVolumes[category];
-            track->currentVolume = track->defaultVolume * mMasterVolume;
-
-            if (!isLoop)
+        for (const auto& track : mSoundTracks[internalCatergoy])
+        {
+            if (track->sound == sound && track->entityID == entityID)
             {
-                channel->setLoopCount(0);
-
+                return false;
             }
-            else
-            {
-                channel->setLoopCount(-1);
-            }
-            channel->setVolume(track->currentVolume);
-            mSoundTracks[internalCatergoy].emplace_back(std::move(track));
-            return true;
         }
-        return false;
+        
+        FMOD::Channel* channel = nullptr;
+        
+        //if (channel == NULL) {
+        // Play sound
+        FMOD_RESULT result = mSoundSystem->playSound(sound, nullptr, false, &channel);
+        if (result != FMOD_OK || channel == nullptr)
+        {
+            CM_CORE_WARN("Failed to play sound: " + soundName);
+            return false;
+        }
+        // Store in tracks for management
+        auto track = std::make_unique<SoundTrack>();
+        track->entityID = entityID;
+        track->sound = sound;
+        track->category = category;
+        track->channel = channel;
+        track->defaultVolume = (volume >= 0 ? volume : defaultVolume) * mCategoryVolumes[category];
+        track->currentVolume = track->defaultVolume * mMasterVolume;
+
+        if (!isLoop)
+        {
+            channel->setLoopCount(0);
+
+        }
+        else
+        {
+            channel->setLoopCount(-1);
+        }
+        channel->setVolume(track->currentVolume);
+        mSoundTracks[internalCatergoy].emplace_back(std::move(track));
+        return true;
+        /*}
+        return false;*/
     }
 
     void SoundSystem::SwitchSound(unsigned int entityID, INTSOUND internalCatergoy, const std::string& newSoundName, SoundCategory category, bool isLoop, float volume, float fadeTimer, float fadeDuration)
     {
         auto& tracks = mSoundTracks[internalCatergoy];
+        for (auto k = mSoundTracks[internalCatergoy].begin(); k != mSoundTracks[internalCatergoy].end(); ++k)
+        {
+            bool isPlaying = false;
+            k->get()->channel->isPlaying(&isPlaying);
+            if (isPlaying == true)
+            {
+                playingEntityID = k->get()->entityID;
+            }
+                
+        }
+
         auto it = std::find_if(tracks.begin(), tracks.end(), [&](const std::unique_ptr<SoundTrack>& track) {
             return track->entityID == entityID;
             });
@@ -121,6 +146,8 @@ namespace Carmicah
         {
             return;
         }
+
+
 
         FMOD::DSP* volumeDSP = nullptr;
 
@@ -172,7 +199,7 @@ namespace Carmicah
                 oldChannel = nullptr;
                 fadingOut = false;
 
-                StopSound(newSoundInternalCatergoy);
+                StopSound(playingEntityID, newSoundInternalCatergoy);
 
                 if (switchBGM)
                 {
@@ -255,8 +282,16 @@ namespace Carmicah
 
     void SoundSystem::StopAllSounds()
     {
-        for (int i{}; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
-            StopSound(static_cast<INTSOUND>(i));
+        for (int i = 0; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
+        {
+            for (const auto& track : mSoundTracks[i])
+            {
+                if (track)
+                {
+                    StopSound(track->entityID, static_cast<INTSOUND>(i));
+                }
+            }
+        }
     }
 
     void SoundSystem::PauseSound(INTSOUND internalCatergoy)
@@ -355,11 +390,11 @@ namespace Carmicah
     {
         if (msg->mMsgType == MSG_PLAYSFX) {
             auto* sfxMsg = dynamic_cast<PlaySFXMsg*>(msg);
-            PlaySoundThis(sfxMsg->fileName, SoundCategory::SFX, INTSOUND::SOUND_INGAME, false, 0.5f);
+            PlaySoundThis(sfxMsg->mEntityID, sfxMsg->fileName, SoundCategory::SFX, INTSOUND::SOUND_INGAME, false, 0.5f);
         }
         else if (msg->mMsgType == MSG_PLAYBGM) {
             auto* bgmMsg = dynamic_cast<PlayBGMMsg*>(msg);
-            PlaySoundThis(bgmMsg->fileName, SoundCategory::BGM, INTSOUND::SOUND_BGM, true, 0.3f);
+            PlaySoundThis(bgmMsg->mEntityID, bgmMsg->fileName, SoundCategory::BGM, INTSOUND::SOUND_BGM, true, 0.3f);
         }
     }
 

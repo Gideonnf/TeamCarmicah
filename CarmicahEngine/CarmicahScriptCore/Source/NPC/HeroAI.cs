@@ -88,7 +88,7 @@ namespace Carmicah
                             bullet.bulletType = BulletType.MAGE_BULLET;
                             break;
                     }
-                    Sound.PlaySFX("Shooting_v2");
+                    Sound.PlaySFX(this.mID, "Shooting_v2");
                     if (bullet != null)
                     {
                         bullet.targetMouse = targetMouse;

@@ -135,14 +135,16 @@ namespace Carmicah
 	{
 	public:
 		std::string fileName;
-		PlayBGMMsg(std::string file) : Message(MSG_PLAYBGM), fileName(file) {}
+		Entity mEntityID;
+		PlayBGMMsg(std::string file, Entity id) : Message(MSG_PLAYBGM), fileName(file), mEntityID(id) {}
 	};
 
 	class PlaySFXMsg : public Message
 	{
 	public:
 		std::string fileName;
-		PlaySFXMsg(std::string file) : Message(MSG_PLAYSFX), fileName(file) {}
+		Entity mEntityID;
+		PlaySFXMsg(std::string file, Entity id) : Message(MSG_PLAYSFX), fileName(file), mEntityID(id) {}
 	};
 
 	class ModifyPrefabMsg : public Message

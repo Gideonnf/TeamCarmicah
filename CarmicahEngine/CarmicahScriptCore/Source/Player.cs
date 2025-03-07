@@ -258,7 +258,7 @@ namespace Carmicah
         {
             if (timer >= 0.5f)
             {
-                Sound.PlaySFX(name);
+                Sound.PlaySFX(this.mID, name);
                 timer = 0.0f;
             }
         }

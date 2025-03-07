@@ -148,7 +148,7 @@ namespace Carmicah
             //        break;
             //}
 
-            Sound.PlaySFX("Portal_Spawn_v2", 0.3f);
+            Sound.PlaySFX(this.mID, "Portal_Spawn_v2", 0.3f);
 
             switch (animType)
             {
@@ -363,7 +363,7 @@ namespace Carmicah
             if (stateName == "Dead")
             {
                 timer = 0.0f;
-                Sound.PlaySFX(InjuredSound, 0.5f);
+                Sound.PlaySFX(this.mID, InjuredSound, 0.5f);
                 GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                 if (gm != null)
                     gm.EntityDestroyed(this);
@@ -426,7 +426,7 @@ namespace Carmicah
                 timer += dt;
                 if (timer >= GetComponent<Animation>().GetMaxTime())
                 {
-                    Sound.PlaySFX(DeathSound, 0.5f);
+                    Sound.PlaySFX(this.mID, DeathSound, 0.5f);
                     timer = 0.0f;
                     Destroy();
                 }

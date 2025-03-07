@@ -214,7 +214,7 @@ namespace Carmicah
                         }
 
 
-                        Sound.PlaySFX("Trap_Placement_v2", 0.5f);
+                        Sound.PlaySFX(this.mID,"Trap_Placement_v2", 0.5f);
 
                         if (IsLeft)
                         {

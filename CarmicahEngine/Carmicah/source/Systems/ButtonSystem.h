@@ -44,7 +44,7 @@ namespace Carmicah
 
 		// button functions
 		void OnPress(Button& buttonComponent, Entity entityID);
-		void OnRelease(Button&);
+		void OnRelease(Button&, Entity entityID);
 		void OnEnter(Entity entityID);
 		void OnExit(Entity entityID);
 		void OnHover(Entity entityID);
