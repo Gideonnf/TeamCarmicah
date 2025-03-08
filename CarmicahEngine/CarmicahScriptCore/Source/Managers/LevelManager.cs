@@ -89,7 +89,7 @@ namespace Carmicah
         private Dictionary<int, Level> levelMap = new Dictionary<int, Level>();
        // string basePath;
         string fileName = "LevelData.txt";
-        int NumOfLevels = 0;
+        public int NumOfLevels = 0;
         
         public LevelManager() 
         {

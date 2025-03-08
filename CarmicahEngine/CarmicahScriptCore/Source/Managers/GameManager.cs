@@ -20,6 +20,7 @@ using Carmicah;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace Carmicah
         public float spawnTimer = 0.5f;
         public string MousePrefabName = "MouseGONew";
         public string BearPrefabName = "BearGO";
+        public string FlyingEnemyPrefabName = "FlyGO"; //fly enemy
         public string CakePrefabName = "StartingCake";
         public string PlayerName = "mainCharacter";
         public string PlayerHealthBar = "Healthbar";
@@ -48,6 +50,8 @@ namespace Carmicah
         public List<MouseAI> mouseLaneTwo;
         public List<MouseAI> mouseLaneThree;
         public List<MouseAI> mouseLaneFour;
+        public List<FlyingEnemyAI> flyingEnemyLeft;
+        public List<FlyingEnemyAI> flyingEnemyRight;
 
         //public float WaveStartTime = 25.0f;
         //public float waveTimer = 0.0f;
@@ -90,11 +94,15 @@ namespace Carmicah
         public float yVFXSpawn;
         public float yVFXLocation = 1.5f;
         public float cameraHeight = 10.0f;
-
+        int cakeType = 0; // 0 - 3
         Entity towerPrefab;
         Entity VFXPrefab;
         Entity waveSystem;
         Entity mainCamera;
+
+        public string[] CakeFallAnimations = new string[4];
+        public string[] CakeSquishAnimations = new string[4];
+
 
         void OnCreate()
         {
@@ -104,6 +112,8 @@ namespace Carmicah
             mouseLaneTwo = new List<MouseAI>();
             mouseLaneThree = new List<MouseAI>();
             mouseLaneFour = new List<MouseAI>();
+            flyingEnemyLeft = new List<FlyingEnemyAI>();
+            flyingEnemyRight = new List<FlyingEnemyAI>();
             npcList = new List<Entity>();
 
             endEntities[0] = FindEntityWithName(EndPointEntityLeft);
@@ -135,6 +145,16 @@ namespace Carmicah
             topTowerBoxes[2] = FindEntityWithName("TopTowerBox_2");
 
             waveSystem = FindEntityWithName(WaveSystemObject);
+
+            CakeFallAnimations[0] = "CakeStrawberry_Fall";
+            CakeFallAnimations[1] = "CakeRainbow_Fall";
+            CakeFallAnimations[2] = "CakeMatcha_Fall";
+            CakeFallAnimations[3] = "CakeFruit_Fall";
+
+            CakeSquishAnimations[0] = "CakeStrawberry_Squish";
+            CakeSquishAnimations[1] = "CakeRainbow_Squish";
+            CakeSquishAnimations[2] = "CakeMatcha_Squish";
+            CakeSquishAnimations[3] = "CakeFruit_Squish";
 
             Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
         }
@@ -198,6 +218,12 @@ namespace Carmicah
 
                             break;
                         }
+                        case EnemyTypes.FLYING:
+                            {
+                                //CMConsole.Log($"Creating flying enemy");
+                                CreateEnemy(FlyingEnemyPrefabName, type);
+                                break;
+                            }
                         default:
                         {
                           //  CMConsole.Log("Shouldn't be here tbh");
@@ -230,59 +256,75 @@ namespace Carmicah
 
         public void CreateEnemy(string prefabName, EnemyTypes type)
         {
-            Entity mouseEntity = CreateGameObject(prefabName);
-            MouseAI mouseAI = mouseEntity.As<MouseAI>();
-
-            mouseAI.SetInitialPosition(); // Reset initial position
-            mouseEntity.As<MouseAI>().enemyType = type;
-
-            //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
-            CMConsole.Log($"Lane : {mouseAI.lane}");
-            switch (mouseAI.lane)
+            if (type == EnemyTypes.FLYING)
             {
-                case 0:
-                    mouseLaneOne.Add(mouseAI);
-                    break;
-                case 1:
-                    mouseLaneTwo.Add(mouseAI);
-                    break;
-                case 2:
-                    mouseLaneThree.Add(mouseAI);
-                    break;
-                case 3:
-                    mouseLaneFour.Add(mouseAI);
-                    break;
+                Entity birdEntity = CreateGameObject(prefabName);
+                FlyingEnemyAI flyingAI = birdEntity.As<FlyingEnemyAI>();
+
+                flyingAI.SetInitialPosition();
+                flyingAI.enemyType = type;
+
+                if (flyingAI.isLeft)
+                {
+                    flyingEnemyLeft.Add(flyingAI);
+                }
+                else
+                {
+                    flyingEnemyRight.Add(flyingAI);
+                }
+
+            }
+            else
+            {
+                Entity mouseEntity = CreateGameObject(prefabName);
+                MouseAI mouseAI = mouseEntity.As<MouseAI>();
+
+                mouseAI.SetInitialPosition(); // Reset initial position
+                mouseEntity.As<MouseAI>().enemyType = type;
+
+                //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
+                CMConsole.Log($"Lane : {mouseAI.lane}");
+                switch (mouseAI.lane)
+                {
+                    case 0:
+                        mouseLaneOne.Add(mouseAI);
+                        break;
+                    case 1:
+                        mouseLaneTwo.Add(mouseAI);
+                        break;
+                    case 2:
+                        mouseLaneThree.Add(mouseAI);
+                        break;
+                    case 3:
+                        mouseLaneFour.Add(mouseAI);
+                        break;
+                }
+                switch (type)
+                {
+                    case EnemyTypes.MOUSE1:
+                        {
+                            mouseEntity.As<MouseAI>().Speed = 1.0f;
+                            break;
+                        }
+                    case EnemyTypes.MOUSE2:
+                        {
+                            mouseEntity.As<MouseAI>().Speed = 1.5f;
+                            break;
+                        }
+                    case EnemyTypes.MOUSE3:
+                        {
+                            mouseEntity.As<MouseAI>().Speed = 1.85f;
+                            break;
+                        }
+                    case EnemyTypes.BEAR:
+                        {
+
+                            break;
+                        }
+                }
             }
 
-            // any special behavour can add here
-            switch (type)
-            {
-                case EnemyTypes.MOUSE1:
-                    {
-                        mouseEntity.As<MouseAI>().Speed = 1.0f;
-                        break;
-                    }
-                case EnemyTypes.MOUSE2:
-                    {
-                        mouseEntity.As<MouseAI>().Speed = 1.5f;
-                        break;
-                    }
-                case EnemyTypes.MOUSE3:
-                    {
-                        mouseEntity.As<MouseAI>().Speed = 1.85f;
-                        break;
-                    }
-                case EnemyTypes.BEAR:
-                    {
-
-                        break;
-                    }
-                default:
-                    {
-                        CMConsole.Log("Shouldn't be here tbh");
-                        break;
-                    }
-            }
+           
         }
 
         public void EntityDestroyed(MouseAI entity)
@@ -434,6 +476,14 @@ namespace Carmicah
             return targetMouse;
         }
 
+        public Entity GetTargetNPC(FlyingEnemyAI enemy)
+        {
+
+
+            // if no NPCs, return player
+            return playerEntity;
+        }
+
         public void NewNPC(Entity entity)
         {
             npcList.Add(entity);
@@ -557,47 +607,6 @@ namespace Carmicah
             CreateGameObject("LoseScreen");
         }
 
-        public void OnStateEnter(string stateName)
-        {
-            if (stateName == "TowerIdle")
-            {
-                //CMConsole.Log("TESTING TOWER IDLE");
-            }
-            else if (stateName == "TowerCreate")
-            {
-                //CMConsole.Log("TESTING TOWER CREATE ");
-
-                if (cakeCounter >= 2) return;
-
-                towerPrefab = CreateGameObject(CakePrefabName);
-                towerPrefab.Position = new Vector2(Position.x, ySpawnPos);
-
-                towerPrefab.Depth = startingCakeEntity.Depth;
-                towerPrefab.Depth = towerPrefab.Depth + (0.1f * cakeCounter);
-                cakeCounter++;
-                // if (gameManager != null)
-                // {
-                //Entity gm = FindEntityWithName("GameManager");
-
-                //SavePositions();
-                HideEntities();
-
-                // }
-                //CMConsole.Log("TESTING TOWER CREATE 2");
-
-                GetComponent<StateMachine>().SetStateCondition(3);
-            }
-            else if (stateName == "TowerLand")
-            {
-                // gm = FindEntityWithName("GameManager");
-                UpdatePositions();
-                ySpawnPos += CakeHeightOffset;
-                yTargetPos += CakeHeightOffset;
-                yVFXLocation += CakeHeightOffset;
-                GetComponent<StateMachine>().SetStateCondition(1);
-
-            }
-        }
 
         public void CheckLaneIndicators()
         {
@@ -614,7 +623,7 @@ namespace Carmicah
                     else if (mouse.Position.y > (mainCamera.Position.y - cameraHeight))
                     {
                         visible = true;
-                       // CMConsole.Log($"Visible Lane 1 {visible}");
+                        // CMConsole.Log($"Visible Lane 1 {visible}");
                         break;
                     }
                 }
@@ -743,6 +752,47 @@ namespace Carmicah
 
         }
 
+        public void OnStateEnter(string stateName)
+        {
+            if (stateName == "TowerIdle")
+            {
+                //CMConsole.Log("TESTING TOWER IDLE");
+            }
+            else if (stateName == "TowerCreate")
+            {
+                //CMConsole.Log("TESTING TOWER CREATE ");
+
+                if (cakeCounter >= 2) return;
+
+                cakeType = CMRand.Range(0, 3);
+                CMConsole.Log($"cake type {cakeType}");
+                towerPrefab = CreateGameObject(CakePrefabName);
+                towerPrefab.Position = new Vector2(Position.x, ySpawnPos);
+
+                towerPrefab.GetComponent<Animation>().ChangeAnim(CakeFallAnimations[cakeType]);
+
+                towerPrefab.Depth = startingCakeEntity.Depth;
+                towerPrefab.Depth = towerPrefab.Depth + (0.1f * cakeCounter);
+                cakeCounter++;
+                // if (gameManager != null)
+                // {
+                //Entity gm = FindEntityWithName("GameManager");
+
+                //SavePositions();
+                HideEntities();
+
+                // }
+                //CMConsole.Log("TESTING TOWER CREATE 2");
+
+                GetComponent<StateMachine>().SetStateCondition(3);
+            }
+            else if (stateName == "TowerLand")
+            {
+                // gm = FindEntityWithName("GameManager");
+               
+
+            }
+        }
         public void OnStateUpdate(string stateName, float dt)
         {
             //gameManager = FindEntityWithName("GameManager");
@@ -779,10 +829,24 @@ namespace Carmicah
                 }
                 else if (towerPrefab.Position.y <= yTargetPos)
                 {
+                    towerPrefab.GetComponent<Animation>().ChangeAnim(CakeSquishAnimations[cakeType]);
                     // tower landed
                     towerPrefab.Position = new Vector2(towerPrefab.Position.x, yTargetPos);
                     GetComponent<StateMachine>().SetStateCondition(4);
                     VFXPrefab.Destroy();
+                }
+                
+            }
+
+            if (stateName == "TowerLand")
+            {
+                if (towerPrefab.GetComponent<Animation>().IsAnimFinished())
+                {
+                    UpdatePositions();
+                    ySpawnPos += CakeHeightOffset;
+                    yTargetPos += CakeHeightOffset;
+                    yVFXLocation += CakeHeightOffset;
+                    GetComponent<StateMachine>().SetStateCondition(1);
                 }
             }
         }
