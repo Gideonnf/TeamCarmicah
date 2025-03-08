@@ -24,23 +24,23 @@
             "scriptName": "Carmicah.HeroIcon",
             "ScriptableFieldMap": [
                 {
-                    "heroPrefab": "SpearNPC",
-                    "HeroBuild": "HeroBuild",
                     "HeroBuild2": "HeroBuild_2",
+                    "HeroBuild": "HeroBuild",
+                    "heroPrefab": "SpearNPC",
+                    "actualTrapPrefab": "",
                     "WaveSystemObject": "Something",
                     "HeroBuild1": "HeroBuild_1",
-                    "actualTrapPrefab": "",
                     "HeroBuild3": "HeroBuild_3",
                     "fakeTrapPrefab": "",
-                    "hovering": false,
-                    "flipped": false
+                    "flipped": false,
+                    "hovering": false
                 }
             ]
         },
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "UI_Spritesheet_Bear_Icon 0",
+            "texture": "spear_icon",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
