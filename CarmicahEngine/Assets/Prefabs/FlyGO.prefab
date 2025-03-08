@@ -11,7 +11,12 @@
             "yScale": 0.4000000059604645,
             "rot": 0.0,
             "transformTag": "",
-            "collisionMask": 1
+            "collisionMask": 4
+        },
+        {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Pigeon_Fly",
+            "AnimSpeed": 1.0
         },
         {
             "Component Name": "struct Carmicah::StateMachine",
@@ -51,11 +56,6 @@
             ]
         },
         {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Pigeon_Fly",
-            "AnimSpeed": 1.0
-        },
-        {
             "Component Name": "struct Carmicah::RigidBody",
             "velocityX": 0.0,
             "velocityY": 0.0,
@@ -75,18 +75,27 @@
             "customHeight": 0.0
         },
         {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Pigeon_SpriteSheet_Fly 4",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.FlyingEnemyAI",
             "ScriptableFieldMap": [
                 {
-                    "EndPointEntityLeft": "StartTopLeft_end",
                     "ChanceToDie": 0.11999999731779099,
+                    "EndPointEntityLeft": "StartTopLeft_end",
                     "DeathAnim": "Pigeon_Death",
-                    "horizontalSpeed": 1.0,
-                    "DeathSound": "flying_die",
                     "HorizontalAnim": "Pigeon_Fly",
-                    "EndPointEntityRight": "StartTopRight_end",
+                    "DeathSound": "flying_die",
+                    "horizontalSpeed": 1.0,
                     "DiagonalAnim": "Pigeon_Dive",
+                    "EndPointEntityRight": "StartTopRight_end",
                     "InjuredSound": "flying_hurt",
                     "SpawnPointEntityLeft": "StartTopLeft",
                     "SpawnPointEntityRight": "StartTopRight",
@@ -100,15 +109,6 @@
                     "timer": 0.0
                 }
             ]
-        },
-        {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "Pigeon_SpriteSheet_Fly 4",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
         }
     ]
 }

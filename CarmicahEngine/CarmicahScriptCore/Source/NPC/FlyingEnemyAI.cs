@@ -71,7 +71,7 @@ namespace Carmicah
                 startPosRight = FindEntityWithName(SpawnPointEntityRight).Position;
 
             // InitWaypoints();
-            SetInitialPosition();
+            //SetInitialPosition(); this is being done in game manager.cs
 
             //Sound.PlaySFX("Portal_Spawn", 0.3f);
 
@@ -99,17 +99,21 @@ namespace Carmicah
                     Position = startPosLeft;
                     lane = 0;
                     startPosition = Position;
-                    horizontalTarget = new Vector2(startPosLeft.x + 6.0f, Position.y);
-                    CMConsole.Log($"Target Position {horizontalTarget.x}, {horizontalTarget.y}");
+                    horizontalTarget = new Vector2(startPosLeft.x + 6.0f, startPosLeft.y);
+                    //CMConsole.Log($"Target Position {horizontalTarget.x}, {horizontalTarget.y}");
                     scale.x *= -1;
+
+                    CMConsole.Log($"scale {scale.x}, {scale.y}");
                     Scale = scale;
+                    CMConsole.Log($"actual scale {Scale.x}, {Scale.y}");
+
                     isLeft = true;
                     break;
                 case 1:
                     Position = startPosRight;
                     lane = 1;
                     startPosition = Position;
-                    horizontalTarget = new Vector2(Position.x - 6.0f, Position.y);
+                    horizontalTarget = new Vector2(startPosRight.x - 6.0f, startPosRight.y);
                     break;
             }
 
