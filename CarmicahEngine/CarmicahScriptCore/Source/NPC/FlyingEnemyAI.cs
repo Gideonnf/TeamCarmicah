@@ -231,6 +231,8 @@ namespace Carmicah
                 targetEntity = gm.GetTargetNPC(this);
                 currentStage = FlyingStage.DIAGONAL;
                 ChangeAnim(DiagonalAnim);
+
+                Rot = -60.0f;
             }
 
             if (stateName == "Dead")
@@ -290,7 +292,10 @@ namespace Carmicah
                 timer += dt;
                 if (GetComponent<Animation>().IsAnimFinished())
                 {
-                   // Sound.PlaySFX(DeathSound, 0.5f);
+                    GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                    if (gm != null)
+                        gm.EntityDestroyed(this);
+                    // Sound.PlaySFX(DeathSound, 0.5f);
                     Destroy();
                 }
                 //if (timer >= GetComponent<Animation>().GetMaxTime())
