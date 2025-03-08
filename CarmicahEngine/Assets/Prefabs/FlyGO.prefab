@@ -6,9 +6,9 @@
             "Component Name": "struct Carmicah::Transform",
             "xPos": 0.0,
             "yPos": 0.0,
-            "depth": 0.0,
-            "xScale": 1.0,
-            "yScale": 1.0,
+            "depth": 5.599999904632568,
+            "xScale": 0.4000000059604645,
+            "yScale": 0.4000000059604645,
             "rot": 0.0,
             "transformTag": "",
             "collisionMask": 1
@@ -26,6 +26,10 @@
                         {
                             "targetState": "Diving",
                             "condition": 1
+                        },
+                        {
+                            "targetState": "Dead",
+                            "condition": 2
                         }
                     ]
                 },
@@ -64,27 +68,25 @@
             "objectType": 1
         },
         {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "Pigeon_SpriteSheet_Fly 4",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
+            "Component Name": "struct Carmicah::Collider2D",
+            "shape": "",
+            "customWidth": 0.0,
+            "customRotation": 0.0,
+            "customHeight": 0.0
         },
         {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.FlyingEnemyAI",
             "ScriptableFieldMap": [
                 {
-                    "ChanceToDie": 0.11999999731779099,
                     "EndPointEntityLeft": "StartTopLeft_end",
-                    "DeathAnim": "Flying_Death",
-                    "HorizontalAnim": "Flying_Horizontal",
-                    "DeathSound": "flying_die",
+                    "ChanceToDie": 0.11999999731779099,
+                    "DeathAnim": "Pigeon_Death",
                     "horizontalSpeed": 1.0,
-                    "DiagonalAnim": "Flying_Diagonal",
+                    "DeathSound": "flying_die",
+                    "HorizontalAnim": "Pigeon_Fly",
                     "EndPointEntityRight": "StartTopRight_end",
+                    "DiagonalAnim": "Pigeon_Dive",
                     "InjuredSound": "flying_hurt",
                     "SpawnPointEntityLeft": "StartTopLeft",
                     "SpawnPointEntityRight": "StartTopRight",
@@ -98,6 +100,15 @@
                     "timer": 0.0
                 }
             ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Pigeon_SpriteSheet_Fly 4",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         }
     ]
 }

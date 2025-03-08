@@ -469,6 +469,7 @@
                             "ShooterNPC2": "ShooterNPC_1",
                             "HeroBuild3": "HeroBuild_3",
                             "MobCounter": 0.0,
+                            "FlyingEnemyPrefabName": "FlyGO",
                             "NumOfMobs": 18.0,
                             "HeroBuild": "HeroBuild",
                             "dropSpeed": 10.0,
@@ -498,7 +499,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.26902881264686587,
-                    "yPos": -10.533967971801758,
+                    "yPos": -9.776853561401368,
                     "depth": 1.2000000476837159,
                     "xScale": 1.2000000476837159,
                     "yScale": 1.2000000476837159,
@@ -509,7 +510,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "matcha_cake_SpriteSheet_Squish 0",
+                    "texture": "matcha_cake_SpriteSheet_Squish 3",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -635,7 +636,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -14.120736122131348,
-                    "yPos": 13.722321510314942,
+                    "yPos": 27.978673934936525,
                     "depth": 2.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -677,7 +678,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 15.443731307983399,
-                    "yPos": 13.68924617767334,
+                    "yPos": 27.13429832458496,
                     "depth": 2.049999952316284,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -1807,6 +1808,24 @@
             "Children": []
         },
         {
+            "GameObject": "StartTopLeft",
+            "ID": 44,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": -15.851566314697266,
+                    "yPos": 14.024999618530274,
+                    "depth": 0.0,
+                    "xScale": 0.0,
+                    "yScale": 0.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                }
+            ],
+            "Children": []
+        },
+        {
             "GameObject": "Bubble_1",
             "ID": 46,
             "Components": [
@@ -2158,6 +2177,24 @@
                     ]
                 }
             ]
+        },
+        {
+            "GameObject": "StartTopRight",
+            "ID": 56,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 17.846351623535158,
+                    "yPos": 14.024520874023438,
+                    "depth": 0.0,
+                    "xScale": 0.0,
+                    "yScale": 0.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                }
+            ],
+            "Children": []
         },
         {
             "GameObject": "WaveText",

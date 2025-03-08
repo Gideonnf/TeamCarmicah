@@ -23,10 +23,10 @@ namespace Carmicah
         public string SpawnPointEntityLeft = "StartTopLeft";
         public string SpawnPointEntityRight = "StartTopRight";
 
-        public string HorizontalAnim = "Flying_Horizontal";
+        public string HorizontalAnim = "Pigeon_Fly";
         public string StationaryAnim = "Flying_Stationary";
-        public string DiagonalAnim = "Flying_Diagonal";
-        public string DeathAnim = "Flying_Death";
+        public string DiagonalAnim = "Pigeon_Dive";
+        public string DeathAnim = "Pigeon_Death";
 
         public string DeathSound = "flying_die";
         public string InjuredSound = "flying_hurt";
@@ -35,13 +35,9 @@ namespace Carmicah
         // 3 stage, constanrt, at rest, suicide bomb
         public float horizontalSpeed = 1.0f;
         public float diagonalSpeed = 1.8f;  // Increased speed when gg down 45 degrees
-        public float stationaryTime = 3.0f;  // Time to stay station
-        public float stationaryTimer = 0.0f;
 
         public int lane;
         public EnemyTypes enemyType;
-        public float ChanceToDie = 0.12f;
-
 
         public FlyingStage currentStage = FlyingStage.HORIZONTAL;
 
@@ -81,11 +77,11 @@ namespace Carmicah
 
             ChangeAnim(HorizontalAnim);
 
-            GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
-            if (gm != null)
-            {
-                gm.activeEnemies++;
-            }
+            //GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+            //if (gm != null)
+            //{
+            //    gm.activeEnemies++;
+            //}
         }
 
         //this one idk is correct or not 
@@ -101,14 +97,17 @@ namespace Carmicah
             {
                 case 0:
                     Position = startPosLeft;
-                    lane = 1;
+                    lane = 0;
                     startPosition = Position;
-                    horizontalTarget = new Vector2(Position.x + 6.0f, Position.y);
+                    horizontalTarget = new Vector2(startPosLeft.x + 6.0f, Position.y);
+                    CMConsole.Log($"Target Position {horizontalTarget.x}, {horizontalTarget.y}");
+                    scale.x *= -1;
+                    Scale = scale;
                     isLeft = true;
                     break;
                 case 1:
                     Position = startPosRight;
-                    lane = 0;
+                    lane = 1;
                     startPosition = Position;
                     horizontalTarget = new Vector2(Position.x - 6.0f, Position.y);
                     break;
@@ -219,6 +218,8 @@ namespace Carmicah
 
         public void OnStateEnter(string stateName)
         {
+            CMConsole.Log($"Entering State {stateName}");
+
             if (stateName == "Diving")
             {
                 // get diving target
@@ -233,11 +234,11 @@ namespace Carmicah
                 timer = 0.0f;
                 //Sound.PlaySFX(InjuredSound, 0.5f);
 
-                GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
-                if (gm != null)
-                {
-                    gm.activeEnemies--;
-                }
+                //GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                //if (gm != null)
+                //{
+                //    gm.activeEnemies--;
+                //}
 
                 ChangeAnim(DeathAnim);
             }
@@ -248,7 +249,6 @@ namespace Carmicah
             Entity pauseManager = FindEntityWithName("PauseManager");
             Entity gameManager = FindEntityWithName("GameManager");
             //  CMConsole.Log($"game manager gameOver :{gameManager.As<GameManager>().GameOver}");
-
             if (pauseManager != null)
             {
                 if (pauseManager.As<PauseManager>().IsPaused)
@@ -287,7 +287,7 @@ namespace Carmicah
                 if (GetComponent<Animation>().IsAnimFinished())
                 {
                    // Sound.PlaySFX(DeathSound, 0.5f);
-                    Destroy();
+                   // Destroy();
                 }
                 //if (timer >= GetComponent<Animation>().GetMaxTime())
                 //{
