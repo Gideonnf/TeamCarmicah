@@ -34,15 +34,11 @@ namespace Carmicah
 			bool hasFriction;
 			bool hasGrav;
 		};
-		static vtxTexd2D mClearData[100];
 
+		// 0 is World, 1 is UI
 		std::vector<particle> mParticles[2];		// Actual Particle data
-		std::vector<vtxTexd2D> mParticlesData[2];	// Particle data according to graphics
-		size_t mParticlesBufferSize[2];				// TotalBufferSizeGenerated
 
-		const size_t mMaxParticles = 100;
-		const unsigned int mParticleBufferID = 1; //yes, hard-coded ik
-		const float mGrav = 5.4f;
+		const float mGrav = 9.8f;
 		const float mFriction = 0.99f;
 	public:
 		/*!*************************************************************************

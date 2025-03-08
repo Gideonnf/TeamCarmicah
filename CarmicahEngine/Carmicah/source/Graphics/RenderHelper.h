@@ -67,6 +67,7 @@ namespace Carmicah
 		std::map<BufferID, BatchBuffer> mBufferMap;//shder << 8 | primitive // use switch(num) case AssetManager::getShder(enConfig::Baisc)
 
 		std::map<unsigned int, BufferCPUSide> mFontData;
+		BufferCPUSide mParticleData[2];
 
 		// General
 
@@ -127,6 +128,14 @@ namespace Carmicah
 		***************************************************************************/
 		void AssignFont(const unsigned int& e);
 
+		/*!*************************************************************************
+		brief
+			Handles the Assignment and Checking of the correct size of the buffer allocated so far
+		param[e]
+			the entity id for the font game object
+		return
+			the buffer that the font uses
+		***************************************************************************/
 		void ReserveFontBuffer(BufferCPUSide& buff, const size_t& sz);
 
 		/*!*************************************************************************
