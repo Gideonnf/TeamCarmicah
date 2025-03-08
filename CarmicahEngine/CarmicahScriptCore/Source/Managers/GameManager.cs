@@ -32,6 +32,7 @@ namespace Carmicah
         public float spawnTimer = 0.5f;
         public string MousePrefabName = "MouseGONew";
         public string BearPrefabName = "BearGO";
+        public string FlyingEnemyPrefabName = "FlyingEnemyGO"; //fly enemy
         public string CakePrefabName = "StartingCake";
         public string PlayerName = "mainCharacter";
         public string PlayerHealthBar = "Healthbar";
@@ -290,6 +291,11 @@ namespace Carmicah
                 case EnemyTypes.BEAR:
                     {
 
+                        break;
+                    }
+                case EnemyTypes.FLYING:
+                    {
+                        CreateEnemy(FlyingEnemyPrefabName, type);
                         break;
                     }
                 default:

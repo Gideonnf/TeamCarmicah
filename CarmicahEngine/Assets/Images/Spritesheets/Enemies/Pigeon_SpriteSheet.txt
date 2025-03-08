@@ -1,0 +1,3 @@
+Fly
+Top left: 0 x 0, 321 x 321
+8 sprites
