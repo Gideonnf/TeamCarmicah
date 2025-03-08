@@ -47,6 +47,16 @@ namespace Carmicah
             return new Vector2(v1.x + v2.x, v1.y + v2.y);
         }
 
+        public static bool operator ==(Vector2 v1, Vector2 v2)
+        {
+            return v1.x == v2.x && v1.y == v2.y;
+        }
+
+        public static bool operator !=(Vector2 v1, Vector2 v2)
+        {
+            return !(v1 == v2);
+        }
+
         public Vector2 Normalize()
         {
             float magnitude = (float)Math.Sqrt(x * x + y * y);

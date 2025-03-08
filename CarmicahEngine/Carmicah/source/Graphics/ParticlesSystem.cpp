@@ -30,7 +30,7 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	ParticlesSystem::vtxTexd2D ParticlesSystem::mClearData[100]{};
+	vtxTexd2D ParticlesSystem::mClearData[100]{};
 
 	void ParticlesSystem::Init()
 	{
@@ -171,7 +171,7 @@ namespace Carmicah
 
 			if (i == 0)
 			{
-				RenderHelper::BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>("Square").uid, mCurrShader, true, mParticleBufferID);
+				BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>("Square").uid, mCurrShader, true, mParticleBufferID);
 				if (RenderHelper::GetInstance()->mBufferMap.find(bufferID) != RenderHelper::GetInstance()->mBufferMap.end())
 				{
 					BatchBuffer& bb = RenderHelper::GetInstance()->mBufferMap.find(bufferID)->second;
@@ -182,7 +182,7 @@ namespace Carmicah
 			}
 			else
 			{
-				RenderHelper::BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>("Square").uid, mCurrShader, false, mParticleBufferID);
+				BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>("Square").uid, mCurrShader, false, mParticleBufferID);
 				if (RenderHelper::GetInstance()->mBufferMap.find(bufferID) != RenderHelper::GetInstance()->mBufferMap.end())
 				{
 					BatchBuffer& bb = RenderHelper::GetInstance()->mBufferMap.find(bufferID)->second;
@@ -266,7 +266,7 @@ namespace Carmicah
 					GenBatch("Square", mParticleBufferID, true, false, true);
 					mParticlesBufferSize[i] += static_cast<size_t>(mBatchSize);
 				}
-				RenderHelper::BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>("Square").uid, mCurrShader, true, mParticleBufferID);
+				BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>("Square").uid, mCurrShader, true, mParticleBufferID);
 				if (RenderHelper::GetInstance()->mBufferMap.find(bufferID) != RenderHelper::GetInstance()->mBufferMap.end())
 				{
 					BatchBuffer& bb = RenderHelper::GetInstance()->mBufferMap.find(bufferID)->second;
@@ -284,7 +284,7 @@ namespace Carmicah
 					mParticlesBufferSize[i] += static_cast<size_t>(mBatchSize);
 				}
 
-				RenderHelper::BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>("Square").uid, mCurrShader, false, mParticleBufferID);
+				BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>("Square").uid, mCurrShader, false, mParticleBufferID);
 				if (RenderHelper::GetInstance()->mBufferMap.find(bufferID) != RenderHelper::GetInstance()->mBufferMap.end())
 				{
 					BatchBuffer& bb = RenderHelper::GetInstance()->mBufferMap.find(bufferID)->second;

@@ -14,14 +14,15 @@ namespace Carmicah
         public override void OnCreate()
         {
             base.OnCreate();
+            npcType = AbilityType.SHOOTER;
 
         }
 
         public override void OnUpdate(float dt)
         {
-            if (Input.IsKeyPressed(Keys.KEY_L))
+            if(pauseManager.IsPaused)
             {
-                GetTarget();
+                return;
             }
         }
 
@@ -36,11 +37,19 @@ namespace Carmicah
                     // CMConsole.Log($"Projectile Position: {projectile.Position.x}, {projectile.Position.y}");
 
                     Projectile bullet = projectile.As<Projectile>();
-
+                    bullet.As<Projectile>().bulletType = BulletType.SHOOTER_BULLET;
                     Sound.PlaySFX(shootSound);
+                    if (bullet != null)
+                    {
+                        bullet.targetMouse = targetMouse;
+
+                        bullet.SetUp(targetMouse);
+                    }
 
                     if (mana > 0)
-                        mana--;
+                    {
+                        mana--; 
+                    }
                 }
             }
         }
@@ -119,7 +128,7 @@ namespace Carmicah
             }
         }
 
-        public void OnStateEnter(string stateName)
+        public override void OnStateEnter(string stateName)
         {
             if (stateName == "Idle")
             {
@@ -141,12 +150,17 @@ namespace Carmicah
                 ChangeAnim(manaAnim);
                 CMConsole.Log("Out of Ammo!");
             }
+            else if (stateName == "Dead")
+            {
+                ChangeAnim(dissolveAnim);
+                CMConsole.Log("NPC Dying");
+            }
 
 
             //CMConsole.Log($"Enter State Name: {stateName}");
         }
 
-        public void OnStateUpdate(string stateName, float dt)
+        public override void OnStateUpdate(string stateName, float dt)
         {
             if (active == false) return;
 
@@ -222,33 +236,36 @@ namespace Carmicah
                     player.HealAI(mID);
                 }
             }
+            else if(stateName == "Dead")
+            {
+                if (GetComponent<Animation>().IsAnimFinished())
+                {
+                    Destroy();
+                }
+            }
 
         }
 
-        public void OnStateExit(string stateName)
+        public override void OnStateExit(string stateName)
         {
             //CMConsole.Log("TESTING Exit State");
             //CMConsole.Log($"Exit State Name: {stateName}");
 
         }
 
-
-        public void OnMouseEnter()
+        public override void OnMouseEnter()
         {
-            //CMConsole.Log("Hovering!");
-            hovering = true;
+            base.OnMouseEnter();
         }
 
-        public void OnMouseHover()
+        public override void OnMouseHover()
         {
-            //CMConsole.Log("Hovering!");
-            hovering = true;
+            base.OnMouseHover();
         }
 
-        public void OnMouseExit()
+        public override void OnMouseExit()
         {
-            hovering = false;
+            base.OnMouseExit();
         }
-
     }
 }

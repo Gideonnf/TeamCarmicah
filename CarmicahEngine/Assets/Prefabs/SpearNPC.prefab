@@ -1,0 +1,133 @@
+{
+    "GameObject": "SpearNPC",
+    "ID": 54,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Transform",
+            "xPos": -10.845258712768555,
+            "yPos": -1.354583501815796,
+            "depth": 3.75,
+            "xScale": -0.44999998807907107,
+            "yScale": 0.44999998807907107,
+            "rot": 0.0,
+            "transformTag": "",
+            "collisionMask": 0
+        },
+        {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Shooter_Idle",
+            "AnimSpeed": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::StateMachine",
+            "currState": "",
+            "nextState": "",
+            "startingState": "Idle",
+            "stateMap": [
+                {
+                    "stateName": "Attacking",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Idle",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Attacking",
+                            "condition": 2
+                        },
+                        {
+                            "targetState": "NoMana",
+                            "condition": 3
+                        },
+                        {
+                            "targetState": "Dead",
+                            "condition": 4
+                        }
+                    ]
+                },
+                {
+                    "stateName": "NoMana",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
+                        },
+                        {
+                            "targetState": "Dead",
+                            "condition": 4
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Dead",
+                    "stateCondition": 0,
+                    "transitions": []
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Collider2D",
+            "shape": "",
+            "customWidth": 1.0,
+            "customRotation": 0.0,
+            "customHeight": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::RigidBody",
+            "velocityX": 0.0,
+            "velocityY": 0.0,
+            "angularVelocity": 0.0,
+            "posPrevX": 0.0,
+            "posPrevY": 0.0,
+            "mass": 1.0,
+            "gravity": 0.0,
+            "zposPrev": -107374176.0,
+            "objectType": 0
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Spear_SpriteSheet_Spear_Idle 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.SpearNPC",
+            "ScriptableFieldMap": [
+                {
+                    "IsLeft": false,
+                    "active": false,
+                    "deathSound": "Shooter_Death",
+                    "animationTime": 0.0,
+                    "hovering": false,
+                    "manaAnim": "Spear_Mana",
+                    "dissolveAnim": "Dissolve",
+                    "hasAmmo": true,
+                    "idleAnim": "Spear_Idle",
+                    "isShooting": false,
+                    "lane": 0,
+                    "mana": 3,
+                    "maxMana": 3,
+                    "placeSound": "Shooter_Appear",
+                    "projectilePrefab": "SpearBullet",
+                    "shot": false,
+                    "shootAnim": "Spear_Throw",
+                    "shootRate": 1.0,
+                    "shootSound": "Shooter_Shooting",
+                    "shootTime": 1.0
+                }
+            ]
+        }
+    ]
+}

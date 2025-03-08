@@ -43,7 +43,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 2.5,
-                    "yPos": -2.5999999046325685,
+                    "yPos": -5.96,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
@@ -100,7 +100,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 5.8420000076293949,
-                    "yPos": -1.11899995803833,
+                    "yPos": -4.5899995803833,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
@@ -161,7 +161,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -2.0999999046325685,
-                    "yPos": -2.8499999046325685,
+                    "yPos": -6.245,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
@@ -222,7 +222,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -5.48199987411499,
-                    "yPos": -0.7839999794960022,
+                    "yPos": -4.6639999794960022,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,

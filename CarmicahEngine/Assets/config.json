@@ -4,7 +4,6 @@
     "Default Scene": "Scene1",
     "Default Shader": "basic",
     "Debug Shader": "debug",
-    "Font Shader": "font",
     "Font Size": 72,
     "Asset Loc": "../Assets",
     "Image Min Depth": 100.0,
@@ -19,7 +18,7 @@
         },
         {
             "Layer Index": 1,
-            "Layer Mask": 4294967231
+            "Layer Mask": 4294967199
         },
         {
             "Layer Index": 2,

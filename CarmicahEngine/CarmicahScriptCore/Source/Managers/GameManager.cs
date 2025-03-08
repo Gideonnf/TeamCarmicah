@@ -20,6 +20,7 @@ using Carmicah;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -79,6 +80,8 @@ namespace Carmicah
 
         Entity[] heroBuildEntities = new Entity[4];
 
+        Entity[] laneIndicators = new Entity[4];
+
         Entity[] walls = new Entity[4];
 
         int cakeCounter = 1;
@@ -87,13 +90,20 @@ namespace Carmicah
         public float yTargetPos;
         public float yVFXSpawn;
         public float yVFXLocation = 1.5f;
-
+        public float cameraHeight = 10.0f;
+        int cakeType = 0; // 0 - 3
         Entity towerPrefab;
         Entity VFXPrefab;
         Entity waveSystem;
+        Entity mainCamera;
+
+        public string[] CakeFallAnimations = new string[4];
+        public string[] CakeSquishAnimations = new string[4];
+
 
         void OnCreate()
         {
+            mainCamera = FindEntityWithName("MainCamera");
             mobCounter = new Wave();
             mouseLaneOne = new List<MouseAI>();
             mouseLaneTwo = new List<MouseAI>();
@@ -110,10 +120,15 @@ namespace Carmicah
             playerEntity = FindEntityWithName(PlayerName);
             playerHealth = FindEntityWithName(PlayerHealthBar);
             playerHealthCover = FindEntityWithName("Healthbar_Cover");
-            heroBuildEntities[0] = FindEntityWithName(HeroBuild);
-            heroBuildEntities[1] = FindEntityWithName(HeroBuild1);
+            heroBuildEntities[0] = FindEntityWithName(HeroBuild1);
+            heroBuildEntities[1] = FindEntityWithName(HeroBuild3);
             heroBuildEntities[2] = FindEntityWithName(HeroBuild2);
-            heroBuildEntities[3] = FindEntityWithName(HeroBuild3);
+            heroBuildEntities[3] = FindEntityWithName(HeroBuild);
+
+            laneIndicators[0] = FindEntityWithName("Bubble_1");
+            laneIndicators[1] = FindEntityWithName("Bubble");
+            laneIndicators[2] = FindEntityWithName("Bubble_2");
+            laneIndicators[3] = FindEntityWithName("Bubble_3");
 
             walls[0] = FindEntityWithName("Wall");
             walls[1] = FindEntityWithName("Wall_1");
@@ -125,6 +140,16 @@ namespace Carmicah
             topTowerBoxes[2] = FindEntityWithName("TopTowerBox_2");
 
             waveSystem = FindEntityWithName(WaveSystemObject);
+
+            CakeFallAnimations[0] = "CakeStrawberry_Fall";
+            CakeFallAnimations[1] = "CakeRainbow_Fall";
+            CakeFallAnimations[2] = "CakeMatcha_Fall";
+            CakeFallAnimations[3] = "CakeFruit_Fall";
+
+            CakeSquishAnimations[0] = "CakeStrawberry_Squish";
+            CakeSquishAnimations[1] = "CakeRainbow_Squish";
+            CakeSquishAnimations[2] = "CakeMatcha_Squish";
+            CakeSquishAnimations[3] = "CakeFruit_Squish";
 
             Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
         }
@@ -201,6 +226,8 @@ namespace Carmicah
             {
                 GetComponent<StateMachine>().SetStateCondition(2);
             }
+
+            CheckLaneIndicators();
         }
 
         public void StartNextWave(Wave level)
@@ -223,9 +250,9 @@ namespace Carmicah
 
             mouseAI.SetInitialPosition(); // Reset initial position
             mouseEntity.As<MouseAI>().enemyType = type;
-            
-            //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
 
+            //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
+            CMConsole.Log($"Lane : {mouseAI.lane}");
             switch (mouseAI.lane)
             {
                 case 0:
@@ -271,21 +298,7 @@ namespace Carmicah
                         break;
                     }
             }
-
         }
-
-        //public bool IsLanesEmpty()
-        //{
-        //   if (MobCounter == 0 && BearCounter == 0)
-        //    {
-        //        if (mouseLaneOne.Count() == 0 && mouseLaneTwo.Count() == 0 && mouseLaneThree.Count() == 0 && mouseLaneFour.Count() == 0)
-        //        {
-        //            return true;
-        //        }
-        //    }
-
-        //    return false;
-        //}
 
         public void EntityDestroyed(MouseAI entity)
         {
@@ -524,20 +537,17 @@ namespace Carmicah
             }
         }
 
-        public void SavePositions()
+        public void KillNPC(MouseAI mouse)
         {
-            //foreach (Entity npc in npcList)
-            //{
-            //    if (npc.mID == 0) continue;
-
-            //    CMConsole.Log("Adding to npcList");
-            //    npcSavedPos.Add(npc.Position);
-            //}
-
-            //playerPos = playerEntity.Position;
+            // if the mouse's lane has an NPC in it when it dies at the top
+            // kil the npc
+            // NOTE: I dont know if checking for mID == 0 in the list of hero npcs is enough to delete from here
+            // if it crashes, check that
+            if (heroBuildEntities[mouse.lane].As<HeroBuild>().heroEntity != null && heroBuildEntities[mouse.lane].As<HeroBuild>().heroEntity.mID != 0)
+            {
+                heroBuildEntities[mouse.lane].As<HeroBuild>().KillNPC();
+            }
         }
-
-        
 
         public void HideEntities()
         {
@@ -562,6 +572,151 @@ namespace Carmicah
             CreateGameObject("LoseScreen");
         }
 
+
+        public void CheckLaneIndicators()
+        {
+            bool visible = false;
+            if (mouseLaneOne.Count > 0)
+            {
+                foreach (MouseAI mouse in mouseLaneOne) // left lane of right side
+                {
+                    // if it is belo the camera
+                    if (mouse.Position.y < (mainCamera.Position.y - cameraHeight))
+                    {
+                        visible = false;
+                    }
+                    else if (mouse.Position.y > (mainCamera.Position.y - cameraHeight))
+                    {
+                        visible = true;
+                        // CMConsole.Log($"Visible Lane 1 {visible}");
+                        break;
+                    }
+                }
+                if (!visible)
+                {
+                    laneIndicators[0].GetComponent<Renderer>().SetAlpha(1.0f);
+                    laneIndicators[0].GetComponentInChildren<Renderer>().SetAlpha(1.0f);
+                }
+                else
+                {
+                    laneIndicators[0].GetComponent<Renderer>().SetAlpha(0.0f);
+                    laneIndicators[0].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+                }
+            }
+            else
+            {
+                laneIndicators[0].GetComponent<Renderer>().SetAlpha(0.0f);
+                laneIndicators[0].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+            }
+
+            // reset visible flag
+            visible = false;
+            if (mouseLaneTwo.Count > 0)
+            {
+                foreach (MouseAI mouse in mouseLaneTwo) // right lane of right side
+                {
+                    if (mouse.Position.y < (mainCamera.Position.y - cameraHeight))
+                    {
+                        visible = false;
+                    }
+                    else if (mouse.Position.y > (mainCamera.Position.y - cameraHeight))
+                    {
+                        visible = true;
+                        //CMConsole.Log($"Visible Lane 2 {visible}");
+                        break;
+                    }
+                }
+
+                if (!visible)
+                {
+                    laneIndicators[1].GetComponent<Renderer>().SetAlpha(1.0f);
+                    laneIndicators[1].GetComponentInChildren<Renderer>().SetAlpha(1.0f);
+                }
+                else
+                {
+                    laneIndicators[1].GetComponent<Renderer>().SetAlpha(0.0f);
+                    laneIndicators[1].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+                }
+            }
+            else
+            {
+                laneIndicators[1].GetComponent<Renderer>().SetAlpha(0.0f);
+                laneIndicators[1].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+            }
+
+            visible = false;
+            if (mouseLaneThree.Count > 0)
+            {
+                foreach (MouseAI mouse in mouseLaneThree) //right lane of left side
+                {
+                    if (mouse.Position.y < (mainCamera.Position.y - cameraHeight))
+                    {
+                        visible = false;
+                    }
+                    else if (mouse.Position.y > (mainCamera.Position.y - cameraHeight))
+                    {
+                        visible = true;
+                        //CMConsole.Log($"Visible Lane 3 {visible}");
+                        break;
+                    }
+                }
+
+
+                if (!visible)
+                {
+                    laneIndicators[2].GetComponent<Renderer>().SetAlpha(1.0f);
+                    laneIndicators[2].GetComponentInChildren<Renderer>().SetAlpha(1.0f);
+                }
+                else
+                {
+                    laneIndicators[2].GetComponent<Renderer>().SetAlpha(0.0f);
+                    laneIndicators[2].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+                }
+
+            }
+            else
+            {
+                laneIndicators[2].GetComponent<Renderer>().SetAlpha(0.0f);
+                laneIndicators[2].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+            }
+
+            visible = false;
+            if (mouseLaneFour.Count > 0)
+            {
+                foreach (MouseAI mouse in mouseLaneFour) // left side of left side
+                {
+                    if (mouse.Position.y < (mainCamera.Position.y - cameraHeight))
+                    {
+                        visible = false;
+                    }
+                    else if (mouse.Position.y > (mainCamera.Position.y - cameraHeight))
+                    {
+                        visible = true;
+                        //CMConsole.Log($"Visible Lane 4 {visible}");
+                        break;
+                    }
+                }
+
+                if (!visible)
+                {
+                    laneIndicators[3].GetComponent<Renderer>().SetAlpha(1.0f);
+                    laneIndicators[3].GetComponentInChildren<Renderer>().SetAlpha(1.0f);
+                }
+                else
+                {
+                    laneIndicators[3].GetComponent<Renderer>().SetAlpha(0.0f);
+                    laneIndicators[3].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+                }
+            }
+            else
+            {
+                laneIndicators[3].GetComponent<Renderer>().SetAlpha(0.0f);
+                laneIndicators[3].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+            }
+
+
+        }
+
         public void OnStateEnter(string stateName)
         {
             if (stateName == "TowerIdle")
@@ -574,8 +729,12 @@ namespace Carmicah
 
                 if (cakeCounter >= 2) return;
 
+                cakeType = CMRand.Range(0, 3);
+                CMConsole.Log($"cake type {cakeType}");
                 towerPrefab = CreateGameObject(CakePrefabName);
                 towerPrefab.Position = new Vector2(Position.x, ySpawnPos);
+
+                towerPrefab.GetComponent<Animation>().ChangeAnim(CakeFallAnimations[cakeType]);
 
                 towerPrefab.Depth = startingCakeEntity.Depth;
                 towerPrefab.Depth = towerPrefab.Depth + (0.1f * cakeCounter);
@@ -584,7 +743,7 @@ namespace Carmicah
                 // {
                 //Entity gm = FindEntityWithName("GameManager");
 
-                SavePositions();
+                //SavePositions();
                 HideEntities();
 
                 // }
@@ -595,15 +754,10 @@ namespace Carmicah
             else if (stateName == "TowerLand")
             {
                 // gm = FindEntityWithName("GameManager");
-                UpdatePositions();
-                ySpawnPos += CakeHeightOffset;
-                yTargetPos += CakeHeightOffset;
-                yVFXLocation += CakeHeightOffset;
-                GetComponent<StateMachine>().SetStateCondition(1);
+               
 
             }
         }
-
         public void OnStateUpdate(string stateName, float dt)
         {
             //gameManager = FindEntityWithName("GameManager");
@@ -640,10 +794,24 @@ namespace Carmicah
                 }
                 else if (towerPrefab.Position.y <= yTargetPos)
                 {
+                    towerPrefab.GetComponent<Animation>().ChangeAnim(CakeSquishAnimations[cakeType]);
                     // tower landed
                     towerPrefab.Position = new Vector2(towerPrefab.Position.x, yTargetPos);
                     GetComponent<StateMachine>().SetStateCondition(4);
                     VFXPrefab.Destroy();
+                }
+                
+            }
+
+            if (stateName == "TowerLand")
+            {
+                if (towerPrefab.GetComponent<Animation>().IsAnimFinished())
+                {
+                    UpdatePositions();
+                    ySpawnPos += CakeHeightOffset;
+                    yTargetPos += CakeHeightOffset;
+                    yVFXLocation += CakeHeightOffset;
+                    GetComponent<StateMachine>().SetStateCondition(1);
                 }
             }
         }

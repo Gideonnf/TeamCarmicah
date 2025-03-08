@@ -28,6 +28,7 @@ DigiPen Institute of Technology is prohibited.
 #include "../Input/InputSystem.h"
 #include "../Systems/SoundSystem.h"
 #include "../ECS/SystemManager.h"
+#include "../Systems/CollisionSystem.h"
 #include "../Systems/SceneSystem.h"
 #include "../Editor/SceneWindow.h"
 #include "../FSM/FSMSystem.h"
@@ -168,6 +169,28 @@ namespace Carmicah
 		return 0;
 	}
 
+	/// <summary>
+	/// Returns the first child 
+	/// </summary>
+	/// <param name="entityID"></param>
+	/// <returns></returns>
+	static unsigned int Entity_GetChild(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Transform>())
+		{
+			if (go.GetComponent<Transform>().children.size() > 0)
+				return go.GetComponent<Transform>().children[0];
+		}
+		else if (go.HasComponent<UITransform>())
+		{
+			if (go.GetComponent<UITransform>().children.size() > 0)
+				return go.GetComponent<UITransform>().children[0];
+		}
+
+		return 0;
+	}
+
 	/// <summary>SS
 	/// Internal function call to play sound effects between C# and C++
 	/// </summary>
@@ -279,6 +302,26 @@ namespace Carmicah
 			CM_CORE_ERROR("Entity does not have rigidBody");
 		}
 
+	}
+
+	static void RigidBody_Move(unsigned int entityID, Vec2f pos)
+	{
+		// ideally this should be in rigidbody system or smth but idk idc now
+
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		auto colSys = SystemManager::GetInstance()->GetSystem<CollisionSystem>();
+
+		// move it to it's new pos
+		//Vec2f oldPos = go.GetComponent<Transform>().Pos();
+		////CM_CORE_INFO("Old pos {},{}", oldPos.x, oldPos.y);
+		//go.GetComponent<Transform>().Pos(pos);
+		//CM_CORE_INFO("Old pos {},{}", go.GetComponent<Transform>().Pos().x, go.GetComponent<Transform>().Pos().y);
+
+		// if its not colliding with something then set the position
+		if (!colSys->CollisionCheck(entityID, pos))
+		{
+			go.GetComponent<Transform>().Pos(go.GetComponent<Transform>().Pos() + pos);
+		}
 	}
 
 	static void RigidBody_StopForces(unsigned int entityID)
@@ -838,6 +881,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Entity_HasComponent);
 		ADD_INTERNAL_CALL(Entity_FindEntityWithName);
 		ADD_INTERNAL_CALL(Entity_FindEntitiesWithTag);
+		ADD_INTERNAL_CALL(Entity_GetChild);
 		ADD_INTERNAL_CALL(Entity_GetParent);
 		ADD_INTERNAL_CALL(Entity_FindEntityWithID);
 		ADD_INTERNAL_CALL(Destroy);
@@ -850,6 +894,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);
 		ADD_INTERNAL_CALL(RigidBody_ApplyForceWithTime);
 		ADD_INTERNAL_CALL(RigidBody_StopForces);
+		ADD_INTERNAL_CALL(RigidBody_Move);
 
 		// renderer functions
 		ADD_INTERNAL_CALL(SetAlpha);

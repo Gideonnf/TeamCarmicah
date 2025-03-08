@@ -223,7 +223,7 @@ namespace Carmicah
 
             else if (stateName == "Walking")
             {
-                Vector2 position = Position;
+                Vector2 position = Vector2.Zero;
                 if (Input.IsKeyHold(Keys.KEY_W))
                 {
                     PlaySoundEffect("walk2");
@@ -286,7 +286,9 @@ namespace Carmicah
                     GetComponent<StateMachine>().SetStateCondition(1);
                 }
 
-                Position = position;
+                //if (position != Position)
+                    GetComponent<RigidBody>().Move(position);
+                //Position = position;
             }
             else if (stateName == "Heal")
             {
@@ -294,7 +296,7 @@ namespace Carmicah
                 if(timer > healAnimTime)
                 {
                     CMConsole.Log("Healing Target!");
-                    healTarget.As<HeroAI>().HealAmmo();
+                    healTarget.As<BaseNPC>().HealAmmo();
                     GetComponent<StateMachine>().SetStateCondition(1);
                 }
             }

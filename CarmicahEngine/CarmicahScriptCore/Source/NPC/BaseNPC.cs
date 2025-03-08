@@ -19,15 +19,19 @@ namespace Carmicah
         public string idleAnim = "Shooter_Idle";
         public string shootAnim = "Shooter_Shoot";
         public string manaAnim = "Shooter_Idle";
+        public string dissolveAnim = "Dissolve";
+        public string placeSound = "Shooter_Appear";
         public string shootSound = "Shooter_Shooting";
         public string deathSound = "Shooter_Death";
-        public int npcType = 0;
+        public AbilityType npcType = 0;
         public float shootRate = 1.0f;
         public float shootTime = 1.0f;
         public string projectilePrefab = "Bullet";
         public bool active = false;
         public bool IsLeft = false;
         public int mana = 5;
+        public int maxMana = 5;
+        
         public int lane;
 
         public GameManager gameManager;
@@ -53,10 +57,46 @@ namespace Carmicah
         {
 
         }
+        public void HealAmmo()
+        {
+            mana = maxMana;
+            GetComponent<StateMachine>().SetStateCondition(1);
+        }
+
+        public void KillHero()
+        {
+            GetComponent<StateMachine>().SetStateCondition(4);
+        }
 
         public virtual void GetTarget()
         {
 
+        }
+
+        public virtual void OnStateEnter()
+        {
+
+        }
+        public virtual void OnStateUpdate()
+        {
+
+        }
+
+        public override void OnMouseEnter()
+        {
+            //CMConsole.Log("Hovering!");
+            hovering = true;
+        }
+
+        public override void OnMouseHover()
+        {
+            //CMConsole.Log("Hovering!");
+            hovering = true;
+        }
+
+        public override void OnMouseExit()
+        {
+            hovering = false;
         }
     }
 }

@@ -113,26 +113,44 @@ namespace Carmicah
                     clickAnim       = "Button_C_Back";
                     break;
                 case "settings":
-                    createList[0]   = "Settings_Menu";
-                    createList[1]   = "Close_Button";
+                    createList.Add(0, "Settings_Menu");
+                    createList.Add(1, "Close_Button");
 
                     Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
 
-                    hoverEnterAnim = "Button_HS_Settings";
+                    hoverEnterAnim  = "Button_HS_Settings";
                     hoverExitAnim   = "Button_HE_Settings";
                     clickAnim       = "Button_C_Settings";
                     break;
                 case "backsettings":
-                    destroyList[0] = "Settings_Menu";
+                    destroyList.Add(0,"Settings_Menu");
                     willUnpause     = true;
                     willSelfDestruct = true;
 
-                    hoverEnterAnim = "Button_HS_Back";
+                    hoverEnterAnim  = "Button_HS_Back";
                     hoverExitAnim   = "Button_HE_Back";
                     clickAnim       = "Button_C_Back";
                     break;
+                case "howtonext":
+                    hoverEnterAnim  = "Button_HowToNext";
+                    hoverExitAnim   = "Button_HowToNext";
+                    clickAnim       = "Button_HowToNext";
+                    break;
+                case "howtoback":
+                    hoverEnterAnim  = "Button_HowToBack";
+                    hoverExitAnim   = "Button_HowToBack";
+                    clickAnim       = "Button_HowToBack";
+                    break;
+                case "howtoplay":
+                    createList.Add(0, "HowToBG");
+                    createList.Add(1, "HowToStep0");
+
+                    hoverEnterAnim = "Button_HS_HowTo";
+                    hoverExitAnim = "Button_HE_HowTo";
+                    clickAnim = "Button_C_HowTo";
+                    break;
                 case "nextlevel":
-                    destroyList[0] = "Win_Screen";
+                    destroyList.Add(0, "Win_Screen");
 
                     hoverEnterAnim = "Button_HS_Next";
                     hoverExitAnim = "Button_HE_Next";
@@ -143,6 +161,8 @@ namespace Carmicah
                     hoverEnterAnim  = "Button_HS_HowTo";
                     hoverExitAnim   = "Button_HE_HowTo";
                     clickAnim       = "Button_C_HowTo";
+                    break;
+                    /*
 
                     hoverEnterAnim  = "Button_HS_Menu";
                     hoverExitAnim   = "Button_HE_Menu";
@@ -164,7 +184,7 @@ namespace Carmicah
                 sceneChangerTimer -= dt;
                 if(sceneChangerTimer < 0)
                 {
-                    sceneChangerTimer = 0;
+                    sceneChangerTimer = -1f;
                     if(nextScene == "quit")
                     {
                         Scene.CloseGame();
@@ -175,7 +195,7 @@ namespace Carmicah
                     }
                 }
             }
-            if (createListCreated && FindEntityWithName(createList[0]) == null)
+            if (createListCreated && createList.Count > 0 && FindEntityWithName(createList[0]) == null)
             {
                 createListCreated = false;
             }
@@ -227,6 +247,18 @@ namespace Carmicah
                 }
                 createListCreated = true;
             }
+            // Specific other behaviours ig
+            switch(buttonType)
+            {
+                case "howtonext":
+                    FindEntityWithName("HowToBG").As<HowToPlay>().ProgressScene(1);
+                    break;
+                case "howtoback":
+                    FindEntityWithName("HowToBG").As<HowToPlay>().ProgressScene(-1);
+                    break;
+
+            }
+            // Destroy self always last
             if (willSelfDestruct)
             {
                 Destroy();

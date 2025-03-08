@@ -73,6 +73,7 @@
     <Compile Include="Source\Abilities\HeroBuild.cs" />
     <Compile Include="Source\NPC\MageNPC.cs" />
     <Compile Include="Source\NPC\ShooterNPC.cs" />
+    <Compile Include="Source\NPC\SpearNPC.cs" />
     <Compile Include="Source\System\CMRandom.cs" />
     <Compile Include="Source\Testing\BaseTest.cs" />
     <Compile Include="Source\NPC\HealthSystem.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Source\UI\Credits.cs" />
     <Compile Include="Source\UI\Cutscene.cs" />
     <Compile Include="Source\Abilities\HeroIcon.cs" />
+    <Compile Include="Source\UI\HowToPlay.cs" />
     <Compile Include="Source\UI\Intro.cs" />
     <Compile Include="Source\UI\LoadingBackground.cs" />
     <Compile Include="Source\UI\LoadingDots.cs" />

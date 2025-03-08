@@ -52,7 +52,7 @@ namespace Carmicah
 				rend.Texture(a.anim[animation.currPiece].second);
 				animation.time = 0.f;
 				animation.maxTime = a.anim[animation.currPiece].first;
-				if (a.numLoops == 0)
+				if (a.numLoops <= 0)
 					animation.animState = Animation::ANIM_CODE::INF_LOOP;
 				else
 				{

@@ -2,6 +2,11 @@
     "Scene": "DefaultScene",
     "SceneObjects": [
         {
+            "GameObject": "",
+            "ID": 0,
+            "Components": []
+        },
+        {
             "GameObject": "MainCamera",
             "ID": 1,
             "Components": [
@@ -15,37 +20,6 @@
                     "rot": 0.0,
                     "transformTag": "",
                     "collisionMask": 1
-                }
-            ],
-            "Children": []
-        },
-        {
-            "GameObject": "Anim",
-            "ID": 5,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.0,
-                    "yPos": 0.0,
-                    "depth": 0.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
-                    "rot": 0.0,
-                    "transformTag": "",
-                    "collisionMask": 1
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Wand",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
-                },
-                {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Mouse_Death_blue"
                 }
             ],
             "Children": []
@@ -69,6 +43,70 @@
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "bg",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "Anim_1",
+            "ID": 78,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": -11.103201866149903,
+                    "yPos": 0.40271174907684328,
+                    "depth": 0.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "CakeStrawberry_Squish",
+                    "AnimSpeed": 0.10000000149011612
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wand",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "Anim_2",
+            "ID": 79,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 11.923134803771973,
+                    "yPos": 0.03661010041832924,
+                    "depth": 0.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "CakeStrawberry_Fall",
+                    "AnimSpeed": 284.25
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "strawberry_cake_SpriteSheet_Fall 2",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,

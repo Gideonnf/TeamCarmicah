@@ -624,33 +624,33 @@ namespace Carmicah
 				
 
 				// Change the current transform parent ID
-				if (go.HasComponent<Transform>())
-				{
-					// Change the parent
-					go.GetComponent<Transform>().SetParent(newParentID, parentLevel);
-				}
-				else if (go.HasComponent<UITransform>())
-				{
-					// Change the parent
-					go.GetComponent<UITransform>().SetParent(newParentID, parentLevel);
-				}
+				//if (go.HasComponent<Transform>())
+				//{
+				//	// Change the parent
+				//	go.GetComponent<Transform>().SetParent(newParentID, parentLevel);
+				//}
+				//else if (go.HasComponent<UITransform>())
+				//{
+				//	// Change the parent
+				//	go.GetComponent<UITransform>().SetParent(newParentID, parentLevel);
+				//}
 
-				if (ComponentManager::GetInstance()->HasComponent<Transform>(newParentID))
-				{
-					// Get the transform
-					Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(newParentID);
-					// Add to the child list
-					parentTransform.children.push_back(entityID);
+				//if (ComponentManager::GetInstance()->HasComponent<Transform>(newParentID))
+				//{
+				//	// Get the transform
+				//	Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(newParentID);
+				//	// Add to the child list
+				//	parentTransform.children.push_back(entityID);
 
-					//CM_CORE_INFO("Parenting entity: " + std::to_string(entityID) + " to " + std::to_string(newParentID));
-				}
-				else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
-				{
-					// Get the transform
-					UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(newParentID);
-					// Add to the child list
-					parentTransform.children.push_back(entityID);
-				}
+				//	//CM_CORE_INFO("Parenting entity: " + std::to_string(entityID) + " to " + std::to_string(newParentID));
+				//}
+				//else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
+				//{
+				//	// Get the transform
+				//	UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(newParentID);
+				//	// Add to the child list
+				//	parentTransform.children.push_back(entityID);
+				//}
 			}
 		}
 	}
@@ -848,6 +848,12 @@ namespace Carmicah
 			AttachComponents(newObj, std::make_pair(componentName, componentData));
 		}
 
+
+		if (entityID == 20 || entityID == 21)
+		{
+			CM_CORE_INFO("TESTING IF ITS HERE");
+			CM_CORE_INFO("ballon position {}, {}", newObj.GetComponent<Transform>().Pos().x, newObj.GetComponent<Transform>().Pos().y);
+		}
 		unsigned int parentChildLevel{};
 		if (parentID != 0)
 		{
