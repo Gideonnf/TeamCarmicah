@@ -2191,6 +2191,16 @@
                     ]
                 }
             ]
+        },
+        {
+            "GameObject": "",
+            "ID": 0,
+            "Components": []
+        },
+        {
+            "GameObject": "",
+            "ID": 0,
+            "Components": []
         }
     ]
 }
