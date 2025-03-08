@@ -22,6 +22,12 @@ namespace Carmicah
         // Updated entity names for spawn and end points
         public string SpawnPointEntityLeft = "StartTopLeft";
         public string SpawnPointEntityRight = "StartTopRight";
+        public string EndPointEntityLeft = "StartTopLeft_end";
+        public string EndPointEntityRight = "StartTopRight_end";
+        public string SpawnPointEntityLeft2 = "StartTopLeft_1";
+        public string SpawnPointEntityRight2 = "StartTopRight_1";
+        public string EndPointEntityLeft2 = "StartTopLeft_end";
+        public string EndPointEntityRight2 = "StartTopRight_end";
 
         public string HorizontalAnim = "Flying_Horizontal";
         public string StationaryAnim = "Flying_Stationary";
@@ -56,14 +62,15 @@ namespace Carmicah
         public float timer = 0.0f;
         public bool isDead = false;
 
-        public bool isLeft = false;
-
         // Movement tracking - updated with new names
         Vector2 startPosLeft;
         Vector2 startPosRight;
-
-
-        Entity targetEntity;
+        Vector2 startPosLeft2;
+        Vector2 startPosRight2;
+        Entity endEntityLeft;
+        Entity endEntityRight;
+        Entity endEntityLeft2;
+        Entity endEntityRight2;
 
         int randLane = 0;
 
@@ -73,11 +80,20 @@ namespace Carmicah
                 startPosLeft = FindEntityWithName(SpawnPointEntityLeft).Position;
             if (FindEntityWithName(SpawnPointEntityRight) != null)
                 startPosRight = FindEntityWithName(SpawnPointEntityRight).Position;
+            if (FindEntityWithName(SpawnPointEntityLeft2) != null)
+                startPosLeft2 = FindEntityWithName(SpawnPointEntityLeft2).Position;
+            if (FindEntityWithName(SpawnPointEntityRight2) != null)
+                startPosRight2 = FindEntityWithName(SpawnPointEntityRight2).Position;
+
+            endEntityLeft = FindEntityWithName(EndPointEntityLeft);
+            endEntityRight = FindEntityWithName(EndPointEntityRight);
+            endEntityLeft2 = FindEntityWithName(EndPointEntityLeft2);
+            endEntityRight2 = FindEntityWithName(EndPointEntityRight2);
 
             // InitWaypoints();
             SetInitialPosition();
 
-            //Sound.PlaySFX("Portal_Spawn", 0.3f);
+            Sound.PlaySFX("Portal_Spawn", 0.3f);
 
             ChangeAnim(HorizontalAnim);
 
@@ -94,7 +110,7 @@ namespace Carmicah
             Vector2 scale = Scale;
 
             // Random lane selection (similar to MouseAI)
-            randLane = CMRand.Range(0, 1); // rand between 0 to 3
+            randLane = CMRand.Range(0, 3); // rand between 0 to 3
             lane = randLane;
 
             switch (randLane)
@@ -104,20 +120,64 @@ namespace Carmicah
                     lane = 1;
                     startPosition = Position;
                     horizontalTarget = new Vector2(Position.x + 6.0f, Position.y);
-                    isLeft = true;
                     break;
                 case 1:
+                    Position = startPosLeft2;
+                    lane = 3;
+                    startPosition = Position;
+                    horizontalTarget = new Vector2(Position.x + 6.0f, Position.y);
+                    scale.x *= -1;
+                    Scale = scale;
+                    break;
+                case 2:
                     Position = startPosRight;
                     lane = 0;
                     startPosition = Position;
                     horizontalTarget = new Vector2(Position.x - 6.0f, Position.y);
                     break;
+                case 3:
+                    Position = startPosRight2;
+                    lane = 2;
+                    startPosition = Position;
+                    horizontalTarget = new Vector2(Position.x - 6.0f, Position.y);
+                    scale.x *= -1;
+                    Scale = scale;
+                    break;
             }
 
             // Calculate the diagonal dive target (will be set when entering diagonal stage)
-            //CalculateDiveTarget();
+            CalculateDiveTarget();
         }
 
+        void CalculateDiveTarget()
+        {
+            // Calculate the 45-degree downward vector
+            Vector2 endPos = Vector2.Zero;
+
+            switch (randLane)
+            {
+                case 0:
+                    if (endEntityLeft != null)
+                        endPos = endEntityLeft.Position;
+                    break;
+                case 1:
+                    if (endEntityLeft2 != null)
+                        endPos = endEntityLeft2.Position;
+                    break;
+                case 2:
+                    if (endEntityRight != null)
+                        endPos = endEntityRight.Position;
+                    break;
+                case 3:
+                    if (endEntityRight2 != null)
+                        endPos = endEntityRight2.Position;
+                    break;
+            }
+
+            // Create a diagonal vector (45 degrees downward)
+            Vector2 direction = (endPos - horizontalTarget).Normalize();
+            diveTarget = endPos;
+        }
 
         void OnUpdate(float dt)
         {
@@ -130,19 +190,74 @@ namespace Carmicah
             }
         }
 
-        void UpdateMovement(float dt, Vector2 targetPos)
+        void UpdateMovement(float dt)
         {
-            Vector2 dir = (targetPos - Position).Normalize();
-            if (HasComponent<RigidBody>())
+            switch (currentStage)
             {
-                GetComponent<RigidBody>().ApplyForce(dir, horizontalSpeed);
-            }
+                case FlyingStage.HORIZONTAL:
 
-            float dist = Position.Distance(targetPos);
-            if (dist <= 0.5f)
-            {
-                // change to dead state
-                GetComponent<StateMachine>().SetStateCondition(2);
+                    Vector2 horizontalDir = (horizontalTarget - Position).Normalize();
+                    if (HasComponent<RigidBody>())
+                    {
+                        GetComponent<RigidBody>().ApplyForce(horizontalDir, horizontalSpeed * debuff);
+                    }
+
+                    Vector2 scale = Scale;
+                    if (horizontalDir.x < 0 && scale.x > 0)
+                    {
+                        scale.x = -Math.Abs(scale.x);
+                        Scale = scale;
+                    }
+                    else if (horizontalDir.x > 0 && scale.x < 0)
+                    {
+                        scale.x = Math.Abs(scale.x);
+                        Scale = scale;
+                    }
+
+                    float distToTarget = Position.Distance(horizontalTarget);
+                    if (distToTarget <= 0.3f)
+                    {
+                        currentStage = FlyingStage.STATIONARY;
+                        stationaryTimer = 0.0f;
+
+                        ChangeAnim(StationaryAnim);
+
+                        if (HasComponent<RigidBody>())
+                        {
+                            GetComponent<RigidBody>().StopForces();
+                        }
+                    }
+                    break;
+
+                case FlyingStage.STATIONARY:
+                    stationaryTimer += dt;
+                    if (stationaryTimer >= stationaryTime)
+                    {
+                        currentStage = FlyingStage.DIAGONAL;
+
+                        ChangeAnim(DiagonalAnim);
+                    }
+                    break;
+
+                case FlyingStage.DIAGONAL:
+                    Vector2 diagonalDir = (diveTarget - Position).Normalize();
+                    //45 degree
+                    if (HasComponent<RigidBody>())
+                    {
+                        GetComponent<RigidBody>().ApplyForce(diagonalDir, diagonalSpeed * debuff);
+                    }
+
+                    //check end pt
+                    float distToEnd = Position.Distance(diveTarget);
+                    if (distToEnd <= 0.3f)
+                    {
+                        Entity mainCharacter = FindEntityWithName("mainCharacter");
+                        mainCharacter.As<Player>().TakeDamage(10, enemyType);
+
+                        timer = 0.0f;
+                        GetComponent<StateMachine>().SetStateCondition(1);
+                    }
+                    break;
             }
         }
 
@@ -160,18 +275,18 @@ namespace Carmicah
                 {
                     if (!collidedEntity.As<TrapAI>().built) return;
 
-                    //this.AsChild<HealthSystem>().TakeDamage(100);
+                    this.AsChild<HealthSystem>().TakeDamage(100);
                 }
                 else if (collidedEntity.GetTag() == "Bullet")
                 {
-                  //  this.AsChild<HealthSystem>().TakeDamage(50);
+                    this.AsChild<HealthSystem>().TakeDamage(50);
                 }
             }
 
-            //if (this.AsChild<HealthSystem>().mCurHealth <= 0)
-            //{
-            //    GetComponent<StateMachine>().SetStateCondition(2);
-            //}
+            if (this.AsChild<HealthSystem>().mCurHealth <= 0)
+            {
+                GetComponent<StateMachine>().SetStateCondition(1);
+            }
         }
 
         public override void OnTriggerEnter(uint collidedEntity)
@@ -219,19 +334,10 @@ namespace Carmicah
 
         public void OnStateEnter(string stateName)
         {
-            if (stateName == "Diving")
-            {
-                // get diving target
-                GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
-                targetEntity = gm.GetTargetNPC(this);
-                currentStage = FlyingStage.DIAGONAL;
-
-            }
-
             if (stateName == "Dead")
             {
                 timer = 0.0f;
-                //Sound.PlaySFX(InjuredSound, 0.5f);
+                Sound.PlaySFX(InjuredSound, 0.5f);
 
                 GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                 if (gm != null)
@@ -246,7 +352,6 @@ namespace Carmicah
         public void OnStateUpdate(string stateName, float dt)
         {
             Entity pauseManager = FindEntityWithName("PauseManager");
-            Entity gameManager = FindEntityWithName("GameManager");
             //  CMConsole.Log($"game manager gameOver :{gameManager.As<GameManager>().GameOver}");
 
             if (pauseManager != null)
@@ -255,46 +360,28 @@ namespace Carmicah
                     return;
             }
 
-            if  (stateName == "Flying")
+            Entity gameManager = FindEntityWithName("GameManager");
+
+            // CMConsole.Log($"Update State Name: {stateName}");
+            if (stateName == "Running")
             {
                 if (gameManager.As<GameManager>().GameOver)
                 {
                     GetComponent<RigidBody>().StopForces();
                     return;
                 }
-                UpdateMovement(dt, horizontalTarget);
 
-                // reaching diving point
-                if (Position.Distance(horizontalTarget) < 0.5f)
-                {
-                    GetComponent<StateMachine>().SetStateCondition(1);
-                }
-            }
-            else if (stateName == "Diving")
-            {
-                if (gameManager.As<GameManager>().GameOver)
-                {
-                    GetComponent<RigidBody>().StopForces();
-                    return;
-                }
-                if (targetEntity == null) return;
-
-                UpdateMovement(dt, targetEntity.Position);
+                UpdateMovement(dt);
             }
             else if (stateName == "Dead")
             {
                 timer += dt;
-                if (GetComponent<Animation>().IsAnimFinished())
+                if (timer >= GetComponent<Animation>().GetMaxTime())
                 {
-                   // Sound.PlaySFX(DeathSound, 0.5f);
+                    Sound.PlaySFX(DeathSound, 0.5f);
+                    timer = 0.0f;
                     Destroy();
                 }
-                //if (timer >= GetComponent<Animation>().GetMaxTime())
-                //{
-                //    Sound.PlaySFX(DeathSound, 0.5f);
-                //    timer = 0.0f;
-                //    Destroy();
-                //}
             }
             //CMConsole.Log($"mouse retrieved : {targetMouse}");
         }

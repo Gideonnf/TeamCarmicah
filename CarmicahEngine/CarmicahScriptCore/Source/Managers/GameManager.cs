@@ -32,7 +32,7 @@ namespace Carmicah
         public float spawnTimer = 0.5f;
         public string MousePrefabName = "MouseGONew";
         public string BearPrefabName = "BearGO";
-        public string FlyingEnemyPrefabName = "FlyingEnemyGO"; //fly enemy
+        public string FlyingEnemyPrefabName = "FlyingGO"; //fly enemy
         public string CakePrefabName = "StartingCake";
         public string PlayerName = "mainCharacter";
         public string PlayerHealthBar = "Healthbar";
@@ -214,6 +214,11 @@ namespace Carmicah
 
                             break;
                         }
+                        case EnemyTypes.FLYING:
+                            {
+                                CreateEnemy(FlyingEnemyPrefabName, type);
+                                break;
+                            }
                         default:
                         {
                           //  CMConsole.Log("Shouldn't be here tbh");
@@ -295,7 +300,7 @@ namespace Carmicah
                     }
                 case EnemyTypes.FLYING:
                     {
-                        CreateEnemy(FlyingEnemyPrefabName, type);
+                       // CreateEnemy(FlyingEnemyPrefabName, type);
                         break;
                     }
                 default:
@@ -453,6 +458,14 @@ namespace Carmicah
             }
 
             return targetMouse;
+        }
+
+        public Entity GetTargetNPC(FlyingEnemyAI enemy)
+        {
+
+
+            // if no NPCs, return player
+            return playerEntity;
         }
 
         public void NewNPC(Entity entity)

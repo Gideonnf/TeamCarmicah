@@ -1,5 +1,5 @@
 {
-    "GameObject": "fly",
+    "GameObject": "FlyGO",
     "ID": 48,
     "Components": [
         {
@@ -7,11 +7,44 @@
             "xPos": 0.0,
             "yPos": 0.0,
             "depth": 0.0,
-            "xScale": 0.0,
-            "yScale": 0.0,
+            "xScale": 1.0,
+            "yScale": 1.0,
             "rot": 0.0,
             "transformTag": "",
             "collisionMask": 1
+        },
+        {
+            "Component Name": "struct Carmicah::StateMachine",
+            "currState": "",
+            "nextState": "",
+            "startingState": "Flying",
+            "stateMap": [
+                {
+                    "stateName": "Flying",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Diving",
+                            "condition": 1
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Diving",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Dead",
+                            "condition": 2
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Dead",
+                    "stateCondition": 0,
+                    "transitions": []
+                }
+            ]
         },
         {
             "Component Name": "struct Carmicah::Animation",
@@ -28,28 +61,33 @@
             "mass": 1.0,
             "gravity": 0.0,
             "zposPrev": -107374176.0,
-            "objectType": 0
+            "objectType": 1
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Pigeon_SpriteSheet_Fly 4",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         },
         {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.FlyingEnemyAI",
             "ScriptableFieldMap": [
                 {
-                    "EndPointEntityLeft": "StartTopLeft_end",
                     "ChanceToDie": 0.11999999731779099,
+                    "EndPointEntityLeft": "StartTopLeft_end",
                     "DeathAnim": "Flying_Death",
-                    "EndPointEntityLeft2": "StartTopLeft_end",
-                    "horizontalSpeed": 1.0,
-                    "DeathSound": "flying_die",
-                    "EndPointEntityRight2": "StartTopRight_end",
-                    "EndPointEntityRight": "StartTopRight_end",
-                    "DiagonalAnim": "Flying_Diagonal",
                     "HorizontalAnim": "Flying_Horizontal",
+                    "DeathSound": "flying_die",
+                    "horizontalSpeed": 1.0,
+                    "DiagonalAnim": "Flying_Diagonal",
+                    "EndPointEntityRight": "StartTopRight_end",
                     "InjuredSound": "flying_hurt",
                     "SpawnPointEntityLeft": "StartTopLeft",
-                    "SpawnPointEntityLeft2": "StartTopLeft_1",
                     "SpawnPointEntityRight": "StartTopRight",
-                    "SpawnPointEntityRight2": "StartTopRight_1",
                     "StationaryAnim": "Flying_Stationary",
                     "speedDebuff": 0.4000000059604645,
                     "diagonalSpeed": 1.7999999523162842,

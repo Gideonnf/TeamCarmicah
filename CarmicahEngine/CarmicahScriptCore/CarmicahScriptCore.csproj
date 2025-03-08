@@ -71,6 +71,7 @@
     <Compile Include="Source\Managers\PowerUpControl.cs" />
     <Compile Include="Source\NPC\BaseNPC.cs" />
     <Compile Include="Source\Abilities\HeroBuild.cs" />
+    <Compile Include="Source\NPC\FlyingAi.cs" />
     <Compile Include="Source\NPC\MageNPC.cs" />
     <Compile Include="Source\NPC\ShooterNPC.cs" />
     <Compile Include="Source\NPC\SpearNPC.cs" />

@@ -1,3 +1,11 @@
 Fly
 Top left: 0 x 0, 321 x 321
 8 sprites
+
+Dive
+Top left: 0 x 321, 321 x 321
+5 sprites
+
+Death
+Top left: 0 x 642, 321 x 321
+11 sprites
