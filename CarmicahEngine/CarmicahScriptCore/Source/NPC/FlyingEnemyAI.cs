@@ -138,7 +138,16 @@ namespace Carmicah
             Vector2 dir = (targetPos - Position).Normalize();
             if (HasComponent<RigidBody>())
             {
-                GetComponent<RigidBody>().ApplyForce(dir, horizontalSpeed);
+                if (currentStage == FlyingStage.DIAGONAL)
+                {
+                    GetComponent<RigidBody>().ApplyForce(dir, diagonalSpeed);
+
+                }
+                else
+                {
+
+                    GetComponent<RigidBody>().ApplyForce(dir, horizontalSpeed);
+                }
             }
 
             float dist = Position.Distance(targetPos);
