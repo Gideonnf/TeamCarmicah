@@ -90,15 +90,21 @@ namespace Carmicah
                     clickAnim       = "Button_C_Skip";
                     break;
                 case "credits":
-                    createList[0]   = "Credits_Menu";
-                    createList[1]   = "Close_Button_2";
+                    nextScene       = "Credits";
+                    willChangeScene = true;
+
+                    //createList[0]   = "Credits_Menu";
+                    //createList[1]   = "Close_Button_2";
 
                     hoverEnterAnim  = "Button_HS_Credits";
                     hoverExitAnim   = "Button_HE_Credits";
                     clickAnim       = "Button_C_Credits";
                     break;
                 case "backcredits":
-                    destroyList[0]  = "Credits_Menu";
+                    nextScene       = "Scene3";
+                    willChangeScene = true;
+
+                    //destroyList[0]  = "Credits_Menu";
                     willUnpause     = true;
                     willSelfDestruct= true;
 

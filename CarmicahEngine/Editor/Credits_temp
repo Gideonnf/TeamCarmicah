@@ -1,5 +1,5 @@
 {
-    "Scene": "Scene4",
+    "Scene": "Scene6",
     "SceneObjects": [
         {
             "GameObject": "BackgroundGO",
@@ -8,10 +8,10 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "sky",
-                    "colR": 0.0,
-                    "colG": 0.0,
-                    "colB": 0.0,
+                    "texture": "black_background",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
                     "colA": 1.0
                 },
                 {
@@ -45,52 +45,9 @@
             "Children": []
         },
         {
-            "GameObject": "Skip Button",
+            "GameObject": "LoadingScreen",
             "ID": 3,
             "Components": [
-                {
-                    "Component Name": "struct Carmicah::Button"
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Skip 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
-                },
-                {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.ButtonGeneric",
-                    "ScriptableFieldMap": [
-                        {
-                            "buttonType": "skipSplash",
-                            "nextScene": ""
-                        }
-                    ]
-                },
-                {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": ""
-                },
-                {
-                    "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1750.0,
-                    "yPos": 75.0,
-                    "depth": 1.0,
-                    "xScale": 0.75,
-                    "yScale": 0.75,
-                    "rot": 0.0,
-                    "transformTag": ""
-                }
-            ]
-        },
-        {
-            "GameObject": "Intro",
-            "ID": 4,
-            "Components": 
-            [
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.0,
@@ -104,25 +61,83 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.Intro",
-                    "ScriptableFieldMap": 
-                    [
+                    "scriptName": "Carmicah.LoadingScreen",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "Back Button",
+            "ID": 4,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_H_Back 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1800.0,
+                    "yPos": 75.0,
+                    "depth": 1.0,
+                    "xScale": 0.5,
+                    "yScale": 0.5,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
                         {
-                            "timer": 0.0,
-                            "state": 0,
-                            "DisplayDuration": 3.0,
-                            "schoolLogoName": "digipen_logo",
-                            "schoolLogoEntity": "digipen_logo",
-                            "schoolRightsEntity": "digipen_rights",
-                            "FadeDuration": -107374176.0,
-                            "schoolBGEntity": "black_background",
-                            "gameLogoEntity": "game_logo",
-                            "teamLogoEntity": "team_logo",
-                            "gameLogoName": "game_logo",
-                            "maxDuration": -107374176.0,
-                            "schoolBGName": "black_background",
-                            "schoolRightsName": "digipen_rights",
-                            "teamLogoName": "team_logo"
+                            "buttonType": "back",
+                            "nextScene": "Scene3"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "GameObject": "CreditsRoll",
+            "ID": 5,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 3.799999952316284,
+                    "yPos": -26.434999465942384,
+                    "depth": 0.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "CreditRoll",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.Credits",
+                    "ScriptableFieldMap": [
+                        {
+                            "scrollSpeed": 40.0,
+                            "endYPosition": 29.0
                         }
                     ]
                 }

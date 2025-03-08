@@ -98,6 +98,7 @@
     <Compile Include="Source\Abilities\AbilityBar.cs" />
     <Compile Include="Source\UI\ButtonGeneric.cs" />
     <Compile Include="Source\UI\Countdown.cs" />
+    <Compile Include="Source\UI\Credits.cs" />
     <Compile Include="Source\UI\Cutscene.cs" />
     <Compile Include="Source\Abilities\HeroIcon.cs" />
     <Compile Include="Source\UI\Intro.cs" />
