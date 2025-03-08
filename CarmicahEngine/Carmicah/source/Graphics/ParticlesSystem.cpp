@@ -149,6 +149,8 @@ namespace Carmicah
 				else
 				{
 					auto& tf = ComponentManager::GetInstance()->GetComponent<UITransform>(e);
+					const Texture& texture = AssetManager::GetInstance()->GetAsset<Texture>(ComponentManager::GetInstance()->GetComponent<Renderer>(e).Texture());
+					Vec2f intTexScale{ (AssetManager::GetInstance()->enConfig.maxTexSize / 50.f * texture.mtx.m00) - 1.f, (AssetManager::GetInstance()->enConfig.maxTexSize / 50.f * texture.mtx.m11) - 1.f };
 					do
 					{
 						particle par;
@@ -156,7 +158,8 @@ namespace Carmicah
 						par.texture = emitter.texture;
 						par.timeLeft = emitter.particleLifeTime;
 						float scaleMod{ CarmicahTime::GetInstance()->GenerateRandFloat(std::max(0.f, emitter.scaleRange.x), std::max(emitter.scaleRange.x, emitter.scaleRange.y))};
-						par.mtx.translateThis(tf.Pos()).scaleThis(tf.Scale() * scaleMod);
+						par.mtx = tf.rotTrans;
+						par.mtx.scaleThis(intTexScale.x * tf.accumulatedScale.x * scaleMod, intTexScale.y * tf.accumulatedScale.y * scaleMod);
 						float xAddition = CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.spawnRadius.x, emitter.spawnRadius.x);
 						par.mtx.m[6] += xAddition;
 						par.mtx.m[7] += CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.spawnRadius.y, emitter.spawnRadius.y);
