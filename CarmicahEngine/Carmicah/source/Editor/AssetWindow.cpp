@@ -409,29 +409,29 @@ namespace Carmicah
 					if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
 					{
 						selectedAudio = entry;
-						ImGui::OpenPopup("Audio Options");
+						ImGui::OpenPopup("Audio Preview");
 
 					}
 				}
 				ImGui::Unindent();
-				if (ImGui::BeginPopup("Audio Options"))
-				{
-					if(ImGui::Selectable("Preview Audio"))
-					{
-						ImGui::CloseCurrentPopup();
-						ImGui::OpenPopup("Audio Preview");
-					}
+				//if (ImGui::BeginPopup("Audio Options"))
+				//{
+				//	if(ImGui::Selectable("Preview Audio"))
+				//	{
+				//		ImGui::CloseCurrentPopup();
+				//		ImGui::OpenPopup("Audio Preview");
+				//	}
 
-					/*if (ImGui::Selectable("Delete Asset"))
-					{
-						
-						std::filesystem::remove(deletePath);
-						AssetManager::GetInstance()->fileWatcher.Update();
-						mAssetModified = true;
-						ImGui::CloseCurrentPopup();
-					}*/
-					ImGui::EndPopup();
-				}
+				//	/*if (ImGui::Selectable("Delete Asset"))
+				//	{
+				//		
+				//		std::filesystem::remove(deletePath);
+				//		AssetManager::GetInstance()->fileWatcher.Update();
+				//		mAssetModified = true;
+				//		ImGui::CloseCurrentPopup();
+				//	}*/
+				//	ImGui::EndPopup();
+				//}
 
 
 				if (ImGui::BeginPopupModal("Audio Preview",nullptr, ImGuiWindowFlags_AlwaysAutoResize))
@@ -515,46 +515,57 @@ namespace Carmicah
 
 			if (ImGui::CollapsingHeader("Prefab"))
 			{
+				char buffer[128] = "";
+				static std::string searchName;
+
+				if (ImGui::InputText("##Searchbar", buffer, sizeof(buffer)))
+				{
+					searchName = buffer;
+				}
+
 				ImGui::Indent();
 				for (const auto& entry : prefabMap->mAssetMap)
 				{
 					name = entry.first + "##Prefab";
-					if (ImGui::Button(name.c_str())){}
-					if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+					if (searchName.empty() || entry.first.find(searchName) != std::string::npos)
 					{
-						selectedPrefab = &prefabMap->mAssetList[entry.second];
-						if (ImGui::GetIO().MouseClickedCount[ImGuiMouseButton_Left] == 2)
-						{
-							gGOFactory->CreatePrefab(entry.first);
-						}
-					}
-
-					if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
-					{
-						ImGui::OpenPopup(name.c_str());
-					}
-
-					if (ImGui::BeginPopup(name.c_str()))
-					{
-						if (ImGui::Button("Edit Prefab"))
+						if (ImGui::Button(name.c_str())) {}
+						if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
 						{
 							selectedPrefab = &prefabMap->mAssetList[entry.second];
-							HierarchyWindow::inspectedPrefab = &prefabMap->mAssetList[entry.second];
-							HierarchyWindow::mShowScene = false;
-							HierarchyWindow::selectedGO = nullptr;
-							ImGui::CloseCurrentPopup();
+							if (ImGui::GetIO().MouseClickedCount[ImGuiMouseButton_Left] == 2)
+							{
+								gGOFactory->CreatePrefab(entry.first);
+							}
 						}
 
-						if (ImGui::Button("Delete Prefab"))
+						if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
 						{
-							std::filesystem::path deletePath = std::filesystem::path(AssetManager::GetInstance()->enConfig.assetLoc.c_str()) / "Prefabs" / (entry.first + ".prefab");
-							std::filesystem::remove(deletePath);
-							AssetManager::GetInstance()->fileWatcher.Update();
-							mAssetModified = true;
-							ImGui::CloseCurrentPopup();
+							ImGui::OpenPopup(name.c_str());
 						}
 
-						ImGui::EndPopup();
+						if (ImGui::BeginPopup(name.c_str()))
+						{
+							if (ImGui::Button("Edit Prefab"))
+							{
+								selectedPrefab = &prefabMap->mAssetList[entry.second];
+								HierarchyWindow::inspectedPrefab = &prefabMap->mAssetList[entry.second];
+								HierarchyWindow::mShowScene = false;
+								HierarchyWindow::selectedGO = nullptr;
+								ImGui::CloseCurrentPopup();
+							}
+
+							if (ImGui::Button("Delete Prefab"))
+							{
+								std::filesystem::path deletePath = std::filesystem::path(AssetManager::GetInstance()->enConfig.assetLoc.c_str()) / "Prefabs" / (entry.first + ".prefab");
+								std::filesystem::remove(deletePath);
+								AssetManager::GetInstance()->fileWatcher.Update();
+								mAssetModified = true;
+								ImGui::CloseCurrentPopup();
+							}
+
+							ImGui::EndPopup();
+						}
 					}
 
 					if (mAssetModified)

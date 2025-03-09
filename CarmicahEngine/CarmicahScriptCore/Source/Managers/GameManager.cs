@@ -32,6 +32,7 @@ namespace Carmicah
         public float spawnTimer = 0.5f;
         public string MousePrefabName = "MouseGONew";
         public string BearPrefabName = "BearGO";
+        public string FlyingEnemyPrefabName = "FlyGO"; //fly enemy
         public string CakePrefabName = "StartingCake";
         public string PlayerName = "mainCharacter";
         public string PlayerHealthBar = "Healthbar";
@@ -49,6 +50,8 @@ namespace Carmicah
         public List<MouseAI> mouseLaneTwo;
         public List<MouseAI> mouseLaneThree;
         public List<MouseAI> mouseLaneFour;
+        public List<FlyingEnemyAI> flyingEnemyLeft;
+        public List<FlyingEnemyAI> flyingEnemyRight;
 
         //public float WaveStartTime = 25.0f;
         //public float waveTimer = 0.0f;
@@ -109,6 +112,8 @@ namespace Carmicah
             mouseLaneTwo = new List<MouseAI>();
             mouseLaneThree = new List<MouseAI>();
             mouseLaneFour = new List<MouseAI>();
+            flyingEnemyLeft = new List<FlyingEnemyAI>();
+            flyingEnemyRight = new List<FlyingEnemyAI>();
             npcList = new List<Entity>();
 
             endEntities[0] = FindEntityWithName(EndPointEntityLeft);
@@ -213,6 +218,12 @@ namespace Carmicah
 
                             break;
                         }
+                        case EnemyTypes.FLYING:
+                            {
+                                //CMConsole.Log($"Creating flying enemy");
+                                CreateEnemy(FlyingEnemyPrefabName, type);
+                                break;
+                            }
                         default:
                         {
                           //  CMConsole.Log("Shouldn't be here tbh");
@@ -245,59 +256,75 @@ namespace Carmicah
 
         public void CreateEnemy(string prefabName, EnemyTypes type)
         {
-            Entity mouseEntity = CreateGameObject(prefabName);
-            MouseAI mouseAI = mouseEntity.As<MouseAI>();
-
-            mouseAI.SetInitialPosition(); // Reset initial position
-            mouseEntity.As<MouseAI>().enemyType = type;
-
-            //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
-            CMConsole.Log($"Lane : {mouseAI.lane}");
-            switch (mouseAI.lane)
+            if (type == EnemyTypes.FLYING)
             {
-                case 0:
-                    mouseLaneOne.Add(mouseAI);
-                    break;
-                case 1:
-                    mouseLaneTwo.Add(mouseAI);
-                    break;
-                case 2:
-                    mouseLaneThree.Add(mouseAI);
-                    break;
-                case 3:
-                    mouseLaneFour.Add(mouseAI);
-                    break;
+                Entity birdEntity = CreateGameObject(prefabName);
+                FlyingEnemyAI flyingAI = birdEntity.As<FlyingEnemyAI>();
+
+                flyingAI.SetInitialPosition();
+                flyingAI.enemyType = type;
+
+                if (flyingAI.isLeft)
+                {
+                    flyingEnemyLeft.Add(flyingAI);
+                }
+                else
+                {
+                    flyingEnemyRight.Add(flyingAI);
+                }
+
+            }
+            else
+            {
+                Entity mouseEntity = CreateGameObject(prefabName);
+                MouseAI mouseAI = mouseEntity.As<MouseAI>();
+
+                mouseAI.SetInitialPosition(); // Reset initial position
+                mouseEntity.As<MouseAI>().enemyType = type;
+
+                //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
+                CMConsole.Log($"Lane : {mouseAI.lane}");
+                switch (mouseAI.lane)
+                {
+                    case 0:
+                        mouseLaneOne.Add(mouseAI);
+                        break;
+                    case 1:
+                        mouseLaneTwo.Add(mouseAI);
+                        break;
+                    case 2:
+                        mouseLaneThree.Add(mouseAI);
+                        break;
+                    case 3:
+                        mouseLaneFour.Add(mouseAI);
+                        break;
+                }
+                switch (type)
+                {
+                    case EnemyTypes.MOUSE1:
+                        {
+                            mouseEntity.As<MouseAI>().Speed = 1.0f;
+                            break;
+                        }
+                    case EnemyTypes.MOUSE2:
+                        {
+                            mouseEntity.As<MouseAI>().Speed = 1.5f;
+                            break;
+                        }
+                    case EnemyTypes.MOUSE3:
+                        {
+                            mouseEntity.As<MouseAI>().Speed = 1.85f;
+                            break;
+                        }
+                    case EnemyTypes.BEAR:
+                        {
+
+                            break;
+                        }
+                }
             }
 
-            // any special behavour can add here
-            switch (type)
-            {
-                case EnemyTypes.MOUSE1:
-                    {
-                        mouseEntity.As<MouseAI>().Speed = 1.0f;
-                        break;
-                    }
-                case EnemyTypes.MOUSE2:
-                    {
-                        mouseEntity.As<MouseAI>().Speed = 1.5f;
-                        break;
-                    }
-                case EnemyTypes.MOUSE3:
-                    {
-                        mouseEntity.As<MouseAI>().Speed = 1.85f;
-                        break;
-                    }
-                case EnemyTypes.BEAR:
-                    {
-
-                        break;
-                    }
-                default:
-                    {
-                        CMConsole.Log("Shouldn't be here tbh");
-                        break;
-                    }
-            }
+           
         }
 
         public void EntityDestroyed(MouseAI entity)
@@ -325,6 +352,19 @@ namespace Carmicah
             //
             // ($"Mouse Destroyed {mouse}");
             //mouseEntities.Remove(mouse);
+        }
+
+        public void EntityDestroyed(FlyingEnemyAI entity)
+        {
+            activeEnemies--;
+            if (entity.isLeft)
+            {
+                flyingEnemyLeft.Remove(entity);
+            }
+            else
+            {
+                flyingEnemyRight.Remove(entity);
+            }
         }
 
         public MouseAI GetClosestMouse(HeroAI entity)
@@ -447,6 +487,14 @@ namespace Carmicah
             }
 
             return targetMouse;
+        }
+
+        public Entity GetTargetNPC(FlyingEnemyAI enemy)
+        {
+
+
+            // if no NPCs, return player
+            return playerEntity;
         }
 
         public void NewNPC(Entity entity)
