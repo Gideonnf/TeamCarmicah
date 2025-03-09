@@ -24,42 +24,33 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
-    public class Countdown : Entity
+    public class Credits : Entity
     {
-        public int currentIndex = 0;
-        public float timer = 0.0f;
-        public float durationPerFrame = 1.0f; // time frame stays on screen
-        public string[] countdownAnimation = { "N3", "N2", "N1", "GO" };
-
-        private Vector2 originalScale;
+        public Transform transform;
+        public float scrollSpeed = 2.5f; // adjust speed as needed
+        public float endYPosition = 45.0f; // change to match final Y position
 
         void OnCreate()
         {
-            // display first animation
-            DisplayAnimation();
+            transform = GetComponent<Transform>();
         }
-
-        void DisplayAnimation()
-        {
-            // run through the array of animations
-            if (currentIndex <= countdownAnimation.Length)
-            {
-                // play 
-                ChangeAnim(countdownAnimation[currentIndex]);
-                timer = 0.0f;
-            }
-        }   
 
         void OnUpdate(float dt)
         {
-            timer += dt;
-
-            // check if curr anim is finished
-            if (GetComponent<Animation>().IsAnimFinished())//timer >= durationPerFrame)
+            if (transform != null)
             {
-                // increment index and display next animation
-                currentIndex++;
-                DisplayAnimation();
+                Vector2 position = transform.Position;
+
+                if (position.y < endYPosition) // stop scrolling when it reaches the end
+                {
+                    position.y += scrollSpeed * dt;
+                    transform.Position = position;
+                }
+            }
+
+            if(transform.Position.y >= endYPosition)
+            {
+                Scene.ChangeScene("Scene3");
             }
         }
     }

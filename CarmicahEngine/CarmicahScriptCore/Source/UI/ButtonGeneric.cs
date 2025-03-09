@@ -90,17 +90,24 @@ namespace Carmicah
                     clickAnim       = "Button_C_Skip";
                     break;
                 case "credits":
-                    createList.Add(0,"Credits_Menu");
-                    createList.Add(1,"Close_Button_2");
+                    nextScene       = "Credits";
+                    willChangeScene = true;
+
+                    //createList[0]   = "Credits_Menu";
+                    //createList[1]   = "Close_Button_2";
 
                     hoverEnterAnim  = "Button_HS_Credits";
                     hoverExitAnim   = "Button_HE_Credits";
                     clickAnim       = "Button_C_Credits";
                     break;
                 case "backcredits":
-                    destroyList[0]  = "Credits_Menu";
-                    willUnpause     = true;
-                    willSelfDestruct= true;
+                   
+                    nextScene       = "Scene3";
+                    willChangeScene = true;
+
+                    //destroyList[0]  = "Credits_Menu";
+                    //willUnpause     = true;
+                    //willSelfDestruct= true;
 
                     hoverEnterAnim  = "Button_HS_Back";
                     hoverExitAnim   = "Button_HE_Back";
@@ -185,6 +192,7 @@ namespace Carmicah
                     }
                     else
                     {
+                        CMConsole.Log("Changing scene 2");
                         Scene.ChangeScene(nextScene);
                     }
                 }
@@ -204,6 +212,8 @@ namespace Carmicah
 
             if (willChangeScene && sceneChangerTimer < 0.0f)
             {
+                CMConsole.Log("Changing scene");
+
                 sceneChangerTimer = timeToChangeScene;
             }
             if (willUnpause)

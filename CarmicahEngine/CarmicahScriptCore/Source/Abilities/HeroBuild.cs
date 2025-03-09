@@ -23,6 +23,8 @@ namespace Carmicah
         bool hovering = false;
         bool built = false;
         Entity heroIcon;
+        public float xOffset = 1.5f;
+        public float yOffset = 1.0f;
 
         public void OnCreate()
         {
@@ -61,7 +63,7 @@ namespace Carmicah
 
                     // change the opacity here
                     translucentHero.GetComponent<Renderer>().SetAlpha(0.3f);
-                    translucentHero.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
+                    translucentHero.GetComponent<Transform>().Position = new Vector2(Position.x + xOffset, Position.y + yOffset);
                     // translucentHero.GetComponent<Transform>().Depth = depthVal;
                     if (IsLeft)
                     {
@@ -86,7 +88,7 @@ namespace Carmicah
                         CMConsole.Log("Setting Built to true");
                         built = true;
                         heroEntity = CreateGameObject(HeroPrefab);
-                        heroEntity.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
+                        heroEntity.GetComponent<Transform>().Position = new Vector2(Position.x + xOffset, Position.y + yOffset);
                         heroEntity.As<BaseNPC>().lane = (int)lane;
                         heroEntity.As<BaseNPC>().active = true;
                         heroEntity.As<BaseNPC>().npcType = heroIcon.As<HeroIcon>().type;
@@ -116,82 +118,6 @@ namespace Carmicah
                     }
                 }
             }
-
-
-            //switch (type)
-            //{
-            //    case AbilityType.SHOOTER:
-            //        {
-
-            //            break;
-            //        }
-            //    case AbilityType.MAGE:
-            //        {
-            //            //CMConsole.Log("MageNPC Build");
-            //            if (mageIcon != null && mageIcon.As<HeroIcon>().trapEntity != null)
-            //            {
-            //                CMConsole.Log("Condition 1 fufilled");
-            //                if (translucentHero == null && built == false)
-            //                {
-            //                    CMConsole.Log("Should be making the transparent fella here");
-            //                    //CMConsole.Log("It shouldnt be here atm");
-            //                    translucentHero = CreateGameObject(HeroPrefab);
-
-            //                    // change the opacity here
-            //                    translucentHero.GetComponent<Renderer>().SetAlpha(0.3f);
-            //                    translucentHero.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
-            //                    // translucentHero.GetComponent<Transform>().Depth = depthVal;
-            //                    if (IsLeft)
-            //                    {
-            //                        Vector2 scale = translucentHero.GetComponent<Transform>().Scale;
-            //                        translucentHero.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
-            //                    }
-            //                }
-            //            }
-
-            //            else if (mageIcon != null && mageIcon.As<HeroIcon>().trapEntity == null)
-            //            {
-            //                if (translucentHero != null)
-            //                {
-            //                    translucentHero.Destroy();
-            //                    translucentHero = null;
-
-            //                    // if the player let go when its hovering a build spot
-            //                    if (hovering && heroEntity == null)
-            //                    {
-            //                        // build a trap
-            //                        built = true;
-            //                        heroEntity = CreateGameObject(HeroPrefab);
-            //                        heroEntity.GetComponent<Transform>().Position = new Vector2(Position.x, Position.y);
-            //                        heroEntity.As<HeroAI>().lane = (int)lane;
-            //                        heroEntity.As<HeroAI>().active = true;
-            //                        heroEntity.As<HeroAI>().type = AbilityType.MAGE;
-            //                        if (IsLeft)
-            //                        {
-            //                            heroEntity.As<HeroAI>().IsLeft = true;
-            //                        }
-            //                        else
-            //                        {
-            //                            heroEntity.As<HeroAI>().IsLeft = false;
-            //                        }
-            //                        Sound.PlaySFX("trap_placement", 0.5f);
-            //                        // heroEntity.GetComponent<Transform>().Depth = depthVal;
-
-            //                        if (IsLeft)
-            //                        {
-            //                            Vector2 scale = heroEntity.GetComponent<Transform>().Scale;
-            //                            heroEntity.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
-            //                        }
-
-            //                        GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
-            //                        gm.NewNPC(heroEntity);
-
-            //                    }
-            //                }
-            //            }
-            //            break;
-            //        }
-            //}
         }
 
         public void KillNPC()
@@ -212,6 +138,9 @@ namespace Carmicah
             type = heroType;
             HeroPrefab = heroPrefabName;
             heroIcon = icon;
+
+            xOffset = heroIcon.As<HeroIcon>().xOffset;
+            yOffset = heroIcon.As<HeroIcon>().yOffset;
         }
 
         public void OnMouseEnter()

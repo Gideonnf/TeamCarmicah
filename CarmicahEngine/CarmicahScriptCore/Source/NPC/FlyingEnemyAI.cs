@@ -103,9 +103,9 @@ namespace Carmicah
                     //CMConsole.Log($"Target Position {horizontalTarget.x}, {horizontalTarget.y}");
                     scale.x *= -1;
 
-                    CMConsole.Log($"scale {scale.x}, {scale.y}");
+                   // CMConsole.Log($"scale {scale.x}, {scale.y}");
                     Scale = scale;
-                    CMConsole.Log($"actual scale {Scale.x}, {Scale.y}");
+                    //CMConsole.Log($"actual scale {Scale.x}, {Scale.y}");
 
                     isLeft = true;
                     break;
@@ -138,14 +138,86 @@ namespace Carmicah
             Vector2 dir = (targetPos - Position).Normalize();
             if (HasComponent<RigidBody>())
             {
-                GetComponent<RigidBody>().ApplyForce(dir, horizontalSpeed);
+                if (currentStage == FlyingStage.DIAGONAL)
+                {
+                    GetComponent<RigidBody>().ApplyForce(dir, diagonalSpeed);
+
+                }
+                else
+                {
+
+                    GetComponent<RigidBody>().ApplyForce(dir, horizontalSpeed);
+                }
             }
 
             float dist = Position.Distance(targetPos);
             if (dist <= 0.5f)
             {
+                if (targetEntity != null && targetEntity.mID != 0)
+                {
+                    // the target is the player
+                    if (targetEntity.GetTag() == "Player")
+                    {
+                        Entity mainCharacter = FindEntityWithName("mainCharacter");
+                        mainCharacter.As<Player>().TakeDamage(10, enemyType);
+                    }
+                    else
+                    {
+                        // its probably an NPC
+                        GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                        gm.KillNPC(targetEntity);
+                    }
+                }
                 // change to dead state
                 GetComponent<StateMachine>().SetStateCondition(2);
+            }
+        }
+
+        public void UpdateTarget(Entity entity)
+        {
+            if (currentStage == FlyingStage.DIAGONAL)
+            {
+                if (targetEntity != null && entity == targetEntity)
+                {
+                    GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                    targetEntity = gm.GetTargetNPC(this);
+
+                    // check if the new target is in the other direction
+                    // if it is then rotate it
+                    if (isLeft)
+                    {
+                        // is on the left of the bird
+                        if (targetEntity.Position.x < Position.x)
+                        {
+                            // flip the scale
+                            Vector2 scale = Scale;
+                            scale.x *= -1;
+                            // CMConsole.Log($"scale {scale.x}, {scale.y}");
+                            Scale = scale;
+                            // probably need adjust rotation or some shit later
+                            Rot = 40.0f;
+                        }
+                    }
+                    else
+                    {
+                        // is on the right of the bird
+                        if (targetEntity.Position.x > Position.x)
+                        {
+                            // flip the scale
+                            Vector2 scale = Scale;
+                            scale.x *= -1;
+                            // CMConsole.Log($"scale {scale.x}, {scale.y}");
+                            Scale = scale;
+
+                            // probably need adjust rotation or some shit later
+                            Rot = -20.0f;
+                        }
+                    }
+
+                    // idk if this is a good idea
+                    // cause it looks a bit funky turning atm
+                    ChangeAnim(HorizontalAnim);
+                }
             }
         }
 

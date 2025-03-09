@@ -12,8 +12,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.9198528528213501,
-                    "yPos": -0.2452477514743805,
+                    "xPos": 0.0,
+                    "yPos": 0.0,
                     "depth": 1.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -133,8 +133,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -1.0287331342697144,
-                    "yPos": -3.483977794647217,
+                    "xPos": -1.3053369522094727,
+                    "yPos": -3.5468015670776369,
                     "depth": 3.0,
                     "xScale": 1.2000000476837159,
                     "yScale": 1.2000000476837159,
@@ -1130,8 +1130,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -4.016102313995361,
-                    "yPos": 2.3652193546295168,
+                    "xPos": -3.9761898517608644,
+                    "yPos": 2.100541114807129,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -1148,7 +1148,7 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 2.5999999046325685
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1176,11 +1176,13 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "TrapTranslucentPrefab": "TrapTranslucent",
                             "lane": 3.0,
+                            "yOffset": 1.0,
                             "IsLeft": true,
-                            "depthVal": 0.0
+                            "depthVal": 0.0,
+                            "xOffset": 1.5
                         }
                     ]
                 }
@@ -1194,7 +1196,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 4.9137654304504398,
-                    "yPos": 2.633575201034546,
+                    "yPos": 2.2839999198913576,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -1211,7 +1213,7 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 2.5999999046325685
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1240,10 +1242,12 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 0.0,
+                            "yOffset": 1.0,
                             "IsLeft": false,
-                            "depthVal": 0.0
+                            "depthVal": 0.0,
+                            "xOffset": 1.5
                         }
                     ]
                 }
@@ -1450,7 +1454,7 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 2.5
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1479,10 +1483,12 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 2.0,
+                            "yOffset": 1.0,
                             "IsLeft": true,
-                            "depthVal": 0.0
+                            "depthVal": 0.0,
+                            "xOffset": 1.5
                         }
                     ]
                 }
@@ -1513,7 +1519,7 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 2.5
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1542,10 +1548,12 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 1.0,
+                            "yOffset": 1.0,
                             "IsLeft": false,
-                            "depthVal": 0.0
+                            "depthVal": 0.0,
+                            "xOffset": 1.5
                         }
                     ]
                 }
@@ -1568,7 +1576,7 @@
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 134.94664001464845,
-                    "yPos": 990.3047485351563,
+                    "yPos": 814.5762329101563,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -1602,8 +1610,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 140.07119750976563,
-                    "yPos": 1012.5075073242188,
+                    "xPos": 143.48757934570313,
+                    "yPos": 842.2705078125,
                     "depth": -0.800000011920929,
                     "xScale": 1.2999999523162842,
                     "yScale": 1.2999999523162842,
@@ -1972,8 +1980,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 4.849999904632568,
-                    "yPos": 1.8509999513626099,
+                    "xPos": 4.6903510093688969,
+                    "yPos": 2.4497838020324709,
                     "depth": 0.0,
                     "xScale": 3.3499999046325685,
                     "yScale": 4.5,
@@ -2018,8 +2026,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -3.6478140354156496,
-                    "yPos": 1.8509999513626099,
+                    "xPos": -3.6079015731811525,
+                    "yPos": 2.791945695877075,
                     "depth": 0.0,
                     "xScale": 3.3499999046325685,
                     "yScale": 4.5,
@@ -2197,6 +2205,31 @@
             "Children": []
         },
         {
+            "GameObject": "TempHealthBar",
+            "ID": 57,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI_Healthbar",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 363.8434753417969,
+                    "yPos": 986.6437377929688,
+                    "depth": 0.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
             "GameObject": "WaveText",
             "ID": 62,
             "Components": [
@@ -2212,7 +2245,7 @@
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 140.0966033935547,
-                    "yPos": 1023.4819946289063,
+                    "yPos": 851.4144897460938,
                     "depth": 0.0,
                     "xScale": 0.6000000238418579,
                     "yScale": 0.6000000238418579,
@@ -2220,6 +2253,11 @@
                     "transformTag": ""
                 }
             ]
+        },
+        {
+            "GameObject": "",
+            "ID": 0,
+            "Components": []
         }
     ]
 }
