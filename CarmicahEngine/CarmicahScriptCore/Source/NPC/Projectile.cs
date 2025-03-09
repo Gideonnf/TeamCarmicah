@@ -146,6 +146,11 @@ namespace Carmicah
         
         void OnCollide(uint id)
         {
+            if (bulletType == BulletType.MAGE_BULLET)
+            {
+                Sound.PlaySFX("Mage_Hit_Impact", 0.3f);
+            }
+
             Entity collidedEntity = FindEntityWithID(id);
             if (collidedEntity != null)
             {
@@ -168,6 +173,7 @@ namespace Carmicah
                 {
                     if(bulletType == BulletType.MAGE_BULLET)
                     {
+                        Sound.PlaySFX("Mage_Hit_Explosion", 0.3f);
                         if(facingRight)
                         { 
                             Rot = 40.0f; 

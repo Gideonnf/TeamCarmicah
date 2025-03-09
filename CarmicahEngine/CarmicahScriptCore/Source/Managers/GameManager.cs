@@ -697,6 +697,7 @@ namespace Carmicah
         public void LoseGame()
         {
             GameOver = true;
+            Sound.SwitchBGM("LoseScreen", 1.0f, 0.5f, false);
             CreateGameObject("LoseScreen");
         }
 
