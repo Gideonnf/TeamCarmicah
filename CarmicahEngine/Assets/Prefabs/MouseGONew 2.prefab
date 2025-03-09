@@ -15,7 +15,7 @@
         },
         {
             "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Mouse_Climb_White"
+            "Atlas": "Mouse_Climb_Blue"
         },
         {
             "Component Name": "struct Carmicah::StateMachine",
@@ -54,9 +54,9 @@
                     "EndPointEntityLeft2": "EndPointLeft_1",
                     "EndPointEntityRight": "EndPointRight",
                     "EndPointEntityRight2": "EndPointRight_1",
-                    "baseAnimation": "Mouse_Climb_White",
-                    "baseAnimationDie": "Mouse_Death_White",
-                    "Speed": "1.0",                    
+                    "baseAnimation": "Mouse_Climb_Blue",                    
+                    "baseAnimationDie": "Mouse_Death_Blue",
+                    "Speed": "1.5",
                     "timer": 0.0,
                     "TimeToDie": 1.5,
                     "DeathTime": 2.0,
@@ -69,7 +69,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Enemies_SpriteSheet_Mouse_Climb_White 3",
+            "texture": "Enemies_SpriteSheet_Mouse_Climb_Blue 3",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
