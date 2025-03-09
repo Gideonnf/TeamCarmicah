@@ -39,7 +39,11 @@ namespace Carmicah
                     Projectile bullet = projectile.As<Projectile>();
                     bullet.As<Projectile>().bulletType = BulletType.SPEAR_BULLET;
 
-                    Sound.PlaySFX(shootSound);
+                    Random rnd = new Random();
+                    int number = rnd.Next(1, 5);
+                    string soundFile = "Spearman_Throw_0" + number.ToString();
+
+                    Sound.PlaySFX(soundFile, 1.0f);
                     if (bullet != null)
                     {
                         bullet.targetMouse = targetMouse;
@@ -154,6 +158,7 @@ namespace Carmicah
             else if (stateName == "Dead")
             {
                 ChangeAnim(dissolveAnim);
+                Sound.PlaySFX("NPC_Death", 0.3f);
                 CMConsole.Log("NPC Dying");
             }
 

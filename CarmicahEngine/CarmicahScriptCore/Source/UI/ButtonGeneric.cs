@@ -228,6 +228,7 @@ namespace Carmicah
         }
         public override void OnMouseEnter()
         {
+            Sound.PlaySFX("UI_Hover 2", 0.4f);
             ChangeAnim(hoverEnterAnim);
         }
         public override void OnMouseExit()

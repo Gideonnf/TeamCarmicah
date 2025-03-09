@@ -73,6 +73,8 @@ namespace Carmicah
         const float defaultVolume = 1.0f;
         float mMasterVolume;
         bool mIsMuted;
+        float currentVolume;
+        FMOD::DSP* fadeOutDSP;
         bool fadingOut = false; 
         bool fadeInNewSound = false; 
         float fadeTimerSeconds = 0.0f; 
@@ -82,7 +84,8 @@ namespace Carmicah
         std::string newSoundNamePending; 
         SoundCategory newSoundCategory;
         INTSOUND newSoundInternalCatergoy;
-        bool newSoundLoop = false; 
+        bool newSoundLoop = false;
+        bool switchBGM = false;
         float newSoundVolume = 0.0f;
 
     public:
@@ -97,6 +100,7 @@ namespace Carmicah
         void SwitchSound(INTSOUND internalCatergoy, const std::string& newSoundName, SoundCategory category, bool isLoop, float volume, float fadeTimer, float fadeDuration);
         void UpdateFadeEffect();
         void StopSound(INTSOUND internalCatergoy);
+        void StopSoundWithFade(INTSOUND internalCatergoy, const std::string& newSoundName, float fadeTimer, float fadeDuration);
         void PauseSound(INTSOUND internalCatergoy);
         void ResumeSound(INTSOUND internalCatergoy);
         void StopAllSounds();

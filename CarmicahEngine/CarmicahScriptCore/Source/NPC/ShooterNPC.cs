@@ -14,6 +14,9 @@ namespace Carmicah
         public override void OnCreate()
         {
             base.OnCreate();
+
+            
+
             npcType = AbilityType.SHOOTER;
 
         }
@@ -38,7 +41,12 @@ namespace Carmicah
 
                     Projectile bullet = projectile.As<Projectile>();
                     bullet.As<Projectile>().bulletType = BulletType.SHOOTER_BULLET;
-                    Sound.PlaySFX(shootSound);
+
+                    Random rnd = new Random();
+                    int number = rnd.Next(1, 6);
+                    string soundFile = "Shooting_v3_0" + number.ToString();
+
+                    Sound.PlaySFX(soundFile, 1.0f);
                     if (bullet != null)
                     {
                         bullet.targetMouse = targetMouse;

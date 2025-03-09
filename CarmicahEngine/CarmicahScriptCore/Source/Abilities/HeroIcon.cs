@@ -33,10 +33,13 @@ namespace Carmicah
             if(heroPrefab == "ShooterNPC")
             {
                 type = AbilityType.SHOOTER;
+                
             }
             else if(heroPrefab == "MageNPC")
             {
                 type = AbilityType.MAGE;
+
+                
             }
             else if(heroPrefab == "SpearNPC")
             {
@@ -98,7 +101,7 @@ namespace Carmicah
         {
             if (!hovering)
             {
-                Sound.PlaySFX("SFX__Magic");
+                Sound.PlaySFX("Item_Hover", 0.4f);
                 this.GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
                 
                 hovering = true;

@@ -70,6 +70,7 @@ namespace Carmicah
             return false;
         }
         FMOD::Sound* sound = AssetManager::GetInstance()->GetAsset<FMOD::Sound*>(soundName);
+
         FMOD::Channel* channel;
         mSoundSystem->playSound(sound, nullptr, false, &channel);
         if (channel) {
@@ -82,7 +83,14 @@ namespace Carmicah
             track->currentVolume = track->defaultVolume * mMasterVolume;
 
             if (!isLoop)
+            {
                 channel->setLoopCount(0);
+
+            }
+            /*else 
+            {
+                channel->setLoopCount(-1);
+            }*/
             channel->setVolume(track->currentVolume);
             mSoundTracks[internalCatergoy].emplace_back(std::move(track));
             return true;
@@ -102,6 +110,10 @@ namespace Carmicah
         {
             return;
         }
+
+        float currentVol = 1.0f;
+        currentChannel->getVolume(&currentVol);
+        currentVolume = currentVol; // Store for fade-out
 
         FMOD::DSP* volumeDSP = nullptr;
 
@@ -124,7 +136,8 @@ namespace Carmicah
             newSoundInternalCatergoy = internalCatergoy;
             newSoundLoop = isLoop;
             newSoundVolume = volume;
-            
+            switchBGM = true;
+            fadeOutDSP = volumeDSP;
             
         }
     }
@@ -139,29 +152,36 @@ namespace Carmicah
         // Decrease fadeTimer
         fadeTimerSeconds -= (float)CarmicahTime::GetInstance()->GetDeltaTime();
 
-        if (fadingOut)
+        if (fadingOut && fadeOutDSP)
         {
             // Fade-out progress: Starts at 1.0 and decreases to 0.0
             float fadeOutProgress = 1.0f - (fadeTimerSeconds / fadeDurationSeconds);
-            float newVolume = 1.0f - fadeOutProgress;
+            float newVolume = currentVolume * (1.0f - fadeOutProgress);
             oldChannel->setVolume(std::max(0.0f, newVolume));
+            //fadeOutDSP->setParameterFloat(FMOD_DSP_FADER_GAIN, std::max(0.0f, newVolume));
 
             if (fadeTimerSeconds <= 0.0f)
             {
-                oldChannel->stop();
-                oldChannel = nullptr;
+                /*oldChannel->stop();
+                oldChannel = nullptr;*/
                 fadingOut = false;
+
+                //fadeOutDSP->remove();
 
                 StopSound(newSoundInternalCatergoy);
 
-                PlaySoundThis(newSoundNamePending, newSoundCategory, newSoundInternalCatergoy, newSoundLoop, newSoundVolume);
-                FMOD::Channel* newChannel = mSoundTracks[newSoundInternalCatergoy].back()->channel;
-                if (newChannel)
+                if (switchBGM)
                 {
-                    newChannel->setVolume(0.0f); // Start at 0 volume
-                    newSoundChannel = newChannel;
-                    fadeInNewSound = true;
-                    fadeTimerSeconds = 1.0f; // Restart timer for fade-in
+                    PlaySoundThis(newSoundNamePending, newSoundCategory, newSoundInternalCatergoy, newSoundLoop, newSoundVolume);
+                    FMOD::Channel* newChannel = mSoundTracks[newSoundInternalCatergoy].back()->channel;
+                    if (newChannel)
+                    {
+                        newChannel->setVolume(0.0f); // Start at 0 volume
+                        newSoundChannel = newChannel;
+                        fadeInNewSound = true;
+                        fadeTimerSeconds = 1.0f; // Restart timer for fade-in
+                    }
+
                 }
             }
         }
@@ -175,9 +195,48 @@ namespace Carmicah
             if (fadeTimerSeconds <= 0.0f)
             {
                 fadeInNewSound = false;
-                fadeInProgress = false;
+                //fadeInProgress = false;
                 fadeTimerSeconds = 0.0f; // Reset timer
             }
+        }
+    }
+
+    void SoundSystem::StopSoundWithFade(INTSOUND internalCatergoy, const std::string& newSoundName, float fadeTimer, float fadeDuration)
+    {
+        if (mSoundTracks[internalCatergoy].empty())
+        {
+            return;
+        }
+
+        FMOD::Channel* currentChannel = mSoundTracks[internalCatergoy].back()->channel;
+        if (!currentChannel)
+        {
+            return;
+        }
+
+        float currentVol = 1.0f;
+        currentChannel->getVolume(&currentVol);
+        currentVolume = currentVol; // Store for fade-out
+
+        FMOD::DSP* volumeDSP = nullptr;
+
+        mSoundSystem->createDSPByType(FMOD_DSP_TYPE_FADER, &volumeDSP);
+
+
+        if (volumeDSP)
+        {
+
+            currentChannel->addDSP(0, volumeDSP);
+            volumeDSP->setParameterFloat(FMOD_DSP_FADER_GAIN, 1.0f);
+
+            fadeTimerSeconds = fadeTimer;
+            fadeDurationSeconds = fadeDuration;
+            fadingOut = true;
+            fadeInNewSound = false;
+            oldChannel = currentChannel;
+            fadeOutDSP = volumeDSP;
+            newSoundInternalCatergoy = internalCatergoy;
+
         }
     }
 
@@ -186,15 +245,43 @@ namespace Carmicah
         for (auto it = mSoundTracks[internalCatergoy].begin(); it != mSoundTracks[internalCatergoy].end(); ++it)
         {
             if (it->get()->channel)
+            {
                 it->get()->channel->stop();
+                if (internalCatergoy == INTSOUND::SOUND_INGAME)
+                {
+                    break;
+                }
+            }
+                //it->get()->channel->setMode(FMOD_LOOP_OFF);
+            
         }
-        mSoundTracks[internalCatergoy].clear();
+
+        if (internalCatergoy == INTSOUND::SOUND_BGM)
+        {
+            mSoundTracks[internalCatergoy].clear();
+
+        }
     }
+
+    
 
     void SoundSystem::StopAllSounds()
     {
         for (int i{}; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
-            StopSound(static_cast<INTSOUND>(i));
+        {
+            
+            if (static_cast<INTSOUND>(i) == INTSOUND::SOUND_INGAME)
+            {
+                for (int k{}; k < mSoundTracks[static_cast<INTSOUND>(i)].size(); k++)
+                {
+                    StopSound(static_cast<INTSOUND>(i));
+                }
+            }
+            else
+            {
+                StopSound(static_cast<INTSOUND>(i));
+            }
+        }
     }
 
     void SoundSystem::PauseSound(INTSOUND internalCatergoy)
