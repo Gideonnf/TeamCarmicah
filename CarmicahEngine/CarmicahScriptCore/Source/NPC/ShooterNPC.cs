@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +10,9 @@ namespace Carmicah
 {
     public class ShooterNPC : BaseNPC
     {
-        MouseAI targetMouse;
+        public string airAnim;
+        Entity target;
+        BulletTarget targetType;
         float timer = 0.0f;
         public override void OnCreate()
         {
@@ -28,7 +31,7 @@ namespace Carmicah
 
         public override void ShootProjectile()
         {
-            if (targetMouse != null)
+            if (target != null)
             {
                 Entity projectile = CreateGameObject(projectilePrefab);
                 if (projectile != null)
@@ -41,9 +44,9 @@ namespace Carmicah
                     Sound.PlaySFX(shootSound);
                     if (bullet != null)
                     {
-                        bullet.targetMouse = targetMouse;
+                        bullet.target = target;
 
-                        bullet.SetUp(targetMouse);
+                        bullet.SetUp(target);
                     }
 
                     if (mana > 0)
@@ -75,7 +78,8 @@ namespace Carmicah
                             if (dist < distance)
                             {
                                 distance = dist;
-                                targetMouse = mouse;
+                                target = mouse;
+                                targetType = BulletTarget.GROUND;
                             }
                         }
                     }
@@ -90,7 +94,8 @@ namespace Carmicah
                             if (dist < distance)
                             {
                                 distance = dist;
-                                targetMouse = mouse;
+                                target = mouse;
+                                targetType = BulletTarget.GROUND;
                             }
                         }
                     }
@@ -105,7 +110,8 @@ namespace Carmicah
                             if (dist < distance)
                             {
                                 distance = dist;
-                                targetMouse = mouse;
+                                target = mouse;
+                                targetType = BulletTarget.GROUND;
                             }
                         }
                     }
@@ -120,11 +126,46 @@ namespace Carmicah
                             if (dist < distance)
                             {
                                 distance = dist;
-                                targetMouse = mouse;
+                                target = mouse;
+                                targetType = BulletTarget.GROUND;
                             }
                         }
                     }
                     break;
+            }
+
+            switch(IsLeft)
+            {
+                case true:
+                {    
+                    foreach(FlyingEnemyAI bird in gameManager.flyingEnemyLeft)
+                    {
+                        float dist = bird.Position.Distance(Position);
+
+                        if(dist < distance)
+                        {
+                            distance = dist;
+                            target = bird;
+                                targetType = BulletTarget.AIR;
+                            }
+                    }
+                    break;
+                }
+                case false:
+                    {
+                        foreach (FlyingEnemyAI bird in gameManager.flyingEnemyRight)
+                        {
+                            float dist = bird.Position.Distance(Position);
+
+                            if (dist < distance)
+                            {
+                                distance = dist;
+                                target = bird;
+                                targetType = BulletTarget.AIR;
+                            }
+                        }
+                        break;
+                    }
             }
         }
 
@@ -138,7 +179,14 @@ namespace Carmicah
             else if (stateName == "Attacking")
             {
                 //CMConsole.Log("TESTING Enter State");
-                ChangeAnim(shootAnim);
+                if (targetType == BulletTarget.AIR)
+                {
+                    ChangeAnim(airAnim);
+                }
+                if(targetType == BulletTarget.GROUND)
+                { 
+                    ChangeAnim(shootAnim); 
+                }
                 animationTime = GetComponent<Animation>().GetMaxTime();
                 timer = 0.0f;
                 shot = false;
@@ -167,10 +215,10 @@ namespace Carmicah
             // idk if this will happen but if the mouse dies
             // this script might still hold a refeence to a 0 id mouse
             // which will cause crashes
-            if (targetMouse != null && targetMouse.mID == 0)
+            if (target != null && target.mID == 0)
             {
                 CMConsole.Log("I AM HERE");
-                targetMouse = null;
+                target = null;
                 // Change back to idle state
                 //if (stateName == "Attacking")
                 //    GetComponent<StateMachine>().SetStateCondition(1);
@@ -183,9 +231,9 @@ namespace Carmicah
                 // Get nearest enemy 
                 //targetMouse = gameManager.GetClosestMouse(this);
                 GetTarget(); // get targetMouse
-                if (targetMouse != null)
+                if (target != null)
                 {
-                    CMConsole.Log($"Target mouse : {targetMouse.mID}");
+                    CMConsole.Log($"Target mouse : {target.mID}");
 
                     // change to attacking state
                     if (mana > 0)
@@ -211,7 +259,7 @@ namespace Carmicah
                 timer += dt;
                 if (timer > shootTime)
                 {
-                    if (!shot && targetMouse != null)
+                    if (!shot && target != null)
                     {
                         ShootProjectile();
                         shot = true;
@@ -222,7 +270,9 @@ namespace Carmicah
                     else
                     {
                         if (timer >= animationTime)
+                        {
                             GetComponent<StateMachine>().SetStateCondition(1);
+                        }
                     }
 
                 }

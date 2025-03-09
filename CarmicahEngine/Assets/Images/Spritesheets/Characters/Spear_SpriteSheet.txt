@@ -12,4 +12,8 @@ Top left: 0 x 3078, 49 x 361
 
 Shooter_AirShoot
 Top left: 49 x 3078, 404 x 404
-14 sprites
+9 sprites
+
+Shooter_AirShoot1
+Top left: 49 x 3482, 404 x 404
+5 sprites

@@ -33,6 +33,13 @@ namespace Carmicah
         MAGE_BULLET,
         SPEAR_BULLET
     }
+
+    public enum BulletTarget
+    {
+        GROUND,
+        AIR
+    }
+
     public class Projectile : Entity
     {
         public string BulletAnim = "Shooter_Projectile";
@@ -41,7 +48,7 @@ namespace Carmicah
         public float LifeTime = 10.0f;
         public BulletType bulletType;
         //target enemy
-        public MouseAI targetMouse;
+        public Entity target;
 
         float timer = 0.0f;
         float animTimer = 0.0f;
@@ -78,12 +85,12 @@ namespace Carmicah
             timer += dt;
             if (timer >= LifeTime)
             {
-                targetMouse = null;
+                target = null;
                 Destroy();
                 return;
             }
 
-            if (targetMouse == null)
+            if (target == null)
             {
                // CMConsole.Log("TAOPMDOPSA");
                 Destroy();
@@ -92,16 +99,16 @@ namespace Carmicah
 
             else
             {
-                if (targetMouse.mID == 0)
+                if (target.mID == 0)
                 {
-                    targetMouse = null;
+                    target = null;
                     return;
                 }
                 // Move the bullet
                 // this is dying for some reason
                 if (HasComponent<RigidBody>())
                 {
-                    Vector2 mousePos = targetMouse.Position;
+                    Vector2 mousePos = target.Position;
                     Vector2 dir = mousePos - Position;
                     dir.Normalize();
                     //CMConsole.Log($"target mouse??? {targetMouse.mID}");
@@ -114,14 +121,14 @@ namespace Carmicah
         }
 
         // Set initial direction
-        public void SetUp(MouseAI target)
+        public void SetUp(Entity targetEnemy)
         {
-            targetMouse = target;
+            target = targetEnemy;
 
-            if (targetMouse != null)
+            if (targetEnemy != null)
             {
                 // Get target direction
-                Vector2 dir = targetMouse.Position - Position;
+                Vector2 dir = targetEnemy.Position - Position;
                 dir.Normalize();
                 //CMConsole.Log($"{dir.x}, {dir.y}");
 
