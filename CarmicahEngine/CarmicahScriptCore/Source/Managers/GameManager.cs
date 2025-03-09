@@ -609,6 +609,7 @@ namespace Carmicah
             }
         }
 
+        // for mouse enemies
         public bool KillNPC(MouseAI mouse)
         {
             // if the mouse's lane has an NPC in it when it dies at the top
@@ -644,6 +645,36 @@ namespace Carmicah
 
             // no npc
             return false;
+        }
+
+        // for flying enemies
+        public void KillNPC(Entity npcEntity)
+        {
+            foreach(Entity buildEntity in heroBuildEntities)
+            {
+                if (buildEntity.As<HeroBuild>().heroEntity == npcEntity)
+                {
+                    if (npcList.Contains(npcEntity))
+                    {
+                        CMConsole.Log($"num of npcList : {npcList.Count}");
+                        npcList.Remove(npcEntity);
+
+                        // let the flying enemies know that they have to change target
+                        foreach (FlyingEnemyAI flyingEnemy in flyingEnemyLeft)
+                        {
+                            flyingEnemy.UpdateTarget(npcEntity);
+                        }
+
+                        foreach (FlyingEnemyAI flyingEnemy in flyingEnemyRight)
+                        {
+                            flyingEnemy.UpdateTarget(npcEntity);
+                        }
+
+                        CMConsole.Log($"Killing NPC : {npcList.Count}");
+                        buildEntity.As<HeroBuild>().KillNPC();
+                    }
+                }
+            }
         }
 
         public void HideEntities()

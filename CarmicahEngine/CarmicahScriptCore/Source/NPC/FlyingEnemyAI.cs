@@ -161,6 +161,12 @@ namespace Carmicah
                         Entity mainCharacter = FindEntityWithName("mainCharacter");
                         mainCharacter.As<Player>().TakeDamage(10, enemyType);
                     }
+                    else
+                    {
+                        // its probably an NPC
+                        GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                        gm.KillNPC(targetEntity);
+                    }
                 }
                 // change to dead state
                 GetComponent<StateMachine>().SetStateCondition(2);
