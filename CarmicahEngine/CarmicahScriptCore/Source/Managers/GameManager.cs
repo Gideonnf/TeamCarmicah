@@ -585,7 +585,7 @@ namespace Carmicah
             }
         }
 
-        public void KillNPC(MouseAI mouse)
+        public bool KillNPC(MouseAI mouse)
         {
             // if the mouse's lane has an NPC in it when it dies at the top
             // kil the npc
@@ -594,7 +594,11 @@ namespace Carmicah
             if (heroBuildEntities[mouse.lane].As<HeroBuild>().heroEntity != null && heroBuildEntities[mouse.lane].As<HeroBuild>().heroEntity.mID != 0)
             {
                 heroBuildEntities[mouse.lane].As<HeroBuild>().KillNPC();
+                return true;
             }
+
+            // no npc
+            return false;
         }
 
         public void HideEntities()

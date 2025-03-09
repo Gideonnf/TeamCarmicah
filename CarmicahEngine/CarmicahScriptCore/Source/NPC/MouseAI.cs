@@ -223,17 +223,20 @@ namespace Carmicah
             float dist = Position.Distance(endPos);
             //CMConsole.Log($"Distance to end {dist}");
 
-            if (dist <= 0.3f)
+            if (dist <= 0.5f)
             {
                 // CMConsole.Log("Dying");
                 Entity gameManager = FindEntityWithName("GameManager");
-                gameManager.As<GameManager>().KillNPC(this);
+
+                // if thers no NPC to kill then deal damage to the player
+               if(!gameManager.As<GameManager>().KillNPC(this))
+                {
+                    Entity mainCharacter = FindEntityWithName("mainCharacter");
+                    mainCharacter.As<Player>().TakeDamage(10, enemyType);
+                }
 
                 timer = 0.0f;
                 GetComponent<StateMachine>().SetStateCondition(1);
-
-                Entity mainCharacter = FindEntityWithName("mainCharacter");
-                mainCharacter.As<Player>().TakeDamage(10, enemyType);
 
 
             }
