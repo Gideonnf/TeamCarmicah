@@ -153,6 +153,15 @@ namespace Carmicah
             float dist = Position.Distance(targetPos);
             if (dist <= 0.5f)
             {
+                if (targetEntity != null && targetEntity.mID != 0)
+                {
+                    // the target is the player
+                    if (targetEntity.GetTag() == "Player")
+                    {
+                        Entity mainCharacter = FindEntityWithName("mainCharacter");
+                        mainCharacter.As<Player>().TakeDamage(10, enemyType);
+                    }
+                }
                 // change to dead state
                 GetComponent<StateMachine>().SetStateCondition(2);
             }
