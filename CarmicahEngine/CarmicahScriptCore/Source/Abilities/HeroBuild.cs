@@ -250,7 +250,7 @@ namespace Carmicah
                 }
 
             }
-            Sound.PlaySFX(soundFile, 0.6f);
+            Sound.PlaySFX(soundFile, 0.8f);
         }
 
         public void KillNPC()
@@ -258,7 +258,7 @@ namespace Carmicah
             // if it exist
             if (heroEntity != null && heroEntity.mID != 0)
             {
-
+                
                 heroEntity.As<BaseNPC>().KillHero();
                 heroEntity = null;
                 built = false;

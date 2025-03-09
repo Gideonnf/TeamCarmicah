@@ -160,6 +160,8 @@ namespace Carmicah
             }
             else if (stateName == "Dead")
             {
+                Sound.PlaySFX("Shooter_Death", 0.8f);
+                Sound.PlaySFX("NPC_Death", 0.8f);
                 ChangeAnim(dissolveAnim);
                 CMConsole.Log("NPC Dying");
             }

@@ -99,11 +99,14 @@ namespace Carmicah
         bool PlaySoundThis(const std::string& soundName, SoundCategory category = SoundCategory::SFX, INTSOUND internalCatergoy = SOUND_INGAME, bool isLoop = false, float volume = -1.0f);
         void SwitchSound(INTSOUND internalCatergoy, const std::string& newSoundName, SoundCategory category, bool isLoop, float volume, float fadeTimer, float fadeDuration);
         void UpdateFadeEffect();
+        //void StopSound(INTSOUND internalCatergoy);
+        void StopSoundSFX(INTSOUND internalCatergoy);
         void StopSound(INTSOUND internalCatergoy);
         void StopSoundWithFade(INTSOUND internalCatergoy, const std::string& newSoundName, float fadeTimer, float fadeDuration);
         void PauseSound(INTSOUND internalCatergoy);
         void ResumeSound(INTSOUND internalCatergoy);
         void StopAllSounds();
+        void StopAllSoundSFX(INTSOUND internalCatergoy);
         void PauseAllSounds();
         void ResumeAllSounds();
 

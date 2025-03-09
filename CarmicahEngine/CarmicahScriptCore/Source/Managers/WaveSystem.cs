@@ -101,8 +101,8 @@ namespace Carmicah
                 //gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
                 if (winScreen == null)
                 {
-                    Sound.SwitchBGM("WinScreen", 0.5f, 0.5f);
-                    
+                    Sound.SwitchBGM("WinScreen", 0.5f, 0.5f, false);
+                    Sound.StopAllSFX();
                     gameManager.As<GameManager>().GameOver = true;
                     winScreen = CreateGameObject(winPrefab);
                 }

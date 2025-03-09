@@ -247,41 +247,52 @@ namespace Carmicah
             if (it->get()->channel)
             {
                 it->get()->channel->stop();
-                if (internalCatergoy == INTSOUND::SOUND_INGAME)
-                {
-                    break;
-                }
+              
             }
                 //it->get()->channel->setMode(FMOD_LOOP_OFF);
             
         }
 
-        if (internalCatergoy == INTSOUND::SOUND_BGM)
-        {
-            mSoundTracks[internalCatergoy].clear();
+        mSoundTracks[internalCatergoy].clear();
+    }
 
+    void SoundSystem::StopSoundSFX(INTSOUND internalCatergoy)
+    {
+        for (auto it = mSoundTracks[internalCatergoy].begin(); it != mSoundTracks[internalCatergoy].end(); ++it)
+        {
+            if (it->get()->channel)
+            {
+                it->get()->channel->stop();
+                break;
+            }
+            
         }
     }
 
-    
+    /*void SoundSystem::StopAllSoundSFX(INTSOUND internalCatergoy)
+    {
+        for (auto it = mSoundTracks[internalCatergoy].begin(); it != mSoundTracks[internalCatergoy].end(); ++it)
+        {
+            if (it->get()->channel)
+            {
+                it->get()->channel->stop();
+                
+            }
+        }
+
+        mSoundTracks[internalCatergoy].clear();
+    }*/
+        
 
     void SoundSystem::StopAllSounds()
     {
         for (int i{}; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
         {
             
-            if (static_cast<INTSOUND>(i) == INTSOUND::SOUND_INGAME)
-            {
-                for (int k{}; k < mSoundTracks[static_cast<INTSOUND>(i)].size(); k++)
-                {
-                    StopSound(static_cast<INTSOUND>(i));
-                }
-            }
-            else
-            {
-                StopSound(static_cast<INTSOUND>(i));
-            }
+            StopSound(static_cast<INTSOUND>(i));
         }
+
+        
     }
 
     void SoundSystem::PauseSound(INTSOUND internalCatergoy)

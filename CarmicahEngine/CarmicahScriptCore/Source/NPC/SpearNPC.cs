@@ -157,8 +157,9 @@ namespace Carmicah
             }
             else if (stateName == "Dead")
             {
+                Sound.PlaySFX("Spearman_Death", 0.8f);
+                Sound.PlaySFX("NPC_Death", 0.8f);
                 ChangeAnim(dissolveAnim);
-                Sound.PlaySFX("NPC_Death", 0.3f);
                 CMConsole.Log("NPC Dying");
             }
 

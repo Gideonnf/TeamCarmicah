@@ -223,8 +223,16 @@ namespace Carmicah
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->StopSound(SoundSystem::SOUND_INGAME);
+		souSystem->StopSoundSFX(SoundSystem::SOUND_INGAME);
 		mono_free(cStrname);
+	}
+
+	static void Sound_StopAllSFX()
+	{
+		//char* cStrname = mono_string_to_utf8(name);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->StopSound(SoundSystem::SOUND_INGAME);
+		//mono_free(cStrname);
 	}
 
 	static void Sound_StopSFXWithFade(MonoString* name, float fadeTimer, float fadeDuration)
@@ -235,11 +243,11 @@ namespace Carmicah
 		mono_free(cStrname);
 	}
 
-	static void Sound_SwitchBGM(MonoString* name, float fadeTimer, float fadeDuration)
+	static void Sound_SwitchBGM(MonoString* name, float fadeTimer, float fadeDuration, bool isLoop)
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->SwitchSound(SoundSystem::SOUND_BGM, cStrname, SoundCategory::BGM, true, 0.4f, fadeTimer, fadeDuration);
+		souSystem->SwitchSound(SoundSystem::SOUND_BGM, cStrname, SoundCategory::BGM, isLoop, 0.4f, fadeTimer, fadeDuration);
 		mono_free(cStrname);
 	}
 
@@ -940,6 +948,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Sound_PlayBGM);
 		ADD_INTERNAL_CALL(Sound_StopBGM);
 		ADD_INTERNAL_CALL(Sound_StopSFX);
+		ADD_INTERNAL_CALL(Sound_StopAllSFX);
 		ADD_INTERNAL_CALL(Sound_StopSFXWithFade);
 		ADD_INTERNAL_CALL(Sound_SwitchBGM);
 
