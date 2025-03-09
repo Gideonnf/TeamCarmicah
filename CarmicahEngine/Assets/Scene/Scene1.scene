@@ -330,10 +330,10 @@
                             "MageIconPrefab": "MageIcon",
                             "ShooterIconPrefab": "ShooterIcon",
                             "TrapIconPrefab": "TrapIcon",
-                            "shakeMagnitude": 1.5,
-                            "shake": false,
-                            "SpearIconPrefab": "SpearIcon",
                             "startingPos": 760.0,
+                            "SpearIconPrefab": "SpearIcon",
+                            "shake": false,
+                            "shakeMagnitude": 1.5,
                             "yOffset": 75.0,
                             "shakeTimer": 1.0,
                             "timer": 0.0,
@@ -448,14 +448,14 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "StartingCake": "StartingCake",
-                            "MousePrefabName": "MouseGONew",
-                            "waveTimer": 0.0,
-                            "GameOver": false,
                             "LeftOrRight": false,
-                            "WaveStarted": false,
-                            "CakeHeightOffset": 11.600000381469727,
+                            "GameOver": false,
+                            "waveTimer": 0.0,
+                            "MousePrefabName": "MouseGONew",
+                            "StartingCake": "StartingCake",
                             "spawnTimer": 1.5,
+                            "CakeHeightOffset": 11.600000381469727,
+                            "WaveStarted": false,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
                             "PlayerName": "mainCharacter",
@@ -524,9 +524,9 @@
                             "waveStartTime": 21.0,
                             "waveTimer": 0.0,
                             "startNewWave": true,
-                            "waveStart": false,
-                            "waveSetupTime": 15.0,
                             "waveCounter": 0,
+                            "waveSetupTime": 15.0,
+                            "waveStart": false,
                             "mobCounter": 0,
                             "losePrefab": "LoseScreen",
                             "winPrefab": "Win_Screen",
@@ -843,14 +843,14 @@
                     "scriptName": "Carmicah.Player",
                     "ScriptableFieldMap": [
                         {
-                            "IdleAnim": "MC_Idle",
-                            "HealAnim": "MC_Heal",
                             "elapsedTime": 0.0,
-                            "GameLost": true,
+                            "HealAnim": "MC_Heal",
+                            "IdleAnim": "MC_Idle",
                             "WalkAnim": "MC_Walk",
+                            "GameLost": true,
                             "isWalking": true,
-                            "walkingSpeed": 2.0,
                             "isCreated": false,
+                            "walkingSpeed": 2.0,
                             "damaged": false,
                             "flashInterval": 0.25,
                             "flashTime": 1.0,
@@ -1148,7 +1148,7 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 2.5
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1176,11 +1176,13 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "TrapTranslucentPrefab": "TrapTranslucent",
                             "lane": 3.0,
+                            "yOffset": 1.0,
                             "IsLeft": true,
-                            "depthVal": 0.0
+                            "depthVal": 0.0,
+                            "xOffset": 1.5
                         }
                     ]
                 }
@@ -1211,7 +1213,7 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 2.5
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1240,10 +1242,12 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 0.0,
+                            "yOffset": 1.0,
                             "IsLeft": false,
-                            "depthVal": 0.0
+                            "depthVal": 0.0,
+                            "xOffset": 1.5
                         }
                     ]
                 }
@@ -1450,7 +1454,7 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 2.5
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1479,10 +1483,12 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 2.0,
+                            "yOffset": 1.0,
                             "IsLeft": true,
-                            "depthVal": 0.0
+                            "depthVal": 0.0,
+                            "xOffset": 1.5
                         }
                     ]
                 }
@@ -1513,7 +1519,7 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 2.5
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1542,10 +1548,12 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 1.0,
+                            "yOffset": 1.0,
                             "IsLeft": false,
-                            "depthVal": 0.0
+                            "depthVal": 0.0,
+                            "xOffset": 1.5
                         }
                     ]
                 }
@@ -1906,10 +1914,10 @@
                     "ScriptableFieldMap": [
                         {
                             "HoneyPrefab": "HoneyBall",
-                            "MagePrefab": "MageBall",
                             "heightOffset": 12.0,
-                            "ShooterPrefab": "ShooterBall",
+                            "MagePrefab": "MageBall",
                             "SpawnTimer": 18.0,
+                            "ShooterPrefab": "ShooterBall",
                             "TrapPrefab": "TrapBall",
                             "timer": 0.0,
                             "xOffset": 5.0,

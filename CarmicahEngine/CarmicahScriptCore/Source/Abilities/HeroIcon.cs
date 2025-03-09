@@ -21,7 +21,10 @@ namespace Carmicah
         Entity heroBuildEntity1;
         Entity heroBuildEntity2;
         Entity heroBuildEntity3;
-        
+
+        // set these in script var
+        public float xOffset = 0.0f;
+        public float yOffset = 0.0f;
 
         void OnCreate()
         {
