@@ -47,6 +47,11 @@ namespace Carmicah
                     transform.Position = position;
                 }
             }
+
+            if(transform.Position.y >= endYPosition)
+            {
+                Scene.ChangeScene("Scene3");
+            }
         }
     }
 }

@@ -77,6 +77,10 @@
                     "Component Name": "struct Carmicah::Button"
                 },
                 {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 52
+                },
+                {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "Button_SpriteSheet_H_Back 0",
@@ -100,7 +104,7 @@
                     "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
                         {
-                            "buttonType": "back",
+                            "buttonType": "backcredits",
                             "nextScene": "Scene3"
                         }
                     ]
@@ -114,7 +118,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 3.799999952316284,
-                    "yPos": -26.434999465942384,
+                    "yPos": -26.881000518798829,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
