@@ -23,8 +23,11 @@ namespace CarmicahScript
         {
             if (!IsTimer)
             {
-                string text = "/ 5";
-                GetComponent<TextRenderer>().SetText(text);
+                string wave = waveSystem.As<WaveSystem>().levelManager.currentLevel.ToString();
+                string dash = "/";
+                string totalWaves = waveSystem.As<WaveSystem>().levelManager.NumOfLevels.ToString();
+
+                GetComponent<TextRenderer>().SetText(wave + dash + totalWaves);
             }
             else
             {

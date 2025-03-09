@@ -57,6 +57,8 @@ namespace Carmicah
         public string AnimationDie2;
         public string AnimationDie3;
 
+        string soundFile;
+
         public string DeathSound = "mouse die btr";
         public string InjuredSound = "mouse die";
 
@@ -258,17 +260,20 @@ namespace Carmicah
             float dist = Position.Distance(endPos);
             //CMConsole.Log($"Distance to end {dist}");
 
-            if (dist <= 0.3f)
+            if (dist <= 0.5f)
             {
                 // CMConsole.Log("Dying");
                 Entity gameManager = FindEntityWithName("GameManager");
-                gameManager.As<GameManager>().KillNPC(this);
+
+                // if thers no NPC to kill then deal damage to the player
+               if(!gameManager.As<GameManager>().KillNPC(this))
+                {
+                    Entity mainCharacter = FindEntityWithName("mainCharacter");
+                    mainCharacter.As<Player>().TakeDamage(10, enemyType);
+                }
 
                 timer = 0.0f;
                 GetComponent<StateMachine>().SetStateCondition(1);
-
-                Entity mainCharacter = FindEntityWithName("mainCharacter");
-                mainCharacter.As<Player>().TakeDamage(10, enemyType);
 
 
             }
@@ -369,9 +374,7 @@ namespace Carmicah
             {
                 timer = 0.0f;
                 Sound.PlaySFX(InjuredSound, 0.5f);
-                GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
-                if (gm != null)
-                    gm.EntityDestroyed(this);
+
 
                 //CMConsole.Log("TESTING Enter State");
                 switch (animType)
@@ -432,7 +435,7 @@ namespace Carmicah
                 {
                     Random rnd = new Random();
                     int number = rnd.Next(1, 8);
-                    string soundFile = "Mice_Running_0" + number.ToString();
+                    soundFile = "Mice_Running_0" + number.ToString();
 
                     Sound.PlaySFX(soundFile, 0.2f, true);
                     isRunning = true;
@@ -446,7 +449,11 @@ namespace Carmicah
                 if (timer >= GetComponent<Animation>().GetMaxTime())
                 {
                     isRunning = false;
-                    Sound.StopSoundSFX("Mice_Running_02");
+                    Sound.StopSoundSFX(soundFile);
+                    GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                    if (gm != null)
+                        gm.EntityDestroyed(this);
+
                     Sound.PlaySFX(DeathSound, 0.5f);
                     timer = 0.0f;
                     Destroy();
