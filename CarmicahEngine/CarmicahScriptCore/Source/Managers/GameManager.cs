@@ -354,6 +354,19 @@ namespace Carmicah
             //mouseEntities.Remove(mouse);
         }
 
+        public void EntityDestroyed(FlyingEnemyAI entity)
+        {
+            activeEnemies--;
+            if (entity.isLeft)
+            {
+                flyingEnemyLeft.Remove(entity);
+            }
+            else
+            {
+                flyingEnemyRight.Remove(entity);
+            }
+        }
+
         public MouseAI GetClosestMouse(HeroAI entity)
         {
 

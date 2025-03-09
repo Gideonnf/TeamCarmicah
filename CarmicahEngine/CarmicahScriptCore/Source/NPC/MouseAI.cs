@@ -369,9 +369,7 @@ namespace Carmicah
             {
                 timer = 0.0f;
                 Sound.PlaySFX(InjuredSound, 0.5f);
-                GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
-                if (gm != null)
-                    gm.EntityDestroyed(this);
+
 
                 //CMConsole.Log("TESTING Enter State");
                 switch (animType)
@@ -436,6 +434,10 @@ namespace Carmicah
                 timer += dt;
                 if (timer >= GetComponent<Animation>().GetMaxTime())
                 {
+                    GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                    if (gm != null)
+                        gm.EntityDestroyed(this);
+
                     Sound.PlaySFX(DeathSound, 0.5f);
                     timer = 0.0f;
                     Destroy();
