@@ -167,6 +167,18 @@ namespace Carmicah
             }
         }
 
+        public void UpdateTarget(Entity entity)
+        {
+            if (currentStage == FlyingStage.DIAGONAL)
+            {
+                if (targetEntity != null && entity == targetEntity)
+                {
+                    GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                    targetEntity = gm.GetTargetNPC(this);
+                }
+            }
+        }
+
         void OnCollide(uint id)
         {
             if (mID == 0)
