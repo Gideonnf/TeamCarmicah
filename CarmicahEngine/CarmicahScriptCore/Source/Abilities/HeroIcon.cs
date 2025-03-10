@@ -26,6 +26,8 @@ namespace Carmicah
         public float xOffset = 0.0f;
         public float yOffset = 0.0f;
 
+        public float mouseXOffset = 0.5f;
+
         void OnCreate()
         {
             heroBuildEntity = FindEntityWithName(HeroBuild);
@@ -58,7 +60,7 @@ namespace Carmicah
 
             //if (IsKeyHold(Keys.))
             Vector2 mousePos = Input.GetMousePos();
-            trapEntity.Position = mousePos;
+            trapEntity.Position = mousePos + new Vector2(mouseXOffset, 0);
 
             if (trapEntity.Position.x < 0.0f && flipped != true)
             {

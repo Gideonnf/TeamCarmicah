@@ -30,7 +30,8 @@
                     "hovering": false,
                     "flipped": false,
                     "xOffset": 0.0,
-                    "yOffset": 1.0
+                    "yOffset": 1.0,
+                    "mouseXOffset": 0.0
                 }
             ]
         },
