@@ -30,8 +30,6 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
-	vtxTexd2D ParticlesSystem::mClearData[100]{};
-
 	void ParticlesSystem::Init()
 	{
 		// Set the signature of the system
@@ -39,6 +37,9 @@ namespace Carmicah
 		// Update the signature of the system
 		SystemManager::GetInstance()->SetSignature<ParticlesSystem>(mSignature);
 		BaseGraphicsSystem::Init(AssetManager::GetInstance()->enConfig.defaultShader);
+
+		BaseGraphicsSystem::GenBatch("Square", 2, true, false);	// World Space
+		BaseGraphicsSystem::GenBatch("Square", 2, false, false);// UI Space
 	}
 
 	// Uses basic.vert/frag
@@ -46,22 +47,61 @@ namespace Carmicah
 	void ParticlesSystem::Update()
 	{
 		float dt = static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime());
+
+		// Delete dead particles First
+		for (size_t i{}; i < 2; ++i)
+		{
+			size_t eraseCounter{}, arrSize{ mParticles[i].size() };
+			for (size_t it{}; it < mParticles[i].size();)
+			{
+				particle& par = mParticles[i][it];
+				// Swap this with the last particle, continue (don't advance)
+				if ((par.timeLeft -= dt) < 0.f)
+				{
+					std::swap(par, mParticles[i][arrSize - (++eraseCounter)]);
+					if (eraseCounter == arrSize)
+						break;
+					continue;
+				}
+				++it;
+			}
+			// Remove non-active particles from the list
+			if (eraseCounter > 0)
+			{
+				if (eraseCounter == arrSize)
+				{
+					mParticles[i].clear();
+					continue;
+				}
+				else
+					mParticles[i].erase(mParticles[i].begin() + (arrSize - eraseCounter), mParticles[i].end());
+			}
+
+		}
+
 		// Generate particles
 		for (auto& e : mEntitiesSet)
 		{
+			// Emitter Qualities
 			auto& emitter = ComponentManager::GetInstance()->GetComponent<ParticleEmitter>(e);
+
+			if (!emitter.HasEmitterQualities(ParticleEmitter::EMITTER_ACTIVE) || emitter.particleLifeTime < dt)
+				continue;
 
 			if (emitter.HasEmitterQualities(ParticleEmitter::EMITTER_BURST))
 			{
 				emitter.optAliveTime -= dt;
 				if (emitter.optAliveTime < 0)
+				{
 					emitter.SetEmitterQualities(ParticleEmitter::EMITTER_ACTIVE, false);
+					continue;
+				}
 			}
-			if (!emitter.HasEmitterQualities(ParticleEmitter::EMITTER_ACTIVE))
-				continue;
 
 			emitter.timePassed += dt;
 			float spawnTime = 1.f / static_cast<float>(emitter.spawnPerSec);
+
+			// Spawn Loop
 			if (emitter.timePassed > spawnTime)
 			{
 				float emitterSpeed = emitter.particleSpeed.length();
@@ -70,16 +110,10 @@ namespace Carmicah
 				// World Space == array 0
 				if (ComponentManager::GetInstance()->HasComponent<Transform>(e))
 				{
+					auto& tf = ComponentManager::GetInstance()->GetComponent<Transform>(e);
 					do
 					{
-						if (mParticles[0].size() + mParticles[1].size() >= mMaxParticles)
-						{
-							emitter.timePassed = 0.0f;
-							break;
-						}
-
 						particle par;
-						auto& tf = ComponentManager::GetInstance()->GetComponent<Transform>(e);
 
 						par.texture = emitter.texture;
 						par.timeLeft = emitter.particleLifeTime;
@@ -107,7 +141,6 @@ namespace Carmicah
 						par.hasFriction = emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_FRICTION);
 						par.hasGrav = emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_GRAVITY);
 
-
 						mParticles[0].emplace_back(par);
 						emitter.timePassed -= spawnTime;
 					} while (emitter.timePassed > spawnTime);
@@ -115,21 +148,18 @@ namespace Carmicah
 				// UI Space == array 1
 				else
 				{
+					auto& tf = ComponentManager::GetInstance()->GetComponent<UITransform>(e);
+					const Texture& texture = AssetManager::GetInstance()->GetAsset<Texture>(ComponentManager::GetInstance()->GetComponent<Renderer>(e).Texture());
+					Vec2f intTexScale{ (AssetManager::GetInstance()->enConfig.maxTexSize / 50.f * texture.mtx.m00) - 1.f, (AssetManager::GetInstance()->enConfig.maxTexSize / 50.f * texture.mtx.m11) - 1.f };
 					do
 					{
-						if (mParticles[0].size() + mParticles[1].size() >= mMaxParticles)
-						{
-							emitter.timePassed = 0.0f;
-							break;
-						}
-
 						particle par;
-						auto& tf = ComponentManager::GetInstance()->GetComponent<UITransform>(e);
 
 						par.texture = emitter.texture;
 						par.timeLeft = emitter.particleLifeTime;
 						float scaleMod{ CarmicahTime::GetInstance()->GenerateRandFloat(std::max(0.f, emitter.scaleRange.x), std::max(emitter.scaleRange.x, emitter.scaleRange.y))};
-						par.mtx.translateThis(tf.Pos()).scaleThis(tf.Scale() * scaleMod);
+						par.mtx = tf.rotTrans;
+						par.mtx.scaleThis(intTexScale.x * tf.accumulatedScale.x * scaleMod, intTexScale.y * tf.accumulatedScale.y * scaleMod);
 						float xAddition = CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.spawnRadius.x, emitter.spawnRadius.x);
 						par.mtx.m[6] += xAddition;
 						par.mtx.m[7] += CarmicahTime::GetInstance()->GenerateRandFloat(-emitter.spawnRadius.y, emitter.spawnRadius.y);
@@ -158,59 +188,20 @@ namespace Carmicah
 		}
 
 		// Gets ready data
-		mParticlesData[0].clear();
-		mParticlesData[0].reserve(mParticles[0].size() * 4);
-		mParticlesData[1].clear();
-		mParticlesData[1].reserve(mParticles[1].size() * 4);
 		auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>("Square")};
 
 		
 		for (size_t i{}; i < 2; ++i)// WorldSpace, UISpace
 		{
-			int& mBatchSize = AssetManager::GetInstance()->enConfig.batchRenderSize;
-
-			if (i == 0)
-			{
-				BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>("Square").uid, mCurrShader, true, mParticleBufferID);
-				if (RenderHelper::GetInstance()->mBufferMap.find(bufferID) != RenderHelper::GetInstance()->mBufferMap.end())
-				{
-					BatchBuffer& bb = RenderHelper::GetInstance()->mBufferMap.find(bufferID)->second;
-
-					// Clear Data
-					glNamedBufferSubData(bb.buffer[0].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * mBatchSize, mClearData);
-				}
-			}
-			else
-			{
-				BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>("Square").uid, mCurrShader, false, mParticleBufferID);
-				if (RenderHelper::GetInstance()->mBufferMap.find(bufferID) != RenderHelper::GetInstance()->mBufferMap.end())
-				{
-					BatchBuffer& bb = RenderHelper::GetInstance()->mBufferMap.find(bufferID)->second;
-
-					// Clear Data
-					glNamedBufferSubData(bb.buffer[0].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * mBatchSize, mClearData);
-				}
-			}
-
-			size_t eraseCounter{}, arrSize{ mParticles[i].size() };
-			float depth{};
-			if(i == 0)
-				depth = CalcDepth(mNearestDepth, BASE_LAYER);
-			else if(i == 1)
-				depth = CalcDepth(mNearestDepth, UI_LAYER);
+			float depth{ CalcDepth(mNearestDepth, (i == 0 ? BASE_LAYER : UI_LAYER)) };
+			BufferCPUSide& vtxBuf = RenderHelper::GetInstance()->mParticleData[i];
+			vtxBuf.vtxSize = mParticles[i].size();
+			RenderHelper::GetInstance()->ReserveFontBuffer(vtxBuf, mParticles[i].size());
 
 			// Loops through all active particles and updates
-			for (size_t it{}; it < mParticles[i].size();)
+			for (size_t it{}; it < mParticles[i].size();++it)
 			{
 				particle& par = mParticles[i][it];
-				// Swap this with the last particle, continue (don't advance)
-				if ((par.timeLeft -= dt) < 0.f)
-				{
-					std::swap(par, mParticles[i][arrSize - (++eraseCounter)]);
-					if (eraseCounter == arrSize)
-						break;
-					continue;
-				}
 				// Update the particle
 				if (par.hasGrav)
 					par.vel.y -= mGrav * dt;
@@ -227,7 +218,7 @@ namespace Carmicah
 				auto& texture = AssetManager::GetInstance()->GetAsset<Texture>(par.texture);
 				for (unsigned int ii{}; ii < p.vtx.size(); ++ii)
 				{
-					vtxTexd2D vtx;
+					vtxTexd2D& vtx = vtxBuf.vtx[it * 4 + ii];
 					vtx.pos = par.mtx * p.vtx[ii];
 					//tt.ids[0] = entity;		// Used for id-picking
 					vtx.ids[1] = texture.t;
@@ -238,62 +229,8 @@ namespace Carmicah
 
 					vtx.depth = depth;
 					vtx.uv = texture.mtx * p.texCoord[ii];
-					mParticlesData[i].emplace_back(vtx);
 				}
-				++it;
-			}
-
-
-			// Remove non-active particles from the list
-			if (eraseCounter > 0)
-			{
-				if (eraseCounter == arrSize)
-				{
-					mParticles[i].clear();
-					continue;
-				}
-				else
-					mParticles[i].erase(mParticles[i].begin() + (arrSize - eraseCounter), mParticles[i].end());
-
-				arrSize -= eraseCounter;
-			}
-			
-			// Batch push data
-			if (i == 0)
-			{
-				while (mParticlesData[i].size() > mParticlesBufferSize[i])
-				{
-					GenBatch("Square", mParticleBufferID, true, false, true);
-					mParticlesBufferSize[i] += static_cast<size_t>(mBatchSize);
-				}
-				BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>("Square").uid, mCurrShader, true, mParticleBufferID);
-				if (RenderHelper::GetInstance()->mBufferMap.find(bufferID) != RenderHelper::GetInstance()->mBufferMap.end())
-				{
-					BatchBuffer& bb = RenderHelper::GetInstance()->mBufferMap.find(bufferID)->second;
-
-					// Write Data
-					if(!mParticlesData[i].empty())
-						glNamedBufferSubData(bb.buffer[0].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * std::min(mBatchSize, static_cast<int>(mParticlesData[i].size())), mParticlesData[i].data());
-				}
-			}
-			else if (i == 1)
-			{
-				while (mParticlesData[i].size() > mParticlesBufferSize[i])
-				{
-					GenBatch("Square", mParticleBufferID, false, false, true);
-					mParticlesBufferSize[i] += static_cast<size_t>(mBatchSize);
-				}
-
-				BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>("Square").uid, mCurrShader, false, mParticleBufferID);
-				if (RenderHelper::GetInstance()->mBufferMap.find(bufferID) != RenderHelper::GetInstance()->mBufferMap.end())
-				{
-					BatchBuffer& bb = RenderHelper::GetInstance()->mBufferMap.find(bufferID)->second;
-
-					if (!mParticlesData[i].empty())
-						glNamedBufferSubData(bb.buffer[0].vbo, 0, sizeof(vtxTexd2D) * p.vtx.size() * std::min(mBatchSize, static_cast<int>(mParticlesData[i].size())), mParticlesData[i].data());
-
-				}
-			}
+			}			
 		}
 	}
 

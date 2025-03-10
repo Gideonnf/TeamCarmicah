@@ -54,7 +54,11 @@ namespace Carmicah
                         bullet.As<Projectile>().facingRight = false;
                     }
 
-                    Sound.PlaySFX(shootSound);
+                    Random rnd = new Random();
+                    int number = rnd.Next(1, 6);
+                    string soundFile = "Mage_Shoot_0" + number.ToString();
+
+                    Sound.PlaySFX(soundFile, 1.0f);
                     if (bullet != null)
                     {
                         bullet.target = targetMouse;

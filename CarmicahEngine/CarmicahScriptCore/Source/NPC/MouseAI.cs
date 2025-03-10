@@ -50,6 +50,8 @@ namespace Carmicah
         public string baseAnimation;
         public string baseAnimationDie;
 
+        string soundFile;
+
         public string DeathSound = "mouse die btr";
         public string InjuredSound = "mouse die";
 
@@ -76,6 +78,9 @@ namespace Carmicah
         private float baseRegularSpeed = 1.0f;
         private float baseFastSpeed = 1.5f;
         private float baseHeavySpeed = 1.8f;
+
+       
+        bool isRunning = false;
 
         public float TimeToDie = 1.5f;
         public float timer;
@@ -369,6 +374,15 @@ namespace Carmicah
                 }
 
                 // CMConsole.Log("TESTING Update State");
+                if(!isRunning)
+                {
+                    Random rnd = new Random();
+                    int number = rnd.Next(1, 8);
+                    soundFile = "Mice_Running_0" + number.ToString();
+
+                    Sound.PlaySFX(soundFile, 0.2f, true);
+                    isRunning = true;
+                }
                 UpdateMovement(dt);
             }
             else if (stateName == "Dead")
@@ -377,6 +391,8 @@ namespace Carmicah
                 timer += dt;
                 if (timer >= GetComponent<Animation>().GetMaxTime())
                 {
+                    isRunning = false;
+                    Sound.StopSoundSFX(soundFile);
                     GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                     if (gm != null)
                         gm.EntityDestroyed(this);

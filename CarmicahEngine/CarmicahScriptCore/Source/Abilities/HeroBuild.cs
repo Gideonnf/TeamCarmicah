@@ -15,6 +15,7 @@ namespace Carmicah
        // public string TrapTranslucentPrefab = "TrapTranslucent";
         public bool IsLeft = false;
         public float depthVal;
+        string soundFile;
         Entity translucentHero;
         public Entity heroEntity;
         //Entity shooterIcon;
@@ -100,7 +101,9 @@ namespace Carmicah
                         {
                             heroEntity.As<BaseNPC>().IsLeft = false;
                         }
-                        Sound.PlaySFX("trap_placement", 0.5f);
+
+                        PlacementSound(HeroPrefab);
+                        
                         // heroEntity.GetComponent<Transform>().Depth = depthVal;
 
                         if (IsLeft)
@@ -120,11 +123,68 @@ namespace Carmicah
             }
         }
 
+        public void PlacementSound(string heroPrefabName)
+        {
+            
+            if (HeroPrefab == "ShooterNPC")
+            {
+                Random rnd = new Random();
+                int number = rnd.Next(1, 11);
+                
+                if (number > 9)
+                {
+
+                    soundFile = "VO_Shooter_Placement_" + number.ToString();
+
+                }
+                else
+                {
+                    soundFile = "VO_Shooter_Placement_0" + number.ToString();
+                }
+            }
+            else if (HeroPrefab == "MageNPC")
+            {
+                Random rnd = new Random();
+                int number = rnd.Next(1, 11);
+                
+                if (number > 9)
+                {
+
+                    soundFile = "VO_Mage_Placement_" + number.ToString();
+
+                }
+                else
+                {
+                    soundFile = "VO_Mage_Placement_0" + number.ToString();
+                }
+
+                
+            }else if(HeroPrefab == "SpearNPC")
+            {
+                Random rnd = new Random();
+                int number = rnd.Next(1, 11);
+                
+                if (number > 9)
+                {
+
+                    soundFile = "VO_Spearman_Placement_" + number.ToString();
+
+                }
+                else
+                {
+                    soundFile = "VO_Spearman_Placement_0" + number.ToString();
+                }
+
+            }
+            Sound.PlaySFX(soundFile, 0.8f);
+        }
+
         public void KillNPC()
         {
             // if it exist
             if (heroEntity != null && heroEntity.mID != 0)
             {
+                
                 heroEntity.As<BaseNPC>().KillHero();
                 heroEntity = null;
                 built = false;

@@ -197,6 +197,7 @@ namespace Carmicah
             }
             else if (stateName == "Heal")
             {
+                Sound.PlaySFX("Princess_Heal", 0.3f);
                 ChangeAnim(HealAnim);
                 healAnimTime = GetComponent<Animation>().GetMaxTime();
                 timer = 0.0f;
@@ -319,7 +320,7 @@ namespace Carmicah
         public void TakeDamage(int damage, EnemyTypes enemyType)
         {
             this.AsChild<HealthSystem>().TakeDamage(damage);
-
+            Sound.PlaySFX("Princess_DamageWarning", 0.3f);
             damaged = true;
             if (enemyType == EnemyTypes.BEAR)
             {
