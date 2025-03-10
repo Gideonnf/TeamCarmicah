@@ -723,6 +723,19 @@ namespace Carmicah
 		return 0.0f;
 	}
 	
+	static int Animation_GetCurrFrameNo(unsigned entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Animation>())
+		{
+			Animation& a{ go.GetComponent<Animation>() };
+			return a.currPiece;
+		}
+
+		return 0;
+
+	}
+
 	static bool Animation_IsAnimFinished(unsigned entityID)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -930,6 +943,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Animation_ChangeAnim);
 		ADD_INTERNAL_CALL(GetMaxTime);
 		ADD_INTERNAL_CALL(Animation_GetCurrFrameTime);
+		ADD_INTERNAL_CALL(Animation_GetCurrFrameNo);
 		ADD_INTERNAL_CALL(Animation_IsAnimFinished);
 
 		// input functions

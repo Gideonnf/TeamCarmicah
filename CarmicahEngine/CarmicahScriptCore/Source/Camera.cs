@@ -28,6 +28,7 @@ namespace Carmicah
     {
         public float bottomLimit = -10.0f;
         public float topLimit = 10.0f;
+        public float ySpeed = 20.0f;
 
         public float shakeTotalTimer = 0.25f;
         public float shakeMagnitude = 0.1f;
@@ -51,7 +52,7 @@ namespace Carmicah
                 //Vector2 pos = GetComponent<Transform>().Position;
                 if (pos.y <= topLimit)
                 {
-                    pos.y += 4 * dt;
+                    pos.y += ySpeed * dt;
                     GetComponent<Transform>().Position = pos;
 
                 }
@@ -62,7 +63,7 @@ namespace Carmicah
                 //Vector2 pos = GetComponent<Transform>().Position;
                 if (pos.y >= bottomLimit)
                 {
-                    pos.y -= 4 * dt;
+                    pos.y -= ySpeed * dt;
                     GetComponent<Transform>().Position = pos;
 
                 }

@@ -145,6 +145,9 @@ namespace Carmicah
         internal extern static float Animation_GetCurrFrameTime(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static int Animation_GetCurrFrameNo(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool Animation_IsAnimFinished(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
