@@ -863,7 +863,6 @@ namespace Carmicah
                 towerPrefab.Position = new Vector2(Position.x, ySpawnPos);
 
                 towerPrefab.GetComponent<Animation>().ChangeAnim(CakeFallAnimations[cakeType]);
-
                 towerPrefab.Depth = startingCakeEntity.Depth;
                 towerPrefab.Depth = towerPrefab.Depth + (0.1f * cakeCounter);
                 cakeCounter++;
@@ -910,7 +909,7 @@ namespace Carmicah
                     if (VFXPrefab == null)
                     {
                         VFXPrefab = CreateGameObject(CakeVFXPrefab);
-                        VFXPrefab.Position = new Vector2(VFXPrefab.Position.x, yVFXLocation);
+                        VFXPrefab.Position = new Vector2(-0.75f, yVFXLocation);
                     }
                 }
 
@@ -936,14 +935,17 @@ namespace Carmicah
                     GetComponent<StateMachine>().SetStateCondition(4);
                     CMConsole.Log("Changing VFX prefab animation");
                     VFXPrefab.ChangeAnim("CakeFallVFxEnd");
-                    VFXPrefab.Depth = towerPrefab.Depth + 1.0f;
+
                 }
-                
+
             }
 
             if (stateName == "TowerLand")
             {
-
+                if (VFXPrefab.GetComponent<Animation>().GetFrameNo() == 0)
+                {
+                    VFXPrefab.Depth = towerPrefab.Depth + 1.0f;
+                }
                 if (VFXPrefab.GetComponent<Animation>().IsAnimFinished() && towerPrefab.GetComponent<Animation>().IsAnimFinished())
                 {
                     VFXPrefab.Destroy();
