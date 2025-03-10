@@ -361,12 +361,12 @@ namespace Carmicah
 
                     while (accumulatedTime >= CarmicahTime::GetInstance()->GetDeltaTime())
                     {
-                        gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
-
                         // NOTE im putting both here cause im lazy to change every script to fixed dt
                         // cause it runs some shit faster than normal
                         // since im using scripts to do animations also i need it ot be consistent
                         gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT()); // TODO: Add this to profiler
+
+                        gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
 
                         if (CarmicahTime::GetInstance()->IsFixedDT())
                         {
@@ -377,18 +377,19 @@ namespace Carmicah
                             phySystem->Update();
                             CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
                         }
-
-
                         CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
                         aniSystem->Update();
                         CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
-
+                        fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
                         accumulatedTime -= CarmicahTime::GetInstance()->GetDeltaTime();
                     }
 
                     // if it isnt suppose to run fixed dt
                     if (!CarmicahTime::GetInstance()->IsFixedDT())
                     {
+                        gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT()); // TODO: Add this to profiler
+
+                        gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
 
                         CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
                         colSystem->CollisionCheck();
@@ -397,9 +398,10 @@ namespace Carmicah
                         phySystem->Update();
                         CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
           
+                        fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->GetDeltaTime());
                     }
                 
-                    fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->GetDeltaTime());
+              
                 
 
                     CarmicahTime::GetInstance()->StartSystemTimer("SoundSystem");
