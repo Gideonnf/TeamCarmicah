@@ -30,6 +30,7 @@ namespace Carmicah
 		Vec2f mSelectedObjPos;
 		Vec2f mStartClickPos;
 		float mOriginalAngle;
+		unsigned int mGizmosID;
 	public:
 
 		/*!*************************************************************************

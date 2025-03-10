@@ -30,7 +30,7 @@ DigiPen Institute of Technology is prohibited.
 namespace Carmicah
 {
 
-    CameraWindow::CameraWindow() : EditorWindow("Editor Camera", ImVec2(0, 0), ImVec2(0, 0)) { mIsVisible = true; }
+	CameraWindow::CameraWindow() : EditorWindow("Editor Camera", ImVec2(0, 0), ImVec2(0, 0)), mOriginalAngle{}, mGizmosID{} { mIsVisible = true; }
 
     void CameraWindow::Update()
     {
@@ -100,6 +100,7 @@ namespace Carmicah
 							mSelectedObjPos = Vec2f(selectedTransform.worldSpace.m20, AssetManager::GetInstance()->enConfig.Height - selectedTransform.worldSpace.m21);
 							mOriginalAngle = selectedTransform.Rot();
 						}
+						mGizmosID = RenderHelper::GetInstance()->mSelectedID;
 					}
 
 					if (Input.IsMouseHold(MOUSE_BUTTON_LEFT) && HierarchyWindow::selectedGO != nullptr)
@@ -149,7 +150,7 @@ namespace Carmicah
 							}
 							case GIZMOS_MODE::GIZMOS_ROTATE:
 							{
-								if (RenderHelper::GetInstance()->mSelectedID == std::numeric_limits<unsigned int>().max())
+								if (mGizmosID == std::numeric_limits<unsigned int>().max())
 								{
 									Vec2f vec1 = mStartClickPos - mSelectedObjPos;
 									Vec2f vec2{ static_cast<float>(currentMousePos.x) - mSelectedObjPos.x,
@@ -173,7 +174,7 @@ namespace Carmicah
 							}
 							case GIZMOS_MODE::GIZMOS_TRANSLATE:
 							{
-								if (RenderHelper::GetInstance()->mSelectedID == std::numeric_limits<unsigned int>().max())
+								if (mGizmosID == std::numeric_limits<unsigned int>().max())
 								{
 									if (HierarchyWindow::selectedGO->HasComponent<Transform>())
 									{
@@ -189,7 +190,7 @@ namespace Carmicah
 										selectedTransform.PosYAdd(static_cast<float>(-delta.y));
 									}
 								}
-								else if (RenderHelper::GetInstance()->mSelectedID == std::numeric_limits<unsigned int>().max() - 1)
+								else if (mGizmosID == std::numeric_limits<unsigned int>().max() - 1)
 								{
 									if (HierarchyWindow::selectedGO->HasComponent<Transform>())
 									{
@@ -209,7 +210,7 @@ namespace Carmicah
 							}
 							case GIZMOS_MODE::GIZMOS_SCALE:
 							{
-								if (RenderHelper::GetInstance()->mSelectedID == std::numeric_limits<unsigned int>().max())
+								if (mGizmosID == std::numeric_limits<unsigned int>().max())
 								{
 									if (HierarchyWindow::selectedGO->HasComponent<Transform>())
 									{
@@ -222,7 +223,7 @@ namespace Carmicah
 										selectedTransform.ScaleYAdd(static_cast<float>(-delta.y));
 									}
 								}
-								else if (RenderHelper::GetInstance()->mSelectedID == std::numeric_limits<unsigned int>().max() - 1)
+								else if (mGizmosID == std::numeric_limits<unsigned int>().max() - 1)
 								{
 									if (HierarchyWindow::selectedGO->HasComponent<Transform>())
 									{
