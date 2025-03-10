@@ -31,7 +31,7 @@
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": -519.4419555664063,
                     "yPos": 118.44564819335938,
-                    "depth": 0.0,
+                    "depth": 2.950000047683716,
                     "xScale": 3.0,
                     "yScale": 3.0,
                     "rot": 0.0,
@@ -43,7 +43,8 @@
                     "text": "You win!",
                     "colorR": 0.9019607901573181,
                     "colorG": 0.159169539809227,
-                    "colorB": 0.159169539809227
+                    "colorB": 0.159169539809227,
+                    "textAlign": 0
                 }
             ]
         },
@@ -55,7 +56,7 @@
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": -427.20001220703127,
                     "yPos": -2.7978515625,
-                    "depth": 0.0,
+                    "depth": 1.149999976158142,
                     "xScale": 1.600000023841858,
                     "yScale": 1.600000023841858,
                     "rot": 0.0,
@@ -67,7 +68,8 @@
                     "text": "You did it!",
                     "colorR": 0.9647058844566345,
                     "colorG": 0.16470588743686677,
-                    "colorB": 0.6235294342041016
+                    "colorB": 0.6235294342041016,
+                    "textAlign": 0
                 }
             ]
         },
@@ -81,13 +83,14 @@
                     "text": "You won!",
                     "colorR": 0.9647058844566345,
                     "colorG": 0.16470588743686677,
-                    "colorB": 0.6235294342041016
+                    "colorB": 0.6235294342041016,
+                    "textAlign": 0
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": -351.38787841796877,
                     "yPos": -77.40924072265625,
-                    "depth": 0.0,
+                    "depth": 2.75,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,
@@ -148,6 +151,15 @@
                     "Component Name": "struct Carmicah::Button"
                 },
                 {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_H_Next 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
@@ -156,15 +168,6 @@
                             "nextScene": ""
                         }
                     ]
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Next 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
                 }
             ]
         }
