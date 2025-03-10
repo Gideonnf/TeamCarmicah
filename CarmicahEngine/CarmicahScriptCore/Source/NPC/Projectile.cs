@@ -67,12 +67,12 @@ namespace Carmicah
             }
 
             // Set scale based on direction
-            Vector2 scale = Scale;
-            if (!facingRight)
-            {
-                scale.x *= -1;
-                Scale = scale;
-            }
+            //Vector2 scale = Scale;
+            //if (!facingRight)
+            //{
+            //    scale.x *= -1;
+            //    Scale = scale;
+            //}
         }
 
         void OnUpdate(float dt)
@@ -132,6 +132,18 @@ namespace Carmicah
                 dir.Normalize();
                 //CMConsole.Log($"{dir.x}, {dir.y}");
 
+                Vector2 scale = Scale;
+                float rot = Rot;
+                if (!facingRight)
+                {
+                    rot = 25;
+                    Rot = rot;
+                }
+                else
+                {
+                    rot = 50;
+                    Rot = rot;
+                }
 
             }
             else
@@ -175,14 +187,18 @@ namespace Carmicah
                 {
                     if(bulletType == BulletType.MAGE_BULLET)
                     {
-                        if(facingRight)
-                        { 
-                            Rot = 40.0f; 
+                        Vector2 scale = Scale;
+                        float rot = Rot;
+                        if(!facingRight)
+                        {
+                            rot -= 65;
+                            Rot = rot;
                         }
                         else
                         {
-                            Rot = 20.0f;
-                        }
+                            rot -= 50;
+                            Rot = rot;
+                        }    
                     }
 
                     ChangeAnim(BulletImpactAnim);

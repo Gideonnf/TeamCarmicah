@@ -45,6 +45,14 @@ namespace Carmicah
 
                     Projectile bullet = projectile.As<Projectile>();
                     bullet.As<Projectile>().bulletType = BulletType.MAGE_BULLET;
+                    if(!IsLeft)
+                    { 
+                        bullet.As<Projectile>().facingRight = true; 
+                    }
+                    else
+                    {
+                        bullet.As<Projectile>().facingRight = false;
+                    }
 
                     Sound.PlaySFX(shootSound);
                     if (bullet != null)
