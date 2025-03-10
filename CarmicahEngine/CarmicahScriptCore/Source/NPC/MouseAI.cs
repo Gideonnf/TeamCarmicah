@@ -121,8 +121,8 @@ namespace Carmicah
             //stateMachine.AddState(new MouseDead("Dead"));
             //stateMachine.SetNextState("Chase");
             //Random rand = new Random();
-            animType = CMRand.Range(0, 3); // rand between 0 to 3
-            randLane = CMRand.Range(0, 3); // rand between 0 to 3
+            //animType = CMRand.Range(0, 3); // rand between 0 to 3
+            randLane = CMRand.Range(0, 4); // rand between 0 to 3
 
             lane = randLane;
 

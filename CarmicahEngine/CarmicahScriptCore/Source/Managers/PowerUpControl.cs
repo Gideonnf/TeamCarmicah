@@ -20,6 +20,7 @@ namespace Carmicah
         public float SpawnTimer = 16.0f;
         public float timer = 0.0f;
         Entity camera;
+        Entity mainCharacter;
         Entity gameManager;
         Entity pauseManager;
         Entity waveSystem;
@@ -46,6 +47,7 @@ namespace Carmicah
                         {IconType.MAGE_ICON, 0.1f }
                     };
              */
+            mainCharacter = FindEntityWithName("mainCharacter");
             camera = FindEntityWithName("MainCamera");
             gameManager = FindEntityWithName("GameManager");
             pauseManager = FindEntityWithName("PauseManager");
@@ -156,7 +158,7 @@ namespace Carmicah
 
                     // random a range from - and + and x offset from camera's position.x
                     float randXPos = CMRand.Range(camera.Position.x - xOffset, camera.Position.x + xOffset);
-                    newTrap.Position = new Vector2(randXPos, camera.Position.y + heightOffset);
+                    newTrap.Position = new Vector2(randXPos, mainCharacter.Position.y + heightOffset);
                 }
                 //CMConsole.Log($"trap is null???");
 

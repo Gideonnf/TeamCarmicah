@@ -46,7 +46,7 @@ namespace Carmicah
                     Sound.PlaySFX(soundFile, 1.0f);
                     if (bullet != null)
                     {
-                        bullet.targetMouse = targetMouse;
+                        bullet.target = targetMouse;
 
                         bullet.SetUp(targetMouse);
                     }

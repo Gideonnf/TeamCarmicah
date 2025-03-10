@@ -68,13 +68,13 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "CakeStrawberry_Squish",
+                    "Atlas": "Shooter_AirShoot",
                     "AnimSpeed": 0.10000000149011612
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Wand",
+                    "texture": "Spear_SpriteSheet_Shooter_AirShoot 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -100,13 +100,13 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "CakeStrawberry_Fall",
-                    "AnimSpeed": 284.25
+                    "Atlas": "CakeRainbow_Squish",
+                    "AnimSpeed": 0.10000000149011612
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "strawberry_cake_SpriteSheet_Fall 2",
+                    "texture": "Spear_SpriteSheet_Shooter_AirShoot1 1",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
