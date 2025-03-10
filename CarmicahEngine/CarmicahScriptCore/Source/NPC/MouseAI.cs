@@ -47,15 +47,10 @@ namespace Carmicah
         public string EndPointEntityRight2;
 
         //public bool isLeft = false;
-        public string Animation0;
-        public string Animation1;
-        public string Animation2;
-        public string Animation3;
+        public string baseAnimation;
+        public string baseAnimationDie;
 
-        public string AnimationDie0;
-        public string AnimationDie1;
-        public string AnimationDie2;
-        public string AnimationDie3;
+        string soundFile;
 
         public string DeathSound = "mouse die btr";
         public string InjuredSound = "mouse die";
@@ -85,12 +80,12 @@ namespace Carmicah
         private float baseHeavySpeed = 1.8f;
 
        
-
+        bool isRunning = false;
 
         public float TimeToDie = 1.5f;
         public float timer;
         public float DeathTime = 2.0f;
-        public float Speed = 1.0f;
+        public float Speed;
         public float speedDebuff = 0.4f; // 60% slower
         float debuff = 1.0f;
 
@@ -151,32 +146,7 @@ namespace Carmicah
 
             Sound.PlaySFX("Portal_Spawn", 0.3f);
 
-            switch (animType)
-            {
-                case 0:
-                    //Console.WriteLine($"Trying to change Anim {Animation0}");
-                    ChangeAnim(Animation0);
-
-                    break;
-                case 1:
-                    //Console.WriteLine($"Trying to change Anim {Animation1}");
-
-                    ChangeAnim(Animation1);
-
-                    break;
-                case 2:
-                    //Console.WriteLine($"Trying to change Anim {Animation2}");
-
-                    ChangeAnim(Animation2);
-
-                    break;
-                case 3:
-                   // Console.WriteLine($"Trying to change Anim {Animation3}");
-
-                    ChangeAnim(Animation3);
-
-                    break;
-            }
+            ChangeAnim(baseAnimation);
         }
 
         void OnUpdate(float dt)
@@ -375,33 +345,8 @@ namespace Carmicah
 
 
                 //CMConsole.Log("TESTING Enter State");
-                switch (animType)
-                {
-                    case 0:
-                        //Console.WriteLine($"Trying to change Anim {Animation0}");
-                        ChangeAnim(AnimationDie0);
 
-                        break;
-                    case 1:
-                        //Console.WriteLine($"Trying to change Anim {Animation1}");
-
-                        ChangeAnim(AnimationDie1);
-
-                        break;
-                    case 2:
-                        //Console.WriteLine($"Trying to change Anim {Animation2}");
-
-                        ChangeAnim(AnimationDie2);
-
-                        break;
-                    case 3:
-                        // Console.WriteLine($"Trying to change Anim {Animation3}");
-
-                        ChangeAnim(AnimationDie3);
-
-                        break;
-                }
-
+                ChangeAnim(baseAnimationDie);
             }
         }
 
@@ -429,6 +374,15 @@ namespace Carmicah
                 }
 
                 // CMConsole.Log("TESTING Update State");
+                if(!isRunning)
+                {
+                    Random rnd = new Random();
+                    int number = rnd.Next(1, 8);
+                    soundFile = "Mice_Running_0" + number.ToString();
+
+                    Sound.PlaySFX(soundFile, 0.2f, true);
+                    isRunning = true;
+                }
                 UpdateMovement(dt);
             }
             else if (stateName == "Dead")
@@ -437,6 +391,8 @@ namespace Carmicah
                 timer += dt;
                 if (timer >= GetComponent<Animation>().GetMaxTime())
                 {
+                    isRunning = false;
+                    Sound.StopSoundSFX(soundFile);
                     GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                     if (gm != null)
                         gm.EntityDestroyed(this);

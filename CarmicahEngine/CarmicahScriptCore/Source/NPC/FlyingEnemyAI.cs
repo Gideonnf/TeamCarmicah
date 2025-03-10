@@ -103,9 +103,9 @@ namespace Carmicah
                     //CMConsole.Log($"Target Position {horizontalTarget.x}, {horizontalTarget.y}");
                     scale.x *= -1;
 
-                    CMConsole.Log($"scale {scale.x}, {scale.y}");
+                   // CMConsole.Log($"scale {scale.x}, {scale.y}");
                     Scale = scale;
-                    CMConsole.Log($"actual scale {Scale.x}, {Scale.y}");
+                    //CMConsole.Log($"actual scale {Scale.x}, {Scale.y}");
 
                     isLeft = true;
                     break;
@@ -161,6 +161,12 @@ namespace Carmicah
                         Entity mainCharacter = FindEntityWithName("mainCharacter");
                         mainCharacter.As<Player>().TakeDamage(10, enemyType);
                     }
+                    else
+                    {
+                        // its probably an NPC
+                        GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                        gm.KillNPC(targetEntity);
+                    }
                 }
                 // change to dead state
                 GetComponent<StateMachine>().SetStateCondition(2);
@@ -175,6 +181,42 @@ namespace Carmicah
                 {
                     GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                     targetEntity = gm.GetTargetNPC(this);
+
+                    // check if the new target is in the other direction
+                    // if it is then rotate it
+                    if (isLeft)
+                    {
+                        // is on the left of the bird
+                        if (targetEntity.Position.x < Position.x)
+                        {
+                            // flip the scale
+                            Vector2 scale = Scale;
+                            scale.x *= -1;
+                            // CMConsole.Log($"scale {scale.x}, {scale.y}");
+                            Scale = scale;
+                            // probably need adjust rotation or some shit later
+                            Rot = 40.0f;
+                        }
+                    }
+                    else
+                    {
+                        // is on the right of the bird
+                        if (targetEntity.Position.x > Position.x)
+                        {
+                            // flip the scale
+                            Vector2 scale = Scale;
+                            scale.x *= -1;
+                            // CMConsole.Log($"scale {scale.x}, {scale.y}");
+                            Scale = scale;
+
+                            // probably need adjust rotation or some shit later
+                            Rot = -20.0f;
+                        }
+                    }
+
+                    // idk if this is a good idea
+                    // cause it looks a bit funky turning atm
+                    ChangeAnim(HorizontalAnim);
                 }
             }
         }

@@ -5,7 +5,8 @@ author:		    Micah Lim (100%)
 
 email:			micahshengyao.lim@digipen.edu.sg
 
-brief:          
+brief:          This file contains the Countdown class which is responsible for displaying the countdown
+                animation before the game starts.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
@@ -25,13 +26,8 @@ namespace Carmicah
 {
     public class Countdown : Entity
     {
-        //public string[] countdownTexts = { "CD_Num_N3", "CD_Num_N2", "CD_Num_N1", "CD_GO_GO"};
         public int currentIndex = 0;
         public float timer = 0.0f;
-        public float durationPerText = 1.0f; // time text stays on screen
-        public float bounceDuration = 0.5f; // duration of bounce effect1
-        public float bounceScale = 1.5f; // maximum scale during bounce
-
         public float durationPerFrame = 1.0f; // time frame stays on screen
         public string[] countdownAnimation = { "N3", "N2", "N1", "GO" };
 
@@ -39,20 +35,9 @@ namespace Carmicah
 
         void OnCreate()
         {
-            //originalScale = Scale;
-            //DisplayText();
+            // display first animation
             DisplayAnimation();
         }
-
-        //void DisplayText()
-        //{
-        //    if (currentIndex <= countdownTexts.Length)
-        //    {
-        //        GetComponent<TextRenderer>().SetText(countdownTexts[currentIndex]); // iterate through the string array
-        //        Scale = new Vector2(originalScale.x * 0.5f, originalScale.y * 0.5f); // start small
-        //        timer = 0.0f; // just follow rainne's code
-        //    }
-        //}
 
         void DisplayAnimation()
         {
@@ -69,19 +54,10 @@ namespace Carmicah
         {
             timer += dt;
 
-            // bounce Effect
-            //float bounceFactor = (float)Math.Sin((timer / bounceDuration) * Math.PI) * (bounceScale - 1.0f) + 1.0f; // thank u gpt
-            //textEntity.GetComponent<TextRenderer>() = originalScale * bounceFactor; // argh
-            //Scale = new Vector2(originalScale.x * bounceFactor, originalScale.y * bounceFactor); // start small
-
-            // check if time to switch to next string
-            //if (timer >= durationPerText)
-            //{
-            //    currentIndex++;
-            //    DisplayText();
-            //}
+            // check if curr anim is finished
             if (GetComponent<Animation>().IsAnimFinished())//timer >= durationPerFrame)
             {
+                // increment index and display next animation
                 currentIndex++;
                 DisplayAnimation();
             }

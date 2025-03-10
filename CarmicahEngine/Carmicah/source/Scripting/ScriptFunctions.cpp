@@ -195,11 +195,11 @@ namespace Carmicah
 	/// Internal function call to play sound effects between C# and C++
 	/// </summary>
 	/// <param name="name">Name of the sound file to play</param>
-	static void Sound_PlaySFX(MonoString* name, float volume)
+	static void Sound_PlaySFX(MonoString* name, float volume, bool isLoop)
 	{
 		std::string cStrName = MonoToString(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySoundThis(cStrName, SoundCategory::SFX, SoundSystem::SOUND_INGAME, false, volume);
+		souSystem->PlaySoundThis(cStrName, SoundCategory::SFX, SoundSystem::SOUND_INGAME, isLoop, volume);
 		//mono_free(cStrname);
 	}
 
@@ -219,11 +219,35 @@ namespace Carmicah
 		mono_free(cStrname);
 	}
 
-	static void Sound_SwitchBGM(MonoString* name, float fadeTimer, float fadeDuration)
+	static void Sound_StopSFX(MonoString* name)
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->SwitchSound(SoundSystem::SOUND_BGM, cStrname, SoundCategory::BGM, true, 1.0f, fadeTimer, fadeDuration);
+		souSystem->StopSoundSFX(SoundSystem::SOUND_INGAME);
+		mono_free(cStrname);
+	}
+
+	static void Sound_StopAllSFX()
+	{
+		//char* cStrname = mono_string_to_utf8(name);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->StopSound(SoundSystem::SOUND_INGAME);
+		//mono_free(cStrname);
+	}
+
+	static void Sound_StopSFXWithFade(MonoString* name, float fadeTimer, float fadeDuration)
+	{
+		char* cStrname = mono_string_to_utf8(name);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->StopSoundWithFade(SoundSystem::SOUND_INGAME, cStrname, fadeTimer, fadeDuration);
+		mono_free(cStrname);
+	}
+
+	static void Sound_SwitchBGM(MonoString* name, float fadeTimer, float fadeDuration, bool isLoop)
+	{
+		char* cStrname = mono_string_to_utf8(name);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->SwitchSound(SoundSystem::SOUND_BGM, cStrname, SoundCategory::BGM, isLoop, 0.4f, fadeTimer, fadeDuration);
 		mono_free(cStrname);
 	}
 
@@ -923,6 +947,9 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Sound_PlaySFX);
 		ADD_INTERNAL_CALL(Sound_PlayBGM);
 		ADD_INTERNAL_CALL(Sound_StopBGM);
+		ADD_INTERNAL_CALL(Sound_StopSFX);
+		ADD_INTERNAL_CALL(Sound_StopAllSFX);
+		ADD_INTERNAL_CALL(Sound_StopSFXWithFade);
 		ADD_INTERNAL_CALL(Sound_SwitchBGM);
 
 		// Debug

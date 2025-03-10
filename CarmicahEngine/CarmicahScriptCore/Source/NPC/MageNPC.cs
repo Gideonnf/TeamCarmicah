@@ -46,7 +46,11 @@ namespace Carmicah
                     Projectile bullet = projectile.As<Projectile>();
                     bullet.As<Projectile>().bulletType = BulletType.MAGE_BULLET;
 
-                    Sound.PlaySFX(shootSound);
+                    Random rnd = new Random();
+                    int number = rnd.Next(1, 6);
+                    string soundFile = "Mage_Shoot_0" + number.ToString();
+
+                    Sound.PlaySFX(soundFile, 1.0f);
                     if (bullet != null)
                     {
                         bullet.targetMouse = targetMouse;
@@ -206,6 +210,11 @@ namespace Carmicah
                 ChangeAnim(manaAnim);
                 CMConsole.Log("Out of Ammo!");
             }
+            else if (stateName == "Dead")
+            {
+                ChangeAnim(dissolveAnim);
+                CMConsole.Log("NPC Dying");
+            }
 
 
             //CMConsole.Log($"Enter State Name: {stateName}");
@@ -285,6 +294,14 @@ namespace Carmicah
                 {
                     CMConsole.Log("MC Should try to heal " + mID.ToString());
                     player.HealAI(mID);
+                }
+            }
+            else if (stateName == "Dead")
+            {
+                if (GetComponent<Animation>().IsAnimFinished())
+                {
+                    CMConsole.Log("Destroying npc");
+                    Destroy();
                 }
             }
 

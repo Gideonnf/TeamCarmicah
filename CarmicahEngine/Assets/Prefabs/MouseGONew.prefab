@@ -15,7 +15,7 @@
         },
         {
             "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Mouse_Climb_blue"
+            "Atlas": "Mouse_Climb_White"
         },
         {
             "Component Name": "struct Carmicah::StateMachine",
@@ -45,29 +45,24 @@
             "scriptName": "Carmicah.MouseAI",
             "ScriptableFieldMap": [
                 {
-                    "SpawnPointEntityLeft": "StartPointLeft",
                     "isLeft": false,
-                    "SpawnPointEntityRight2": "StartPointRight_1",
-                    "Animation2": "Mouse_Climb_white",
+                    "SpawnPointEntityLeft": "StartPointLeft",
+                    "SpawnPointEntityLeft2": "StartPointLeft_1",
                     "SpawnPointEntityRight": "StartPointRight",
+                    "SpawnPointEntityRight2": "StartPointRight_1",
                     "EndPointEntityLeft": "EndPointLeft",
-                    "ChanceToDie": 0.11999999731779099,
+                    "EndPointEntityLeft2": "EndPointLeft_1",
                     "EndPointEntityRight": "EndPointRight",
                     "EndPointEntityRight2": "EndPointRight_1",
-                    "Animation0": "Mouse_Climb_white",
-                    "Animation1": "Mouse_Climb_white",
-                    "Animation3": "Mouse_Climb_white",
-                    "AnimationDie0": "Mouse_Death_white",
-                    "AnimationDie2": "Mouse_Death_white",
-                    "AnimationDie1": "Mouse_Death_white",
-                    "AnimationDie3": "Mouse_Death_white",
-                    "SpawnPointEntityLeft2": "StartPointLeft_1",
-                    "DeathSound": "mouse die btr",
-                    "DeathTime": 2.0,
-                    "InjuredSound": "mouse die",
-                    "EndPointEntityLeft2": "EndPointLeft_1",
+                    "baseAnimation": "Mouse_Climb_White",
+                    "baseAnimationDie": "Mouse_Death_White",
+                    "Speed": "1.0",                    
+                    "timer": 0.0,
                     "TimeToDie": 1.5,
-                    "timer": 0.0
+                    "DeathTime": 2.0,
+                    "DeathSound": "mouse die btr",
+                    "ChanceToDie": 0.11999999731779099,
+                    "InjuredSound": "mouse die"
                 }
             ]
         },

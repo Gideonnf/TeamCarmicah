@@ -21,7 +21,10 @@ namespace Carmicah
         Entity heroBuildEntity1;
         Entity heroBuildEntity2;
         Entity heroBuildEntity3;
-        
+
+        // set these in script var
+        public float xOffset = 0.0f;
+        public float yOffset = 0.0f;
 
         void OnCreate()
         {
@@ -33,10 +36,13 @@ namespace Carmicah
             if(heroPrefab == "ShooterNPC")
             {
                 type = AbilityType.SHOOTER;
+                
             }
             else if(heroPrefab == "MageNPC")
             {
                 type = AbilityType.MAGE;
+
+                
             }
             else if(heroPrefab == "SpearNPC")
             {
@@ -98,7 +104,7 @@ namespace Carmicah
         {
             if (!hovering)
             {
-                Sound.PlaySFX("SFX__Magic");
+                Sound.PlaySFX("Item_Hover", 0.4f);
                 this.GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
                 
                 hovering = true;
