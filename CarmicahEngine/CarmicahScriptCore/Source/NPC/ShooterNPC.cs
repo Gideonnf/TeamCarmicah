@@ -44,6 +44,19 @@ namespace Carmicah
 
                     Projectile bullet = projectile.As<Projectile>();
                     bullet.As<Projectile>().bulletType = BulletType.SHOOTER_BULLET;
+                    if(targetType == BulletTarget.AIR)
+                    {
+                        bullet.As<Projectile>().bulletTarget = BulletTarget.AIR;
+                    }
+
+                    if(IsLeft)
+                    {
+                        bullet.As<Projectile>().facingRight = false;
+                    }
+                    else
+                    {
+                        bullet.As<Projectile>().facingRight = true;
+                    }
 
                     Random rnd = new Random();
                     int number = rnd.Next(1, 6);
@@ -271,11 +284,19 @@ namespace Carmicah
                 {
                     if (!shot && target != null)
                     {
-                        ShootProjectile();
-                        shot = true;
-
-                        // reset the timer
-                        // timer = 0.0f;
+                        if(targetType == BulletTarget.AIR)
+                        {
+                            if(GetComponent<Animation>().GetFrameNo() == 7)
+                            {
+                                ShootProjectile();
+                                shot = true;
+                            }
+                        }
+                        else if(targetType == BulletTarget.GROUND)
+                        {
+                            ShootProjectile();
+                            shot = true;
+                        }
                     }
                     else
                     {

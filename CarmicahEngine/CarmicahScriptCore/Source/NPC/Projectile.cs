@@ -47,6 +47,7 @@ namespace Carmicah
         public float Speed = 5.0f;
         public float LifeTime = 10.0f;
         public BulletType bulletType;
+        public BulletTarget bulletTarget = BulletTarget.GROUND;
         //target enemy
         public Entity target;
 
@@ -92,9 +93,16 @@ namespace Carmicah
 
             if (target == null)
             {
-               // CMConsole.Log("TAOPMDOPSA");
-                Destroy();
-                return;
+                if(!GetComponent<Animation>().IsAnimFinished())
+                {
+
+                }
+                else
+                {
+                    // CMConsole.Log("TAOPMDOPSA");
+                    Destroy();
+                    return;
+                }
             }
 
             else
@@ -131,20 +139,26 @@ namespace Carmicah
                 Vector2 dir = targetEnemy.Position - Position;
                 dir.Normalize();
                 //CMConsole.Log($"{dir.x}, {dir.y}");
-
-                Vector2 scale = Scale;
-                float rot = Rot;
-                if (!facingRight)
+                if(bulletType == BulletType.SHOOTER_BULLET)
                 {
+                    if(bulletTarget == BulletTarget.AIR)
+                    {
+                        if(facingRight)
+                        {
+                            Rot = 0;
+                        }
+                        else
+                        {
+                            Rot = 80;
+                        }
+                    }
+                }
+                else if(bulletType == BulletType.MAGE_BULLET)
+                {
+                    float rot = Rot;
                     rot = 25;
                     Rot = rot;
                 }
-                else
-                {
-                    rot = 50;
-                    Rot = rot;
-                }
-
             }
             else
             {
@@ -224,7 +238,7 @@ namespace Carmicah
             {
                 animTimer += dt;
 
-                if(animTimer > maxAnimTime)
+                if(GetComponent<Animation>().IsAnimFinished())
                 {
                     Destroy();
                 }
