@@ -753,10 +753,6 @@
                     "AnimSpeed": 1.0
                 },
                 {
-                    "Component Name": "struct Carmicah::PrefabData",
-                    "prefabRef": 12
-                },
-                {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "DebugSquare",
                     "customWidth": 0.5,
@@ -863,85 +859,7 @@
                     ]
                 }
             ],
-            "Children": [
-                {
-                    "GameObject": "Healthbar",
-                    "ID": 32,
-                    "Components": [
-                        {
-                            "Component Name": "struct Carmicah::Transform",
-                            "xPos": 0.0,
-                            "yPos": 1.3412744998931885,
-                            "depth": 15.0,
-                            "xScale": 2.5,
-                            "yScale": 2.5,
-                            "rot": 0.0,
-                            "transformTag": "",
-                            "collisionMask": 1
-                        },
-                        {
-                            "Component Name": "struct Carmicah::PrefabData",
-                            "prefabRef": 32
-                        },
-                        {
-                            "Component Name": "struct Carmicah::Renderer",
-                            "model": "Square",
-                            "texture": "health_bar",
-                            "colR": 1.0,
-                            "colG": 1.0,
-                            "colB": 1.0,
-                            "colA": 1.0
-                        }
-                    ],
-                    "Children": []
-                },
-                {
-                    "GameObject": "Healthbar_Cover",
-                    "ID": 34,
-                    "Components": [
-                        {
-                            "Component Name": "struct Carmicah::Transform",
-                            "xPos": 1.100000023841858,
-                            "yPos": 1.3278452157974244,
-                            "depth": 16.0,
-                            "xScale": 0.0625,
-                            "yScale": 0.3499999940395355,
-                            "rot": 0.0,
-                            "transformTag": "",
-                            "collisionMask": 1
-                        },
-                        {
-                            "Component Name": "struct Carmicah::PrefabData",
-                            "prefabRef": 33
-                        },
-                        {
-                            "Component Name": "struct Carmicah::Renderer",
-                            "model": "Square",
-                            "texture": "Wall_White 0",
-                            "colR": 1.0,
-                            "colG": 1.0,
-                            "colB": 0.0,
-                            "colA": 1.0
-                        },
-                        {
-                            "Component Name": "struct Script",
-                            "scriptName": "Carmicah.HealthSystem",
-                            "ScriptableFieldMap": [
-                                {
-                                    "endPos": 0.0,
-                                    "endScale": 4.400000095367432,
-                                    "mCurHealth": 0.0,
-                                    "posDiff": 0.0,
-                                    "startPos": 0.0,
-                                    "startScale": 0.0,
-                                    "mMaxHealth": 200.0
-                                }
-                            ]
-                        }
-                    ],
-                    "Children": []
-                }
-            ]
+            "Children": []
         },
         {
             "GameObject": "Wall",
