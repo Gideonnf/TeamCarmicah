@@ -88,7 +88,7 @@ namespace Carmicah
         public float Speed;
         public float speedDebuff = 0.4f; // 60% slower
         float debuff = 1.0f;
-
+        bool dead = false;
         int animType = 0;
         int randLane = 0;
 
@@ -256,6 +256,9 @@ namespace Carmicah
                 return;
             }
 
+            if (dead) return;
+
+
             Entity collidedEntity = FindEntityWithID(id);
             if (collidedEntity != null)
             {
@@ -340,8 +343,15 @@ namespace Carmicah
             
             if (stateName == "Dead")
             {
+                dead = true;
                 timer = 0.0f;
                 Sound.PlaySFX(InjuredSound, 0.5f);
+                Entity[] children = GetAllChildren();
+
+                foreach(Entity entity in children)
+                {
+                    entity.GetComponent<Renderer>().SetAlpha(0);
+                }
 
 
                 //CMConsole.Log("TESTING Enter State");
@@ -388,8 +398,8 @@ namespace Carmicah
             else if (stateName == "Dead")
             {
                 
-                timer += dt;
-                if (timer >= GetComponent<Animation>().GetMaxTime())
+                //timer += dt;
+                if (GetComponent<Animation>().IsAnimFinished())
                 {
                     isRunning = false;
                     Sound.StopSoundSFX(soundFile);
@@ -398,7 +408,7 @@ namespace Carmicah
                         gm.EntityDestroyed(this);
 
                     Sound.PlaySFX(DeathSound, 0.5f);
-                    timer = 0.0f;
+                    //timer = 0.0f;
                     Destroy();
                 }
             }

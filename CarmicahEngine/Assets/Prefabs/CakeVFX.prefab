@@ -4,7 +4,7 @@
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
-            "xPos": 0.5199999809265137,
+            "xPos": -0.5,
             "yPos": -3.3948237895965578,
             "depth": 3.049999952316284,
             "xScale": 1.2000000476837159,
@@ -24,7 +24,8 @@
         },
         {
             "Component Name": "struct Carmicah::Animation",
-            "Atlas": "CakeFallVFx"
+            "Atlas": "CakeFallVFx",
+            "AnimSpeed": 1.0
         }
     ]
 }

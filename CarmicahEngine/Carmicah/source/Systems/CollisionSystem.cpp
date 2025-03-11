@@ -765,25 +765,40 @@ namespace Carmicah
 
 			rigidbody1.velocity.x = 0;
 			rigidbody1.velocity.y = 0;
-			//CM_CORE_INFO("ID in CollisionSystem 2nd {}", obj1);
-			if (rigidbody1.collided == false)
+			
+			// hasn't collided with this entity before
+			if (mEntityTriggerMap[obj1].count(obj2) == 0)
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
 				SendSysMessage(&newMsg);
-				rigidbody1.collided = true;
+
+				mEntityTriggerMap[obj1].insert(obj2);
 			}
-			else if (rigidbody1.collided)
+			else
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_STAY);
 				SendSysMessage(&newMsg);
 			}
+
+			////CM_CORE_INFO("ID in CollisionSystem 2nd {}", obj1);
+			//if (rigidbody1.collided == false)
+			//{
+			//	EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
+			//	SendSysMessage(&newMsg);
+			//	rigidbody1.collided = true;
+			//}
+			//else if (rigidbody1.collided)
+			//{
+			//	EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_STAY);
+			//	SendSysMessage(&newMsg);
+			//}
 		}
 		else if (rigidbody1.objectType == rbTypes::KINEMATIC && rigidbody2.objectType == rbTypes::KINEMATIC)
 		{
 			//CM_CORE_INFO("Obj 1 {}, Obj 2 {}", obj1, obj2);
 
 			// trigger
-			if (rigidbody1.triggerCollide == false)
+			/*if (rigidbody1.triggerCollide == false)
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
 				SendSysMessage(&newMsg);
@@ -794,8 +809,20 @@ namespace Carmicah
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_STAY);
 				SendSysMessage(&newMsg);
-			}
+			}*/
 
+			if (mEntityTriggerMap[obj1].count(obj2) == 0)
+			{
+				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
+				SendSysMessage(&newMsg);
+
+				mEntityTriggerMap[obj1].insert(obj2);
+			}
+			else
+			{
+				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_STAY);
+				SendSysMessage(&newMsg);
+			}
 		}
 
 		// set collided to true at the end
@@ -831,6 +858,9 @@ namespace Carmicah
 		{
 			auto& transform1 = componentManager->GetComponent<Transform>(entity1);
 			auto& rigidbody1 = componentManager->GetComponent<RigidBody>(entity1);
+
+			// for duck taping purposes
+			std::unordered_set<Entity> collidedEntities;
 
 			if (rigidbody1.objectType == rbTypes::DYNAMIC)
 			{
@@ -878,36 +908,51 @@ namespace Carmicah
 							CollisionResponse(entity1, entity2);
 							if (rigidbody2.objectType == rbTypes::KINEMATIC)
 							{
-								triggerCollide = true;
+								collidedEntities.insert(entity2);
+								//triggerCollide = true;
 							}
-							else
+							/*else
 							{
 								collided = true;
-							}
+							}*/
 							//collided = true;
 						}
 					}
 				}
 			}
 
-			// if entity 1 was already colliding but no longer
-				// then call on trigger exit
-			if (triggerCollide != true)
+			// check which entities entity 1 is no longer colliding with
+			for (auto it : mEntityTriggerMap[entity1])
 			{
-				if (rigidbody1.triggerCollide)
+				// if its not collided but it is part of entity 1's trigger map
+				// that means we need to trigger on exit
+				if (collidedEntities.count(it) == 0)
 				{
-					// OKAY TECHNICALLY ANY OBJECT WILL GET THIS CALL IF IT HAS THIS FUNCTION
-					// JUST DONT USE IT OK? 
-					// I KINDA LAZY TO FIND A WAY TO DIFFERENTIATE KINEMATIC w KINEMATIC COLLISION EXIT
-					// VS KINEMATIC w OTHER TYPE COLLISION EXIT
-					//CM_CORE_INFO("ENDING COLLISION");
-
-					// 0 on 2nd entity cause trigger exit doesnt care about collided entity
-					EntityCollidedMessage newMsg(entity1, 0, CollideType::TRIGGER_EXIT);
+					EntityCollidedMessage newMsg(entity1, it, CollideType::TRIGGER_EXIT);
 					SendSysMessage(&newMsg);
-					rigidbody1.triggerCollide = false;
+
+					mEntityTriggerMap.erase(it);
 				}
 			}
+
+			// if entity 1 was already colliding but no longer
+				// then call on trigger exit
+			//if (triggerCollide != true)
+			//{
+			//	if (rigidbody1.triggerCollide)
+			//	{
+			//		// OKAY TECHNICALLY ANY OBJECT WILL GET THIS CALL IF IT HAS THIS FUNCTION
+			//		// JUST DONT USE IT OK? 
+			//		// I KINDA LAZY TO FIND A WAY TO DIFFERENTIATE KINEMATIC w KINEMATIC COLLISION EXIT
+			//		// VS KINEMATIC w OTHER TYPE COLLISION EXIT
+			//		//CM_CORE_INFO("ENDING COLLISION");
+
+			//		// 0 on 2nd entity cause trigger exit doesnt care about collided entity
+			//		EntityCollidedMessage newMsg(entity1, 0, CollideType::TRIGGER_EXIT);
+			//		SendSysMessage(&newMsg);
+			//		rigidbody1.triggerCollide = false;
+			//	}
+			//}
 
 			if (collided != true)
 			{

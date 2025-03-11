@@ -1,5 +1,5 @@
 {
-    "GameObject": "MouseGONew",
+    "GameObject": "MouseGONew2",
     "ID": 29,
     "Components": [
         {
@@ -41,32 +41,6 @@
             ]
         },
         {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.MouseAI",
-            "ScriptableFieldMap": [
-                {
-                    "isLeft": false,
-                    "SpawnPointEntityLeft": "StartPointLeft",
-                    "SpawnPointEntityLeft2": "StartPointLeft_1",
-                    "SpawnPointEntityRight": "StartPointRight",
-                    "SpawnPointEntityRight2": "StartPointRight_1",
-                    "EndPointEntityLeft": "EndPointLeft",
-                    "EndPointEntityLeft2": "EndPointLeft_1",
-                    "EndPointEntityRight": "EndPointRight",
-                    "EndPointEntityRight2": "EndPointRight_1",
-                    "baseAnimation": "Mouse_Climb_Blue",                    
-                    "baseAnimationDie": "Mouse_Death_Blue",
-                    "Speed": "1.5",
-                    "timer": 0.0,
-                    "TimeToDie": 1.5,
-                    "DeathTime": 2.0,
-                    "DeathSound": "mouse die btr",
-                    "ChanceToDie": 0.11999999731779099,
-                    "InjuredSound": "mouse die"
-                }
-            ]
-        },
-        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "Enemies_SpriteSheet_Mouse_Climb_Blue 3",
@@ -93,6 +67,32 @@
             "gravity": 0.0,
             "zposPrev": 1.0,
             "objectType": 1
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.MouseAI",
+            "ScriptableFieldMap": [
+                {
+                    "isLeft": false,
+                    "SpawnPointEntityLeft": "StartPointLeft",
+                    "SpawnPointEntityLeft2": "StartPointLeft_1",
+                    "SpawnPointEntityRight": "StartPointRight",
+                    "SpawnPointEntityRight2": "StartPointRight_1",
+                    "EndPointEntityLeft": "EndPointLeft",
+                    "EndPointEntityLeft2": "EndPointLeft_1",
+                    "EndPointEntityRight": "EndPointRight",
+                    "EndPointEntityRight2": "EndPointRight_1",
+                    "baseAnimation": "Mouse_Climb_blue",                    
+                    "baseAnimationDie": "Dissolve_Yellow",
+                    "Speed": "1.5",
+                    "timer": 0.0,
+                    "TimeToDie": 1.5,
+                    "DeathTime": 2.0,
+                    "DeathSound": "mouse die btr",
+                    "ChanceToDie": 0.11999999731779099,
+                    "InjuredSound": "mouse die"
+                }
+            ]
         }
     ],
     "Children": [
