@@ -32,12 +32,12 @@ namespace Carmicah
         //float maxDescent;
        // Entity attachedEntity;
         //Vector2 pos;
-        void OnCreate()
+        public override void OnCreate()
         {
            // attachedEntity = FindEntityWithName(attachedEntityName);
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             Vector2 pos = Position;
             pos.y += (yOffset*dt);

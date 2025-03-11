@@ -50,11 +50,20 @@ namespace CarmicahScript
 
           int tutorialProgress = 0;
 
-        void OnCreate()
+        public override void OnCreate()
         {
             cam = FindEntityWithName("MainCamera");
             enemy = FindEntityWithName("Tutorial_Enemy");
-            powerIco[0] = FindEntityWithName("Tutorial_PowerUp");
+            Entity UIBar = FindEntityWithName("UIBar");
+            {
+                Entity[] UIBarChild = UIBar.GetAllChildren();
+                int i = 0;
+                foreach(Entity child in UIBarChild)
+                {
+                    if(i < 4)
+                        powerIco[i++] = child;
+                }
+            }
             player = FindEntityWithName("MC");
             playerHP = FindEntityWithName("Princess_HealthBar");
             textObj = FindEntityWithName("SubText");
@@ -62,7 +71,7 @@ namespace CarmicahScript
             //Input.GetMousePos();
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             if (Input.IsKeyPressed(Keys.KEY_5))
             {

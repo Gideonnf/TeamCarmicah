@@ -33,12 +33,12 @@ namespace CarmicahScript
             return hovering;
         }
 
-        void OnClick()
+        public override void OnClick()
         {
             clicked = true;
         }
 
-        void OnMouseHover()
+        public override void OnMouseHover()
         {
             if (!hovering)
             {
@@ -47,7 +47,7 @@ namespace CarmicahScript
             }
         }
 
-        void OnMouseExit()
+        public override void OnMouseExit()
         {
             hovering = false;
             justHovered = false;

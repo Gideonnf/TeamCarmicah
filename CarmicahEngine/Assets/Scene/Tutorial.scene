@@ -259,7 +259,7 @@
             ],
             "Children": [
                 {
-                    "GameObject": "Tutorial_PowerUp",
+                    "GameObject": "Tutorial_PowerUp0",
                     "ID": 24,
                     "Components": [
                         {
@@ -278,6 +278,111 @@
                             "Component Name": "struct Carmicah::UITransform",
                             "xPos": 50.650,
                             "yPos": 232.0,
+                            "depth": 0.0,
+                            "xScale": 0.6,
+                            "yScale": 0.6,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TutorialBasic",
+                            "ScriptableFieldMap": [
+                                {}
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "GameObject": "Tutorial_PowerUp1",
+                    "ID": 27,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Button"
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "UI_Spritesheet_Shooter_Icon 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 0.0,
+                            "yPos": 155.0,
+                            "depth": 0.0,
+                            "xScale": 1.2000000476837159,
+                            "yScale": 1.2000000476837159,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TutorialBasic",
+                            "ScriptableFieldMap": [
+                                {}
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "GameObject": "Tutorial_PowerUp2",
+                    "ID": 28,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Button"
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "UI_Spritesheet_Shooter_Icon 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 0.0,
+                            "yPos": 70.0,
+                            "depth": 0.0,
+                            "xScale": 1.2000000476837159,
+                            "yScale": 1.2000000476837159,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TutorialBasic",
+                            "ScriptableFieldMap": [
+                                {}
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "GameObject": "Tutorial_PowerUp3",
+                    "ID": 29,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Button"
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "UI_Spritesheet_Shooter_Icon 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 0.0,
+                            "yPos": -15.0,
                             "depth": 0.0,
                             "xScale": 1.2000000476837159,
                             "yScale": 1.2000000476837159,

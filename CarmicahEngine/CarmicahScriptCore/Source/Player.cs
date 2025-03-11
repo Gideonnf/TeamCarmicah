@@ -53,7 +53,7 @@ namespace Carmicah
         public float health = 100.0f;
 
         bool invisible = true;
-        void OnCreate()
+        public override void OnCreate()
         {
             redBorder = FindEntityWithName("RedBorder");
             healthBar = FindEntityWithName(healthBarName);
@@ -84,7 +84,7 @@ namespace Carmicah
             GetComponent<StateMachine>().SetStateCondition(3);
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             Entity pauseManager = FindEntityWithName("PauseManager");
             if (pauseManager != null)
@@ -187,7 +187,7 @@ namespace Carmicah
             }*/
         }
 
-        public void OnStateEnter(string stateName)
+        public override void OnStateEnter(string stateName)
         {
             if (stateName == "Idle")
             {
@@ -209,7 +209,7 @@ namespace Carmicah
             }
         }
 
-        public void OnStateUpdate(string stateName, float dt)
+        public override void OnStateUpdate(string stateName, float dt)
         {
             if(stateName == "Idle")
             {
@@ -307,7 +307,7 @@ namespace Carmicah
             }
         }
 
-        public void OnStateExit(string stateName)
+        public override void OnStateExit(string stateName)
         {
 
         }

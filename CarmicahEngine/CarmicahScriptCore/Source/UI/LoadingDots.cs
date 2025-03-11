@@ -47,14 +47,14 @@ namespace Carmicah
         int textProgress = 0;
         string currText = "";
         string finalText = "Tips: Use Buffs To Increase Your Chances Of Survival";
-        void OnCreate()
+        public override void OnCreate()
         {
             //timeForOneLoop = GetComponent<Animation>().GetMaxTime();
             //CMConsole.Log($"{timeForOneLoop}");
             Text = FindEntityWithName("LoadingTipsText");
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             elapsedTime += dt;
             float currFrameMaxTime = GetComponent<Animation>().GetFrameMaxTime() - 0.251f;

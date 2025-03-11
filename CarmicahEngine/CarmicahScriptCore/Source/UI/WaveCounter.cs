@@ -14,12 +14,12 @@ namespace CarmicahScript
         Entity waveSystem;
         public bool IsTimer = false;
 
-        void OnCreate()
+        public override void OnCreate()
         {
             waveSystem = FindEntityWithName(WaveSystemObject);
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             if (!IsTimer)
             {

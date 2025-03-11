@@ -12,11 +12,11 @@ namespace CarmicahScript
         public float percentHP;
         private float lastKnownHPPercent = 100.0f;
 
-        void OnCreate()
+        public override void OnCreate()
         {
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             if(Math.Abs(percentHP - lastKnownHPPercent) > 0)
             {

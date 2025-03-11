@@ -49,7 +49,7 @@ namespace Carmicah
         bool isClicked = false;
         float clickTime = 2.0f;
 
-        void OnCreate()
+        public override void OnCreate()
         {
             CreateGameObject("HowToStep0");
         }
@@ -119,7 +119,7 @@ namespace Carmicah
             aniProgress = 0;
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             // Whole purpose to allow for creation of things before getting entites
             if (frameChanged > 0)
@@ -262,16 +262,16 @@ namespace Carmicah
                         if (clickTime < 0)
                             isClicked = false;
                         break;
-                    } 
+                    }
 
-                    switch(aniProgress)
+                    switch (aniProgress)
                     {
                         case 0:
                             someDir = (new Vector2(465, 115)) - cursor.LocalPosition;
                             someDir = someDir.Normalize();
                             ++aniProgress;
                             break;
-                    // Cursor moves to 465, 115 (trap)
+                        // Cursor moves to 465, 115 (trap)
                         case 1:
                             pos = cursor.LocalPosition;
                             pos.x += someDir.x * dt * 200.0f;
@@ -288,7 +288,7 @@ namespace Carmicah
                                 clickTime = 1;
                             }
                             break;
-                    // Cursor moves to 105, -220 (place trap)
+                        // Cursor moves to 105, -220 (place trap)
                         case 2:
                             pos = power1Ico.LocalPosition;
                             pos.x += someDir.x * dt * 200.0f;
@@ -298,7 +298,7 @@ namespace Carmicah
                             pos.x += someDir.x * dt * 200.0f;
                             pos.y += someDir.y * dt * 200.0f;
                             cursor.LocalPosition = pos;
-                            if(pos.x < 105)
+                            if (pos.x < 105)
                             {
                                 actlObj1.GetComponent<Renderer>().SetAlpha(1.0f);
                                 power1Ico.Scale = new Vector2(0.8f, 0.8f);
@@ -314,7 +314,7 @@ namespace Carmicah
                             }
                             break;
                         case 3:
-                            if(isPlayerFacingLeft)
+                            if (isPlayerFacingLeft)
                             {
                                 enemyMouse1.GetComponent<Renderer>().SetAlpha(1.0f);
                                 isPlayerFacingLeft = false;
@@ -334,14 +334,14 @@ namespace Carmicah
                                 ++aniProgress;
                             }
                             break;
-                    // Cursor moves to 465, 40 (Shooter)
+                        // Cursor moves to 465, 40 (Shooter)
                         case 4:
                             pos = cursor.LocalPosition;
                             pos.x += someDir.x * dt * 200.0f;
                             pos.y += someDir.y * dt * 200.0f;
                             cursor.LocalPosition = pos;
-                               
-                            if(pos.x > 465)
+
+                            if (pos.x > 465)
                             {
                                 someDir = (new Vector2(65, 20)) - cursor.LocalPosition;
                                 someDir = someDir.Normalize();
@@ -364,7 +364,7 @@ namespace Carmicah
                             pos.x += someDir.x * dt * 200.0f;
                             pos.y += someDir.y * dt * 200.0f;
                             cursor.LocalPosition = pos;
-                            if(pos.x < 65)
+                            if (pos.x < 65)
                             {
                                 actlObj2.GetComponent<Renderer>().SetAlpha(1.0f);
                                 power2Ico.Scale = new Vector2(1.333f, 1.333f);
@@ -381,37 +381,49 @@ namespace Carmicah
                             if (pos.y > -300)
                             {
                                 actlObj1.GetComponent<Animation>().ChangeAnim("Dissolve");
+                                actlObj1.Depth = 56;
                                 actlObj2.GetComponent<Animation>().ChangeAnim("Shooter_Shoot");
-                                enemyMouse2.GetComponent<Renderer>().SetAlpha(1.0f);
-                                enemyMouse2.GetComponent<Animation>().ChangeAnim("Shooter_Projectile");
+                                isPlayerFacingLeft = true;
                                 ++aniProgress;
                             }
-                                break;
+                            break;
                         case 7:
+                            pos = enemyBear.LocalPosition;
+                            pos.y += dt * 100.0f;
+                            enemyBear.LocalPosition = pos;
+
+                            if (isPlayerFacingLeft)
                             {
-                                pos = enemyBear.LocalPosition;
-                                pos.y += dt * 100.0f;
-                                enemyBear.LocalPosition = pos;
+                                if (actlObj2.GetComponent<Animation>().GetFrameNo() >= 7)
+                                {
+                                    enemyMouse2.GetComponent<Renderer>().SetAlpha(1.0f);
+                                    enemyMouse2.GetComponent<Animation>().ChangeAnim("Shooter_Projectile");
+                                    isPlayerFacingLeft = false;
+                                }
+                            }
+                            else
+                            {
                                 Vector2 pos2 = enemyMouse2.LocalPosition;
                                 pos2.y -= dt * 100.0f;
                                 pos2.x += dt * 40.0f;
                                 enemyMouse2.LocalPosition = pos2;
-                                if(pos2.y < pos.y)
+                                if (pos2.y < pos.y)
                                 {
                                     enemyMouse2.GetComponent<Renderer>().SetAlpha(0.0f);
-                                    enemyMouse2.Position = new Vector2(75,-20);
+                                    enemyMouse2.Position = new Vector2(75, -20);
                                     enemyBear.GetComponent<Animation>().ChangeAnim("Bear_Death");
                                     ++aniProgress;
                                 }
                             }
                             break;
                         case 8:
-                            if(enemyBear.GetComponent<Animation>().IsAnimFinished())
+                            if (enemyBear.GetComponent<Animation>().IsAnimFinished())
                             {
                                 cursor.Position = new Vector2(1000, 100);
                                 power1Ico.Position = new Vector2(500, 135);
                                 power2Ico.Position = new Vector2(450, 80);
                                 actlObj1.GetComponent<Renderer>().SetAlpha(0.0f);
+                                actlObj1.Depth = 52;
                                 actlObj1.GetComponent<Animation>().ChangeAnim("CandyCone_Idle");
                                 actlObj2.GetComponent<Renderer>().SetAlpha(0.0f);
                                 actlObj2.GetComponent<Animation>().ChangeAnim("Shooter_Idle");
@@ -419,8 +431,8 @@ namespace Carmicah
                                 enemyMouse1.GetComponent<Animation>().ChangeAnim("Mouse_Climb_blue");
                                 enemyBear.GetComponent<Renderer>().SetAlpha(0.0f);
                                 enemyBear.GetComponent<Animation>().ChangeAnim("Bear_Climb");
-                                enemyMouse1.Position = new Vector2(105,-400);
-                                enemyBear.Position = new Vector2(105,-400);
+                                enemyMouse1.Position = new Vector2(105, -400);
+                                enemyBear.Position = new Vector2(105, -400);
 
                                 aniProgress = 0;
                             }
@@ -469,10 +481,10 @@ namespace Carmicah
                             {
                                 playerWalk.GetComponent<Animation>().ChangeAnim("MC_Idle");
 
-                                power1Ico.LocalPosition = new Vector2(450.0f, 190.0f);
+                                power1Ico.LocalPosition = new Vector2(450.0f, 140.0f);
                                 power1Ico.Scale = new Vector2(0.01f, 0.01f);
 
-                                someDir = (new Vector2(460.0f, 150)) - cursor.LocalPosition;
+                                someDir = (new Vector2(460.0f, 140.0f)) - cursor.LocalPosition;
                                 someDir = someDir.Normalize();
                                 isPlayerFacingLeft = true; // using this as a bool i'm lazy
                                 ++aniProgress;
@@ -505,6 +517,7 @@ namespace Carmicah
                                 someDir = (new Vector2(-15.0f, 85.0f)) - cursor.LocalPosition;
                                 someDir = someDir.Normalize();
                                 power1Ico.GetComponent<Renderer>().ChangeTexture("NPC_SpriteSheet_Mage_Idle 0");
+                                power1Ico.Depth = 54;
                                 actlObj1.GetComponent<Renderer>().SetAlpha(0.3f);
                                 ++aniProgress;
                                 isClicked = true;
@@ -532,6 +545,7 @@ namespace Carmicah
                                 someDir = someDir.Normalize();
                                 power1Ico.GetComponent<Renderer>().ChangeTexture("UI_Spritesheet_Mage_Icon 0");
                                 power1Ico.LocalPosition = new Vector2(100.0f, 450.0f);
+                                power1Ico.Depth = 52;
                                 actlObj1.GetComponent<Renderer>().SetAlpha(1.0f);
                                 isClicked = true;
                                 clickTime = 2.0f;
@@ -548,6 +562,9 @@ namespace Carmicah
                             {
                                 isPlayerFacingLeft = true;
                                 playerWalk.GetComponent<Animation>().ChangeAnim("MC_Heal");
+                                Vector2 pPos = playerWalk.LocalPosition;
+                                pPos.x += 24;
+                                playerWalk.LocalPosition = pPos;
                                 ++aniProgress;
                             }
                             break;
@@ -558,6 +575,9 @@ namespace Carmicah
                                 {
                                     power2Ico.GetComponent<Animation>().ChangeAnim("Shooter_Idle");
                                     playerWalk.GetComponent<Animation>().ChangeAnim("MC_Idle");
+                                    Vector2 pPos = playerWalk.LocalPosition;
+                                    pPos.x -= 24;
+                                    playerWalk.LocalPosition = pPos;
                                     isPlayerFacingLeft = false;
                                     pos.x = 0.0f;
                                 }

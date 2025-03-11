@@ -33,7 +33,7 @@ namespace Carmicah
 
         private Vector2 originalScale;
 
-        void OnCreate()
+        public override void OnCreate()
         {
             // display first animation
             DisplayAnimation();
@@ -48,9 +48,9 @@ namespace Carmicah
                 ChangeAnim(countdownAnimation[currentIndex]);
                 timer = 0.0f;
             }
-        }   
+        }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             timer += dt;
 

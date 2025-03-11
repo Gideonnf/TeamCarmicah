@@ -63,7 +63,7 @@ namespace Carmicah
 
         int randLane = 0;
 
-        void OnCreate()
+        public override void OnCreate()
         {
             if (FindEntityWithName(SpawnPointEntityLeft) != null)
                 startPosLeft = FindEntityWithName(SpawnPointEntityLeft).Position;
@@ -122,7 +122,7 @@ namespace Carmicah
         }
 
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
 
             Entity pauseManager = FindEntityWithName("PauseManager");
@@ -221,7 +221,7 @@ namespace Carmicah
             }
         }
 
-        void OnCollide(uint id)
+        public override void OnCollide(uint id)
         {
             if (mID == 0)
             {
@@ -292,7 +292,7 @@ namespace Carmicah
             GetComponent<StateMachine>().SetStateCondition(1);
         }
 
-        public void OnStateEnter(string stateName)
+        public override void OnStateEnter(string stateName)
         {
             CMConsole.Log($"Entering State {stateName}");
 
@@ -329,7 +329,7 @@ namespace Carmicah
             }
         }
 
-        public void OnStateUpdate(string stateName, float dt)
+        public override void OnStateUpdate(string stateName, float dt)
         {
             Entity pauseManager = FindEntityWithName("PauseManager");
             Entity gameManager = FindEntityWithName("GameManager");
@@ -387,7 +387,7 @@ namespace Carmicah
             //CMConsole.Log($"mouse retrieved : {targetMouse}");
         }
 
-        public void OnStateExit(string stateName)
+        public override void OnStateExit(string stateName)
         {
             //CMConsole.Log("TESTING Exit State");
             //CMConsole.Log($"Exit State Name: {stateName}");

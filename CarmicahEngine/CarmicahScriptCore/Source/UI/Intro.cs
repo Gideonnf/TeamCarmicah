@@ -46,7 +46,7 @@ namespace Carmicah
         Entity gameLogoEntity;                              // entity for game logo
         Entity teamLogoEntity;                              // entity for team logo
 
-        void OnCreate()
+        public override void OnCreate()
         {
             schoolLogoEntity = CreateGameObject(schoolLogoName);
             schoolRightsEntity = CreateGameObject(schoolRightsName);
@@ -63,7 +63,7 @@ namespace Carmicah
             if (teamLogoEntity != null) teamLogoEntity.GetComponent<Renderer>().SetAlpha(0.0f);
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             timer += dt;
             float halfDuration = maxDuration / 2.0f; // 1.5 sec

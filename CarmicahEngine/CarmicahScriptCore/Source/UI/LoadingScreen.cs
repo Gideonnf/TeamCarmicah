@@ -35,13 +35,13 @@ namespace Carmicah
         private float timer = 0.0f;
         private bool isTyping = true;
 
-        void OnCreate()
+        public override void OnCreate()
         {
             currentText.Clear();
             StartTyping(fullText, 10f);
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             if (!isTyping) return;
 

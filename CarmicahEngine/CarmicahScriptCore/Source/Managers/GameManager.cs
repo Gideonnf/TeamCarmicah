@@ -106,7 +106,7 @@ namespace Carmicah
         public string[] CakeSquishAnimations = new string[4];
 
 
-        void OnCreate()
+        public override void OnCreate()
         {
             mainCamera = FindEntityWithName("MainCamera");
             mobCounter = new Wave();
@@ -165,7 +165,7 @@ namespace Carmicah
             Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
 
             // if soundPlay
@@ -845,7 +845,7 @@ namespace Carmicah
 
         }
 
-        public void OnStateEnter(string stateName)
+        public override void OnStateEnter(string stateName)
         {
             if (stateName == "TowerIdle")
             {
@@ -885,7 +885,7 @@ namespace Carmicah
 
             }
         }
-        public void OnStateUpdate(string stateName, float dt)
+        public override void OnStateUpdate(string stateName, float dt)
         {
             //gameManager = FindEntityWithName("GameManager");
 
@@ -950,7 +950,7 @@ namespace Carmicah
             }
         }
 
-        public void OnStateExit(string stateName)
+        public override void OnStateExit(string stateName)
         {
 
 
