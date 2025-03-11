@@ -241,17 +241,16 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 							glUniform2f(uniformLoc, font.second.scale.x, font.second.scale.y);
 
 						auto& buff = batchBuffer.buffer[0];
-						int bSize = static_cast<int>(p.vtx.size() * mBatchSize);
 						glBindVertexArray(buff.vao);
 
-						for(int off = 0; off < static_cast<int>(font.second.vtx.size()); off += bSize)
+						for(int off = 0; off < font.second.vtxSize; off += mBatchSize)
 						{
-							int drawCnt = std::min(font.second.vtxSize, mBatchSize);
+							int drawCnt = std::min(font.second.vtxSize - off, mBatchSize);
 							if (drawCnt == 0)
 								break;
-							int vtxCnt = std::min(drawCnt * static_cast<int>(p.vtx.size()), bSize);
+							int vtxCnt = drawCnt * static_cast<int>(p.vtx.size());
 
-							glNamedBufferSubData(buff.vbo, 0, sizeof(vtxTexd2D) * vtxCnt, font.second.vtx.data() + off);
+							glNamedBufferSubData(buff.vbo, 0, sizeof(vtxTexd2D) * vtxCnt, font.second.vtx.data() + static_cast<int>(p.vtx.size()) * off);
 
 							glMultiDrawElementsIndirect(GL_TRIANGLES,
 								GL_UNSIGNED_SHORT,// Indices
@@ -275,18 +274,17 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 					continue;
 				auto& buff = batchBuffer.buffer[0];
 				auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>("Square") };
-				int bSize = static_cast<int>(p.vtx.size() * mBatchSize);
 
 				glBindVertexArray(buff.vao);
 
-				for (int off = 0; off < static_cast<int>(vtxBuf->vtx.size()); off += bSize)
+				for (int off = 0; off < vtxBuf->vtxSize; off += mBatchSize)
 				{
-					int drawCnt = std::min(vtxBuf->vtxSize, mBatchSize);
+					int drawCnt = std::min(vtxBuf->vtxSize - off, mBatchSize);
 					if (drawCnt == 0)
 						break;
 					int vtxCnt = drawCnt * static_cast<int>(p.vtx.size());
 
-					glNamedBufferSubData(buff.vbo, 0, sizeof(vtxTexd2D) * vtxCnt, vtxBuf->vtx.data() + off);
+					glNamedBufferSubData(buff.vbo, 0, sizeof(vtxTexd2D) * vtxCnt, vtxBuf->vtx.data() + static_cast<int>(p.vtx.size()) * off);
 
 					glMultiDrawElementsIndirect(GL_TRIANGLES,
 						GL_UNSIGNED_SHORT,// Indices

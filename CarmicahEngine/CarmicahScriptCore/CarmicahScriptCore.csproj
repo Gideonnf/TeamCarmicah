@@ -98,6 +98,7 @@
     <Compile Include="Source\System\Vector3.cs" />
     <Compile Include="Source\Testing\Testing.cs" />
     <Compile Include="Source\Abilities\AbilityBar.cs" />
+    <Compile Include="Source\Tutorial\TutorialBasic.cs" />
     <Compile Include="Source\UI\ButtonGeneric.cs" />
     <Compile Include="Source\UI\Countdown.cs" />
     <Compile Include="Source\UI\Credits.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Source\UI\LoadingScreen.cs" />
     <Compile Include="Source\Abilities\TrapIcon.cs" />
     <Compile Include="Source\UI\PrincessHPBar.cs" />
+    <Compile Include="Source\Tutorial\TutorialController.cs" />
     <Compile Include="Source\UI\WaveCounter.cs" />
     <Compile Include="Source\Managers\WaveSystem.cs" />
   </ItemGroup>
