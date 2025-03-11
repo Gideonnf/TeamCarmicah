@@ -272,7 +272,7 @@
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
-                            "colA": 1.0
+                            "colA": 0.0
                         },
                         {
                             "Component Name": "struct Carmicah::UITransform",
@@ -307,7 +307,7 @@
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
-                            "colA": 1.0
+                            "colA": 0.0
                         },
                         {
                             "Component Name": "struct Carmicah::UITransform",
@@ -342,7 +342,7 @@
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
-                            "colA": 1.0
+                            "colA": 0.0
                         },
                         {
                             "Component Name": "struct Carmicah::UITransform",
@@ -377,7 +377,7 @@
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
-                            "colA": 1.0
+                            "colA": 0.0
                         },
                         {
                             "Component Name": "struct Carmicah::UITransform",
@@ -983,7 +983,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 6.5,
-                    "yPos": -15.3,
+                    "yPos": -19.364,
                     "depth": -8.0,
                     "xScale": 0.6000000238418579,
                     "yScale": 0.6000000238418579,

@@ -10,8 +10,9 @@ namespace CarmicahScript
 {
     public class TutorialBasic : Entity
     {
-        bool hovering           = false;
+        bool hovering    = false;
         bool justHovered = false;
+        bool justUnhovered = false;
         bool clicked     = false;
 
         public bool GetIsClick()
@@ -25,6 +26,13 @@ namespace CarmicahScript
         {
             bool ret = justHovered;
             justHovered = false;
+            return ret;
+        }
+
+        public bool GetExitHover()
+        {
+            bool ret = justUnhovered;
+            justUnhovered = false;
             return ret;
         }
 
@@ -51,6 +59,14 @@ namespace CarmicahScript
         {
             hovering = false;
             justHovered = false;
+            justUnhovered = true;
+        }
+
+        public override void OnCreate()
+        {
+        }
+        public override void OnUpdate(float dt)
+        {
         }
 
     }
