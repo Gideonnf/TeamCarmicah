@@ -535,16 +535,20 @@ namespace Carmicah
                 //npc.GetComponent<Renderer>().SetAlpha(1);
                 if(npc.As<BaseNPC>().mana <= 0)
                 {
+                    // change to no mana
                     npc.GetComponent<StateMachine>().SetStateCondition(3);
                 }
                 else
                 {
+                    // change to Idle
                     npc.GetComponent<StateMachine>().SetStateCondition(1);
                 }
                 //npc.Position = new Vector2(200, 200);
             }
 
-            playerEntity.GetComponent<Renderer>().SetAlpha(1);
+            // change to Idle state
+            playerEntity.GetComponent<StateMachine>().SetStateCondition(1);
+            //playerEntity.GetComponent<Renderer>().SetAlpha(1);
             //playerPos = playerEntity.Position;
 
             if (playerEntity != null)
@@ -680,6 +684,9 @@ namespace Carmicah
 
         public void HideEntities()
         {
+            // set them to teleport state
+
+
             foreach (Entity npc in npcList)
             {
                 if (npc.mID == 0) continue;
@@ -687,7 +694,8 @@ namespace Carmicah
                 npc.GetComponent<StateMachine>().SetStateCondition(5);
             }
 
-            playerEntity.GetComponent<Renderer>().SetAlpha(0);
+            playerEntity.GetComponent<StateMachine>().SetStateCondition(5);
+            //playerEntity.GetComponent<Renderer>().SetAlpha(0);
             //playerPos = new Vector2(200, 200);
 
         }

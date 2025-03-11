@@ -35,6 +35,7 @@ namespace Carmicah
         public string HealAnim;
         public string IdleAnim;
         public string WalkAnim;
+        public string TeleportAnim = "NPC_Teleport";
         public static bool GameLost = false;
 
         public bool isWalking = true;
@@ -206,6 +207,10 @@ namespace Carmicah
                 healAnimTime = GetComponent<Animation>().GetMaxTime();
                 timer = 0.0f;
                 CMConsole.Log("MC HEAL");
+            }
+            else if (stateName == "Teleport")
+            {
+                ChangeAnim(TeleportAnim);
             }
         }
 
