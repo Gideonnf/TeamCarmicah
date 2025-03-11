@@ -19,7 +19,7 @@ namespace Carmicah
         public string idleAnim = "Shooter_Idle";
         public string shootAnim = "Shooter_Shoot";
         public string manaAnim = "Shooter_Idle";
-        public string dissolveAnim = "Dissolve";
+        public string dissolveAnim = "NPC_Death";
         public string placeSound = "Shooter_Appear";
         public string shootSound = "Shooter_Shooting";
         public string deathSound = "Shooter_Death";
