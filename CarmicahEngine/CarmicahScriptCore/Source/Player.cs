@@ -16,7 +16,6 @@ DigiPen Institute of Technology is prohibited.
 
 
 using Carmicah;
-using CarmicahScript;
 using System;
 using System.Collections.Generic;
 using System.Linq;
