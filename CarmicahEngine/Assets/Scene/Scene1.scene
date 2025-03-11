@@ -331,10 +331,10 @@
                             "MageIconPrefab": "MageIcon",
                             "ShooterIconPrefab": "ShooterIcon",
                             "TrapIconPrefab": "TrapIcon",
-                            "startingPos": 760.0,
-                            "SpearIconPrefab": "SpearIcon",
-                            "shake": false,
                             "shakeMagnitude": 1.5,
+                            "shake": false,
+                            "SpearIconPrefab": "SpearIcon",
+                            "startingPos": 760.0,
                             "yOffset": 75.0,
                             "shakeTimer": 1.0,
                             "timer": 0.0,
@@ -449,14 +449,14 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "LeftOrRight": false,
-                            "GameOver": false,
-                            "waveTimer": 0.0,
-                            "MousePrefabName": "MouseGONew",
                             "StartingCake": "StartingCake",
-                            "spawnTimer": 1.5,
-                            "CakeHeightOffset": 11.600000381469727,
+                            "MousePrefabName": "MouseGONew",
+                            "waveTimer": 0.0,
+                            "GameOver": false,
+                            "LeftOrRight": false,
                             "WaveStarted": false,
+                            "CakeHeightOffset": 11.600000381469727,
+                            "spawnTimer": 1.5,
                             "timer": 0.0,
                             "CakePrefabName": "StartingCake",
                             "PlayerName": "mainCharacter",
@@ -525,9 +525,9 @@
                             "waveStartTime": 21.0,
                             "waveTimer": 0.0,
                             "startNewWave": true,
-                            "waveCounter": 0,
-                            "waveSetupTime": 15.0,
                             "waveStart": false,
+                            "waveSetupTime": 15.0,
+                            "waveCounter": 0,
                             "mobCounter": 0,
                             "losePrefab": "LoseScreen",
                             "winPrefab": "Win_Screen",
@@ -854,21 +854,22 @@
                     "scriptName": "Carmicah.Player",
                     "ScriptableFieldMap": [
                         {
-                            "elapsedTime": 0.0,
-                            "HealAnim": "MC_Heal",
                             "IdleAnim": "MC_Idle",
-                            "WalkAnim": "MC_Walk",
+                            "HealAnim": "MC_Heal",
+                            "elapsedTime": 0.0,
                             "GameLost": true,
+                            "WalkAnim": "MC_Walk",
                             "isWalking": true,
-                            "healthBarName": "Princess_HealthBar",
                             "walkingSpeed": 2.0,
+                            "healthBarName": "Princess_HealthBar",
                             "isCreated": false,
                             "damaged": false,
                             "flashInterval": 0.25,
                             "flashTime": 1.0,
                             "flashTotalTime": 1.0,
                             "flashTimer": 0.0,
-                            "health": 100.0
+                            "health": 100.0,
+                            "TeleportAnim": "NPC_Teleport"
                         }
                     ]
                 }
@@ -1111,7 +1112,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "ShooterNPC",
+                            "HeroPrefab": "",
                             "TrapTranslucentPrefab": "TrapTranslucent",
                             "lane": 3.0,
                             "yOffset": 1.0,
@@ -1177,7 +1178,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "ShooterNPC",
+                            "HeroPrefab": "",
                             "lane": 0.0,
                             "yOffset": 1.0,
                             "IsLeft": false,
@@ -1418,7 +1419,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "ShooterNPC",
+                            "HeroPrefab": "",
                             "lane": 2.0,
                             "yOffset": 1.0,
                             "IsLeft": true,
@@ -1483,7 +1484,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "ShooterNPC",
+                            "HeroPrefab": "",
                             "lane": 1.0,
                             "yOffset": 1.0,
                             "IsLeft": false,
@@ -1511,7 +1512,7 @@
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 134.94664001464845,
-                    "yPos": 814.5762329101563,
+                    "yPos": 816.40673828125,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -1520,7 +1521,7 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "CarmicahScript.WaveCounter",
+                    "scriptName": "Carmicah.WaveCounter",
                     "ScriptableFieldMap": [
                         {
                             "IsTimer": false,
@@ -1849,10 +1850,10 @@
                     "ScriptableFieldMap": [
                         {
                             "HoneyPrefab": "HoneyBall",
-                            "heightOffset": 12.0,
                             "MagePrefab": "MageBall",
-                            "SpawnTimer": 18.0,
+                            "heightOffset": 12.0,
                             "ShooterPrefab": "ShooterBall",
+                            "SpawnTimer": 18.0,
                             "TrapPrefab": "TrapBall",
                             "timer": 0.0,
                             "xOffset": 5.0,
@@ -2168,7 +2169,7 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "CarmicahScript.PrincessHPBar",
+                    "scriptName": "Carmicah.PrincessHPBar",
                     "ScriptableFieldMap": [
                         {
                             "percentHP": 100.0
