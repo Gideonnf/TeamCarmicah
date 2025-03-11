@@ -82,11 +82,6 @@ namespace Carmicah
                 trapEntity = null;
                 flipped = false;
             }
-
-            if(hovering)
-            {
-
-            }
         }
 
         public override void OnClick()
@@ -102,15 +97,24 @@ namespace Carmicah
 
         }
 
+        public override void OnMouseEnter()
+        {
+            Sound.PlaySFX("Item_Hover", 0.4f);
+            if (this.HasComponent<Renderer>())
+                this.GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
+
+        }
+
         public override void OnMouseHover()
         {
-            if (!hovering)
-            {
-                Sound.PlaySFX("Item_Hover", 0.4f);
-                this.GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
+            if (mID == 0) return;
+
+            //if (!hovering)
+            //{
+            //    
                 
-                hovering = true;
-            }
+            //    hovering = true;
+            //}
         }
 
         public void HeroBuilt()
@@ -123,7 +127,7 @@ namespace Carmicah
 
         public override void OnMouseExit()
         {
-            hovering = false;
+            //hovering = false;
             this.GetComponent<Renderer>().SetColour(1.0f, 1.0f, 1.0f);
         }
 

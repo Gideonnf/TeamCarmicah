@@ -19,7 +19,8 @@ namespace Carmicah
         public string idleAnim = "Shooter_Idle";
         public string shootAnim = "Shooter_Shoot";
         public string manaAnim = "Shooter_Idle";
-        public string dissolveAnim = "NPC_Death";
+        public string dissolveAnim = "NPC_Death"; // im using this as death cause i lazy to rename
+        public string teleportAnim = "NPC_Teleport";
         public string placeSound = "Shooter_Appear";
         public string shootSound = "Shooter_Shooting";
         public string deathSound = "Shooter_Death";

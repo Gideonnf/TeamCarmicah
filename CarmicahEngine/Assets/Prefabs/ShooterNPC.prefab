@@ -20,24 +20,6 @@
             "startingState": "Idle",
             "stateMap": [
                 {
-                    "stateName": "Idle",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Attacking",
-                            "condition": 2
-                        },
-                        {
-                            "targetState": "NoMana",
-                            "condition": 3
-                        },
-                        {
-                            "targetState": "Dead",
-                            "condition": 4
-                        }
-                    ]
-                },
-                {
                     "stateName": "Attacking",
                     "stateCondition": 0,
                     "transitions": [
@@ -52,6 +34,28 @@
                     ]
                 },
                 {
+                    "stateName": "Idle",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Attacking",
+                            "condition": 2
+                        },
+                        {
+                            "targetState": "NoMana",
+                            "condition": 3
+                        },
+                        {
+                            "targetState": "Dead",
+                            "condition": 4
+                        },
+                        {
+                            "targetState": "Teleport",
+                            "condition": 5
+                        }
+                    ]
+                },
+                {
                     "stateName": "NoMana",
                     "stateCondition": 0,
                     "transitions": [
@@ -62,6 +66,10 @@
                         {
                             "targetState": "Dead",
                             "condition": 4
+                        },
+                        {
+                            "targetState": "Teleport",
+                            "condition": 5
                         }
                     ]
                 },
@@ -69,6 +77,20 @@
                     "stateName": "Dead",
                     "stateCondition": 0,
                     "transitions": []
+                },
+                {
+                    "stateName": "Teleport",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
+                        },
+                        {
+                            "targetState": "NoMana",
+                            "condition": 3
+                        }
+                    ]
                 }
             ]
         },
@@ -101,23 +123,23 @@
             "scriptName": "Carmicah.ShooterNPC",
             "ScriptableFieldMap": [
                 {
-                    "IsLeft": false,
                     "isShooting": false,
+                    "IsLeft": false,
                     "active": false,
-                    "animationTime": 0.0,
                     "deathSound": "Shooter_Death",
+                    "animationTime": 0.0,
                     "hasAmmo": true,
                     "hovering": false,
                     "idleAnim": "Shooter_Idle",
                     "lane": 0,
                     "mana": 5,
-                    "dissolveAnim": "NPC_Death",
                     "manaAnim": "Shooter_Mana",
+                    "dissolveAnim": "NPC_Death",
                     "npcType": 0,
                     "placeSound": "Shooter_Appear",
                     "projectilePrefab": "Bullet",
-                    "shot": false,
                     "shootAnim": "Shooter_Shoot",
+                    "shot": false,
                     "shootRate": 1.0,
                     "shootSound": "Shooter_Shooting",
                     "shootTime": 1.0,

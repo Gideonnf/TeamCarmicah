@@ -532,7 +532,15 @@ namespace Carmicah
             {
                 if (npc.mID == 0) continue;
 
-                npc.GetComponent<Renderer>().SetAlpha(1);
+                //npc.GetComponent<Renderer>().SetAlpha(1);
+                if(npc.As<BaseNPC>().mana <= 0)
+                {
+                    npc.GetComponent<StateMachine>().SetStateCondition(3);
+                }
+                else
+                {
+                    npc.GetComponent<StateMachine>().SetStateCondition(1);
+                }
                 //npc.Position = new Vector2(200, 200);
             }
 
@@ -676,8 +684,7 @@ namespace Carmicah
             {
                 if (npc.mID == 0) continue;
 
-                npc.GetComponent<Renderer>().SetAlpha(0);
-                //npc.Position = new Vector2(200, 200);
+                npc.GetComponent<StateMachine>().SetStateCondition(5);
             }
 
             playerEntity.GetComponent<Renderer>().SetAlpha(0);

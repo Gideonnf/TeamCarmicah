@@ -25,24 +25,6 @@
             "startingState": "Idle",
             "stateMap": [
                 {
-                    "stateName": "Idle",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Attacking",
-                            "condition": 2
-                        },
-                        {
-                            "targetState": "NoMana",
-                            "condition": 3
-                        },
-                        {
-                            "targetState": "Dead",
-                            "condition": 4
-                        }
-                    ]
-                },
-                {
                     "stateName": "Attacking",
                     "stateCondition": 0,
                     "transitions": [
@@ -57,6 +39,28 @@
                     ]
                 },
                 {
+                    "stateName": "Idle",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Attacking",
+                            "condition": 2
+                        },
+                        {
+                            "targetState": "NoMana",
+                            "condition": 3
+                        },
+                        {
+                            "targetState": "Dead",
+                            "condition": 4
+                        },
+                        {
+                            "targetState": "Teleport",
+                            "condition": 5
+                        }
+                    ]
+                },
+                {
                     "stateName": "NoMana",
                     "stateCondition": 0,
                     "transitions": [
@@ -67,6 +71,10 @@
                         {
                             "targetState": "Dead",
                             "condition": 4
+                        },
+                        {
+                            "targetState": "Teleport",
+                            "condition": 5
                         }
                     ]
                 },
@@ -74,6 +82,20 @@
                     "stateName": "Dead",
                     "stateCondition": 0,
                     "transitions": []
+                },
+                {
+                    "stateName": "Teleport",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
+                        },
+                        {
+                            "targetState": "NoMana",
+                            "condition": 3
+                        }
+                    ]
                 }
             ]
         },

@@ -211,13 +211,17 @@ namespace Carmicah
                 animationTime = GetComponent<Animation>().GetMaxTime();
                 timer = 0.0f;
                 shot = false;
-                CMConsole.Log($"Max Anim Time : {animationTime}");
+               // CMConsole.Log($"Max Anim Time : {animationTime}");
 
             }
             else if (stateName == "NoMana")
             {
                 ChangeAnim(manaAnim);
                 CMConsole.Log("Out of Ammo!");
+            }
+            else if (stateName == "Teleport")
+            {
+                ChangeAnim(teleportAnim);
             }
             else if (stateName == "Dead")
             {
