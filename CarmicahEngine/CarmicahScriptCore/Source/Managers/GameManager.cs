@@ -35,7 +35,6 @@ namespace Carmicah
         public string FlyingEnemyPrefabName = "FlyGO"; //fly enemy
         public string CakePrefabName = "StartingCake";
         public string PlayerName = "mainCharacter";
-        public string PlayerHealthBar = "Healthbar";
         public string WaveSystemObject = "Something";
         public string CakeVFXPrefab = "CakeVFX";
         public float timer = 0.0f;
@@ -72,8 +71,6 @@ namespace Carmicah
 
         Entity startingCakeEntity;
         Entity playerEntity;
-        Entity playerHealth;
-        Entity playerHealthCover;
 
         Entity[] topTowerBoxes = new Entity[3];
 
@@ -125,8 +122,6 @@ namespace Carmicah
 
             startingCakeEntity = FindEntityWithName(StartingCake);
             playerEntity = FindEntityWithName(PlayerName);
-            playerHealth = FindEntityWithName(PlayerHealthBar);
-            playerHealthCover = FindEntityWithName("Healthbar_Cover");
             heroBuildEntities[0] = FindEntityWithName(HeroBuild1);
             heroBuildEntities[1] = FindEntityWithName(HeroBuild3);
             heroBuildEntities[2] = FindEntityWithName(HeroBuild2);
@@ -542,8 +537,6 @@ namespace Carmicah
             }
 
             playerEntity.GetComponent<Renderer>().SetAlpha(1);
-            playerHealth.GetComponent<Renderer>().SetAlpha(1);
-            playerHealthCover.GetComponent<Renderer>().SetAlpha(1);
             //playerPos = playerEntity.Position;
 
             if (playerEntity != null)
@@ -688,8 +681,6 @@ namespace Carmicah
             }
 
             playerEntity.GetComponent<Renderer>().SetAlpha(0);
-            playerHealth.GetComponent<Renderer>().SetAlpha(0);
-            playerHealthCover.GetComponent<Renderer>().SetAlpha(0);
             //playerPos = new Vector2(200, 200);
 
         }

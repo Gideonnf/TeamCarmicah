@@ -14,6 +14,11 @@
             "collisionMask": 4
         },
         {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Mouse_Climb_white",
+            "AnimSpeed": 1.0
+        },
+        {
             "Component Name": "struct Carmicah::StateMachine",
             "currState": "",
             "nextState": "",
@@ -37,9 +42,30 @@
             ]
         },
         {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Mouse_Climb_white",
-            "AnimSpeed": 1.0
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.MouseAI",
+            "ScriptableFieldMap": [
+                {
+                    "Speed": "1.0",
+                    "isLeft": false,
+                    "SpawnPointEntityLeft": "StartPointLeft",
+                    "SpawnPointEntityLeft2": "StartPointLeft_1",
+                    "ChanceToDie": 0.11999999731779099,
+                    "EndPointEntityLeft": "EndPointLeft",
+                    "SpawnPointEntityRight": "StartPointRight",
+                    "SpawnPointEntityRight2": "StartPointRight_1",
+                    "EndPointEntityLeft2": "EndPointLeft_1",
+                    "EndPointEntityRight": "EndPointRight",
+                    "EndPointEntityRight2": "EndPointRight_1",
+                    "baseAnimation": "Mouse_Climb_white",
+                    "baseAnimationDie": "Mouse_Death_white",
+                    "timer": 0.0,
+                    "TimeToDie": 1.5,
+                    "DeathTime": 2.0,
+                    "DeathSound": "mouse die btr",
+                    "InjuredSound": "mouse die"
+                }
+            ]
         },
         {
             "Component Name": "struct Carmicah::Renderer",
@@ -49,32 +75,6 @@
             "colG": 1.0,
             "colB": 1.0,
             "colA": 1.0
-        },
-        {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.MouseAI",
-            "ScriptableFieldMap": [
-                {
-                    "SpawnPointEntityLeft": "StartPointLeft",
-                    "isLeft": false,
-                    "Speed": "1.0",
-                    "EndPointEntityLeft": "EndPointLeft",
-                    "ChanceToDie": 0.11999999731779099,
-                    "SpawnPointEntityLeft2": "StartPointLeft_1",
-                    "SpawnPointEntityRight2": "StartPointRight_1",
-                    "SpawnPointEntityRight": "StartPointRight",
-                    "EndPointEntityLeft2": "EndPointLeft_1",
-                    "EndPointEntityRight": "EndPointRight",
-                    "EndPointEntityRight2": "EndPointRight_1",
-                    "baseAnimation": "Mouse_Climb_white",
-                    "baseAnimationDie": "Dissolve_Yellow",
-                    "timer": 0.0,
-                    "TimeToDie": 1.5,
-                    "DeathTime": 2.0,
-                    "DeathSound": "mouse die btr",
-                    "InjuredSound": "mouse die"
-                }
-            ]
         },
         {
             "Component Name": "struct Carmicah::Collider2D",
@@ -139,15 +139,6 @@
                     "collisionMask": 1
                 },
                 {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Wall_White 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 0.0,
-                    "colA": 1.0
-                },
-                {
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.HealthSystem",
                     "ScriptableFieldMap": [
@@ -161,6 +152,15 @@
                             "mMaxHealth": 100.0
                         }
                     ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_White 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 0.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::PrefabData",
