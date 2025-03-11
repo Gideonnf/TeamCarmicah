@@ -16,6 +16,7 @@ DigiPen Institute of Technology is prohibited.
 
 
 using Carmicah;
+using CarmicahScript;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace Carmicah
     public class Player : Entity
     {
         float timer = 0.5f;
+        public string healthBarName = "Princess_HealthBar";
 
         public float walkingSpeed = 2.0f;
 
@@ -40,6 +42,7 @@ namespace Carmicah
 
         Entity healTarget;
         Entity redBorder;
+        Entity healthBar;
         float healAnimTime;
 
         public bool damaged = false;
@@ -47,12 +50,13 @@ namespace Carmicah
         public float flashInterval = 0.25f;
         public float flashTimer = 0.0f; // Keep track for interval flashing
         public float flashTime = 0.0f; // keep track of total time for flashTime
-
+        public float health = 100.0f;
 
         bool invisible = true;
         void OnCreate()
         {
             redBorder = FindEntityWithName("RedBorder");
+            healthBar = FindEntityWithName(healthBarName);
         }
 
         void ToggleWalkAnim()
@@ -319,7 +323,10 @@ namespace Carmicah
 
         public void TakeDamage(int damage, EnemyTypes enemyType)
         {
-            this.AsChild<HealthSystem>().TakeDamage(damage);
+            health -= damage;
+            healthBar.As<PrincessHPBar>().percentHP = health;
+
+            //this.AsChild<HealthSystem>().TakeDamage(damage);
             Sound.PlaySFX("Princess_DamageWarning", 0.3f);
             damaged = true;
             if (enemyType == EnemyTypes.BEAR)
@@ -333,7 +340,7 @@ namespace Carmicah
                 //}
             }
             //CMConsole.Log($"Health :{this.AsChild<HealthSystem>().mCurHealth}");
-            if (this.AsChild<HealthSystem>().mCurHealth <= 0)
+            if (health <= 0)
             {
                 // game end
                 if (!isCreated)

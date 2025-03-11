@@ -15,7 +15,7 @@ DigiPen Institute of Technology is prohibited.
 #include "ECS/BaseSystem.h"
 #include "../Math/Vec2.h"
 #include <bitset>
-
+#include <unordered_set>
 
 namespace Carmicah
 {
@@ -34,6 +34,8 @@ namespace Carmicah
 
 		std::unordered_map<Entity, int> entityIndexMap;
 		int entityCounter = 0;
+
+		std::unordered_map<Entity, std::unordered_set<Entity>> mEntityTriggerMap;
 
 		
 	public:
