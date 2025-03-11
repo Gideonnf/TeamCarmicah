@@ -51,9 +51,7 @@ namespace Carmicah
 
         void OnCreate()
         {
-            nextBtn = FindEntityWithName("HowToRightBtn");
-            backBtn = FindEntityWithName("HowToLeftBtn");
-            playBtn = FindEntityWithName("HowToPlayBtn");
+            CreateGameObject("HowToStep0");
         }
 
         private string GetPanelName(int pan)
@@ -128,6 +126,13 @@ namespace Carmicah
             {
                 if (frameChanged == 1)
                 {
+                    if(nextBtn == null)
+                        nextBtn = FindEntityWithName("HowToRightBtn");
+                    if(backBtn == null)
+                        backBtn = FindEntityWithName("HowToLeftBtn");
+                    if(playBtn == null)
+                        playBtn = FindEntityWithName("HowToPlayBtn");
+
                     switch (currentPanel)
                     {
                         case 0:
