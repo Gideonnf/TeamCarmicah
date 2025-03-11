@@ -21,7 +21,12 @@ namespace Carmicah
         Entity heroBuildEntity1;
         Entity heroBuildEntity2;
         Entity heroBuildEntity3;
-        
+
+        // set these in script var
+        public float xOffset = 0.0f;
+        public float yOffset = 0.0f;
+
+        public float mouseXOffset = 0.5f;
 
         void OnCreate()
         {
@@ -33,10 +38,13 @@ namespace Carmicah
             if(heroPrefab == "ShooterNPC")
             {
                 type = AbilityType.SHOOTER;
+                
             }
             else if(heroPrefab == "MageNPC")
             {
                 type = AbilityType.MAGE;
+
+                
             }
             else if(heroPrefab == "SpearNPC")
             {
@@ -52,7 +60,7 @@ namespace Carmicah
 
             //if (IsKeyHold(Keys.))
             Vector2 mousePos = Input.GetMousePos();
-            trapEntity.Position = mousePos;
+            trapEntity.Position = mousePos + new Vector2(mouseXOffset, 0);
 
             if (trapEntity.Position.x < 0.0f && flipped != true)
             {
@@ -98,7 +106,7 @@ namespace Carmicah
         {
             if (!hovering)
             {
-                Sound.PlaySFX("SFX__Magic");
+                Sound.PlaySFX("Item_Hover", 0.4f);
                 this.GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
                 
                 hovering = true;

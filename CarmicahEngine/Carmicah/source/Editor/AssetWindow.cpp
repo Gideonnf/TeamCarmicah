@@ -521,6 +521,10 @@ namespace Carmicah
 				if (ImGui::InputText("##Searchbar", buffer, sizeof(buffer)))
 				{
 					searchName = buffer;
+					if (buffer[0] == '\0')
+					{
+						searchName.clear();
+					}
 				}
 
 				ImGui::Indent();

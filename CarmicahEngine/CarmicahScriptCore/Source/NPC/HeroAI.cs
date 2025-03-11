@@ -91,7 +91,7 @@ namespace Carmicah
                     Sound.PlaySFX("Shooter_Shooting");
                     if (bullet != null)
                     {
-                        bullet.targetMouse = targetMouse;
+                        bullet.target = targetMouse;
 
                         bullet.SetUp(targetMouse);
 

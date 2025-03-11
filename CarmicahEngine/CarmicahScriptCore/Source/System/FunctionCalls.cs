@@ -55,19 +55,28 @@ namespace Carmicah
         internal extern static uint Entity_FindEntityWithName(string name);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static void Sound_PlaySFX(string soundName, float volume);
+        internal extern static void Sound_PlaySFX(string soundName, float volume, bool isLoop);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_PlayBGM(string soundName, float volume);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static void Sound_SwitchBGM(string soundName, float fadeTimer, float fadeDuration);
+        internal extern static void Sound_SwitchBGM(string soundName, float fadeTimer, float fadeDuration, bool isLoop);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_SetVolume(string soundName, float volume);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_StopBGM(string soundName);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Sound_StopSFX(string soundName);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Sound_StopSFXWithFade(string soundName , float fadeTimer, float fadeDuration);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Sound_StopAllSFX();
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_Stop(string soundName);
@@ -134,6 +143,9 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static float Animation_GetCurrFrameTime(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static int Animation_GetCurrFrameNo(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool Animation_IsAnimFinished(uint entityID);

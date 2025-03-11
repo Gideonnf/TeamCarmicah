@@ -77,6 +77,11 @@
                     "Component Name": "struct Carmicah::Button"
                 },
                 {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "",
+                    "AnimSpeed": 1.0
+                },
+                {
                     "Component Name": "struct Carmicah::PrefabData",
                     "prefabRef": 52
                 },
@@ -140,7 +145,7 @@
                     "scriptName": "Carmicah.Credits",
                     "ScriptableFieldMap": [
                         {
-                            "scrollSpeed": 40.0,
+                            "scrollSpeed": 2.5,
                             "endYPosition": 29.0
                         }
                     ]

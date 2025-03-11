@@ -6,6 +6,27 @@
             "Component Name": "struct Carmicah::Button"
         },
         {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.HeroIcon",
+            "ScriptableFieldMap": [
+                {
+                    "heroPrefab": "MageNPC",
+                    "HeroBuild": "HeroBuild",
+                    "HeroBuild2": "HeroBuild_2",
+                    "HeroBuild1": "HeroBuild_1",
+                    "WaveSystemObject": "Something",
+                    "actualTrapPrefab": "",
+                    "HeroBuild3": "HeroBuild_3",
+                    "fakeTrapPrefab": "",
+                    "flipped": false,
+                    "hovering": false,
+                    "xOffset": 0.0,
+                    "yOffset": 1.0,
+                    "mouseXOffset": 0.25
+                }
+            ]
+        },
+        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "UI_Spritesheet_Mage_Icon 0",
@@ -23,24 +44,6 @@
             "yScale": 0.8999999761581421,
             "rot": 352.0,
             "transformTag": ""
-        },
-        {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.HeroIcon",
-            "ScriptableFieldMap": [
-                {
-                    "HeroBuild2": "HeroBuild_2",
-                    "HeroBuild": "HeroBuild",
-                    "heroPrefab": "MageNPC",
-                    "actualTrapPrefab": "",
-                    "WaveSystemObject": "Something",
-                    "HeroBuild1": "HeroBuild_1",
-                    "HeroBuild3": "HeroBuild_3",
-                    "fakeTrapPrefab": "",
-                    "flipped": false,
-                    "hovering": false
-                }
-            ]
         }
     ]
 }

@@ -45,11 +45,23 @@ namespace Carmicah
 
                     Projectile bullet = projectile.As<Projectile>();
                     bullet.As<Projectile>().bulletType = BulletType.MAGE_BULLET;
+                    if(!IsLeft)
+                    { 
+                        bullet.As<Projectile>().facingRight = true; 
+                    }
+                    else
+                    {
+                        bullet.As<Projectile>().facingRight = false;
+                    }
 
-                    Sound.PlaySFX(shootSound);
+                    Random rnd = new Random();
+                    int number = rnd.Next(1, 6);
+                    string soundFile = "Mage_Shoot_0" + number.ToString();
+
+                    Sound.PlaySFX(soundFile, 1.0f);
                     if (bullet != null)
                     {
-                        bullet.targetMouse = targetMouse;
+                        bullet.target = targetMouse;
 
                         bullet.SetUp(targetMouse);
                     }

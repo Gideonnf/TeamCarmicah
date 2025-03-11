@@ -90,7 +90,7 @@ namespace Carmicah
             Vector2 scale = Scale;
 
             // Random lane selection (similar to MouseAI)
-            randLane = CMRand.Range(0, 1); // rand between 0 to 3
+            randLane = CMRand.Range(0, 2); // rand between 0 to 3
             lane = randLane;
 
             switch (randLane)
@@ -303,8 +303,15 @@ namespace Carmicah
                 targetEntity = gm.GetTargetNPC(this);
                 currentStage = FlyingStage.DIAGONAL;
                 ChangeAnim(DiagonalAnim);
-
-                Rot = -60.0f;
+                 
+                if(isLeft)
+                { 
+                    Rot = -60.0f; 
+                }
+                else
+                {
+                    Rot = 60.0f;
+                }
             }
 
             if (stateName == "Dead")

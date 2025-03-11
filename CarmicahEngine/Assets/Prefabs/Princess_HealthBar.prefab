@@ -1,0 +1,61 @@
+{
+    "GameObject": "Princess_HealthBar",
+    "ID": 60,
+    "Components": [
+        {
+            "Component Name": "struct Script",
+            "scriptName": "CarmicahScript.PrincessHPBar",
+            "ScriptableFieldMap": [
+                {
+                    "percentHP": 100.0
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Princess_HealthBar_Back 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::UITransform",
+            "xPos": 363.8429870605469,
+            "yPos": 986.6439819335938,
+            "depth": 0.0,
+            "xScale": 1.0,
+            "yScale": 1.0,
+            "rot": 0.0,
+            "transformTag": ""
+        }
+    ],
+    "Children": [
+        {
+            "GameObject": "Princess_HP_Value",
+            "ID": 61,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Princess_HealthBar_HP 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 1.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        }
+    ]
+}

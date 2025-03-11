@@ -151,7 +151,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 
 							glEnable(GL_DEPTH_TEST);
 
-							// Specifically disable writting to ID 2 since id 1 is particles, yes, ik, it's dumb
+							// Specifically disable writing to ID 2 since id 2 is particles, yes, ik, it's dumb
 							if(it.first.dat[BUFFER_ID] == 0)
 								glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
 							else if(it.first.dat[BUFFER_ID] == 2)
@@ -204,7 +204,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 					}
 					// Reset for this mode
 					if (it.first.dat[BUFFER_SHADER] == defaultShaderID &&
-						it.first.dat[BUFFER_ID] == 0)
+						it.first.dat[BUFFER_ID] != 1)
 					{
 						if (UniformExists(mCurrShader, "uIsText", uniformLoc))
 							glUniform1i(uniformLoc, 0);
@@ -216,6 +216,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 
 			// Rendering part
 			glBindBuffer(GL_DRAW_INDIRECT_BUFFER, batchBuffer.ibo);
+			// Font
 			if (it.first.dat[BUFFER_ID] == 1)
 			{
 				// Specifically for rendering fonts / particles
@@ -250,7 +251,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 								break;
 							int vtxCnt = std::min(drawCnt * static_cast<int>(p.vtx.size()), bSize);
 
-							glNamedBufferSubData(buff.vbo, sizeof(vtxTexd2D) * off, sizeof(vtxTexd2D) * vtxCnt, font.second.vtx.data() + off);
+							glNamedBufferSubData(buff.vbo, 0, sizeof(vtxTexd2D) * vtxCnt, font.second.vtx.data() + off);
 
 							glMultiDrawElementsIndirect(GL_TRIANGLES,
 								GL_UNSIGNED_SHORT,// Indices
@@ -260,6 +261,40 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 						}
 					}
 				}
+			}
+			// Particles
+			else if (it.first.dat[BUFFER_ID] == 2)
+			{
+				BufferCPUSide* vtxBuf;
+				if (it.first.dat[BUFFER_GAME_BASED])
+					vtxBuf = &mParticleData[0];
+				else
+					vtxBuf = &mParticleData[1];
+
+				if (vtxBuf->vtxSize == 0)
+					continue;
+				auto& buff = batchBuffer.buffer[0];
+				auto& p{ AssetManager::GetInstance()->GetAsset<Primitive>("Square") };
+				int bSize = static_cast<int>(p.vtx.size() * mBatchSize);
+
+				glBindVertexArray(buff.vao);
+
+				for (int off = 0; off < static_cast<int>(vtxBuf->vtx.size()); off += bSize)
+				{
+					int drawCnt = std::min(vtxBuf->vtxSize, mBatchSize);
+					if (drawCnt == 0)
+						break;
+					int vtxCnt = drawCnt * static_cast<int>(p.vtx.size());
+
+					glNamedBufferSubData(buff.vbo, 0, sizeof(vtxTexd2D) * vtxCnt, vtxBuf->vtx.data() + off);
+
+					glMultiDrawElementsIndirect(GL_TRIANGLES,
+						GL_UNSIGNED_SHORT,// Indices
+						(GLvoid*)0,
+						drawCnt,
+						0);
+				}
+
 			}
 			else if (!batchBuffer.isDebug)
 			{

@@ -35,7 +35,7 @@ namespace Carmicah
             levelManager = new LevelManager();
             gameManager = FindEntityWithName("GameManager");
             Player.GameLost = false;
-
+            
         }
 
         void OnUpdate(float dt)
@@ -52,6 +52,7 @@ namespace Carmicah
                 if (countdown == null)
                 {
                     countdown = CreateGameObject(countdownPrefab);
+                    Sound.SwitchBGM("BGM_LevelMusic_FullTrack_Vers1", 1.5f, 1.0f);
                 }
             }
             // Initial wave start
@@ -66,11 +67,11 @@ namespace Carmicah
                 if (nextWave != null)
                     gameManager.As<GameManager>().StartNextWave(nextWave);
                 //CMConsole.Log("Starting New Wave");
-
+                //Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
+                
                 // waveCounter++;
                 waveTimer = 0.0f;
-                Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
-                Sound.PlayBGM("BGM_LevelMusic_FullTrack_Vers1", 0.4f);
+                
 
                 if (countdown != null)
                 {
@@ -100,6 +101,8 @@ namespace Carmicah
                 //gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
                 if (winScreen == null)
                 {
+                    Sound.SwitchBGM("WinScreen", 0.5f, 0.5f, false);
+                    Sound.StopAllSFX();
                     gameManager.As<GameManager>().GameOver = true;
                     winScreen = CreateGameObject(winPrefab);
                 }

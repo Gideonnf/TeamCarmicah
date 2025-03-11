@@ -110,6 +110,11 @@ namespace Carmicah
             return FunctionCalls.Animation_GetCurrFrameTime(Entity.mID);
         }
 
+        public int GetFrameNo()
+        {
+            return FunctionCalls.Animation_GetCurrFrameNo(Entity.mID);
+        }
+
         public bool IsAnimFinished()
         {
             return FunctionCalls.Animation_IsAnimFinished(Entity.mID);
