@@ -20,20 +20,6 @@
             "startingState": "Idle",
             "stateMap": [
                 {
-                    "stateName": "Attacking",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Idle",
-                            "condition": 1
-                        },
-                        {
-                            "targetState": "Dead",
-                            "condition": 4
-                        }
-                    ]
-                },
-                {
                     "stateName": "Idle",
                     "stateCondition": 0,
                     "transitions": [
@@ -44,6 +30,20 @@
                         {
                             "targetState": "NoMana",
                             "condition": 3
+                        },
+                        {
+                            "targetState": "Dead",
+                            "condition": 4
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Attacking",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
                         },
                         {
                             "targetState": "Dead",
@@ -101,22 +101,22 @@
             "scriptName": "Carmicah.MageNPC",
             "ScriptableFieldMap": [
                 {
-                    "IsLeft": false,
                     "isShooting": false,
+                    "IsLeft": false,
                     "active": false,
-                    "animationTime": 0.0,
                     "deathSound": "Shooter_Death",
+                    "animationTime": 0.0,
                     "hasAmmo": true,
                     "hovering": false,
                     "idleAnim": "Mage_Idle",
                     "lane": 0,
-                    "mana": 2,
+                    "mana": 20,
                     "manaAnim": "Mage_Mana",
                     "maxMana": 2,
                     "placeSound": "Shooter_Appear",
                     "projectilePrefab": "MageBullet",
-                    "shootAnim": "Mage_Attack",
                     "shot": false,
+                    "shootAnim": "Mage_Attack",
                     "shootRate": 1.0,
                     "shootSound": "Shooter_Shooting",
                     "shootTime": 1.0

@@ -158,6 +158,13 @@ namespace Carmicah
                     float rot = Rot;
                     rot = 25;
                     Rot = rot;
+
+                    //if(!facingRight)
+                    //{
+                    //    Vector2 scale = Scale;
+                    //    scale.x *= -1;
+                    //    Scale = scale;
+                    //}
                 }
             }
             else
@@ -209,16 +216,19 @@ namespace Carmicah
                         Vector2 scale = Scale;
                         float rot = Rot;
                         Sound.PlaySFX("Mage_Hit_Explosion", 0.3f);
-                        if(!facingRight)
+                        if (!facingRight)
                         {
-                            rot -= 65;
+                            rot -= 5;
                             Rot = rot;
+                            //scale.x *= -1;
+                            //Scale = scale;
+
                         }
                         else
                         {
-                            rot -= 50;
+                            rot -= 85;
                             Rot = rot;
-                        }    
+                        }
                     }
 
                     ChangeAnim(BulletImpactAnim);
