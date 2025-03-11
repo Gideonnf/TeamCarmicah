@@ -203,18 +203,18 @@ namespace Carmicah
                     {
                         case EnemyTypes.MOUSE1:
                         {
-                            CreateEnemy(MousePrefabName, type);
+                            CreateEnemy("MouseGONew", type);
                             break;
                         }
                         case EnemyTypes.MOUSE2:
                         {
-                            CreateEnemy(MousePrefabName, type);
+                            CreateEnemy("MouseGONew2", type);
 
                             break;
                         }
                         case EnemyTypes.MOUSE3:
                         {
-                            CreateEnemy(MousePrefabName, type);
+                            CreateEnemy("MouseGONew3", type);
 
                             break;
                         }
@@ -910,14 +910,6 @@ namespace Carmicah
                     {
                         VFXPrefab = CreateGameObject(CakeVFXPrefab);
                         VFXPrefab.Position = new Vector2(-0.75f, yVFXLocation);
-                    }
-                }
-
-                if (VFXPrefab != null)
-                {
-                    if (VFXPrefab.GetComponent<Animation>().IsAnimFinished())
-                    {
-                       
                     }
                 }
                 CMConsole.Log($"IN TOWER DROP UPDATE {towerPrefab.Position.x}, {towerPrefab.Position.y}");

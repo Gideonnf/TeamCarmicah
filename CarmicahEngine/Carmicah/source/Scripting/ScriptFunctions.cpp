@@ -147,6 +147,44 @@ namespace Carmicah
 		return monoArray;
 	}
 
+	static MonoArray* Entity_GetAllChildren(unsigned int entityID)
+	{
+		std::vector<Entity> entityIDs;
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Transform>())
+		{
+			Transform& goTransform = go.GetComponent<Transform>();
+			if (goTransform.children.size() > 0)
+			{
+				for each (Entity entity in goTransform.children)
+				{
+					entityIDs.push_back(entity);
+				}
+			}
+		}
+		else if (go.HasComponent<UITransform>())
+		{
+			UITransform& goTransform = go.GetComponent<UITransform>();
+			if (goTransform.children.size() > 0)
+			{
+				for each (Entity entity in goTransform.children)
+				{
+					entityIDs.push_back(entity);
+				}
+			}
+		}
+
+		MonoDomain* domain = mono_domain_get();
+		MonoArray* monoArray = mono_array_new(domain, mono_get_uint32_class(), entityIDs.size());
+
+		for (size_t i = 0; i < entityIDs.size(); ++i)
+		{
+			mono_array_set(monoArray, uint32_t, i, entityIDs[i]);
+		}
+
+		return monoArray;
+	}
+
 	static unsigned int Entity_FindEntityWithID(unsigned int entityID)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -918,6 +956,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Entity_HasComponent);
 		ADD_INTERNAL_CALL(Entity_FindEntityWithName);
 		ADD_INTERNAL_CALL(Entity_FindEntitiesWithTag);
+		ADD_INTERNAL_CALL(Entity_GetAllChildren);
 		ADD_INTERNAL_CALL(Entity_GetChild);
 		ADD_INTERNAL_CALL(Entity_GetParent);
 		ADD_INTERNAL_CALL(Entity_FindEntityWithID);

@@ -116,7 +116,7 @@ namespace Carmicah
         {
             // log death
             //Console.WriteLine("entity has died like a biatch");
-
+            //Destroy();
             // remove entity logic down here if need be
         }
 
