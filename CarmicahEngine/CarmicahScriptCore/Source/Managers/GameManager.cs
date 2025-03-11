@@ -79,6 +79,8 @@ namespace Carmicah
 
         Entity[] endEntities = new Entity[4];
 
+        Entity[] flyingSpawns = new Entity[2]; 
+
         List<Entity> npcList;
 
         Entity[] heroBuildEntities = new Entity[4];
@@ -155,6 +157,10 @@ namespace Carmicah
             CakeSquishAnimations[1] = "CakeRainbow_Squish";
             CakeSquishAnimations[2] = "CakeMatcha_Squish";
             CakeSquishAnimations[3] = "CakeFruit_Squish";
+
+            flyingSpawns[0] = FindEntityWithName("StartTopLeft");
+            flyingSpawns[1] = FindEntityWithName("StartTopRight");
+
 
             Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
         }
@@ -491,7 +497,16 @@ namespace Carmicah
 
         public Entity GetTargetNPC(FlyingEnemyAI enemy)
         {
-
+            // check whether left or right
+            foreach(Entity entity in npcList)
+            {
+                // just find the first one that is either left or right
+                // i dont wana get into whether to go for first or second
+                if (entity.As<BaseNPC>().IsLeft == enemy.isLeft)
+                {
+                    return entity;
+                }
+            }
 
             // if no NPCs, return player
             return playerEntity;
@@ -583,8 +598,18 @@ namespace Carmicah
                 pos.y += CakeHeightOffset;
                 towerBox.Position = pos;
             }
+
+            foreach(Entity flyingSpawn in flyingSpawns)
+            {
+                if (flyingSpawn.mID == 0) continue;
+
+                pos = flyingSpawn.Position;
+                pos.y += CakeHeightOffset;
+                flyingSpawn.Position = pos;
+            }
         }
 
+        // for mouse enemies
         public bool KillNPC(MouseAI mouse)
         {
             // if the mouse's lane has an NPC in it when it dies at the top
@@ -593,12 +618,63 @@ namespace Carmicah
             // if it crashes, check that
             if (heroBuildEntities[mouse.lane].As<HeroBuild>().heroEntity != null && heroBuildEntities[mouse.lane].As<HeroBuild>().heroEntity.mID != 0)
             {
+                foreach(Entity entity in npcList)
+                {
+                    if (entity == heroBuildEntities[mouse.lane].As<HeroBuild>().heroEntity)
+                    {
+                        npcList.Remove(entity);
+                        
+                        // let the flying enemies know that they have to change target
+                        foreach(FlyingEnemyAI flyingEnemy in flyingEnemyLeft)
+                        {
+                            flyingEnemy.UpdateTarget(entity);
+                        }
+
+                        foreach(FlyingEnemyAI flyingEnemy in flyingEnemyRight)
+                        {
+                            flyingEnemy.UpdateTarget(entity);
+                        }
+
+                        break;
+                    }
+                }
+
                 heroBuildEntities[mouse.lane].As<HeroBuild>().KillNPC();
                 return true;
             }
 
             // no npc
             return false;
+        }
+
+        // for flying enemies
+        public void KillNPC(Entity npcEntity)
+        {
+            foreach(Entity buildEntity in heroBuildEntities)
+            {
+                if (buildEntity.As<HeroBuild>().heroEntity == npcEntity)
+                {
+                    if (npcList.Contains(npcEntity))
+                    {
+                        CMConsole.Log($"num of npcList : {npcList.Count}");
+                        npcList.Remove(npcEntity);
+
+                        // let the flying enemies know that they have to change target
+                        foreach (FlyingEnemyAI flyingEnemy in flyingEnemyLeft)
+                        {
+                            flyingEnemy.UpdateTarget(npcEntity);
+                        }
+
+                        foreach (FlyingEnemyAI flyingEnemy in flyingEnemyRight)
+                        {
+                            flyingEnemy.UpdateTarget(npcEntity);
+                        }
+
+                        CMConsole.Log($"Killing NPC : {npcList.Count}");
+                        buildEntity.As<HeroBuild>().KillNPC();
+                    }
+                }
+            }
         }
 
         public void HideEntities()
@@ -623,7 +699,6 @@ namespace Carmicah
             GameOver = true;
             CreateGameObject("LoseScreen");
         }
-
 
         public void CheckLaneIndicators()
         {
