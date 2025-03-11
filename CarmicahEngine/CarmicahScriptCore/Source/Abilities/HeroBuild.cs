@@ -35,6 +35,7 @@ namespace Carmicah
 
         public void OnUpdate(float dt)
         {
+            CMConsole.Log($"Hovering {hovering}");
             // incase hero entity gets destroyed, it needs to update to null here
             if (heroEntity != null && heroEntity.mID == 0)
             {

@@ -7,8 +7,8 @@
             "xPos": -7.379696369171143,
             "yPos": -0.16189409792423249,
             "depth": 3.75,
-            "xScale": -0.44999998807907107,
-            "yScale": 0.44999998807907107,
+            "xScale": -0.550000011920929,
+            "yScale": 0.550000011920929,
             "rot": 0.0,
             "transformTag": "",
             "collisionMask": 0
@@ -20,20 +20,6 @@
             "startingState": "Idle",
             "stateMap": [
                 {
-                    "stateName": "Attacking",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Idle",
-                            "condition": 1
-                        },
-                        {
-                            "targetState": "Dead",
-                            "condition": 4
-                        }
-                    ]
-                },
-                {
                     "stateName": "Idle",
                     "stateCondition": 0,
                     "transitions": [
@@ -44,6 +30,20 @@
                         {
                             "targetState": "NoMana",
                             "condition": 3
+                        },
+                        {
+                            "targetState": "Dead",
+                            "condition": 4
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Attacking",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
                         },
                         {
                             "targetState": "Dead",
@@ -101,11 +101,11 @@
             "scriptName": "Carmicah.MageNPC",
             "ScriptableFieldMap": [
                 {
-                    "IsLeft": false,
                     "isShooting": false,
+                    "IsLeft": false,
                     "active": false,
-                    "animationTime": 0.0,
                     "deathSound": "Shooter_Death",
+                    "animationTime": 0.0,
                     "hasAmmo": true,
                     "hovering": false,
                     "idleAnim": "Mage_Idle",
@@ -115,8 +115,8 @@
                     "maxMana": 2,
                     "placeSound": "Shooter_Appear",
                     "projectilePrefab": "MageBullet",
-                    "shootAnim": "Mage_Attack",
                     "shot": false,
+                    "shootAnim": "Mage_Attack",
                     "shootRate": 1.0,
                     "shootSound": "Shooter_Shooting",
                     "shootTime": 1.0
