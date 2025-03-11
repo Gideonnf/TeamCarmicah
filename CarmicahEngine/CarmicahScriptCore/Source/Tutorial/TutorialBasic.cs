@@ -11,24 +11,24 @@ namespace CarmicahScript
     public class TutorialBasic : Entity
     {
         bool hovering           = false;
-        public bool justHovered = false;
-        public bool clicked     = false;
+        bool justHovered = false;
+        bool clicked     = false;
 
-        bool GetIsClick()
+        public bool GetIsClick()
         {
             bool ret = clicked;
             clicked = false;
             return clicked;
         }
 
-        bool GetEnterHover()
+        public bool GetEnterHover()
         {
             bool ret = justHovered;
             justHovered = false;
             return ret;
         }
 
-        bool GetHover()
+        public bool GetHover()
         {
             return hovering;
         }

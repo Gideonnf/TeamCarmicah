@@ -169,6 +169,9 @@ namespace Carmicah
         internal extern static void ChangeText(uint entityID, string text);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float TextGetWidth(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static float GetRedColour(uint entityID, out float red);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]

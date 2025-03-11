@@ -878,6 +878,16 @@ namespace Carmicah
 		}
 	}
 
+	static float TextGetWidth(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<TextRenderer>())
+		{
+			return go.GetComponent<TextRenderer>().totalWidth;
+		}
+		return 0;
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -975,6 +985,7 @@ namespace Carmicah
 
 		// Text Renderer
 		ADD_INTERNAL_CALL(ChangeText);
+		ADD_INTERNAL_CALL(TextGetWidth);
 
 		ADD_INTERNAL_CALL(GetFilePath);
 	}
