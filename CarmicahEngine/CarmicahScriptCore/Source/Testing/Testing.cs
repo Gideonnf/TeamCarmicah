@@ -29,7 +29,7 @@ namespace Carmicah
 
         public Entity testEntity;
 
-        void OnCreate()
+        public override void OnCreate()
         {
             testEntity = FindEntityWithName("TestEntity");
             testEntity.As<BaseTest>().Shoot();
@@ -37,7 +37,7 @@ namespace Carmicah
            // Console.WriteLine($"On Create {mID}");
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
           //  Console.WriteLine($"On Update {mID}");
 

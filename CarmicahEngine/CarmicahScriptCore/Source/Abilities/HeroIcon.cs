@@ -28,7 +28,7 @@ namespace Carmicah
 
         public float mouseXOffset = 0.5f;
 
-        void OnCreate()
+        public override void OnCreate()
         {
             heroBuildEntity = FindEntityWithName(HeroBuild);
             heroBuildEntity1 = FindEntityWithName(HeroBuild1);
@@ -52,7 +52,7 @@ namespace Carmicah
             }
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             if (trapEntity == null) return;
 
@@ -89,7 +89,7 @@ namespace Carmicah
             }
         }
 
-        void OnClick()
+        public override void OnClick()
         {
             if (trapEntity != null) return;
 
@@ -102,7 +102,7 @@ namespace Carmicah
 
         }
 
-        void OnMouseHover()
+        public override void OnMouseHover()
         {
             if (!hovering)
             {
@@ -121,7 +121,7 @@ namespace Carmicah
             Destroy();
         }
 
-        void OnMouseExit()
+        public override void OnMouseExit()
         {
             hovering = false;
             this.GetComponent<Renderer>().SetColour(1.0f, 1.0f, 1.0f);

@@ -34,14 +34,14 @@ namespace Carmicah
         bool deBounce = false;
         bool freeze = false;
 
-        void OnCreate()
+        public override void OnCreate()
         {
             CMConsole.Log($"ballon pos y {Position.y}");
             maxHeight = Position.y + YOffset;
             origHeight = Position.y;
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             if (!freeze)
             {

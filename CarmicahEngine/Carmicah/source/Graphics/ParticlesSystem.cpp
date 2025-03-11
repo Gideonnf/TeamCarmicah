@@ -192,7 +192,7 @@ namespace Carmicah
 		{
 			float depth{ CalcDepth(mNearestDepth, (i == 0 ? BASE_LAYER : UI_LAYER)) };
 			BufferCPUSide& vtxBuf = RenderHelper::GetInstance()->mParticleData[i];
-			vtxBuf.vtxSize = mParticles[i].size();
+			vtxBuf.vtxSize = static_cast<int>(mParticles[i].size());
 			RenderHelper::GetInstance()->ReserveFontBuffer(vtxBuf, mParticles[i].size());
 
 			// Loops through all active particles and updates

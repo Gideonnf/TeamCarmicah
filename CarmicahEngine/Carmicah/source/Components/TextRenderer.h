@@ -80,6 +80,7 @@ namespace Carmicah
                 return "Top Right";
                 break;
             }
+            return "";
         }
 
         TextRenderer& DeserializeComponent(const rapidjson::Value& component) override

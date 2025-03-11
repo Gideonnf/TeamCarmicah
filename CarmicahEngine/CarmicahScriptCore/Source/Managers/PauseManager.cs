@@ -17,12 +17,12 @@ namespace Carmicah
         Entity PauseMenuEntity;
         Entity QuitButtonEntity;
         Entity ResumeButtonEntity;
-        void OnCreate()
+        public override void OnCreate()
         {
 
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             //Console.WriteLine("ITS IN UPDATE FOR PAUSE");
 
