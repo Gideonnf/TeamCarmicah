@@ -355,8 +355,15 @@ namespace Carmicah
 
 
                 //CMConsole.Log("TESTING Enter State");
+                if (this.AsChild<HealthSystem>().mCurHealth <= 0)
+                {
+                    ChangeAnim(baseAnimationDie);
+                }
+                else
+                {
+                    ChangeAnim("Dissolve_Yellow");
 
-                ChangeAnim(baseAnimationDie);
+                }
             }
         }
 

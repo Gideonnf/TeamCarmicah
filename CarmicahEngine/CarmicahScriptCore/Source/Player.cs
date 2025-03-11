@@ -329,16 +329,8 @@ namespace Carmicah
             //this.AsChild<HealthSystem>().TakeDamage(damage);
             Sound.PlaySFX("Princess_DamageWarning", 0.3f);
             damaged = true;
-            if (enemyType == EnemyTypes.BEAR)
-            {
-                Entity camera = FindEntityWithName("MainCamera");
-                camera.As<Camera>().ShakeCamera();
-                //if (!shake)
-                //{
-                //    shake = true;
-                //    shakeTimer = 0.0f;
-                //}
-            }
+            Entity camera = FindEntityWithName("MainCamera");
+            camera.As<Camera>().ShakeCamera();
             //CMConsole.Log($"Health :{this.AsChild<HealthSystem>().mCurHealth}");
             if (health <= 0)
             {
