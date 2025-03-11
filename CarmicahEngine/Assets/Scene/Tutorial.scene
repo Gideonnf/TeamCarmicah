@@ -276,11 +276,11 @@
                         },
                         {
                             "Component Name": "struct Carmicah::UITransform",
-                            "xPos": 50.650,
+                            "xPos": 50.650001525878909,
                             "yPos": 232.0,
                             "depth": 0.0,
-                            "xScale": 0.6,
-                            "yScale": 0.6,
+                            "xScale": 0.6000000238418579,
+                            "yScale": 0.6000000238418579,
                             "rot": 0.0,
                             "transformTag": ""
                         },
@@ -781,19 +781,21 @@
                     "scriptName": "Carmicah.Player",
                     "ScriptableFieldMap": [
                         {
-                            "IdleAnim": "MC_Idle",
-                            "HealAnim": "MC_Heal",
                             "elapsedTime": 0.0,
-                            "GameLost": true,
+                            "HealAnim": "MC_Heal",
+                            "IdleAnim": "MC_Idle",
                             "WalkAnim": "MC_Walk",
+                            "GameLost": true,
                             "isWalking": true,
+                            "healthBarName": "Princess_HealthBar",
                             "walkingSpeed": 2.0,
                             "isCreated": false,
                             "damaged": false,
                             "flashInterval": 0.25,
                             "flashTime": 1.0,
                             "flashTotalTime": 1.0,
-                            "flashTimer": 0.0
+                            "flashTimer": 0.0,
+                            "health": 100.0
                         }
                     ]
                 }
@@ -983,7 +985,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 6.5,
-                    "yPos": -19.364,
+                    "yPos": -19.36400032043457,
                     "depth": -8.0,
                     "xScale": 0.6000000238418579,
                     "yScale": 0.6000000238418579,
@@ -1025,11 +1027,9 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "CarmicahScript.TutorialController",
+                    "scriptName": "Carmicah.TutorialController",
                     "ScriptableFieldMap": [
-                        {
-                            "currText": ""
-                        }
+                        {}
                     ]
                 }
             ],
