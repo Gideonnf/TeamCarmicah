@@ -144,7 +144,6 @@ namespace Carmicah
                     break;
                 case "howtoplay":
                     createList.Add(0, "HowToBG");
-                    createList.Add(1, "HowToStep0");
 
                     hoverEnterAnim = "Button_HS_HowTo";
                     hoverExitAnim = "Button_HE_HowTo";

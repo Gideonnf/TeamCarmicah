@@ -255,25 +255,6 @@
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": ""
-                },
-                {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.AbilityBar",
-                    "ScriptableFieldMap": [
-                        {
-                            "HoneyIconPrefab": "HoneyIcon",
-                            "MageIconPrefab": "MageIcon",
-                            "ShooterIconPrefab": "ShooterIcon",
-                            "shakeMagnitude": 0.20000000298023225,
-                            "shake": false,
-                            "SpearIconPrefab": "SpearIcon",
-                            "TrapIconPrefab": "TrapIcon",
-                            "shakeTimer": 1.0,
-                            "startingPos": 760.0,
-                            "timer": 0.0,
-                            "yOffset": 75.0
-                        }
-                    ]
                 }
             ],
             "Children": [
@@ -305,22 +286,9 @@
                         },
                         {
                             "Component Name": "struct Script",
-                            "scriptName": "Carmicah.HeroIcon",
+                            "scriptName": "Carmicah.TutorialBasic",
                             "ScriptableFieldMap": [
                                 {
-                                    "HeroBuild2": "HeroBuild_2",
-                                    "mouseXOffset": 0.5,
-                                    "HeroBuild": "HeroBuild",
-                                    "actualTrapPrefab": "",
-                                    "WaveSystemObject": "",
-                                    "HeroBuild1": "HeroBuild_1",
-                                    "HeroBuild3": "HeroBuild_3",
-                                    "fakeTrapPrefab": "",
-                                    "flipped": false,
-                                    "hovering": false,
-                                    "heroPrefab": "Trap_1",
-                                    "xOffset": 0.0,
-                                    "yOffset": 0.0
                                 }
                             ]
                         }

@@ -10,10 +10,13 @@ namespace CarmicahScript
     public class TutorialController : Entity
     {
         Entity enemy;
+        Entity ability;
 
         void OnCreate()
         {
             enemy = FindEntityWithName("Tutorial_Enemy");
+
+            //Input.GetMousePos();
         }
 
         void OnUpdate(float dt)
