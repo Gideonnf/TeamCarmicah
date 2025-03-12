@@ -220,10 +220,12 @@ namespace Carmicah
                     break;
             }
             Vector2 dir = (endPos - Position).Normalize();
+            //Vector2 nextPos = dir * (Speed * debuff) * dt;
+
             if (HasComponent<RigidBody>())
             {
                 GetComponent<RigidBody>().ApplyForce(dir, Speed * debuff);
-
+              // GetComponent<RigidBody>().Move(nextPos);
             }
 
             float dist = Position.Distance(endPos);
@@ -386,7 +388,7 @@ namespace Carmicah
             {
                 if (gameManager.As<GameManager>().GameOver)
                 {
-                    GetComponent<RigidBody>().StopForces();
+                    //GetComponent<RigidBody>().StopForces();
                     return;
 
                 }

@@ -82,7 +82,7 @@ namespace Carmicah
 
         Entity[] heroBuildEntities = new Entity[4];
 
-        Entity[] laneIndicators = new Entity[4];
+        Entity[] laneIndicators = new Entity[6];
 
         Entity[] walls = new Entity[4];
 
@@ -131,6 +131,8 @@ namespace Carmicah
             laneIndicators[1] = FindEntityWithName("Bubble");
             laneIndicators[2] = FindEntityWithName("Bubble_2");
             laneIndicators[3] = FindEntityWithName("Bubble_3");
+            laneIndicators[4] = FindEntityWithName("Bubble_5");
+            laneIndicators[5] = FindEntityWithName("Bubble_4");
 
             walls[0] = FindEntityWithName("Wall");
             walls[1] = FindEntityWithName("Wall_1");
@@ -234,10 +236,10 @@ namespace Carmicah
                 }
             }
 
-            if (Input.IsKeyPressed(Keys.KEY_SPACEBAR))
-            {
-                GetComponent<StateMachine>().SetStateCondition(2);
-            }
+            //if (Input.IsKeyPressed(Keys.KEY_SPACEBAR))
+            //{
+            //    GetComponent<StateMachine>().SetStateCondition(2);
+            //}
 
             CheckLaneIndicators();
         }
@@ -852,6 +854,72 @@ namespace Carmicah
                 laneIndicators[3].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
             }
 
+            visible = false;
+            if (flyingEnemyLeft.Count > 0)
+            {
+                foreach(FlyingEnemyAI bird in flyingEnemyLeft)
+                {
+                    if (bird.Position.y > (mainCamera.Position.y + cameraHeight))
+                    {
+                        visible = false;
+                    }
+                    else if (bird.Position.y < (mainCamera.Position.y + cameraHeight))
+                    {
+                        visible = true;
+                        break;
+                    }
+                }
+
+                if (!visible)
+                {
+                    laneIndicators[4].GetComponent<Renderer>().SetAlpha(1.0f);
+                    laneIndicators[4].GetComponentInChildren<Renderer>().SetAlpha(1.0f);
+                }
+                else
+                {
+                    laneIndicators[4].GetComponent<Renderer>().SetAlpha(0.0f);
+                    laneIndicators[4].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+                }
+            }
+            else
+            {
+                laneIndicators[4].GetComponent<Renderer>().SetAlpha(0.0f);
+                laneIndicators[4].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+            }
+
+
+            visible = false;
+            if (flyingEnemyRight.Count > 0)
+            {
+                foreach (FlyingEnemyAI bird in flyingEnemyRight)
+                {
+                    if (bird.Position.y > (mainCamera.Position.y + cameraHeight))
+                    {
+                        visible = false;
+                    }
+                    else if (bird.Position.y < (mainCamera.Position.y + cameraHeight))
+                    {
+                        visible = true;
+                        break;
+                    }
+                }
+
+                if (!visible)
+                {
+                    laneIndicators[5].GetComponent<Renderer>().SetAlpha(1.0f);
+                    laneIndicators[5].GetComponentInChildren<Renderer>().SetAlpha(1.0f);
+                }
+                else
+                {
+                    laneIndicators[5].GetComponent<Renderer>().SetAlpha(0.0f);
+                    laneIndicators[5].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+                }
+            }
+            else
+            {
+                laneIndicators[5].GetComponent<Renderer>().SetAlpha(0.0f);
+                laneIndicators[5].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+            }
 
         }
 

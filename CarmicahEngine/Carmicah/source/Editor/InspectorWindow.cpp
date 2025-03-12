@@ -269,51 +269,6 @@ namespace Carmicah
 				//CM_CORE_INFO("World X : " + std::to_string(selectedTransform.WorldPos().x) + ", World Y : " + std::to_string(selectedTransform.WorldPos().y));
 				//CM_CORE_INFO("World X : " + std::to_string(selectedTransform.worldSpace.m20) + ", World Y : " + std::to_string(selectedTransform.worldSpace.m21));
 
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("xPos Pivot");
-				ImGui::TableNextColumn();
-				//Vec2f pos = data.Pos();
-				tempValue = selectedTransform.GetPosPivot().x;
-				if (ImGui::DragFloat("##xPos Pivot", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
-				{
-					selectedTransform.PosPivotX(tempValue);
-					if (selectedTransform.ParentID() != 0)
-					{
-						//Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
-						//CM_CORE_INFO("Parent World X : " + std::to_string(parentTransform.worldSpace.m20) + ", Parent World Y : " + std::to_string(parentTransform.worldSpace.m21));
-
-						//float worldX = parentTransform.worldSpace.m00 * selectedTransform.Pos().x + parentTransform.worldSpace.m01 * selectedTransform.Pos().y + parentTransform.worldSpace.m02;
-						//float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
-
-					}
-					else
-					{
-					}
-				}
-
-				ImGui::TableNextRow();
-				ImGui::TableNextColumn();
-				ImGui::Text("yPos Pivot");
-				ImGui::TableNextColumn();
-				//Vec2f pos = data.Pos();
-				tempValue = selectedTransform.GetPosPivot().y;
-				if (ImGui::DragFloat("##yPos Pivot", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
-				{
-					selectedTransform.PosPivotY(tempValue);
-					if (selectedTransform.ParentID() != 0)
-					{
-						//Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
-						//CM_CORE_INFO("Parent World X : " + std::to_string(parentTransform.worldSpace.m20) + ", Parent World Y : " + std::to_string(parentTransform.worldSpace.m21));
-
-						//float worldX = parentTransform.worldSpace.m00 * selectedTransform.Pos().x + parentTransform.worldSpace.m01 * selectedTransform.Pos().y + parentTransform.worldSpace.m02;
-						//float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
-
-					}
-					else
-					{
-					}
-				}
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();
@@ -1052,6 +1007,43 @@ namespace Carmicah
 						col.CustomHeight(tempValue);
 					}
 				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("xPos Pivot");
+				ImGui::TableNextColumn();
+				//Vec2f pos = data.Pos();
+				tempValue = col.posPivot.x;
+				if (ImGui::DragFloat("##xPos Pivot", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					col.posPivot.x = tempValue;
+					//selectedTransform.PosPivotX(tempValue);
+					//if (selectedTransform.ParentID() != 0)
+					//{
+					//	//Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(selectedTransform.parent);
+					//	//CM_CORE_INFO("Parent World X : " + std::to_string(parentTransform.worldSpace.m20) + ", Parent World Y : " + std::to_string(parentTransform.worldSpace.m21));
+
+					//	//float worldX = parentTransform.worldSpace.m00 * selectedTransform.Pos().x + parentTransform.worldSpace.m01 * selectedTransform.Pos().y + parentTransform.worldSpace.m02;
+					//	//float worldY = parentTransform.worldSpace.m10 * selectedTransform.Pos().x + parentTransform.worldSpace.m11 * selectedTransform.Pos().y + parentTransform.worldSpace.m12;
+
+					//}
+					//else
+					//{
+					//}
+				}
+
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("yPos Pivot");
+				ImGui::TableNextColumn();
+				//Vec2f pos = data.Pos();
+				tempValue = col.posPivot.y;
+				if (ImGui::DragFloat("##yPos Pivot", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
+				{
+					col.posPivot.y = tempValue;
+
+				}
+
 				
 
 				ImGui::EndTable();
