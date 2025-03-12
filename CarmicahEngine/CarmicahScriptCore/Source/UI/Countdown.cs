@@ -54,12 +54,59 @@ namespace Carmicah
         {
             timer += dt;
 
+
+            //switch (currentIndex)
+            //{
+            //    case 0:
+            //        Sound.PlaySFX("Countdown_1", 0.4f);
+
+            //        break;
+            //    case 1:
+            //        Sound.PlaySFX("Countdown_2", 0.4f);
+
+            //        break;
+            //    case 2:
+            //        Sound.PlaySFX("Countdown_3", 0.4f);
+
+            //        break;
+            //    case 3:
+            //        Sound.PlaySFX("Countdown_Ready", 0.4f);
+            //        break;
+            //} 
+
+            if (GetComponent<Animation>().GetFrameNo() == 0)
+            {
+                switch (currentIndex)
+                {
+                    case 0:
+                        Sound.PlaySFX("Countdown_3", 0.4f);
+
+                        break;
+                    case 1:
+                        Sound.PlaySFX("Countdown_2", 0.4f);
+
+                        break;
+                    case 2:
+                        Sound.PlaySFX("Countdown_1", 0.4f);
+
+                        break;
+                    case 3:
+                        Sound.PlaySFX("Countdown_Ready", 0.4f);
+                        break;
+                }
+            }
+
             // check if curr anim is finished
             if (GetComponent<Animation>().IsAnimFinished())//timer >= durationPerFrame)
             {
                 // increment index and display next animation
                 currentIndex++;
                 DisplayAnimation();
+            }
+
+            if(currentIndex == 4)
+            {
+                currentIndex = 0;
             }
         }
     }

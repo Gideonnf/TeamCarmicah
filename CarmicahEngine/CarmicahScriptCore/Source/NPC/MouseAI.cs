@@ -392,14 +392,19 @@ namespace Carmicah
                 }
 
                 // CMConsole.Log("TESTING Update State");
-                if(!isRunning)
+                if(enemyType != EnemyTypes.BEAR)
                 {
-                    Random rnd = new Random();
-                    int number = rnd.Next(1, 8);
-                    soundFile = "Mice_Running_0" + number.ToString();
-                    CMConsole.Log(soundFile);
-                    Sound.PlaySFX(soundFile, 0.15f, true);
-                    isRunning = true;
+
+                    if(!isRunning)
+                    {
+                        Random rnd = new Random();
+                        int number = rnd.Next(1, 8);
+                        soundFile = "Mice_Running_0" + number.ToString();
+                        CMConsole.Log(soundFile);
+                        Sound.PlaySFX(soundFile, 0.15f, true);
+                        isRunning = true;
+                    }
+
                 }
                 UpdateMovement(dt);
             }

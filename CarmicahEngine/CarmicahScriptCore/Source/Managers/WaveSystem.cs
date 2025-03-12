@@ -52,7 +52,7 @@ namespace Carmicah
                 if (countdown == null)
                 {
                     countdown = CreateGameObject(countdownPrefab);
-                    Sound.SwitchBGM("BGM_LevelMusic_FullTrack_Vers1", 1.5f, 1.0f);
+                    Sound.SwitchBGM("BGM_LevelMusic_FullTrack_Vers1", 1.5f, 1.0f, false, true);
                 }
             }
             // Initial wave start
@@ -101,7 +101,7 @@ namespace Carmicah
                 //gameManager.As<GameManager>().GetComponent<StateMachine>().SetStateCondition(2);
                 if (winScreen == null)
                 {
-                    Sound.SwitchBGM("WinScreen", 0.5f, 0.5f, false);
+                    Sound.SwitchBGM("WinScreen", 0.5f, 0.5f);
                     Sound.StopAllSFX();
                     gameManager.As<GameManager>().GameOver = true;
                     winScreen = CreateGameObject(winPrefab);
