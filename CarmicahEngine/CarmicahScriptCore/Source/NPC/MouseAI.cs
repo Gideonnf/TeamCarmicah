@@ -49,6 +49,7 @@ namespace Carmicah
         //public bool isLeft = false;
         public string baseAnimation;
         public string baseAnimationDie;
+        public string baseAnimationDissolve;
 
         string soundFile;
 
@@ -361,7 +362,7 @@ namespace Carmicah
                 }
                 else
                 {
-                    ChangeAnim("Dissolve_Yellow");
+                    ChangeAnim(baseAnimationDissolve);
 
                 }
             }
