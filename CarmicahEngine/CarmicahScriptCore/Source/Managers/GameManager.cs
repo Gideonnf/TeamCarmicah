@@ -703,6 +703,8 @@ namespace Carmicah
         public void LoseGame()
         {
             GameOver = true;
+            Entity pauseManager = FindEntityWithName("PauseManager");
+            pauseManager.As<PauseManager>().IsPaused = true;
             Sound.SwitchBGM("LoseScreen", 1.0f, 0.5f, false);
             CreateGameObject("LoseScreen");
         }
