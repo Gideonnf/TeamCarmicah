@@ -38,6 +38,14 @@ namespace Carmicah
 
                     Projectile bullet = projectile.As<Projectile>();
                     bullet.As<Projectile>().bulletType = BulletType.SPEAR_BULLET;
+                    if (!IsLeft)
+                    {
+                        bullet.As<Projectile>().facingRight = true;
+                    }
+                    else
+                    {
+                        bullet.As<Projectile>().facingRight = false;
+                    }
 
                     Random rnd = new Random();
                     int number = rnd.Next(1, 5);

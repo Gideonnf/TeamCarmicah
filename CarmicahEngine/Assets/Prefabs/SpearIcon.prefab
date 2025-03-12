@@ -1,23 +1,9 @@
 {
     "GameObject": "SpearIcon",
-    "ID": 53,
+    "ID": 12,
     "Components": [
         {
             "Component Name": "struct Carmicah::Button"
-        },
-        {
-            "Component Name": "struct Carmicah::PrefabData",
-            "prefabRef": 45
-        },
-        {
-            "Component Name": "struct Carmicah::UITransform",
-            "xPos": 1822.824951171875,
-            "yPos": 682.7659912109375,
-            "depth": 1.0,
-            "xScale": 0.800000011920929,
-            "yScale": 0.75,
-            "rot": 352.0,
-            "transformTag": ""
         },
         {
             "Component Name": "struct Carmicah::Renderer",
@@ -33,13 +19,13 @@
             "scriptName": "Carmicah.HeroIcon",
             "ScriptableFieldMap": [
                 {
-                    "heroPrefab": "SpearNPC",
-                    "HeroBuild": "HeroBuild",
+                    "mouseXOffset": -0.25,
                     "HeroBuild2": "HeroBuild_2",
-                    "mouseXOffset": 0.5,
-                    "HeroBuild1": "HeroBuild_1",
-                    "WaveSystemObject": "Something",
+                    "HeroBuild": "HeroBuild",
+                    "heroPrefab": "SpearNPC",
                     "actualTrapPrefab": "",
+                    "WaveSystemObject": "Something",
+                    "HeroBuild1": "HeroBuild_1",
                     "HeroBuild3": "HeroBuild_3",
                     "fakeTrapPrefab": "",
                     "flipped": false,
@@ -48,6 +34,16 @@
                     "yOffset": 1.2999999523162842
                 }
             ]
+        },
+        {
+            "Component Name": "struct Carmicah::UITransform",
+            "xPos": 1822.824951171875,
+            "yPos": 682.7659912109375,
+            "depth": 1.0,
+            "xScale": 0.800000011920929,
+            "yScale": 0.75,
+            "rot": 352.0,
+            "transformTag": ""
         }
     ]
 }

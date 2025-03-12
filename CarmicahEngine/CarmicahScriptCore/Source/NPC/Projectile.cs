@@ -152,6 +152,17 @@ namespace Carmicah
                             Rot = 80;
                         }
                     }
+                    if(bulletTarget == BulletTarget.GROUND)
+                    {
+                        if(facingRight)
+                        {
+                            Rot = 225;
+                        }
+                        else
+                        {
+                            Rot = 205;
+                        }
+                    }
                 }
                 else if(bulletType == BulletType.MAGE_BULLET)
                 {
@@ -165,6 +176,17 @@ namespace Carmicah
                     //    scale.x *= -1;
                     //    Scale = scale;
                     //}
+                }
+                else if (bulletType == BulletType.SPEAR_BULLET)
+                {
+                    if(facingRight)
+                    {
+                        Rot = 190;
+                    }
+                    else
+                    {
+                        Rot = 170;
+                    }
                 }
             }
             else
