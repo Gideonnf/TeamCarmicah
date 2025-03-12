@@ -30,13 +30,13 @@ namespace Carmicah
         float redCol;
        // bool isActive = false;
 
-        public void OnCreate()
+        public override void OnCreate()
         {
             //CandyConeTrapIcon = FindEntityWithName("CandyConeTrapIcon");
             //HoneyTrapIcon = FindEntityWithName("HoneyTrapIcon");
         }
 
-        public void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
 
             // incase trap entity gets destroyed, it needs to update to null here
@@ -190,17 +190,17 @@ namespace Carmicah
 
 
 
-        public void OnMouseEnter()
+        public override void OnMouseEnter()
         {
             hovering = true;
         }
 
-        public void OnMouseHover()
+        public override void OnMouseHover()
         {
             hovering = true;
         }
 
-        public void OnMouseExit()
+        public override void OnMouseExit()
         {
             hovering = false;
         }

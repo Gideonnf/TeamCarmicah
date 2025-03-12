@@ -1,5 +1,5 @@
 {
-    "GameObject": "MouseGONew",
+    "GameObject": "MouseGONew3",
     "ID": 29,
     "Components": [
         {
@@ -7,15 +7,16 @@
             "xPos": 8.947422981262207,
             "yPos": -18.05034828186035,
             "depth": 5.0,
-            "xScale": 0.6,
-            "yScale": 0.6,
+            "xScale": 0.6000000238418579,
+            "yScale": 0.6000000238418579,
             "rot": 0.0,
             "transformTag": "Enemy",
             "collisionMask": 4
         },
         {
             "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Mouse_Climb_Brown"
+            "Atlas": "Mouse_Climb_Brown",
+            "AnimSpeed": 1.0
         },
         {
             "Component Name": "struct Carmicah::StateMachine",
@@ -41,32 +42,6 @@
             ]
         },
         {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.MouseAI",
-            "ScriptableFieldMap": [
-                {
-                    "isLeft": false,
-                    "SpawnPointEntityLeft": "StartPointLeft",
-                    "SpawnPointEntityLeft2": "StartPointLeft_1",
-                    "SpawnPointEntityRight": "StartPointRight",
-                    "SpawnPointEntityRight2": "StartPointRight_1",
-                    "EndPointEntityLeft": "EndPointLeft",
-                    "EndPointEntityLeft2": "EndPointLeft_1",
-                    "EndPointEntityRight": "EndPointRight",
-                    "EndPointEntityRight2": "EndPointRight_1",
-                    "baseAnimation": "Mouse_Climb_Brown",
-                    "baseAnimationDie": "Mouse_Death_Brown",
-                    "Speed": "2.0",
-                    "timer": 0.0,
-                    "TimeToDie": 1.5,
-                    "DeathTime": 2.0,
-                    "DeathSound": "mouse die btr",
-                    "ChanceToDie": 0.11999999731779099,
-                    "InjuredSound": "mouse die"
-                }
-            ]
-        },
-        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "Enemies_SpriteSheet_Mouse_Climb_Brown 3",
@@ -74,6 +49,32 @@
             "colG": 1.0,
             "colB": 1.0,
             "colA": 1.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.MouseAI",
+            "ScriptableFieldMap": [
+                {
+                    "SpawnPointEntityLeft": "StartPointLeft",
+                    "Speed": "2.0",
+                    "isLeft": false,
+                    "ChanceToDie": 0.11999999731779099,
+                    "EndPointEntityLeft": "EndPointLeft",
+                    "SpawnPointEntityLeft2": "StartPointLeft_1",
+                    "SpawnPointEntityRight": "StartPointRight",
+                    "SpawnPointEntityRight2": "StartPointRight_1",
+                    "EndPointEntityLeft2": "EndPointLeft_1",
+                    "EndPointEntityRight2": "EndPointRight_1",
+                    "EndPointEntityRight": "EndPointRight",
+                    "baseAnimation": "Mouse_Climb_brown",
+                    "baseAnimationDie": "Mouse_Death_brown",
+                    "timer": 0.0,
+                    "TimeToDie": 1.5,
+                    "DeathSound": "mouse die btr",
+                    "DeathTime": 2.0,
+                    "InjuredSound": "mouse die"
+                }
+            ]
         },
         {
             "Component Name": "struct Carmicah::Collider2D",
@@ -142,12 +143,12 @@
                     "scriptName": "Carmicah.HealthSystem",
                     "ScriptableFieldMap": [
                         {
-                            "mCurHealth": 0.0,
-                            "endScale": 4.400000095367432,
                             "endPos": 0.0,
+                            "endScale": 4.400000095367432,
+                            "mCurHealth": 0.0,
                             "posDiff": 0.0,
-                            "startScale": 0.0,
                             "startPos": 0.0,
+                            "startScale": 0.0,
                             "mMaxHealth": 100.0
                         }
                     ]

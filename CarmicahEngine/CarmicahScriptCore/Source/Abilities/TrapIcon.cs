@@ -49,7 +49,7 @@ namespace Carmicah
 
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             if (cooldown)
             {
@@ -111,7 +111,7 @@ namespace Carmicah
 
         }
 
-        void OnClick()
+        public override void OnClick()
         {
             if (trapEntity != null) return;
 
@@ -136,19 +136,23 @@ namespace Carmicah
             //CMConsole.Log($"Creating entity with {trapEntity.mID}");
         }
 
-        void OnMouseHover()
+        public override void OnMouseEnter()
         {
-            if(!hovering)
-            {
-                Sound.PlaySFX("Item_Hover", 0.4f);
+            Sound.PlaySFX("Item_Hover", 0.4f);
+            if (this.HasComponent<Renderer>())
                 this.GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
-                hovering = true;
-            }
+
         }
 
-        void OnMouseExit()
+
+        public override void OnMouseHover()
         {
-            hovering = false;
+
+        }
+
+        public override void OnMouseExit()
+        {
+            //hovering = false;
             this.GetComponent<Renderer>().SetColour(1.0f, 1.0f, 1.0f);
         }
 

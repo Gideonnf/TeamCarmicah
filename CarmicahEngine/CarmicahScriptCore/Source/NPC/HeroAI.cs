@@ -40,14 +40,14 @@ namespace Carmicah
         MouseAI targetMouse;
         float animationTime;
 
-        void OnCreate()
+        public override void OnCreate()
         {
             gameManager = FindEntityWithName("GameManager").As<GameManager>();
             pauseManager = FindEntityWithName("PauseManager").As<PauseManager>();
             player = FindEntityWithName("mainCharacter").As<Player>();
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             if (pauseManager.IsPaused) { return; }
             // CMConsole.Log("TESTING IF CMLOG WORKS");
@@ -111,7 +111,7 @@ namespace Carmicah
             GetComponent<StateMachine>().SetStateCondition(1);
         }
 
-        public void OnStateEnter(string stateName)
+        public override void OnStateEnter(string stateName)
         {
             if (stateName == "Idle")
             {
@@ -142,7 +142,7 @@ namespace Carmicah
             //CMConsole.Log($"Enter State Name: {stateName}");
         }
 
-        public void OnStateUpdate(string stateName, float dt)
+        public override void OnStateUpdate(string stateName, float dt)
         {
             if (active == false) return;
 
@@ -220,7 +220,7 @@ namespace Carmicah
 
         }
 
-        public void OnStateExit(string stateName)
+        public override void OnStateExit(string stateName)
         {
             //CMConsole.Log("TESTING Exit State");
             //CMConsole.Log($"Exit State Name: {stateName}");
@@ -228,19 +228,19 @@ namespace Carmicah
         }
 
 
-        public void OnMouseEnter()
+        public override void OnMouseEnter()
         {
             //CMConsole.Log("Hovering!");
             hovering = true;
         }
 
-        public void OnMouseHover()
+        public override void OnMouseHover()
         {
             //CMConsole.Log("Hovering!");
             hovering = true;
         }
 
-        public void OnMouseExit()
+        public override void OnMouseExit()
         {
             hovering = false;
         }

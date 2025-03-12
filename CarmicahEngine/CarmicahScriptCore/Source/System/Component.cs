@@ -197,5 +197,10 @@ namespace Carmicah
         {
             FunctionCalls.ChangeText(Entity.mID, text);
         }
+
+        public float GetWidth()
+        {
+            return FunctionCalls.TextGetWidth(Entity.mID);
+        }
     }
 }

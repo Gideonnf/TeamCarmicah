@@ -848,12 +848,6 @@ namespace Carmicah
 			AttachComponents(newObj, std::make_pair(componentName, componentData));
 		}
 
-
-		if (entityID == 20 || entityID == 21)
-		{
-			CM_CORE_INFO("TESTING IF ITS HERE");
-			CM_CORE_INFO("ballon position {}, {}", newObj.GetComponent<Transform>().Pos().x, newObj.GetComponent<Transform>().Pos().y);
-		}
 		unsigned int parentChildLevel{};
 		if (parentID != 0)
 		{

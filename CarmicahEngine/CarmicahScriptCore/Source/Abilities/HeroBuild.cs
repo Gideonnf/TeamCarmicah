@@ -27,14 +27,15 @@ namespace Carmicah
         public float xOffset = 1.5f;
         public float yOffset = 1.0f;
 
-        public void OnCreate()
+        public override void OnCreate()
         {
             //shooterIcon = FindEntityWithName("ShooterIcon");
             //mageIcon = FindEntityWithName("MageIcon");
         }
 
-        public void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
+            //CMConsole.Log($"Hovering {hovering}");
             // incase hero entity gets destroyed, it needs to update to null here
             if (heroEntity != null && heroEntity.mID == 0)
             {
@@ -203,17 +204,17 @@ namespace Carmicah
             yOffset = heroIcon.As<HeroIcon>().yOffset;
         }
 
-        public void OnMouseEnter()
+        public override void OnMouseEnter()
         {
             hovering = true;
         }
 
-        public void OnMouseHover()
+        public override void OnMouseHover()
         {
             hovering = true;
         }
 
-        public void OnMouseExit()
+        public override void OnMouseExit()
         {
             hovering = false;
         }

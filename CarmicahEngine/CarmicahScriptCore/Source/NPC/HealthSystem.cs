@@ -49,7 +49,7 @@ namespace Carmicah
         //public int CurrentHealth => mCurHealth;
         //public int MaxHealth => mMaxHealth;
 
-        public void OnCreate()
+        public override void OnCreate()
         {
             parentEntity = GetParent();
             SetMaxHealth(100);
@@ -59,7 +59,7 @@ namespace Carmicah
             posDiff = endPos - startPos;
         }
 
-        public void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             if (Input.IsKeyPressed(Keys.KEY_Q))
             {
@@ -116,7 +116,7 @@ namespace Carmicah
         {
             // log death
             //Console.WriteLine("entity has died like a biatch");
-
+            //Destroy();
             // remove entity logic down here if need be
         }
 

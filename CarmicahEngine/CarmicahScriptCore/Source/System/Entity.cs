@@ -203,6 +203,20 @@ namespace Carmicah
             return entities;
         }
 
+        public Entity[] GetAllChildren()
+        {
+            uint[] entityIDs = FunctionCalls.Entity_GetAllChildren(mID);
+
+            Entity[] entities = new Entity[entityIDs.Length];
+
+            for(int i = 0; i < entityIDs.Length; ++i)
+            {
+                entities[i] = new Entity(entityIDs[i]);
+            }
+
+            return entities;
+        }
+
         public Entity GetParent()
         {
             uint entityID = FunctionCalls.Entity_GetParent(mID);

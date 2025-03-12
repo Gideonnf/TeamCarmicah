@@ -35,7 +35,6 @@ namespace Carmicah
         public string FlyingEnemyPrefabName = "FlyGO"; //fly enemy
         public string CakePrefabName = "StartingCake";
         public string PlayerName = "mainCharacter";
-        public string PlayerHealthBar = "Healthbar";
         public string WaveSystemObject = "Something";
         public string CakeVFXPrefab = "CakeVFX";
         public float timer = 0.0f;
@@ -72,8 +71,6 @@ namespace Carmicah
 
         Entity startingCakeEntity;
         Entity playerEntity;
-        Entity playerHealth;
-        Entity playerHealthCover;
 
         Entity[] topTowerBoxes = new Entity[3];
 
@@ -106,7 +103,7 @@ namespace Carmicah
         public string[] CakeSquishAnimations = new string[4];
 
 
-        void OnCreate()
+        public override void OnCreate()
         {
             mainCamera = FindEntityWithName("MainCamera");
             mobCounter = new Wave();
@@ -125,8 +122,6 @@ namespace Carmicah
 
             startingCakeEntity = FindEntityWithName(StartingCake);
             playerEntity = FindEntityWithName(PlayerName);
-            playerHealth = FindEntityWithName(PlayerHealthBar);
-            playerHealthCover = FindEntityWithName("Healthbar_Cover");
             heroBuildEntities[0] = FindEntityWithName(HeroBuild1);
             heroBuildEntities[1] = FindEntityWithName(HeroBuild3);
             heroBuildEntities[2] = FindEntityWithName(HeroBuild2);
@@ -165,7 +160,7 @@ namespace Carmicah
             Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
 
             // if soundPlay
@@ -203,18 +198,18 @@ namespace Carmicah
                     {
                         case EnemyTypes.MOUSE1:
                         {
-                            CreateEnemy(MousePrefabName, type);
+                            CreateEnemy("MouseGONew", type);
                             break;
                         }
                         case EnemyTypes.MOUSE2:
                         {
-                            CreateEnemy(MousePrefabName, type);
+                            CreateEnemy("MouseGONew2", type);
 
                             break;
                         }
                         case EnemyTypes.MOUSE3:
                         {
-                            CreateEnemy(MousePrefabName, type);
+                            CreateEnemy("MouseGONew3", type);
 
                             break;
                         }
@@ -537,13 +532,23 @@ namespace Carmicah
             {
                 if (npc.mID == 0) continue;
 
-                npc.GetComponent<Renderer>().SetAlpha(1);
+                //npc.GetComponent<Renderer>().SetAlpha(1);
+                if(npc.As<BaseNPC>().mana <= 0)
+                {
+                    // change to no mana
+                    npc.GetComponent<StateMachine>().SetStateCondition(3);
+                }
+                else
+                {
+                    // change to Idle
+                    npc.GetComponent<StateMachine>().SetStateCondition(1);
+                }
                 //npc.Position = new Vector2(200, 200);
             }
 
-            playerEntity.GetComponent<Renderer>().SetAlpha(1);
-            playerHealth.GetComponent<Renderer>().SetAlpha(1);
-            playerHealthCover.GetComponent<Renderer>().SetAlpha(1);
+            // change to Idle state
+            playerEntity.GetComponent<StateMachine>().SetStateCondition(1);
+            //playerEntity.GetComponent<Renderer>().SetAlpha(1);
             //playerPos = playerEntity.Position;
 
             if (playerEntity != null)
@@ -679,17 +684,18 @@ namespace Carmicah
 
         public void HideEntities()
         {
+            // set them to teleport state
+
+
             foreach (Entity npc in npcList)
             {
                 if (npc.mID == 0) continue;
 
-                npc.GetComponent<Renderer>().SetAlpha(0);
-                //npc.Position = new Vector2(200, 200);
+                npc.GetComponent<StateMachine>().SetStateCondition(5);
             }
 
-            playerEntity.GetComponent<Renderer>().SetAlpha(0);
-            playerHealth.GetComponent<Renderer>().SetAlpha(0);
-            playerHealthCover.GetComponent<Renderer>().SetAlpha(0);
+            playerEntity.GetComponent<StateMachine>().SetStateCondition(5);
+            //playerEntity.GetComponent<Renderer>().SetAlpha(0);
             //playerPos = new Vector2(200, 200);
 
         }
@@ -845,7 +851,7 @@ namespace Carmicah
 
         }
 
-        public void OnStateEnter(string stateName)
+        public override void OnStateEnter(string stateName)
         {
             if (stateName == "TowerIdle")
             {
@@ -885,7 +891,7 @@ namespace Carmicah
 
             }
         }
-        public void OnStateUpdate(string stateName, float dt)
+        public override void OnStateUpdate(string stateName, float dt)
         {
             //gameManager = FindEntityWithName("GameManager");
 
@@ -910,14 +916,6 @@ namespace Carmicah
                     {
                         VFXPrefab = CreateGameObject(CakeVFXPrefab);
                         VFXPrefab.Position = new Vector2(-0.75f, yVFXLocation);
-                    }
-                }
-
-                if (VFXPrefab != null)
-                {
-                    if (VFXPrefab.GetComponent<Animation>().IsAnimFinished())
-                    {
-                       
                     }
                 }
                 CMConsole.Log($"IN TOWER DROP UPDATE {towerPrefab.Position.x}, {towerPrefab.Position.y}");
@@ -958,7 +956,7 @@ namespace Carmicah
             }
         }
 
-        public void OnStateExit(string stateName)
+        public override void OnStateExit(string stateName)
         {
 
 

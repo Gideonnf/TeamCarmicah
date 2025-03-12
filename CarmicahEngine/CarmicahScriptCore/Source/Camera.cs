@@ -36,13 +36,13 @@ namespace Carmicah
         public bool shake = false;
         public float xPos;
 
-        void OnCreate()
+        public override void OnCreate()
         {
             xPos = Position.x;
 
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
 
             Vector2 pos = GetComponent<Transform>().Position;

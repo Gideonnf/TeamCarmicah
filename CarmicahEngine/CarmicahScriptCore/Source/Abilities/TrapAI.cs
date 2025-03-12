@@ -25,8 +25,8 @@ namespace Carmicah
         public AbilityType type;
 
 
-        float maxAnimTime;
-        float animTimer;
+        //float maxAnimTime;
+        //float animTimer;
         public override void OnCollide(uint id)
         {
             if (!built) return;
@@ -105,8 +105,6 @@ namespace Carmicah
                 if(!string.IsNullOrEmpty(enterAnim))
                 {
                     ChangeAnim(enterAnim);
-                    maxAnimTime = GetComponent<Animation>().GetMaxTime();
-                    animTimer = 0.0f;
                 }
                 else
                 {
@@ -123,14 +121,8 @@ namespace Carmicah
                 if (!string.IsNullOrEmpty(exitAnim))
                 {
                     ChangeAnim(exitAnim);
-                    maxAnimTime = GetComponent<Animation>().GetMaxTime();
-                    animTimer = 0.0f;
                 }
                 isDead = true;
-
-                
-
-               
             }
         }
 
@@ -142,9 +134,9 @@ namespace Carmicah
             }
             else if(stateName == "Enter")
             {
-                animTimer += dt;
+                //animTimer += dt;
 
-                if(animTimer > maxAnimTime)
+                if(GetComponent<Animation>().IsAnimFinished())
                 {
                     GetComponent<StateMachine>().SetStateCondition(3);
                 }
@@ -153,8 +145,8 @@ namespace Carmicah
 
             else if (stateName == "Dead")
             {
-                animTimer += dt;
-                if (animTimer > maxAnimTime && isDead)
+                // animTimer += dt;
+                if (GetComponent<Animation>().IsAnimFinished())
                 {
                     buildSpotEntity.As<TrapBuild>().TrapDead();
                     timer = 0.0f;
