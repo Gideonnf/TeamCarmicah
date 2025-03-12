@@ -125,8 +125,9 @@ namespace Carmicah
                     break;
                 case "backsettings":
                     destroyList.Add(0,"Settings_Menu");
-                    willUnpause     = true;
-                    willSelfDestruct = true;
+                    destroyList.Add(1, "Close_Button");
+                    //willUnpause     = true;
+                    //willSelfDestruct = true;
 
                     hoverEnterAnim  = "Button_HS_Back";
                     hoverExitAnim   = "Button_HE_Back";
