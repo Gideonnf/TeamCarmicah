@@ -151,7 +151,7 @@ namespace Carmicah
             }
 
             float dist = Position.Distance(targetPos);
-            if (dist <= 0.5f)
+            if (dist <= 1.0f)
             {
                 if (targetEntity != null && targetEntity.mID != 0)
                 {
