@@ -25,6 +25,7 @@ namespace Carmicah
     {
     protected:
         Vec2f pos{};
+        Vec2f posPivot{0,0};
         Vec2f scale{};
         Vec2f intScale{};// InternalScale
 
@@ -62,6 +63,56 @@ namespace Carmicah
             notUpdated = false;
             return pos;
         }
+
+        const Vec2f& PosPivot() const
+        {
+            return posPivot;
+        }
+
+        const Vec2f& GetPosPivot() const
+        {
+
+            return posPivot;
+        }
+
+        Vec2f& GetPosPivot()
+        {
+            
+            return posPivot;
+        }
+
+        void PosPivot(const Vec2f& rhs)
+        {
+            PosPivot(rhs.x, rhs.y);
+        }
+
+        void PosPivotX(const float& rhs)
+        {
+            PosPivot(rhs, posPivot.y);
+        }
+
+        void PosPivotXAdd(const float& rhs)
+        {
+            PosPivot(posPivot.x + rhs, posPivot.y);
+        }
+
+        void PosPivotY(const float& rhs)
+        {
+            PosPivot(posPivot.x, rhs);
+        }
+
+        void PosPivotYAdd(const float& rhs)
+        {
+            PosPivot(posPivot.x, posPivot.y + rhs);
+        }
+
+        void PosPivot(const float& x, const float& y)
+        {
+            posPivot.x = x;
+            posPivot.y = y;
+        }
+
+
         void Pos(const Vec2f& rhs)
         {
             Pos(rhs.x, rhs.y);
