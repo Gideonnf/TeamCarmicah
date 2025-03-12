@@ -250,7 +250,7 @@ namespace Carmicah
                         Random rnd = new Random();
                         int number = rnd.Next(1, 5);
                         string soundFile = "Spearman_Throw_0" + number.ToString();
-
+                        CMConsole.Log("hereSpear");
                         Sound.PlaySFX(soundFile, 1.0f);
                     }
                 }

@@ -867,6 +867,8 @@ namespace Carmicah
 
                 if (cakeCounter >= 2) return;
 
+                Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
+
                 cakeType = CMRand.Range(0, 3);
                 CMConsole.Log($"cake type {cakeType}");
                 towerPrefab = CreateGameObject(CakePrefabName);
