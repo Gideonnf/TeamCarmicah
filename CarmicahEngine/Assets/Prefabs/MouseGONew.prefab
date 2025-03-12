@@ -59,6 +59,7 @@
                     "EndPointEntityRight2": "EndPointRight_1",
                     "baseAnimation": "Mouse_Climb_white",
                     "baseAnimationDie": "Mouse_Death_white",
+                    "baseAnimationDissolve": "Mouse_Dissolve_white",
                     "timer": 0.0,
                     "TimeToDie": 1.5,
                     "DeathTime": 2.0,
