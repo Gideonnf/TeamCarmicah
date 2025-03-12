@@ -264,7 +264,7 @@ namespace Carmicah
         }
 
         
-        //mSoundTracks[internalCatergoy].clear();
+        mSoundTracks[internalCatergoy].clear();
     }
 
     void SoundSystem::StopSoundSFX(INTSOUND internalCatergoy)
