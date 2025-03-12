@@ -277,10 +277,10 @@ namespace Carmicah
 					collider.objVert = obbVertices;
 
 					// Update min and max bounds for the collider
-					collider.min.x = worldPos.x - halfWidth;
-					collider.min.y = worldPos.y - halfHeight;
-					collider.max.x = worldPos.x + halfWidth;
-					collider.max.y = worldPos.y + halfHeight;
+					collider.min.x = (worldPos.x + transform.PosPivot().x) - halfWidth;
+					collider.min.y = (worldPos.y + transform.PosPivot().y) - halfHeight;
+					collider.max.x = (worldPos.x + transform.PosPivot().x) + halfWidth;
+					collider.max.y = (worldPos.y + transform.PosPivot().y) + halfHeight;
 				}
 				else
 				{
@@ -296,7 +296,7 @@ namespace Carmicah
 					collider.objVert.clear();
 
 					// Calculate OBB corners relative to center
-					Vec2f center = transform.Pos();
+					Vec2f center = transform.Pos() + transform.PosPivot();
 					std::vector<Vec2f> obbVertices;
 					obbVertices.emplace_back(center.x + halfWidth * cosTheta - halfHeight * sinTheta,
 						center.y + halfWidth * sinTheta + halfHeight * cosTheta); // Top-right
@@ -311,10 +311,10 @@ namespace Carmicah
 					// Update the collider with OBB vertices
 					collider.objVert = obbVertices;
 
-					collider.min.x = transform.Pos().x - halfWidth;
-					collider.min.y = transform.Pos().y - halfHeight;
-					collider.max.x = transform.Pos().x + halfWidth;
-					collider.max.y = transform.Pos().y + halfHeight;
+					collider.min.x = (transform.Pos().x + transform.PosPivot().x) - halfWidth;
+					collider.min.y = (transform.Pos().y + transform.PosPivot().y) - halfHeight;
+					collider.max.x = (transform.Pos().x + transform.PosPivot().x) + halfWidth;
+					collider.max.y = (transform.Pos().y + transform.PosPivot().y) + halfHeight;
 				}
 			
 

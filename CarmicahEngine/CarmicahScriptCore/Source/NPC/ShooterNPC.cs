@@ -61,8 +61,8 @@ namespace Carmicah
                     Random rnd = new Random();
                     int number = rnd.Next(1, 6);
                     string soundFile = "Shooting_v3_0" + number.ToString();
-
-                    Sound.PlaySFX(soundFile, 1.0f);
+                    
+                    Sound.PlaySFX(soundFile, 0.5f);
                     if (bullet != null)
                     {
                         bullet.target = target;

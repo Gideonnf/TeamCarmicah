@@ -49,6 +49,7 @@ namespace Carmicah
         //public bool isLeft = false;
         public string baseAnimation;
         public string baseAnimationDie;
+        public string baseAnimationDissolve;
 
         string soundFile;
 
@@ -361,7 +362,7 @@ namespace Carmicah
                 }
                 else
                 {
-                    ChangeAnim("Dissolve_Yellow");
+                    ChangeAnim(baseAnimationDissolve);
 
                 }
             }
@@ -396,8 +397,8 @@ namespace Carmicah
                     Random rnd = new Random();
                     int number = rnd.Next(1, 8);
                     soundFile = "Mice_Running_0" + number.ToString();
-
-                    Sound.PlaySFX(soundFile, 0.2f, true);
+                    CMConsole.Log(soundFile);
+                    Sound.PlaySFX(soundFile, 0.15f, true);
                     isRunning = true;
                 }
                 UpdateMovement(dt);
