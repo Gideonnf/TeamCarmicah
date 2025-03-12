@@ -344,6 +344,9 @@ namespace Carmicah
             
             if (stateName == "Dead")
             {
+                GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                if (gm != null)
+                    gm.EntityDestroyed(this);
                 dead = true;
                 timer = 0.0f;
                 Sound.PlaySFX(InjuredSound, 0.5f);
@@ -411,9 +414,7 @@ namespace Carmicah
                 {
                     isRunning = false;
                     Sound.StopSoundSFX(soundFile);
-                    GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
-                    if (gm != null)
-                        gm.EntityDestroyed(this);
+                    
 
                     Sound.PlaySFX(DeathSound, 0.5f);
                     //timer = 0.0f;

@@ -87,6 +87,7 @@ namespace Carmicah
             if (timer >= LifeTime)
             {
                 target = null;
+                CMConsole.Log("Lifetime over!");
                 Destroy();
                 return;
             }
@@ -99,7 +100,7 @@ namespace Carmicah
                 }
                 else
                 {
-                    // CMConsole.Log("TAOPMDOPSA");
+                    CMConsole.Log("TAOPMDOPSA");
                     Destroy();
                     return;
                 }
@@ -204,8 +205,8 @@ namespace Carmicah
             }
             else
             {
-                Destroy();
                 CMConsole.Log("Error setting up bullet");
+                Destroy();
             }
         }
 

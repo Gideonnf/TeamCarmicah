@@ -195,7 +195,8 @@ namespace Carmicah
             if (stateName == "Idle")
             {
                 ChangeAnim(idleAnim);
-                CMConsole.Log("IDLE ANIM");
+                //shot = false;
+                //CMConsole.Log("IDLE ANIM");
             }
             else if (stateName == "Attacking")
             {
@@ -260,7 +261,7 @@ namespace Carmicah
                 GetTarget(); // get targetMouse
                 if (target != null)
                 {
-                    CMConsole.Log($"Target mouse : {target.mID}");
+                    //CMConsole.Log($"Target mouse : {target.mID}");
 
                     // change to attacking state
                     if (mana > 0)
@@ -293,6 +294,7 @@ namespace Carmicah
                             if(GetComponent<Animation>().GetFrameNo() == 7)
                             {
                                 ShootProjectile();
+                                //CMConsole.Log("Shooting Air");
                                 shot = true;
                             }
                         }
@@ -304,8 +306,9 @@ namespace Carmicah
                     }
                     else
                     {
-                        if (timer >= animationTime)
+                        if (GetComponent<Animation>().IsAnimFinished())
                         {
+                            CMConsole.Log("Going back to Idle");
                             GetComponent<StateMachine>().SetStateCondition(1);
                         }
                     }
