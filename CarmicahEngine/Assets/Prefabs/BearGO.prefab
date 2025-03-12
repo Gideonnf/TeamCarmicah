@@ -45,27 +45,26 @@
             "scriptName": "Carmicah.MouseAI",
             "ScriptableFieldMap": [
                 {
-                    "SpawnPointEntityLeft": "StartPointLeft",
+                    "Speed": "1.0",
                     "isLeft": false,
-                    "SpawnPointEntityRight2": "StartPointRight_1",
-                    "Animation2": "Bear_Climb",
-                    "SpawnPointEntityRight": "StartPointRight",
-                    "EndPointEntityLeft": "EndPointLeft",
+                    "SpawnPointEntityLeft": "StartPointLeft",
+                    "SpawnPointEntityLeft2": "StartPointLeft_1",
                     "ChanceToDie": 0.11999999731779099,
+                    "EndPointEntityLeft": "EndPointLeft",
+                    "SpawnPointEntityRight": "StartPointRight",
+                    "SpawnPointEntityRight2": "StartPointRight_1",
+                    "EndPointEntityLeft2": "EndPointLeft_1",
                     "EndPointEntityRight": "EndPointRight",
                     "EndPointEntityRight2": "EndPointRight_1",
-                    "Animation0": "Bear_Climb",
-                    "Animation1": "Bear_Climb",
-                    "Animation3": "Bear_Climb",
-                    "AnimationDie0": "Bear_Death",
-                    "AnimationDie2": "Bear_Death",
-                    "AnimationDie1": "Bear_Death",
-                    "AnimationDie3": "Bear_Death",
-                    "SpawnPointEntityLeft2": "StartPointLeft_1",
-                    "EndPointEntityLeft2": "EndPointLeft_1",
-                    "DeathTime": 2.0,
+                    "baseAnimation": "Bear_Climb",
+                    "baseAnimationDie": "Bear_Death",
+                    "baseAnimationDissolve": "Bear_Dissolve_Death",
+                    "timer": 0.0,
                     "TimeToDie": 1.5,
-                    "timer": 0.0
+                    "DeathTime": 2.0,
+                    "DeathSound": "mouse die btr",
+                    "InjuredSound": "mouse die"
+
                 }
             ]
         },

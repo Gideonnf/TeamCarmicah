@@ -319,7 +319,7 @@ namespace Carmicah
                         }
                     case EnemyTypes.BEAR:
                         {
-
+                            mouseEntity.As<MouseAI>().Speed = 1.0f;
                             break;
                         }
                 }
