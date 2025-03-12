@@ -44,7 +44,7 @@
         {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "DebugSquare",
-            "customWidth": 0.5,
+            "customWidth": 1.5,
             "customRotation": 0.0,
             "customHeight": 0.25
         },

@@ -23,6 +23,7 @@ DigiPen Institute of Technology is prohibited.
 #include "../ECS/ComponentManager.h"
 #include "../Components/Transform.h"
 #include "../Components/RigidBody.h"
+#include "../Components/Collider2D.h"
 #include "../Components/Animation.h"
 #include "ScriptSystem.h"
 #include "../Input/InputSystem.h"
@@ -926,6 +927,36 @@ namespace Carmicah
 		return 0;
 	}
 
+	static float Collider2D_GetCustomWidth(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Collider2D>())
+			return go.GetComponent<Collider2D>().GetCustomWidth();
+		return 0;
+	}
+
+	static float Collider2D_GetCustomHeight(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Collider2D>())
+			return go.GetComponent<Collider2D>().GetCustomHeight();
+		return 0;
+	}
+
+	static void Collider2D_SetCustomWidth(unsigned int entityID, float inFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Collider2D>())
+			go.GetComponent<Collider2D>().CustomWidth(inFloat);
+	}
+
+	static void Collider2D_SetCustomHeight(unsigned int entityID, float inFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Collider2D>())
+			go.GetComponent<Collider2D>().CustomHeight(inFloat);
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -936,6 +967,7 @@ namespace Carmicah
 		mGameObjectHasComponentFuncs.clear();
 		// Only these 2 for now
 		RegisterComponent<Transform>();
+		RegisterComponent<Collider2D>();
 		RegisterComponent<RigidBody>();
 		RegisterComponent<Animation>();
 		RegisterComponent<StateMachine>();
@@ -1027,5 +1059,12 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(TextGetWidth);
 
 		ADD_INTERNAL_CALL(GetFilePath);
+
+
+		//Collider2D
+		ADD_INTERNAL_CALL(Collider2D_GetCustomHeight);
+		ADD_INTERNAL_CALL(Collider2D_GetCustomWidth);
+		ADD_INTERNAL_CALL(Collider2D_SetCustomHeight);
+		ADD_INTERNAL_CALL(Collider2D_SetCustomWidth);
 	}
 }

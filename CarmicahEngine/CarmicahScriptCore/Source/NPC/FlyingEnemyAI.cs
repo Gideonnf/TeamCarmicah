@@ -239,7 +239,8 @@ namespace Carmicah
                 }
                 else if (collidedEntity.GetTag() == "Bullet")
                 {
-                  //  this.AsChild<HealthSystem>().TakeDamage(50);
+                    //  this.AsChild<HealthSystem>().TakeDamage(50);
+                    GetComponent<StateMachine>().SetStateCondition(2);
                 }
             }
 

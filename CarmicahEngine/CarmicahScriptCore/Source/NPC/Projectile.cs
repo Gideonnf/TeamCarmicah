@@ -117,6 +117,19 @@ namespace Carmicah
                 if (HasComponent<RigidBody>())
                 {
                     Vector2 mousePos = target.Position;
+                    if(bulletType == BulletType.MAGE_BULLET)
+                    {
+                        if(!facingRight)
+                        {
+                            mousePos.x = -4;
+
+                        }
+                        else
+                        {
+                            mousePos.x = 4;
+                        }
+                    }
+
                     Vector2 dir = mousePos - Position;
                     dir.Normalize();
                     //CMConsole.Log($"target mouse??? {targetMouse.mID}");
@@ -237,6 +250,12 @@ namespace Carmicah
                     {
                         Vector2 scale = Scale;
                         float rot = Rot;
+                        if(this.HasComponent<Collider2D>())
+                        {
+                            this.GetComponent<Collider2D>().SetCustomWidth(0.5f);
+                        }
+                        
+
                         Sound.PlaySFX("Mage_Hit_Explosion", 0.3f);
                         if (!facingRight)
                         {
