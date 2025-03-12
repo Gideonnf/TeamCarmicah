@@ -31,8 +31,8 @@ namespace Carmicah
 
         public override void OnCreate()
         {
-            CreateIcon(IconType.SPEAR_ICON);
-            CreateIcon(IconType.SPEAR_ICON);
+            CreateIcon(IconType.MAGE_ICON);
+            CreateIcon(IconType.MAGE_ICON);
             CreateIcon(IconType.SPEAR_ICON);
             CreateIcon(IconType.SPEAR_ICON);
             CreateIcon(IconType.SHOOTER_ICON);

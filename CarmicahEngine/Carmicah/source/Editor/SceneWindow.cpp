@@ -60,7 +60,7 @@ namespace Carmicah
             if (Input.IsKeyPressed(KEY_P))
             {
                 mIsPaused = !mIsPaused;
-                if(!mIsPaused)
+                if(mIsPaused)
                 {
                     auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
                     souSystem->PauseAllSounds();
