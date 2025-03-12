@@ -62,8 +62,8 @@
                     "timer": 0.0,
                     "TimeToDie": 1.5,
                     "DeathTime": 2.0,
-                    "DeathSound": "mouse die btr",
-                    "InjuredSound": "mouse die"
+                    "DeathSound": "Bear",
+                    "InjuredSound": "bear_hit"
 
                 }
             ]
