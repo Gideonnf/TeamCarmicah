@@ -27,12 +27,14 @@ namespace Carmicah
     public class Player : Entity
     {
         float timer = 0.5f;
+        public string healthBarName = "Princess_HealthBar";
 
         public float walkingSpeed = 2.0f;
 
         public string HealAnim;
         public string IdleAnim;
         public string WalkAnim;
+        public string TeleportAnim = "NPC_Teleport";
         public static bool GameLost = false;
 
         public bool isWalking = true;
@@ -40,6 +42,7 @@ namespace Carmicah
 
         Entity healTarget;
         Entity redBorder;
+        Entity healthBar;
         float healAnimTime;
 
         public bool damaged = false;
@@ -47,12 +50,13 @@ namespace Carmicah
         public float flashInterval = 0.25f;
         public float flashTimer = 0.0f; // Keep track for interval flashing
         public float flashTime = 0.0f; // keep track of total time for flashTime
-
+        public float health = 100.0f;
 
         bool invisible = true;
-        void OnCreate()
+        public override void OnCreate()
         {
             redBorder = FindEntityWithName("RedBorder");
+            healthBar = FindEntityWithName(healthBarName);
         }
 
         void ToggleWalkAnim()
@@ -80,7 +84,7 @@ namespace Carmicah
             GetComponent<StateMachine>().SetStateCondition(3);
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             Entity pauseManager = FindEntityWithName("PauseManager");
             if (pauseManager != null)
@@ -183,7 +187,7 @@ namespace Carmicah
             }*/
         }
 
-        public void OnStateEnter(string stateName)
+        public override void OnStateEnter(string stateName)
         {
             if (stateName == "Idle")
             {
@@ -203,9 +207,13 @@ namespace Carmicah
                 timer = 0.0f;
                 CMConsole.Log("MC HEAL");
             }
+            else if (stateName == "Teleport")
+            {
+                ChangeAnim(TeleportAnim);
+            }
         }
 
-        public void OnStateUpdate(string stateName, float dt)
+        public override void OnStateUpdate(string stateName, float dt)
         {
             if(stateName == "Idle")
             {
@@ -303,7 +311,7 @@ namespace Carmicah
             }
         }
 
-        public void OnStateExit(string stateName)
+        public override void OnStateExit(string stateName)
         {
 
         }
@@ -319,21 +327,16 @@ namespace Carmicah
 
         public void TakeDamage(int damage, EnemyTypes enemyType)
         {
-            this.AsChild<HealthSystem>().TakeDamage(damage);
+            health -= damage;
+            healthBar.As<PrincessHPBar>().percentHP = health;
+
+            //this.AsChild<HealthSystem>().TakeDamage(damage);
             Sound.PlaySFX("Princess_DamageWarning", 0.3f);
             damaged = true;
-            if (enemyType == EnemyTypes.BEAR)
-            {
-                Entity camera = FindEntityWithName("MainCamera");
-                camera.As<Camera>().ShakeCamera();
-                //if (!shake)
-                //{
-                //    shake = true;
-                //    shakeTimer = 0.0f;
-                //}
-            }
+            Entity camera = FindEntityWithName("MainCamera");
+            camera.As<Camera>().ShakeCamera();
             //CMConsole.Log($"Health :{this.AsChild<HealthSystem>().mCurHealth}");
-            if (this.AsChild<HealthSystem>().mCurHealth <= 0)
+            if (health <= 0)
             {
                 // game end
                 if (!isCreated)

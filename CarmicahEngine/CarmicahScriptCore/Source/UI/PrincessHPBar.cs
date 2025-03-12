@@ -5,18 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarmicahScript
+namespace Carmicah
 {
     public class PrincessHPBar : Entity
     {
         public float percentHP;
         private float lastKnownHPPercent = 100.0f;
 
-        void OnCreate()
+        public override void OnCreate()
         {
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             if(Math.Abs(percentHP - lastKnownHPPercent) > 0)
             {

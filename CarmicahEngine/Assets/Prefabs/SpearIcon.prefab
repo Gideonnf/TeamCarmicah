@@ -6,6 +6,10 @@
             "Component Name": "struct Carmicah::Button"
         },
         {
+            "Component Name": "struct Carmicah::PrefabData",
+            "prefabRef": 45
+        },
+        {
             "Component Name": "struct Carmicah::UITransform",
             "xPos": 1822.824951171875,
             "yPos": 682.7659912109375,
@@ -16,31 +20,6 @@
             "transformTag": ""
         },
         {
-            "Component Name": "struct Carmicah::PrefabData",
-            "prefabRef": 45
-        },
-        {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.HeroIcon",
-            "ScriptableFieldMap": [
-                {
-                    "HeroBuild2": "HeroBuild_2",
-                    "HeroBuild": "HeroBuild",
-                    "heroPrefab": "SpearNPC",
-                    "actualTrapPrefab": "",
-                    "WaveSystemObject": "Something",
-                    "HeroBuild1": "HeroBuild_1",
-                    "HeroBuild3": "HeroBuild_3",
-                    "fakeTrapPrefab": "",
-                    "flipped": false,
-                    "hovering": false,
-                    "xOffset": 0.0,
-                    "yOffset": 1.0,
-                    "mouseXOffset": 0.5
-                }
-            ]
-        },
-        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "spear_icon",
@@ -48,6 +27,27 @@
             "colG": 1.0,
             "colB": 1.0,
             "colA": 1.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.HeroIcon",
+            "ScriptableFieldMap": [
+                {
+                    "heroPrefab": "SpearNPC",
+                    "HeroBuild": "HeroBuild",
+                    "HeroBuild2": "HeroBuild_2",
+                    "mouseXOffset": 0.5,
+                    "HeroBuild1": "HeroBuild_1",
+                    "WaveSystemObject": "Something",
+                    "actualTrapPrefab": "",
+                    "HeroBuild3": "HeroBuild_3",
+                    "fakeTrapPrefab": "",
+                    "flipped": false,
+                    "hovering": false,
+                    "xOffset": 0.0,
+                    "yOffset": 1.2999999523162842
+                }
+            ]
         }
     ]
 }

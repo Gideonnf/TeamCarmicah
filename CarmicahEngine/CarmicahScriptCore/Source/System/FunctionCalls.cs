@@ -160,6 +160,9 @@ namespace Carmicah
         internal extern static uint[] Entity_FindEntitiesWithTag(string tag);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static uint[] Entity_GetAllChildren(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Transform_GetLocalPosition(uint entityID, out Vector2 position);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -167,6 +170,9 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void ChangeText(uint entityID, string text);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float TextGetWidth(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static float GetRedColour(uint entityID, out float red);

@@ -30,7 +30,7 @@ namespace Carmicah
 
 
 
-        void OnCreate()
+        public override void OnCreate()
         {
             levelManager = new LevelManager();
             gameManager = FindEntityWithName("GameManager");
@@ -38,7 +38,7 @@ namespace Carmicah
             
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             // Only increment time for as long as theres a wave coming
             if (!gameManager.As<GameManager>().GameOver)

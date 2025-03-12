@@ -134,8 +134,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -1.3053369522094727,
-                    "yPos": -3.5468015670776369,
+                    "xPos": -1.2711743116378785,
+                    "yPos": -3.5101914405822756,
                     "depth": 3.0,
                     "xScale": 1.2000000476837159,
                     "yScale": 1.2000000476837159,
@@ -740,7 +740,7 @@
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.530199408531189,
                     "yPos": 3.973508358001709,
-                    "depth": 4.0,
+                    "depth": 3.25,
                     "xScale": 0.699999988079071,
                     "yScale": 0.699999988079071,
                     "rot": 0.0,
@@ -751,10 +751,6 @@
                     "Component Name": "struct Carmicah::Animation",
                     "Atlas": "MC_Idle",
                     "AnimSpeed": 1.0
-                },
-                {
-                    "Component Name": "struct Carmicah::PrefabData",
-                    "prefabRef": 12
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",
@@ -801,6 +797,10 @@
                                 {
                                     "targetState": "Heal",
                                     "condition": 3
+                                },
+                                {
+                                    "targetState": "Teleport",
+                                    "condition": 5
                                 }
                             ]
                         },
@@ -836,6 +836,16 @@
                                     "condition": 3
                                 }
                             ]
+                        },
+                        {
+                            "stateName": "Teleport",
+                            "stateCondition": 0,
+                            "transitions": [
+                                {
+                                    "targetState": "Idle",
+                                    "condition": 1
+                                }
+                            ]
                         }
                     ]
                 },
@@ -851,95 +861,20 @@
                             "WalkAnim": "MC_Walk",
                             "isWalking": true,
                             "walkingSpeed": 2.0,
+                            "healthBarName": "Princess_HealthBar",
                             "isCreated": false,
                             "damaged": false,
                             "flashInterval": 0.25,
                             "flashTime": 1.0,
                             "flashTotalTime": 1.0,
-                            "flashTimer": 0.0
+                            "flashTimer": 0.0,
+                            "health": 100.0,
+                            "TeleportAnim": "NPC_Teleport"
                         }
                     ]
                 }
             ],
-            "Children": [
-                {
-                    "GameObject": "Healthbar",
-                    "ID": 32,
-                    "Components": [
-                        {
-                            "Component Name": "struct Carmicah::Transform",
-                            "xPos": 0.0,
-                            "yPos": 1.3412744998931885,
-                            "depth": 15.0,
-                            "xScale": 2.5,
-                            "yScale": 2.5,
-                            "rot": 0.0,
-                            "transformTag": "",
-                            "collisionMask": 1
-                        },
-                        {
-                            "Component Name": "struct Carmicah::PrefabData",
-                            "prefabRef": 32
-                        },
-                        {
-                            "Component Name": "struct Carmicah::Renderer",
-                            "model": "Square",
-                            "texture": "health_bar",
-                            "colR": 1.0,
-                            "colG": 1.0,
-                            "colB": 1.0,
-                            "colA": 1.0
-                        }
-                    ],
-                    "Children": []
-                },
-                {
-                    "GameObject": "Healthbar_Cover",
-                    "ID": 34,
-                    "Components": [
-                        {
-                            "Component Name": "struct Carmicah::Transform",
-                            "xPos": 1.100000023841858,
-                            "yPos": 1.3278452157974244,
-                            "depth": 16.0,
-                            "xScale": 0.0625,
-                            "yScale": 0.3499999940395355,
-                            "rot": 0.0,
-                            "transformTag": "",
-                            "collisionMask": 1
-                        },
-                        {
-                            "Component Name": "struct Carmicah::PrefabData",
-                            "prefabRef": 33
-                        },
-                        {
-                            "Component Name": "struct Carmicah::Renderer",
-                            "model": "Square",
-                            "texture": "Wall_White 0",
-                            "colR": 1.0,
-                            "colG": 1.0,
-                            "colB": 0.0,
-                            "colA": 1.0
-                        },
-                        {
-                            "Component Name": "struct Script",
-                            "scriptName": "Carmicah.HealthSystem",
-                            "ScriptableFieldMap": [
-                                {
-                                    "endPos": 0.0,
-                                    "endScale": 4.400000095367432,
-                                    "mCurHealth": 0.0,
-                                    "posDiff": 0.0,
-                                    "startPos": 0.0,
-                                    "startScale": 0.0,
-                                    "mMaxHealth": 200.0
-                                }
-                            ]
-                        }
-                    ],
-                    "Children": []
-                }
-            ]
+            "Children": []
         },
         {
             "GameObject": "Wall",
@@ -1131,8 +1066,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -3.9761898517608644,
-                    "yPos": 2.100541114807129,
+                    "xPos": -4.386155128479004,
+                    "yPos": 2.3568124771118166,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -1147,9 +1082,9 @@
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "",
-                    "customWidth": 1.0,
+                    "customWidth": 2.799999952316284,
                     "customRotation": 0.0,
-                    "customHeight": 2.5999999046325685
+                    "customHeight": 2.9000000953674318
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1196,8 +1131,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 4.9137654304504398,
-                    "yPos": 2.2839999198913576,
+                    "xPos": 5.11874532699585,
+                    "yPos": 2.57062029838562,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -1212,9 +1147,9 @@
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "",
-                    "customWidth": 1.0,
+                    "customWidth": 2.299999952316284,
                     "customRotation": 0.0,
-                    "customHeight": 2.5999999046325685
+                    "customHeight": 3.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1437,8 +1372,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -0.7174397706985474,
-                    "yPos": 0.5152245759963989,
+                    "xPos": -1.0249128341674805,
+                    "yPos": 1.174208641052246,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -1453,9 +1388,9 @@
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "",
-                    "customWidth": 1.0,
+                    "customWidth": 2.200000047683716,
                     "customRotation": 0.0,
-                    "customHeight": 2.5
+                    "customHeight": 3.4000000953674318
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1502,8 +1437,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 2.0788466930389406,
-                    "yPos": 0.6310452222824097,
+                    "xPos": 2.14717698097229,
+                    "yPos": 1.2534185647964478,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -1518,9 +1453,9 @@
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "",
-                    "customWidth": 1.0,
+                    "customWidth": 2.0,
                     "customRotation": 0.0,
-                    "customHeight": 2.5
+                    "customHeight": 3.4000000953674318
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1577,7 +1512,7 @@
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 134.94664001464845,
-                    "yPos": 814.5762329101563,
+                    "yPos": 816.40673828125,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -1586,7 +1521,7 @@
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "CarmicahScript.WaveCounter",
+                    "scriptName": "Carmicah.WaveCounter",
                     "ScriptableFieldMap": [
                         {
                             "IsTimer": false,
@@ -1981,7 +1916,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 4.6903510093688969,
+                    "xPos": 5.202805519104004,
                     "yPos": 2.4497838020324709,
                     "depth": 0.0,
                     "xScale": 3.3499999046325685,
@@ -1993,9 +1928,9 @@
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "",
-                    "customWidth": 1.0,
+                    "customWidth": 1.2000000476837159,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 0.699999988079071
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -2206,13 +2141,17 @@
             "Children": []
         },
         {
-            "GameObject": "TempHealthBar",
-            "ID": 57,
+            "GameObject": "Princess_HealthBar",
+            "ID": 58,
             "Components": [
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 60
+                },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "UI_Healthbar",
+                    "texture": "Princess_HealthBar_Back 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -2220,13 +2159,53 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 363.8434753417969,
-                    "yPos": 986.6437377929688,
+                    "xPos": 363.8429870605469,
+                    "yPos": 986.6439819335938,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.PrincessHPBar",
+                    "ScriptableFieldMap": [
+                        {
+                            "percentHP": 100.0
+                        }
+                    ]
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "Princess_HP_Value",
+                    "ID": 59,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 61
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Princess_HealthBar_HP 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 0.0,
+                            "yPos": 0.0,
+                            "depth": 1.0,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
                 }
             ]
         },

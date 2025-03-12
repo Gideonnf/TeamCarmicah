@@ -21,7 +21,7 @@ namespace Carmicah
         public string actualTrapPrefab = "";
         public Entity trapEntity;
         public bool flipped = false;
-        public bool hovering = false;
+        //public bool hovering = false;
         
 
         public AbilityType type;

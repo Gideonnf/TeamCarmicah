@@ -88,11 +88,11 @@ namespace Carmicah
         public float Speed;
         public float speedDebuff = 0.4f; // 60% slower
         float debuff = 1.0f;
-
+        bool dead = false;
         int animType = 0;
         int randLane = 0;
 
-        void OnCreate()
+        public override void OnCreate()
         {
             if (FindEntityWithName(SpawnPointEntityLeft) != null)
                 startPosLeft = FindEntityWithName(SpawnPointEntityLeft).Position;
@@ -149,7 +149,7 @@ namespace Carmicah
             ChangeAnim(baseAnimation);
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             Entity pauseManager = FindEntityWithName("PauseManager");
             if (pauseManager != null)
@@ -247,7 +247,7 @@ namespace Carmicah
             }
         }
 
-        void OnCollide(uint id)
+        public override void OnCollide(uint id)
         {
 
             // its alr dead
@@ -255,6 +255,9 @@ namespace Carmicah
             {
                 return;
             }
+
+            if (dead) return;
+
 
             Entity collidedEntity = FindEntityWithID(id);
             if (collidedEntity != null)
@@ -333,24 +336,38 @@ namespace Carmicah
             //stateMachine.SetNextState("Dead");
         }
 
-        public void OnStateEnter(string stateName)
+        public override void OnStateEnter(string stateName)
         {
             //GetComponent<StateMachine>().SetStateCondition(1);
             // CMConsole.Log($"Update State Name: {stateName}");
             
             if (stateName == "Dead")
             {
+                dead = true;
                 timer = 0.0f;
                 Sound.PlaySFX(InjuredSound, 0.5f);
+                Entity[] children = GetAllChildren();
+
+                foreach(Entity entity in children)
+                {
+                    entity.GetComponent<Renderer>().SetAlpha(0);
+                }
 
 
                 //CMConsole.Log("TESTING Enter State");
+                if (this.AsChild<HealthSystem>().mCurHealth <= 0)
+                {
+                    ChangeAnim(baseAnimationDie);
+                }
+                else
+                {
+                    ChangeAnim("Dissolve_Yellow");
 
-                ChangeAnim(baseAnimationDie);
+                }
             }
         }
 
-        public void OnStateUpdate(string stateName, float dt)
+        public override void OnStateUpdate(string stateName, float dt)
         {
             Entity pauseManager = FindEntityWithName("PauseManager");
             if (pauseManager != null)
@@ -388,8 +405,8 @@ namespace Carmicah
             else if (stateName == "Dead")
             {
                 
-                timer += dt;
-                if (timer >= GetComponent<Animation>().GetMaxTime())
+                //timer += dt;
+                if (GetComponent<Animation>().IsAnimFinished())
                 {
                     isRunning = false;
                     Sound.StopSoundSFX(soundFile);
@@ -398,14 +415,14 @@ namespace Carmicah
                         gm.EntityDestroyed(this);
 
                     Sound.PlaySFX(DeathSound, 0.5f);
-                    timer = 0.0f;
+                    //timer = 0.0f;
                     Destroy();
                 }
             }
             //CMConsole.Log($"mouse retrieved : {targetMouse}");
         }
 
-        public void OnStateExit(string stateName)
+        public override void OnStateExit(string stateName)
         {
             //CMConsole.Log("TESTING Exit State");
             //CMConsole.Log($"Exit State Name: {stateName}");

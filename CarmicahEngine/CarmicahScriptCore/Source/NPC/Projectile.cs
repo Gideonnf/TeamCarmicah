@@ -58,7 +58,7 @@ namespace Carmicah
         public bool facingRight = false;
         bool playDeathAnimation = false;
 
-        void OnCreate()
+        public override void OnCreate()
         {
             // Set initial animation
             if (!string.IsNullOrEmpty(BulletAnim))
@@ -76,7 +76,7 @@ namespace Carmicah
             //}
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             Entity pauseManager = FindEntityWithName("PauseManager");
             if (pauseManager != null && pauseManager.As<PauseManager>().IsPaused)
@@ -183,8 +183,8 @@ namespace Carmicah
         {
 
         }
-        
-        void OnCollide(uint id)
+
+        public override void OnCollide(uint id)
         {
             if (bulletType == BulletType.MAGE_BULLET)
             {
@@ -205,7 +205,7 @@ namespace Carmicah
             GetComponent<StateMachine>().SetStateCondition(1);
         }
 
-        void OnStateEnter(string stateName)
+        public override void OnStateEnter(string stateName)
         {
             if (stateName == "Dead")
             {
@@ -242,7 +242,7 @@ namespace Carmicah
             }
         }
 
-        void OnStateUpdate(string stateName, float dt)
+        public override void OnStateUpdate(string stateName, float dt)
         {
             if(stateName == "Dead")
             {

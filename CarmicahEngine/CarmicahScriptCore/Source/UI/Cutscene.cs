@@ -77,7 +77,7 @@ namespace Carmicah
         // If i need to load all the panels
         // i need them stored in a string 
 
-        void OnCreate()
+        public override void OnCreate()
         {
             Sound.StopSoundBGM(backgroundMusicTrack1);
             cutsceneEntity = FindEntityWithName("CutSceneImage");
@@ -151,7 +151,7 @@ namespace Carmicah
             Scene.ChangeScene("Loading");
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             if(Input.IsKeyPressed(Keys.KEY_5))
             {
@@ -159,7 +159,7 @@ namespace Carmicah
             }
         }
 
-        public void OnStateEnter(string stateName)
+        public override void OnStateEnter(string stateName)
         {
             CMConsole.Log($"State : {stateName}");
 
@@ -191,7 +191,7 @@ namespace Carmicah
             }
         }
 
-        public void OnStateUpdate(string stateName, float dt)
+        public override void OnStateUpdate(string stateName, float dt)
         {
             timer += dt;
 
@@ -240,7 +240,7 @@ namespace Carmicah
 
         }
 
-        public void OnStateExit(string stateName)
+        public override void OnStateExit(string stateName)
         {
 
         }

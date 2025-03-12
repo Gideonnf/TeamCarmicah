@@ -30,12 +30,12 @@ namespace Carmicah
         public float scrollSpeed = 2.5f; // adjust speed as needed
         public float endYPosition = 45.0f; // change to match final Y position
 
-        void OnCreate()
+        public override void OnCreate()
         {
             transform = GetComponent<Transform>();
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             if (transform != null)
             {
