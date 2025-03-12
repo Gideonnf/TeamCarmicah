@@ -423,6 +423,7 @@ namespace Carmicah
                         gm.EntityDestroyed(this);
 
                     Sound.PlaySFX(DeathSound, 0.5f);
+                    Sound.PlaySFX("NPC_Death", 0.8f);
                     //timer = 0.0f;
                     Destroy();
                 }
