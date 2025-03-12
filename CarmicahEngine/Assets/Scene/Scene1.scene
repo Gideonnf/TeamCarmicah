@@ -757,7 +757,9 @@
                     "shape": "DebugSquare",
                     "customWidth": 0.5,
                     "customRotation": 0.0,
-                    "customHeight": 0.5
+                    "customHeight": 0.5,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -896,7 +898,9 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 1.0,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -942,7 +946,9 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 1.0,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -988,7 +994,9 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 1.0,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1034,7 +1042,9 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 1.0,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1084,7 +1094,9 @@
                     "shape": "",
                     "customWidth": 2.799999952316284,
                     "customRotation": 0.0,
-                    "customHeight": 2.9000000953674318
+                    "customHeight": 2.9000000953674318,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1149,7 +1161,9 @@
                     "shape": "",
                     "customWidth": 2.299999952316284,
                     "customRotation": 0.0,
-                    "customHeight": 3.0
+                    "customHeight": 3.0,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1221,6 +1235,58 @@
             "Children": []
         },
         {
+            "GameObject": "Bubble_4",
+            "ID": 32,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "bubble",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1308.4696044921876,
+                    "yPos": 990.5233764648438,
+                    "depth": 0.0,
+                    "xScale": 0.5,
+                    "yScale": 0.5,
+                    "rot": -18.294906616210939,
+                    "transformTag": ""
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "bubbleBird_1",
+                    "ID": 57,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Pigeon_SpriteSheet_Dive 4",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 0.0,
+                            "yPos": 0.0,
+                            "depth": 2.6500000953674318,
+                            "xScale": 0.800000011920929,
+                            "yScale": 0.800000011920929,
+                            "rot": 18.294904708862306,
+                            "transformTag": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "GameObject": "TrapBuild",
             "ID": 33,
             "Components": [
@@ -1240,7 +1306,9 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 1.0,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1280,6 +1348,58 @@
                 }
             ],
             "Children": []
+        },
+        {
+            "GameObject": "Bubble_5",
+            "ID": 34,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "bubble",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 736.2274169921875,
+                    "yPos": 990.5233764648438,
+                    "depth": 0.0,
+                    "xScale": 0.5,
+                    "yScale": 0.5,
+                    "rot": 18.184127807617189,
+                    "transformTag": ""
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "bubbleBird",
+                    "ID": 60,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Pigeon_SpriteSheet_Dive 4",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 0.0,
+                            "yPos": 0.0,
+                            "depth": 2.8499999046325685,
+                            "xScale": -0.800000011920929,
+                            "yScale": 0.800000011920929,
+                            "rot": -18.184127807617189,
+                            "transformTag": ""
+                        }
+                    ]
+                }
+            ]
         },
         {
             "GameObject": "RedBorder",
@@ -1390,7 +1510,9 @@
                     "shape": "",
                     "customWidth": 2.200000047683716,
                     "customRotation": 0.0,
-                    "customHeight": 3.4000000953674318
+                    "customHeight": 3.4000000953674318,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1455,7 +1577,9 @@
                     "shape": "",
                     "customWidth": 2.0,
                     "customRotation": 0.0,
-                    "customHeight": 3.4000000953674318
+                    "customHeight": 3.4000000953674318,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1580,7 +1704,9 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 1.0,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1645,7 +1771,9 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 1.0,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1710,7 +1838,9 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 1.0,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1884,7 +2014,9 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 1.0,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1930,7 +2062,9 @@
                     "shape": "",
                     "customWidth": 1.2000000476837159,
                     "customRotation": 0.0,
-                    "customHeight": 0.699999988079071
+                    "customHeight": 0.699999988079071,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1976,7 +2110,9 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 1.0,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
