@@ -10,10 +10,12 @@ namespace Carmicah
     {
         public string TrapPrefabName = "Trap_1";
         public string TrapTranslucentPrefab = "TrapTranslucent";
-        
+        string soundFile = "Trap_Placement";
+
         public bool IsLeft = false;
         public float depthVal = 3.45f;
         float trapOffset;
+        
 
 
         Entity translucentTrap;
@@ -157,14 +159,19 @@ namespace Carmicah
                         if(type == AbilityType.CANDY_CONE)
                         {
                             trapEntity.As<TrapAI>().type = AbilityType.CANDY_CONE;
+                            soundFile += "_v2";
                         }
                         else if(type == AbilityType.HONEY)
                         {
                             trapEntity.As<TrapAI>().type = AbilityType.HONEY;
+                            soundFile += "_Honey";
                         }
 
 
-                        Sound.PlaySFX("trap_placement", 0.5f);
+                        Sound.PlaySFX(soundFile, 0.5f);
+
+                        //To reset it
+                        soundFile = "Trap_Placement";
 
                         if (IsLeft)
                         {

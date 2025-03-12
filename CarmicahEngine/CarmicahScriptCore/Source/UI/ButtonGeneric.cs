@@ -23,7 +23,7 @@ namespace Carmicah
         Dictionary<int, string> destroyList = new Dictionary<int, string>();
 
         float sceneChangerTimer = -1f;
-        const float timeToChangeScene = 0.2f;
+        const float timeToChangeScene = 0.5f;
         string hoverEnterAnim;
         string hoverExitAnim;
         string clickAnim;
@@ -179,22 +179,26 @@ namespace Carmicah
 
         public override void OnUpdate(float dt)
         {
-            if(sceneChangerTimer > 0)
+            if(GetComponent<Animation>().IsAnimFinished())
             {
-                sceneChangerTimer -= dt;
-                if(sceneChangerTimer < 0)
+                if(sceneChangerTimer > 0)
                 {
-                    sceneChangerTimer = -1f;
-                    if(nextScene == "quit")
+                    sceneChangerTimer -= dt;
+                    if(sceneChangerTimer < 0)
                     {
-                        Scene.CloseGame();
-                    }
-                    else
-                    {
-                        CMConsole.Log("Changing scene 2");
-                        Scene.ChangeScene(nextScene);
+                        sceneChangerTimer = -1f;
+                        if(nextScene == "quit")
+                        {
+                            Scene.CloseGame();
+                        }
+                        else
+                        {
+                            CMConsole.Log("Changing scene 2");
+                            Scene.ChangeScene(nextScene);
+                        }
                     }
                 }
+
             }
             if (createListCreated && createList.Count > 0 && FindEntityWithName(createList[0]) == null)
             {
@@ -269,7 +273,7 @@ namespace Carmicah
         }
         public override void OnMouseEnter()
         {
-            Sound.PlaySFX("UI_Hover 2", 0.4f);
+            Sound.PlaySFX("UI_Hover 2", 0.3f);
             ChangeAnim(hoverEnterAnim);
         }
         public override void OnMouseExit()

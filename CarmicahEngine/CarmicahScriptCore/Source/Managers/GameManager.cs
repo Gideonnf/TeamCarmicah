@@ -704,6 +704,7 @@ namespace Carmicah
         {
             GameOver = true;
             Sound.SwitchBGM("LoseScreen", 1.0f, 0.5f, false);
+            Sound.StopAllSFX();
             CreateGameObject("LoseScreen");
         }
 
