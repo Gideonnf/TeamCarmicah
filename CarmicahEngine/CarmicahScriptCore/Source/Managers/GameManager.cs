@@ -236,10 +236,10 @@ namespace Carmicah
                 }
             }
 
-            if (Input.IsKeyPressed(Keys.KEY_SPACEBAR))
-            {
-                GetComponent<StateMachine>().SetStateCondition(2);
-            }
+            //if (Input.IsKeyPressed(Keys.KEY_SPACEBAR))
+            //{
+            //    GetComponent<StateMachine>().SetStateCondition(2);
+            //}
 
             CheckLaneIndicators();
         }
