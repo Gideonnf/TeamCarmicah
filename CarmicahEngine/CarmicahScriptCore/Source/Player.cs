@@ -80,6 +80,24 @@ namespace Carmicah
         public void HealAI(uint id)
         {
             healTarget = FindEntityWithID(id);
+
+            // if target is on the left
+            if (healTarget.Position.x < Position.x)
+            {
+                if (Scale.x < 0)
+                {
+                    Scale = new Vector2(Scale.x * -1, Scale.y);
+                }
+            }
+            else if (healTarget.Position.x > Position.x)
+            {
+                if (Scale.x > 0)
+                {
+                    Scale = new Vector2(Scale.x * -1, Scale.y);
+                }
+            }
+
+
             CMConsole.Log("Healing " + id.ToString());
             GetComponent<StateMachine>().SetStateCondition(3);
         }
@@ -122,69 +140,6 @@ namespace Carmicah
                     }
                 }
             }
-
-            
-
-            /*if (Input.IsKeyPressed(Keys.KEY_W))
-            {
-
-                GetComponent<StateMachine>().SetStateCondition(1);
-
-                PlaySoundEffect("walk2");
-                //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
-
-                GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
-            }
-            if (Input.IsKeyHold(Keys.KEY_A))
-            {
-                ToggleWalkAnim();
-
-                PlaySoundEffect("walk2");
-
-                Vector2 scale = Scale;
-                if (scale.x < 0)
-                {
-                    scale.x *= -1;
-                }
-
-                Scale = scale;
-
-                //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
-
-                GetComponent<RigidBody>().ApplyForce(new Vector2(-1, 0), 2.0f);
-            }
-            else if (Input.IsKeyHold(Keys.KEY_S))
-            {
-                ToggleWalkAnim();
-
-                PlaySoundEffect("walk2");
-
-                //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
-
-                GetComponent<RigidBody>().ApplyForce(new Vector2(0, -1), 2.0f);
-            }
-            else if (Input.IsKeyHold(Keys.KEY_D))
-            {
-                ToggleWalkAnim();
-
-                PlaySoundEffect("walk2");
-
-                Vector2 scale = Scale;
-                if (scale.x > 0)
-                {
-                    scale.x *= -1;
-                }
-
-                Scale = scale;
-
-                //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
-
-                GetComponent<RigidBody>().ApplyForce(new Vector2(1, 0), 2.0f);
-            }
-            else
-            {
-                ToggleIdle();
-            }*/
         }
 
         public override void OnStateEnter(string stateName)

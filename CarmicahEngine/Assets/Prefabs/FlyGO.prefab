@@ -14,11 +14,6 @@
             "collisionMask": 4
         },
         {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Pigeon_Fly",
-            "AnimSpeed": 1.0
-        },
-        {
             "Component Name": "struct Carmicah::StateMachine",
             "currState": "",
             "nextState": "",
@@ -56,6 +51,11 @@
             ]
         },
         {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Pigeon_Fly",
+            "AnimSpeed": 1.0
+        },
+        {
             "Component Name": "struct Carmicah::RigidBody",
             "velocityX": 0.0,
             "velocityY": 0.0,
@@ -72,7 +72,36 @@
             "shape": "",
             "customWidth": 0.0,
             "customRotation": 0.0,
-            "customHeight": 0.0
+            "customHeight": 0.0,
+            "xPosPivot": 0.0,
+            "yPosPivot": 0.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.FlyingEnemyAI",
+            "ScriptableFieldMap": [
+                {
+                    "EndPointEntityLeft": "StartTopLeft_end",
+                    "ChanceToDie": 0.11999999731779099,
+                    "DeathAnim": "Pigeon_Death",
+                    "horizontalSpeed": 1.0,
+                    "DeathSound": "flying_die",
+                    "HorizontalAnim": "Pigeon_Fly",
+                    "EndPointEntityRight": "StartTopRight_end",
+                    "DiagonalAnim": "Pigeon_Dive",
+                    "InjuredSound": "flying_hurt",
+                    "SpawnPointEntityLeft": "StartTopLeft",
+                    "SpawnPointEntityRight": "StartTopRight",
+                    "StationaryAnim": "Flying_Stationary",
+                    "speedDebuff": 0.4000000059604645,
+                    "diagonalSpeed": 5.0,
+                    "isDead": false,
+                    "lane": 0,
+                    "stationaryTime": 3.0,
+                    "stationaryTimer": 0.0,
+                    "timer": 0.0
+                }
+            ]
         },
         {
             "Component Name": "struct Carmicah::Renderer",
@@ -82,33 +111,6 @@
             "colG": 1.0,
             "colB": 1.0,
             "colA": 1.0
-        },
-        {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.FlyingEnemyAI",
-            "ScriptableFieldMap": [
-                {
-                    "ChanceToDie": 0.11999999731779099,
-                    "EndPointEntityLeft": "StartTopLeft_end",
-                    "DeathAnim": "Pigeon_Death",
-                    "HorizontalAnim": "Pigeon_Fly",
-                    "DeathSound": "flying_die",
-                    "horizontalSpeed": 1.0,
-                    "DiagonalAnim": "Pigeon_Dive",
-                    "EndPointEntityRight": "StartTopRight_end",
-                    "InjuredSound": "flying_hurt",
-                    "SpawnPointEntityLeft": "StartTopLeft",
-                    "SpawnPointEntityRight": "StartTopRight",
-                    "StationaryAnim": "Flying_Stationary",
-                    "speedDebuff": 0.4000000059604645,
-                    "diagonalSpeed": 1.7999999523162842,
-                    "isDead": false,
-                    "lane": 0,
-                    "stationaryTime": 3.0,
-                    "stationaryTimer": 0.0,
-                    "timer": 0.0
-                }
-            ]
         }
     ]
 }
