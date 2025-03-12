@@ -82,6 +82,19 @@ namespace Carmicah
 		else if (go.HasComponent<UITransform>())
 			go.GetComponent<UITransform>().Scale(*inScale);
 	}
+
+	static void Transform_GetRenderingScale(unsigned int entityID, Vec2f* outScale)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Transform>())
+		{
+			*outScale = go.GetComponent<Transform>().CalcedRenderingScale();
+		}
+		else if (go.HasComponent<UITransform>())
+		{
+			*outScale = go.GetComponent<UITransform>().CalcedRenderingScale();
+		}
+	}
 	
 	/// <summary>
 	/// Check if an entity has a component, acts as the internal call to C# side so that C# can check what component it has
@@ -953,6 +966,7 @@ namespace Carmicah
 		// Transform functions
 		ADD_INTERNAL_CALL(Transform_GetScale);
 		ADD_INTERNAL_CALL(Transform_SetScale);
+		ADD_INTERNAL_CALL(Transform_GetRenderingScale);
 		ADD_INTERNAL_CALL(Transform_GetLocalPosition);
 		ADD_INTERNAL_CALL(Transform_GetPosition);
 		ADD_INTERNAL_CALL(Transform_SetPosition);
