@@ -32,10 +32,10 @@ namespace Carmicah
 
         public override void OnCreate()
         {
-            CreateIcon(IconType.JELLYBEAN_ICON);
-            CreateIcon(IconType.JELLYBEAN_ICON);
-            CreateIcon(IconType.HONEY_ICON);
-            CreateIcon(IconType.HONEY_ICON);
+            CreateIcon(IconType.SHOOTER_ICON);
+            CreateIcon(IconType.SHOOTER_ICON);
+            CreateIcon(IconType.SHOOTER_ICON);
+            CreateIcon(IconType.SHOOTER_ICON);
             CreateIcon(IconType.CANDY_ICON);
             CreateIcon(IconType.CANDY_ICON);
 

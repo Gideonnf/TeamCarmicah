@@ -100,7 +100,7 @@ namespace Carmicah
                 }
                 else
                 {
-                    CMConsole.Log("TAOPMDOPSA");
+                    CMConsole.Log("Target Entity Destroyed!");
                     Destroy();
                     return;
                 }
