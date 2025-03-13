@@ -87,6 +87,7 @@ namespace Carmicah
             {
                 if(readyToLoad == 1)
                 {
+                    Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
                     cam = FindEntityWithName("MainCamera");
                     enemy = FindEntityWithName("Tutorial_Enemy");
                     player = FindEntityWithName("MC");
@@ -233,9 +234,11 @@ namespace Carmicah
                         else
                         {
                             if (powerIco[0].As<TutorialBasic>().GetEnterHover())
+                                Sound.PlaySFX("Item_Hover", 0.3f);
                                 powerIco[0].GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
                             if (Input.IsMousePressed(MouseButtons.MOUSE_BUTTON_LEFT))
                             {
+                                Sound.PlaySFX("UI_Select 2", 0.3f);
                                 powerIco[0].GetComponent<Renderer>().SetColour(1f, 1f, 1f);
                                 powerIco[0].GetComponent<Renderer>().SetAlpha(0.0f);
                                 powerIco[0].Scale = new Vector2(0.6f, 0.6f);
@@ -308,6 +311,7 @@ namespace Carmicah
                             // If placed a trap correctly
                             if (justPlaced != -1)
                             {
+                                Sound.PlaySFX("Trap_Placement_v2", 0.3f);
                                 placedObj[justPlaced] = true;
                                 traps[justPlaced].GetComponent<Renderer>().SetAlpha(1.0f);
 
@@ -478,6 +482,7 @@ namespace Carmicah
                         else
                         {
                             if (powerIco[0].As<TutorialBasic>().GetEnterHover())
+                                Sound.PlaySFX("Item_Hover", 0.3f);
                                 powerIco[0].GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
                             if (Input.IsMousePressed(MouseButtons.MOUSE_BUTTON_LEFT))
                             {
@@ -725,6 +730,7 @@ namespace Carmicah
         {
             if (healDone && placedObj[npcNum + 4])
             {
+                Sound.PlaySFX("Princess_Heal", 0.3f);
                 healNPC = npcNum;
                 pauseManager.As<PauseManager>().IsPaused = true;
                 player.GetComponent<Animation>().ChangeAnim("MC_Heal");
@@ -744,6 +750,7 @@ namespace Carmicah
         {
             if(!healDone && player.GetComponent<Animation>().IsAnimFinished())
             {
+                Sound.PlaySFX("VO_Shooter_Placement_04", 0.3f);
                 healDone = true;
                 npcs[healNPC].GetComponent<Animation>().ChangeAnim("Shooter_Idle");
                 player.GetComponent<Animation>().ChangeAnim("MC_Idle");
