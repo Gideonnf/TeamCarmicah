@@ -167,9 +167,9 @@ namespace Carmicah
                         GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                         gm.KillNPC(targetEntity);
                     }
+                    // change to dead state
+                    GetComponent<StateMachine>().SetStateCondition(2);
                 }
-                // change to dead state
-                GetComponent<StateMachine>().SetStateCondition(2);
             }
         }
 
