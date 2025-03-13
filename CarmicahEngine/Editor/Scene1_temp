@@ -39,7 +39,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 1.0,
+                    "xPos": 0.0,
                     "yPos": 1.9500000476837159,
                     "depth": 0.0,
                     "xScale": 0.05299999937415123,
@@ -473,7 +473,7 @@
                             "FlyingEnemyPrefabName": "FlyGO",
                             "NumOfMobs": 18.0,
                             "HeroBuild": "HeroBuild",
-                            "dropSpeed": 10.0,
+                            "dropSpeed": 14.0,
                             "HeroBuild1": "HeroBuild_1",
                             "WaveSystemObject": "Something",
                             "BearPrefabName": "BearGO",
@@ -1124,7 +1124,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "TrapTranslucentPrefab": "TrapTranslucent",
                             "lane": 3.0,
                             "yOffset": 1.0,
@@ -1192,7 +1192,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 0.0,
                             "yOffset": 1.0,
                             "IsLeft": false,
@@ -1233,6 +1233,58 @@
                 }
             ],
             "Children": []
+        },
+        {
+            "GameObject": "Bubble_4",
+            "ID": 32,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "bubble",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1308.4696044921876,
+                    "yPos": 990.5233764648438,
+                    "depth": 0.0,
+                    "xScale": 0.5,
+                    "yScale": 0.5,
+                    "rot": -18.294906616210939,
+                    "transformTag": ""
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "bubbleBird_1",
+                    "ID": 57,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Pigeon_SpriteSheet_Dive 4",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 0.0,
+                            "yPos": 0.0,
+                            "depth": 2.6500000953674318,
+                            "xScale": 0.800000011920929,
+                            "yScale": 0.800000011920929,
+                            "rot": 18.294904708862306,
+                            "transformTag": ""
+                        }
+                    ]
+                }
+            ]
         },
         {
             "GameObject": "TrapBuild",
@@ -1296,6 +1348,58 @@
                 }
             ],
             "Children": []
+        },
+        {
+            "GameObject": "Bubble_5",
+            "ID": 34,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "bubble",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 736.2274169921875,
+                    "yPos": 990.5233764648438,
+                    "depth": 0.0,
+                    "xScale": 0.5,
+                    "yScale": 0.5,
+                    "rot": 18.184127807617189,
+                    "transformTag": ""
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "bubbleBird",
+                    "ID": 60,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Pigeon_SpriteSheet_Dive 4",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 0.0,
+                            "yPos": 0.0,
+                            "depth": 2.8499999046325685,
+                            "xScale": -0.800000011920929,
+                            "yScale": 0.800000011920929,
+                            "rot": -18.184127807617189,
+                            "transformTag": ""
+                        }
+                    ]
+                }
+            ]
         },
         {
             "GameObject": "RedBorder",
@@ -1437,7 +1541,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 2.0,
                             "yOffset": 1.0,
                             "IsLeft": true,
@@ -1504,7 +1608,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 1.0,
                             "yOffset": 1.0,
                             "IsLeft": false,
