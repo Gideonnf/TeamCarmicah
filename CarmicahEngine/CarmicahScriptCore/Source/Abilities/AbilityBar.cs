@@ -34,8 +34,8 @@ namespace Carmicah
         {
             CreateIcon(IconType.SHOOTER_ICON);
             CreateIcon(IconType.SHOOTER_ICON);
-            CreateIcon(IconType.SHOOTER_ICON);
-            CreateIcon(IconType.SHOOTER_ICON);
+            CreateIcon(IconType.MAGE_ICON);
+            CreateIcon(IconType.MAGE_ICON);
             CreateIcon(IconType.CANDY_ICON);
             CreateIcon(IconType.CANDY_ICON);
 

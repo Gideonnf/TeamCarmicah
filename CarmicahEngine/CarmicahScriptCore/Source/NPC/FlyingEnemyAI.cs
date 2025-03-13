@@ -46,6 +46,7 @@ namespace Carmicah
         Vector2 startPosition;
         Vector2 horizontalTarget;  // Target for horizontal 
         Vector2 diveTarget;        // Target diagonal 
+        Vector2 targetPos;
         float debuff = 1.0f;
         public float speedDebuff = 0.4f;
 
@@ -62,6 +63,7 @@ namespace Carmicah
         Entity targetEntity;
 
         int randLane = 0;
+        bool move = false;
 
         public override void OnCreate()
         {
@@ -130,6 +132,14 @@ namespace Carmicah
             {
                 if (pauseManager.As<PauseManager>().IsPaused)
                     return;
+            }
+        }
+
+        public override void OnFixedUpdate(float fixedDt)
+        {
+            if(move)
+            {
+                UpdateMovement(fixedDt, targetPos);
             }
         }
 
@@ -355,7 +365,9 @@ namespace Carmicah
                     GetComponent<RigidBody>().StopForces();
                     return;
                 }
-                UpdateMovement(dt, horizontalTarget);
+                move = true;
+
+                targetPos = horizontalTarget;
 
                 // reaching diving point
                 if (Position.Distance(horizontalTarget) < 0.5f)
@@ -372,7 +384,9 @@ namespace Carmicah
                 }
                 if (targetEntity == null) return;
 
-                UpdateMovement(dt, targetEntity.Position);
+                //UpdateMovement(dt, targetEntity.Position);
+
+                targetPos = targetEntity.Position;
             }
             else if (stateName == "Dead")
             {
