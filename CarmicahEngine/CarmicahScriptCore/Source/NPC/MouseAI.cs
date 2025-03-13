@@ -220,10 +220,12 @@ namespace Carmicah
                     break;
             }
             Vector2 dir = (endPos - Position).Normalize();
+            //Vector2 nextPos = dir * (Speed * debuff) * dt;
+
             if (HasComponent<RigidBody>())
             {
                 GetComponent<RigidBody>().ApplyForce(dir, Speed * debuff);
-
+              // GetComponent<RigidBody>().Move(nextPos);
             }
 
             float dist = Position.Distance(endPos);
@@ -232,6 +234,7 @@ namespace Carmicah
             if (dist <= 0.5f)
             {
                 // CMConsole.Log("Dying");
+                
                 Entity gameManager = FindEntityWithName("GameManager");
 
                 // if thers no NPC to kill then deal damage to the player
@@ -239,9 +242,11 @@ namespace Carmicah
                 {
                     Entity mainCharacter = FindEntityWithName("mainCharacter");
                     mainCharacter.As<Player>().TakeDamage(10, enemyType);
+                    
                 }
 
                 timer = 0.0f;
+                GetComponent<RigidBody>().StopObject();
                 GetComponent<StateMachine>().SetStateCondition(1);
 
 
@@ -347,6 +352,8 @@ namespace Carmicah
                 GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                 if (gm != null)
                     gm.EntityDestroyed(this);
+
+                //CMConsole.Log("Dying here");
                 dead = true;
                 timer = 0.0f;
                 Sound.PlaySFX(InjuredSound, 0.5f);
@@ -389,35 +396,45 @@ namespace Carmicah
             {
                 if (gameManager.As<GameManager>().GameOver)
                 {
-                    GetComponent<RigidBody>().StopForces();
+                    //GetComponent<RigidBody>().StopForces();
+                    //GetComponent<RigidBody>().StopObject();
                     return;
 
                 }
 
                 // CMConsole.Log("TESTING Update State");
-                if(!isRunning)
+                if(enemyType != EnemyTypes.BEAR)
                 {
-                    Random rnd = new Random();
-                    int number = rnd.Next(1, 8);
-                    soundFile = "Mice_Running_0" + number.ToString();
-                    CMConsole.Log(soundFile);
-                    Sound.PlaySFX(soundFile, 0.15f, true);
-                    isRunning = true;
+
+                    if(!isRunning)
+                    {
+                        Random rnd = new Random();
+                        int number = rnd.Next(1, 8);
+                        soundFile = "Mice_Running_0" + number.ToString();
+                        CMConsole.Log(soundFile);
+                        Sound.PlaySFX(soundFile, 0.15f, true);
+                        isRunning = true;
+                    }
+
                 }
                 UpdateMovement(dt);
             }
             else if (stateName == "Dead")
             {
-                
+
                 //timer += dt;
+                
                 if (GetComponent<Animation>().IsAnimFinished())
                 {
+
                     isRunning = false;
                     Sound.StopSoundSFX(soundFile);
                     
 
                     Sound.PlaySFX(DeathSound, 0.5f);
+                    Sound.PlaySFX("NPC_Death", 0.8f);
                     //timer = 0.0f;
+                    
                     Destroy();
                 }
             }

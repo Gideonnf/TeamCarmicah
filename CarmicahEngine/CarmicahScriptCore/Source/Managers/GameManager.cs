@@ -74,7 +74,7 @@ namespace Carmicah
 
         Entity[] topTowerBoxes = new Entity[3];
 
-        Entity[] endEntities = new Entity[4];
+        Entity[] endEntities = new Entity[6];
 
         Entity[] flyingSpawns = new Entity[2]; 
 
@@ -82,7 +82,7 @@ namespace Carmicah
 
         Entity[] heroBuildEntities = new Entity[4];
 
-        Entity[] laneIndicators = new Entity[4];
+        Entity[] laneIndicators = new Entity[6];
 
         Entity[] walls = new Entity[4];
 
@@ -120,6 +120,10 @@ namespace Carmicah
             endEntities[2] = FindEntityWithName(EndPointEntityLeft2);
             endEntities[3] = FindEntityWithName(EndPointEntityRight2);
 
+            // instead of end point, this will hodl the start point for the bird spawns
+            endEntities[4] = FindEntityWithName("StartTopLeft");
+            endEntities[5] = FindEntityWithName("StartTopRight");
+
             startingCakeEntity = FindEntityWithName(StartingCake);
             playerEntity = FindEntityWithName(PlayerName);
             heroBuildEntities[0] = FindEntityWithName(HeroBuild1);
@@ -131,6 +135,8 @@ namespace Carmicah
             laneIndicators[1] = FindEntityWithName("Bubble");
             laneIndicators[2] = FindEntityWithName("Bubble_2");
             laneIndicators[3] = FindEntityWithName("Bubble_3");
+            laneIndicators[4] = FindEntityWithName("Bubble_5");
+            laneIndicators[5] = FindEntityWithName("Bubble_4");
 
             walls[0] = FindEntityWithName("Wall");
             walls[1] = FindEntityWithName("Wall_1");
@@ -234,10 +240,10 @@ namespace Carmicah
                 }
             }
 
-            if (Input.IsKeyPressed(Keys.KEY_SPACEBAR))
-            {
-                GetComponent<StateMachine>().SetStateCondition(2);
-            }
+            //if (Input.IsKeyPressed(Keys.KEY_SPACEBAR))
+            //{
+            //    GetComponent<StateMachine>().SetStateCondition(2);
+            //}
 
             CheckLaneIndicators();
         }
@@ -705,7 +711,8 @@ namespace Carmicah
             GameOver = true;
             Entity pauseManager = FindEntityWithName("PauseManager");
             pauseManager.As<PauseManager>().IsPaused = true;
-            Sound.SwitchBGM("LoseScreen", 1.0f, 0.5f, false);
+            Sound.SwitchBGM("LoseScreen", 0.5f, 0.5f);
+            
             Sound.StopAllSFX();
             CreateGameObject("LoseScreen");
         }
@@ -851,6 +858,72 @@ namespace Carmicah
                 laneIndicators[3].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
             }
 
+            visible = false;
+            if (flyingEnemyLeft.Count > 0)
+            {
+                foreach(FlyingEnemyAI bird in flyingEnemyLeft)
+                {
+                    if (bird.Position.y > (mainCamera.Position.y + cameraHeight))
+                    {
+                        visible = false;
+                    }
+                    else if (bird.Position.y < (mainCamera.Position.y + cameraHeight))
+                    {
+                        visible = true;
+                        break;
+                    }
+                }
+
+                if (!visible)
+                {
+                    laneIndicators[4].GetComponent<Renderer>().SetAlpha(1.0f);
+                    laneIndicators[4].GetComponentInChildren<Renderer>().SetAlpha(1.0f);
+                }
+                else
+                {
+                    laneIndicators[4].GetComponent<Renderer>().SetAlpha(0.0f);
+                    laneIndicators[4].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+                }
+            }
+            else
+            {
+                laneIndicators[4].GetComponent<Renderer>().SetAlpha(0.0f);
+                laneIndicators[4].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+            }
+
+
+            visible = false;
+            if (flyingEnemyRight.Count > 0)
+            {
+                foreach (FlyingEnemyAI bird in flyingEnemyRight)
+                {
+                    if (bird.Position.y > (mainCamera.Position.y + cameraHeight))
+                    {
+                        visible = false;
+                    }
+                    else if (bird.Position.y < (mainCamera.Position.y + cameraHeight))
+                    {
+                        visible = true;
+                        break;
+                    }
+                }
+
+                if (!visible)
+                {
+                    laneIndicators[5].GetComponent<Renderer>().SetAlpha(1.0f);
+                    laneIndicators[5].GetComponentInChildren<Renderer>().SetAlpha(1.0f);
+                }
+                else
+                {
+                    laneIndicators[5].GetComponent<Renderer>().SetAlpha(0.0f);
+                    laneIndicators[5].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+                }
+            }
+            else
+            {
+                laneIndicators[5].GetComponent<Renderer>().SetAlpha(0.0f);
+                laneIndicators[5].GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+            }
 
         }
 
@@ -865,6 +938,8 @@ namespace Carmicah
                 //CMConsole.Log("TESTING TOWER CREATE ");
 
                 if (cakeCounter >= 2) return;
+
+                Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
 
                 cakeType = CMRand.Range(0, 3);
                 CMConsole.Log($"cake type {cakeType}");
@@ -936,6 +1011,7 @@ namespace Carmicah
                     GetComponent<StateMachine>().SetStateCondition(4);
                     CMConsole.Log("Changing VFX prefab animation");
                     VFXPrefab.ChangeAnim("CakeFallVFxEnd");
+                    Sound.PlaySFX("SFX__Magic", 0.4f);
 
                 }
 

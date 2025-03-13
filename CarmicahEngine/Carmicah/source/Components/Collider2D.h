@@ -39,6 +39,8 @@ namespace Carmicah
         std::vector<Vec2f> objNormals;
         std::vector<Vec2f> objEdges;
 
+        Vec2f posPivot{ 0,0 };
+
         void CustomWidth(float width)
         {
             customWidth = width;
@@ -67,6 +69,9 @@ namespace Carmicah
             customWidth = static_cast<float>(component["customWidth"].GetDouble());
             customRotation = static_cast<float>(component["customRotation"].GetDouble());
             customHeight = static_cast<float>(component["customHeight"].GetDouble());
+            DESERIALIZE_IF_HAVE(posPivot.x, component, "xPosPivot", GetDouble, float);
+            DESERIALIZE_IF_HAVE(posPivot.y, component, "yPosPivot", GetDouble, float);
+
             return *this;
         }
 
@@ -80,6 +85,10 @@ namespace Carmicah
             writer.Double(customRotation);
             writer.String("customHeight");
             writer.Double(customHeight);
+            writer.String("xPosPivot");
+            writer.Double(posPivot.x);
+            writer.String("yPosPivot");
+            writer.Double(posPivot.y);
         }
     };
 }

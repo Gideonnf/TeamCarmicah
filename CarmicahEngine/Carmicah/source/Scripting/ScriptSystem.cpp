@@ -403,6 +403,7 @@ namespace Carmicah
         {
             auto& scriptRef = mEntityInstances[entity];
             const auto& fields = scriptRef->GetScriptClass()->mFields;
+            scriptComponent.scriptableFieldMap.clear();
             //Script::variantVar var;
             for (const auto& it : fields)
             {
@@ -435,6 +436,9 @@ namespace Carmicah
     {
         auto& scriptRef = mEntityClasses[scriptComponent.scriptName];
         const auto& fields = scriptRef->mFields;
+
+        scriptComponent.scriptableFieldMap.clear();
+
         //Script::variantVar var;
         for (const auto& it : fields)
         {
@@ -457,6 +461,65 @@ namespace Carmicah
             {
                 int var{};
                 scriptComponent.scriptableFieldMap[it.first] = var;
+            }
+        }
+    }
+
+    //void ScriptSystem::UpdateAllPrefabScriptComponents()
+    //{
+
+    //}
+
+    void ScriptSystem::UpdateExistingPrefabScript(Script& scriptComponent)
+    {
+     //   Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(entity);
+        auto& scriptRef = mEntityClasses[scriptComponent.scriptName];
+        const auto& fields = scriptRef->mFields;
+
+        //check if any variables were removed
+        // loop through every variable in the component's current map
+        for (auto it = scriptComponent.scriptableFieldMap.begin(); it != scriptComponent.scriptableFieldMap.end();)
+        {
+            // it is no longer in that entity class
+            if (fields.count(it->first) == 0)
+            {
+                it = scriptComponent.scriptableFieldMap.erase(it); // erasing will return the next iterator already
+            }
+            else
+            {
+                // ++ if got no issue
+                it++;
+            }
+        }
+
+        // now cheeck for any variables that isnt in the component but is new in the script
+        for (const auto& it : fields)
+        {
+            // if it doesnt exist now
+            if (scriptComponent.scriptableFieldMap.count(it.first) == 0)
+            {
+                // add it in
+
+                if (it.second.mType == ScriptFieldType::Float)
+                {
+                    float var{};
+                    scriptComponent.scriptableFieldMap[it.first] = var;
+                }
+                else if (it.second.mType == ScriptFieldType::Bool)
+                {
+                    bool var{};
+                    scriptComponent.scriptableFieldMap[it.first] = var;
+                }
+                else if (it.second.mType == ScriptFieldType::String)
+                {
+                    std::string var{};
+                    scriptComponent.scriptableFieldMap[it.first] = var;
+                }
+                else if (it.second.mType == ScriptFieldType::Int)
+                {
+                    int var{};
+                    scriptComponent.scriptableFieldMap[it.first] = var;
+                }
             }
         }
 

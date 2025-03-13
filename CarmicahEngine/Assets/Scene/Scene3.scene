@@ -6,6 +6,11 @@
             "ID": 1,
             "Components": [
                 {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Main_memu",
+                    "AnimSpeed": 1.0
+                },
+                {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "Menu_SpriteSheet_Main 2",
@@ -15,17 +20,14 @@
                     "colA": 1.0
                 },
                 {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Main_memu"
-                },
-                {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 960.0,
                     "yPos": 540.0,
                     "depth": -500.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "transformTag": ""
                 }
             ]
         },
@@ -41,6 +43,7 @@
                     "xScale": 0.05299999937415123,
                     "yScale": 0.10000000149011612,
                     "rot": 0.0,
+                    "transformTag": "",
                     "collisionMask": 0
                 }
             ],
@@ -54,6 +57,11 @@
                     "Component Name": "struct Carmicah::Button"
                 },
                 {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Button_HE_Play",
+                    "AnimSpeed": 1.0
+                },
+                {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "Button_SpriteSheet_H_Play 0",
@@ -63,26 +71,14 @@
                     "colA": 1.0
                 },
                 {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.ButtonGeneric",
-                    "ScriptableFieldMap": [
-                        {
-                            "buttonType": "pLAY"
-                        }
-                    ]
-                },
-                {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Button_HE_Play"
-                },
-                {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 1300.0,
                     "yPos": 400.0,
                     "depth": 1.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "transformTag": ""
                 },
                 {
                     "Component Name": "struct Carmicah::StateMachine",
@@ -120,6 +116,16 @@
                             ]
                         }
                     ]
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "pLAY",
+                            "nextScene": ""
+                        }
+                    ]
                 }
             ]
         },
@@ -131,6 +137,11 @@
                     "Component Name": "struct Carmicah::Button"
                 },
                 {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Button_HE_Quit",
+                    "AnimSpeed": 1.0
+                },
+                {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "Button_SpriteSheet_H_Quit 0",
@@ -140,26 +151,24 @@
                     "colA": 1.0
                 },
                 {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.ButtonGeneric",
-                    "ScriptableFieldMap": [
-                        {
-                            "buttonType": "qUit"
-                        }
-                    ]
-                },
-                {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Button_HE_Quit"
-                },
-                {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 1300.0,
                     "yPos": 100.0,
                     "depth": 1.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "qUit",
+                            "nextScene": ""
+                        }
+                    ]
                 }
             ]
         },
@@ -171,6 +180,11 @@
                     "Component Name": "struct Carmicah::Button"
                 },
                 {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Button_HE_Settings",
+                    "AnimSpeed": 1.0
+                },
+                {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "Button_SpriteSheet_H_Settings 0",
@@ -180,26 +194,24 @@
                     "colA": 1.0
                 },
                 {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.ButtonGeneric",
-                    "ScriptableFieldMap": [
-                        {
-                            "buttonType": "Settings"
-                        }
-                    ]
-                },
-                {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Button_HE_Settings"
-                },
-                {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 1300.0,
                     "yPos": 300.0,
                     "depth": 1.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "Settings",
+                            "nextScene": ""
+                        }
+                    ]
                 }
             ]
         },
@@ -211,6 +223,11 @@
                     "Component Name": "struct Carmicah::Button"
                 },
                 {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Button_HE_Credits",
+                    "AnimSpeed": 1.0
+                },
+                {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "Button_SpriteSheet_H_Credits 0",
@@ -220,26 +237,47 @@
                     "colA": 1.0
                 },
                 {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.ButtonGeneric",
-                    "ScriptableFieldMap": [
-                        {
-                            "buttonType": "cREDIts"
-                        }
-                    ]
-                },
-                {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Button_HE_Credits"
-                },
-                {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 1300.0,
                     "yPos": 200.0,
                     "depth": 1.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "cREDIts",
+                            "nextScene": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "GameObject": "MainMenuBGM",
+            "ID": 32,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 0.0,
+                    "yScale": 0.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.MainMenuBGM",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
                 }
             ]
         },
@@ -255,6 +293,7 @@
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,
+                    "transformTag": "",
                     "collisionMask": 1
                 }
             ],

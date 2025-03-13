@@ -277,10 +277,10 @@ namespace Carmicah
 					collider.objVert = obbVertices;
 
 					// Update min and max bounds for the collider
-					collider.min.x = (worldPos.x + transform.PosPivot().x) - halfWidth;
-					collider.min.y = (worldPos.y + transform.PosPivot().y) - halfHeight;
-					collider.max.x = (worldPos.x + transform.PosPivot().x) + halfWidth;
-					collider.max.y = (worldPos.y + transform.PosPivot().y) + halfHeight;
+					collider.min.x = (worldPos.x + collider.posPivot.x) - halfWidth;
+					collider.min.y = (worldPos.y + collider.posPivot.y) - halfHeight;
+					collider.max.x = (worldPos.x + collider.posPivot.x) + halfWidth;
+					collider.max.y = (worldPos.y + collider.posPivot.y) + halfHeight;
 				}
 				else
 				{
@@ -296,7 +296,7 @@ namespace Carmicah
 					collider.objVert.clear();
 
 					// Calculate OBB corners relative to center
-					Vec2f center = transform.Pos() + transform.PosPivot();
+					Vec2f center = transform.Pos() + collider.posPivot;
 					std::vector<Vec2f> obbVertices;
 					obbVertices.emplace_back(center.x + halfWidth * cosTheta - halfHeight * sinTheta,
 						center.y + halfWidth * sinTheta + halfHeight * cosTheta); // Top-right
@@ -311,10 +311,10 @@ namespace Carmicah
 					// Update the collider with OBB vertices
 					collider.objVert = obbVertices;
 
-					collider.min.x = (transform.Pos().x + transform.PosPivot().x) - halfWidth;
-					collider.min.y = (transform.Pos().y + transform.PosPivot().y) - halfHeight;
-					collider.max.x = (transform.Pos().x + transform.PosPivot().x) + halfWidth;
-					collider.max.y = (transform.Pos().y + transform.PosPivot().y) + halfHeight;
+					collider.min.x = (transform.Pos().x + collider.posPivot.x) - halfWidth;
+					collider.min.y = (transform.Pos().y + collider.posPivot.y) - halfHeight;
+					collider.max.x = (transform.Pos().x + collider.posPivot.x) + halfWidth;
+					collider.max.y = (transform.Pos().y + collider.posPivot.y) + halfHeight;
 				}
 			
 
@@ -1028,6 +1028,9 @@ namespace Carmicah
 						//	CM_CORE_INFO("why tf is it colliding");
 						//}
 
+						// kinematic wont stop vs kinematic
+						if (rigidbody2.objectType == rbTypes::KINEMATIC)
+							return false;
 
 						return true;
 					}

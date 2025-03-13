@@ -121,7 +121,9 @@
                             "maxDuration": -107374176.0,
                             "schoolBGName": "black_background",
                             "schoolRightsName": "digipen_rights",
-                            "teamLogoName": "team_logo"
+                            "teamLogoName": "team_logo",
+                            "HoldDuration": -107374176.0,
+                            "otherStateDuration": -107374176.0
                         }
                     ]
                 }

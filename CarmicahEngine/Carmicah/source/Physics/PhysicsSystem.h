@@ -33,6 +33,8 @@ namespace Carmicah
 
 		void UpdatePosition(Entity& obj);
 
+		void StopObject(Entity& obj);
+
 		//bool mDebugPhysics;
 		//bool mToggleUpdate;
 	};

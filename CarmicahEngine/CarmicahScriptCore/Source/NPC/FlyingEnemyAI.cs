@@ -151,7 +151,7 @@ namespace Carmicah
             }
 
             float dist = Position.Distance(targetPos);
-            if (dist <= 0.5f)
+            if (dist <= 1.0f)
             {
                 if (targetEntity != null && targetEntity.mID != 0)
                 {
@@ -239,15 +239,15 @@ namespace Carmicah
                 }
                 else if (collidedEntity.GetTag() == "Bullet")
                 {
-                    //  this.AsChild<HealthSystem>().TakeDamage(50);
-                    GetComponent<StateMachine>().SetStateCondition(2);
+                     this.AsChild<HealthSystem>().TakeDamage(50);
+                    //GetComponent<StateMachine>().SetStateCondition(2);
                 }
             }
 
-            //if (this.AsChild<HealthSystem>().mCurHealth <= 0)
-            //{
-            //    GetComponent<StateMachine>().SetStateCondition(2);
-            //}
+            if (this.AsChild<HealthSystem>().mCurHealth <= 0)
+            {
+                GetComponent<StateMachine>().SetStateCondition(2);
+            }
         }
 
         public override void OnTriggerEnter(uint collidedEntity)
@@ -321,6 +321,9 @@ namespace Carmicah
                 if (gm != null)
                     gm.EntityDestroyed(this);
                 timer = 0.0f;
+
+                GetComponent<RigidBody>().StopForces();
+                GetComponent<RigidBody>().StopObject();
                 //Sound.PlaySFX(InjuredSound, 0.5f);
 
                 //GameManager gm = FindEntityWithName("GameManager").As<GameManager>();

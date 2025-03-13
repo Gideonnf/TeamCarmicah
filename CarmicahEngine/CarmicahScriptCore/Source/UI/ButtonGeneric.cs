@@ -117,7 +117,7 @@ namespace Carmicah
                     createList.Add(0, "Settings_Menu");
                     createList.Add(1, "Close_Button");
 
-                    Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
+                    
 
                     hoverEnterAnim  = "Button_HS_Settings";
                     hoverExitAnim   = "Button_HE_Settings";
@@ -125,8 +125,9 @@ namespace Carmicah
                     break;
                 case "backsettings":
                     destroyList.Add(0,"Settings_Menu");
-                    willUnpause     = true;
-                    willSelfDestruct = true;
+                    destroyList.Add(1, "Close_Button");
+                    //willUnpause     = true;
+                    //willSelfDestruct = true;
 
                     hoverEnterAnim  = "Button_HS_Back";
                     hoverExitAnim   = "Button_HE_Back";

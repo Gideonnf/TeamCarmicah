@@ -349,22 +349,24 @@ namespace Carmicah
 
                 Input.Update();
 
+
+
                 if (gameSystem->mCurrState == SceneState::RUNTIME && SceneWindow::mIsPaused == false)
                 {
+                    gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime()); // TODO: Add this to profiler
 
                     // script system normal update and fixed update is both called
                     // so force normal dt into normal onUpdate
                     // and force fixed dt into fixed update
                     //gameLogic->Update(window);
 
-                    accumulatedTime += CarmicahTime::GetInstance()->GetDeltaTime();
+                    accumulatedTime += CarmicahTime::GetInstance()->ForceDeltaTime();
 
-                    while (accumulatedTime >= CarmicahTime::GetInstance()->GetDeltaTime())
+                    while (accumulatedTime >= CarmicahTime::GetInstance()->ForceFixedDT())
                     {
                         // NOTE im putting both here cause im lazy to change every script to fixed dt
                         // cause it runs some shit faster than normal
                         // since im using scripts to do animations also i need it ot be consistent
-                        gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT()); // TODO: Add this to profiler
 
                         gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
 
@@ -377,19 +379,17 @@ namespace Carmicah
                             phySystem->Update();
                             CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
                         }
-                        CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
-                        aniSystem->Update();
-                        CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
-                        fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
-                        accumulatedTime -= CarmicahTime::GetInstance()->GetDeltaTime();
+
+
+                        accumulatedTime -= CarmicahTime::GetInstance()->ForceFixedDT();
                     }
 
                     // if it isnt suppose to run fixed dt
                     if (!CarmicahTime::GetInstance()->IsFixedDT())
                     {
-                        gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT()); // TODO: Add this to profiler
+                       // gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime()); // TODO: Add this to profiler
 
-                        gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
+                        gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime());
 
                         CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
                         colSystem->CollisionCheck();
@@ -400,9 +400,13 @@ namespace Carmicah
           
                         fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->GetDeltaTime());
                     }
-                
-              
-                
+
+                    fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
+
+                    CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
+                    aniSystem->Update();
+                    CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
+
 
                     CarmicahTime::GetInstance()->StartSystemTimer("SoundSystem");
                     souSystem->Update();
@@ -410,9 +414,6 @@ namespace Carmicah
                     CarmicahTime::GetInstance()->StartGPUTimer();
                     CarmicahTime::GetInstance()->StopGPUTimer();
                 }
-
-
-
 
                // glfwMakeContextCurrent(ImGuiWindow);
                 if (!gameOnly)

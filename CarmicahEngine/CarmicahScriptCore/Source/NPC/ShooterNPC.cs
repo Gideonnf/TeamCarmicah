@@ -14,6 +14,7 @@ namespace Carmicah
         Entity target;
         BulletTarget targetType;
         float timer = 0.0f;
+        string voiceOver;
         public override void OnCreate()
         {
             base.OnCreate();
@@ -322,6 +323,8 @@ namespace Carmicah
                 {
                     CMConsole.Log("MC Should try to heal " + mID.ToString());
                     player.HealAI(mID);
+
+                    
                 }
             }
             else if(stateName == "Dead")
@@ -338,7 +341,30 @@ namespace Carmicah
         {
             //CMConsole.Log("TESTING Exit State");
             //CMConsole.Log($"Exit State Name: {stateName}");
+            if (stateName == "NoMana")
+            {
+                PlayVoiceOver();
+            }
 
+        }
+
+        public void PlayVoiceOver()
+        {
+            Random rnd = new Random();
+            int number = rnd.Next(1, 11);
+
+            if (number > 9)
+            {
+
+                voiceOver = "VO_Shooter_Placement_" + number.ToString();
+
+            }
+            else
+            {
+                voiceOver = "VO_Shooter_Placement_0" + number.ToString();
+            }
+
+            Sound.PlaySFX(voiceOver, 1.3f);
         }
 
         public override void OnMouseEnter()
