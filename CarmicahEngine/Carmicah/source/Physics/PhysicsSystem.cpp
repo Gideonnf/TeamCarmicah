@@ -48,6 +48,16 @@ namespace Carmicah
 
 	}
 
+	void PhysicsSystem::StopObject(Entity& obj)
+	{
+		auto* componentManager = ComponentManager::GetInstance();
+		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
+		//auto& transform = componentManager->GetComponent<Transform>(obj);
+
+		rigidbody.forcesManager.SetCurrentVelocity({ 0.0f, 0.0f });
+		rigidbody.forcesManager.SetSumForces({ 0.0f, 0.0f });
+	}
+
 	/**
 	 * @brief Applies force to a dynamic object, updating its velocity and position based on gravity and its velocity.
 	 *
