@@ -19,8 +19,8 @@ namespace Carmicah
     {
         public int iconType;
         public Entity mainCamera;
-        public float heightOffset = 12.0f;
-        public float fallSpeed = 2.0f;
+        float heightOffset = 12.0f;
+        float fallSpeed = 2.0f;
 
         bool touched = false;
         bool stop = false;
@@ -30,11 +30,11 @@ namespace Carmicah
         float middleMax = 1.2f;
         float sideMin = 0.5f;
         float sideMax = 0.8f;
-        public float lifeTime = 8.0f;
+        float lifeTime = 6.0f;
         // flash settings
-        public float flashTime = 4.0f;
-        public float flashInterval = 0.25f;
-        public float flashTimer = 0.0f;
+        float flashTime = 3.0f;
+        float flashInterval = 0.25f;
+        float flashTimer = 0.0f;
         bool invisible = false;
         Entity playerEntity;
         Entity powerControl;
@@ -73,6 +73,8 @@ namespace Carmicah
 
                     if (abilityBar.As<AbilityBar>().CreateIcon((IconType)iconType))
                     {
+                        CMConsole.Log("DESTROYING CAUSE PICK UP");
+
                         powerControl.As<PowerUpControl>().PowerUpDestroyed(this);
                         Destroy();
                         return;
@@ -101,6 +103,7 @@ namespace Carmicah
 
                 if (timer > lifeTime)
                 {
+                    CMConsole.Log("DESTROYING CAUSE LIFE TIME ");
                     powerControl.As<PowerUpControl>().PowerUpDestroyed(this);
                     Destroy();
                     return;

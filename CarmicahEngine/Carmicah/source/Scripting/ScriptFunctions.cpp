@@ -625,6 +625,10 @@ namespace Carmicah
 	{
 		std::string cStrName = MonoToString(prefabName);
 		GameObject newGO = gGOFactory->CreatePrefab(cStrName);
+
+
+		auto transformSys = SystemManager::GetInstance()->GetSystem<TransformSystem>();
+		transformSys->UpdateTransform(newGO.GetID());
 		//mono_free(cStrName);
 
 		return newGO.GetID();
