@@ -309,25 +309,8 @@ namespace Carmicah
                     {
                         if (GetComponent<Animation>().IsAnimFinished())
                         {
-                            shot = false;
-                            GetTarget();
-                            if(target == null)
-                            {
-                                GetComponent<StateMachine>().SetStateCondition(1);
-                            }
-                            else
-                            {
-                                if(targetType == BulletTarget.GROUND)
-                                {
-                                    ChangeAnim(shootAnim);
-                                    timer = 0;
-                                }
-                                else
-                                {
-                                    ChangeAnim(airAnim);
-                                    timer = 0;
-                                }
-                            }
+                            CMConsole.Log("Going back to Idle");
+                            GetComponent<StateMachine>().SetStateCondition(1);
                         }
                     }
 
