@@ -349,7 +349,10 @@ namespace Carmicah
             
             if (stateName == "Dead")
             {
-                
+                GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                if (gm != null)
+                    gm.EntityDestroyed(this);
+
                 //CMConsole.Log("Dying here");
                 dead = true;
                 timer = 0.0f;
