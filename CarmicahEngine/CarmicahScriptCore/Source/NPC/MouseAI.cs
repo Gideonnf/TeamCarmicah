@@ -352,6 +352,8 @@ namespace Carmicah
                 GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                 if (gm != null)
                     gm.EntityDestroyed(this);
+
+                //CMConsole.Log("Dying here");
                 dead = true;
                 timer = 0.0f;
                 Sound.PlaySFX(InjuredSound, 0.5f);

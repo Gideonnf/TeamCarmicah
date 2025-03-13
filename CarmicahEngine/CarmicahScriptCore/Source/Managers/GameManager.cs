@@ -74,7 +74,7 @@ namespace Carmicah
 
         Entity[] topTowerBoxes = new Entity[3];
 
-        Entity[] endEntities = new Entity[4];
+        Entity[] endEntities = new Entity[6];
 
         Entity[] flyingSpawns = new Entity[2]; 
 
@@ -119,6 +119,10 @@ namespace Carmicah
             endEntities[1] = FindEntityWithName(EndPointEntityRight);
             endEntities[2] = FindEntityWithName(EndPointEntityLeft2);
             endEntities[3] = FindEntityWithName(EndPointEntityRight2);
+
+            // instead of end point, this will hodl the start point for the bird spawns
+            endEntities[4] = FindEntityWithName("StartTopLeft");
+            endEntities[5] = FindEntityWithName("StartTopRight");
 
             startingCakeEntity = FindEntityWithName(StartingCake);
             playerEntity = FindEntityWithName(PlayerName);
