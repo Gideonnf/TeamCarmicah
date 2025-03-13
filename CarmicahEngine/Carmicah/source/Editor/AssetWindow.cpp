@@ -553,6 +553,7 @@ namespace Carmicah
 							if (ImGui::Button("Edit Prefab"))
 							{
 								selectedPrefab = &prefabMap->mAssetList[entry.second];
+								gScriptSystem->UpdateExistingPrefabScript(selectedPrefab->GetComponent<Script>());
 								HierarchyWindow::inspectedPrefab = &prefabMap->mAssetList[entry.second];
 								HierarchyWindow::mShowScene = false;
 								HierarchyWindow::selectedGO = nullptr;
