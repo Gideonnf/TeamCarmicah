@@ -2,6 +2,7 @@ using Carmicah;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace Carmicah
         private Entity[] ditto = new Entity[4];   // can morph into WORLDSPACE trap / npc
         private Entity player;
         private Entity playerHP;
+        private Entity pauseManager;
         private Entity cam;
 
         private int tutorialProgress = 3;
@@ -32,39 +34,48 @@ namespace Carmicah
         private string currText = "";
         private int currPhraseProgress = 0, phraseLength = 0, whichPhrase = -1;
         private float wordsTimer = 0.0f, charSpeed = 0.05f;
-        private string[] bunchaWords = new string[16]{ 
+        const int numaPhrases = 19;
+        private string[] bunchaWords = new string[numaPhrases]{ 
                                         "Welcome to Sugar Strike!",
-                                        "I am your guide and in this tutorial, enemies will only spawn on the rightmost lane",
+                                        "I am your guide and in this tutorial, enemies will only spawn on the right side",
                                         "If you want to skip this at any time press 5 :3",
                                         "Oop, here come a critter!",// Pause, Pans down onto the creature
                                         "Use R/F to pan the camera back up, we need to prepare",
                                         "Here, I'll provide you a trap to fend it off",                     // ----- 5 -----
-                                        "Hey! that's the wrong spot, here's another trap to try",           // Optional txt
-                                        "You know that you're not going to be able to keep these right?",   // Optional txt
-                                        ". . . . .",                                                        // Optional txt
+                                        "The trap is on the menu on the right --->",                        // Optional txt
+                                        "That's the wrong spot, here's another trap to try",                // Optional txt
+                                        "You are not going to be able to keep these FYI",                   // Optional txt
                                         "This trap can only take 2 hits total before it is used up",
-                                        "Perfect timing, reinforcements from above, use WASD to move to pick it up", // 4 reinforcements // ----- 10 -----
+                                        "Perfect timing, reinforcements from above, use WASD to move and pick it up", // 4 reinforcements // ----- 10 -----
                                         "This is a Soldier unit, you can only place them on top of the tower",
-                                        "They have limited charges, but can be healed up by clicking on them",
-                                        "They usually start off full charge, but this is what a drained one looks like",
+                                        "They have limited number of attacks, but can be healed up by clicking on them",
+                                        "Units are also placed on the right --->",
+                                        "Yeap, just one more, I'll give you another one for free",
+                                        "They usually start off healthy, but for this tutorial, I've drained their energy", // ----- 15 -----
+                                        "You can click the Soldier to refuel them",
                                         "Be careful to not lose your Soldiers to random enemies",
-                                        "Here comes some enemies . . . on 1 lane.. Good luck!",              // Dun matter win / lose
+                                        "Here comes some enemies . . . Good luck!",              // Dun matter win / lose
                                         };
 
         // Pan Effects
-        private Entity[] entityToPan = new Entity[5];
-        private Vector2[] panSpeed = new Vector2[5];
-        private Vector2[] panEndGoal = new Vector2[5];
-        private bool[] entityPanFinished = new bool[5];
+        private Entity[] entityToPan = new Entity[8];
+        private Vector2[] panSpeed = new Vector2[8];
+        private Vector2[] panEndGoal = new Vector2[8];
+        private bool[] entityPanFinished = new bool[8];
+        // Heal
+        private bool healDone = true;
+        private int healNPC;
         // Variables to use
-        private bool[]  someBools = new bool[3];
-        private Vector2 someVec;
-        private float   someFloat;
+        private bool[]  someBools = new bool[4];
+        private Vector2[] someVec = new Vector2[2];
+        private float[] someFloat = new float[2];
         private int     someInt;
 
 
         public override void OnUpdate(float dt)
         {
+            dt *= 4;
+
             if (Input.IsKeyPressed(Keys.KEY_5))
             {
                 tutorialProgress = -1;
@@ -80,6 +91,7 @@ namespace Carmicah
                     player = FindEntityWithName("MC");
                     playerHP = FindEntityWithName("Princess_HealthBar");
                     textObj = FindEntityWithName("SubText");
+                    pauseManager = FindEntityWithName("PauseManager");
                     txtChild = new Entity(FunctionCalls.Entity_GetChild(textObj.mID));
 
                     Entity UIBar = FindEntityWithName("UIBar");
@@ -124,6 +136,9 @@ namespace Carmicah
                 return;
             }
 
+
+            player.Depth = 14 - player.LocalPosition.y;
+
             switch (tutorialProgress)
             {
                 case 0:
@@ -165,7 +180,10 @@ namespace Carmicah
                         powerIco[0].GetComponent<Renderer>().SetAlpha(1f);
                         powerIco[0].Scale = Vector2.Zero;
                         someBools[1] = false;
-                        someFloat = 0.0f;
+                        someBools[2] = false;
+                        someBools[3] = false;
+                        someFloat[0] = 0.0f;
+                        someFloat[1] = 0.0f;
                         someInt = 5;
                         ++tutorialProgress;
                     }
@@ -174,11 +192,19 @@ namespace Carmicah
                     // someBools[0] - To scale up / down
                     // someBools[1] - If click & drag
                     // someBools[2] - If need to flip the held obj or no
-                    // someFloat    - The scaling
-                    // someInt      - 
+                    // someBools[3] - Has the player clicked the trap
+                    // someFloat[0] - The scaling
+                    // someFloat[1] - In Case the user nvr clicked the trap
+                    // someInt      - progress of txt
 
                     TypeWords(dt, someInt);
 
+                    if (!someBools[3])
+                    {
+                        someFloat[1] += dt;
+                        if (someFloat[1] > 7.5f)
+                            someInt = 6;
+                    }
                     // First Half - to click the ico
                     if (!someBools[1])
                     {
@@ -187,30 +213,26 @@ namespace Carmicah
                         {
                             if (someBools[0])
                             {
-                                someFloat += 0.3f * dt;
-                                if (someFloat > 0.7f)
+                                someFloat[0] += 0.3f * dt;
+                                if (someFloat[0] > 0.7f)
                                     someBools[0] = false;
                             }
                             else
                             {
-                                someFloat -= 0.3f * dt;
-                                if (someFloat < 0.45f)
+                                someFloat[0] -= 0.3f * dt;
+                                if (someFloat[0] < 0.45f)
                                     someBools[0] = true;
 
                             }
-                            powerIco[0].Scale = new Vector2(someFloat, someFloat);
-                            powerIco[0].LocalPosition = new Vector2(someFloat * 83.33f, 232);
+                            powerIco[0].Scale = new Vector2(someFloat[0], someFloat[0]);
+                            powerIco[0].LocalPosition = new Vector2(someFloat[0] * 83.33f, 232);
                             if (powerIco[0].As<TutorialBasic>().GetExitHover())
-                            {
                                 powerIco[0].GetComponent<Renderer>().SetColour(1f, 1f, 1f);
-                            }
                         }
                         else
                         {
                             if (powerIco[0].As<TutorialBasic>().GetEnterHover())
-                            {
                                 powerIco[0].GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
-                            }
                             if (Input.IsMousePressed(MouseButtons.MOUSE_BUTTON_LEFT))
                             {
                                 powerIco[0].GetComponent<Renderer>().SetColour(1f, 1f, 1f);
@@ -229,6 +251,7 @@ namespace Carmicah
 
                                 someBools[1] = true;
                                 someBools[2] = false;
+                                someBools[3] = true;
                             }
                         }
                     }
@@ -255,7 +278,6 @@ namespace Carmicah
                         if (Input.IsMouseReleased(MouseButtons.MOUSE_BUTTON_LEFT))
                         {
                             int justPlaced = -1;
-                            CMConsole.Log($"ditto: {ditto[0].LocalPosition.x}, {ditto[0].LocalPosition.y};");
 
                             // Check loop for place obj
                             for (int i = 0; i < 4; ++i)
@@ -267,8 +289,6 @@ namespace Carmicah
                                 FunctionCalls.Transform_GetRenderingScale(traps[i].mID, out dim);
                                 dim.x = dim.x * Math.Abs(traps[i].Scale.x) / 4.0f;
                                 dim.y = dim.y * traps[i].Scale.y / 2.0f;
-
-                                CMConsole.Log($"DIM: {i},{traps[i].LocalPosition.x}, {traps[i].LocalPosition.y}, {dim.x}, {dim.y};");
 
                                 if (i < 2)
                                 {
@@ -290,7 +310,7 @@ namespace Carmicah
                                 placedObj[justPlaced] = true;
                                 traps[justPlaced].GetComponent<Renderer>().SetAlpha(1.0f);
 
-                                if (justPlaced == 3)
+                                if (placedObj[3] && placedObj[2])
                                 {
                                     Vector2 enemyPos = enemy.LocalPosition;
                                     enemyPos.y = 10.0f;
@@ -300,22 +320,43 @@ namespace Carmicah
                                     FunctionCalls.Transform_GetRenderingScale(enemy.mID, out enemyScale);
                                     FunctionCalls.Transform_GetRenderingScale(traps[3].mID, out trapScale);
 
-                                    someVec.x = enemyScale.y * enemy.Scale.y / 2.0f;
-                                    someVec.y = trapScale.y / 2.0f;
+                                    someVec[0].x = enemyScale.y * enemy.Scale.y / 2.0f;
+                                    someVec[0].y = trapScale.y / 2.0f;
+
+                                    // Set falling ico location already
+                                    someBools[0] = false;
+                                    if (player.LocalPosition.x > 0)
+                                        ditto[1].LocalPosition = new Vector2(-4, 30);
+                                    else
+                                        ditto[1].LocalPosition = new Vector2(4, 30);
                                     ++tutorialProgress;
                                 }
                                 else
                                 {
-                                    someFloat = 0.0f;
-                                    ++someInt;
+                                    if (justPlaced < 2)
+                                    {
+                                        someFloat[0] = 0.0f;
+                                        switch(someInt)
+                                        {
+                                            case 5:
+                                            case 6:
+                                                someInt = 7;
+                                                break;
+                                            case 7:
+                                                someInt = 8;
+                                                break;
+                                            case 14:
+                                                someInt = 8;
+                                                break;
+                                        }
+                                    }
+                                    else someInt = 14;
                                     powerIco[0].GetComponent<Renderer>().SetAlpha(1.0f);
                                 }
                             }
                             // Failed to place
                             else
-                            {
                                 powerIco[0].GetComponent<Renderer>().SetAlpha(1.0f);
-                            }
                             // Hide back all not placed traps
                             for (int i = 0; i < 4; ++i)
                             {
@@ -329,42 +370,194 @@ namespace Carmicah
                     break;
                 case 7:
                     // SomeVec - (enemyDim.y/2, trapDim.y/2)
-                    TypeWords(dt, 9);
-                    Panning(dt, 0);
-                    if(enemy.LocalPosition.y + someVec.x > traps[3].LocalPosition.y)
+                    if (!someBools[0])
                     {
+                        if (player.LocalPosition.x > 0)
+                            SetPanDetails(ditto[1], new Vector2(-4, 6), 4, 1);
+                        else
+                            SetPanDetails(ditto[1], new Vector2(4, 6), 4, 1);
+                        someBools[0] = true;
+                    }
+
+                    TypeWords(dt, 10);
+                    Panning(dt, 0);
+                    Panning(dt, 1);
+
+                    if (enemy.LocalPosition.y + someVec[0].x > traps[3].LocalPosition.y)
+                    {
+                        SetPanDetails(cam, new Vector2(0, 10), 20, 0);
+                        FunctionCalls.Transform_GetRenderingScale(ditto[1].mID, out someVec[0]);
+                        FunctionCalls.Transform_GetRenderingScale(player.mID, out someVec[1]);
+
+                        someVec[0].x *= Math.Abs(ditto[1].Scale.x) / 2.0f;
+                        someVec[0].y *= ditto[1].Scale.y / 2.0f;
+                        someVec[1].x *= Math.Abs(player.Scale.x) / 2.0f;
+                        someVec[1].y *= player.Scale.y / 2.0f;
+
                         enemy.GetComponent<Animation>().ChangeAnim("Mouse_Death_blue");
                         traps[3].GetComponent<Animation>().ChangeAnim("CandyCone");
-                        someBools[0] = false;
                         ++tutorialProgress;
                     }
                     break;
                 case 8:
-                    if (enemy.GetComponent<Animation>().IsAnimFinished())
-                    {
-                        if (player.LocalPosition.x > 0)
-                            ditto[1].LocalPosition = new Vector2(-4, 20);
-                        else
-                            ditto[1].LocalPosition = new Vector2(4, 20);
-                        someBools[0] = true;
-                    }
-                    if (someBools[0])
-                    {
-                        SetPanDetails(cam, new Vector2(0, 10), 20, 0);
-                        if (player.LocalPosition.x > 0)
-                            ditto[1].LocalPosition = new Vector2(-4, 6);
-                        else
-                            ditto[1].LocalPosition = new Vector2(4, 6);
-
-                        ++tutorialProgress;
-                    }
-                    break;
-                case 9:
-                    TypeWords(dt, 10);
+                    TypeWords(dt, 11);
                     Panning(dt, 0);
                     Panning(dt, 1);
+
+                    if (player.LocalPosition.x + someVec[1].x > ditto[1].LocalPosition.x - someVec[0].x &&
+                    player.LocalPosition.x - someVec[1].x < ditto[1].LocalPosition.x + someVec[0].x &&
+                    player.LocalPosition.y + someVec[1].y > ditto[1].LocalPosition.y - someVec[0].y &&
+                    player.LocalPosition.y - someVec[1].y < ditto[1].LocalPosition.y + someVec[0].y)
+                    {
+                        powerIco[0].GetComponent<Renderer>().SetAlpha(1);
+                        powerIco[0].GetComponent<Renderer>().ChangeTexture("UI_Spritesheet_Shooter_Icon 0");
+                        powerIco[0].LocalPosition = new Vector2(0, 240);
+                        powerIco[0].Scale = new Vector2(1.2f, 1.2f);
+                        ditto[1].LocalPosition = new Vector2(100, 0);
+
+
+                        FunctionCalls.Transform_GetRenderingScale(npcs[3].mID, out someVec[0]);
+
+                        someBools[0] = someBools[1] = someBools[2] = false;
+                        someFloat[0] = 0.0f;
+                        someInt = 12;
+                        ++tutorialProgress;
+                    }
+
+                    break;
+                case 9:
+                    // someBools[0] - If click & drag
+                    // someBools[1] - If need to flip the held obj or no
+                    // someBools[2] - Has the player clicked the trap
+                    // someFloat[0] - In Case the user nvr clicked the trap
+                    // someVec[0]   - dim of the npc
+                    // someInt      - progress of txt
+
+                    TypeWords(dt, someInt);
+
+                    if (someInt < 13 && FinishedTyping() && Delay(dt, 2.0f))
+                        ++someInt;
+
+                    if (!someBools[2] && someInt == 13 && FinishedTyping())
+                    {
+                        someFloat[0] += dt;
+                        if (someFloat[0] > 7.5f)
+                            someInt = 14;
+                    }
+                    // First Half - to click the ico
+                    if (!someBools[0])
+                    {
+                        // Not Hover
+                        if (!(powerIco[0].As<TutorialBasic>().GetHover()))
+                        {
+                            if (powerIco[0].As<TutorialBasic>().GetExitHover())
+                                powerIco[0].GetComponent<Renderer>().SetColour(1f, 1f, 1f);
+                        }
+                        else
+                        {
+                            if (powerIco[0].As<TutorialBasic>().GetEnterHover())
+                                powerIco[0].GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
+                            if (Input.IsMousePressed(MouseButtons.MOUSE_BUTTON_LEFT))
+                            {
+                                powerIco[0].GetComponent<Renderer>().SetColour(1f, 1f, 1f);
+                                powerIco[0].GetComponent<Renderer>().SetAlpha(0.0f);
+                                ditto[0].GetComponent<Renderer>().ChangeTexture("NPC_SpriteSheet_Shooter_Idle 0");
+                                ditto[0].Scale = new Vector2(0.45f, 0.45f);
+
+                                for (int i = 0; i < 4; ++i)
+                                {
+                                    if (placedObj[i + 4])
+                                        continue;
+
+                                    npcs[i].GetComponent<Renderer>().SetAlpha(0.3f);
+                                }
+
+                                someBools[0] = true;
+                                someBools[1] = false;
+                                someBools[2] = true;
+                            }
+                        }
+                    }
+                    // Second Half to drag the ico
+                    else
+                    {
+                        //Vector2 mousePos = Input.GetMousePos();
+
+                        //powerIco[0].LocalPosition += mousePos - someVec;
+                        //someVec = mousePos;
+                        ditto[0].LocalPosition = Input.GetMousePos();
+
+                        if (!someBools[1] && ditto[0].LocalPosition.x < 0)
+                        {
+                            ditto[0].Scale = new Vector2(-0.45f, 0.45f);
+                            someBools[1] = true;
+                        }
+                        else if (someBools[1] && ditto[0].LocalPosition.x > 0)
+                        {
+                            ditto[0].Scale = new Vector2(0.45f, 0.45f);
+                            someBools[1] = false;
+                        }
+
+                        if (Input.IsMouseReleased(MouseButtons.MOUSE_BUTTON_LEFT))
+                        {
+                            int justPlaced = -1;
+
+                            // Check loop for place obj
+                            for (int i = 0; i < 4; ++i)
+                            {
+                                if (placedObj[i + 4])
+                                    continue;
+
+                                Vector2 dim;
+                                FunctionCalls.Transform_GetRenderingScale(npcs[i].mID, out dim);
+                                dim.x = dim.x * Math.Abs(npcs[i].Scale.x) / 2.0f;
+                                dim.y = dim.y * npcs[i].Scale.y / 2.0f;
+
+                                if (ditto[0].LocalPosition.x < npcs[i].LocalPosition.x + dim.x &&
+                                    ditto[0].LocalPosition.x > npcs[i].LocalPosition.x - dim.x &&
+                                    ditto[0].LocalPosition.y < npcs[i].LocalPosition.y + dim.y &&
+                                    ditto[0].LocalPosition.y > npcs[i].LocalPosition.y - dim.y)
+                                    justPlaced = i;
+                            }
+                            // If placed a trap correctly
+                            if (justPlaced != -1)
+                            {
+                                placedObj[justPlaced + 4] = true;
+                                npcs[justPlaced].GetComponent<Renderer>().SetAlpha(1.0f);
+
+                                if (justPlaced > 2)
+                                {
+                                    someInt = 15;
+                                    npcs[justPlaced].GetComponent<Animation>().ChangeAnim("Shooter_Mana");
+                                }
+
+                                if (placedObj[6] && placedObj[7])
+                                {
+
+                                    ++tutorialProgress;
+                                }
+                                else
+                                    powerIco[0].GetComponent<Renderer>().SetAlpha(1.0f);
+                            }
+                            // Failed to place
+                            else
+                                powerIco[0].GetComponent<Renderer>().SetAlpha(1.0f);
+                            // Hide back all not placed npcs
+                            for (int i = 0; i < 4; ++i)
+                            {
+                                if (placedObj[i + 4] == false)
+                                    npcs[i].GetComponent<Renderer>().SetAlpha(0.0f);
+                            }
+                            ditto[0].LocalPosition = new Vector2(100.0f, 0.0f);
+                            someBools[0] = false;
+                        }
+                    }
                     break;
                 case 10:
+                    TypeWords(dt, 15);
+                    RecoverHeal();
+                    if (Input.IsKeyPressed(Keys.KEY_9))
+                        Heal(3);
                     break;
                 case 11:
                     break;
@@ -385,8 +578,15 @@ namespace Carmicah
         {
             if(whichPhrase != phraseNum)
             {
+                if (phraseNum >= 0 && phraseNum < numaPhrases)
+                {
+                    phraseLength = bunchaWords[phraseNum].Length;
+                    textObj.GetComponent<TextRenderer>().SetText("");
+                    txtChild.Scale = new Vector2(0.0f, 1.0f);
+                }
+                else
+                    phraseLength = 0;
                 currPhraseProgress = 0;
-                phraseLength = bunchaWords[phraseNum].Length;
                 wordsTimer = 0;
                 whichPhrase = phraseNum;
                 currText = "";
@@ -446,6 +646,28 @@ namespace Carmicah
                     entityPanFinished[num] = true;
             }
             return entityPanFinished[num];
+        }
+
+        void Heal(int npcNum)
+        {
+            if (placedObj[npcNum + 4])
+            {
+                healNPC = npcNum;
+                pauseManager.As<PauseManager>().IsPaused = true;
+                player.GetComponent<Animation>().ChangeAnim("MC_Heal");
+                healDone = false;
+            }
+        }
+        
+        void RecoverHeal()
+        {
+            if(!healDone && player.GetComponent<Animation>().IsAnimFinished())
+            {
+                healDone = true;
+                npcs[healNPC].GetComponent<Animation>().ChangeAnim("Shooter_Idle");
+                player.GetComponent<Animation>().ChangeAnim("MC_Idle");
+                pauseManager.As<PauseManager>().UnPause();
+            }
         }
     }
 }

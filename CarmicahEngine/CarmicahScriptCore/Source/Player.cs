@@ -85,13 +85,6 @@ namespace Carmicah
 
         public override void OnUpdate(float dt)
         {
-            Entity pauseManager = FindEntityWithName("PauseManager");
-            if (pauseManager != null)
-            {
-                if (pauseManager.As<PauseManager>().IsPaused)
-                    return;
-            }
-
             if (damaged)
             {
                 flashTime += dt;
@@ -210,7 +203,14 @@ namespace Carmicah
 
         public override void OnStateUpdate(string stateName, float dt)
         {
-            if(stateName == "Idle")
+            Entity pauseManager = FindEntityWithName("PauseManager");
+            if (pauseManager != null)
+            {
+                if (pauseManager.As<PauseManager>().IsPaused)
+                    return;
+            }
+
+            if (stateName == "Idle")
             {
                 if (Input.IsKeyHold(Keys.KEY_W) || Input.IsKeyHold(Keys.KEY_A)|| Input.IsKeyHold(Keys.KEY_S) || Input.IsKeyHold(Keys.KEY_D))
                 {
