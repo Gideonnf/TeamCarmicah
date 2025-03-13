@@ -136,19 +136,23 @@ namespace Carmicah
             //CMConsole.Log($"Creating entity with {trapEntity.mID}");
         }
 
+        public override void OnMouseEnter()
+        {
+            Sound.PlaySFX("Item_Hover", 0.4f);
+            if (this.HasComponent<Renderer>())
+                this.GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
+
+        }
+
+
         public override void OnMouseHover()
         {
-            if(!hovering)
-            {
-                Sound.PlaySFX("Item_Hover", 0.4f);
-                this.GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
-                hovering = true;
-            }
+
         }
 
         public override void OnMouseExit()
         {
-            hovering = false;
+            //hovering = false;
             this.GetComponent<Renderer>().SetColour(1.0f, 1.0f, 1.0f);
         }
 

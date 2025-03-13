@@ -107,21 +107,17 @@
                     "scriptName": "Carmicah.Intro",
                     "ScriptableFieldMap": [
                         {
-                            "timer": 0.0,
-                            "state": 0,
-                            "schoolRightsEntity": "digipen_rights",
-                            "schoolLogoEntity": "digipen_logo",
-                            "schoolLogoName": "digipen_logo",
-                            "DisplayDuration": 3.0,
                             "FadeDuration": 0.0,
-                            "schoolBGEntity": "black_background",
-                            "gameLogoEntity": "game_logo",
-                            "teamLogoEntity": "team_logo",
+                            "HoldDuration": 0.0,
                             "gameLogoName": "game_logo",
                             "maxDuration": 7.00623507842151e22,
+                            "otherStateDuration": 7.00623507842151e22,
                             "schoolBGName": "black_background",
+                            "schoolLogoName": "digipen_logo",
                             "schoolRightsName": "digipen_rights",
-                            "teamLogoName": "team_logo"
+                            "state": 0,
+                            "teamLogoName": "team_logo",
+                            "timer": 0.0
                         }
                     ]
                 }

@@ -25,7 +25,7 @@
         {
             "Component Name": "struct Carmicah::Animation",
             "Atlas": "CakeFallVFx",
-            "AnimSpeed": 1.0
+            "AnimSpeed": 1.5
         }
     ]
 }

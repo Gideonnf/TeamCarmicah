@@ -335,6 +335,8 @@ namespace Carmicah
                 {
                     std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], *entity);
                     //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
+                    CM_CORE_INFO("Setting up a new script");
+
                     mEntityInstances[*entity] = scriptObj;
                     UpdateScriptComponent(*entity);
                     entityAdded.erase(entity);
@@ -403,6 +405,7 @@ namespace Carmicah
         {
             auto& scriptRef = mEntityInstances[entity];
             const auto& fields = scriptRef->GetScriptClass()->mFields;
+            scriptComponent.scriptableFieldMap.clear();
             //Script::variantVar var;
             for (const auto& it : fields)
             {
@@ -435,6 +438,9 @@ namespace Carmicah
     {
         auto& scriptRef = mEntityClasses[scriptComponent.scriptName];
         const auto& fields = scriptRef->mFields;
+
+        scriptComponent.scriptableFieldMap.clear();
+
         //Script::variantVar var;
         for (const auto& it : fields)
         {
@@ -457,6 +463,65 @@ namespace Carmicah
             {
                 int var{};
                 scriptComponent.scriptableFieldMap[it.first] = var;
+            }
+        }
+    }
+
+    //void ScriptSystem::UpdateAllPrefabScriptComponents()
+    //{
+
+    //}
+
+    void ScriptSystem::UpdateExistingPrefabScript(Script& scriptComponent)
+    {
+     //   Script& scriptComponent = ComponentManager::GetInstance()->GetComponent<Script>(entity);
+        auto& scriptRef = mEntityClasses[scriptComponent.scriptName];
+        const auto& fields = scriptRef->mFields;
+
+        //check if any variables were removed
+        // loop through every variable in the component's current map
+        for (auto it = scriptComponent.scriptableFieldMap.begin(); it != scriptComponent.scriptableFieldMap.end();)
+        {
+            // it is no longer in that entity class
+            if (fields.count(it->first) == 0)
+            {
+                it = scriptComponent.scriptableFieldMap.erase(it); // erasing will return the next iterator already
+            }
+            else
+            {
+                // ++ if got no issue
+                it++;
+            }
+        }
+
+        // now cheeck for any variables that isnt in the component but is new in the script
+        for (const auto& it : fields)
+        {
+            // if it doesnt exist now
+            if (scriptComponent.scriptableFieldMap.count(it.first) == 0)
+            {
+                // add it in
+
+                if (it.second.mType == ScriptFieldType::Float)
+                {
+                    float var{};
+                    scriptComponent.scriptableFieldMap[it.first] = var;
+                }
+                else if (it.second.mType == ScriptFieldType::Bool)
+                {
+                    bool var{};
+                    scriptComponent.scriptableFieldMap[it.first] = var;
+                }
+                else if (it.second.mType == ScriptFieldType::String)
+                {
+                    std::string var{};
+                    scriptComponent.scriptableFieldMap[it.first] = var;
+                }
+                else if (it.second.mType == ScriptFieldType::Int)
+                {
+                    int var{};
+                    scriptComponent.scriptableFieldMap[it.first] = var;
+                }
             }
         }
 
@@ -483,9 +548,11 @@ namespace Carmicah
                 auto gameSystem = SystemManager::GetInstance()->GetSystem<SceneSystem>();
                 if (gameSystem->mRuntime && gameSystem->mNextState == RUNTIME)
                 {
+                    CM_CORE_INFO("Invoking on create");
                     mEntityInstances[entity]->InvokeOnConstruct(entity);
                     mEntityInstances[entity]->InvokeOnCreate();
                 }
+                CM_CORE_INFO("New script instance")
                 // entity = entityAdded.begin();
             }
             // if no script is assigned yet (i.e in editor mode, if a script is attached, it wouldnt have one added by default
@@ -574,8 +641,10 @@ namespace Carmicah
                         {
                             MonoType* type = mono_field_get_type(field);
                             ScriptFieldType fieldType = GetScriptFieldType(type);
+                            variantVar defaultValue;
+
                             // Store it in the script's field map
-                            script->mFields[fieldName] = { fieldType, fieldName, field };
+                            script->mFields[fieldName] = { fieldType, fieldName, field, defaultValue};
                         }
                     }
 
@@ -590,6 +659,33 @@ namespace Carmicah
            
         }
 
+    }
+
+    variantVar ScriptSystem::ExtractDefaultValue(MonoObject* valObj, ScriptFieldType type)
+    {
+        if (!valObj) return {}; // Default-constructs a variant
+
+        switch (type)
+        {
+        case ScriptFieldType::Float:
+            return *(float*)mono_object_unbox(valObj);
+        case ScriptFieldType::Int:
+            return *(int*)mono_object_unbox(valObj);
+        case ScriptFieldType::Bool:
+            return *(bool*)mono_object_unbox(valObj);
+        case ScriptFieldType::String:
+        {
+            MonoString* monoStr = (MonoString*)valObj;
+            char* utf8Str = mono_string_to_utf8(monoStr);
+            std::string result(utf8Str);
+            mono_free(utf8Str);
+
+            return result;
+
+        }
+        default:
+            return {}; // Default-initialize variant
+        }
     }
 
     ScriptFieldType ScriptSystem::GetScriptFieldType(MonoType* type)

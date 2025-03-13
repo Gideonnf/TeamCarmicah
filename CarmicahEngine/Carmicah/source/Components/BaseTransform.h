@@ -62,6 +62,7 @@ namespace Carmicah
             notUpdated = false;
             return pos;
         }
+
         void Pos(const Vec2f& rhs)
         {
             Pos(rhs.x, rhs.y);
@@ -206,6 +207,7 @@ namespace Carmicah
             rot = static_cast<float>(component["rot"].GetDouble());
             notUpdated = false;
             DESERIALIZE_IF_HAVE(transformTag, component, "transformTag", GetString, std::string);
+            
         }
 
         virtual void SerializeComponent(rapidjson::PrettyWriter<rapidjson::OStreamWrapper>& writer) override

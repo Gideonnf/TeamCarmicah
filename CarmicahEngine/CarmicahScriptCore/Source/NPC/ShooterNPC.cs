@@ -14,6 +14,7 @@ namespace Carmicah
         Entity target;
         BulletTarget targetType;
         float timer = 0.0f;
+        string voiceOver;
         public override void OnCreate()
         {
             base.OnCreate();
@@ -61,8 +62,8 @@ namespace Carmicah
                     Random rnd = new Random();
                     int number = rnd.Next(1, 6);
                     string soundFile = "Shooting_v3_0" + number.ToString();
-
-                    Sound.PlaySFX(soundFile, 1.0f);
+                    
+                    Sound.PlaySFX(soundFile, 0.5f);
                     if (bullet != null)
                     {
                         bullet.target = target;
@@ -195,7 +196,8 @@ namespace Carmicah
             if (stateName == "Idle")
             {
                 ChangeAnim(idleAnim);
-                CMConsole.Log("IDLE ANIM");
+                //shot = false;
+                //CMConsole.Log("IDLE ANIM");
             }
             else if (stateName == "Attacking")
             {
@@ -211,13 +213,17 @@ namespace Carmicah
                 animationTime = GetComponent<Animation>().GetMaxTime();
                 timer = 0.0f;
                 shot = false;
-                CMConsole.Log($"Max Anim Time : {animationTime}");
+               // CMConsole.Log($"Max Anim Time : {animationTime}");
 
             }
             else if (stateName == "NoMana")
             {
                 ChangeAnim(manaAnim);
                 CMConsole.Log("Out of Ammo!");
+            }
+            else if (stateName == "Teleport")
+            {
+                ChangeAnim(teleportAnim);
             }
             else if (stateName == "Dead")
             {
@@ -256,7 +262,7 @@ namespace Carmicah
                 GetTarget(); // get targetMouse
                 if (target != null)
                 {
-                    CMConsole.Log($"Target mouse : {target.mID}");
+                    //CMConsole.Log($"Target mouse : {target.mID}");
 
                     // change to attacking state
                     if (mana > 0)
@@ -289,6 +295,7 @@ namespace Carmicah
                             if(GetComponent<Animation>().GetFrameNo() == 7)
                             {
                                 ShootProjectile();
+                                //CMConsole.Log("Shooting Air");
                                 shot = true;
                             }
                         }
@@ -300,8 +307,9 @@ namespace Carmicah
                     }
                     else
                     {
-                        if (timer >= animationTime)
+                        if (GetComponent<Animation>().IsAnimFinished())
                         {
+                            CMConsole.Log("Going back to Idle");
                             GetComponent<StateMachine>().SetStateCondition(1);
                         }
                     }
@@ -315,6 +323,8 @@ namespace Carmicah
                 {
                     CMConsole.Log("MC Should try to heal " + mID.ToString());
                     player.HealAI(mID);
+
+                    
                 }
             }
             else if(stateName == "Dead")
@@ -331,7 +341,30 @@ namespace Carmicah
         {
             //CMConsole.Log("TESTING Exit State");
             //CMConsole.Log($"Exit State Name: {stateName}");
+            if (stateName == "NoMana")
+            {
+                PlayVoiceOver();
+            }
 
+        }
+
+        public void PlayVoiceOver()
+        {
+            Random rnd = new Random();
+            int number = rnd.Next(1, 11);
+
+            if (number > 9)
+            {
+
+                voiceOver = "VO_Shooter_Placement_" + number.ToString();
+
+            }
+            else
+            {
+                voiceOver = "VO_Shooter_Placement_0" + number.ToString();
+            }
+
+            Sound.PlaySFX(voiceOver, 1.3f);
         }
 
         public override void OnMouseEnter()

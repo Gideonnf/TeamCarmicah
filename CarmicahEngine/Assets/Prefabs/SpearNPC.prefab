@@ -7,8 +7,8 @@
             "xPos": -10.845258712768555,
             "yPos": -1.354583501815796,
             "depth": 3.75,
-            "xScale": -0.44999998807907107,
-            "yScale": 0.44999998807907107,
+            "xScale": -0.550000011920929,
+            "yScale": 0.550000011920929,
             "rot": 0.0,
             "transformTag": "",
             "collisionMask": 0
@@ -25,24 +25,6 @@
             "startingState": "Idle",
             "stateMap": [
                 {
-                    "stateName": "Idle",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Attacking",
-                            "condition": 2
-                        },
-                        {
-                            "targetState": "NoMana",
-                            "condition": 3
-                        },
-                        {
-                            "targetState": "Dead",
-                            "condition": 4
-                        }
-                    ]
-                },
-                {
                     "stateName": "Attacking",
                     "stateCondition": 0,
                     "transitions": [
@@ -57,6 +39,28 @@
                     ]
                 },
                 {
+                    "stateName": "Idle",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Attacking",
+                            "condition": 2
+                        },
+                        {
+                            "targetState": "NoMana",
+                            "condition": 3
+                        },
+                        {
+                            "targetState": "Dead",
+                            "condition": 4
+                        },
+                        {
+                            "targetState": "Teleport",
+                            "condition": 5
+                        }
+                    ]
+                },
+                {
                     "stateName": "NoMana",
                     "stateCondition": 0,
                     "transitions": [
@@ -67,6 +71,10 @@
                         {
                             "targetState": "Dead",
                             "condition": 4
+                        },
+                        {
+                            "targetState": "Teleport",
+                            "condition": 5
                         }
                     ]
                 },
@@ -74,13 +82,27 @@
                     "stateName": "Dead",
                     "stateCondition": 0,
                     "transitions": []
+                },
+                {
+                    "stateName": "Teleport",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
+                        },
+                        {
+                            "targetState": "NoMana",
+                            "condition": 3
+                        }
+                    ]
                 }
             ]
         },
         {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "",
-            "customWidth": 1.0,
+            "customWidth": 0.5,
             "customRotation": 0.0,
             "customHeight": 1.0
         },
@@ -115,7 +137,7 @@
                     "animationTime": 0.0,
                     "deathSound": "Shooter_Death",
                     "manaAnim": "Spear_Mana",
-                    "dissolveAnim": "Dissolve",
+                    "dissolveAnim": "NPC_Death",
                     "hovering": false,
                     "hasAmmo": true,
                     "idleAnim": "Spear_Idle",

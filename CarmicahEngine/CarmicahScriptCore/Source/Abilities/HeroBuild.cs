@@ -15,7 +15,7 @@ namespace Carmicah
        // public string TrapTranslucentPrefab = "TrapTranslucent";
         public bool IsLeft = false;
         public float depthVal;
-        string soundFile;
+        //string soundFile;
         Entity translucentHero;
         public Entity heroEntity;
         //Entity shooterIcon;
@@ -35,6 +35,7 @@ namespace Carmicah
 
         public override void OnUpdate(float dt)
         {
+            //CMConsole.Log($"Hovering {hovering}");
             // incase hero entity gets destroyed, it needs to update to null here
             if (heroEntity != null && heroEntity.mID == 0)
             {
@@ -128,55 +129,58 @@ namespace Carmicah
             
             if (HeroPrefab == "ShooterNPC")
             {
-                Random rnd = new Random();
-                int number = rnd.Next(1, 11);
-                
-                if (number > 9)
-                {
+                //Random rnd = new Random();
+                //int number = rnd.Next(1, 11);
 
-                    soundFile = "VO_Shooter_Placement_" + number.ToString();
+                //if (number > 9)
+                //{
 
-                }
-                else
-                {
-                    soundFile = "VO_Shooter_Placement_0" + number.ToString();
-                }
+                //    soundFile = "VO_Shooter_Placement_" + number.ToString();
+
+                //}
+                //else
+                //{
+                //    soundFile = "VO_Shooter_Placement_0" + number.ToString();
+                //}
+                heroEntity.As<ShooterNPC>().PlayVoiceOver();
             }
             else if (HeroPrefab == "MageNPC")
             {
-                Random rnd = new Random();
-                int number = rnd.Next(1, 11);
-                
-                if (number > 9)
-                {
+                //Random rnd = new Random();
+                //int number = rnd.Next(1, 11);
 
-                    soundFile = "VO_Mage_Placement_" + number.ToString();
+                //if (number > 9)
+                //{
 
-                }
-                else
-                {
-                    soundFile = "VO_Mage_Placement_0" + number.ToString();
-                }
+                //    soundFile = "VO_Mage_Placement_" + number.ToString();
 
-                
-            }else if(HeroPrefab == "SpearNPC")
-            {
-                Random rnd = new Random();
-                int number = rnd.Next(1, 11);
-                
-                if (number > 9)
-                {
+                //}
+                //else
+                //{
+                //    soundFile = "VO_Mage_Placement_0" + number.ToString();
+                //}
+                heroEntity.As<MageNPC>().PlayVoiceOver();
 
-                    soundFile = "VO_Spearman_Placement_" + number.ToString();
-
-                }
-                else
-                {
-                    soundFile = "VO_Spearman_Placement_0" + number.ToString();
-                }
 
             }
-            Sound.PlaySFX(soundFile, 0.8f);
+            else if(HeroPrefab == "SpearNPC")
+            {
+                //Random rnd = new Random();
+                //int number = rnd.Next(1, 11);
+
+                //if (number > 9)
+                //{
+
+                //    soundFile = "VO_Spearman_Placement_" + number.ToString();
+
+                //}
+                //else
+                //{
+                //    soundFile = "VO_Spearman_Placement_0" + number.ToString();
+                //}
+                heroEntity.As<SpearNPC>().PlayVoiceOver();
+            }
+            
         }
 
         public void KillNPC()

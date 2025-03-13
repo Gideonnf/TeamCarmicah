@@ -23,12 +23,14 @@ DigiPen Institute of Technology is prohibited.
 #include "../ECS/ComponentManager.h"
 #include "../Components/Transform.h"
 #include "../Components/RigidBody.h"
+#include "../Components/Collider2D.h"
 #include "../Components/Animation.h"
 #include "ScriptSystem.h"
 #include "../Input/InputSystem.h"
 #include "../Systems/SoundSystem.h"
 #include "../ECS/SystemManager.h"
 #include "../Systems/CollisionSystem.h"
+#include "../Physics/PhysicsSystem.h"
 #include "../Systems/SceneSystem.h"
 #include "../Editor/SceneWindow.h"
 #include "../FSM/FSMSystem.h"
@@ -290,15 +292,23 @@ namespace Carmicah
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->StopSoundWithFade(SoundSystem::SOUND_INGAME, cStrname, fadeTimer, fadeDuration);
+		souSystem->StopSoundWithFade(SoundSystem::SOUND_INGAME, fadeTimer, fadeDuration);
 		mono_free(cStrname);
 	}
 
-	static void Sound_SwitchBGM(MonoString* name, float fadeTimer, float fadeDuration, bool isLoop)
+	static void Sound_StopBGMWithFade(MonoString* name, float fadeTimer, float fadeDuration)
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->SwitchSound(SoundSystem::SOUND_BGM, cStrname, SoundCategory::BGM, isLoop, 0.4f, fadeTimer, fadeDuration);
+		souSystem->StopSoundWithFade(SoundSystem::SOUND_BGM, fadeTimer, fadeDuration);
+		mono_free(cStrname);
+	}
+
+	static void Sound_SwitchBGM(MonoString* name, float fadeTimer, float fadeDuration, bool isLoop, bool fadeInNext)
+	{
+		char* cStrname = mono_string_to_utf8(name);
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->SwitchSound(SoundSystem::SOUND_BGM, cStrname, SoundCategory::BGM, isLoop, 0.4f, fadeTimer, fadeDuration, fadeInNext);
 		mono_free(cStrname);
 	}
 
@@ -406,6 +416,19 @@ namespace Carmicah
 		if (go.HasComponent<RigidBody>())
 		{
 			go.GetComponent<RigidBody>().forcesManager.RemoveForce();
+		}
+	}
+
+	static void RigidBody_StopObject(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+
+		
+
+		if (go.HasComponent<RigidBody>())
+		{
+			auto phySystem = SystemManager::GetInstance()->GetSystem<PhysicsSystem>();
+			phySystem->StopObject(entityID);
 		}
 	}
 
@@ -939,6 +962,36 @@ namespace Carmicah
 		return 0;
 	}
 
+	static float Collider2D_GetCustomWidth(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Collider2D>())
+			return go.GetComponent<Collider2D>().GetCustomWidth();
+		return 0;
+	}
+
+	static float Collider2D_GetCustomHeight(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Collider2D>())
+			return go.GetComponent<Collider2D>().GetCustomHeight();
+		return 0;
+	}
+
+	static void Collider2D_SetCustomWidth(unsigned int entityID, float inFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Collider2D>())
+			go.GetComponent<Collider2D>().CustomWidth(inFloat);
+	}
+
+	static void Collider2D_SetCustomHeight(unsigned int entityID, float inFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Collider2D>())
+			go.GetComponent<Collider2D>().CustomHeight(inFloat);
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -949,6 +1002,7 @@ namespace Carmicah
 		mGameObjectHasComponentFuncs.clear();
 		// Only these 2 for now
 		RegisterComponent<Transform>();
+		RegisterComponent<Collider2D>();
 		RegisterComponent<RigidBody>();
 		RegisterComponent<Animation>();
 		RegisterComponent<StateMachine>();
@@ -994,6 +1048,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);
 		ADD_INTERNAL_CALL(RigidBody_ApplyForceWithTime);
 		ADD_INTERNAL_CALL(RigidBody_StopForces);
+		ADD_INTERNAL_CALL(RigidBody_StopObject);
 		ADD_INTERNAL_CALL(RigidBody_Move);
 
 		// renderer functions
@@ -1027,6 +1082,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Sound_StopSFX);
 		ADD_INTERNAL_CALL(Sound_StopAllSFX);
 		ADD_INTERNAL_CALL(Sound_StopSFXWithFade);
+		ADD_INTERNAL_CALL(Sound_StopBGMWithFade);
 		ADD_INTERNAL_CALL(Sound_SwitchBGM);
 
 		// Debug
@@ -1041,5 +1097,12 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(TextGetWidth);
 
 		ADD_INTERNAL_CALL(GetFilePath);
+
+
+		//Collider2D
+		ADD_INTERNAL_CALL(Collider2D_GetCustomHeight);
+		ADD_INTERNAL_CALL(Collider2D_GetCustomWidth);
+		ADD_INTERNAL_CALL(Collider2D_SetCustomHeight);
+		ADD_INTERNAL_CALL(Collider2D_SetCustomWidth);
 	}
 }

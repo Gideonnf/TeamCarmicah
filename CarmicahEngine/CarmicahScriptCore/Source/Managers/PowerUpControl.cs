@@ -103,7 +103,7 @@ namespace Carmicah
             }
         }
 
-        public override void OnFixedUpdate(float fixedDt)
+        public override void OnUpdate(float dt)
         {
             if (pauseManager.As<PauseManager>().IsPaused)
                 return;
@@ -112,7 +112,7 @@ namespace Carmicah
             if (!waveSystem.As<WaveSystem>().waveStart)
                 return;
 
-            timer += fixedDt;
+            timer += dt;
            // CMConsole.Log($"{timer}");
             if (timer >= SpawnTimer)
             {
@@ -152,13 +152,14 @@ namespace Carmicah
                 // successfuly made a trap
                 if (newTrap != null)
                 {
-                   // CMConsole.Log($"Creating a trap");
+                    CMConsole.Log($"Creating a trap");
                    listOfPowerups.Add(newTrap.As<TrapBall>());
                     CMConsole.Log($"List of power ups: {listOfPowerups.Count}");
 
                     // random a range from - and + and x offset from camera's position.x
                     float randXPos = CMRand.Range(camera.Position.x - xOffset, camera.Position.x + xOffset);
                     newTrap.Position = new Vector2(randXPos, mainCharacter.Position.y + heightOffset);
+                    CMConsole.Log($"trap position {randXPos}, {mainCharacter.Position.y + heightOffset}");
                 }
                 //CMConsole.Log($"trap is null???");
 

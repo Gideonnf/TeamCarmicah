@@ -52,7 +52,7 @@ namespace Carmicah
                 if (countdown == null)
                 {
                     countdown = CreateGameObject(countdownPrefab);
-                    Sound.SwitchBGM("BGM_LevelMusic_FullTrack_Vers1", 1.5f, 1.0f);
+                    Sound.SwitchBGM("BGM_LevelMusic_FullTrack_Vers1", 1.5f, 1.0f, false, true);
                 }
             }
             // Initial wave start

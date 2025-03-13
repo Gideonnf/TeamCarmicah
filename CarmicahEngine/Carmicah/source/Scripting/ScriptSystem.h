@@ -90,6 +90,8 @@ namespace Carmicah
 
 		ScriptFieldType GetScriptFieldType(MonoType* type);
 
+		variantVar ExtractDefaultValue(MonoObject* valObj, ScriptFieldType type);
+
 		std::shared_ptr<ScriptObject> GetScriptInstance(unsigned int entityID);
 
 		void UpdateScriptVariables(Entity entity);
@@ -97,6 +99,10 @@ namespace Carmicah
 		void UpdateScriptComponent(Entity entity);
 
 		void UpdateScriptPrefabComponent(Script& scriptComponent);
+
+		//void UpdateAllPrefabScriptComponents();
+
+		void UpdateExistingPrefabScript(Script& entity);
 
 		/*!
 		OnStart() -> Called when play button is pressed. Loop through all entities and get a reference to their scripts

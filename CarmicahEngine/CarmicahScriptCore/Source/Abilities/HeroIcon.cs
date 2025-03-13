@@ -28,8 +28,12 @@ namespace Carmicah
 
         public float mouseXOffset = 0.5f;
 
+        bool testBool = false;
+
         public override void OnCreate()
         {
+           // CMConsole.Log("Hero Icon Creating");
+
             heroBuildEntity = FindEntityWithName(HeroBuild);
             heroBuildEntity1 = FindEntityWithName(HeroBuild1);
             heroBuildEntity2 = FindEntityWithName(HeroBuild2);
@@ -37,23 +41,39 @@ namespace Carmicah
 
             if(heroPrefab == "ShooterNPC")
             {
+               // CMConsole.Log("Shooter Icon");
                 type = AbilityType.SHOOTER;
                 
             }
             else if(heroPrefab == "MageNPC")
-            {
+            {//
+               // CMConsole.Log("Shooter Icon");
+
                 type = AbilityType.MAGE;
 
                 
             }
             else if(heroPrefab == "SpearNPC")
             {
+               // CMConsole.Log("Shooter Icon");
+
                 type = AbilityType.SPEAR;
             }
         }
 
         public override void OnUpdate(float dt)
         {
+            //if (testBool == false)
+            //{
+            //    testBool = true;
+            //    if (HasComponent<Renderer>())
+            //    {
+            //        CMConsole.Log("Has renderer");
+            //        CMConsole.Log($"Hero prefab {heroPrefab}");
+            //        CMConsole.Log($"HeroBuildEntity IDs {heroBuildEntity.mID}, {heroBuildEntity1.mID}, {heroBuildEntity2.mID}, {heroBuildEntity3.mID}");
+            //    }
+            //}
+
             if (trapEntity == null) return;
 
             //CMConsole.Log("It shouldnt be here atm");
@@ -66,6 +86,8 @@ namespace Carmicah
             {
                 Vector2 scale = trapEntity.GetComponent<Transform>().Scale;
                 trapEntity.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
+                Vector2 Pos = trapEntity.GetComponent<Transform>().Position;
+                trapEntity.GetComponent<Transform>().Position = new Vector2(Pos.x, Pos.y);
                 flipped = true;
             }
             else if (trapEntity.Position.x > 0.0f && flipped == true)
@@ -82,11 +104,6 @@ namespace Carmicah
                 trapEntity = null;
                 flipped = false;
             }
-
-            if(hovering)
-            {
-
-            }
         }
 
         public override void OnClick()
@@ -94,6 +111,15 @@ namespace Carmicah
             if (trapEntity != null) return;
 
             trapEntity = CreateGameObject(heroPrefab);
+            //if(type == AbilityType.SPEAR)
+            //{
+            //    Vector2 Pos = trapEntity.GetComponent<Transform>().Position;
+            //    Pos.x -= 0.5f;
+            //    trapEntity.GetComponent<Transform>().Position = Pos;
+            //    CMConsole.Log("Shenanigans to the spear fella");
+
+            //}
+
             //Not sure if this belongs here but shld work.
             heroBuildEntity.As<HeroBuild>().SetHeroType(type, heroPrefab, this);
             heroBuildEntity1.As<HeroBuild>().SetHeroType(type, heroPrefab, this);
@@ -102,15 +128,24 @@ namespace Carmicah
 
         }
 
+        public override void OnMouseEnter()
+        {
+            Sound.PlaySFX("Item_Hover", 0.4f);
+            if (this.HasComponent<Renderer>())
+                this.GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
+
+        }
+
         public override void OnMouseHover()
         {
-            if (!hovering)
-            {
-                Sound.PlaySFX("Item_Hover", 0.4f);
-                this.GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
+            if (mID == 0) return;
+
+            //if (!hovering)
+            //{
+            //    
                 
-                hovering = true;
-            }
+            //    hovering = true;
+            //}
         }
 
         public void HeroBuilt()
@@ -123,8 +158,11 @@ namespace Carmicah
 
         public override void OnMouseExit()
         {
-            hovering = false;
-            this.GetComponent<Renderer>().SetColour(1.0f, 1.0f, 1.0f);
+            //hovering = false;
+            if(mID == 0) return;
+
+            if(this.HasComponent<Renderer>())
+            { this.GetComponent<Renderer>().SetColour(1.0f, 1.0f, 1.0f); }
         }
 
     }
