@@ -18,7 +18,9 @@
             "shape": "",
             "customWidth": 1.0,
             "customRotation": 0.0,
-            "customHeight": 1.0
+            "customHeight": 1.0,
+            "xPosPivot": 0.0,
+            "yPosPivot": 0.0
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
@@ -46,15 +48,15 @@
             "scriptName": "Carmicah.TrapBall",
             "ScriptableFieldMap": [
                 {
-                    "fallSpeed": 2.0,
+                    "fallSpeed": 3.5,
                     "heightOffset": 12.0,
-                    "sideMax": 1.0,
                     "iconType": 1,
-                    "middleMax": 1.5,
                     "stopTime": 1.0,
-                    "middleMin": 0.800000011920929,
-                    "sideMin": 0.5,
-                    "timer": 0.0
+                    "flashInterval": 0.0,
+                    "timer": 0.0,
+                    "flashTime": 0.0,
+                    "flashTimer": 0.0,
+                    "lifeTime": 0.0
                 }
             ]
         }
