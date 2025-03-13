@@ -28,6 +28,9 @@ namespace Carmicah
         internal extern static void RigidBody_Move(uint entityID, Vector2 pos);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void RigidBody_StopObject(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool IsKeyPressed(Keys keyCode);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -61,7 +64,7 @@ namespace Carmicah
         internal extern static void Sound_PlayBGM(string soundName, float volume);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static void Sound_SwitchBGM(string soundName, float fadeTimer, float fadeDuration, bool isLoop);
+        internal extern static void Sound_SwitchBGM(string soundName, float fadeTimer, float fadeDuration, bool isLoop, bool fadeInNext);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_SetVolume(string soundName, float volume);
@@ -74,6 +77,9 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_StopSFXWithFade(string soundName , float fadeTimer, float fadeDuration);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Sound_StopBGMWithFade(string soundName, float fadeTimer, float fadeDuration);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_StopAllSFX();
@@ -197,6 +203,18 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void RigidBody_StopForces();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float Collider2D_GetCustomWidth(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float Collider2D_GetCustomHeight(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Collider2D_SetCustomWidth(uint entityID, float width);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Collider2D_SetCustomHeight(uint entityID, float height);
 
 
         //[MethodImplAttribute(MethodImplOptions.InternalCall)]

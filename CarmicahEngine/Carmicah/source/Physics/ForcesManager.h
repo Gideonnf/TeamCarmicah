@@ -87,6 +87,8 @@ namespace Carmicah
         Vector2D<float> GetSumForces() const;
 
         Vector2D<float> SetSumForces(Vector2D<float> value);
+
+        //void StopObject(float deltaTime);
 	};
 }
 

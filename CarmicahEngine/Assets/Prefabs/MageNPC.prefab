@@ -123,11 +123,11 @@
             "scriptName": "Carmicah.MageNPC",
             "ScriptableFieldMap": [
                 {
-                    "isShooting": false,
                     "IsLeft": false,
+                    "isShooting": false,
                     "active": false,
-                    "deathSound": "Shooter_Death",
                     "animationTime": 0.0,
+                    "deathSound": "Shooter_Death",
                     "hasAmmo": true,
                     "hovering": false,
                     "idleAnim": "Mage_Idle",
@@ -137,8 +137,8 @@
                     "maxMana": 2,
                     "placeSound": "Shooter_Appear",
                     "projectilePrefab": "MageBullet",
-                    "shot": false,
                     "shootAnim": "Mage_Attack",
+                    "shot": false,
                     "shootRate": 1.0,
                     "shootSound": "Shooter_Shooting",
                     "shootTime": 1.0

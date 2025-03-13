@@ -74,7 +74,7 @@ namespace Carmicah
 
         Entity[] topTowerBoxes = new Entity[3];
 
-        Entity[] endEntities = new Entity[4];
+        Entity[] endEntities = new Entity[6];
 
         Entity[] flyingSpawns = new Entity[2]; 
 
@@ -119,6 +119,10 @@ namespace Carmicah
             endEntities[1] = FindEntityWithName(EndPointEntityRight);
             endEntities[2] = FindEntityWithName(EndPointEntityLeft2);
             endEntities[3] = FindEntityWithName(EndPointEntityRight2);
+
+            // instead of end point, this will hodl the start point for the bird spawns
+            endEntities[4] = FindEntityWithName("StartTopLeft");
+            endEntities[5] = FindEntityWithName("StartTopRight");
 
             startingCakeEntity = FindEntityWithName(StartingCake);
             playerEntity = FindEntityWithName(PlayerName);
@@ -707,7 +711,8 @@ namespace Carmicah
             GameOver = true;
             Entity pauseManager = FindEntityWithName("PauseManager");
             pauseManager.As<PauseManager>().IsPaused = true;
-            Sound.SwitchBGM("LoseScreen", 1.0f, 0.5f, false);
+            Sound.SwitchBGM("LoseScreen", 0.5f, 0.5f);
+            
             Sound.StopAllSFX();
             CreateGameObject("LoseScreen");
         }
@@ -934,6 +939,8 @@ namespace Carmicah
 
                 if (cakeCounter >= 2) return;
 
+                Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
+
                 cakeType = CMRand.Range(0, 3);
                 CMConsole.Log($"cake type {cakeType}");
                 towerPrefab = CreateGameObject(CakePrefabName);
@@ -1004,6 +1011,7 @@ namespace Carmicah
                     GetComponent<StateMachine>().SetStateCondition(4);
                     CMConsole.Log("Changing VFX prefab animation");
                     VFXPrefab.ChangeAnim("CakeFallVFxEnd");
+                    Sound.PlaySFX("SFX__Magic", 0.4f);
 
                 }
 

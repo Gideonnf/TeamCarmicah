@@ -75,8 +75,9 @@ namespace Carmicah
         bool mIsMuted;
         float currentVolume;
         FMOD::DSP* fadeOutDSP;
-        bool fadingOut = false; 
-        bool fadeInNewSound = false; 
+        bool fadingOut = false;
+        bool fadeInNextValue = false;
+        bool fadingInNewSound = false;
         float fadeTimerSeconds = 0.0f; 
         float fadeDurationSeconds = 0.0f;
         FMOD::Channel* oldChannel = nullptr; 
@@ -97,12 +98,12 @@ namespace Carmicah
 
         // Enhanced playback controls
         bool PlaySoundThis(const std::string& soundName, SoundCategory category = SoundCategory::SFX, INTSOUND internalCatergoy = SOUND_INGAME, bool isLoop = false, float volume = -1.0f);
-        void SwitchSound(INTSOUND internalCatergoy, const std::string& newSoundName, SoundCategory category, bool isLoop, float volume, float fadeTimer, float fadeDuration);
+        void SwitchSound(INTSOUND internalCatergoy, const std::string& newSoundName, SoundCategory category, bool isLoop, float volume, float fadeTimer, float fadeDuration, bool fadeOut);
         void UpdateFadeEffect();
         //void StopSound(INTSOUND internalCatergoy);
         void StopSoundSFX(INTSOUND internalCatergoy);
         void StopSound(INTSOUND internalCatergoy);
-        void StopSoundWithFade(INTSOUND internalCatergoy, const std::string& newSoundName, float fadeTimer, float fadeDuration);
+        void StopSoundWithFade(INTSOUND internalCatergoy, float fadeTimer, float fadeDuration);
         void PauseSound(INTSOUND internalCatergoy);
         void ResumeSound(INTSOUND internalCatergoy);
         void StopAllSounds();

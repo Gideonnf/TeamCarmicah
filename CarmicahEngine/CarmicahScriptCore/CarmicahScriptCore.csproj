@@ -110,6 +110,7 @@
     <Compile Include="Source\UI\LoadingDots.cs" />
     <Compile Include="Source\UI\LoadingScreen.cs" />
     <Compile Include="Source\Abilities\TrapIcon.cs" />
+    <Compile Include="Source\UI\MainMenuBGM.cs" />
     <Compile Include="Source\UI\PrincessHPBar.cs" />
     <Compile Include="Source\Tutorial\TutorialController.cs" />
     <Compile Include="Source\UI\WaveCounter.cs" />

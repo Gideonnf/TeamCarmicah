@@ -209,7 +209,7 @@ namespace Carmicah
 	{
 		UNUSED(buttonComponent);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySoundThis("UI_Select 2", SoundCategory::UI, SoundSystem::SOUND_INMENU, false, 0.5f);
+		souSystem->PlaySoundThis("UI_Select 2", SoundCategory::UI, SoundSystem::SOUND_INMENU, false, 0.3f);
 
 		buttonComponent.isPressed = true;
 
