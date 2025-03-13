@@ -17,11 +17,11 @@ namespace Carmicah
         private Entity[] traps = new Entity[4];
         private Entity[] npcs = new Entity[4];
         private bool[] placedObj = new bool[8];
-        private Entity[] ditto = new Entity[4];   // can morph into WORLDSPACE trap / npc
+        private Entity[] ditto = new Entity[2];   // can morph into WORLDSPACE trap / npc
         private Entity player;
-        private Entity playerHP;
         private Entity pauseManager;
         private Entity cam;
+        private Entity endScreen;
 
         private int tutorialProgress = 0;
         // For loading certain things only 2 frames later igaf
@@ -50,12 +50,12 @@ namespace Carmicah
                                         "Perfect timing, reinforcements from above, use WASD to move and pick it up", // 4 reinforcements // ----- 10 -----
                                         "This is a Soldier unit, you can only place them on top of the tower",
                                         "They have limited number of attacks, but can be healed up by clicking on them",
-                                        "Units are also placed on the right --->",
+                                        "Units are also placed on the right --->",                        // Optional txt
                                         "Yeap, just one more, I'll give you another one for free",
                                         "They usually start off healthy, but for this tutorial, I've drained their energy", // ----- 15 -----
                                         "You can click the Soldier to refuel them",
                                         "Be careful to not lose your Soldiers to random enemies",
-                                        "Here comes some enemies . . . Good luck!",              // Dun matter win / lose
+                                        "Tutorial Ends here.. Good luck!",              // Dun matter win / lose
                                         };
 
         // Pan Effects
@@ -90,7 +90,7 @@ namespace Carmicah
                     cam = FindEntityWithName("MainCamera");
                     enemy = FindEntityWithName("Tutorial_Enemy");
                     player = FindEntityWithName("MC");
-                    playerHP = FindEntityWithName("Princess_HealthBar");
+                    endScreen = FindEntityWithName("EndScreen");
                     textObj = FindEntityWithName("SubText");
                     pauseManager = FindEntityWithName("PauseManager");
                     txtChild = new Entity(FunctionCalls.Entity_GetChild(textObj.mID));
@@ -123,7 +123,7 @@ namespace Carmicah
                         int i = 0;
                         foreach (Entity child in UIBarChild)
                         {
-                            if (i < 4)
+                            if (i < 2)
                                 ditto[i++] = child;
                         }
                     }
@@ -395,7 +395,7 @@ namespace Carmicah
                         someVec[1].x *= Math.Abs(player.Scale.x) / 2.0f;
                         someVec[1].y *= player.Scale.y / 2.0f;
 
-                        enemy.GetComponent<Animation>().ChangeAnim("Mouse_Death_blue");
+                        enemy.GetComponent<Animation>().ChangeAnim("Mouse_Death_Blue");
                         traps[3].GetComponent<Animation>().ChangeAnim("CandyCone");
                         ++tutorialProgress;
                     }
@@ -450,14 +450,14 @@ namespace Carmicah
                                     mousePos.y < npcs[i - 4].LocalPosition.y + panEndGoal[i].y &&
                                     mousePos.y > npcs[i - 4].LocalPosition.y - panEndGoal[i].y)
                                 {
-                                    Heal(i - 4);
-                                    entityPanFinished[i] = true;
+                                    if(Heal(i - 4))
+                                        entityPanFinished[i] = true;
                                 }
                             }
                         }
                     }
 
-                    if (someInt < 13 && FinishedTyping() && Delay(dt, 2.0f))
+                    if ((someInt < 13 || someInt == 15) && FinishedTyping() && Delay(dt, 2.0f))
                         ++someInt;
 
                     if (!someBools[2] && someInt == 13 && FinishedTyping())
@@ -560,7 +560,7 @@ namespace Carmicah
 
                                 if (placedObj[6] && placedObj[7])
                                 {
-                                    someInt = 15;
+                                    someInt = Math.Max(15, someInt);
                                     ++tutorialProgress;
                                 }
                                 else
@@ -582,6 +582,7 @@ namespace Carmicah
                     break;
                 case 10:
                     TypeWords(dt, someInt);
+                    RecoverHeal();
 
                     if (someInt == 15 && FinishedTyping() && Delay(dt, 2.0f))
                         ++someInt;
@@ -599,25 +600,33 @@ namespace Carmicah
                                     mousePos.y < npcs[i - 4].LocalPosition.y + panEndGoal[i].y &&
                                     mousePos.y > npcs[i - 4].LocalPosition.y - panEndGoal[i].y)
                                 {
-                                    Heal(i - 4);
-                                    entityPanFinished[i] = true;
+                                    if(Heal(i - 4))
+                                        entityPanFinished[i] = true;
                                 }
                             }
                         }
                     }
 
-                    if (entityPanFinished[6] && entityPanFinished[7] && RecoverHeal())
+                    if (entityPanFinished[6] && entityPanFinished[7] && healDone)
                     {
                         someInt = 17;
                         ++tutorialProgress;
                     }
                     break;
                 case 11:
-                    TypeWords(dt, 17);
+                    TypeWords(dt, someInt);
 
                     if (someInt == 17 && FinishedTyping() && Delay(dt, 2.0f))
                         ++someInt;
 
+                    if (someInt == 18 && FinishedTyping() && Delay(dt, 2.0f))
+                    {
+                        endScreen.LocalPosition = new Vector2(960.0f, 540.0f);
+                        ++tutorialProgress;
+                    }
+                    break;
+                case 12:
+                        
                     break;
                 default:
                     Scene.ChangeScene("Loading");
@@ -706,7 +715,7 @@ namespace Carmicah
             return entityPanFinished[num];
         }
 
-        void Heal(int npcNum)
+        bool Heal(int npcNum)
         {
             if (healDone && placedObj[npcNum + 4])
             {
@@ -720,10 +729,12 @@ namespace Carmicah
                     playerPosEdit.x += 0.7f;
                 player.LocalPosition = playerPosEdit;
                 healDone = false;
+                return true;
             }
+            return false;
         }
         
-        bool RecoverHeal()
+        void RecoverHeal()
         {
             if(!healDone && player.GetComponent<Animation>().IsAnimFinished())
             {
@@ -738,9 +749,7 @@ namespace Carmicah
                 player.LocalPosition = playerPosEdit;
 
                 pauseManager.As<PauseManager>().UnPause();
-                return true;
             }
-            return false;
         }
     }
 }
