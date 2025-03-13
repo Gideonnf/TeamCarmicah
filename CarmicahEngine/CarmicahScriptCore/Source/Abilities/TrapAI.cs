@@ -100,12 +100,12 @@ namespace Carmicah
                 if (type == AbilityType.JELLYBEAN)
                 {
                     GetComponent<StateMachine>().SetStateCondition(3);
+                    return;
                 }
                 ChangeAnim(enterAnim);
             }
             else if (stateName == "Enter")
             {
-                //CMConsole.Log("Bitch go into Enter pls");
                 if(!string.IsNullOrEmpty(enterAnim))
                 {
                     ChangeAnim(enterAnim);

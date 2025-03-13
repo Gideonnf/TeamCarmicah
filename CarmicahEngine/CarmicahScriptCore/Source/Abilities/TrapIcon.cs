@@ -157,7 +157,10 @@ namespace Carmicah
         public override void OnMouseExit()
         {
             //hovering = false;
-            this.GetComponent<Renderer>().SetColour(1.0f, 1.0f, 1.0f);
+            if(this.HasComponent<Renderer>())
+            {
+                this.GetComponent<Renderer>().SetColour(1.0f, 1.0f, 1.0f);
+            }
         }
 
         public void TrapBuilt()
