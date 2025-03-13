@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace Carmicah
         private Entity pauseManager;
         private Entity cam;
 
-        private int tutorialProgress = 3;
+        private int tutorialProgress = 0;
         // For loading certain things only 2 frames later igaf
         private int readyToLoad = 2;
 
@@ -74,14 +75,14 @@ namespace Carmicah
 
         public override void OnUpdate(float dt)
         {
-            dt *= 4;
+            //dt *= 4;
 
             if (Input.IsKeyPressed(Keys.KEY_5))
             {
                 tutorialProgress = -1;
             }
 
-            // My Ver. of OnCreate, because I need garuntee the things are loaded in before I get them
+            // My Ver. of On Create, because I need garuntee the things are loaded in before I get them
             if(readyToLoad > 0)
             {
                 if(readyToLoad == 1)
@@ -434,6 +435,27 @@ namespace Carmicah
                     // someInt      - progress of txt
 
                     TypeWords(dt, someInt);
+                    RecoverHeal();
+
+                    // If player decids to heal beforehand ;w;
+                    if (Input.IsMousePressed(MouseButtons.MOUSE_BUTTON_LEFT))
+                    {
+                        Vector2 mousePos = Input.GetMousePos();
+                        for (int i = 6; i < 8; ++i)
+                        {
+                            if (placedObj[i] && !entityPanFinished[i])
+                            {
+                                if (mousePos.x < npcs[i - 4].LocalPosition.x + panEndGoal[i].x &&
+                                    mousePos.x > npcs[i - 4].LocalPosition.x - panEndGoal[i].x &&
+                                    mousePos.y < npcs[i - 4].LocalPosition.y + panEndGoal[i].y &&
+                                    mousePos.y > npcs[i - 4].LocalPosition.y - panEndGoal[i].y)
+                                {
+                                    Heal(i - 4);
+                                    entityPanFinished[i] = true;
+                                }
+                            }
+                        }
+                    }
 
                     if (someInt < 13 && FinishedTyping() && Delay(dt, 2.0f))
                         ++someInt;
@@ -525,15 +547,20 @@ namespace Carmicah
                                 placedObj[justPlaced + 4] = true;
                                 npcs[justPlaced].GetComponent<Renderer>().SetAlpha(1.0f);
 
-                                if (justPlaced > 2)
+                                if (justPlaced > 1)
                                 {
                                     someInt = 15;
                                     npcs[justPlaced].GetComponent<Animation>().ChangeAnim("Shooter_Mana");
+
+                                    FunctionCalls.Transform_GetRenderingScale(npcs[justPlaced].mID, out panEndGoal[justPlaced + 4]);
+                                    panEndGoal[justPlaced + 4].x = panEndGoal[justPlaced + 4].x * Math.Abs(npcs[justPlaced].Scale.x) / 2.0f;
+                                    panEndGoal[justPlaced + 4].y = panEndGoal[justPlaced + 4].y * npcs[justPlaced].Scale.y / 2.0f;
+                                    entityPanFinished[justPlaced + 4] = false;
                                 }
 
                                 if (placedObj[6] && placedObj[7])
                                 {
-
+                                    someInt = 15;
                                     ++tutorialProgress;
                                 }
                                 else
@@ -554,12 +581,43 @@ namespace Carmicah
                     }
                     break;
                 case 10:
-                    TypeWords(dt, 15);
-                    RecoverHeal();
-                    if (Input.IsKeyPressed(Keys.KEY_9))
-                        Heal(3);
+                    TypeWords(dt, someInt);
+
+                    if (someInt == 15 && FinishedTyping() && Delay(dt, 2.0f))
+                        ++someInt;
+
+
+                    if (Input.IsMousePressed(MouseButtons.MOUSE_BUTTON_LEFT))
+                    {
+                        Vector2 mousePos = Input.GetMousePos();
+                        for (int i = 6; i < 8; ++i)
+                        {
+                            if (placedObj[i] && !entityPanFinished[i])
+                            {
+                                if (mousePos.x < npcs[i - 4].LocalPosition.x + panEndGoal[i].x &&
+                                    mousePos.x > npcs[i - 4].LocalPosition.x - panEndGoal[i].x &&
+                                    mousePos.y < npcs[i - 4].LocalPosition.y + panEndGoal[i].y &&
+                                    mousePos.y > npcs[i - 4].LocalPosition.y - panEndGoal[i].y)
+                                {
+                                    Heal(i - 4);
+                                    entityPanFinished[i] = true;
+                                }
+                            }
+                        }
+                    }
+
+                    if (entityPanFinished[6] && entityPanFinished[7] && RecoverHeal())
+                    {
+                        someInt = 17;
+                        ++tutorialProgress;
+                    }
                     break;
                 case 11:
+                    TypeWords(dt, 17);
+
+                    if (someInt == 17 && FinishedTyping() && Delay(dt, 2.0f))
+                        ++someInt;
+
                     break;
                 default:
                     Scene.ChangeScene("Loading");
@@ -650,24 +708,39 @@ namespace Carmicah
 
         void Heal(int npcNum)
         {
-            if (placedObj[npcNum + 4])
+            if (healDone && placedObj[npcNum + 4])
             {
                 healNPC = npcNum;
                 pauseManager.As<PauseManager>().IsPaused = true;
                 player.GetComponent<Animation>().ChangeAnim("MC_Heal");
+                Vector2 playerPosEdit = player.LocalPosition;
+                if(player.Scale.x > 0)
+                    playerPosEdit.x -= 0.7f;
+                else
+                    playerPosEdit.x += 0.7f;
+                player.LocalPosition = playerPosEdit;
                 healDone = false;
             }
         }
         
-        void RecoverHeal()
+        bool RecoverHeal()
         {
             if(!healDone && player.GetComponent<Animation>().IsAnimFinished())
             {
                 healDone = true;
                 npcs[healNPC].GetComponent<Animation>().ChangeAnim("Shooter_Idle");
                 player.GetComponent<Animation>().ChangeAnim("MC_Idle");
+                Vector2 playerPosEdit = player.LocalPosition;
+                if (player.Scale.x > 0)
+                    playerPosEdit.x += 0.7f;
+                else
+                    playerPosEdit.x -= 0.7f;
+                player.LocalPosition = playerPosEdit;
+
                 pauseManager.As<PauseManager>().UnPause();
+                return true;
             }
+            return false;
         }
     }
 }
