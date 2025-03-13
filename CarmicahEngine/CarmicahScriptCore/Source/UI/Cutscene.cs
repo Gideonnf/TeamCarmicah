@@ -36,6 +36,7 @@ namespace Carmicah
         private int img3Size = 1;
 
         // Background music   
+        // Background music   
         public string backgroundMusicTrack = "Cutscene";
         public string backgroundMusicTrack1 = "BGM_SetupPhase_Mix1";
 

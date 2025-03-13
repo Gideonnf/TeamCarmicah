@@ -30,9 +30,21 @@ namespace Carmicah
         public float scrollSpeed = 2.5f; // adjust speed as needed
         public float endYPosition = 45.0f; // change to match final Y position
 
+        public string backgroundMusicTrack = "BGM_Credits"; 
+        public float fadeOutDuration = 1.5f; 
+        private bool isFadingOut = false;
+        private float fadeTimer = 0.0f;
+        private bool musicStarted = false;
+
         public override void OnCreate()
         {
             transform = GetComponent<Transform>();
+
+            if (!musicStarted)
+            {
+                Sound.PlayBGM(backgroundMusicTrack, 0.5f);
+                musicStarted = true;
+            }
         }
 
         public override void OnUpdate(float dt)
@@ -41,16 +53,30 @@ namespace Carmicah
             {
                 Vector2 position = transform.Position;
 
-                if (position.y < endYPosition) // stop scrolling when it reaches the end
+                if (position.y < endYPosition) 
                 {
                     position.y += scrollSpeed * dt;
                     transform.Position = position;
                 }
-            }
-
-            if(transform.Position.y >= endYPosition)
-            {
-                Scene.ChangeScene("Scene3");
+                else 
+                {
+                    if (!isFadingOut)
+                    {
+                        isFadingOut = true;
+                        fadeTimer = 0.0f;
+                        //fate music
+                        Sound.SwitchBGM("zero", fadeOutDuration, fadeOutDuration, false);
+                    }
+                    else
+                    {
+                        fadeTimer += dt;
+                        if (fadeTimer >= fadeOutDuration)
+                        {
+                            Sound.StopAllSFX();
+                            Scene.ChangeScene("Scene3");
+                        }
+                    }
+                }
             }
         }
     }
