@@ -13,6 +13,9 @@ namespace Carmicah
         internal extern static void Transform_SetScale(uint entityID, ref Vector2 scale);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Transform_GetRenderingScale(uint entityID, out Vector2 scale);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool Entity_HasComponent(uint entityID, Type componentType);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -58,7 +61,7 @@ namespace Carmicah
         internal extern static uint Entity_FindEntityWithName(string name);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static void Sound_PlaySFX(string soundName, float volume, bool isLoop);
+        internal extern static void Sound_PlaySFX(string soundName, float volume, bool isLoop , uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_PlayBGM(string soundName, float volume);
@@ -83,6 +86,14 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_StopAllSFX();
+
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Sound_ToggleMuffleSFX(bool toMuffle, uint entityID = 0);
+
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Sound_ToggleMuffleBGM(bool toMuffle, uint entityID = 0);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_Stop(string soundName);
@@ -167,6 +178,9 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static uint[] Entity_GetAllChildren(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static double Time_GetFPS();
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Transform_GetLocalPosition(uint entityID, out Vector2 position);

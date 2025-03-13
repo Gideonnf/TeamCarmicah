@@ -335,6 +335,8 @@ namespace Carmicah
                 {
                     std::shared_ptr<ScriptObject> scriptObj = std::make_shared<ScriptObject>(mEntityClasses[scriptComponent.scriptName], *entity);
                     //  scriptRef->SetUpEntity(id); // Instantiate and set up the method handling
+                    CM_CORE_INFO("Setting up a new script");
+
                     mEntityInstances[*entity] = scriptObj;
                     UpdateScriptComponent(*entity);
                     entityAdded.erase(entity);
@@ -546,9 +548,11 @@ namespace Carmicah
                 auto gameSystem = SystemManager::GetInstance()->GetSystem<SceneSystem>();
                 if (gameSystem->mRuntime && gameSystem->mNextState == RUNTIME)
                 {
+                    CM_CORE_INFO("Invoking on create");
                     mEntityInstances[entity]->InvokeOnConstruct(entity);
                     mEntityInstances[entity]->InvokeOnCreate();
                 }
+                CM_CORE_INFO("New script instance")
                 // entity = entityAdded.begin();
             }
             // if no script is assigned yet (i.e in editor mode, if a script is attached, it wouldnt have one added by default
@@ -637,8 +641,10 @@ namespace Carmicah
                         {
                             MonoType* type = mono_field_get_type(field);
                             ScriptFieldType fieldType = GetScriptFieldType(type);
+                            variantVar defaultValue;
+
                             // Store it in the script's field map
-                            script->mFields[fieldName] = { fieldType, fieldName, field };
+                            script->mFields[fieldName] = { fieldType, fieldName, field, defaultValue};
                         }
                     }
 
@@ -653,6 +659,33 @@ namespace Carmicah
            
         }
 
+    }
+
+    variantVar ScriptSystem::ExtractDefaultValue(MonoObject* valObj, ScriptFieldType type)
+    {
+        if (!valObj) return {}; // Default-constructs a variant
+
+        switch (type)
+        {
+        case ScriptFieldType::Float:
+            return *(float*)mono_object_unbox(valObj);
+        case ScriptFieldType::Int:
+            return *(int*)mono_object_unbox(valObj);
+        case ScriptFieldType::Bool:
+            return *(bool*)mono_object_unbox(valObj);
+        case ScriptFieldType::String:
+        {
+            MonoString* monoStr = (MonoString*)valObj;
+            char* utf8Str = mono_string_to_utf8(monoStr);
+            std::string result(utf8Str);
+            mono_free(utf8Str);
+
+            return result;
+
+        }
+        default:
+            return {}; // Default-initialize variant
+        }
     }
 
     ScriptFieldType ScriptSystem::GetScriptFieldType(MonoType* type)

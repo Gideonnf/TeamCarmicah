@@ -88,7 +88,7 @@ namespace Carmicah
             {
                 target = null;
                 CMConsole.Log("Lifetime over!");
-                Destroy();
+                GetComponent<StateMachine>().SetStateCondition(1);
                 return;
             }
 
@@ -100,8 +100,8 @@ namespace Carmicah
                 }
                 else
                 {
-                    CMConsole.Log("Target Entity Destroyed!");
-                    Destroy();
+                    CMConsole.Log("TAOPMDOPSA");
+                    GetComponent<StateMachine>().SetStateCondition(1);
                     return;
                 }
             }

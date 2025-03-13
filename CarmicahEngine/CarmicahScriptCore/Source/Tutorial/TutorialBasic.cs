@@ -13,14 +13,6 @@ namespace Carmicah
         bool hovering    = false;
         bool justHovered = false;
         bool justUnhovered = false;
-        bool clicked     = false;
-
-        public bool GetIsClick()
-        {
-            bool ret = clicked;
-            clicked = false;
-            return clicked;
-        }
 
         public bool GetEnterHover()
         {
@@ -41,11 +33,6 @@ namespace Carmicah
             return hovering;
         }
 
-        public override void OnClick()
-        {
-            clicked = true;
-        }
-
         public override void OnMouseHover()
         {
             if (!hovering)
@@ -60,13 +47,6 @@ namespace Carmicah
             hovering = false;
             justHovered = false;
             justUnhovered = true;
-        }
-
-        public override void OnCreate()
-        {
-        }
-        public override void OnUpdate(float dt)
-        {
         }
 
     }

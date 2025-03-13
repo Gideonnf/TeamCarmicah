@@ -90,6 +90,8 @@ namespace Carmicah
 
 		ScriptFieldType GetScriptFieldType(MonoType* type);
 
+		variantVar ExtractDefaultValue(MonoObject* valObj, ScriptFieldType type);
+
 		std::shared_ptr<ScriptObject> GetScriptInstance(unsigned int entityID);
 
 		void UpdateScriptVariables(Entity entity);

@@ -943,6 +943,7 @@ namespace Carmicah
 
                 cakeType = CMRand.Range(0, 3);
                 CMConsole.Log($"cake type {cakeType}");
+                Sound.PlaySFX("TowerStack", 1.0f);
                 towerPrefab = CreateGameObject(CakePrefabName);
                 towerPrefab.Position = new Vector2(Position.x, ySpawnPos);
 
@@ -981,6 +982,7 @@ namespace Carmicah
             if (stateName == "TowerCreate")
             {
                 CMConsole.Log("Testing tower create");
+                
                 GetComponent<StateMachine>().SetStateCondition(3);
 
             }
@@ -993,6 +995,7 @@ namespace Carmicah
                     if (VFXPrefab == null)
                     {
                         VFXPrefab = CreateGameObject(CakeVFXPrefab);
+                        
                         VFXPrefab.Position = new Vector2(-0.75f, yVFXLocation);
                     }
                 }
@@ -1011,6 +1014,7 @@ namespace Carmicah
                     GetComponent<StateMachine>().SetStateCondition(4);
                     CMConsole.Log("Changing VFX prefab animation");
                     VFXPrefab.ChangeAnim("CakeFallVFxEnd");
+                    
                     Sound.PlaySFX("SFX__Magic", 0.4f);
 
                 }

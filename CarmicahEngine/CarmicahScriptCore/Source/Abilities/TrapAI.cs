@@ -68,11 +68,11 @@ namespace Carmicah
             }
         }
 
-        public override void OnFixedUpdate(float fixedDt)
+        public override void OnUpdate(float dt)
         {
             if (!isDead)
             {
-                timer += fixedDt;
+                timer += dt;
             }
 
             if (life <= 0)
