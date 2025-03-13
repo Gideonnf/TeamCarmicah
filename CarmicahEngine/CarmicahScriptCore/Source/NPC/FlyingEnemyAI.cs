@@ -37,6 +37,7 @@ namespace Carmicah
         public float diagonalSpeed = 1.8f;  // Increased speed when gg down 45 degrees
 
         public int lane;
+        bool dead = false;
         public EnemyTypes enemyType;
 
         public FlyingStage currentStage = FlyingStage.HORIZONTAL;
@@ -45,12 +46,12 @@ namespace Carmicah
         Vector2 startPosition;
         Vector2 horizontalTarget;  // Target for horizontal 
         Vector2 diveTarget;        // Target diagonal 
+        Vector2 targetPos;
         float debuff = 1.0f;
         public float speedDebuff = 0.4f;
 
         // Death properties
         public float timer = 0.0f;
-        public bool isDead = false;
 
         public bool isLeft = false;
 
@@ -62,6 +63,7 @@ namespace Carmicah
         Entity targetEntity;
 
         int randLane = 0;
+        bool move = false;
 
         public override void OnCreate()
         {
@@ -133,6 +135,14 @@ namespace Carmicah
             }
         }
 
+        public override void OnFixedUpdate(float fixedDt)
+        {
+            if(move)
+            {
+                UpdateMovement(fixedDt, targetPos);
+            }
+        }
+
         void UpdateMovement(float dt, Vector2 targetPos)
         {
             Vector2 dir = (targetPos - Position).Normalize();
@@ -159,6 +169,7 @@ namespace Carmicah
                     if (targetEntity.GetTag() == "Player")
                     {
                         Entity mainCharacter = FindEntityWithName("mainCharacter");
+                        CMConsole.Log("Taking Damage from Bird");
                         mainCharacter.As<Player>().TakeDamage(10, enemyType);
                     }
                     else
@@ -317,6 +328,8 @@ namespace Carmicah
 
             if (stateName == "Dead")
             {
+                dead = true;
+                move = false;
                 GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                 if (gm != null)
                     gm.EntityDestroyed(this);
@@ -354,7 +367,9 @@ namespace Carmicah
                     GetComponent<RigidBody>().StopForces();
                     return;
                 }
-                UpdateMovement(dt, horizontalTarget);
+                move = true;
+
+                targetPos = horizontalTarget;
 
                 // reaching diving point
                 if (Position.Distance(horizontalTarget) < 0.5f)
@@ -371,7 +386,9 @@ namespace Carmicah
                 }
                 if (targetEntity == null) return;
 
-                UpdateMovement(dt, targetEntity.Position);
+                //UpdateMovement(dt, targetEntity.Position);
+
+                targetPos = targetEntity.Position;
             }
             else if (stateName == "Dead")
             {
@@ -396,6 +413,11 @@ namespace Carmicah
             //CMConsole.Log("TESTING Exit State");
             //CMConsole.Log($"Exit State Name: {stateName}");
 
+        }
+
+        public bool isDead()
+        {
+            return dead;
         }
     }
 }

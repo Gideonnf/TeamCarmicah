@@ -63,7 +63,7 @@ namespace Carmicah
             // Set initial animation
             if (!string.IsNullOrEmpty(BulletAnim))
             {
-                CMConsole.Log("Changing animation to " + BulletAnim);
+                //CMConsole.Log("Changing animation to " + BulletAnim);
                 ChangeAnim(BulletAnim);
             }
 

@@ -516,7 +516,7 @@ namespace Carmicah
         public void NewNPC(Entity entity)
         {
             npcList.Add(entity);
-            CMConsole.Log($"New NPC Entity{entity.mID}");
+            //CMConsole.Log($"New NPC Entity{entity.mID}");
         }
 
         public void UpdatePositions()
@@ -667,7 +667,7 @@ namespace Carmicah
                 {
                     if (npcList.Contains(npcEntity))
                     {
-                        CMConsole.Log($"num of npcList : {npcList.Count}");
+                        //CMConsole.Log($"num of npcList : {npcList.Count}");
                         npcList.Remove(npcEntity);
 
                         // let the flying enemies know that they have to change target
@@ -681,7 +681,7 @@ namespace Carmicah
                             flyingEnemy.UpdateTarget(npcEntity);
                         }
 
-                        CMConsole.Log($"Killing NPC : {npcList.Count}");
+                        //CMConsole.Log($"Killing NPC : {npcList.Count}");
                         buildEntity.As<HeroBuild>().KillNPC();
                     }
                 }

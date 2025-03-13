@@ -14,6 +14,7 @@ namespace Carmicah
         public string TrapIconPrefab = "TrapIcon";
         public string HoneyIconPrefab = "HoneyIcon";
         public string SpearIconPrefab = "SpearIcon";
+        public string JellybeanIconPrefab = "JellybeanIcon";
 
        // public List<BaseIcon> trapIcons = new List<BaseIcon>();
 
@@ -32,11 +33,11 @@ namespace Carmicah
         public override void OnCreate()
         {
             CreateIcon(IconType.SHOOTER_ICON);
-            CreateIcon(IconType.MAGE_ICON);
             CreateIcon(IconType.SHOOTER_ICON);
             CreateIcon(IconType.MAGE_ICON);
-            CreateIcon(IconType.SHOOTER_ICON);
-            CreateIcon(IconType.SHOOTER_ICON);
+            CreateIcon(IconType.MAGE_ICON);
+            CreateIcon(IconType.CANDY_ICON);
+            CreateIcon(IconType.CANDY_ICON);
 
             originalPos = this.Position;
         }
@@ -81,10 +82,20 @@ namespace Carmicah
             {
                 if (listOfIcons[i] == icon)
                 {
-                    for (int j = i + 1; j < lastIcon; j++)
+                    //CMConsole.Log($"found icon at {i}");
+
+                    for(int j = lastIcon - 1; j > i; j--)
                     {
                         listOfIcons[j].Position = listOfIcons[j - 1].Position;
+                    }
+
+                    for (int j = i + 1; j < lastIcon; j++)
+                    {
+                        //CMConsole.Log($"Swapping position of {j} and {j - 1}");
+                       // listOfIcons[j].Position = listOfIcons[j - 1].Position;
                         listOfIcons[j - 1] = listOfIcons[j];
+                       // CMConsole.Log($"Position original {listOfIcons[j].Position.x}, {listOfIcons[j].Position.y}");
+                       // CMConsole.Log($"Position New {listOfIcons[j]});
                     }
                     lastIcon--;
                     break;
@@ -137,6 +148,12 @@ namespace Carmicah
                 case IconType.SPEAR_ICON:
                     {
                         newIcon = CreateGameObject(SpearIconPrefab);
+
+                        break;
+                    }
+                case IconType.JELLYBEAN_ICON:
+                    {
+                        newIcon = CreateGameObject(JellybeanIconPrefab);
 
                         break;
                     }

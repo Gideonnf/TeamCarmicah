@@ -98,7 +98,7 @@ namespace Carmicah
             }
 
 
-            CMConsole.Log("Healing " + id.ToString());
+            //CMConsole.Log("Healing " + id.ToString());
             GetComponent<StateMachine>().SetStateCondition(3);
         }
 
