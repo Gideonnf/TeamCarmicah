@@ -204,5 +204,13 @@ namespace Carmicah
 	{
 		return accumulatedForce = value;
 	}
+	
+	/*void ForcesManager::StopObject(float deltaTime)
+	{
+		
+		SetCurrentVelocity({ 0.0f, 0.0f });
+		SetSumForces({ 0.0f, 0.0f });
 
+		UpdateForces(deltaTime);
+	}*/
 }

@@ -50,12 +50,18 @@ namespace Carmicah
 
 	void PhysicsSystem::StopObject(Entity& obj)
 	{
+		
 		auto* componentManager = ComponentManager::GetInstance();
 		auto& rigidbody = componentManager->GetComponent<RigidBody>(obj);
-		//auto& transform = componentManager->GetComponent<Transform>(obj);
 
-		rigidbody.forcesManager.SetCurrentVelocity({ 0.0f, 0.0f });
+		rigidbody.velocity = { 0.0f, 0.0f };
+
+		rigidbody.forcesManager.SetCurrentVelocity(rigidbody.velocity);
 		rigidbody.forcesManager.SetSumForces({ 0.0f, 0.0f });
+
+		float deltaTime = (float)CarmicahTime::GetInstance()->GetDeltaTime();
+
+		rigidbody.forcesManager.UpdateForces(deltaTime);
 	}
 
 	/**

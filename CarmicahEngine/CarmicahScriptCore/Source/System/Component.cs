@@ -90,6 +90,12 @@ namespace Carmicah
         {
             FunctionCalls.RigidBody_StopForces();
         }
+
+        public void StopObject()
+        {
+            
+            FunctionCalls.RigidBody_StopObject(Entity.mID);
+        }
     }
 
     public class Animation : Component
