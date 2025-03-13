@@ -81,10 +81,20 @@ namespace Carmicah
             {
                 if (listOfIcons[i] == icon)
                 {
-                    for (int j = i + 1; j < lastIcon; j++)
+                    //CMConsole.Log($"found icon at {i}");
+
+                    for(int j = lastIcon - 1; j > i; j--)
                     {
                         listOfIcons[j].Position = listOfIcons[j - 1].Position;
+                    }
+
+                    for (int j = i + 1; j < lastIcon; j++)
+                    {
+                        //CMConsole.Log($"Swapping position of {j} and {j - 1}");
+                       // listOfIcons[j].Position = listOfIcons[j - 1].Position;
                         listOfIcons[j - 1] = listOfIcons[j];
+                       // CMConsole.Log($"Position original {listOfIcons[j].Position.x}, {listOfIcons[j].Position.y}");
+                       // CMConsole.Log($"Position New {listOfIcons[j]});
                     }
                     lastIcon--;
                     break;
