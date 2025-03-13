@@ -282,7 +282,7 @@
             ]
         },
         {
-            "GameObject": "StartPointLeft_1",
+            "GameObject": "StartPointLeft",
             "ID": 12,
             "Components": [
                 {
@@ -525,7 +525,7 @@
             "Children": []
         },
         {
-            "GameObject": "StartPointLeft_1_1",
+            "GameObject": "StartPointLeft_1",
             "ID": 18,
             "Components": [
                 {
@@ -2373,6 +2373,11 @@
                     ]
                 }
             ]
+        },
+        {
+            "GameObject": "",
+            "ID": 0,
+            "Components": []
         }
     ]
 }

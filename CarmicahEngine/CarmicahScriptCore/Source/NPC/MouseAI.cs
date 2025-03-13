@@ -113,7 +113,7 @@ namespace Carmicah
             endEntityRight2 = FindEntityWithName(EndPointEntityRight2);
 
             // InitWaypoints();
-            SetInitialPosition();
+            //
 
 
             if (FindEntityWithName(SpawnPointEntityLeft) != null)
@@ -129,7 +129,7 @@ namespace Carmicah
             randLane = CMRand.Range(0,4); // rand between 0 to 3
 
             lane = randLane;
-
+            //SetInitialPosition();
             //int mouseTypeRand = rand.Next(0, 3); // Random type
 
             //switch (mouseTypeRand)
@@ -167,7 +167,7 @@ namespace Carmicah
         {
             Vector2 scale = Scale;
 
-            // Console.WriteLine($"Position Before : {Position.x} , {Position.y}");
+            //Console.WriteLine($"Position Before : {Position.x} , {Position.y}");
             switch (randLane)
             {
                 case 0:
@@ -192,7 +192,7 @@ namespace Carmicah
                     Scale = scale;
                     break;
             }
-           // Console.WriteLine($"Position After : {Position.x} , {Position.y}");
+           //Console.WriteLine($"Position After : {Position.x} , {Position.y}");
 
             //currPoint = 1;
         }
