@@ -239,15 +239,15 @@ namespace Carmicah
                 }
                 else if (collidedEntity.GetTag() == "Bullet")
                 {
-                    //  this.AsChild<HealthSystem>().TakeDamage(50);
-                    GetComponent<StateMachine>().SetStateCondition(2);
+                     this.AsChild<HealthSystem>().TakeDamage(50);
+                    //GetComponent<StateMachine>().SetStateCondition(2);
                 }
             }
 
-            //if (this.AsChild<HealthSystem>().mCurHealth <= 0)
-            //{
-            //    GetComponent<StateMachine>().SetStateCondition(2);
-            //}
+            if (this.AsChild<HealthSystem>().mCurHealth <= 0)
+            {
+                GetComponent<StateMachine>().SetStateCondition(2);
+            }
         }
 
         public override void OnTriggerEnter(uint collidedEntity)
