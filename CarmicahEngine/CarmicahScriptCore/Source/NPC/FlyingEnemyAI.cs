@@ -321,6 +321,9 @@ namespace Carmicah
                 if (gm != null)
                     gm.EntityDestroyed(this);
                 timer = 0.0f;
+
+                GetComponent<RigidBody>().StopForces();
+                GetComponent<RigidBody>().StopObject();
                 //Sound.PlaySFX(InjuredSound, 0.5f);
 
                 //GameManager gm = FindEntityWithName("GameManager").As<GameManager>();

@@ -202,7 +202,7 @@ namespace Carmicah
         internal extern static string GetFilePath();
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static void RigidBody_StopForces();
+        internal extern static void RigidBody_StopForces(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static float Collider2D_GetCustomWidth(uint entityID);

@@ -88,7 +88,7 @@ namespace Carmicah
         }
         public void StopForces()
         {
-            FunctionCalls.RigidBody_StopForces();
+            FunctionCalls.RigidBody_StopForces(Entity.mID);
         }
 
         public void StopObject()
