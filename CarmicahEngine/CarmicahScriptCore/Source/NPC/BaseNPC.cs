@@ -24,6 +24,9 @@ namespace Carmicah
         public string placeSound = "Shooter_Appear";
         public string shootSound = "Shooter_Shooting";
         public string deathSound = "Shooter_Death";
+
+        
+
         public AbilityType npcType = 0;
         public float shootRate = 1.0f;
         public float shootTime = 1.0f;
@@ -78,6 +81,8 @@ namespace Carmicah
         {
 
         }
+
+        
         public virtual void OnStateUpdate()
         {
 
