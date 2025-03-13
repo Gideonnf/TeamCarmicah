@@ -13,6 +13,9 @@ namespace Carmicah
         internal extern static void Transform_SetScale(uint entityID, ref Vector2 scale);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Transform_GetRenderingScale(uint entityID, out Vector2 scale);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool Entity_HasComponent(uint entityID, Type componentType);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
