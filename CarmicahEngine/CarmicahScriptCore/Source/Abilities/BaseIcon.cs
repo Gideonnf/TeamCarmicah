@@ -10,6 +10,7 @@ namespace Carmicah
     {
         CANDY_CONE,
         HONEY,
+        JELLYBEAN,
         SHOOTER,
         MAGE,
         SPEAR

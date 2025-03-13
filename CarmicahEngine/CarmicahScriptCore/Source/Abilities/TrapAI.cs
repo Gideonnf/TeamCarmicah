@@ -95,9 +95,14 @@ namespace Carmicah
         {
             CMConsole.Log($"State name : {stateName}");
 
-            if(stateName == "Created")
+            if (stateName == "Created")
             {
                 ChangeAnim(enterAnim);
+
+                if (type == AbilityType.JELLYBEAN)
+                {
+                    GetComponent<StateMachine>().SetStateCondition(3);
+                }
             }
             else if (stateName == "Enter")
             {
@@ -142,6 +147,16 @@ namespace Carmicah
                 }
             }
 
+            else if(stateName == "Idle")
+            {
+                if(type == AbilityType.JELLYBEAN)
+                {
+                    if (GetComponent<Animation>().IsAnimFinished())
+                    {
+                        GetComponent<StateMachine>().SetStateCondition(4);
+                    }
+                }
+            }
 
             else if (stateName == "Dead")
             {

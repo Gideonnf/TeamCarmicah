@@ -62,13 +62,13 @@
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 180.0,
+                    "rot": 0.0,
                     "transformTag": "",
                     "collisionMask": 1
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Shooter_Projectile",
+                    "Atlas": "Jellybean_Explode",
                     "AnimSpeed": 1.0
                 },
                 {
