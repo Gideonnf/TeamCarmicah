@@ -94,6 +94,7 @@ namespace Carmicah
         bool dead = false;
         int animType = 0;
         int randLane = 0;
+        bool move = false;
 
         public override void OnCreate()
         {
@@ -160,6 +161,14 @@ namespace Carmicah
             {
                 if (pauseManager.As<PauseManager>().IsPaused)
                     return;
+            }
+        }
+
+        public override void OnFixedUpdate(float fixedDt)
+        {
+            if (move)
+            {
+                UpdateMovement(fixedDt);
             }
         }
 
@@ -231,30 +240,7 @@ namespace Carmicah
               // GetComponent<RigidBody>().Move(nextPos);
             }
 
-            float dist = Position.Distance(endPos);
-            //CMConsole.Log($"Distance to end {dist}");
-
-            if (dist <= 0.5f)
-            {
-                // CMConsole.Log("Dying");
-                
-                Entity gameManager = FindEntityWithName("GameManager");
-
-                // if thers no NPC to kill then deal damage to the player
-               if(!gameManager.As<GameManager>().KillNPC(this))
-                {
-                    Entity mainCharacter = FindEntityWithName("mainCharacter");
-                    mainCharacter.As<Player>().TakeDamage(10, enemyType);
-                    
-                }
-
-                timer = 0.0f;
-                GetComponent<RigidBody>().StopObject();
-                Sound.StopSoundSFX(soundFile);
-                GetComponent<StateMachine>().SetStateCondition(1);
-
-
-            }
+          
         }
 
         public override void OnCollide(uint id)
@@ -402,12 +388,13 @@ namespace Carmicah
                 {
                     //GetComponent<RigidBody>().StopForces();
                     //GetComponent<RigidBody>().StopObject();
+                    
                     return;
 
                 }
-
+                move = true;
                 // CMConsole.Log("TESTING Update State");
-                if(enemyType != EnemyTypes.BEAR)
+                if (enemyType != EnemyTypes.BEAR)
                 {
 
                     if(!isRunning)
@@ -439,7 +426,57 @@ namespace Carmicah
                     }
 
                 }
-                UpdateMovement(dt);
+
+                Vector2 endPos = Vector2.Zero;  //endEntityLeft.Position : endEntityRight.Position;
+                switch (randLane)
+                {
+                    case 0:
+                        if (endEntityLeft != null)
+                            endPos = endEntityLeft.Position;
+
+                        break;
+                    case 1:
+                        if (endEntityLeft2 != null)
+                            endPos = endEntityLeft2.Position;
+
+                        break;
+                    case 2:
+                        if (endEntityRight != null)
+                            endPos = endEntityRight.Position;
+
+                        break;
+                    case 3:
+                        if (endEntityRight2 != null)
+                            endPos = endEntityRight2.Position;
+                        break;
+                }
+
+
+                float dist = Position.Distance(endPos);
+                //CMConsole.Log($"Distance to end {dist}");
+
+                if (dist <= 0.5f)
+                {
+                    // CMConsole.Log("Dying");
+
+                   // Entity gameManager = FindEntityWithName("GameManager");
+
+                    // if thers no NPC to kill then deal damage to the player
+                    if (!gameManager.As<GameManager>().KillNPC(this))
+                    {
+                        Entity mainCharacter = FindEntityWithName("mainCharacter");
+                        mainCharacter.As<Player>().TakeDamage(10, enemyType);
+
+                    }
+
+                    timer = 0.0f;
+                    GetComponent<RigidBody>().StopObject();
+                    Sound.StopSoundSFX(soundFile);
+                    GetComponent<StateMachine>().SetStateCondition(1);
+
+
+                }
+                //UpdateMovement(dt);
             }
             else if (stateName == "Dead")
             {
