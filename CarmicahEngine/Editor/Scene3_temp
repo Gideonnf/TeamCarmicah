@@ -2,11 +2,6 @@
     "Scene": "Scene3",
     "SceneObjects": [
         {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
-        },
-        {
             "GameObject": "BackgroundGO",
             "ID": 1,
             "Components": [
@@ -18,7 +13,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Menu_SpriteSheet_Main 1",
+                    "texture": "Menu_SpriteSheet_Main 2",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -69,7 +64,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Play 8",
+                    "texture": "Button_SpriteSheet_H_Play 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -77,7 +72,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1150.0,
+                    "xPos": 1300.0,
                     "yPos": 400.0,
                     "depth": 1.0,
                     "xScale": 1.0,
@@ -87,9 +82,9 @@
                 },
                 {
                     "Component Name": "struct Carmicah::StateMachine",
-                    "currState": "Hover",
-                    "nextState": "Hover",
-                    "startingState": "Hover",
+                    "currState": "",
+                    "nextState": "",
+                    "startingState": "",
                     "stateMap": [
                         {
                             "stateName": "Hover",
@@ -149,7 +144,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Quit 8",
+                    "texture": "Button_SpriteSheet_H_Quit 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -157,8 +152,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1375.0,
-                    "yPos": 150.0,
+                    "xPos": 1300.0,
+                    "yPos": 100.0,
                     "depth": 1.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -192,7 +187,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Settings 8",
+                    "texture": "Button_SpriteSheet_H_Settings 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -200,8 +195,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1600.0,
-                    "yPos": 400.0,
+                    "xPos": 1300.0,
+                    "yPos": 300.0,
                     "depth": 1.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -235,7 +230,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Credits 8",
+                    "texture": "Button_SpriteSheet_H_Credits 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -243,8 +238,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1600.0,
-                    "yPos": 280.0,
+                    "xPos": 1300.0,
+                    "yPos": 200.0,
                     "depth": 1.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -264,44 +259,37 @@
             ]
         },
         {
-            "GameObject": "How to play",
-            "ID": 10,
+            "GameObject": "FPS",
+            "ID": 11,
             "Components": [
                 {
-                    "Component Name": "struct Carmicah::Button"
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 53
                 },
                 {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Button_HE_HowTo",
-                    "AnimSpeed": 1.0
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Button_SpriteSheet_H_HowTo 8",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Chewy-Regular",
+                    "text": "Test",
+                    "colorR": 1.0,
+                    "colorG": 1.0,
+                    "colorB": 1.0,
+                    "textAlign": 0
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1151.7081298828126,
-                    "yPos": 280.0,
-                    "depth": 1.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
+                    "xPos": 800.0,
+                    "yPos": 1000.0,
+                    "depth": 0.0,
+                    "xScale": 2.0,
+                    "yScale": 2.0,
                     "rot": 0.0,
                     "transformTag": ""
                 },
                 {
                     "Component Name": "struct Script",
-                    "scriptName": "Carmicah.ButtonGeneric",
+                    "scriptName": "Carmicah.FPSCounter",
                     "ScriptableFieldMap": [
-                        {
-                            "buttonType": "hOWTOPLAY",
-                            "nextScene": ""
-                        }
+                        {}
                     ]
                 }
             ]

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,13 +17,13 @@ namespace Carmicah
         private Entity[] traps = new Entity[4];
         private Entity[] npcs = new Entity[4];
         private bool[] placedObj = new bool[8];
-        private Entity[] ditto = new Entity[4];   // can morph into WORLDSPACE trap / npc
+        private Entity[] ditto = new Entity[2];   // can morph into WORLDSPACE trap / npc
         private Entity player;
-        private Entity playerHP;
         private Entity pauseManager;
         private Entity cam;
+        private Entity endScreen;
 
-        private int tutorialProgress = 3;
+        private int tutorialProgress = 0;
         // For loading certain things only 2 frames later igaf
         private int readyToLoad = 2;
 
@@ -49,12 +50,12 @@ namespace Carmicah
                                         "Perfect timing, reinforcements from above, use WASD to move and pick it up", // 4 reinforcements // ----- 10 -----
                                         "This is a Soldier unit, you can only place them on top of the tower",
                                         "They have limited number of attacks, but can be healed up by clicking on them",
-                                        "Units are also placed on the right --->",
+                                        "Units are also placed on the right --->",                        // Optional txt
                                         "Yeap, just one more, I'll give you another one for free",
                                         "They usually start off healthy, but for this tutorial, I've drained their energy", // ----- 15 -----
                                         "You can click the Soldier to refuel them",
                                         "Be careful to not lose your Soldiers to random enemies",
-                                        "Here comes some enemies . . . Good luck!",              // Dun matter win / lose
+                                        "Tutorial Ends here.. Good luck!",              // Dun matter win / lose
                                         };
 
         // Pan Effects
@@ -74,14 +75,14 @@ namespace Carmicah
 
         public override void OnUpdate(float dt)
         {
-            dt *= 4;
+            //dt *= 4;
 
             if (Input.IsKeyPressed(Keys.KEY_5))
             {
                 tutorialProgress = -1;
             }
 
-            // My Ver. of OnCreate, because I need garuntee the things are loaded in before I get them
+            // My Ver. of On Create, because I need garuntee the things are loaded in before I get them
             if(readyToLoad > 0)
             {
                 if(readyToLoad == 1)
@@ -89,7 +90,7 @@ namespace Carmicah
                     cam = FindEntityWithName("MainCamera");
                     enemy = FindEntityWithName("Tutorial_Enemy");
                     player = FindEntityWithName("MC");
-                    playerHP = FindEntityWithName("Princess_HealthBar");
+                    endScreen = FindEntityWithName("EndScreen");
                     textObj = FindEntityWithName("SubText");
                     pauseManager = FindEntityWithName("PauseManager");
                     txtChild = new Entity(FunctionCalls.Entity_GetChild(textObj.mID));
@@ -122,7 +123,7 @@ namespace Carmicah
                         int i = 0;
                         foreach (Entity child in UIBarChild)
                         {
-                            if (i < 4)
+                            if (i < 2)
                                 ditto[i++] = child;
                         }
                     }
@@ -394,7 +395,7 @@ namespace Carmicah
                         someVec[1].x *= Math.Abs(player.Scale.x) / 2.0f;
                         someVec[1].y *= player.Scale.y / 2.0f;
 
-                        enemy.GetComponent<Animation>().ChangeAnim("Mouse_Death_blue");
+                        enemy.GetComponent<Animation>().ChangeAnim("Mouse_Death_Blue");
                         traps[3].GetComponent<Animation>().ChangeAnim("CandyCone");
                         ++tutorialProgress;
                     }
@@ -434,8 +435,29 @@ namespace Carmicah
                     // someInt      - progress of txt
 
                     TypeWords(dt, someInt);
+                    RecoverHeal();
 
-                    if (someInt < 13 && FinishedTyping() && Delay(dt, 2.0f))
+                    // If player decids to heal beforehand ;w;
+                    if (Input.IsMousePressed(MouseButtons.MOUSE_BUTTON_LEFT))
+                    {
+                        Vector2 mousePos = Input.GetMousePos();
+                        for (int i = 6; i < 8; ++i)
+                        {
+                            if (placedObj[i] && !entityPanFinished[i])
+                            {
+                                if (mousePos.x < npcs[i - 4].LocalPosition.x + panEndGoal[i].x &&
+                                    mousePos.x > npcs[i - 4].LocalPosition.x - panEndGoal[i].x &&
+                                    mousePos.y < npcs[i - 4].LocalPosition.y + panEndGoal[i].y &&
+                                    mousePos.y > npcs[i - 4].LocalPosition.y - panEndGoal[i].y)
+                                {
+                                    if(Heal(i - 4))
+                                        entityPanFinished[i] = true;
+                                }
+                            }
+                        }
+                    }
+
+                    if ((someInt < 13 || someInt == 15) && FinishedTyping() && Delay(dt, 2.0f))
                         ++someInt;
 
                     if (!someBools[2] && someInt == 13 && FinishedTyping())
@@ -525,15 +547,20 @@ namespace Carmicah
                                 placedObj[justPlaced + 4] = true;
                                 npcs[justPlaced].GetComponent<Renderer>().SetAlpha(1.0f);
 
-                                if (justPlaced > 2)
+                                if (justPlaced > 1)
                                 {
                                     someInt = 15;
                                     npcs[justPlaced].GetComponent<Animation>().ChangeAnim("Shooter_Mana");
+
+                                    FunctionCalls.Transform_GetRenderingScale(npcs[justPlaced].mID, out panEndGoal[justPlaced + 4]);
+                                    panEndGoal[justPlaced + 4].x = panEndGoal[justPlaced + 4].x * Math.Abs(npcs[justPlaced].Scale.x) / 2.0f;
+                                    panEndGoal[justPlaced + 4].y = panEndGoal[justPlaced + 4].y * npcs[justPlaced].Scale.y / 2.0f;
+                                    entityPanFinished[justPlaced + 4] = false;
                                 }
 
                                 if (placedObj[6] && placedObj[7])
                                 {
-
+                                    someInt = Math.Max(15, someInt);
                                     ++tutorialProgress;
                                 }
                                 else
@@ -554,12 +581,52 @@ namespace Carmicah
                     }
                     break;
                 case 10:
-                    TypeWords(dt, 15);
+                    TypeWords(dt, someInt);
                     RecoverHeal();
-                    if (Input.IsKeyPressed(Keys.KEY_9))
-                        Heal(3);
+
+                    if (someInt == 15 && FinishedTyping() && Delay(dt, 2.0f))
+                        ++someInt;
+
+
+                    if (Input.IsMousePressed(MouseButtons.MOUSE_BUTTON_LEFT))
+                    {
+                        Vector2 mousePos = Input.GetMousePos();
+                        for (int i = 6; i < 8; ++i)
+                        {
+                            if (placedObj[i] && !entityPanFinished[i])
+                            {
+                                if (mousePos.x < npcs[i - 4].LocalPosition.x + panEndGoal[i].x &&
+                                    mousePos.x > npcs[i - 4].LocalPosition.x - panEndGoal[i].x &&
+                                    mousePos.y < npcs[i - 4].LocalPosition.y + panEndGoal[i].y &&
+                                    mousePos.y > npcs[i - 4].LocalPosition.y - panEndGoal[i].y)
+                                {
+                                    if(Heal(i - 4))
+                                        entityPanFinished[i] = true;
+                                }
+                            }
+                        }
+                    }
+
+                    if (entityPanFinished[6] && entityPanFinished[7] && healDone)
+                    {
+                        someInt = 17;
+                        ++tutorialProgress;
+                    }
                     break;
                 case 11:
+                    TypeWords(dt, someInt);
+
+                    if (someInt == 17 && FinishedTyping() && Delay(dt, 2.0f))
+                        ++someInt;
+
+                    if (someInt == 18 && FinishedTyping() && Delay(dt, 2.0f))
+                    {
+                        endScreen.LocalPosition = new Vector2(960.0f, 540.0f);
+                        ++tutorialProgress;
+                    }
+                    break;
+                case 12:
+                        
                     break;
                 default:
                     Scene.ChangeScene("Loading");
@@ -591,6 +658,9 @@ namespace Carmicah
                 whichPhrase = phraseNum;
                 currText = "";
             }
+
+            bool dunChangeBGTxt = currText.Length == 0;
+
             if (currPhraseProgress < phraseLength)
             {
                 wordsTimer += dt;
@@ -605,7 +675,10 @@ namespace Carmicah
                 {
                     textObj.GetComponent<TextRenderer>().SetText(currText);
 
-                    txtChild.Scale = new Vector2(textObj.GetComponent<TextRenderer>().GetWidth() / 47.0f, 1.0f);
+                    if(!dunChangeBGTxt)
+                        txtChild.Scale = new Vector2(textObj.GetComponent<TextRenderer>().GetWidth() / 47.0f, 1.0f);
+                    else
+                        txtChild.Scale = new Vector2(0.0f, 0.0f);
                 }
             }
         }
@@ -648,15 +721,23 @@ namespace Carmicah
             return entityPanFinished[num];
         }
 
-        void Heal(int npcNum)
+        bool Heal(int npcNum)
         {
-            if (placedObj[npcNum + 4])
+            if (healDone && placedObj[npcNum + 4])
             {
                 healNPC = npcNum;
                 pauseManager.As<PauseManager>().IsPaused = true;
                 player.GetComponent<Animation>().ChangeAnim("MC_Heal");
+                Vector2 playerPosEdit = player.LocalPosition;
+                if(player.Scale.x > 0)
+                    playerPosEdit.x -= 0.7f;
+                else
+                    playerPosEdit.x += 0.7f;
+                player.LocalPosition = playerPosEdit;
                 healDone = false;
+                return true;
             }
+            return false;
         }
         
         void RecoverHeal()
@@ -666,6 +747,13 @@ namespace Carmicah
                 healDone = true;
                 npcs[healNPC].GetComponent<Animation>().ChangeAnim("Shooter_Idle");
                 player.GetComponent<Animation>().ChangeAnim("MC_Idle");
+                Vector2 playerPosEdit = player.LocalPosition;
+                if (player.Scale.x > 0)
+                    playerPosEdit.x += 0.7f;
+                else
+                    playerPosEdit.x -= 0.7f;
+                player.LocalPosition = playerPosEdit;
+
                 pauseManager.As<PauseManager>().UnPause();
             }
         }

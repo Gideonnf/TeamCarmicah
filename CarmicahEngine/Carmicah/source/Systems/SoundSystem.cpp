@@ -62,7 +62,7 @@ namespace Carmicah
         StopAllSounds();
     }
 
-    bool SoundSystem::PlaySoundThis(const std::string& soundName, SoundCategory category, INTSOUND internalCatergoy, bool isLoop, float volume)
+    bool SoundSystem::PlaySoundThis(const std::string& soundName, SoundCategory category, INTSOUND internalCatergoy, bool isLoop, float volume, unsigned int id)
     {
         if (!AssetManager::GetInstance()->AssetExist<FMOD::Sound*>(soundName))
         {
@@ -73,6 +73,9 @@ namespace Carmicah
 
         FMOD::Channel* channel;
         mSoundSystem->playSound(sound, nullptr, false, &channel);
+
+        FMOD::DSP* lowPass;
+
         if (channel) {
             // Store in tracks for management
             auto track = std::make_unique<SoundTrack>();
@@ -81,6 +84,13 @@ namespace Carmicah
             track->channel = channel;
             track->defaultVolume = (volume >= 0 ? volume : defaultVolume) * mCategoryVolumes[category];
             track->currentVolume = track->defaultVolume * mMasterVolume;
+            mSoundSystem->createDSPByType(FMOD_DSP_TYPE_LOWPASS, &lowPass);
+            track->channel->addDSP(0, lowPass);
+            track->lowPassDSP = lowPass;
+            track->lowPassDSP->setParameterFloat(FMOD_DSP_LOWPASS_CUTOFF, 9000.0f);
+            track->lowPassDSP->setBypass(true);
+            track->muffle = false;
+            track->entityID = id;
 
             if (!isLoop)
             {
@@ -361,6 +371,59 @@ namespace Carmicah
             if (it->get()->channel && it->get()->category == category)
                 UpdateSoundVolume(it->get());
         }
+    }
+
+    void SoundSystem::ToggleMuffle(INTSOUND internalCatergoy, bool toMuffle, unsigned int id)
+    {
+        FMOD::Channel* currentChannel = nullptr;
+        FMOD::DSP* dsp = nullptr;
+        if (id == 0 && internalCatergoy == SOUND_BGM)
+        {
+            currentChannel = mSoundTracks[internalCatergoy].back()->channel;
+        }
+        else
+        {
+            for (auto it = mSoundTracks[internalCatergoy].begin(); it != mSoundTracks[internalCatergoy].end(); ++it)
+            {
+                if (id == it->get()->entityID)
+                {
+                    currentChannel = it->get()->channel;
+                    if (toMuffle == false)
+                    {
+                        it->get()->channel->setVolume((it->get()->currentVolume)*0.5f);
+                    }
+                    else
+                    {
+                        it->get()->channel->setVolume(it->get()->currentVolume);
+                    }
+
+                    it->get()->muffle = toMuffle;
+                    it->get()->lowPassDSP->setBypass(it->get()->muffle);
+                }
+            }
+
+        }
+        //FMOD::DSP* dsp = mSoundTracks[internalCatergoy].back()->lowPassDSP;
+        //FMOD_DSP_TYPE type;
+
+        //int numDSP = 0;
+        //currentChannel->getNumDSPs(&numDSP);
+
+        //for (int i = 0; i < numDSP; i++)
+        //{
+        //    //currentChannel->getDSP(i, &dsp);
+        //    dsp->getType(&type);
+
+        //    if (type == FMOD_DSP_TYPE_LOWPASS)
+        //    {
+        //        mSoundTracks[internalCatergoy].back()->muffle = toMuffle;
+        //        dsp->setBypass(mSoundTracks[internalCatergoy].back()->muffle);
+        //        return;
+        //    }
+        //}
+
+
+
     }
 
     float SoundSystem::CalculateFinalVolume(const SoundTrack* track, SoundCategory category) const
