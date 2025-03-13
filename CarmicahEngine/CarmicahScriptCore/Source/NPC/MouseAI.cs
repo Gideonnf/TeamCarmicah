@@ -411,7 +411,7 @@ namespace Carmicah
                         Random rnd = new Random();
                         int number = rnd.Next(1, 8);
                         soundFile = "Mice_Running_0" + number.ToString();
-                        CMConsole.Log(soundFile);
+                        //CMConsole.Log(soundFile);
                         Sound.PlaySFX(soundFile, 0.15f, true);
                         isRunning = true;
                     }
