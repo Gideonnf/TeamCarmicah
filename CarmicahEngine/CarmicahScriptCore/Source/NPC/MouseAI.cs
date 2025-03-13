@@ -123,7 +123,7 @@ namespace Carmicah
             //stateMachine.SetNextState("Chase");
             //Random rand = new Random();
             //animType = CMRand.Range(0, 3); // rand between 0 to 3
-            randLane = CMRand.Range(0, 4); // rand between 0 to 3
+            randLane = CMRand.Range(0,4); // rand between 0 to 3
 
             lane = randLane;
 
@@ -346,6 +346,9 @@ namespace Carmicah
             
             if (stateName == "Dead")
             {
+                GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                if (gm != null)
+                    gm.EntityDestroyed(this);
                 dead = true;
                 timer = 0.0f;
                 Sound.PlaySFX(InjuredSound, 0.5f);
@@ -418,9 +421,7 @@ namespace Carmicah
                 {
                     isRunning = false;
                     Sound.StopSoundSFX(soundFile);
-                    GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
-                    if (gm != null)
-                        gm.EntityDestroyed(this);
+                    
 
                     Sound.PlaySFX(DeathSound, 0.5f);
                     Sound.PlaySFX("NPC_Death", 0.8f);

@@ -57,6 +57,21 @@ namespace Carmicah
             //float borderThickness = 2.0f;
             ////ImGui::InvisibleButton("Window Area",windowBottomRight);
 
+            if (Input.IsKeyPressed(KEY_P))
+            {
+                mIsPaused = !mIsPaused;
+                if(mIsPaused)
+                {
+                    auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+                    souSystem->PauseAllSounds();
+                }
+                else
+                {
+                    auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+                    souSystem->ResumeAllSounds();
+                }
+            }
+
             if (!mIsPlaying)
             {
                 if (ImGui::Button("Play"))

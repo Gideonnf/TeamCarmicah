@@ -239,7 +239,8 @@ namespace Carmicah
                 }
                 else if (collidedEntity.GetTag() == "Bullet")
                 {
-                  //  this.AsChild<HealthSystem>().TakeDamage(50);
+                    //  this.AsChild<HealthSystem>().TakeDamage(50);
+                    GetComponent<StateMachine>().SetStateCondition(2);
                 }
             }
 
@@ -275,7 +276,7 @@ namespace Carmicah
                 {
                     if (!entity.As<TrapAI>().built) return;
 
-                    CMConsole.Log("FLYING ENEMY SLOWED BY TRAP");
+                    //CMConsole.Log("FLYING ENEMY SLOWED BY TRAP");
                     debuff = speedDebuff;
                 }
             }
@@ -294,7 +295,7 @@ namespace Carmicah
 
         public override void OnStateEnter(string stateName)
         {
-            CMConsole.Log($"Entering State {stateName}");
+            //CMConsole.Log($"Entering State {stateName}");
 
             if (stateName == "Diving")
             {
@@ -316,6 +317,9 @@ namespace Carmicah
 
             if (stateName == "Dead")
             {
+                GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                if (gm != null)
+                    gm.EntityDestroyed(this);
                 timer = 0.0f;
                 //Sound.PlaySFX(InjuredSound, 0.5f);
 
@@ -371,9 +375,6 @@ namespace Carmicah
                 timer += dt;
                 if (GetComponent<Animation>().IsAnimFinished())
                 {
-                    GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
-                    if (gm != null)
-                        gm.EntityDestroyed(this);
                     // Sound.PlaySFX(DeathSound, 0.5f);
                     Destroy();
                 }

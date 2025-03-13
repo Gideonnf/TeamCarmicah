@@ -66,6 +66,8 @@ namespace Carmicah
             {
                 Vector2 scale = trapEntity.GetComponent<Transform>().Scale;
                 trapEntity.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
+                Vector2 Pos = trapEntity.GetComponent<Transform>().Position;
+                trapEntity.GetComponent<Transform>().Position = new Vector2(Pos.x, Pos.y);
                 flipped = true;
             }
             else if (trapEntity.Position.x > 0.0f && flipped == true)
@@ -89,6 +91,15 @@ namespace Carmicah
             if (trapEntity != null) return;
 
             trapEntity = CreateGameObject(heroPrefab);
+            //if(type == AbilityType.SPEAR)
+            //{
+            //    Vector2 Pos = trapEntity.GetComponent<Transform>().Position;
+            //    Pos.x -= 0.5f;
+            //    trapEntity.GetComponent<Transform>().Position = Pos;
+            //    CMConsole.Log("Shenanigans to the spear fella");
+
+            //}
+
             //Not sure if this belongs here but shld work.
             heroBuildEntity.As<HeroBuild>().SetHeroType(type, heroPrefab, this);
             heroBuildEntity1.As<HeroBuild>().SetHeroType(type, heroPrefab, this);
@@ -128,7 +139,10 @@ namespace Carmicah
         public override void OnMouseExit()
         {
             //hovering = false;
-            this.GetComponent<Renderer>().SetColour(1.0f, 1.0f, 1.0f);
+            if(mID == 0) return;
+
+            if(this.HasComponent<Renderer>())
+            { this.GetComponent<Renderer>().SetColour(1.0f, 1.0f, 1.0f); }
         }
 
     }
