@@ -42,6 +42,33 @@
                     "rot": 0.0,
                     "transformTag": ""
                 }
+            ],
+            "Children": [
+                {
+                    "GameObject": "TxtBG",
+                    "ID": 27,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_White 0",
+                            "colR": 0.0,
+                            "colG": 0.0,
+                            "colB": 0.0,
+                            "colA": 0.6078431606292725
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 0.0,
+                            "yPos": 0.0,
+                            "depth": 9.0,
+                            "xScale": 2.6500000953674318,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
+                }
             ]
         },
         {

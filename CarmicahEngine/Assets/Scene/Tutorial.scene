@@ -1005,7 +1005,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Mouse_Climb_blue",
+                    "Atlas": "Mouse_Climb_Blue",
                     "AnimSpeed": 1.0
                 },
                 {
@@ -1317,6 +1317,131 @@
                         }
                     ],
                     "Children": []
+                }
+            ]
+        },
+        {
+            "GameObject": "EndScreen",
+            "ID": 50,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Board",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 960.0,
+                    "yPos": 5400.0,
+                    "depth": 0.0,
+                    "xScale": 0.800000011920929,
+                    "yScale": 0.800000011920929,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "EndTxt",
+                    "ID": 51,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::TextRenderer",
+                            "font": "Chewy-Regular",
+                            "text": "Tutorial Over!",
+                            "colorR": 0.9921568632125855,
+                            "colorG": 0.151741623878479,
+                            "colorB": 0.6263290047645569,
+                            "textAlign": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": -520.0,
+                            "yPos": 142.10000610351563,
+                            "depth": 1.0,
+                            "xScale": 2.0,
+                            "yScale": 2.0,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
+                },
+                {
+                    "GameObject": "EndWin",
+                    "ID": 52,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Animation",
+                            "Atlas": "MC_Win",
+                            "AnimSpeed": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "MC_SpriteSheet_Win 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 93.9501953125,
+                            "yPos": 15.300000190734864,
+                            "depth": 1.0,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
+                },
+                {
+                    "GameObject": "EndBtn",
+                    "ID": 53,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Button"
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Animation",
+                            "Atlas": "Button_C_Menu",
+                            "AnimSpeed": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Button_SpriteSheet_C_Menu 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 0.0,
+                            "yPos": -250.0,
+                            "depth": 1.0,
+                            "xScale": 1.25,
+                            "yScale": 1.25,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.ButtonGeneric",
+                            "ScriptableFieldMap": [
+                                {
+                                    "buttonType": "home",
+                                    "nextScene": "Scene3"
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         },
