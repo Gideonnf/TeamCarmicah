@@ -1,6 +1,6 @@
 {
     "GameObject": "JellybeanTrap",
-    "ID": 62,
+    "ID": 59,
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
@@ -14,21 +14,16 @@
             "collisionMask": 32
         },
         {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Jellybean_Preset",
+            "AnimSpeed": 1.0
+        },
+        {
             "Component Name": "struct Carmicah::StateMachine",
             "currState": "",
             "nextState": "",
             "startingState": "Created",
             "stateMap": [
-                {
-                    "stateName": "Idle",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Dead",
-                            "condition": 4
-                        }
-                    ]
-                },
                 {
                     "stateName": "Created",
                     "stateCondition": 0,
@@ -40,6 +35,16 @@
                         {
                             "targetState": "Enter",
                             "condition": 2
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Idle",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Dead",
+                            "condition": 4
                         }
                     ]
                 },
@@ -61,16 +66,11 @@
             ]
         },
         {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Jellybean_Preset",
-            "AnimSpeed": 1.0
-        },
-        {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "",
-            "customWidth": 0.5,
+            "customWidth": 0.05000000074505806,
             "customRotation": 0.0,
-            "customHeight": 1.0
+            "customHeight": 0.6000000238418579
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
@@ -85,21 +85,6 @@
             "objectType": 2
         },
         {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.TrapAI",
-            "ScriptableFieldMap": [
-                {
-                    "built": false,
-                    "enterAnim": "Jellybean_Preset",
-                    "exitAnim": "",
-                    "idleAnim": "Jellybean_Explode",
-                    "timer": 0.0,
-                    "isDead": false,
-                    "life": 2.0
-                }
-            ]
-        },
-        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "jellybean_explosion_spritesheet_explode 2",
@@ -107,6 +92,21 @@
             "colG": 1.0,
             "colB": 1.0,
             "colA": 1.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.TrapAI",
+            "ScriptableFieldMap": [
+                {
+                    "built": false,
+                    "exitAnim": "",
+                    "enterAnim": "Jellybean_Preset",
+                    "timer": 0.0,
+                    "idleAnim": "Jellybean_Explode",
+                    "life": 2.0,
+                    "isDead": false
+                }
+            ]
         }
     ]
 }

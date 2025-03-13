@@ -97,12 +97,11 @@ namespace Carmicah
 
             if (stateName == "Created")
             {
-                ChangeAnim(enterAnim);
-
                 if (type == AbilityType.JELLYBEAN)
                 {
                     GetComponent<StateMachine>().SetStateCondition(3);
                 }
+                ChangeAnim(enterAnim);
             }
             else if (stateName == "Enter")
             {

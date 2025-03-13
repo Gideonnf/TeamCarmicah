@@ -1,6 +1,6 @@
 {
     "GameObject": "FakeJellybeanTrap",
-    "ID": 59,
+    "ID": 53,
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
@@ -23,7 +23,7 @@
             "shape": "",
             "customWidth": 0.25,
             "customRotation": 0.0,
-            "customHeight": 0.25
+            "customHeight": 0.10000000149011612
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
