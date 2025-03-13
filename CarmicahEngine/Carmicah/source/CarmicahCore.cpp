@@ -328,6 +328,8 @@ namespace Carmicah
             // If the next state was set to ONSTART, means sceneSystem received a play messag
             if (gameSystem->mNextState == SceneState::ONSTART)
             {
+                // go to run time after starting up all script objects
+                gameSystem->mNextState = gameSystem->mCurrState = SceneState::RUNTIME;
 
                 // Update world and local transforms before rendering
                 rendTransformSystem->Update();
@@ -336,8 +338,6 @@ namespace Carmicah
                 //souSystem->PlaySoundThis("BGM_SetupPhase_Mix1", SoundCategory::BGM, SoundSystem::SOUND_INGAME, true, 0.4f);
                 gScriptSystem->OnStart();
                 fsmSystem->Init();
-                // go to run time after starting up all script objects
-                gameSystem->mNextState = gameSystem->mCurrState = SceneState::RUNTIME;
             }
             else if (gameSystem->mCurrState == gameSystem->mNextState)
             {
