@@ -169,6 +169,7 @@ namespace Carmicah
                     if (targetEntity.GetTag() == "Player")
                     {
                         Entity mainCharacter = FindEntityWithName("mainCharacter");
+                        CMConsole.Log("Taking Damage from Bird");
                         mainCharacter.As<Player>().TakeDamage(10, enemyType);
                     }
                     else
@@ -328,6 +329,7 @@ namespace Carmicah
             if (stateName == "Dead")
             {
                 dead = true;
+                move = false;
                 GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                 if (gm != null)
                     gm.EntityDestroyed(this);
