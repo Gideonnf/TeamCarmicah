@@ -61,7 +61,7 @@ namespace Carmicah
         internal extern static void Sound_PlayBGM(string soundName, float volume);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static void Sound_SwitchBGM(string soundName, float fadeTimer, float fadeDuration, bool isLoop);
+        internal extern static void Sound_SwitchBGM(string soundName, float fadeTimer, float fadeDuration, bool isLoop, bool fadeInNext);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_SetVolume(string soundName, float volume);
@@ -74,6 +74,9 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_StopSFXWithFade(string soundName , float fadeTimer, float fadeDuration);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Sound_StopBGMWithFade(string soundName, float fadeTimer, float fadeDuration);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_StopAllSFX();

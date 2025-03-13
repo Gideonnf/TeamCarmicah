@@ -18,6 +18,7 @@ namespace Carmicah
 
         MouseAI targetMouse;
         float timer = 0.0f;
+        string voiceOver;
         public override void OnCreate()
         {
             base.OnCreate();
@@ -224,6 +225,8 @@ namespace Carmicah
             }
             else if (stateName == "Dead")
             {
+                Sound.PlaySFX("Mage_Death", 0.8f);
+                Sound.PlaySFX("NPC_Death", 0.8f);
                 ChangeAnim(dissolveAnim);
                 CMConsole.Log("NPC Dying");
             }
@@ -306,6 +309,7 @@ namespace Carmicah
                 {
                     CMConsole.Log("MC Should try to heal " + mID.ToString());
                     player.HealAI(mID);
+                    
                 }
             }
             else if (stateName == "Dead")
@@ -317,6 +321,25 @@ namespace Carmicah
                 }
             }
 
+        }
+
+        public void PlayVoiceOver()
+        {
+            Random rnd = new Random();
+            int number = rnd.Next(1, 11);
+
+            if (number > 9)
+            {
+
+                voiceOver = "VO_Mage_Placement_" + number.ToString();
+
+            }
+            else
+            {
+                voiceOver = "VO_Mage_Placement_0" + number.ToString();
+            }
+
+            Sound.PlaySFX(voiceOver, 1.3f);
         }
 
         public override void OnStateExit(string stateName)

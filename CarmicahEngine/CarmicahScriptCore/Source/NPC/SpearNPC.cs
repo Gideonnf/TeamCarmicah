@@ -245,6 +245,14 @@ namespace Carmicah
                 {
                     CMConsole.Log("MC Should try to heal " + mID.ToString());
                     player.HealAI(mID);
+                    if (player.GetComponent<Animation>().IsAnimFinished())
+                    {
+                        Random rnd = new Random();
+                        int number = rnd.Next(1, 5);
+                        string soundFile = "Spearman_Throw_0" + number.ToString();
+                        CMConsole.Log("hereSpear");
+                        Sound.PlaySFX(soundFile, 1.0f);
+                    }
                 }
             }
             else if (stateName == "Dead")

@@ -707,7 +707,8 @@ namespace Carmicah
             GameOver = true;
             Entity pauseManager = FindEntityWithName("PauseManager");
             pauseManager.As<PauseManager>().IsPaused = true;
-            Sound.SwitchBGM("LoseScreen", 1.0f, 0.5f, false);
+            Sound.SwitchBGM("LoseScreen", 0.5f, 0.5f);
+            
             Sound.StopAllSFX();
             CreateGameObject("LoseScreen");
         }
@@ -934,6 +935,8 @@ namespace Carmicah
 
                 if (cakeCounter >= 2) return;
 
+                Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
+
                 cakeType = CMRand.Range(0, 3);
                 CMConsole.Log($"cake type {cakeType}");
                 towerPrefab = CreateGameObject(CakePrefabName);
@@ -1004,6 +1007,7 @@ namespace Carmicah
                     GetComponent<StateMachine>().SetStateCondition(4);
                     CMConsole.Log("Changing VFX prefab animation");
                     VFXPrefab.ChangeAnim("CakeFallVFxEnd");
+                    Sound.PlaySFX("SFX__Magic", 0.4f);
 
                 }
 

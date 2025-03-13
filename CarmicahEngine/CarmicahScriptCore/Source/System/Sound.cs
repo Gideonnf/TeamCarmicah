@@ -20,9 +20,9 @@ namespace Carmicah
             FunctionCalls.Sound_PlayBGM(soundName, volume);
         }
 
-        public static void SwitchBGM(string soundName, float fadeTimer, float fadeDuration, bool isLoop = true)
+        public static void SwitchBGM(string soundName, float fadeTimer, float fadeDuration, bool isLoop = true, bool fadeInNext = false)
         {
-            FunctionCalls.Sound_SwitchBGM(soundName, fadeTimer, fadeDuration, isLoop);
+            FunctionCalls.Sound_SwitchBGM(soundName, fadeTimer, fadeDuration, isLoop, fadeInNext);
         }
 
         // Volume controls
@@ -45,6 +45,12 @@ namespace Carmicah
         public static void StopSoundSFXWithFade(string soundName, float fadeTimer, float fadeDuration)
         {
             FunctionCalls.Sound_StopSFXWithFade(soundName, fadeTimer, fadeDuration);
+        }
+
+        public static void StopSoundBGMWithFade(string soundName, float fadeTimer, float fadeDuration)
+        {
+            FunctionCalls.Sound_StopBGMWithFade(soundName, fadeTimer, fadeDuration);
+            //CMConsole.Log("Calling");
         }
 
         public static void StopAllSFX()

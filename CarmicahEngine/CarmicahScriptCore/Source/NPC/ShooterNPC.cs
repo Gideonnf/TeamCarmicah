@@ -319,6 +319,8 @@ namespace Carmicah
                 {
                     CMConsole.Log("MC Should try to heal " + mID.ToString());
                     player.HealAI(mID);
+
+                    
                 }
             }
             else if(stateName == "Dead")
