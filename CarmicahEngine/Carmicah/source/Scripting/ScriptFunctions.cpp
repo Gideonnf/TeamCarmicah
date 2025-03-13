@@ -30,6 +30,7 @@ DigiPen Institute of Technology is prohibited.
 #include "../Systems/SoundSystem.h"
 #include "../ECS/SystemManager.h"
 #include "../Systems/CollisionSystem.h"
+#include "../Physics/PhysicsSystem.h"
 #include "../Systems/SceneSystem.h"
 #include "../Editor/SceneWindow.h"
 #include "../FSM/FSMSystem.h"
@@ -402,6 +403,19 @@ namespace Carmicah
 		if (go.HasComponent<RigidBody>())
 		{
 			go.GetComponent<RigidBody>().forcesManager.RemoveForce();
+		}
+	}
+
+	static void RigidBody_StopObject(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+
+		
+
+		if (go.HasComponent<RigidBody>())
+		{
+			auto phySystem = SystemManager::GetInstance()->GetSystem<PhysicsSystem>();
+			phySystem->StopObject(entityID);
 		}
 	}
 
@@ -1020,6 +1034,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);
 		ADD_INTERNAL_CALL(RigidBody_ApplyForceWithTime);
 		ADD_INTERNAL_CALL(RigidBody_StopForces);
+		ADD_INTERNAL_CALL(RigidBody_StopObject);
 		ADD_INTERNAL_CALL(RigidBody_Move);
 
 		// renderer functions

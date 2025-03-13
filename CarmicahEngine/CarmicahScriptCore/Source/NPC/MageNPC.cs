@@ -346,6 +346,10 @@ namespace Carmicah
         {
             //CMConsole.Log("TESTING Exit State");
             //CMConsole.Log($"Exit State Name: {stateName}");
+            if(stateName == "NoMana")
+            {
+                PlayVoiceOver();
+            }
 
         }
 
