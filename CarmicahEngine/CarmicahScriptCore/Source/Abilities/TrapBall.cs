@@ -56,6 +56,8 @@ namespace Carmicah
             if (!stop)
             {
                 Vector2 pos = Position;
+                if (pos.y <= 3.0f)
+                    CMConsole.Log($"{mID} is below 3.0");
                 pos.y -= fallSpeed * dt;
                 Position = pos;
             }
@@ -119,7 +121,7 @@ namespace Carmicah
         public override void OnTriggerEnter(uint collidedEntity)
         {
             Entity entity = FindEntityWithID(collidedEntity);
-           CMConsole.Log($"Entity collided {collidedEntity}");
+           //CMConsole.Log($"Entity collided {collidedEntity}");
             // if colliding with player
             if (entity.GetTag() == "Player")
             {

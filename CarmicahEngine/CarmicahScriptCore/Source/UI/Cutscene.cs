@@ -1,21 +1,4 @@
-﻿/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:			Cutscene.cs
-  
- author:		YANG YUJIE (40%)
-
- email:		    y.yujie@digien.edu
-
- brief:			The cut scene system is responsible for managing the cut scene. It will change the image of the cut scene every few seconds.
-                The cut scene will be displayed for a few seconds before transitioning to the next image. The system will also handle the fade in and fade out effect.
-                The system will also play the background music for the cut scene.
-
-Copyright (C) 2024 DigiPen Institute of Technology.
-Reproduction or disclosure of this file or its contents without the prior written consent of
-DigiPen Institute of Technology is prohibited.
------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,17 +10,20 @@ namespace Carmicah
     {
         public float timer = 0.0f;
         // Running Total for how long for each Panel
-        private float panel1 = 7.0f;     // In a Lang far far away...
-        private float panel2a = 16.0f;   // The kingdom stood...
-        private float panel2b = 20.0f;   // But one day (pause)
-        private float panel3 = 25.0f;    // When the critters attacked!
-        private float panel4a = 30.5f;   // Known for...
-        private float panel4b = 36.0f;
+        private float panel1 = 11.0f;    //In a land far far away, filled with sweet treats and goodness the candy kingdom ...11s
+        private float panel2a = 16.0f;   //under the rule of princess Strawberry (5s + 11s)
+        private float panel2b = 20.0f;   //But one day everything changed (4s + 16s)
+        private float panel3 = 24.0f;    //When the Critters attacked! (4s + 20s)
+        private float panel4a = 29.0f;   //Known for devouring everything in their path (5s + 24s)
+        private float panel4b = 33.0f;   //the fall of the Candy Kingdom would be imminent (4s + 29s)
         // Cutscene Img 2
-        private float panel5 = 45.0f;    // Determined to save her kingdom...
-        private float panel6 = 55.0f;    // With Courage in their hearts...
-        // White Color
-        private float panel7 = 64.0f;    // And thus... (FadeOut)
+        private float panel5 = 37.0f;    //if nothing was done (4s + 33s)
+        private float panel6 = 40.0f;    //Determined to save her kingdom (3s + 37s)
+        private float panel7 = 46.0f;    //princess rallied her troops to prepare for the oncoming threat (6s + 40s)
+        private float panel8 = 49.5f;    //with courage in their hearts (3.5s + 46s)
+        private float panel9 = 55.0f;    //the fate of candy kingdom (5.5s + 49.5s)
+        private float panel10 = 57.5f;   //And thus began (2.5s + 55s)
+        private float panel11 = 64.0f;   //the battle all would remember as... (6.5s + 57.5s)
 
         public float fadeSpeed = 0.5f;
 
@@ -45,27 +31,30 @@ namespace Carmicah
         private string img1Name = "Opening_Cutscene1_SpriteSheet_Yes";
         private int img1Size = 6;
         private string img2Name = "Opening_Cutscene2_SpriteSheet_Yes";
-        private int img2Size = 2;
+        private int img2Size = 6; // changed to 6
         private string img3Name = "Wall_Invis";
         private int img3Size = 1;
 
-        // Background music configuration  
+        // Background music   
+        // Background music   
         public string backgroundMusicTrack = "Cutscene";
         public string backgroundMusicTrack1 = "BGM_SetupPhase_Mix1";
 
-        // Dictionary to store custom display times for each panel
-        private float[] panelTimings = new float[9];
-        private string[] panelWords = new string[9]{ "In a land far far away, filled with sweet treats and goodness",
-                                        "The Candy Kingdom stood proud and tall under the rule of princess Strawberry",
-                                        "But one day everything changed",
-                                        "When the Critters attacked!",
-                                        "Known for devouring everything in their path,",
-                                        "the fall of the Candy Kingdom would be imminent if nothing was done",
-                                        "Determined to save her kingdom, the princess rallied her troops to prepare for the oncoming threat.",
-                                        "With courage in their hearts, the fate of the Candy Kingdom lied in the palm of their hands",
-                                        "And thus began the battle all would remember as..."};
+        private float[] panelTimings = new float[11]; // Increased to 11 panels
+        private string[] panelWords = new string[11]{
+            "In a land far far away, filled with sweet treats and goodness",
+            "The Candy Kingdom stood proud and tall under the rule of princess Strawberry",
+            "But one day everything changed",
+            "When the Critters attacked!",
+            "Known for devouring everything in their path,",
+            "the fall of the Candy Kingdom would be imminent",
+            "if nothing was done",
+            "Determined to save her kingdom, the princess rallied her troops to prepare for the oncoming threat.",
+            "With courage in their hearts,",
+            "the fate of the Candy Kingdom lied in the palm of their hands",
+            "And thus began the battle all would remember as..."
+        };
         private bool musicStarted = false;
-
 
         int currentPanel = 0;
         Entity cutsceneEntity;
@@ -74,8 +63,7 @@ namespace Carmicah
         string currText = "";
         float currAlpha;
 
-        // If i need to load all the panels
-        // i need them stored in a string 
+        //srore in a string for the panel 
 
         public override void OnCreate()
         {
@@ -84,20 +72,19 @@ namespace Carmicah
             cutsceneEntity.Depth = cutsceneEntity.Depth + 1.0f;
             textObj = FindEntityWithName("CutsceneText");
 
-            //initialize panel timings
             SetupPanelTimings();
 
-            // Start background music when cutscene begins
             if (!musicStarted)
             {
                 Sound.PlaySFX(backgroundMusicTrack, 0.5f);
                 musicStarted = true;
             }
-
         }
+
         void SetupPanelTimings()
         {
             // Set custom display times for each panel
+            //
             panelTimings[0] = panel1;
             panelTimings[1] = panel2a;
             panelTimings[2] = panel2b;
@@ -107,6 +94,8 @@ namespace Carmicah
             panelTimings[6] = panel5;
             panelTimings[7] = panel6;
             panelTimings[8] = panel7;
+            panelTimings[9] = panel8;
+            panelTimings[10] = panel9;
         }
 
         private string GetCurrPanelName()
@@ -117,7 +106,7 @@ namespace Carmicah
                 return img1Name + " " + panelCounter;
             }
             panelCounter -= img1Size;
-            if(panelCounter < img2Size)
+            if (panelCounter < img2Size)
             {
                 return img2Name + " " + panelCounter;
             }
@@ -153,7 +142,7 @@ namespace Carmicah
 
         public override void OnUpdate(float dt)
         {
-            if(Input.IsKeyPressed(Keys.KEY_5))
+            if (Input.IsKeyPressed(Keys.KEY_5))
             {
                 ProgressScene();
             }
@@ -237,13 +226,11 @@ namespace Carmicah
                     //Sound.StopSound(backgroundMusicTrack);
                 }
             }
-
         }
 
         public override void OnStateExit(string stateName)
         {
 
         }
-
     }
 }

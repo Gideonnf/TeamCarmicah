@@ -34,7 +34,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": -200.0,
+                    "xPos": -400.0,
                     "yPos": 0.0,
                     "depth": 51.0,
                     "xScale": 1.0,
@@ -51,7 +51,7 @@
                 {
                     "Component Name": "struct Carmicah::TextRenderer",
                     "font": "Chewy-Regular",
-                    "text": "WASD      +      Mouse",
+                    "text": "WASD      +      Mouse + R / F (Scroll)",
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,

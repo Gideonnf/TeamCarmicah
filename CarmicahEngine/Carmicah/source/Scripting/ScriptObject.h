@@ -42,6 +42,7 @@ namespace Carmicah
 		ScriptFieldType mType;
 		std::string mName;
 		MonoClassField* mClassField;
+		variantVar defaultValue;
 	};
 
 	class ScriptClass

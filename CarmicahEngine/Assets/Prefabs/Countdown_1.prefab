@@ -13,15 +13,6 @@
             "transformTag": ""
         },
         {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "CD_Num_SpriteSheet_N3 0",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
-        },
-        {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.Countdown",
             "ScriptableFieldMap": [
@@ -35,9 +26,18 @@
             ]
         },
         {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "CD_Num_SpriteSheet_N3 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
             "Component Name": "struct Carmicah::Animation",
             "Atlas": "N3",
-            "AnimSpeed": 1.0
+            "AnimSpeed": 2.0
         }
     ]
 }

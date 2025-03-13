@@ -31,21 +31,21 @@ namespace Carmicah
 
         public override void OnCreate()
         {
-            CreateIcon(IconType.SPEAR_ICON);
-            CreateIcon(IconType.CANDY_ICON);
-            CreateIcon(IconType.MAGE_ICON);
-            CreateIcon(IconType.HONEY_ICON);
             CreateIcon(IconType.SHOOTER_ICON);
-            CreateIcon(IconType.CANDY_ICON);
+            CreateIcon(IconType.MAGE_ICON);
+            CreateIcon(IconType.SHOOTER_ICON);
+            CreateIcon(IconType.MAGE_ICON);
+            CreateIcon(IconType.SHOOTER_ICON);
+            CreateIcon(IconType.SHOOTER_ICON);
 
             originalPos = this.Position;
         }
 
-        public override void OnFixedUpdate(float fixedDt)
+        public override void OnUpdate(float dt)
         {
             if (shake)
             {
-                timer += fixedDt;
+                timer += dt;
                 if (timer>= shakeTimer)
                 {
                     //shake = false;
@@ -92,12 +92,12 @@ namespace Carmicah
             }
 
            //bring down by 1
-            CMConsole.Log("Removing base icon");
+            //CMConsole.Log("Removing base icon");
         }
 
         public bool CreateIcon(IconType type)
         {
-            //CMConsole.Log($"Icon list{trapIcons.Count}");
+
             if (lastIcon >= 6)
             {
                 if (!shake)
@@ -144,6 +144,7 @@ namespace Carmicah
 
             if (newIcon != null)
             {
+                //CMConsole.Log("new icon is not null");
                 // I dont know if we should just hard code the 7 spot positions
                 // because the offset is uneven since the size of sprites are different
                 newIcon.Position = new Vector2(Position.x, startingPos - ((yOffset * lastIcon) + (15 * lastIcon)));
@@ -154,6 +155,8 @@ namespace Carmicah
                 lastIcon++;
                 // trapIcons.Add(newIcon.As<BaseIcon>());
             }
+
+            //CMConsole.Log($"Num of icons{lastIcon}");
 
             return true;
         }

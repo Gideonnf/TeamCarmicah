@@ -88,7 +88,7 @@ namespace Carmicah
         }
         public void StopForces()
         {
-            FunctionCalls.RigidBody_StopForces();
+            FunctionCalls.RigidBody_StopForces(Entity.mID);
         }
 
         public void StopObject()
@@ -137,6 +137,28 @@ namespace Carmicah
         public float GetStateTimer()
         {
            return FunctionCalls.GetStateTimer(Entity.mID);
+        }
+    }
+    public class Collider2D : Component
+    {
+        public float GetCustomWidth()
+        {        
+            return FunctionCalls.Collider2D_GetCustomWidth(Entity.mID);
+        }
+
+        public float GetCustomHeight()
+        {
+            return FunctionCalls.Collider2D_GetCustomWidth(Entity.mID);
+        }
+
+        public void SetCustomHeight(float height)
+        {
+            FunctionCalls.Collider2D_SetCustomHeight(Entity.mID, height);
+        }
+
+        public void SetCustomWidth(float width)
+        {
+            FunctionCalls.Collider2D_SetCustomWidth(Entity.mID, width);
         }
     }
 

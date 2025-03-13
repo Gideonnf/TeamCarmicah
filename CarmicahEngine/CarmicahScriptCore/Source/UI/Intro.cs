@@ -31,8 +31,10 @@ namespace Carmicah
     {
         public float timer = 0.0f;                          // track elapsed time
         public int state = 0;                               // track which image is currently displayed
-        public const float maxDuration = 3.0f;              // duration for each image in seconds
         public const float FadeDuration = 1.0f;             // duration for fade in/out in seconds
+        public const float HoldDuration = 2.0f;             // new hold time for state 0
+        public const float maxDuration = 4.0f;              // total duration for state 0
+        public const float otherStateDuration = 3.0f;       // duration for other states
 
         public string schoolLogoName = "digipen_logo";      // name of school logo entity
         public string schoolRightsName = "digipen_rights";  // name of school rights entity
@@ -54,7 +56,6 @@ namespace Carmicah
             gameLogoEntity = CreateGameObject(gameLogoName);
             teamLogoEntity = CreateGameObject(teamLogoName);
 
-
             // set initial transparency
             if (schoolLogoEntity != null) schoolLogoEntity.GetComponent<Renderer>().SetAlpha(0.0f);
             if (schoolRightsEntity != null) schoolRightsEntity.GetComponent<Renderer>().SetAlpha(0.0f);
@@ -66,47 +67,59 @@ namespace Carmicah
         public override void OnUpdate(float dt)
         {
             timer += dt;
-            float halfDuration = maxDuration / 2.0f; // 1.5 sec
-            float alpha;
-
-            
-            if (timer <= halfDuration)  // first 1.5s: fade in
-            {
-                alpha = timer / halfDuration;  // 0 to 1
-            }
-            else  // next 1.5s: fade out
-            {
-                alpha = 1.0f - ((timer - halfDuration) / halfDuration);  // 1 to 0
-            }
+            float alpha = 0.0f;
 
             if (state == 0)
             {
-                if (schoolLogoEntity != null)   schoolLogoEntity.GetComponent<Renderer>().SetAlpha(alpha);
-                if (schoolRightsEntity != null) schoolRightsEntity.GetComponent<Renderer>().SetAlpha(alpha);
-                if (schoolBGEntity != null)     schoolBGEntity.GetComponent<Renderer>().SetAlpha(alpha);
-            }
-            else if (state == 1)
-            {
-                if (teamLogoEntity != null) teamLogoEntity.GetComponent<Renderer>().SetAlpha(alpha);
-            }
-            else if (state == 2)
-            {
-                if (gameLogoEntity != null) gameLogoEntity.GetComponent<Renderer>().SetAlpha(alpha);
-            }
-
-            // move to next state after 3 secs
-            if (timer >= maxDuration)
-            {
-                //CMConsole.Log($"Transitioning to state {state + 1}");
-                state += 1;
-                timer = 0.0f;
-
-                // if final state, change scene, hardcoded values ik but idk 
-                if (state == 3)
+                if (timer <= FadeDuration)  // first 1s: fade in
                 {
-                    Scene.ChangeScene("Scene3");
+                    alpha = timer / FadeDuration;  // 0 to 1
+                }
+                else if (timer <= FadeDuration + HoldDuration) // next 2s: hold full visibility
+                {
+                    alpha = 1.0f;
+                }
+                else // last 1s: fade out
+                {
+                    alpha = 1.0f - ((timer - (FadeDuration + HoldDuration)) / FadeDuration);  // 1 to 0
+                }
+
+                if (schoolLogoEntity != null) schoolLogoEntity.GetComponent<Renderer>().SetAlpha(alpha);
+                if (schoolRightsEntity != null) schoolRightsEntity.GetComponent<Renderer>().SetAlpha(alpha);
+                if (schoolBGEntity != null) schoolBGEntity.GetComponent<Renderer>().SetAlpha(alpha);
+
+                if (timer >= maxDuration)  // move to next state, game and team logo
+                {
+                    state += 1;
+                    timer = 0.0f;
+                }
+            }
+            else // other states remain the same
+            {
+                float halfDuration = otherStateDuration / 2.0f; // duration for fade in/out
+                if (timer <= halfDuration)
+                {
+                    alpha = timer / halfDuration; // 0 to 1
+                }
+                else
+                {
+                    alpha = 1.0f - ((timer - halfDuration) / halfDuration); // 1 to 0
+                }
+
+                if (state == 1 && teamLogoEntity != null) teamLogoEntity.GetComponent<Renderer>().SetAlpha(alpha);
+                if (state == 2 && gameLogoEntity != null) gameLogoEntity.GetComponent<Renderer>().SetAlpha(alpha);
+
+                if (timer >= otherStateDuration)
+                {
+                    state += 1;
+                    timer = 0.0f;
+
+                    if (state == 3)
+                    {
+                        Scene.ChangeScene("Scene3"); // go main menu
+                    }
                 }
             }
         }
-     }
- }
+    }
+}

@@ -13,6 +13,9 @@ namespace Carmicah
         internal extern static void Transform_SetScale(uint entityID, ref Vector2 scale);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Transform_GetRenderingScale(uint entityID, out Vector2 scale);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool Entity_HasComponent(uint entityID, Type componentType);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -210,7 +213,19 @@ namespace Carmicah
         internal extern static string GetFilePath();
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static void RigidBody_StopForces();
+        internal extern static void RigidBody_StopForces(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float Collider2D_GetCustomWidth(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float Collider2D_GetCustomHeight(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Collider2D_SetCustomWidth(uint entityID, float width);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Collider2D_SetCustomHeight(uint entityID, float height);
 
 
         //[MethodImplAttribute(MethodImplOptions.InternalCall)]
