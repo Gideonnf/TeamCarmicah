@@ -846,6 +846,14 @@ namespace Carmicah
 
 			// Attach it to the game object
 			AttachComponents(newObj, std::make_pair(componentName, componentData));
+
+			// hotfix lmao
+			if (componentName == typeid(UITransform).name() || componentName == typeid(Transform).name())
+			{
+				auto transformSys = SystemManager::GetInstance()->GetSystem<TransformSystem>();
+				transformSys->UpdateTransform(entityID);
+
+			}
 		}
 
 		unsigned int parentChildLevel{};
