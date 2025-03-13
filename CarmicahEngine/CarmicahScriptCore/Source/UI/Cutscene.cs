@@ -127,9 +127,22 @@ namespace Carmicah
                     startTime = panelTimings[currentPanel - 1];
                 float percentage = (timer - startTime) / (panelTimings[currentPanel] - startTime - 1.0f);
                 int numTextToAdd = Math.Min((int)(percentage * panelWords[currentPanel].Length), panelWords[currentPanel].Length);
+
+                bool toUpdateTxtYet = currText.Length != 0;
+
                 while (numTextToAdd > currText.Length)
                 {
                     currText += panelWords[currentPanel][currText.Length];
+                }
+                if(toUpdateTxtYet)
+                {
+                    Entity txtChild = new Entity(FunctionCalls.Entity_GetChild(textObj.mID));
+                    float txtWidth = textObj.GetComponent<TextRenderer>().GetWidth();
+
+                    txtChild.Scale = new Vector2(txtWidth / 47.0f, 1.2f);
+                    Vector2 txtBgPos = Vector2.Zero;
+                    txtBgPos.x += txtWidth / 2.0f;
+                    txtChild.LocalPosition = txtBgPos;
                 }
                 textObj.GetComponent<TextRenderer>().SetText(currText);
             }
@@ -165,6 +178,9 @@ namespace Carmicah
                     // change texture for image
                     nextCutsceneEntity.GetComponent<Renderer>().ChangeTexture(imageName);
                 }
+                Entity txtChild = new Entity(FunctionCalls.Entity_GetChild(textObj.mID));
+                txtChild.Scale = new Vector2(0.0f, 0.0f);
+
                 currText = "";
                 textObj.GetComponent<TextRenderer>().SetText(currText);
             }

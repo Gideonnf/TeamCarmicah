@@ -658,6 +658,9 @@ namespace Carmicah
                 whichPhrase = phraseNum;
                 currText = "";
             }
+
+            bool dunChangeBGTxt = currText.Length == 0;
+
             if (currPhraseProgress < phraseLength)
             {
                 wordsTimer += dt;
@@ -672,7 +675,10 @@ namespace Carmicah
                 {
                     textObj.GetComponent<TextRenderer>().SetText(currText);
 
-                    txtChild.Scale = new Vector2(textObj.GetComponent<TextRenderer>().GetWidth() / 47.0f, 1.0f);
+                    if(!dunChangeBGTxt)
+                        txtChild.Scale = new Vector2(textObj.GetComponent<TextRenderer>().GetWidth() / 47.0f, 1.0f);
+                    else
+                        txtChild.Scale = new Vector2(0.0f, 0.0f);
                 }
             }
         }
