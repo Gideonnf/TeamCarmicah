@@ -9,10 +9,10 @@ namespace Carmicah
     public static class Sound
     {
         // Sound playback with categories
-        public static void PlaySFX(string soundName, float volume = -1.0f, bool isLoop = false)
+        public static void PlaySFX(string soundName, float volume = -1.0f, bool isLoop = false, uint entityID = 0)
         {
             
-            FunctionCalls.Sound_PlaySFX(soundName, volume, isLoop);
+            FunctionCalls.Sound_PlaySFX(soundName, volume, isLoop, entityID);
         }
 
         public static void PlayBGM(string soundName, float volume = -1.0f)
@@ -56,6 +56,17 @@ namespace Carmicah
         public static void StopAllSFX()
         {
             FunctionCalls.Sound_StopAllSFX();
+        }
+
+        public static void ToggleMuffleSFX(bool toMuffle, uint entityID = 0)
+        {
+            FunctionCalls.Sound_ToggleMuffleSFX(toMuffle, entityID);
+        }
+
+        public static void ToggleMuffleBGM(bool toMuffle)
+        {
+
+            FunctionCalls.Sound_ToggleMuffleBGM(toMuffle, 0);
         }
 
         public static void PauseSound(string soundName)
