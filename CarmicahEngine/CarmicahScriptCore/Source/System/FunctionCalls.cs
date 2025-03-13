@@ -204,6 +204,18 @@ namespace Carmicah
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void RigidBody_StopForces();
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float Collider2D_GetCustomWidth(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float Collider2D_GetCustomHeight(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Collider2D_SetCustomWidth(uint entityID, float width);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Collider2D_SetCustomHeight(uint entityID, float height);
+
 
         //[MethodImplAttribute(MethodImplOptions.InternalCall)]
         //internal extern static void SetCollisionLayer(uint entityID, int layer);

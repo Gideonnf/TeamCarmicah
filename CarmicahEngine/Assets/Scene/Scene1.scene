@@ -39,7 +39,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 1.0,
+                    "xPos": 0.0,
                     "yPos": 1.9500000476837159,
                     "depth": 0.0,
                     "xScale": 0.05299999937415123,
@@ -1124,7 +1124,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "TrapTranslucentPrefab": "TrapTranslucent",
                             "lane": 3.0,
                             "yOffset": 1.0,
@@ -1192,7 +1192,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 0.0,
                             "yOffset": 1.0,
                             "IsLeft": false,
@@ -1541,7 +1541,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 2.0,
                             "yOffset": 1.0,
                             "IsLeft": true,
@@ -1608,7 +1608,7 @@
                     "ScriptableFieldMap": [
                         {
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 1.0,
                             "yOffset": 1.0,
                             "IsLeft": false,

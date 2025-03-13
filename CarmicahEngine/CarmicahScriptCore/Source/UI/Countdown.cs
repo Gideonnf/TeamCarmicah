@@ -77,8 +77,9 @@ namespace Carmicah
             }
 
             // check if curr anim is finished
-            if (GetComponent<Animation>().IsAnimFinished())//timer >= durationPerFrame)
+            if (timer >= durationPerFrame && GetComponent<Animation>().IsAnimFinished())//timer >= durationPerFrame)
             {
+                timer = 0.0f;
                 // increment index and display next animation
                 currentIndex++;
                 DisplayAnimation();
