@@ -1028,6 +1028,9 @@ namespace Carmicah
 						//	CM_CORE_INFO("why tf is it colliding");
 						//}
 
+						// kinematic wont stop vs kinematic
+						if (rigidbody2.objectType == rbTypes::KINEMATIC)
+							return false;
 
 						return true;
 					}
