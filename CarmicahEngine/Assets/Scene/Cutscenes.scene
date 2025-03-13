@@ -29,7 +29,8 @@
                     "text": "",
                     "colorR": 1.0,
                     "colorG": 1.0,
-                    "colorB": 1.0
+                    "colorB": 1.0,
+                    "textAlign": 0
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -100,21 +101,6 @@
             "ID": 32,
             "Components": [
                 {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.Cutscene",
-                    "ScriptableFieldMap": [
-                        {
-                            "cutscenePrefab": "CutSceneImage",
-                            "panelName": "panel",
-                            "backgroundMusicTrack1": "BGM_SetupPhase_Mix1",
-                            "fadeSpeed": 0.5,
-                            "timeToChange": 5.0,
-                            "timer": 0.0,
-                            "backgroundMusicTrack": "Cutscene"
-                        }
-                    ]
-                },
-                {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 0.0,
                     "yPos": 0.0,
@@ -150,6 +136,54 @@
                                 }
                             ]
                         }
+                    ]
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.Cutscene",
+                    "ScriptableFieldMap": [
+                        {
+                            "backgroundMusicTrack": "Cutscene",
+                            "backgroundMusicTrack1": "BGM_SetupPhase_Mix1",
+                            "fadeSpeed": 0.5,
+                            "timer": 0.0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "GameObject": "FPS",
+            "ID": 82,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 53
+                },
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Chewy-Regular",
+                    "text": "Test",
+                    "colorR": 1.0,
+                    "colorG": 1.0,
+                    "colorB": 1.0,
+                    "textAlign": 0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 800.0,
+                    "yPos": 1000.0,
+                    "depth": 20.0,
+                    "xScale": 2.0,
+                    "yScale": 2.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.FPSCounter",
+                    "ScriptableFieldMap": [
+                        {}
                     ]
                 }
             ]

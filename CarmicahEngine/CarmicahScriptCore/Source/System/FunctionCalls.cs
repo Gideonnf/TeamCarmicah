@@ -180,6 +180,9 @@ namespace Carmicah
         internal extern static uint[] Entity_GetAllChildren(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static double Time_GetFPS();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Transform_GetLocalPosition(uint entityID, out Vector2 position);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]

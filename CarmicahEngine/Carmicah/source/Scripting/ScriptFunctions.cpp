@@ -517,6 +517,11 @@ namespace Carmicah
 			go.GetComponent<UITransform>().Pos(*inPos);
 	}
 
+	static double Time_GetFPS()
+	{
+		return CarmicahTime::GetInstance()->FPS();
+	}
+
 	/// <summary>
 	/// Registers a component to C# mono side
 	/// </summary>
@@ -1055,6 +1060,9 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(GetScriptInstance);
 		ADD_INTERNAL_CALL(GetScriptInstanceFromChildren);
 		//ADD_INTERNAL_CALL(SetCollisionLayer);
+
+		//Time functions
+		ADD_INTERNAL_CALL(Time_GetFPS);
 
 		// Rigidbody functions
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);

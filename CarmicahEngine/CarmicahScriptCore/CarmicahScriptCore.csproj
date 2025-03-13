@@ -76,6 +76,7 @@
     <Compile Include="Source\NPC\ShooterNPC.cs" />
     <Compile Include="Source\NPC\SpearNPC.cs" />
     <Compile Include="Source\System\CMRandom.cs" />
+    <Compile Include="Source\System\CMTime.cs" />
     <Compile Include="Source\Testing\BaseTest.cs" />
     <Compile Include="Source\NPC\HealthSystem.cs" />
     <Compile Include="Source\NPC\HeroAI.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Source\UI\Credits.cs" />
     <Compile Include="Source\UI\Cutscene.cs" />
     <Compile Include="Source\Abilities\HeroIcon.cs" />
+    <Compile Include="Source\UI\FPSCounter.cs" />
     <Compile Include="Source\UI\HowToPlay.cs" />
     <Compile Include="Source\UI\Intro.cs" />
     <Compile Include="Source\UI\LoadingBackground.cs" />
