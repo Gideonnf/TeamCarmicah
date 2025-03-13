@@ -515,6 +515,9 @@ namespace Carmicah
 			go.GetComponent<Transform>().Pos(*inPos);
 		else if (go.HasComponent<UITransform>())
 			go.GetComponent<UITransform>().Pos(*inPos);
+
+		auto transformSys = SystemManager::GetInstance()->GetSystem<TransformSystem>();
+		transformSys->UpdateTransform(entityID);
 	}
 
 	static double Time_GetFPS()
