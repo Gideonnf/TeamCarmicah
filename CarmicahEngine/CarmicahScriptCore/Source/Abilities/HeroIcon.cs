@@ -28,8 +28,12 @@ namespace Carmicah
 
         public float mouseXOffset = 0.5f;
 
+        bool testBool = false;
+
         public override void OnCreate()
         {
+           // CMConsole.Log("Hero Icon Creating");
+
             heroBuildEntity = FindEntityWithName(HeroBuild);
             heroBuildEntity1 = FindEntityWithName(HeroBuild1);
             heroBuildEntity2 = FindEntityWithName(HeroBuild2);
@@ -37,23 +41,39 @@ namespace Carmicah
 
             if(heroPrefab == "ShooterNPC")
             {
+               // CMConsole.Log("Shooter Icon");
                 type = AbilityType.SHOOTER;
                 
             }
             else if(heroPrefab == "MageNPC")
-            {
+            {//
+               // CMConsole.Log("Shooter Icon");
+
                 type = AbilityType.MAGE;
 
                 
             }
             else if(heroPrefab == "SpearNPC")
             {
+               // CMConsole.Log("Shooter Icon");
+
                 type = AbilityType.SPEAR;
             }
         }
 
         public override void OnUpdate(float dt)
         {
+            //if (testBool == false)
+            //{
+            //    testBool = true;
+            //    if (HasComponent<Renderer>())
+            //    {
+            //        CMConsole.Log("Has renderer");
+            //        CMConsole.Log($"Hero prefab {heroPrefab}");
+            //        CMConsole.Log($"HeroBuildEntity IDs {heroBuildEntity.mID}, {heroBuildEntity1.mID}, {heroBuildEntity2.mID}, {heroBuildEntity3.mID}");
+            //    }
+            //}
+
             if (trapEntity == null) return;
 
             //CMConsole.Log("It shouldnt be here atm");

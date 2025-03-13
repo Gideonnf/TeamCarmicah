@@ -259,6 +259,65 @@
             ]
         },
         {
+            "GameObject": "FPS",
+            "ID": 11,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 53
+                },
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Chewy-Regular",
+                    "text": "Test",
+                    "colorR": 1.0,
+                    "colorG": 1.0,
+                    "colorB": 1.0,
+                    "textAlign": 0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 800.0,
+                    "yPos": 1000.0,
+                    "depth": 0.0,
+                    "xScale": 2.0,
+                    "yScale": 2.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.FPSCounter",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                }
+            ]
+        },
+        {
+            "GameObject": "MainMenuBGM",
+            "ID": 32,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 0.0,
+                    "yScale": 0.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.MainMenuBGM",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                }
+            ]
+        },
+        {
             "GameObject": "Default",
             "ID": 33,
             "Components": [

@@ -54,13 +54,13 @@
                     "ScriptableFieldMap": [
                         {
                             "bottomLimit": -12.0,
-                            "topLimit": 10.0,
-                            "xPos": 0.0,
-                            "ySpeed": 20.0,
                             "shake": false,
                             "shakeMagnitude": 0.10000000149011612,
                             "shakeTimer": 0.0,
-                            "shakeTotalTimer": 0.25
+                            "shakeTotalTimer": 0.25,
+                            "topLimit": 10.0,
+                            "xPos": 0.0,
+                            "ySpeed": 20.0
                         }
                     ]
                 }
@@ -330,16 +330,14 @@
                             "HoneyIconPrefab": "HoneyIcon",
                             "MageIconPrefab": "MageIcon",
                             "ShooterIconPrefab": "ShooterIcon",
-                            "TrapIconPrefab": "TrapIcon",
-                            "startingPos": 760.0,
                             "SpearIconPrefab": "SpearIcon",
                             "shake": false,
+                            "TrapIconPrefab": "TrapIcon",
                             "shakeMagnitude": 1.5,
-                            "yOffset": 75.0,
                             "shakeTimer": 1.0,
+                            "startingPos": 760.0,
                             "timer": 0.0,
-                            "startingXPos": 1820.0,
-                            "startingYPos": 760.0
+                            "yOffset": 75.0
                         }
                     ]
                 }
@@ -449,44 +447,34 @@
                     "scriptName": "Carmicah.GameManager",
                     "ScriptableFieldMap": [
                         {
-                            "LeftOrRight": false,
-                            "GameOver": false,
-                            "waveTimer": 0.0,
-                            "MousePrefabName": "MouseGONew",
-                            "StartingCake": "StartingCake",
-                            "spawnTimer": 1.5,
+                            "BearPrefabName": "BearGO",
                             "CakeHeightOffset": 11.600000381469727,
-                            "WaveStarted": false,
-                            "timer": 0.0,
                             "CakePrefabName": "StartingCake",
-                            "PlayerName": "mainCharacter",
-                            "GameStart": false,
-                            "WaveStartTime": 25.0,
+                            "CakeVFXPrefab": "CakeVFX",
                             "EndPointEntityLeft": "EndPointLeft",
                             "EndPointEntityLeft2": "EndPointLeft_1",
                             "EndPointEntityRight": "EndPointRight",
                             "EndPointEntityRight2": "EndPointRight_1",
-                            "ShooterNPC": "ShooterNPC",
-                            "ShooterNPC2": "ShooterNPC_1",
-                            "HeroBuild3": "HeroBuild_3",
-                            "MobCounter": 0.0,
                             "FlyingEnemyPrefabName": "FlyGO",
-                            "NumOfMobs": 18.0,
+                            "GameOver": false,
+                            "LeftOrRight": false,
                             "HeroBuild": "HeroBuild",
                             "dropSpeed": 14.0,
                             "HeroBuild1": "HeroBuild_1",
                             "WaveSystemObject": "Something",
-                            "BearPrefabName": "BearGO",
-                            "WaveEnded": false,
-                            "ySpawnPos": 30.600000381469728,
-                            "yTargetPos": 11.5,
-                            "activeEnemies": 0,
-                            "yVFXSpawn": 18.0,
-                            "PlayerHealthBar": "Healthbar",
-                            "yVFXLocation": 3.0,
-                            "CakeVFXPrefab": "CakeVFX",
                             "HeroBuild2": "HeroBuild_2",
-                            "cameraHeight": 10.0
+                            "HeroBuild3": "HeroBuild_3",
+                            "MousePrefabName": "MouseGONew",
+                            "StartingCake": "StartingCake",
+                            "PlayerName": "mainCharacter",
+                            "activeEnemies": 0,
+                            "yTargetPos": 11.5,
+                            "cameraHeight": 10.0,
+                            "spawnTimer": 1.5,
+                            "timer": 0.0,
+                            "ySpawnPos": 30.600000381469728,
+                            "yVFXLocation": 3.0,
+                            "yVFXSpawn": 18.0
                         }
                     ]
                 }
@@ -522,17 +510,14 @@
                     "scriptName": "Carmicah.WaveSystem",
                     "ScriptableFieldMap": [
                         {
-                            "waveStartTime": 21.0,
+                            "countdownPrefab": "Countdown_1",
+                            "losePrefab": "LoseScreen",
+                            "countdownStartTime": 5.0,
                             "waveTimer": 0.0,
-                            "startNewWave": true,
-                            "waveCounter": 0,
                             "waveSetupTime": 15.0,
                             "waveStart": false,
-                            "mobCounter": 0,
-                            "losePrefab": "LoseScreen",
-                            "winPrefab": "Win_Screen",
-                            "countdownPrefab": "Countdown_1",
-                            "countdownStartTime": 5.0
+                            "waveStartTime": 21.0,
+                            "winPrefab": "Win_Screen"
                         }
                     ]
                 }
@@ -856,22 +841,21 @@
                     "scriptName": "Carmicah.Player",
                     "ScriptableFieldMap": [
                         {
-                            "elapsedTime": 0.0,
+                            "GameLost": true,
                             "HealAnim": "MC_Heal",
                             "IdleAnim": "MC_Idle",
+                            "TeleportAnim": "NPC_Teleport",
                             "WalkAnim": "MC_Walk",
-                            "GameLost": true,
-                            "isWalking": true,
-                            "healthBarName": "Princess_HealthBar",
-                            "walkingSpeed": 2.0,
-                            "isCreated": false,
                             "damaged": false,
                             "flashInterval": 0.25,
                             "flashTime": 1.0,
                             "flashTotalTime": 1.0,
                             "flashTimer": 0.0,
                             "health": 100.0,
-                            "TeleportAnim": "NPC_Teleport"
+                            "healthBarName": "Princess_HealthBar",
+                            "walkingSpeed": 2.0,
+                            "isCreated": false,
+                            "isWalking": true
                         }
                     ]
                 }
@@ -1124,8 +1108,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "MageNPC",
-                            "TrapTranslucentPrefab": "TrapTranslucent",
+                            "HeroPrefab": "",
                             "lane": 3.0,
                             "yOffset": 1.0,
                             "IsLeft": true,
@@ -1191,8 +1174,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "MageNPC",
+                            "HeroPrefab": "",
                             "lane": 0.0,
                             "yOffset": 1.0,
                             "IsLeft": false,
@@ -1336,13 +1318,10 @@
                     "scriptName": "Carmicah.TrapBuild",
                     "ScriptableFieldMap": [
                         {
+                            "IsLeft": false,
                             "TrapPrefabName": "CandyConeTrap",
                             "TrapTranslucentPrefab": "FakeCandyConeTrap",
-                            "CandyAnim": "CandyCone",
-                            "IsLeft": false,
-                            "depthVal": 3.450000047683716,
-                            "DetectionRadius": 2.0,
-                            "trapOffset": 1.600000023841858
+                            "depthVal": 3.450000047683716
                         }
                     ]
                 }
@@ -1540,8 +1519,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "MageNPC",
+                            "HeroPrefab": "",
                             "lane": 2.0,
                             "yOffset": 1.0,
                             "IsLeft": true,
@@ -1607,8 +1585,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "TrapTranslucentPrefab": "TrapTranslucent",
-                            "HeroPrefab": "MageNPC",
+                            "HeroPrefab": "",
                             "lane": 1.0,
                             "yOffset": 1.0,
                             "IsLeft": false,
@@ -1734,13 +1711,10 @@
                     "scriptName": "Carmicah.TrapBuild",
                     "ScriptableFieldMap": [
                         {
+                            "IsLeft": false,
                             "TrapPrefabName": "CandyConeTrap",
                             "TrapTranslucentPrefab": "FakeCandyConeTrap",
-                            "CandyAnim": "CandyCone",
-                            "IsLeft": false,
-                            "depthVal": 3.200000047683716,
-                            "DetectionRadius": 2.0,
-                            "trapOffset": 1.600000023841858
+                            "depthVal": 3.200000047683716
                         }
                     ]
                 }
@@ -1801,13 +1775,10 @@
                     "scriptName": "Carmicah.TrapBuild",
                     "ScriptableFieldMap": [
                         {
+                            "IsLeft": true,
                             "TrapPrefabName": "CandyConeTrap",
                             "TrapTranslucentPrefab": "FakeCandyConeTrap",
-                            "CandyAnim": "CandyCone",
-                            "IsLeft": true,
-                            "depthVal": 3.450000047683716,
-                            "DetectionRadius": 2.0,
-                            "trapOffset": 1.600000023841858
+                            "depthVal": 3.450000047683716
                         }
                     ]
                 }
@@ -1868,13 +1839,10 @@
                     "scriptName": "Carmicah.TrapBuild",
                     "ScriptableFieldMap": [
                         {
+                            "IsLeft": true,
                             "TrapPrefabName": "CandyConeTrap",
                             "TrapTranslucentPrefab": "FakeCandyConeTrap",
-                            "CandyAnim": "CandyCone",
-                            "IsLeft": true,
-                            "depthVal": 3.200000047683716,
-                            "DetectionRadius": 2.0,
-                            "trapOffset": 1.600000023841858
+                            "depthVal": 3.200000047683716
                         }
                     ]
                 }
@@ -1980,14 +1948,14 @@
                     "ScriptableFieldMap": [
                         {
                             "HoneyPrefab": "HoneyBall",
-                            "heightOffset": 12.0,
                             "MagePrefab": "MageBall",
-                            "SpawnTimer": 18.0,
                             "ShooterPrefab": "ShooterBall",
+                            "SpawnTimer": 18.0,
                             "TrapPrefab": "TrapBall",
+                            "WaveSystemObject": "Something",
+                            "heightOffset": 12.0,
                             "timer": 0.0,
-                            "xOffset": 5.0,
-                            "WaveSystemObject": "Something"
+                            "xOffset": 5.0
                         }
                     ]
                 }
@@ -2369,6 +2337,47 @@
                     "transformTag": ""
                 }
             ]
+        },
+        {
+            "GameObject": "FPS",
+            "ID": 68,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 53
+                },
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Chewy-Regular",
+                    "text": "Test",
+                    "colorR": 1.0,
+                    "colorG": 1.0,
+                    "colorB": 1.0,
+                    "textAlign": 0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 800.0,
+                    "yPos": 1000.0,
+                    "depth": 20.0,
+                    "xScale": 2.0,
+                    "yScale": 2.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.FPSCounter",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                }
+            ]
+        },
+        {
+            "GameObject": "",
+            "ID": 0,
+            "Components": []
         }
     ]
 }

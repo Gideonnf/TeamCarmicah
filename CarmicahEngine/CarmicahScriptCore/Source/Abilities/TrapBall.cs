@@ -25,10 +25,10 @@ namespace Carmicah
         bool stop = false;
         public float timer = 0.0f;
         public float stopTime = 1.0f;
-        public float middleMin = 0.4f;
-        public float middleMax = 1.0f;
-        public float sideMin = 0.2f;
-        public float sideMax = 0.5f;
+        float middleMin = 0.7f;
+        float middleMax = 1.2f;
+        float sideMin = 0.5f;
+        float sideMax = 0.8f;
         public float lifeTime = 8.0f;
         // flash settings
         public float flashTime = 4.0f;
@@ -56,6 +56,8 @@ namespace Carmicah
             if (!stop)
             {
                 Vector2 pos = Position;
+                //if (pos.y <= 3.0f)
+                //    CMConsole.Log($"{mID} is below 3.0");
                 pos.y -= fallSpeed * dt;
                 Position = pos;
             }
@@ -119,7 +121,7 @@ namespace Carmicah
         public override void OnTriggerEnter(uint collidedEntity)
         {
             Entity entity = FindEntityWithID(collidedEntity);
-           CMConsole.Log($"Entity collided {collidedEntity}");
+           //CMConsole.Log($"Entity collided {collidedEntity}");
             // if colliding with player
             if (entity.GetTag() == "Player")
             {
@@ -133,11 +135,13 @@ namespace Carmicah
             {
                 touched = true;
                 stopTime = CMRand.Range(middleMin, middleMax);
+                CMConsole.Log($"stop time {stopTime}");
             }
             else if (entity.GetTag() == "TowerTopSide")
             {
                 touched = true;
-                stopTime = CMRand.Range(sideMin, sideMin);
+                stopTime = CMRand.Range(sideMin, sideMax);
+                CMConsole.Log($"stop time {stopTime}");
             }
 
         }

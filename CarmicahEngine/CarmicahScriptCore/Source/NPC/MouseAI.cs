@@ -69,6 +69,7 @@ namespace Carmicah
         Entity endEntityRight;
         Entity endEntityLeft2;
         Entity endEntityRight2;
+        Entity mainCamera;
 
         public float ChanceToDie = 0.12f;
 
@@ -88,6 +89,7 @@ namespace Carmicah
         public float DeathTime = 2.0f;
         public float Speed;
         public float speedDebuff = 0.4f; // 60% slower
+        public float cameraHeight = 10.0f;
         float debuff = 1.0f;
         bool dead = false;
         int animType = 0;
@@ -95,6 +97,7 @@ namespace Carmicah
 
         public override void OnCreate()
         {
+            mainCamera = FindEntityWithName("MainCamera");
             if (FindEntityWithName(SpawnPointEntityLeft) != null)
                 startPosLeft = FindEntityWithName(SpawnPointEntityLeft).Position;
             if (FindEntityWithName(SpawnPointEntityRight) != null)
@@ -110,7 +113,7 @@ namespace Carmicah
             endEntityRight2 = FindEntityWithName(EndPointEntityRight2);
 
             // InitWaypoints();
-            SetInitialPosition();
+            //
 
 
             if (FindEntityWithName(SpawnPointEntityLeft) != null)
@@ -126,7 +129,7 @@ namespace Carmicah
             randLane = CMRand.Range(0,4); // rand between 0 to 3
 
             lane = randLane;
-
+            //SetInitialPosition();
             //int mouseTypeRand = rand.Next(0, 3); // Random type
 
             //switch (mouseTypeRand)
@@ -164,7 +167,7 @@ namespace Carmicah
         {
             Vector2 scale = Scale;
 
-            // Console.WriteLine($"Position Before : {Position.x} , {Position.y}");
+            //Console.WriteLine($"Position Before : {Position.x} , {Position.y}");
             switch (randLane)
             {
                 case 0:
@@ -189,7 +192,7 @@ namespace Carmicah
                     Scale = scale;
                     break;
             }
-           // Console.WriteLine($"Position After : {Position.x} , {Position.y}");
+           //Console.WriteLine($"Position After : {Position.x} , {Position.y}");
 
             //currPoint = 1;
         }
@@ -247,6 +250,7 @@ namespace Carmicah
 
                 timer = 0.0f;
                 GetComponent<RigidBody>().StopObject();
+                Sound.StopSoundSFX(soundFile);
                 GetComponent<StateMachine>().SetStateCondition(1);
 
 
@@ -411,9 +415,27 @@ namespace Carmicah
                         Random rnd = new Random();
                         int number = rnd.Next(1, 8);
                         soundFile = "Mice_Running_0" + number.ToString();
-                        CMConsole.Log(soundFile);
-                        Sound.PlaySFX(soundFile, 0.15f, true);
+                        //CMConsole.Log(soundFile);
+                        Sound.PlaySFX(soundFile, 0.2f, true, this.mID);
+
+                        //Below the camera
+                        
+
                         isRunning = true;
+                    }
+
+                    if (GetComponent<Transform>().Position.y < (mainCamera.Position.y - cameraHeight))
+                    {
+                        //CMConsole.Log("Below Camera");
+                        
+                        //float distance = Math.Abs(GetComponent<Transform>().Position.y - (mainCamera.Position.y - cameraHeight));
+                        Sound.ToggleMuffleSFX(false, this.mID);
+                        
+
+                    }
+                    else if (GetComponent<Transform>().Position.y > (mainCamera.Position.y - cameraHeight))
+                    {
+                        Sound.ToggleMuffleSFX(true, this.mID);
                     }
 
                 }

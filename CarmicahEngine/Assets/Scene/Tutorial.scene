@@ -27,13 +27,13 @@
                     "ScriptableFieldMap": [
                         {
                             "bottomLimit": -7.699999809265137,
-                            "topLimit": 10.0,
-                            "xPos": 0.0,
-                            "ySpeed": 20.0,
                             "shake": false,
                             "shakeMagnitude": 0.10000000149011612,
                             "shakeTimer": 0.0,
-                            "shakeTotalTimer": 0.25
+                            "shakeTotalTimer": 0.25,
+                            "topLimit": 10.0,
+                            "xPos": 0.0,
+                            "ySpeed": 20.0
                         }
                     ]
                 }
@@ -260,7 +260,7 @@
             "Children": [
                 {
                     "GameObject": "Tutorial_PowerUp0",
-                    "ID": 24,
+                    "ID": 10,
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Button"
@@ -295,7 +295,7 @@
                 },
                 {
                     "GameObject": "Tutorial_PowerUp1",
-                    "ID": 27,
+                    "ID": 11,
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Button"
@@ -330,7 +330,7 @@
                 },
                 {
                     "GameObject": "Tutorial_PowerUp2",
-                    "ID": 28,
+                    "ID": 12,
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Button"
@@ -365,7 +365,7 @@
                 },
                 {
                     "GameObject": "Tutorial_PowerUp3",
-                    "ID": 29,
+                    "ID": 13,
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Button"
@@ -402,7 +402,7 @@
         },
         {
             "GameObject": "SettingsButton",
-            "ID": 10,
+            "ID": 14,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Button"
@@ -445,7 +445,7 @@
         },
         {
             "GameObject": "Cake(-50)",
-            "ID": 11,
+            "ID": 15,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
@@ -472,7 +472,7 @@
         },
         {
             "GameObject": "Walls",
-            "ID": 12,
+            "ID": 16,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
@@ -489,7 +489,7 @@
             "Children": [
                 {
                     "GameObject": "Wall_TL",
-                    "ID": 13,
+                    "ID": 17,
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Transform",
@@ -507,7 +507,9 @@
                             "shape": "",
                             "customWidth": 1.0,
                             "customRotation": 0.0,
-                            "customHeight": 1.0
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
                         },
                         {
                             "Component Name": "struct Carmicah::RigidBody",
@@ -535,7 +537,7 @@
                 },
                 {
                     "GameObject": "Wall_TR",
-                    "ID": 14,
+                    "ID": 18,
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Transform",
@@ -553,7 +555,9 @@
                             "shape": "",
                             "customWidth": 1.0,
                             "customRotation": 0.0,
-                            "customHeight": 1.0
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
                         },
                         {
                             "Component Name": "struct Carmicah::RigidBody",
@@ -581,7 +585,7 @@
                 },
                 {
                     "GameObject": "Wall_BL",
-                    "ID": 15,
+                    "ID": 19,
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Transform",
@@ -599,7 +603,9 @@
                             "shape": "",
                             "customWidth": 1.0,
                             "customRotation": 0.0,
-                            "customHeight": 1.0
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
                         },
                         {
                             "Component Name": "struct Carmicah::RigidBody",
@@ -627,7 +633,7 @@
                 },
                 {
                     "GameObject": "Wall_BR",
-                    "ID": 16,
+                    "ID": 20,
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Transform",
@@ -645,7 +651,9 @@
                             "shape": "",
                             "customWidth": 1.0,
                             "customRotation": 0.0,
-                            "customHeight": 1.0
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
                         },
                         {
                             "Component Name": "struct Carmicah::RigidBody",
@@ -675,7 +683,7 @@
         },
         {
             "GameObject": "MC",
-            "ID": 17,
+            "ID": 21,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
@@ -698,7 +706,9 @@
                     "shape": "",
                     "customWidth": 0.5,
                     "customRotation": 0.0,
-                    "customHeight": 0.5
+                    "customHeight": 0.5,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -781,21 +791,21 @@
                     "scriptName": "Carmicah.Player",
                     "ScriptableFieldMap": [
                         {
-                            "elapsedTime": 0.0,
+                            "GameLost": true,
                             "HealAnim": "MC_Heal",
                             "IdleAnim": "MC_Idle",
+                            "TeleportAnim": "NPC_Teleport",
                             "WalkAnim": "MC_Walk",
-                            "GameLost": true,
-                            "isWalking": true,
-                            "healthBarName": "Princess_HealthBar",
-                            "walkingSpeed": 2.0,
-                            "isCreated": false,
                             "damaged": false,
                             "flashInterval": 0.25,
                             "flashTime": 1.0,
                             "flashTotalTime": 1.0,
                             "flashTimer": 0.0,
-                            "health": 100.0
+                            "health": 100.0,
+                            "healthBarName": "Princess_HealthBar",
+                            "walkingSpeed": 2.0,
+                            "isCreated": false,
+                            "isWalking": true
                         }
                     ]
                 }
@@ -804,7 +814,7 @@
         },
         {
             "GameObject": "Princess_HealthBar",
-            "ID": 18,
+            "ID": 22,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::PrefabData",
@@ -842,7 +852,7 @@
             "Children": [
                 {
                     "GameObject": "Princess_HP_Value",
-                    "ID": 19,
+                    "ID": 23,
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::PrefabData",
@@ -873,7 +883,7 @@
         },
         {
             "GameObject": "RedBorder",
-            "ID": 20,
+            "ID": 24,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -898,7 +908,7 @@
         },
         {
             "GameObject": "PauseManager",
-            "ID": 21,
+            "ID": 25,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
@@ -917,8 +927,8 @@
                     "ScriptableFieldMap": [
                         {
                             "IsPaused": false,
-                            "ResumeButton": "PauseMenuResumeBtn",
                             "PauseMenu": "Pause_Menu",
+                            "ResumeButton": "PauseMenuResumeBtn",
                             "QuitButton": "PauseMenuQuitBtn"
                         }
                     ]
@@ -928,7 +938,7 @@
         },
         {
             "GameObject": "SubText",
-            "ID": 22,
+            "ID": 26,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::TextRenderer",
@@ -937,7 +947,7 @@
                     "colorR": 1.0,
                     "colorG": 0.7401961088180542,
                     "colorB": 0.9847174286842346,
-                    "textAlign": 18
+                    "textAlign": 17
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -953,15 +963,15 @@
             "Children": [
                 {
                     "GameObject": "TxtBG",
-                    "ID": 25,
+                    "ID": 27,
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
                             "texture": "Wall_White 0",
-                            "colR": 0.5176470875740051,
-                            "colG": 0.5176470875740051,
-                            "colB": 0.5176470875740051,
+                            "colR": 0.0,
+                            "colG": 0.0,
+                            "colB": 0.0,
                             "colA": 0.6078431606292725
                         },
                         {
@@ -980,7 +990,7 @@
         },
         {
             "GameObject": "Tutorial_Enemy",
-            "ID": 23,
+            "ID": 28,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
@@ -995,7 +1005,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Mouse_Climb_blue",
+                    "Atlas": "Mouse_Climb_Blue",
                     "AnimSpeed": 1.0
                 },
                 {
@@ -1012,7 +1022,7 @@
         },
         {
             "GameObject": "Tutorial_Manager",
-            "ID": 26,
+            "ID": 29,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
@@ -1034,6 +1044,569 @@
                 }
             ],
             "Children": []
+        },
+        {
+            "GameObject": "Tutorial_HaveNots",
+            "ID": 30,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "Tutorial_ConeLL",
+                    "ID": 31,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -7.3322625160217289,
+                            "yPos": 0.5859955549240112,
+                            "depth": 0.0,
+                            "xScale": -0.6000000238418579,
+                            "yScale": 0.6000000238418579,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Animation",
+                            "Atlas": "CandyCone_Idle",
+                            "AnimSpeed": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "candy_trap_spritesheet_Spike 9",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 0.0
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "Tutorial_ConeLR",
+                    "ID": 32,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -3.7242531776428224,
+                            "yPos": -1.2401937246322632,
+                            "depth": 0.0,
+                            "xScale": -0.6000000238418579,
+                            "yScale": 0.6000000238418579,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Animation",
+                            "Atlas": "CandyCone_Idle",
+                            "AnimSpeed": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "candy_trap_spritesheet_Spike 9",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 0.0
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "Tutorial_ConeRL",
+                    "ID": 33,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 3.6351449489593508,
+                            "yPos": -1.2202943563461304,
+                            "depth": 0.0,
+                            "xScale": 0.6000000238418579,
+                            "yScale": 0.6000000238418579,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Animation",
+                            "Atlas": "CandyCone_Idle",
+                            "AnimSpeed": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "candy_trap_spritesheet_Spike 9",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 0.0
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "Tutorial_ConeRR",
+                    "ID": 34,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 7.161224842071533,
+                            "yPos": 0.5992898344993591,
+                            "depth": 0.0,
+                            "xScale": 0.6000000238418579,
+                            "yScale": 0.6000000238418579,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Animation",
+                            "Atlas": "CandyCone_Idle",
+                            "AnimSpeed": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "candy_trap_spritesheet_Spike 9",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 0.0
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "Tutorial_NPCLL",
+                    "ID": 35,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -5.875,
+                            "yPos": 8.145000457763672,
+                            "depth": 5.550000190734863,
+                            "xScale": 0.44999998807907107,
+                            "yScale": 0.44999998807907107,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Animation",
+                            "Atlas": "Shooter_Idle",
+                            "AnimSpeed": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "NPC_SpriteSheet_Shooter_Idle 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 0.0
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "Tutorial_NPCLR",
+                    "ID": 36,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -2.299999952316284,
+                            "yPos": 6.5,
+                            "depth": 7.329999923706055,
+                            "xScale": 0.44999998807907107,
+                            "yScale": 0.44999998807907107,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Animation",
+                            "Atlas": "Shooter_Idle",
+                            "AnimSpeed": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "NPC_SpriteSheet_Shooter_Idle 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 0.0
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "Tutorial_NPCRL",
+                    "ID": 37,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 2.299999952316284,
+                            "yPos": 6.5,
+                            "depth": 7.329999923706055,
+                            "xScale": -0.44999998807907107,
+                            "yScale": 0.44999998807907107,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Animation",
+                            "Atlas": "Shooter_Idle",
+                            "AnimSpeed": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "NPC_SpriteSheet_Shooter_Idle 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 0.0
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "Tutorial_NPCRR",
+                    "ID": 38,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 5.875,
+                            "yPos": 8.145000457763672,
+                            "depth": 5.550000190734863,
+                            "xScale": -0.44999998807907107,
+                            "yScale": 0.44999998807907107,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Animation",
+                            "Atlas": "Shooter_Idle",
+                            "AnimSpeed": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "NPC_SpriteSheet_Shooter_Idle 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 0.0
+                        }
+                    ],
+                    "Children": []
+                }
+            ]
+        },
+        {
+            "GameObject": "EndScreen",
+            "ID": 50,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Board",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 960.0,
+                    "yPos": 5400.0,
+                    "depth": 0.0,
+                    "xScale": 0.800000011920929,
+                    "yScale": 0.800000011920929,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "EndTxt",
+                    "ID": 51,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::TextRenderer",
+                            "font": "Chewy-Regular",
+                            "text": "Tutorial Over!",
+                            "colorR": 0.9921568632125855,
+                            "colorG": 0.151741623878479,
+                            "colorB": 0.6263290047645569,
+                            "textAlign": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": -520.0,
+                            "yPos": 142.10000610351563,
+                            "depth": 1.0,
+                            "xScale": 2.0,
+                            "yScale": 2.0,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
+                },
+                {
+                    "GameObject": "EndWin",
+                    "ID": 52,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Animation",
+                            "Atlas": "MC_Win",
+                            "AnimSpeed": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "MC_SpriteSheet_Win 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 93.9501953125,
+                            "yPos": 15.300000190734864,
+                            "depth": 1.0,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
+                },
+                {
+                    "GameObject": "EndBtn",
+                    "ID": 53,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Button"
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Animation",
+                            "Atlas": "Button_C_Menu",
+                            "AnimSpeed": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Button_SpriteSheet_C_Menu 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 0.0,
+                            "yPos": -250.0,
+                            "depth": 1.0,
+                            "xScale": 1.25,
+                            "yScale": 1.25,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.ButtonGeneric",
+                            "ScriptableFieldMap": [
+                                {
+                                    "buttonType": "home",
+                                    "nextScene": "Scene3"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "GameObject": "Tutorial_Dittos",
+            "ID": 40,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "Tutorial_Ditto0",
+                    "ID": 41,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 100.0,
+                            "yPos": 0.0,
+                            "depth": 0.0,
+                            "xScale": -0.44999998807907107,
+                            "yScale": 0.44999998807907107,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "UI_Spritesheet_Shooter_Icon 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "Tutorial_Ditto1",
+                    "ID": 42,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 100.0,
+                            "yPos": 0.0,
+                            "depth": 0.0,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "UI_Spritesheet_Shooter_Icon 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "Tutorial_Ditto2",
+                    "ID": 43,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 100.0,
+                            "yPos": 0.0,
+                            "depth": 0.0,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "UI_Spritesheet_Shooter_Icon 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "Tutorial_Ditto3",
+                    "ID": 44,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 100.0,
+                            "yPos": 0.0,
+                            "depth": 0.0,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "UI_Spritesheet_Shooter_Icon 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        }
+                    ],
+                    "Children": []
+                }
+            ]
+        },
+        {
+            "GameObject": "FPS",
+            "ID": 81,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 53
+                },
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Chewy-Regular",
+                    "text": "Test",
+                    "colorR": 1.0,
+                    "colorG": 1.0,
+                    "colorB": 1.0,
+                    "textAlign": 0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 800.0,
+                    "yPos": 1000.0,
+                    "depth": 20.0,
+                    "xScale": 2.0,
+                    "yScale": 2.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.FPSCounter",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                }
+            ]
         }
     ]
 }
