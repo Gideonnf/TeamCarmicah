@@ -37,6 +37,7 @@ namespace Carmicah
         public float diagonalSpeed = 1.8f;  // Increased speed when gg down 45 degrees
 
         public int lane;
+        bool dead = false;
         public EnemyTypes enemyType;
 
         public FlyingStage currentStage = FlyingStage.HORIZONTAL;
@@ -50,7 +51,6 @@ namespace Carmicah
 
         // Death properties
         public float timer = 0.0f;
-        public bool isDead = false;
 
         public bool isLeft = false;
 
@@ -317,6 +317,7 @@ namespace Carmicah
 
             if (stateName == "Dead")
             {
+                dead = true;
                 GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
                 if (gm != null)
                     gm.EntityDestroyed(this);
@@ -396,6 +397,11 @@ namespace Carmicah
             //CMConsole.Log("TESTING Exit State");
             //CMConsole.Log($"Exit State Name: {stateName}");
 
+        }
+
+        public bool isDead()
+        {
+            return dead;
         }
     }
 }

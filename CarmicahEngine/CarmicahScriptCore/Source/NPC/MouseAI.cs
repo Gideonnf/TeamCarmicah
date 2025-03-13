@@ -470,6 +470,11 @@ namespace Carmicah
 
         }
 
+        public bool isDead()
+        {
+            return dead;
+        }
+
         //public void SetTypeAndSpeedWithWaveScaling(int waveNumber)
         //{
         //    // Wave-based speed scaling
