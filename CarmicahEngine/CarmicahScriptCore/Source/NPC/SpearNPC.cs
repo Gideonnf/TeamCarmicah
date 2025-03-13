@@ -11,6 +11,7 @@ namespace Carmicah
     {
         MouseAI targetMouse;
         float timer = 0.0f;
+        string voiceOver;
         public override void OnCreate()
         {
             base.OnCreate();
@@ -245,6 +246,7 @@ namespace Carmicah
                 {
                     CMConsole.Log("MC Should try to heal " + mID.ToString());
                     player.HealAI(mID);
+                    
                 }
             }
             else if (stateName == "Dead")
@@ -257,11 +259,33 @@ namespace Carmicah
 
         }
 
+        public void PlayVoiceOver()
+        {
+            Random rnd = new Random();
+            int number = rnd.Next(1, 11);
+
+            if (number > 9)
+            {
+
+                voiceOver = "VO_Spearman_Placement_" + number.ToString();
+
+            }
+            else
+            {
+                voiceOver = "VO_Spearman_Placement_0" + number.ToString();
+            }
+
+            Sound.PlaySFX(voiceOver, 0.8f);
+        }
+
         public override void OnStateExit(string stateName)
         {
             //CMConsole.Log("TESTING Exit State");
             //CMConsole.Log($"Exit State Name: {stateName}");
-
+            if(stateName == "NoMana")
+            {
+                PlayVoiceOver();
+            }
         }
 
         public override void OnMouseEnter()
