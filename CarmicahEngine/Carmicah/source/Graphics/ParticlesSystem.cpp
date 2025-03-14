@@ -59,7 +59,7 @@ namespace Carmicah
 				if ((par.timeLeft -= dt) < 0.f)
 				{
 					std::swap(par, mParticles[i][arrSize - (++eraseCounter)]);
-					if (eraseCounter == arrSize - 1)
+					if (eraseCounter >= arrSize)
 						break;
 					continue;
 				}
@@ -68,7 +68,7 @@ namespace Carmicah
 			// Remove non-active particles from the list
 			if (eraseCounter > 0)
 			{
-				if (eraseCounter >= arrSize - 1)
+				if (eraseCounter >= arrSize)
 					mParticles[i].clear();
 				else
 					mParticles[i].erase(mParticles[i].begin() + (arrSize - eraseCounter), mParticles[i].end());

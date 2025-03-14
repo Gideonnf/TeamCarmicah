@@ -41,6 +41,14 @@ namespace Carmicah
                     hoverExitAnim   = "Button_HE_Play";
                     clickAnim       = "Button_C_Play";
                     break;
+                case "tutorial":
+                    nextScene = "Tutorial";
+                    willChangeScene= true;
+
+                    hoverEnterAnim = "Button_HS_Play";
+                    hoverExitAnim = "Button_HE_Play";
+                    clickAnim = "Button_C_Play";
+                    break;
                 case "quit":
                     //nextScene       = "quit";
                     //willChangeScene = false;

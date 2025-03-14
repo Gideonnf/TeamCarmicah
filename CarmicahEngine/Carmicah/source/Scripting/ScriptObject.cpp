@@ -210,6 +210,7 @@ namespace Carmicah
 		if (mOnTriggerEnter)
 		{
 			void* param = &id;
+			//CM_CORE_INFO("Calling the Invoke Method onTriggerEnter");
 			mScriptClass->InvokeMethod(mMonoInstance, mOnTriggerEnter, &param);
 
 		}
@@ -229,6 +230,7 @@ namespace Carmicah
 	{
 		if (mOnTriggerExit)
 		{
+			CM_CORE_INFO("Calling the Invoke Method onTriggerExit");
 			mScriptClass->InvokeMethod(mMonoInstance, mOnTriggerExit);
 		}
 	}
