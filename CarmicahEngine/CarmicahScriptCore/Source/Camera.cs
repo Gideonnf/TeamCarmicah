@@ -47,23 +47,28 @@ namespace Carmicah
 
             Vector2 pos = GetComponent<Transform>().Position;
 
-            if (Input.IsKeyHold(Keys.KEY_R))
+            float scrollAmt = Input.GetMouseScroll() * 2.0f;
+
+            if (Input.IsKeyHold(Keys.KEY_R) || scrollAmt > 0)
             {
+                scrollAmt = Math.Max(1, scrollAmt);
                 //Vector2 pos = GetComponent<Transform>().Position;
                 if (pos.y <= topLimit)
                 {
-                    pos.y += ySpeed * dt;
+                    pos.y += scrollAmt * ySpeed * dt;
                     GetComponent<Transform>().Position = pos;
 
                 }
             }
             
-            if (Input.IsKeyHold(Keys.KEY_F))
+            if (Input.IsKeyHold(Keys.KEY_F) || scrollAmt < 0)
             {
+                scrollAmt = Math.Max(1, -scrollAmt);
+
                 //Vector2 pos = GetComponent<Transform>().Position;
                 if (pos.y >= bottomLimit)
                 {
-                    pos.y -= ySpeed * dt;
+                    pos.y -= scrollAmt * ySpeed * dt;
                     GetComponent<Transform>().Position = pos;
 
                 }
