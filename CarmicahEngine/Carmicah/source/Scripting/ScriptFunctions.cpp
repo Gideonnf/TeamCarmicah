@@ -365,10 +365,16 @@ namespace Carmicah
 	static void Sound_SetCategoryVolume(int category, float volume)
 	{
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		if(category == 0)
-			souSystem->SetCategoryVolume(SoundCategory::EDITOR, SoundSystem::SOUND_INGAME, volume);
-		else if(category == 1)
+		if (category == 0)
+		{
+			souSystem->SetCategoryVolume(SoundCategory::SFX, SoundSystem::SOUND_INGAME, volume);
+			souSystem->SetCategoryVolume(SoundCategory::UI, SoundSystem::SOUND_INMENU, volume);
+		}
+		else if (category == 1)
+		{
 			souSystem->SetCategoryVolume(SoundCategory::EDITOR, SoundSystem::SOUND_BGM, volume);
+			souSystem->SetCategoryVolume(SoundCategory::BGM, SoundSystem::SOUND_BGM, volume);
+		}
 	}
 
 
