@@ -171,7 +171,7 @@ namespace Carmicah
             {
                 if (HasComponent<RigidBody>())
                 {
-                    GetComponent<RigidBody>().StopObject();
+                    GetComponent<RigidBody>().StopObject(); 
                 }
                 if (gameManager.As<GameManager>().GameOver) return;
             }
