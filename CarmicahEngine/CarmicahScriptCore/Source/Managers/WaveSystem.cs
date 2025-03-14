@@ -24,6 +24,8 @@ namespace Carmicah
         public string losePrefab = "LoseScreen";
         public string countdownPrefab = "Countdown_1";
 
+        //public bool EndGame;
+
         Entity gameManager;
         Entity winScreen;
         Entity countdown;

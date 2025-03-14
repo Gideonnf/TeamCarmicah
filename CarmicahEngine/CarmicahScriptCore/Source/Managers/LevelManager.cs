@@ -261,6 +261,12 @@ namespace Carmicah
             DebugPrintLevelMap(currentLevel);
         }
 
+        public bool EndOfGame()
+        {
+           return currentLevel == levelMap.Count; 
+
+        }
+
         public void DebugPrint(int j, int count)
         {
             CMConsole.Log($"J : {j}, {count}");
