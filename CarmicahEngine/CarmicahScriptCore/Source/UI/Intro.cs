@@ -73,7 +73,7 @@ namespace Carmicah
             {
                 if(alpha == 0.0f)
                 {
-                    Sound.PlaySFX("Intro", 1.0f);
+                    Sound.PlaySFX("Intro", 0.5f);
                 }
 
                 if (timer <= FadeDuration)  // first 1s: fade in

@@ -549,6 +549,7 @@ namespace Carmicah
                             // If placed a trap correctly
                             if (justPlaced != -1)
                             {
+                                
                                 placedObj[justPlaced + 4] = true;
                                 npcs[justPlaced].GetComponent<Renderer>().SetAlpha(1.0f);
 
@@ -750,7 +751,7 @@ namespace Carmicah
         {
             if(!healDone && player.GetComponent<Animation>().IsAnimFinished())
             {
-                Sound.PlaySFX("VO_Shooter_Placement_04", 0.3f);
+                Sound.PlaySFX("VO_Shooter_Placement_04", 0.5f);
                 healDone = true;
                 npcs[healNPC].GetComponent<Animation>().ChangeAnim("Shooter_Idle");
                 player.GetComponent<Animation>().ChangeAnim("MC_Idle");
