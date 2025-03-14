@@ -1123,6 +1123,26 @@ namespace Carmicah
 		return 0;
 	}
 
+	static bool GetParticlesActive(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<ParticleEmitter>())
+		{
+			return go.GetComponent<ParticleEmitter>().HasEmitterQualities(ParticleEmitter::EMITTER_ACTIVE);
+		}
+		return false;
+	}
+
+	static void SetParticlesActive(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<ParticleEmitter>())
+		{
+			return go.GetComponent<ParticleEmitter>().SetEmitterQualities(ParticleEmitter::EMITTER_ACTIVE, true);
+		}
+	}
+
+
 	static float Collider2D_GetCustomWidth(unsigned int entityID)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -1199,6 +1219,7 @@ namespace Carmicah
 		RegisterComponent<StateMachine>();
 		RegisterComponent<Renderer>();
 		RegisterComponent<TextRenderer>();
+		RegisterComponent<ParticleEmitter>();
 	}
 
 	/// <summary>
@@ -1298,6 +1319,9 @@ namespace Carmicah
 
 		ADD_INTERNAL_CALL(GetFilePath);
 
+		// Particles
+		ADD_INTERNAL_CALL(GetParticlesActive);
+		ADD_INTERNAL_CALL(SetParticlesActive);
 
 		//Collider2D
 		ADD_INTERNAL_CALL(Collider2D_GetCustomHeight);
