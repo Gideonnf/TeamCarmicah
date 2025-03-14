@@ -81,6 +81,14 @@ namespace Carmicah
                     hoverExitAnim   = "Button_HE_Skip";
                     clickAnim       = "Button_C_Skip";
                     break;
+                case "skipscut":
+                    //nextScene = "Scene3";
+                    willChangeScene = true;
+
+                    hoverEnterAnim = "Button_HS_Skip";
+                    hoverExitAnim = "Button_HE_Skip";
+                    clickAnim = "Button_C_Skip";
+                    break;
                 case "skipintro":
                     nextScene       = "Scene1";
                     willChangeScene = true;
@@ -180,15 +188,15 @@ namespace Carmicah
 
         public override void OnUpdate(float dt)
         {
-            if(GetComponent<Animation>().IsAnimFinished())
+            if (!HasComponent<Animation>() || GetComponent<Animation>().IsAnimFinished())
             {
-                if(sceneChangerTimer > 0)
+                if (sceneChangerTimer > 0)
                 {
                     sceneChangerTimer -= dt;
-                    if(sceneChangerTimer < 0)
+                    if (sceneChangerTimer < 0)
                     {
                         sceneChangerTimer = -1f;
-                        if(nextScene == "quit")
+                        if (nextScene == "quit")
                         {
                             Scene.CloseGame();
                         }
@@ -201,6 +209,8 @@ namespace Carmicah
                 }
 
             }
+
+
             if (createListCreated && createList.Count > 0 && FindEntityWithName(createList[0]) == null)
             {
                 createListCreated = false;
