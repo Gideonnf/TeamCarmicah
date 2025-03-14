@@ -146,7 +146,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "matcha_cake_SpriteSheet_Squish 3",
+                    "texture": "strawberry_cake_SpriteSheet_Squish 3",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -2315,11 +2315,6 @@
             ]
         },
         {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
-        },
-        {
             "GameObject": "WaveText",
             "ID": 62,
             "Components": [
@@ -2343,11 +2338,6 @@
                     "transformTag": ""
                 }
             ]
-        },
-        {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
         },
         {
             "GameObject": "FPS",
