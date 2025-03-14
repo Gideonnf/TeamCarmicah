@@ -103,7 +103,7 @@ namespace Carmicah
             }
             else thingHappened = false;
 
-            if(elapsedTime > 0.1f)
+            if(elapsedTime > 0.05f)
             {
                 if (textProgress != finalText.Length)
                 {
