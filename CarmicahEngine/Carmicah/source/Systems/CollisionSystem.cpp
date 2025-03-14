@@ -770,6 +770,7 @@ namespace Carmicah
 			if (mEntityTriggerMap[obj1].count(obj2) == 0)
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
+				CM_CORE_INFO("Sending trigger enter message");
 				SendSysMessage(&newMsg);
 
 				mEntityTriggerMap[obj1].insert(obj2);
@@ -814,6 +815,7 @@ namespace Carmicah
 			if (mEntityTriggerMap[obj1].count(obj2) == 0)
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
+				CM_CORE_INFO(gGOFactory->GetMIDToGO()[obj1].GetName() + " entering " + gGOFactory->GetMIDToGO()[obj2].GetName());
 				SendSysMessage(&newMsg);
 
 				mEntityTriggerMap[obj1].insert(obj2);
@@ -922,17 +924,34 @@ namespace Carmicah
 			}
 
 			// check which entities entity 1 is no longer colliding with
-			for (auto it : mEntityTriggerMap[entity1])
+			for (auto it = mEntityTriggerMap[entity1].begin(); it != mEntityTriggerMap[entity1].end();)
 			{
+				/*if (it == 24)
+				{
+					CM_CORE_INFO("Num of entities in trigger map {}", mEntityTriggerMap[entity1].size());
+
+				}*/
 				// if its not collided but it is part of entity 1's trigger map
 				// that means we need to trigger on exit
-				if (collidedEntities.count(it) == 0)
+				if (collidedEntities.count(*it) == 0)
 				{
-					EntityCollidedMessage newMsg(entity1, it, CollideType::TRIGGER_EXIT);
+					EntityCollidedMessage newMsg(entity1, *it, CollideType::TRIGGER_EXIT);
+					CM_CORE_INFO(gGOFactory->GetMIDToGO()[entity1].GetName() + " exiting " + gGOFactory->GetMIDToGO()[*it].GetName());
 					SendSysMessage(&newMsg);
 
-					mEntityTriggerMap.erase(it);
+					it = mEntityTriggerMap[entity1].erase(it);
+
+					
 				}
+				else
+				{
+					it++;
+				}
+			}
+
+			if (mEntityTriggerMap[entity1].empty())
+			{
+				mEntityTriggerMap.erase(entity1);
 			}
 
 			// if entity 1 was already colliding but no longer
