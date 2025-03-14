@@ -186,6 +186,7 @@ namespace Carmicah
                         {
                             Vector2 scale = trapEntity.GetComponent<Transform>().Scale;
                             trapEntity.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
+                            trapEntity.GetComponent<Collider2D>().SetxPivot(1.0f);
 
                             //trapEntity.Position = new Vector2(translucentTrap.Position.x, translucentTrap.Position.y);
                         }

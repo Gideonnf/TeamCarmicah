@@ -61,6 +61,26 @@ namespace Carmicah
             return customHeight;
         }
 
+        float GetxPivot()
+        {
+            return posPivot.x;
+        }
+
+        float GetyPivot()
+        {
+            return posPivot.y;
+        }
+
+        void SetxPivot(float x)
+        {
+            posPivot.x = x;
+        }
+
+        void SetyPivot(float y)
+        {
+            posPivot.y = y;
+        }
+
         std::string shape;
 
         Collider2D& DeserializeComponent(const rapidjson::Value& component) override

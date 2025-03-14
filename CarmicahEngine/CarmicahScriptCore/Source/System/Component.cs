@@ -160,6 +160,26 @@ namespace Carmicah
         {
             FunctionCalls.Collider2D_SetCustomWidth(Entity.mID, width);
         }
+
+        public float GetxPivot()
+        {
+            return FunctionCalls.Collider2D_GetxPivot(Entity.mID);
+        }
+
+        public float GetyPivot()
+        {
+            return FunctionCalls.Collider2D_GetyPivot(Entity.mID);
+        }
+
+        public void SetxPivot(float width)
+        {
+            FunctionCalls.Collider2D_SetxPivot(Entity.mID, width);
+        }
+
+        public void SetyPivot(float height)
+        {
+            FunctionCalls.Collider2D_SetyPivot(Entity.mID, height);
+        }
     }
 
     public class Renderer : Component
