@@ -14,6 +14,11 @@
             "collisionMask": 0
         },
         {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Mage_Idle",
+            "AnimSpeed": 1.0
+        },
+        {
             "Component Name": "struct Carmicah::StateMachine",
             "currState": "",
             "nextState": "",
@@ -95,16 +100,13 @@
             ]
         },
         {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Mage_Idle",
-            "AnimSpeed": 1.0
-        },
-        {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "",
             "customWidth": 1.0,
             "customRotation": 0.0,
-            "customHeight": 1.0
+            "customHeight": 1.0,
+            "xPosPivot": 0.0,
+            "yPosPivot": 0.0
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
@@ -119,33 +121,6 @@
             "objectType": 0
         },
         {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.MageNPC",
-            "ScriptableFieldMap": [
-                {
-                    "IsLeft": false,
-                    "isShooting": false,
-                    "active": false,
-                    "animationTime": 0.0,
-                    "deathSound": "Shooter_Death",
-                    "hasAmmo": true,
-                    "hovering": false,
-                    "idleAnim": "Mage_Idle",
-                    "lane": 0,
-                    "mana": 2,
-                    "manaAnim": "Mage_Mana",
-                    "maxMana": 2,
-                    "placeSound": "Shooter_Appear",
-                    "projectilePrefab": "MageBullet",
-                    "shootAnim": "Mage_Attack",
-                    "shot": false,
-                    "shootRate": 1.0,
-                    "shootSound": "Shooter_Shooting",
-                    "shootTime": 1.0
-                }
-            ]
-        },
-        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "NPC_SpriteSheet_Mage_Idle 1",
@@ -153,6 +128,35 @@
             "colG": 1.0,
             "colB": 1.0,
             "colA": 1.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.MageNPC",
+            "ScriptableFieldMap": [
+                {
+                    "isShooting": false,
+                    "IsLeft": false,
+                    "active": false,
+                    "deathSound": "Shooter_Death",
+                    "animationTime": 0.0,
+                    "hasAmmo": true,
+                    "hovering": false,
+                    "idleAnim": "Mage_Idle",
+                    "lane": 0,
+                    "mana": 2,
+                    "manaAnim": "Mage_Mana",
+                    "dissolveAnim": "",
+                    "maxMana": 2,
+                    "placeSound": "Shooter_Appear",
+                    "projectilePrefab": "MageBullet",
+                    "shootAnim": "Mage_Attack",
+                    "shot": false,
+                    "shootRate": 0.25,
+                    "shootSound": "Shooter_Shooting",
+                    "shootTime": 1.0,
+                    "teleportAnim": ""
+                }
+            ]
         }
     ]
 }

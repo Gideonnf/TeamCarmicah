@@ -488,9 +488,9 @@
                             "losePrefab": "LoseScreen",
                             "countdownStartTime": 5.0,
                             "waveTimer": 0.0,
-                            "waveSetupTime": 15.0,
+                            "waveSetupTime": 30.0,
                             "waveStart": false,
-                            "waveStartTime": 21.0,
+                            "waveStartTime": 37.0,
                             "winPrefab": "Win_Screen"
                         }
                     ]
@@ -1082,7 +1082,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 3.0,
                             "yOffset": 1.0,
                             "IsLeft": true,
@@ -1148,7 +1148,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 0.0,
                             "yOffset": 1.0,
                             "IsLeft": false,
@@ -1493,7 +1493,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 2.0,
                             "yOffset": 1.0,
                             "IsLeft": true,
@@ -1559,7 +1559,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 1.0,
                             "yOffset": 1.0,
                             "IsLeft": false,
@@ -1924,7 +1924,7 @@
                             "HoneyPrefab": "HoneyBall",
                             "MagePrefab": "MageBall",
                             "ShooterPrefab": "ShooterBall",
-                            "SpawnTimer": 18.0,
+                            "SpawnTimer": 8.0,
                             "TrapPrefab": "TrapBall",
                             "WaveSystemObject": "Something",
                             "heightOffset": 12.0,

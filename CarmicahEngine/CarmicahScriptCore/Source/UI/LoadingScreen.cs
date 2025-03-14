@@ -31,14 +31,14 @@ namespace Carmicah
         private string fullText = "Good morning, my name is Micah, i'm a shit coder";
         private StringBuilder currentText = new StringBuilder();
         private int currentIndex = 0;
-        private float timePerChar = 0.1f;  // delay between each character (in seconds)
+        private float timePerChar = 0.05f;  // delay between each character (in seconds)
         private float timer = 0.0f;
         private bool isTyping = true;
 
         public override void OnCreate()
         {
             currentText.Clear();
-            StartTyping(fullText, 10f);
+            StartTyping(fullText, 17f);
         }
 
         public override void OnUpdate(float dt)
