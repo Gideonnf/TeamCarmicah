@@ -488,7 +488,7 @@
                             "losePrefab": "LoseScreen",
                             "countdownStartTime": 5.0,
                             "waveTimer": 0.0,
-                            "waveSetupTime": 30.0,
+                            "waveSetupTime": 10.0,
                             "waveStart": false,
                             "waveStartTime": 37.0,
                             "winPrefab": "Win_Screen"
