@@ -376,7 +376,7 @@ namespace Carmicah
     void SoundSystem::ToggleMuffle(INTSOUND internalCatergoy, bool toMuffle, unsigned int id)
     {
         FMOD::Channel* currentChannel = nullptr;
-        FMOD::DSP* dsp = nullptr;
+        //FMOD::DSP* dsp = nullptr;
         if (id == 0 && internalCatergoy == SOUND_BGM)
         {
             currentChannel = mSoundTracks[internalCatergoy].back()->channel;
