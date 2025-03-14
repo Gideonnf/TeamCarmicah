@@ -68,7 +68,7 @@
                     "EndPointEntityRight": "EndPointRight",
                     "baseAnimation": "Mouse_Climb_Brown",
                     "baseAnimationDie": "Mouse_Death_Brown",
-                    "baseAnimationDissolve": "Mouse_Dissolve_brown",
+                    "baseAnimationDissolve": "Mouse_Dissolve_Brown",
                     "timer": 0.0,
                     "TimeToDie": 1.5,
                     "DeathSound": "mouse die btr",
