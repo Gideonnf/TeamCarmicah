@@ -76,6 +76,7 @@ namespace Carmicah
                 if (countdown != null)
                 {
                     countdown.Destroy();
+                    countdown = null;
 
                 }
 
