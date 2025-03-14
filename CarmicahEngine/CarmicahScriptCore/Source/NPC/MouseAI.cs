@@ -78,7 +78,7 @@ namespace Carmicah
 
         // Base speeds for each type
         private float baseRegularSpeed = 1.0f;
-        private float baseFastSpeed = 1.5f;
+        private float baseFastSpeed = 2.0f;
         private float baseHeavySpeed = 1.8f;
 
        
@@ -169,11 +169,15 @@ namespace Carmicah
             Entity gameManager = FindEntityWithName("GameManager");
             if (gameManager != null)
             {
-                if (HasComponent<RigidBody>())
+                if (gameManager.As<GameManager>().GameOver)
                 {
-                    GetComponent<RigidBody>().StopObject(); 
+                    if (HasComponent<RigidBody>())
+                    {
+                        CMConsole.Log("Stop Da mouse!");
+                        GetComponent<RigidBody>().StopObject();
+                    }
+                    return;
                 }
-                if (gameManager.As<GameManager>().GameOver) return;
             }
 
             if (move)
