@@ -6,7 +6,7 @@ author:		    Micah Lim (100%)
 email:			micahshengyao.lim@digipen.edu.sg
 
 brief:          This file contains the Countdown class which is responsible for displaying the countdown
-                animation before the game starts.
+                animation before the game starts. It displays the animation countdown from 3 to 1 before the game starts.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
