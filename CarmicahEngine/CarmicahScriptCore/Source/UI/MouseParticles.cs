@@ -25,7 +25,7 @@ namespace Carmicah
 {
     public class MouseParticles : Entity
     {
-        Vector2 position;
+        //Vector2 position;
         Vector2 mousePos;
         //public string particlePrefabName = "CursorParticles";
 

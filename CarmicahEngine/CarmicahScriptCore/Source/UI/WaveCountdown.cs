@@ -36,13 +36,13 @@ namespace Carmicah
         private Vector2 originalScale;
         private bool isVisible = false; // track visibility
 
-        void OnCreate()
+        public override void OnCreate()
         {
             originalScale = Scale;
             Scale = new Vector2(0, 0); // hide
         }
 
-        void OnUpdate(float dt)
+        public override void OnUpdate(float dt)
         {
             timer += dt;
 

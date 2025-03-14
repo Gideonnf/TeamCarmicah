@@ -23,7 +23,7 @@ namespace Carmicah
         private float panel8 = 49.5f;    //with courage in their hearts (3.5s + 46s)
         private float panel9 = 55.0f;    //the fate of candy kingdom (5.5s + 49.5s)
         private float panel10 = 64.0f;   //And thus began (2.5s + 55s)
-        private float panel11 = 64.0f;   //the battle all would remember as... (6.5s + 57.5s)
+       // private float panel11 = 64.0f;   //the battle all would remember as... (6.5s + 57.5s)
 
         public float fadeSpeed = 0.5f;
 

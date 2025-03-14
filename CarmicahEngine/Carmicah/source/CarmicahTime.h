@@ -59,12 +59,12 @@ namespace Carmicah
     private:
 
         std::chrono::steady_clock::time_point lastUpdateTime;
-        double mUpdateTimer;
-        double mUpdateInterval;
-        int mFrameCount;
-        double mCurrentFPS;
-        double mDeltaTime;
-        double mPrevTime;
+        double mUpdateTimer{};
+        double mUpdateInterval{};
+        int mFrameCount{};
+        double mCurrentFPS{};
+        double mDeltaTime{};
+        double mPrevTime{};
 
         // Profiling variables
         std::unordered_map<std::string, std::chrono::steady_clock::time_point> mSystemStartTimes;
@@ -74,13 +74,13 @@ namespace Carmicah
         std::chrono::steady_clock::time_point mLoopStartTime;
 
         // GPU Profiling variables
-        GLuint mGPUQueryStart;
-        GLuint mGPUQueryEnd;
-        GLuint64 mGPUTime;
+        GLuint mGPUQueryStart{};
+        GLuint mGPUQueryEnd{};
+        GLuint64 mGPUTime{};
 
         //Fixed DT implementation
         //double mFixedDeltaTime;
-        bool mIsFixedDT;
+        bool mIsFixedDT{};
         //Frame History
         std::deque<FrameData> mFrameHistory;
         static const size_t MAX_FRAME_HISTORY = 300; //Should be enough to show a few seconds of history
@@ -102,7 +102,7 @@ namespace Carmicah
 
         // New methods
         const std::deque<FrameData>& GetFrameHistory() const { return mFrameHistory; }
-        void UpdateFrameData();
+        //void UpdateFrameData();
         double GetGPUTime() const;
 
         // Existing getters
@@ -129,7 +129,7 @@ namespace Carmicah
         double GetTotalLoopTime() const { return mTotalLoopTime; }
 
         double GetCPUUsage() const { return mCPUUsage; }
-        void UpdateCPUUsage(); // New method to update CPU usage
+        //void UpdateCPUUsage(); // New method to update CPU usage
 
         bool IsFixedDT()
         {

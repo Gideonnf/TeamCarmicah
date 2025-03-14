@@ -45,7 +45,9 @@ namespace Carmicah
         // Paths and positions
         Vector2 startPosition;
         Vector2 horizontalTarget;  // Target for horizontal 
-        Vector2 diveTarget;        // Target diagonal 
+        /// <summary>
+        ///Vector2 diveTarget;        // Target diagonal 
+        /// </summary>
         Vector2 targetPos;
         float debuff = 1.0f;
         public float speedDebuff = 0.4f;

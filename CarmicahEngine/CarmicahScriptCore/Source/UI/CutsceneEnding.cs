@@ -18,7 +18,7 @@ namespace Carmicah
 
         private string cutscenePrefab = "CutSceneImage";
         private string nextImgName = "EndingCutscene_SpriteSheet_Yes 1";
-        private int img1Size = 2;
+        //private int img1Size = 2;
 
         // Background music
         public string backgroundMusicTrack = "Endingcutscene";

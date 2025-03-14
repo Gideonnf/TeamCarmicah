@@ -28,7 +28,7 @@ namespace Carmicah
 
         public float mouseXOffset = 0.5f;
 
-        bool testBool = false;
+        //bool testBool = false;
 
         public override void OnCreate()
         {

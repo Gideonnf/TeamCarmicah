@@ -380,6 +380,9 @@ namespace Carmicah
                             CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
                         }
 
+                        CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
+                        aniSystem->Update();
+                        CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
 
                         accumulatedTime -= CarmicahTime::GetInstance()->ForceFixedDT();
                     }
@@ -396,16 +399,13 @@ namespace Carmicah
                         CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
                         CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                         phySystem->Update();
-                        CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
+                        CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSysteGm");
           
                         fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->GetDeltaTime());
                     }
 
-                    fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
+                    fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime());
 
-                    CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
-                    aniSystem->Update();
-                    CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
 
 
                     CarmicahTime::GetInstance()->StartSystemTimer("SoundSystem");

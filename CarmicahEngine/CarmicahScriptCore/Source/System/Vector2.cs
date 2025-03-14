@@ -35,6 +35,17 @@ namespace Carmicah
             this.y = val;
         }
 
+        // uncomment the Equals function to resolve  
+        public override bool Equals(object o)
+        {
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return 0;
+        }
+
         public static Vector2 Zero => new Vector2(0.0f, 0.0f);
 
         public static Vector2 operator -(Vector2 v1, Vector2 v2)

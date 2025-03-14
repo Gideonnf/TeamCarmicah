@@ -310,6 +310,7 @@ namespace Carmicah
 
 	void AssetWindow::TextureBrowser(std::string& name, std::shared_ptr<Carmicah::AssetType<Carmicah::Texture>> map)
 	{
+		UNUSED(name);
 		std::filesystem::path pathLoc = AssetManager::GetInstance()->enConfig.assetLoc.c_str() + std::string("/Images");
 
 		if (!std::filesystem::exists(pathLoc))
@@ -343,17 +344,17 @@ namespace Carmicah
 		char inputBuffer[1024] = "";
 
 #pragma region Debugging
-		for (const auto& entry : AssetManager::GetInstance()->fileWatcher.fileMap)
-		{
-			/*if (entry.first.find("bg.png") != std::string::npos)
-			{
-				CM_CORE_INFO("FOUND PNG!");
-			}
-			if (entry.first.find("bg.txt") != std::string::npos)
-			{
-				CM_CORE_INFO("FOUND TXT!");
-			}*/
-		}
+		//for (const auto& entry : AssetManager::GetInstance()->fileWatcher.fileMap)
+		//{
+		//	/*if (entry.first.find("bg.png") != std::string::npos)
+		//	{
+		//		CM_CORE_INFO("FOUND PNG!");
+		//	}
+		//	if (entry.first.find("bg.txt") != std::string::npos)
+		//	{
+		//		CM_CORE_INFO("FOUND TXT!");
+		//	}*/
+		//}
 
 #pragma endregion
 
