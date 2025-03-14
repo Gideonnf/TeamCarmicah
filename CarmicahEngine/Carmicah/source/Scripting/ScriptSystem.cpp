@@ -548,11 +548,11 @@ namespace Carmicah
                 auto gameSystem = SystemManager::GetInstance()->GetSystem<SceneSystem>();
                 if (gameSystem->mRuntime && gameSystem->mNextState == RUNTIME)
                 {
-                    CM_CORE_INFO("Invoking on create");
+                    //CM_CORE_INFO("Invoking on create");
                     mEntityInstances[entity]->InvokeOnConstruct(entity);
                     mEntityInstances[entity]->InvokeOnCreate();
                 }
-                CM_CORE_INFO("New script instance")
+                //CM_CORE_INFO("New script instance")
                 // entity = entityAdded.begin();
             }
             // if no script is assigned yet (i.e in editor mode, if a script is attached, it wouldnt have one added by default
