@@ -20,20 +20,6 @@
             "startingState": "Idle",
             "stateMap": [
                 {
-                    "stateName": "Attacking",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Idle",
-                            "condition": 1
-                        },
-                        {
-                            "targetState": "Dead",
-                            "condition": 4
-                        }
-                    ]
-                },
-                {
                     "stateName": "Idle",
                     "stateCondition": 0,
                     "transitions": [
@@ -52,6 +38,20 @@
                         {
                             "targetState": "Teleport",
                             "condition": 5
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Attacking",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
+                        },
+                        {
+                            "targetState": "Dead",
+                            "condition": 4
                         }
                     ]
                 },
@@ -104,7 +104,9 @@
             "shape": "",
             "customWidth": 1.0,
             "customRotation": 0.0,
-            "customHeight": 1.0
+            "customHeight": 1.0,
+            "xPosPivot": 0.0,
+            "yPosPivot": 0.0
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
@@ -123,28 +125,29 @@
             "scriptName": "Carmicah.ShooterNPC",
             "ScriptableFieldMap": [
                 {
-                    "isShooting": false,
                     "IsLeft": false,
+                    "isShooting": false,
                     "active": false,
-                    "deathSound": "Shooter_Death",
                     "animationTime": 0.0,
+                    "deathSound": "Shooter_Death",
                     "hasAmmo": true,
                     "hovering": false,
                     "idleAnim": "Shooter_Idle",
                     "lane": 0,
                     "mana": 5,
-                    "manaAnim": "Shooter_Mana",
                     "dissolveAnim": "NPC_Death",
+                    "manaAnim": "Shooter_Mana",
                     "npcType": 0,
                     "placeSound": "Shooter_Appear",
                     "projectilePrefab": "Bullet",
-                    "shootAnim": "Shooter_Shoot",
                     "shot": false,
+                    "shootAnim": "Shooter_Shoot",
                     "shootRate": 1.0,
                     "shootSound": "Shooter_Shooting",
                     "shootTime": 1.0,
                     "maxMana": 5,
-                    "airAnim": "Shooter_AirShoot"
+                    "airAnim": "Shooter_AirShoot",
+                    "teleportAnim": "NPC_Teleport"
                 }
             ]
         },

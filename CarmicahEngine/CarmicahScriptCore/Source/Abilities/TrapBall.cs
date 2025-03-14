@@ -73,7 +73,7 @@ namespace Carmicah
 
                     if (abilityBar.As<AbilityBar>().CreateIcon((IconType)iconType))
                     {
-                        CMConsole.Log("DESTROYING CAUSE PICK UP");
+                        //CMConsole.Log("DESTROYING CAUSE PICK UP");
 
                         powerControl.As<PowerUpControl>().PowerUpDestroyed(this);
                         Destroy();
@@ -103,7 +103,7 @@ namespace Carmicah
 
                 if (timer > lifeTime)
                 {
-                    CMConsole.Log("DESTROYING CAUSE LIFE TIME ");
+                    //CMConsole.Log("DESTROYING CAUSE LIFE TIME ");
                     powerControl.As<PowerUpControl>().PowerUpDestroyed(this);
                     Destroy();
                     return;
@@ -139,13 +139,13 @@ namespace Carmicah
             {
                 touched = true;
                 stopTime = CMRand.Range(middleMin, middleMax);
-                CMConsole.Log($"stop time {stopTime}");
+                //CMConsole.Log($"stop time {stopTime}");
             }
             else if (entity.GetTag() == "TowerTopSide")
             {
                 touched = true;
                 stopTime = CMRand.Range(sideMin, sideMax);
-                CMConsole.Log($"stop time {stopTime}");
+                //CMConsole.Log($"stop time {stopTime}");
             }
 
         }
@@ -156,7 +156,7 @@ namespace Carmicah
             Entity entity = FindEntityWithID(collidedEntity);
             if (collidedEntity == 24)
             {
-                CMConsole.Log("Colliding with player");
+                //CMConsole.Log("Colliding with player");
             }
             if (entity.GetTag() == "Player")
             {

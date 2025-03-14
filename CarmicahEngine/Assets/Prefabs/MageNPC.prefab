@@ -104,7 +104,9 @@
             "shape": "",
             "customWidth": 1.0,
             "customRotation": 0.0,
-            "customHeight": 1.0
+            "customHeight": 1.0,
+            "xPosPivot": 0.0,
+            "yPosPivot": 0.0
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
@@ -134,14 +136,16 @@
                     "lane": 0,
                     "mana": 2,
                     "manaAnim": "Mage_Mana",
+                    "dissolveAnim": "",
                     "maxMana": 2,
                     "placeSound": "Shooter_Appear",
                     "projectilePrefab": "MageBullet",
                     "shootAnim": "Mage_Attack",
                     "shot": false,
-                    "shootRate": 1.0,
+                    "shootRate": 0.25,
                     "shootSound": "Shooter_Shooting",
-                    "shootTime": 1.0
+                    "shootTime": 1.0,
+                    "teleportAnim": "NPC_Teleport"
                 }
             ]
         },

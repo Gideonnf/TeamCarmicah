@@ -72,9 +72,11 @@
         {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "",
-            "customWidth": 1.0,
+            "customWidth": 0.5,
             "customRotation": 0.0,
-            "customHeight": 1.0
+            "customHeight": 1.0,
+            "xPosPivot": 0.0,
+            "yPosPivot": 0.0
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
@@ -99,7 +101,7 @@
                     "idleAnim": "TrapHoneyIdle",
                     "timer": 0.0,
                     "isDead": false,
-                    "life": 15.0
+                    "life": 45.0
                 }
             ]
         },

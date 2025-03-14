@@ -22,7 +22,8 @@ namespace Carmicah
         public override void OnCreate()
         {
             cam = FindEntityWithName("MainCamera");
-            lastCamPos = cam.LocalPosition;
+            if (cam != null)
+                lastCamPos = cam.LocalPosition;
 
 
         }

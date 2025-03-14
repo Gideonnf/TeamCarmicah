@@ -1,11 +1,13 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  file:			SoundSystem.h
 
- author:		YANG YUJIE(70%)
+ author:		YANG YUJIE(30%)
  co-author(s):	Won Yu Xuan Rainne(30%)
+                Lee Yong Yee(40%)
 
  email:			won.m@digipen.edu
                 y.yujie@digipen.edu
+                l.yongyee@digipen.edu
 
  brief:	        This file contains the declaration of the SoundSystem class, which is responsible for playing sound effects and background music.
                 it uses the FMOD library to handle sound effects and background music.
@@ -41,12 +43,27 @@ namespace Carmicah
         mCategoryVolumes[SoundCategory::EDITOR] = 1.0f;
     }
 
+    /**
+     * @brief Initializes the SoundSystem by retrieving the SoundSystem instance from the AssetManager.
+     *
+     * This function sets up the SoundSystem by accessing the `mSoundSystem` from the `AssetManager`
+     * and assigning it to the member variable `mSoundSystem`.
+     *
+     * @return void
+     */
     void SoundSystem::Init()
     {
         mSoundSystem = AssetManager::GetInstance()->mSoundSystem;
     }
 
-    //PlaySound(defaultBGM, SoundCategory::BGM);
+    /**
+     * @brief Updates the sound system by processing any active sounds and managing cleanup or fade effects.
+     *
+     * This function calls the `update()` method of the SoundSystem to process any ongoing sounds.
+     * It also manages cleanup of stopped sounds and updates any fade effects that may be in progress.
+     *
+     * @return void
+     */
     void SoundSystem::Update()
     {
         if (mSoundSystem) {
@@ -57,11 +74,35 @@ namespace Carmicah
         }
     }
 
+    /**
+     * @brief Stops all sounds and performs necessary cleanup before shutting down the sound system.
+     *
+     * This function stops all currently playing sounds by calling `StopAllSounds()`, ensuring that
+     * all active sounds are properly stopped and cleaned up before the sound system is shut down.
+     *
+     * @return void
+     */
     void SoundSystem::Exit()
     {
         StopAllSounds();
     }
 
+    /**
+     * @brief Plays a sound with the specified parameters and stores it for future management.
+     *
+     * This function attempts to play a sound from the asset manager, with the specified properties.
+     * If the sound exists, it is played and associated with various settings like volume, category, and low-pass filtering.
+     * The sound is then stored in the `mSoundTracks` list for future management.
+     *
+     * @param soundName The name of the sound to be played.
+     * @param category The category of the sound (e.g., BGM, SFX).
+     * @param internalCatergoy Internal categorization used for tracking the sound.
+     * @param isLoop Boolean flag indicating if the sound should loop.
+     * @param volume The volume at which the sound should be played.
+     * @param id The ID of the entity that the sound is associated with (e.g., an entity in a game world).
+     *
+     * @return True if the sound was successfully played and added to the tracking list, false otherwise.
+     */
     bool SoundSystem::PlaySoundThis(const std::string& soundName, SoundCategory category, INTSOUND internalCatergoy, bool isLoop, float volume, unsigned int id)
     {
         if (!AssetManager::GetInstance()->AssetExist<FMOD::Sound*>(soundName))
@@ -108,6 +149,23 @@ namespace Carmicah
         return false;
     }
 
+    /**
+     * @brief Switches the currently playing sound to a new sound, optionally applying a fade effect.
+     *
+     * This function initiates a fade-out for the current sound, and once the fade-out is complete,
+     * it either fades in the new sound or immediately plays the new sound, based on the fade settings.
+     *
+     * @param internalCatergoy The internal category used to track the sound.
+     * @param newSoundName The name of the new sound to be played.
+     * @param category The category of the new sound (e.g., BGM, SFX).
+     * @param isLoop Boolean flag indicating if the new sound should loop.
+     * @param volume The volume at which the new sound should be played.
+     * @param fadeTimer The time duration in seconds for the fade-out effect.
+     * @param fadeDuration The time duration in seconds for the fade-in effect.
+     * @param fadeInNext Boolean flag indicating if the next sound should fade in after the current sound fades out.
+     *
+     * @return void
+     */
     void SoundSystem::SwitchSound(INTSOUND internalCatergoy, const std::string& newSoundName, SoundCategory category, bool isLoop, float volume, float fadeTimer, float fadeDuration, bool fadeInNext)
     {
         if (mSoundTracks[internalCatergoy].empty())
@@ -154,6 +212,14 @@ namespace Carmicah
         }
     }
 
+    /**
+     * @brief Updates the fade effect for currently playing sounds, handling fade-in and fade-out progress.
+     *
+     * This function is responsible for updating the fade effect, reducing the volume for fade-out and
+     * increasing the volume for fade-in, based on the remaining fade timer.
+     *
+     * @return void
+     */
     void SoundSystem::UpdateFadeEffect()
     {
         if (fadeTimerSeconds <= 0.0f)
@@ -218,6 +284,18 @@ namespace Carmicah
         }
     }
 
+    /**
+     * @brief Stops the sound associated with the given internal category, applying a fade-out effect.
+     *
+     * This function initiates a fade-out effect on the currently playing sound, reducing its volume to zero
+     * over the specified fade duration. The sound is stopped once the fade-out is complete.
+     *
+     * @param internalCatergoy The internal category used to track the sound to be stopped.
+     * @param fadeTimer The time duration in seconds for the fade-out effect.
+     * @param fadeDuration The time duration in seconds for the fade-out.
+     *
+     * @return void
+     */
     void SoundSystem::StopSoundWithFade(INTSOUND internalCatergoy, float fadeTimer, float fadeDuration)
     {
         if (mSoundTracks[internalCatergoy].empty())
@@ -259,6 +337,16 @@ namespace Carmicah
         }
     }
 
+    /**
+     * @brief Stops the sound associated with the given internal category immediately.
+     *
+     * This function stops the sound immediately without any fade-out effect. All sound tracks associated
+     * with the given internal category are cleared from the sound system.
+     *
+     * @param internalCatergoy The internal category used to track the sound to be stopped.
+     *
+     * @return void
+     */
     void SoundSystem::StopSound(INTSOUND internalCatergoy)
     {
         for (auto it = mSoundTracks[internalCatergoy].begin(); it != mSoundTracks[internalCatergoy].end(); ++it)
@@ -277,6 +365,16 @@ namespace Carmicah
         mSoundTracks[internalCatergoy].clear();
     }
 
+    /**
+     * @brief Stops the sound effect associated with the given internal category.
+     *
+     * This function stops the first sound in the specified sound category (SFX) if it is currently playing.
+     * It only stops the first sound track in the list.
+     *
+     * @param internalCatergoy The internal category used to track the sound effect to be stopped.
+     *
+     * @return void
+     */
     void SoundSystem::StopSoundSFX(INTSOUND internalCatergoy)
     {
         for (auto it = mSoundTracks[internalCatergoy].begin(); it != mSoundTracks[internalCatergoy].end(); ++it)
@@ -304,7 +402,14 @@ namespace Carmicah
         mSoundTracks[internalCatergoy].clear();
     }*/
         
-
+    /**
+     * @brief Stops all currently playing sounds.
+     *
+     * This function stops all sound effects and background music by iterating over all sound categories
+     * and stopping the sounds in each category.
+     *
+     * @return void
+     */
     void SoundSystem::StopAllSounds()
     {
         for (int i{}; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
@@ -316,6 +421,16 @@ namespace Carmicah
         
     }
 
+    /**
+     * @brief Pauses the sound effect associated with the given internal category.
+     *
+     * This function pauses all sounds in the specified category. The paused status is applied to all
+     * sounds within the category.
+     *
+     * @param internalCatergoy The internal category used to track the sound effect to be paused.
+     *
+     * @return void
+     */
     void SoundSystem::PauseSound(INTSOUND internalCatergoy)
     {
         for (auto it = mSoundTracks[internalCatergoy].begin(); it != mSoundTracks[internalCatergoy].end(); ++it)
@@ -325,6 +440,15 @@ namespace Carmicah
         }
     }
 
+    /**
+     * @brief Resumes the sound effect associated with the given internal category.
+     *
+     * This function resumes all paused sounds in the specified category.
+     *
+     * @param internalCatergoy The internal category used to track the sound effect to be resumed.
+     *
+     * @return void
+     */
     void SoundSystem::ResumeSound(INTSOUND internalCatergoy)
     {
         for (auto it = mSoundTracks[internalCatergoy].begin(); it != mSoundTracks[internalCatergoy].end(); ++it)
@@ -334,19 +458,42 @@ namespace Carmicah
         }
     }
 
+    /**
+     * @brief Pauses all currently playing sounds across all categories.
+     *
+     * This function pauses all sound effects and background music across all categories.
+     *
+     * @return void
+     */
     void SoundSystem::PauseAllSounds() 
     {
         for (int i{}; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
             PauseSound(static_cast<INTSOUND>(i));
     }
 
+    /**
+     * @brief Resumes all currently paused sounds across all categories.
+     *
+     * This function resumes all paused sound effects and background music across all categories.
+     *
+     * @return void
+     */
     void SoundSystem::ResumeAllSounds() 
     {
         for (int i{}; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
             ResumeSound(static_cast<INTSOUND>(i));
     }
 
-
+    /**
+     * @brief Sets the master volume for all sounds.
+     *
+     * This function sets the master volume for all sounds in the system. The volume is clamped between 0.0f and 1.0f.
+     * It updates the volume of all active sound tracks accordingly.
+     *
+     * @param volume The new master volume value, clamped between 0.0f and 1.0f.
+     *
+     * @return void
+     */
     void SoundSystem::SetMasterVolume(float volume)
     {
         mMasterVolume = std::clamp(volume, 0.0f, 1.0f);
@@ -361,6 +508,18 @@ namespace Carmicah
         }
     }
 
+    /**
+     * @brief Sets the volume for sounds in a specific category.
+     *
+     * This function sets the volume for all sounds in the specified category. The volume is clamped between 0.0f and 1.0f.
+     * It updates the volume of all sound tracks in the given category.
+     *
+     * @param category The category of sounds whose volume is to be set.
+     * @param internalCatergoy The internal category used to track the sounds.
+     * @param volume The new volume for the category, clamped between 0.0f and 1.0f.
+     *
+     * @return void
+     */
     void SoundSystem::SetCategoryVolume(SoundCategory category, INTSOUND internalCatergoy, float volume)
     {
         mCategoryVolumes[category] = std::clamp(volume, 0.0f, 1.0f);
@@ -373,6 +532,18 @@ namespace Carmicah
         }
     }
 
+    /**
+     * @brief Toggles the muffle effect on a specific sound or group of sounds.
+     *
+     * This function applies a muffle effect to the sound associated with the given internal category. If `toMuffle` is true,
+     * it applies a low-pass filter effect to the sound, reducing high frequencies. It also adjusts the volume to 50% of the original volume.
+     *
+     * @param internalCatergoy The internal category used to track the sound.
+     * @param toMuffle Boolean flag indicating whether to apply the muffle effect or remove it.
+     * @param id The ID of the specific sound track to muffle (optional, used for specific sound IDs).
+     *
+     * @return void
+     */
     void SoundSystem::ToggleMuffle(INTSOUND internalCatergoy, bool toMuffle, unsigned int id)
     {
         FMOD::Channel* currentChannel = nullptr;
@@ -403,35 +574,38 @@ namespace Carmicah
             }
 
         }
-        //FMOD::DSP* dsp = mSoundTracks[internalCatergoy].back()->lowPassDSP;
-        //FMOD_DSP_TYPE type;
-
-        //int numDSP = 0;
-        //currentChannel->getNumDSPs(&numDSP);
-
-        //for (int i = 0; i < numDSP; i++)
-        //{
-        //    //currentChannel->getDSP(i, &dsp);
-        //    dsp->getType(&type);
-
-        //    if (type == FMOD_DSP_TYPE_LOWPASS)
-        //    {
-        //        mSoundTracks[internalCatergoy].back()->muffle = toMuffle;
-        //        dsp->setBypass(mSoundTracks[internalCatergoy].back()->muffle);
-        //        return;
-        //    }
-        //}
-
-
 
     }
 
+    /**
+     * @brief Calculates the final volume for a given sound track based on various factors.
+     *
+     * This function computes the final volume of a sound track by factoring in whether the system is muted, the track's current volume,
+     * the category-specific volume, and the master volume. The final volume is returned as a float.
+     *
+     * @param track The sound track for which the final volume is to be calculated.
+     * @param category The category of the sound (e.g., SFX, BGM) to adjust the volume accordingly.
+     *
+     * @return The final calculated volume of the sound track.
+     */
     float SoundSystem::CalculateFinalVolume(const SoundTrack* track, SoundCategory category) const
     {
         if (mIsMuted) return 0.0f;
         return track->currentVolume * mCategoryVolumes.at(category) * mMasterVolume;
     }
 
+    /**
+     * @brief Updates the volume of a sound track based on the final calculated volume.
+     *
+     * This function updates the volume of the specified sound track's channel by calculating the final volume using
+     * `CalculateFinalVolume` and then applying that volume to the track's channel.
+     *
+     * @param track The sound track whose volume is to be updated.
+     *
+     * @param category The Category to update
+     * 
+     * @return void
+     */
     void SoundSystem::UpdateSoundVolume(SoundTrack* track, SoundCategory category)
     {
         if (!track->channel) return;
@@ -439,6 +613,14 @@ namespace Carmicah
         track->channel->setVolume(finalVolume);
     }
 
+    /**
+     * @brief Cleans up stopped sounds by removing tracks that are no longer playing.
+     *
+     * This function iterates over all sound tracks and removes any track that has finished playing. It ensures that the system
+     * only retains active sound tracks, cleaning up resources from tracks that are no longer in use.
+     *
+     * @return void
+     */
     void SoundSystem::CleanupStoppedSounds()
     {
         for (int i{}; i < INTSOUND::SOUND_MAX_SOUNDS; ++i)
@@ -461,6 +643,16 @@ namespace Carmicah
         }
     }
 
+    /**
+     * @brief Receives and processes incoming messages related to sound playback.
+     *
+     * This function processes messages that instruct the sound system to play a sound effect (SFX) or background music (BGM).
+     * The function will trigger the appropriate `PlaySoundThis` function based on the message type (`MSG_PLAYSFX` or `MSG_PLAYBGM`).
+     *
+     * @param msg The message to be processed, which contains information about the sound to be played.
+     *
+     * @return void
+     */
     void SoundSystem::ReceiveMessage(Message* msg)
     {
         if (msg->mMsgType == MSG_PLAYSFX) {
