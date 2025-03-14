@@ -256,6 +256,17 @@ namespace Carmicah
 		//mono_free(cStrname);
 	}
 
+	/**
+	 * @brief Plays background music (BGM) with a specified volume.
+	 *
+	 * This function converts the provided string for the BGM file name into a C-style string, retrieves the SoundSystem from the
+	 * SystemManager, and plays the background music (BGM) with the given volume.
+	 *
+	 * @param name The name of the BGM file to be played.
+	 * @param volume The volume at which the BGM will be played, where 1.0 is the maximum volume.
+	 *
+	 * @return void
+	 */
 	static void Sound_PlayBGM(MonoString* name, float volume)
 	{
 		char* cStrname = mono_string_to_utf8(name);
@@ -264,6 +275,16 @@ namespace Carmicah
 		mono_free(cStrname);
 	}
 
+	/**
+	 * @brief Stops the currently playing background music (BGM).
+	 *
+	 * This function converts the provided string for the BGM file name into a C-style string, retrieves the SoundSystem from the
+	 * SystemManager, and stops the currently playing BGM.
+	 *
+	 * @param name The name of the BGM file to be stopped.
+	 *
+	 * @return void
+	 */
 	static void Sound_StopBGM(MonoString* name)
 	{
 		char* cStrname = mono_string_to_utf8(name);
@@ -272,6 +293,16 @@ namespace Carmicah
 		mono_free(cStrname);
 	}
 
+	/**
+	 * @brief Stops the currently playing sound effect (SFX).
+	 *
+	 * This function converts the provided string for the SFX file name into a C-style string, retrieves the SoundSystem from the
+	 * SystemManager, and stops the currently playing SFX.
+	 *
+	 * @param name The name of the SFX file to be stopped.
+	 *
+	 * @return void
+	 */
 	static void Sound_StopSFX(MonoString* name)
 	{
 		char* cStrname = mono_string_to_utf8(name);
@@ -280,6 +311,13 @@ namespace Carmicah
 		mono_free(cStrname);
 	}
 
+	/**
+	 * @brief Stops all currently playing sound effects (SFX).
+	 *
+	 * This function retrieves the SoundSystem from the SystemManager and stops all currently playing SFX.
+	 *
+	 * @return void
+	 */
 	static void Sound_StopAllSFX()
 	{
 		//char* cStrname = mono_string_to_utf8(name);
@@ -288,6 +326,18 @@ namespace Carmicah
 		//mono_free(cStrname);
 	}
 
+	/**
+	 * @brief Stops the currently playing sound effect (SFX) with a fade out effect.
+	 *
+	 * This function converts the provided string for the SFX file name into a C-style string, retrieves the SoundSystem from the
+	 * SystemManager, and stops the currently playing SFX with a fade out effect over the given duration.
+	 *
+	 * @param name The name of the SFX file to be stopped.
+	 * @param fadeTimer The current time passed before the fade effect starts.
+	 * @param fadeDuration The duration over which the fade effect will occur.
+	 *
+	 * @return void
+	 */
 	static void Sound_StopSFXWithFade(MonoString* name, float fadeTimer, float fadeDuration)
 	{
 		char* cStrname = mono_string_to_utf8(name);
@@ -296,6 +346,18 @@ namespace Carmicah
 		mono_free(cStrname);
 	}
 
+	/**
+	 * @brief Stops the currently playing background music (BGM) with a fade out effect.
+	 *
+	 * This function converts the provided string for the BGM file name into a C-style string, retrieves the SoundSystem from the
+	 * SystemManager, and stops the currently playing BGM with a fade out effect over the given duration.
+	 *
+	 * @param name The name of the BGM file to be stopped.
+	 * @param fadeTimer The current time passed before the fade effect starts.
+	 * @param fadeDuration The duration over which the fade effect will occur.
+	 *
+	 * @return void
+	 */
 	static void Sound_StopBGMWithFade(MonoString* name, float fadeTimer, float fadeDuration)
 	{
 		char* cStrname = mono_string_to_utf8(name);
@@ -304,6 +366,20 @@ namespace Carmicah
 		mono_free(cStrname);
 	}
 
+	/**
+	 * @brief Switches the background music (BGM) to a new track with optional fade effects.
+	 *
+	 * This function converts the provided string for the new BGM file name into a C-style string, retrieves the SoundSystem from
+	 * the SystemManager, and switches to the new BGM track with optional fade effects, looping, and volume settings.
+	 *
+	 * @param name The name of the new BGM file to be played.
+	 * @param fadeTimer The current time passed before the fade effect starts.
+	 * @param fadeDuration The duration over which the fade effect will occur.
+	 * @param isLoop Whether the new BGM should loop.
+	 * @param fadeInNext Whether to fade in the new BGM.
+	 *
+	 * @return void
+	 */
 	static void Sound_SwitchBGM(MonoString* name, float fadeTimer, float fadeDuration, bool isLoop, bool fadeInNext)
 	{
 		char* cStrname = mono_string_to_utf8(name);
@@ -312,12 +388,33 @@ namespace Carmicah
 		mono_free(cStrname);
 	}
 	
+	/**
+	 * @brief Toggles the muffle effect on sound effects (SFX) for a specific entity.
+	 *
+	 * This function retrieves the SoundSystem from the SystemManager and toggles the muffle effect on the SFX of a specific entity
+	 * by adjusting the volume and applying a low-pass filter effect.
+	 *
+	 * @param toMuffle Whether to apply or remove the muffle effect.
+	 * @param entityID The ID of the entity whose SFX will be affected.
+	 *
+	 * @return void
+	 */
 	static void Sound_ToggleMuffleSFX(bool toMuffle, unsigned int entityID)
 	{
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 		souSystem->ToggleMuffle(SoundSystem::SOUND_INGAME, toMuffle, entityID);
 	}
 
+	/**
+	 * @brief Toggles the muffle effect on background music (BGM).
+	 *
+	 * This function retrieves the SoundSystem from the SystemManager and toggles the muffle effect on the currently playing BGM
+	 * by adjusting the volume and applying a low-pass filter effect.
+	 *
+	 * @param toMuffle Whether to apply or remove the muffle effect.
+	 *
+	 * @return void
+	 */
 	static void Sound_ToggleMuffleBGM(bool toMuffle)
 	{
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
@@ -431,6 +528,9 @@ namespace Carmicah
 		}
 	}
 
+	/// <summary>
+	/// Internal call for stopping the object
+	/// </summary>
 	static void RigidBody_StopObject(unsigned int entityID)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -520,6 +620,9 @@ namespace Carmicah
 		transformSys->UpdateTransform(entityID);
 	}
 
+	/// <summary>
+	/// Internal call for getting the FPS Counter
+	/// </summary>
 	static double Time_GetFPS()
 	{
 		return CarmicahTime::GetInstance()->FPS();
@@ -846,19 +949,19 @@ namespace Carmicah
 		return 0;
 	}
 
-	static void SetCollisionLayer(unsigned int entityID, unsigned int layer)
-	{
-		GameObject& go = gGOFactory->FetchGO(entityID);
-		unsigned int& prevColMask = go.GetComponent<Transform>().collisionMask;
-		uint32_t prevLayerBit = 1 << prevColMask;
+	//static void SetCollisionLayer(unsigned int entityID, unsigned int layer)
+	//{
+	//	GameObject& go = gGOFactory->FetchGO(entityID);
+	//	unsigned int& prevColMask = go.GetComponent<Transform>().collisionMask;
+	//	uint32_t prevLayerBit = 1 << prevColMask;
 
-		//go.AddCollisionLayer(CollisionLayer(layer));
-		uint32_t newLayer = 1 << layer;
+	//	//go.AddCollisionLayer(CollisionLayer(layer));
+	//	uint32_t newLayer = 1 << layer;
 
 
-		go.AddCollisionLayer(static_cast<CollisionLayer>(newLayer));
-		go.RemoveCollisionLayer(static_cast<CollisionLayer>(prevLayerBit));
-	}
+	//	go.AddCollisionLayer(static_cast<CollisionLayer>(newLayer));
+	//	go.RemoveCollisionLayer(static_cast<CollisionLayer>(prevLayerBit));
+	//}
 
 	static void SetStateCondition(unsigned int entityID, MonoObject* obj)
 	{

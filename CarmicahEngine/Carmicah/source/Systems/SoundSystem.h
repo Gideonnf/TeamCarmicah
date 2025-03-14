@@ -48,7 +48,6 @@ namespace Carmicah
         FMOD::Sound* sound = nullptr;
         FMOD::Channel* channel = nullptr;
         FMOD::DSP* lowPassDSP = nullptr;
-        FMOD::DSP* lowPassResonanceDSP = nullptr;
         float defaultVolume = 1.0f;
         float currentVolume = 1.0f;
         SoundCategory category = SoundCategory::SFX;
