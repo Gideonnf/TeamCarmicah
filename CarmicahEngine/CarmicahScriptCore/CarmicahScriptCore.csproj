@@ -105,6 +105,7 @@
     <Compile Include="Source\UI\Credits.cs" />
     <Compile Include="Source\UI\Cutscene.cs" />
     <Compile Include="Source\Abilities\HeroIcon.cs" />
+    <Compile Include="Source\UI\CutsceneEnding.cs" />
     <Compile Include="Source\UI\FPSCounter.cs" />
     <Compile Include="Source\UI\HowToPlay.cs" />
     <Compile Include="Source\UI\Intro.cs" />

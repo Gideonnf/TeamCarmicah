@@ -225,6 +225,12 @@ namespace Carmicah
         internal extern static string GetFilePath();
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static bool GetParticlesActive(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SetParticlesActive(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void RigidBody_StopForces(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]

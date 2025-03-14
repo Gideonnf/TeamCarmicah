@@ -251,4 +251,17 @@ namespace Carmicah
             return FunctionCalls.TextGetWidth(Entity.mID);
         }
     }
+
+    public class ParticleEmitter : Component
+    {
+        public bool GetActive()
+        {
+            return FunctionCalls.GetParticlesActive(Entity.mID);
+        }
+
+        public void SetActive()
+        {
+            FunctionCalls.SetParticlesActive(Entity.mID);
+        }
+    }
 }
