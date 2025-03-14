@@ -1016,6 +1016,36 @@ namespace Carmicah
 			go.GetComponent<Collider2D>().CustomHeight(inFloat);
 	}
 
+	static float Collider2D_GetxPivot(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Collider2D>())
+			return go.GetComponent<Collider2D>().GetxPivot();
+		return 0;
+	}
+
+	static float Collider2D_GetyPivot(unsigned int entityID)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Collider2D>())
+			return go.GetComponent<Collider2D>().GetyPivot();
+		return 0;
+	}
+
+	static void Collider2D_SetxPivot(unsigned int entityID, float inFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Collider2D>())
+			go.GetComponent<Collider2D>().SetxPivot(inFloat);
+	}
+
+	static void Collider2D_SetyPivot(unsigned int entityID, float inFloat)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Collider2D>())
+			go.GetComponent<Collider2D>().SetyPivot(inFloat);
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -1133,5 +1163,9 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Collider2D_GetCustomWidth);
 		ADD_INTERNAL_CALL(Collider2D_SetCustomHeight);
 		ADD_INTERNAL_CALL(Collider2D_SetCustomWidth);
+		ADD_INTERNAL_CALL(Collider2D_GetxPivot);
+		ADD_INTERNAL_CALL(Collider2D_GetyPivot);
+		ADD_INTERNAL_CALL(Collider2D_SetxPivot);
+		ADD_INTERNAL_CALL(Collider2D_SetyPivot);
 	}
 }
