@@ -39,12 +39,12 @@ namespace Carmicah
 	//struct
 	struct ScriptField
 	{
-		ScriptFieldType mType{};
+		ScriptFieldType mType{ScriptFieldType::None};
 		std::string mName{};
-		MonoClassField* mClassField{};
+		MonoClassField* mClassField{nullptr};
 		variantVar defaultValue{};
 
-		ScriptField() : mType(ScriptFieldType::None), mClassField(nullptr) {}
+		//ScriptField() : mType(ScriptFieldType::None), mClassField(nullptr) {}
 	};
 
 	class ScriptClass
@@ -52,8 +52,8 @@ namespace Carmicah
 	public:
 		friend class ScriptSystem;
 
-		std::string mNameSpace;
-		std::string mClassName;
+		std::string mNameSpace{};
+		std::string mClassName{};
 
 		// Store what fields the script has
 		std::map<std::string, ScriptField> mFields;
