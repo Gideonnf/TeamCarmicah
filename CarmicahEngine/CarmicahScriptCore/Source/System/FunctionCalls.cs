@@ -233,6 +233,17 @@ namespace Carmicah
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Collider2D_SetCustomHeight(uint entityID, float height);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float Collider2D_GetxPivot(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float Collider2D_GetyPivot(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Collider2D_SetxPivot(uint entityID, float x);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Collider2D_SetyPivot(uint entityID, float x);
 
         //[MethodImplAttribute(MethodImplOptions.InternalCall)]
         //internal extern static void SetCollisionLayer(uint entityID, int layer);

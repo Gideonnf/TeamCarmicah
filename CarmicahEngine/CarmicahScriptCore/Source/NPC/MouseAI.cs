@@ -345,6 +345,7 @@ namespace Carmicah
 
                 //CMConsole.Log("Dying here");
                 dead = true;
+                move = false;
                 timer = 0.0f;
                 Sound.PlaySFX(InjuredSound, 0.5f);
                 Entity[] children = GetAllChildren();

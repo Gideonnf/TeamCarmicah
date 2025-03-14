@@ -160,28 +160,7 @@ namespace Carmicah
                 }
             }
 
-            float dist = Position.Distance(targetPos);
-            if (dist <= 1.0f)
-            {
-                if (targetEntity != null && targetEntity.mID != 0)
-                {
-                    // the target is the player
-                    if (targetEntity.GetTag() == "Player")
-                    {
-                        Entity mainCharacter = FindEntityWithName("mainCharacter");
-                        CMConsole.Log("Taking Damage from Bird");
-                        mainCharacter.As<Player>().TakeDamage(10, enemyType);
-                    }
-                    else
-                    {
-                        // its probably an NPC
-                        GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
-                        gm.KillNPC(targetEntity);
-                    }
-                    // change to dead state
-                    GetComponent<StateMachine>().SetStateCondition(2);
-                }
-            }
+            
         }
 
         public void UpdateTarget(Entity entity)
@@ -376,6 +355,8 @@ namespace Carmicah
                 {
                     GetComponent<StateMachine>().SetStateCondition(1);
                 }
+
+                
             }
             else if (stateName == "Diving")
             {
@@ -389,6 +370,29 @@ namespace Carmicah
                 //UpdateMovement(dt, targetEntity.Position);
 
                 targetPos = targetEntity.Position;
+
+                float dist = Position.Distance(targetPos);
+                if (dist <= 1.0f)
+                {
+                    if (targetEntity != null && targetEntity.mID != 0)
+                    {
+                        // the target is the player
+                        if (targetEntity.GetTag() == "Player")
+                        {
+                            Entity mainCharacter = FindEntityWithName("mainCharacter");
+                            CMConsole.Log("Taking Damage from Bird");
+                            mainCharacter.As<Player>().TakeDamage(10, enemyType);
+                        }
+                        else
+                        {
+                            // its probably an NPC
+                            GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
+                            gm.KillNPC(targetEntity);
+                        }
+                        // change to dead state
+                        GetComponent<StateMachine>().SetStateCondition(2);
+                    }
+                }
             }
             else if (stateName == "Dead")
             {

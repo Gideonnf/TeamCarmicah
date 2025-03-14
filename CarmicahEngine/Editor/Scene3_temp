@@ -307,11 +307,6 @@
             ]
         },
         {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
-        },
-        {
             "GameObject": "MainMenuBGM",
             "ID": 32,
             "Components": [

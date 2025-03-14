@@ -52,6 +52,7 @@ namespace Carmicah
             //timeForOneLoop = GetComponent<Animation>().GetMaxTime();
             //CMConsole.Log($"{timeForOneLoop}");
             Text = FindEntityWithName("LoadingTipsText");
+            Sound.PlaySFX("loading", 1.0f);
         }
 
         public override void OnUpdate(float dt)
@@ -103,7 +104,7 @@ namespace Carmicah
             }
             else thingHappened = false;
 
-            if(elapsedTime > 0.1f)
+            if(elapsedTime > 0.05f)
             {
                 if (textProgress != finalText.Length)
                 {

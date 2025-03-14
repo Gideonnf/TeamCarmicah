@@ -38,13 +38,13 @@ namespace Carmicah
 
         public string schoolLogoName = "digipen_logo";      // name of school logo entity
         public string schoolRightsName = "digipen_rights";  // name of school rights entity
-        public string schoolBGName = "black_background";    // name of school background entity
+        //public string schoolBGName = "black_background";    // name of school background entity
         public string gameLogoName = "game_logo";           // name of game logo entity
         public string teamLogoName = "team_logo";           // name of team logo entity
 
         Entity schoolLogoEntity;                            // entity for school logo
         Entity schoolRightsEntity;                          // entity for school rights
-        Entity schoolBGEntity;                              // entity for school background
+        //Entity schoolBGEntity;                              // entity for school background
         Entity gameLogoEntity;                              // entity for game logo
         Entity teamLogoEntity;                              // entity for team logo
 
@@ -52,14 +52,14 @@ namespace Carmicah
         {
             schoolLogoEntity = CreateGameObject(schoolLogoName);
             schoolRightsEntity = CreateGameObject(schoolRightsName);
-            schoolBGEntity = CreateGameObject(schoolBGName);
+            //schoolBGEntity = CreateGameObject(schoolBGName);
             gameLogoEntity = CreateGameObject(gameLogoName);
             teamLogoEntity = CreateGameObject(teamLogoName);
 
             // set initial transparency
             if (schoolLogoEntity != null) schoolLogoEntity.GetComponent<Renderer>().SetAlpha(0.0f);
             if (schoolRightsEntity != null) schoolRightsEntity.GetComponent<Renderer>().SetAlpha(0.0f);
-            if (schoolBGEntity != null) schoolBGEntity.GetComponent<Renderer>().SetAlpha(0.0f);
+            //if (schoolBGEntity != null) schoolBGEntity.GetComponent<Renderer>().SetAlpha(0.0f);
             if (gameLogoEntity != null) gameLogoEntity.GetComponent<Renderer>().SetAlpha(0.0f);
             if (teamLogoEntity != null) teamLogoEntity.GetComponent<Renderer>().SetAlpha(0.0f);
         }
@@ -71,6 +71,11 @@ namespace Carmicah
 
             if (state == 0)
             {
+                if(alpha == 0.0f)
+                {
+                    Sound.PlaySFX("Intro", 0.5f);
+                }
+
                 if (timer <= FadeDuration)  // first 1s: fade in
                 {
                     alpha = timer / FadeDuration;  // 0 to 1
@@ -86,7 +91,7 @@ namespace Carmicah
 
                 if (schoolLogoEntity != null) schoolLogoEntity.GetComponent<Renderer>().SetAlpha(alpha);
                 if (schoolRightsEntity != null) schoolRightsEntity.GetComponent<Renderer>().SetAlpha(alpha);
-                if (schoolBGEntity != null) schoolBGEntity.GetComponent<Renderer>().SetAlpha(alpha);
+               // if (schoolBGEntity != null) schoolBGEntity.GetComponent<Renderer>().SetAlpha(alpha);
 
                 if (timer >= maxDuration)  // move to next state, game and team logo
                 {
@@ -97,6 +102,12 @@ namespace Carmicah
             else // other states remain the same
             {
                 float halfDuration = otherStateDuration / 2.0f; // duration for fade in/out
+
+                //if (alpha == 0.0f)
+                //{
+                //    Sound.PlaySFX("Intro", 1.0f);
+                //}
+
                 if (timer <= halfDuration)
                 {
                     alpha = timer / halfDuration; // 0 to 1

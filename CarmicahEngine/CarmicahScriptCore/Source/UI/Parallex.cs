@@ -23,30 +23,30 @@ namespace Carmicah
         {
             cam = FindEntityWithName("MainCamera");
             lastCamPos = cam.LocalPosition;
-            Entity[] Children = GetAllChildren();
-            int i = 0;
-            foreach (Entity child in Children)
-            {
-                switch (i)
-                {
-                    case 1:
-                        sky = child;
-                        break;
-                    case 5:
-                        layer1[0] = child;
-                        break;
-                    case 7:
-                        layer2[0] = child;
-                        break;
-                    default:
-                        break;
-                }
-                ++i;
-            }
+
+
         }
 
         public override void OnUpdate(float dt)
         {
+            if (cam == null)
+            {
+                cam = FindEntityWithName("MainCamera");
+                lastCamPos = cam.LocalPosition;
+
+            }
+
+            if (sky == null)
+                sky = FindEntityWithName("BackgroundSky");
+            if (layer1[0] == null)
+                layer1[0] = FindEntityWithName("BackgroundCakesL2");
+            if (layer2[0] == null)
+                layer2[0] = FindEntityWithName("BackgroundBigClouds");
+            //CMConsole.Log($"cam {cam.mID}");
+
+            if (sky == null || layer1[0] == null || layer2[0] == null)
+                return;
+
             Vector2 camDiff = cam.LocalPosition - lastCamPos;
             lastCamPos = cam.LocalPosition;
 
