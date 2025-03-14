@@ -2,6 +2,11 @@
     "Scene": "DefaultScene",
     "SceneObjects": [
         {
+            "GameObject": "",
+            "ID": 0,
+            "Components": []
+        },
+        {
             "GameObject": "MainCamera",
             "ID": 1,
             "Components": [
@@ -54,7 +59,7 @@
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -18.850000381469728,
                     "yPos": -9.399999618530274,
-                    "depth": 0.0,
+                    "depth": 10.0,
                     "xScale": 2.0,
                     "yScale": 2.0,
                     "rot": 0.0,
@@ -88,7 +93,7 @@
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 18.850000381469728,
                     "yPos": -9.399999618530274,
-                    "depth": 0.0,
+                    "depth": 10.0,
                     "xScale": 2.0,
                     "yScale": 2.0,
                     "rot": 0.0,
@@ -115,14 +120,14 @@
             "Children": []
         },
         {
-            "GameObject": "CutSceneImage",
-            "ID": 24,
+            "GameObject": "CutSceneImage_1",
+            "ID": 13,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.0,
                     "yPos": 0.0,
-                    "depth": 1.0,
+                    "depth": 10.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,
@@ -130,9 +135,13 @@
                     "collisionMask": 1
                 },
                 {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 21
+                },
+                {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "EndingCutscene_SpriteSheet_Yes 0",
+                    "texture": "EndingCutscene_SpriteSheet_Yes 1",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -157,9 +166,9 @@
                 },
                 {
                     "Component Name": "struct Carmicah::StateMachine",
-                    "currState": "",
-                    "nextState": "",
-                    "startingState": "",
+                    "currState": "Idle",
+                    "nextState": "Idle",
+                    "startingState": "Idle",
                     "stateMap": [
                         {
                             "stateName": "Idle",
@@ -191,6 +200,7 @@
                             "backgroundMusicTrack": "Endingcutscene",
                             "backgroundMusicTrack1": "BGM_SetupPhase_Mix1",
                             "fadeSpeed": 0.5,
+                            "finalFadeOutDuration": 1.5,
                             "timer": 0.0
                         }
                     ]
@@ -206,13 +216,13 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "",
+                    "Atlas": "Button_HE_Home",
                     "AnimSpeed": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Skip 0",
+                    "texture": "Button_SpriteSheet_H_Home 8",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -246,8 +256,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.0,
-                    "yPos": 0.0,
+                    "xPos": -15.919812202453614,
+                    "yPos": -0.01851797103881836,
                     "depth": 101.0,
                     "xScale": 0.5,
                     "yScale": 0.5,
@@ -296,7 +306,7 @@
                 {
                     "Component Name": "struct Carmicah::TextRenderer",
                     "font": "Chewy-Regular",
-                    "text": "Test",
+                    "text": "",
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,

@@ -12,13 +12,15 @@ namespace Carmicah
         private float timeToSwapPanel = 30.0f;
 
         public float fadeSpeed = 0.5f;
+        public float finalFadeOutDuration = 1.5f;
+        private bool isFadingOut = false;
+        private float fadeOutTimer = 0.0f;
 
         private string cutscenePrefab = "CutSceneImage";
         private string nextImgName = "EndingCutscene_SpriteSheet_Yes 1";
         private int img1Size = 2;
 
-        // Background music   
-        // Background music   
+        // Background music
         public string backgroundMusicTrack = "Endingcutscene";
         public string backgroundMusicTrack1 = "BGM_SetupPhase_Mix1";
 
@@ -31,8 +33,6 @@ namespace Carmicah
         Entity leftParticles;
         Entity rightParticles;
         float currAlpha;
-
-        //srore in a string for the panel 
 
         public override void OnCreate()
         {
@@ -48,25 +48,34 @@ namespace Carmicah
                 musicStarted = true;
             }
         }
+
         public override void OnUpdate(float dt)
         {
-            if(leftParticles == null)
+            if (leftParticles == null)
                 leftParticles = FindEntityWithName("Left Particles");
             else if (rightParticles == null)
                 rightParticles = FindEntityWithName("Right Particles");
 
-
             if (!leftParticles.GetComponent<ParticleEmitter>().GetActive())
             {
                 particlesDownTime += dt;
-                if(particlesDownTime > 4.0f)
+                if (particlesDownTime > 4.0f)
                 {
                     leftParticles.GetComponent<ParticleEmitter>().SetActive();
                     rightParticles.GetComponent<ParticleEmitter>().SetActive();
                     particlesDownTime = 0.0f;
                 }
             }
-            
+
+            if (isFadingOut)
+            {
+                fadeOutTimer += dt;
+                if (fadeOutTimer >= finalFadeOutDuration)
+                {
+                    Sound.StopAllSFX();
+                    Scene.ChangeScene("Scene3");
+                }
+            }
 
             if (Input.IsKeyPressed(Keys.KEY_5))
             {
@@ -83,7 +92,6 @@ namespace Carmicah
         {
             CMConsole.Log($"State : {stateName}");
 
-            // Change image state
             if (stateName == "ChangeImage")
             {
                 if (nextCutsceneEntity == null)
@@ -91,11 +99,9 @@ namespace Carmicah
                     nextCutsceneEntity = CreateGameObject(cutscenePrefab);
                     currAlpha = 1.0f;
 
-                    // change texture for image
                     nextCutsceneEntity.GetComponent<Renderer>().ChangeTexture(nextImgName);
                 }
             }
-            // Idle state
             else if (stateName == "Idle")
             {
                 if (cutsceneEntity == null)
@@ -117,9 +123,7 @@ namespace Carmicah
                 {
                     cutsceneEntity.Destroy();
                     cutsceneEntity = null;
-                    //CMConsole.Log("Changing??");
 
-                    // change state to idle
                     GetComponent<StateMachine>().SetStateCondition(1);
                 }
             }
@@ -140,7 +144,24 @@ namespace Carmicah
                 }
                 else
                 {
+                    if (currentPanel == 1 && !isFadingOut && timer >= timeToSwapPanel * 2)
+                    {
+                        isFadingOut = true;
+                        fadeOutTimer = 0.0f;
 
+                        Sound.SwitchBGM("zero", finalFadeOutDuration, finalFadeOutDuration, false);
+
+                        // Start fading out the cutscene image
+                        float alpha = cutsceneEntity.GetComponent<Renderer>().Red;
+                        currAlpha = alpha;
+                    }
+
+                    if (isFadingOut)
+                    {
+                        currAlpha -= (dt / finalFadeOutDuration);
+                        if (currAlpha < 0.0f) currAlpha = 0.0f;
+                        cutsceneEntity.GetComponent<Renderer>().SetAlpha(currAlpha);
+                    }
                 }
             }
         }
