@@ -78,7 +78,7 @@ namespace Carmicah
 
         // Base speeds for each type
         private float baseRegularSpeed = 1.0f;
-        private float baseFastSpeed = 1.5f;
+        private float baseFastSpeed = 2.0f;
         private float baseHeavySpeed = 1.8f;
 
        
