@@ -166,6 +166,16 @@ namespace Carmicah
 
         public override void OnFixedUpdate(float fixedDt)
         {
+            Entity gameManager = FindEntityWithName("GameManager");
+            if (gameManager != null)
+            {
+                if (HasComponent<RigidBody>())
+                {
+                    GetComponent<RigidBody>().StopObject();
+                }
+                if (gameManager.As<GameManager>().GameOver) return;
+            }
+
             if (move)
             {
                 UpdateMovement(fixedDt);
