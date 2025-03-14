@@ -31,7 +31,7 @@ namespace Carmicah
         public float durationPerFrame = 1.0f; // time frame stays on screen
         public string[] countdownAnimation = { "N3", "N2", "N1", "GO" };
 
-        private Vector2 originalScale;
+        //private Vector2 originalScale;
 
         public override void OnCreate()
         {

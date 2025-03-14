@@ -779,6 +779,9 @@ namespace Carmicah
 		{
 			return gScriptSystem->mEntityInstances[entityID]->GetInstance();
 		}
+
+
+		return nullptr;
 	}
 
 	static MonoObject* GetScriptInstanceFromChildren(unsigned int entityID)

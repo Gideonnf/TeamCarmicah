@@ -30,7 +30,7 @@ namespace Carmicah
         bool built = false;
         bool enemyCollided = false;
 
-        float redCol;
+        //float redCol;
        // bool isActive = false;
 
         public override void OnCreate()

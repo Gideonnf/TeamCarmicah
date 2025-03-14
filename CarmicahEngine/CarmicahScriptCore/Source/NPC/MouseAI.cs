@@ -77,9 +77,9 @@ namespace Carmicah
         public MouseType mouseType = MouseType.Regular;
 
         // Base speeds for each type
-        private float baseRegularSpeed = 1.0f;
-        private float baseFastSpeed = 2.0f;
-        private float baseHeavySpeed = 1.8f;
+        //private float baseRegularSpeed = 1.0f;
+        //private float baseFastSpeed = 2.0f;
+        //private float baseHeavySpeed = 1.8f;
 
        
         bool isRunning = false;
@@ -92,7 +92,7 @@ namespace Carmicah
         public float cameraHeight = 10.0f;
         public float debuff = 1.0f;
         bool dead = false;
-        int animType = 0;
+        //int animType = 0;
         int randLane = 0;
         bool move = false;
 

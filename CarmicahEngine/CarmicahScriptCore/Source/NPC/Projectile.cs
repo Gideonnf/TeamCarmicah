@@ -56,7 +56,7 @@ namespace Carmicah
         float maxAnimTime;
 
         public bool facingRight = false;
-        bool playDeathAnimation = false;
+        //bool playDeathAnimation = false;
 
         public override void OnCreate()
         {

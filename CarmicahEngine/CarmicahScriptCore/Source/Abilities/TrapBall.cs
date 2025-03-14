@@ -19,7 +19,7 @@ namespace Carmicah
     {
         public int iconType;
         public Entity mainCamera;
-        float heightOffset = 12.0f;
+        //float heightOffset = 12.0f;
         float fallSpeed = 2.0f;
 
         bool touched = false;

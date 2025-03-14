@@ -32,7 +32,7 @@ namespace Carmicah
         // float shootTimer = 0.0f;
         bool isShooting = false;
         bool shot = false;
-        bool hasAmmo = true;
+        //bool hasAmmo = true;
         bool hovering = false;
         GameManager gameManager;
         PauseManager pauseManager;

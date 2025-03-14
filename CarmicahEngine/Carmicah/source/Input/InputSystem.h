@@ -46,7 +46,7 @@ namespace Carmicah
 		Vec2i mWindowScale{};
 
 
-		InputSystem() : windowRef(nullptr){}
+		InputSystem() : windowRef(nullptr), mScrollAmt(0.0f) {}
 		~InputSystem() {};
 
 		// Not using the inherited singleton template class cause we want the base system inheritance

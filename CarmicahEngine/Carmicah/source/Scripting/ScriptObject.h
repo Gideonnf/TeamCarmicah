@@ -39,10 +39,12 @@ namespace Carmicah
 	//struct
 	struct ScriptField
 	{
-		ScriptFieldType mType;
-		std::string mName;
-		MonoClassField* mClassField;
-		variantVar defaultValue;
+		ScriptFieldType mType{};
+		std::string mName{};
+		MonoClassField* mClassField{};
+		variantVar defaultValue{};
+
+		ScriptField() : mType(ScriptFieldType::None), mClassField(nullptr) {}
 	};
 
 	class ScriptClass
