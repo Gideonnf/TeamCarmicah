@@ -222,17 +222,17 @@ namespace Carmicah
 
                     if (mouse1Climbing && enemyMouse1.LocalPosition.y > -60)
                     {
-                        enemyMouse1.GetComponent<Animation>().ChangeAnim("Mouse_Death_blue");
+                        enemyMouse1.GetComponent<Animation>().ChangeAnim("Mouse_Dissolve_Blue");
                         mouse1Climbing = false;
                     }
                     if (mouse2Climbing && enemyMouse2.LocalPosition.y > 0)
                     {
-                        enemyMouse2.GetComponent<Animation>().ChangeAnim("Mouse_Death_brown");
+                        enemyMouse2.GetComponent<Animation>().ChangeAnim("Mouse_Dissolve_Brown");
                         mouse2Climbing = false;
                     }
                     if (bearClimbing && enemyBear.LocalPosition.y > -60)
                     {
-                        enemyBear.GetComponent<Animation>().ChangeAnim("Bear_Death");
+                        enemyBear.GetComponent<Animation>().ChangeAnim("Bear_Dissolve_Death");
                         bearClimbing = false;
                     }
 
@@ -243,8 +243,8 @@ namespace Carmicah
                     }
                     if (isClicked && ((clickTime -= dt) < 0))
                     {
-                        enemyMouse1.GetComponent<Animation>().ChangeAnim("Mouse_Climb_blue");
-                        enemyMouse2.GetComponent<Animation>().ChangeAnim("Mouse_Climb_brown");
+                        enemyMouse1.GetComponent<Animation>().ChangeAnim("Mouse_Climb_Blue");
+                        enemyMouse2.GetComponent<Animation>().ChangeAnim("Mouse_Climb_Brown");
                         enemyBear.GetComponent<Animation>().ChangeAnim("Bear_Climb");
                         pos = enemyMouse1.LocalPosition;
                         pos.y = -310.0f;

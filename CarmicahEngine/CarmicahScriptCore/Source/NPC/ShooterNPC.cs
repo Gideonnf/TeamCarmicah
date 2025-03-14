@@ -267,13 +267,14 @@ namespace Carmicah
                     {
                         if(target.As<MouseAI>().isDead())
                         {
+                            CMConsole.Log("Target Mouse died already");
                             return;
                         }
                         else
                         {
                             if (mana > 0)
                             {
-                                //CMConsole.Log("Trying to attack!");
+                                CMConsole.Log("Trying to attack!");
                                 GetComponent<StateMachine>().SetStateCondition(2);
                             }
                             else
@@ -318,19 +319,22 @@ namespace Carmicah
                 {
                     if (!shot && target != null)
                     {
-                        if(targetType == BulletTarget.AIR)
+                        if (targetType == BulletTarget.AIR)
                         {
-                            if(GetComponent<Animation>().GetFrameNo() == 7)
+                            if (GetComponent<Animation>().GetFrameNo() == 7)
                             {
                                 ShootProjectile();
                                 //CMConsole.Log("Shooting Air");
                                 shot = true;
                             }
                         }
-                        else if(targetType == BulletTarget.GROUND)
+                        else if (targetType == BulletTarget.GROUND)
                         {
-                            ShootProjectile();
-                            shot = true;
+                            if (GetComponent<Animation>().GetFrameNo() == 7)
+                            {
+                                ShootProjectile();
+                                shot = true;
+                            }
                         }
                     }
                     else

@@ -38,7 +38,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Mouse_Climb_blue",
+                    "Atlas": "Mouse_Climb_Blue",
                     "AnimSpeed": 1.0
                 },
                 {
@@ -98,7 +98,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Mouse_Climb_brown",
+                    "Atlas": "Mouse_Climb_Brown",
                     "AnimSpeed": 1.0
                 },
                 {

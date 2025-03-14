@@ -3,7 +3,7 @@ Mouse1 Mouse2 Mouse3 Bear Flying
 for each wave (1 space between each level)
 
 1
-1 0 0 0 4
+10 0 0 0 0
 5 5 0 3 0
 5 5 5 5 0
 
