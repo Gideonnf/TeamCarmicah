@@ -2,6 +2,11 @@
     "Scene": "Scene4",
     "SceneObjects": [
         {
+            "GameObject": "",
+            "ID": 0,
+            "Components": []
+        },
+        {
             "GameObject": "BackgroundGO",
             "ID": 1,
             "Components": [
@@ -178,19 +183,14 @@
             "Children": []
         },
         {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
-        },
-        {
             "GameObject": "CursorParticles",
-            "ID": 112,
+            "ID": 72,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.0,
                     "yPos": 0.0,
-                    "depth": 0.0,
+                    "depth": 600.0,
                     "xScale": 0.5,
                     "yScale": 0.5,
                     "rot": 0.0,
@@ -200,6 +200,15 @@
                 {
                     "Component Name": "struct Carmicah::PrefabData",
                     "prefabRef": 64
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI_Spritesheet_Cursor 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 0.7843137383460999
                 },
                 {
                     "Component Name": "struct Carmicah::ParticleEmitter",

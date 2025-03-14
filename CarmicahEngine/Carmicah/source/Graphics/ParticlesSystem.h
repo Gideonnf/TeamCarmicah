@@ -28,6 +28,7 @@ namespace Carmicah
 			Mtx3x3f mtx;
 			Vec2f vel,			// Vel Change per second
 				alpha;			// Curr Alpha, Alpha change per second
+			float depth;
 			// --TODO--
 			//float scaling,	// uses a (y = a^x) when x = 1, y ~= 1, z ?= 0.01, so just use this and multiply by how long
 			float	timeLeft;

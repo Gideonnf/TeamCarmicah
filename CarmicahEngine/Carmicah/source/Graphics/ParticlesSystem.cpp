@@ -132,6 +132,8 @@ namespace Carmicah
 						par.alpha.x = 1.f;
 						if (emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_FADE))
 							par.alpha.y = 1.f / par.timeLeft;
+
+						par.depth = CalcDepth(tf.Depth(), BASE_LAYER);
 						//if (emitter.isShrink)
 						//	par.scaling = 
 
@@ -173,6 +175,8 @@ namespace Carmicah
 						if (emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_FADE))
 							par.alpha.y = 1.f / par.timeLeft;
 
+						par.depth = CalcDepth(tf.Depth(), UI_LAYER);
+
 						par.hasFriction = emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_FRICTION);
 						par.hasGrav = emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_GRAVITY);
 
@@ -190,7 +194,6 @@ namespace Carmicah
 		
 		for (size_t i{}; i < 2; ++i)// WorldSpace, UISpace
 		{
-			float depth{ CalcDepth(mNearestDepth, (i == 0 ? BASE_LAYER : UI_LAYER)) };
 			BufferCPUSide& vtxBuf = RenderHelper::GetInstance()->mParticleData[i];
 			vtxBuf.vtxSize = static_cast<int>(mParticles[i].size());
 			RenderHelper::GetInstance()->ReserveFontBuffer(vtxBuf, mParticles[i].size());
@@ -224,7 +227,7 @@ namespace Carmicah
 					vtx.color[2] = 1.f;
 					vtx.color[3] = par.alpha.x;
 
-					vtx.depth = depth;
+					vtx.depth = par.depth;
 					vtx.uv = texture.mtx * p.texCoord[ii];
 				}
 			}			

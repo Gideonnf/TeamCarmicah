@@ -450,6 +450,20 @@ namespace Carmicah
                     RenderHelper::GetInstance()->UpdateEditorCam();
                     RenderHelper::GetInstance()->Render(&RenderHelper::GetInstance()->mEditorCam, true);
                     SceneToImgui::GetInstance()->UnbindFramebuffer();
+
+                    if (SceneToImgui::GetInstance()->GetHovering() == SceneToImgui::GAME_SCENE)
+                    {
+                      //  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+                        // hide cursor
+                       // ShowCursor(false);
+                    }
+                    else
+                    {
+                        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
+                        // show cursor
+                        //ShowCursor(true);
+                    }
                 }
                 else
                 {
@@ -457,7 +471,11 @@ namespace Carmicah
                     RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
 #ifdef CM_INSTALLER
                     RenderHelper::GetInstance()->FinalRender();
-#endif
+
+                    ShowCursor(false);
+                    // hide cursor
+                    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+#endif  
                 }
                 SceneToImgui::GetInstance()->SelectMouseIDObjPick();
 
