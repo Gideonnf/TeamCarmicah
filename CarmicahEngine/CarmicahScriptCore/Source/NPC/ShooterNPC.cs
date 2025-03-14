@@ -15,7 +15,7 @@ namespace Carmicah
         BulletTarget targetType;
         float timer = 0.0f;
         string voiceOver;
-        string previousState;
+        
         public override void OnCreate()
         {
             base.OnCreate();

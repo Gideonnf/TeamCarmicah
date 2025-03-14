@@ -851,7 +851,7 @@ namespace Carmicah
 		}
 
 		bool collided = false;
-		bool triggerCollide = false;
+		//bool triggerCollide = false;
 
 		// Perform collision detection
 		for (auto entity1 : mEntitiesSet)

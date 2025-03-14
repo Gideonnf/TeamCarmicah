@@ -489,7 +489,7 @@ namespace Carmicah
                                 powerIco[0].GetComponent<Renderer>().SetColour(1f, 1f, 1f);
                                 powerIco[0].GetComponent<Renderer>().SetAlpha(0.0f);
                                 ditto[0].GetComponent<Renderer>().ChangeTexture("NPC_SpriteSheet_Shooter_Idle 0");
-                                ditto[0].Scale = new Vector2(0.45f, 0.45f);
+                                ditto[0].Scale = new Vector2(-0.45f, 0.45f);
 
                                 for (int i = 0; i < 4; ++i)
                                 {
@@ -516,12 +516,12 @@ namespace Carmicah
 
                         if (!someBools[1] && ditto[0].LocalPosition.x < 0)
                         {
-                            ditto[0].Scale = new Vector2(-0.45f, 0.45f);
+                            ditto[0].Scale = new Vector2(0.45f, 0.45f);
                             someBools[1] = true;
                         }
                         else if (someBools[1] && ditto[0].LocalPosition.x > 0)
                         {
-                            ditto[0].Scale = new Vector2(0.45f, 0.45f);
+                            ditto[0].Scale = new Vector2(-0.45f, 0.45f);
                             someBools[1] = false;
                         }
 
