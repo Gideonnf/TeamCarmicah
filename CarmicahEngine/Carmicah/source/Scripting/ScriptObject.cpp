@@ -24,7 +24,7 @@ namespace Carmicah
 {
 #pragma region ScriptClass
 	
-	ScriptClass::ScriptClass(const std::string& nameSpace, const std::string& className)
+	ScriptClass::ScriptClass(const std::string& nameSpace, const std::string& className) : mNameSpace(nameSpace), mClassName(className)
 	{
 		mMonoClass = mono_class_from_name(gScriptSystem->mCoreAssemblyImage, nameSpace.c_str(), className.c_str());
 	}
@@ -67,6 +67,9 @@ namespace Carmicah
 		MonoClass* methodClass = mono_method_get_class(method);
 		const char* className = methodClass ? mono_class_get_name(methodClass) : "UnknownClass";
 		const char* methodName = mono_method_get_name(method);
+
+		UNUSED(className);
+		UNUSED(methodName);
 
 		int paramCount = mono_signature_get_param_count(mono_method_signature(method));
 		if (paramCount > 0 && !params)

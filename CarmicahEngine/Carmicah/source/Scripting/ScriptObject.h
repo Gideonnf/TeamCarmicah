@@ -61,7 +61,6 @@ namespace Carmicah
 		ScriptClass() = default;
 		ScriptClass(const std::string& nameSpace, const std::string& className);
 
-
 		MonoClass* mMonoClass = nullptr;
 
 		/// <summary>
