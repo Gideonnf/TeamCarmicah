@@ -71,6 +71,11 @@ namespace Carmicah
 
             if (state == 0)
             {
+                if(alpha == 0.0f)
+                {
+                    Sound.PlaySFX("Intro", 0.5f);
+                }
+
                 if (timer <= FadeDuration)  // first 1s: fade in
                 {
                     alpha = timer / FadeDuration;  // 0 to 1
@@ -97,6 +102,12 @@ namespace Carmicah
             else // other states remain the same
             {
                 float halfDuration = otherStateDuration / 2.0f; // duration for fade in/out
+
+                //if (alpha == 0.0f)
+                //{
+                //    Sound.PlaySFX("Intro", 1.0f);
+                //}
+
                 if (timer <= halfDuration)
                 {
                     alpha = timer / halfDuration; // 0 to 1

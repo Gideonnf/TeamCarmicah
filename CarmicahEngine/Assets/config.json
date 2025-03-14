@@ -14,7 +14,7 @@
     "Collision Layers": [
         {
             "Layer Index": 0,
-            "Layer Mask": 4294967231
+            "Layer Mask": 4294967227
         },
         {
             "Layer Index": 1,
@@ -22,7 +22,7 @@
         },
         {
             "Layer Index": 2,
-            "Layer Mask": 4294967217
+            "Layer Mask": 4294967216
         },
         {
             "Layer Index": 3,

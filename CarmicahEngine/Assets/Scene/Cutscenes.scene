@@ -26,7 +26,7 @@
                 {
                     "Component Name": "struct Carmicah::TextRenderer",
                     "font": "Chewy-Regular",
-                    "text": "Test",
+                    "text": "",
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
@@ -36,38 +36,11 @@
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 0.0,
                     "yPos": 0.0,
-                    "depth": 20.950000762939454,
+                    "depth": 10.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": ""
-                }
-            ],
-            "Children": [
-                {
-                    "GameObject": "Default",
-                    "ID": 7,
-                    "Components": [
-                        {
-                            "Component Name": "struct Carmicah::Renderer",
-                            "model": "Square",
-                            "texture": "Wall_White 0",
-                            "colR": 0.48192769289016726,
-                            "colG": 0.48192769289016726,
-                            "colB": 0.48192769289016726,
-                            "colA": 0.6627451181411743
-                        },
-                        {
-                            "Component Name": "struct Carmicah::UITransform",
-                            "xPos": 0.0,
-                            "yPos": 0.0,
-                            "depth": 0.0,
-                            "xScale": 1.0,
-                            "yScale": 1.0,
-                            "rot": 0.0,
-                            "transformTag": ""
-                        }
-                    ]
                 }
             ]
         },
@@ -204,8 +177,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1750.0,
-                    "yPos": 100.0,
+                    "xPos": 1741.458984375,
+                    "yPos": 1008.3943481445313,
                     "depth": 20.0,
                     "xScale": 0.75,
                     "yScale": 0.75,

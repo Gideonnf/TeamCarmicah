@@ -12,6 +12,7 @@ namespace Carmicah
         MouseAI targetMouse;
         float timer = 0.0f;
         string voiceOver;
+        string previousState;
         public override void OnCreate()
         {
             base.OnCreate();
@@ -167,6 +168,7 @@ namespace Carmicah
             else if (stateName == "Teleport")
             {
                 ChangeAnim(teleportAnim);
+                
             }
             else if (stateName == "Dead")
             {
@@ -290,9 +292,14 @@ namespace Carmicah
         {
             //CMConsole.Log("TESTING Exit State");
             //CMConsole.Log($"Exit State Name: {stateName}");
-            if(stateName == "NoMana")
+            if (stateName == "NoMana")
             {
-                PlayVoiceOver();
+                if (mana > 0)
+                {
+
+                    PlayVoiceOver();
+
+                }
             }
         }
 

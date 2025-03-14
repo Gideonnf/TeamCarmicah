@@ -698,6 +698,7 @@ namespace Carmicah
                 if (npc.mID == 0) continue;
 
                 npc.GetComponent<StateMachine>().SetStateCondition(5);
+                
             }
 
             playerEntity.GetComponent<StateMachine>().SetStateCondition(5);
