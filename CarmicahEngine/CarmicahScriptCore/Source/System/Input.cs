@@ -37,6 +37,13 @@ namespace Carmicah
             return mousePos;
         }
 
+        public static Vector2 GetMouseUIPos()
+        {
+            FunctionCalls.GetMouseUIPos(out Vector2 mousePos);
+
+            return mousePos;
+        }
+
         public static float GetMouseScroll()
         {
             return FunctionCalls.GetMouseScroll();

@@ -97,6 +97,20 @@ namespace Carmicah
 			*outScale = go.GetComponent<UITransform>().CalcedRenderingScale();
 		}
 	}
+
+	static void Transform_GetWorldScale(unsigned int entityID, Vec2f* outScale)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Transform>())
+		{
+			*outScale = go.GetComponent<Transform>().Scale() * go.GetComponent<Transform>().accumulatedScale;
+		}
+		else if (go.HasComponent<UITransform>())
+		{
+			*outScale = go.GetComponent<UITransform>().Scale() * go.GetComponent<UITransform>().accumulatedScale;
+		}
+
+	}
 	
 	/// <summary>
 	/// Check if an entity has a component, acts as the internal call to C# side so that C# can check what component it has
@@ -348,11 +362,14 @@ namespace Carmicah
 	//	mono_free(cStrname);
 	//}
 
-	//static void Sound_SetCategoryVolume(int category, float volume)
-	//{
-	//	auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-	//	souSystem->SetCategoryVolume(static_cast<SoundCategory>(category), SoundSystem::SOUND_INGAME, volume);
-	//}
+	static void Sound_SetCategoryVolume(int category, float volume)
+	{
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		if(category == 0)
+			souSystem->SetCategoryVolume(SoundCategory::EDITOR, SoundSystem::SOUND_INGAME, volume);
+		else if(category == 1)
+			souSystem->SetCategoryVolume(SoundCategory::EDITOR, SoundSystem::SOUND_BGM, volume);
+	}
 
 
 
@@ -943,6 +960,12 @@ namespace Carmicah
 		*outPos = worldMousePos;
 	}
 
+	static void GetMouseUIPos(Vec2f* outPos)
+	{
+		Vec2f UIMousePos = Input.GetMousePosition();
+		*outPos = UIMousePos;
+	}
+
 	static void SetAlpha(unsigned int entityID, float alpha)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -1080,6 +1103,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Transform_GetScale);
 		ADD_INTERNAL_CALL(Transform_SetScale);
 		ADD_INTERNAL_CALL(Transform_GetRenderingScale);
+		ADD_INTERNAL_CALL(Transform_GetWorldScale);
 		ADD_INTERNAL_CALL(Transform_GetLocalPosition);
 		ADD_INTERNAL_CALL(Transform_GetPosition);
 		ADD_INTERNAL_CALL(Transform_SetPosition);
@@ -1132,6 +1156,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(IsMousePressed);
 		ADD_INTERNAL_CALL(IsMouseReleased);
 		ADD_INTERNAL_CALL(GetMousePos);
+		ADD_INTERNAL_CALL(GetMouseUIPos);
 		ADD_INTERNAL_CALL(GetMouseScroll);
 
 		// Button function
@@ -1149,6 +1174,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Sound_SwitchBGM);
 		ADD_INTERNAL_CALL(Sound_ToggleMuffleSFX);
 		ADD_INTERNAL_CALL(Sound_ToggleMuffleBGM);
+		ADD_INTERNAL_CALL(Sound_SetCategoryVolume);
 
 		// Debug
 		ADD_INTERNAL_CALL(Log);
