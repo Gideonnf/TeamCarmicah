@@ -1,0 +1,15 @@
+Gradient
+T L: 0 x 0, 2078 x 1288
+1 S
+
+BigClouds
+T L: 0 x 1288, 2078 x 1261
+1 S
+
+SmallCloud
+T L: 2078 x 0, 367 x 126
+1 S
+
+BigCakes
+T L: 2078 x 0, 729 x 1288
+1 S
