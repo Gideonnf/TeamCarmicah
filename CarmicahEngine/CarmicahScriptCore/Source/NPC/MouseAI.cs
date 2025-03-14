@@ -169,11 +169,15 @@ namespace Carmicah
             Entity gameManager = FindEntityWithName("GameManager");
             if (gameManager != null)
             {
-                if (HasComponent<RigidBody>())
+                if (gameManager.As<GameManager>().GameOver)
                 {
-                    GetComponent<RigidBody>().StopObject(); 
+                    if (HasComponent<RigidBody>())
+                    {
+                        CMConsole.Log("Stop Da mouse!");
+                        GetComponent<RigidBody>().StopObject();
+                    }
+                    return;
                 }
-                if (gameManager.As<GameManager>().GameOver) return;
             }
 
             if (move)
