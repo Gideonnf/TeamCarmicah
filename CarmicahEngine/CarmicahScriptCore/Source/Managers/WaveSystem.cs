@@ -140,6 +140,7 @@ namespace Carmicah
 
             Entity powerController = FindEntityWithName("PowerUpControl");
             powerController.As<PowerUpControl>().WipePowerups();
+            winScreen = null;
         }
 
         //public void EndOfWave()
