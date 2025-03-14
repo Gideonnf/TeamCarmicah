@@ -135,7 +135,7 @@ namespace Carmicah
         static constexpr const char* defaultSFX{ "pop" };
 
     private:
-        void UpdateSoundVolume(SoundTrack* track);
+        void UpdateSoundVolume(SoundTrack* track, SoundCategory category);
         float CalculateFinalVolume(const SoundTrack* track, SoundCategory category) const;
         void CleanupStoppedSounds();
     };

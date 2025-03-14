@@ -503,7 +503,7 @@ namespace Carmicah
         {
             for (auto it = mSoundTracks[i].begin(); it != mSoundTracks[i].end(); ++it)
             {
-                UpdateSoundVolume(it->get());
+                UpdateSoundVolume(it->get(), SoundCategory::SFX);
             }
         }
     }
@@ -528,7 +528,7 @@ namespace Carmicah
         for (auto it = mSoundTracks[internalCatergoy].begin(); it != mSoundTracks[internalCatergoy].end(); ++it)
         {
             if (it->get()->channel && it->get()->category == category)
-                UpdateSoundVolume(it->get());
+                UpdateSoundVolume(it->get(), category);
         }
     }
 
@@ -602,12 +602,14 @@ namespace Carmicah
      *
      * @param track The sound track whose volume is to be updated.
      *
+     * @param category The Category to update
+     * 
      * @return void
      */
-    void SoundSystem::UpdateSoundVolume(SoundTrack* track)
+    void SoundSystem::UpdateSoundVolume(SoundTrack* track, SoundCategory category)
     {
         if (!track->channel) return;
-        float finalVolume = CalculateFinalVolume(track, SoundCategory::SFX); 
+        float finalVolume = CalculateFinalVolume(track, category);
         track->channel->setVolume(finalVolume);
     }
 

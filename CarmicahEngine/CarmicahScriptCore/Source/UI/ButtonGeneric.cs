@@ -273,7 +273,15 @@ namespace Carmicah
             if (buttonType == "nextlevel")
             {
                 Entity waveSystem = FindEntityWithName("Something");
-                waveSystem.As<WaveSystem>().EndOfLevel();
+                if (waveSystem.As<WaveSystem>().levelManager.EndOfGame())
+                {
+                    Scene.ChangeScene("CutsceneEnding");
+
+                }
+                else
+                {
+                    waveSystem.As<WaveSystem>().EndOfLevel();
+                }
             }
 
             for(int i = 0; destroyList.ContainsKey(i); ++i)

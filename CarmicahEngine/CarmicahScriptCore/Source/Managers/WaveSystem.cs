@@ -24,6 +24,8 @@ namespace Carmicah
         public string losePrefab = "LoseScreen";
         public string countdownPrefab = "Countdown_1";
 
+        //public bool EndGame;
+
         Entity gameManager;
         Entity winScreen;
         Entity countdown;
@@ -76,6 +78,7 @@ namespace Carmicah
                 if (countdown != null)
                 {
                     countdown.Destroy();
+                    countdown = null;
 
                 }
 
@@ -139,6 +142,7 @@ namespace Carmicah
 
             Entity powerController = FindEntityWithName("PowerUpControl");
             powerController.As<PowerUpControl>().WipePowerups();
+            winScreen = null;
         }
 
         //public void EndOfWave()
