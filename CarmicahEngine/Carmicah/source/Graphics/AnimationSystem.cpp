@@ -34,7 +34,7 @@ namespace Carmicah
 
 	void AnimationSystem::Update()
 	{
-		float dt = static_cast<float>(CarmicahTime::GetInstance()->ForceDeltaTime());
+		float dt = static_cast<float>(CarmicahTime::GetInstance()->ForceFixedDT());
 
 		for (auto& entity : mEntitiesSet)
 		{
