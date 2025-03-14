@@ -42,12 +42,23 @@ namespace Carmicah
                     clickAnim       = "Button_C_Play";
                     break;
                 case "quit":
-                    nextScene       = "quit";
-                    willChangeScene = true;
+                    //nextScene       = "quit";
+                    //willChangeScene = false;
+                    createList.Add(0, "QuitConfirmationPopup"); 
 
-                    hoverEnterAnim  = "Button_HS_Quit";
+
+                    hoverEnterAnim = "Button_HS_Quit";
                     hoverExitAnim   = "Button_HE_Quit";
                     clickAnim       = "Button_C_Quit";
+                    break;
+                case "tquit":
+                    nextScene = "quit";
+                    willChangeScene = true;
+
+
+                    hoverEnterAnim = "Button_HS_Quit";
+                    hoverExitAnim = "Button_HE_Quit";
+                    clickAnim = "Button_C_Quit";
                     break;
                 case "home":
                     nextScene       = "Scene3";
@@ -80,6 +91,14 @@ namespace Carmicah
                     hoverEnterAnim  = "Button_HS_Skip";
                     hoverExitAnim   = "Button_HE_Skip";
                     clickAnim       = "Button_C_Skip";
+                    break;
+                case "skipscut":
+                    //nextScene = "Scene3";
+                    willChangeScene = true;
+
+                    hoverEnterAnim = "Button_HS_Skip";
+                    hoverExitAnim = "Button_HE_Skip";
+                    clickAnim = "Button_C_Skip";
                     break;
                 case "skipintro":
                     nextScene       = "Scene1";
@@ -158,6 +177,14 @@ namespace Carmicah
                     clickAnim = "Button_C_Next";
 
                     break;
+                case "tback":
+                    destroyList.Add(0, "QuitConfirmationPopup");
+
+                    hoverEnterAnim = "Button_HS_Back";
+                    hoverExitAnim = "Button_HE_Back";
+                    clickAnim = "Button_C_Back";
+
+                    break;
                     /*
                     hoverEnterAnim  = "Button_HS_HowTo";
                     hoverExitAnim   = "Button_HE_HowTo";
@@ -180,15 +207,15 @@ namespace Carmicah
 
         public override void OnUpdate(float dt)
         {
-            if(GetComponent<Animation>().IsAnimFinished())
+            if (!HasComponent<Animation>() || GetComponent<Animation>().IsAnimFinished())
             {
-                if(sceneChangerTimer > 0)
+                if (sceneChangerTimer > 0)
                 {
                     sceneChangerTimer -= dt;
-                    if(sceneChangerTimer < 0)
+                    if (sceneChangerTimer < 0)
                     {
                         sceneChangerTimer = -1f;
-                        if(nextScene == "quit")
+                        if (nextScene == "quit")
                         {
                             Scene.CloseGame();
                         }
@@ -201,6 +228,8 @@ namespace Carmicah
                 }
 
             }
+
+
             if (createListCreated && createList.Count > 0 && FindEntityWithName(createList[0]) == null)
             {
                 createListCreated = false;

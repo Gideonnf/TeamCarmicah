@@ -28,6 +28,7 @@ namespace Carmicah
         Entity nextBtn = null;
         Entity backBtn = null;
         Entity playBtn = null;
+        Entity homeBtn = null;
         bool isPlayerFacingLeft = true;
 
         Entity playerWalk = null;
@@ -81,6 +82,7 @@ namespace Carmicah
             {
                 nextBtn.GetComponent<Renderer>().SetAlpha(1.0f);
                 playBtn.GetComponent<Renderer>().SetAlpha(0.0f);
+                homeBtn.GetComponent<Renderer>().SetAlpha(0.0f);
             }
 
             // Advance Panel
@@ -105,6 +107,7 @@ namespace Carmicah
             {
                 nextBtn.GetComponent<Renderer>().SetAlpha(0.0f);
                 playBtn.GetComponent<Renderer>().SetAlpha(1.0f);
+                homeBtn.GetComponent<Renderer>().SetAlpha(1.0f);
             }
             // Create Objs for every panel
             if (currentPanel != 4)
@@ -132,6 +135,8 @@ namespace Carmicah
                         backBtn = FindEntityWithName("HowToLeftBtn");
                     if(playBtn == null)
                         playBtn = FindEntityWithName("HowToPlayBtn");
+                    if(homeBtn == null)
+                        homeBtn = FindEntityWithName("HowToHomeBtn");
 
                     switch (currentPanel)
                     {
