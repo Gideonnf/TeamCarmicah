@@ -22,7 +22,7 @@ namespace Carmicah
         private float panel7 = 46.0f;    //princess rallied her troops to prepare for the oncoming threat (6s + 40s)
         private float panel8 = 49.5f;    //with courage in their hearts (3.5s + 46s)
         private float panel9 = 55.0f;    //the fate of candy kingdom (5.5s + 49.5s)
-        private float panel10 = 57.5f;   //And thus began (2.5s + 55s)
+        private float panel10 = 64.0f;   //And thus began (2.5s + 55s)
         private float panel11 = 64.0f;   //the battle all would remember as... (6.5s + 57.5s)
 
         public float fadeSpeed = 0.5f;
@@ -40,8 +40,8 @@ namespace Carmicah
         public string backgroundMusicTrack = "Cutscene";
         public string backgroundMusicTrack1 = "BGM_SetupPhase_Mix1";
 
-        private float[] panelTimings = new float[11]; // Increased to 11 panels
-        private string[] panelWords = new string[11]{
+        private float[] panelTimings = new float[12]; // Increased to 11 panels
+        private string[] panelWords = new string[12]{
             "In a land far far away, filled with sweet treats and goodness",
             "The Candy Kingdom stood proud and tall under the rule of princess Strawberry",
             "But one day everything changed",
@@ -49,10 +49,11 @@ namespace Carmicah
             "Known for devouring everything in their path,",
             "the fall of the Candy Kingdom would be imminent",
             "if nothing was done",
-            "Determined to save her kingdom, the princess rallied her troops to prepare for the oncoming threat.",
+            "Determined to save her kingdom",
+            "the princess rallied her troops to prepare for the oncoming threat.",
             "With courage in their hearts,",
             "the fate of the Candy Kingdom lied in the palm of their hands",
-            "And thus began the battle all would remember as..."
+            "And thus began, the battle all would remember as..."
         };
         private bool musicStarted = false;
 
@@ -96,6 +97,7 @@ namespace Carmicah
             panelTimings[8] = panel7;
             panelTimings[9] = panel8;
             panelTimings[10] = panel9;
+            panelTimings[11] = panel10;
         }
 
         private string GetCurrPanelName()
@@ -161,6 +163,11 @@ namespace Carmicah
             }
         }
 
+        public override void OnFixedUpdate(float fixedDt)
+        {
+            timer += fixedDt;
+        }
+
         public override void OnStateEnter(string stateName)
         {
             CMConsole.Log($"State : {stateName}");
@@ -198,7 +205,7 @@ namespace Carmicah
 
         public override void OnStateUpdate(string stateName, float dt)
         {
-            timer += dt;
+            
 
             UpdateCutsceneText();
 

@@ -74,7 +74,7 @@ namespace Carmicah
 
         Entity[] topTowerBoxes = new Entity[3];
 
-        Entity[] endEntities = new Entity[6];
+        Entity[] endEntities = new Entity[4];
 
         Entity[] flyingSpawns = new Entity[2]; 
 
@@ -121,8 +121,8 @@ namespace Carmicah
             endEntities[3] = FindEntityWithName(EndPointEntityRight2);
 
             // instead of end point, this will hodl the start point for the bird spawns
-            endEntities[4] = FindEntityWithName("StartTopLeft");
-            endEntities[5] = FindEntityWithName("StartTopRight");
+            //endEntities[4] = FindEntityWithName("StartTopLeft");
+            //endEntities[5] = FindEntityWithName("StartTopRight");
 
             startingCakeEntity = FindEntityWithName(StartingCake);
             playerEntity = FindEntityWithName(PlayerName);
@@ -942,7 +942,7 @@ namespace Carmicah
 
                 Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
 
-                cakeType = CMRand.Range(0, 3);
+                cakeType = 2;//CMRand.Range(0, 3);
                 CMConsole.Log($"cake type {cakeType}");
                 Sound.PlaySFX("TowerStack", 1.0f);
                 towerPrefab = CreateGameObject(CakePrefabName);

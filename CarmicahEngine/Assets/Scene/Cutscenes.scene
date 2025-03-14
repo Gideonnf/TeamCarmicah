@@ -177,8 +177,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1750.0,
-                    "yPos": 100.0,
+                    "xPos": 1741.458984375,
+                    "yPos": 1008.3943481445313,
                     "depth": 20.0,
                     "xScale": 0.75,
                     "yScale": 0.75,

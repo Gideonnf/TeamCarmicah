@@ -14,6 +14,21 @@
             "collisionMask": 32
         },
         {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.TrapAI",
+            "ScriptableFieldMap": [
+                {
+                    "built": false,
+                    "enterAnim": "CandyCone_Idle",
+                    "exitAnim": "CandyCone_Idle",
+                    "idleAnim": "CandyCone_Idle",
+                    "timer": 0.0,
+                    "isDead": false,
+                    "life": 5.0
+                }
+            ]
+        },
+        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "candy_trap_spritesheet_Spike 0",
@@ -23,24 +38,9 @@
             "colA": 1.0
         },
         {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.TrapAI",
-            "ScriptableFieldMap": [
-                {
-                    "built": false,
-                    "exitAnim": "CandyCone_Idle",
-                    "enterAnim": "CandyCone_Idle",
-                    "timer": 0.0,
-                    "idleAnim": "CandyCone_Idle",
-                    "life": 2.0,
-                    "isDead": false
-                }
-            ]
-        },
-        {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "",
-            "customWidth": 0.5,
+            "customWidth": 0.25,
             "customRotation": 0.0,
             "customHeight": 1.0,
             "xPosPivot": -1.0,
@@ -59,16 +59,21 @@
             "objectType": 2
         },
         {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "CandyCone_Idle",
-            "AnimSpeed": 1.0
-        },
-        {
             "Component Name": "struct Carmicah::StateMachine",
             "currState": "",
             "nextState": "",
             "startingState": "Created",
             "stateMap": [
+                {
+                    "stateName": "Idle",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Dead",
+                            "condition": 4
+                        }
+                    ]
+                },
                 {
                     "stateName": "Created",
                     "stateCondition": 0,
@@ -80,16 +85,6 @@
                         {
                             "targetState": "Enter",
                             "condition": 2
-                        }
-                    ]
-                },
-                {
-                    "stateName": "Idle",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Dead",
-                            "condition": 4
                         }
                     ]
                 },
@@ -109,6 +104,11 @@
                     ]
                 }
             ]
+        },
+        {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "CandyCone_Idle",
+            "AnimSpeed": 1.0
         }
     ]
 }
