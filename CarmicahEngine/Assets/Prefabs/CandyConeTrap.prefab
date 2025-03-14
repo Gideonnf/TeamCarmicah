@@ -19,12 +19,12 @@
             "ScriptableFieldMap": [
                 {
                     "built": false,
-                    "enterAnim": "CandyCone_Idle",
                     "exitAnim": "CandyCone_Idle",
-                    "idleAnim": "CandyCone_Idle",
+                    "enterAnim": "CandyCone_Idle",
                     "timer": 0.0,
-                    "isDead": false,
-                    "life": 5.0
+                    "idleAnim": "CandyCone_Idle",
+                    "life": 4.0,
+                    "isDead": false
                 }
             ]
         },
@@ -65,16 +65,6 @@
             "startingState": "Created",
             "stateMap": [
                 {
-                    "stateName": "Idle",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Dead",
-                            "condition": 4
-                        }
-                    ]
-                },
-                {
                     "stateName": "Created",
                     "stateCondition": 0,
                     "transitions": [
@@ -85,6 +75,16 @@
                         {
                             "targetState": "Enter",
                             "condition": 2
+                        }
+                    ]
+                },
+                {
+                    "stateName": "Idle",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Dead",
+                            "condition": 4
                         }
                     ]
                 },

@@ -14,11 +14,6 @@
             "collisionMask": 32
         },
         {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "TrapHoneyIdle",
-            "AnimSpeed": 1.0
-        },
-        {
             "Component Name": "struct Carmicah::StateMachine",
             "currState": "",
             "nextState": "",
@@ -66,8 +61,9 @@
             ]
         },
         {
-            "Component Name": "struct Carmicah::PrefabData",
-            "prefabRef": 14
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "TrapHoneyIdle",
+            "AnimSpeed": 1.0
         },
         {
             "Component Name": "struct Carmicah::Collider2D",
@@ -77,6 +73,10 @@
             "customHeight": 1.0,
             "xPosPivot": 0.0,
             "yPosPivot": 0.0
+        },
+        {
+            "Component Name": "struct Carmicah::PrefabData",
+            "prefabRef": 14
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
@@ -91,6 +91,15 @@
             "objectType": 1
         },
         {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "honey_spritesheet_Splat 5",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.TrapAI",
             "ScriptableFieldMap": [
@@ -101,18 +110,9 @@
                     "idleAnim": "TrapHoneyIdle",
                     "timer": 0.0,
                     "isDead": false,
-                    "life": 45.0
+                    "life": 30.0
                 }
             ]
-        },
-        {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "honey_spritesheet_Splat 5",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
         }
     ]
 }

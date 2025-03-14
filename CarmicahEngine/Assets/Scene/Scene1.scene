@@ -488,9 +488,9 @@
                             "losePrefab": "LoseScreen",
                             "countdownStartTime": 5.0,
                             "waveTimer": 0.0,
-                            "waveSetupTime": 10.0,
+                            "waveSetupTime": 15.0,
                             "waveStart": false,
-                            "waveStartTime": 37.0,
+                            "waveStartTime": 21.0,
                             "winPrefab": "Win_Screen"
                         }
                     ]
@@ -1922,9 +1922,11 @@
                     "ScriptableFieldMap": [
                         {
                             "HoneyPrefab": "HoneyBall",
+                            "JellybeanPrefab": "JellybeanBall",
                             "MagePrefab": "MageBall",
                             "ShooterPrefab": "ShooterBall",
                             "SpawnTimer": 8.0,
+                            "SpearPrefab": "SpearBall",
                             "TrapPrefab": "TrapBall",
                             "WaveSystemObject": "Something",
                             "heightOffset": 12.0,

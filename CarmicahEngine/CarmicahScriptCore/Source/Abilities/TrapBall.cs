@@ -12,8 +12,8 @@ namespace Carmicah
         SHOOTER_ICON,
         HONEY_ICON,
         MAGE_ICON,
-        SPEAR_ICON,
-        JELLYBEAN_ICON
+        JELLYBEAN_ICON,
+        SPEAR_ICON
     }
     public class TrapBall : Entity
     {

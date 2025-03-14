@@ -25,6 +25,20 @@
             "startingState": "Idle",
             "stateMap": [
                 {
+                    "stateName": "Attacking",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
+                        },
+                        {
+                            "targetState": "Dead",
+                            "condition": 4
+                        }
+                    ]
+                },
+                {
                     "stateName": "Idle",
                     "stateCondition": 0,
                     "transitions": [
@@ -43,20 +57,6 @@
                         {
                             "targetState": "Teleport",
                             "condition": 5
-                        }
-                    ]
-                },
-                {
-                    "stateName": "Attacking",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Idle",
-                            "condition": 1
-                        },
-                        {
-                            "targetState": "Dead",
-                            "condition": 4
                         }
                     ]
                 },
@@ -136,21 +136,21 @@
                 {
                     "IsLeft": false,
                     "active": false,
-                    "deathSound": "Shooter_Death",
                     "animationTime": 0.0,
-                    "hovering": false,
+                    "deathSound": "Shooter_Death",
                     "manaAnim": "Spear_Mana",
                     "dissolveAnim": "NPC_Death",
+                    "hovering": false,
                     "hasAmmo": true,
                     "idleAnim": "Spear_Idle",
                     "isShooting": false,
                     "lane": 0,
-                    "mana": 3,
-                    "maxMana": 3,
+                    "mana": 6,
+                    "maxMana": 6,
                     "placeSound": "Shooter_Appear",
                     "projectilePrefab": "SpearBullet",
-                    "shot": false,
                     "shootAnim": "Spear_Throw",
+                    "shot": false,
                     "shootRate": 1.0,
                     "shootSound": "Shooter_Shooting",
                     "shootTime": 1.0,

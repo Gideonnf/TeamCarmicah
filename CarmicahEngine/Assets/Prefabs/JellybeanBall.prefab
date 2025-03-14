@@ -1,14 +1,14 @@
 {
-    "GameObject": "HoneyBall",
-    "ID": 44,
+    "GameObject": "JellybeanBall",
+    "ID": 63,
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
             "xPos": 3.3526275157928469,
             "yPos": 13.56417179107666,
             "depth": 4.300000190734863,
-            "xScale": 0.800000011920929,
-            "yScale": 0.800000011920929,
+            "xScale": 0.6000000238418579,
+            "yScale": 0.6000000238418579,
             "rot": 0.0,
             "transformTag": "",
             "collisionMask": 32
@@ -35,24 +35,24 @@
             "objectType": 1
         },
         {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.TrapBall",
-            "ScriptableFieldMap": [
-                {
-                    "iconType": 2,
-                    "stopTime": 1.0,
-                    "timer": 0.0
-                }
-            ]
-        },
-        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "HoneyIcon",
+            "texture": "JellybeanIcon",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
             "colA": 1.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.TrapBall",
+            "ScriptableFieldMap": [
+                {
+                    "iconType": 4,
+                    "stopTime": 1.0,
+                    "timer": 0.0
+                }
+            ]
         }
     ]
 }

@@ -13,6 +13,8 @@ namespace Carmicah
         public string ShooterPrefab = "ShooterBall";
         public string MagePrefab = "MageBall";
         public string HoneyPrefab = "HoneyBall";
+        public string SpearPrefab = "SpearBall";
+        public string JellybeanPrefab = "JellybeanBall";
 
         public float xOffset = 2.0f;
         public float heightOffset = 12.0f;
@@ -31,10 +33,12 @@ namespace Carmicah
 
         List<float> trapWeights = new List<float>()
         {
-            0.4f,
-            0.1f,
-            0.4f,
-            0.1f
+            0.25f, //Candy
+            0.2f, //Shoot
+            0.15f, //Honey
+            0.05f, //Mage
+            0.15f, //Explosion
+            0.2f //Spear
         };
 
         public override void OnCreate()
@@ -144,6 +148,18 @@ namespace Carmicah
                     case IconType.MAGE_ICON:
                         {
                             newTrap = CreateGameObject(MagePrefab);
+
+                            break;
+                        }
+                    case IconType.JELLYBEAN_ICON:
+                        {
+                            newTrap = CreateGameObject(JellybeanPrefab);
+
+                            break;
+                        }
+                    case IconType.SPEAR_ICON:
+                        {
+                            newTrap = CreateGameObject(SpearPrefab);
 
                             break;
                         }
