@@ -88,7 +88,7 @@ namespace Carmicah
        // public int currentWave = 0; // waves start at 0 cause access list at [0]
         private Dictionary<int, Level> levelMap = new Dictionary<int, Level>();
        // string basePath;
-        string fileName = "LevelData.txt";
+        string fileName = "levelData.txt";
         public int NumOfLevels = 0;
         
         public LevelManager() 

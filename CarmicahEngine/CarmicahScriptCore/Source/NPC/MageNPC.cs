@@ -222,6 +222,7 @@ namespace Carmicah
             else if (stateName == "Teleport")
             {
                 ChangeAnim(teleportAnim);
+                
             }
             else if (stateName == "Dead")
             {
@@ -348,7 +349,12 @@ namespace Carmicah
             //CMConsole.Log($"Exit State Name: {stateName}");
             if(stateName == "NoMana")
             {
-                PlayVoiceOver();
+                if (mana > 0)
+                {
+
+                    PlayVoiceOver();
+                    
+                }
             }
 
         }
