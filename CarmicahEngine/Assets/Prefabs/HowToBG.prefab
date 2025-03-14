@@ -59,7 +59,7 @@
         },
         {
             "GameObject": "HowToLeftBtn",
-            "ID": 23,
+            "ID": 3,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -96,7 +96,7 @@
         },
         {
             "GameObject": "HowToRightBtn",
-            "ID": 41,
+            "ID": 4,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -132,8 +132,50 @@
             ]
         },
         {
+            "GameObject": "HowToHomeBtn",
+            "ID": 5,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_C_Home 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Button_HE_Home",
+                    "AnimSpeed": 1.0
+                },
+                {
+                      "Component Name": "struct Carmicah::UITransform",
+                      "xPos": 250.0,
+                      "yPos": -350.0,
+                      "depth": 60.0,
+                      "xScale": 1.0,
+                      "yScale": 1.0,
+                      "rot": 0.0,
+                      "transformTag": ""
+                },
+                {
+                      "Component Name": "struct Carmicah::Button"
+                },
+                {
+                      "Component Name": "struct Script",
+                      "scriptName": "Carmicah.ButtonGeneric",
+                      "ScriptableFieldMap": [
+                          {
+                              "buttonType": "home"
+                          }
+                      ]
+                }
+            ]
+        },
+        {
             "GameObject": "HowToPlayBtn",
-            "ID": 43,
+            "ID": 6,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -149,26 +191,26 @@
                     "Atlas": "Button_HE_Play",
                     "AnimSpeed": 1.0
                 },
-              {
-                    "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 0.0,
-                    "yPos": -350.0,
-                    "depth": 60.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
-                    "rot": 0.0,
-                    "transformTag": ""
-              },
-              {
-                    "Component Name": "struct Carmicah::Button"
-              },
-              {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.ButtonGeneric",
-                    "ScriptableFieldMap": [
-                        {
-                            "buttonType": "Play"
-                        }
+                {
+                      "Component Name": "struct Carmicah::UITransform",
+                      "xPos": -250.0,
+                      "yPos": -350.0,
+                      "depth": 60.0,
+                      "xScale": 1.0,
+                      "yScale": 1.0,
+                      "rot": 0.0,
+                      "transformTag": ""
+                },
+                {
+                      "Component Name": "struct Carmicah::Button"
+                },
+                {
+                      "Component Name": "struct Script",
+                      "scriptName": "Carmicah.ButtonGeneric",
+                      "ScriptableFieldMap": [
+                          {
+                              "buttonType": "play"
+                          }
                     ]
                 }
             ]

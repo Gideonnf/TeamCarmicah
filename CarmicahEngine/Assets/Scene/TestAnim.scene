@@ -52,6 +52,54 @@
             "Children": []
         },
         {
+            "GameObject": "TrapIcon",
+            "ID": 34,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Trap",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1820.92529296875,
+                    "yPos": 756.0,
+                    "depth": 0.5,
+                    "xScale": 0.15000000596046449,
+                    "yScale": 0.15000000596046449,
+                    "rot": 22.860260009765626,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.TrapIcon",
+                    "ScriptableFieldMap": [
+                        {
+                            "trapPrefab": "Trap_1",
+                            "cooldown": false,
+                            "WaveSystemObject": "Something",
+                            "actualTrapPrefab": "CandyConeTrap",
+                            "activeTrapIcon": false,
+                            "cooldownTime": 3.0,
+                            "fakeTrapPrefab": "FakeCandyConeTrap",
+                            "flipped": false,
+                            "hovering": false,
+                            "trapOffset": 1.600000023841858,
+                            "trapxOffset": 1.600000023841858,
+                            "trapyOffset": 0.0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "GameObject": "Anim_1",
             "ID": 78,
             "Components": [

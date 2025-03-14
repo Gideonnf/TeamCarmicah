@@ -1,4 +1,4 @@
-﻿/* File Documentation ----------------------------------------------------------------------------- 
+/* File Documentation ----------------------------------------------------------------------------- 
 file:           MainMenuBGM.cs
 
 author:		    Lee Yong Yee (100%)
@@ -24,17 +24,35 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
-    public class MainMenuBGM : Entity
+    public class FPSCounter : Entity
     {
-        
 
-        
+        bool kPressed = false;
+
 
         public override void OnCreate()
         {
             // display first animation
-            Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
+            GetComponent<TextRenderer>().SetText("");
             
+        }
+
+        public override void OnUpdate(float dt)
+        {
+            if(Input.IsKeyPressed(Keys.KEY_K))
+            {
+                kPressed = !kPressed;
+            }
+
+            int fps = (int)CMTime.GetFPS();
+
+            if (kPressed)
+            {
+                GetComponent<TextRenderer>().SetText(fps.ToString());
+            }else
+            {
+                GetComponent<TextRenderer>().SetText("");
+            }
         }
 
 

@@ -14,7 +14,8 @@ namespace Carmicah
 
         public bool IsLeft = false;
         public float depthVal = 3.45f;
-        float trapOffset;
+        float trapxOffset;
+        float trapyOffset;
         
 
 
@@ -104,7 +105,8 @@ namespace Carmicah
 
         void TrapBuildChecks(Entity entity)
         {
-            trapOffset = entity.As<TrapIcon>().trapOffset;
+            trapxOffset = entity.As<TrapIcon>().trapxOffset;
+            trapyOffset = entity.As<TrapIcon>().trapyOffset;
             if (entity != null && entity.As<BaseIcon>().trapEntity != null)
             {
                 // CMConsole.Log("Trying to build a trap");
@@ -114,14 +116,14 @@ namespace Carmicah
                     //CMConsole.Log("It shouldnt be here atm");
                     translucentTrap = CreateGameObject(TrapTranslucentPrefab);
                     CMConsole.Log($"{Position.x} , {Position.y}");
-                    translucentTrap.GetComponent<Transform>().Position = new Vector2(Position.x + trapOffset, Position.y);
+                    translucentTrap.GetComponent<Transform>().Position = new Vector2(Position.x + trapxOffset, Position.y + trapyOffset);
                     translucentTrap.GetComponent<Transform>().Depth = depthVal;
                     translucentTrap.GetComponent<Renderer>().SetAlpha(0.3f);
                     if (IsLeft)
                     {
                         Vector2 scale = translucentTrap.GetComponent<Transform>().Scale;
                         translucentTrap.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
-                        translucentTrap.GetComponent<Transform>().Position = new Vector2(Position.x - trapOffset, Position.y);
+                        translucentTrap.GetComponent<Transform>().Position = new Vector2(Position.x - trapxOffset, Position.y + trapyOffset);
 
                     }
                     //redCol = translucentTrap.GetComponent<Renderer>().Red;
@@ -166,6 +168,13 @@ namespace Carmicah
                             trapEntity.As<TrapAI>().type = AbilityType.HONEY;
                             soundFile += "_Honey";
                         }
+
+                        else if (type == AbilityType.JELLYBEAN)
+                        {
+                            trapEntity.As<TrapAI>().type = AbilityType.JELLYBEAN;
+                            soundFile += "_Honey";
+                        }
+
 
 
                         Sound.PlaySFX(soundFile, 0.5f);
@@ -225,15 +234,6 @@ namespace Carmicah
             TrapPrefabName = trapPrefabName;
             TrapTranslucentPrefab = fakeTrapName;
             trapIcon = icon;
-            //switch(type)
-            //{
-            //    case TrapType.CANDY_CONE:
-            //        trapOffset = 1.6f;
-            //        break;
-            //    case TrapType.HONEY:
-            //        trapOffset = 0.0f;
-            //        break;
-            //}
         }
 
         public override void OnTriggerEnter(uint collidedEntity)

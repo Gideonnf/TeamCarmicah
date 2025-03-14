@@ -10,7 +10,8 @@ namespace Carmicah
 {
     public class TrapIcon : BaseIcon
     {
-        public float trapOffset = 1.6f;
+        public float trapxOffset = 1.6f;
+        public float trapyOffset = 0.0f;
         public bool cooldown = false;
         public float cooldownTime = 3.0f;
         //public string TrapBuild = "TrapBuild";
@@ -38,15 +39,18 @@ namespace Carmicah
             //trapBuildEntity2 = FindEntityWithName(TrapBuild2);
             //trapBuildEntity3 = FindEntityWithName(TrapBuild3);
 
-            if(actualTrapPrefab == "CandyConeTrap")
+            if (actualTrapPrefab == "CandyConeTrap")
             {
                 type = AbilityType.CANDY_CONE;
             }
-            else if(actualTrapPrefab == "HoneyTrap")
+            else if (actualTrapPrefab == "HoneyTrap")
             {
                 type = AbilityType.HONEY;
             }
-
+            else if (actualTrapPrefab == "JellybeanTrap")
+            {
+                type = AbilityType.JELLYBEAN;
+            }
         }
 
         public override void OnUpdate(float dt)
@@ -72,9 +76,9 @@ namespace Carmicah
             //if (IsKeyHold(Keys.))
             Vector2 mousePos = Input.GetMousePos();
             if (!flipped)
-                trapEntity.Position = new Vector2(mousePos.x + trapOffset, mousePos.y);
+                trapEntity.Position = new Vector2(mousePos.x + trapxOffset, mousePos.y);
             else
-                trapEntity.Position = new Vector2(mousePos.x - trapOffset, mousePos.y);
+                trapEntity.Position = new Vector2(mousePos.x - trapxOffset, mousePos.y);
 
 
             if (trapEntity.Position.x < 0.0f && flipped != true)
@@ -153,7 +157,10 @@ namespace Carmicah
         public override void OnMouseExit()
         {
             //hovering = false;
-            this.GetComponent<Renderer>().SetColour(1.0f, 1.0f, 1.0f);
+            if(this.HasComponent<Renderer>())
+            {
+                this.GetComponent<Renderer>().SetColour(1.0f, 1.0f, 1.0f);
+            }
         }
 
         public void TrapBuilt()

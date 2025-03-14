@@ -248,11 +248,11 @@ namespace Carmicah
 	/// Internal function call to play sound effects between C# and C++
 	/// </summary>
 	/// <param name="name">Name of the sound file to play</param>
-	static void Sound_PlaySFX(MonoString* name, float volume, bool isLoop)
+	static void Sound_PlaySFX(MonoString* name, float volume, bool isLoop, unsigned int entityID)
 	{
 		std::string cStrName = MonoToString(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySoundThis(cStrName, SoundCategory::SFX, SoundSystem::SOUND_INGAME, isLoop, volume);
+		souSystem->PlaySoundThis(cStrName, SoundCategory::SFX, SoundSystem::SOUND_INGAME, isLoop, volume, entityID);
 		//mono_free(cStrname);
 	}
 
@@ -260,7 +260,7 @@ namespace Carmicah
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->PlaySoundThis(cStrname, SoundCategory::BGM, SoundSystem::SOUND_BGM, true, volume);
+		souSystem->PlaySoundThis(cStrname, SoundCategory::BGM, SoundSystem::SOUND_BGM, true, volume , 0);
 		mono_free(cStrname);
 	}
 
@@ -310,6 +310,18 @@ namespace Carmicah
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 		souSystem->SwitchSound(SoundSystem::SOUND_BGM, cStrname, SoundCategory::BGM, isLoop, 0.4f, fadeTimer, fadeDuration, fadeInNext);
 		mono_free(cStrname);
+	}
+	
+	static void Sound_ToggleMuffleSFX(bool toMuffle, unsigned int entityID)
+	{
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->ToggleMuffle(SoundSystem::SOUND_INGAME, toMuffle, entityID);
+	}
+
+	static void Sound_ToggleMuffleBGM(bool toMuffle)
+	{
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->ToggleMuffle(SoundSystem::SOUND_BGM, toMuffle, 0);
 	}
 
 	//static void Sound_Stop(MonoString* name)
@@ -508,6 +520,11 @@ namespace Carmicah
 		transformSys->UpdateTransform(entityID);
 	}
 
+	static double Time_GetFPS()
+	{
+		return CarmicahTime::GetInstance()->FPS();
+	}
+
 	/// <summary>
 	/// Registers a component to C# mono side
 	/// </summary>
@@ -613,6 +630,10 @@ namespace Carmicah
 	{
 		std::string cStrName = MonoToString(prefabName);
 		GameObject newGO = gGOFactory->CreatePrefab(cStrName);
+
+
+		auto transformSys = SystemManager::GetInstance()->GetSystem<TransformSystem>();
+		transformSys->UpdateTransform(newGO.GetID());
 		//mono_free(cStrName);
 
 		return newGO.GetID();
@@ -1052,6 +1073,9 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(GetScriptInstanceFromChildren);
 		//ADD_INTERNAL_CALL(SetCollisionLayer);
 
+		//Time functions
+		ADD_INTERNAL_CALL(Time_GetFPS);
+
 		// Rigidbody functions
 		ADD_INTERNAL_CALL(RigidBody_ApplyForce);
 		ADD_INTERNAL_CALL(RigidBody_ApplyForceWithTime);
@@ -1093,6 +1117,8 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Sound_StopSFXWithFade);
 		ADD_INTERNAL_CALL(Sound_StopBGMWithFade);
 		ADD_INTERNAL_CALL(Sound_SwitchBGM);
+		ADD_INTERNAL_CALL(Sound_ToggleMuffleSFX);
+		ADD_INTERNAL_CALL(Sound_ToggleMuffleBGM);
 
 		// Debug
 		ADD_INTERNAL_CALL(Log);

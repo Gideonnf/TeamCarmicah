@@ -47,11 +47,15 @@ namespace Carmicah
     struct SoundTrack {
         FMOD::Sound* sound = nullptr;
         FMOD::Channel* channel = nullptr;
+        FMOD::DSP* lowPassDSP = nullptr;
+        FMOD::DSP* lowPassResonanceDSP = nullptr;
         float defaultVolume = 1.0f;
         float currentVolume = 1.0f;
         SoundCategory category = SoundCategory::SFX;
         bool isLooping = false;
         bool isPaused = false;
+        bool muffle = true;
+        unsigned int entityID = 0;
     };
 
     class SoundSystem : public BaseSystem
@@ -78,6 +82,7 @@ namespace Carmicah
         bool fadingOut = false;
         bool fadeInNextValue = false;
         bool fadingInNewSound = false;
+        
         float fadeTimerSeconds = 0.0f; 
         float fadeDurationSeconds = 0.0f;
         FMOD::Channel* oldChannel = nullptr; 
@@ -97,7 +102,7 @@ namespace Carmicah
         void Exit();
 
         // Enhanced playback controls
-        bool PlaySoundThis(const std::string& soundName, SoundCategory category = SoundCategory::SFX, INTSOUND internalCatergoy = SOUND_INGAME, bool isLoop = false, float volume = -1.0f);
+        bool PlaySoundThis(const std::string& soundName, SoundCategory category = SoundCategory::SFX, INTSOUND internalCatergoy = SOUND_INGAME, bool isLoop = false, float volume = -1.0f, unsigned int id = 0);
         void SwitchSound(INTSOUND internalCatergoy, const std::string& newSoundName, SoundCategory category, bool isLoop, float volume, float fadeTimer, float fadeDuration, bool fadeOut);
         void UpdateFadeEffect();
         //void StopSound(INTSOUND internalCatergoy);
@@ -115,6 +120,9 @@ namespace Carmicah
         void SetMasterVolume(float volume);
         void SetCategoryVolume(SoundCategory category, INTSOUND internalCatergoy, float volume);
         float GetCategoryVolume(SoundCategory category) const;
+
+        // Soundeffect controls
+        void ToggleMuffle(INTSOUND internalCatergoy, bool toMuffle, unsigned int id);
 
         // Muting controls
         void MuteAll(bool mute);

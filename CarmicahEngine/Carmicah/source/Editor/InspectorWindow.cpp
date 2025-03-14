@@ -979,7 +979,7 @@ namespace Carmicah
 				tempValue = col.GetCustomWidth();
 				if (ImGui::DragFloat("##CustomWidth", &tempValue, 0.1f, 0.5f, FLT_MAX, "%.3f"))
 				{
-					if (tempValue < 0.0f)
+					if (tempValue <= 0.0f)
 					{
 						tempValue = 1.0f;
 						col.CustomWidth(tempValue);
@@ -997,7 +997,7 @@ namespace Carmicah
 				tempValue = col.GetCustomHeight();
 				if (ImGui::DragFloat("##CustomHeight", &tempValue, 0.1f, 0.5f, FLT_MAX, "%.3f"))
 				{
-					if (tempValue < 0.0f)
+					if (tempValue <= 0.0f)
 					{
 						tempValue = 1.0f;
 						col.CustomHeight(tempValue);

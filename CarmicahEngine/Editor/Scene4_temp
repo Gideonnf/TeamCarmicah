@@ -107,11 +107,11 @@
                     "scriptName": "Carmicah.Intro",
                     "ScriptableFieldMap": [
                         {
-                            "FadeDuration": 0.0,
-                            "HoldDuration": 0.0,
+                            "FadeDuration": -107374176.0,
+                            "HoldDuration": -107374176.0,
                             "gameLogoName": "game_logo",
-                            "maxDuration": 7.00623507842151e22,
-                            "otherStateDuration": 7.00623507842151e22,
+                            "maxDuration": -107374176.0,
+                            "otherStateDuration": -107374176.0,
                             "schoolBGName": "black_background",
                             "schoolLogoName": "digipen_logo",
                             "schoolRightsName": "digipen_rights",
@@ -123,6 +123,42 @@
                 }
             ],
             "Children": []
+        },
+        {
+            "GameObject": "FPS",
+            "ID": 5,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 53
+                },
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Chewy-Regular",
+                    "text": "Test",
+                    "colorR": 1.0,
+                    "colorG": 1.0,
+                    "colorB": 1.0,
+                    "textAlign": 0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 800.0,
+                    "yPos": 1000.0,
+                    "depth": 0.0,
+                    "xScale": 2.0,
+                    "yScale": 2.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.FPSCounter",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                }
+            ]
         },
         {
             "GameObject": "Default",

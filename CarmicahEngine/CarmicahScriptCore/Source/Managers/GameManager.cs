@@ -516,7 +516,7 @@ namespace Carmicah
         public void NewNPC(Entity entity)
         {
             npcList.Add(entity);
-            CMConsole.Log($"New NPC Entity{entity.mID}");
+            //CMConsole.Log($"New NPC Entity{entity.mID}");
         }
 
         public void UpdatePositions()
@@ -667,7 +667,7 @@ namespace Carmicah
                 {
                     if (npcList.Contains(npcEntity))
                     {
-                        CMConsole.Log($"num of npcList : {npcList.Count}");
+                        //CMConsole.Log($"num of npcList : {npcList.Count}");
                         npcList.Remove(npcEntity);
 
                         // let the flying enemies know that they have to change target
@@ -681,7 +681,7 @@ namespace Carmicah
                             flyingEnemy.UpdateTarget(npcEntity);
                         }
 
-                        CMConsole.Log($"Killing NPC : {npcList.Count}");
+                        //CMConsole.Log($"Killing NPC : {npcList.Count}");
                         buildEntity.As<HeroBuild>().KillNPC();
                     }
                 }
@@ -943,6 +943,7 @@ namespace Carmicah
 
                 cakeType = CMRand.Range(0, 3);
                 CMConsole.Log($"cake type {cakeType}");
+                Sound.PlaySFX("TowerStack", 1.0f);
                 towerPrefab = CreateGameObject(CakePrefabName);
                 towerPrefab.Position = new Vector2(Position.x, ySpawnPos);
 
@@ -981,6 +982,7 @@ namespace Carmicah
             if (stateName == "TowerCreate")
             {
                 CMConsole.Log("Testing tower create");
+                
                 GetComponent<StateMachine>().SetStateCondition(3);
 
             }
@@ -993,6 +995,7 @@ namespace Carmicah
                     if (VFXPrefab == null)
                     {
                         VFXPrefab = CreateGameObject(CakeVFXPrefab);
+                        
                         VFXPrefab.Position = new Vector2(-0.75f, yVFXLocation);
                     }
                 }
@@ -1011,6 +1014,7 @@ namespace Carmicah
                     GetComponent<StateMachine>().SetStateCondition(4);
                     CMConsole.Log("Changing VFX prefab animation");
                     VFXPrefab.ChangeAnim("CakeFallVFxEnd");
+                    
                     Sound.PlaySFX("SFX__Magic", 0.4f);
 
                 }
