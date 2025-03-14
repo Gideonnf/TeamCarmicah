@@ -36,5 +36,10 @@ namespace Carmicah
 
             return mousePos;
         }
+
+        public static float GetMouseScroll()
+        {
+            return FunctionCalls.GetMouseScroll();
+        }
     }
 }

@@ -578,6 +578,11 @@ namespace Carmicah
 		return Input.IsMouseReleased(button);
 	}
 
+	static float GetMouseScroll()
+	{
+		return Input.GetScrollOffset();
+	}
+
 	/// <summary>
 	/// Interface for changing the scene
 	/// </summary>
@@ -1073,6 +1078,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(IsMousePressed);
 		ADD_INTERNAL_CALL(IsMouseReleased);
 		ADD_INTERNAL_CALL(GetMousePos);
+		ADD_INTERNAL_CALL(GetMouseScroll);
 
 		// Button function
 		ADD_INTERNAL_CALL(ChangeScene);
