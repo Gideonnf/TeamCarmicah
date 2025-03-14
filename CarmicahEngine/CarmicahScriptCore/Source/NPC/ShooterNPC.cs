@@ -220,7 +220,7 @@ namespace Carmicah
             else if (stateName == "NoMana")
             {
                 ChangeAnim(manaAnim);
-                CMConsole.Log("Out of Ammo!");
+                //CMConsole.Log("Out of Ammo!");
             }
             else if (stateName == "Teleport")
             {
@@ -232,7 +232,7 @@ namespace Carmicah
                 Sound.PlaySFX("Shooter_Death", 0.8f);
                 Sound.PlaySFX("NPC_Death", 0.8f);
                 ChangeAnim(dissolveAnim);
-                CMConsole.Log("NPC Dying");
+                //CMConsole.Log("NPC Dying");
             }
 
 
@@ -265,16 +265,44 @@ namespace Carmicah
                 if (target != null)
                 {
                     //CMConsole.Log($"Target mouse : {target.mID}");
-
-                    // change to attacking state
-                    if (mana > 0)
+                    if(targetType == BulletTarget.GROUND)
                     {
-                        //CMConsole.Log("Trying to attack!");
-                        GetComponent<StateMachine>().SetStateCondition(2);
+                        if(target.As<MouseAI>().isDead())
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            if (mana > 0)
+                            {
+                                //CMConsole.Log("Trying to attack!");
+                                GetComponent<StateMachine>().SetStateCondition(2);
+                            }
+                            else
+                            {
+                                GetComponent<StateMachine>().SetStateCondition(3);
+                            }
+                        }
                     }
-                    else
+
+                    else if (targetType == BulletTarget.AIR)
                     {
-                        GetComponent<StateMachine>().SetStateCondition(3);
+                        if (target.As<FlyingEnemyAI>().isDead())
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            if (mana > 0)
+                            {
+                                //CMConsole.Log("Trying to attack!");
+                                GetComponent<StateMachine>().SetStateCondition(2);
+                            }
+                            else
+                            {
+                                GetComponent<StateMachine>().SetStateCondition(3);
+                            }
+                        }
                     }
                 }
 
