@@ -1,0 +1,116 @@
+Carmicah Engine Project Guide
+
+------------------
+Project Overview
+------------------
+
+The Carmicah Engine is a C++ game engine featuring an Entity Component System (ECS) architecture with support for graphics, physics, sound, input handling, and scripting via Mono.
+
+------------------
+Project Settings
+------------------
+Build Configurations
+
+-Debug Mode: Full debugging capabilities enabled, with additional logging and profiling features
+  - Enables the CM_DEBUG macro
+  - Includes debug logging and assertions 
+  - Debug profiling tools available in the engine editor
+  - Log txt is recorded within TeamCarmicah\CarmicahEngine\Editor\logs
+
+- Release Mode: Optimized for performance
+  - Disables debug features and logging
+  - Optimized performance
+  - Minimal runtime overhead
+
+Architecture: "x64"
+Start Project: "Editor Project"
+Using flags: "MultiProcessorCompile" For faster compilation 
+
+
+------------------
+Premake
+------------------
+Premake is used to help link and set up project settings. Submission should be runnable without the need to run "PremakeProj.bat"
+
+Premake Link 
+https://premake.github.io/
+
+
+------------------
+ImGui Windows
+------------------
+Debug Window
+Shows engine performance/FPS
+Displays console logs/messages
+Shows system timing and profiling info
+Helps track memory usage and performance issues
+
+
+Scene Window
+Main window where you see your game/scene
+Has play/stop buttons to test your game
+Shows live preview of what's happening
+Where you can select and move objects
+
+EditorCamera Window
+Window where the user can edit GameObjects freely
+Q for free transform
+W for transform
+E for scale
+R for rotate
+
+
+Hierarchy Window
+Lists all objects in your scene
+Shows parent-child relationships
+Lets you create/delete objects
+Helps organize scene objects
+
+
+Inspector Window
+Shows properties of selected object
+Lets you edit component values
+Add/remove components
+Change object settings like position, scale, rotation
+
+
+Asset Window
+Shows the assets
+Manage textures, models, sounds
+
+FSM Window
+Area that allows you to edit the FSM component.
+Can add/remove states and transitions.
+
+------------------
+Carmicah Project
+------------------
+Compiled as a Static Library
+Links with glfw3.lib, glad, ImGUI and freetype.lib
+Uses "Dependencies/lib" for library directories
+Uses "Carmicah/source" and "Dependencies/includes" for external include directories
+
+------------------
+Editor Project
+------------------
+Set as the start project, handles the running of the engine.
+Compiled as a Console Application
+Links with Carmicah project
+Uses "Dependencies/lib" for library directories
+Uses "Carmicah/source" for external include directories
+
+------------------
+glad Project
+------------------
+Compiled as a Static Library
+Used to link with Carmicah Project to use Glad to support glfw
+Made as a separate project due to pre-compiled header causing issues with the files if included in "Editor" project
+
+------------------
+ImGUI Project
+------------------
+Compiled as a Static Library
+Used to link with Carmicah Project to use ImGUI for our level editor
+Made as a separate project due to pre-compiled header causing issues with the files if included in "Editor" project
+
+

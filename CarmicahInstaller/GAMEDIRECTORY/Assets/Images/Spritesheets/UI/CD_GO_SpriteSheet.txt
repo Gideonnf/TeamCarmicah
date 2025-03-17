@@ -1,0 +1,3 @@
+GO
+Top Left: 0 x 0, 820 x 411
+12 sprites

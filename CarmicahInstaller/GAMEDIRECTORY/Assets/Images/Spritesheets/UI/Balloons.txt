@@ -1,0 +1,7 @@
+left
+T L: 0 x 0, 399 x 790
+1 S
+
+right
+T L: 399 x 0, 493 x 790
+1 S

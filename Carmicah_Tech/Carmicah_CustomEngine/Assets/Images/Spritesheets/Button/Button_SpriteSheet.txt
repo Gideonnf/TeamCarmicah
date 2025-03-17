@@ -1,0 +1,95 @@
+H_Home
+Top left: 0 x 0, 421 x 130
+9 sprites
+
+H_HowTo
+Top left: 0 x 130, 421 x 130
+9 sprites
+
+H_Settings
+Top left: 0 x 260, 421 x 130
+9 sprites
+
+H_Resume
+Top left: 0 x 390, 421 x 130
+9 sprites
+
+H_Back
+Top left: 0 x 520, 421 x 130
+9 sprites
+
+H_Quit
+Top left: 0 x 650, 421 x 130
+9 sprites
+
+H_Play
+Top left: 0 x 780, 421 x 130
+9 sprites
+
+H_Menu
+Top left: 0 x 910, 421 x 130
+9 sprites
+
+H_Credits
+Top left: 0 x 1040, 421 x 130
+9 sprites
+
+H_Skip
+Top left: 0 x 1170, 421 x 130
+9 sprites
+
+H_Replay
+Top left: 0 x 1300, 421 x 130
+9 sprites
+
+H_Next
+Top left: 0 x 1430, 421 x 130
+9 sprites
+
+C_Home
+Top left: 0 x 1570, 421 x 130
+9 sprites
+
+C_HowTo
+Top left: 0 x 1700, 421 x 130
+9 sprites
+
+C_Settings
+Top left: 0 x 1830, 421 x 130
+9 sprites
+
+C_Resume
+Top left: 0 x 1960, 421 x 130
+9 sprites
+
+C_Back
+Top left: 0 x 2090, 421 x 130
+9 sprites
+
+C_Quit
+Top left: 0 x 2220, 421 x 130
+9 sprites
+
+C_Play
+Top left: 0 x 2350, 421 x 130
+9 sprites
+
+C_Menu
+Top left: 0 x 2480, 421 x 130
+9 sprites
+
+C_Credits
+Top left: 0 x 2610, 421 x 130
+9 sprites
+
+C_Skip
+Top left: 0 x 2740, 421 x 130
+9 sprites
+
+C_Replay
+Top left: 0 x 2870, 421 x 130
+9 sprites
+
+C_Next
+Top left: 0 x 3000, 421 x 130
+9 sprites

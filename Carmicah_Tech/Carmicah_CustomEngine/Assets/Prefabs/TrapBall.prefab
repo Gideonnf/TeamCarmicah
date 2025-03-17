@@ -1,0 +1,64 @@
+{
+    "GameObject": "TrapBall",
+    "ID": 43,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Transform",
+            "xPos": 0.8780707120895386,
+            "yPos": 13.56417179107666,
+            "depth": 4.300000190734863,
+            "xScale": 0.15000000596046449,
+            "yScale": 0.15000000596046449,
+            "rot": 26.0,
+            "transformTag": "",
+            "collisionMask": 32
+        },
+        {
+            "Component Name": "struct Carmicah::Collider2D",
+            "shape": "",
+            "customWidth": 1.0,
+            "customRotation": 0.0,
+            "customHeight": 1.0,
+            "xPosPivot": 0.0,
+            "yPosPivot": 0.0
+        },
+        {
+            "Component Name": "struct Carmicah::RigidBody",
+            "velocityX": 0.0,
+            "velocityY": 0.0,
+            "angularVelocity": 0.0,
+            "posPrevX": 0.0,
+            "posPrevY": 0.0,
+            "mass": 1.0,
+            "gravity": 0.0,
+            "zposPrev": -107374176.0,
+            "objectType": 1
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Trap",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.TrapBall",
+            "ScriptableFieldMap": [
+                {
+                    "fallSpeed": 3.5,
+                    "heightOffset": 12.0,
+                    "iconType": 0,
+                    "stopTime": 1.0,
+                    "flashInterval": 0.0,
+                    "timer": 0.0,
+                    "flashTime": 0.0,
+                    "flashTimer": 0.0,
+                    "lifeTime": 0.0
+                }
+            ]
+        }
+    ]
+}

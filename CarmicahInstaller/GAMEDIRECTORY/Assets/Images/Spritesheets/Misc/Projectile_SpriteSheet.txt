@@ -1,0 +1,19 @@
+Shooter
+Top left: 0 x 0, 29 x 29
+4 sprites
+
+Mage
+Top left: 0 x 29, 71 x 71
+5 sprites
+
+Mage_Impact
+Top left: 0 x 99, 480 x 480
+10 sprites
+
+Teleport
+Top left: 0 x 1059, 468 x 513
+8 sprites
+
+NPC_Death
+Top left: 0 x 1572, 468 x 513
+8 sprites
