@@ -305,10 +305,11 @@ namespace Carmicah
 
         while (!glfwWindowShouldClose(window)) {
             CarmicahTime::GetInstance()->StartLoopTimer();
+            CarmicahTime::GetInstance()->StartSystemTimer("GLFW");
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTime::GetInstance()->FPS())) + " - Scene : " + gameSystem->GetCurrScene();
             glfwSetWindowTitle(window, title.c_str());
             glfwPollEvents(); // this takes 20% of engine run time
-
+            CarmicahTime::GetInstance()->StopSystemTimer("GLFW");
 
             if (gameSystem->mNextState == SceneState::EXIT)
             {
@@ -347,47 +348,53 @@ namespace Carmicah
 
                 gScriptSystem->UpdateScripts(); // TODO: Add this to profiler
 
+                CarmicahTime::GetInstance()->StartSystemTimer("InputSystem");
                 Input.Update();
+                CarmicahTime::GetInstance()->StopSystemTimer("InputSystem");
 
 
 
                 if (gameSystem->mCurrState == SceneState::RUNTIME && SceneWindow::mIsPaused == false)
                 {
+                    CarmicahTime::GetInstance()->StartSystemTimer("ScriptSystem");
                     gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime()); // TODO: Add this to profiler
-
+                    CarmicahTime::GetInstance()->StopSystemTimer("ScriptSystem");
                     // script system normal update and fixed update is both called
                     // so force normal dt into normal onUpdate
                     // and force fixed dt into fixed update
                     //gameLogic->Update(window);
 
                     accumulatedTime += CarmicahTime::GetInstance()->ForceDeltaTime();
-
+                    CarmicahTime::GetInstance()->StartSystemTimer("FixedDT");
                     while (accumulatedTime >= CarmicahTime::GetInstance()->ForceFixedDT())
                     {
                         // NOTE im putting both here cause im lazy to change every script to fixed dt
                         // cause it runs some shit faster than normal
                         // since im using scripts to do animations also i need it ot be consistent
 
+                        //CarmicahTime::GetInstance()->StartSystemTimer("ScriptFixedUpdate");
                         gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
+                        //CarmicahTime::GetInstance()->StopSystemTimer("ScriptFixedUpdate");
 
                         if (CarmicahTime::GetInstance()->IsFixedDT())
                         {
-                            CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
+                            //CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
                             colSystem->CollisionCheck();
-                            CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
-                            CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
+                            //CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
+                            //CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                             phySystem->Update();
-                            CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
+                            //CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
                         }
 
-                        CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
+                        //CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
                         aniSystem->Update();
-                        CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
 
                         accumulatedTime -= CarmicahTime::GetInstance()->ForceFixedDT();
+                        //CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
                     }
-
+                    CarmicahTime::GetInstance()->StopSystemTimer("FixedDT");
                     // if it isnt suppose to run fixed dt
+                    CarmicahTime::GetInstance()->StartSystemTimer("EldritchHorror");
                     if (!CarmicahTime::GetInstance()->IsFixedDT())
                     {
                        // gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime()); // TODO: Add this to profiler
@@ -403,9 +410,11 @@ namespace Carmicah
           
                         fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->GetDeltaTime());
                     }
+                    CarmicahTime::GetInstance()->StopSystemTimer("EldritchHorror");
 
+                    CarmicahTime::GetInstance()->StartSystemTimer("FSMSystem");
                     fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime());
-
+                    CarmicahTime::GetInstance()->StopSystemTimer("FSMSystem");
 
 
                     CarmicahTime::GetInstance()->StartSystemTimer("SoundSystem");
@@ -483,24 +492,27 @@ namespace Carmicah
                 //SceneToImgui::GetInstance()->IDPick();
 
                 // I WILL UPDAAATEEE BUTTONSYSTEM HERE OKKKKAAYYYY, PLS DONT CRASH CRYING EMOJI
+                CarmicahTime::GetInstance()->StartSystemTimer("ButtMouseSystem");
 				butSystem->Update();
 
                 // Putting mouse update here first after input update
                 // idk if it should be here
                 mouseSystem->Update();
-
+                CarmicahTime::GetInstance()->StopSystemTimer("ButtMouseSystem");
                // glfwMakeContextCurrent(window);
 
 
-
+                CarmicahTime::GetInstance()->StartSystemTimer("Misc");
                 glfwSwapBuffers(window);
                 gGOFactory->UpdateDestroyed();
+                CarmicahTime::GetInstance()->StopSystemTimer("Misc");
             }
 
+            CarmicahTime::GetInstance()->StartSystemTimer("GLFW2");
             Input.UpdatePrevInput();
             // shift this here for now cause moving 
             glfwPollEvents(); // this takes 20% of engine run time
-
+            CarmicahTime::GetInstance()->StopSystemTimer("GLFW2");
 
             // Don't exit if we're going into onstart
             // only for anything else but that
