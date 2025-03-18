@@ -1,0 +1,3 @@
+Dissolve
+Top left: 0 x 0, 488 x 445
+24 sprites

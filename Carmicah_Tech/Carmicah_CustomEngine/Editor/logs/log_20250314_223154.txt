@@ -1,0 +1,249 @@
+2025-03-14 22:31:54 Log system initialized. Writing to logs/log_20250314_223154.txt
+2025-03-14 22:31:54 Core Logger Initialized
+2025-03-14 22:31:54 Client Logger Initialized
+2025-03-14 22:31:56 Component Created with namestruct Carmicah::Button
+2025-03-14 22:31:56 Component Created with namestruct Carmicah::Transform
+2025-03-14 22:31:56 Component Created with namestruct Carmicah::Animation
+2025-03-14 22:31:56 Component Created with namestruct Carmicah::Collider2D
+2025-03-14 22:31:56 Component Created with namestruct Carmicah::RigidBody
+2025-03-14 22:31:56 Component Created with namestruct Carmicah::Renderer
+2025-03-14 22:31:56 Component Created with namestruct Carmicah::TextRenderer
+2025-03-14 22:31:56 Component Created with namestruct Carmicah::ParticleEmitter
+2025-03-14 22:31:56 Component Created with namestruct Carmicah::UITransform
+2025-03-14 22:31:56 Component Created with namestruct Carmicah::PrefabData
+2025-03-14 22:31:56 Component Created with namestruct Carmicah::Sound
+2025-03-14 22:31:56 Component Created with namestruct Carmicah::StateMachine
+2025-03-14 22:31:56 Component Created with namestruct Script
+2025-03-14 22:31:56 Starting system init
+2025-03-14 22:31:56 Making class Carmicah::Editor system
+2025-03-14 22:31:56 Making class Carmicah::GOFactory system
+2025-03-14 22:31:56 Making class Carmicah::ScriptSystem system
+2025-03-14 22:31:56 Making class Carmicah::WorldGraphicsSystem system
+2025-03-14 22:31:56 Making class Carmicah::UIGraphicsSystem system
+2025-03-14 22:31:56 Making class Carmicah::TextGraphicsSystem system
+2025-03-14 22:31:56 Making class Carmicah::AnimationSystem system
+2025-03-14 22:31:56 Making class Carmicah::ColliderGraphicsSystem system
+2025-03-14 22:31:56 Making class Carmicah::RigidbodyGraphicsSystem system
+2025-03-14 22:31:56 Making class Carmicah::CollisionSystem system
+2025-03-14 22:31:56 Making class Carmicah::ButtonSystem system
+2025-03-14 22:31:56 Making class Carmicah::PhysicsSystem system
+2025-03-14 22:31:56 Making class Carmicah::MouseSystem system
+2025-03-14 22:31:56 Making class Carmicah::InputSystem system
+2025-03-14 22:31:56 Making class Carmicah::SoundSystem system
+2025-03-14 22:31:56 Making class Carmicah::SceneSystem system
+2025-03-14 22:31:56 Making class Carmicah::PrefabSystem system
+2025-03-14 22:31:56 Making class Carmicah::TransformSystem system
+2025-03-14 22:31:56 Making class Carmicah::RenderTransformSystem system
+2025-03-14 22:31:56 Making class Carmicah::FSMSystem system
+2025-03-14 22:31:56 Making class Carmicah::ParticlesSystem system
+2025-03-14 22:31:56 Extension doesn't exist .txt
+2025-03-14 22:31:56 Creating prefab with name: Bullet
+2025-03-14 22:31:59 Creating prefab with name: LoadingCake1
+2025-03-14 22:32:00 Extension doesn't exist .txt
+2025-03-14 22:32:00 Creating prefab with name: HowToStep2
+2025-03-14 22:32:00 Creating prefab child with name: HowToPlayer
+2025-03-14 22:32:00 Creating prefab child with name: HowToUI_Bar
+2025-03-14 22:32:00 Creating prefab child with name: HowToTrapIco
+2025-03-14 22:32:00 Creating prefab child with name: HowToShootIco
+2025-03-14 22:32:00 Creating prefab child with name: HowToCursorM
+2025-03-14 22:32:00 Creating prefab child with name: HowToHiddenMice
+2025-03-14 22:32:00 Creating prefab child with name: HowToHiddenBear
+2025-03-14 22:32:00 Creating prefab child with name: HowToBullet
+2025-03-14 22:32:00 Creating prefab child with name: HowToActualShooter
+2025-03-14 22:32:00 Creating prefab child with name: HowToActualTrap
+2025-03-14 22:32:00 Creating prefab with name: GameObject
+2025-03-14 22:32:00 Creating prefab with name: Close_Button
+2025-03-14 22:32:00 Creating prefab with name: MageBullet
+2025-03-14 22:32:00 Creating prefab with name: MouseGONew
+2025-03-14 22:32:00 Creating prefab child with name: Healthbar
+2025-03-14 22:32:00 Creating prefab child with name: Healthbar_Cover
+2025-03-14 22:32:00 Extension doesn't exist .txt
+2025-03-14 22:32:00 Creating prefab with name: JellybeanTrap
+2025-03-14 22:32:00 Extension doesn't exist .Asset
+2025-03-14 22:32:00 Creating prefab with name: TrapBuild_2
+2025-03-14 22:32:01 Creating prefab with name: MouseGONew3
+2025-03-14 22:32:01 Creating prefab child with name: Healthbar
+2025-03-14 22:32:01 Creating prefab child with name: Healthbar_Cover
+2025-03-14 22:32:01 Creating prefab with name: Princess_HealthBar
+2025-03-14 22:32:01 Creating prefab child with name: Princess_HP_Value
+2025-03-14 22:32:01 Creating prefab with name: Cake
+2025-03-14 22:32:01 Creating prefab with name: CandyConeTrap
+2025-03-14 22:32:01 Extension doesn't exist .txt
+2025-03-14 22:32:01 Extension doesn't exist .txt
+2025-03-14 22:32:01 Creating prefab with name: TrapBuild_3
+2025-03-14 22:32:01 Extension doesn't exist .txt
+2025-03-14 22:32:01 Creating prefab with name: PauseMenuResumeBtn
+2025-03-14 22:32:01 Creating prefab with name: FakeJellybeanTrap
+2025-03-14 22:32:01 Creating prefab with name: TrapBall
+2025-03-14 22:32:01 Creating prefab with name: CursorParticles
+2025-03-14 22:32:01 Creating prefab with name: Win_Screen
+2025-03-14 22:32:01 Creating prefab child with name: WinText
+2025-03-14 22:32:01 Creating prefab child with name: DescText
+2025-03-14 22:32:01 Creating prefab child with name: DescText_1
+2025-03-14 22:32:01 Creating prefab child with name: MC_Win
+2025-03-14 22:32:01 Creating prefab child with name: Default_1
+2025-03-14 22:32:01 Sound:BGM_ Level Music_3_StudioTweaks Already Exists
+2025-03-14 22:32:01 Extension doesn't exist .txt
+2025-03-14 22:32:01 Creating prefab with name: StartingCake
+2025-03-14 22:32:01 Creating prefab child with name: TrapBuild
+2025-03-14 22:32:01 Creating prefab child with name: TrapBuild_1
+2025-03-14 22:32:01 Creating prefab child with name: TrapBuild_2
+2025-03-14 22:32:01 Creating prefab child with name: TrapBuild_3
+2025-03-14 22:32:01 Creating prefab with name: TowerController
+2025-03-14 22:32:01 Sound:BGM_LevelMusic_FullTrack_Vers1 Already Exists
+2025-03-14 22:32:01 Extension doesn't exist .txt
+2025-03-14 22:32:01 Sound:BGM_MainMenu_Mix1 Already Exists
+2025-03-14 22:32:01 Sound:BGM_SetupPhase_Mix1 Already Exists
+2025-03-14 22:32:01 Extension doesn't exist .txt
+2025-03-14 22:32:01 Extension doesn't exist .txt
+2025-03-14 22:32:01 Creating prefab with name: Back Button
+2025-03-14 22:32:01 Creating prefab with name: MC
+2025-03-14 22:32:01 Creating prefab with name: HowToBG
+2025-03-14 22:32:01 Creating prefab child with name: Dim
+2025-03-14 22:32:01 Creating prefab child with name: HowToLeftBtn
+2025-03-14 22:32:01 Creating prefab child with name: HowToRightBtn
+2025-03-14 22:32:01 Creating prefab child with name: HowToHomeBtn
+2025-03-14 22:32:01 Creating prefab child with name: HowToPlayBtn
+2025-03-14 22:32:01 Extension doesn't exist .frag
+2025-03-14 22:32:01 Creating prefab with name: TrapBuild
+2025-03-14 22:32:01 Creating prefab with name: MageNPC
+2025-03-14 22:32:01 Creating prefab with name: UI_Text
+2025-03-14 22:32:01 Creating prefab with name: MageIcon
+2025-03-14 22:32:01 Creating prefab with name: MC_Lose
+2025-03-14 22:32:01 Creating prefab with name: Close_Button_2
+2025-03-14 22:32:01 Creating prefab with name: 2D_Default
+2025-03-14 22:32:02 Creating prefab with name: HoneyBall
+2025-03-14 22:32:05 Creating prefab with name: FakeHoneyTrap
+2025-03-14 22:32:05 Extension doesn't exist .txt
+2025-03-14 22:32:05 Creating prefab with name: HeroBuild_1
+2025-03-14 22:32:05 Creating prefab with name: SpearBullet
+2025-03-14 22:32:05 Extension doesn't exist .Asset
+2025-03-14 22:32:05 Extension doesn't exist .txt
+2025-03-14 22:32:06 Extension doesn't exist .txt
+2025-03-14 22:32:06 Extension doesn't exist .txt
+2025-03-14 22:32:06 Extension doesn't exist .Asset
+2025-03-14 22:32:06 Creating prefab with name: BearGO
+2025-03-14 22:32:06 Creating prefab child with name: Healthbar
+2025-03-14 22:32:06 Creating prefab child with name: Healthbar_Cover
+2025-03-14 22:32:06 Creating prefab with name: HowToStep5
+2025-03-14 22:32:07 Creating prefab with name: Pause_Menu
+2025-03-14 22:32:07 Extension doesn't exist .txt
+2025-03-14 22:32:13 Extension doesn't exist .Asset
+2025-03-14 22:32:14 Creating prefab with name: TrapBuild_1
+2025-03-14 22:32:14 Creating prefab with name: UI_Default
+2025-03-14 22:32:14 Creating prefab with name: HowToStep3
+2025-03-14 22:32:14 Creating prefab child with name: HowToDrop
+2025-03-14 22:32:14 Creating prefab child with name: HowToPrincess
+2025-03-14 22:32:14 Creating prefab child with name: HowToShooter
+2025-03-14 22:32:14 Creating prefab child with name: HowToMage
+2025-03-14 22:32:14 Creating prefab child with name: HowToUIBar
+2025-03-14 22:32:14 Creating prefab child with name: HowToCursor
+2025-03-14 22:32:15 Creating prefab with name: MageBall
+2025-03-14 22:32:15 Creating prefab with name: digipen_logo
+2025-03-14 22:32:17 Creating prefab with name: Credits_Menu
+2025-03-14 22:32:18 Extension doesn't exist .txt
+2025-03-14 22:32:18 Creating prefab with name: black_background
+2025-03-14 22:32:18 Creating prefab with name: Break_Wand
+2025-03-14 22:32:18 Creating prefab with name: Bubble
+2025-03-14 22:32:18 Creating prefab child with name: bubbleMouse
+2025-03-14 22:32:18 Creating prefab with name: CakeVFX
+2025-03-14 22:32:18 Creating prefab with name: Countdown_1
+2025-03-14 22:32:18 Creating prefab with name: CutSceneImage
+2025-03-14 22:32:18 Creating prefab with name: Default_1
+2025-03-14 22:32:18 Creating prefab child with name: Default_2
+2025-03-14 22:32:18 Creating prefab child with name: Areyousure
+2025-03-14 22:32:18 Creating prefab child with name: Back
+2025-03-14 22:32:18 Creating prefab with name: SpearIcon
+2025-03-14 22:32:18 Creating prefab with name: digipen_rights
+2025-03-14 22:32:18 Creating prefab with name: FakeCandyConeTrap
+2025-03-14 22:32:18 Creating prefab with name: FlyGO
+2025-03-14 22:32:18 Creating prefab child with name: Healthbar
+2025-03-14 22:32:18 Creating prefab child with name: Healthbar_Cover
+2025-03-14 22:32:18 Creating prefab with name: FPS
+2025-03-14 22:32:18 Creating prefab with name: game_logo
+2025-03-14 22:32:18 Creating prefab with name: HeroBuild
+2025-03-14 22:32:18 Creating prefab with name: HomeButton
+2025-03-14 22:32:18 Creating prefab with name: HoneyIcon
+2025-03-14 22:32:18 Creating prefab with name: HoneyTrap
+2025-03-14 22:32:18 Creating prefab with name: HowToStep0
+2025-03-14 22:32:18 Creating prefab child with name: HowToPlayerWalk
+2025-03-14 22:32:18 Creating prefab child with name: HowToPlayerTxt
+2025-03-14 22:32:18 Creating prefab child with name: HowToMove
+2025-03-14 22:32:18 Creating prefab with name: HowToStep1
+2025-03-14 22:32:18 Creating prefab child with name: HowToMice1
+2025-03-14 22:32:18 Creating prefab child with name: HowToBear
+2025-03-14 22:32:18 Creating prefab child with name: HowToMice2
+2025-03-14 22:32:18 Creating prefab with name: JellybeanBall
+2025-03-14 22:32:18 Creating prefab with name: JellybeanIcon
+2025-03-14 22:32:18 Creating prefab with name: LoadingCake2
+2025-03-14 22:32:18 Extension doesn't exist .frag
+2025-03-14 22:32:18 Creating prefab with name: LoadingCake3
+2025-03-14 22:32:18 Creating prefab with name: LoadingCake4
+2025-03-14 22:32:18 Creating prefab with name: LosePrefab
+2025-03-14 22:32:18 Creating prefab child with name: ReplayButton
+2025-03-14 22:32:18 Creating prefab child with name: Break_Wand
+2025-03-14 22:32:18 Creating prefab child with name: MC_Lose
+2025-03-14 22:32:18 Creating prefab child with name: HomeButton
+2025-03-14 22:32:18 Creating prefab with name: LoseScreen
+2025-03-14 22:32:18 Creating prefab child with name: LoseText
+2025-03-14 22:32:18 Creating prefab child with name: DescText
+2025-03-14 22:32:18 Creating prefab child with name: DescText_1_2
+2025-03-14 22:32:18 Creating prefab child with name: WandLose
+2025-03-14 22:32:18 Creating prefab child with name: MCLose
+2025-03-14 22:32:18 Creating prefab child with name: Setting
+2025-03-14 22:32:18 Creating prefab child with name: Replay
+2025-03-14 22:32:18 Creating prefab child with name: Home
+2025-03-14 22:32:18 Creating prefab with name: LoseText
+2025-03-14 22:32:18 Creating prefab with name: MouseGONew2
+2025-03-14 22:32:18 Creating prefab child with name: Healthbar
+2025-03-14 22:32:18 Creating prefab child with name: Healthbar_Cover
+2025-03-14 22:32:18 Creating prefab with name: Parallex
+2025-03-14 22:32:18 Creating prefab child with name: BackgroundFloor
+2025-03-14 22:32:18 Creating prefab child with name: BackgroundSky
+2025-03-14 22:32:18 Creating prefab child with name: BackgroundCakesL1
+2025-03-14 22:32:18 Creating prefab child with name: BackgroundCakesR0
+2025-03-14 22:32:18 Creating prefab child with name: BackgroundCakesL0
+2025-03-14 22:32:18 Creating prefab child with name: BackgroundCakesL2
+2025-03-14 22:32:18 Creating prefab child with name: BackgroundCakesR1
+2025-03-14 22:32:18 Creating prefab child with name: BackgroundBigClouds
+2025-03-14 22:32:18 Creating prefab with name: PauseMenuQuitBtn
+2025-03-14 22:32:18 Creating prefab with name: QuitConfirmationPopup
+2025-03-14 22:32:18 Creating prefab child with name: text
+2025-03-14 22:32:18 Creating prefab child with name: Areyousure
+2025-03-14 22:32:18 Creating prefab child with name: Back
+2025-03-14 22:32:18 Creating prefab with name: ReplayButton
+2025-03-14 22:32:18 Creating prefab with name: Settings_Menu
+2025-03-14 22:32:18 Creating prefab child with name: Music Bar
+2025-03-14 22:32:18 Creating prefab child with name: Music Slider
+2025-03-14 22:32:18 Creating prefab child with name: Sound Bar
+2025-03-14 22:32:18 Creating prefab child with name: Sound Slider
+2025-03-14 22:32:18 Creating prefab child with name: Music Txt
+2025-03-14 22:32:18 Creating prefab child with name: Sound Txt
+2025-03-14 22:32:18 Creating prefab with name: ShooterBall
+2025-03-14 22:32:18 Creating prefab with name: ShooterIcon
+2025-03-14 22:32:18 Extension doesn't exist .frag
+2025-03-14 22:32:18 Creating prefab with name: ShooterNPC
+2025-03-14 22:32:18 Creating prefab with name: SpearBall
+2025-03-14 22:32:18 Creating prefab with name: SpearNPC
+2025-03-14 22:32:18 Creating prefab with name: team_logo
+2025-03-14 22:32:18 Failed to load ../Assets\Prefabs\test.prefab
+2025-03-14 22:32:18 Creating prefab with name: TrapIcon
+2025-03-14 22:32:18 Creating prefab with name: TrapTranslucent
+2025-03-14 22:32:18 Creating prefab with name: WaveAnnouncement
+2025-03-14 22:32:18 Extension doesn't exist .Asset
+2025-03-14 22:32:18 Extension doesn't exist .Asset
+2025-03-14 22:32:18 Test
+2025-03-14 22:32:18 Creating a new game object with name:  and id: 0
+2025-03-14 22:32:18 Entity does not exist
+2025-03-14 22:32:18 Entity does not exist
+2025-03-14 22:32:18 Entity does not exist
+2025-03-14 22:32:18 Entity does not exist
+2025-03-14 22:32:18 Creating a new game object with name: BackgroundGO and id: 1
+2025-03-14 22:32:18 Creating a new game object with name: MainCamera and id: 2
+2025-03-14 22:32:18 Creating a new game object with name: Skip Button and id: 3
+2025-03-14 22:32:18 Creating a new game object with name: Intro and id: 4
+2025-03-14 22:32:18 Creating a new game object with name: FPS and id: 5
+2025-03-14 22:32:18 Creating a new game object with name: Default and id: 33
+2025-03-14 22:32:18 Creating a new game object with name: CursorParticles and id: 72
+2025-03-14 22:32:18 Entity does not exist
+2025-03-14 22:32:18 Entity does not exist

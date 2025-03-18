@@ -1,0 +1,45 @@
+{
+    "GameObject": "HoneyIcon",
+    "ID": 57,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Button"
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.TrapIcon",
+            "ScriptableFieldMap": [
+                {
+                    "actualTrapPrefab": "HoneyTrap",
+                    "WaveSystemObject": "Something",
+                    "trapxOffset": 0.0,
+                    "fakeTrapPrefab": "FakeHoneyTrap",
+                    "cooldownTime": 3.0,
+                    "activeTrapIcon": false,
+                    "cooldown": false,
+                    "flipped": false,
+                    "trapyOffset": 0.0
+                }
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "HoneyIcon",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::UITransform",
+            "xPos": 1812.0,
+            "yPos": 474.101318359375,
+            "depth": 0.5,
+            "xScale": 0.8500000238418579,
+            "yScale": 0.8500000238418579,
+            "rot": 0.0,
+            "transformTag": ""
+        }
+    ]
+}

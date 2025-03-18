@@ -1,0 +1,31 @@
+Mouse_Climb_Blue
+Top left: 0 x 0, 321 x 321
+6 sprites
+
+Mouse_Climb_Brown
+Top left: 0 x 321, 321 x 321
+6 sprites
+
+Mouse_Climb_White
+Top left: 0 x 642, 321 x 321
+6 sprites
+
+Mouse_Death_Blue
+Top left: 0 x 993, 321 x 321
+15 sprites
+
+Mouse_Death_Brown
+Top left: 0 x 1635, 321 x 321
+15 sprites
+
+Mouse_Death_White
+Top left: 0 x 2277, 321 x 321
+15 sprites
+
+Bear_Climb
+Top left: 0 x 2929, 321 x 321
+6 sprites
+
+Bear_Death
+Top left: 0 x 3260, 321 x 321
+11 sprites
