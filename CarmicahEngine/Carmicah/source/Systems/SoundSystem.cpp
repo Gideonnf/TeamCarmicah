@@ -522,7 +522,7 @@ namespace Carmicah
      */
     void SoundSystem::SetCategoryVolume(SoundCategory category, INTSOUND internalCatergoy, float volume)
     {
-        mCategoryVolumes[category] = std::clamp(volume, 0.0f, 1.0f);
+        //mCategoryVolumes[category] = std::clamp(volume, 0.0f, 1.0f);
 
         // Update all sounds in this category
         for (auto it = mSoundTracks[internalCatergoy].begin(); it != mSoundTracks[internalCatergoy].end(); ++it)
@@ -530,6 +530,11 @@ namespace Carmicah
             if (it->get()->channel && it->get()->category == category)
                 UpdateSoundVolume(it->get(), category);
         }
+    }
+
+    float SoundSystem::GetCategoryVolume(SoundCategory category, INTSOUND internalCatergoy)
+    {
+        return mCategoryVolumes[category];
     }
 
     /**

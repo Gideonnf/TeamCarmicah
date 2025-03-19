@@ -89,5 +89,10 @@ namespace Carmicah
         {
             FunctionCalls.Sound_SetCategoryVolume(1, volume); // 1 represents BGM category
         }
+
+        public static float GetCategoryVolume(int category)
+        {
+            return FunctionCalls.Sound_GetCategoryVolume(category);
+        }
     }
 }
