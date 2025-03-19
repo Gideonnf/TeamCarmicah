@@ -84,15 +84,24 @@ namespace Carmicah
     // Get the delta time
     void CarmicahTime::StopSystemTimer(const std::string& systemName)
     {
+        if (mSystemTimes.find(systemName) == mSystemTimes.end())
+        {
+            mSystemTimes[systemName];
+        }
+
         auto endTime = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - mSystemStartTimes[systemName]);
-        mSystemTimes[systemName] = duration.count() / 1000000.0; // Convert to seconds
+        mSystemTimes[systemName] += duration.count() / 1000000.0; // Convert to seconds
     }
 
     // Get the delta time for the loop timer and calculate the system percentages
     void CarmicahTime::StartLoopTimer()
     {
         mLoopStartTime = std::chrono::steady_clock::now();
+        for (auto& system : mSystemTimes)
+        {
+            system.second = 0.0;
+        }
     }
 
     //  Get the delta time for the loop timer and calculate the system percentages

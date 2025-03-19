@@ -152,6 +152,7 @@ namespace Carmicah
         //comment it when using installer
         //CM_CORE_INFO("Reached before window creation");
         GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", NULL, NULL);
+        //glfwMaximizeWindow(window);
        // int bufferWidth, bufferHeight;
         //glfwGetFramebufferSize(window, &bufferWidth, &bufferHeight);
 #endif
@@ -305,11 +306,11 @@ namespace Carmicah
 
         while (!glfwWindowShouldClose(window)) {
             CarmicahTime::GetInstance()->StartLoopTimer();
-            CarmicahTime::GetInstance()->StartSystemTimer("GLFW");
+            CarmicahTime::GetInstance()->StartSystemTimer("Misc");
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTime::GetInstance()->FPS())) + " - Scene : " + gameSystem->GetCurrScene();
             glfwSetWindowTitle(window, title.c_str());
             glfwPollEvents(); // this takes 20% of engine run time
-            CarmicahTime::GetInstance()->StopSystemTimer("GLFW");
+            CarmicahTime::GetInstance()->StopSystemTimer("Misc");
 
             if (gameSystem->mNextState == SceneState::EXIT)
             {
@@ -365,7 +366,7 @@ namespace Carmicah
                     //gameLogic->Update(window);
 
                     accumulatedTime += CarmicahTime::GetInstance()->ForceDeltaTime();
-                    CarmicahTime::GetInstance()->StartSystemTimer("FixedDT");
+                    //CarmicahTime::GetInstance()->StartSystemTimer("FixedDT");
                     while (accumulatedTime >= CarmicahTime::GetInstance()->ForceFixedDT())
                     {
                         // NOTE im putting both here cause im lazy to change every script to fixed dt
@@ -378,23 +379,22 @@ namespace Carmicah
 
                         if (CarmicahTime::GetInstance()->IsFixedDT())
                         {
-                            //CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
+                            CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
                             colSystem->CollisionCheck();
-                            //CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
-                            //CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
+                            CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
+                            CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                             phySystem->Update();
-                            //CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
+                            CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
                         }
 
-                        //CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
+                        CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
                         aniSystem->Update();
 
                         accumulatedTime -= CarmicahTime::GetInstance()->ForceFixedDT();
-                        //CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
+                        CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
                     }
-                    CarmicahTime::GetInstance()->StopSystemTimer("FixedDT");
+                    //CarmicahTime::GetInstance()->StopSystemTimer("FixedDT");
                     // if it isnt suppose to run fixed dt
-                    CarmicahTime::GetInstance()->StartSystemTimer("EldritchHorror");
                     if (!CarmicahTime::GetInstance()->IsFixedDT())
                     {
                        // gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime()); // TODO: Add this to profiler
@@ -406,11 +406,10 @@ namespace Carmicah
                         CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
                         CarmicahTime::GetInstance()->StartSystemTimer("PhysicsSystem");
                         phySystem->Update();
-                        CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSysteGm");
+                        CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
           
                         fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->GetDeltaTime());
                     }
-                    CarmicahTime::GetInstance()->StopSystemTimer("EldritchHorror");
 
                     CarmicahTime::GetInstance()->StartSystemTimer("FSMSystem");
                     fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime());
@@ -508,11 +507,11 @@ namespace Carmicah
                 CarmicahTime::GetInstance()->StopSystemTimer("Misc");
             }
 
-            CarmicahTime::GetInstance()->StartSystemTimer("GLFW2");
+            CarmicahTime::GetInstance()->StartSystemTimer("Misc");
             Input.UpdatePrevInput();
             // shift this here for now cause moving 
             glfwPollEvents(); // this takes 20% of engine run time
-            CarmicahTime::GetInstance()->StopSystemTimer("GLFW2");
+            CarmicahTime::GetInstance()->StopSystemTimer("Misc");
 
             // Don't exit if we're going into onstart
             // only for anything else but that
