@@ -127,7 +127,9 @@ namespace Carmicah
             //stateMachine.SetNextState("Chase");
             //Random rand = new Random();
             //animType = CMRand.Range(0, 3); // rand between 0 to 3
-            randLane = 3/*CMRand.Range(0,4)*/; // rand between 0 to 3
+            randLane = CMRand.Range(0, 4); // rand between 0 to 3
+
+            //randLane = 3; //For Testing
 
             lane = randLane;
             //SetInitialPosition();

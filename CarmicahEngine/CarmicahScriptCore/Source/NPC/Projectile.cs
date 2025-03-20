@@ -22,6 +22,7 @@ using Carmicah;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -134,7 +135,11 @@ namespace Carmicah
                             mousePos.x = 4;
                         }
                     }
-                    if(bulletType == BulletType.SPEAR_BULLET)
+
+                    /* NEEDS TO BE RE-WORKED IF WE RE-WRITE THE LANING SYSTEM
+                     * NEEDS TO BE RE-WORKED IF WE RE-WRITE THE LANING SYSTEM
+                     */
+                    if (bulletType == BulletType.SPEAR_BULLET)
                     {
                         switch(target.As<MouseAI>().lane)
                         {
@@ -159,6 +164,7 @@ namespace Carmicah
                                     break;
                                 }
                         }
+                        mousePos.y -= 4.0f;
                     }
 
                     Vector2 dir = mousePos - Position;
@@ -166,6 +172,12 @@ namespace Carmicah
                     //CMConsole.Log($"target mouse??? {targetMouse.mID}");
                     //Vector2 dir = facingRight ? new Vector2(1, 0) : new Vector2(-1, 0);
                     GetComponent<RigidBody>().ApplyForce(dir, Speed);
+                    float dist = Position.Distance(mousePos);
+
+                    if(dist <= 0.5f)
+                    {
+                        GetComponent<StateMachine>().SetStateCondition(1);
+                    }
                 }
 
             }
@@ -288,8 +300,8 @@ namespace Carmicah
                         {
                             this.GetComponent<Collider2D>().SetCustomWidth(0.5f);
                         }
-                        
 
+                        CMConsole.Log("Playing Mage Hit Explosion");
                         Sound.PlaySFX("Mage_Hit_Explosion", 0.3f);
                         if (!facingRight)
                         {
