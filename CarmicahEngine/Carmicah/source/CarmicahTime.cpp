@@ -1,15 +1,12 @@
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- file:			DebugWindow.cpp
+ file:			CarmicahTime.cpp
 
  author:		YANG YUJIE 80%
  co-author:     Lee Yong Yee 20%
 
  emails:			y.yujie@digipen.edu, l.yongyee@digipen.edu
 
- brief:         This file contains the implementation of the DebugWindow class
-				DebugWindow is a singleton class that is used to display debug information
-				on the screen. It is used to display the frame rate, system times, and GPU times.
-				It also allows the user to enable and disable the debug window.
+ brief:         This file contains the implementation of the a time class, that sets the fixedDt for the engine.
 
 Copyright (C) 2024 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the prior written consent of
@@ -84,15 +81,24 @@ namespace Carmicah
     // Get the delta time
     void CarmicahTime::StopSystemTimer(const std::string& systemName)
     {
+        if (mSystemTimes.find(systemName) == mSystemTimes.end())
+        {
+            mSystemTimes[systemName];
+        }
+
         auto endTime = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - mSystemStartTimes[systemName]);
-        mSystemTimes[systemName] = duration.count() / 1000000.0; // Convert to seconds
+        mSystemTimes[systemName] += duration.count() / 1000000.0; // Convert to seconds
     }
 
     // Get the delta time for the loop timer and calculate the system percentages
     void CarmicahTime::StartLoopTimer()
     {
         mLoopStartTime = std::chrono::steady_clock::now();
+        for (auto& system : mSystemTimes)
+        {
+            system.second = 0.0;
+        }
     }
 
     //  Get the delta time for the loop timer and calculate the system percentages

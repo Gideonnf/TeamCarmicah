@@ -22,6 +22,7 @@ using Carmicah;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,10 +45,15 @@ namespace Carmicah
     {
         public string BulletAnim = "Shooter_Projectile";
         public string BulletImpactAnim;
-        public float Speed = 5.0f;
-        public float LifeTime = 10.0f;
+
+        //Bullet Variables
+        public float Speed = 5.0f; //Speed of bullet
+        public float LifeTime = 10.0f; //Time until it automatically disappears
+        public float health = 3.0f; //Health of bullet (for spear projectile)
         public BulletType bulletType;
         public BulletTarget bulletTarget = BulletTarget.GROUND;
+        public bool facingRight = false; //False == Left face of cake
+
         //target enemy
         public Entity target;
 
@@ -55,7 +61,6 @@ namespace Carmicah
         float animTimer = 0.0f;
         float maxAnimTime;
 
-        public bool facingRight = false;
         //bool playDeathAnimation = false;
 
         public override void OnCreate()
@@ -100,7 +105,7 @@ namespace Carmicah
                 }
                 else
                 {
-                    CMConsole.Log("TAOPMDOPSA");
+                    //CMConsole.Log("No target!is i");
                     GetComponent<StateMachine>().SetStateCondition(1);
                     return;
                 }
@@ -131,11 +136,53 @@ namespace Carmicah
                         }
                     }
 
+                    /* NEEDS TO BE RE-WORKED IF WE RE-WRITE THE LANING SYSTEM
+                     * NEEDS TO BE RE-WORKED IF WE RE-WRITE THE LANING SYSTEM
+                     */
+                    if (bulletType == BulletType.SPEAR_BULLET)
+                    {
+                        switch(target.As<MouseAI>().lane)
+                        {
+                            case 0:
+                                {
+                                    mousePos = target.As<MouseAI>().startPosRight;
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    mousePos = target.As<MouseAI>().startPosLeft;
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    mousePos = target.As<MouseAI>().startPosRight2;
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    mousePos = target.As<MouseAI>().startPosLeft2;
+                                    break;
+                                }
+                        }
+                        mousePos.y -= 4.0f;
+                    }
+
                     Vector2 dir = mousePos - Position;
                     dir.Normalize();
                     //CMConsole.Log($"target mouse??? {targetMouse.mID}");
                     //Vector2 dir = facingRight ? new Vector2(1, 0) : new Vector2(-1, 0);
                     GetComponent<RigidBody>().ApplyForce(dir, Speed);
+                    float dist = Position.Distance(mousePos);
+
+                    CMConsole.Log($"Distance from target: {dist}");
+
+                    if(bulletType == BulletType.SPEAR_BULLET)
+                    {
+                        if(dist <= 0.5f)
+                        {
+                            GetComponent<StateMachine>().SetStateCondition(1);
+                        }
+                    }
                 }
 
             }
@@ -238,7 +285,10 @@ namespace Carmicah
             }
 
             //Set to dead state
-            GetComponent<StateMachine>().SetStateCondition(1);
+            if(bulletType == BulletType.MAGE_BULLET || bulletType == BulletType.SHOOTER_BULLET)
+            {
+                GetComponent<StateMachine>().SetStateCondition(1);
+            }
         }
 
         public override void OnStateEnter(string stateName)
@@ -255,8 +305,8 @@ namespace Carmicah
                         {
                             this.GetComponent<Collider2D>().SetCustomWidth(0.5f);
                         }
-                        
 
+                        CMConsole.Log("Playing Mage Hit Explosion");
                         Sound.PlaySFX("Mage_Hit_Explosion", 0.3f);
                         if (!facingRight)
                         {
@@ -286,6 +336,14 @@ namespace Carmicah
 
         public override void OnStateUpdate(string stateName, float dt)
         {
+            if(stateName == "Alive")
+            {
+                if (health == 0)
+                {
+                    GetComponent<StateMachine>().SetStateCondition(1);
+                }
+            }
+
             if(stateName == "Dead")
             {
                 animTimer += dt;
@@ -293,6 +351,20 @@ namespace Carmicah
                 if(GetComponent<Animation>().IsAnimFinished())
                 {
                     Destroy();
+                }
+            }
+        }
+
+        public override void OnTriggerEnter(uint collidedEntity)
+        {
+            Entity entity = FindEntityWithID(collidedEntity);
+
+            if(entity != null)
+            { 
+                if(entity.GetTag() == "Enemy")
+                {
+                    //CMConsole.Log("Spear losing health");
+                    health--;
                 }
             }
         }

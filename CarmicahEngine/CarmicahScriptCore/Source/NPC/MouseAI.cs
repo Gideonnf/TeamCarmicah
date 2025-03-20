@@ -60,10 +60,10 @@ namespace Carmicah
         public EnemyTypes enemyType;
 
         //int currPoint;
-        Vector2 startPosLeft;
-        Vector2 startPosRight;
-        Vector2 startPosLeft2;
-        Vector2 startPosRight2;
+        public Vector2 startPosLeft;
+        public Vector2 startPosRight;
+        public Vector2 startPosLeft2;
+        public Vector2 startPosRight2;
         //StateMachine stateMachine;
         Entity endEntityLeft;
         Entity endEntityRight;
@@ -127,7 +127,9 @@ namespace Carmicah
             //stateMachine.SetNextState("Chase");
             //Random rand = new Random();
             //animType = CMRand.Range(0, 3); // rand between 0 to 3
-            randLane = CMRand.Range(0,4); // rand between 0 to 3
+            randLane = CMRand.Range(0, 4); // rand between 0 to 3
+
+            //randLane = 3; //For Testing
 
             lane = randLane;
             //SetInitialPosition();
@@ -314,6 +316,17 @@ namespace Carmicah
                    // CMConsole.Log("COLLIDING WITH HONEY TRAP");
                     //this.AsChild<HealthSystem>().TakeDamage(100);
                 }
+
+                if(entity.GetTag() == "Bullet")
+                {
+                    this.AsChild<HealthSystem>().TakeDamage(50);
+                }
+
+            }
+
+            if (this.AsChild<HealthSystem>().mCurHealth <= 0)
+            {
+                GetComponent<StateMachine>().SetStateCondition(1);
 
             }
         }

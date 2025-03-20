@@ -24,12 +24,34 @@ DigiPen Institute of Technology is prohibited.
 
 namespace Carmicah
 {
+    std::unordered_map<std::string, DebugWindow::DebugStatistics> DebugWindow::debugStats;
+
     DebugWindow::DebugWindow()
         : EditorWindow("Debug", ImVec2(900, 300), ImVec2(0, 0))
         , mShowPerformance(true)
         , mShowLogger(true)
     {
         mIsVisible = true;
+    }
+
+
+    void DebugWindow::UpdateDebugStatistics()
+    {
+        ImVec2 canvas_pos = ImGui::GetCursorScreenPos();
+        ImVec2 canvas_size = ImGui::GetContentRegionAvail();
+        float xPos = canvas_pos.x;
+
+        const auto& systemPercentages = CarmicahTime::GetInstance()->GetSystemPercentages();
+        double totalLoopTime = CarmicahTime::GetInstance()->GetTotalLoopTime();
+
+        for (const auto& pair : systemPercentages)
+        {
+            DebugStatistics stats;
+            stats.width = (static_cast<float>(pair.second) / 100.0f) * canvas_size.x;
+            stats.timeTaken = totalLoopTime * (pair.second / 100.0) * 1000.0;
+            stats.loadPercentage = pair.second;
+            debugStats.insert_or_assign(pair.first, stats);
+        }
     }
 
     /*
@@ -59,10 +81,22 @@ namespace Carmicah
     {
         ImGui::BeginChild("Performance Overview", ImVec2(0, 60), true);
         {
-            float frameTime = static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime() * 1000.0);
-            float fps = static_cast<float>(CarmicahTime::GetInstance()->FPS());
-            float gpuTime = static_cast<float>(CarmicahTime::GetInstance()->GetGPUTime());
-            float totalLoopTime = static_cast<float>(CarmicahTime::GetInstance()->GetTotalLoopTime() * 1000.0);
+            static float accumulatedTime = 0.0f;
+            float dt = CarmicahTime::GetInstance()->ForceDeltaTime();
+            static float frameTime = static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime() * 1000.0);
+            static float fps = static_cast<float>(CarmicahTime::GetInstance()->FPS());
+            static float gpuTime = static_cast<float>(CarmicahTime::GetInstance()->GetGPUTime());
+            static float totalLoopTime = static_cast<float>(CarmicahTime::GetInstance()->GetTotalLoopTime() * 1000.0);
+            accumulatedTime += dt;
+
+            if(accumulatedTime >= 0.5f)
+            {
+                frameTime = static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime() * 1000.0);
+                fps = static_cast<float>(CarmicahTime::GetInstance()->FPS());
+                gpuTime = static_cast<float>(CarmicahTime::GetInstance()->GetGPUTime());
+                totalLoopTime = static_cast<float>(CarmicahTime::GetInstance()->GetTotalLoopTime() * 1000.0);
+                accumulatedTime = 0.0f;
+            }
 
             ImGui::Text("Frame Time: %.2f ms", frameTime);
             ImGui::SameLine(200);
@@ -80,6 +114,9 @@ namespace Carmicah
     {
         const auto& systemPercentages = CarmicahTime::GetInstance()->GetSystemPercentages();
         double totalLoopTime = CarmicahTime::GetInstance()->GetTotalLoopTime();
+        static float accumulatedTime = 0.0f;
+        float dt = CarmicahTime::GetInstance()->ForceDeltaTime();
+        accumulatedTime += dt;
 
         ImGui::Text("System Timeline");
         ImGui::BeginChild("Timeline", ImVec2(0, 100), true);
@@ -97,19 +134,19 @@ namespace Carmicah
                 IM_COL32(30, 30, 30, 255)
             );
 
+
             // Draw each system's time slice
             for (const auto& pair : systemPercentages) {
-                float width = (static_cast<float>(pair.second) / 100.0f) * canvas_size.x;
                 ImU32 color = GetSystemColor(pair.first);
 
                 draw_list->AddRectFilled(
                     ImVec2(xPos, canvas_pos.y),
-                    ImVec2(xPos + width, canvas_pos.y + height),
+                    ImVec2(xPos + debugStats[pair.first].width, canvas_pos.y + height),
                     color
                 );
 
                 // System label if there's enough space
-                if (width > 50.0f) {
+                if (debugStats[pair.first].width > 50.0f) {
                     draw_list->AddText(
                         ImVec2(xPos + 2, canvas_pos.y + 2),
                         IM_COL32(255, 255, 255, 255),
@@ -120,17 +157,17 @@ namespace Carmicah
                 // Tooltip on hover
                 if (ImGui::IsMouseHoveringRect(
                     ImVec2(xPos, canvas_pos.y),
-                    ImVec2(xPos + width, canvas_pos.y + height)))
+                    ImVec2(xPos + debugStats[pair.first].width, canvas_pos.y + height)))
                 {
                     ImGui::BeginTooltip();
                     ImGui::Text("%s\nTime: %.3f ms\nPercentage: %.1f%%",
                         pair.first.c_str(),
-                        totalLoopTime * (pair.second / 100.0) * 1000.0,
-                        pair.second);
+                        debugStats[pair.first].timeTaken,
+                        debugStats[pair.first].loadPercentage);
                     ImGui::EndTooltip();
                 }
 
-                xPos += width;
+                xPos += debugStats[pair.first].width;
             }
         }
         ImGui::EndChild();
@@ -143,12 +180,12 @@ namespace Carmicah
         double totalLoopTime = CarmicahTime::GetInstance()->GetTotalLoopTime();
 
         ImGui::Text("System Statistics");
-        ImGui::BeginChild("System Stats", ImVec2(0, 300), true);
+        ImGui::BeginChild("System Stats", ImVec2(0, 0), true);
         {
             const float columnWidth = ImGui::GetContentRegionAvail().x - 20;
             for (const auto& pair : systemPercentages) {
                 // Create a bordered box for each system
-                ImGui::BeginChild(pair.first.c_str(), ImVec2(columnWidth, 60), true);
+                ImGui::BeginChild(pair.first.c_str(), ImVec2(0, 0), ImGuiChildFlags_AutoResizeY);
                 {
                     // System Name with colored indicator
 
@@ -163,19 +200,19 @@ namespace Carmicah
                     ImGui::Text("Time:");
                     ImGui::SameLine();
                     ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.0f, 1.0f), "%.3f ms",
-                        totalLoopTime * (pair.second / 100.0) * 1000.0);
+                        debugStats[pair.first].timeTaken);
 
                     ImGui::NextColumn();
 
                     ImGui::Text("Load:");
                     ImGui::SameLine();
                     ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.5f, 1.0f), "%.1f%%",
-                        pair.second);
+                        debugStats[pair.first].loadPercentage);
 
                     ImGui::Columns(1);
 
                     // Progress bar showing system load
-                    ImGui::ProgressBar((float)pair.second / 100.0f, ImVec2(-1, 4), "");
+                    ImGui::ProgressBar((float)debugStats[pair.first].loadPercentage / 100.0f, ImVec2(-1, 4), "");
                 }
                 ImGui::EndChild();
                 ImGui::Spacing();
@@ -202,6 +239,10 @@ namespace Carmicah
         {
             autoScroll = false;
         }
+        else
+        {
+            autoScroll = true;
+        }
         ImGui::EndChild();
     }
 
@@ -209,6 +250,23 @@ namespace Carmicah
 
     void DebugWindow::RenderProfilingTab()
     {
+        static float accumulatedTime = 0.0f;
+        static bool firstTime = true;
+        float dt = CarmicahTime::GetInstance()->ForceDeltaTime();
+        accumulatedTime += dt;
+
+        if (firstTime)
+        {
+            UpdateDebugStatistics();
+            firstTime = false;
+        }
+
+        if (accumulatedTime >= 0.5f)
+        {
+            UpdateDebugStatistics();
+            accumulatedTime = 0.0f;
+        }
+
         RenderPerformanceOverview();
         RenderSystemTimeline();
         RenderSystemStatistics();
