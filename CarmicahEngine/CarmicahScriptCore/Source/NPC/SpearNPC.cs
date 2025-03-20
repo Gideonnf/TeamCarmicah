@@ -207,7 +207,7 @@ namespace Carmicah
                 GetTarget(); // get targetMouse
                 if (targetMouse != null)
                 {
-                    CMConsole.Log($"Target mouse : {targetMouse.mID}");
+                    //CMConsole.Log($"Target mouse : {targetMouse.mID}");
 
                     // change to attacking state
                     if (mana > 0)

@@ -14,11 +14,6 @@
             "collisionMask": 16
         },
         {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Shooter_Projectile",
-            "AnimSpeed": 1.0
-        },
-        {
             "Component Name": "struct Carmicah::StateMachine",
             "currState": "",
             "nextState": "",
@@ -42,13 +37,9 @@
             ]
         },
         {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "Projectile_SpriteSheet_Shooter 0",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Shooter_Projectile",
+            "AnimSpeed": 1.0
         },
         {
             "Component Name": "struct Script",
@@ -59,9 +50,19 @@
                     "BulletImpactAnim": "",
                     "LifeTime": 10.0,
                     "Speed": 2.0,
-                    "facingRight": false
+                    "facingRight": false,
+                    "health": 3.0
                 }
             ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Projectile_SpriteSheet_Shooter 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         },
         {
             "Component Name": "struct Carmicah::Collider2D",
