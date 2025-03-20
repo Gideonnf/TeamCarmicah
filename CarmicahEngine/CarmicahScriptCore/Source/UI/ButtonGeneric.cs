@@ -229,7 +229,7 @@ namespace Carmicah
                         }
                         else
                         {
-                            CMConsole.Log("Changing scene 2");
+                            //CMConsole.Log("Changing scene 2");
                             Scene.ChangeScene(nextScene);
                         }
                     }
@@ -253,7 +253,7 @@ namespace Carmicah
 
             if (willChangeScene && sceneChangerTimer < 0.0f)
             {
-                CMConsole.Log("Changing scene");
+                //CMConsole.Log("Changing scene");
 
                 sceneChangerTimer = timeToChangeScene;
             }

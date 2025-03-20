@@ -140,7 +140,7 @@ namespace Carmicah
             if (stateName == "Idle")
             {
                 ChangeAnim(IdleAnim);
-                CMConsole.Log("MC IS IDLE YAY");
+                //CMConsole.Log("MC IS IDLE YAY");
             }
 
             else if (stateName == "Walking")
@@ -153,7 +153,7 @@ namespace Carmicah
                 ChangeAnim(HealAnim);
                 healAnimTime = GetComponent<Animation>().GetMaxTime();
                 timer = 0.0f;
-                CMConsole.Log("MC HEAL");
+                //CMConsole.Log("MC HEAL");
             }
             else if (stateName == "Teleport")
             {
@@ -259,7 +259,7 @@ namespace Carmicah
                 timer += dt;
                 if(timer > healAnimTime)
                 {
-                    CMConsole.Log("Healing Target!");
+                   // CMConsole.Log("Healing Target!");
                     healTarget.As<BaseNPC>().HealAmmo();
                     GetComponent<StateMachine>().SetStateCondition(1);
                 }

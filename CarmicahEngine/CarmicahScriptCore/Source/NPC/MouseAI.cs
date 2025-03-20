@@ -175,7 +175,7 @@ namespace Carmicah
                 {
                     if (HasComponent<RigidBody>())
                     {
-                        CMConsole.Log("Stop Da mouse!");
+                        //CMConsole.Log("Stop Da mouse!");
                         GetComponent<RigidBody>().StopObject();
                     }
                     return;
@@ -350,7 +350,7 @@ namespace Carmicah
         public override void OnTriggerExit()
         {
             // reset
-            CMConsole.Log("Exiting some kinematic other thing");
+            //CMConsole.Log("Exiting some kinematic other thing");
             debuff = 1.0f;
         }
         public void KillMouse()

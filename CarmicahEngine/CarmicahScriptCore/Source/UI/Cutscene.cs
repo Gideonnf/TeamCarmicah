@@ -170,7 +170,7 @@ namespace Carmicah
 
         public override void OnStateEnter(string stateName)
         {
-            CMConsole.Log($"State : {stateName}");
+           // CMConsole.Log($"State : {stateName}");
 
             // Change image state
             if (stateName == "ChangeImage")

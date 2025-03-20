@@ -148,7 +148,7 @@ namespace Carmicah
             if (stateName == "Idle")
             {
                 ChangeAnim(idleAnim);
-                CMConsole.Log("IDLE ANIM");
+              //  CMConsole.Log("IDLE ANIM");
             }
             else if (stateName == "Attacking")
             {
@@ -163,7 +163,7 @@ namespace Carmicah
             else if (stateName == "NoMana")
             {
                 ChangeAnim(manaAnim);
-                CMConsole.Log("Out of Ammo!");
+               // CMConsole.Log("Out of Ammo!");
             }
             else if (stateName == "Teleport")
             {
@@ -175,7 +175,7 @@ namespace Carmicah
                 Sound.PlaySFX("Spearman_Death", 0.8f);
                 Sound.PlaySFX("NPC_Death", 0.8f);
                 ChangeAnim(dissolveAnim);
-                CMConsole.Log("NPC Dying");
+                //CMConsole.Log("NPC Dying");
             }
 
 
@@ -191,7 +191,7 @@ namespace Carmicah
             // which will cause crashes
             if (targetMouse != null && targetMouse.mID == 0)
             {
-                CMConsole.Log("I AM HERE");
+                //CMConsole.Log("I AM HERE");
                 targetMouse = null;
                 // Change back to idle state
                 //if (stateName == "Attacking")
@@ -254,7 +254,7 @@ namespace Carmicah
                 //TODO: Implement Logic with MC
                 if (Input.IsMousePressed(MouseButtons.MOUSE_BUTTON_LEFT) && hovering)
                 {
-                    CMConsole.Log("MC Should try to heal " + mID.ToString());
+                   // CMConsole.Log("MC Should try to heal " + mID.ToString());
                     player.HealAI(mID);
                     
                 }
