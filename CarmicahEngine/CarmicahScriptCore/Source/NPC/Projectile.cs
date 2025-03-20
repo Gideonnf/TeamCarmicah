@@ -174,9 +174,14 @@ namespace Carmicah
                     GetComponent<RigidBody>().ApplyForce(dir, Speed);
                     float dist = Position.Distance(mousePos);
 
-                    if(dist <= 0.5f)
+                    CMConsole.Log($"Distance from target: {dist}");
+
+                    if(bulletType == BulletType.SPEAR_BULLET)
                     {
-                        GetComponent<StateMachine>().SetStateCondition(1);
+                        if(dist <= 0.5f)
+                        {
+                            GetComponent<StateMachine>().SetStateCondition(1);
+                        }
                     }
                 }
 
