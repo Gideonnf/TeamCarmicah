@@ -83,9 +83,31 @@ namespace Carmicah
         public EnemyTypes GetNextEnemyRandom()
         {
             // loop through randomized spawn list
+            //CMConsole.Log($"Next Index: {nextIndex}");
+            //CMConsole.Log($"Size of randomSpawnList: {randomizedSpawnList.Count}");
             if (nextIndex < randomizedSpawnList.Count)
             {
                 // index above increments so i move thru the list, hopefully
+
+                switch (randomizedSpawnList[nextIndex])
+                {
+                    case EnemyTypes.MOUSE1:
+                        enemySpawns[0]--;
+                        break;
+                    case EnemyTypes.MOUSE2:
+                        enemySpawns[1]--;
+                        break;
+                    case EnemyTypes.MOUSE3:
+                        enemySpawns[2]--;
+                        break;
+                    case EnemyTypes.BEAR:
+                        enemySpawns[3]--;
+                        break;
+                    case EnemyTypes.FLYING:
+                        enemySpawns[4]--;
+                        break;
+                }
+
                 return randomizedSpawnList[nextIndex++];
             }
             return EnemyTypes.TOTAL_ENEMIES;

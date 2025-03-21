@@ -68,7 +68,7 @@ namespace Carmicah
                 //nextWave.PrintWaveData();
                 if (nextWave != null)
                 {
-                    nextWave.ShuffleEnemies();
+                    //nextWave.ShuffleEnemies();
                     gameManager.As<GameManager>().StartNextWave(nextWave);
                 }
                 //CMConsole.Log("Starting New Wave");
@@ -94,7 +94,7 @@ namespace Carmicah
                 Wave nextWave = levelManager.GetWave();
                 if (nextWave != null)
                 {
-                    nextWave.ShuffleEnemies();
+                    //nextWave.ShuffleEnemies();
                     gameManager.As<GameManager>().StartNextWave(nextWave);
                 }
 

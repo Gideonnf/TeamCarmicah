@@ -260,6 +260,7 @@ namespace Carmicah
                 activeEnemies += level.enemySpawns[i];
                 //CMConsole.Log("Adding Enemy");
             }
+            mobCounter.ShuffleEnemies();
         }
 
         public void CreateEnemy(string prefabName, EnemyTypes type)
