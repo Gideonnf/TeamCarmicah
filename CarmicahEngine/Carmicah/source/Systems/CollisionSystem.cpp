@@ -70,16 +70,54 @@ namespace Carmicah
 	 */
 	void CollisionSystem::InsertEntityToGrid(Entity& entity, const Vec2f& position)
 	{
+
 		int row = static_cast<int>(position.y / cellSize);
 		int col = static_cast<int>(position.x / cellSize);
+
+		if (row < 0)
+		{
+			// wrap around to the top
+			row = GRID_HEIGHT + row;
+		}
+
+		if (col < 0)
+		{
+			// wrap around to the top
+			col = GRID_WIDTH + col;
+		}
 
 		Collider2D collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);
 		
 		int row2 = static_cast<int>(collider.min.y / cellSize);
 		int col2 = static_cast<int>(collider.min.x / cellSize);
 
+		if (row2 < 0)
+		{
+			// wrap around to the top
+			row2 = GRID_HEIGHT + row2;
+		}
+
+		if (col2 < 0)
+		{
+			// wrap around to the top
+			col2 = GRID_WIDTH + col2;
+		}
+
 		int row3 = static_cast<int>(collider.max.y / cellSize);
 		int col3 = static_cast<int>(collider.max.x / cellSize);
+
+		if (row3 < 0)
+		{
+			// wrap around to the top
+			row3 = GRID_HEIGHT + row3;
+		}
+
+		if (col3 < 0)
+		{
+			// wrap around to the top
+			col3 = GRID_WIDTH + col3;
+		}
+
 
 		float distance = Vector2DDistance(collider.min, collider.max);
 		int entityIndex = GetEntityIndex(entity);
@@ -135,27 +173,81 @@ namespace Carmicah
 		int col = static_cast<int>(position.x / cellSize);
 		int entityIndex = GetEntityIndex(entity);
 
+		if (row < 0)
+		{
+			// wrap around to the top
+			row = GRID_HEIGHT + row;
+		}
+
+		if (col < 0)
+		{
+			// wrap around to the top
+			col = GRID_WIDTH + col;
+		}
+
 		std::bitset<MAX_ENTITIES> combined = 0;
 
+		// since its wrapping around, this should technically never flag an error??
+		combined |= rowsBitArray[row];
+		combined |= colsBitArray[col];
+
+		// check for nearby
+		if (row + 1 >= GRID_HEIGHT)
+		{
+			// wrap around back to the earliest
+			combined |= rowsBitArray[0];
+		}
+		else
+		{
+			combined |= rowsBitArray[row + 1];
+		}
+
+		if (col + 1 >= GRID_WIDTH)
+		{
+			combined |= colsBitArray[0];
+		}
+		else
+		{
+			combined |= colsBitArray[col + 1];
+		}
+
+		if (row - 1 < 0)
+		{
+			combined |= rowsBitArray[GRID_HEIGHT - 1];
+		}
+		else
+		{
+			combined |= rowsBitArray[row - 1];
+		}
+
+		if (col - 1 < 0)
+		{
+			combined |= colsBitArray[GRID_WIDTH - 1];
+		}
+		else
+		{
+			combined |= colsBitArray[col - 1];
+		}
+
 		// get the row and column around as well
-		if (row >= 0 && row < GRID_HEIGHT)
-		{
-			combined |= rowsBitArray[row];  // Merge row entities
-			if (row != 0)
-				combined |= rowsBitArray[row - 1];
-			if (row < GRID_HEIGHT - 1)
-				combined |= rowsBitArray[row + 1];
+		//if (row >= 0 && row < GRID_HEIGHT)
+		//{
+		//	combined |= rowsBitArray[row];  // Merge row entities
+		//	if (row != 0)
+		//		combined |= rowsBitArray[row - 1];
+		//	if (row < GRID_HEIGHT - 1)
+		//		combined |= rowsBitArray[row + 1];
 
-		}
-		if (col >= 0 && col < GRID_WIDTH)
-		{
-			combined |= colsBitArray[col];  // Merge column entities
-			if (col != 0)
-				combined |= colsBitArray[col - 1];  // Merge column entities
-			if (col < GRID_WIDTH - 1)
-			combined |= colsBitArray[col + 1];  // Merge column entities
+		//}
+		//if (col >= 0 && col < GRID_WIDTH)
+		//{
+		//	combined |= colsBitArray[col];  // Merge column entities
+		//	if (col != 0)
+		//		combined |= colsBitArray[col - 1];  // Merge column entities
+		//	if (col < GRID_WIDTH - 1)
+		//	combined |= colsBitArray[col + 1];  // Merge column entities
 
-		}
+		//}
 
 		// Remove self
 		combined.reset(entityIndex);
