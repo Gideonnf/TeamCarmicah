@@ -73,9 +73,40 @@ namespace Carmicah
 		int row = static_cast<int>(position.y / cellSize);
 		int col = static_cast<int>(position.x / cellSize);
 
-		ComponentManager::GetInstance()->GetComponent<Collider2D>(entity).gridPos = Vec2i(row, col);
+		Collider2D collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);
+		
+		int row2 = static_cast<int>(collider.min.y / cellSize);
+		int col2 = static_cast<int>(collider.min.x / cellSize);
 
+		int row3 = static_cast<int>(collider.max.y / cellSize);
+		int col3 = static_cast<int>(collider.max.x / cellSize);
+
+		float distance = Vector2DDistance(collider.min, collider.max);
 		int entityIndex = GetEntityIndex(entity);
+
+		// occupies more than 1 cell size
+		if (distance > cellSize)
+		{
+			if (row2 >= 0 && row2 < GRID_HEIGHT)
+			{
+				rowsBitArray[row2].set(entityIndex);
+			}
+			if (row3 >= 0 && row3 < GRID_HEIGHT)
+			{
+				rowsBitArray[row3].set(entityIndex);
+			}
+			if (col2 >= 0 && col2 < GRID_WIDTH)
+			{
+				colsBitArray[col2].set(entityIndex);
+			}
+			if (col3 >= 0 && col3 < GRID_WIDTH)
+			{
+				colsBitArray[col3].set(entityIndex);
+			}
+		}
+
+		//ComponentManager::GetInstance()->GetComponent<Collider2D>(entity).gridPos = Vec2i(row, col);
+
 
 		if (row >= 0 && row < GRID_HEIGHT)
 		{
