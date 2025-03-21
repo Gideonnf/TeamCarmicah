@@ -339,7 +339,9 @@ namespace Carmicah
                 colSystem->Update();
                 CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 
+                CarmicahTime::GetInstance()->StartSystemTimer("ScriptSystem");
                 gScriptSystem->UpdateScripts(); // TODO: Add this to profiler
+                CarmicahTime::GetInstance()->StopSystemTimer("ScriptSystem");
 
                 CarmicahTime::GetInstance()->StartSystemTimer("InputSystem");
                 Input.Update();
@@ -487,13 +489,13 @@ namespace Carmicah
                 //SceneToImgui::GetInstance()->IDPick();
 
                 // I WILL UPDAAATEEE BUTTONSYSTEM HERE OKKKKAAYYYY, PLS DONT CRASH CRYING EMOJI
-                CarmicahTime::GetInstance()->StartSystemTimer("ButtMouseSystem");
+                CarmicahTime::GetInstance()->StartSystemTimer("ButtonMouseSystem");
 				butSystem->Update();
 
                 // Putting mouse update here first after input update
                 // idk if it should be here
                 mouseSystem->Update();
-                CarmicahTime::GetInstance()->StopSystemTimer("ButtMouseSystem");
+                CarmicahTime::GetInstance()->StopSystemTimer("ButtonMouseSystem");
                // glfwMakeContextCurrent(window);
 
 
