@@ -105,7 +105,7 @@ namespace Carmicah
 			}
 		}
 
-		//ComponentManager::GetInstance()->GetComponent<Collider2D>(entity).gridPos = Vec2i(row, col);
+		ComponentManager::GetInstance()->GetComponent<Collider2D>(entity).gridPos = Vec2i(row, col);
 
 
 		if (row >= 0 && row < GRID_HEIGHT)
