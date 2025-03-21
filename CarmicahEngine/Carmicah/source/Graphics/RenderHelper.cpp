@@ -222,7 +222,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 				// Specifically for rendering fonts / particles
 				if (it.first.dat[BUFFER_SHADER] == defaultShaderID)
 				{
-					if (mFontData.empty() || mFontData.begin()->second.vtxSize == 0)
+					if (mFontData.empty())
 						continue;
 					GLint uniformLoc{};
 					if (UniformExists(mCurrShader, "uIsText", uniformLoc))
@@ -233,6 +233,9 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 
 					for (auto& font : mFontData)
 					{
+						if (font.second.vtxSize == 0)
+							continue;
+
 						if (UniformExists(mCurrShader, "uTextColor", uniformLoc))
 							glUniform3f(uniformLoc, font.second.col[0], font.second.col[1], font.second.col[2]);
 						if (UniformExists(mCurrShader, "uTextOffset", uniformLoc))

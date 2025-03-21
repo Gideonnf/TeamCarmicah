@@ -29,6 +29,9 @@ namespace Carmicah
         public float bottomLimit = -10.0f;
         public float topLimit = 10.0f;
         public float ySpeed = 20.0f;
+        public float deceleration = 50.0f;
+        private float currSpeed = 0.0f;
+        private bool isMoving = false;
 
         public float shakeTotalTimer = 0.25f;
         public float shakeMagnitude = 0.1f;
@@ -39,25 +42,20 @@ namespace Carmicah
         public override void OnCreate()
         {
             xPos = Position.x;
-
         }
 
         public override void OnUpdate(float dt)
         {
-
             Vector2 pos = GetComponent<Transform>().Position;
-
-            float scrollAmt = Input.GetMouseScroll() * 2.0f;
+            float scrollAmt = Input.GetMouseScroll() * 0.5f;
 
             if (Input.IsKeyHold(Keys.KEY_R) || scrollAmt > 0)
             {
                 scrollAmt = Math.Max(1, scrollAmt);
-                //Vector2 pos = GetComponent<Transform>().Position;
                 if (pos.y <= topLimit)
                 {
-                    pos.y += scrollAmt * ySpeed * dt;
-                    GetComponent<Transform>().Position = pos;
-
+                    currSpeed = Math.Max(scrollAmt * ySpeed, currSpeed);
+                    isMoving = true;
                 }
             }
             
@@ -65,14 +63,13 @@ namespace Carmicah
             {
                 scrollAmt = Math.Max(1, -scrollAmt);
 
-                //Vector2 pos = GetComponent<Transform>().Position;
                 if (pos.y >= bottomLimit)
                 {
-                    pos.y -= scrollAmt * ySpeed * dt;
-                    GetComponent<Transform>().Position = pos;
-
+                    currSpeed = Math.Min(-scrollAmt * ySpeed, currSpeed);
+                    isMoving = true;
                 }
             }
+
 
             Vector2 shakeOffset = Vector2.Zero;
             if (shake)
@@ -94,6 +91,36 @@ namespace Carmicah
             }
 
             Position = pos + shakeOffset;
+        }
+
+        public override void OnFixedUpdate(float fixedDt)
+        {
+            Vector2 pos = GetComponent<Transform>().Position;
+            if(isMoving)
+            {
+                pos.y += currSpeed * fixedDt;
+                if (pos.y > topLimit)
+                    pos.y = topLimit;
+                else if(pos.y < bottomLimit)
+                    pos.y = bottomLimit;
+                GetComponent<Transform>().Position = pos;
+                if (currSpeed > 0.0f)
+                {
+                    if ((currSpeed -= deceleration * fixedDt) < 0.0f)
+                    {
+                        currSpeed = 0.0f;
+                        isMoving = false;
+                    }
+                }
+                else
+                {
+                    if ((currSpeed += deceleration * fixedDt) > 0.0f)
+                    {
+                        currSpeed = 0.0f;
+                        isMoving = false;
+                    }
+                }
+            }
         }
 
         public void ShakeCamera()
