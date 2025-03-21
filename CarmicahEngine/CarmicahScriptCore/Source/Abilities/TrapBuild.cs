@@ -45,7 +45,7 @@ namespace Carmicah
             // incase trap entity gets destroyed, it needs to update to null here
             if (trapEntity != null && trapEntity.mID == 0)
             {
-                CMConsole.Log("Trap entity destroyed");
+                //CMConsole.Log("Trap entity destroyed");
                 trapEntity = null;
                 built = false;
             }
@@ -115,7 +115,7 @@ namespace Carmicah
 
                     //CMConsole.Log("It shouldnt be here atm");
                     translucentTrap = CreateGameObject(TrapTranslucentPrefab);
-                    CMConsole.Log($"{Position.x} , {Position.y}");
+                    //CMConsole.Log($"{Position.x} , {Position.y}");
                     translucentTrap.GetComponent<Transform>().Position = new Vector2(Position.x + trapxOffset, Position.y + trapyOffset);
                     translucentTrap.GetComponent<Transform>().Depth = depthVal;
                     translucentTrap.GetComponent<Renderer>().SetAlpha(0.3f);
@@ -153,7 +153,7 @@ namespace Carmicah
                         // build a trap
                         built = true;
                         trapEntity = CreateGameObject(TrapPrefabName);
-                        CMConsole.Log($"{Position.x} , {Position.y}");
+                       // CMConsole.Log($"{Position.x} , {Position.y}");
                         trapEntity.GetComponent<Transform>().Position = new Vector2(translucentTrap.Position.x, translucentTrap.Position.y);
                         trapEntity.GetComponent<Transform>().Depth = depthVal;
                         trapEntity.As<TrapAI>().built = true;

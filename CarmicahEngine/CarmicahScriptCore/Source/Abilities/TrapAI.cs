@@ -93,7 +93,7 @@ namespace Carmicah
 
         public override void OnStateEnter(string stateName)
         {
-            CMConsole.Log($"State name : {stateName}");
+            //CMConsole.Log($"State name : {stateName}");
 
             if (stateName == "Created")
             {

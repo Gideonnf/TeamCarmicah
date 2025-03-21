@@ -160,7 +160,7 @@ namespace Carmicah
 
             if (scriptInstance == null)
             {
-                CMConsole.Log($"Script instance is null");
+              //  CMConsole.Log($"Script instance is null");
                 return null;
             }
 
@@ -173,7 +173,7 @@ namespace Carmicah
             
             if (entityID == 0)
             {
-                CMConsole.Log("entity not found");
+               // CMConsole.Log("entity not found");
                 return null;
             }
 

@@ -272,35 +272,27 @@ namespace Carmicah
         gameSystem->Init(); // Load all GOs from scene file
         
 #endif
-        //gGOFactory->CreateSceneObject("Scene1"); // TODO: Shift this so that it isnt here and manually being made
-        //gGOFactory->ParentAllGO();
-
-        //GameLogic gameLogic;
-        //gameLogic->Init();
-        //gGOFactory->BindSystem(std::static_pointer_cast<BaseSystem>(gameLogic).get());
-       // graSystem->SetScreenSize((GLuint)Width / 100, (GLuint)Height / 100, gGOFactory->mainCam);
-
-        //colSystem->PrintEntities();
-        //int objectCount = 0;
-        //phySystem->Update();
         
+        /*
+        Fixed DT variables
+        */
+
         CarmicahTime::GetInstance()->SetFixedDT(true);
         double accumulatedTime = 0.0;
-
-
+        int steps = 0;
+        const double maxAccumulation = 0.1f;
+        const int maxSteps = 5;
 
         //Editor Editor;
         editorSys->Init(window);
         
-        
+
         static bool gameOnly = false;
 #ifdef CM_INSTALLER
         gameOnly = true;
         gameSystem->mNextState = SceneState::INITIALISING;
         gameSystem->mRuntime = true; // set it to run time mode
 #endif
-
-
 
         SceneToImgui::GetInstance()->CreateFramebuffer(Width, Height);
 
@@ -366,8 +358,10 @@ namespace Carmicah
                     //gameLogic->Update(window);
 
                     accumulatedTime += CarmicahTime::GetInstance()->ForceDeltaTime();
+                    accumulatedTime = std::min(accumulatedTime, maxAccumulation);
+                    steps = 0;
                     //CarmicahTime::GetInstance()->StartSystemTimer("FixedDT");
-                    while (accumulatedTime >= CarmicahTime::GetInstance()->ForceFixedDT())
+                    while (accumulatedTime >= CarmicahTime::GetInstance()->ForceFixedDT() && steps < maxSteps)
                     {
                         // NOTE im putting both here cause im lazy to change every script to fixed dt
                         // cause it runs some shit faster than normal
@@ -389,6 +383,8 @@ namespace Carmicah
 
                         CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
                         aniSystem->Update();
+
+                        steps++;
 
                         accumulatedTime -= CarmicahTime::GetInstance()->ForceFixedDT();
                         CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");

@@ -60,7 +60,7 @@ namespace Carmicah
                 if (translucentHero == null && built == false)
                 {
                     //CMConsole.Log("It shouldnt be here atm");
-                    CMConsole.Log("Creating the translucent hero");
+                   // CMConsole.Log("Creating the translucent hero");
                     translucentHero = CreateGameObject(HeroPrefab);
 
                     // change the opacity here
@@ -79,7 +79,7 @@ namespace Carmicah
             {
                 if (translucentHero != null)
                 {
-                    CMConsole.Log("Deleting the translucent hero");
+                    //CMConsole.Log("Deleting the translucent hero");
                     translucentHero.Destroy();
                     translucentHero = null;
 
@@ -87,7 +87,7 @@ namespace Carmicah
                     if (hovering && heroEntity == null)
                     {
                         // build a trap
-                        CMConsole.Log("Setting Built to true");
+                        //CMConsole.Log("Setting Built to true");
                         built = true;
                         heroEntity = CreateGameObject(HeroPrefab);
                         heroEntity.GetComponent<Transform>().Position = new Vector2(Position.x + xOffset, Position.y + yOffset);
@@ -118,7 +118,7 @@ namespace Carmicah
 
                         heroIcon.As<HeroIcon>().HeroBuilt();
                         heroIcon = null;
-                        CMConsole.Log("HeroIcon set as null!");
+                        //CMConsole.Log("HeroIcon set as null!");
                     }
                 }
             }
@@ -162,7 +162,7 @@ namespace Carmicah
 
         public void SetHeroType(AbilityType heroType, string heroPrefabName, Entity icon)
         {
-            CMConsole.Log("Setting heroType and prefab to" + heroPrefabName);
+            //CMConsole.Log("Setting heroType and prefab to" + heroPrefabName);
             type = heroType;
             HeroPrefab = heroPrefabName;
             heroIcon = icon;

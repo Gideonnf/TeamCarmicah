@@ -107,7 +107,7 @@ namespace Carmicah
         public void HealAmmo()
         {
             mana = 5;
-            CMConsole.Log("Restocking Ammo");
+           // CMConsole.Log("Restocking Ammo");
             GetComponent<StateMachine>().SetStateCondition(1);
         }
 
@@ -116,7 +116,7 @@ namespace Carmicah
             if (stateName == "Idle")
             {
                 ChangeAnim(idleAnim);
-                CMConsole.Log("IDLE ANIM");
+               // CMConsole.Log("IDLE ANIM");
             }
             else if (stateName == "Attacking")
             {
@@ -125,13 +125,13 @@ namespace Carmicah
                 animationTime = GetComponent<Animation>().GetMaxTime();
                 timer = 0.0f;
                 shot = false;
-                CMConsole.Log($"Max Anim Time : {animationTime}");
+                //CMConsole.Log($"Max Anim Time : {animationTime}");
 
             }
             else if (stateName == "NoMana")
             {
                 ChangeAnim(manaAnim);
-                CMConsole.Log("Out of Ammo!");
+               // CMConsole.Log("Out of Ammo!");
             }
             //else if (stateName == "Dead")
             //{
@@ -151,7 +151,7 @@ namespace Carmicah
             // which will cause crashes
             if (targetMouse != null && targetMouse.mID == 0)
             {
-                CMConsole.Log("I AM HERE");
+                //CMConsole.Log("I AM HERE");
                 targetMouse = null;
                 // Change back to idle state
                 //if (stateName == "Attacking")
@@ -166,7 +166,7 @@ namespace Carmicah
                 targetMouse = gameManager.GetClosestMouse(this);
                 if (targetMouse != null)
                 {
-                    CMConsole.Log($"Target mouse : {targetMouse.mID}");
+                    //CMConsole.Log($"Target mouse : {targetMouse.mID}");
 
                     // change to attacking state
                     if(mana > 0)
@@ -213,7 +213,7 @@ namespace Carmicah
                 //TODO: Implement Logic with MC
                 if(Input.IsMousePressed(MouseButtons.MOUSE_BUTTON_LEFT) && hovering)
                 {
-                    CMConsole.Log("MC Should try to heal " + mID.ToString());
+                    //CMConsole.Log("MC Should try to heal " + mID.ToString());
                     player.HealAI(mID);
                 }
             }

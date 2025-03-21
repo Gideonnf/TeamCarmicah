@@ -290,7 +290,7 @@ namespace Carmicah
                 mouseEntity.As<MouseAI>().enemyType = type;
 
                 //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
-                CMConsole.Log($"Lane : {mouseAI.lane}");
+                //CMConsole.Log($"Lane : {mouseAI.lane}");
                 switch (mouseAI.lane)
                 {
                     case 0:
@@ -943,7 +943,7 @@ namespace Carmicah
                 Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
 
                 cakeType = 2;//CMRand.Range(0, 3);
-                CMConsole.Log($"cake type {cakeType}");
+                //CMConsole.Log($"cake type {cakeType}");
                 Sound.PlaySFX("TowerStack", 1.0f);
                 towerPrefab = CreateGameObject(CakePrefabName);
                 towerPrefab.Position = new Vector2(Position.x, ySpawnPos);
@@ -982,7 +982,7 @@ namespace Carmicah
 
             if (stateName == "TowerCreate")
             {
-                CMConsole.Log("Testing tower create");
+                //CMConsole.Log("Testing tower create");
                 
                 GetComponent<StateMachine>().SetStateCondition(3);
 
@@ -1000,7 +1000,7 @@ namespace Carmicah
                         VFXPrefab.Position = new Vector2(-0.75f, yVFXLocation);
                     }
                 }
-                CMConsole.Log($"IN TOWER DROP UPDATE {towerPrefab.Position.x}, {towerPrefab.Position.y}");
+               // CMConsole.Log($"IN TOWER DROP UPDATE {towerPrefab.Position.x}, {towerPrefab.Position.y}");
                 if (towerPrefab.Position.y > yTargetPos)
                 {
                     Vector2 pos = towerPrefab.Position;
@@ -1013,7 +1013,7 @@ namespace Carmicah
                     // tower landed
                     towerPrefab.Position = new Vector2(towerPrefab.Position.x, yTargetPos);
                     GetComponent<StateMachine>().SetStateCondition(4);
-                    CMConsole.Log("Changing VFX prefab animation");
+                    //CMConsole.Log("Changing VFX prefab animation");
                     VFXPrefab.ChangeAnim("CakeFallVFxEnd");
                     
                     Sound.PlaySFX("SFX__Magic", 0.4f);

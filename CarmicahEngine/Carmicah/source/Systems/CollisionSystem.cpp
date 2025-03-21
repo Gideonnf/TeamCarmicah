@@ -103,13 +103,24 @@ namespace Carmicah
 
 		std::bitset<MAX_ENTITIES> combined = 0;
 
+		// get the row and column around as well
 		if (row >= 0 && row < GRID_HEIGHT)
 		{
 			combined |= rowsBitArray[row];  // Merge row entities
+			if (row != 0)
+				combined |= rowsBitArray[row - 1];
+			if (row < GRID_HEIGHT - 1)
+				combined |= rowsBitArray[row + 1];
+
 		}
 		if (col >= 0 && col < GRID_WIDTH)
 		{
 			combined |= colsBitArray[col];  // Merge column entities
+			if (col != 0)
+				combined |= colsBitArray[col - 1];  // Merge column entities
+			if (col < GRID_WIDTH - 1)
+			combined |= colsBitArray[col + 1];  // Merge column entities
+
 		}
 
 		// Remove self
@@ -591,10 +602,14 @@ namespace Carmicah
 	 */
 	bool CollisionSystem::TestIntersection(Entity& obj1, Entity& obj2)
 	{
-
+		//return false;
 		auto* componentManager = ComponentManager::GetInstance();
 		auto& collider1 = componentManager->GetComponent<Collider2D>(obj1);
 		auto& collider2 = componentManager->GetComponent<Collider2D>(obj2);
+
+		auto& transform1 = componentManager->GetComponent<Transform>(obj1);
+		auto& transform2 = componentManager->GetComponent<Transform>(obj2);
+
 
 		// Check if either object has no vertices (invalid collider)
 		if (collider1.objVert.empty() || collider2.objVert.empty())
@@ -602,6 +617,12 @@ namespace Carmicah
 			return false;
 		}
 
+		// do a simple distance check first
+		// not close enough to do OBB Check
+		if (Vector2DDistance(transform1.ExtractWorldPos(), transform2.ExtractWorldPos()) > 3.0f)
+		{
+			return false;
+		}
 		// Test edges of collider1
 		for (size_t i = 0; i < collider1.objEdges.size(); i++)
 		{
@@ -845,6 +866,8 @@ namespace Carmicah
 
 		auto* componentManager = ComponentManager::GetInstance();
 
+		//std::vector<Entity> entitiesChecked;
+
 		// Insert all entities into the grid
 		for (auto entity : mEntitiesSet)
 		{
@@ -881,6 +904,8 @@ namespace Carmicah
 							//	CM_CORE_INFO("why tf is it colliding");
 							//}
 
+
+							//entitiesChecked.push_back(entity2);
 							CollisionResponse(entity1, entity2);
 							collided = true;
 						}

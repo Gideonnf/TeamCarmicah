@@ -73,7 +73,7 @@ namespace Carmicah
                 printStr += enemySpawns[i] + " ";
 
             }
-            CMConsole.Log(printStr);
+           // CMConsole.Log(printStr);
         }
     }
 
@@ -93,11 +93,11 @@ namespace Carmicah
         
         public LevelManager() 
         {
-            CMConsole.Log($"Testing Level Manager!");
+            //CMConsole.Log($"Testing Level Manager!");
             string filePath = CMFileReader.GetFilePath() + "\\" + fileName;
            // basePath = AppDomain.CurrentDomain.BaseDirectory;
             //filePath = Path.Combine(basePath, "Assets", "levelData.txt");
-            CMConsole.Log($"Testing Level Manager! file path : {filePath}");
+            //CMConsole.Log($"Testing Level Manager! file path : {filePath}");
             LoadLevels(filePath);
 
             DebugPrintLevelMap();
@@ -139,7 +139,7 @@ namespace Carmicah
 
                         if (int.TryParse(lines[i], out int levelNumber))
                         {
-                            CMConsole.Log($"Level:{levelNumber}");
+                           // CMConsole.Log($"Level:{levelNumber}");
                             currentLevel = levelNumber;
                             currLevel = new Level();
                             levelMap[currentLevel] = currLevel;
@@ -180,7 +180,7 @@ namespace Carmicah
             }
             else
             {
-                CMConsole.Log($"Files does not exist {filePath}");
+               // CMConsole.Log($"Files does not exist {filePath}");
             }
         }
     
@@ -269,14 +269,14 @@ namespace Carmicah
 
         public void DebugPrint(int j, int count)
         {
-            CMConsole.Log($"J : {j}, {count}");
+          //  CMConsole.Log($"J : {j}, {count}");
         }
 
         public void DebugPrintLevelMap()
         {
             foreach (KeyValuePair<int, Level> entry in levelMap)
             {
-                CMConsole.Log($"Level: {entry.Key}");
+                //CMConsole.Log($"Level: {entry.Key}");
 
                 // loop through each wave in that level
                 for(int i = 0; i < entry.Value.waves.Count; i++)
@@ -287,7 +287,7 @@ namespace Carmicah
                     {
                         debugStr += entry.Value.waves[i].enemySpawns[j] + " ";
                     }
-                    CMConsole.Log(debugStr);
+                   // CMConsole.Log(debugStr);
                 }
             }
         }
@@ -303,7 +303,7 @@ namespace Carmicah
                     debugStr += lvl.waves[i].enemySpawns[j] + " ";
                 }
 
-                CMConsole.Log(debugStr);
+               // CMConsole.Log(debugStr);
             }
         }
     }

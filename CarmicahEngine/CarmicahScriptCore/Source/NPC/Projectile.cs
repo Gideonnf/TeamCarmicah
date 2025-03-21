@@ -92,7 +92,7 @@ namespace Carmicah
             if (timer >= LifeTime)
             {
                 target = null;
-                CMConsole.Log("Lifetime over!");
+               // CMConsole.Log("Lifetime over!");
                 GetComponent<StateMachine>().SetStateCondition(1);
                 return;
             }
@@ -174,7 +174,7 @@ namespace Carmicah
                     GetComponent<RigidBody>().ApplyForce(dir, Speed);
                     float dist = Position.Distance(mousePos);
 
-                    CMConsole.Log($"Distance from target: {dist}");
+                  //  CMConsole.Log($"Distance from target: {dist}");
 
                     if(bulletType == BulletType.SPEAR_BULLET)
                     {
@@ -252,7 +252,7 @@ namespace Carmicah
             }
             else
             {
-                CMConsole.Log("Error setting up bullet");
+              //  CMConsole.Log("Error setting up bullet");
                 Destroy();
             }
         }
@@ -306,7 +306,7 @@ namespace Carmicah
                             this.GetComponent<Collider2D>().SetCustomWidth(0.5f);
                         }
 
-                        CMConsole.Log("Playing Mage Hit Explosion");
+                        //CMConsole.Log("Playing Mage Hit Explosion");
                         Sound.PlaySFX("Mage_Hit_Explosion", 0.3f);
                         if (!facingRight)
                         {
