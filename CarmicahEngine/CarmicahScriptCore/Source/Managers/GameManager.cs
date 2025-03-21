@@ -198,8 +198,9 @@ namespace Carmicah
                 {
                     timer = 0.0f;
                     // Get the next enemy type to spawn
-                    EnemyTypes type = mobCounter.GetNextEnemy();
-                    
+                    //EnemyTypes type = mobCounter.GetNextEnemy();
+                    EnemyTypes type = mobCounter.GetNextEnemyRandom();
+
                     switch (type)
                     {
                         case EnemyTypes.MOUSE1:
