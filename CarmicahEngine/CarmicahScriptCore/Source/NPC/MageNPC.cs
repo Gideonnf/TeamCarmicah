@@ -18,6 +18,7 @@ namespace Carmicah
 
         MouseAI targetMouse;
         float timer = 0.0f;
+        public float maxDistance = 12.0f;
         string voiceOver;
         public override void OnCreate()
         {
@@ -82,7 +83,7 @@ namespace Carmicah
             //CMConsole.Log($"Mouse lane three: {gameManager.mouseLaneThree.Count}");
             //CMConsole.Log($"Mouse lane four: {gameManager.mouseLaneFour.Count}");
 
-            float distance = float.MaxValue;
+            float distance = maxDistance;
 
             switch (lane)
             {
