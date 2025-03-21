@@ -67,7 +67,10 @@ namespace Carmicah
                 Wave nextWave = levelManager.GetWave();
                 //nextWave.PrintWaveData();
                 if (nextWave != null)
+                {
+                    nextWave.ShuffleEnemies();
                     gameManager.As<GameManager>().StartNextWave(nextWave);
+                }
                 //CMConsole.Log("Starting New Wave");
                 //Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
                 
@@ -90,7 +93,10 @@ namespace Carmicah
             {
                 Wave nextWave = levelManager.GetWave();
                 if (nextWave != null)
+                {
+                    nextWave.ShuffleEnemies();
                     gameManager.As<GameManager>().StartNextWave(nextWave);
+                }
 
                 waveTimer = 0.0f;
             }
