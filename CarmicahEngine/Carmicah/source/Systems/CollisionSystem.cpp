@@ -72,6 +72,9 @@ namespace Carmicah
 	{
 		int row = static_cast<int>(position.y / cellSize);
 		int col = static_cast<int>(position.x / cellSize);
+
+		ComponentManager::GetInstance()->GetComponent<Collider2D>(entity).gridPos = Vec2i(row, col);
+
 		int entityIndex = GetEntityIndex(entity);
 
 		if (row >= 0 && row < GRID_HEIGHT)
@@ -619,10 +622,10 @@ namespace Carmicah
 
 		// do a simple distance check first
 		// not close enough to do OBB Check
-		if (Vector2DDistance(transform1.ExtractWorldPos(), transform2.ExtractWorldPos()) > 3.0f)
-		{
-			return false;
-		}
+		//if (Vector2DDistance(transform1.ExtractWorldPos(), transform2.ExtractWorldPos()) > 3.0f)
+		//{
+		//	return false;
+		//}
 		// Test edges of collider1
 		for (size_t i = 0; i < collider1.objEdges.size(); i++)
 		{
