@@ -369,9 +369,9 @@ namespace Carmicah
                         // cause it runs some shit faster than normal
                         // since im using scripts to do animations also i need it ot be consistent
 
-                        //CarmicahTime::GetInstance()->StartSystemTimer("ScriptFixedUpdate");
+                        CarmicahTime::GetInstance()->StartSystemTimer("ScriptSystem");
                         gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
-                        //CarmicahTime::GetInstance()->StopSystemTimer("ScriptFixedUpdate");
+                        CarmicahTime::GetInstance()->StopSystemTimer("ScriptSystem");
 
                         if (CarmicahTime::GetInstance()->IsFixedDT())
                         {
@@ -385,11 +385,11 @@ namespace Carmicah
 
                         CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
                         aniSystem->Update();
+                        CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
 
                         steps++;
 
                         accumulatedTime -= CarmicahTime::GetInstance()->ForceFixedDT();
-                        CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
                     }
                     //CarmicahTime::GetInstance()->StopSystemTimer("FixedDT");
                     // if it isnt suppose to run fixed dt
@@ -397,7 +397,9 @@ namespace Carmicah
                     {
                        // gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime()); // TODO: Add this to profiler
 
+                        CarmicahTime::GetInstance()->StartSystemTimer("ScriptSystem");
                         gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime());
+                        CarmicahTime::GetInstance()->StopSystemTimer("ScriptSystem");
 
                         CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
                         colSystem->CollisionCheck();
@@ -406,7 +408,9 @@ namespace Carmicah
                         phySystem->Update();
                         CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
           
+                        CarmicahTime::GetInstance()->StartSystemTimer("FSMSystem");
                         fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->GetDeltaTime());
+                        CarmicahTime::GetInstance()->StopSystemTimer("FSMSystem");
                     }
 
                     CarmicahTime::GetInstance()->StartSystemTimer("FSMSystem");
@@ -417,8 +421,8 @@ namespace Carmicah
                     CarmicahTime::GetInstance()->StartSystemTimer("SoundSystem");
                     souSystem->Update();
                     CarmicahTime::GetInstance()->StopSystemTimer("SoundSystem");
-                    CarmicahTime::GetInstance()->StartGPUTimer();
-                    CarmicahTime::GetInstance()->StopGPUTimer();
+                   // CarmicahTime::GetInstance()->StartGPUTimer();
+                   // CarmicahTime::GetInstance()->StopGPUTimer();
                 }
 
                // glfwMakeContextCurrent(ImGuiWindow);

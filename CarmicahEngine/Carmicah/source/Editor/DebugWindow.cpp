@@ -119,7 +119,7 @@ namespace Carmicah
         accumulatedTime += dt;
 
         ImGui::Text("System Timeline");
-        ImGui::BeginChild("Timeline", ImVec2(0, 100), true);
+        ImGui::BeginChild("Timeline", ImVec2(0, 30), ImGuiChildFlags_AutoResizeY);
         {
             ImDrawList* draw_list = ImGui::GetWindowDrawList();
             ImVec2 canvas_pos = ImGui::GetCursorScreenPos();

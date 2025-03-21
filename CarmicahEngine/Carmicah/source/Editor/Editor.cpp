@@ -107,19 +107,20 @@ namespace Carmicah
 				/*ImGui::DockBuilderRemoveNode(dockspaceID);
 				ImGui::DockBuilderAddNode(dockspaceID, ImGuiDockNodeFlags_DockSpace);*/
 				ImGuiID dockMain = dockspaceID; // Main area
-				ImGuiID dockBottom = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Down, 0.4f, nullptr, &dockMain);
-				ImGuiID dockBotLeft = ImGui::DockBuilderSplitNode(dockBottom, ImGuiDir_Left, 0.7f, nullptr, &dockBottom);
-				ImGuiID dockBotRight = dockBottom;
-				ImGuiID dockLeft = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Left, 0.2f, nullptr, &dockMain);
-				ImGuiID dockRight = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Right, 0.25f, nullptr,&dockMain);
+				ImGuiID dockBottom = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Down, 0.3f, nullptr, &dockMain);
+				//ImGuiID dockBotLeft = ImGui::DockBuilderSplitNode(dockBottom, ImGuiDir_Left, 0.7f, nullptr, &dockBottom);
+				//ImGuiID dockBotRight = dockBottom;
+				ImGuiID dockLeft = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Left, 0.15f, nullptr, &dockMain);
+				ImGuiID dockRight = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Right, 0.3f, nullptr,&dockMain);
+				ImGuiID dockBotRight = ImGui::DockBuilderSplitNode(dockRight, ImGuiDir_Down, 0.5f, nullptr, &dockRight);
 				// Dock your windows into the split areas
-				ImGui::DockBuilderDockWindow("FSM", dockBotLeft);
+				ImGui::DockBuilderDockWindow("FSM", dockBottom);
 				ImGui::DockBuilderDockWindow("Scene", dockMain);
 				ImGui::DockBuilderDockWindow("Editor Camera", dockMain);
+				ImGui::DockBuilderDockWindow("Debug", dockBotRight);
 				ImGui::DockBuilderDockWindow("Inspector", dockRight);
 				ImGui::DockBuilderDockWindow("Hierarchy", dockLeft);
-				ImGui::DockBuilderDockWindow("Asset Browser", dockBotLeft);
-				ImGui::DockBuilderDockWindow("Debug", dockBotRight);
+				ImGui::DockBuilderDockWindow("Asset Browser", dockBottom);
 				ImGui::DockBuilderFinish(dockMain);
 			}
 #pragma endregion
