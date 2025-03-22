@@ -21,6 +21,7 @@ namespace Carmicah
         public float life = 4.0f;
         public float timer = 0.0f;
         public bool isDead = false;
+        public bool canHover = false; // For traps that can be overlapped on enemies
         public Entity buildSpotEntity = null;
         public AbilityType type;
 
@@ -50,6 +51,11 @@ namespace Carmicah
             }
         }
 
+        public virtual void KillCollidedEnemies()
+        {
+
+        }
+
         public override void OnTriggerEnter(uint id)
         {
             if (!built) return;
@@ -59,12 +65,6 @@ namespace Carmicah
             if (mID == 0)
             {
                 return;
-            }
-
-            Entity collidedEntity = FindEntityWithID(id);
-            if (collidedEntity != null)
-            {
-
             }
         }
 
