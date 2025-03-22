@@ -1087,7 +1087,7 @@ namespace Carmicah
 				if (collidedEntities.count(*it) == 0)
 				{
 					EntityCollidedMessage newMsg(entity1, *it, CollideType::TRIGGER_EXIT);
-					CM_CORE_INFO(gGOFactory->GetMIDToGO()[entity1].GetName() + " exiting " + gGOFactory->GetMIDToGO()[*it].GetName());
+					//CM_CORE_INFO(gGOFactory->GetMIDToGO()[entity1].GetName() + " exiting " + gGOFactory->GetMIDToGO()[*it].GetName());
 					SendSysMessage(&newMsg);
 
 					it = mEntityTriggerMap[entity1].erase(it);

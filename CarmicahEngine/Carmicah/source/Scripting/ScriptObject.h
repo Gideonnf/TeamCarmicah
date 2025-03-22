@@ -184,7 +184,7 @@ namespace Carmicah
 
 		void InvokeOnTriggerStay(unsigned int id);
 
-		void InvokeOnTriggerExit();
+		void InvokeOnTriggerExit(unsigned int id);
 
 		/// <summary>
 		/// Call when a mouse enters the collider box of an object

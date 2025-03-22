@@ -262,7 +262,7 @@ namespace Carmicah
             }
         }
 
-        public override void OnTriggerExit()
+        public override void OnTriggerExit(uint collidedEntity)
         {
            // CMConsole.Log("Not colliding with enemy");
             enemyCollided = false;

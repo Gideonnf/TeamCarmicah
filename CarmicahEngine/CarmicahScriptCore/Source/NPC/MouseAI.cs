@@ -347,7 +347,7 @@ namespace Carmicah
             }
         }
 
-        public override void OnTriggerExit()
+        public override void OnTriggerExit(uint collidedEntity)
         {
             // reset
             //CMConsole.Log("Exiting some kinematic other thing");

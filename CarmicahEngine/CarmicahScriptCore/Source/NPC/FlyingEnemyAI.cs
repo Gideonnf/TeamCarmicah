@@ -274,7 +274,7 @@ namespace Carmicah
             }
         }
 
-        public override void OnTriggerExit()
+        public override void OnTriggerExit(uint collidedEntity)
         {
             debuff = 1.0f;
         }

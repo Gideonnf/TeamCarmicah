@@ -23,7 +23,7 @@ namespace Carmicah
 
         public virtual void OnTriggerStay(uint collidedEntity) { }
 
-        public virtual void OnTriggerExit() { }
+        public virtual void OnTriggerExit(uint collidedEntity) { }
 
         public virtual void OnMouseEnter() { }
 

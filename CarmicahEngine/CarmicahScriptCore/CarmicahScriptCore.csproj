@@ -63,6 +63,7 @@
     <Compile Include="Source\Abilities\TrapAI.cs" />
     <Compile Include="Source\Abilities\TrapBall.cs" />
     <Compile Include="Source\Abilities\TrapBuild.cs" />
+    <Compile Include="Source\Abilities\TrapJellybean.cs" />
     <Compile Include="Source\Managers\CakeControl.cs" />
     <Compile Include="Source\Managers\LevelManager.cs" />
     <Compile Include="Source\BalloonBounce.cs" />
