@@ -27,6 +27,7 @@
                     "ScriptableFieldMap": [
                         {
                             "bottomLimit": -15.0,
+                            "deceleration": 50.0,
                             "shake": false,
                             "shakeMagnitude": 0.10000000149011612,
                             "shakeTimer": 0.0,
@@ -107,8 +108,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.43740469217300417,
-                    "yPos": 11.042879104614258,
+                    "xPos": 0.11212559789419174,
+                    "yPos": 1.4379838705062867,
                     "depth": 3.25,
                     "xScale": 1.2000000476837159,
                     "yScale": 1.2000000476837159,
@@ -827,7 +828,7 @@
                             "flashTimer": 0.0,
                             "health": 100.0,
                             "healthBarName": "Princess_HealthBar",
-                            "walkingSpeed": 2.0,
+                            "walkingSpeed": 4.0,
                             "isCreated": false,
                             "isWalking": true
                         }
@@ -1945,7 +1946,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.4921469986438751,
-                    "yPos": 12.73192310333252,
+                    "yPos": 12.542685508728028,
                     "depth": 0.0,
                     "xScale": 6.300000190734863,
                     "yScale": 6.199999809265137,
@@ -1956,9 +1957,9 @@
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "",
-                    "customWidth": 1.0,
+                    "customWidth": 0.6000000238418579,
                     "customRotation": 0.0,
-                    "customHeight": 1.0,
+                    "customHeight": 0.8999999761581421,
                     "xPosPivot": 0.0,
                     "yPosPivot": 0.0
                 },
@@ -1992,8 +1993,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 5.202805519104004,
-                    "yPos": 12.863713264465332,
+                    "xPos": 5.064925193786621,
+                    "yPos": 12.485238075256348,
                     "depth": 0.0,
                     "xScale": 3.3499999046325685,
                     "yScale": 4.5,
@@ -2004,7 +2005,7 @@
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "",
-                    "customWidth": 1.2000000476837159,
+                    "customWidth": 0.6000000238418579,
                     "customRotation": 0.0,
                     "customHeight": 0.699999988079071,
                     "xPosPivot": 0.0,
@@ -2052,7 +2053,7 @@
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "",
-                    "customWidth": 1.2999999523162842,
+                    "customWidth": 0.699999988079071,
                     "customRotation": 0.0,
                     "customHeight": 0.699999988079071,
                     "xPosPivot": 0.0,
@@ -2708,11 +2709,6 @@
                 }
             ],
             "Children": []
-        },
-        {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
         },
         {
             "GameObject": "TrapBuild_4",
