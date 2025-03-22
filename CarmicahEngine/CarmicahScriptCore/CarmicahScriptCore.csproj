@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Source\Abilities\BaseIcon.cs" />
+    <Compile Include="Source\Abilities\Dissolve.cs" />
     <Compile Include="Source\Abilities\TrapAI.cs" />
     <Compile Include="Source\Abilities\TrapBall.cs" />
     <Compile Include="Source\Abilities\TrapBuild.cs" />
