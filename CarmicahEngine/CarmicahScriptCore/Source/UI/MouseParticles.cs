@@ -25,20 +25,18 @@ namespace Carmicah
 {
     public class MouseParticles : Entity
     {
-        //Vector2 position;
-        Vector2 mousePos;
-        //public string particlePrefabName = "CursorParticles";
-
-
+        Vector2 mousePosOffset;
         
         public override void OnCreate()
         {
-            mousePos = Input.GetMousePos();
+            FunctionCalls.Transform_GetRenderingScale(mID, out mousePosOffset);
+            mousePosOffset.y *= 0.5f;
+            mousePosOffset.x = -mousePosOffset.x * 0.5f;
         }
 
         public override void OnUpdate(float dt)
         {
-            Position = Input.GetMousePos();
+            Position = Input.GetMousePos() - new Vector2(mousePosOffset.x * Scale.x, mousePosOffset.y * Scale.y);
         }
     }
 }
