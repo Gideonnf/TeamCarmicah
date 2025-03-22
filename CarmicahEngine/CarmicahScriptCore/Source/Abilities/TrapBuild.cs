@@ -27,6 +27,7 @@ namespace Carmicah
         public AbilityType type;
 
         bool hovering = false;
+        bool canOverlap = false;
         bool built = false;
         bool enemyCollided = false;
 
@@ -71,7 +72,7 @@ namespace Carmicah
                 return;
             }
 
-            if (enemyCollided && translucentTrap != null)
+            if (enemyCollided && translucentTrap != null && !canOverlap)
             {
                 // change color to red
                 translucentTrap.GetComponent<Renderer>().SetColour(1.0f, 0.2f, 0.2f);
@@ -136,7 +137,7 @@ namespace Carmicah
                 if (translucentTrap != null)
                 {
                     // dont let them build if an enemy is taking the spot
-                    if (enemyCollided)
+                    if (enemyCollided && !canOverlap)
                     {
                         translucentTrap.Destroy();
                         translucentTrap = null;
@@ -231,8 +232,9 @@ namespace Carmicah
             built = false;
         }
 
-        public void SetTrapType(AbilityType trapType, string trapPrefabName, string fakeTrapName, Entity icon)
+        public void SetTrapType(AbilityType trapType, string trapPrefabName, string fakeTrapName, Entity icon, bool overlap)
         {
+            canOverlap = overlap;
             //CMConsole.Log("Shouldnt Honey be running this too?");
             type = trapType;
             TrapPrefabName = trapPrefabName;

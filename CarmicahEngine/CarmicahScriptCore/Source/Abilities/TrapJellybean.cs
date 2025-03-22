@@ -40,9 +40,37 @@ namespace Carmicah
         }
 
         // i need to make on trigger exit pass in a int :pepepray:
-        public override void OnTriggerExit()
+        public override void OnTriggerExit(uint collidedEntity)
         {
-            
+            if (!built) return;
+
+            if (isDead) return;
+
+            Entity entity = FindEntityWithID(collidedEntity);
+            if (collidedEntities.Contains(entity))
+            {
+                collidedEntities.Remove(entity);
+            }
+        }
+
+        public override void OnUpdate(float dt)
+        {
+            base.OnUpdate(dt);
+        }
+
+        public override void OnStateEnter(string stateName)
+        {
+            base.OnStateEnter(stateName);
+        }
+
+        public override void OnStateUpdate(string stateName, float dt)
+        {
+            base.OnStateUpdate(stateName, dt);
+        }
+
+        public override void OnStateExit(string stateName)
+        {
+            base.OnStateExit(stateName);
         }
 
     }

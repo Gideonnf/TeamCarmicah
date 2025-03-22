@@ -19,21 +19,14 @@
             "scriptName": "Carmicah.TrapIcon",
             "ScriptableFieldMap": [
                 {
-                    "TrapBuild2": "TrapBuild_2",
                     "cooldown": false,
-                    "trapPrefab": "FakeCandyConeTrap",
-                    "trapOffset": 1.600000023841858,
-                    "TrapBuild": "TrapBuild",
+                    "canOverlap": true,
                     "WaveSystemObject": "Something",
-                    "TrapBuild1": "TrapBuild_1",
                     "cooldownTime": 3.0,
-                    "TrapBuild3": "TrapBuild_3",
                     "trapxOffset": 0.0,
-                    "actualTrapPrefabName": "HoneyTrap",
                     "fakeTrapPrefab": "FakeJellybeanTrap",
                     "activeTrapIcon": false,
                     "actualTrapPrefab": "JellybeanTrap",
-                    "hovering": false,
                     "flipped": false,
                     "trapyOffset": 0.5
                 }

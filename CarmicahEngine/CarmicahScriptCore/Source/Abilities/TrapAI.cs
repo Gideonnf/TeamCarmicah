@@ -21,7 +21,7 @@ namespace Carmicah
         public float life = 4.0f;
         public float timer = 0.0f;
         public bool isDead = false;
-        public bool canHover = false; // For traps that can be overlapped on enemies
+        // i shifted this to trap icon/build //public bool canHover = false; // For traps that can be overlapped on enemies
         public Entity buildSpotEntity = null;
         public AbilityType type;
 
@@ -152,6 +152,7 @@ namespace Carmicah
                 {
                     if (GetComponent<Animation>().IsAnimFinished())
                     {
+                        KillCollidedEnemies();
                         GetComponent<StateMachine>().SetStateCondition(4);
                     }
                 }
@@ -162,6 +163,7 @@ namespace Carmicah
                 // animTimer += dt;
                 if (GetComponent<Animation>().IsAnimFinished())
                 {
+
                     buildSpotEntity.As<TrapBuild>().TrapDead();
                     timer = 0.0f;
                     Destroy();

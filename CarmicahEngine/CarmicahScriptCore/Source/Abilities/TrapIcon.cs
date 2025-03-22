@@ -19,6 +19,7 @@ namespace Carmicah
         //public string TrapBuild2 = "TrapBuild_2";
         //public string TrapBuild3 = "TrapBuild_3";
         public bool activeTrapIcon = false;
+        public bool canOverlap = false;
 
         float timer;
         //Entity trapBuildEntity;
@@ -129,7 +130,7 @@ namespace Carmicah
                 Entity[] trapBuildSpots = FindEntitiesWithTag("TrapBuild");
                 for(int i = 0; i < trapBuildSpots.Length; i++)
                 {
-                    trapBuildSpots[i].As<TrapBuild>().SetTrapType(type, actualTrapPrefab, fakeTrapPrefab, this);
+                    trapBuildSpots[i].As<TrapBuild>().SetTrapType(type, actualTrapPrefab, fakeTrapPrefab, this, canOverlap);
                 }
                 //Sets the translucent for the trap type
                 //trapBuildEntity.As<TrapBuild>().SetTrapType(type, actualTrapPrefabName, fakeTrapPrefab);
