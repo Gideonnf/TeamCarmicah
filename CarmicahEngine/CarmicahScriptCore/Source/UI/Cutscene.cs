@@ -31,16 +31,24 @@ namespace Carmicah
         private string img1Name = "Opening_Cutscene1_SpriteSheet_Yes";
         private int img1Size = 6;
         private string img2Name = "Opening_Cutscene2_SpriteSheet_Yes";
-        private int img2Size = 6; // changed to 6
+        private int img2Size = 6;
         private string img3Name = "Wall_Invis";
         private int img3Size = 1;
 
-        // Background music   
-        // Background music   
         public string backgroundMusicTrack = "Cutscene";
         public string backgroundMusicTrack1 = "BGM_SetupPhase_Mix1";
 
-        private float[] panelTimings = new float[12]; // Increased to 11 panels
+        // Flags for special transitions
+        private bool isWhiteOutTransition = false;
+        private Entity whiteFlashEntity = null;
+        private float whiteFlashAlpha = 0.0f;
+        private float whiteOutSpeed = 2.0f;
+
+        // Animation speeds
+        private float zoomSpeed = 0.05f;
+        private float panSpeed = 0.25f;
+
+        private float[] panelTimings = new float[12];
         private string[] panelWords = new string[12]{
             "In a land far far away, filled with sweet treats and goodness",
             "The Candy Kingdom stood proud and tall under the rule of princess Strawberry",
@@ -63,8 +71,7 @@ namespace Carmicah
         Entity textObj;
         string currText = "";
         float currAlpha;
-
-        //srore in a string for the panel 
+        Vector2 originalScale;
 
         public override void OnCreate()
         {
@@ -72,6 +79,8 @@ namespace Carmicah
             cutsceneEntity = FindEntityWithName("CutSceneImage");
             cutsceneEntity.Depth = cutsceneEntity.Depth + 1.0f;
             textObj = FindEntityWithName("CutsceneText");
+
+            originalScale = cutsceneEntity.Scale;
 
             SetupPanelTimings();
 
@@ -84,8 +93,6 @@ namespace Carmicah
 
         void SetupPanelTimings()
         {
-            // Set custom display times for each panel
-            //
             panelTimings[0] = panel1;
             panelTimings[1] = panel2a;
             panelTimings[2] = panel2b;
@@ -136,7 +143,7 @@ namespace Carmicah
                 {
                     currText += panelWords[currentPanel][currText.Length];
                 }
-                if(toUpdateTxtYet)
+                if (toUpdateTxtYet)
                 {
                     Entity txtChild = new Entity(FunctionCalls.Entity_GetChild(textObj.mID));
                     float txtWidth = textObj.GetComponent<TextRenderer>().GetWidth();
@@ -152,6 +159,7 @@ namespace Carmicah
 
         private void ProgressScene()
         {
+            Sound.StopAllSFX();
             Scene.ChangeScene("Loading");
         }
 
@@ -160,6 +168,20 @@ namespace Carmicah
             if (Input.IsKeyPressed(Keys.KEY_5))
             {
                 ProgressScene();
+            }
+
+            if (isWhiteOutTransition && whiteFlashEntity != null)
+            {
+                whiteFlashAlpha += whiteOutSpeed * dt;
+                if (whiteFlashAlpha > 1.0f)
+                    whiteFlashAlpha = 1.0f;
+
+                whiteFlashEntity.GetComponent<Renderer>().SetAlpha(whiteFlashAlpha);
+
+                if (whiteFlashAlpha >= 1.0f)
+                {
+                    ProgressScene();
+                }
             }
         }
 
@@ -170,9 +192,6 @@ namespace Carmicah
 
         public override void OnStateEnter(string stateName)
         {
-           // CMConsole.Log($"State : {stateName}");
-
-            // Change image state
             if (stateName == "ChangeImage")
             {
                 if (nextCutsceneEntity == null)
@@ -181,17 +200,15 @@ namespace Carmicah
                     currAlpha = 1.0f;
 
                     string imageName = GetCurrPanelName();
-                    CMConsole.Log($"image name:{imageName}");
-                    // change texture for image
                     nextCutsceneEntity.GetComponent<Renderer>().ChangeTexture(imageName);
                 }
+
                 Entity txtChild = new Entity(FunctionCalls.Entity_GetChild(textObj.mID));
                 txtChild.Scale = new Vector2(0.0f, 0.0f);
 
                 currText = "";
                 textObj.GetComponent<TextRenderer>().SetText(currText);
             }
-            // Idle state
             else if (stateName == "Idle")
             {
                 if (cutsceneEntity == null)
@@ -199,41 +216,81 @@ namespace Carmicah
                     cutsceneEntity = nextCutsceneEntity;
                     cutsceneEntity.Depth = cutsceneEntity.Depth + 1.0f;
                     nextCutsceneEntity = null;
+
+                    if (currentPanel == 6)
+                    {
+                        cutsceneEntity.Scale = new Vector2(originalScale.x * 1.1f, originalScale.y * 1.1f);
+                    }
+                    else if (currentPanel == 11)
+                    {
+                        if (whiteFlashEntity == null)
+                        {
+                            whiteFlashEntity = CreateGameObject("WhiteOverlay");
+                            if (whiteFlashEntity != null)
+                            {
+                                whiteFlashEntity.Depth = cutsceneEntity.Depth + 1.0f;
+                                whiteFlashEntity.GetComponent<Renderer>().SetAlpha(0.0f);
+                                isWhiteOutTransition = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        cutsceneEntity.Scale = originalScale;
+                    }
                 }
             }
         }
 
         public override void OnStateUpdate(string stateName, float dt)
         {
-            
-
             UpdateCutsceneText();
 
-            //Console.WriteLine(panelTimings.Count());
-            CMConsole.Log($"Alpha : {currAlpha}, timer: {timer}");
             if (stateName == "ChangeImage")
             {
-                currAlpha -= fadeSpeed * dt;
+                float currentFadeSpeed = fadeSpeed;
+
+                if (currentPanel == 2 || currentPanel == 7 || currentPanel == 9)
+                {
+                    currentFadeSpeed = fadeSpeed * 1.5f;
+                }
+
+                currAlpha -= currentFadeSpeed * dt;
                 cutsceneEntity.GetComponent<Renderer>().SetAlpha(currAlpha);
+
                 if (currAlpha < 0.0f)
                 {
                     cutsceneEntity.Destroy();
                     cutsceneEntity = null;
-                    //CMConsole.Log("Changing??");
-
-                    // change state to idle
                     GetComponent<StateMachine>().SetStateCondition(1);
                 }
             }
 
             if (stateName == "Idle")
             {
-                float currentPanelDisplayTime = panelTimings[currentPanel];
+                if (currentPanel == 0)
+                {
+                    Vector2 scale = cutsceneEntity.Scale;
+                    scale.x += zoomSpeed * dt;
+                    scale.y += zoomSpeed * dt;
+                    cutsceneEntity.Scale = scale;
+                }
 
+                else if (currentPanel == 6)
+                {
+                    Vector2 pos = cutsceneEntity.Position;
+                    pos.y -= panSpeed * dt;
+                    cutsceneEntity.Position = pos;
+                }
+
+                if (currentPanel == 11 && isWhiteOutTransition)
+                {
+                    return;
+                }
+
+                float currentPanelDisplayTime = panelTimings[currentPanel];
                 if (timer >= currentPanelDisplayTime)
                 {
-                    //CMConsole.Log("Changing??");
-                    // change image state
                     ++currentPanel;
                     if (currentPanel < panelTimings.Length)
                     {
@@ -244,16 +301,11 @@ namespace Carmicah
                         ProgressScene();
                     }
                 }
-                else
-                {
-                    //Sound.StopSound(backgroundMusicTrack);
-                }
             }
         }
 
         public override void OnStateExit(string stateName)
         {
-
         }
     }
 }
