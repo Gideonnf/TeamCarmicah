@@ -71,6 +71,7 @@
     <Compile Include="Source\Camera.cs" />
     <Compile Include="Source\Managers\GameManager.cs" />
     <Compile Include="Source\Managers\PowerUpControl.cs" />
+    <Compile Include="Source\System\Easings.cs" />
     <Compile Include="Source\NPC\BaseNPC.cs" />
     <Compile Include="Source\Abilities\HeroBuild.cs" />
     <Compile Include="Source\NPC\FlyingEnemyAI.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Source\UI\Parallex.cs" />
     <Compile Include="Source\UI\PrincessHPBar.cs" />
     <Compile Include="Source\Tutorial\TutorialController.cs" />
+    <Compile Include="Source\UI\UISliding.cs" />
     <Compile Include="Source\UI\VolumeControl.cs" />
     <Compile Include="Source\UI\WaveCountdown.cs" />
     <Compile Include="Source\UI\WaveCounter.cs" />

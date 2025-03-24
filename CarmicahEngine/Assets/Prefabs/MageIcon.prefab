@@ -45,5 +45,32 @@
             "rot": 352.0,
             "transformTag": ""
         }
+    ],
+    "Children": [
+        {
+            "GameObject": "TrapDescript",
+            "ID": 47,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -30.0,
+                    "yPos": 20.0,
+                    "depth": 1.0,
+                    "xScale": 0.8,
+                    "yScale": 0.8,
+                    "rot": 0.0,
+                    "collisionMask": 0
+                },
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Chewy-Regular",
+                    "text": "",
+                    "colorR": 0.0,
+                    "colorG": 0.0,
+                    "colorB": 0.0,
+                    "textAlign": 33              
+                }
+            ]
+        }
     ]
 }

@@ -1,6 +1,6 @@
 {
     "GameObject": "HowToStep0",
-    "ID": 23,
+    "ID": 1,
     "Components": [
         {
             "Component Name": "struct Carmicah::UITransform",
@@ -11,12 +11,24 @@
             "yScale": 1.0,
             "rot": 0.0,
             "transformTag": ""
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.UISliding",
+            "ScriptableFieldMap": [
+                {
+                    "slideCurve": 9,
+                    "slideDist": 1920.0,
+                    "slideTime": 2.0,
+                    "slideType": "left"
+                }
+            ]
         }
     ],
     "Children": [
         {
             "GameObject": "HowToPlayerWalk",
-            "ID": 24,
+            "ID": 2,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -46,7 +58,7 @@
         },
         {
             "GameObject": "HowToPlayerTxt",
-            "ID": 42,
+            "ID": 3,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::TextRenderer",
@@ -71,7 +83,7 @@
         },
         {
             "GameObject": "HowToMove",
-            "ID": 44,
+            "ID": 4,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Renderer",
