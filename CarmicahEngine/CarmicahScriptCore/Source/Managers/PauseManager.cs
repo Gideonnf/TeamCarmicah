@@ -42,12 +42,16 @@ namespace Carmicah
 
         public void Pause()
         {
+            // dont double pause
+
+            if (IsPaused) return;
             CMConsole.Log("Pausing game");
             IsPaused = true;
 
             // creating moving to button generic side
-
-            //PauseMenuEntity = CreateGameObject("Settings_Menu");
+            Entity settings = FindEntityWithName("Settings_Menu");
+            if (settings == null)
+                CreateGameObject("Settings_Menu");
             //QuitButtonEntity = CreateGameObject("GameClose_Button");
             //ResumeButtonEntity = CreateGameObject(ResumeButton);
         }
@@ -56,6 +60,12 @@ namespace Carmicah
         {
             CMConsole.Log("UnPausing game");
             IsPaused = false;
+            Entity settings = FindEntityWithName("Settings_Menu");
+            if (settings != null)
+            {
+                settings.As<UISliding>().SlideThenSD();
+            }
+
             if (PauseMenuEntity != null)
             {
                 PauseMenuEntity.Destroy();
