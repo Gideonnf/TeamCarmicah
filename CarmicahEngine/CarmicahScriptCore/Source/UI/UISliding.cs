@@ -17,8 +17,8 @@ namespace Carmicah
 
         private bool slidIn = false;
         private float t = 0.0f;
-        private Vector2 startPos;
-        private Vector2 endPos;
+        public Vector2 startPos;
+        public Vector2 endPos;
 
         public override void OnCreate()
         {
@@ -45,6 +45,21 @@ namespace Carmicah
                     break;
             }
             Position = startPos;
+        }
+
+        public void ChangeSlideDetails(int sc , Vector2 s, Vector2 e, float totalTime)
+        {
+            slidIn = false;
+            t = 0.0f;
+            slideTime = totalTime;
+            slideCurve = sc;
+            startPos = s;
+            endPos = e;
+        }
+
+        public void EndNow()
+        {
+            t = slideTime + 1.0f;
         }
 
         public override void OnUpdate(float dt)
