@@ -142,9 +142,9 @@ namespace Carmicah
                     break;
                 case "settings":
                     createList.Add(0, "Settings_Menu");
-                    createList.Add(1, "Close_Button");
+                    createList.Add(1, "Close_Button"); // rainne can comment this out aft modifying prefab
+                    willPause = true;
 
-                    
 
                     hoverEnterAnim  = "Button_HS_Settings";
                     hoverExitAnim   = "Button_HE_Settings";
@@ -152,8 +152,8 @@ namespace Carmicah
                     break;
                 case "backsettings":
                     destroyList.Add(0,"Settings_Menu");
-                    destroyList.Add(1, "Close_Button");
-                    //willUnpause     = true;
+                    destroyList.Add(1, "Close_Button"); // rainne can comment this out aft modifying prefab
+                    willUnpause     = true;
                     //willSelfDestruct = true;
 
                     hoverEnterAnim  = "Button_HS_Back";
@@ -267,7 +267,12 @@ namespace Carmicah
             }
             else if (willPause)
             {
-                
+                Entity pauseManager = FindEntityWithName("PauseManager");
+                if (pauseManager != null)
+                {
+                    pauseManager.As<PauseManager>().Pause();
+                }
+
             }
 
             if (buttonType == "nextlevel")
