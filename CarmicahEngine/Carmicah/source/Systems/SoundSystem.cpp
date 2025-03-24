@@ -532,6 +532,11 @@ namespace Carmicah
         }
     }
 
+    float SoundSystem::GetCategoryVolume(SoundCategory category)
+    {
+        return mCategoryVolumes[category];
+    }
+
     /**
      * @brief Toggles the muffle effect on a specific sound or group of sounds.
      *

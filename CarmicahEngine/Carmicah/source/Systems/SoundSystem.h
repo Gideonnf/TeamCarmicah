@@ -118,7 +118,7 @@ namespace Carmicah
         // Volume controls
         void SetMasterVolume(float volume);
         void SetCategoryVolume(SoundCategory category, INTSOUND internalCatergoy, float volume);
-        float GetCategoryVolume(SoundCategory category) const;
+        float GetCategoryVolume(SoundCategory category);
 
         // Soundeffect controls
         void ToggleMuffle(INTSOUND internalCatergoy, bool toMuffle, unsigned int id);

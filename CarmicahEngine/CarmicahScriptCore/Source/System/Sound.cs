@@ -11,7 +11,7 @@ namespace Carmicah
         // Sound playback with categories
         public static void PlaySFX(string soundName, float volume = -1.0f, bool isLoop = false, uint entityID = 0)
         {
-            
+
             FunctionCalls.Sound_PlaySFX(soundName, volume, isLoop, entityID);
         }
 
@@ -88,6 +88,16 @@ namespace Carmicah
         public static void SetBGMVolume(float volume)
         {
             FunctionCalls.Sound_SetCategoryVolume(1, volume); // 1 represents BGM category
+        }
+
+        public static float GetBGMVolume()
+        {
+            return FunctionCalls.Sound_GetCategoryVolume(1);
+        }
+
+        public static float GetSFXVolume()
+        {
+            return FunctionCalls.Sound_GetCategoryVolume(0);
         }
     }
 }

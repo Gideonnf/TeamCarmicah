@@ -474,6 +474,18 @@ namespace Carmicah
 		}
 	}
 
+	static void Sound_GetCategoryVolume(int category)
+	{
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		if (category == 0)
+		{
+			souSystem->GetCategoryVolume(SoundCategory::SFX);
+		}
+		else if (category == 1)
+		{
+			souSystem->GetCategoryVolume(SoundCategory::BGM);
+		}
+	}
 
 
 	/// <summary>
@@ -1308,6 +1320,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Sound_ToggleMuffleSFX);
 		ADD_INTERNAL_CALL(Sound_ToggleMuffleBGM);
 		ADD_INTERNAL_CALL(Sound_SetCategoryVolume);
+		ADD_INTERNAL_CALL(Sound_GetCategoryVolume);
 
 		// Debug
 		ADD_INTERNAL_CALL(Log);
