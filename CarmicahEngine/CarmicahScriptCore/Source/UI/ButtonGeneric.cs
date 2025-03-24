@@ -19,7 +19,6 @@ namespace Carmicah
 
         bool createListCreated = false;
         Dictionary<int, string> createList = new Dictionary<int, string>();
-        bool willSelfDestruct = false;
         Dictionary<int, string> destroyList = new Dictionary<int, string>();
 
         float sceneChangerTimer = -1f;
@@ -134,7 +133,6 @@ namespace Carmicah
 
                     //destroyList[0]  = "Credits_Menu";
                     //willUnpause     = true;
-                    //willSelfDestruct= true;
 
                     hoverEnterAnim  = "Button_HS_Back";
                     hoverExitAnim   = "Button_HE_Back";
@@ -142,19 +140,14 @@ namespace Carmicah
                     break;
                 case "settings":
                     createList.Add(0, "Settings_Menu");
-                    createList.Add(1, "Close_Button"); // rainne can comment this out aft modifying prefab
                     willPause = true;
-
 
                     hoverEnterAnim  = "Button_HS_Settings";
                     hoverExitAnim   = "Button_HE_Settings";
                     clickAnim       = "Button_C_Settings";
                     break;
                 case "backsettings":
-                    destroyList.Add(0,"Settings_Menu");
-                    destroyList.Add(1, "Close_Button"); // rainne can comment this out aft modifying prefab
                     willUnpause     = true;
-                    //willSelfDestruct = true;
 
                     hoverEnterAnim  = "Button_HS_Back";
                     hoverExitAnim   = "Button_HE_Back";
@@ -314,12 +307,9 @@ namespace Carmicah
                 case "howtoback":
                     FindEntityWithName("HowToBG").As<HowToPlay>().ProgressScene(-1);
                     break;
-
-            }
-            // Destroy self always last
-            if (willSelfDestruct)
-            {
-                Destroy();
+                case "backsettings":
+                    FindEntityWithName("Settings_Menu").As<UISliding>().SlideThenSD();
+                    break;
             }
         }
         public override void OnMouseEnter()

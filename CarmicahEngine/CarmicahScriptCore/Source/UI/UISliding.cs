@@ -14,37 +14,42 @@ namespace Carmicah
         public float slideDist = 1000.0f;
         public string slideType = "Up";
         public int slideCurve = 0;
+        public bool slideToCenter = true;
 
-        private bool slidIn = false;
+        private bool slidIn = true;
         private float t = 0.0f;
         public Vector2 startPos;
         public Vector2 endPos;
+        private bool sd = false;
 
         public override void OnCreate()
         {
-            slidIn = false;
             t = 0.0f;
-            endPos = startPos = new Vector2(960.0f, 540.0f);
-            slideType = slideType.ToLower();
-            switch (slideType)
+            if (slideToCenter)
             {
-                case "up":
-                    startPos.y -= slideDist;
-                    break;
-                case "down":
-                    startPos.y += slideDist;
-                    break;
-                case "left":
-                    startPos.x += slideDist;
-                    break;
-                case "right":
-                    startPos.x -= slideDist;
-                    break;
-                default:
-                    startPos.y -= slideDist;
-                    break;
+                slidIn = false;
+                endPos = startPos = new Vector2(960.0f, 540.0f);
+                slideType = slideType.ToLower();
+                switch (slideType)
+                {
+                    case "up":
+                        startPos.y -= slideDist;
+                        break;
+                    case "down":
+                        startPos.y += slideDist;
+                        break;
+                    case "left":
+                        startPos.x += slideDist;
+                        break;
+                    case "right":
+                        startPos.x -= slideDist;
+                        break;
+                    default:
+                        startPos.y -= slideDist;
+                        break;
+                }
+                Position = startPos;
             }
-            Position = startPos;
         }
 
         public void ChangeSlideDetails(int sc , Vector2 s, Vector2 e, float totalTime)
@@ -57,9 +62,19 @@ namespace Carmicah
             endPos = e;
         }
 
-        public void EndNow()
+        public void SlideAgain()
         {
-            t = slideTime + 1.0f;
+            slidIn = false;
+            t = 0.0f;
+            Vector2 diff = endPos - startPos;
+            startPos = LocalPosition;
+            endPos = startPos + diff;
+        }
+
+        public void SlideThenSD()
+        {
+            SlideAgain();
+            sd = true;
         }
 
         public override void OnUpdate(float dt)
@@ -71,6 +86,8 @@ namespace Carmicah
                 {
                     Position = endPos;
                     slidIn = true;
+                    if (sd)
+                        Destroy();
                     return;
                 }
 
