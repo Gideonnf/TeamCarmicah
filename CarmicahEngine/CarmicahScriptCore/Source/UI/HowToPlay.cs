@@ -53,6 +53,7 @@ namespace Carmicah
         public override void OnCreate()
         {
             CreateGameObject("HowToStep0");
+            base.OnCreate();
         }
 
         private string GetPanelName(int pan)

@@ -146,6 +146,18 @@ namespace Carmicah
             if (this.HasComponent<Renderer>())
                 this.GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
 
+            if (actualTrapPrefab == "CandyConeTrap")
+            {
+                GetComponentInChildren<TextRenderer>().SetText("Spike");
+            }
+            else if (actualTrapPrefab == "HoneyTrap")
+            {
+                GetComponentInChildren<TextRenderer>().SetText("Slows");
+            }
+            else if (actualTrapPrefab == "JellybeanTrap")
+            {
+                GetComponentInChildren<TextRenderer>().SetText("Explodes");
+            }
         }
 
 
@@ -161,6 +173,7 @@ namespace Carmicah
             {
                 this.GetComponent<Renderer>().SetColour(1.0f, 1.0f, 1.0f);
             }
+            base.OnMouseExit();
         }
 
         public void TrapBuilt()

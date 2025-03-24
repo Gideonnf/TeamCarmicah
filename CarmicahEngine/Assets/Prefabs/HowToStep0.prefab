@@ -11,6 +11,15 @@
             "yScale": 1.0,
             "rot": 0.0,
             "transformTag": ""
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.UISliding",
+            "ScriptableFieldMap": [
+                {
+                    
+                }
+            ]
         }
     ],
     "Children": [

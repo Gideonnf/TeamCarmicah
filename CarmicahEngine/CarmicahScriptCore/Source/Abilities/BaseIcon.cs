@@ -38,6 +38,10 @@ namespace Carmicah
             Entity powerBar = FindEntityWithName("UIBar");
             powerBar.As<AbilityBar>().IconRemoved(this);
         }
+        public override void OnMouseExit()
+        {
+            GetComponentInChildren<TextRenderer>().SetText("");
+        }
 
     }
 }
