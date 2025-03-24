@@ -27,8 +27,11 @@ namespace Carmicah
         //public bool EndGame;
 
         Entity gameManager;
+        Entity UIManager;
+
         Entity winScreen;
         Entity countdown;
+        bool winScreenCreated = false;
 
 
 
@@ -36,6 +39,8 @@ namespace Carmicah
         {
             levelManager = new LevelManager();
             gameManager = FindEntityWithName("GameManager");
+            UIManager = FindEntityWithName("UIManager");
+
             Player.GameLost = false;
             
         }
