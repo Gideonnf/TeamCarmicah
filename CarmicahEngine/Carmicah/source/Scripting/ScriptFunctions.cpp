@@ -88,14 +88,19 @@ namespace Carmicah
 	static void Transform_GetRenderingScale(unsigned int entityID, Vec2f* outScale)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (!go.HasComponent<Renderer>())
+			return;
+		const Texture& t = AssetManager::GetInstance()->GetAsset<Texture>(ComponentManager::GetInstance()->GetComponent<Renderer>(entityID).Texture());
+
 		if (go.HasComponent<Transform>())
 		{
-			*outScale = go.GetComponent<Transform>().CalcedRenderingScale();
+			*outScale = Vec2f((AssetManager::GetInstance()->enConfig.maxTexSize / 50.f * t.mtx.m00), (AssetManager::GetInstance()->enConfig.maxTexSize / 50.f * t.mtx.m11));
 		}
 		else if (go.HasComponent<UITransform>())
 		{
-			*outScale = go.GetComponent<UITransform>().CalcedRenderingScale();
+			*outScale = Vec2f((AssetManager::GetInstance()->enConfig.maxTexSize * t.mtx.m00), (AssetManager::GetInstance()->enConfig.maxTexSize * t.mtx.m11));
 		}
+
 	}
 
 	static void Transform_GetWorldScale(unsigned int entityID, Vec2f* outScale)
@@ -469,7 +474,7 @@ namespace Carmicah
 		}
 		else if (category == 1)
 		{
-			souSystem->SetCategoryVolume(SoundCategory::EDITOR, SoundSystem::SOUND_BGM, volume);
+			//souSystem->SetCategoryVolume(SoundCategory::EDITOR, SoundSystem::SOUND_BGM, volume);
 			souSystem->SetCategoryVolume(SoundCategory::BGM, SoundSystem::SOUND_BGM, volume);
 		}
 	}

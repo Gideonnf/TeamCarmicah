@@ -59,38 +59,40 @@
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Installer|x64' ">
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Abilities\AbilityBar.cs" />
     <Compile Include="Source\Abilities\BaseIcon.cs" />
     <Compile Include="Source\Abilities\Dissolve.cs" />
+    <Compile Include="Source\Abilities\HeroBuild.cs" />
+    <Compile Include="Source\Abilities\HeroIcon.cs" />
     <Compile Include="Source\Abilities\TrapAI.cs" />
     <Compile Include="Source\Abilities\TrapBall.cs" />
     <Compile Include="Source\Abilities\TrapBuild.cs" />
+    <Compile Include="Source\Abilities\TrapIcon.cs" />
     <Compile Include="Source\Abilities\TrapJellybean.cs" />
-    <Compile Include="Source\Managers\CakeControl.cs" />
-    <Compile Include="Source\Managers\LevelManager.cs" />
     <Compile Include="Source\BalloonBounce.cs" />
     <Compile Include="Source\Camera.cs" />
+    <Compile Include="Source\Managers\CakeControl.cs" />
     <Compile Include="Source\Managers\GameManager.cs" />
+    <Compile Include="Source\Managers\LevelManager.cs" />
+    <Compile Include="Source\Managers\PauseManager.cs" />
     <Compile Include="Source\Managers\PowerUpControl.cs" />
+    <Compile Include="Source\Managers\WaveSystem.cs" />
     <Compile Include="Source\NPC\BaseNPC.cs" />
-    <Compile Include="Source\Abilities\HeroBuild.cs" />
     <Compile Include="Source\NPC\FlyingEnemyAI.cs" />
-    <Compile Include="Source\NPC\MageNPC.cs" />
-    <Compile Include="Source\NPC\ShooterNPC.cs" />
-    <Compile Include="Source\NPC\SpearNPC.cs" />
-    <Compile Include="Source\System\CMRandom.cs" />
-    <Compile Include="Source\System\CMTime.cs" />
-    <Compile Include="Source\Testing\BaseTest.cs" />
     <Compile Include="Source\NPC\HealthSystem.cs" />
     <Compile Include="Source\NPC\HeroAI.cs" />
+    <Compile Include="Source\NPC\MageNPC.cs" />
     <Compile Include="Source\NPC\MouseAI.cs" />
     <Compile Include="Source\NPC\Projectile.cs" />
-    <Compile Include="Source\Testing\TestScript.cs" />
-    <Compile Include="Source\Managers\PauseManager.cs" />
+    <Compile Include="Source\NPC\ShooterNPC.cs" />
+    <Compile Include="Source\NPC\SpearNPC.cs" />
     <Compile Include="Source\Player.cs" />
     <Compile Include="Source\System\CMConsole.cs" />
+    <Compile Include="Source\System\CMFileReader.cs" />
+    <Compile Include="Source\System\CMRandom.cs" />
+    <Compile Include="Source\System\CMTime.cs" />
     <Compile Include="Source\System\Component.cs" />
     <Compile Include="Source\System\Entity.cs" />
-    <Compile Include="Source\System\CMFileReader.cs" />
     <Compile Include="Source\System\FunctionCalls.cs" />
     <Compile Include="Source\System\Input.cs" />
     <Compile Include="Source\System\Keys.cs" />
@@ -99,14 +101,15 @@
     <Compile Include="Source\System\StateMachineOld.cs" />
     <Compile Include="Source\System\Vector2.cs" />
     <Compile Include="Source\System\Vector3.cs" />
+    <Compile Include="Source\Testing\BaseTest.cs" />
+    <Compile Include="Source\Testing\TestScript.cs" />
     <Compile Include="Source\Testing\Testing.cs" />
-    <Compile Include="Source\Abilities\AbilityBar.cs" />
     <Compile Include="Source\Tutorial\TutorialBasic.cs" />
+    <Compile Include="Source\Tutorial\TutorialController.cs" />
     <Compile Include="Source\UI\ButtonGeneric.cs" />
     <Compile Include="Source\UI\Countdown.cs" />
     <Compile Include="Source\UI\Credits.cs" />
     <Compile Include="Source\UI\Cutscene.cs" />
-    <Compile Include="Source\Abilities\HeroIcon.cs" />
     <Compile Include="Source\UI\CutsceneEnding.cs" />
     <Compile Include="Source\UI\FPSCounter.cs" />
     <Compile Include="Source\UI\HowToPlay.cs" />
@@ -114,16 +117,13 @@
     <Compile Include="Source\UI\LoadingBackground.cs" />
     <Compile Include="Source\UI\LoadingDots.cs" />
     <Compile Include="Source\UI\LoadingScreen.cs" />
-    <Compile Include="Source\Abilities\TrapIcon.cs" />
     <Compile Include="Source\UI\MainMenuBGM.cs" />
     <Compile Include="Source\UI\MouseParticles.cs" />
     <Compile Include="Source\UI\Parallex.cs" />
     <Compile Include="Source\UI\PrincessHPBar.cs" />
-    <Compile Include="Source\Tutorial\TutorialController.cs" />
     <Compile Include="Source\UI\VolumeControl.cs" />
     <Compile Include="Source\UI\WaveCountdown.cs" />
     <Compile Include="Source\UI\WaveCounter.cs" />
-    <Compile Include="Source\Managers\WaveSystem.cs" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

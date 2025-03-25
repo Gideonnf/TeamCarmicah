@@ -79,12 +79,14 @@ namespace Carmicah
                     Vector2 parentScale;
                     FunctionCalls.Transform_GetRenderingScale(parent.mID, out parentScale);
                     parentScaleX = parentScale.x * parent.Scale.x / 2.0f / 2.0f * 3.0f; // * (3/2) is for this image specifically, yes
-
+                    CMConsole.Log($"Parent Scale : {parentScaleX}");
                     float percentage = (volume / 100.0f) - 0.5f;
+                    CMConsole.Log($"Percentage: {percentage}");
 
                     pos.x = parentScaleX * percentage;
                     pos.y = 0;
                     LocalPosition = pos;
+                    CMConsole.Log($"Local Position: {LocalPosition.x}");
                 }
                 oldVol = volume;
                 switch(soundType)

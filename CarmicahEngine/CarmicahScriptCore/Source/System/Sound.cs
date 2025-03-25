@@ -92,12 +92,12 @@ namespace Carmicah
 
         public static float GetBGMVolume()
         {
-            return FunctionCalls.Sound_GetCategoryVolume(1);
+            return FunctionCalls.Sound_GetCategoryVolume(1); // 1 represents BGM category
         }
 
         public static float GetSFXVolume()
         {
-            return FunctionCalls.Sound_GetCategoryVolume(0);
+            return FunctionCalls.Sound_GetCategoryVolume(0); // 0 represents SFX category
         }
     }
 }
