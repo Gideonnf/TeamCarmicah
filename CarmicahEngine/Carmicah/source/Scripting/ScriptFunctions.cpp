@@ -446,11 +446,11 @@ namespace Carmicah
 		souSystem->PauseAllSounds();
 	}
 
-	static void Sound_PauseAllSounds()
-	{
-		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->ResumeAllSounds();
-	}
+	//static void Sound_PauseAllSounds()
+	//{
+	//	auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+	//	souSystem->ResumeAllSounds();
+	//}
 
 	//static void Sound_Stop(MonoString* name)
 	//{
