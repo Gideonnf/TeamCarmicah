@@ -105,7 +105,7 @@ namespace Carmicah
         void SwitchSound(INTSOUND internalCatergoy, const std::string& newSoundName, SoundCategory category, bool isLoop, float volume, float fadeTimer, float fadeDuration, bool fadeOut);
         void UpdateFadeEffect();
         //void StopSound(INTSOUND internalCatergoy);
-        void StopSoundSFX(INTSOUND internalCatergoy);
+        void StopSoundSFX(INTSOUND internalCatergoy, unsigned int id = 0);
         void StopSound(INTSOUND internalCatergoy);
         void StopSoundWithFade(INTSOUND internalCatergoy, float fadeTimer, float fadeDuration);
         void PauseSound(INTSOUND internalCatergoy);

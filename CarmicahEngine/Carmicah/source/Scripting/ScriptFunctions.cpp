@@ -322,11 +322,11 @@ namespace Carmicah
 	 *
 	 * @return void
 	 */
-	static void Sound_StopSFX(MonoString* name)
+	static void Sound_StopSFX(MonoString* name, unsigned int entityID)
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->StopSoundSFX(SoundSystem::SOUND_INGAME);
+		souSystem->StopSoundSFX(SoundSystem::SOUND_INGAME, entityID);
 		mono_free(cStrname);
 	}
 
@@ -438,6 +438,18 @@ namespace Carmicah
 	{
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
 		souSystem->ToggleMuffle(SoundSystem::SOUND_BGM, toMuffle, 0);
+	}
+
+	static void Sound_PauseAllSounds()
+	{
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->PauseAllSounds();
+	}
+
+	static void Sound_PauseAllSounds()
+	{
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->ResumeAllSounds();
 	}
 
 	//static void Sound_Stop(MonoString* name)

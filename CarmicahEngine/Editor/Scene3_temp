@@ -7,7 +7,7 @@
             "Components": []
         },
         {
-            "GameObject": "BackgroundGO",
+            "GameObject": "BackgroundGO_1",
             "ID": 1,
             "Components": [
                 {

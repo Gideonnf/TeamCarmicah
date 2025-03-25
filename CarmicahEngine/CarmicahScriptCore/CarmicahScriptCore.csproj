@@ -92,6 +92,7 @@
     <Compile Include="Source\System\CMRandom.cs" />
     <Compile Include="Source\System\CMTime.cs" />
     <Compile Include="Source\System\Component.cs" />
+    <Compile Include="Source\System\Easings.cs" />
     <Compile Include="Source\System\Entity.cs" />
     <Compile Include="Source\System\FunctionCalls.cs" />
     <Compile Include="Source\System\Input.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Source\UI\MouseParticles.cs" />
     <Compile Include="Source\UI\Parallex.cs" />
     <Compile Include="Source\UI\PrincessHPBar.cs" />
+    <Compile Include="Source\UI\UISliding.cs" />
     <Compile Include="Source\UI\VolumeControl.cs" />
     <Compile Include="Source\UI\WaveCountdown.cs" />
     <Compile Include="Source\UI\WaveCounter.cs" />

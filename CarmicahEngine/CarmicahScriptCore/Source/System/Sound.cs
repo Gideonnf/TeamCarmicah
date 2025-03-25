@@ -37,9 +37,9 @@ namespace Carmicah
             FunctionCalls.Sound_StopBGM(soundName);
         }
 
-        public static void StopSoundSFX(string soundName)
+        public static void StopSoundSFX(string soundName, uint entityID = 0)
         {
-            FunctionCalls.Sound_StopSFX(soundName);
+            FunctionCalls.Sound_StopSFX(soundName, entityID);
         }
 
         public static void StopSoundSFXWithFade(string soundName, float fadeTimer, float fadeDuration)

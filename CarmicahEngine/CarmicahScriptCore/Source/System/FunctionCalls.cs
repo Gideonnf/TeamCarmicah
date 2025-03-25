@@ -79,7 +79,7 @@ namespace Carmicah
         internal extern static void Sound_StopBGM(string soundName);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static void Sound_StopSFX(string soundName);
+        internal extern static void Sound_StopSFX(string soundName, uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_StopSFXWithFade(string soundName , float fadeTimer, float fadeDuration);
