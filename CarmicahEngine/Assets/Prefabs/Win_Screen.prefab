@@ -14,12 +14,24 @@
         {
             "Component Name": "struct Carmicah::UITransform",
             "xPos": 980.0,
-            "yPos": 540.0,
+            "yPos": -1080.0,
             "depth": 0.0,
             "xScale": 0.800000011920929,
             "yScale": 0.800000011920929,
             "rot": 0.0,
             "transformTag": ""
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.UISliding",
+            "ScriptableFieldMap": [
+                {
+                    "slideCurve": 8,
+                    "slideDist": 1080.0,
+                    "slideTime": 1.5,
+                    "slideType": "up"
+                }
+            ]
         }
     ],
     "Children": [
