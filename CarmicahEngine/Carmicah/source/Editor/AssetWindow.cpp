@@ -516,7 +516,7 @@ namespace Carmicah
 
 			if (ImGui::CollapsingHeader("Prefab"))
 			{
-				char buffer[128] = "";
+				static char buffer[128] = "\0";
 				static std::string searchName;
 
 				if (ImGui::InputText("##Searchbar", buffer, sizeof(buffer)))
