@@ -273,7 +273,7 @@ namespace Carmicah
             // Fade-in progress: Starts at 0.0 and increases to 1.0
             float fadeInProgress = 1.0f - (fadeTimerSeconds / fadeDurationSeconds);
             float newVolume = fadeInProgress * newSoundVolume;
-            newSoundChannel->setVolume(std::min(newSoundVolume, newVolume));
+            newSoundChannel->setVolume(std::min(newSoundVolume, newVolume) * mCategoryVolumes[newSoundCategory]);
 
             if (fadeTimerSeconds <= 0.0f)
             {
@@ -375,14 +375,18 @@ namespace Carmicah
      *
      * @return void
      */
-    void SoundSystem::StopSoundSFX(INTSOUND internalCatergoy)
+    void SoundSystem::StopSoundSFX(INTSOUND internalCatergoy, unsigned int id)
     {
         for (auto it = mSoundTracks[internalCatergoy].begin(); it != mSoundTracks[internalCatergoy].end(); ++it)
         {
             if (it->get()->channel)
             {
-                it->get()->channel->stop();
-                break;
+                if (id == 0 || id == it->get()->entityID)
+                {
+
+                    it->get()->channel->stop();
+                    break;
+                }
             }
             
         }
@@ -530,6 +534,11 @@ namespace Carmicah
             if (it->get()->channel && it->get()->category == category)
                 UpdateSoundVolume(it->get(), category);
         }
+    }
+
+    float SoundSystem::GetCategoryVolume(SoundCategory category)
+    {
+        return mCategoryVolumes[category];
     }
 
     /**
