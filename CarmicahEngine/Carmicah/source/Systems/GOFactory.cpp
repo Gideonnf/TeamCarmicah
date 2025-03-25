@@ -256,9 +256,15 @@ namespace Carmicah
 		// so im forcefully setting it back here
 
 		if (newGO.HasComponent<Transform>())
+		{
 			newGO.GetComponent<Transform>().Pos(prefab.GetComponent<Transform>().Pos());
+			newGO.GetComponent<Transform>().Scale(prefab.GetComponent<Transform>().Scale());
+		}
 		else if (newGO.HasComponent<UITransform>())
+		{
 			newGO.GetComponent<UITransform>().Pos(prefab.GetComponent<UITransform>().Pos());
+			newGO.GetComponent<UITransform>().Scale(prefab.GetComponent<UITransform>().Scale());
+		}
 
 		//CM_CORE_INFO("Creating prefab child " + newGO.mName + " with ID " + std::to_string(newGO.mID) + " parenting to " + std::to_string(parentID));
 		//CM_CORE_INFO("Position After Update Parent: {}, {}", newGO.GetComponent<Transform>().GetPos().x, newGO.GetComponent<Transform>().GetPos().y);
