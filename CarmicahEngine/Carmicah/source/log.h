@@ -77,8 +77,7 @@ namespace Carmicah
 
 // Release mode logging is disabled for performance reasons
 
-#ifndef CM_DEBUG 
-#ifndef CM_RELEASE
+#ifdef CM_INSTALLER 
 #define CM_CORE_TRACE(...)
 #define CM_CORE_INFO(...)
 #define CM_CORE_WARN(...)
@@ -87,7 +86,6 @@ namespace Carmicah
 #define CM_INFO(...)
 #define CM_WARN(...)
 #define CM_ERROR(...)
-#endif
 #endif
 
 

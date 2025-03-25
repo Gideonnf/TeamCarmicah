@@ -98,6 +98,7 @@ namespace Carmicah
         Entity VFXPrefab;
         Entity waveSystem;
         Entity mainCamera;
+        Entity UIManager;
 
         public string[] CakeFallAnimations = new string[4];
         public string[] CakeSquishAnimations = new string[4];
@@ -106,6 +107,7 @@ namespace Carmicah
         public override void OnCreate()
         {
             mainCamera = FindEntityWithName("MainCamera");
+            UIManager = FindEntityWithName("UIManager");
             mobCounter = new Wave();
             mouseLaneOne = new List<MouseAI>();
             mouseLaneTwo = new List<MouseAI>();
@@ -717,6 +719,7 @@ namespace Carmicah
             Sound.SwitchBGM("LoseScreen", 0.5f, 0.5f);
             
             Sound.StopAllSFX();
+            //UIManager.As<UIManager>().CreateMenu("LoseScreen");
             CreateGameObject("LoseScreen");
         }
 

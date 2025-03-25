@@ -27,8 +27,12 @@ namespace Carmicah
         //public bool EndGame;
 
         Entity gameManager;
+        Entity pauseManager;
+        Entity UIManager;
+
         Entity winScreen;
         Entity countdown;
+        bool winScreenCreated = false;
 
 
 
@@ -36,19 +40,28 @@ namespace Carmicah
         {
             levelManager = new LevelManager();
             gameManager = FindEntityWithName("GameManager");
+            pauseManager = FindEntityWithName("PauseManager");
+            UIManager = FindEntityWithName("UIManager");
+
             Player.GameLost = false;
             
         }
 
         public override void OnUpdate(float dt)
         {
-            // Only increment time for as long as theres a wave coming
-            if (!gameManager.As<GameManager>().GameOver)
+            if (pauseManager.As<PauseManager>().IsPaused)
             {
-                waveTimer += dt;
+                return;
 
             }
 
+            // Only increment time for as long as theres a wave coming
+            if (gameManager.As<GameManager>().GameOver)
+            {
+                return;
+            }
+
+            waveTimer += dt;
             if (waveStart == false && (waveSetupTime - waveTimer) <= countdownStartTime)
             {
                 if (countdown == null)

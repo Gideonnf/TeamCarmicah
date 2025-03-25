@@ -24,13 +24,22 @@ namespace Carmicah
     public class HowToPlay : Entity
     {
         public int currentPanel = 0;       // panel 0 ~ 5 (inclusive)
+        int oldPanel = -1;
         int frameChanged = 2;// For Making SURE that things are loaded before being used
         Entity nextBtn = null;
         Entity backBtn = null;
         Entity playBtn = null;
         Entity homeBtn = null;
+        Entity bgBoard1 = null;
+        Entity bgBoard2 = null;
+        bool board1True = false;
+        bool boardMovingLeft = true;
+        Vector2 midBoardChange;
+        float boardChangeTime = 0.0f;
+        float boardChangeMaxTime = 2.0f;
         bool isPlayerFacingLeft = true;
 
+        Dictionary<int ,Entity> howToNum = new Dictionary<int, Entity>();
         Entity playerWalk = null;
         Entity cursor = null;
         Entity enemyMouse1 = null;
@@ -53,6 +62,7 @@ namespace Carmicah
         public override void OnCreate()
         {
             CreateGameObject("HowToStep0");
+            base.OnCreate();
         }
 
         private string GetPanelName(int pan)
@@ -64,21 +74,23 @@ namespace Carmicah
 
         public void ProgressScene(int num)
         {
-            // Delete The How To Prefab
-            if (currentPanel != 4)
+            oldPanel = currentPanel;
+            boardMovingLeft = (num > 0);
+            Entity slideOutE;
+            if (howToNum.TryGetValue(oldPanel, out slideOutE))
             {
-                Entity toDestroy = FindEntityWithName("HowToStep" + currentPanel);
-                if (toDestroy != null)
-                {
-                    toDestroy.Destroy();
-                }
+                Vector2 p = slideOutE.LocalPosition;
+                if (boardMovingLeft)
+                    slideOutE.As<UISliding>().ChangeSlideDetails(9, p, new Vector2(-960.0f, 540.0f), boardChangeMaxTime);
+                else
+                    slideOutE.As<UISliding>().ChangeSlideDetails(9, p, new Vector2(2280.0f, 540.0f), boardChangeMaxTime);
             }
             // Set buttons visibility if any
-            if (currentPanel == 0)
+            if (oldPanel == 0)
             {
                 backBtn.GetComponent<Renderer>().SetAlpha(1.0f);
             }
-            else if (currentPanel == 5)
+            else if (oldPanel == 5)
             {
                 nextBtn.GetComponent<Renderer>().SetAlpha(1.0f);
                 playBtn.GetComponent<Renderer>().SetAlpha(0.0f);
@@ -87,7 +99,18 @@ namespace Carmicah
 
             // Advance Panel
             currentPanel += num;
-            GetComponent<Renderer>().ChangeTexture(GetPanelName(currentPanel));
+            board1True = !board1True;
+            if (board1True)
+            {
+                bgBoard1.GetComponent<Renderer>().ChangeTexture(GetPanelName(currentPanel));
+                midBoardChange = bgBoard2.LocalPosition;
+            }
+            else
+            {
+                bgBoard2.GetComponent<Renderer>().ChangeTexture(GetPanelName(currentPanel));
+                midBoardChange = bgBoard1.LocalPosition;
+            }
+            boardChangeTime = 0.0f;
 
             // If Overshot, end
             if (currentPanel >= 6)
@@ -106,13 +129,22 @@ namespace Carmicah
             else if (currentPanel == 5)
             {
                 nextBtn.GetComponent<Renderer>().SetAlpha(0.0f);
-                playBtn.GetComponent<Renderer>().SetAlpha(1.0f);
-                homeBtn.GetComponent<Renderer>().SetAlpha(1.0f);
             }
             // Create Objs for every panel
             if (currentPanel != 4)
             {
-                CreateGameObject("HowToStep" + currentPanel);
+                Entity currPE;
+                if(howToNum.TryGetValue(currentPanel, out currPE))
+                {
+                    if (boardMovingLeft)
+                        currPE.As<UISliding>().ChangeSlideDetails(9, currPE.LocalPosition, new Vector2(960.0f, 540.0f), boardChangeMaxTime);
+                    else
+                        currPE.As<UISliding>().ChangeSlideDetails(9, currPE.LocalPosition, new Vector2(960.0f, 540.0f), boardChangeMaxTime);
+                }
+                else
+                {
+                    CreateGameObject("HowToStep" + currentPanel);
+                }
             }
 
             // Set uniforms
@@ -137,39 +169,90 @@ namespace Carmicah
                         playBtn = FindEntityWithName("HowToPlayBtn");
                     if(homeBtn == null)
                         homeBtn = FindEntityWithName("HowToHomeBtn");
+                    if(bgBoard1 == null)
+                        bgBoard1 = FindEntityWithName("HowToBGBoard1");
+                    if(bgBoard2 == null)
+                        bgBoard2 = FindEntityWithName("HowToBGBoard2");
 
-                    switch (currentPanel)
+                    if(!howToNum.ContainsKey(currentPanel))
                     {
-                        case 0:
-                            playerWalk = FindEntityWithName("HowToPlayerWalk");
-                            break;
-                        case 1:
-                            enemyMouse1 = FindEntityWithName("HowToMice1");
-                            enemyMouse2 = FindEntityWithName("HowToMice2");
-                            enemyBear = FindEntityWithName("HowToBear");
-                            mouse1Climbing = mouse2Climbing = bearClimbing = true;
-                            break;
-                        case 2:
-                            cursor = FindEntityWithName("HowToCursorM");
-                            power1Ico = FindEntityWithName("HowToTrapIco");
-                            power2Ico = FindEntityWithName("HowToShootIco");
-                            enemyMouse1 = FindEntityWithName("HowToHiddenMice");
-                            enemyBear = FindEntityWithName("HowToHiddenBear");
-                            enemyMouse2 = FindEntityWithName("HowToBullet");
-                            actlObj1 = FindEntityWithName("HowToActualTrap");
-                            actlObj2 = FindEntityWithName("HowToActualShooter");
-                            break;
-                        case 3:
-                            playerWalk = FindEntityWithName("HowToPrincess");
-                            cursor = FindEntityWithName("HowToCursor");
-                            power1Ico = FindEntityWithName("HowToDrop");
-                            power2Ico = FindEntityWithName("HowToShooter");
-                            actlObj1 = FindEntityWithName("HowToMage");
-                            break;
-                    }
+                        Entity curPanel = FindEntityWithName("HowToStep" + currentPanel);
+                        if (curPanel != null)
+                            howToNum.Add(currentPanel, curPanel);
 
+                        switch (currentPanel)
+                        {
+                            case 0:
+                                playerWalk = FindEntityWithName("HowToPlayerWalk");
+                                break;
+                            case 1:
+                                enemyMouse1 = FindEntityWithName("HowToMice1");
+                                enemyMouse2 = FindEntityWithName("HowToMice2");
+                                enemyBear = FindEntityWithName("HowToBear");
+                                mouse1Climbing = mouse2Climbing = bearClimbing = true;
+                                break;
+                            case 2:
+                                cursor = FindEntityWithName("HowToCursorM");
+                                power1Ico = FindEntityWithName("HowToTrapIco");
+                                power2Ico = FindEntityWithName("HowToShootIco");
+                                enemyMouse1 = FindEntityWithName("HowToHiddenMice");
+                                enemyBear = FindEntityWithName("HowToHiddenBear");
+                                enemyMouse2 = FindEntityWithName("HowToBullet");
+                                actlObj1 = FindEntityWithName("HowToActualTrap");
+                                actlObj2 = FindEntityWithName("HowToActualShooter");
+                                break;
+                            case 3:
+                                playerWalk = FindEntityWithName("HowToPrincess");
+                                cursor = FindEntityWithName("HowToCursor");
+                                power1Ico = FindEntityWithName("HowToDrop");
+                                power2Ico = FindEntityWithName("HowToShooter");
+                                actlObj1 = FindEntityWithName("HowToMage");
+                                break;
+                        }
+                    }
                 }
                 --frameChanged;
+                return;
+            }
+
+            if(boardChangeTime < boardChangeMaxTime)
+            {
+                boardChangeTime += dt;
+                float percent = boardChangeTime / boardChangeMaxTime;
+
+                Vector2 inStart, outEnd;
+                if (boardMovingLeft)
+                {
+                    inStart = new Vector2(1920.0f, 0.0f);
+                    outEnd = new Vector2(-1920.0f, 0.0f);
+                }
+                else
+                {
+                    inStart = new Vector2(-1920.0f, 0.0f);
+                    outEnd = new Vector2(1920.0f, 0.0f);
+                }
+
+                if (board1True)
+                {
+                    bgBoard1.LocalPosition = Easings.GetInterpolate(SLIDE_CURVE.ELASTIC, inStart, Vector2.Zero,  percent);
+                    bgBoard2.LocalPosition = Easings.GetInterpolate(SLIDE_CURVE.ELASTIC, midBoardChange, outEnd, percent);
+                }
+                else
+                {
+                    bgBoard2.LocalPosition = Easings.GetInterpolate(SLIDE_CURVE.ELASTIC, inStart, Vector2.Zero,  percent);
+                    if(oldPanel != -1)
+                        bgBoard1.LocalPosition = Easings.GetInterpolate(SLIDE_CURVE.ELASTIC, midBoardChange, outEnd, percent);
+                }
+
+                if(boardChangeTime > boardChangeMaxTime)
+                {
+                    if (currentPanel == 5)
+                    {
+                        playBtn.GetComponent<Renderer>().SetAlpha(1.0f);
+                        homeBtn.GetComponent<Renderer>().SetAlpha(1.0f);
+                    }
+                }
+
                 return;
             }
 

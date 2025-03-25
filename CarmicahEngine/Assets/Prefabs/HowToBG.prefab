@@ -12,15 +12,6 @@
             ]
         },
         {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "Tutorial_Spritesheet_How 0",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
-        },
-        {
             "Component Name": "struct Carmicah::UITransform",
             "xPos": 960.0,
             "yPos": 540.0,
@@ -33,8 +24,58 @@
     ],
     "Children": [
         {
-            "GameObject": "Dim",
+            "GameObject": "HowToBGBoard1",
             "ID": 2,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Tutorial_Spritesheet_How 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1920.0,
+                    "yPos": 0.0,
+                    "depth": 50.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToBGBoard2",
+            "ID": 3,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Tutorial_Spritesheet_How 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1920.0,
+                    "yPos": 0.0,
+                    "depth": 50.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "Dim",
+            "ID": 4,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -59,7 +100,7 @@
         },
         {
             "GameObject": "HowToLeftBtn",
-            "ID": 3,
+            "ID": 5,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -96,7 +137,7 @@
         },
         {
             "GameObject": "HowToRightBtn",
-            "ID": 4,
+            "ID": 6,
             "Components": [
                 {
                     "Component Name": "struct Script",
@@ -133,7 +174,7 @@
         },
         {
             "GameObject": "HowToHomeBtn",
-            "ID": 5,
+            "ID": 7,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -175,7 +216,7 @@
         },
         {
             "GameObject": "HowToPlayBtn",
-            "ID": 6,
+            "ID": 8,
             "Components": [
                 {
                     "Component Name": "struct Script",
