@@ -28,7 +28,7 @@ namespace Carmicah
 
         public float mouseXOffset = 0.5f;
 
-        bool testBool = false;
+        //bool testBool = false;
 
         public override void OnCreate()
         {
@@ -134,6 +134,18 @@ namespace Carmicah
             if (this.HasComponent<Renderer>())
                 this.GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
 
+            if (heroPrefab == "ShooterNPC")
+            {
+                GetComponentInChildren<TextRenderer>().SetText("Ground/Air");
+            }
+            else if (heroPrefab == "MageNPC")
+            {
+                GetComponentInChildren<TextRenderer>().SetText("AOE");
+            }
+            else if (heroPrefab == "SpearNPC")
+            {
+                GetComponentInChildren<TextRenderer>().SetText("Pierce");
+            }
         }
 
         public override void OnMouseHover()
@@ -163,6 +175,7 @@ namespace Carmicah
 
             if(this.HasComponent<Renderer>())
             { this.GetComponent<Renderer>().SetColour(1.0f, 1.0f, 1.0f); }
+            base.OnMouseExit();
         }
 
     }

@@ -3,21 +3,20 @@
     "ID": 9,
     "Components": [
         {
-            "Component Name": "struct Carmicah::Button",
-            "ButtonImage": "",
-            "ButtonImagePressed": "Button_SpriteSheet_C_Quit 0"
+            "Component Name": "struct Carmicah::Button"
         },
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Button_SpriteSheet_H_Quit 0"
+            "texture": "Button_SpriteSheet_H_Quit 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         },
         {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.QuitButton",
-            "ScriptableFieldMap": [
-                {}
-            ]
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Button_HE_Quit"
         },
         {
             "Component Name": "struct Carmicah::UITransform",
@@ -26,7 +25,17 @@
             "depth": 1.0,
             "xScale": 0.5,
             "yScale": 0.5,
-            "rot": 0.0
+            "rot": 0.0,
+            "transformTag": ""
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.ButtonGeneric",
+            "ScriptableFieldMap": [
+                {
+                    "buttonType": "QUit"
+                }
+            ]
         }
     ]
 }

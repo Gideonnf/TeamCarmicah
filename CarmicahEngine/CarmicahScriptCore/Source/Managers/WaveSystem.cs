@@ -24,9 +24,15 @@ namespace Carmicah
         public string losePrefab = "LoseScreen";
         public string countdownPrefab = "Countdown_1";
 
+        //public bool EndGame;
+
         Entity gameManager;
+        Entity pauseManager;
+        Entity UIManager;
+
         Entity winScreen;
         Entity countdown;
+        bool winScreenCreated = false;
 
 
 
@@ -34,19 +40,28 @@ namespace Carmicah
         {
             levelManager = new LevelManager();
             gameManager = FindEntityWithName("GameManager");
+            pauseManager = FindEntityWithName("PauseManager");
+            UIManager = FindEntityWithName("UIManager");
+
             Player.GameLost = false;
             
         }
 
         public override void OnUpdate(float dt)
         {
-            // Only increment time for as long as theres a wave coming
-            if (!gameManager.As<GameManager>().GameOver)
+            if (pauseManager.As<PauseManager>().IsPaused)
             {
-                waveTimer += dt;
+                return;
 
             }
 
+            // Only increment time for as long as theres a wave coming
+            if (gameManager.As<GameManager>().GameOver)
+            {
+                return;
+            }
+
+            waveTimer += dt;
             if (waveStart == false && (waveSetupTime - waveTimer) <= countdownStartTime)
             {
                 if (countdown == null)
@@ -65,7 +80,10 @@ namespace Carmicah
                 Wave nextWave = levelManager.GetWave();
                 //nextWave.PrintWaveData();
                 if (nextWave != null)
+                {
+                    //nextWave.ShuffleEnemies();
                     gameManager.As<GameManager>().StartNextWave(nextWave);
+                }
                 //CMConsole.Log("Starting New Wave");
                 //Sound.StopSoundBGM("BGM_SetupPhase_Mix1");
                 
@@ -76,6 +94,7 @@ namespace Carmicah
                 if (countdown != null)
                 {
                     countdown.Destroy();
+                    countdown = null;
 
                 }
 
@@ -87,7 +106,10 @@ namespace Carmicah
             {
                 Wave nextWave = levelManager.GetWave();
                 if (nextWave != null)
+                {
+                    //nextWave.ShuffleEnemies();
                     gameManager.As<GameManager>().StartNextWave(nextWave);
+                }
 
                 waveTimer = 0.0f;
             }
@@ -139,6 +161,7 @@ namespace Carmicah
 
             Entity powerController = FindEntityWithName("PowerUpControl");
             powerController.As<PowerUpControl>().WipePowerups();
+            winScreen = null;
         }
 
         //public void EndOfWave()

@@ -70,9 +70,81 @@ namespace Carmicah
 	 */
 	void CollisionSystem::InsertEntityToGrid(Entity& entity, const Vec2f& position)
 	{
+
 		int row = static_cast<int>(position.y / cellSize);
 		int col = static_cast<int>(position.x / cellSize);
+
+		if (row < 0)
+		{
+			// wrap around to the top
+			row = GRID_HEIGHT + row;
+		}
+
+		if (col < 0)
+		{
+			// wrap around to the top
+			col = GRID_WIDTH + col;
+		}
+
+		Collider2D collider = ComponentManager::GetInstance()->GetComponent<Collider2D>(entity);
+		
+		int row2 = static_cast<int>(collider.min.y / cellSize);
+		int col2 = static_cast<int>(collider.min.x / cellSize);
+
+		if (row2 < 0)
+		{
+			// wrap around to the top
+			row2 = GRID_HEIGHT + row2;
+		}
+
+		if (col2 < 0)
+		{
+			// wrap around to the top
+			col2 = GRID_WIDTH + col2;
+		}
+
+		int row3 = static_cast<int>(collider.max.y / cellSize);
+		int col3 = static_cast<int>(collider.max.x / cellSize);
+
+		if (row3 < 0)
+		{
+			// wrap around to the top
+			row3 = GRID_HEIGHT + row3;
+		}
+
+		if (col3 < 0)
+		{
+			// wrap around to the top
+			col3 = GRID_WIDTH + col3;
+		}
+
+
+		float distance = Vector2DDistance(collider.min, collider.max);
 		int entityIndex = GetEntityIndex(entity);
+
+		// occupies more than 1 cell size
+		if (distance > cellSize)
+		{
+			if (row2 >= 0 && row2 < GRID_HEIGHT)
+			{
+				rowsBitArray[row2].set(entityIndex);
+			}
+			if (row3 >= 0 && row3 < GRID_HEIGHT)
+			{
+				rowsBitArray[row3].set(entityIndex);
+			}
+			if (col2 >= 0 && col2 < GRID_WIDTH)
+			{
+				colsBitArray[col2].set(entityIndex);
+			}
+			if (col3 >= 0 && col3 < GRID_WIDTH)
+			{
+				colsBitArray[col3].set(entityIndex);
+			}
+		}
+
+		ComponentManager::GetInstance()->GetComponent<Collider2D>(entity).gridPos = Vec2i(row, col);
+
 
 		if (row >= 0 && row < GRID_HEIGHT)
 		{
@@ -101,16 +173,81 @@ namespace Carmicah
 		int col = static_cast<int>(position.x / cellSize);
 		int entityIndex = GetEntityIndex(entity);
 
+		if (row < 0)
+		{
+			// wrap around to the top
+			row = GRID_HEIGHT + row;
+		}
+
+		if (col < 0)
+		{
+			// wrap around to the top
+			col = GRID_WIDTH + col;
+		}
+
 		std::bitset<MAX_ENTITIES> combined = 0;
 
-		if (row >= 0 && row < GRID_HEIGHT)
+		// since its wrapping around, this should technically never flag an error??
+		combined |= rowsBitArray[row];
+		combined |= colsBitArray[col];
+
+		// check for nearby
+		if (row + 1 >= GRID_HEIGHT)
 		{
-			combined |= rowsBitArray[row];  // Merge row entities
+			// wrap around back to the earliest
+			combined |= rowsBitArray[0];
 		}
-		if (col >= 0 && col < GRID_WIDTH)
+		else
 		{
-			combined |= colsBitArray[col];  // Merge column entities
+			combined |= rowsBitArray[row + 1];
 		}
+
+		if (col + 1 >= GRID_WIDTH)
+		{
+			combined |= colsBitArray[0];
+		}
+		else
+		{
+			combined |= colsBitArray[col + 1];
+		}
+
+		if (row - 1 < 0)
+		{
+			combined |= rowsBitArray[GRID_HEIGHT - 1];
+		}
+		else
+		{
+			combined |= rowsBitArray[row - 1];
+		}
+
+		if (col - 1 < 0)
+		{
+			combined |= colsBitArray[GRID_WIDTH - 1];
+		}
+		else
+		{
+			combined |= colsBitArray[col - 1];
+		}
+
+		// get the row and column around as well
+		//if (row >= 0 && row < GRID_HEIGHT)
+		//{
+		//	combined |= rowsBitArray[row];  // Merge row entities
+		//	if (row != 0)
+		//		combined |= rowsBitArray[row - 1];
+		//	if (row < GRID_HEIGHT - 1)
+		//		combined |= rowsBitArray[row + 1];
+
+		//}
+		//if (col >= 0 && col < GRID_WIDTH)
+		//{
+		//	combined |= colsBitArray[col];  // Merge column entities
+		//	if (col != 0)
+		//		combined |= colsBitArray[col - 1];  // Merge column entities
+		//	if (col < GRID_WIDTH - 1)
+		//	combined |= colsBitArray[col + 1];  // Merge column entities
+
+		//}
 
 		// Remove self
 		combined.reset(entityIndex);
@@ -591,10 +728,14 @@ namespace Carmicah
 	 */
 	bool CollisionSystem::TestIntersection(Entity& obj1, Entity& obj2)
 	{
-
+		//return false;
 		auto* componentManager = ComponentManager::GetInstance();
 		auto& collider1 = componentManager->GetComponent<Collider2D>(obj1);
 		auto& collider2 = componentManager->GetComponent<Collider2D>(obj2);
+
+		auto& transform1 = componentManager->GetComponent<Transform>(obj1);
+		auto& transform2 = componentManager->GetComponent<Transform>(obj2);
+
 
 		// Check if either object has no vertices (invalid collider)
 		if (collider1.objVert.empty() || collider2.objVert.empty())
@@ -602,6 +743,12 @@ namespace Carmicah
 			return false;
 		}
 
+		// do a simple distance check first
+		// not close enough to do OBB Check
+		//if (Vector2DDistance(transform1.ExtractWorldPos(), transform2.ExtractWorldPos()) > 3.0f)
+		//{
+		//	return false;
+		//}
 		// Test edges of collider1
 		for (size_t i = 0; i < collider1.objEdges.size(); i++)
 		{
@@ -770,6 +917,7 @@ namespace Carmicah
 			if (mEntityTriggerMap[obj1].count(obj2) == 0)
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
+				CM_CORE_INFO("Sending trigger enter message");
 				SendSysMessage(&newMsg);
 
 				mEntityTriggerMap[obj1].insert(obj2);
@@ -814,6 +962,7 @@ namespace Carmicah
 			if (mEntityTriggerMap[obj1].count(obj2) == 0)
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
+				CM_CORE_INFO(gGOFactory->GetMIDToGO()[obj1].GetName() + " entering " + gGOFactory->GetMIDToGO()[obj2].GetName());
 				SendSysMessage(&newMsg);
 
 				mEntityTriggerMap[obj1].insert(obj2);
@@ -843,6 +992,8 @@ namespace Carmicah
 
 		auto* componentManager = ComponentManager::GetInstance();
 
+		//std::vector<Entity> entitiesChecked;
+
 		// Insert all entities into the grid
 		for (auto entity : mEntitiesSet)
 		{
@@ -851,7 +1002,7 @@ namespace Carmicah
 		}
 
 		bool collided = false;
-		bool triggerCollide = false;
+		//bool triggerCollide = false;
 
 		// Perform collision detection
 		for (auto entity1 : mEntitiesSet)
@@ -879,6 +1030,8 @@ namespace Carmicah
 							//	CM_CORE_INFO("why tf is it colliding");
 							//}
 
+
+							//entitiesChecked.push_back(entity2);
 							CollisionResponse(entity1, entity2);
 							collided = true;
 						}
@@ -922,17 +1075,34 @@ namespace Carmicah
 			}
 
 			// check which entities entity 1 is no longer colliding with
-			for (auto it : mEntityTriggerMap[entity1])
+			for (auto it = mEntityTriggerMap[entity1].begin(); it != mEntityTriggerMap[entity1].end();)
 			{
+				/*if (it == 24)
+				{
+					CM_CORE_INFO("Num of entities in trigger map {}", mEntityTriggerMap[entity1].size());
+
+				}*/
 				// if its not collided but it is part of entity 1's trigger map
 				// that means we need to trigger on exit
-				if (collidedEntities.count(it) == 0)
+				if (collidedEntities.count(*it) == 0)
 				{
-					EntityCollidedMessage newMsg(entity1, it, CollideType::TRIGGER_EXIT);
+					EntityCollidedMessage newMsg(entity1, *it, CollideType::TRIGGER_EXIT);
+					//CM_CORE_INFO(gGOFactory->GetMIDToGO()[entity1].GetName() + " exiting " + gGOFactory->GetMIDToGO()[*it].GetName());
 					SendSysMessage(&newMsg);
 
-					mEntityTriggerMap.erase(it);
+					it = mEntityTriggerMap[entity1].erase(it);
+
+					
 				}
+				else
+				{
+					it++;
+				}
+			}
+
+			if (mEntityTriggerMap[entity1].empty())
+			{
+				mEntityTriggerMap.erase(entity1);
 			}
 
 			// if entity 1 was already colliding but no longer

@@ -23,7 +23,7 @@ namespace Carmicah
 
         public virtual void OnTriggerStay(uint collidedEntity) { }
 
-        public virtual void OnTriggerExit() { }
+        public virtual void OnTriggerExit(uint collidedEntity) { }
 
         public virtual void OnMouseEnter() { }
 
@@ -160,7 +160,7 @@ namespace Carmicah
 
             if (scriptInstance == null)
             {
-                CMConsole.Log($"Script instance is null");
+              //  CMConsole.Log($"Script instance is null");
                 return null;
             }
 
@@ -173,7 +173,7 @@ namespace Carmicah
             
             if (entityID == 0)
             {
-                CMConsole.Log("entity not found");
+               // CMConsole.Log("entity not found");
                 return null;
             }
 

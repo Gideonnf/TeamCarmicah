@@ -13,6 +13,8 @@ namespace Carmicah
         public string ShooterPrefab = "ShooterBall";
         public string MagePrefab = "MageBall";
         public string HoneyPrefab = "HoneyBall";
+        public string SpearPrefab = "SpearBall";
+        public string JellybeanPrefab = "JellybeanBall";
 
         public float xOffset = 2.0f;
         public float heightOffset = 12.0f;
@@ -31,10 +33,12 @@ namespace Carmicah
 
         List<float> trapWeights = new List<float>()
         {
-            0.4f,
-            0.1f,
-            0.4f,
-            0.1f
+            0.25f, //Candy
+            0.25f, //Shoot
+            0.15f, //Honey
+            0.05f, //Mage
+            0.15f, //Explosion
+            0.15f //Spear
         };
 
         public override void OnCreate()
@@ -91,7 +95,7 @@ namespace Carmicah
         public void PowerUpDestroyed(TrapBall entity)
         {
             listOfPowerups.Remove(entity);
-            CMConsole.Log($"List of power ups: {listOfPowerups.Count}");
+         //   CMConsole.Log($"List of power ups: {listOfPowerups.Count}");
         }
 
         // to use when going next level
@@ -147,19 +151,31 @@ namespace Carmicah
 
                             break;
                         }
+                    case IconType.JELLYBEAN_ICON:
+                        {
+                            newTrap = CreateGameObject(JellybeanPrefab);
+
+                            break;
+                        }
+                    case IconType.SPEAR_ICON:
+                        {
+                            newTrap = CreateGameObject(SpearPrefab);
+
+                            break;
+                        }
                 }
 
                 // successfuly made a trap
                 if (newTrap != null)
                 {
-                    CMConsole.Log($"Creating a trap");
+                    //CMConsole.Log($"Creating a trap");
                    listOfPowerups.Add(newTrap.As<TrapBall>());
-                    CMConsole.Log($"List of power ups: {listOfPowerups.Count}");
+                   // CMConsole.Log($"List of power ups: {listOfPowerups.Count}");
 
                     // random a range from - and + and x offset from camera's position.x
                     float randXPos = CMRand.Range(camera.Position.x - xOffset, camera.Position.x + xOffset);
                     newTrap.Position = new Vector2(randXPos, mainCharacter.Position.y + heightOffset);
-                    CMConsole.Log($"trap position {randXPos}, {mainCharacter.Position.y + heightOffset}");
+                 //   CMConsole.Log($"trap position {randXPos}, {mainCharacter.Position.y + heightOffset}");
                 }
                 //CMConsole.Log($"trap is null???");
 

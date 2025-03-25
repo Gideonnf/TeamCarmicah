@@ -5,7 +5,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "strawberry_pop_in",
+            "texture": "fruit_cake_SpriteSheet_Squish 3",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
@@ -13,11 +13,11 @@
         },
         {
             "Component Name": "struct Carmicah::UITransform",
-            "xPos": 1220.2135009765626,
-            "yPos": 622.64404296875,
+            "xPos": 1186.0,
+            "yPos": 617.0,
             "depth": 1.5,
-            "xScale": 0.25,
-            "yScale": 0.25,
+            "xScale": 0.20000000298023225,
+            "yScale": 0.20000000298023225,
             "rot": 17.132999420166017,
             "transformTag": ""
         },

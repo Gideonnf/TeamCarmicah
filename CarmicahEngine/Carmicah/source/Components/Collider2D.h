@@ -39,6 +39,8 @@ namespace Carmicah
         std::vector<Vec2f> objNormals;
         std::vector<Vec2f> objEdges;
 
+        Vec2i gridPos;
+
         Vec2f posPivot{ 0,0 };
 
         void CustomWidth(float width)

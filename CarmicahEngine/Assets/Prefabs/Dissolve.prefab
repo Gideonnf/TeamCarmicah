@@ -1,0 +1,38 @@
+{
+    "GameObject": "Dissolve",
+    "ID": 66,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::Transform",
+            "xPos": -12.822978973388672,
+            "yPos": 0.0,
+            "depth": 4.0,
+            "xScale": 0.4000000059604645,
+            "yScale": 0.4000000059604645,
+            "rot": 0.0,
+            "transformTag": "",
+            "collisionMask": 1
+        },
+        {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Dissolve_Yellow",
+            "AnimSpeed": 1.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.Dissolve",
+            "ScriptableFieldMap": [
+                {}
+            ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Dissolve_SpriteSheet_Dissolve 20",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        }
+    ]
+}

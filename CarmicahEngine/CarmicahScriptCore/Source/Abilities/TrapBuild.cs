@@ -27,10 +27,11 @@ namespace Carmicah
         public AbilityType type;
 
         bool hovering = false;
+        bool canOverlap = false;
         bool built = false;
         bool enemyCollided = false;
 
-        float redCol;
+        //float redCol;
        // bool isActive = false;
 
         public override void OnCreate()
@@ -45,7 +46,7 @@ namespace Carmicah
             // incase trap entity gets destroyed, it needs to update to null here
             if (trapEntity != null && trapEntity.mID == 0)
             {
-                CMConsole.Log("Trap entity destroyed");
+                //CMConsole.Log("Trap entity destroyed");
                 trapEntity = null;
                 built = false;
             }
@@ -71,7 +72,7 @@ namespace Carmicah
                 return;
             }
 
-            if (enemyCollided && translucentTrap != null)
+            if (enemyCollided && translucentTrap != null && !canOverlap)
             {
                 // change color to red
                 translucentTrap.GetComponent<Renderer>().SetColour(1.0f, 0.2f, 0.2f);
@@ -115,7 +116,7 @@ namespace Carmicah
 
                     //CMConsole.Log("It shouldnt be here atm");
                     translucentTrap = CreateGameObject(TrapTranslucentPrefab);
-                    CMConsole.Log($"{Position.x} , {Position.y}");
+                    //CMConsole.Log($"{Position.x} , {Position.y}");
                     translucentTrap.GetComponent<Transform>().Position = new Vector2(Position.x + trapxOffset, Position.y + trapyOffset);
                     translucentTrap.GetComponent<Transform>().Depth = depthVal;
                     translucentTrap.GetComponent<Renderer>().SetAlpha(0.3f);
@@ -136,7 +137,7 @@ namespace Carmicah
                 if (translucentTrap != null)
                 {
                     // dont let them build if an enemy is taking the spot
-                    if (enemyCollided)
+                    if (enemyCollided && !canOverlap)
                     {
                         translucentTrap.Destroy();
                         translucentTrap = null;
@@ -153,7 +154,7 @@ namespace Carmicah
                         // build a trap
                         built = true;
                         trapEntity = CreateGameObject(TrapPrefabName);
-                        CMConsole.Log($"{Position.x} , {Position.y}");
+                       // CMConsole.Log($"{Position.x} , {Position.y}");
                         trapEntity.GetComponent<Transform>().Position = new Vector2(translucentTrap.Position.x, translucentTrap.Position.y);
                         trapEntity.GetComponent<Transform>().Depth = depthVal;
                         trapEntity.As<TrapAI>().built = true;
@@ -186,7 +187,10 @@ namespace Carmicah
                         {
                             Vector2 scale = trapEntity.GetComponent<Transform>().Scale;
                             trapEntity.GetComponent<Transform>().Scale = new Vector2(-scale.x, scale.y);
+                            if(type == AbilityType.CANDY_CONE)
+                            {
                             trapEntity.GetComponent<Collider2D>().SetxPivot(1.0f);
+                            }
 
                             //trapEntity.Position = new Vector2(translucentTrap.Position.x, translucentTrap.Position.y);
                         }
@@ -228,8 +232,9 @@ namespace Carmicah
             built = false;
         }
 
-        public void SetTrapType(AbilityType trapType, string trapPrefabName, string fakeTrapName, Entity icon)
+        public void SetTrapType(AbilityType trapType, string trapPrefabName, string fakeTrapName, Entity icon, bool overlap)
         {
+            canOverlap = overlap;
             //CMConsole.Log("Shouldnt Honey be running this too?");
             type = trapType;
             TrapPrefabName = trapPrefabName;
@@ -259,7 +264,7 @@ namespace Carmicah
             }
         }
 
-        public override void OnTriggerExit()
+        public override void OnTriggerExit(uint collidedEntity)
         {
            // CMConsole.Log("Not colliding with enemy");
             enemyCollided = false;

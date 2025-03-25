@@ -60,15 +60,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Source\Abilities\BaseIcon.cs" />
+    <Compile Include="Source\Abilities\Dissolve.cs" />
     <Compile Include="Source\Abilities\TrapAI.cs" />
     <Compile Include="Source\Abilities\TrapBall.cs" />
     <Compile Include="Source\Abilities\TrapBuild.cs" />
+    <Compile Include="Source\Abilities\TrapJellybean.cs" />
     <Compile Include="Source\Managers\CakeControl.cs" />
     <Compile Include="Source\Managers\LevelManager.cs" />
     <Compile Include="Source\BalloonBounce.cs" />
     <Compile Include="Source\Camera.cs" />
     <Compile Include="Source\Managers\GameManager.cs" />
     <Compile Include="Source\Managers\PowerUpControl.cs" />
+    <Compile Include="Source\System\Easings.cs" />
     <Compile Include="Source\NPC\BaseNPC.cs" />
     <Compile Include="Source\Abilities\HeroBuild.cs" />
     <Compile Include="Source\NPC\FlyingEnemyAI.cs" />
@@ -105,6 +108,7 @@
     <Compile Include="Source\UI\Credits.cs" />
     <Compile Include="Source\UI\Cutscene.cs" />
     <Compile Include="Source\Abilities\HeroIcon.cs" />
+    <Compile Include="Source\UI\CutsceneEnding.cs" />
     <Compile Include="Source\UI\FPSCounter.cs" />
     <Compile Include="Source\UI\HowToPlay.cs" />
     <Compile Include="Source\UI\Intro.cs" />
@@ -113,9 +117,12 @@
     <Compile Include="Source\UI\LoadingScreen.cs" />
     <Compile Include="Source\Abilities\TrapIcon.cs" />
     <Compile Include="Source\UI\MainMenuBGM.cs" />
+    <Compile Include="Source\UI\MouseParticles.cs" />
     <Compile Include="Source\UI\Parallex.cs" />
     <Compile Include="Source\UI\PrincessHPBar.cs" />
     <Compile Include="Source\Tutorial\TutorialController.cs" />
+    <Compile Include="Source\UI\UISliding.cs" />
+    <Compile Include="Source\UI\VolumeControl.cs" />
     <Compile Include="Source\UI\WaveCountdown.cs" />
     <Compile Include="Source\UI\WaveCounter.cs" />
     <Compile Include="Source\Managers\WaveSystem.cs" />

@@ -3,16 +3,22 @@
     "ID": 22,
     "Components": [
         {
-            "Component Name": "struct Carmicah::Button",
-            "ButtonImage": "",
-            "ButtonImagePressed": "candy_trap_spritesheet_Spike 0"
+            "Component Name": "struct Carmicah::Button"
         },
         {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.TrapIcon",
             "ScriptableFieldMap": [
                 {
-                    "trapPrefab": "Trap_1"
+                    "actualTrapPrefab": "CandyConeTrap",
+                    "WaveSystemObject": "Something",
+                    "trapxOffset": 1.600000023841858,
+                    "fakeTrapPrefab": "FakeCandyConeTrap",
+                    "cooldownTime": 0.0,
+                    "activeTrapIcon": false,
+                    "cooldown": false,
+                    "flipped": false,
+                    "trapyOffset": 0.0
                 }
             ]
         },
@@ -26,17 +32,14 @@
             "colA": 1.0
         },
         {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Candy_Con"
-        },
-        {
             "Component Name": "struct Carmicah::UITransform",
             "xPos": 1820.92529296875,
             "yPos": 756.0,
             "depth": 0.5,
             "xScale": 0.15000000596046449,
             "yScale": 0.15000000596046449,
-            "rot": 22.860260009765626
+            "rot": 22.860260009765626,
+            "transformTag": ""
         }
     ]
 }

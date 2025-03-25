@@ -24,7 +24,7 @@ namespace Carmicah
 {
 #pragma region ScriptClass
 	
-	ScriptClass::ScriptClass(const std::string& nameSpace, const std::string& className)
+	ScriptClass::ScriptClass(const std::string& nameSpace, const std::string& className) : mNameSpace(nameSpace), mClassName(className)
 	{
 		mMonoClass = mono_class_from_name(gScriptSystem->mCoreAssemblyImage, nameSpace.c_str(), className.c_str());
 	}
@@ -67,6 +67,9 @@ namespace Carmicah
 		MonoClass* methodClass = mono_method_get_class(method);
 		const char* className = methodClass ? mono_class_get_name(methodClass) : "UnknownClass";
 		const char* methodName = mono_method_get_name(method);
+
+		UNUSED(className);
+		UNUSED(methodName);
 
 		int paramCount = mono_signature_get_param_count(mono_method_signature(method));
 		if (paramCount > 0 && !params)
@@ -130,7 +133,7 @@ namespace Carmicah
 		mOnCollide = scClass->GetMethod("OnCollide", 1);
 		mOnTriggerEnter = scClass->GetMethod("OnTriggerEnter", 1);
 		mOnTriggerStay = scClass->GetMethod("OnTriggerStay", 1);
-		mOnTriggerExit = scClass->GetMethod("OnTriggerExit", 0);
+		mOnTriggerExit = scClass->GetMethod("OnTriggerExit", 1);
 
 		// Mouse functions
 		mOnMouseEnter = scClass->GetMethod("OnMouseEnter", 0);
@@ -210,6 +213,7 @@ namespace Carmicah
 		if (mOnTriggerEnter)
 		{
 			void* param = &id;
+			//CM_CORE_INFO("Calling the Invoke Method onTriggerEnter");
 			mScriptClass->InvokeMethod(mMonoInstance, mOnTriggerEnter, &param);
 
 		}
@@ -225,11 +229,13 @@ namespace Carmicah
 		}
 	}
 
-	void ScriptObject::InvokeOnTriggerExit()
+	void ScriptObject::InvokeOnTriggerExit(unsigned int id)
 	{
 		if (mOnTriggerExit)
 		{
-			mScriptClass->InvokeMethod(mMonoInstance, mOnTriggerExit);
+			void* param = &id;
+			CM_CORE_INFO("Calling the Invoke Method onTriggerExit");
+			mScriptClass->InvokeMethod(mMonoInstance, mOnTriggerExit, &param);
 		}
 	}
 

@@ -3,22 +3,21 @@
     "ID": 11,
     "Components": [
         {
-            "Component Name": "struct Carmicah::Button",
-            "ButtonImage": "",
-            "ButtonImagePressed": "Button_SpriteSheet_C_Resume 0"
+            "Component Name": "struct Carmicah::Button"
         },
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Button_SpriteSheet_H_Resume 0"
-        },       
-        {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.ResumeButton",
-            "ScriptableFieldMap": [
-                {}
-            ]
+            "texture": "Button_SpriteSheet_H_Resume 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         },
+        {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Button_HE_Resume"
+        }, 
         {
             "Component Name": "struct Carmicah::UITransform",
             "xPos": 848.0852661132813,
@@ -26,7 +25,17 @@
             "depth": 1.0,
             "xScale": 0.5,
             "yScale": 0.5,
-            "rot": 0.0
+            "rot": 0.0,
+            "transformTag": ""
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.ButtonGeneric",
+            "ScriptableFieldMap": [
+                {
+                    "buttonType": "reSUME"
+                }
+            ]
         }
     ]
 }

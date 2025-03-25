@@ -2,13 +2,18 @@
     "Scene": "Scene4",
     "SceneObjects": [
         {
+            "GameObject": "",
+            "ID": 0,
+            "Components": []
+        },
+        {
             "GameObject": "BackgroundGO",
             "ID": 1,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "sky",
+                    "texture": "Menu_SpriteSheet",
                     "colR": 0.0,
                     "colG": 0.0,
                     "colB": 0.0,
@@ -107,12 +112,11 @@
                     "scriptName": "Carmicah.Intro",
                     "ScriptableFieldMap": [
                         {
-                            "FadeDuration": 0.0,
-                            "HoldDuration": 0.0,
+                            "FadeDuration": -107374176.0,
+                            "HoldDuration": -107374176.0,
                             "gameLogoName": "game_logo",
-                            "maxDuration": 7.00623507842151e22,
-                            "otherStateDuration": 7.00623507842151e22,
-                            "schoolBGName": "black_background",
+                            "maxDuration": -107374176.0,
+                            "otherStateDuration": -107374176.0,
                             "schoolLogoName": "digipen_logo",
                             "schoolRightsName": "digipen_rights",
                             "state": 0,
@@ -174,6 +178,60 @@
                     "rot": 0.0,
                     "transformTag": "",
                     "collisionMask": 0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "CursorParticles",
+            "ID": 72,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 600.0,
+                    "xScale": 0.5,
+                    "yScale": 0.5,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 64
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI_Spritesheet_Cursor 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 0.7843137383460999
+                },
+                {
+                    "Component Name": "struct Carmicah::ParticleEmitter",
+                    "texture": "UI_Spritesheet_Sparkle_VFX 0",
+                    "VelX": 1.0,
+                    "VelY": 1.0,
+                    "RadiusX": 0.0,
+                    "RadiusY": 0.0,
+                    "SizeRangeMin": 1.0,
+                    "SizeRangeMax": 1.0,
+                    "SpawnPSec": 7,
+                    "Lifetime": 1.5,
+                    "BurstTime": 0.0,
+                    "SpeedRange": 0.5,
+                    "AngleRange": 360.0,
+                    "EmitterStatus": 5
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.MouseParticles",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
                 }
             ],
             "Children": []

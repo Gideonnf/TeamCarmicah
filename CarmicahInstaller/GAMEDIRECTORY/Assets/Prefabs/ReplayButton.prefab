@@ -3,6 +3,9 @@
     "ID": 36,
     "Components": [
         {
+            "Component Name": "struct Carmicah::Button"
+        },
+        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "Button_SpriteSheet_H_Replay 0",
@@ -13,10 +16,10 @@
         },
         {
             "Component Name": "struct Script",
-            "scriptName": "Carmicah.ReplayButton",
+            "scriptName": "Carmicah.ButtonGeneric",
             "ScriptableFieldMap": [
                 {
-                    "buttonType": ""
+                    "buttonType": "Replay"
                 }
             ]
         },

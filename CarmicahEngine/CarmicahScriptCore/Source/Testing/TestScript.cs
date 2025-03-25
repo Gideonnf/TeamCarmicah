@@ -11,7 +11,7 @@ namespace Carmicah
         public override void OnCreate()
         {
             temp = 5;
-            CMConsole.Log("Test SCript Create");
+            //CMConsole.Log("Test SCript Create");
             base.OnCreate();
             GetTarget();
             Shoot();
@@ -25,7 +25,7 @@ namespace Carmicah
         public override void Shoot()
         {
             base.Shoot();
-            CMConsole.Log("Shooting testCript");
+           // CMConsole.Log("Shooting testCript");
         }
     }
 }

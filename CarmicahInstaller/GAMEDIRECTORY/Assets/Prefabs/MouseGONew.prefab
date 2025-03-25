@@ -7,15 +7,16 @@
             "xPos": 8.947422981262207,
             "yPos": -18.05034828186035,
             "depth": 5.0,
-            "xScale": 0.5,
-            "yScale": 0.5,
+            "xScale": 0.6000000238418579,
+            "yScale": 0.6000000238418579,
             "rot": 0.0,
             "transformTag": "Enemy",
             "collisionMask": 4
         },
         {
             "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Mouse_Climb_blue"
+            "Atlas": "Mouse_Climb_white",
+            "AnimSpeed": 1.0
         },
         {
             "Component Name": "struct Carmicah::StateMachine",
@@ -45,29 +46,25 @@
             "scriptName": "Carmicah.MouseAI",
             "ScriptableFieldMap": [
                 {
-                    "SpawnPointEntityLeft": "StartPointLeft",
+                    "Speed": "1.0",
                     "isLeft": false,
-                    "SpawnPointEntityRight2": "StartPointRight_1",
-                    "Animation2": "Mouse_Climb_white",
-                    "SpawnPointEntityRight": "StartPointRight",
-                    "EndPointEntityLeft": "EndPointLeft",
+                    "SpawnPointEntityLeft": "StartPointLeft",
+                    "SpawnPointEntityLeft2": "StartPointLeft_1",
                     "ChanceToDie": 0.11999999731779099,
+                    "EndPointEntityLeft": "EndPointLeft",
+                    "SpawnPointEntityRight": "StartPointRight",
+                    "SpawnPointEntityRight2": "StartPointRight_1",
+                    "EndPointEntityLeft2": "EndPointLeft_1",
                     "EndPointEntityRight": "EndPointRight",
                     "EndPointEntityRight2": "EndPointRight_1",
-                    "Animation0": "Mouse_Climb_white",
-                    "Animation1": "Mouse_Climb_white",
-                    "Animation3": "Mouse_Climb_white",
-                    "AnimationDie0": "Mouse_Death_white",
-                    "AnimationDie2": "Mouse_Death_white",
-                    "AnimationDie1": "Mouse_Death_white",
-                    "AnimationDie3": "Mouse_Death_white",
-                    "DeathSound": "mouse die btr",
-                    "InjuredSound": "mouse die",
-                    "SpawnPointEntityLeft2": "StartPointLeft_1",
-                    "EndPointEntityLeft2": "EndPointLeft_1",
-                    "DeathTime": 2.0,
+                    "baseAnimation": "Mouse_Climb_White",
+                    "baseAnimationDie": "Mouse_Death_White",
+                    "baseAnimationDissolve": "Mouse_Dissolve_White",
+                    "timer": 0.0,
                     "TimeToDie": 1.5,
-                    "timer": 0.0
+                    "DeathTime": 2.0,
+                    "DeathSound": "mouse die btr",
+                    "InjuredSound": "mouse die"
                 }
             ]
         },
@@ -97,7 +94,7 @@
             "mass": 1.0,
             "gravity": 0.0,
             "zposPrev": 1.0,
-            "objectType": 2
+            "objectType": 1
         }
     ],
     "Children": [

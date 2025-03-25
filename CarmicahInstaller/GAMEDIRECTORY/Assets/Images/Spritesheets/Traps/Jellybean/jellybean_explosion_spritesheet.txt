@@ -1,0 +1,7 @@
+explode
+Top left: 410 x 0, 410 x 684
+9 sprites
+
+explode1
+Top left: 0 x 684, 410 x 684
+6 sprites

@@ -36,7 +36,7 @@ namespace Carmicah
 
         public override void OnCreate()
         {
-            CMConsole.Log($"ballon pos y {Position.y}");
+            //CMConsole.Log($"ballon pos y {Position.y}");
             maxHeight = Position.y + YOffset;
             origHeight = Position.y;
         }

@@ -98,6 +98,7 @@ namespace Carmicah
         Entity VFXPrefab;
         Entity waveSystem;
         Entity mainCamera;
+        Entity UIManager;
 
         public string[] CakeFallAnimations = new string[4];
         public string[] CakeSquishAnimations = new string[4];
@@ -106,6 +107,7 @@ namespace Carmicah
         public override void OnCreate()
         {
             mainCamera = FindEntityWithName("MainCamera");
+            UIManager = FindEntityWithName("UIManager");
             mobCounter = new Wave();
             mouseLaneOne = new List<MouseAI>();
             mouseLaneTwo = new List<MouseAI>();
@@ -198,8 +200,9 @@ namespace Carmicah
                 {
                     timer = 0.0f;
                     // Get the next enemy type to spawn
-                    EnemyTypes type = mobCounter.GetNextEnemy();
-                    
+                    //EnemyTypes type = mobCounter.GetNextEnemy();
+                    EnemyTypes type = mobCounter.GetNextEnemyRandom();
+
                     switch (type)
                     {
                         case EnemyTypes.MOUSE1:
@@ -259,6 +262,7 @@ namespace Carmicah
                 activeEnemies += level.enemySpawns[i];
                 //CMConsole.Log("Adding Enemy");
             }
+            mobCounter.ShuffleEnemies();
         }
 
         public void CreateEnemy(string prefabName, EnemyTypes type)
@@ -290,7 +294,7 @@ namespace Carmicah
                 mouseEntity.As<MouseAI>().enemyType = type;
 
                 //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
-                CMConsole.Log($"Lane : {mouseAI.lane}");
+                //CMConsole.Log($"Lane : {mouseAI.lane}");
                 switch (mouseAI.lane)
                 {
                     case 0:
@@ -715,6 +719,7 @@ namespace Carmicah
             Sound.SwitchBGM("LoseScreen", 0.5f, 0.5f);
             
             Sound.StopAllSFX();
+            //UIManager.As<UIManager>().CreateMenu("LoseScreen");
             CreateGameObject("LoseScreen");
         }
 
@@ -943,7 +948,7 @@ namespace Carmicah
                 Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
 
                 cakeType = 2;//CMRand.Range(0, 3);
-                CMConsole.Log($"cake type {cakeType}");
+                //CMConsole.Log($"cake type {cakeType}");
                 Sound.PlaySFX("TowerStack", 1.0f);
                 towerPrefab = CreateGameObject(CakePrefabName);
                 towerPrefab.Position = new Vector2(Position.x, ySpawnPos);
@@ -982,7 +987,7 @@ namespace Carmicah
 
             if (stateName == "TowerCreate")
             {
-                CMConsole.Log("Testing tower create");
+                //CMConsole.Log("Testing tower create");
                 
                 GetComponent<StateMachine>().SetStateCondition(3);
 
@@ -1000,7 +1005,7 @@ namespace Carmicah
                         VFXPrefab.Position = new Vector2(-0.75f, yVFXLocation);
                     }
                 }
-                CMConsole.Log($"IN TOWER DROP UPDATE {towerPrefab.Position.x}, {towerPrefab.Position.y}");
+               // CMConsole.Log($"IN TOWER DROP UPDATE {towerPrefab.Position.x}, {towerPrefab.Position.y}");
                 if (towerPrefab.Position.y > yTargetPos)
                 {
                     Vector2 pos = towerPrefab.Position;
@@ -1013,7 +1018,7 @@ namespace Carmicah
                     // tower landed
                     towerPrefab.Position = new Vector2(towerPrefab.Position.x, yTargetPos);
                     GetComponent<StateMachine>().SetStateCondition(4);
-                    CMConsole.Log("Changing VFX prefab animation");
+                    //CMConsole.Log("Changing VFX prefab animation");
                     VFXPrefab.ChangeAnim("CakeFallVFxEnd");
                     
                     Sound.PlaySFX("SFX__Magic", 0.4f);

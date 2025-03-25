@@ -152,6 +152,7 @@ namespace Carmicah
         //comment it when using installer
         //CM_CORE_INFO("Reached before window creation");
         GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", NULL, NULL);
+        //glfwMaximizeWindow(window);
        // int bufferWidth, bufferHeight;
         //glfwGetFramebufferSize(window, &bufferWidth, &bufferHeight);
 #endif
@@ -271,27 +272,21 @@ namespace Carmicah
         gameSystem->Init(); // Load all GOs from scene file
         
 #endif
-        //gGOFactory->CreateSceneObject("Scene1"); // TODO: Shift this so that it isnt here and manually being made
-        //gGOFactory->ParentAllGO();
-
-        //GameLogic gameLogic;
-        //gameLogic->Init();
-        //gGOFactory->BindSystem(std::static_pointer_cast<BaseSystem>(gameLogic).get());
-       // graSystem->SetScreenSize((GLuint)Width / 100, (GLuint)Height / 100, gGOFactory->mainCam);
-
-        //colSystem->PrintEntities();
-        //int objectCount = 0;
-        //phySystem->Update();
         
+        /*
+        Fixed DT variables
+        */
+
         CarmicahTime::GetInstance()->SetFixedDT(true);
         double accumulatedTime = 0.0;
-
-
+        int steps = 0;
+        const double maxAccumulation = 0.1f;
+        const int maxSteps = 5;
 
         //Editor Editor;
         editorSys->Init(window);
         
-        
+
         static bool gameOnly = false;
 #ifdef CM_INSTALLER
         gameOnly = true;
@@ -299,16 +294,15 @@ namespace Carmicah
         gameSystem->mRuntime = true; // set it to run time mode
 #endif
 
-
-
         SceneToImgui::GetInstance()->CreateFramebuffer(Width, Height);
 
         while (!glfwWindowShouldClose(window)) {
             CarmicahTime::GetInstance()->StartLoopTimer();
+            CarmicahTime::GetInstance()->StartSystemTimer("Misc");
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTime::GetInstance()->FPS())) + " - Scene : " + gameSystem->GetCurrScene();
             glfwSetWindowTitle(window, title.c_str());
             glfwPollEvents(); // this takes 20% of engine run time
-
+            CarmicahTime::GetInstance()->StopSystemTimer("Misc");
 
             if (gameSystem->mNextState == SceneState::EXIT)
             {
@@ -345,30 +339,39 @@ namespace Carmicah
                 colSystem->Update();
                 CarmicahTime::GetInstance()->StopSystemTimer("CollisionSystem");
 
+                CarmicahTime::GetInstance()->StartSystemTimer("ScriptSystem");
                 gScriptSystem->UpdateScripts(); // TODO: Add this to profiler
+                CarmicahTime::GetInstance()->StopSystemTimer("ScriptSystem");
 
+                CarmicahTime::GetInstance()->StartSystemTimer("InputSystem");
                 Input.Update();
+                CarmicahTime::GetInstance()->StopSystemTimer("InputSystem");
 
 
 
                 if (gameSystem->mCurrState == SceneState::RUNTIME && SceneWindow::mIsPaused == false)
                 {
+                    CarmicahTime::GetInstance()->StartSystemTimer("ScriptSystem");
                     gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime()); // TODO: Add this to profiler
-
+                    CarmicahTime::GetInstance()->StopSystemTimer("ScriptSystem");
                     // script system normal update and fixed update is both called
                     // so force normal dt into normal onUpdate
                     // and force fixed dt into fixed update
                     //gameLogic->Update(window);
 
                     accumulatedTime += CarmicahTime::GetInstance()->ForceDeltaTime();
-
-                    while (accumulatedTime >= CarmicahTime::GetInstance()->ForceFixedDT())
+                    accumulatedTime = std::min(accumulatedTime, maxAccumulation);
+                    steps = 0;
+                    //CarmicahTime::GetInstance()->StartSystemTimer("FixedDT");
+                    while (accumulatedTime >= CarmicahTime::GetInstance()->ForceFixedDT() && steps < maxSteps)
                     {
                         // NOTE im putting both here cause im lazy to change every script to fixed dt
                         // cause it runs some shit faster than normal
                         // since im using scripts to do animations also i need it ot be consistent
 
+                        CarmicahTime::GetInstance()->StartSystemTimer("ScriptSystem");
                         gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
+                        CarmicahTime::GetInstance()->StopSystemTimer("ScriptSystem");
 
                         if (CarmicahTime::GetInstance()->IsFixedDT())
                         {
@@ -380,16 +383,23 @@ namespace Carmicah
                             CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
                         }
 
+                        CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
+                        aniSystem->Update();
+                        CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
+
+                        steps++;
 
                         accumulatedTime -= CarmicahTime::GetInstance()->ForceFixedDT();
                     }
-
+                    //CarmicahTime::GetInstance()->StopSystemTimer("FixedDT");
                     // if it isnt suppose to run fixed dt
                     if (!CarmicahTime::GetInstance()->IsFixedDT())
                     {
                        // gScriptSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime()); // TODO: Add this to profiler
 
+                        CarmicahTime::GetInstance()->StartSystemTimer("ScriptSystem");
                         gScriptSystem->OnFixedUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime());
+                        CarmicahTime::GetInstance()->StopSystemTimer("ScriptSystem");
 
                         CarmicahTime::GetInstance()->StartSystemTimer("CollisionSystem");
                         colSystem->CollisionCheck();
@@ -398,21 +408,21 @@ namespace Carmicah
                         phySystem->Update();
                         CarmicahTime::GetInstance()->StopSystemTimer("PhysicsSystem");
           
+                        CarmicahTime::GetInstance()->StartSystemTimer("FSMSystem");
                         fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->GetDeltaTime());
+                        CarmicahTime::GetInstance()->StopSystemTimer("FSMSystem");
                     }
 
-                    fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceFixedDT());
-
-                    CarmicahTime::GetInstance()->StartSystemTimer("AnimationSystem");
-                    aniSystem->Update();
-                    CarmicahTime::GetInstance()->StopSystemTimer("AnimationSystem");
+                    CarmicahTime::GetInstance()->StartSystemTimer("FSMSystem");
+                    fsmSystem->OnUpdate((float)CarmicahTime::GetInstance()->ForceDeltaTime());
+                    CarmicahTime::GetInstance()->StopSystemTimer("FSMSystem");
 
 
                     CarmicahTime::GetInstance()->StartSystemTimer("SoundSystem");
                     souSystem->Update();
                     CarmicahTime::GetInstance()->StopSystemTimer("SoundSystem");
-                    CarmicahTime::GetInstance()->StartGPUTimer();
-                    CarmicahTime::GetInstance()->StopGPUTimer();
+                   // CarmicahTime::GetInstance()->StartGPUTimer();
+                   // CarmicahTime::GetInstance()->StopGPUTimer();
                 }
 
                // glfwMakeContextCurrent(ImGuiWindow);
@@ -450,6 +460,20 @@ namespace Carmicah
                     RenderHelper::GetInstance()->UpdateEditorCam();
                     RenderHelper::GetInstance()->Render(&RenderHelper::GetInstance()->mEditorCam, true);
                     SceneToImgui::GetInstance()->UnbindFramebuffer();
+
+                    if (SceneToImgui::GetInstance()->GetHovering() == SceneToImgui::GAME_SCENE)
+                    {
+                      //  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+                        // hide cursor
+                       // ShowCursor(false);
+                    }
+                    else
+                    {
+                        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
+                        // show cursor
+                        //ShowCursor(true);
+                    }
                 }
                 else
                 {
@@ -457,7 +481,11 @@ namespace Carmicah
                     RenderHelper::GetInstance()->Render(gGOFactory->mainCam);
 #ifdef CM_INSTALLER
                     RenderHelper::GetInstance()->FinalRender();
-#endif
+
+                    ShowCursor(false);
+                    // hide cursor
+                    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+#endif  
                 }
                 SceneToImgui::GetInstance()->SelectMouseIDObjPick();
 
@@ -465,24 +493,27 @@ namespace Carmicah
                 //SceneToImgui::GetInstance()->IDPick();
 
                 // I WILL UPDAAATEEE BUTTONSYSTEM HERE OKKKKAAYYYY, PLS DONT CRASH CRYING EMOJI
+                CarmicahTime::GetInstance()->StartSystemTimer("ButtonMouseSystem");
 				butSystem->Update();
 
                 // Putting mouse update here first after input update
                 // idk if it should be here
                 mouseSystem->Update();
-
+                CarmicahTime::GetInstance()->StopSystemTimer("ButtonMouseSystem");
                // glfwMakeContextCurrent(window);
 
 
-
+                CarmicahTime::GetInstance()->StartSystemTimer("Misc");
                 glfwSwapBuffers(window);
                 gGOFactory->UpdateDestroyed();
+                CarmicahTime::GetInstance()->StopSystemTimer("Misc");
             }
 
+            CarmicahTime::GetInstance()->StartSystemTimer("Misc");
             Input.UpdatePrevInput();
             // shift this here for now cause moving 
             glfwPollEvents(); // this takes 20% of engine run time
-
+            CarmicahTime::GetInstance()->StopSystemTimer("Misc");
 
             // Don't exit if we're going into onstart
             // only for anything else but that

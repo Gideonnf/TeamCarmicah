@@ -7,11 +7,18 @@
             "xPos": -0.10599999874830246,
             "yPos": -9.496000289916993,
             "depth": 3.0,
-            "xScale": 0.800000011920929,
-            "yScale": 0.800000011920929,
+            "xScale": 1.2000000476837159,
+            "yScale": 1.2000000476837159,
             "rot": 0.0,
             "transformTag": "",
             "collisionMask": 0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.CakeControl",
+            "ScriptableFieldMap": [
+                {}
+            ]
         },
         {
             "Component Name": "struct Carmicah::Renderer",
@@ -21,6 +28,11 @@
             "colG": 1.0,
             "colB": 1.0,
             "colA": 1.0
+        },
+        {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "CakeStrawberry_Fall",
+            "AnimSpeed": 1.0
         }
     ],
     "Children": [
@@ -30,14 +42,14 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 2.0,
-                    "yPos": -2.0,
+                    "xPos": 2.5,
+                    "yPos": -5.960000038146973,
                     "depth": 0.0,
-                    "xScale": 3.0,
-                    "yScale": 3.0,
+                    "xScale": 1.600000023841858,
+                    "yScale": 1.399999976158142,
                     "rot": 0.05306386947631836,
-                    "transformTag": "",
-                    "collisionMask": 0
+                    "transformTag": "TrapBuild",
+                    "collisionMask": 32
                 },
                 {
                     "Component Name": "struct Script",
@@ -65,7 +77,9 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 1.0,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -77,7 +91,7 @@
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": -107374176.0,
-                    "objectType": 0
+                    "objectType": 1
                 }
             ]
         },
@@ -88,13 +102,13 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 5.8420000076293949,
-                    "yPos": -1.11899995803833,
+                    "yPos": -4.589999675750732,
                     "depth": 0.0,
-                    "xScale": 3.0,
-                    "yScale": 3.0,
+                    "xScale": 1.600000023841858,
+                    "yScale": 1.399999976158142,
                     "rot": 0.05306386947631836,
-                    "transformTag": "",
-                    "collisionMask": 0
+                    "transformTag": "TrapBuild",
+                    "collisionMask": 32
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -113,7 +127,7 @@
                             "TrapPrefabName": "Trap_1",
                             "TrapTranslucentPrefab": "TrapTranslucent",
                             "IsLeft": false,
-                            "depthVal": 3.200000047683716
+                            "depthVal": 3.450000047683716
                         }
                     ]
                 },
@@ -126,7 +140,9 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 1.0,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -138,7 +154,7 @@
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": -107374176.0,
-                    "objectType": 0
+                    "objectType": 1
                 }
             ]
         },
@@ -148,14 +164,14 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -2.0,
-                    "yPos": -1.003999948501587,
+                    "xPos": -2.0999999046325685,
+                    "yPos": -6.244999885559082,
                     "depth": 0.0,
-                    "xScale": 3.0,
-                    "yScale": 3.0,
+                    "xScale": 1.600000023841858,
+                    "yScale": 1.399999976158142,
                     "rot": 0.05306386947631836,
-                    "transformTag": "",
-                    "collisionMask": 0
+                    "transformTag": "TrapBuild",
+                    "collisionMask": 32
                 },
                 {
                     "Component Name": "struct Script",
@@ -183,7 +199,9 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 1.0,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::PrefabData",
@@ -199,7 +217,7 @@
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": -107374176.0,
-                    "objectType": 0
+                    "objectType": 1
                 }
             ]
         },
@@ -210,13 +228,13 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -5.48199987411499,
-                    "yPos": -0.7839999794960022,
+                    "yPos": -4.664000034332275,
                     "depth": 0.0,
-                    "xScale": 3.0,
-                    "yScale": 3.0,
+                    "xScale": 1.600000023841858,
+                    "yScale": 1.399999976158142,
                     "rot": 0.05306386947631836,
-                    "transformTag": "",
-                    "collisionMask": 0
+                    "transformTag": "TrapBuild",
+                    "collisionMask": 32
                 },
                 {
                     "Component Name": "struct Script",
@@ -226,7 +244,7 @@
                             "TrapPrefabName": "Trap_1",
                             "TrapTranslucentPrefab": "TrapTranslucent",
                             "IsLeft": true,
-                            "depthVal": 3.200000047683716
+                            "depthVal": 3.450000047683716
                         }
                     ]
                 },
@@ -244,7 +262,9 @@
                     "shape": "",
                     "customWidth": 1.0,
                     "customRotation": 0.0,
-                    "customHeight": 1.0
+                    "customHeight": 1.0,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
                 },
                 {
                     "Component Name": "struct Carmicah::PrefabData",
@@ -260,7 +280,7 @@
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": -107374176.0,
-                    "objectType": 0
+                    "objectType": 1
                 }
             ]
         }

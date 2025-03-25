@@ -20,11 +20,11 @@
                 {
                     "built": false,
                     "enterAnim": "CandyCone_Idle",
-                    "exitAnim": "CandyCone_Idle",
+                    "exitAnim": "CandyCone_Death",
                     "idleAnim": "CandyCone_Idle",
                     "timer": 0.0,
                     "isDead": false,
-                    "life": 5.0
+                    "life": 4.0
                 }
             ]
         },

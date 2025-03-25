@@ -46,7 +46,9 @@
             "shape": "DebugSquare",
             "customWidth": 0.5,
             "customRotation": 0.0,
-            "customHeight": 0.25
+            "customHeight": 0.25,
+            "xPosPivot": 0.0,
+            "yPosPivot": 0.0
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
@@ -58,7 +60,7 @@
             "mass": 1.0,
             "gravity": 0.0,
             "zposPrev": -1.0,
-            "objectType": 2
+            "objectType": 1
         },
         {
             "Component Name": "struct Script",
@@ -69,7 +71,8 @@
                     "BulletImpactAnim": "",
                     "LifeTime": 10.0,
                     "Speed": 2.0,
-                    "facingRight": false
+                    "facingRight": false,
+                    "health": 3.0
                 }
             ]
         },

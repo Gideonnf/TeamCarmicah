@@ -15,7 +15,7 @@ namespace Carmicah
         BulletTarget targetType;
         float timer = 0.0f;
         string voiceOver;
-        string previousState;
+        
         public override void OnCreate()
         {
             base.OnCreate();
@@ -248,7 +248,7 @@ namespace Carmicah
             // which will cause crashes
             if (target != null && target.mID == 0)
             {
-                CMConsole.Log("I AM HERE");
+               // CMConsole.Log("I AM HERE");
                 target = null;
                 // Change back to idle state
                 //if (stateName == "Attacking")
@@ -269,14 +269,14 @@ namespace Carmicah
                     {
                         if(target.As<MouseAI>().isDead())
                         {
-                            CMConsole.Log("Target Mouse died already");
+                           // CMConsole.Log("Target Mouse died already");
                             return;
                         }
                         else
                         {
                             if (mana > 0)
                             {
-                                CMConsole.Log("Trying to attack!");
+                               // CMConsole.Log("Trying to attack!");
                                 GetComponent<StateMachine>().SetStateCondition(2);
                             }
                             else
@@ -343,7 +343,7 @@ namespace Carmicah
                     {
                         if (GetComponent<Animation>().IsAnimFinished())
                         {
-                            CMConsole.Log("Going back to Idle");
+                            //CMConsole.Log("Going back to Idle");
                             GetComponent<StateMachine>().SetStateCondition(1);
                         }
                     }
@@ -355,7 +355,7 @@ namespace Carmicah
                 //TODO: Implement Logic with MC
                 if (Input.IsMousePressed(MouseButtons.MOUSE_BUTTON_LEFT) && hovering)
                 {
-                    CMConsole.Log("MC Should try to heal " + mID.ToString());
+                    //CMConsole.Log("MC Should try to heal " + mID.ToString());
                     player.HealAI(mID);
 
                     

@@ -39,10 +39,12 @@ namespace Carmicah
 	//struct
 	struct ScriptField
 	{
-		ScriptFieldType mType;
-		std::string mName;
-		MonoClassField* mClassField;
-		variantVar defaultValue;
+		ScriptFieldType mType{ScriptFieldType::None};
+		std::string mName{};
+		MonoClassField* mClassField{nullptr};
+		variantVar defaultValue{};
+
+		//ScriptField() : mType(ScriptFieldType::None), mClassField(nullptr) {}
 	};
 
 	class ScriptClass
@@ -50,15 +52,14 @@ namespace Carmicah
 	public:
 		friend class ScriptSystem;
 
-		std::string mNameSpace;
-		std::string mClassName;
+		std::string mNameSpace{};
+		std::string mClassName{};
 
 		// Store what fields the script has
 		std::map<std::string, ScriptField> mFields;
 
 		ScriptClass() = default;
 		ScriptClass(const std::string& nameSpace, const std::string& className);
-
 
 		MonoClass* mMonoClass = nullptr;
 
@@ -183,7 +184,7 @@ namespace Carmicah
 
 		void InvokeOnTriggerStay(unsigned int id);
 
-		void InvokeOnTriggerExit();
+		void InvokeOnTriggerExit(unsigned int id);
 
 		/// <summary>
 		/// Call when a mouse enters the collider box of an object

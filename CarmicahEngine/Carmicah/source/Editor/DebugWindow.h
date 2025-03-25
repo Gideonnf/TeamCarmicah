@@ -30,8 +30,21 @@ namespace Carmicah
     class DebugWindow : public EditorWindow
     {
     private:
+        struct DebugStatistics
+        {
+            float width;
+            float timeTaken;
+            float loadPercentage;
+        };
+
+
         bool mShowPerformance;
         bool mShowLogger;
+        static std::unordered_map<std::string, DebugStatistics> debugStats;
+
+        //Updating DebugStatistics
+        void UpdateDebugStatistics();
+
 
         // Helper functions for rendering different sections
         void RenderProfilingTab();

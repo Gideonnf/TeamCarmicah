@@ -11,12 +11,12 @@ namespace Carmicah
         public int temp = 0;
         public virtual void GetTarget()
         {
-            CMConsole.Log("Getting base target");
+          //  CMConsole.Log("Getting base target");
         }
 
         public virtual void Shoot()
         {
-            CMConsole.Log("Shooting base");
+            //CMConsole.Log("Shooting base");
         }
     }
 }

@@ -24,6 +24,18 @@
         {
             "Component Name": "struct Carmicah::Animation",
             "Atlas": "MC_Win"
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.UISliding",
+            "ScriptableFieldMap": [
+                {
+                    "slideCurve": 9,
+                    "slideDist": 1920.0,
+                    "slideTime": 2.0,
+                    "slideType": "left"
+                }
+            ]
         }
     ]
 }

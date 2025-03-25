@@ -154,7 +154,8 @@
                     "shootRate": 0.25,
                     "shootSound": "Shooter_Shooting",
                     "shootTime": 1.0,
-                    "teleportAnim": ""
+                    "teleportAnim": "NPC_Teleport",
+                    "maxDistance": 14.0
                 }
             ]
         }

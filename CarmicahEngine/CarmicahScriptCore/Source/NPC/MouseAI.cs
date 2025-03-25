@@ -60,10 +60,10 @@ namespace Carmicah
         public EnemyTypes enemyType;
 
         //int currPoint;
-        Vector2 startPosLeft;
-        Vector2 startPosRight;
-        Vector2 startPosLeft2;
-        Vector2 startPosRight2;
+        public Vector2 startPosLeft;
+        public Vector2 startPosRight;
+        public Vector2 startPosLeft2;
+        public Vector2 startPosRight2;
         //StateMachine stateMachine;
         Entity endEntityLeft;
         Entity endEntityRight;
@@ -77,9 +77,9 @@ namespace Carmicah
         public MouseType mouseType = MouseType.Regular;
 
         // Base speeds for each type
-        private float baseRegularSpeed = 1.0f;
-        private float baseFastSpeed = 1.5f;
-        private float baseHeavySpeed = 1.8f;
+        //private float baseRegularSpeed = 1.0f;
+        //private float baseFastSpeed = 2.0f;
+        //private float baseHeavySpeed = 1.8f;
 
        
         bool isRunning = false;
@@ -88,11 +88,11 @@ namespace Carmicah
         public float timer;
         public float DeathTime = 2.0f;
         public float Speed;
-        public float speedDebuff = 0.2f; // 60% slower
+        public float speedDebuff = 0.7f; // 60% slower
         public float cameraHeight = 10.0f;
-        float debuff = 1.0f;
+        public float debuff = 1.0f;
         bool dead = false;
-        int animType = 0;
+        //int animType = 0;
         int randLane = 0;
         bool move = false;
 
@@ -127,7 +127,9 @@ namespace Carmicah
             //stateMachine.SetNextState("Chase");
             //Random rand = new Random();
             //animType = CMRand.Range(0, 3); // rand between 0 to 3
-            randLane = CMRand.Range(0,4); // rand between 0 to 3
+            randLane = CMRand.Range(0, 4); // rand between 0 to 3
+
+            //randLane = 3; //For Testing
 
             lane = randLane;
             //SetInitialPosition();
@@ -166,6 +168,20 @@ namespace Carmicah
 
         public override void OnFixedUpdate(float fixedDt)
         {
+            Entity gameManager = FindEntityWithName("GameManager");
+            if (gameManager != null)
+            {
+                if (gameManager.As<GameManager>().GameOver)
+                {
+                    if (HasComponent<RigidBody>())
+                    {
+                        //CMConsole.Log("Stop Da mouse!");
+                        GetComponent<RigidBody>().StopObject();
+                    }
+                    return;
+                }
+            }
+
             if (move)
             {
                 UpdateMovement(fixedDt);
@@ -301,6 +317,17 @@ namespace Carmicah
                     //this.AsChild<HealthSystem>().TakeDamage(100);
                 }
 
+                if(entity.GetTag() == "Bullet")
+                {
+                    this.AsChild<HealthSystem>().TakeDamage(50);
+                }
+
+            }
+
+            if (this.AsChild<HealthSystem>().mCurHealth <= 0)
+            {
+                GetComponent<StateMachine>().SetStateCondition(1);
+
             }
         }
 
@@ -313,16 +340,17 @@ namespace Carmicah
                 {
                     if (!entity.As<TrapAI>().built) return;
 
-                    CMConsole.Log("COLLIDING WITH HONEY TRAP");
+                    //CMConsole.Log("COLLIDING WITH HONEY TRAP");
                     debuff = speedDebuff;
                     //this.AsChild<HealthSystem>().TakeDamage(100);
                 }
             }
         }
 
-        public override void OnTriggerExit()
+        public override void OnTriggerExit(uint collidedEntity)
         {
             // reset
+            //CMConsole.Log("Exiting some kinematic other thing");
             debuff = 1.0f;
         }
         public void KillMouse()

@@ -45,7 +45,9 @@ namespace Carmicah
         // Paths and positions
         Vector2 startPosition;
         Vector2 horizontalTarget;  // Target for horizontal 
-        Vector2 diveTarget;        // Target diagonal 
+        /// <summary>
+        ///Vector2 diveTarget;        // Target diagonal 
+        /// </summary>
         Vector2 targetPos;
         float debuff = 1.0f;
         public float speedDebuff = 0.4f;
@@ -272,7 +274,7 @@ namespace Carmicah
             }
         }
 
-        public override void OnTriggerExit()
+        public override void OnTriggerExit(uint collidedEntity)
         {
             debuff = 1.0f;
         }
@@ -380,7 +382,7 @@ namespace Carmicah
                         if (targetEntity.GetTag() == "Player")
                         {
                             Entity mainCharacter = FindEntityWithName("mainCharacter");
-                            CMConsole.Log("Taking Damage from Bird");
+                            //CMConsole.Log("Taking Damage from Bird");
                             mainCharacter.As<Player>().TakeDamage(10, enemyType);
                         }
                         else

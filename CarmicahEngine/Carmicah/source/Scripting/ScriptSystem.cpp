@@ -759,7 +759,8 @@ namespace Carmicah
             {
                 if (mEntityInstances.count(castedMsg->mEntityID))
                 {
-                    mEntityInstances[castedMsg->mEntityID]->InvokeOnTriggerExit();
+                    //CM_CORE_INFO("Trigger Exit called");
+                    mEntityInstances[castedMsg->mEntityID]->InvokeOnTriggerExit(castedMsg->mCollidedEntity);
                 }
 
             }

@@ -1,0 +1,19 @@
+Spear_Idle
+Top left: 0 x 0, 513 x 513
+16 sprites
+
+Spear_Throw
+Top left: 0 x 1539, 513 x 513
+15 sprites
+
+Spear_Projectile
+Top left: 0 x 3078, 49 x 361
+1 sprite
+
+Shooter_AirShoot
+Top left: 49 x 3078, 404 x 404
+9 sprites
+
+Shooter_AirShoot1
+Top left: 49 x 3482, 404 x 404
+5 sprites

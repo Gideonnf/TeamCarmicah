@@ -17,7 +17,9 @@ namespace Carmicah
     }
     public class Wave
     {
-        public int[] enemySpawns = new int[(int)EnemyTypes.TOTAL_ENEMIES];
+        public int[] enemySpawns = new int[(int)EnemyTypes.TOTAL_ENEMIES]; // number of each enemy type
+        public List<EnemyTypes> randomizedSpawnList = new List<EnemyTypes>(); // container of enemy types
+        public int nextIndex = 0; // index of the next random enemy to spawn
         public Wave()
         {
             // init to 0
@@ -49,21 +51,83 @@ namespace Carmicah
             return total;
         }
 
-        public EnemyTypes GetNextEnemy()
+        public void ShuffleEnemies()
         {
-            for(int i = 0; i < enemySpawns.Length;++i)
+            // clear spawn list & reset index
+            randomizedSpawnList.Clear();
+            nextIndex = 0;
+
+            // loop through each enemy type
+            for (int i = 0; i < enemySpawns.Length; i++)
             {
-                if (enemySpawns[i] != 0)
+                for (int j = 0; j < enemySpawns[i]; j++)
                 {
-                    enemySpawns[i]--;
-                    //CMConsole.Log($"Getting enemy of type {i}");
-                    return (EnemyTypes)i;
+                    randomizedSpawnList.Add((EnemyTypes)i);
                 }
             }
 
-            // if no enemy left in the mob counter
+            // shuffle the list
+            Random rng = new Random();
+            int n = randomizedSpawnList.Count; // number of enemies
+            // Fisher-Yates shuffle, thanks gpt
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                var value = randomizedSpawnList[k];
+                randomizedSpawnList[k] = randomizedSpawnList[n];
+                randomizedSpawnList[n] = value;
+            }
+        }
+
+        public EnemyTypes GetNextEnemyRandom()
+        {
+            // loop through randomized spawn list
+            //CMConsole.Log($"Next Index: {nextIndex}");
+            //CMConsole.Log($"Size of randomSpawnList: {randomizedSpawnList.Count}");
+            if (nextIndex < randomizedSpawnList.Count)
+            {
+                // index above increments so i move thru the list, hopefully
+
+                switch (randomizedSpawnList[nextIndex])
+                {
+                    case EnemyTypes.MOUSE1:
+                        enemySpawns[0]--;
+                        break;
+                    case EnemyTypes.MOUSE2:
+                        enemySpawns[1]--;
+                        break;
+                    case EnemyTypes.MOUSE3:
+                        enemySpawns[2]--;
+                        break;
+                    case EnemyTypes.BEAR:
+                        enemySpawns[3]--;
+                        break;
+                    case EnemyTypes.FLYING:
+                        enemySpawns[4]--;
+                        break;
+                }
+
+                return randomizedSpawnList[nextIndex++];
+            }
             return EnemyTypes.TOTAL_ENEMIES;
         }
+
+        //public EnemyTypes GetNextEnemy()
+        //{
+        //    for (int i = 0; i < enemySpawns.Length; ++i)
+        //    {
+        //        if (enemySpawns[i] != 0)
+        //        {
+        //            enemySpawns[i]--;
+        //            //CMConsole.Log($"Getting enemy of type {i}");
+        //            return (EnemyTypes)i;
+        //        }
+        //    }
+
+        //    // if no enemy left in the mob counter
+        //    return EnemyTypes.TOTAL_ENEMIES;
+        //}
 
         public void PrintWaveData()
         {
@@ -73,7 +137,7 @@ namespace Carmicah
                 printStr += enemySpawns[i] + " ";
 
             }
-            CMConsole.Log(printStr);
+           // CMConsole.Log(printStr);
         }
     }
 
@@ -93,11 +157,11 @@ namespace Carmicah
         
         public LevelManager() 
         {
-            CMConsole.Log($"Testing Level Manager!");
+            //CMConsole.Log($"Testing Level Manager!");
             string filePath = CMFileReader.GetFilePath() + "\\" + fileName;
            // basePath = AppDomain.CurrentDomain.BaseDirectory;
             //filePath = Path.Combine(basePath, "Assets", "levelData.txt");
-            CMConsole.Log($"Testing Level Manager! file path : {filePath}");
+            //CMConsole.Log($"Testing Level Manager! file path : {filePath}");
             LoadLevels(filePath);
 
             DebugPrintLevelMap();
@@ -139,7 +203,7 @@ namespace Carmicah
 
                         if (int.TryParse(lines[i], out int levelNumber))
                         {
-                            CMConsole.Log($"Level:{levelNumber}");
+                           // CMConsole.Log($"Level:{levelNumber}");
                             currentLevel = levelNumber;
                             currLevel = new Level();
                             levelMap[currentLevel] = currLevel;
@@ -180,7 +244,7 @@ namespace Carmicah
             }
             else
             {
-                CMConsole.Log($"Files does not exist {filePath}");
+               // CMConsole.Log($"Files does not exist {filePath}");
             }
         }
     
@@ -261,16 +325,22 @@ namespace Carmicah
             DebugPrintLevelMap(currentLevel);
         }
 
+        public bool EndOfGame()
+        {
+           return currentLevel == levelMap.Count; 
+
+        }
+
         public void DebugPrint(int j, int count)
         {
-            CMConsole.Log($"J : {j}, {count}");
+          //  CMConsole.Log($"J : {j}, {count}");
         }
 
         public void DebugPrintLevelMap()
         {
             foreach (KeyValuePair<int, Level> entry in levelMap)
             {
-                CMConsole.Log($"Level: {entry.Key}");
+                //CMConsole.Log($"Level: {entry.Key}");
 
                 // loop through each wave in that level
                 for(int i = 0; i < entry.Value.waves.Count; i++)
@@ -281,7 +351,7 @@ namespace Carmicah
                     {
                         debugStr += entry.Value.waves[i].enemySpawns[j] + " ";
                     }
-                    CMConsole.Log(debugStr);
+                   // CMConsole.Log(debugStr);
                 }
             }
         }
@@ -297,7 +367,7 @@ namespace Carmicah
                     debugStr += lvl.waves[i].enemySpawns[j] + " ";
                 }
 
-                CMConsole.Log(debugStr);
+               // CMConsole.Log(debugStr);
             }
         }
     }

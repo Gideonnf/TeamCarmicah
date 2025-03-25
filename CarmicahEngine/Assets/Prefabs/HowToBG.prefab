@@ -3,13 +3,13 @@
     "ID": 1,
     "Components": [
         {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "Tutorial_Spritesheet_How 0",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.HowToPlay",
+            "ScriptableFieldMap": [
+                {
+                    "currentPanel": 0
+                }
+            ]
         },
         {
             "Component Name": "struct Carmicah::UITransform",
@@ -20,21 +20,62 @@
             "yScale": 1.0,
             "rot": 0.0,
             "transformTag": ""
-        },
-        {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.HowToPlay",
-            "ScriptableFieldMap": [
-                {
-                    
-                }
-            ]
         }
     ],
     "Children": [
         {
-            "GameObject": "Dim",
+            "GameObject": "HowToBGBoard1",
             "ID": 2,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Tutorial_Spritesheet_How 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1920.0,
+                    "yPos": 0.0,
+                    "depth": 50.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToBGBoard2",
+            "ID": 3,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Tutorial_Spritesheet_How 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1920.0,
+                    "yPos": 0.0,
+                    "depth": 50.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "Dim",
+            "ID": 4,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -59,7 +100,7 @@
         },
         {
             "GameObject": "HowToLeftBtn",
-            "ID": 3,
+            "ID": 5,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -69,6 +110,15 @@
                     "colG": 1.0,
                     "colB": 1.0,
                     "colA": 0.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "hOWToBack"
+                        }
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -82,22 +132,22 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Button"
-                },
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToRightBtn",
+            "ID": 6,
+            "Components": [
                 {
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
                         {
-                            "buttonType": "hOWToBack"
+                            "buttonType": "HowToNext"
                         }
                     ]
-                }
-           ]
-        },
-        {
-            "GameObject": "HowToRightBtn",
-            "ID": 4,
-            "Components": [
+                },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
@@ -119,21 +169,12 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Button"
-                },
-                {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.ButtonGeneric",
-                    "ScriptableFieldMap": [
-                        {
-                            "buttonType": "HowToNext"
-                        }
-                    ]
                 }
             ]
         },
         {
             "GameObject": "HowToHomeBtn",
-            "ID": 5,
+            "ID": 7,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -145,38 +186,47 @@
                     "colA": 0.0
                 },
                 {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "home"
+                        }
+                    ]
+                },
+                {
                     "Component Name": "struct Carmicah::Animation",
                     "Atlas": "Button_HE_Home",
                     "AnimSpeed": 1.0
                 },
                 {
-                      "Component Name": "struct Carmicah::UITransform",
-                      "xPos": 250.0,
-                      "yPos": -350.0,
-                      "depth": 60.0,
-                      "xScale": 1.0,
-                      "yScale": 1.0,
-                      "rot": 0.0,
-                      "transformTag": ""
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 250.0,
+                    "yPos": -350.0,
+                    "depth": 60.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
                 },
                 {
-                      "Component Name": "struct Carmicah::Button"
-                },
-                {
-                      "Component Name": "struct Script",
-                      "scriptName": "Carmicah.ButtonGeneric",
-                      "ScriptableFieldMap": [
-                          {
-                              "buttonType": "home"
-                          }
-                      ]
+                    "Component Name": "struct Carmicah::Button"
                 }
             ]
         },
         {
             "GameObject": "HowToPlayBtn",
-            "ID": 6,
+            "ID": 8,
             "Components": [
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "tutorial"
+                        }
+                    ]
+                },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
@@ -192,26 +242,17 @@
                     "AnimSpeed": 1.0
                 },
                 {
-                      "Component Name": "struct Carmicah::UITransform",
-                      "xPos": -250.0,
-                      "yPos": -350.0,
-                      "depth": 60.0,
-                      "xScale": 1.0,
-                      "yScale": 1.0,
-                      "rot": 0.0,
-                      "transformTag": ""
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -250.0,
+                    "yPos": -350.0,
+                    "depth": 60.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
                 },
                 {
-                      "Component Name": "struct Carmicah::Button"
-                },
-                {
-                      "Component Name": "struct Script",
-                      "scriptName": "Carmicah.ButtonGeneric",
-                      "ScriptableFieldMap": [
-                          {
-                              "buttonType": "play"
-                          }
-                    ]
+                    "Component Name": "struct Carmicah::Button"
                 }
             ]
         }
