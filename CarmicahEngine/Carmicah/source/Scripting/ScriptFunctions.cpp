@@ -446,11 +446,11 @@ namespace Carmicah
 		souSystem->PauseAllSounds();
 	}
 
-	//static void Sound_PauseAllSounds()
-	//{
-	//	auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-	//	souSystem->ResumeAllSounds();
-	//}
+	static void Sound_ResumeAllSounds()
+	{
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->ResumeAllSounds();
+	}
 
 	//static void Sound_Stop(MonoString* name)
 	//{
@@ -1338,6 +1338,8 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Sound_ToggleMuffleBGM);
 		ADD_INTERNAL_CALL(Sound_SetCategoryVolume);
 		ADD_INTERNAL_CALL(Sound_GetCategoryVolume);
+		ADD_INTERNAL_CALL(Sound_PauseAllSounds);
+		ADD_INTERNAL_CALL(Sound_ResumeAllSounds);
 
 		// Debug
 		ADD_INTERNAL_CALL(Log);
