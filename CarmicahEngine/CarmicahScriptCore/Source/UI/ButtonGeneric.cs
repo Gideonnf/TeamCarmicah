@@ -233,6 +233,7 @@ namespace Carmicah
 
             if (createListCreated && createList.Count > 0 && FindEntityWithName(createList[0]) == null)
             {
+                CMConsole.Log($"create list name: {createList[0]}");
                 createListCreated = false;
             }
         }
@@ -249,23 +250,6 @@ namespace Carmicah
                 //CMConsole.Log("Changing scene");
 
                 sceneChangerTimer = timeToChangeScene;
-            }
-            if (willUnpause)
-            {
-                Entity pauseManager = FindEntityWithName("PauseManager");
-                if (pauseManager != null)
-                {
-                    pauseManager.As<PauseManager>().UnPause();
-                }
-            }
-            else if (willPause)
-            {
-                Entity pauseManager = FindEntityWithName("PauseManager");
-                if (pauseManager != null)
-                {
-                    pauseManager.As<PauseManager>().Pause();
-                }
-
             }
 
             if (buttonType == "nextlevel")
@@ -294,12 +278,33 @@ namespace Carmicah
             {
                 for (int i = 0; createList.ContainsKey(i); ++i)
                 {
-                    CreateGameObject(createList[i]);
+                    // to not double create
+                    if(FindEntityWithName(createList[i]) == null)
+                        CreateGameObject(createList[i]);
                 }
                 createListCreated = true;
             }
+
+            if (willUnpause)
+            {
+                Entity pauseManager = FindEntityWithName("PauseManager");
+                if (pauseManager != null)
+                {
+                    pauseManager.As<PauseManager>().UnPause();
+                }
+            }
+            else if (willPause)
+            {
+                Entity pauseManager = FindEntityWithName("PauseManager");
+                if (pauseManager != null)
+                {
+                    pauseManager.As<PauseManager>().Pause();
+                }
+
+            }
+
             // Specific other behaviours ig
-            switch(buttonType)
+            switch (buttonType)
             {
                 case "howtonext":
                     FindEntityWithName("HowToBG").As<HowToPlay>().ProgressScene(1);

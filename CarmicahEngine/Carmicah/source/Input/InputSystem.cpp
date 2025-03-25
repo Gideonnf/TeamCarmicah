@@ -75,7 +75,7 @@ namespace Carmicah
 			#ifndef CM_INSTALLER
 			if (key == GLFW_KEY_ESCAPE)
 			{
-				glfwSetWindowShouldClose(window, GL_TRUE);
+				//glfwSetWindowShouldClose(window, GL_TRUE);
 			}
 			#endif
 
