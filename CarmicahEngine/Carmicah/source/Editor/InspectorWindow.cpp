@@ -1379,19 +1379,48 @@ namespace Carmicah
 
 			if (ImGui::BeginPopup("Script Select"))
 			{
+				static char buffer[256] = "";
+				static std::string searchPrompt;
+				ImGui::Text("Search:");
+				ImGui::SameLine();
+				if (ImGui::InputText("##scriptSelect", buffer, sizeof(buffer)))
+				{
+					searchPrompt = buffer;
+				}
 				for (const auto& entry : gScriptSystem->mEntityClasses)
 				{
-					if (ImGui::Button(entry.first.c_str()))
+					if(searchPrompt.empty())
 					{
-						script.scriptName = entry.first;
-
-						// if its a prefab type then have to manually populate 
-						// the scriptablefield map
-						if (type == PREFAB)
+						if (ImGui::Button(entry.first.c_str()))
 						{
-							gScriptSystem->UpdateScriptPrefabComponent(script);
+							script.scriptName = entry.first;
+
+							// if its a prefab type then have to manually populate 
+							// the scriptablefield map
+							if (type == PREFAB)
+							{
+								gScriptSystem->UpdateScriptPrefabComponent(script);
+							}
+							ImGui::CloseCurrentPopup();
 						}
-						ImGui::CloseCurrentPopup();
+					}
+					else
+					{
+						if (entry.first.find(searchPrompt) != std::string::npos)
+						{
+							if (ImGui::Button(entry.first.c_str()))
+							{
+								script.scriptName = entry.first;
+
+								// if its a prefab type then have to manually populate 
+								// the scriptablefield map
+								if (type == PREFAB)
+								{
+									gScriptSystem->UpdateScriptPrefabComponent(script);
+								}
+								ImGui::CloseCurrentPopup();
+							}
+						}
 					}
 				}
 				ImGui::EndPopup();
