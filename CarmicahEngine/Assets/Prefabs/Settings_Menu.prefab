@@ -28,7 +28,7 @@
                 {
                     "slideCurve": 8,
                     "slideDist": 1080.0,
-                    "slideTime": 2.0,
+                    "slideTime": 1.5,
                     "slideType": "Up"
                 }
             ]

@@ -122,8 +122,11 @@ namespace Carmicah
                     case 8:
                         interpolated = Easings.GetInterpolate(SLIDE_CURVE.BACK, startPos, endPos, t / slideTime);
                         break;
-                    default:
+                    case 9:
                         interpolated = Easings.GetInterpolate(SLIDE_CURVE.ELASTIC, startPos, endPos, t / slideTime);
+                        break;
+                    default:
+                        interpolated = Easings.GetInterpolate(SLIDE_CURVE.BACK_LESSBOUNCE, startPos, endPos, t / slideTime);
                         break;
                 }
                 Position = interpolated;

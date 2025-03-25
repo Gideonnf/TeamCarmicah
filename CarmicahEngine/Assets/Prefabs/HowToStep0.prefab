@@ -3,10 +3,19 @@
     "ID": 1,
     "Components": [
         {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Tutorial_Spritesheet_How 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
             "Component Name": "struct Carmicah::UITransform",
             "xPos": 960.0,
             "yPos": 540.0,
-            "depth": 0.0,
+            "depth": 50.0,
             "xScale": 1.0,
             "yScale": 1.0,
             "rot": 0.0,
@@ -17,7 +26,7 @@
             "scriptName": "Carmicah.UISliding",
             "ScriptableFieldMap": [
                 {
-                    "slideCurve": 9,
+                    "slideCurve": 10,
                     "slideDist": 1920.0,
                     "slideTime": 2.0,
                     "slideType": "left"

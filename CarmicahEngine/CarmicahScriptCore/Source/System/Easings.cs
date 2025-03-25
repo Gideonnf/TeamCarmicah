@@ -20,7 +20,8 @@ namespace Carmicah
             BOUNCE_OUT,
             BOUNCE,
             BACK,
-            ELASTIC
+            ELASTIC,
+            BACK_LESSBOUNCE
         }
     public class Easings
     {
@@ -52,7 +53,7 @@ namespace Carmicah
                     else
                         x = 1.0 - Math.Pow(-2.0 * x + 2.0, 3.0) / 2.0;
                     break;
-                case SLIDE_CURVE.QUART:
+                case SLIDE_CURVE.QUART: // Issue?
                     if (x < 0.5)
                         x = 8.0 * x * x * x;
                     else
@@ -96,7 +97,7 @@ namespace Carmicah
                         }
                     }
                     break;
-                case SLIDE_CURVE.BOUNCE:
+                case SLIDE_CURVE.BOUNCE: // Issue?
                     if (x < 0.5)
                         x = 0.5 - GetPercentage(SLIDE_CURVE.BOUNCE_OUT, (float)(1.0 - 2.0 * x), 1.0f) / 2.0;
                     else
@@ -119,6 +120,14 @@ namespace Carmicah
                             x = -Math.Pow(2.0, 20.0 * x - 10.0) * Math.Sin((20.0 * x - 11.125) * c) / 2.0;
                         else
                             x = 1.0 + (Math.Pow(2.0, -20.0 * x + 10.0) * Math.Sin((20.0 * x - 11.125) * c)) / 2.0;
+                    }
+                    break;
+                case SLIDE_CURVE.BACK_LESSBOUNCE:
+                    {
+                        const double slowStart = 1.0, slowAmt = 0.25;
+                        x = GetPercentage(SLIDE_CURVE.BACK, t, totalTime);
+                        if(x > slowStart)
+                            x = slowStart + (x - slowStart) * slowAmt;
                     }
                     break;
             }
