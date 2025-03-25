@@ -21,6 +21,7 @@ namespace Carmicah
         private float panel8 = 49.5f;
         private float panel9 = 55.0f;
         private float panel10 = 64.0f;
+        private float panelFadeOut = 66.0f;
 
         public float fadeSpeed = 0.5f;
 
@@ -29,24 +30,24 @@ namespace Carmicah
         private int img1Size = 6;
         private string img2Name = "Opening_Cutscene2_SpriteSheet_Yes";
         private int img2Size = 6;
-        private string img3Name = "Wall_Invis";
+        private string img3Name = "Wall_White";
         private int img3Size = 1;
 
         public string backgroundMusicTrack = "Cutscene";
         public string backgroundMusicTrack1 = "BGM_SetupPhase_Mix1";
 
         // Flags for special transitions
-        private bool isWhiteOutTransition = false;
-        private Entity whiteFlashEntity = null;
-        private float whiteFlashAlpha = 0.0f;
-        private float whiteOutSpeed = 2.0f;
+        //private bool isWhiteOutTransition = false;
+        //private Entity whiteFlashEntity = null;
+        //private float whiteFlashAlpha = 0.0f;
+        //private float whiteOutSpeed = 2.0f;
 
         // Animation speeds
         private float zoomSpeed = 0.05f;
         private float panSpeed = 0.25f;
 
-        private float[] panelTimings = new float[12];
-        private string[] panelWords = new string[12]{
+        private float[] panelTimings = new float[13];
+        private string[] panelWords = new string[13]{
             "In a land far far away, filled with sweet treats and goodness",
             "The Candy Kingdom stood proud and tall under the rule of princess Strawberry",
             "But one day everything changed",
@@ -58,7 +59,8 @@ namespace Carmicah
             "the princess rallied her troops to prepare for the oncoming threat.",
             "With courage in their hearts,",
             "the fate of the Candy Kingdom lied in the palm of their hands",
-            "And thus began, the battle all would remember as..."
+            "And thus began, the battle all would remember as...",
+            ""
         };
         private bool musicStarted = false;
 
@@ -102,6 +104,7 @@ namespace Carmicah
             panelTimings[9] = panel8;
             panelTimings[10] = panel9;
             panelTimings[11] = panel10;
+            panelTimings[12] = panelFadeOut;
         }
 
         private string GetCurrPanelName()
@@ -167,19 +170,19 @@ namespace Carmicah
                 ProgressScene();
             }
 
-            if (isWhiteOutTransition && whiteFlashEntity != null)
-            {
-                whiteFlashAlpha += whiteOutSpeed * dt;
-                if (whiteFlashAlpha > 1.0f)
-                    whiteFlashAlpha = 1.0f;
-
-                whiteFlashEntity.GetComponent<Renderer>().SetAlpha(whiteFlashAlpha);
-
-                if (whiteFlashAlpha >= 1.0f)
-                {
-                    ProgressScene();
-                }
-            }
+            //if (isWhiteOutTransition && whiteFlashEntity != null)
+            //{
+            //    whiteFlashAlpha += whiteOutSpeed * dt;
+            //    if (whiteFlashAlpha > 1.0f)
+            //        whiteFlashAlpha = 1.0f;
+            //
+            //    whiteFlashEntity.GetComponent<Renderer>().SetAlpha(whiteFlashAlpha);
+            //
+            //    if (whiteFlashAlpha >= 1.0f)
+            //    {
+            //        ProgressScene();
+            //    }
+            //}
         }
 
         public override void OnFixedUpdate(float fixedDt)
@@ -198,6 +201,11 @@ namespace Carmicah
 
                     string imageName = GetCurrPanelName();
                     nextCutsceneEntity.GetComponent<Renderer>().ChangeTexture(imageName);
+
+                    if(currentPanel == 12)
+                    {
+                        nextCutsceneEntity.Scale = new Vector2(1000.0f, 1000.0f); 
+                    }
                 }
 
                 Entity txtChild = new Entity(FunctionCalls.Entity_GetChild(textObj.mID));
@@ -218,18 +226,18 @@ namespace Carmicah
                     {
                         cutsceneEntity.Scale = new Vector2(originalScale.x * 1.1f, originalScale.y * 1.1f);
                     }
-                    else if (currentPanel == 11)
+                    else if (currentPanel == 12)
                     {
-                        if (whiteFlashEntity == null)
-                        {
-                            whiteFlashEntity = CreateGameObject("WhiteOverlay");
-                            if (whiteFlashEntity != null)
-                            {
-                                whiteFlashEntity.Depth = cutsceneEntity.Depth + 1.0f;
-                                whiteFlashEntity.GetComponent<Renderer>().SetAlpha(0.0f);
-                                isWhiteOutTransition = true;
-                            }
-                        }
+                    //    if (whiteFlashEntity == null)
+                    //    {
+                    //        whiteFlashEntity = CreateGameObject("WhiteOverlay");
+                    //        if (whiteFlashEntity != null)
+                    //        {
+                    //            whiteFlashEntity.Depth = cutsceneEntity.Depth + 1.0f;
+                    //            whiteFlashEntity.GetComponent<Renderer>().SetAlpha(0.0f);
+                    //            isWhiteOutTransition = true;
+                    //        }
+                    //    }
                     }
                     else
                     {
@@ -280,10 +288,10 @@ namespace Carmicah
                     cutsceneEntity.Position = pos;
                 }
 
-                if (currentPanel == 11 && isWhiteOutTransition)
-                {
-                    return;
-                }
+                //if (currentPanel == 11 && isWhiteOutTransition)
+                //{
+                //    return;
+                //}
 
                 float currentPanelDisplayTime = panelTimings[currentPanel];
                 if (timer >= currentPanelDisplayTime)
