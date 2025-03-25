@@ -13,6 +13,15 @@
             "transformTag": ""
         },
         {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Settings_SpriteSheet_Panel 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.UISliding",
             "ScriptableFieldMap": [

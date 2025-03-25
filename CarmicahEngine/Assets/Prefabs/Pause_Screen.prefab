@@ -7,9 +7,9 @@
             "scriptName": "Carmicah.UISliding",
             "ScriptableFieldMap": [
                 {
-                    "slideCurve": 0,
-                    "slideDist": 1000.0,
-                    "slideTime": 1.0,
+                    "slideCurve": 8,
+                    "slideDist": 1080.0,
+                    "slideTime": 1.5,
                     "slideType": "Up",
                     "slideToCenter": true
                 }

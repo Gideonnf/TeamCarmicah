@@ -249,6 +249,8 @@ namespace Carmicah
 
         public override void OnClick()
         {
+            Entity pauseManager = FindEntityWithName("PauseManager");
+
             //Sound.PlaySFX("SFX_Button", 0.5f);
             //Sound.PlaySFX("SFX_Button");
 
@@ -296,7 +298,6 @@ namespace Carmicah
 
             if (willUnpause)
             {
-                Entity pauseManager = FindEntityWithName("PauseManager");
                 if (pauseManager != null)
                 {
                     pauseManager.As<PauseManager>().UnPause();
@@ -304,7 +305,6 @@ namespace Carmicah
             }
             else if (willPause)
             {
-                Entity pauseManager = FindEntityWithName("PauseManager");
                 if (pauseManager != null)
                 {
                     pauseManager.As<PauseManager>().Pause();
@@ -312,9 +312,16 @@ namespace Carmicah
 
             }
 
+
             // Specific other behaviours ig
             switch (buttonType)
             {
+                case "settings":
+                    if (pauseManager != null)
+                    {
+                        pauseManager.As<PauseManager>().ShiftPause(true);
+                    }
+                    break;
                 case "howtonext":
                     FindEntityWithName("HowToBG").As<HowToPlay>().ProgressScene(1);
                     break;
@@ -322,6 +329,10 @@ namespace Carmicah
                     FindEntityWithName("HowToBG").As<HowToPlay>().ProgressScene(-1);
                     break;
                 case "backsettings":
+                    if (pauseManager != null)
+                    {
+                        pauseManager.As<PauseManager>().ShiftPause(false);
+                    }
                     FindEntityWithName("Settings_Menu").As<UISliding>().SlideThenSD();
                     break;
             }
