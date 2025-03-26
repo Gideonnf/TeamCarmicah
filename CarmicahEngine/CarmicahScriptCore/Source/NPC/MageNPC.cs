@@ -19,6 +19,7 @@ namespace Carmicah
         MouseAI targetMouse;
         float timer = 0.0f;
         public float maxDistance = 12.0f;
+        public Vector2 shootOffset = new Vector2(2, 2);
         string voiceOver;
         public override void OnCreate()
         {
@@ -42,7 +43,15 @@ namespace Carmicah
                 Entity projectile = CreateGameObject(projectilePrefab);
                 if (projectile != null)
                 {
-                    projectile.Position = Position;
+                    if (IsLeft)
+                    {
+                        projectile.Position = Position - shootOffset;
+                    }
+                    else
+                    {
+                        projectile.Position = Position + shootOffset;
+
+                    }
                     // CMConsole.Log($"Projectile Position: {projectile.Position.x}, {projectile.Position.y}");
 
                     Projectile bullet = projectile.As<Projectile>();
@@ -286,7 +295,7 @@ namespace Carmicah
                 //CMConsole.Log($"Shooting timer : {timer}");
 
                 timer += dt;
-                if (timer > shootTime)
+                if (timer > shootTime && GetComponent<Animation>().GetFrameNo() == 5 )
                 {
                     if (!shot && targetMouse != null)
                     {
