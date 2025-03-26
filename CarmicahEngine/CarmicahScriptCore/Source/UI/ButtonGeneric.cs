@@ -251,6 +251,16 @@ namespace Carmicah
         {
             Entity pauseManager = FindEntityWithName("PauseManager");
 
+            // its in the game scene
+            if (pauseManager != null)
+            {
+                // if its in the game scene dont let them click on anything if its still sliding
+                if( pauseManager.As<PauseManager>().MenuIsSliding())
+                {
+                    return;
+                }
+            }
+
             //Sound.PlaySFX("SFX_Button", 0.5f);
             //Sound.PlaySFX("SFX_Button");
 

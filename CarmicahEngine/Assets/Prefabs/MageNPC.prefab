@@ -14,11 +14,6 @@
             "collisionMask": 0
         },
         {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Mage_Idle",
-            "AnimSpeed": 1.0
-        },
-        {
             "Component Name": "struct Carmicah::StateMachine",
             "currState": "",
             "nextState": "",
@@ -100,6 +95,11 @@
             ]
         },
         {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Mage_Idle",
+            "AnimSpeed": 1.5
+        },
+        {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "",
             "customWidth": 1.0,
@@ -121,24 +121,15 @@
             "objectType": 0
         },
         {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "NPC_SpriteSheet_Mage_Idle 1",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
-        },
-        {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.MageNPC",
             "ScriptableFieldMap": [
                 {
-                    "isShooting": false,
                     "IsLeft": false,
+                    "isShooting": false,
                     "active": false,
-                    "deathSound": "Shooter_Death",
                     "animationTime": 0.0,
+                    "deathSound": "Shooter_Death",
                     "hasAmmo": true,
                     "hovering": false,
                     "idleAnim": "Mage_Idle",
@@ -155,9 +146,19 @@
                     "shootSound": "Shooter_Shooting",
                     "shootTime": 1.0,
                     "teleportAnim": "NPC_Teleport",
-                    "maxDistance": 14.0
+                    "maxDistance": 14.0,
+                    "dissolvePrefab": ""
                 }
             ]
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "NPC_SpriteSheet_Mage_Idle 1",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
         }
     ]
 }

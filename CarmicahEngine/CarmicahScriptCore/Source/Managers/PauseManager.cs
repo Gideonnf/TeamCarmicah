@@ -18,7 +18,7 @@ namespace Carmicah
         Entity PauseMenuEntity = null;
         public override void OnCreate()
         {
-
+            mainPos = new Vector2(960.0f, 540.0f);
         }
 
         public override void OnUpdate(float dt)
@@ -52,12 +52,13 @@ namespace Carmicah
             if (PauseMenuEntity == null)
             {
                 PauseMenuEntity = CreateGameObject("Pause_Screen");
-                mainPos = PauseMenuEntity.LocalPosition;
+               // mainPos = PauseMenuEntity.Position;
             }
-            else
-            {
-                mainPos = PauseMenuEntity.LocalPosition;
-            }
+            //else
+            //{
+            //    mainPos = PauseMenuEntity.Position;
+            //}
+            //CMConsole.Log($"main Pos: {mainPos.x}, {mainPos.y}");
             //QuitButtonEntity = CreateGameObject("GameClose_Button");
             //ResumeButtonEntity = CreateGameObject(ResumeButton);
         }
@@ -81,17 +82,27 @@ namespace Carmicah
             {
                 if (PauseMenuEntity != null)
                 {
-                    PauseMenuEntity.As<UISliding>().ChangeSlideDetails(8, LocalPosition, new Vector2(3840.0f, 540.0f), 1.5f);
+                    PauseMenuEntity.As<UISliding>().ChangeSlideDetails(8, PauseMenuEntity.LocalPosition, new Vector2(3840.0f, 540.0f), 1.5f);
                 }
             }
             else
             {
                 if (PauseMenuEntity != null)
                 {
-                    PauseMenuEntity.As<UISliding>().ChangeSlideDetails(8, LocalPosition, mainPos, 1.5f);
+                    PauseMenuEntity.As<UISliding>().ChangeSlideDetails(8, PauseMenuEntity.LocalPosition, mainPos, 1.5f);
                 }
 
             }
+        }
+
+        public bool MenuIsSliding()
+        {
+            if (PauseMenuEntity != null)
+            {
+                return PauseMenuEntity.As<UISliding>().IsSliding();
+            }
+
+            return false;
         }
     }
 }

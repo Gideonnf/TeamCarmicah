@@ -129,8 +129,13 @@ namespace Carmicah
                         interpolated = Easings.GetInterpolate(SLIDE_CURVE.BACK_LESSBOUNCE, startPos, endPos, t / slideTime);
                         break;
                 }
-                Position = interpolated;
+                LocalPosition = interpolated;
             }
         }
+    
+        public bool IsSliding()
+        {
+            return !slidIn;
+        }
     }
-}
+}       
