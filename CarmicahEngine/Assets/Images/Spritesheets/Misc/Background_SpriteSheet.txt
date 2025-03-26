@@ -33,3 +33,11 @@ T L: 1920 x 1241, 300 x 675
 Puff
 T L: 2284 x 915, 425 x 584
 1 S
+
+BalloonLeft
+T L: 2220 x 1499, 399 x 790
+1 S
+
+BalloonRight
+T L: 2619 x 1499, 493 x 790
+1 S

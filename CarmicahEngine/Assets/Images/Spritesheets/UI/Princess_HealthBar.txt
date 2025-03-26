@@ -1,7 +1,0 @@
-Back
-Top left: 0 x 0, 714 x 227
-1 sprite
-
-HP
-Top left: 0 x 227, 714 x 227
-1 sprite
