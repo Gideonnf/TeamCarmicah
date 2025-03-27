@@ -10,15 +10,15 @@
                     "slideCurve": 8,
                     "slideDist": 1080.0,
                     "slideTime": 1.5,
-                    "slideType": "Up",
-                    "slideToCenter": true
+                    "slideToCenter": true,
+                    "slideType": "Up"
                 }
             ]
         },
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Settings_SpriteSheet_Panel 0",
+            "texture": "UI_Panel 0",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
@@ -74,6 +74,15 @@
                     "AnimSpeed": 1.0
                 },
                 {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_H_Settings 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
@@ -82,15 +91,6 @@
                             "nextScene": ""
                         }
                     ]
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Settings 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -160,6 +160,15 @@
                     "AnimSpeed": 1.0
                 },
                 {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_H_Quit 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
@@ -168,15 +177,6 @@
                             "nextScene": ""
                         }
                     ]
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Quit 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
