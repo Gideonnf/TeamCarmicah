@@ -1,5 +1,5 @@
 {
-    "GameObject": "StartingCake",
+    "GameObject": "Level3_Cake",
     "ID": 18,
     "Components": [
         {
@@ -23,7 +23,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "strawberry_cake_SpriteSheet_Squish 0",
+            "texture": "matcha_cake_SpriteSheet_Squish 0",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
@@ -31,7 +31,7 @@
         },
         {
             "Component Name": "struct Carmicah::Animation",
-            "Atlas": "CakeStrawberry_Fall",
+            "Atlas": "CakeMatcha_Fall",
             "AnimSpeed": 1.0
         }
     ],
@@ -42,8 +42,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 2.302,
-                    "yPos": -3.021,
+                    "xPos": 2.268,
+                    "yPos": -4.39321,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
@@ -101,8 +101,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 5.615,
-                    "yPos": -1.153,
+                    "xPos": 5.305,
+                    "yPos": -2.748,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
@@ -164,8 +164,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -2.185,
-                    "yPos": -3.018,
+                    "xPos": -2.435,
+                    "yPos": -4.268,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
@@ -227,8 +227,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -5.502,
-                    "yPos": -1.094,
+                    "xPos": -5.433,
+                    "yPos": -2.625,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
@@ -290,8 +290,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -5.532,
-                    "yPos": -5.764,
+                    "xPos": -5.429,
+                    "yPos": -6.689,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
@@ -353,8 +353,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -2.132,
-                    "yPos": -7.664,
+                    "xPos": -2.477,
+                    "yPos": -8.430,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
@@ -416,8 +416,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 2.318,
-                    "yPos": -7.664,
+                    "xPos": 2.421,
+                    "yPos": -8.525,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
@@ -479,8 +479,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 5.568,
-                    "yPos": -5.714,
+                    "xPos": 5.327,
+                    "yPos": -6.799,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
