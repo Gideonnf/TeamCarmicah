@@ -505,10 +505,8 @@ namespace Carmicah
 			sceneGO.children.insert(entityID);
 			return;
 		}
-		//End of part that only runs for new game objects
-
-
-		// Find out what is the current parent -> Finding out the oldParent
+		
+		// Find out what is the current parent
 		else
 		{
 			
@@ -537,7 +535,6 @@ namespace Carmicah
 			// if not deleting then we need to update the transform based on the new parent's
 			if (!toDelete)
 			{
-				CM_CORE_INFO("First toDelete called");
 				// Send msg to UpdateTransform
 				// Important to send here because if parenting back to scene
 				// we need the original parent's transform so that we can convert the entity's local transform
@@ -621,12 +618,10 @@ namespace Carmicah
 				// Important to send here because if parenting back to scene
 				// we need the original parent's transform so that we can convert the entity's local transform
 				// back to world transform
-
-#pragma region ToDelete?
-				CM_CORE_INFO("Second toDelete called");
 				UpdateTransformMessage msg(entityID, newParentID);
-				SendSysMessage(&msg);	
-#pragma endregion
+				SendSysMessage(&msg);
+
+				
 
 				// Change the current transform parent ID
 				//if (go.HasComponent<Transform>())

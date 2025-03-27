@@ -255,9 +255,6 @@ namespace Carmicah
 	// TODO: HOW TO DESTROY CHILDREN - Can't orphan since transform is gone by this call
 	void TransformSystem::EntityDestroyed(Entity id)
 	{
-		//MAYBE ADD A THING TO REMOVE CHILDREN FROM ITS PARENT HERE
-		//MAYBE ADD A THING TO REMOVE CHILDREN FROM ITS PARENT HERE
-		//MAYBE ADD A THING TO REMOVE CHILDREN FROM ITS PARENT HERE
 		UNUSED(id);
 		//auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(id);
 
