@@ -396,7 +396,7 @@ namespace Carmicah
 			static int counter = 10;
 			if (counter++ % 300 == 0)
 			{
-				if (selectedGO != nullptr)
+				/*if (selectedGO != nullptr)
 				{
 					auto& six1 = gGOFactory->FetchGO(61);
 					auto& six3 = gGOFactory->FetchGO(63);
@@ -420,17 +420,17 @@ namespace Carmicah
 						CM_CORE_INFO("GO ID 65 Actual No. of Children: " + std::to_string(six5.GetComponent<Transform>().children.size()));
 					}
 					CM_CORE_INFO("--------------------");
-				}
-				/*std::string GOFactoryChildren = "No. of children sceneGO has: " + std::to_string(gGOFactory->sceneGO.children.size());
+				}*/
+				std::string GOFactoryChildren = "No. of children sceneGO has: " + std::to_string(gGOFactory->sceneGO.children.size());
 				CM_CORE_INFO(GOFactoryChildren);
 				std::string parentedObjects = "No of objects parented to sceneHierarchy: " + std::to_string(Editor::mSceneHierarchy.size());
 				CM_CORE_INFO(parentedObjects);
-				std::string UIparentedObjects = "No of objects parented to sceneHierarchy: " + std::to_string(Editor::mSceneUIHierarchy.size());
+				std::string UIparentedObjects = "No of objects parented to sceneUIHierarchy: " + std::to_string(Editor::mSceneUIHierarchy.size());
 				CM_CORE_INFO(UIparentedObjects);
 
 				std::string equalParented = "Total Number of Parented Objects: " + std::to_string(Editor::mSceneHierarchy.size() + Editor::mSceneUIHierarchy.size()) + " = " + GOFactoryChildren;
-				CM_CORE_INFO(equalParented);*/
-				/*std::string parentsWithChildren = "No of objects with children: " + std::to_string(Editor::mChildrenHierarchy.size());
+				CM_CORE_INFO(equalParented);
+				std::string parentsWithChildren = "No of objects with children: " + std::to_string(Editor::mChildrenHierarchy.size());
 				CM_CORE_INFO(parentsWithChildren);
 
 				for (const auto& entry : Editor::mChildrenHierarchy)
@@ -449,7 +449,7 @@ namespace Carmicah
 					}
 				}
 
-				CM_CORE_INFO("--------------------");*/
+				CM_CORE_INFO("--------------------");
 			}
 #pragma endregion
 

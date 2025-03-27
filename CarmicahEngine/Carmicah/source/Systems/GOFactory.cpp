@@ -474,8 +474,11 @@ namespace Carmicah
 	{
 		/*Technically this can be done first cause updateParent should always work so, let the editor update its hierarchy copy side
 		using Transform.parent (getting the oldParent) so it can edit*/
-		UpdateHierarchyMessage msg2(entityID, newParentID);
-		SendSysMessage(&msg2);
+		if(!toDelete)
+		{
+			UpdateHierarchyMessage msg2(entityID, newParentID);
+			SendSysMessage(&msg2);
+		}
 
 		GameObject& go = mIDToGO[entityID];
 
