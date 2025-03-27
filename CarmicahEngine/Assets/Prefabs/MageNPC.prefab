@@ -160,5 +160,32 @@
             "colB": 1.0,
             "colA": 1.0
         }
+    ],
+    "Children": [
+        {
+            "GameObject": "CharacterShadow",
+            "ID": 57,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "MC_SpriteSheet_Shadow 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 0.3529
+                },
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": -0.25,
+                    "yPos": -2.4,
+                    "depth": 3.5,
+                    "xScale": 1.5,
+                    "yScale": 1.5,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        }
     ]
 }
