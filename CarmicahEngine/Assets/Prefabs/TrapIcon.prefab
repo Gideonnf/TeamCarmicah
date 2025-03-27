@@ -25,7 +25,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "candy_trap_spritesheet_Spike 9",
+            "texture": "candy_trap_spritesheet_Icon 0",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
@@ -36,8 +36,8 @@
             "xPos": 1820.92529296875,
             "yPos": 756.0,
             "depth": 0.5,
-            "xScale": 0.15000000596046449,
-            "yScale": 0.15000000596046449,
+            "xScale": 0.45000000596046449,
+            "yScale": 0.45000000596046449,
             "rot": 22.860260009765626,
             "transformTag": ""
         }
