@@ -30,14 +30,11 @@ namespace Carmicah
         Entity backBtn = null;
         Entity playBtn = null;
         Entity homeBtn = null;
-        Entity bgBoard1 = null;
-        Entity bgBoard2 = null;
-        bool board1True = false;
         bool boardMovingLeft = true;
-        Vector2 midBoardChange;
         float boardChangeTime = 0.0f;
         float boardChangeMaxTime = 2.0f;
         bool isPlayerFacingLeft = true;
+        public int boardChangeType = 10;
 
         Dictionary<int ,Entity> howToNum = new Dictionary<int, Entity>();
         Entity playerWalk = null;
@@ -81,9 +78,9 @@ namespace Carmicah
             {
                 Vector2 p = slideOutE.LocalPosition;
                 if (boardMovingLeft)
-                    slideOutE.As<UISliding>().ChangeSlideDetails(9, p, new Vector2(-960.0f, 540.0f), boardChangeMaxTime);
+                    slideOutE.As<UISliding>().ChangeSlideDetails(boardChangeType, p, new Vector2(-960.0f, 540.0f), boardChangeMaxTime);
                 else
-                    slideOutE.As<UISliding>().ChangeSlideDetails(9, p, new Vector2(2280.0f, 540.0f), boardChangeMaxTime);
+                    slideOutE.As<UISliding>().ChangeSlideDetails(boardChangeType, p, new Vector2(3840.0f, 540.0f), boardChangeMaxTime);
             }
             // Set buttons visibility if any
             if (oldPanel == 0)
@@ -99,17 +96,6 @@ namespace Carmicah
 
             // Advance Panel
             currentPanel += num;
-            board1True = !board1True;
-            if (board1True)
-            {
-                bgBoard1.GetComponent<Renderer>().ChangeTexture(GetPanelName(currentPanel));
-                midBoardChange = bgBoard2.LocalPosition;
-            }
-            else
-            {
-                bgBoard2.GetComponent<Renderer>().ChangeTexture(GetPanelName(currentPanel));
-                midBoardChange = bgBoard1.LocalPosition;
-            }
             boardChangeTime = 0.0f;
 
             // If Overshot, end
@@ -131,20 +117,17 @@ namespace Carmicah
                 nextBtn.GetComponent<Renderer>().SetAlpha(0.0f);
             }
             // Create Objs for every panel
-            if (currentPanel != 4)
+            Entity currPE;
+            if(howToNum.TryGetValue(currentPanel, out currPE))
             {
-                Entity currPE;
-                if(howToNum.TryGetValue(currentPanel, out currPE))
-                {
-                    if (boardMovingLeft)
-                        currPE.As<UISliding>().ChangeSlideDetails(9, currPE.LocalPosition, new Vector2(960.0f, 540.0f), boardChangeMaxTime);
-                    else
-                        currPE.As<UISliding>().ChangeSlideDetails(9, currPE.LocalPosition, new Vector2(960.0f, 540.0f), boardChangeMaxTime);
-                }
+                if (boardMovingLeft)
+                    currPE.As<UISliding>().ChangeSlideDetails(boardChangeType, currPE.LocalPosition, new Vector2(960.0f, 540.0f), boardChangeMaxTime);
                 else
-                {
-                    CreateGameObject("HowToStep" + currentPanel);
-                }
+                    currPE.As<UISliding>().ChangeSlideDetails(boardChangeType, currPE.LocalPosition, new Vector2(960.0f, 540.0f), boardChangeMaxTime);
+            }
+            else
+            {
+                CreateGameObject("HowToStep" + currentPanel);
             }
 
             // Set uniforms
@@ -169,46 +152,42 @@ namespace Carmicah
                         playBtn = FindEntityWithName("HowToPlayBtn");
                     if(homeBtn == null)
                         homeBtn = FindEntityWithName("HowToHomeBtn");
-                    if(bgBoard1 == null)
-                        bgBoard1 = FindEntityWithName("HowToBGBoard1");
-                    if(bgBoard2 == null)
-                        bgBoard2 = FindEntityWithName("HowToBGBoard2");
 
                     if(!howToNum.ContainsKey(currentPanel))
                     {
                         Entity curPanel = FindEntityWithName("HowToStep" + currentPanel);
                         if (curPanel != null)
                             howToNum.Add(currentPanel, curPanel);
-
-                        switch (currentPanel)
-                        {
-                            case 0:
-                                playerWalk = FindEntityWithName("HowToPlayerWalk");
-                                break;
-                            case 1:
-                                enemyMouse1 = FindEntityWithName("HowToMice1");
-                                enemyMouse2 = FindEntityWithName("HowToMice2");
-                                enemyBear = FindEntityWithName("HowToBear");
-                                mouse1Climbing = mouse2Climbing = bearClimbing = true;
-                                break;
-                            case 2:
-                                cursor = FindEntityWithName("HowToCursorM");
-                                power1Ico = FindEntityWithName("HowToTrapIco");
-                                power2Ico = FindEntityWithName("HowToShootIco");
-                                enemyMouse1 = FindEntityWithName("HowToHiddenMice");
-                                enemyBear = FindEntityWithName("HowToHiddenBear");
-                                enemyMouse2 = FindEntityWithName("HowToBullet");
-                                actlObj1 = FindEntityWithName("HowToActualTrap");
-                                actlObj2 = FindEntityWithName("HowToActualShooter");
-                                break;
-                            case 3:
-                                playerWalk = FindEntityWithName("HowToPrincess");
-                                cursor = FindEntityWithName("HowToCursor");
-                                power1Ico = FindEntityWithName("HowToDrop");
-                                power2Ico = FindEntityWithName("HowToShooter");
-                                actlObj1 = FindEntityWithName("HowToMage");
-                                break;
-                        }
+                    }
+                    // Just re-get, it's easier ;w;
+                    switch (currentPanel)
+                    {
+                        case 0:
+                            playerWalk = FindEntityWithName("HowToPlayerWalk");
+                            break;
+                        case 1:
+                            enemyMouse1 = FindEntityWithName("HowToMice1");
+                            enemyMouse2 = FindEntityWithName("HowToMice2");
+                            enemyBear = FindEntityWithName("HowToBear");
+                            mouse1Climbing = mouse2Climbing = bearClimbing = true;
+                            break;
+                        case 2:
+                            cursor = FindEntityWithName("HowToCursorM");
+                            power1Ico = FindEntityWithName("HowToTrapIco");
+                            power2Ico = FindEntityWithName("HowToShootIco");
+                            enemyMouse1 = FindEntityWithName("HowToHiddenMice");
+                            enemyBear = FindEntityWithName("HowToHiddenBear");
+                            enemyMouse2 = FindEntityWithName("HowToBullet");
+                            actlObj1 = FindEntityWithName("HowToActualTrap");
+                            actlObj2 = FindEntityWithName("HowToActualShooter");
+                            break;
+                        case 3:
+                            playerWalk = FindEntityWithName("HowToPrincess");
+                            cursor = FindEntityWithName("HowToCursor");
+                            power1Ico = FindEntityWithName("HowToDrop");
+                            power2Ico = FindEntityWithName("HowToShooter");
+                            actlObj1 = FindEntityWithName("HowToMage");
+                            break;
                     }
                 }
                 --frameChanged;
@@ -218,32 +197,6 @@ namespace Carmicah
             if(boardChangeTime < boardChangeMaxTime)
             {
                 boardChangeTime += dt;
-                float percent = boardChangeTime / boardChangeMaxTime;
-
-                Vector2 inStart, outEnd;
-                if (boardMovingLeft)
-                {
-                    inStart = new Vector2(1920.0f, 0.0f);
-                    outEnd = new Vector2(-1920.0f, 0.0f);
-                }
-                else
-                {
-                    inStart = new Vector2(-1920.0f, 0.0f);
-                    outEnd = new Vector2(1920.0f, 0.0f);
-                }
-
-                if (board1True)
-                {
-                    bgBoard1.LocalPosition = Easings.GetInterpolate(SLIDE_CURVE.ELASTIC, inStart, Vector2.Zero,  percent);
-                    bgBoard2.LocalPosition = Easings.GetInterpolate(SLIDE_CURVE.ELASTIC, midBoardChange, outEnd, percent);
-                }
-                else
-                {
-                    bgBoard2.LocalPosition = Easings.GetInterpolate(SLIDE_CURVE.ELASTIC, inStart, Vector2.Zero,  percent);
-                    if(oldPanel != -1)
-                        bgBoard1.LocalPosition = Easings.GetInterpolate(SLIDE_CURVE.ELASTIC, midBoardChange, outEnd, percent);
-                }
-
                 if(boardChangeTime > boardChangeMaxTime)
                 {
                     if (currentPanel == 5)
@@ -252,7 +205,6 @@ namespace Carmicah
                         homeBtn.GetComponent<Renderer>().SetAlpha(1.0f);
                     }
                 }
-
                 return;
             }
 

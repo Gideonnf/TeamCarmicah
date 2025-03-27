@@ -13,13 +13,12 @@ namespace Carmicah
         public string QuitButton = "PauseMenuQuitBtn";
         public string ResumeButton = "PauseMenuResumeBtn";
         public bool IsPaused = false;
+        Vector2 mainPos;
 
-        Entity PauseMenuEntity;
-        Entity QuitButtonEntity;
-        Entity ResumeButtonEntity;
+        Entity PauseMenuEntity = null;
         public override void OnCreate()
         {
-
+            mainPos = new Vector2(960.0f, 540.0f);
         }
 
         public override void OnUpdate(float dt)
@@ -49,9 +48,17 @@ namespace Carmicah
             IsPaused = true;
 
             // creating moving to button generic side
-            Entity settings = FindEntityWithName("Settings_Menu");
-            if (settings == null)
-                CreateGameObject("Settings_Menu");
+            PauseMenuEntity = FindEntityWithName("Pause_Screen");
+            if (PauseMenuEntity == null)
+            {
+                PauseMenuEntity = CreateGameObject("Pause_Screen");
+               // mainPos = PauseMenuEntity.Position;
+            }
+            //else
+            //{
+            //    mainPos = PauseMenuEntity.Position;
+            //}
+            //CMConsole.Log($"main Pos: {mainPos.x}, {mainPos.y}");
             //QuitButtonEntity = CreateGameObject("GameClose_Button");
             //ResumeButtonEntity = CreateGameObject(ResumeButton);
         }
@@ -60,24 +67,42 @@ namespace Carmicah
         {
             CMConsole.Log("UnPausing game");
             IsPaused = false;
-            Entity settings = FindEntityWithName("Settings_Menu");
-            if (settings != null)
-            {
-                settings.As<UISliding>().SlideThenSD();
-            }
-
+            //Entity settings = FindEntityWithName("Pause_Screen");
             if (PauseMenuEntity != null)
             {
-                PauseMenuEntity.Destroy();
+                PauseMenuEntity.As<UISliding>().SlideThenSD();
             }
-            if (QuitButtonEntity != null)
+
+         
+        }
+
+        public void ShiftPause(bool hide)
+        {
+            if (hide)
             {
-                QuitButtonEntity.Destroy();
+                if (PauseMenuEntity != null)
+                {
+                    PauseMenuEntity.As<UISliding>().ChangeSlideDetails(8, PauseMenuEntity.LocalPosition, new Vector2(3840.0f, 540.0f), 1.5f);
+                }
             }
-            if (ResumeButtonEntity != null)
+            else
             {
-                ResumeButtonEntity.Destroy();
+                if (PauseMenuEntity != null)
+                {
+                    PauseMenuEntity.As<UISliding>().ChangeSlideDetails(8, PauseMenuEntity.LocalPosition, mainPos, 1.5f);
+                }
+
             }
+        }
+
+        public bool MenuIsSliding()
+        {
+            if (PauseMenuEntity != null)
+            {
+                return PauseMenuEntity.As<UISliding>().IsSliding();
+            }
+
+            return false;
         }
     }
 }
