@@ -84,6 +84,7 @@ namespace Carmicah
 		void AttachComponents(GameObject& obj, std::pair<std::string, std::any> component );
 		void EntityDestroyed(Entity) override;
 		void Destroy(Entity);
+		//Entity DestroyChildren(Entity id);
 		Entity DestroyEntity(Entity); // For recursively destroying all children attached
 		void DestroyAll();
 		void UpdateDestroyed();

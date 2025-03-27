@@ -2,11 +2,6 @@
     "Scene": "Scene1",
     "SceneObjects": [
         {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
-        },
-        {
             "GameObject": "MainCamera",
             "ID": 2,
             "Components": [

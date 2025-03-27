@@ -375,6 +375,8 @@ namespace Carmicah
 		}
 		CM_CORE_INFO("Deleting GO with ID {}", entity);
 
+		UpdateParent(entity, 0, true);
+
 		// To destroy at the end of update
 		mDeleteList.insert(DestroyEntity(entity));
 
@@ -491,14 +493,67 @@ namespace Carmicah
 		// Remove entityID from it's current parent
 		// Check if its part of sceneGO
 
-		//Removing from sceneGO's hierarchy
-		if (sceneGO.children.count(entityID) > 0)
+		if (toDelete)
 		{
-			sceneGO.children.erase(entityID);
+			Entity parentID = 0;
+			// Get the old parent ID
+			if (go.HasComponent<Transform>())
+			{
+				// Get the parent ID
+				parentID = go.GetComponent<Transform>().ParentID();
+			}
+			else if (go.HasComponent<UITransform>())
+			{
+				parentID = go.GetComponent<UITransform>().ParentID();
+			}
+
+			// if it belongs to the scene node
+			if (parentID == 0)
+			{
+				sceneGO.children.erase(entityID);
+			}
+			// if it isn't then just delete from it's parent
+			else
+			{
+				// Get the parent's transform
+				if (ComponentManager::GetInstance()->HasComponent<Transform>(parentID))
+				{
+					// Get the transform
+					Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(parentID);
+					// Erase from parent's child ids
+					for (auto it = parentTransform.children.begin(); it != parentTransform.children.end(); it++)
+					{
+						if (*it == entityID)
+						{
+							parentTransform.children.erase(it);
+							//parentTransform.RemoveChild();
+							break;
+						}
+					}
+				}
+				else if (ComponentManager::GetInstance()->HasComponent<UITransform>(parentID))
+				{
+					UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(parentID);
+					for (auto it = parentTransform.children.begin(); it != parentTransform.children.end(); it++)
+					{
+						if (*it == entityID)
+						{
+							parentTransform.children.erase(it);
+							//parentTransform.RemoveChild();
+							break;
+						}
+					}
+				}
+			/*	UpdateTransformMessage msg(entityID, newParentID);
+				SendSysMessage(&msg);*/
+			}
+
+
+			return;
 		}
 
 		//Only runs for new GameObjects
-		else if (go.HasComponent<Transform>() && go.GetComponent<Transform>().ParentID() == 0 && newParentID == 0)
+		if (go.HasComponent<Transform>() && go.GetComponent<Transform>().ParentID() == 0 && newParentID == 0)
 		{
 			// its a new object
 			sceneGO.children.insert(entityID);
@@ -540,59 +595,6 @@ namespace Carmicah
 				parentID = go.GetComponent<UITransform>().ParentID();
 			}
 
-			// if not deleting then we need to update the transform based on the new parent's
-			if (!toDelete)
-			{
-				CM_CORE_INFO("First toDelete called");
-				// Send msg to UpdateTransform
-				// Important to send here because if parenting back to scene
-				// we need the original parent's transform so that we can convert the entity's local transform
-				// back to world transform
-				UpdateTransformMessage msg(entityID, newParentID);
-				SendSysMessage(&msg);
-			}
-
-
-			// It isnt being parented to scene for the first time on creation
-			if (parentID == 0 && newParentID != 0)
-			{
-				assert("Parent ID does not exist");
-				return;
-			}
-
-			// Get the parent's transform
-			if (ComponentManager::GetInstance()->HasComponent<Transform>(parentID))
-			{
-				// Get the transform
-				Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(parentID);
-				// Erase from parent's child ids
-				for (auto it = parentTransform.children.begin(); it != parentTransform.children.end(); it++)
-				{
-					if (*it == entityID)
-					{
-						parentTransform.children.erase(it);
-						break;
-					}
-				}
-			}
-			else if (ComponentManager::GetInstance()->HasComponent<UITransform>(parentID))
-			{
-				UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(parentID);
-				for (auto it = parentTransform.children.begin(); it != parentTransform.children.end(); it++)
-				{
-					if (*it == entityID)
-					{
-						parentTransform.children.erase(it);
-						break;
-					}
-				}
-			}
-		}
-
-		// Only need to change to a new parent/update parent's child if its not being deleted from the scene
-		if (!toDelete)
-		{
-			//Change the parent after removing from the old parent
 			// If its being parented to the scene
 			if (newParentID == sceneGO.sceneID)
 			{
@@ -622,46 +624,63 @@ namespace Carmicah
 					parentLevel = ComponentManager::GetInstance()->GetComponent<Transform>(newParentID).GrandChildLevel();
 				else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
 					parentLevel = ComponentManager::GetInstance()->GetComponent<UITransform>(newParentID).GrandChildLevel();
+			}
 
-				// Send msg to UpdateTransform
-				// Important to send here because if parenting back to scene
-				// we need the original parent's transform so that we can convert the entity's local transform
-				// back to world transform
+			// Send msg to UpdateTransform
+			// Important to send here because if parenting back to scene
+			// we need the original parent's transform so that we can convert the entity's local transform
+			// back to world transform
 
 #pragma region ToDelete?
-				CM_CORE_INFO("Second toDelete called");
-				UpdateTransformMessage msg(entityID, newParentID);
-				SendSysMessage(&msg);	
+			CM_CORE_INFO("Second toDelete called");
+			UpdateTransformMessage msg(entityID, newParentID);
+			SendSysMessage(&msg);
 #pragma endregion
 
-				// Change the current transform parent ID
-				//if (go.HasComponent<Transform>())
-				//{
-				//	// Change the parent
-				//	go.GetComponent<Transform>().SetParent(newParentID, parentLevel);
-				//}
-				//else if (go.HasComponent<UITransform>())
-				//{
-				//	// Change the parent
-				//	go.GetComponent<UITransform>().SetParent(newParentID, parentLevel);
-				//}
 
-				//if (ComponentManager::GetInstance()->HasComponent<Transform>(newParentID))
-				//{
-				//	// Get the transform
-				//	Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(newParentID);
-				//	// Add to the child list
-				//	parentTransform.children.push_back(entityID);
+			// It isnt being parented to scene for the first time on creation
+			//if (parentID == 0 && newParentID != 0)
+			//{
+			//	//assert("Parent ID does not exist");
+			//	return;
+			//}
+			// previous parent is the scene
+			if (parentID == 0)
+			{
+				sceneGO.children.erase(entityID);
+			}
+			else
+			{
+				// Get the parent's transform
+				if (ComponentManager::GetInstance()->HasComponent<Transform>(parentID))
+				{
+					// Get the transform
+					Transform& parentTransform = ComponentManager::GetInstance()->GetComponent<Transform>(parentID);
+					// Erase from parent's child ids
+					for (auto it = parentTransform.children.begin(); it != parentTransform.children.end(); it++)
+					{
+						if (*it == entityID)
+						{
+							parentTransform.children.erase(it);
+						//	parentTransform.RemoveChild();
+							break;
+						}
+					}
+				}
+				else if (ComponentManager::GetInstance()->HasComponent<UITransform>(parentID))
+				{
+					UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(parentID);
+					for (auto it = parentTransform.children.begin(); it != parentTransform.children.end(); it++)
+					{
+						if (*it == entityID)
+						{
+							parentTransform.children.erase(it);
+							//parentTransform.RemoveChild();
+							break;
+						}
+					}
+				}
 
-				//	//CM_CORE_INFO("Parenting entity: " + std::to_string(entityID) + " to " + std::to_string(newParentID));
-				//}
-				//else if (ComponentManager::GetInstance()->HasComponent<UITransform>(newParentID))
-				//{
-				//	// Get the transform
-				//	UITransform& parentTransform = ComponentManager::GetInstance()->GetComponent<UITransform>(newParentID);
-				//	// Add to the child list
-				//	parentTransform.children.push_back(entityID);
-				//}
 			}
 		}
 	}
