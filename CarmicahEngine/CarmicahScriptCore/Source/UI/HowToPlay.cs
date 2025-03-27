@@ -341,7 +341,7 @@ namespace Carmicah
                             if (pos.x < 105)
                             {
                                 actlObj1.GetComponent<Renderer>().SetAlpha(1.0f);
-                                power1Ico.Scale = new Vector2(0.8f, 0.8f);
+                                power1Ico.Scale = new Vector2(0.55f, 0.55f);
                                 power1Ico.Position = new Vector2(2000, 135);
 
                                 someDir = (new Vector2(465, 40)) - cursor.LocalPosition;
@@ -369,7 +369,7 @@ namespace Carmicah
                             enemyMouse1.LocalPosition = pos;
                             if (pos.y > -300)
                             {
-                                enemyMouse1.GetComponent<Animation>().ChangeAnim("Mouse_Death_blue");
+                                enemyMouse1.GetComponent<Animation>().ChangeAnim("Mouse_Death_Blue");
                                 actlObj1.GetComponent<Animation>().ChangeAnim("CandyCone");
                                 ++aniProgress;
                             }
@@ -409,7 +409,7 @@ namespace Carmicah
                                 actlObj2.GetComponent<Renderer>().SetAlpha(1.0f);
                                 power2Ico.Scale = new Vector2(1.333f, 1.333f);
                                 power2Ico.Position = new Vector2(2000, 80);
-                                power2Ico.GetComponent<Renderer>().ChangeTexture("UI_Spritesheet_Shooter_Icon 0");
+                                power2Ico.GetComponent<Renderer>().ChangeTexture("UI2_Shooter_Icon 0");
                                 enemyBear.GetComponent<Renderer>().SetAlpha(1.0f);
                                 ++aniProgress;
                             }
@@ -460,7 +460,7 @@ namespace Carmicah
                             if (enemyBear.GetComponent<Animation>().IsAnimFinished())
                             {
                                 cursor.Position = new Vector2(1000, 100);
-                                power1Ico.Position = new Vector2(500, 135);
+                                power1Ico.Position = new Vector2(450, 135);
                                 power2Ico.Position = new Vector2(450, 80);
                                 actlObj1.GetComponent<Renderer>().SetAlpha(0.0f);
                                 actlObj1.Depth = 52;
@@ -468,7 +468,7 @@ namespace Carmicah
                                 actlObj2.GetComponent<Renderer>().SetAlpha(0.0f);
                                 actlObj2.GetComponent<Animation>().ChangeAnim("Shooter_Idle");
                                 enemyMouse1.GetComponent<Renderer>().SetAlpha(0.0f);
-                                enemyMouse1.GetComponent<Animation>().ChangeAnim("Mouse_Climb_blue");
+                                enemyMouse1.GetComponent<Animation>().ChangeAnim("Mouse_Climb_Blue");
                                 enemyBear.GetComponent<Renderer>().SetAlpha(0.0f);
                                 enemyBear.GetComponent<Animation>().ChangeAnim("Bear_Climb");
                                 enemyMouse1.Position = new Vector2(105, -400);
@@ -583,7 +583,7 @@ namespace Carmicah
                             {
                                 someDir = (new Vector2(180.0f, 85.0f)) - cursor.LocalPosition;
                                 someDir = someDir.Normalize();
-                                power1Ico.GetComponent<Renderer>().ChangeTexture("UI_Spritesheet_Mage_Icon 0");
+                                power1Ico.GetComponent<Renderer>().ChangeTexture("UI2_Mage_Icon 0");
                                 power1Ico.LocalPosition = new Vector2(100.0f, 450.0f);
                                 power1Ico.Depth = 52;
                                 actlObj1.GetComponent<Renderer>().SetAlpha(1.0f);

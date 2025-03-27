@@ -415,7 +415,7 @@ namespace Carmicah
                     player.LocalPosition.y - someVec[1].y < ditto[1].LocalPosition.y + someVec[0].y)
                     {
                         powerIco[0].GetComponent<Renderer>().SetAlpha(1);
-                        powerIco[0].GetComponent<Renderer>().ChangeTexture("UI_Spritesheet_Shooter_Icon 0");
+                        powerIco[0].GetComponent<Renderer>().ChangeTexture("UI2_Shooter_Icon 0");
                         powerIco[0].LocalPosition = new Vector2(0, 240);
                         powerIco[0].Scale = new Vector2(1.2f, 1.2f);
                         ditto[1].LocalPosition = new Vector2(100, 0);
