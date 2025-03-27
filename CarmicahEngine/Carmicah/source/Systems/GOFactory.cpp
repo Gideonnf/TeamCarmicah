@@ -386,17 +386,6 @@ namespace Carmicah
 	{
 		GameObject& go = mIDToGO[entity];
 
-		// Remove it from the parent since its being destroyed
-		//if(go.HasComponent<Transform>())
-		//{
-		//	UpdateParent(entity, go.GetComponent<Transform>().parent, true);
-		//}
-
-		//else if (go.HasComponent<UITransform>())
-		//{
-		//	UpdateParent(entity, go.GetComponent<UITransform>().parent, true);
-		//}
-
 		// Check if has any children
 		if (go.HasComponent<Transform>())
 		{
@@ -492,7 +481,6 @@ namespace Carmicah
 
 		// Remove entityID from it's current parent
 		// Check if its part of sceneGO
-
 		if (toDelete)
 		{
 			Entity parentID = 0;
@@ -526,7 +514,6 @@ namespace Carmicah
 						if (*it == entityID)
 						{
 							parentTransform.children.erase(it);
-							//parentTransform.RemoveChild();
 							break;
 						}
 					}
@@ -539,13 +526,10 @@ namespace Carmicah
 						if (*it == entityID)
 						{
 							parentTransform.children.erase(it);
-							//parentTransform.RemoveChild();
 							break;
 						}
 					}
 				}
-			/*	UpdateTransformMessage msg(entityID, newParentID);
-				SendSysMessage(&msg);*/
 			}
 
 
@@ -572,16 +556,6 @@ namespace Carmicah
 		// Find out what is the current parent -> Finding out the oldParent
 		else
 		{
-			
-			// Handle UI Trasnform uniquely for now
-			//if (go.HasComponent<UITransform>())
-			//{
-			//	sceneGO.children.insert(go.mID);
-			//	go.GetComponent<UITransform>().parent = newParentID;
-
-			//	// UI Transform for now can only add directly to scene
-			//	return;
-			//}
 
 			Entity parentID = 0;
 			// Get the old parent ID
@@ -630,20 +604,9 @@ namespace Carmicah
 			// Important to send here because if parenting back to scene
 			// we need the original parent's transform so that we can convert the entity's local transform
 			// back to world transform
-
-#pragma region ToDelete?
-			CM_CORE_INFO("Second toDelete called");
 			UpdateTransformMessage msg(entityID, newParentID);
 			SendSysMessage(&msg);
-#pragma endregion
 
-
-			// It isnt being parented to scene for the first time on creation
-			//if (parentID == 0 && newParentID != 0)
-			//{
-			//	//assert("Parent ID does not exist");
-			//	return;
-			//}
 			// previous parent is the scene
 			if (parentID == 0)
 			{
@@ -662,7 +625,6 @@ namespace Carmicah
 						if (*it == entityID)
 						{
 							parentTransform.children.erase(it);
-						//	parentTransform.RemoveChild();
 							break;
 						}
 					}
@@ -675,7 +637,6 @@ namespace Carmicah
 						if (*it == entityID)
 						{
 							parentTransform.children.erase(it);
-							//parentTransform.RemoveChild();
 							break;
 						}
 					}

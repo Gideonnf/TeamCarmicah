@@ -60,6 +60,40 @@
                     "rot": 0.0,
                     "transformTag": ""
                 }
+            ],
+            "Children": [
+                {
+                    "GameObject": "Default",
+                    "ID": 7,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 0.0,
+                            "yPos": 0.0,
+                            "depth": 0.0,
+                            "xScale": 0.0,
+                            "yScale": 0.0,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
+                },
+                {
+                    "GameObject": "Default_3",
+                    "ID": 9,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 0.0,
+                            "yPos": 0.0,
+                            "depth": 0.0,
+                            "xScale": 0.0,
+                            "yScale": 0.0,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
+                }
             ]
         },
         {
