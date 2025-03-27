@@ -813,6 +813,24 @@ namespace Carmicah
 		return nullptr;
 	}
 
+	static bool HasScriptInstance(unsigned int entityID, MonoString* baseName)
+	{
+		if (gScriptSystem->mEntityInstances.count(entityID) == 0)
+		{
+			//CM_CORE_ERROR("Entity does not have script attached");
+			return false;
+		}
+
+		std::string cStrName = MonoToString(baseName);
+		if (gScriptSystem->mEntityInstances.count(entityID) > 0)
+		{
+			if (gScriptSystem->mEntityInstances[entityID]->GetScriptClass()->mClassName == cStrName)
+				return true;
+		}
+
+		return false;
+	}
+
 	static MonoObject* GetScriptInstanceFromChildren(unsigned int entityID)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -1287,6 +1305,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(CreateNewGameObject);
 		ADD_INTERNAL_CALL(GetScriptInstance);
 		ADD_INTERNAL_CALL(GetScriptInstanceFromChildren);
+		ADD_INTERNAL_CALL(HasScriptInstance);
 		//ADD_INTERNAL_CALL(SetCollisionLayer);
 
 		//Time functions

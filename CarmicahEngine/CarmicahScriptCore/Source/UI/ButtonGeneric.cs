@@ -250,6 +250,7 @@ namespace Carmicah
         public override void OnClick()
         {
             Entity pauseManager = FindEntityWithName("PauseManager");
+           // Entity gameManager = FindEntityWithName("PauseManager");
 
             // its in the game scene
             if (pauseManager != null)
@@ -330,6 +331,18 @@ namespace Carmicah
                     if (pauseManager != null)
                     {
                         pauseManager.As<PauseManager>().ShiftPause(true);
+                    }
+                    break;
+                case "resume":
+                    {
+                        Entity PauseScreen = FindEntityWithName("Pause_Screen");
+                        if (PauseScreen != null)
+                        {
+                            if (PauseScreen.Has<UISliding>())
+                            {
+                                PauseScreen.As<UISliding>().SlideThenSD();
+                            }
+                        }
                     }
                     break;
                 case "howtonext":

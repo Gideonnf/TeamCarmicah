@@ -167,6 +167,13 @@ namespace Carmicah
             return scriptInstance as T;
         }
 
+        public bool Has<T>() where T : Entity, new()
+        {
+            string baseClassName = typeof(T).Name;
+
+            return FunctionCalls.HasScriptInstance(mID, baseClassName);
+        }
+
         public Entity FindEntityWithName(string name)
         {
             uint entityID = FunctionCalls.Entity_FindEntityWithName(name);
