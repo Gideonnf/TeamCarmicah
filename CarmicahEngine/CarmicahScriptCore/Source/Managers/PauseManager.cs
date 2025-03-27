@@ -71,6 +71,7 @@ namespace Carmicah
             if (PauseMenuEntity != null)
             {
                 PauseMenuEntity.As<UISliding>().SlideThenSD();
+                PauseMenuEntity = null;
             }
 
          
