@@ -54,11 +54,11 @@ Border
 T L: 0 x 2489, 1920 x 1080
 1 S
 
-GameLogo
+Game_Logo
 T L: 988 x 454, 445 x 294
 1 S
 
-TeamLogo
+Team_Logo
 T L: 1751 x 1080, 2000 x 2000
 1 S
 

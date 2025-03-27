@@ -8,7 +8,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "JellybeanIcon",
+            "texture": "UI2_Jellybean_Icon 0",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,

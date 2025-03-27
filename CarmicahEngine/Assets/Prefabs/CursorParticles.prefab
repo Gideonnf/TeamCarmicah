@@ -15,7 +15,7 @@
         },
         {
             "Component Name": "struct Carmicah::ParticleEmitter",
-            "texture": "UI_Spritesheet_Sparkle_VFX 0",
+            "texture": "UI2_Sparkle_VFX 0",
             "VelX": 1.0,
             "VelY": 1.0,
             "RadiusX": 0.0,
@@ -32,7 +32,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "UI_Spritesheet_Cursor 0",
+            "texture": "UI2_Cursor 0",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,

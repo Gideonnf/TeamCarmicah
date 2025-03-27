@@ -280,7 +280,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "UI_Spritesheet_UI_Bar 0",
+                    "texture": "UI2_UI_Bar 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -612,7 +612,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Balloons_left 0",
+                    "texture": "Background_SpriteSheet_Balloon_Left 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -654,7 +654,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Balloons_right 0",
+                    "texture": "Background_SpriteSheet_Balloon_Right 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -1198,7 +1198,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "UI_Speech 0",
+                    "texture": "UI2_Speech 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -1310,7 +1310,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "UI_Speech 0",
+                    "texture": "UI2_Speech 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -1391,7 +1391,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "UI_Speech 0",
+                    "texture": "UI2_Speech 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -1420,7 +1420,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "bubbleMouse",
+                            "texture": "UI2_Mouse_Speech 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -1614,7 +1614,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "UI_Spritesheet_Bear_Icon 0",
+                    "texture": "UI2_Bear_Icon 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -1853,7 +1853,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "UI_Speech 0",
+                    "texture": "UI2_Speech 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -1882,7 +1882,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "bubbleMouse",
+                            "texture": "UI2_Mouse_Speech 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -2094,7 +2094,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "UI_Speech 0",
+                    "texture": "UI2_Speech 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -2123,7 +2123,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "bubbleMouse",
+                            "texture": "UI2_Mouse_Speech 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -2154,7 +2154,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "UI_Speech 0",
+                    "texture": "UI2_Speech 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -2183,7 +2183,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "bubbleMouse",
+                            "texture": "UI2_Mouse_Speech 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -2232,7 +2232,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Princess_HealthBar_Back 0",
+                    "texture": "UI_Princess_HP_Back 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -2270,7 +2270,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "Princess_HealthBar_HP 0",
+                            "texture": "UI_Princess_HP 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -2651,7 +2651,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "UI_Spritesheet_Cursor 0",
+                    "texture": "UI2_Cursor 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -2659,7 +2659,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::ParticleEmitter",
-                    "texture": "UI_Spritesheet_Sparkle_VFX 0",
+                    "texture": "UI2_Sparkle_VFX 0",
                     "VelX": 1.0,
                     "VelY": 1.0,
                     "RadiusX": 0.0,

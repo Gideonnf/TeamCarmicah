@@ -67,7 +67,7 @@
                     {
                         "Component Name": "struct Carmicah::Renderer",
                         "model": "Square",
-                        "texture": "UI_Spritesheet_Mage_Icon 0",
+                        "texture": "UI2_Mage_Icon 0",
                         "colR": 1.0,
                         "colG": 1.0,
                         "colB": 1.0,
@@ -182,7 +182,7 @@
                     {
                         "Component Name": "struct Carmicah::Renderer",
                         "model": "Square",
-                        "texture": "UI_Spritesheet_UI_Bar 0",
+                        "texture": "UI2_UI_Bar 0",
                         "colR": 1.0,
                         "colG": 1.0,
                         "colB": 1.0,
@@ -207,7 +207,7 @@
                     {
                         "Component Name": "struct Carmicah::Renderer",
                         "model": "Square",
-                        "texture": "UI_Spritesheet_Cursor 0",
+                        "texture": "UI2_Cursor 0",
                         "colR": 1.0,
                         "colG": 1.0,
                         "colB": 1.0,
