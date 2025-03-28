@@ -250,7 +250,20 @@ namespace Carmicah
         public override void OnClick()
         {
             Entity pauseManager = FindEntityWithName("PauseManager");
-           // Entity gameManager = FindEntityWithName("PauseManager");
+
+
+            // unique check for pause
+            // cause i dont want to be able to pause when game over
+            if (buttonType == "pause")
+            {
+                Entity gameManager = FindEntityWithName("GameManager");
+
+                if (gameManager != null)
+                {
+                    if (gameManager.As<GameManager>().GameOver)
+                        return;
+                }
+            }
 
             // its in the game scene
             if (pauseManager != null)

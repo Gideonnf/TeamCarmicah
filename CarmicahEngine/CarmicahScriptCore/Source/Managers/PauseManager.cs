@@ -26,6 +26,16 @@ namespace Carmicah
         {
             if (Input.IsKeyPressed(Keys.KEY_ESC))
             {
+                Entity gameManager = FindEntityWithName("GameManager");
+
+                if (gameManager != null)
+                {
+                    if (gameManager.As<GameManager>().GameOver)
+                    { 
+                        return;
+                    }
+                }
+
                 if (IsPaused)
                 {
                     UnPause();
