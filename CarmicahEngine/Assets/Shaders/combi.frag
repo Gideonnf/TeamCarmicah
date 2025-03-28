@@ -1,7 +1,6 @@
 #version 460 core
 
 layout (location=0)		out vec4			fFragColor; // location 0 is default GL_BACK_LEFT color buffer
-layout (location=1)		flat in uvec2		vID;
 
 layout (binding = 0) uniform sampler2D 	uAccum;
 layout (binding = 1) uniform sampler2D 	uReveal;

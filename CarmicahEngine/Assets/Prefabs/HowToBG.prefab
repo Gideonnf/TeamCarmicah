@@ -140,7 +140,7 @@
                     "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
                         {
-                            "buttonType": "home"
+                            "buttonType": "howtoclose"
                         }
                     ]
                 },
