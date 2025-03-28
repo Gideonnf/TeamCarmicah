@@ -19,6 +19,7 @@ namespace Carmicah
         MouseAI targetMouse;
         float timer = 0.0f;
         public float maxDistance = 12.0f;
+        public Vector2 shootOffset = new Vector2(2, 2);
         string voiceOver;
         public override void OnCreate()
         {
@@ -42,7 +43,15 @@ namespace Carmicah
                 Entity projectile = CreateGameObject(projectilePrefab);
                 if (projectile != null)
                 {
-                    projectile.Position = Position;
+                    if (IsLeft)
+                    {
+                        projectile.Position = Position - shootOffset;
+                    }
+                    else
+                    {
+                        projectile.Position = Position + shootOffset;
+
+                    }
                     // CMConsole.Log($"Projectile Position: {projectile.Position.x}, {projectile.Position.y}");
 
                     Projectile bullet = projectile.As<Projectile>();
@@ -204,6 +213,7 @@ namespace Carmicah
             {
                 ChangeAnim(idleAnim);
                 CMConsole.Log("IDLE ANIM");
+                shot = false;
             }
             else if (stateName == "Attacking")
             {
@@ -211,7 +221,6 @@ namespace Carmicah
                 ChangeAnim(shootAnim);
                 animationTime = GetComponent<Animation>().GetMaxTime();
                 timer = 0.0f;
-                shot = false;
                 //CMConsole.Log($"Max Anim Time : {animationTime}");
 
             }
@@ -259,21 +268,27 @@ namespace Carmicah
             {
                 // Get nearest enemy 
                 //targetMouse = gameManager.GetClosestMouse(this);
-                GetTarget(); // get targetMouse
-                if (targetMouse != null)
+                timer += dt;
+                if (timer >= shootTime)
                 {
-                    CMConsole.Log($"Target mouse : {targetMouse.mID}");
+                    GetTarget(); // get targetMouse
+                    if (targetMouse != null)
+                    {
+                        CMConsole.Log($"Target mouse : {targetMouse.mID}");
 
-                    // change to attacking state
-                    if (mana > 0)
-                    {
-                        //CMConsole.Log("Trying to attack!");
-                        GetComponent<StateMachine>().SetStateCondition(2);
+                        // change to attacking state
+                        if (mana > 0)
+                        {
+                            //CMConsole.Log("Trying to attack!");
+                            GetComponent<StateMachine>().SetStateCondition(2);
+                            timer = 0.0f;
+                        }
+                        else
+                        {
+                            GetComponent<StateMachine>().SetStateCondition(3);
+                        }
                     }
-                    else
-                    {
-                        GetComponent<StateMachine>().SetStateCondition(3);
-                    }
+
                 }
 
                 if (mana == 0)
@@ -283,26 +298,38 @@ namespace Carmicah
             }
             else if (stateName == "Attacking")
             {
-                //CMConsole.Log($"Shooting timer : {timer}");
-
-                timer += dt;
-                if (timer > shootTime)
+                CMConsole.Log($"current frame : {GetComponent<Animation>().GetFrameNo()}");
+                if (GetComponent<Animation>().GetFrameNo() == 5)
                 {
-                    if (!shot && targetMouse != null)
+                    if (targetMouse != null && shot == false)
                     {
                         ShootProjectile();
                         shot = true;
-
-                        // reset the timer
-                        // timer = 0.0f;
                     }
-                    else
-                    {
-                        if (timer >= animationTime)
-                            GetComponent<StateMachine>().SetStateCondition(1);
-                    }
-
                 }
+                else if (GetComponent<Animation>().IsAnimFinished())
+                {
+                    GetComponent<StateMachine>().SetStateCondition(1);
+                }
+
+                //timer += dt;
+                //if (timer > shootTime )
+                //{
+                //    if (!shot && targetMouse != null)
+                //    {
+                //        ShootProjectile();
+                //        shot = true;
+
+                //        // reset the timer
+                //        // timer = 0.0f;
+                //    }
+                //    else
+                //    {
+                //        if (timer >= animationTime)
+                //            GetComponent<StateMachine>().SetStateCondition(1);
+                //    }
+
+                //}
             }
             else if (stateName == "NoMana")
             {

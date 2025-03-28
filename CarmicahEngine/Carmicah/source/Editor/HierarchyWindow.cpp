@@ -393,42 +393,64 @@ namespace Carmicah
 		if (ImGui::Begin(mTitle))
 		{
 #pragma region Debug Region
-			/*static int counter = 0;
-			if(counter++ % 300 == 0)
+			static int counter = 10;
+			if (counter++ % 300 == 0)
 			{
-				std::string GOFactoryChildren = "No. of children sceneGO has: " + std::to_string(gGOFactory->sceneGO.children.size());
-				CM_CORE_INFO(GOFactoryChildren);
-				std::string parentedObjects = "No of objects parented to sceneHierarchy: " + std::to_string(Editor::mSceneHierarchy.size());
-				CM_CORE_INFO(parentedObjects);
-				std::string UIparentedObjects = "No of objects parented to sceneHierarchy: " + std::to_string(Editor::mSceneUIHierarchy.size());
-				CM_CORE_INFO(UIparentedObjects);
-
-				std::string equalParented = "Total Number of Parented Objects: " + std::to_string(Editor::mSceneHierarchy.size() + Editor::mSceneUIHierarchy.size()) + " = " + GOFactoryChildren;
-				CM_CORE_INFO(equalParented);
-				std::string parentsWithChildren = "No of objects with children: " + std::to_string(Editor::mChildrenHierarchy.size());
-				CM_CORE_INFO(parentsWithChildren);
-
-				for (const auto& entry : Editor::mChildrenHierarchy)
+				/*if (selectedGO != nullptr)
 				{
-					std::string entityChildren = "Entity ID(Editor) " + std::to_string(entry.first) + " has " + std::to_string(entry.second.size()) + " children";
-					CM_CORE_INFO(entityChildren);
-					if (gGOFactory->GetMIDToGO()[entry.first].HasComponent<Transform>())
+					auto& six1 = gGOFactory->FetchGO(61);
+					auto& six3 = gGOFactory->FetchGO(63);
+					auto& six4 = gGOFactory->FetchGO(64);
+					auto& six5 = gGOFactory->FetchGO(65);
+
+					if (six1.HasComponent<Transform>())
 					{
-						std::string actualChildrenNo = "Entity ID " + std::to_string(gGOFactory->GetMIDToGO()[entry.first].GetID()) + " actually has " + std::to_string(gGOFactory->GetMIDToGO()[entry.first].GetComponent<Transform>().children.size()) + " children";
-						CM_CORE_INFO(actualChildrenNo);
+						CM_CORE_INFO("Parallex Actual No. of Children: " + std::to_string(six1.GetComponent<Transform>().children.size()));
 					}
-				}
+					if (six3.HasComponent<Transform>())
+					{
+						CM_CORE_INFO("GO ID 63 Actual No. of Children: " + std::to_string(six3.GetComponent<Transform>().children.size()));
+					}
+					if (six4.HasComponent<Transform>())
+					{
+						CM_CORE_INFO("GO ID 64 Actual No. of Children: " + std::to_string(six4.GetComponent<Transform>().children.size()));
+					}
+					if (six5.HasComponent<Transform>())
+					{
+						CM_CORE_INFO("GO ID 65 Actual No. of Children: " + std::to_string(six5.GetComponent<Transform>().children.size()));
+					}
+					CM_CORE_INFO("--------------------");
+				}*/
+				//std::string GOFactoryChildren = "No. of children sceneGO has: " + std::to_string(gGOFactory->sceneGO.children.size());
+				//CM_CORE_INFO(GOFactoryChildren);
+				//std::string parentedObjects = "No of objects parented to sceneHierarchy: " + std::to_string(Editor::mSceneHierarchy.size());
+				//CM_CORE_INFO(parentedObjects);
+				//std::string UIparentedObjects = "No of objects parented to sceneUIHierarchy: " + std::to_string(Editor::mSceneUIHierarchy.size());
+				//CM_CORE_INFO(UIparentedObjects);
 
-				CM_CORE_INFO("--------------------");
+				//std::string equalParented = "Total Number of Parented Objects: " + std::to_string(Editor::mSceneHierarchy.size() + Editor::mSceneUIHierarchy.size()) + " = " + GOFactoryChildren;
+				//CM_CORE_INFO(equalParented);
+				//std::string parentsWithChildren = "No of objects with children: " + std::to_string(Editor::mChildrenHierarchy.size());
+				//CM_CORE_INFO(parentsWithChildren);
+
+				//for (const auto& entry : Editor::mChildrenHierarchy)
+				//{
+				//	std::string entityChildren = "Entity ID(Editor) " + std::to_string(entry.first) + " has " + std::to_string(entry.second.size()) + " children";
+				//	CM_CORE_INFO(entityChildren);
+				//	if (gGOFactory->GetMIDToGO()[entry.first].HasComponent<Transform>())
+				//	{
+				//		std::string actualChildrenNo = "Entity ID " + std::to_string(gGOFactory->GetMIDToGO()[entry.first].GetID()) + " actually has " + std::to_string(gGOFactory->GetMIDToGO()[entry.first].GetComponent<Transform>().children.size()) + " children";
+				//		CM_CORE_INFO(actualChildrenNo);
+				//	}
+				//	else if(gGOFactory->GetMIDToGO()[entry.first].HasComponent<UITransform>())
+				//	{
+				//		std::string actualChildrenNo = "Entity ID " + std::to_string(gGOFactory->GetMIDToGO()[entry.first].GetID()) + " actually has " + std::to_string(gGOFactory->GetMIDToGO()[entry.first].GetComponent<UITransform>().children.size()) + " children";
+				//		CM_CORE_INFO(actualChildrenNo);
+				//	}
+				//}
+
+				//CM_CORE_INFO("--------------------");
 			}
-			
-			if (selectedGO != nullptr)
-			{
-				if (selectedGO->HasComponent<Transform>())
-				{
-					
-				}
-			}*/
 #pragma endregion
 
 			if (ImGui::BeginChild("Game Object List: ", ImVec2(0, 400), ImGuiChildFlags_AlwaysUseWindowPadding))

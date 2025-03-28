@@ -129,6 +129,9 @@ namespace Carmicah
         internal extern static object GetScriptInstanceFromChildren(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static bool HasScriptInstance(uint entityID, string baseClassName);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Animation_ChangeAnim(uint entityID, string prefabName);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -175,6 +178,9 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static int Animation_GetCurrFrameNo(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Animation_Pause(uint entityID, bool val);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool Animation_IsAnimFinished(uint entityID);

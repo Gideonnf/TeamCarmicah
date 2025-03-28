@@ -5,7 +5,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "pause panel"
+            "texture": "UI_Panel 0"
         },
         {
             "Component Name": "struct Carmicah::UITransform",

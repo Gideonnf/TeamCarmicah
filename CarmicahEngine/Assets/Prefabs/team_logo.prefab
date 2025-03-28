@@ -5,7 +5,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Team_Logo"
+            "texture": "UI_Team_Logo 0"
         },
         {
             "Component Name": "struct Carmicah::UITransform",

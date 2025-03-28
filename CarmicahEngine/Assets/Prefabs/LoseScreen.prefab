@@ -5,7 +5,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Board",
+            "texture": "UI_Board 0",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
@@ -149,7 +149,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_Lose",
+                    "texture": "MC_SpriteSheet_Lose 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,

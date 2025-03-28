@@ -35,14 +35,14 @@ namespace Carmicah
 
         //float timeForOneLoop;
         //float animationTime = 0.0025f;
-        int numberOfLoops = 0;
         bool cake1Created = false;
         bool cake2Created = false;
         bool cake3Created = false;
         bool cake4Created = false;
-        bool thingHappened = false;
+        List<int> cakeKeyNum;
 
-
+        float finalCountdown = 0.0f;
+        const float totalFinal = 0.5f;
         float elapsedTime = 0.0f;
         int textProgress = 0;
         string currText = "";
@@ -53,57 +53,58 @@ namespace Carmicah
             //CMConsole.Log($"{timeForOneLoop}");
             Text = FindEntityWithName("LoadingTipsText");
             Sound.PlaySFX("loading", 1.0f);
+            cakeKeyNum = new List<int>();
+            cakeKeyNum.Add(0);
+            cakeKeyNum.Add(9);
+            cakeKeyNum.Add(18);
+            cakeKeyNum.Add(23);
         }
 
         public override void OnUpdate(float dt)
         {
-            elapsedTime += dt;
-            float currFrameMaxTime = GetComponent<Animation>().GetFrameMaxTime() - 0.251f;
-            if (currFrameMaxTime > 0.0f)
+            int frameNo = GetComponent<Animation>().GetFrameNo();
+            if (!cake1Created)
             {
-                if (!thingHappened)
+                if (frameNo >= cakeKeyNum[0])
                 {
-                    if (!cake1Created)
-                    {
-                        cake1 = CreateGameObject("LoadingCake1");
-                        cake1Created = true;
-
-                    }
-                    else if (!cake2Created)
-                    {
-                        cake2 = CreateGameObject("LoadingCake2");
-                        cake2Created = true;
-                    }
-                    else if (!cake3Created)
-                    {
-                        cake3 = CreateGameObject("LoadingCake3");
-                        cake3Created = true;
-                    }
-                    else if (!cake4Created)
-                    {
-                        cake4 = CreateGameObject("LoadingCake4");
-                        cake4Created = true;
-                    }
-                    else
-                    {
-                        CMConsole.Log("DESTROY!");
-                        cake1.Destroy();
-                        cake2.Destroy();
-                        cake3.Destroy();
-                        cake4.Destroy();
-
-                        cake1Created = false;
-                        cake2Created = false;
-                        cake3Created = false;
-                        cake4Created = false;
-                        numberOfLoops++;
-                        Scene.ChangeScene("Scene1");
-                    }
-                    thingHappened = true;
+                    cake1 = CreateGameObject("LoadingCake1");
+                    cake1Created = true;
                 }
             }
-            else thingHappened = false;
-
+            else if (!cake2Created)
+            {
+                if (frameNo >= cakeKeyNum[1])
+                {
+                    cake2 = CreateGameObject("LoadingCake2");
+                    cake2Created = true;
+                }
+            }
+            else if (!cake3Created)
+            {
+                if (frameNo >= cakeKeyNum[2])
+                {
+                    cake3 = CreateGameObject("LoadingCake3");
+                    cake3Created = true;
+                }
+            }
+            else if (!cake4Created)
+            {
+                if (frameNo >= cakeKeyNum[3])
+                {
+                    cake4 = CreateGameObject("LoadingCake4");
+                    cake4Created = true;
+                }
+            }
+            else if (textProgress == finalText.Length)
+            {
+                finalCountdown += dt;
+                if(finalCountdown > totalFinal)
+                {
+                    Scene.ChangeScene("Scene1");
+                }
+            }
+            
+            elapsedTime += dt;
             if(elapsedTime > 0.05f)
             {
                 if (textProgress != finalText.Length)

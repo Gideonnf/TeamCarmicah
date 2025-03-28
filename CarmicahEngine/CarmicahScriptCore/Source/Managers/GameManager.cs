@@ -33,7 +33,7 @@ namespace Carmicah
         public string MousePrefabName = "MouseGONew";
         public string BearPrefabName = "BearGO";
         public string FlyingEnemyPrefabName = "FlyGO"; //fly enemy
-        public string CakePrefabName = "StartingCake";
+        //public string CakePrefabName = "StartingCake";
         public string PlayerName = "mainCharacter";
         public string WaveSystemObject = "Something";
         public string CakeVFXPrefab = "CakeVFX";
@@ -100,6 +100,7 @@ namespace Carmicah
         Entity mainCamera;
         Entity UIManager;
 
+        public string[] CakePrefabNames = new string[4];
         public string[] CakeFallAnimations = new string[4];
         public string[] CakeSquishAnimations = new string[4];
 
@@ -160,6 +161,12 @@ namespace Carmicah
             CakeSquishAnimations[1] = "CakeRainbow_Squish";
             CakeSquishAnimations[2] = "CakeMatcha_Squish";
             CakeSquishAnimations[3] = "CakeFruit_Squish";
+
+            // theres 4 but i realy only need 2 tbh cause we cut the first 2 alr
+            CakePrefabNames[0] = "Level3_Cake";
+            CakePrefabNames[1] = "Level3_Cake";
+            CakePrefabNames[2] = "Level3_Cake";
+            CakePrefabNames[3] = "Level4_Cake";
 
             flyingSpawns[0] = FindEntityWithName("StartTopLeft");
             flyingSpawns[1] = FindEntityWithName("StartTopRight");
@@ -950,7 +957,7 @@ namespace Carmicah
                 cakeType = 2;//CMRand.Range(0, 3);
                 //CMConsole.Log($"cake type {cakeType}");
                 Sound.PlaySFX("TowerStack", 1.0f);
-                towerPrefab = CreateGameObject(CakePrefabName);
+                towerPrefab = CreateGameObject(CakePrefabNames[cakeType]);
                 towerPrefab.Position = new Vector2(Position.x, ySpawnPos);
 
                 towerPrefab.GetComponent<Animation>().ChangeAnim(CakeFallAnimations[cakeType]);

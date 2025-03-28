@@ -257,6 +257,11 @@ namespace Carmicah
 	{
 		UNUSED(id);
 		//auto& transform = ComponentManager::GetInstance()->GetComponent<Transform>(id);
+		//if (transform.ParentID() != 0)
+		//{
+
+		//}
+
 
 		//for (auto child : transform.children)
 		//{
@@ -323,7 +328,15 @@ namespace Carmicah
 				}
 				entityTransform.Rot(entityTransform.Rot() - atan2f(parentTransform.rotTrans.m[1], parentTransform.rotTrans.m[0]) * (180.0f / PI));
 				entityTransform.Scale(entityTransform.Scale().x / parentTransform.accumulatedScale.x, entityTransform.Scale().y / parentTransform.accumulatedScale.y);
+				if (parentTransform.accumulatedScale.x == 0)
+				{
+					entityTransform.Scale(0, entityTransform.Scale().y);
+				}
+				if (parentTransform.accumulatedScale.y == 0)
+				{
+					entityTransform.Scale(entityTransform.Scale().x, 0);
 
+				}
 				// Update the accumulatedScale with THIS's data as well
 				entityTransform.accumulatedScale = parentTransform.accumulatedScale * entityTransform.Scale();
 				entityTransform.rotTrans = parentTransform.rotTrans;
@@ -377,6 +390,15 @@ namespace Carmicah
 				}
 				entityTransform.Rot(entityTransform.Rot() - atan2f(parentTransform.rotTrans.m[1], parentTransform.rotTrans.m[0]) * (180.0f / PI));
 				entityTransform.Scale(entityTransform.Scale().x / parentTransform.accumulatedScale.x, entityTransform.Scale().y / parentTransform.accumulatedScale.y);
+				if (parentTransform.accumulatedScale.x == 0)
+				{
+					entityTransform.Scale(0, entityTransform.Scale().y);
+				}
+				if (parentTransform.accumulatedScale.y == 0)
+				{
+					entityTransform.Scale(entityTransform.Scale().x, 0);
+
+				}
 
 				// Update the accumulatedScale with THIS's data as well
 				entityTransform.accumulatedScale = parentTransform.accumulatedScale * entityTransform.Scale();

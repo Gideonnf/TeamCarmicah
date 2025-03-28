@@ -1,0 +1,67 @@
+Panel
+T L: 0 x 0, 988 x 997
+1 S
+
+Bar
+T L: 988 x 0, 406 x 76
+1 S
+
+Slider
+T L: 988 x 76, 112 x 112
+1 S
+
+Pause
+T L: 1100 x 76, 118 x 118
+1 S
+
+Close
+T L: 1218 x 76, 118 x 118
+1 S
+
+Princess_HP_Back
+Top left: 1397 x 0, 714 x 227
+1 sprite
+
+Princess_HP
+Top left: 1397 x 227, 714 x 227
+1 sprite
+
+bg
+T L: 2176 x 0, 1920 x 1080
+1 S
+
+bgLeft
+T L: 2176 x 0, 256 x 1080
+1 S
+
+bgTop
+t l: 2176 x 0, 1920 x 170
+1 S
+
+bgRight
+t l: 3836 x 0, 260 x 1080
+1 S
+
+bgBot
+t l: 2176 x 930, 1920 x 150
+1 S
+
+Board
+T L: 0 x 1080, 1751 x 1409
+1 S
+
+Border
+T L: 0 x 2489, 1920 x 1080
+1 S
+
+Game_Logo
+T L: 988 x 454, 445 x 294
+1 S
+
+Team_Logo
+T L: 1751 x 1080, 2000 x 2000
+1 S
+
+HealthBar
+T L: 988 x 194, 136 x 42
+1 S

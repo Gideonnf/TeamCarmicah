@@ -2,11 +2,6 @@
     "Scene": "TestAnim",
     "SceneObjects": [
         {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
-        },
-        {
             "GameObject": "MainCamera",
             "ID": 1,
             "Components": [
@@ -42,7 +37,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "bg",
+                    "texture": "UI_bg 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -52,45 +47,50 @@
             "Children": []
         },
         {
-            "GameObject": "TrapIcon",
-            "ID": 34,
+            "GameObject": "Default_1",
+            "ID": 10,
             "Components": [
                 {
-                    "Component Name": "struct Carmicah::Button"
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Trap",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
-                },
-                {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1820.92529296875,
-                    "yPos": 756.0,
-                    "depth": 0.5,
-                    "xScale": 0.15000000596046449,
-                    "yScale": 0.15000000596046449,
-                    "rot": 22.860260009765626,
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 0.0,
+                    "yScale": 0.0,
+                    "rot": 0.0,
                     "transformTag": ""
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "Default",
+                    "ID": 7,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 0.0,
+                            "yPos": 0.0,
+                            "depth": 0.0,
+                            "xScale": 0.0,
+                            "yScale": 0.0,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
                 },
                 {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.TrapIcon",
-                    "ScriptableFieldMap": [
+                    "GameObject": "Default_3",
+                    "ID": 9,
+                    "Components": [
                         {
-                            "WaveSystemObject": "Something",
-                            "activeTrapIcon": false,
-                            "actualTrapPrefab": "CandyConeTrap",
-                            "cooldown": false,
-                            "cooldownTime": 3.0,
-                            "fakeTrapPrefab": "FakeCandyConeTrap",
-                            "flipped": false,
-                            "trapxOffset": 1.600000023841858,
-                            "trapyOffset": 0.0
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 0.0,
+                            "yPos": 0.0,
+                            "depth": 0.0,
+                            "xScale": 0.0,
+                            "yScale": 0.0,
+                            "rot": 0.0,
+                            "transformTag": ""
                         }
                     ]
                 }
