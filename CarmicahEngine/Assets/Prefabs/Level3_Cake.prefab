@@ -1,6 +1,6 @@
 {
     "GameObject": "Level3_Cake",
-    "ID": 18,
+    "ID": 58,
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
@@ -23,7 +23,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "matcha_cake_SpriteSheet_Squish 0",
+            "texture": "matcha_cake_SpriteSheet_Squish 3",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
@@ -42,14 +42,23 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 2.268,
-                    "yPos": -4.39321,
+                    "xPos": 2.2679998874664308,
+                    "yPos": -5.393209934234619,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
                     "rot": 0.05306386947631836,
                     "transformTag": "TrapBuild",
                     "collisionMask": 32
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_Invis 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
@@ -62,15 +71,6 @@
                             "depthVal": 3.450000047683716
                         }
                     ]
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Wall_Invis 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",
@@ -101,8 +101,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 5.305,
-                    "yPos": -2.748,
+                    "xPos": 5.304999828338623,
+                    "yPos": -3.747999906539917,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
@@ -164,14 +164,23 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -2.435,
-                    "yPos": -4.268,
+                    "xPos": -2.434999942779541,
+                    "yPos": -5.26800012588501,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
                     "rot": 0.05306386947631836,
                     "transformTag": "TrapBuild",
                     "collisionMask": 32
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_Invis 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
@@ -186,13 +195,8 @@
                     ]
                 },
                 {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Wall_Invis 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 15
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",
@@ -202,10 +206,6 @@
                     "customHeight": 1.0,
                     "xPosPivot": 0.0,
                     "yPosPivot": 0.0
-                },
-                {
-                    "Component Name": "struct Carmicah::PrefabData",
-                    "prefabRef": 15
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -227,8 +227,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -5.433,
-                    "yPos": -2.625,
+                    "xPos": -5.433000087738037,
+                    "yPos": -3.625,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
@@ -290,14 +290,23 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -5.429,
-                    "yPos": -6.689,
+                    "xPos": -5.428999900817871,
+                    "yPos": -7.689000129699707,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
                     "rot": 0.05306386947631836,
                     "transformTag": "TrapBuild",
                     "collisionMask": 32
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_Invis 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
@@ -312,13 +321,8 @@
                     ]
                 },
                 {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Wall_Invis 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 15
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",
@@ -328,10 +332,6 @@
                     "customHeight": 1.0,
                     "xPosPivot": 0.0,
                     "yPosPivot": 0.0
-                },
-                {
-                    "Component Name": "struct Carmicah::PrefabData",
-                    "prefabRef": 15
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -353,14 +353,23 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -2.477,
-                    "yPos": -8.430,
+                    "xPos": -2.4769999980926515,
+                    "yPos": -9.430000305175782,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
                     "rot": 0.05306386947631836,
                     "transformTag": "TrapBuild",
                     "collisionMask": 32
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_Invis 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
@@ -375,13 +384,8 @@
                     ]
                 },
                 {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Wall_Invis 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 15
                 },
                 {
                     "Component Name": "struct Carmicah::Collider2D",
@@ -391,10 +395,6 @@
                     "customHeight": 1.0,
                     "xPosPivot": 0.0,
                     "yPosPivot": 0.0
-                },
-                {
-                    "Component Name": "struct Carmicah::PrefabData",
-                    "prefabRef": 15
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -416,8 +416,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 2.421,
-                    "yPos": -8.525,
+                    "xPos": 2.4210000038146974,
+                    "yPos": -9.524999618530274,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
@@ -432,7 +432,7 @@
                         {
                             "TrapPrefabName": "Trap_1",
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "IsLeft": true,
+                            "IsLeft": false,
                             "depthVal": 3.450000047683716
                         }
                     ]
@@ -479,8 +479,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 5.327,
-                    "yPos": -6.799,
+                    "xPos": 5.327000141143799,
+                    "yPos": -7.798999786376953,
                     "depth": 0.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.399999976158142,
@@ -495,7 +495,7 @@
                         {
                             "TrapPrefabName": "Trap_1",
                             "TrapTranslucentPrefab": "TrapTranslucent",
-                            "IsLeft": true,
+                            "IsLeft": false,
                             "depthVal": 3.450000047683716
                         }
                     ]

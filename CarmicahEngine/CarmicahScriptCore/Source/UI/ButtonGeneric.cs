@@ -251,6 +251,20 @@ namespace Carmicah
         {
             Entity pauseManager = FindEntityWithName("PauseManager");
 
+
+            // unique check for pause
+            // cause i dont want to be able to pause when game over
+            if (buttonType == "pause")
+            {
+                Entity gameManager = FindEntityWithName("GameManager");
+
+                if (gameManager != null)
+                {
+                    if (gameManager.As<GameManager>().GameOver)
+                        return;
+                }
+            }
+
             // its in the game scene
             if (pauseManager != null)
             {
@@ -330,6 +344,18 @@ namespace Carmicah
                     if (pauseManager != null)
                     {
                         pauseManager.As<PauseManager>().ShiftPause(true);
+                    }
+                    break;
+                case "resume":
+                    {
+                        Entity PauseScreen = FindEntityWithName("Pause_Screen");
+                        if (PauseScreen != null)
+                        {
+                            if (PauseScreen.Has<UISliding>())
+                            {
+                                PauseScreen.As<UISliding>().SlideThenSD();
+                            }
+                        }
                     }
                     break;
                 case "howtonext":
