@@ -52,6 +52,23 @@ namespace Carmicah
 
         public override void OnUpdate(float dt)
         {
+
+            Entity pauseManager = FindEntityWithName("PauseManager");
+            if (pauseManager != null)
+            {
+                if (pauseManager.As<PauseManager>().IsPaused)
+                {
+                    GetComponent<Animation>().SetPause(true);
+                    return; // dont continue if paused
+                }
+                else
+                {
+                    GetComponent<Animation>().SetPause(false);
+                }
+            }
+
+            
+
             timer += dt;
 
             if (GetComponent<Animation>().GetFrameNo() == 0)
