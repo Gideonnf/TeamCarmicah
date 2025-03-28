@@ -419,7 +419,6 @@
                         {
                             "BearPrefabName": "BearGO",
                             "CakeHeightOffset": 11.600000381469727,
-                            "CakePrefabName": "StartingCake",
                             "CakeVFXPrefab": "CakeVFX",
                             "EndPointEntityLeft": "EndPointLeft",
                             "EndPointEntityLeft2": "EndPointLeft_1",
@@ -836,25 +835,27 @@
                     "ID": 72,
                     "Components": [
                         {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -0.15000000596046449,
+                            "yPos": -2.0,
+                            "depth": 3.299999952316284,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
                             "texture": "MC_SpriteSheet_Shadow 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
-                            "colA": 0.3529
-                        },
-                        {
-                            "Component Name": "struct Carmicah::Transform",
-                            "xPos": -0.15,
-                            "yPos": -2.0,
-                            "depth": 3.3,
-                            "xScale": 1.0,
-                            "yScale": 1.0,
-                            "rot": 0.0,
-                            "transformTag": ""
+                            "colA": 0.3528999984264374
                         }
-                    ]
+                    ],
+                    "Children": []
                 }
             ]
         },
@@ -2658,7 +2659,7 @@
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 2.75,
                     "yPos": 11.050000190734864,
-                    "depth": 101.0,
+                    "depth": 600.0,
                     "xScale": 0.5,
                     "yScale": 0.5,
                     "rot": 0.0,

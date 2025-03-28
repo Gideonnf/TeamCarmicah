@@ -15,13 +15,14 @@ namespace Carmicah
         public string slideType = "Up";
         public int slideCurve = 0;
         public bool slideToCenter = true;
+        public bool createDimBG = false;
 
         private bool slidIn = true;
         private float t = 0.0f;
         public Vector2 startPos;
         public Vector2 endPos;
         private bool sd = false;
-
+        private Entity dimBG;
         public override void OnCreate()
         {
             t = 0.0f;
@@ -50,6 +51,12 @@ namespace Carmicah
                 }
                 Position = startPos;
             }
+
+            if (createDimBG)
+            {
+                // creating it will start it's fade in effect
+                dimBG = CreateGameObject("DimBG");
+            }
         }
 
         public void ChangeSlideDetails(int sc , Vector2 s, Vector2 e, float totalTime)
@@ -73,6 +80,12 @@ namespace Carmicah
 
         public void SlideThenSD()
         {
+            if (dimBG != null)
+            {
+                // fade it out as it's sliding to destroy
+                dimBG.As<DimBG>().FadeOut();
+            }
+
             SlideAgain();
             sd = true;
         }

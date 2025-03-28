@@ -195,7 +195,7 @@ namespace Carmicah
                     clickAnim = "Button_C_HowTo";
                     break;
                 case "nextlevel":
-                    destroyList.Add(0, "Win_Screen");
+                    //destroyList.Add(0, "Win_Screen");
 
                     hoverEnterAnim = "Button_HS_Next";
                     hoverExitAnim = "Button_HE_Next";
@@ -355,6 +355,16 @@ namespace Carmicah
             // Specific other behaviours ig
             switch (buttonType)
             {
+                case "nextlevel":
+                    Entity winScreen = FindEntityWithName("Win_Screen");
+                    if (winScreen != null)
+                    {
+                        if (winScreen.Has<UISliding>())
+                        {
+                            winScreen.As<UISliding>().SlideThenSD();
+                        }
+                    }
+                    break;
                 case "settings":
                     if (pauseManager != null)
                     {
