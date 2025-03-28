@@ -155,12 +155,27 @@ namespace Carmicah
                     hoverExitAnim   = "Button_HE_Settings";
                     clickAnim       = "Button_C_Settings";
                     break;
+                case "menusettings":
+                    createList.Add(0, "Settings_MainMenu");
+                    //willPause = true;
+
+                    hoverEnterAnim = "Button_HS_Settings";
+                    hoverExitAnim = "Button_HE_Settings";
+                    clickAnim = "Button_C_Settings";
+                    break;
                 case "backsettings":
                     //willUnpause     = true;
 
                     hoverEnterAnim  = "Button_HS_Back";
                     hoverExitAnim   = "Button_HE_Back";
                     clickAnim       = "Button_C_Back";
+                    break; 
+                case "menubacksettings":
+                    //willUnpause     = true;
+
+                    hoverEnterAnim = "Button_HS_Back";
+                    hoverExitAnim = "Button_HE_Back";
+                    clickAnim = "Button_C_Back";
                     break;
                 case "howtonext":
                     hoverEnterAnim  = "Button_HowToNext";
@@ -345,6 +360,15 @@ namespace Carmicah
                     {
                         pauseManager.As<PauseManager>().ShiftPause(true);
                     }
+                    else
+                    {
+                        Entity screen = FindEntityWithName("Settings_Menu");
+                        if(screen != null)
+                        {
+                            // if its main menu 
+                            screen.As<UISliding>().slideToCenter = true;
+                        }
+                    }
                     break;
                 case "resume":
                     {
@@ -371,6 +395,14 @@ namespace Carmicah
                     }
                     FindEntityWithName("Settings_Menu").As<UISliding>().SlideThenSD();
                     break;
+                case "menubacksettings":
+                    if (pauseManager != null)
+                    {
+                        pauseManager.As<PauseManager>().ShiftPause(false);
+                    }
+                    FindEntityWithName("Settings_MainMenu").As<UISliding>().SlideThenSD();
+                    break;
+
             }
         }
         public override void OnMouseEnter()

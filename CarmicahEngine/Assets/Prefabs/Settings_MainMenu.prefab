@@ -1,5 +1,5 @@
 {
-    "GameObject": "Settings_Menu",
+    "GameObject": "Settings_MainMenu",
     "ID": 17,
     "Components": [
         {
@@ -29,8 +29,8 @@
                     "slideCurve": 8,
                     "slideDist": 1080.0,
                     "slideTime": 1.5,
-                    "slideType": "Up",
-                    "slideToCenter": true
+                    "slideToCenter": true,
+                    "slideType": "Up"
                 }
             ]
         }
@@ -140,15 +140,6 @@
                             "transformTag": ""
                         },
                         {
-                            "Component Name": "struct Script",
-                            "scriptName": "Carmicah.VolumeControl",
-                            "ScriptableFieldMap": [
-                                {
-                                    "soundType": "Sound"
-                                }
-                            ]
-                        },
-                        {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
                             "texture": "UI_Slider 0",
@@ -156,6 +147,15 @@
                             "colG": 1.0,
                             "colB": 1.0,
                             "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.VolumeControl",
+                            "ScriptableFieldMap": [
+                                {
+                                    "soundType": "Sound"
+                                }
+                            ]
                         },
                         {
                             "Component Name": "struct Carmicah::Button"
@@ -231,7 +231,7 @@
                     "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
                         {
-                            "buttonType": "backSettings"
+                            "buttonType": "menubacksettings"
                         }
                     ]
                 },
