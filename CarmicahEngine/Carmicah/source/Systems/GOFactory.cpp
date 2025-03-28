@@ -329,6 +329,7 @@ namespace Carmicah
 		{
 			CM_CORE_ERROR("GO Doesn't Exist");
 			assert("Doesn't exist");
+			id = 0;
 		}
 
 		return mIDToGO[id];
@@ -424,6 +425,13 @@ namespace Carmicah
 		// Can just use entitiesSet to destroy all
 		mDeleteList = mEntitiesSet;
 	}
+
+	//void GOFactory::ClearMaps()
+	//{
+	//	mNameToID.clear(); //mayb make another function call after update destroy
+	//	mIDToGO.clear();
+
+	//}
 
 	void GOFactory::UpdateDestroyed()
 	{

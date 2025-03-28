@@ -2,11 +2,6 @@
     "Scene": "Scene3",
     "SceneObjects": [
         {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
-        },
-        {
             "GameObject": "BackgroundGO",
             "ID": 1,
             "Components": [
