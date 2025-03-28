@@ -125,6 +125,11 @@ namespace Carmicah
         {
             return FunctionCalls.Animation_IsAnimFinished(Entity.mID);
         }
+
+        public void SetPause(bool pause)
+        {
+            FunctionCalls.Animation_Pause(Entity.mID, pause);
+        }
     }
 
     public class StateMachine : Component

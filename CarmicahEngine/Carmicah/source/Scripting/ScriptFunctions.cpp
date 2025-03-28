@@ -973,6 +973,15 @@ namespace Carmicah
 		//mono_free(cStr);
 	}
 
+	static void Animation_Pause(unsigned int entityID, bool val)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Animation>())
+		{
+			go.GetComponent<Animation>().paused = val;
+		}
+	}
+
 	static float GetMaxTime(unsigned int entityID)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -1330,6 +1339,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Animation_GetCurrFrameTime);
 		ADD_INTERNAL_CALL(Animation_GetCurrFrameNo);
 		ADD_INTERNAL_CALL(Animation_IsAnimFinished);
+		ADD_INTERNAL_CALL(Animation_Pause);
 
 		// input functions
 		ADD_INTERNAL_CALL(IsKeyPressed);
