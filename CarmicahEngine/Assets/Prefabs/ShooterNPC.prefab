@@ -140,6 +140,7 @@
                     "npcType": 0,
                     "placeSound": "Shooter_Appear",
                     "projectilePrefab": "Bullet",
+                    "xShootOffset": 0.8999999761581421,
                     "shot": false,
                     "shootAnim": "Shooter_Shoot",
                     "shootRate": 1.0,
@@ -147,7 +148,9 @@
                     "shootTime": 1.0,
                     "maxMana": 5,
                     "airAnim": "Shooter_AirShoot",
-                    "teleportAnim": "NPC_Teleport"
+                    "teleportAnim": "NPC_Teleport",
+                    "dissolvePrefab": "",
+                    "yShootOffset": -1.0
                 }
             ]
         },
@@ -173,17 +176,18 @@
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
-                    "colA": 0.3529
+                    "colA": 0.3528999984264374
                 },
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.0,
-                    "yPos": -1.8,
+                    "yPos": -1.7999999523162842,
                     "depth": 3.5,
                     "xScale": 1.5,
                     "yScale": 1.5,
                     "rot": 0.0,
-                    "transformTag": ""
+                    "transformTag": "",
+                    "collisionMask": 1
                 }
             ]
         }

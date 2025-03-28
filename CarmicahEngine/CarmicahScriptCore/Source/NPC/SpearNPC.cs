@@ -33,11 +33,19 @@ namespace Carmicah
             if (targetMouse != null)
             {
                 Entity projectile = CreateGameObject(projectilePrefab);
+                Vector2 shootOffset = new Vector2(xShootOffset, yShootOffset);
                 if (projectile != null)
                 {
-                    projectile.Position = Position;
-                    // CMConsole.Log($"Projectile Position: {projectile.Position.x}, {projectile.Position.y}");
+                    if (IsLeft)
+                    {
+                        shootOffset.y *= -1;
+                        projectile.Position = Position - shootOffset;
+                    }
+                    else
+                    {
+                        projectile.Position = Position + shootOffset;
 
+                    }
                     Projectile bullet = projectile.As<Projectile>();
                     bullet.As<Projectile>().bulletType = BulletType.SPEAR_BULLET;
                     if (!IsLeft)
