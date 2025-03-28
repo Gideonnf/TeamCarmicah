@@ -15,6 +15,8 @@ namespace Carmicah
         BulletTarget targetType;
         float timer = 0.0f;
         string voiceOver;
+        public float xAirOffset = 0.0f;
+        public float yAirOffset = 0.0f;
         
         public override void OnCreate()
         {
@@ -39,7 +41,15 @@ namespace Carmicah
             if (target != null)
             {
                 Entity projectile = CreateGameObject(projectilePrefab);
-                Vector2 shootOffset = new Vector2(xShootOffset, yShootOffset);
+                Vector2 shootOffset;
+                if (targetType == BulletTarget.GROUND)
+                {
+                    shootOffset = new Vector2(xShootOffset, yShootOffset);
+                }
+                else
+                {
+                    shootOffset = new Vector2(xAirOffset, yAirOffset);
+                }
                 if (projectile != null)
                 {
                     if (IsLeft)
