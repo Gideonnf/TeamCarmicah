@@ -112,7 +112,9 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);	// Write to depth
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearBufferfv(GL_COLOR, 1, zeroFiller);
+	GLuint zero = 0;
+	glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
+	glClearBufferuiv(GL_COLOR, 1, &zero);
 
 	for (int renderPass = 0; renderPass < 2; ++renderPass)
 	{

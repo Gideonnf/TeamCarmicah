@@ -35,6 +35,12 @@ namespace Carmicah
         float boardChangeMaxTime = 2.0f;
         bool isPlayerFacingLeft = true;
         public int boardChangeType = 10;
+        private bool isDestroying = false;
+
+        private bool bootingUpHowToPlay = true;
+        private float bootUpTime = 0.0f;
+        const float totalBoolUpTime = 1.0f;
+        const int totalPanels = 7;
 
         Dictionary<int ,Entity> howToNum = new Dictionary<int, Entity>();
         Entity playerWalk = null;
@@ -58,13 +64,40 @@ namespace Carmicah
 
         public override void OnCreate()
         {
-            CreateGameObject("HowToStep0");
-            base.OnCreate();
+            Entity panelExists = FindEntityWithName("HowToStep0");
+            if (panelExists != null)
+            {
+                howToNum.Add(currentPanel, panelExists);
+                panelExists.As<UISliding>().ChangeSlideDetails(boardChangeType, new Vector2(2880.0f, 540.0f), new Vector2(960.0f, 540.0f), boardChangeMaxTime);
+            }
+            else
+                howToNum.Add(currentPanel, CreateGameObject("HowToStep0"));
+
+
+            bootUpTime = 0.0f;
+            bootingUpHowToPlay = true;
+        }
+
+        public void DestroyLaterAndJustHide()
+        {
+            nextBtn.GetComponent<Renderer>().SetAlpha(0.0f);
+            backBtn.GetComponent<Renderer>().SetAlpha(0.0f);
+            playBtn.GetComponent<Renderer>().SetAlpha(0.0f);
+            homeBtn.GetComponent<Renderer>().SetAlpha(0.0f);
+
+            Entity slideOutE;
+            if (howToNum.TryGetValue(currentPanel, out slideOutE))
+            {
+                Vector2 p = slideOutE.LocalPosition;
+                slideOutE.As<UISliding>().ChangeSlideDetails(boardChangeType, p, new Vector2(-960.0f, 540.0f), totalBoolUpTime);
+            }
+            bootUpTime = totalBoolUpTime;
+            isDestroying = true;
         }
 
         private string GetPanelName(int pan)
         {
-            if (pan < 6)
+            if (pan < totalPanels)
                 return "Tutorial_Spritesheet_How " + pan;
             return "Tutorial_Spritesheet_How 0";
         }
@@ -87,7 +120,7 @@ namespace Carmicah
             {
                 backBtn.GetComponent<Renderer>().SetAlpha(1.0f);
             }
-            else if (oldPanel == 5)
+            else if (oldPanel == totalPanels - 1)
             {
                 nextBtn.GetComponent<Renderer>().SetAlpha(1.0f);
                 playBtn.GetComponent<Renderer>().SetAlpha(0.0f);
@@ -99,7 +132,7 @@ namespace Carmicah
             boardChangeTime = 0.0f;
 
             // If Overshot, end
-            if (currentPanel >= 6)
+            if (currentPanel >= totalPanels)
             {
                 Destroy();
                 return;
@@ -112,7 +145,7 @@ namespace Carmicah
                 currentPanel = 0;
             }
             // Last Panel
-            else if (currentPanel == 5)
+            else if (currentPanel == totalPanels - 1)
             {
                 nextBtn.GetComponent<Renderer>().SetAlpha(0.0f);
             }
@@ -127,7 +160,11 @@ namespace Carmicah
             }
             else
             {
-                CreateGameObject("HowToStep" + currentPanel);
+                Entity panelExists = FindEntityWithName("HowToStep" + currentPanel);
+                if (panelExists != null)
+                    howToNum.Add(currentPanel, panelExists);
+                else
+                    howToNum.Add(currentPanel, CreateGameObject("HowToStep" + currentPanel));
             }
 
             // Set uniforms
@@ -139,6 +176,19 @@ namespace Carmicah
 
         public override void OnUpdate(float dt)
         {
+            if (isDestroying)
+            {
+                bootUpTime -= dt;
+                GetComponentInChildren<Renderer>().SetAlpha(bootUpTime / totalBoolUpTime * 0.29411765933036806f);
+                if (bootUpTime < 0)
+                {
+                    bootingUpHowToPlay = false;
+                    bootUpTime = 0.0f;
+                    Destroy();
+                }
+                return;
+            }
+
             // Whole purpose to allow for creation of things before getting entites
             if (frameChanged > 0)
             {
@@ -165,13 +215,13 @@ namespace Carmicah
                         case 0:
                             playerWalk = FindEntityWithName("HowToPlayerWalk");
                             break;
-                        case 1:
+                        case 2:
                             enemyMouse1 = FindEntityWithName("HowToMice1");
                             enemyMouse2 = FindEntityWithName("HowToMice2");
                             enemyBear = FindEntityWithName("HowToBear");
                             mouse1Climbing = mouse2Climbing = bearClimbing = true;
                             break;
-                        case 2:
+                        case 3:
                             cursor = FindEntityWithName("HowToCursorM");
                             power1Ico = FindEntityWithName("HowToTrapIco");
                             power2Ico = FindEntityWithName("HowToShootIco");
@@ -181,7 +231,7 @@ namespace Carmicah
                             actlObj1 = FindEntityWithName("HowToActualTrap");
                             actlObj2 = FindEntityWithName("HowToActualShooter");
                             break;
-                        case 3:
+                        case 4:
                             playerWalk = FindEntityWithName("HowToPrincess");
                             cursor = FindEntityWithName("HowToCursor");
                             power1Ico = FindEntityWithName("HowToDrop");
@@ -194,12 +244,24 @@ namespace Carmicah
                 return;
             }
 
+            if(bootingUpHowToPlay)
+            {
+                bootUpTime += dt;
+                GetComponentInChildren<Renderer>().SetAlpha(bootUpTime / totalBoolUpTime * 0.29411765933036806f);
+                if(bootUpTime > totalBoolUpTime)
+                {
+                    bootingUpHowToPlay = false;
+                    bootUpTime = 0.0f;
+                    GetComponentInChildren<Renderer>().SetAlpha(0.29411765933036806f);
+                }
+            }
+
             if(boardChangeTime < boardChangeMaxTime)
             {
                 boardChangeTime += dt;
                 if(boardChangeTime > boardChangeMaxTime)
                 {
-                    if (currentPanel == 5)
+                    if (currentPanel == totalPanels - 1)
                     {
                         playBtn.GetComponent<Renderer>().SetAlpha(1.0f);
                         homeBtn.GetComponent<Renderer>().SetAlpha(1.0f);
@@ -235,7 +297,7 @@ namespace Carmicah
                         isPlayerFacingLeft = false;
                     }
                     break;
-                case 1:
+                case 2:
                     if (mouse1Climbing)
                     {
                         pos = enemyMouse1.LocalPosition;
@@ -294,7 +356,7 @@ namespace Carmicah
                         isClicked = false;
                     }
                     break;
-                case 2:
+                case 3:
                     
                     if(isClicked)
                     {
@@ -459,7 +521,7 @@ namespace Carmicah
                         case 8:
                             if (enemyBear.GetComponent<Animation>().IsAnimFinished())
                             {
-                                cursor.Position = new Vector2(1000, 100);
+                                cursor.Position = new Vector2(850, 0);
                                 power1Ico.Position = new Vector2(450, 135);
                                 power2Ico.Position = new Vector2(450, 80);
                                 actlObj1.GetComponent<Renderer>().SetAlpha(0.0f);
@@ -483,7 +545,7 @@ namespace Carmicah
                     // Haves: Shooter (-135, 110) (0.666 x 0.666)
 
                     break;
-                case 3:
+                case 4:
                     if (isClicked)
                     {
                         clickTime -= dt;
@@ -632,7 +694,7 @@ namespace Carmicah
                                     actlObj1.GetComponent<Renderer>().SetAlpha(0.0f);
                                     power2Ico.GetComponent<Animation>().ChangeAnim("Shooter_Mana");
                                     power1Ico.Scale = new Vector2(1, 1);
-                                    cursor.LocalPosition = new Vector2(1000.0f, 100.0f);
+                                    cursor.LocalPosition = new Vector2(850, 0);
                                     isPlayerFacingLeft = true;
                                     aniProgress = 0;
                                 }

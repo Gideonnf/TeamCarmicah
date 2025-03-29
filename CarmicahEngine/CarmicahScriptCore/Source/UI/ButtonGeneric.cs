@@ -194,6 +194,11 @@ namespace Carmicah
                     hoverExitAnim = "Button_HE_HowTo";
                     clickAnim = "Button_C_HowTo";
                     break;
+                case "howtoclose":
+                    hoverEnterAnim = "Button_HS_Home";
+                    hoverExitAnim = "Button_HE_Home";
+                    clickAnim = "Button_C_Home";
+                    break;
                 case "nextlevel":
                     //destroyList.Add(0, "Win_Screen");
 
@@ -412,7 +417,10 @@ namespace Carmicah
                     }
                     FindEntityWithName("Settings_MainMenu").As<UISliding>().SlideThenSD();
                     break;
-
+                case "closehowto":
+                case "howtoclose":
+                    FindEntityWithName("HowToBG").As<HowToPlay>().DestroyLaterAndJustHide();
+                    break;
             }
         }
         public override void OnMouseEnter()
