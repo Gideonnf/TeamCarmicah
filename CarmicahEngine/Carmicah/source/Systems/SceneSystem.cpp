@@ -19,6 +19,7 @@ DigiPen Institute of Technology is prohibited.
 #include "Systems/AssetManager.h"
 #include "Systems/SerializerSystem.h"
 #include "../Editor/SceneToImgui.h"
+#include <filesystem>
 
 namespace Carmicah
 {
@@ -65,10 +66,31 @@ namespace Carmicah
 		}
 		else if (mNextState == RELOAD)
 		{
-			if (SerializerSystem::GetInstance()->DeserializeScene(mCurrScene + "_temp"))
+			// check if temp scene or curr scene is earlier
+
+			std::filesystem::path filePath = std::filesystem::u8path(sceneFile);
+			std::filesystem::path filePath2 = std::filesystem::u8path(sceneFile + "_temp");
+			std::string fileToLoad;
+
+			if (std::filesystem::exists(filePath) && std::filesystem::exists(filePath2))
+			{
+				auto time1 = std::filesystem::last_write_time(filePath);
+				auto time2 = std::filesystem::last_write_time(filePath2);
+				if (time1 < time2)
+				{
+					fileToLoad = sceneFile + "_temp";
+				}
+				else
+				{
+					fileToLoad = sceneFile;
+				}
+				//auto sctp = std::chrono::time_point_cast<std
+			}
+
+			if (SerializerSystem::GetInstance()->DeserializeScene(fileToLoad))
 			{
 				mNextState = mCurrState = SceneState::EDITOR;
-				remove((mCurrScene + "_temp").c_str());
+				remove((sceneFile + "_temp").c_str());
 			}
 			// if theres no temp file means it was a scene change from a previous scene
 			else
@@ -174,11 +196,14 @@ namespace Carmicah
 			{
 				mRuntime = true;
 				mNextState = SceneState::ONSTART;
+				std::string sceneFile;
+				AssetManager::GetInstance()->GetScene(mCurrScene, sceneFile);
+
 				// Serialize the temp scene
 				// Currently this is writing into editor folder for some reason
 				// i mean i know why cause the path isnt the full asset folder path
 				// but might be able to change to using just jsonwriter without making a file to store temporary scenes
-				SerializerSystem::GetInstance()->SerializeScene(mCurrScene + "_temp");
+				SerializerSystem::GetInstance()->SerializeScene(sceneFile + "_temp");
 			}
 		}
 
