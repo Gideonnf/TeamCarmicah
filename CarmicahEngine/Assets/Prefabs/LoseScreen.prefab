@@ -18,9 +18,10 @@
                 {
                     "slideCurve": 1,
                     "slideDist": 1080.0,
+                    "createDimBG": true,
                     "slideTime": 3.0,
-                    "slideToCenter": true,
-                    "slideType": "down"
+                    "slideType": "down",
+                    "slideToCenter": true
                 }
             ]
         },
@@ -184,15 +185,6 @@
                     "AnimSpeed": 1.0
                 },
                 {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Settings 1",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
-                },
-                {
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
@@ -203,12 +195,21 @@
                     ]
                 },
                 {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_H_Settings 1",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": -271.3009033203125,
+                    "xPos": -295.0,
                     "yPos": -231.41400146484376,
                     "depth": 2.0,
-                    "xScale": 1.2000000476837159,
-                    "yScale": 1.2000000476837159,
+                    "xScale": 1.100000023841858,
+                    "yScale": 1.100000023841858,
                     "rot": 0.0,
                     "transformTag": ""
                 }
@@ -247,11 +248,11 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": -9.94830322265625,
+                    "xPos": 12.0,
                     "yPos": -233.27935791015626,
                     "depth": 2.0,
-                    "xScale": 1.2000000476837159,
-                    "yScale": 1.2000000476837159,
+                    "xScale": 1.100000023841858,
+                    "yScale": 1.100000023841858,
                     "rot": 0.0,
                     "transformTag": ""
                 }
@@ -290,11 +291,11 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 241.1549072265625,
+                    "xPos": 310.0,
                     "yPos": -231.41412353515626,
                     "depth": 2.0,
-                    "xScale": 1.2000000476837159,
-                    "yScale": 1.2000000476837159,
+                    "xScale": 1.100000023841858,
+                    "yScale": 1.100000023841858,
                     "rot": 0.0,
                     "transformTag": ""
                 }
