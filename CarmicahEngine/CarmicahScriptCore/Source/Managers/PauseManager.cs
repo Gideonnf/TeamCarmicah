@@ -14,21 +14,28 @@ namespace Carmicah
         public string ResumeButton = "PauseMenuResumeBtn";
         public bool IsPaused = false;
 
-        Entity PauseMenuEntity;
-        Entity QuitButtonEntity;
-        Entity ResumeButtonEntity;
+        Vector2 mainPos;
+
+        Entity PauseMenuEntity = null;
         public override void OnCreate()
         {
-
+            mainPos = new Vector2(960.0f, 540.0f);
         }
 
         public override void OnUpdate(float dt)
         {
-            //Console.WriteLine("ITS IN UPDATE FOR PAUSE");
-
             if (Input.IsKeyPressed(Keys.KEY_ESC))
             {
-               // Console.WriteLine("ITS PRESSING ESC");
+                Entity gameManager = FindEntityWithName("GameManager");
+
+                if (gameManager != null)
+                {
+                    if (gameManager.As<GameManager>().GameOver)
+                    { 
+                        return;
+                    }
+                }
+
                 if (IsPaused)
                 {
                     UnPause();
@@ -36,6 +43,21 @@ namespace Carmicah
                 else
                 {
                     Pause();
+                }
+            }
+
+            if (PauseMenuEntity != null)
+            {
+                // if it isnt paused
+                if (!IsPaused && PauseMenuEntity.Has<UISliding>())
+                {
+                    //CMConsole.Log($"Pause Menu Entity id 1 {PauseMenuEntity.mID}");
+
+                    if (!PauseMenuEntity.As<UISliding>().IsSliding())
+                    {
+                        PauseMenuEntity = null;
+                    }
+
                 }
             }
         }
@@ -49,35 +71,66 @@ namespace Carmicah
             IsPaused = true;
 
             // creating moving to button generic side
-            Entity settings = FindEntityWithName("Settings_Menu");
-            if (settings == null)
-                CreateGameObject("Settings_Menu");
-            //QuitButtonEntity = CreateGameObject("GameClose_Button");
-            //ResumeButtonEntity = CreateGameObject(ResumeButton);
+            PauseMenuEntity = FindEntityWithName("Pause_Screen");
+            if (PauseMenuEntity == null)
+            {
+                PauseMenuEntity = CreateGameObject("Pause_Screen");
+               // mainPos = PauseMenuEntity.Position;
+            }
+
+            CMConsole.Log($"Pause Menu Entity id {PauseMenuEntity.mID}");
+
         }
 
         public void UnPause()
         {
             CMConsole.Log("UnPausing game");
             IsPaused = false;
-            Entity settings = FindEntityWithName("Settings_Menu");
-            if (settings != null)
+            //Entity settings = FindEntityWithName("Pause_Screen");
+            if (PauseMenuEntity != null && PauseMenuEntity.Has<UISliding>())
             {
-                settings.As<UISliding>().SlideThenSD();
+               // CMConsole.Log($"Pause Menu Entity id 3 {PauseMenuEntity.mID}");
+
+                if (PauseMenuEntity.As<UISliding>().IsSliding() == false)
+                {
+
+                    PauseMenuEntity.As<UISliding>().SlideThenSD();
+                
+                }
+
             }
 
-            if (PauseMenuEntity != null)
+         
+        }
+
+        public void ShiftPause(bool hide)
+        {
+            if (hide)
             {
-                PauseMenuEntity.Destroy();
+                if (PauseMenuEntity != null)
+                {
+                    PauseMenuEntity.As<UISliding>().ChangeSlideDetails(8, PauseMenuEntity.LocalPosition, new Vector2(3840.0f, 540.0f), 1.5f);
+                }
             }
-            if (QuitButtonEntity != null)
+            else
             {
-                QuitButtonEntity.Destroy();
+                if (PauseMenuEntity != null)
+                {
+                    PauseMenuEntity.As<UISliding>().ChangeSlideDetails(8, PauseMenuEntity.LocalPosition, mainPos, 1.5f);
+                }
+
             }
-            if (ResumeButtonEntity != null)
+        }
+
+        public bool MenuIsSliding()
+        {
+            if (PauseMenuEntity != null && PauseMenuEntity.Has<UISliding>())
             {
-                ResumeButtonEntity.Destroy();
+                //CMConsole.Log($"Pause Menu Entity id 2 {PauseMenuEntity.mID}");
+                return PauseMenuEntity.As<UISliding>().IsSliding();
             }
+
+            return false;
         }
     }
 }

@@ -31,6 +31,8 @@ namespace Carmicah
         public AbilityType npcType = 0;
         public float shootRate = 1.0f;
         public float shootTime = 1.0f;
+        public float xShootOffset = 0.0f;
+        public float yShootOffset = 0.0f;
         public string projectilePrefab = "Bullet";
         public bool active = false;
         public bool IsLeft = false;

@@ -35,6 +35,7 @@ namespace Carmicah
         int currPiece, loopsLeft;
         float time, maxTime;
         float speed = 1.f;
+        bool paused = false;
 
         std::string& AnimAtlas()
         {

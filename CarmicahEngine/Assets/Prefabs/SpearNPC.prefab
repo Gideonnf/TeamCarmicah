@@ -16,7 +16,7 @@
         {
             "Component Name": "struct Carmicah::Animation",
             "Atlas": "Shooter_Idle",
-            "AnimSpeed": 1.0
+            "AnimSpeed": 1.5
         },
         {
             "Component Name": "struct Carmicah::StateMachine",
@@ -151,10 +151,13 @@
                     "projectilePrefab": "SpearBullet",
                     "shootAnim": "Spear_Throw",
                     "shot": false,
+                    "xShootOffset": 0.699999988079071,
                     "shootRate": 1.0,
                     "shootSound": "Shooter_Shooting",
                     "shootTime": 1.0,
-                    "teleportAnim": "NPC_Teleport"
+                    "teleportAnim": "NPC_Teleport",
+                    "dissolvePrefab": "",
+                    "yShootOffset": 1.0
                 }
             ]
         }
@@ -171,7 +174,7 @@
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
-                    "colA": 0.3529
+                    "colA": 0.3528999984264374
                 },
                 {
                     "Component Name": "struct Carmicah::Transform",
@@ -181,7 +184,8 @@
                     "xScale": 1.5,
                     "yScale": 1.5,
                     "rot": 0.0,
-                    "transformTag": ""
+                    "transformTag": "",
+                    "collisionMask": 1
                 }
             ]
         }

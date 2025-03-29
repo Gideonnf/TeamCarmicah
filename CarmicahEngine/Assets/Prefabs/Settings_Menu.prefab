@@ -3,15 +3,6 @@
     "ID": 17,
     "Components": [
         {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "UI_Panel 0",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
-        },
-        {
             "Component Name": "struct Carmicah::UITransform",
             "xPos": 960.0,
             "yPos": 540.0,
@@ -22,6 +13,15 @@
             "transformTag": ""
         },
         {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "UI_Panel 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.UISliding",
             "ScriptableFieldMap": [
@@ -29,7 +29,8 @@
                     "slideCurve": 8,
                     "slideDist": 1080.0,
                     "slideTime": 1.5,
-                    "slideType": "Up"
+                    "slideType": "Up",
+                    "slideToCenter": true
                 }
             ]
         }
@@ -84,9 +85,6 @@
                             "colA": 1.0
                         },
                         {
-                            "Component Name": "struct Carmicah::Button"
-                        },
-                        {
                             "Component Name": "struct Script",
                             "scriptName": "Carmicah.VolumeControl",
                             "ScriptableFieldMap": [
@@ -94,6 +92,9 @@
                                     "soundType": "Music"
                                 }
                             ]
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Button"
                         }
                     ]
                 }
@@ -139,6 +140,15 @@
                             "transformTag": ""
                         },
                         {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.VolumeControl",
+                            "ScriptableFieldMap": [
+                                {
+                                    "soundType": "Sound"
+                                }
+                            ]
+                        },
+                        {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
                             "texture": "UI_Slider 0",
@@ -149,15 +159,6 @@
                         },
                         {
                             "Component Name": "struct Carmicah::Button"
-                        },
-                        {
-                            "Component Name": "struct Script",
-                            "scriptName": "Carmicah.VolumeControl",
-                            "ScriptableFieldMap": [
-                                {
-                                    "soundType": "Sound"
-                                }
-                            ]
                         }
                     ]
                 }
@@ -222,7 +223,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": ""
+                    "Atlas": "",
+                    "AnimSpeed": 1.0
                 },
                 {
                     "Component Name": "struct Script",
@@ -249,7 +251,8 @@
                     "depth": 15.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
-                    "rot": 0.0
+                    "rot": 0.0,
+                    "transformTag": ""
                 }
             ]
         }

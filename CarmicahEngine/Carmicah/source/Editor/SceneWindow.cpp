@@ -210,7 +210,7 @@ namespace Carmicah
 
                         if (HierarchyWindow::selectedGO != nullptr)
                         {
-                            CM_CORE_INFO("Selected entity : " + std::to_string(HierarchyWindow::selectedGO->GetID()))
+                            CM_CORE_INFO("Selected entity : " + std::to_string(HierarchyWindow::selectedGO->GetID()));
                         }
 
                     }

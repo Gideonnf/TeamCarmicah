@@ -79,7 +79,7 @@ namespace Carmicah
         internal extern static void Sound_StopBGM(string soundName);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        internal extern static void Sound_StopSFX(string soundName);
+        internal extern static void Sound_StopSFX(string soundName, uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Sound_StopSFXWithFade(string soundName , float fadeTimer, float fadeDuration);
@@ -111,6 +111,9 @@ namespace Carmicah
         internal extern static void Sound_SetCategoryVolume(int category, float volume);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float Sound_GetCategoryVolume(int category);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool ChangeScene(string sceneName);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -124,6 +127,9 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static object GetScriptInstanceFromChildren(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static bool HasScriptInstance(uint entityID, string baseClassName);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Animation_ChangeAnim(uint entityID, string prefabName);
@@ -172,6 +178,9 @@ namespace Carmicah
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static int Animation_GetCurrFrameNo(uint entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Animation_Pause(uint entityID, bool val);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool Animation_IsAnimFinished(uint entityID);

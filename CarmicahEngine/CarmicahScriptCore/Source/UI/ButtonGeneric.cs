@@ -53,7 +53,7 @@ namespace Carmicah
                     hoverExitAnim = "Button_HE_Play";
                     clickAnim = "Button_C_Play";
                     break;
-                case "quit":
+                case "quit": // TO create the confirmation for quit
                     //nextScene       = "quit";
                     //willChangeScene = false;
                     createList.Add(0, "QuitConfirmationPopup"); 
@@ -63,7 +63,7 @@ namespace Carmicah
                     hoverExitAnim   = "Button_HE_Quit";
                     clickAnim       = "Button_C_Quit";
                     break;
-                case "tquit":
+                case "tquit": // when they click the quit confirmation
                     nextScene = "quit";
                     willChangeScene = true;
 
@@ -143,20 +143,44 @@ namespace Carmicah
                     hoverExitAnim   = "Button_HE_Back";
                     clickAnim       = "Button_C_Back";
                     break;
+                case "pause":
+                    createList.Add(0, "Pause_Screen");
+                    willPause = true;
+                    
+                    // NOTE: Once we add in the actual pause button then change this
+                    hoverEnterAnim = "Button_HS_Settings";
+                    hoverExitAnim = "Button_HE_Settings";
+                    clickAnim = "Button_C_Settings";
+                    break;
                 case "settings":
                     createList.Add(0, "Settings_Menu");
-                    willPause = true;
+                    //willPause = true;
 
                     hoverEnterAnim  = "Button_HS_Settings";
                     hoverExitAnim   = "Button_HE_Settings";
                     clickAnim       = "Button_C_Settings";
                     break;
+                case "menusettings":
+                    createList.Add(0, "Settings_MainMenu");
+                    //willPause = true;
+
+                    hoverEnterAnim = "Button_HS_Settings";
+                    hoverExitAnim = "Button_HE_Settings";
+                    clickAnim = "Button_C_Settings";
+                    break;
                 case "backsettings":
-                    willUnpause     = true;
+                    //willUnpause     = true;
 
                     hoverEnterAnim  = "Button_HS_Back";
                     hoverExitAnim   = "Button_HE_Back";
                     clickAnim       = "Button_C_Back";
+                    break; 
+                case "menubacksettings":
+                    //willUnpause     = true;
+
+                    hoverEnterAnim = "Button_HS_Back";
+                    hoverExitAnim = "Button_HE_Back";
+                    clickAnim = "Button_C_Back";
                     break;
                 case "howtonext":
                     hoverEnterAnim  = "Button_HowToNext";
@@ -189,7 +213,7 @@ namespace Carmicah
                     willColorChange = true;
                     break;
                 case "nextlevel":
-                    destroyList.Add(0, "Win_Screen");
+                    //destroyList.Add(0, "Win_Screen");
 
                     hoverEnterAnim = "Button_HS_Next";
                     hoverExitAnim = "Button_HE_Next";
@@ -275,6 +299,32 @@ namespace Carmicah
 
         public override void OnClick()
         {
+            Entity pauseManager = FindEntityWithName("PauseManager");
+
+
+            // unique check for pause
+            // cause i dont want to be able to pause when game over
+            if (buttonType == "pause")
+            {
+                Entity gameManager = FindEntityWithName("GameManager");
+
+                if (gameManager != null)
+                {
+                    if (gameManager.As<GameManager>().GameOver)
+                        return;
+                }
+            }
+
+            // its in the game scene
+            if (pauseManager != null)
+            {
+                // if its in the game scene dont let them click on anything if its still sliding
+                if( pauseManager.As<PauseManager>().MenuIsSliding())
+                {
+                    return;
+                }
+            }
+
             //Sound.PlaySFX("SFX_Button", 0.5f);
             //Sound.PlaySFX("SFX_Button");
 
@@ -322,7 +372,6 @@ namespace Carmicah
 
             if (willUnpause)
             {
-                Entity pauseManager = FindEntityWithName("PauseManager");
                 if (pauseManager != null)
                 {
                     pauseManager.As<PauseManager>().UnPause();
@@ -330,7 +379,6 @@ namespace Carmicah
             }
             else if (willPause)
             {
-                Entity pauseManager = FindEntityWithName("PauseManager");
                 if (pauseManager != null)
                 {
                     pauseManager.As<PauseManager>().Pause();
@@ -338,9 +386,47 @@ namespace Carmicah
 
             }
 
+
             // Specific other behaviours ig
             switch (buttonType)
             {
+                case "nextlevel":
+                    Entity winScreen = FindEntityWithName("Win_Screen");
+                    if (winScreen != null)
+                    {
+                        if (winScreen.Has<UISliding>())
+                        {
+                            winScreen.As<UISliding>().SlideThenSD();
+                        }
+                    }
+                    break;
+                case "settings":
+                    if (pauseManager != null)
+                    {
+                        pauseManager.As<PauseManager>().ShiftPause(true);
+                    }
+                    else
+                    {
+                        Entity screen = FindEntityWithName("Settings_Menu");
+                        if(screen != null)
+                        {
+                            // if its main menu 
+                            screen.As<UISliding>().slideToCenter = true;
+                        }
+                    }
+                    break;
+                case "resume":
+                    {
+                        Entity PauseScreen = FindEntityWithName("Pause_Screen");
+                        if (PauseScreen != null)
+                        {
+                            if (PauseScreen.Has<UISliding>())
+                            {
+                                PauseScreen.As<UISliding>().SlideThenSD();
+                            }
+                        }
+                    }
+                    break;
                 case "howtonext":
                     FindEntityWithName("HowToBG").As<HowToPlay>().ProgressScene(1);
                     break;
@@ -348,7 +434,18 @@ namespace Carmicah
                     FindEntityWithName("HowToBG").As<HowToPlay>().ProgressScene(-1);
                     break;
                 case "backsettings":
+                    if (pauseManager != null)
+                    {
+                        pauseManager.As<PauseManager>().ShiftPause(false);
+                    }
                     FindEntityWithName("Settings_Menu").As<UISliding>().SlideThenSD();
+                    break;
+                case "menubacksettings":
+                    if (pauseManager != null)
+                    {
+                        pauseManager.As<PauseManager>().ShiftPause(false);
+                    }
+                    FindEntityWithName("Settings_MainMenu").As<UISliding>().SlideThenSD();
                     break;
                 case "closehowto":
                 case "howtoclose":

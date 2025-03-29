@@ -13,6 +13,7 @@ namespace Carmicah
         public override void OnCreate()
         {
             collidedEntities = new List<Entity>();
+            Sound.PlaySFX("JellyBeanBomb", 0.5f);
         }
         public override void OnTriggerEnter(uint id)
         {
@@ -27,6 +28,7 @@ namespace Carmicah
 
         public override void KillCollidedEnemies()
         {
+            
             foreach( Entity entity in collidedEntities)
             {
                 // idk if flying enemies have the same tag 
@@ -60,6 +62,7 @@ namespace Carmicah
 
         public override void OnStateEnter(string stateName)
         {
+            
             base.OnStateEnter(stateName);
         }
 

@@ -1,0 +1,260 @@
+{
+    "GameObject": "Settings_MainMenu",
+    "ID": 17,
+    "Components": [
+        {
+            "Component Name": "struct Carmicah::UITransform",
+            "xPos": 960.0,
+            "yPos": 540.0,
+            "depth": 14.0,
+            "xScale": 1.0,
+            "yScale": 1.0,
+            "rot": 0.0,
+            "transformTag": ""
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "UI_Panel 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.UISliding",
+            "ScriptableFieldMap": [
+                {
+                    "slideCurve": 8,
+                    "slideDist": 1080.0,
+                    "slideTime": 1.5,
+                    "slideToCenter": true,
+                    "slideType": "Up"
+                }
+            ]
+        }
+    ],
+    "Children": [
+        {
+            "GameObject": "Music Bar",
+            "ID": 18,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 100.0,
+                    "yPos": 100.0,
+                    "depth": 15.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI_Bar 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "Music Slider",
+                    "ID": 19,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 160.0,
+                            "yPos": 0.0,
+                            "depth": 16.0,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "UI_Slider 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.VolumeControl",
+                            "ScriptableFieldMap": [
+                                {
+                                    "soundType": "Music"
+                                }
+                            ]
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Button"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "GameObject": "Sound Bar",
+            "ID": 20,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 100.0,
+                    "yPos": -100.0,
+                    "depth": 15.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI_Bar 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "Sound Slider",
+                    "ID": 21,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 160.0,
+                            "yPos": 0.0,
+                            "depth": 16.0,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "UI_Slider 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.VolumeControl",
+                            "ScriptableFieldMap": [
+                                {
+                                    "soundType": "Sound"
+                                }
+                            ]
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Button"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "GameObject": "Music Txt",
+            "ID": 22,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -200.0,
+                    "yPos": 100.0,
+                    "depth": 15.0,
+                    "xScale": 1.5,
+                    "yScale": 1.5,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Chewy-Regular",
+                    "text": "Music",
+                    "colorR": 0.9450980424880981,
+                    "colorG": 0.37254902720451357,
+                    "colorB": 0.5960784554481506,
+                    "textAlign": 17
+                }
+            ]
+        },
+        {
+            "GameObject": "Sound Txt",
+            "ID": 23,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -200.0,
+                    "yPos": -100.0,
+                    "depth": 15.0,
+                    "xScale": 1.5,
+                    "yScale": 1.5,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Chewy-Regular",
+                    "text": "Sound",
+                    "colorR": 0.9450980424880981,
+                    "colorG": 0.37254902720451357,
+                    "colorB": 0.5960784554481506,
+                    "textAlign": 17
+                }
+            ]
+        },
+        {
+            "GameObject": "Close_Button",
+            "ID": 24,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "menubacksettings"
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_H_Back 1",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 17.0,
+                    "yPos": -267.0,
+                    "depth": 15.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        }
+    ]
+}

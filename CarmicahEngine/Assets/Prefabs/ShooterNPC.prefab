@@ -20,6 +20,20 @@
             "startingState": "Idle",
             "stateMap": [
                 {
+                    "stateName": "Attacking",
+                    "stateCondition": 0,
+                    "transitions": [
+                        {
+                            "targetState": "Idle",
+                            "condition": 1
+                        },
+                        {
+                            "targetState": "Dead",
+                            "condition": 4
+                        }
+                    ]
+                },
+                {
                     "stateName": "Idle",
                     "stateCondition": 0,
                     "transitions": [
@@ -38,20 +52,6 @@
                         {
                             "targetState": "Teleport",
                             "condition": 5
-                        }
-                    ]
-                },
-                {
-                    "stateName": "Attacking",
-                    "stateCondition": 0,
-                    "transitions": [
-                        {
-                            "targetState": "Idle",
-                            "condition": 1
-                        },
-                        {
-                            "targetState": "Dead",
-                            "condition": 4
                         }
                     ]
                 },
@@ -125,29 +125,34 @@
             "scriptName": "Carmicah.ShooterNPC",
             "ScriptableFieldMap": [
                 {
-                    "IsLeft": false,
                     "isShooting": false,
+                    "IsLeft": false,
                     "active": false,
-                    "animationTime": 0.0,
                     "deathSound": "Shooter_Death",
+                    "animationTime": 0.0,
                     "hasAmmo": true,
                     "hovering": false,
                     "idleAnim": "Shooter_Idle",
                     "lane": 0,
                     "mana": 5,
-                    "dissolveAnim": "NPC_Death",
                     "manaAnim": "Shooter_Mana",
+                    "dissolveAnim": "NPC_Death",
                     "npcType": 0,
                     "placeSound": "Shooter_Appear",
+                    "yAirOffset": 0.800000011920929,
                     "projectilePrefab": "Bullet",
-                    "shot": false,
                     "shootAnim": "Shooter_Shoot",
+                    "shot": false,
+                    "xShootOffset": 0.8999999761581421,
                     "shootRate": 1.0,
                     "shootSound": "Shooter_Shooting",
                     "shootTime": 1.0,
                     "maxMana": 5,
                     "airAnim": "Shooter_AirShoot",
-                    "teleportAnim": "NPC_Teleport"
+                    "teleportAnim": "NPC_Teleport",
+                    "dissolvePrefab": "",
+                    "yShootOffset": -1.0,
+                    "xAirOffset": 1.0
                 }
             ]
         },
@@ -173,17 +178,18 @@
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
-                    "colA": 0.3529
+                    "colA": 0.3528999984264374
                 },
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.0,
-                    "yPos": -1.8,
+                    "yPos": -1.7999999523162842,
                     "depth": 3.5,
                     "xScale": 1.5,
                     "yScale": 1.5,
                     "rot": 0.0,
-                    "transformTag": ""
+                    "transformTag": "",
+                    "collisionMask": 1
                 }
             ]
         }

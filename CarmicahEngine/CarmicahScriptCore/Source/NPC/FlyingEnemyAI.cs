@@ -28,8 +28,8 @@ namespace Carmicah
         public string DiagonalAnim = "Pigeon_Dive";
         public string DeathAnim = "Pigeon_Death";
 
-        public string DeathSound = "flying_die";
-        public string InjuredSound = "flying_hurt";
+        public string AttackSound = "";
+        public string DeathSound = "";
 
         // set movement
         // 3 stage, constanrt, at rest, suicide bomb
@@ -296,8 +296,22 @@ namespace Carmicah
                 targetEntity = gm.GetTargetNPC(this);
                 currentStage = FlyingStage.DIAGONAL;
                 ChangeAnim(DiagonalAnim);
-                 
-                if(isLeft)
+
+                Random rnd = new Random();
+                int number = rnd.Next(1, 11);
+                if( number < 9)
+                {
+                    AttackSound = "Pigeon_Attack_0" + number.ToString();
+
+                }
+                else
+                {
+                    AttackSound = "Pigeon_Attack_" + number.ToString();
+                }
+                //CMConsole.Log(soundFile);
+                Sound.PlaySFX(AttackSound, 0.2f, true, this.mID);
+
+                if (isLeft)
                 { 
                     Rot = -60.0f; 
                 }
@@ -309,6 +323,7 @@ namespace Carmicah
 
             if (stateName == "Dead")
             {
+                Sound.StopSoundSFX(AttackSound, this.mID);
                 dead = true;
                 move = false;
                 GameManager gm = FindEntityWithName("GameManager").As<GameManager>();
@@ -327,6 +342,20 @@ namespace Carmicah
                 //}
 
                 ChangeAnim(DeathAnim);
+
+                Random rnd = new Random();
+                int number = rnd.Next(1, 12);
+                 if( number < 9)
+                {
+                    DeathSound = "Pigeon_Death_0" + number.ToString();
+
+                }
+                else
+                {
+                    DeathSound = "Pigeon_Death_" + number.ToString();
+                }
+                //CMConsole.Log(soundFile);
+                Sound.PlaySFX(DeathSound, 0.2f, false, this.mID);
             }
         }
 

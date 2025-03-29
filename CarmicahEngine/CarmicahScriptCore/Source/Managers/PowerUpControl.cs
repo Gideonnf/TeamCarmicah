@@ -19,7 +19,7 @@ namespace Carmicah
         public float xOffset = 2.0f;
         public float heightOffset = 12.0f;
 
-        public float SpawnTimer = 16.0f;
+        public float SpawnTimer = 10.0f;
         public float timer = 0.0f;
         Entity camera;
         Entity mainCharacter;
@@ -33,12 +33,12 @@ namespace Carmicah
 
         List<float> trapWeights = new List<float>()
         {
-            0.25f, //Candy
-            0.25f, //Shoot
-            0.15f, //Honey
-            0.05f, //Mage
-            0.15f, //Explosion
-            0.15f //Spear
+            0.2167f, // Candy
+            0.1167f, // Shoot
+            0.2167f, // Honey
+            0.1167f, // Mage
+            0.2167f, // Explosion
+            0.1167f  // Spear
         };
 
         public override void OnCreate()

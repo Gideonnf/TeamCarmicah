@@ -88,14 +88,19 @@ namespace Carmicah
 	static void Transform_GetRenderingScale(unsigned int entityID, Vec2f* outScale)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (!go.HasComponent<Renderer>())
+			return;
+		const Texture& t = AssetManager::GetInstance()->GetAsset<Texture>(ComponentManager::GetInstance()->GetComponent<Renderer>(entityID).Texture());
+
 		if (go.HasComponent<Transform>())
 		{
-			*outScale = go.GetComponent<Transform>().CalcedRenderingScale();
+			*outScale = Vec2f((AssetManager::GetInstance()->enConfig.maxTexSize / 50.f * t.mtx.m00), (AssetManager::GetInstance()->enConfig.maxTexSize / 50.f * t.mtx.m11));
 		}
 		else if (go.HasComponent<UITransform>())
 		{
-			*outScale = go.GetComponent<UITransform>().CalcedRenderingScale();
+			*outScale = Vec2f((AssetManager::GetInstance()->enConfig.maxTexSize * t.mtx.m00), (AssetManager::GetInstance()->enConfig.maxTexSize * t.mtx.m11));
 		}
+
 	}
 
 	static void Transform_GetWorldScale(unsigned int entityID, Vec2f* outScale)
@@ -317,11 +322,11 @@ namespace Carmicah
 	 *
 	 * @return void
 	 */
-	static void Sound_StopSFX(MonoString* name)
+	static void Sound_StopSFX(MonoString* name, unsigned int entityID)
 	{
 		char* cStrname = mono_string_to_utf8(name);
 		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
-		souSystem->StopSoundSFX(SoundSystem::SOUND_INGAME);
+		souSystem->StopSoundSFX(SoundSystem::SOUND_INGAME, entityID);
 		mono_free(cStrname);
 	}
 
@@ -435,6 +440,18 @@ namespace Carmicah
 		souSystem->ToggleMuffle(SoundSystem::SOUND_BGM, toMuffle, 0);
 	}
 
+	static void Sound_PauseAllSounds()
+	{
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->PauseAllSounds();
+	}
+
+	static void Sound_ResumeAllSounds()
+	{
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		souSystem->ResumeAllSounds();
+	}
+
 	//static void Sound_Stop(MonoString* name)
 	//{
 	//	char* cStrname = mono_string_to_utf8(name);
@@ -469,11 +486,23 @@ namespace Carmicah
 		}
 		else if (category == 1)
 		{
-			souSystem->SetCategoryVolume(SoundCategory::EDITOR, SoundSystem::SOUND_BGM, volume);
+			//souSystem->SetCategoryVolume(SoundCategory::EDITOR, SoundSystem::SOUND_BGM, volume);
 			souSystem->SetCategoryVolume(SoundCategory::BGM, SoundSystem::SOUND_BGM, volume);
 		}
 	}
 
+	static void Sound_GetCategoryVolume(int category)
+	{
+		auto souSystem = SystemManager::GetInstance()->GetSystem<SoundSystem>();
+		if (category == 0)
+		{
+			souSystem->GetCategoryVolume(SoundCategory::SFX);
+		}
+		else if (category == 1)
+		{
+			souSystem->GetCategoryVolume(SoundCategory::BGM);
+		}
+	}
 
 
 	/// <summary>
@@ -784,6 +813,24 @@ namespace Carmicah
 		return nullptr;
 	}
 
+	static bool HasScriptInstance(unsigned int entityID, MonoString* baseName)
+	{
+		if (gScriptSystem->mEntityInstances.count(entityID) == 0)
+		{
+			//CM_CORE_ERROR("Entity does not have script attached");
+			return false;
+		}
+
+		std::string cStrName = MonoToString(baseName);
+		if (gScriptSystem->mEntityInstances.count(entityID) > 0)
+		{
+			if (gScriptSystem->mEntityInstances[entityID]->GetScriptClass()->mClassName == cStrName)
+				return true;
+		}
+
+		return false;
+	}
+
 	static MonoObject* GetScriptInstanceFromChildren(unsigned int entityID)
 	{
 		GameObject& go = gGOFactory->FetchGO(entityID);
@@ -924,6 +971,15 @@ namespace Carmicah
 		if (go.HasComponent<Animation>())
 			go.GetComponent<Animation>().ChangeAnim(cStrName);
 		//mono_free(cStr);
+	}
+
+	static void Animation_Pause(unsigned int entityID, bool val)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<Animation>())
+		{
+			go.GetComponent<Animation>().paused = val;
+		}
 	}
 
 	static float GetMaxTime(unsigned int entityID)
@@ -1258,6 +1314,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(CreateNewGameObject);
 		ADD_INTERNAL_CALL(GetScriptInstance);
 		ADD_INTERNAL_CALL(GetScriptInstanceFromChildren);
+		ADD_INTERNAL_CALL(HasScriptInstance);
 		//ADD_INTERNAL_CALL(SetCollisionLayer);
 
 		//Time functions
@@ -1282,6 +1339,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Animation_GetCurrFrameTime);
 		ADD_INTERNAL_CALL(Animation_GetCurrFrameNo);
 		ADD_INTERNAL_CALL(Animation_IsAnimFinished);
+		ADD_INTERNAL_CALL(Animation_Pause);
 
 		// input functions
 		ADD_INTERNAL_CALL(IsKeyPressed);
@@ -1308,6 +1366,9 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Sound_ToggleMuffleSFX);
 		ADD_INTERNAL_CALL(Sound_ToggleMuffleBGM);
 		ADD_INTERNAL_CALL(Sound_SetCategoryVolume);
+		ADD_INTERNAL_CALL(Sound_GetCategoryVolume);
+		ADD_INTERNAL_CALL(Sound_PauseAllSounds);
+		ADD_INTERNAL_CALL(Sound_ResumeAllSounds);
 
 		// Debug
 		ADD_INTERNAL_CALL(Log);
