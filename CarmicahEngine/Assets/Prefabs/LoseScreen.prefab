@@ -18,10 +18,9 @@
                 {
                     "slideCurve": 1,
                     "slideDist": 1080.0,
-                    "createDimBG": true,
                     "slideTime": 3.0,
-                    "slideType": "down",
-                    "slideToCenter": true
+                    "slideToCenter": true,
+                    "slideType": "down"
                 }
             ]
         },
@@ -30,8 +29,8 @@
             "xPos": 960.0,
             "yPos": 2160.0,
             "depth": 1.5,
-            "xScale": 0.5,
-            "yScale": 0.5,
+            "xScale": 0.6499999761581421,
+            "yScale": 0.6499999761581421,
             "rot": 0.0,
             "transformTag": ""
         }
@@ -185,6 +184,15 @@
                     "AnimSpeed": 1.0
                 },
                 {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_H_Settings 1",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
@@ -193,15 +201,6 @@
                             "nextScene": ""
                         }
                     ]
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Settings 1",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",

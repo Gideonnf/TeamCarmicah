@@ -67,7 +67,6 @@ namespace Carmicah
 		else if (mNextState == RELOAD)
 		{
 			// check if temp scene or curr scene is earlier
-
 			std::filesystem::path filePath = std::filesystem::u8path(sceneFile);
 			std::filesystem::path filePath2 = std::filesystem::u8path(sceneFile + "_temp");
 			std::string fileToLoad;
