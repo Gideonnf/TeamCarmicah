@@ -3,6 +3,20 @@
     "ID": 1,
     "Components": [
         {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.UISliding",
+            "ScriptableFieldMap": [
+                {
+                    "slideCurve": 8,
+                    "slideDist": 1080.0,
+                    "createDimBG": true,
+                    "slideTime": 1.5,
+                    "slideType": "up",
+                    "slideToCenter": true
+                }
+            ]
+        },
+        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "UI_Board 0",
@@ -10,19 +24,6 @@
             "colG": 1.0,
             "colB": 1.0,
             "colA": 1.0
-        },
-        {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.UISliding",
-            "ScriptableFieldMap": [
-                {
-                    "slideCurve": 8,
-                    "slideDist": 1080.0,
-                    "slideTime": 1.5,
-                    "slideType": "up",
-                    "slideToCenter": true
-                }
-            ]
         },
         {
             "Component Name": "struct Carmicah::UITransform",
@@ -148,7 +149,7 @@
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": -18.2918701171875,
-                    "yPos": -346.0103759765625,
+                    "yPos": -280.0,
                     "depth": 2.200000047683716,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -164,15 +165,6 @@
                     "Component Name": "struct Carmicah::Button"
                 },
                 {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Next 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
-                },
-                {
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
@@ -181,6 +173,15 @@
                             "nextScene": ""
                         }
                     ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_H_Next 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 }
             ]
         }
