@@ -16,12 +16,17 @@ namespace Carmicah
         bool willChangeScene = false;
         bool willUnpause = false;
         bool willPause = false;
+        bool willColorChange = false;
 
         bool createListCreated = false;
         Dictionary<int, string> createList = new Dictionary<int, string>();
         Dictionary<int, string> destroyList = new Dictionary<int, string>();
 
         float sceneChangerTimer = -1f;
+        bool buttonColChangeState = false;
+        float colChangeTime = 0.0f;
+        const float buttonGlowInc = 0.15f;
+        const float maxColChangeTime = 0.2f;
         const float timeToChangeScene = 0.5f;
         string hoverEnterAnim;
         string hoverExitAnim;
@@ -157,11 +162,13 @@ namespace Carmicah
                     hoverEnterAnim  = "Button_HowToNext";
                     hoverExitAnim   = "Button_HowToNext";
                     clickAnim       = "Button_HowToNext";
+                    willColorChange = true;
                     break;
                 case "howtoback":
                     hoverEnterAnim  = "Button_HowToBack";
                     hoverExitAnim   = "Button_HowToBack";
                     clickAnim       = "Button_HowToBack";
+                    willColorChange = true;
                     break;
                 case "howtoplay":
                     createList.Add(0, "HowToBG");
@@ -174,6 +181,12 @@ namespace Carmicah
                     hoverEnterAnim = "Button_HS_Home";
                     hoverExitAnim = "Button_HE_Home";
                     clickAnim = "Button_C_Home";
+                    break;
+                case "closehowto":
+                    hoverEnterAnim = "Button_C_Cross";
+                    hoverExitAnim = "Button_C_Cross";
+                    clickAnim = "Button_C_Cross";
+                    willColorChange = true;
                     break;
                 case "nextlevel":
                     destroyList.Add(0, "Win_Screen");
@@ -232,9 +245,26 @@ namespace Carmicah
                         }
                     }
                 }
-
             }
-
+            if(willColorChange)
+            {
+                if(colChangeTime < maxColChangeTime)
+                {
+                    colChangeTime = colChangeTime + dt;
+                    if(colChangeTime > maxColChangeTime)
+                        colChangeTime = maxColChangeTime;
+                    if(buttonColChangeState)
+                    {
+                        float percent = 1.0f + colChangeTime / maxColChangeTime * buttonGlowInc;
+                        GetComponent<Renderer>().SetColour(percent, percent, percent);
+                    }
+                    else
+                    {
+                        float percent = 1.0f + buttonGlowInc - colChangeTime / maxColChangeTime * buttonGlowInc;
+                        GetComponent<Renderer>().SetColour(percent, percent, percent);
+                    }
+                }
+            }
 
             if (createListCreated && createList.Count > 0 && FindEntityWithName(createList[0]) == null)
             {
@@ -320,6 +350,7 @@ namespace Carmicah
                 case "backsettings":
                     FindEntityWithName("Settings_Menu").As<UISliding>().SlideThenSD();
                     break;
+                case "closehowto":
                 case "howtoclose":
                     FindEntityWithName("HowToBG").As<HowToPlay>().DestroyLaterAndJustHide();
                     break;
@@ -329,10 +360,14 @@ namespace Carmicah
         {
             Sound.PlaySFX("UI_Hover 2", 0.3f);
             ChangeAnim(hoverEnterAnim);
+            buttonColChangeState = true;
+            colChangeTime = maxColChangeTime - colChangeTime;
         }
         public override void OnMouseExit()
         {
             ChangeAnim(hoverExitAnim);
+            buttonColChangeState = false;
+            colChangeTime = maxColChangeTime - colChangeTime;
         }
     }
 }

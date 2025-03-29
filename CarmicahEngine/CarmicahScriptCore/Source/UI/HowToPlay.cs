@@ -26,12 +26,12 @@ namespace Carmicah
         public int currentPanel = 0;       // panel 0 ~ 5 (inclusive)
         int oldPanel = -1;
         int frameChanged = 2;// For Making SURE that things are loaded before being used
-        Entity nextBtn = null;
-        Entity backBtn = null;
-        Entity playBtn = null;
-        Entity homeBtn = null;
+        //Entity nextBtn = null;
+        //Entity backBtn = null;
+        //Entity playBtn = null;
+        //Entity homeBtn = null;
         bool boardMovingLeft = true;
-        float boardChangeTime = 0.0f;
+        //float boardChangeTime = 0.0f;
         float boardChangeMaxTime = 2.0f;
         bool isPlayerFacingLeft = true;
         public int boardChangeType = 10;
@@ -58,6 +58,8 @@ namespace Carmicah
         int aniProgress = 0;
         Vector2 someDir;
         Vector2 pos;
+        int[] tutorial2Checki;
+        bool[] tutorial2Checkb;
 
         bool isClicked = false;
         float clickTime = 2.0f;
@@ -73,6 +75,8 @@ namespace Carmicah
             else
                 howToNum.Add(currentPanel, CreateGameObject("HowToStep0"));
 
+            tutorial2Checkb = new bool[3];
+            tutorial2Checki = new int[6];
 
             bootUpTime = 0.0f;
             bootingUpHowToPlay = true;
@@ -80,10 +84,10 @@ namespace Carmicah
 
         public void DestroyLaterAndJustHide()
         {
-            nextBtn.GetComponent<Renderer>().SetAlpha(0.0f);
-            backBtn.GetComponent<Renderer>().SetAlpha(0.0f);
-            playBtn.GetComponent<Renderer>().SetAlpha(0.0f);
-            homeBtn.GetComponent<Renderer>().SetAlpha(0.0f);
+            //nextBtn.GetComponent<Renderer>().SetAlpha(0.0f);
+            //backBtn.GetComponent<Renderer>().SetAlpha(0.0f);
+            //playBtn.GetComponent<Renderer>().SetAlpha(0.0f);
+            //homeBtn.GetComponent<Renderer>().SetAlpha(0.0f);
 
             Entity slideOutE;
             if (howToNum.TryGetValue(currentPanel, out slideOutE))
@@ -116,20 +120,20 @@ namespace Carmicah
                     slideOutE.As<UISliding>().ChangeSlideDetails(boardChangeType, p, new Vector2(3840.0f, 540.0f), boardChangeMaxTime);
             }
             // Set buttons visibility if any
-            if (oldPanel == 0)
-            {
-                backBtn.GetComponent<Renderer>().SetAlpha(1.0f);
-            }
-            else if (oldPanel == totalPanels - 1)
-            {
-                nextBtn.GetComponent<Renderer>().SetAlpha(1.0f);
-                playBtn.GetComponent<Renderer>().SetAlpha(0.0f);
-                homeBtn.GetComponent<Renderer>().SetAlpha(0.0f);
-            }
+            //if (oldPanel == 0)
+            //{
+            //    backBtn.GetComponent<Renderer>().SetAlpha(1.0f);
+            //}
+            //else if (oldPanel == totalPanels - 1)
+            //{
+            //    nextBtn.GetComponent<Renderer>().SetAlpha(1.0f);
+            //    playBtn.GetComponent<Renderer>().SetAlpha(0.0f);
+            //    homeBtn.GetComponent<Renderer>().SetAlpha(0.0f);
+            //}
 
             // Advance Panel
             currentPanel += num;
-            boardChangeTime = 0.0f;
+            //boardChangeTime = 0.0f;
 
             // If Overshot, end
             if (currentPanel >= totalPanels)
@@ -138,17 +142,17 @@ namespace Carmicah
                 return;
             }
             // Return to first panel
-            if (currentPanel <= 0)
-            {
-                nextBtn.GetComponent<Renderer>().SetAlpha(1.0f);
-                backBtn.GetComponent<Renderer>().SetAlpha(0.0f);
-                currentPanel = 0;
-            }
-            // Last Panel
-            else if (currentPanel == totalPanels - 1)
-            {
-                nextBtn.GetComponent<Renderer>().SetAlpha(0.0f);
-            }
+            //if (currentPanel <= 0)
+            //{
+            //    nextBtn.GetComponent<Renderer>().SetAlpha(1.0f);
+            //    backBtn.GetComponent<Renderer>().SetAlpha(0.0f);
+            //    currentPanel = 0;
+            //}
+            //// Last Panel
+            //else if (currentPanel == totalPanels - 1)
+            //{
+            //    nextBtn.GetComponent<Renderer>().SetAlpha(0.0f);
+            //}
             // Create Objs for every panel
             Entity currPE;
             if(howToNum.TryGetValue(currentPanel, out currPE))
@@ -162,7 +166,10 @@ namespace Carmicah
             {
                 Entity panelExists = FindEntityWithName("HowToStep" + currentPanel);
                 if (panelExists != null)
+                {
                     howToNum.Add(currentPanel, panelExists);
+                    panelExists.As<UISliding>().ChangeSlideDetails(boardChangeType, new Vector2(3840, 540), new Vector2(960.0f, 540.0f), boardChangeMaxTime);
+                }
                 else
                     howToNum.Add(currentPanel, CreateGameObject("HowToStep" + currentPanel));
             }
@@ -194,14 +201,14 @@ namespace Carmicah
             {
                 if (frameChanged == 1)
                 {
-                    if(nextBtn == null)
-                        nextBtn = FindEntityWithName("HowToRightBtn");
-                    if(backBtn == null)
-                        backBtn = FindEntityWithName("HowToLeftBtn");
-                    if(playBtn == null)
-                        playBtn = FindEntityWithName("HowToPlayBtn");
-                    if(homeBtn == null)
-                        homeBtn = FindEntityWithName("HowToHomeBtn");
+                    //if(nextBtn == null)
+                    //    nextBtn = FindEntityWithName("HowToRightBtn");
+                    //if(backBtn == null)
+                    //    backBtn = FindEntityWithName("HowToLeftBtn");
+                    //if(playBtn == null)
+                    //    playBtn = FindEntityWithName("HowToPlayBtn");
+                    //if(homeBtn == null)
+                    //    homeBtn = FindEntityWithName("HowToHomeBtn");
 
                     if(!howToNum.ContainsKey(currentPanel))
                     {
@@ -214,6 +221,18 @@ namespace Carmicah
                     {
                         case 0:
                             playerWalk = FindEntityWithName("HowToPlayerWalk");
+                            break;
+                        case 1:
+                            enemyMouse1 = FindEntityWithName("HowToDemoShooter");
+                            enemyMouse2 = FindEntityWithName("HowToDemoMage");
+                            enemyBear = FindEntityWithName("HowToDemoSpear");
+                            power1Ico = FindEntityWithName("HowToDemoTrap");
+                            power2Ico = FindEntityWithName("HowToDemoHoney");
+                            actlObj1 = FindEntityWithName("HowToDemoExplosion");
+
+                            tutorial2Checki[3] = enemyMouse1.GetComponent<Animation>().GetFrameNo();
+                            tutorial2Checki[4] = enemyMouse2.GetComponent<Animation>().GetFrameNo();
+                            tutorial2Checki[5] = enemyBear.GetComponent<Animation>().GetFrameNo();
                             break;
                         case 2:
                             enemyMouse1 = FindEntityWithName("HowToMice1");
@@ -256,19 +275,19 @@ namespace Carmicah
                 }
             }
 
-            if(boardChangeTime < boardChangeMaxTime)
-            {
-                boardChangeTime += dt;
-                if(boardChangeTime > boardChangeMaxTime)
-                {
-                    if (currentPanel == totalPanels - 1)
-                    {
-                        playBtn.GetComponent<Renderer>().SetAlpha(1.0f);
-                        homeBtn.GetComponent<Renderer>().SetAlpha(1.0f);
-                    }
-                }
-                return;
-            }
+            //if(boardChangeTime < boardChangeMaxTime)
+            //{
+            //    boardChangeTime += dt;
+            //    if(boardChangeTime > boardChangeMaxTime)
+            //    {
+            //        if (currentPanel == totalPanels - 1)
+            //        {
+            //            playBtn.GetComponent<Renderer>().SetAlpha(1.0f);
+            //            homeBtn.GetComponent<Renderer>().SetAlpha(1.0f);
+            //        }
+            //    }
+            //    return;
+            //}
 
             switch (currentPanel)
             {
@@ -296,6 +315,52 @@ namespace Carmicah
 
                         isPlayerFacingLeft = false;
                     }
+                    break;
+                case 1:
+
+                    tutorial2Checki[3] = enemyMouse1.GetComponent<Animation>().GetFrameNo();
+                    tutorial2Checki[4] = enemyMouse2.GetComponent<Animation>().GetFrameNo();
+                    tutorial2Checki[5] = enemyBear.GetComponent<Animation>().GetFrameNo();
+
+                    if (enemyMouse1.GetComponent<Animation>().IsAnimFinished() || 
+                        (tutorial2Checki[0] != 0 && tutorial2Checki[3] == 0))
+                    {
+                        if (tutorial2Checkb[0])
+                            enemyMouse1.GetComponent<Animation>().ChangeAnim("Shooter_Idle");
+                        else
+                            enemyMouse1.GetComponent<Animation>().ChangeAnim("Shooter_Shoot");
+                        tutorial2Checkb[0] = !tutorial2Checkb[0];
+                        tutorial2Checki[3] = 0;
+                    }
+                    if (enemyMouse2.GetComponent<Animation>().IsAnimFinished() ||
+                        (tutorial2Checki[1] != 0 && tutorial2Checki[4] == 0))
+                    {
+                        if (tutorial2Checkb[1])
+                            enemyMouse2.GetComponent<Animation>().ChangeAnim("Mage_Idle");
+                        else
+                            enemyMouse2.GetComponent<Animation>().ChangeAnim("Mage_Attack");
+                        tutorial2Checkb[1] = !tutorial2Checkb[1];
+                        tutorial2Checki[4] = 0;
+                    }
+                    if (enemyBear.GetComponent<Animation>().IsAnimFinished() ||
+                        (tutorial2Checki[2] != 0 && tutorial2Checki[5] == 0))
+                    {
+                        if (tutorial2Checkb[2])
+                            enemyBear.GetComponent<Animation>().ChangeAnim("Spear_Idle");
+                        else
+                            enemyBear.GetComponent<Animation>().ChangeAnim("Spear_Throw");
+                        tutorial2Checkb[2] = !tutorial2Checkb[2];
+                        tutorial2Checki[5] = 0;
+                    }
+                    if (power1Ico.GetComponent<Animation>().IsAnimFinished())
+                        power1Ico.GetComponent<Animation>().ChangeAnim("CandyCone");
+                    if (power2Ico.GetComponent<Animation>().IsAnimFinished())
+                        power2Ico.GetComponent<Animation>().ChangeAnim("TrapHoneyEnter");
+                    if (actlObj1.GetComponent<Animation>().IsAnimFinished())
+                        actlObj1.GetComponent<Animation>().ChangeAnim("Jellybean_Explode");
+
+                    for (int i = 0; i < 3; ++i)
+                        tutorial2Checki[i] = tutorial2Checki[3 + i];
                     break;
                 case 2:
                     if (mouse1Climbing)

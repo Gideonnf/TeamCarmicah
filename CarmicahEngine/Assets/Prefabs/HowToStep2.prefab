@@ -36,33 +36,144 @@
     ],
     "Children": [
     {
-        "GameObject": "HowToCake1",
-        "ID": 2,
-        "Components": [
-            {
-                "Component Name": "struct Carmicah::Renderer",
-                "model": "Square",
-                "texture": "strawberry_cake_SpriteSheet_Squish 3",
-                "colR": 1.0,
-                "colG": 1.0,
-                "colB": 1.0,
-                "colA": 1.0
-            },
-            {
-                "Component Name": "struct Carmicah::UITransform",
-                "xPos": 0.0,
-                "yPos": 150.0,
-                "depth": 51.0,
-                "xScale": 0.75,
-                "yScale": 0.75,
-                "rot": 0.0,
-                "transformTag": ""
-            }
-        ],
-        "Children": [
+            "GameObject": "HowToLeftBtn",
+            "ID": 2,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Tutorial_Spritesheet_Left 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "hOWToBack"
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -710.0,
+                    "yPos": 20.0,
+                    "depth": 60.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::Button"
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToRightBtn",
+            "ID": 3,
+            "Components": [
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "HowToNext"
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Tutorial_Spritesheet_Right 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 710.0,
+                    "yPos": 20.0,
+                    "depth": 60.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::Button"
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToQuickClose",
+            "ID": 4,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI_Close 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 715.0,
+                    "yPos": 343.0,
+                    "depth": 60.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "CloseHowTo"
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Button"
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToCake1",
+            "ID": 5,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "strawberry_cake_SpriteSheet_Squish 3",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 150.0,
+                    "depth": 51.0,
+                    "xScale": 0.75,
+                    "yScale": 0.75,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ],
+            "Children": [
             {
                 "GameObject": "HowToMice1",
-                "ID": 3,
+                "ID": 6,
                 "Components": [
                     {
                         "Component Name": "struct Carmicah::Renderer",
@@ -92,7 +203,7 @@
             },
             {
                 "GameObject": "HowToBear",
-                "ID": 4,
+                "ID": 7,
                 "Components": [
                     {
                         "Component Name": "struct Carmicah::Renderer",
@@ -122,7 +233,7 @@
             },
             {
                 "GameObject": "HowToMice2",
-                "ID": 5,
+                "ID": 8,
                 "Components": [
                     {
                         "Component Name": "struct Carmicah::Renderer",

@@ -36,8 +36,144 @@
     ],
     "Children": [
     {
+            "GameObject": "HowToLeftBtn",
+            "ID": 2,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Tutorial_Spritesheet_Left 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "hOWToBack"
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -710.0,
+                    "yPos": 20.0,
+                    "depth": 60.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::Button"
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToRightBtn",
+            "ID": 3,
+            "Components": [
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "HowToNext"
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Tutorial_Spritesheet_Right 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 710.0,
+                    "yPos": 20.0,
+                    "depth": 60.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Carmicah::Button"
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToQuickClose",
+            "ID": 4,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI_Close 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 715.0,
+                    "yPos": 343.0,
+                    "depth": 60.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "CloseHowTo"
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Button"
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToHideCursor",
+            "ID": 12,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Tutorial_Spritesheet_HideRight 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 911.0,
+                    "yPos": 0.0,
+                    "depth": 70.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
         "GameObject": "HowToCake3",
-        "ID": 49,
+        "ID": 5,
         "Components": [
             {
                 "Component Name": "struct Carmicah::Renderer",
@@ -62,7 +198,7 @@
         "Children": [
             {
                 "GameObject": "HowToDrop",
-                "ID": 50,
+                "ID": 6,
                 "Components": [
                     {
                         "Component Name": "struct Carmicah::Renderer",
@@ -87,7 +223,7 @@
             },
             {
                 "GameObject": "HowToPrincess",
-                "ID": 51,
+                "ID": 7,
                 "Components": [
                     {
                         "Component Name": "struct Carmicah::Renderer",
@@ -117,7 +253,7 @@
             },
             {
                 "GameObject": "HowToShooter",
-                "ID": 52,
+                "ID": 8,
                 "Components": [
                     {
                         "Component Name": "struct Carmicah::Renderer",
@@ -147,7 +283,7 @@
             },
             {
                 "GameObject": "HowToMage",
-                "ID": 53,
+                "ID": 9,
                 "Components": [
                     {
                         "Component Name": "struct Carmicah::Renderer",
@@ -177,7 +313,7 @@
             },
             {
                 "GameObject": "HowToUIBar",
-                "ID": 54,
+                "ID": 10,
                 "Components": [
                     {
                         "Component Name": "struct Carmicah::Renderer",
@@ -202,7 +338,7 @@
             },
             {
                 "GameObject": "HowToCursor",
-                "ID": 55,
+                "ID": 11,
                 "Components": [
                     {
                         "Component Name": "struct Carmicah::Renderer",
@@ -224,31 +360,6 @@
                         "transformTag": ""
                     }
                 ]
-            }
-        ]
-    },
-    {
-        "GameObject": "HowToHideCursor",
-        "ID": 15,
-        "Components": [
-            {
-                "Component Name": "struct Carmicah::Renderer",
-                "model": "Square",
-                "texture": "Tutorial_Spritesheet_HideRight 0",
-                "colR": 1.0,
-                "colG": 1.0,
-                "colB": 1.0,
-                "colA": 1.0
-            },
-            {
-                "Component Name": "struct Carmicah::UITransform",
-                "xPos": 911.0,
-                "yPos": 0.0,
-                "depth": 70.0,
-                "xScale": 1.0,
-                "yScale": 1.0,
-                "rot": 0.0,
-                "transformTag": ""
             }
         ]
     }
