@@ -18,7 +18,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Tutorial_Spritesheet_How 0",
+            "texture": "UI2_Tutorial_2 0",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
