@@ -301,6 +301,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 			}
 			else if (!batchBuffer.isDebug)
 			{
+				int renderCount = static_cast<int>(batchBuffer.objCount);
 				for (auto& i : batchBuffer.buffer)
 				{
 					glBindVertexArray(i.vao);
@@ -308,14 +309,15 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 					glMultiDrawElementsIndirect(GL_TRIANGLES,
 						GL_UNSIGNED_SHORT,// Indices
 						(GLvoid*)0,
-						mBatchSize,
+						std::min(renderCount ,mBatchSize),
 						0);
+					renderCount -= mBatchSize;
 				}
 			}
 			else
 			{
 				glLineWidth(4.f);
-
+				int renderCount = static_cast<int>(batchBuffer.objCount);
 				for (auto& i : batchBuffer.buffer)
 				{
 					glBindVertexArray(i.vao);
@@ -323,8 +325,9 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 					glMultiDrawElementsIndirect(batchBuffer.pRef->drawMode,
 						GL_UNSIGNED_SHORT,// Indices
 						(GLvoid*)0,
-						mBatchSize,
+						std::min(renderCount, mBatchSize),
 						0);
+					renderCount -= mBatchSize;
 				}
 			}
 		}
