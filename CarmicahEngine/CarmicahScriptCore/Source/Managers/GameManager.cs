@@ -188,6 +188,16 @@ namespace Carmicah
                     return;
             }
 
+            // Cheat code: Kill all enemies (0)
+            if (Input.IsKeyPressed(Keys.KEY_0))
+            {
+                CheatKillAllEnemies();
+               //CMConsole.Log("Cheat activated: Killed em'all");
+
+            }
+
+
+
             // get rid of any npcs that got destroyed?? maybe??
             // I havent gotten to killing NPCs yet so idk if this works
             foreach (Entity npc in npcList)
@@ -698,6 +708,83 @@ namespace Carmicah
                 }
             }
         }
+
+        public void CheatKillAllEnemies()
+        {
+            CMConsole.Log("Cheat activated: Killing all enemies");
+
+            // Create temporary lists to avoid modification during iteration
+            List<MouseAI> allMouseToKill = new List<MouseAI>();
+
+            // Add all mice from each lane to our kill list
+            foreach (MouseAI mouse in mouseLaneOne)
+            {
+                if (mouse != null && mouse.mID != 0 && !mouse.isDead())
+                {
+                    allMouseToKill.Add(mouse);
+                }
+            }
+
+            foreach (MouseAI mouse in mouseLaneTwo)
+            {
+                if (mouse != null && mouse.mID != 0 && !mouse.isDead())
+                {
+                    allMouseToKill.Add(mouse);
+                }
+            }
+
+            foreach (MouseAI mouse in mouseLaneThree)
+            {
+                if (mouse != null && mouse.mID != 0 && !mouse.isDead())
+                {
+                    allMouseToKill.Add(mouse);
+                }
+            }
+
+            foreach (MouseAI mouse in mouseLaneFour)
+            {
+                if (mouse != null && mouse.mID != 0 && !mouse.isDead())
+                {
+                    allMouseToKill.Add(mouse);
+                }
+            }
+
+            // Kill all mice in our list
+            foreach (MouseAI mouse in allMouseToKill)
+            {
+                mouse.KillMouse();
+            }
+
+            // Handle flying enemies
+            List<FlyingEnemyAI> allBirdsToKill = new List<FlyingEnemyAI>();
+
+            foreach (FlyingEnemyAI bird in flyingEnemyLeft)
+            {
+                if (bird != null && bird.mID != 0 && !bird.isDead())
+                {
+                    allBirdsToKill.Add(bird);
+                }
+            }
+
+            foreach (FlyingEnemyAI bird in flyingEnemyRight)
+            {
+                if (bird != null && bird.mID != 0 && !bird.isDead())
+                {
+                    allBirdsToKill.Add(bird);
+                }
+            }
+
+            // Kill all birds in our list
+            foreach (FlyingEnemyAI bird in allBirdsToKill)
+            {
+                bird.KillEnemy();
+            }
+
+            activeEnemies = 0;
+        }
+
+
+
 
         public void HideEntities()
         {

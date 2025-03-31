@@ -104,6 +104,23 @@ namespace Carmicah
 
         public override void OnUpdate(float dt)
         {
+            //cheat code
+            Entity pauseManager = FindEntityWithName("PauseManager");
+            if (pauseManager != null)
+            {
+                if (pauseManager.As<PauseManager>().IsPaused)
+                    return;
+            }
+
+            // Cheat code Full health (ALT + H)
+            if (Input.IsKeyPressed(Keys.KEY_8))
+            {
+                CMConsole.Log("Cheat activated: Full health restored");
+                health = 100.0f;
+                healthBar.As<PrincessHPBar>().percentHP = health;
+            }
+
+
             if (damaged)
             {
                 flashTime += dt;
@@ -133,6 +150,9 @@ namespace Carmicah
                     }
                 }
             }
+
+
+
         }
 
         public override void OnStateEnter(string stateName)

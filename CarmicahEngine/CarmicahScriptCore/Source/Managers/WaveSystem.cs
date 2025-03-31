@@ -55,6 +55,23 @@ namespace Carmicah
 
             }
 
+            if (Input.IsKeyPressed(Keys.KEY_0))
+            {
+                // Skip to the end of level screen
+                if (winScreen == null)
+                {
+                    Sound.SwitchBGM("WinScreen", 0.5f, 0.5f, false);
+                    Sound.StopAllSFX();
+                    gameManager.As<GameManager>().GameOver = true;
+                    winScreen = CreateGameObject(winPrefab);
+                }
+                waveStart = false;
+                waveTimer = 0.0f;
+                gameManager.As<GameManager>().activeEnemies = 0;
+                return;
+            }
+
+
             // Only increment time for as long as theres a wave coming
             if (gameManager.As<GameManager>().GameOver)
             {
