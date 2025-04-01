@@ -43,11 +43,11 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": -416.4419860839844,
-                    "yPos": 115.44599914550781,
+                    "xPos": -420.0,
+                    "yPos": 115.0,
                     "depth": 2.950000047683716,
-                    "xScale": 3.0,
-                    "yScale": 3.0,
+                    "xScale": 2.6,
+                    "yScale": 2.6,
                     "rot": 0.0,
                     "transformTag": ""
                 },
@@ -107,7 +107,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 198.64773559570313,
+                    "xPos": 246.64773559570313,
                     "yPos": 15.8548583984375,
                     "depth": 2.549999952316284,
                     "xScale": 1.5,
@@ -126,8 +126,8 @@
                     "xPos": 0.0,
                     "yPos": -235.0,
                     "depth": 2.200000047683716,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
+                    "xScale": 1.1,
+                    "yScale": 1.1,
                     "rot": 0.0,
                     "transformTag": ""
                 },

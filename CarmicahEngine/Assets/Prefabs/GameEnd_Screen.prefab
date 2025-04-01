@@ -43,11 +43,11 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": -416.4419860839844,
-                    "yPos": 115.44599914550781,
+                    "xPos": -400.4419860839844,
+                    "yPos": 22.44599914550781,
                     "depth": 2.950000047683716,
-                    "xScale": 3.0,
-                    "yScale": 3.0,
+                    "xScale": 2.6,
+                    "yScale": 2.6,
                     "rot": 0.0,
                     "transformTag": ""
                 },
@@ -68,8 +68,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": -340.0,
-                    "yPos": 28.0,
+                    "xPos": -335.0,
+                    "yPos": -90.0,
                     "depth": 2.450000047683716,
                     "xScale": 1.600000023841858,
                     "yScale": 1.600000023841858,
@@ -79,7 +79,7 @@
                 {
                     "Component Name": "struct Carmicah::TextRenderer",
                     "font": "Sigmar-Regular",
-                    "text": "Next Wave:",
+                    "text": "You did it!",
                     "colorR": 0.9647058844566345,
                     "colorG": 0.16470588743686677,
                     "colorB": 0.6235294342041016,
@@ -87,5 +87,35 @@
                 }
             ]
         },
+        {
+            "GameObject": "MC_Win",
+            "ID": 42,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "MC_SpriteSheet_Win 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "MC_Win",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 240.64773559570313,
+                    "yPos": 25.8548583984375,
+                    "depth": 2.549999952316284,
+                    "xScale": 1.5,
+                    "yScale": 1.5,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        }
     ]
 }
