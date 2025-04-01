@@ -317,7 +317,7 @@ namespace Carmicah
 
             if (HasComponent<RigidBody>())
             {
-                GetComponent<RigidBody>().ApplyForce(dir, Speed * debuff);
+                GetComponent<RigidBody>().ApplyForce(fullDir, Speed * debuff);
               // GetComponent<RigidBody>().Move(nextPos);
             }
 
@@ -528,22 +528,22 @@ namespace Carmicah
                     case 0:
                         if (endEntityRight != null)
                             endPos = endEntityRight.Position;
-                        //Console.WriteLine($"End Pos: {endPos.x} , {endPos.y}, Cur Pos: {Position.x}, {Position.y}, Distance: {Position.Distance(endPos)}");
+                        //CMConsole.Log($"End Pos: {endPos.x} , {endPos.y}, Cur Pos: {Position.x}, {Position.y}, Distance: {Position.Distance(endPos)}");
                         break;
                     case 1:
                         if (endEntityLeft != null)
                             endPos = endEntityLeft.Position;
-                        //Console.WriteLine($"End Pos: {endPos.x} , {endPos.y}, Cur Pos: {Position.x}, {Position.y}, Distance: {Position.Distance(endPos)}");
+                        //CMConsole.Log($"End Pos: {endPos.x} , {endPos.y}, Cur Pos: {Position.x}, {Position.y}, Distance: {Position.Distance(endPos)}");
                         break;
                     case 2:
                         if (endEntityRight2 != null)
                             endPos = endEntityRight2.Position;
-                        //Console.WriteLine($"End Pos: {endPos.x} , {endPos.y}, Cur Pos: {Position.x}, {Position.y}, Distance: {Position.Distance(endPos)}");
+                        //CMConsole.Log($"End Pos: {endPos.x} , {endPos.y}, Cur Pos: {Position.x}, {Position.y}, Distance: {Position.Distance(endPos)}");
                         break;
                     case 3:
                         if (endEntityLeft2 != null)
                             endPos = endEntityLeft2.Position;
-                        //Console.WriteLine($"End Pos: {endPos.x} , {endPos.y}, Cur Pos: {Position.x}, {Position.y}, Distance: {Position.Distance(endPos)}");
+                        //CMConsole.Log($"End Pos: {endPos.x} , {endPos.y}, Cur Pos: {Position.x}, {Position.y}, Distance: {Position.Distance(endPos)}");
                         break;
                 }
 
