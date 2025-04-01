@@ -8,7 +8,7 @@ Top left: 0 x 29, 71 x 71
 
 Mage_Impact
 Top left: 0 x 99, 480 x 480
-10 sprites
+8 sprites
 
 Teleport
 Top left: 0 x 1059, 468 x 513
