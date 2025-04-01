@@ -3,19 +3,6 @@
     "ID": 49,
     "Components": [
         {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.UISliding",
-            "ScriptableFieldMap": [
-                {
-                    "slideCurve": 8,
-                    "slideDist": 1080.0,
-                    "slideTime": 1.5,
-                    "slideType": "Up",
-                    "slideToCenter": true
-                }
-            ]
-        },
-        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "UI_Panel 0",
@@ -25,10 +12,24 @@
             "colA": 1.0
         },
         {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.UISliding",
+            "ScriptableFieldMap": [
+                {
+                    "slideCurve": 8,
+                    "slideDist": 1080.0,
+                    "createDimBG": true,
+                    "slideTime": 1.5,
+                    "slideType": "Up",
+                    "slideToCenter": true
+                }
+            ]
+        },
+        {
             "Component Name": "struct Carmicah::UITransform",
             "xPos": 1285.7451171875,
             "yPos": 562.532470703125,
-            "depth": 1.0,
+            "depth": 2.0,
             "xScale": 1.0,
             "yScale": 1.0,
             "rot": 0.0,
@@ -53,7 +54,7 @@
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": -8.24102783203125,
                     "yPos": 267.2806396484375,
-                    "depth": 1.75,
+                    "depth": 2.450000047683716,
                     "xScale": 1.25,
                     "yScale": 1.25,
                     "rot": 0.0,
@@ -96,7 +97,7 @@
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": -8.0,
                     "yPos": 60.0,
-                    "depth": 1.0499999523162842,
+                    "depth": 2.25,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,
@@ -117,6 +118,15 @@
                     "AnimSpeed": 1.0
                 },
                 {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_H_Resume 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
@@ -127,19 +137,10 @@
                     ]
                 },
                 {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Resume 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
-                },
-                {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": -8.0,
                     "yPos": 175.0,
-                    "depth": 1.7999999523162842,
+                    "depth": 2.3499999046325685,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,
@@ -182,7 +183,7 @@
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": -8.0,
                     "yPos": -285.0,
-                    "depth": 1.5499999523162842,
+                    "depth": 2.3499999046325685,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,
@@ -203,15 +204,6 @@
                     "AnimSpeed": 1.0
                 },
                 {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Button_SpriteSheet_C_Home 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
-                },
-                {
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
@@ -222,10 +214,19 @@
                     ]
                 },
                 {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_C_Home 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": -8.0,
                     "yPos": -170.0,
-                    "depth": 1.1500000238418579,
+                    "depth": 2.299999952316284,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,
@@ -246,6 +247,15 @@
                     "AnimSpeed": 1.0
                 },
                 {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_H_HowTo 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
@@ -256,19 +266,10 @@
                     ]
                 },
                 {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Button_SpriteSheet_H_HowTo 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
-                },
-                {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": -8.0,
                     "yPos": -55.0,
-                    "depth": 1.1500001192092898,
+                    "depth": 2.25,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,

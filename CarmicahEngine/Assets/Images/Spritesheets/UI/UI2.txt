@@ -39,7 +39,7 @@ Top Left: 277 x 351, 177 x 186
 1 Sprite
 
 Cursor
-Top Left: 455 x 351, 58 x 61
+Top Left: 455 x 351, 59 x 60
 1 Sprite
 
 Texture
