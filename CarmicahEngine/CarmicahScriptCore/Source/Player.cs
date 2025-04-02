@@ -112,7 +112,7 @@ namespace Carmicah
                     return;
             }
 
-            // Cheat code Full health (ALT + H)
+            // Cheat code Full health (key 8)
             if (Input.IsKeyPressed(Keys.KEY_8))
             {
                 CMConsole.Log("Cheat activated: Full health restored");
