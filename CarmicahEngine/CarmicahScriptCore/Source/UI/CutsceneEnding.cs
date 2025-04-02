@@ -40,7 +40,7 @@ namespace Carmicah
             cutsceneEntity = FindEntityWithName("CutSceneImage");
             leftParticles = FindEntityWithName("Left Particles");
             rightParticles = FindEntityWithName("Right Particles");
-            cutsceneEntity.Depth = cutsceneEntity.Depth + 1.0f;
+            //cutsceneEntity.Depth = cutsceneEntity.Depth + 1.0f;
 
             if (!musicStarted)
             {
