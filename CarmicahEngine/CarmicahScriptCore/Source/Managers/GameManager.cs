@@ -189,7 +189,7 @@ namespace Carmicah
             }
 
             // Cheat code: Kill all enemies (0)
-            if (Input.IsKeyPressed(Keys.KEY_0))
+            if (Input.IsKeyPressed(Keys.KEY_9))
             {
                 CheatKillAllEnemies();
                //CMConsole.Log("Cheat activated: Killed em'all");
