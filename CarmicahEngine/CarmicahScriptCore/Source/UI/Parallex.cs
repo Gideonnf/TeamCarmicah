@@ -16,6 +16,13 @@ namespace Carmicah
         Entity bigClouds;
         Entity cloud0;
         Entity cloud1;
+        bool c0Left = true;
+        bool c1Left = false;
+        Vector2 cloud0Pos;
+        Vector2 cloud1Pos;
+        float cloud0Speed;
+        float cloud1Speed;
+
         Entity layer2;
         Entity layer1;
         Entity layer0;
@@ -31,26 +38,42 @@ namespace Carmicah
 
         public override void OnUpdate(float dt)
         {
+            // Find things
             if (cam == null)
             {
                 cam = FindEntityWithName("MainCamera");
                 lastCamPos = cam.LocalPosition;
             }
-
             if (sky == null)
                 sky = FindEntityWithName("BackgroundSky");
             if (bigClouds == null)
                 bigClouds = FindEntityWithName("BackgroundBigClouds");
             if(cloud0 == null)
+            {
                 cloud0 = FindEntityWithName("BackgroundCloud0");
-            if(cloud1 == null)
+                Vector2 temp;
+                FunctionCalls.Transform_GetRenderingScale(cloud0.mID, out temp);
+                cloud0Pos.x = temp.x / 2.0f;
+                cloud0Pos.y = CMRand.Range(-10.0f, 10.0f);
+                cloud0Speed = CMRand.Range(1.0f, 20.0f);
+            }
+            if (cloud1 == null)
+            {
                 cloud1 = FindEntityWithName("BackgroundCloud1");
+                Vector2 temp;
+                FunctionCalls.Transform_GetRenderingScale(cloud1.mID, out temp);
+                cloud1Pos.x = temp.x / 2.0f;
+                cloud1Pos.y = CMRand.Range(-10.0f, 10.0f);
+                cloud1Speed = CMRand.Range(1.0f, 20.0f);
+            }
             if (layer0 == null)
                 layer0 = FindEntityWithName("BackgroundP0");
             if (layer1 == null)
                 layer1 = FindEntityWithName("BackgroundP1");
             if (layer2 == null)
                 layer2 = FindEntityWithName("BackgroundP2");
+
+            // Do things
 
             Vector2 camDiff = cam.LocalPosition - lastCamPos;
             lastCamPos = cam.LocalPosition;
@@ -66,7 +89,112 @@ namespace Carmicah
                 bigClouds.LocalPosition = pos;
             }
 
-            // -10 ~ 10 y
+            if (cloud0 != null)
+            {
+                bool resetCloud = false;
+                Vector2 pos = cloud0.LocalPosition;
+                if (!c0Left)
+                {
+                    pos.x += cloud0Speed * dt;
+                    if (pos.x > 20.0f + cloud0Pos.x)
+                        resetCloud = true;
+                }
+                else
+                {
+                    pos.x -= cloud0Speed * dt;
+                    if (pos.x < -20.0f - cloud0Pos.x)
+                        resetCloud = true;
+                }
+                if (resetCloud)
+                {
+                    float randNum = CMRand.Range(0.0f, 7.0f);
+                    if (randNum < 1.0f)
+                        cloud0.GetComponent<Renderer>().ChangeTexture("Clouds_SpriteSheet_SmallCloud 0");
+                    else if (randNum < 2.0f)
+                        cloud0.GetComponent<Renderer>().ChangeTexture("Clouds_SpriteSheet_BigCloud 0");
+                    else if (randNum < 3.0f)
+                        cloud0.GetComponent<Renderer>().ChangeTexture("Clouds_SpriteSheet_TLCloud1 0");
+                    else if (randNum < 4.0f)
+                        cloud0.GetComponent<Renderer>().ChangeTexture("Clouds_SpriteSheet_TRCloud1 0");
+                    else if (randNum < 5.0f)
+                        cloud0.GetComponent<Renderer>().ChangeTexture("Clouds_SpriteSheet_TLCloud2 0");
+                    else if (randNum < 6.0f)
+                        cloud0.GetComponent<Renderer>().ChangeTexture("Clouds_SpriteSheet_TRCloud2 0");
+                    else
+                        cloud0.GetComponent<Renderer>().ChangeTexture("Clouds_SpriteSheet_TRCloud3 0");
+                    
+                    Vector2 temp;
+                    FunctionCalls.Transform_GetRenderingScale(cloud0.mID, out temp);
+                    cloud0Pos.x = temp.x / 2.0f;
+                    cloud0Pos.y = CMRand.Range(-10.0f, 10.0f);
+                    cloud0Speed = CMRand.Range(1.0f, 20.0f);
+                    if (CMRand.Range(0.0f, 1.0f) > 0.5f)
+                    {
+                        c0Left = true;
+                        pos.x = 20.0f + cloud0Pos.x;
+                    }
+                    else
+                    {
+                        c0Left = false;
+                        pos.x = -20.0f - cloud0Pos.x;
+                    }
+                }
+                pos.y = lastCamPos.y + cloud0Pos.y;
+                cloud0.LocalPosition = pos;
+            }
+            if (cloud1 != null)
+            {
+                bool resetCloud = false;
+                Vector2 pos = cloud1.LocalPosition;
+                if (!c1Left)
+                {
+                    pos.x += cloud1Speed * dt;
+                    if (pos.x > 20.0f + cloud1Pos.x)
+                        resetCloud = true;
+                }
+                else
+                {
+                    pos.x -= cloud1Speed * dt;
+                    if (pos.x < -20.0f - cloud1Pos.x)
+                        resetCloud = true;
+                }
+                if (resetCloud)
+                {
+                    float randNum = CMRand.Range(0.0f, 7.0f);
+                    if (randNum < 1.0f)
+                        cloud1.GetComponent<Renderer>().ChangeTexture("Clouds_SpriteSheet_SmallCloud 0");
+                    else if (randNum < 2.0f)
+                        cloud1.GetComponent<Renderer>().ChangeTexture("Clouds_SpriteSheet_BigCloud 0");
+                    else if (randNum < 3.0f)
+                        cloud1.GetComponent<Renderer>().ChangeTexture("Clouds_SpriteSheet_TLCloud1 0");
+                    else if (randNum < 4.0f)
+                        cloud1.GetComponent<Renderer>().ChangeTexture("Clouds_SpriteSheet_TRCloud1 0");
+                    else if (randNum < 5.0f)
+                        cloud1.GetComponent<Renderer>().ChangeTexture("Clouds_SpriteSheet_TLCloud2 0");
+                    else if (randNum < 6.0f)
+                        cloud1.GetComponent<Renderer>().ChangeTexture("Clouds_SpriteSheet_TRCloud2 0");
+                    else
+                        cloud1.GetComponent<Renderer>().ChangeTexture("Clouds_SpriteSheet_TRCloud3 0");
+
+                    Vector2 temp;
+                    FunctionCalls.Transform_GetRenderingScale(cloud1.mID, out temp);
+                    cloud1Pos.x = temp.x / 2.0f;
+                    cloud1Pos.y = CMRand.Range(-10.0f, 10.0f);
+                    cloud1Speed = CMRand.Range(1.0f, 20.0f);
+                    if(CMRand.Range(0.0f, 1.0f) > 0.5f)
+                    {
+                        c1Left = true;
+                        pos.x = 20.0f + cloud1Pos.x;
+                    }
+                    else
+                    {
+                        c1Left = false;
+                        pos.x = -20.0f - cloud1Pos.x;
+                    }
+                }
+                pos.y = lastCamPos.y + cloud1Pos.y;
+                cloud1.LocalPosition = pos;
+            }
 
             // Buildings
             if (layer0 != null && layer1 != null && layer2 != null)
