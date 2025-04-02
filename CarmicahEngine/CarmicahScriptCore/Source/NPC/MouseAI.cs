@@ -528,22 +528,18 @@ namespace Carmicah
                     case 0:
                         if (endEntityRight != null)
                             endPos = endEntityRight.Position;
-                        //CMConsole.Log($"End Pos: {endPos.x} , {endPos.y}, Cur Pos: {Position.x}, {Position.y}, Distance: {Position.Distance(endPos)}");
                         break;
                     case 1:
                         if (endEntityLeft != null)
                             endPos = endEntityLeft.Position;
-                        //CMConsole.Log($"End Pos: {endPos.x} , {endPos.y}, Cur Pos: {Position.x}, {Position.y}, Distance: {Position.Distance(endPos)}");
                         break;
                     case 2:
                         if (endEntityRight2 != null)
                             endPos = endEntityRight2.Position;
-                        //CMConsole.Log($"End Pos: {endPos.x} , {endPos.y}, Cur Pos: {Position.x}, {Position.y}, Distance: {Position.Distance(endPos)}");
                         break;
                     case 3:
                         if (endEntityLeft2 != null)
                             endPos = endEntityLeft2.Position;
-                        //CMConsole.Log($"End Pos: {endPos.x} , {endPos.y}, Cur Pos: {Position.x}, {Position.y}, Distance: {Position.Distance(endPos)}");
                         break;
                 }
 
