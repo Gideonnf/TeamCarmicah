@@ -143,7 +143,17 @@ namespace Carmicah
                     Sound.SwitchBGM("WinScreen", 0.5f, 0.5f, false);
                     Sound.StopAllSFX();
                     gameManager.As<GameManager>().GameOver = true;
-                    winScreen = CreateGameObject(winPrefab);
+                    if (levelManager.EndOfGame())
+                    {
+                       // CMConsole.Log("Does this runNnnnnnnnnnnnnn");
+                        winScreen = CreateGameObject("GameEnd_Screen");
+
+                    }
+                    else
+                    {
+                      //  CMConsole.Log("Does this run");
+                        winScreen = CreateGameObject(winPrefab);
+                    }
                 }
                 //CreateGameObject(winPrefab);
                 waveStart = false;

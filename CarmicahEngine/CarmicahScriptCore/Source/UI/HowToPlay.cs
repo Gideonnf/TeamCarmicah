@@ -216,6 +216,42 @@ namespace Carmicah
                         if (curPanel != null)
                             howToNum.Add(currentPanel, curPanel);
                     }
+
+                    // Reset the progress of the prev. panels
+                    switch(oldPanel)
+                    {
+                        case 3:
+                            cursor.Position = new Vector2(850, 0);
+                            power1Ico.Position = new Vector2(450, 135);
+                            power2Ico.Position = new Vector2(450, 80);
+                            actlObj1.GetComponent<Renderer>().SetAlpha(0.0f);
+                            actlObj1.Depth = 52;
+                            actlObj1.GetComponent<Animation>().ChangeAnim("CandyCone_Idle");
+                            actlObj2.GetComponent<Renderer>().SetAlpha(0.0f);
+                            actlObj2.GetComponent<Animation>().ChangeAnim("Shooter_Idle");
+                            enemyMouse1.GetComponent<Renderer>().SetAlpha(0.0f);
+                            enemyMouse1.GetComponent<Animation>().ChangeAnim("Mouse_Climb_Blue");
+                            enemyBear.GetComponent<Renderer>().SetAlpha(0.0f);
+                            enemyBear.GetComponent<Animation>().ChangeAnim("Bear_Climb");
+                            enemyMouse1.Position = new Vector2(105, -400);
+                            enemyBear.Position = new Vector2(105, -400);
+                            break;
+                        case 4:
+                            playerWalk.LocalPosition = new Vector2(-160.0f, 105.0f);
+                            playerWalk.Scale = new Vector2(0.666f, 0.666f);
+                            actlObj1.GetComponent<Renderer>().SetAlpha(0.0f);
+                            power2Ico.GetComponent<Animation>().ChangeAnim("Shooter_Mana");
+                            power1Ico.Scale = new Vector2(1, 1);
+                            cursor.LocalPosition = new Vector2(850, 0);
+                            break;
+                        case 5:
+                            actlObj1.LocalPosition = new Vector2(0, 1000);
+                            actlObj1.GetComponent<Animation>().ChangeAnim("CakeStrawberry_Fall");
+                            power1Ico.GetComponent<Renderer>().SetAlpha(0);
+                            power1Ico.Depth = 52;
+                            break;
+                    }
+
                     // Just re-get, it's easier ;w;
                     switch (currentPanel)
                     {
@@ -256,6 +292,12 @@ namespace Carmicah
                             power1Ico = FindEntityWithName("HowToDrop");
                             power2Ico = FindEntityWithName("HowToShooter");
                             actlObj1 = FindEntityWithName("HowToMage");
+                            break;
+                        case 5:
+                            actlObj1 = FindEntityWithName("HowToCakeFalling");
+                            power1Ico = FindEntityWithName("HowToCakeFallVFXBack");
+                            mouse1Climbing = false;
+                            mouse2Climbing = true;
                             break;
                     }
                 }
@@ -767,6 +809,60 @@ namespace Carmicah
                             break;
                     }
                     // Mouse moves back to 1'000, 100
+                    break;
+                case 5:
+                    // y == 660
+                    // y == 480
+                    switch(aniProgress)
+                    {
+                        case 0:
+                            Vector2 fallPos = actlObj1.LocalPosition;
+                            fallPos.y -= 700.0f * dt;
+                            if(!mouse1Climbing && fallPos.y < 660)
+                            {
+                                power1Ico.Depth = 52;
+                                power1Ico.GetComponent<Renderer>().SetAlpha(1.0f);
+                                power1Ico.GetComponent<Animation>().ChangeAnim("CakeFallVFx");
+                                mouse1Climbing = true;
+                                mouse2Climbing = false;
+                            }
+                            if (!mouse2Climbing && power1Ico.GetComponent<Animation>().IsAnimFinished())
+                            {
+                                power1Ico.Depth = 54;
+                                power1Ico.GetComponent<Animation>().ChangeAnim("CakeFallVFxEnd");
+                                mouse2Climbing = true;
+                            }
+                            if(fallPos.y < 480)
+                            {
+                                fallPos.y = 480.0f;
+                                actlObj1.GetComponent<Animation>().ChangeAnim("CakeStrawberry_Squish");
+                                clickTime = 1.5f;
+                                ++aniProgress;
+                            }
+                            actlObj1.LocalPosition = fallPos;
+                            break;
+                        case 1:
+                            if (!mouse2Climbing && power1Ico.GetComponent<Animation>().IsAnimFinished())
+                            {
+                                power1Ico.Depth = 54;
+                                power1Ico.GetComponent<Animation>().ChangeAnim("CakeFallVFxEnd");
+                                mouse2Climbing = true;
+                            }
+
+                            clickTime -= dt;
+                            if (clickTime < 0)
+                                ++aniProgress;
+                            break;
+                        case 2:
+                            actlObj1.LocalPosition = new Vector2(0, 1000);
+                            actlObj1.GetComponent<Animation>().ChangeAnim("CakeStrawberry_Fall");
+                            power1Ico.GetComponent<Renderer>().SetAlpha(0);
+                            power1Ico.Depth = 52;
+                            mouse1Climbing = false;
+                            mouse2Climbing = true;
+                            aniProgress = 0;
+                            break;
+                    }
                     break;
             }
         }

@@ -52,3 +52,5 @@ ipch/
 *.psess
 *.vsp
 *.vspx
+
+*.scene_temp
