@@ -116,13 +116,22 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 	glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
 	glClearBufferuiv(GL_COLOR, 1, &zero);
 
-	for (int renderPass = 0; renderPass < 2; ++renderPass)
+	for (int renderPass = 0; renderPass < 3; ++renderPass)
 	{
 		BufferID currID(0, std::numeric_limits<unsigned int>::max(), std::numeric_limits<unsigned int>::max(), std::numeric_limits<unsigned int>::max());
-		if (renderPass == 1)
+		
+		switch (renderPass)
 		{
+		case 0:
+			break;
+		case 1:
+			glColorMaski(1, GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			break;
+		case 2:
 			glClearBufferfv(GL_COLOR, 2, zeroFiller);
 			glClearBufferfv(GL_COLOR, 3, oneFiller);
+			break;
 		}
 		// Loops through all batch Buffers
 		for (const auto& it : mBufferMap)
@@ -130,8 +139,10 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 			const auto& batchBuffer = it.second;
 			if (!(currID == it.first))
 			{
+				// Don't need debug if editor
 				if (!isEditor && (it.first.dat[BUFFER_SHADER] == debugShaderID))
 					continue;
+				// If not the shader that handles passes, Only render it in pass 1
 				if (renderPass != 0 && it.first.dat[BUFFER_SHADER] != defaultShaderID)
 					continue;
 
@@ -147,36 +158,39 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 					{
 						if(UniformExists(mCurrShader, "uPassNum", uniformLoc))
 							glUniform1i(uniformLoc, renderPass);
-						if (renderPass == 0)
+						switch (renderPass)
 						{
+						case 0:
 							glDisable(GL_BLEND);
-
 							glEnable(GL_DEPTH_TEST);
-
-							// Specifically disable writing to ID 2 since id 2 is particles, yes, ik, it's dumb
-							if(it.first.dat[BUFFER_ID] == 0)
+							if (it.first.dat[BUFFER_ID] == 0)
 								glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
-							else if(it.first.dat[BUFFER_ID] == 2)
+							// Specifically disable writing to ID 2 since id 2 is particles, yes, ik, it's dumb
+							else if (it.first.dat[BUFFER_ID] == 2)
 								glColorMaski(1, GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 							glDepthMask(GL_TRUE);	// Enable writing to depth buffer
 							glDepthFunc(GL_LESS);	// When incoming depth is smaller, pass the test
-
-						}
-						else
-						{
+							break;
+						case 1:
+							glDisable(GL_BLEND);
+							glEnable(GL_DEPTH_TEST);
+							glDepthMask(GL_TRUE);	// Enable writing to depth buffer
+							glDepthFunc(GL_LESS);	// When incoming depth is smaller, pass the test
+							break;
+						case 2:
 							glEnable(GL_BLEND);
 							glBlendFunci(0, GL_ZERO, GL_ONE);
-							glBlendFunci(1, GL_ZERO, GL_ONE);
-							glColorMaski(1, GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 							glBlendFunci(2, GL_ONE, GL_ONE);	// left - the amount of alpha of the newly rendered thing, right - the original thing at the back
 							glBlendFunci(3, GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
 							glBlendEquation(GL_FUNC_ADD);
 
 							glDepthMask(GL_FALSE);
 							glDepthFunc(GL_LEQUAL);
+							break;
 						}
 					}
-					else
+					// Rendering debug things in pass 1
+					else if(renderPass == 0)
 					{
 						glEnable(GL_BLEND);
 						glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

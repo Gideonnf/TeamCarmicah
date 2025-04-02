@@ -87,7 +87,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 715.0,
+                    "xPos": 677.0,
                     "yPos": 343.0,
                     "depth": 60.0,
                     "xScale": 1.0,
@@ -129,8 +129,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": -400.0,
-                    "yPos": 0.0,
+                    "xPos": -200.0,
+                    "yPos": 60.0,
                     "depth": 51.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -146,19 +146,44 @@
                 {
                     "Component Name": "struct Carmicah::TextRenderer",
                     "font": "Chewy-Regular",
-                    "text": "WASD      +      Mouse + R / F (Scroll)",
+                    "text": "WASD             R / F / Scroll",
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
-                    "textAlign": 17
+                    "textAlign": 1
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 0.0,
-                    "yPos": -240.0,
+                    "xPos": -300.0,
+                    "yPos": -180.0,
                     "depth": 53.0,
                     "xScale": 2.0,
                     "yScale": 2.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToPlayerTxtExpln",
+            "ID": 5,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Chewy-Regular",
+                    "text": "To Move                                   Move Up/Down",
+                    "colorR": 1.0,
+                    "colorG": 1.0,
+                    "colorB": 1.0,
+                    "textAlign": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -283.250,
+                    "yPos": -260.0,
+                    "depth": 53.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": ""
                 }
@@ -179,8 +204,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 200.0,
-                    "yPos": -40.0,
+                    "xPos": 230.0,
+                    "yPos": 20.0,
                     "depth": 55.0,
                     "xScale": 1.5,
                     "yScale": 1.5,
