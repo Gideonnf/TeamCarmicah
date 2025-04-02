@@ -59,7 +59,7 @@
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -18.850000381469728,
                     "yPos": -9.399999618530274,
-                    "depth": 10.0,
+                    "depth": 15.0,
                     "xScale": 2.0,
                     "yScale": 2.0,
                     "rot": 0.0,
@@ -93,7 +93,7 @@
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 18.850000381469728,
                     "yPos": -9.399999618530274,
-                    "depth": 10.0,
+                    "depth": 15.0,
                     "xScale": 2.0,
                     "yScale": 2.0,
                     "rot": 0.0,
@@ -120,7 +120,7 @@
             "Children": []
         },
         {
-            "GameObject": "CutSceneImage_1",
+            "GameObject": "CutSceneImage",
             "ID": 13,
             "Components": [
                 {
