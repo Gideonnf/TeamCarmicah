@@ -47,10 +47,10 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -6.650000095367432,
-                    "yPos": -17.149999618530275,
+                    "yPos": -17.450,
                     "depth": 0.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
+                    "xScale": 0.6,
+                    "yScale": 0.6,
                     "rot": 0.0,
                     "transformTag": "",
                     "collisionMask": 1
@@ -64,7 +64,7 @@
                         {
                             "Component Name": "struct Carmicah::Transform",
                             "xPos": 0.0,
-                            "yPos": 1.2999999523162842,
+                            "yPos": 2.02,
                             "depth": -9.0,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -96,7 +96,7 @@
                         {
                             "Component Name": "struct Carmicah::Transform",
                             "xPos": 0.0,
-                            "yPos": -1.2999999523162842,
+                            "yPos": -2.02,
                             "depth": -1.0,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -130,11 +130,11 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 6.0,
-                    "yPos": -17.149999618530275,
+                    "yPos": -17.550,
                     "depth": 0.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
-                    "rot": 38.0,
+                    "xScale": -0.6,
+                    "yScale": 0.6,
+                    "rot": 0.0,
                     "transformTag": "",
                     "collisionMask": 1
                 }
@@ -147,7 +147,7 @@
                         {
                             "Component Name": "struct Carmicah::Transform",
                             "xPos": 0.0,
-                            "yPos": 1.2999999523162842,
+                            "yPos": 2.02,
                             "depth": -9.0,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -179,7 +179,7 @@
                         {
                             "Component Name": "struct Carmicah::Transform",
                             "xPos": 0.0,
-                            "yPos": -1.299999713897705,
+                            "yPos": -2.02,
                             "depth": -1.0,
                             "xScale": 1.0,
                             "yScale": 1.0,
