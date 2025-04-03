@@ -365,9 +365,9 @@
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "UI2_Cursor 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
+                    "colR": 1.25,
+                    "colG": 1.25,
+                    "colB": 1.25,
                     "colA": 0.7843137383460999
                 },
                 {

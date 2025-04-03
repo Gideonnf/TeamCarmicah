@@ -256,9 +256,9 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -15.919812202453614,
-                    "yPos": -0.01851797103881836,
-                    "depth": 101.0,
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 600.0,
                     "xScale": 0.5,
                     "yScale": 0.5,
                     "rot": 0.0,
@@ -268,6 +268,15 @@
                 {
                     "Component Name": "struct Carmicah::PrefabData",
                     "prefabRef": 64
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_Cursor 0",
+                    "colR": 1.25,
+                    "colG": 1.25,
+                    "colB": 1.25,
+                    "colA": 0.7843137383460999
                 },
                 {
                     "Component Name": "struct Carmicah::ParticleEmitter",
