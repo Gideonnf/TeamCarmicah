@@ -206,22 +206,22 @@ namespace Carmicah
                     {
                         if(facingRight)
                         {
-                            Rot = 0;
+                            Rot = 180;
                         }
                         else
                         {
-                            Rot = 80;
+                            Rot = 260;
                         }
                     }
                     if(bulletTarget == BulletTarget.GROUND)
                     {
                         if(facingRight)
                         {
-                            Rot = 225;
+                            Rot = 45;
                         }
                         else
                         {
-                            Rot = 205;
+                            Rot = 25;
                         }
                     }
                 }
