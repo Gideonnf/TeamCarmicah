@@ -244,9 +244,9 @@
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "UI2_Tutorial_Hide1 0",
-                    "colR": 0.7960784,
-                    "colG": 0.7960784,
-                    "colB": 0.7960784,
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
                     "colA": 1.0
                 },
                 {
