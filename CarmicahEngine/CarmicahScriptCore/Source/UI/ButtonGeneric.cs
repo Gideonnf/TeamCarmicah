@@ -25,8 +25,14 @@ namespace Carmicah
         float sceneChangerTimer = -1f;
         bool buttonColChangeState = false;
         float colChangeTime = 0.0f;
+        bool buttonSizeChangeGot = false;
+        float sizeChangeTime = 1.0f;
+        float sizeBounce = 0.85f;
+        int sizeBounceInt = 6;
+        Vector2 buttonOriginalSize;
         const float buttonGlowInc = 0.15f;
         const float maxColChangeTime = 0.2f;
+        const float maxSizeChangeTime = 0.5f;
         const float timeToChangeScene = 0.5f;
         string hoverEnterAnim;
         string hoverExitAnim;
@@ -146,11 +152,12 @@ namespace Carmicah
                 case "pause":
                     createList.Add(0, "Pause_Screen");
                     willPause = true;
+                    willColorChange = true;
                     
                     // NOTE: Once we add in the actual pause button then change this
-                    hoverEnterAnim = "Button_HS_Settings";
-                    hoverExitAnim = "Button_HE_Settings";
-                    clickAnim = "Button_C_Settings";
+                    hoverEnterAnim = "Button_C_Pause";
+                    hoverExitAnim = "Button_C_Pause";
+                    clickAnim = "Button_C_Pause";
                     break;
                 case "settings":
                     createList.Add(0, "Settings_Menu");
@@ -244,7 +251,6 @@ namespace Carmicah
                     clickAnim       = "Button_C_Next";
                     */
             }
-
             ChangeAnim(hoverExitAnim);
         }
 
@@ -272,7 +278,24 @@ namespace Carmicah
             }
             if(willColorChange)
             {
-                if(colChangeTime < maxColChangeTime)
+                if(!buttonSizeChangeGot)
+                {
+                    buttonOriginalSize = Scale;
+                    buttonSizeChangeGot = true;
+                }
+
+                if(sizeChangeTime < maxSizeChangeTime)
+                {
+                    sizeChangeTime = sizeChangeTime + dt;
+                    if (sizeChangeTime > maxSizeChangeTime)
+                        sizeChangeTime = maxSizeChangeTime;
+                    float percent = sizeChangeTime / maxSizeChangeTime;
+                    if(percent < 0.5f)
+                        Scale = Easings.GetInterpolate((SLIDE_CURVE)sizeBounceInt, buttonOriginalSize, buttonOriginalSize * sizeBounce, percent * 2.0f);
+                    else
+                        Scale = Easings.GetInterpolate((SLIDE_CURVE)sizeBounceInt, buttonOriginalSize * sizeBounce, buttonOriginalSize, percent * 2.0f - 1.0f);
+                }
+                else if(colChangeTime < maxColChangeTime)
                 {
                     colChangeTime = colChangeTime + dt;
                     if(colChangeTime > maxColChangeTime)
@@ -329,6 +352,7 @@ namespace Carmicah
             //Sound.PlaySFX("SFX_Button");
 
             ChangeAnim(clickAnim);
+            sizeChangeTime = 0.0f;
 
             if (willChangeScene && sceneChangerTimer < 0.0f)
             {

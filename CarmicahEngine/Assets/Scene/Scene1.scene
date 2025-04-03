@@ -191,13 +191,13 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Button_HE_Settings",
+                    "Atlas": "Button_C_Pause",
                     "AnimSpeed": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Settings 8",
+                    "texture": "UI_Pause 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -205,8 +205,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1726.22802734375,
-                    "yPos": 1001.3499755859375,
+                    "xPos": 1820.0,
+                    "yPos": 1000.0,
                     "depth": 1.0,
                     "xScale": 0.800000011920929,
                     "yScale": 0.800000011920929,
