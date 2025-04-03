@@ -349,7 +349,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 
 	glDepthFunc(GL_ALWAYS);
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO, GL_ONE);
 	glBlendFunci(1, GL_ZERO, GL_ONE);
 
 	mCurrShader = AssetManager::GetInstance()->GetAsset<Shader>("combi").s;
