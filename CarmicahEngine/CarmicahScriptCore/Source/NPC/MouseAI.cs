@@ -36,6 +36,15 @@ namespace Carmicah
 
     public class MouseAI : Entity
     {
+        // lane switching
+        public float switchCooldown = 0.0f;     // cooldown for switching lanes
+        public const float switchDelay = 5.0f;  // mice can only move again after 5 seconds after switching 
+        public bool isSwitching = false;        // bool to check if mouse is currently switching lanes
+        public Vector2 switchTargetPos;         // final x target after lane switch
+        public const float xMoveSpeed = 2.5f;   // speed of x movement during lane switch
+        public const float xSnapThreshold = 0.05f; // how long to snap to the target x position
+
+
         public string SpawnPointEntityLeft;
         public string SpawnPointEntityRight;
         public string EndPointEntityLeft;
@@ -164,6 +173,30 @@ namespace Carmicah
                 if (pauseManager.As<PauseManager>().IsPaused)
                     return;
             }
+
+            if (Input.IsKeyPressed(Keys.KEY_T)) // test to see if switching works
+            {
+                StartLaneSwitch();
+                isSwitching = true; // this does nothing for now because there's no delay timer
+                CMConsole.Log($"Switching lane");
+            }
+
+            // //test with key first, don't use chance variables yet
+            //if (!move || isSwitching) return; // skip if not moving or already switching
+
+            //if (switchCooldown > 0.0f)
+            //{
+            //    switchCooldown -= dt;
+            //    return;
+            //}
+
+            //// Roll for chance to switch
+            //if (CMRand.Range(0, 100) < 15) // 15% chance
+            //{
+            //    StartLaneSwitch();
+            //    isSwitching = true;
+            //    switchCooldown = switchDelay;
+            //}
         }
 
         public override void OnFixedUpdate(float fixedDt)
@@ -184,6 +217,34 @@ namespace Carmicah
 
             if (move)
             {
+                if (isSwitching)
+                {
+                    Vector2 pos = Position; // get current position
+                    float dx = switchTargetPos.x - pos.x; // get x distance to target
+
+                    // if x distance is greater than threshold, move towards target
+                    if (Math.Abs(dx) > xSnapThreshold)
+                    {
+                        // move towards target
+                        pos.x += Math.Sign(dx) * xMoveSpeed * fixedDt;
+                    }
+                    else
+                    {
+                        pos.x = switchTargetPos.x; // this is to snap to the target x position
+                        pos.x = (float)Math.Round(switchTargetPos.x, 2); // for 2 decimal precision
+                        isSwitching = false; // reset immediately since movement comes later, no more moving allowed
+
+                        // stop residual horizontal velocity (important!)
+                        if (HasComponent<RigidBody>())
+                            GetComponent<RigidBody>().StopObject();
+
+                        CMConsole.Log($"[MouseAI] Mouse {mID} finished moving to lane {lane}"); // test
+                    }
+
+                    Position = pos; // set new position
+                }
+
+                // only move if not switching lanes
                 UpdateMovement(fixedDt);
             }
         }
@@ -225,34 +286,38 @@ namespace Carmicah
         void UpdateMovement(float dt)
         {
             Vector2 endPos = Vector2.Zero;  //endEntityLeft.Position : endEntityRight.Position;
-            switch (randLane)
+            //switch (randLane)
+            switch(lane) // by changing from randLane to lane, 
             {
                 case 0:
-                    if (endEntityLeft != null)
-                        endPos = endEntityLeft.Position;
-
-                    break;
-                case 1:
-                    if (endEntityLeft2 != null)
-                        endPos = endEntityLeft2.Position;
-
-                    break;
-                case 2:
                     if (endEntityRight != null)
                         endPos = endEntityRight.Position;
-
                     break;
-                case 3:
+                case 1:
+                    if (endEntityLeft != null)
+                        endPos = endEntityLeft.Position;
+                    break;
+                case 2:
                     if (endEntityRight2 != null)
                         endPos = endEntityRight2.Position;
                     break;
+                case 3:
+                    if (endEntityLeft2 != null)
+                        endPos = endEntityLeft2.Position;
+                    break;
             }
-            Vector2 dir = (endPos - Position).Normalize();
+            //Vector2 dir = (endPos - Position).Normalize();
+
+            // fullDir is taking end position - current position, then normalize it -> normalize is to make it 1 unit long
+            Vector2 fullDir = (endPos - Position).Normalize(); // this is the full direction, used when not switching lanes
+            Vector2 dir = new Vector2(0.0f, fullDir.y); // only move upward (Y-axis)
+            // something here is fucking up the hitboxes at the top
+
             //Vector2 nextPos = dir * (Speed * debuff) * dt;
 
             if (HasComponent<RigidBody>())
             {
-                GetComponent<RigidBody>().ApplyForce(dir, Speed * debuff);
+                GetComponent<RigidBody>().ApplyForce(fullDir, Speed * debuff);
               // GetComponent<RigidBody>().Move(nextPos);
             }
 
@@ -457,26 +522,24 @@ namespace Carmicah
                 }
 
                 Vector2 endPos = Vector2.Zero;  //endEntityLeft.Position : endEntityRight.Position;
-                switch (randLane)
+                //switch (randLane)
+                switch(lane)
                 {
                     case 0:
-                        if (endEntityLeft != null)
-                            endPos = endEntityLeft.Position;
-
-                        break;
-                    case 1:
-                        if (endEntityLeft2 != null)
-                            endPos = endEntityLeft2.Position;
-
-                        break;
-                    case 2:
                         if (endEntityRight != null)
                             endPos = endEntityRight.Position;
-
                         break;
-                    case 3:
+                    case 1:
+                        if (endEntityLeft != null)
+                            endPos = endEntityLeft.Position;
+                        break;
+                    case 2:
                         if (endEntityRight2 != null)
                             endPos = endEntityRight2.Position;
+                        break;
+                    case 3:
+                        if (endEntityLeft2 != null)
+                            endPos = endEntityLeft2.Position;
                         break;
                 }
 
@@ -541,23 +604,100 @@ namespace Carmicah
             return dead;
         }
 
-        //public void SetTypeAndSpeedWithWaveScaling(int waveNumber)
-        //{
-        //    // Wave-based speed scaling
-        //    float waveMultiplier = 1.0f + (waveNumber * 0.15f); // 15% increase per wave
-        //    Speed *= waveMultiplier;
+        // this will be called by chance on by key_t for now to test, starts the lane switching of mice
+        public void StartLaneSwitch()
+        {
+            int newLane = GetPairedLane(lane); // get the lane on the opposite side
+            GameManager gm = FindEntityWithName("GameManager").As<GameManager>(); // get the game manager
 
-        //    // Optional: You can adjust other properties based on wave number
-        //    // For example, higher health for later waves
-        //    if (this.AsChild<HealthSystem>() != null)
-        //    {
-        //        int baseHealth = 100;
-        //        int bonusHealth = waveNumber * 10; // 10 extra health per wave
-        //        this.AsChild<HealthSystem>().SetMaxHealth(baseHealth + bonusHealth);
-        //    }
+            // remove from current lane list
+            switch (lane)
+            {
+                case 0: 
+                    gm.mouseLaneOne.RemoveAll(mouse => mouse.mID == this.mID); 
+                    break;
+                case 1: 
+                    gm.mouseLaneTwo.RemoveAll(mouse => mouse.mID == this.mID); 
+                    break;
+                case 2: 
+                    gm.mouseLaneThree.RemoveAll(mouse => mouse.mID == this.mID); 
+                    break;
+                case 3: 
+                    gm.mouseLaneFour.RemoveAll(mouse => mouse.mID == this.mID); 
+                    break;
+            }
 
-        //    CMConsole.Log($"Mouse type: {mouseType}, Wave: {waveNumber}, Final Speed: {Speed}");
-        //}
+            // add to new lane list
+            switch (newLane)
+            {
+                case 0: 
+                    gm.mouseLaneOne.Add(this); 
+                    break;
+                case 1: 
+                    gm.mouseLaneTwo.Add(this); 
+                    break;
+                case 2: 
+                    gm.mouseLaneThree.Add(this); 
+                    break;
+                case 3: 
+                    gm.mouseLaneFour.Add(this); 
+                    break;
+            }
+
+            // get x-position of the new lane's start point
+            Vector2 newLaneStartPos = GetLaneStartPos(newLane);
+            switchTargetPos = new Vector2(newLaneStartPos.x, Position.y); // set the target x position
+
+            CMConsole.Log($"[MouseAI] Mouse {mID} switched from lane {lane} to lane {newLane}"); // test
+
+            lane = newLane; // update the lane
+            isSwitching = true; // now do the x movement
+        }
+
+        // returns the lane on the opposite side of the current lane
+        public int GetPairedLane(int currentLane)
+        {
+            // if even, add 1, if odd, subtract 1
+            // this is assuming left lane is 0 and 2, right lane is 1 and 3
+            //return currentLane % 2 == 0 ? currentLane + 1 : currentLane - 1;
+
+            // 
+            // right lane is 0 and 1, left lane is 2 and 3
+            //// right right is 0, right left is 1, left right is 2, left left is 3
+            //if(currentLane == 0 || currentLane == 1)
+            //    return currentLane % 2 == 0 ? currentLane + 2 : currentLane - 2;
+            //else
+            //    return currentLane % 2 == 0 ? currentLane + 1 : currentLane - 1;
+            //vbsivebvbubrub wtf do i bother with this complicated method ffs, just do a if else
+
+            // right right is 0, left right is 1 or 2, left left is 3, right left is 2?
+            if (currentLane == 0)
+                return 1;
+            else if (currentLane == 1)
+                return 0;
+            else if (currentLane == 2)
+                return 3;
+            else
+                return 2;
+        }
+
+        // returns the start position of the lane
+        private Vector2 GetLaneStartPos(int lane)
+        {
+            switch (lane)
+            {
+                case 0: 
+                    return startPosRight;   // right right
+                case 1: 
+                    return startPosLeft;  // right left
+                case 2: 
+                    return startPosRight2;    // left right
+                case 3: 
+                    return startPosLeft2;   // left left
+                default: 
+                    return Position;
+            }
+        }
 
     }
 }
