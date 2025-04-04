@@ -141,6 +141,9 @@ namespace Carmicah
         internal extern static void Log(string msg);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static string GetSceneName();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void GetMousePos(out Vector2 position);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
