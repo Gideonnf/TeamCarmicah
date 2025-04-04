@@ -143,7 +143,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 				if (!isEditor && (it.first.dat[BUFFER_SHADER] == debugShaderID))
 					continue;
 				// If not the shader that handles passes, Only render it in pass 1
-				if (renderPass != 0 && it.first.dat[BUFFER_SHADER] != defaultShaderID)
+				if (renderPass != 1 && it.first.dat[BUFFER_SHADER] != defaultShaderID)
 					continue;
 
 				GLint uniformLoc{};
@@ -190,7 +190,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 						}
 					}
 					// Rendering debug things in pass 1
-					else if(renderPass == 0)
+					else if(renderPass == 1)
 					{
 						glEnable(GL_BLEND);
 						glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
