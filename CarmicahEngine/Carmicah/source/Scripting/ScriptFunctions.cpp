@@ -1122,6 +1122,12 @@ namespace Carmicah
 		//mono_free(cStr);
 	}
 
+	static MonoString* GetSceneName()
+	{
+		auto sceneSystem = SystemManager::GetInstance()->GetSystem<SceneSystem>();
+		return mono_string_new(mono_domain_get(), sceneSystem->GetCurrScene().c_str());
+	}
+
 	static void GetMousePos(Vec2f* outPos)
 	{
 		Vec2f worldMousePos = Input.GetMouseWorldPosition();
@@ -1372,6 +1378,9 @@ namespace Carmicah
 
 		// Debug
 		ADD_INTERNAL_CALL(Log);
+
+		// SceneManager
+		ADD_INTERNAL_CALL(GetSceneName);
 
 		// FSM
 		ADD_INTERNAL_CALL(SetStateCondition);

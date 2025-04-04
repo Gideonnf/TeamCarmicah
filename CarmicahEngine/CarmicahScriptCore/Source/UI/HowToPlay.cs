@@ -224,6 +224,7 @@ namespace Carmicah
                             cursor.Position = new Vector2(850, 0);
                             power1Ico.Position = new Vector2(450, 135);
                             power2Ico.Position = new Vector2(450, 80);
+                            power2Ico.GetComponent<Renderer>().ChangeTexture("UI2_Shooter_Icon 0");
                             actlObj1.GetComponent<Renderer>().SetAlpha(0.0f);
                             actlObj1.Depth = 52;
                             actlObj1.GetComponent<Animation>().ChangeAnim("CandyCone_Idle");
@@ -241,7 +242,11 @@ namespace Carmicah
                             playerWalk.Scale = new Vector2(0.666f, 0.666f);
                             actlObj1.GetComponent<Renderer>().SetAlpha(0.0f);
                             power2Ico.GetComponent<Animation>().ChangeAnim("Shooter_Mana");
+                            playerWalk.GetComponent<Animation>().ChangeAnim("MC_Idle");
+                            power1Ico.GetComponent<Renderer>().ChangeTexture("UI2_Mage_Icon 0");
+                            power1Ico.LocalPosition = new Vector2(100.0f, 450.0f);
                             power1Ico.Scale = new Vector2(1, 1);
+                            power1Ico.Depth = 52;
                             cursor.LocalPosition = new Vector2(850, 0);
                             break;
                         case 5:
@@ -298,6 +303,13 @@ namespace Carmicah
                             power1Ico = FindEntityWithName("HowToCakeFallVFXBack");
                             mouse1Climbing = false;
                             mouse2Climbing = true;
+                            break;
+                        case 6:
+                            if (FunctionCalls.GetSceneName() != "Scene3")
+                            {
+                                FindEntityWithName("HowToHomeBtn").GetComponent<Renderer>().SetAlpha(0.0f);
+                                FindEntityWithName("HowToPlayBtn").GetComponent<Renderer>().SetAlpha(0.0f);
+                            }
                             break;
                     }
                 }
@@ -488,7 +500,7 @@ namespace Carmicah
                             cursor.LocalPosition = pos;
                             if (pos.x < 465)
                             {
-                                someDir = (new Vector2(105, -220)) - cursor.LocalPosition;
+                                someDir = (new Vector2(120, -200)) - cursor.LocalPosition;
                                 someDir = someDir.Normalize();
                                 actlObj1.GetComponent<Renderer>().SetAlpha(0.3f);
                                 power1Ico.Scale = new Vector2(0.666f, 0.666f);
@@ -497,7 +509,7 @@ namespace Carmicah
                                 clickTime = 1;
                             }
                             break;
-                        // Cursor moves to 105, -220 (place trap)
+                        // Cursor moves to 120, -200 (place trap)
                         case 2:
                             pos = power1Ico.LocalPosition;
                             pos.x += someDir.x * dt * 200.0f;
@@ -507,7 +519,7 @@ namespace Carmicah
                             pos.x += someDir.x * dt * 200.0f;
                             pos.y += someDir.y * dt * 200.0f;
                             cursor.LocalPosition = pos;
-                            if (pos.x < 105)
+                            if (pos.x < 120)
                             {
                                 actlObj1.GetComponent<Renderer>().SetAlpha(1.0f);
                                 power1Ico.Scale = new Vector2(0.55f, 0.55f);
@@ -536,7 +548,7 @@ namespace Carmicah
                             pos = enemyMouse1.LocalPosition;
                             pos.y += dt * 150.0f;
                             enemyMouse1.LocalPosition = pos;
-                            if (pos.y > -300)
+                            if (pos.y > -270)
                             {
                                 enemyMouse1.GetComponent<Animation>().ChangeAnim("Mouse_Death_Blue");
                                 actlObj1.GetComponent<Animation>().ChangeAnim("CandyCone");
@@ -587,7 +599,7 @@ namespace Carmicah
                             pos = enemyBear.LocalPosition;
                             pos.y += dt * 100.0f;
                             enemyBear.LocalPosition = pos;
-                            if (pos.y > -300)
+                            if (pos.y > -270)
                             {
                                 actlObj1.GetComponent<Animation>().ChangeAnim("Dissolve");
                                 actlObj1.Depth = 56;
