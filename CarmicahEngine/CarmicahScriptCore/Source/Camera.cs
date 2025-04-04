@@ -46,6 +46,12 @@ namespace Carmicah
 
         public override void OnUpdate(float dt)
         {
+            Entity pauseManager = FindEntityWithName("PauseManager");
+            if(pauseManager != null && pauseManager.As<PauseManager>().IsPaused)
+            {
+                return;
+            }
+
             Vector2 pos = GetComponent<Transform>().Position;
             float scrollAmt = Input.GetMouseScroll() * 0.5f;
 

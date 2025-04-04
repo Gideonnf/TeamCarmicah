@@ -40,6 +40,12 @@ namespace Carmicah
 
         public override void OnFixedUpdate(float dt)
         {
+            Entity pauseManager = FindEntityWithName("PauseManager");
+            if (pauseManager != null && pauseManager.As<PauseManager>().IsPaused)
+            {
+                return;
+            }
+
             // Find things
             if (cam == null)
             {
