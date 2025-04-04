@@ -43,11 +43,11 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": -420.0,
+                    "xPos": -405.0,
                     "yPos": 115.0,
                     "depth": 2.950000047683716,
-                    "xScale": 2.6,
-                    "yScale": 2.6,
+                    "xScale": 2.307692307692308,
+                    "yScale": 2.307692307692308,
                     "rot": 0.0,
                     "transformTag": ""
                 },
@@ -110,24 +110,24 @@
                     "xPos": 246.64773559570313,
                     "yPos": 15.8548583984375,
                     "depth": 2.549999952316284,
-                    "xScale": 1.5,
-                    "yScale": 1.5,
+                    "xScale": 1.3,
+                    "yScale": 1.3,
                     "rot": 0.0,
                     "transformTag": ""
                 }
             ]
         },
         {
-            "GameObject": "Default_1",
+            "GameObject": "WinNextRoundBtn",
             "ID": 50,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 0.0,
-                    "yPos": -235.0,
+                    "yPos": -225.0,
                     "depth": 2.200000047683716,
-                    "xScale": 1.1,
-                    "yScale": 1.1,
+                    "xScale": 1.384615384615385,
+                    "yScale": 1.384615384615385,
                     "rot": 0.0,
                     "transformTag": ""
                 },

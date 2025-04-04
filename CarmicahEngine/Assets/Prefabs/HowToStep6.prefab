@@ -170,8 +170,8 @@
                     "xPos": 250.0,
                     "yPos": -375.0,
                     "depth": 60.0,
-                    "xScale": 0.715,
-                    "yScale": 0.715,
+                    "xScale": 0.9,
+                    "yScale": 0.9,
                     "rot": 0.0,
                     "transformTag": ""
                 },
@@ -212,8 +212,8 @@
                     "xPos": -250.0,
                     "yPos": -375.0,
                     "depth": 60.0,
-                    "xScale": 0.715,
-                    "yScale": 0.715,
+                    "xScale": 0.9,
+                    "yScale": 0.9,
                     "rot": 0.0,
                     "transformTag": ""
                 },

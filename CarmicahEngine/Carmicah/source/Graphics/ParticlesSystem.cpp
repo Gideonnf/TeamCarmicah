@@ -140,6 +140,11 @@ namespace Carmicah
 						par.hasFriction = emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_FRICTION);
 						par.hasGrav = emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_GRAVITY);
 
+						par.colPt0.x = emitter.colR;
+						par.colPt0.y = emitter.colG;
+						par.colPt1.x = emitter.colB;
+						par.colPt1.y = emitter.colA;
+
 						mParticles[0].emplace_back(par);
 						emitter.timePassed -= spawnTime;
 					} while (emitter.timePassed > spawnTime);
@@ -180,6 +185,10 @@ namespace Carmicah
 						par.hasFriction = emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_FRICTION);
 						par.hasGrav = emitter.HasEmitterQualities(ParticleEmitter::PARTICLES_GRAVITY);
 
+						par.colPt0.x = emitter.colR;
+						par.colPt0.y = emitter.colG;
+						par.colPt1.x = emitter.colB;
+						par.colPt1.y = emitter.colA;
 
 						mParticles[1].emplace_back(par);
 						emitter.timePassed -= spawnTime;
@@ -222,10 +231,10 @@ namespace Carmicah
 					vtx.pos = par.mtx * p.vtx[ii];
 					//tt.ids[0] = entity;		// Used for id-picking
 					vtx.ids[1] = texture.t;
-					vtx.color[0] = 1.f;
-					vtx.color[1] = 1.f;
-					vtx.color[2] = 1.f;
-					vtx.color[3] = par.alpha.x;
+					vtx.color[0] = par.colPt0.x;
+					vtx.color[1] = par.colPt0.y;
+					vtx.color[2] = par.colPt1.x;
+					vtx.color[3] = par.alpha.x * par.colPt1.y;
 
 					vtx.depth = par.depth;
 					vtx.uv = texture.mtx * p.texCoord[ii];
