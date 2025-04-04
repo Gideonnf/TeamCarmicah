@@ -37,12 +37,15 @@ namespace Carmicah
     public class MouseAI : Entity
     {
         // lane switching
-        public float switchCooldown = 0.0f;     // cooldown for switching lanes
-        public const float switchDelay = 5.0f;  // mice can only move again after 5 seconds after switching 
-        public bool isSwitching = false;        // bool to check if mouse is currently switching lanes
-        public Vector2 switchTargetPos;         // final x target after lane switch
-        public const float xMoveSpeed = 2.5f;   // speed of x movement during lane switch
-        public const float xSnapThreshold = 0.05f; // how long to snap to the target x position
+        public float switchCooldown = 0.0f;                 // cooldown for switching lanes
+        public const float switchDelay = 10.0f;             // mice can only move again after 5 seconds after switching 
+        public bool isSwitching = false;                    // bool to check if mouse is currently switching lanes
+        public Vector2 switchTargetPos;                     // final x target after lane switch
+        public const float xMoveSpeed = 2.5f;               // speed of x movement during lane switch
+        public const float xSnapThreshold = 0.05f;          // how long to snap to the target x position
+        public float laneSwitchCheckTimer = 0.0f;           // timer to check if mouse can switch lanes
+        public const float laneSwitchCheckInterval = 5.0f;  // check once every 5s
+
 
 
         public string SpawnPointEntityLeft;
@@ -174,29 +177,35 @@ namespace Carmicah
                     return;
             }
 
-            if (Input.IsKeyPressed(Keys.KEY_T)) // test to see if switching works
-            {
-                StartLaneSwitch();
-                isSwitching = true; // this does nothing for now because there's no delay timer
-                CMConsole.Log($"Switching lane");
-            }
-
-            // //test with key first, don't use chance variables yet
-            //if (!move || isSwitching) return; // skip if not moving or already switching
-
-            //if (switchCooldown > 0.0f)
-            //{
-            //    switchCooldown -= dt;
-            //    return;
-            //}
-
-            //// Roll for chance to switch
-            //if (CMRand.Range(0, 100) < 15) // 15% chance
+            //if (Input.IsKeyPressed(Keys.KEY_T)) // test to see if switching works
             //{
             //    StartLaneSwitch();
-            //    isSwitching = true;
-            //    switchCooldown = switchDelay;
+            //    isSwitching = true; // this does nothing for now because there's no delay timer
+            //    CMConsole.Log($"Switching lane");
             //}
+
+            // test with key first, don't use chance variables yet
+            if (!move || isSwitching) return; // skip if not moving or already switching
+
+            if (switchCooldown > 0.0f)
+            {
+                switchCooldown -= dt;
+                return;
+            }
+
+            laneSwitchCheckTimer += dt;
+            if (laneSwitchCheckTimer >= laneSwitchCheckInterval)
+            {
+                laneSwitchCheckTimer = 0.0f; // reset
+
+                if (CMRand.Range(0, 100) < 15) // 15% chance every 5s
+                {
+                    StartLaneSwitch();
+                    isSwitching = true;
+                    switchCooldown = switchDelay;
+                }
+            }
+
         }
 
         public override void OnFixedUpdate(float fixedDt)
@@ -605,10 +614,29 @@ namespace Carmicah
         }
 
         // this will be called by chance on by key_t for now to test, starts the lane switching of mice
+        // not anymore
         public void StartLaneSwitch()
         {
+            // don't allow bears to switch lanes
+            if (mouseType == MouseType.Heavy)
+            {
+                return;
+            }
+
             int newLane = GetPairedLane(lane); // get the lane on the opposite side
             GameManager gm = FindEntityWithName("GameManager").As<GameManager>(); // get the game manager
+
+            
+            Vector2 currentEndPos = GetLaneEndPos(lane); // prevent switching if too close to end
+            float distToEnd = Position.Distance(currentEndPos); // get the distance to the end of the current lane
+            const float minDistToSwitch = 1.5f; // tune this based on tower height
+
+            // check if the mouse is too close to the end of the lane
+            if (distToEnd < minDistToSwitch)
+            {
+                //CMConsole.Log($"[MouseAI] Mouse {mID} skipped lane switch (too close to top, dist: {distToEnd})");
+                return;
+            }
 
             // remove from current lane list
             switch (lane)
@@ -694,6 +722,24 @@ namespace Carmicah
                     return startPosRight2;    // left right
                 case 3: 
                     return startPosLeft2;   // left left
+                default: 
+                    return Position;
+            }
+        }
+
+        // get the end position of the lane
+        private Vector2 GetLaneEndPos(int lane)
+        {
+            switch (lane)
+            {
+                case 0: 
+                    return endEntityRight != null ? endEntityRight.Position : Position; // right right
+                case 1: 
+                    return endEntityLeft != null ? endEntityLeft.Position : Position; // right left
+                case 2: 
+                    return endEntityRight2 != null ? endEntityRight2.Position : Position; // left right
+                case 3: 
+                    return endEntityLeft2 != null ? endEntityLeft2.Position : Position; // left left
                 default: 
                     return Position;
             }
