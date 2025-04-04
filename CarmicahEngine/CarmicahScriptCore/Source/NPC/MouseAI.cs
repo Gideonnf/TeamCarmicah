@@ -100,7 +100,7 @@ namespace Carmicah
         public float timer;
         public float DeathTime = 2.0f;
         public float Speed;
-        public float speedDebuff = 0.7f; // 60% slower
+        public float speedDebuff = 0.9f; // 60% slower
         public float cameraHeight = 10.0f;
         public float debuff = 1.0f;
         bool dead = false;

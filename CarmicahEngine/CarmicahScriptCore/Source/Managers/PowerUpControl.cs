@@ -33,12 +33,12 @@ namespace Carmicah
 
         List<float> trapWeights = new List<float>()
         {
-            0.2333f, // Candy
-            0.1f, // Shoot
-            0.2333f, // Honey
-            0.1f, // Mage
-            0.2333f, // Explosion
-            0.1f  // Spear
+            0.2667f, // Candy
+            0.0667f, // Shoot
+            0.2667f, // Honey
+            0.0667f, // Mage
+            0.2667f, // Explosion
+            0.0667f  // Spear
         };
 
         public override void OnCreate()

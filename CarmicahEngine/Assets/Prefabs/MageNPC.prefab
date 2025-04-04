@@ -136,7 +136,7 @@
                     "lane": 0,
                     "mana": 2,
                     "manaAnim": "Mage_Mana",
-                    "dissolveAnim": "",
+                    "dissolveAnim": "NPC_Death",
                     "maxMana": 2,
                     "placeSound": "Shooter_Appear",
                     "projectilePrefab": "MageBullet",
