@@ -76,7 +76,7 @@ namespace Carmicah
 
         Entity[] endEntities = new Entity[4];
 
-        Entity[] flyingSpawns = new Entity[2]; 
+        Entity[] flyingSpawns = new Entity[2];
 
         List<Entity> npcList;
 
@@ -86,12 +86,9 @@ namespace Carmicah
 
         Entity[] walls = new Entity[4];
 
-        int cakeCounter = 1;
+        int cakeCounter = 0;
 
         public float ySpawnPos;
-        public float yTargetPos;
-        public float yVFXSpawn;
-        public float yVFXLocation = 1.5f;
         public float cameraHeight = 10.0f;
         int cakeType = 0; // 0 - 3
         Entity towerPrefab;
@@ -104,8 +101,14 @@ namespace Carmicah
         public string[] CakeFallAnimations = new string[4];
         public string[] CakeSquishAnimations = new string[4];
 
+        public float[] CakeVFXFinalPos = new float[3];
 
-        public override void OnCreate()
+        public float[] CakeVFXSpawnPos = new float[3];
+
+        public float[] CakeStackFinalPos = new float[3];
+
+        public float[] CakeDepthValues = new float[3];
+public override void OnCreate()
         {
             mainCamera = FindEntityWithName("MainCamera");
             UIManager = FindEntityWithName("UIManager");
@@ -171,6 +174,21 @@ namespace Carmicah
             flyingSpawns[0] = FindEntityWithName("StartTopLeft");
             flyingSpawns[1] = FindEntityWithName("StartTopRight");
 
+            CakeVFXFinalPos[0] = 13.0f;
+            CakeVFXFinalPos[1] = 23.45f;
+            CakeVFXFinalPos[2] = 34.0f;
+
+            CakeVFXSpawnPos[0] = 28.0f;
+            CakeVFXSpawnPos[1] = 38.45f;
+            CakeVFXSpawnPos[2] = 49.0f;
+
+            CakeStackFinalPos[0] = 22.0f;
+            CakeStackFinalPos[1] = 32.650f;
+            CakeStackFinalPos[2] = 43.1f;
+
+            CakeDepthValues[0] = 3.4f;
+            CakeDepthValues[1] = 3.4f;
+            CakeDepthValues[2] = 4.4f;
 
             Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
         }
@@ -963,7 +981,6 @@ namespace Carmicah
                 towerPrefab.GetComponent<Animation>().ChangeAnim(CakeFallAnimations[cakeType]);
                 towerPrefab.Depth = startingCakeEntity.Depth;
                 towerPrefab.Depth = towerPrefab.Depth + (0.1f * cakeCounter);
-                cakeCounter++;
                 // if (gameManager != null)
                 // {
                 //Entity gm = FindEntityWithName("GameManager");
@@ -1006,7 +1023,7 @@ namespace Carmicah
                 CMConsole.Log("Tower Drop");
 
                 //if (towerPrefab == null) return;
-                if (towerPrefab.Position.y <= yVFXSpawn)
+                if (towerPrefab.Position.y <= CakeVFXSpawnPos[cakeCounter])
                 {
                     CMConsole.Log("Creating VFX Prefab. IS VFX NULL???");
 
@@ -1016,24 +1033,24 @@ namespace Carmicah
                         CMConsole.Log("Creating VFX Prefab");
                         VFXPrefab = CreateGameObject(CakeVFXPrefab);
                         
-                        VFXPrefab.Position = new Vector2(-0.75f, yVFXLocation);
+                        VFXPrefab.Position = new Vector2(0.0f, CakeVFXFinalPos[cakeCounter]);
                     }
                 }
                // CMConsole.Log($"IN TOWER DROP UPDATE {towerPrefab.Position.x}, {towerPrefab.Position.y}");
-                if (towerPrefab.Position.y > yTargetPos)
+                if (towerPrefab.Position.y > CakeStackFinalPos[cakeCounter])
                 {
                     Vector2 pos = towerPrefab.Position;
                     pos.y -= dropSpeed * dt;
                     towerPrefab.Position = pos;
                 }
-                else if (towerPrefab.Position.y <= yTargetPos && (VFXPrefab != null && VFXPrefab.GetComponent<Animation>().IsAnimFinished()))
+                else if (towerPrefab.Position.y <= CakeStackFinalPos[cakeCounter] && (VFXPrefab != null && VFXPrefab.GetComponent<Animation>().IsAnimFinished()))
                 {
                     CMConsole.Log("ENDING VFX Prefab. GOING BACK TO LANDING");
 
                     //CMConsole.Log("Creating VFX Prefab");
                     towerPrefab.GetComponent<Animation>().ChangeAnim(CakeSquishAnimations[cakeType]);
                     // tower landed
-                    towerPrefab.Position = new Vector2(towerPrefab.Position.x, yTargetPos);
+                    towerPrefab.Position = new Vector2(towerPrefab.Position.x, CakeStackFinalPos[cakeCounter]);
                     GetComponent<StateMachine>().SetStateCondition(4);
                     //CMConsole.Log("Changing VFX prefab animation");
                     VFXPrefab.ChangeAnim("CakeFallVFxEnd");
@@ -1058,9 +1075,10 @@ namespace Carmicah
                     VFXPrefab = null;
                     UpdatePositions();
                     ySpawnPos += CakeHeightOffset;
-                    yTargetPos += CakeHeightOffset;
-                    yVFXLocation += CakeHeightOffset;
-                    yVFXSpawn += CakeHeightOffset;
+                    cakeCounter++; // increment cake when its done
+                    //yTargetPos += CakeHeightOffset;
+                    //yVFXLocation += CakeHeightOffset;
+                    //yVFXSpawn += CakeHeightOffset;
                     GetComponent<StateMachine>().SetStateCondition(1);
                 }
             }
