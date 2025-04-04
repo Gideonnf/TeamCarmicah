@@ -149,6 +149,10 @@ namespace Carmicah
                     }
                     break;
             }
+            if(distance == float.MaxValue)
+            {
+                targetMouse = null;
+            }
         }
 
         public override void OnStateEnter(string stateName)

@@ -36,7 +36,7 @@ namespace Carmicah
                 lastCamPos = cam.LocalPosition;
         }
 
-        public override void OnUpdate(float dt)
+        public override void OnFixedUpdate(float dt)
         {
             // Find things
             if (cam == null)
