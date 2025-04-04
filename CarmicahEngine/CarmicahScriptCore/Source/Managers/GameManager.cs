@@ -155,20 +155,20 @@ public override void OnCreate()
 
             waveSystem = FindEntityWithName(WaveSystemObject);
 
-            CakeFallAnimations[0] = "CakeStrawberry_Fall";
+            CakeFallAnimations[0] = "CakeMatcha_Fall";
             CakeFallAnimations[1] = "CakeRainbow_Fall";
-            CakeFallAnimations[2] = "CakeMatcha_Fall";
+            CakeFallAnimations[2] = "CakeFruit_Fall";
             CakeFallAnimations[3] = "CakeFruit_Fall";
 
-            CakeSquishAnimations[0] = "CakeStrawberry_Squish";
+            CakeSquishAnimations[0] = "CakeMatcha_Squish";
             CakeSquishAnimations[1] = "CakeRainbow_Squish";
-            CakeSquishAnimations[2] = "CakeMatcha_Squish";
+            CakeSquishAnimations[2] = "CakeFruit_Squish";
             CakeSquishAnimations[3] = "CakeFruit_Squish";
 
             // theres 4 but i realy only need 2 tbh cause we cut the first 2 alr
             CakePrefabNames[0] = "Level3_Cake";
             CakePrefabNames[1] = "Level4_Cake";
-            CakePrefabNames[2] = "Level4_Cake";
+            CakePrefabNames[2] = "Level5_Cake";
             CakePrefabNames[3] = "Level4_Cake";
 
             flyingSpawns[0] = FindEntityWithName("StartTopLeft");
@@ -1048,7 +1048,7 @@ public override void OnCreate()
                     CMConsole.Log("ENDING VFX Prefab. GOING BACK TO LANDING");
 
                     //CMConsole.Log("Creating VFX Prefab");
-                    towerPrefab.GetComponent<Animation>().ChangeAnim(CakeSquishAnimations[cakeType]);
+                    towerPrefab.GetComponent<Animation>().ChangeAnim(CakeSquishAnimations[cakeCounter]);
                     // tower landed
                     towerPrefab.Position = new Vector2(towerPrefab.Position.x, CakeStackFinalPos[cakeCounter]);
                     GetComponent<StateMachine>().SetStateCondition(4);
