@@ -193,20 +193,24 @@ namespace Carmicah
                     break;
                 }
                 case false:
+                {
+                    foreach (FlyingEnemyAI bird in gameManager.flyingEnemyRight)
                     {
-                        foreach (FlyingEnemyAI bird in gameManager.flyingEnemyRight)
-                        {
-                            float dist = bird.Position.Distance(Position);
+                        float dist = bird.Position.Distance(Position);
 
-                            if (dist < distance)
-                            {
-                                distance = dist;
-                                target = bird;
-                                targetType = BulletTarget.AIR;
-                            }
+                        if (dist < distance)
+                        {
+                            distance = dist;
+                            target = bird;
+                            targetType = BulletTarget.AIR;
                         }
-                        break;
                     }
+                    break;
+                }
+            }
+            if(distance == float.MaxValue)
+            {
+                target = null;
             }
         }
 
@@ -266,7 +270,7 @@ namespace Carmicah
             // which will cause crashes
             if (target != null && target.mID == 0)
             {
-               // CMConsole.Log("I AM HERE");
+                CMConsole.Log("I AM HERE");
                 target = null;
                 // Change back to idle state
                 //if (stateName == "Attacking")
