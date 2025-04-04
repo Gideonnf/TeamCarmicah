@@ -37,7 +37,7 @@ namespace Carmicah
             CreateIcon(IconType.MAGE_ICON);
             CreateIcon(IconType.CANDY_ICON);
             CreateIcon(IconType.HONEY_ICON);
-            //CreateIcon(IconType.SPEAR_ICON);
+            CreateIcon(IconType.SPEAR_ICON);
 
             originalPos = this.Position;
         }
