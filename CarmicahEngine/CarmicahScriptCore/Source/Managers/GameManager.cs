@@ -167,8 +167,8 @@ public override void OnCreate()
 
             // theres 4 but i realy only need 2 tbh cause we cut the first 2 alr
             CakePrefabNames[0] = "Level3_Cake";
-            CakePrefabNames[1] = "Level3_Cake";
-            CakePrefabNames[2] = "Level3_Cake";
+            CakePrefabNames[1] = "Level4_Cake";
+            CakePrefabNames[2] = "Level4_Cake";
             CakePrefabNames[3] = "Level4_Cake";
 
             flyingSpawns[0] = FindEntityWithName("StartTopLeft");
@@ -186,7 +186,7 @@ public override void OnCreate()
             CakeStackFinalPos[1] = 32.650f;
             CakeStackFinalPos[2] = 43.1f;
 
-            CakeDepthValues[0] = 3.4f;
+            CakeDepthValues[0] = 3.0f;
             CakeDepthValues[1] = 3.4f;
             CakeDepthValues[2] = 4.4f;
 
@@ -972,15 +972,15 @@ public override void OnCreate()
 
                 Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
 
-                cakeType = 2;//CMRand.Range(0, 3);
+                //cakeType = 2;//CMRand.Range(0, 3);
                 //CMConsole.Log($"cake type {cakeType}");
                 Sound.PlaySFX("TowerStack", 1.0f);
-                towerPrefab = CreateGameObject(CakePrefabNames[cakeType]);
+                towerPrefab = CreateGameObject(CakePrefabNames[cakeCounter]);
                 towerPrefab.Position = new Vector2(Position.x, ySpawnPos);
 
-                towerPrefab.GetComponent<Animation>().ChangeAnim(CakeFallAnimations[cakeType]);
-                towerPrefab.Depth = startingCakeEntity.Depth;
-                towerPrefab.Depth = towerPrefab.Depth + (0.1f * cakeCounter);
+                towerPrefab.GetComponent<Animation>().ChangeAnim(CakeFallAnimations[cakeCounter]);
+                //towerPrefab.Depth = startingCakeEntity.Depth;
+                //towerPrefab.Depth = towerPrefab.Depth + (0.1f * cakeCounter);
                 // if (gameManager != null)
                 // {
                 //Entity gm = FindEntityWithName("GameManager");
@@ -1032,7 +1032,7 @@ public override void OnCreate()
                     {
                         CMConsole.Log("Creating VFX Prefab");
                         VFXPrefab = CreateGameObject(CakeVFXPrefab);
-                        
+                        VFXPrefab.Depth = towerPrefab.Depth - 0.2f;
                         VFXPrefab.Position = new Vector2(0.0f, CakeVFXFinalPos[cakeCounter]);
                     }
                 }
@@ -1066,7 +1066,7 @@ public override void OnCreate()
             {
                 if (VFXPrefab.GetComponent<Animation>().GetFrameNo() == 0)
                 {
-                    VFXPrefab.Depth = towerPrefab.Depth + 1.0f;
+                    VFXPrefab.Depth = towerPrefab.Depth + 0.2f;
                 }
                 if (VFXPrefab.GetComponent<Animation>().IsAnimFinished() && towerPrefab.GetComponent<Animation>().IsAnimFinished())
                 {
