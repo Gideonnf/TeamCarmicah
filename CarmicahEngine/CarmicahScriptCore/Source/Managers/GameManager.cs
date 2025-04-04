@@ -944,13 +944,13 @@ namespace Carmicah
         {
             if (stateName == "TowerIdle")
             {
-                //CMConsole.Log("TESTING TOWER IDLE");
+                CMConsole.Log("TESTING TOWER IDLE");
             }
             else if (stateName == "TowerCreate")
             {
-                //CMConsole.Log("TESTING TOWER CREATE ");
+                CMConsole.Log("TESTING TOWER CREATE ");
 
-                if (cakeCounter >= 2) return;
+                //if (cakeCounter >= 2) return;
 
                 Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
 
@@ -972,14 +972,15 @@ namespace Carmicah
                 HideEntities();
 
                 // }
-                //CMConsole.Log("TESTING TOWER CREATE 2");
+                CMConsole.Log("TESTING TOWER CREATE 2");
 
                 GetComponent<StateMachine>().SetStateCondition(3);
             }
             else if (stateName == "TowerLand")
             {
                 // gm = FindEntityWithName("GameManager");
-               
+
+                CMConsole.Log("Tower LANDING Init");
 
             }
         }
@@ -1002,11 +1003,17 @@ namespace Carmicah
 
             if (stateName == "TowerDrop")
             {
+                CMConsole.Log("Tower Drop");
+
+                //if (towerPrefab == null) return;
                 if (towerPrefab.Position.y <= yVFXSpawn)
                 {
+                    CMConsole.Log("Creating VFX Prefab. IS VFX NULL???");
+
                     // create the vfx prefab
                     if (VFXPrefab == null)
                     {
+                        CMConsole.Log("Creating VFX Prefab");
                         VFXPrefab = CreateGameObject(CakeVFXPrefab);
                         
                         VFXPrefab.Position = new Vector2(-0.75f, yVFXLocation);
@@ -1021,13 +1028,17 @@ namespace Carmicah
                 }
                 else if (towerPrefab.Position.y <= yTargetPos && (VFXPrefab != null && VFXPrefab.GetComponent<Animation>().IsAnimFinished()))
                 {
+                    CMConsole.Log("ENDING VFX Prefab. GOING BACK TO LANDING");
+
+                    //CMConsole.Log("Creating VFX Prefab");
                     towerPrefab.GetComponent<Animation>().ChangeAnim(CakeSquishAnimations[cakeType]);
                     // tower landed
                     towerPrefab.Position = new Vector2(towerPrefab.Position.x, yTargetPos);
                     GetComponent<StateMachine>().SetStateCondition(4);
                     //CMConsole.Log("Changing VFX prefab animation");
                     VFXPrefab.ChangeAnim("CakeFallVFxEnd");
-                    
+
+
                     Sound.PlaySFX("SFX__Magic", 0.4f);
 
                 }
@@ -1042,11 +1053,14 @@ namespace Carmicah
                 }
                 if (VFXPrefab.GetComponent<Animation>().IsAnimFinished() && towerPrefab.GetComponent<Animation>().IsAnimFinished())
                 {
+                    CMConsole.Log("TOWER LANDING COMPLETEEE");
                     VFXPrefab.Destroy();
+                    VFXPrefab = null;
                     UpdatePositions();
                     ySpawnPos += CakeHeightOffset;
                     yTargetPos += CakeHeightOffset;
                     yVFXLocation += CakeHeightOffset;
+                    yVFXSpawn += CakeHeightOffset;
                     GetComponent<StateMachine>().SetStateCondition(1);
                 }
             }
