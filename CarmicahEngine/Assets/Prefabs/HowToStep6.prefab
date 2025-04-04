@@ -196,7 +196,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_C_Play 0",
+                    "texture": "Button_SpriteSheet_C_Tutorial 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -204,7 +204,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Button_HE_Play",
+                    "Atlas": "Button_HE_Tutorial",
                     "AnimSpeed": 1.0
                 },
                 {

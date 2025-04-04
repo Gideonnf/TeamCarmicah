@@ -57,7 +57,7 @@ namespace Carmicah
                 FunctionCalls.Transform_GetRenderingScale(cloud0.mID, out temp);
                 cloud0Pos.x = temp.x / 2.0f;
                 cloud0Pos.y = CMRand.Range(-10.0f, 10.0f);
-                cloud0Speed = CMRand.Range(1.0f, 20.0f);
+                cloud0Speed = CMRand.Range(cloudMinSpeed, cloudMaxSpeed);
             }
             if (cloud1 == null)
             {
@@ -66,7 +66,7 @@ namespace Carmicah
                 FunctionCalls.Transform_GetRenderingScale(cloud1.mID, out temp);
                 cloud1Pos.x = temp.x / 2.0f;
                 cloud1Pos.y = CMRand.Range(-10.0f, 10.0f);
-                cloud1Speed = CMRand.Range(1.0f, 20.0f);
+                cloud1Speed = CMRand.Range(cloudMinSpeed, cloudMaxSpeed);
             }
             if (layer0 == null)
                 layer0 = FindEntityWithName("BackgroundP0");

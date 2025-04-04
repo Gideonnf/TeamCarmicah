@@ -55,5 +55,9 @@ Top Left: 0 x 2081, 1920 x 64
 1 Sprite
 
 Tutorial_Hide2
-Top Left: 0 x 2145, 1920 x 51
+Top Left: 0 x 2145, 1920 x 50
+1 Sprite
+
+Tutorial_Hide3
+Top Left: 0 x 2195, 1920 x 64
 1 Sprite

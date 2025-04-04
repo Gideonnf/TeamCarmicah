@@ -108,6 +108,9 @@ namespace Carmicah
 
         public void ProgressScene(int num)
         {
+            if (currentPanel + num >= totalPanels && currentPanel == totalPanels - 1)
+                return;
+
             oldPanel = currentPanel;
             boardMovingLeft = (num > 0);
             Entity slideOutE;
@@ -138,7 +141,7 @@ namespace Carmicah
             // If Overshot, end
             if (currentPanel >= totalPanels)
             {
-                Destroy();
+                //Destroy();
                 return;
             }
             // Return to first panel
@@ -303,6 +306,10 @@ namespace Carmicah
                             power1Ico = FindEntityWithName("HowToCakeFallVFXBack");
                             mouse1Climbing = false;
                             mouse2Climbing = true;
+                            if (FunctionCalls.GetSceneName() != "Scene3")
+                            {
+                                FindEntityWithName("HowToFakeTutorialTop").GetComponent<Renderer>().ChangeTexture("UI2_Tutorial_Hide3 0");
+                            }
                             break;
                         case 6:
                             if (FunctionCalls.GetSceneName() != "Scene3")

@@ -37,6 +37,31 @@
     ],
     "Children": [
         {
+            "GameObject": "SettingsText",
+            "ID": 25,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Sigmar-Regular",
+                    "text": "Settings",
+                    "colorR": 0.8470588235294118,
+                    "colorG": 0.1294117647058824,
+                    "colorB": 0.5333333333333333,
+                    "textAlign": 17
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 230.0,
+                    "depth": 15,
+                    "xScale": 1.8,
+                    "yScale": 1.8,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
             "GameObject": "Music Bar",
             "ID": 18,
             "Components": [
