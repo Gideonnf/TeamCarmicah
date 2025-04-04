@@ -34,7 +34,7 @@ namespace Carmicah
             mousePosOffset.x = -mousePosOffset.x * 0.5f + 0.08f;
         }
 
-        public override void OnUpdate(float dt)
+        public override void OnFixedUpdate(float dt)
         {
             Position = Input.GetMousePos() - new Vector2(mousePosOffset.x * Scale.x, mousePosOffset.y * Scale.y);
         }
