@@ -318,6 +318,7 @@ namespace Carmicah
 
 			glfwSetWindowMonitor(windowRef, primaryMonitor, 0, 0,
 				AssetManager::GetInstance()->enConfig.Width, AssetManager::GetInstance()->enConfig.Height, 0);
+			glfwSetInputMode(windowRef, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 		}
 		else
 		{
@@ -328,6 +329,7 @@ namespace Carmicah
 
 			glfwSetWindowMonitor(windowRef, nullptr, 0, 25,
 				AssetManager::GetInstance()->enConfig.Width, AssetManager::GetInstance()->enConfig.Height, 0);
+			glfwSetInputMode(windowRef, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		}
 		Input.mNotFullScreen = !Input.mNotFullScreen;
 	}
