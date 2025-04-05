@@ -19,7 +19,6 @@ DigiPen Institute of Technology is prohibited.
 
 #include <assert.h>
 #include <GLFW/glfw3.h>
-#include <stb/stb_image.h>
 #include <freetype/ft2build.h>
 #include FT_FREETYPE_H
 #include <FMOD/fmod.hpp>
@@ -100,9 +99,10 @@ namespace Carmicah
 
 		std::shared_ptr<PrefabSystem> prefabPtr;
 		std::atomic_bool doneLoading = false;
+		bool texturesAllLoaded = false;
 
 		std::mutex inMutex;
-		std::queue <std::tuple<std::string, stbi_uc*, std::string>> dataStuff;
+		std::queue <std::tuple<int, int, std::string, std::string, unsigned char*>> dataStuff;
 
 		/*!*************************************************************************
 		brief
@@ -460,6 +460,8 @@ namespace Carmicah
 		void RenameScene(std::string oldName, std::string newName, const char* assetPath);
 
 		void LoadTextureThreaded(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile);
+
+		void LoadTextureThreadedFinish();
 
 		/*!*************************************************************************
 		brief

@@ -16,7 +16,7 @@ DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include <glad/glad.h>
-
+#include <stb/stb_image.h>
 #include "AssetManager.h"
 #include "log.h"
 #include "Math/Vec2.h"
@@ -656,7 +656,89 @@ namespace Carmicah
 
 		{
 			std::lock_guard<std::mutex> lock(inMutex);
-			dataStuff.push({ textureName, data, spriteSheetFile });
+			dataStuff.push({ texWidth, texHeight, textureName, spriteSheetFile, data,  });
+		}
+	}
+
+	void AssetManager::LoadTextureThreadedFinish()
+	{
+		if (!doneLoading || !texturesAllLoaded)
+		{
+			if (dataStuff.empty())
+			{
+				if(doneLoading)
+					texturesAllLoaded = true;
+			}
+			else
+			{
+				std::tuple<int, int, std::string, std::string, stbi_uc*> dat;
+				{
+					std::lock_guard<std::mutex> lock(inMutex);
+					dat = dataStuff.front();
+					dataStuff.pop();
+				}
+
+				Texture texture{};
+
+				// Read if the sprite needs to be divided
+				struct spriteDetails
+				{
+					std::string name;
+					int x, y, width, height, num;
+				};
+				std::vector<spriteDetails> spriteD;
+
+				std::ifstream ssDets{ std::get<3>(dat), std::ios::binary};
+				if (ssDets)
+				{
+					std::string tempS;
+					char tempC;
+
+					spriteDetails t;
+
+					while (!ssDets.eof())
+					{
+						ssDets >> t.name;
+						ssDets >> tempS >> tempS >> t.x >> tempC >> t.y >> tempC;
+						ssDets >> t.width >> tempC >> t.height;
+						ssDets >> t.num;
+
+						if (!ssDets.eof())
+							spriteD.push_back(t);
+
+						ssDets >> tempS;
+					}
+					ssDets.close();
+				}
+
+				texture.t = currTexPt++;
+				glPixelStorei(GL_UNPACK_ALIGNMENT, 4);// if width * bpt is not multiple of 4
+				glTextureSubImage3D(mArrayTex,
+					0,						// Mipmap
+					0, 0, texture.t,		// x/y/z Offset
+					std::get<0>(dat), std::get<1>(dat), 1,	// width, height, depth
+					GL_RGBA, GL_UNSIGNED_BYTE, std::get<4>(dat));
+				stbi_image_free(std::get<4>(dat));
+
+
+
+				texture.mtx.m[0] = texture.mtx.m[1] = 0.f;
+				texture.mtx.m[2] = static_cast<float>(std::get<0>(dat));
+				texture.mtx.m[3] = static_cast<float>(std::get<1>(dat));
+				AddTextureImage(texture, std::get<2>(dat));
+				if (!spriteD.empty())
+				{
+					for (int i{}; i < spriteD.size(); ++i)
+					{
+						texture.mtx.m[0] = static_cast<float>(spriteD[i].x);
+						texture.mtx.m[1] = static_cast<float>(spriteD[i].y);
+						texture.mtx.m[2] = static_cast<float>(spriteD[i].width);
+						texture.mtx.m[3] = static_cast<float>(spriteD[i].height);
+						AddTextureImage(texture, std::get<2>(dat), spriteD[i].num, std::string("_") + spriteD[i].name, true);
+					}
+				}
+
+			}
 		}
 	}
 

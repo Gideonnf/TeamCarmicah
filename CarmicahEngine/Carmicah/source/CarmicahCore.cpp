@@ -305,6 +305,7 @@ namespace Carmicah
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTime::GetInstance()->FPS())) + " - Scene : " + gameSystem->GetCurrScene();
             glfwSetWindowTitle(window, title.c_str());
             glfwPollEvents(); // this takes 20% of engine run time
+            AssetManager::GetInstance()->LoadTextureThreadedFinish();
             CarmicahTime::GetInstance()->StopSystemTimer("Misc");
 
             if (gameSystem->mNextState == SceneState::EXIT)
