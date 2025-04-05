@@ -44,14 +44,18 @@ namespace Carmicah
             speedRange,         // +-= Speed (equily on both x&y)
             angleRange;         // Rotate by +- angle/2
         float timePassed,       // Counting how long ago since a last particle spawn
-            optAliveTime;       // If is burst, how long alive
+            optAliveTime,       // If is burst, how long alive
+            colR,
+            colG,
+            colB,
+            colA;
         unsigned char emitterStatus;
 
         ParticleEmitter() : texture("Default"),
             particleSpeed(), spawnRadius(), scaleRange(1.f, 1.f),
             spawnPerSec(),
             particleLifeTime(), spawnBurstTime(), speedRange(), angleRange(),
-            timePassed(), optAliveTime(),
+            timePassed(), optAliveTime(), colR(1.f), colG(1.f), colB(1.f), colA(1.f),
             emitterStatus(EMITTER_ACTIVE)
         {
         }
@@ -88,6 +92,14 @@ namespace Carmicah
             speedRange      = static_cast<float>(component["SpeedRange"].GetDouble());
             angleRange      = static_cast<float>(component["AngleRange"].GetDouble());
             emitterStatus   = static_cast<unsigned char>(component["EmitterStatus"].GetInt());
+            if(component.HasMember("ColR"))
+                colR   = static_cast<float>(component["ColR"].GetDouble());
+            if(component.HasMember("ColG"))
+                colG = static_cast<float>(component["ColG"].GetDouble());
+            if(component.HasMember("ColB"))
+                colB = static_cast<float>(component["ColB"].GetDouble());
+            if(component.HasMember("ColA"))
+                colA = static_cast<float>(component["ColA"].GetDouble());
             return *this;
         }
 
@@ -119,6 +131,14 @@ namespace Carmicah
             writer.Double(static_cast<double>(angleRange));
             writer.String("EmitterStatus");
             writer.Int(static_cast<int>(emitterStatus));
+            writer.String("ColR");
+            writer.Double(static_cast<double>(colR));
+            writer.String("ColG");
+            writer.Double(static_cast<double>(colG));
+            writer.String("ColB");
+            writer.Double(static_cast<double>(colB));
+            writer.String("ColA");
+            writer.Double(static_cast<double>(colA));
         }
     };
 }

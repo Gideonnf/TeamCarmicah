@@ -10,6 +10,8 @@ namespace Carmicah
     {
         STRAWBERRY_CAKE,
         MATCHA_CAKE,
+        RAINBOW_CAKE,
+        FRUIT_CAKE,
         TOTAL_CAKES
     }
 
@@ -38,6 +40,16 @@ namespace Carmicah
                 {
                         ChangeAnim("MatchaCake_Squish");
                     break;
+                }
+                case CakeTypes.RAINBOW_CAKE:
+                {
+                        ChangeAnim("RainbowCake_Squish");
+                        break;
+                }
+                case CakeTypes.FRUIT_CAKE:
+                {
+                        ChangeAnim("FruitCake_Squish");
+                        break;
                 }
                 default:
                 {

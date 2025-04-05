@@ -136,10 +136,11 @@
                     "lane": 0,
                     "mana": 2,
                     "manaAnim": "Mage_Mana",
-                    "dissolveAnim": "",
+                    "dissolveAnim": "NPC_Death",
                     "maxMana": 2,
                     "placeSound": "Shooter_Appear",
                     "projectilePrefab": "MageBullet",
+                    "xShootOffset": 2.0,
                     "shootAnim": "Mage_Attack",
                     "shot": false,
                     "shootRate": 0.25,
@@ -147,7 +148,8 @@
                     "shootTime": 1.0,
                     "teleportAnim": "NPC_Teleport",
                     "maxDistance": 14.0,
-                    "dissolvePrefab": ""
+                    "dissolvePrefab": "",
+                    "yShootOffset": 1.899999976158142
                 }
             ]
         },
@@ -173,17 +175,18 @@
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
-                    "colA": 0.3529
+                    "colA": 0.3528999984264374
                 },
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -0.25,
-                    "yPos": -2.4,
+                    "yPos": -2.4000000953674318,
                     "depth": 3.5,
                     "xScale": 1.5,
                     "yScale": 1.5,
                     "rot": 0.0,
-                    "transformTag": ""
+                    "transformTag": "",
+                    "collisionMask": 1
                 }
             ]
         }

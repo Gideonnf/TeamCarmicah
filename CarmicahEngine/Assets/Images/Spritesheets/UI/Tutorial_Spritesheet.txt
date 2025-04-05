@@ -9,3 +9,7 @@ Top Left: 3840 x 0, 120 x 145
 Right
 Top Left: 3840 x 145, 120 x 145
 1 Sprites
+
+HideRight
+Top Left: 1770 x 0, 200 x 1080
+1 Sprite

@@ -1577,6 +1577,20 @@ namespace Carmicah
 					ImGui::EndPopup();
 				}
 
+				ImGui::TableNextRow();
+				ImGui::TableNextColumn();
+				ImGui::Text("Particle Color");
+				ImGui::TableNextColumn();
+				float color[4] = { particle.colR,  particle.colG, particle.colB, particle.colA};
+
+				if (ImGui::ColorPicker4("##ParticleColorPicker", color))
+				{
+					particle.colR = color[0];
+					particle.colG = color[1];
+					particle.colB = color[2];
+					particle.colA = color[3];
+				}
+
 
 				ImGui::TableNextRow();
 				ImGui::TableNextColumn();

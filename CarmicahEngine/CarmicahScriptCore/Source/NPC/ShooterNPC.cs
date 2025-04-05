@@ -15,6 +15,8 @@ namespace Carmicah
         BulletTarget targetType;
         float timer = 0.0f;
         string voiceOver;
+        public float xAirOffset = 0.0f;
+        public float yAirOffset = 0.0f;
         
         public override void OnCreate()
         {
@@ -39,11 +41,27 @@ namespace Carmicah
             if (target != null)
             {
                 Entity projectile = CreateGameObject(projectilePrefab);
+                Vector2 shootOffset;
+                if (targetType == BulletTarget.GROUND)
+                {
+                    shootOffset = new Vector2(xShootOffset, yShootOffset);
+                }
+                else
+                {
+                    shootOffset = new Vector2(xAirOffset, yAirOffset);
+                }
                 if (projectile != null)
                 {
-                    projectile.Position = Position;
-                    // CMConsole.Log($"Projectile Position: {projectile.Position.x}, {projectile.Position.y}");
+                    if (IsLeft)
+                    {
+                        shootOffset.y *= -1;
+                        projectile.Position = Position - shootOffset;
+                    }
+                    else
+                    {
+                        projectile.Position = Position + shootOffset;
 
+                    }
                     Projectile bullet = projectile.As<Projectile>();
                     bullet.As<Projectile>().bulletType = BulletType.SHOOTER_BULLET;
                     if(targetType == BulletTarget.AIR)
@@ -175,20 +193,24 @@ namespace Carmicah
                     break;
                 }
                 case false:
+                {
+                    foreach (FlyingEnemyAI bird in gameManager.flyingEnemyRight)
                     {
-                        foreach (FlyingEnemyAI bird in gameManager.flyingEnemyRight)
-                        {
-                            float dist = bird.Position.Distance(Position);
+                        float dist = bird.Position.Distance(Position);
 
-                            if (dist < distance)
-                            {
-                                distance = dist;
-                                target = bird;
-                                targetType = BulletTarget.AIR;
-                            }
+                        if (dist < distance)
+                        {
+                            distance = dist;
+                            target = bird;
+                            targetType = BulletTarget.AIR;
                         }
-                        break;
                     }
+                    break;
+                }
+            }
+            if(distance == float.MaxValue)
+            {
+                target = null;
             }
         }
 
@@ -248,7 +270,7 @@ namespace Carmicah
             // which will cause crashes
             if (target != null && target.mID == 0)
             {
-               // CMConsole.Log("I AM HERE");
+                CMConsole.Log("I AM HERE");
                 target = null;
                 // Change back to idle state
                 //if (stateName == "Attacking")

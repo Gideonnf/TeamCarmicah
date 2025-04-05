@@ -97,6 +97,54 @@
             ]
         },
         {
+            "GameObject": "Default_9",
+            "ID": 12,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 0.0,
+                    "yScale": 0.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "Default_2",
+            "ID": 14,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 0.0,
+                    "yScale": 0.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "Default_4",
+            "ID": 15,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 0.0,
+                    "yScale": 0.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
             "GameObject": "Anim_1",
             "ID": 78,
             "Components": [
@@ -130,11 +178,11 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 0.0,
-                    "posPrevY": 0.0,
+                    "posPrevX": -11.103201866149903,
+                    "posPrevY": 0.40271174907684328,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": -107374176.0,
+                    "zposPrev": 0.0,
                     "objectType": 1
                 },
                 {
@@ -183,17 +231,17 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 0.0,
-                    "posPrevY": 0.0,
+                    "posPrevX": 11.888972282409668,
+                    "posPrevY": 0.10983031988143921,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": -107374176.0,
+                    "zposPrev": 0.0,
                     "objectType": 1
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Spear_SpriteSheet_Shooter_AirShoot1 1",
+                    "texture": "Spear_SpriteSheet_Shooter_AirShoot 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -201,6 +249,40 @@
                 }
             ],
             "Children": []
+        },
+        {
+            "GameObject": "Default_6",
+            "ID": 85,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 22.299999237060548,
+                    "yPos": 9.550000190734864,
+                    "depth": 0.0,
+                    "xScale": 0.0,
+                    "yScale": 0.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "Default_7",
+                    "ID": 8,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": 0.0,
+                            "yPos": 0.0,
+                            "depth": 0.0,
+                            "xScale": 0.0,
+                            "yScale": 0.0,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

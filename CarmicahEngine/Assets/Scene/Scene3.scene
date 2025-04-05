@@ -32,6 +32,26 @@
             ]
         },
         {
+            "GameObject": "game_logo",
+            "ID": 20,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_SugarStrike 0"
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                        "xPos": 1282.0,
+                        "yPos": 750.0,
+                        "depth": 0.0,
+                        "xScale": 0.45,
+                        "yScale": 0.45,
+                        "rot": 0.0
+                }
+            ]
+        },
+        {
             "GameObject": "MainCamera",
             "ID": 2,
             "Components": [
@@ -72,7 +92,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1150.0,
+                    "xPos": 1070.0,
                     "yPos": 400.0,
                     "depth": 1.0,
                     "xScale": 1.0,
@@ -152,7 +172,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1375.0,
+                    "xPos": 1290.0,
                     "yPos": 150.0,
                     "depth": 1.0,
                     "xScale": 1.0,
@@ -195,7 +215,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1600.0,
+                    "xPos": 1515.0,
                     "yPos": 400.0,
                     "depth": 1.0,
                     "xScale": 1.0,
@@ -208,7 +228,7 @@
                     "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
                         {
-                            "buttonType": "Settings",
+                            "buttonType": "MenuSettings",
                             "nextScene": ""
                         }
                     ]
@@ -238,7 +258,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1600.0,
+                    "xPos": 1515.0,
                     "yPos": 280.0,
                     "depth": 1.0,
                     "xScale": 1.0,
@@ -281,7 +301,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1151.7081298828126,
+                    "xPos": 1070.0,
                     "yPos": 280.0,
                     "depth": 1.0,
                     "xScale": 1.0,
@@ -365,9 +385,9 @@
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "UI2_Cursor 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
+                    "colR": 1.25,
+                    "colG": 1.25,
+                    "colB": 1.25,
                     "colA": 0.7843137383460999
                 },
                 {
@@ -429,6 +449,36 @@
                     "ScriptableFieldMap": [
                         {}
                     ]
+                }
+            ]
+        },
+        {
+            "GameObject": "Default_1",
+            "ID": 93,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Default",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 0.0,
+                    "yScale": 0.0,
+                    "rot": 0.0,
+                    "transformTag": ""
                 }
             ]
         }

@@ -16,12 +16,23 @@ namespace Carmicah
         bool willChangeScene = false;
         bool willUnpause = false;
         bool willPause = false;
+        bool willColorChange = false;
 
         bool createListCreated = false;
         Dictionary<int, string> createList = new Dictionary<int, string>();
         Dictionary<int, string> destroyList = new Dictionary<int, string>();
 
         float sceneChangerTimer = -1f;
+        bool buttonColChangeState = false;
+        float colChangeTime = 0.0f;
+        bool buttonSizeChangeGot = false;
+        float sizeChangeTime = 1.0f;
+        float sizeBounce = 0.85f;
+        int sizeBounceInt = 6;
+        Vector2 buttonOriginalSize;
+        const float buttonGlowInc = 0.15f;
+        const float maxColChangeTime = 0.2f;
+        const float maxSizeChangeTime = 0.5f;
         const float timeToChangeScene = 0.5f;
         string hoverEnterAnim;
         string hoverExitAnim;
@@ -44,9 +55,9 @@ namespace Carmicah
                     nextScene = "Tutorial";
                     willChangeScene= true;
 
-                    hoverEnterAnim = "Button_HS_Play";
-                    hoverExitAnim = "Button_HE_Play";
-                    clickAnim = "Button_C_Play";
+                    hoverEnterAnim = "Button_HS_Tutorial";
+                    hoverExitAnim = "Button_HE_Tutorial";
+                    clickAnim = "Button_C_Tutorial";
                     break;
                 case "quit": // TO create the confirmation for quit
                     //nextScene       = "quit";
@@ -141,11 +152,12 @@ namespace Carmicah
                 case "pause":
                     createList.Add(0, "Pause_Screen");
                     willPause = true;
+                    willColorChange = true;
                     
                     // NOTE: Once we add in the actual pause button then change this
-                    hoverEnterAnim = "Button_HS_Settings";
-                    hoverExitAnim = "Button_HE_Settings";
-                    clickAnim = "Button_C_Settings";
+                    hoverEnterAnim = "Button_C_Pause";
+                    hoverExitAnim = "Button_C_Pause";
+                    clickAnim = "Button_C_Pause";
                     break;
                 case "settings":
                     createList.Add(0, "Settings_Menu");
@@ -155,22 +167,39 @@ namespace Carmicah
                     hoverExitAnim   = "Button_HE_Settings";
                     clickAnim       = "Button_C_Settings";
                     break;
+                case "menusettings":
+                    createList.Add(0, "Settings_MainMenu");
+                    //willPause = true;
+
+                    hoverEnterAnim = "Button_HS_Settings";
+                    hoverExitAnim = "Button_HE_Settings";
+                    clickAnim = "Button_C_Settings";
+                    break;
                 case "backsettings":
                     //willUnpause     = true;
 
                     hoverEnterAnim  = "Button_HS_Back";
                     hoverExitAnim   = "Button_HE_Back";
                     clickAnim       = "Button_C_Back";
+                    break; 
+                case "menubacksettings":
+                    //willUnpause     = true;
+
+                    hoverEnterAnim = "Button_HS_Back";
+                    hoverExitAnim = "Button_HE_Back";
+                    clickAnim = "Button_C_Back";
                     break;
                 case "howtonext":
                     hoverEnterAnim  = "Button_HowToNext";
                     hoverExitAnim   = "Button_HowToNext";
                     clickAnim       = "Button_HowToNext";
+                    willColorChange = true;
                     break;
                 case "howtoback":
                     hoverEnterAnim  = "Button_HowToBack";
                     hoverExitAnim   = "Button_HowToBack";
                     clickAnim       = "Button_HowToBack";
+                    willColorChange = true;
                     break;
                 case "howtoplay":
                     createList.Add(0, "HowToBG");
@@ -179,8 +208,19 @@ namespace Carmicah
                     hoverExitAnim = "Button_HE_HowTo";
                     clickAnim = "Button_C_HowTo";
                     break;
+                case "howtoclose":
+                    hoverEnterAnim = "Button_HS_Home";
+                    hoverExitAnim = "Button_HE_Home";
+                    clickAnim = "Button_C_Home";
+                    break;
+                case "closehowto":
+                    hoverEnterAnim = "Button_C_Cross";
+                    hoverExitAnim = "Button_C_Cross";
+                    clickAnim = "Button_C_Cross";
+                    willColorChange = true;
+                    break;
                 case "nextlevel":
-                    destroyList.Add(0, "Win_Screen");
+                    //destroyList.Add(0, "Win_Screen");
 
                     hoverEnterAnim = "Button_HS_Next";
                     hoverExitAnim = "Button_HE_Next";
@@ -211,7 +251,6 @@ namespace Carmicah
                     clickAnim       = "Button_C_Next";
                     */
             }
-
             ChangeAnim(hoverExitAnim);
         }
 
@@ -236,9 +275,43 @@ namespace Carmicah
                         }
                     }
                 }
-
             }
+            if(willColorChange)
+            {
+                if(!buttonSizeChangeGot)
+                {
+                    buttonOriginalSize = Scale;
+                    buttonSizeChangeGot = true;
+                }
 
+                if(sizeChangeTime < maxSizeChangeTime)
+                {
+                    sizeChangeTime = sizeChangeTime + dt;
+                    if (sizeChangeTime > maxSizeChangeTime)
+                        sizeChangeTime = maxSizeChangeTime;
+                    float percent = sizeChangeTime / maxSizeChangeTime;
+                    if(percent < 0.5f)
+                        Scale = Easings.GetInterpolate((SLIDE_CURVE)sizeBounceInt, buttonOriginalSize, buttonOriginalSize * sizeBounce, percent * 2.0f);
+                    else
+                        Scale = Easings.GetInterpolate((SLIDE_CURVE)sizeBounceInt, buttonOriginalSize * sizeBounce, buttonOriginalSize, percent * 2.0f - 1.0f);
+                }
+                else if(colChangeTime < maxColChangeTime)
+                {
+                    colChangeTime = colChangeTime + dt;
+                    if(colChangeTime > maxColChangeTime)
+                        colChangeTime = maxColChangeTime;
+                    if(buttonColChangeState)
+                    {
+                        float percent = 1.0f + colChangeTime / maxColChangeTime * buttonGlowInc;
+                        GetComponent<Renderer>().SetColour(percent, percent, percent);
+                    }
+                    else
+                    {
+                        float percent = 1.0f + buttonGlowInc - colChangeTime / maxColChangeTime * buttonGlowInc;
+                        GetComponent<Renderer>().SetColour(percent, percent, percent);
+                    }
+                }
+            }
 
             if (createListCreated && createList.Count > 0 && FindEntityWithName(createList[0]) == null)
             {
@@ -279,6 +352,7 @@ namespace Carmicah
             //Sound.PlaySFX("SFX_Button");
 
             ChangeAnim(clickAnim);
+            sizeChangeTime = 0.0f;
 
             if (willChangeScene && sceneChangerTimer < 0.0f)
             {
@@ -340,10 +414,29 @@ namespace Carmicah
             // Specific other behaviours ig
             switch (buttonType)
             {
+                case "nextlevel":
+                    Entity winScreen = FindEntityWithName("Win_Screen");
+                    if (winScreen != null)
+                    {
+                        if (winScreen.Has<UISliding>())
+                        {
+                            winScreen.As<UISliding>().SlideThenSD();
+                        }
+                    }
+                    break;
                 case "settings":
                     if (pauseManager != null)
                     {
                         pauseManager.As<PauseManager>().ShiftPause(true);
+                    }
+                    else
+                    {
+                        Entity screen = FindEntityWithName("Settings_Menu");
+                        if(screen != null)
+                        {
+                            // if its main menu 
+                            screen.As<UISliding>().slideToCenter = true;
+                        }
                     }
                     break;
                 case "resume":
@@ -371,16 +464,31 @@ namespace Carmicah
                     }
                     FindEntityWithName("Settings_Menu").As<UISliding>().SlideThenSD();
                     break;
+                case "menubacksettings":
+                    if (pauseManager != null)
+                    {
+                        pauseManager.As<PauseManager>().ShiftPause(false);
+                    }
+                    FindEntityWithName("Settings_MainMenu").As<UISliding>().SlideThenSD();
+                    break;
+                case "closehowto":
+                case "howtoclose":
+                    FindEntityWithName("HowToBG").As<HowToPlay>().DestroyLaterAndJustHide();
+                    break;
             }
         }
         public override void OnMouseEnter()
         {
             Sound.PlaySFX("UI_Hover 2", 0.3f);
             ChangeAnim(hoverEnterAnim);
+            buttonColChangeState = true;
+            colChangeTime = maxColChangeTime - colChangeTime;
         }
         public override void OnMouseExit()
         {
             ChangeAnim(hoverExitAnim);
+            buttonColChangeState = false;
+            colChangeTime = maxColChangeTime - colChangeTime;
         }
     }
 }

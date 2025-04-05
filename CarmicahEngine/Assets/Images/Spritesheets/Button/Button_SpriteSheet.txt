@@ -46,50 +46,58 @@ H_Next
 Top left: 0 x 1430, 421 x 130
 9 sprites
 
+H_Tutorial
+Top left: 0 x 1560, 421 x 130
+9 sprites
+
 C_Home
-Top left: 0 x 1570, 421 x 130
+Top left: 0 x 1690, 421 x 130
 9 sprites
 
 C_HowTo
-Top left: 0 x 1700, 421 x 130
+Top left: 0 x 1820, 421 x 130
 9 sprites
 
 C_Settings
-Top left: 0 x 1830, 421 x 130
+Top left: 0 x 1950, 421 x 130
 9 sprites
 
 C_Resume
-Top left: 0 x 1960, 421 x 130
+Top left: 0 x 2080, 421 x 130
 9 sprites
 
 C_Back
-Top left: 0 x 2090, 421 x 130
+Top left: 0 x 2210, 421 x 130
 9 sprites
 
 C_Quit
-Top left: 0 x 2220, 421 x 130
+Top left: 0 x 2340, 421 x 130
 9 sprites
 
 C_Play
-Top left: 0 x 2350, 421 x 130
+Top left: 0 x 2470, 421 x 130
 9 sprites
 
 C_Menu
-Top left: 0 x 2480, 421 x 130
+Top left: 0 x 2600, 421 x 130
 9 sprites
 
 C_Credits
-Top left: 0 x 2610, 421 x 130
+Top left: 0 x 2730, 421 x 130
 9 sprites
 
 C_Skip
-Top left: 0 x 2740, 421 x 130
+Top left: 0 x 2860, 421 x 130
 9 sprites
 
 C_Replay
-Top left: 0 x 2870, 421 x 130
+Top left: 0 x 2990, 421 x 130
 9 sprites
 
 C_Next
-Top left: 0 x 3000, 421 x 130
+Top left: 0 x 3120, 421 x 130
+9 sprites
+
+C_Tutorial
+Top left: 0 x 3250, 421 x 130
 9 sprites
