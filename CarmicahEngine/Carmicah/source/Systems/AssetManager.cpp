@@ -50,12 +50,66 @@ namespace Carmicah
 		InitSound();
 		InitFontType();
 		fileWatcher.Init(assetPath);
+#ifdef CM_INSTALLER
+		// load all shaders
+		fileWatcher.LoadShaderFiles();
+
+		// load only files needed for intro scene from scene4.asset
+		LoadAssetFile("Scene4.asset");
+
+		std::thread loadThread(&AssetManager::InitialLoadThread, this, std::ref(fileWatcher));
+		loadThread.detach(); // detach it and let it load on its own
+#endif
+#ifndef CM_INSTALLER
 		fileWatcher.Update();
+
+#endif
+		// thread this
 		// load default scene files
-		fileWatcher.LoadSceneFiles(enConfig.defaultScene);
+		//fileWatcher.LoadSceneFiles(enConfig.defaultScene);
 		RenderHelper::GetInstance()->LoadGizmos();
 		// load default scene files
 		//fileWatcher.LoadSceneFiles(enConfig.defaultScene);
+
+	}
+
+	void AssetManager::InitialLoadThread(FileWatcher& fw)
+	{
+		fw.Update();
+	}
+
+	void AssetManager::LoadAssetFile(std::string assetFile)
+	{
+		std::filesystem::path filePath = enConfig.assetLoc;
+		filePath /= "Scene";
+		filePath /= assetFile;
+
+		std::ifstream ifs{ filePath, std::ios::binary };
+		if (!ifs)
+		{
+			CM_CORE_ERROR("Unable to open asset file");
+			return;
+		}
+
+		rapidjson::IStreamWrapper isw(ifs);
+		rapidjson::Document doc;
+		doc.ParseStream(isw);
+		ifs.close();
+
+		if (doc.IsNull() || !doc.IsArray())
+		{
+			return;
+		}
+
+		for (const auto& file : doc.GetArray())
+		{
+			if (file.IsString())
+			{
+				std::string assetName = file.GetString();
+				fileWatcher.LoadSingleFile(assetName);
+				CM_CORE_INFO("Loading {}", assetName);
+			}
+		}
 
 	}
 

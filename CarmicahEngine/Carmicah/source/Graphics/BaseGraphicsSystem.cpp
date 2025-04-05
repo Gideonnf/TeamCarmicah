@@ -40,7 +40,13 @@ namespace Carmicah
 
 	void BaseGraphicsSystem::SetNewEntity(const unsigned int& entity, const std::string& primitiveName, const unsigned int& id, bool worldSpace, bool isDebug)
 	{
-		BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>(primitiveName).uid, mCurrShader, worldSpace, id);
+		unsigned int tempPID{};
+		if (AssetManager::GetInstance()->AssetExist<Primitive>(primitiveName))
+			tempPID = AssetManager::GetInstance()->GetAsset<Primitive>(primitiveName).uid;
+		else if (AssetManager::GetInstance()->AssetExist<BasePrimitive>(primitiveName))
+			tempPID = AssetManager::GetInstance()->GetAsset<BasePrimitive>(primitiveName).uid;
+
+		BufferID bufferID(tempPID, mCurrShader, worldSpace, id);
 
 		if (RenderHelper::GetInstance()->mBufferMap.find(bufferID) == RenderHelper::GetInstance()->mBufferMap.end())
 			GenBatch(primitiveName, id, worldSpace, isDebug);
@@ -67,7 +73,13 @@ namespace Carmicah
 	void BaseGraphicsSystem::GenBatch(const std::string& primitiveName, unsigned int id, bool worldSpace, bool isDebug, bool isForced)
 	{
 		bool newBatch{ false };
-		BufferID bufferID(AssetManager::GetInstance()->GetAsset<BasePrimitive>(primitiveName).uid, mCurrShader, worldSpace, id);
+		unsigned int tempPID{};
+		if (AssetManager::GetInstance()->AssetExist<Primitive>(primitiveName))
+			tempPID = AssetManager::GetInstance()->GetAsset<Primitive>(primitiveName).uid;
+		else if (AssetManager::GetInstance()->AssetExist<BasePrimitive>(primitiveName))
+			tempPID = AssetManager::GetInstance()->GetAsset<BasePrimitive>(primitiveName).uid;
+
+		BufferID bufferID(tempPID, mCurrShader, worldSpace, id);
 
 		if (RenderHelper::GetInstance()->mBufferMap.find(bufferID) == RenderHelper::GetInstance()->mBufferMap.end())
 		{

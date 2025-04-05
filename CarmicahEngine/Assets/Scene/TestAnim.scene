@@ -25,8 +25,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.0,
-                    "yPos": 0.0,
+                    "xPos": -3.0763931274414064,
+                    "yPos": 1.0887521505355836,
                     "depth": -100.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -93,6 +93,217 @@
                             "transformTag": ""
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "GameObject": "MouseGONew",
+            "ID": 11,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 3.363223075866699,
+                    "yPos": 1.9982377290725709,
+                    "depth": 5.0,
+                    "xScale": 0.6000000238418579,
+                    "yScale": 0.6000000238418579,
+                    "rot": 0.0,
+                    "transformTag": "Enemy",
+                    "collisionMask": 4
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Mouse_Climb_Brown",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 29
+                },
+                {
+                    "Component Name": "struct Carmicah::Collider2D",
+                    "shape": "DebugSquare",
+                    "customWidth": 1.0,
+                    "customRotation": 0.0,
+                    "customHeight": 1.0,
+                    "xPosPivot": 0.0,
+                    "yPosPivot": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::RigidBody",
+                    "velocityX": 0.0,
+                    "velocityY": 0.0,
+                    "angularVelocity": 0.0,
+                    "posPrevX": 3.363223075866699,
+                    "posPrevY": 1.9982377290725709,
+                    "mass": 1.0,
+                    "gravity": 0.0,
+                    "zposPrev": 5.0,
+                    "objectType": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Enemies_SpriteSheet_Mouse_Climb_Brown 5",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "Healthbar",
+                    "ID": 13,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 0.0,
+                            "yPos": 1.940338134765625,
+                            "depth": 15.0,
+                            "xScale": 2.0,
+                            "yScale": 2.0,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 30
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "UI_HealthBar 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "Healthbar_Cover",
+                    "ID": 16,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 1.100000023841858,
+                            "yPos": 1.92034912109375,
+                            "depth": 16.0,
+                            "xScale": 0.05000000074505806,
+                            "yScale": 0.2800000011920929,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 33
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_White 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 0.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.HealthSystem",
+                            "ScriptableFieldMap": [
+                                {
+                                    "endPos": 0.0,
+                                    "endScale": 4.400000095367432,
+                                    "mCurHealth": 0.0,
+                                    "mMaxHealth": 100.0,
+                                    "posDiff": 0.0,
+                                    "startPos": 0.0,
+                                    "startScale": 0.0
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "Particle_1",
+                    "ID": 18,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 0.04934573173522949,
+                            "yPos": -1.5859031677246094,
+                            "depth": 0.0,
+                            "xScale": 1.6666666269302369,
+                            "yScale": 1.6666666269302369,
+                            "rot": 35.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::ParticleEmitter",
+                            "texture": "Projectile_SpriteSheet_Shooter 3",
+                            "VelX": 0.0,
+                            "VelY": -0.15000000596046449,
+                            "RadiusX": 0.07999999821186066,
+                            "RadiusY": 0.0,
+                            "SizeRangeMin": 0.10000000149011612,
+                            "SizeRangeMax": 0.15000000596046449,
+                            "SpawnPSec": 1,
+                            "Lifetime": 4.0,
+                            "BurstTime": 0.0,
+                            "SpeedRange": 0.0,
+                            "AngleRange": 35.0,
+                            "EmitterStatus": 5,
+                            "ColR": 0.49572646617889407,
+                            "ColG": 0.2851811945438385,
+                            "ColB": 0.0127109345048666,
+                            "ColA": 1.0
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "Particle",
+                    "ID": 89,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -0.7090048789978027,
+                            "yPos": -1.5859031677246094,
+                            "depth": 0.0,
+                            "xScale": 1.6666666269302369,
+                            "yScale": 1.6666666269302369,
+                            "rot": 35.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::ParticleEmitter",
+                            "texture": "Projectile_SpriteSheet_Shooter 3",
+                            "VelX": 0.0,
+                            "VelY": -0.15000000596046449,
+                            "RadiusX": 0.07999999821186066,
+                            "RadiusY": 0.0,
+                            "SizeRangeMin": 0.10000000149011612,
+                            "SizeRangeMax": 0.15000000596046449,
+                            "SpawnPSec": 1,
+                            "Lifetime": 4.0,
+                            "BurstTime": 0.0,
+                            "SpeedRange": 0.0,
+                            "AngleRange": 35.0,
+                            "EmitterStatus": 5,
+                            "ColR": 0.49572646617889407,
+                            "ColG": 0.2851811945438385,
+                            "ColB": 0.0127109345048666,
+                            "ColA": 1.0
+                        }
+                    ],
+                    "Children": []
                 }
             ]
         },
@@ -188,7 +399,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Spear_SpriteSheet_Shooter_AirShoot 0",
+                    "texture": "Spear_SpriteSheet_Shooter_AirShoot1 4",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -241,7 +452,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Spear_SpriteSheet_Shooter_AirShoot 0",
+                    "texture": "Spear_SpriteSheet_Shooter_AirShoot1 4",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,

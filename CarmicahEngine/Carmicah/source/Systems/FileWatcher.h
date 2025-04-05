@@ -51,11 +51,14 @@ namespace Carmicah
 		std::string filePathReference;
 		// 
 		std::unordered_map<std::string, File> fileMap;
-
+		std::unordered_map<std::string, std::string> FileNameToFileMap;
+		std::vector<std::string> shaderFiles;
 		std::unordered_map<std::string, File> assetMap;
 		void Init(std::string filePath);
 		auto DestroyFile(File file);
 		void Update();
+		void LoadSingleFile(const std::string& fileName);
+		void LoadShaderFiles();
 		bool AssetExist(std::string assetName);
 		/// <summary>
 		/// Used to load from scene.asset file

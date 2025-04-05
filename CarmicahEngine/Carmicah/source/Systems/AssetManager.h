@@ -66,7 +66,8 @@ namespace Carmicah
 			Asset Path to load data from
 		***************************************************************************/
 		void LoadAll(const char* assetPath);
-
+		void LoadAssetFile(std::string assetFile);
+		void InitialLoadThread(FileWatcher& fw);
 		bool LoadAsset(File const& file, bool reload = false);
 
 		/*!*************************************************************************

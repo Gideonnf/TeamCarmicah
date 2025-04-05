@@ -140,13 +140,14 @@ namespace Carmicah
         const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
         Input.mWindowScale.x = mode->width;
         Input.mWindowScale.y = mode->height;
-        glfwWindowHint(GLFW_RED_BITS, mode->redBits);
-        glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
-        glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
-        glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-        glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_TRUE);
-        glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
-        GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", primaryMonitor, NULL);
+        //glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+        //glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+        //glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+        //glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+        //glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_TRUE);
+        //glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
+        //GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", primaryMonitor, NULL);
+        GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", NULL, NULL);
 
 #else    
         //comment it when using installer
@@ -282,10 +283,10 @@ namespace Carmicah
         int steps = 0;
         const double maxAccumulation = 0.1f;
         const int maxSteps = 5;
-
+#ifndef CM_INSTALLER
         //Editor Editor;
         editorSys->Init(window);
-        
+#endif    
 
         static bool gameOnly = false;
 #ifdef CM_INSTALLER
@@ -482,7 +483,7 @@ namespace Carmicah
 #ifdef CM_INSTALLER
                     RenderHelper::GetInstance()->FinalRender();
 
-                    ShowCursor(false);
+                    ShowCursor(true);
                     // hide cursor
                     //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 #endif  
