@@ -31,16 +31,17 @@
                 {
                     "Component Name": "struct Carmicah::TextRenderer",
                     "font": "Chewy-Regular",
-                    "text": "",
+                    "text": "In a land far far away, fill",
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
+                    "colorA": 1.0,
                     "textAlign": 0
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 0.0,
-                    "yPos": 0.0,
+                    "xPos": 23.0,
+                    "yPos": 14.0,
                     "depth": 10.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -64,11 +65,11 @@
                         },
                         {
                             "Component Name": "struct Carmicah::UITransform",
-                            "xPos": 0.0,
+                            "xPos": 183.5,
                             "yPos": 0.0,
                             "depth": 0.0,
-                            "xScale": 1.0,
-                            "yScale": 1.0,
+                            "xScale": 7.808510780334473,
+                            "yScale": 1.2000000476837159,
                             "rot": 0.0,
                             "transformTag": ""
                         }
@@ -111,9 +112,9 @@
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.0,
                     "yPos": 0.0,
-                    "depth": 1.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
+                    "depth": 2.0,
+                    "xScale": 1.1412442922592164,
+                    "yScale": 1.1412442922592164,
                     "rot": 0.0,
                     "transformTag": "",
                     "collisionMask": 1
@@ -146,9 +147,9 @@
                 },
                 {
                     "Component Name": "struct Carmicah::StateMachine",
-                    "currState": "",
-                    "nextState": "",
-                    "startingState": "",
+                    "currState": "Idle",
+                    "nextState": "Idle",
+                    "startingState": "Idle",
                     "stateMap": [
                         {
                             "stateName": "Idle",
@@ -195,13 +196,13 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "",
+                    "Atlas": "Button_HE_Skip",
                     "AnimSpeed": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Skip 0",
+                    "texture": "Button_SpriteSheet_H_Skip 8",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -235,8 +236,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.0,
-                    "yPos": 0.0,
+                    "xPos": -17.343629837036134,
+                    "yPos": 9.692500114440918,
                     "depth": 600.0,
                     "xScale": 0.5,
                     "yScale": 0.5,
@@ -271,7 +272,11 @@
                     "BurstTime": 0.0,
                     "SpeedRange": 0.5,
                     "AngleRange": 360.0,
-                    "EmitterStatus": 5
+                    "EmitterStatus": 5,
+                    "ColR": 1.0,
+                    "ColG": 1.0,
+                    "ColB": 1.0,
+                    "ColA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
@@ -294,10 +299,11 @@
                 {
                     "Component Name": "struct Carmicah::TextRenderer",
                     "font": "Chewy-Regular",
-                    "text": "Test",
+                    "text": "",
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
+                    "colorA": 1.0,
                     "textAlign": 0
                 },
                 {
