@@ -49,3 +49,19 @@ Top Left: 1920 x 0, 1920 x 4096
 Tutorial_2
 Top Left: 0 x 1001, 1920 x 1080
 1 Sprite
+
+Tutorial_Hide1
+Top Left: 0 x 2081, 1920 x 64
+1 Sprite
+
+Tutorial_Hide2
+Top Left: 0 x 2145, 1920 x 50
+1 Sprite
+
+Tutorial_Hide3
+Top Left: 0 x 2195, 1920 x 64
+1 Sprite
+
+SugarStrike
+Top Left: 0 x 2259, 1858 x 1225
+1 Sprite

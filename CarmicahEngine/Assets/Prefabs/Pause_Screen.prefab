@@ -45,9 +45,9 @@
                     "Component Name": "struct Carmicah::TextRenderer",
                     "font": "Sigmar-Regular",
                     "text": "Paused",
-                    "colorR": 0.9450980424880981,
-                    "colorG": 0.37254902720451357,
-                    "colorB": 0.6196078658103943,
+                    "colorR": 0.8470588235294118,
+                    "colorG": 0.1294117647058824,
+                    "colorB": 0.5333333333333333,
                     "textAlign": 17
                 },
                 {
@@ -55,8 +55,8 @@
                     "xPos": -8.24102783203125,
                     "yPos": 267.2806396484375,
                     "depth": 2.450000047683716,
-                    "xScale": 1.25,
-                    "yScale": 1.25,
+                    "xScale": 1.8,
+                    "yScale": 1.8,
                     "rot": 0.0,
                     "transformTag": ""
                 }

@@ -82,7 +82,7 @@ namespace Carmicah
 			// Store Font Uniforms
 			buff->second.offset = UITrans.ExtractWorldPos();
 			buff->second.scale = UITrans.Scale();
-			buff->second.SetColor(txtRenderer.colorR, txtRenderer.colorG, txtRenderer.colorB);
+			buff->second.SetColor(txtRenderer.colorR, txtRenderer.colorG, txtRenderer.colorB, txtRenderer.colorA);
 			float depth{ CalcDepth(UITrans.Depth(), UI_LAYER) };
 
 			size_t smallerLength{ std::min(txtRenderer.oldTxt.size(), txtRenderer.txt.size()) },

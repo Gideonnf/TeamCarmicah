@@ -145,14 +145,15 @@ namespace Carmicah
                     gameManager.As<GameManager>().GameOver = true;
                     if (levelManager.EndOfGame())
                     {
-                       // CMConsole.Log("Does this runNnnnnnnnnnnnnn");
+                        // CMConsole.Log("Does this runNnnnnnnnnnnnnn");
                         winScreen = CreateGameObject("GameEnd_Screen");
 
                     }
                     else
                     {
-                      //  CMConsole.Log("Does this run");
+                        //  CMConsole.Log("Does this run");
                         winScreen = CreateGameObject(winPrefab);
+                        winScreenCreated = true;
                     }
                 }
                 //CreateGameObject(winPrefab);
@@ -163,20 +164,67 @@ namespace Carmicah
                 // waveCounter--;
             }
 
+            if (winScreenCreated)
+            {
+                List<bool> listEnemiesActive = new List<bool>();
+                listEnemiesActive = levelManager.PreviewNextLevelEnemies();
+                int count = 0;
+                for (int i = 0; i < listEnemiesActive.Count; i++)
+                {
+                    if (listEnemiesActive[i])
+                        count++;
+                }
+                List<Entity> listEnemies = new List<Entity>();
+                Entity wMouse0 = FindEntityWithName("NWMouse0");
+                if (wMouse0 != null)
+                    listEnemies.Add(wMouse0);
+                Entity wMouse1 = FindEntityWithName("NWMouse1");
+                if (wMouse1 != null)
+                    listEnemies.Add(wMouse1);
+                Entity wMouse2 = FindEntityWithName("NWMouse2");
+                if (wMouse2 != null)
+                    listEnemies.Add(wMouse2);
+                Entity wBear = FindEntityWithName("NWBear");
+                if (wBear != null)
+                    listEnemies.Add(wBear);
+                Entity wBird = FindEntityWithName("NWBird");
+                if (wBird != null)
+                    listEnemies.Add(wBird);
 
-           //CMConsole.Log("PLEASE GO TO A NEW LEVEL PLS PLS PLS");
+                CMConsole.Log($"A:{listEnemies.Count} B:{listEnemiesActive.Count}");
 
-          //  if (winScreen != null && winScreen.mID == 0)
-          //      winScreen = null;
-          ////  CMConsole.Log("ASDASASDASDA");
-          //  //CMConsole.Log($"{gameManager.As<GameManager>().GameOver} and {winScreen == null}");
-          //  if (winScreen != null)
-          //      // CMConsole.Log($"{winScreen.mID}");
-          //      // win screen was deleted
-          //      if (gameManager.As<GameManager>().GameOver && winScreen == null)
-          //      {
-          //          CMConsole.Log("PLEASE GO TO A NEW LEVEL PLS PLS PLS");
-          //      }
+                if (listEnemies.Count == listEnemiesActive.Count)
+                {
+                    Vector2 pos = new Vector2(-365.0f, -80.0f);
+                    if (count < 5)
+                        pos.x += 460.0f / ((float)Math.Pow(2,count));
+                    for (int i = 0; i < listEnemiesActive.Count; i++)
+                    {
+                        if (listEnemiesActive[i])
+                        {
+                            listEnemies[i].GetComponent<Renderer>().SetAlpha(1.0f);
+                            listEnemies[i].LocalPosition = pos;
+                            // -365 ~ 95 == 460
+                            pos.x += 460.0f / Math.Min(count, 4.0f);
+                        }
+                    }
+                    winScreenCreated = false;
+                }
+            }
+
+            //CMConsole.Log("PLEASE GO TO A NEW LEVEL PLS PLS PLS");
+
+            //  if (winScreen != null && winScreen.mID == 0)
+            //      winScreen = null;
+            ////  CMConsole.Log("ASDASASDASDA");
+            //  //CMConsole.Log($"{gameManager.As<GameManager>().GameOver} and {winScreen == null}");
+            //  if (winScreen != null)
+            //      // CMConsole.Log($"{winScreen.mID}");
+            //      // win screen was deleted
+            //      if (gameManager.As<GameManager>().GameOver && winScreen == null)
+            //      {
+            //          CMConsole.Log("PLEASE GO TO A NEW LEVEL PLS PLS PLS");
+            //      }
         }
 
         public void EndOfLevel()

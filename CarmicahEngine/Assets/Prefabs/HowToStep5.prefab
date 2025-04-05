@@ -235,6 +235,56 @@
                     "transformTag": ""
                 }
             ]
+        },
+        {
+            "GameObject": "HowToFakeTutorialTop",
+            "ID": 76,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_Tutorial_Hide1 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 507.0,
+                    "depth": 55.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToFakeTutorialTop2",
+            "ID": 77,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_Tutorial_Hide2 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 450.750,
+                    "depth": 56.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
         }
     ]
 }

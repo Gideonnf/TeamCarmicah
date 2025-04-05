@@ -133,6 +133,13 @@ namespace Carmicah
             return component;
         }
 
+        public Entity GetFirstChild()
+        {
+            uint child = FunctionCalls.Entity_GetChild(mID);
+            Entity childEntity = new Entity(child);
+            return childEntity;
+        }
+
         public T GetComponentInChildren<T>() where T : Component, new()
         {
             uint child = FunctionCalls.Entity_GetChild(mID);
