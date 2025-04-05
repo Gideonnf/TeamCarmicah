@@ -19,6 +19,7 @@ DigiPen Institute of Technology is prohibited.
 
 #include <assert.h>
 #include <GLFW/glfw3.h>
+#include <stb/stb_image.h>
 #include <freetype/ft2build.h>
 #include FT_FREETYPE_H
 #include <FMOD/fmod.hpp>
@@ -27,10 +28,19 @@ DigiPen Institute of Technology is prohibited.
 #include "Singleton.h"
 #include "Systems/AssetTypes.h"
 #include "PrefabSystem.h"
+#include <mutex>
 #include "FileWatcher.h"
 
 namespace Carmicah
 {
+
+	//struct threadGraphicData
+	//{
+	//	std::string textureName;
+	//	stbi_uc* dataPtr;
+	//	std::string spriteSheetName;
+	//};
+
 	// Only used for the map so that theres a base class that can be dynamic casted
 	class IAsset
 	{
@@ -90,6 +100,9 @@ namespace Carmicah
 
 		std::shared_ptr<PrefabSystem> prefabPtr;
 		std::atomic_bool doneLoading = false;
+
+		std::mutex inMutex;
+		std::queue <std::tuple<std::string, stbi_uc*, std::string>> dataStuff;
 
 		/*!*************************************************************************
 		brief
@@ -446,6 +459,8 @@ namespace Carmicah
 		***************************************************************************/
 		void RenameScene(std::string oldName, std::string newName, const char* assetPath);
 
+		void LoadTextureThreaded(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile);
+
 		/*!*************************************************************************
 		brief
 			Creates a Scene Name thats not a duplicate
@@ -476,7 +491,7 @@ namespace Carmicah
 
 	private:
 
-
+		bool LoadAssetThreaded(File const& file, bool reload = false);
 		//----------------------------  Graphics  ----------------------------
 		/*!*************************************************************************
 		brief

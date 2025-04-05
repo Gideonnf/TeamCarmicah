@@ -30,10 +30,12 @@ namespace Carmicah
 			{
 				fileMap.insert({ file.path().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED) });
 				std::string fileExt = file.path().extension().string();
-				if (fileExt == ".frag" || fileExt == ".vert" || fileExt == ".o" || fileExt == ".scene")
+				if (fileExt == ".frag" || fileExt == ".vert" || fileExt == ".o" || fileExt == ".do" || fileExt == ".scene" || fileExt == ".ttf")
 				{
 					shaderFiles.push_back(file.path().string());
 				}
+
+
 				FileNameToFileMap[file.path().stem().string()] = file.path().string();
 			}
 		}
@@ -43,18 +45,18 @@ namespace Carmicah
 
 	void FileWatcher::LoadSingleFile(const std::string& fileName)
 	{
-		auto it = FileNameToFileMap.find(fileName);
-		if (it != FileNameToFileMap.end())
+		for (auto it = fileMap.begin(); it != fileMap.end(); ++it)
 		{
-			auto it2 = fileMap.find(it->second);
-			if (it2 != fileMap.end())
+			std::filesystem::path p(it->first);
+			std::string nameOnly = p.stem().string();
+			if (nameOnly == fileName)
 			{
-				auto& entry = it2->second;
-				if (AssetManager::GetInstance()->LoadAsset(entry))
+				if (AssetManager::GetInstance()->LoadAsset(it->second))
 				{
-					entry.fileStatus = FILE_OK;
+					it->second.fileStatus = FILE_OK;
 				}
 			}
+			//std::string file = it->first
 		}
 	}
 
@@ -83,6 +85,7 @@ namespace Carmicah
 					if (AssetManager::GetInstance()->LoadAsset(it->second))
 					{
 						it->second.fileStatus = FILE_OK;
+						//AssetManager::GetInstance()->assetLoaded++;
 					}
 				}
 				else if (it->second.fileStatus == FILE_MODIFIED)

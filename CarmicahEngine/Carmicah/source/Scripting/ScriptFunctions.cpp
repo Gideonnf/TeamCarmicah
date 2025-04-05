@@ -1270,7 +1270,11 @@ namespace Carmicah
 
 	static bool IsDoneLoading()
 	{
+#ifdef CM_INSTALLER
+
 		return AssetManager::GetInstance()->doneLoading;
+#endif
+		return true;
 	}
 
 	/// <summary>

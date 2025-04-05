@@ -16,7 +16,7 @@ DigiPen Institute of Technology is prohibited.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #include "pch.h"
 #include <glad/glad.h>
-#include <stb/stb_image.h>
+
 #include "AssetManager.h"
 #include "log.h"
 #include "Math/Vec2.h"
@@ -64,6 +64,8 @@ namespace Carmicah
 		fileWatcher.Update();
 
 #endif
+
+		//CM_CORE_INFO("{}", assetLoaded);
 		// thread this
 		// load default scene files
 		//fileWatcher.LoadSceneFiles(enConfig.defaultScene);
@@ -88,21 +90,22 @@ namespace Carmicah
 				it = fw.fileMap.erase(it);
 				//Erase from the respective assetMap too
 
-				AssetManager::GetInstance()->RemoveFromAssetManager(filePath);
+				RemoveFromAssetManager(filePath);
 				break;
 			}
 			else if (it->second.fileStatus != FILE_OK)
 			{
 				if (it->second.fileStatus == FILE_CREATED)
 				{
-					if (AssetManager::GetInstance()->LoadAsset(it->second))
+					if (LoadAssetThreaded(it->second))
 					{
+						//assetLoaded++;
 						it->second.fileStatus = FILE_OK;
 					}
 				}
 				else if (it->second.fileStatus == FILE_MODIFIED)
 				{
-					if (AssetManager::GetInstance()->LoadAsset(it->second, true))
+					if (LoadAssetThreaded(it->second, true))
 					{
 						it->second.fileStatus = FILE_OK;
 					}
@@ -302,6 +305,71 @@ namespace Carmicah
 			return false;
 		}
 		return true;
+	}
+
+	bool AssetManager::LoadAssetThreaded(File const& file, bool reload)
+	{
+		std::string fileName = file.fileEntry.path().stem().string();
+		std::string fileExt = file.fileEntry.path().extension().string();
+
+		if (fileExt == ".ani")
+		{
+
+			if (!reload && AssetExist<AnimAtlas>(fileName))
+			{
+				CM_CORE_WARN("Animation:" + fileName + " Already Exists");
+				return false;
+			}
+
+			LoadAnimation(fileName, file.fileEntry.path().string());
+		}
+		else if (fileExt == ".prefab")
+		{
+			if (!reload && AssetExist<Prefab>(fileName))
+			{
+				// creating prefabs will trigger this, so just return true cause prefab system adds it to asset manager
+				//CM_CORE_WARN("Scene:" + fileName + " Already Exists");
+				return true;
+			}
+
+			Prefab goPrefab = Serializer.DeserializePrefab(file.fileEntry.path().string());
+
+			// If its a new asset then update the prefab ID list
+			if (!reload)
+				prefabPtr->AddPrefab(goPrefab);
+
+			AddAsset<Prefab>(fileName, goPrefab);
+			//mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
+		}
+		else if (fileExt == ".scene")
+		{
+			if (!reload && AssetExist<Scene>(fileName))
+			{
+				CM_CORE_WARN("Scene:" + fileName + " Already Exists");
+				return false;
+			}
+
+			Scene newScene{ file.fileEntry.path().string() };
+			AddAsset<Scene>(fileName, newScene);
+		}
+		else if (fileExt == ".png")
+		{
+			if (!reload && AssetExist<Texture>(fileName))
+			{
+				CM_CORE_WARN("Texture:" + fileName + " Already Exists");
+				return false;
+			}
+
+			const auto spriteSheet = file.fileEntry.path().parent_path() / (file.fileEntry.path().stem().string() + std::string(".txt"));
+
+			if (fileWatcher.fileMap.count(spriteSheet.string()) != 0)
+			{
+				fileWatcher.fileMap[spriteSheet.string()].fileStatus = FILE_OK;
+			}
+			LoadTextureThreaded(fileName, file.fileEntry.path().string(), spriteSheet.string());
+		}
+		
+		return false;
 	}
 
 	void AssetManager::UnloadAll()
@@ -572,6 +640,24 @@ namespace Carmicah
 			glTextureView(mPreviewTexs[i], GL_TEXTURE_2D, mArrayTex, GL_RGBA8, 0, 1, i, 1);
 		}
 
+	}
+
+	void AssetManager::LoadTextureThreaded(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile)
+	{
+		int texWidth{}, texHeight{}, bytePerTex{};
+
+		stbi_uc* data = stbi_load(textureFile.c_str(), &texWidth, &texHeight, &bytePerTex, 0);
+		if (!data || texWidth > enConfig.maxTexSize || texHeight > enConfig.maxTexSize || bytePerTex != 4)
+		{
+			CM_CORE_ERROR("Unable to open texture file");
+			stbi_image_free(data);
+			return;
+		}
+
+		{
+			std::lock_guard<std::mutex> lock(inMutex);
+			dataStuff.push({ textureName, data, spriteSheetFile });
+		}
 	}
 
 	void AssetManager::LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile)
