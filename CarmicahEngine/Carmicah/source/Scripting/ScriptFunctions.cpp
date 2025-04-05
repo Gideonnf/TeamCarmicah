@@ -1207,6 +1207,17 @@ namespace Carmicah
 		}
 	}
 
+	static void Particles_SetColor(unsigned int entityID, float r, float g, float b)
+	{
+		GameObject& go = gGOFactory->FetchGO(entityID);
+		if (go.HasComponent<ParticleEmitter>())
+		{
+			go.GetComponent<ParticleEmitter>().colR = r;
+			go.GetComponent<ParticleEmitter>().colG = g;
+			go.GetComponent<ParticleEmitter>().colB = b;
+		}
+	}
+
 
 	static float Collider2D_GetCustomWidth(unsigned int entityID)
 	{
@@ -1395,6 +1406,7 @@ namespace Carmicah
 		// Particles
 		ADD_INTERNAL_CALL(GetParticlesActive);
 		ADD_INTERNAL_CALL(SetParticlesActive);
+		ADD_INTERNAL_CALL(Particles_SetColor);
 
 		//Collider2D
 		ADD_INTERNAL_CALL(Collider2D_GetCustomHeight);

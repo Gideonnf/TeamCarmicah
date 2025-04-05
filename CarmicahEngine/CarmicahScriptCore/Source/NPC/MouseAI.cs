@@ -82,6 +82,7 @@ namespace Carmicah
         Entity endEntityLeft2;
         Entity endEntityRight2;
         Entity mainCamera;
+        Entity[] childParticle = new Entity[2];
 
         public float ChanceToDie = 0.12f;
 
@@ -107,6 +108,7 @@ namespace Carmicah
         //int animType = 0;
         int randLane = 0;
         bool move = false;
+        bool isFlip = false;
 
         public override void OnCreate()
         {
@@ -127,7 +129,6 @@ namespace Carmicah
 
             // InitWaypoints();
             //
-
 
             if (FindEntityWithName(SpawnPointEntityLeft) != null)
                 startPosLeft = FindEntityWithName(SpawnPointEntityLeft).Position;
@@ -152,6 +153,59 @@ namespace Carmicah
             {
                 if (pauseManager.As<PauseManager>().IsPaused)
                     return;
+            }
+
+
+            if (childParticle[0] == null)
+            {
+                Entity[] children = GetAllChildren();
+                int i = 0;
+                if (isFlip)
+                    i = 1;
+                foreach (Entity child in children)
+                {
+                    if (isFlip)
+                    {
+                        Vector2 tmpScale = child.Scale;
+                        tmpScale.x = -tmpScale.x;
+                        child.Scale = tmpScale;
+                        if (child.HasComponent<ParticleEmitter>())
+                        {
+                            childParticle[i--] = child;
+                        }
+                    }
+                    else
+                    {
+                        if (child.HasComponent<ParticleEmitter>())
+                        {
+
+                            childParticle[i++] = child;
+                        }
+                    }
+                }
+                if (isFlip)
+                {
+                    Vector2 cp0Pos = childParticle[0].LocalPosition;
+                    float temp = cp0Pos.x;
+                    Vector2 cp1Pos = childParticle[1].LocalPosition;
+                    cp0Pos.x = -cp1Pos.x;
+                    cp1Pos.x = -temp;
+                    childParticle[0].LocalPosition = cp0Pos;
+                    childParticle[1].LocalPosition = cp1Pos;
+                }
+            }
+            else if (!dead)
+            {
+                int frameNum = GetComponent<Animation>().GetFrameNo();
+
+                if (frameNum == 0)
+                {
+                    childParticle[0].GetComponent<ParticleEmitter>().SetActive();
+                }
+                else if (frameNum == 3)
+                {
+                    childParticle[1].GetComponent<ParticleEmitter>().SetActive();
+                }
             }
 
             //if (Input.IsKeyPressed(Keys.KEY_T)) // test to see if switching works
@@ -250,6 +304,7 @@ namespace Carmicah
                     Position = startPosLeft2;
                     lane = 3;
                     scale.x *= -1;
+                    isFlip = true;
                     Scale = scale;
                     break;
                 case 2:
@@ -260,6 +315,7 @@ namespace Carmicah
                     Position = startPosRight2;
                     lane = 2;
                     scale.x *= -1;
+                    isFlip = true;
                     Scale = scale;
                     break;
             }
@@ -430,7 +486,8 @@ namespace Carmicah
 
                 foreach(Entity entity in children)
                 {
-                    entity.GetComponent<Renderer>().SetAlpha(0);
+                    if(entity.HasComponent<Renderer>())
+                        entity.GetComponent<Renderer>().SetAlpha(0);
                 }
 
 
