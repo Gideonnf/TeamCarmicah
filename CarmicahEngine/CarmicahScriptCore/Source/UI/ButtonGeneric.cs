@@ -225,8 +225,6 @@ namespace Carmicah
                     clickAnim = "Button_C_Next";
                     break;
                 case "tback":
-                    destroyList.Add(0, "QuitConfirmationPopup");
-
                     hoverEnterAnim = "Button_HS_Back";
                     hoverExitAnim = "Button_HE_Back";
                     clickAnim = "Button_C_Back";
@@ -444,6 +442,18 @@ namespace Carmicah
                             if (PauseScreen.Has<UISliding>())
                             {
                                 PauseScreen.As<UISliding>().SlideThenSD();
+                            }
+                        }
+                    }
+                    break;
+                case "tback":
+                    {
+                        Entity quitCfm = FindEntityWithName("QuitConfirmationPopup");
+                        if (quitCfm != null)
+                        {
+                            if (quitCfm.Has<UISliding>())
+                            {
+                                quitCfm.As<UISliding>().SlideThenSD();
                             }
                         }
                     }

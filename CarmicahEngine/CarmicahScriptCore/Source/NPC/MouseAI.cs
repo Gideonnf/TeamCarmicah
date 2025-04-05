@@ -37,12 +37,15 @@ namespace Carmicah
     public class MouseAI : Entity
     {
         // lane switching
-        public float switchCooldown = 0.0f;     // cooldown for switching lanes
-        public const float switchDelay = 5.0f;  // mice can only move again after 5 seconds after switching 
-        public bool isSwitching = false;        // bool to check if mouse is currently switching lanes
-        public Vector2 switchTargetPos;         // final x target after lane switch
-        public const float xMoveSpeed = 2.5f;   // speed of x movement during lane switch
-        public const float xSnapThreshold = 0.05f; // how long to snap to the target x position
+        public float switchCooldown = 0.0f;                 // cooldown for switching lanes
+        public const float switchDelay = 10.0f;             // mice can only move again after 5 seconds after switching 
+        public bool isSwitching = false;                    // bool to check if mouse is currently switching lanes
+        public Vector2 switchTargetPos;                     // final x target after lane switch
+        public const float xMoveSpeed = 2.5f;               // speed of x movement during lane switch
+        public const float xSnapThreshold = 0.05f;          // how long to snap to the target x position
+        public float laneSwitchCheckTimer = 0.0f;           // timer to check if mouse can switch lanes
+        public const float laneSwitchCheckInterval = 5.0f;  // check once every 5s
+
 
 
         public string SpawnPointEntityLeft;
@@ -79,6 +82,7 @@ namespace Carmicah
         Entity endEntityLeft2;
         Entity endEntityRight2;
         Entity mainCamera;
+        Entity[] childParticle = new Entity[2];
 
         public float ChanceToDie = 0.12f;
 
@@ -97,13 +101,14 @@ namespace Carmicah
         public float timer;
         public float DeathTime = 2.0f;
         public float Speed;
-        public float speedDebuff = 0.7f; // 60% slower
+        public float speedDebuff = 0.9f; // 60% slower
         public float cameraHeight = 10.0f;
         public float debuff = 1.0f;
         bool dead = false;
         //int animType = 0;
         int randLane = 0;
         bool move = false;
+        bool isFlip = false;
 
         public override void OnCreate()
         {
@@ -125,40 +130,16 @@ namespace Carmicah
             // InitWaypoints();
             //
 
-
             if (FindEntityWithName(SpawnPointEntityLeft) != null)
                 startPosLeft = FindEntityWithName(SpawnPointEntityLeft).Position;
 
-            // Initialize state machine
-            //stateMachine = new StateMachine();
-            //stateMachine.AddState(new MouseChase("Chase"));
-            //stateMachine.AddState(new MouseDead("Dead"));
-            //stateMachine.SetNextState("Chase");
-            //Random rand = new Random();
-            //animType = CMRand.Range(0, 3); // rand between 0 to 3
+            if (enemyType == EnemyTypes.BEAR)
+            {
+                mouseType = MouseType.Heavy;
+            }
+
             randLane = CMRand.Range(0, 4); // rand between 0 to 3
-
-            //randLane = 3; //For Testing
-
             lane = randLane;
-            //SetInitialPosition();
-            //int mouseTypeRand = rand.Next(0, 3); // Random type
-
-            //switch (mouseTypeRand)
-            //{
-            //    case 0:
-            //        mouseType = MouseType.Regular;
-            //        Speed = baseRegularSpeed;
-            //        break;
-            //    case 1:
-            //        mouseType = MouseType.Fast;
-            //        Speed = baseFastSpeed;
-            //        break;
-            //    case 2:
-            //        mouseType = MouseType.Heavy;
-            //        Speed = baseHeavySpeed;
-            //        break;
-            //}
 
             Sound.PlaySFX("Portal_Spawn", 0.3f);
 
@@ -174,29 +155,87 @@ namespace Carmicah
                     return;
             }
 
-            if (Input.IsKeyPressed(Keys.KEY_T)) // test to see if switching works
+
+            if (childParticle[0] == null)
             {
-                StartLaneSwitch();
-                isSwitching = true; // this does nothing for now because there's no delay timer
-                CMConsole.Log($"Switching lane");
+                Entity[] children = GetAllChildren();
+                int i = 0;
+                if (isFlip)
+                    i = 1;
+                foreach (Entity child in children)
+                {
+                    if (isFlip)
+                    {
+                        Vector2 tmpScale = child.Scale;
+                        tmpScale.x = -tmpScale.x;
+                        child.Scale = tmpScale;
+                        if (child.HasComponent<ParticleEmitter>())
+                        {
+                            childParticle[i--] = child;
+                        }
+                    }
+                    else
+                    {
+                        if (child.HasComponent<ParticleEmitter>())
+                        {
+
+                            childParticle[i++] = child;
+                        }
+                    }
+                }
+                if (isFlip)
+                {
+                    Vector2 cp0Pos = childParticle[0].LocalPosition;
+                    float temp = cp0Pos.x;
+                    Vector2 cp1Pos = childParticle[1].LocalPosition;
+                    cp0Pos.x = -cp1Pos.x;
+                    cp1Pos.x = -temp;
+                    childParticle[0].LocalPosition = cp0Pos;
+                    childParticle[1].LocalPosition = cp1Pos;
+                }
+            }
+            else if (!dead)
+            {
+                int frameNum = GetComponent<Animation>().GetFrameNo();
+
+                if (frameNum == 0)
+                {
+                    childParticle[0].GetComponent<ParticleEmitter>().SetActive();
+                }
+                else if (frameNum == 3)
+                {
+                    childParticle[1].GetComponent<ParticleEmitter>().SetActive();
+                }
             }
 
-            // //test with key first, don't use chance variables yet
-            //if (!move || isSwitching) return; // skip if not moving or already switching
-
-            //if (switchCooldown > 0.0f)
-            //{
-            //    switchCooldown -= dt;
-            //    return;
-            //}
-
-            //// Roll for chance to switch
-            //if (CMRand.Range(0, 100) < 15) // 15% chance
+            //if (Input.IsKeyPressed(Keys.KEY_T)) // test to see if switching works
             //{
             //    StartLaneSwitch();
-            //    isSwitching = true;
-            //    switchCooldown = switchDelay;
+            //    isSwitching = true; // this does nothing for now because there's no delay timer
+            //    CMConsole.Log($"Switching lane");
             //}
+
+            // test with key first, don't use chance variables yet
+            if (!move || isSwitching) return; // skip if not moving or already switching
+
+            if (switchCooldown > 0.0f)
+            {
+                switchCooldown -= dt;
+                return;
+            }
+
+            laneSwitchCheckTimer += dt;
+            if (laneSwitchCheckTimer >= laneSwitchCheckInterval)
+            {
+                laneSwitchCheckTimer = 0.0f; // reset
+
+                if (CMRand.Range(0, 100) < 15) // 15% chance every 5s
+                {
+                    StartLaneSwitch(); 
+                    switchCooldown = switchDelay;
+                }
+            }
+
         }
 
         public override void OnFixedUpdate(float fixedDt)
@@ -265,6 +304,7 @@ namespace Carmicah
                     Position = startPosLeft2;
                     lane = 3;
                     scale.x *= -1;
+                    isFlip = true;
                     Scale = scale;
                     break;
                 case 2:
@@ -275,6 +315,7 @@ namespace Carmicah
                     Position = startPosRight2;
                     lane = 2;
                     scale.x *= -1;
+                    isFlip = true;
                     Scale = scale;
                     break;
             }
@@ -436,6 +477,8 @@ namespace Carmicah
                 if (gm != null)
                     gm.EntityDestroyed(this);
 
+                GetComponent<Collider2D>().SetxPivot(100000.0f); // set to a large number so that it doesn't collide with anything
+
                 //CMConsole.Log("Dying here");
                 dead = true;
                 move = false;
@@ -445,7 +488,8 @@ namespace Carmicah
 
                 foreach(Entity entity in children)
                 {
-                    entity.GetComponent<Renderer>().SetAlpha(0);
+                    if(entity.HasComponent<Renderer>())
+                        entity.GetComponent<Renderer>().SetAlpha(0);
                 }
 
 
@@ -605,10 +649,31 @@ namespace Carmicah
         }
 
         // this will be called by chance on by key_t for now to test, starts the lane switching of mice
+        // not anymore
         public void StartLaneSwitch()
         {
+            //CMConsole.Log($"[MouseAI] Mouse {mID} is a {mouseType}");
+
+            // don't allow bears to switch lanes
+            if (enemyType == EnemyTypes.BEAR)
+            {
+                return;
+            }
+
             int newLane = GetPairedLane(lane); // get the lane on the opposite side
             GameManager gm = FindEntityWithName("GameManager").As<GameManager>(); // get the game manager
+
+            
+            Vector2 currentEndPos = GetLaneEndPos(lane); // prevent switching if too close to end
+            float distToEnd = Position.Distance(currentEndPos); // get the distance to the end of the current lane
+            const float minDistToSwitch = 1.5f; // tune this based on tower height
+
+            // check if the mouse is too close to the end of the lane
+            if (distToEnd < minDistToSwitch)
+            {
+                //CMConsole.Log($"[MouseAI] Mouse {mID} skipped lane switch (too close to top, dist: {distToEnd})");
+                return;
+            }
 
             // remove from current lane list
             switch (lane)
@@ -694,6 +759,24 @@ namespace Carmicah
                     return startPosRight2;    // left right
                 case 3: 
                     return startPosLeft2;   // left left
+                default: 
+                    return Position;
+            }
+        }
+
+        // get the end position of the lane
+        private Vector2 GetLaneEndPos(int lane)
+        {
+            switch (lane)
+            {
+                case 0: 
+                    return endEntityRight != null ? endEntityRight.Position : Position; // right right
+                case 1: 
+                    return endEntityLeft != null ? endEntityLeft.Position : Position; // right left
+                case 2: 
+                    return endEntityRight2 != null ? endEntityRight2.Position : Position; // left right
+                case 3: 
+                    return endEntityLeft2 != null ? endEntityLeft2.Position : Position; // left left
                 default: 
                     return Position;
             }

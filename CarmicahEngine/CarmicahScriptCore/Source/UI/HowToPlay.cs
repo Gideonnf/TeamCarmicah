@@ -402,9 +402,19 @@ namespace Carmicah
                         (tutorial2Checki[1] != 0 && tutorial2Checki[4] == 0))
                     {
                         if (tutorial2Checkb[1])
+                        {
+                            Vector2 tmpPos = enemyMouse2.LocalPosition;
+                            tmpPos.x += 8.5f;
+                            enemyMouse2.LocalPosition = tmpPos;
                             enemyMouse2.GetComponent<Animation>().ChangeAnim("Mage_Idle");
+                        }
                         else
+                        {
+                            Vector2 tmpPos = enemyMouse2.LocalPosition;
+                            tmpPos.x -= 8.5f;
+                            enemyMouse2.LocalPosition = tmpPos;
                             enemyMouse2.GetComponent<Animation>().ChangeAnim("Mage_Attack");
+                        }
                         tutorial2Checkb[1] = !tutorial2Checkb[1];
                         tutorial2Checki[4] = 0;
                     }
@@ -412,9 +422,19 @@ namespace Carmicah
                         (tutorial2Checki[2] != 0 && tutorial2Checki[5] == 0))
                     {
                         if (tutorial2Checkb[2])
+                        {
+                            Vector2 tmpPos = enemyBear.LocalPosition;
+                            tmpPos.x += 8.5f;
+                            enemyBear.LocalPosition = tmpPos;
                             enemyBear.GetComponent<Animation>().ChangeAnim("Spear_Idle");
+                        }
                         else
+                        {
+                            Vector2 tmpPos = enemyBear.LocalPosition;
+                            tmpPos.x -= 8.5f;
+                            enemyBear.LocalPosition = tmpPos;
                             enemyBear.GetComponent<Animation>().ChangeAnim("Spear_Throw");
+                        }
                         tutorial2Checkb[2] = !tutorial2Checkb[2];
                         tutorial2Checki[5] = 0;
                     }

@@ -32,9 +32,9 @@ namespace Carmicah
         public float timer = 0.0f;                          // track elapsed time
         public int state = 0;                               // track which image is currently displayed
         public const float FadeDuration = 1.0f;             // duration for fade in/out in seconds
-        public const float HoldDuration = 2.0f;             // new hold time for state 0
-        public const float maxDuration = 4.0f;              // total duration for state 0
-        public const float otherStateDuration = 3.0f;       // duration for other states
+        public const float HoldDuration = 3.0f;             // new hold time for state 0
+        public const float maxDuration = 5.0f;              // total duration for state 0
+        public const float otherStateDuration = 5.0f;       // duration for other states
 
         public string schoolLogoName = "digipen_logo";      // name of school logo entity
         public string schoolRightsName = "digipen_rights";  // name of school rights entity
@@ -101,20 +101,15 @@ namespace Carmicah
             }
             else // other states remain the same
             {
-                float halfDuration = otherStateDuration / 2.0f; // duration for fade in/out
-
-                //if (alpha == 0.0f)
-                //{
-                //    Sound.PlaySFX("Intro", 1.0f);
-                //}
+                float halfDuration = otherStateDuration / 2.0f; // now 2.5s
 
                 if (timer <= halfDuration)
                 {
-                    alpha = timer / halfDuration; // 0 to 1
+                    alpha = timer / halfDuration; // fade in
                 }
                 else
                 {
-                    alpha = 1.0f - ((timer - halfDuration) / halfDuration); // 1 to 0
+                    alpha = 1.0f - ((timer - halfDuration) / halfDuration); // fade out
                 }
 
                 if (state == 1 && teamLogoEntity != null) teamLogoEntity.GetComponent<Renderer>().SetAlpha(alpha);
@@ -122,15 +117,21 @@ namespace Carmicah
 
                 if (timer >= otherStateDuration)
                 {
-                    state += 1;
-                    timer = 0.0f;
-
-                    if (state == 3)
+                    if (Scene.IsDoneLoading())
                     {
-                        Scene.ChangeScene("Scene3"); // go main menu
+                        state += 1;
+                    
+                        timer = 0.0f;
+
+                        if (state == 3)
+                        {
+                            Scene.ChangeScene("Scene3"); // go main menu
+                        }
+
                     }
                 }
             }
+
         }
     }
 }

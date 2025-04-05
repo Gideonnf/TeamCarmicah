@@ -50,12 +50,137 @@ namespace Carmicah
 		InitSound();
 		InitFontType();
 		fileWatcher.Init(assetPath);
+#ifdef CM_INSTALLER
+		// load all shaders
+		fileWatcher.LoadShaderFiles();
+
+		// load only files needed for intro scene from scene4.asset
+		LoadAssetFile("Scene4.asset");
+
+		std::thread loadThread(&AssetManager::InitialLoadThread, this, std::ref(fileWatcher));
+		loadThread.detach(); // detach it and let it load on its own
+#endif
+#ifndef CM_INSTALLER
 		fileWatcher.Update();
+
+#endif
+
+		//CM_CORE_INFO("{}", assetLoaded);
+		// thread this
 		// load default scene files
-		fileWatcher.LoadSceneFiles(enConfig.defaultScene);
+		//fileWatcher.LoadSceneFiles(enConfig.defaultScene);
 		RenderHelper::GetInstance()->LoadGizmos();
 		// load default scene files
 		//fileWatcher.LoadSceneFiles(enConfig.defaultScene);
+
+	}
+
+	void AssetManager::InitialLoadThread(FileWatcher& fw)
+	{
+		// Check if any files were deleted
+		for (auto it = fw.fileMap.begin(); it != fw.fileMap.end(); ++it)
+		{
+			// The file no longer exist
+			if (!std::filesystem::exists(it->first))
+			{
+				// Can call a function here to handle on erase of files
+
+				it->second.fileStatus = FILE_DELETED;
+				std::string filePath = it->first;
+				it = fw.fileMap.erase(it);
+				//Erase from the respective assetMap too
+
+				RemoveFromAssetManager(filePath);
+				break;
+			}
+			else if (it->second.fileStatus != FILE_OK)
+			{
+				if (it->second.fileStatus == FILE_CREATED)
+				{
+					if (LoadAssetThreaded(it->second))
+					{
+						//assetLoaded++;
+						it->second.fileStatus = FILE_OK;
+					}
+				}
+				else if (it->second.fileStatus == FILE_MODIFIED)
+				{
+					if (LoadAssetThreaded(it->second, true))
+					{
+						it->second.fileStatus = FILE_OK;
+					}
+				}
+			}
+		}
+
+		for (auto& file : std::filesystem::recursive_directory_iterator(fw.filePathReference))
+		{
+			// Skip directory folders, only need actual asset files
+			if (std::filesystem::is_directory(file))
+			{
+				continue;
+			}
+			// Get the current file's last write time
+			auto lastWriteTime = std::filesystem::last_write_time(file);
+			// If this file doesn't exist in the map, means its new
+			if (fw.fileMap.count(file.path().string()) == 0)
+			{
+				fw.fileMap[file.path().string()].time = lastWriteTime;
+				fw.fileMap[file.path().string()].fileName = file.path().string();
+				fw.fileMap[file.path().string()].fileEntry = file;
+
+				// New file
+				fw.fileMap[file.path().string()].fileStatus = FILE_CREATED;
+			}
+			else
+			{
+				// If the current copy of hte file has a different last write time
+				if (fw.fileMap[file.path().string()].time != lastWriteTime)
+				{
+					fw.fileMap[file.path().string()].time = lastWriteTime;
+					fw.fileMap[file.path().string()].fileStatus = FILE_MODIFIED;
+					// File modified
+				}
+			}
+			//	if (fileMap.count(file.))
+		}
+
+		//fw.Update();
+		doneLoading = true;
+	}
+
+	void AssetManager::LoadAssetFile(std::string assetFile)
+	{
+		std::filesystem::path filePath = enConfig.assetLoc;
+		filePath /= "Scene";
+		filePath /= assetFile;
+
+		std::ifstream ifs{ filePath, std::ios::binary };
+		if (!ifs)
+		{
+			CM_CORE_ERROR("Unable to open asset file");
+			return;
+		}
+
+		rapidjson::IStreamWrapper isw(ifs);
+		rapidjson::Document doc;
+		doc.ParseStream(isw);
+		ifs.close();
+
+		if (doc.IsNull() || !doc.IsArray())
+		{
+			return;
+		}
+
+		for (const auto& file : doc.GetArray())
+		{
+			if (file.IsString())
+			{
+				std::string assetName = file.GetString();
+				fileWatcher.LoadSingleFile(assetName);
+				CM_CORE_INFO("Loading {}", assetName);
+			}
+		}
 
 	}
 
@@ -180,6 +305,71 @@ namespace Carmicah
 			return false;
 		}
 		return true;
+	}
+
+	bool AssetManager::LoadAssetThreaded(File const& file, bool reload)
+	{
+		std::string fileName = file.fileEntry.path().stem().string();
+		std::string fileExt = file.fileEntry.path().extension().string();
+
+		if (fileExt == ".ani")
+		{
+
+			if (!reload && AssetExist<AnimAtlas>(fileName))
+			{
+				CM_CORE_WARN("Animation:" + fileName + " Already Exists");
+				return false;
+			}
+
+			LoadAnimation(fileName, file.fileEntry.path().string());
+		}
+		else if (fileExt == ".prefab")
+		{
+			if (!reload && AssetExist<Prefab>(fileName))
+			{
+				// creating prefabs will trigger this, so just return true cause prefab system adds it to asset manager
+				//CM_CORE_WARN("Scene:" + fileName + " Already Exists");
+				return true;
+			}
+
+			Prefab goPrefab = Serializer.DeserializePrefab(file.fileEntry.path().string());
+
+			// If its a new asset then update the prefab ID list
+			if (!reload)
+				prefabPtr->AddPrefab(goPrefab);
+
+			AddAsset<Prefab>(fileName, goPrefab);
+			//mPrefabFiles.insert(std::make_pair(fileName, goPrefab));
+		}
+		else if (fileExt == ".scene")
+		{
+			if (!reload && AssetExist<Scene>(fileName))
+			{
+				CM_CORE_WARN("Scene:" + fileName + " Already Exists");
+				return false;
+			}
+
+			Scene newScene{ file.fileEntry.path().string() };
+			AddAsset<Scene>(fileName, newScene);
+		}
+		else if (fileExt == ".png")
+		{
+			if (!reload && AssetExist<Texture>(fileName))
+			{
+				CM_CORE_WARN("Texture:" + fileName + " Already Exists");
+				return false;
+			}
+
+			const auto spriteSheet = file.fileEntry.path().parent_path() / (file.fileEntry.path().stem().string() + std::string(".txt"));
+
+			if (fileWatcher.fileMap.count(spriteSheet.string()) != 0)
+			{
+				fileWatcher.fileMap[spriteSheet.string()].fileStatus = FILE_OK;
+			}
+			LoadTextureThreaded(fileName, file.fileEntry.path().string(), spriteSheet.string());
+		}
+		
+		return false;
 	}
 
 	void AssetManager::UnloadAll()
@@ -450,6 +640,106 @@ namespace Carmicah
 			glTextureView(mPreviewTexs[i], GL_TEXTURE_2D, mArrayTex, GL_RGBA8, 0, 1, i, 1);
 		}
 
+	}
+
+	void AssetManager::LoadTextureThreaded(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile)
+	{
+		int texWidth{}, texHeight{}, bytePerTex{};
+
+		stbi_uc* data = stbi_load(textureFile.c_str(), &texWidth, &texHeight, &bytePerTex, 0);
+		if (!data || texWidth > enConfig.maxTexSize || texHeight > enConfig.maxTexSize || bytePerTex != 4)
+		{
+			CM_CORE_ERROR("Unable to open texture file");
+			stbi_image_free(data);
+			return;
+		}
+
+		{
+			std::lock_guard<std::mutex> lock(inMutex);
+			dataStuff.push({ texWidth, texHeight, textureName, spriteSheetFile, data,  });
+		}
+	}
+
+	void AssetManager::LoadTextureThreadedFinish()
+	{
+		if (!doneLoading || !texturesAllLoaded)
+		{
+			if (dataStuff.empty())
+			{
+				if(doneLoading)
+					texturesAllLoaded = true;
+			}
+			else
+			{
+				std::tuple<int, int, std::string, std::string, stbi_uc*> dat;
+				{
+					std::lock_guard<std::mutex> lock(inMutex);
+					dat = dataStuff.front();
+					dataStuff.pop();
+				}
+
+				Texture texture{};
+
+				// Read if the sprite needs to be divided
+				struct spriteDetails
+				{
+					std::string name;
+					int x, y, width, height, num;
+				};
+				std::vector<spriteDetails> spriteD;
+
+				std::ifstream ssDets{ std::get<3>(dat), std::ios::binary};
+				if (ssDets)
+				{
+					std::string tempS;
+					char tempC;
+
+					spriteDetails t;
+
+					while (!ssDets.eof())
+					{
+						ssDets >> t.name;
+						ssDets >> tempS >> tempS >> t.x >> tempC >> t.y >> tempC;
+						ssDets >> t.width >> tempC >> t.height;
+						ssDets >> t.num;
+
+						if (!ssDets.eof())
+							spriteD.push_back(t);
+
+						ssDets >> tempS;
+					}
+					ssDets.close();
+				}
+
+				texture.t = currTexPt++;
+				glPixelStorei(GL_UNPACK_ALIGNMENT, 4);// if width * bpt is not multiple of 4
+				glTextureSubImage3D(mArrayTex,
+					0,						// Mipmap
+					0, 0, texture.t,		// x/y/z Offset
+					std::get<0>(dat), std::get<1>(dat), 1,	// width, height, depth
+					GL_RGBA, GL_UNSIGNED_BYTE, std::get<4>(dat));
+				stbi_image_free(std::get<4>(dat));
+
+
+
+				texture.mtx.m[0] = texture.mtx.m[1] = 0.f;
+				texture.mtx.m[2] = static_cast<float>(std::get<0>(dat));
+				texture.mtx.m[3] = static_cast<float>(std::get<1>(dat));
+				AddTextureImage(texture, std::get<2>(dat));
+				if (!spriteD.empty())
+				{
+					for (int i{}; i < spriteD.size(); ++i)
+					{
+						texture.mtx.m[0] = static_cast<float>(spriteD[i].x);
+						texture.mtx.m[1] = static_cast<float>(spriteD[i].y);
+						texture.mtx.m[2] = static_cast<float>(spriteD[i].width);
+						texture.mtx.m[3] = static_cast<float>(spriteD[i].height);
+						AddTextureImage(texture, std::get<2>(dat), spriteD[i].num, std::string("_") + spriteD[i].name, true);
+					}
+				}
+
+			}
+		}
 	}
 
 	void AssetManager::LoadTexture(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile)

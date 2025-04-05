@@ -27,5 +27,10 @@ namespace Carmicah
         {
             FunctionCalls.CloseGame();
         }
+
+        public static bool IsDoneLoading()
+        { 
+            return FunctionCalls.IsDoneLoading(); 
+        }
     }
 }

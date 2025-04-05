@@ -1,6 +1,6 @@
 {
     "GameObject": "MouseGONew2",
-    "ID": 29,
+    "ID": 1,
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
@@ -100,7 +100,7 @@
     "Children": [
         {
             "GameObject": "Healthbar",
-            "ID": 30,
+            "ID": 2,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
@@ -126,7 +126,7 @@
         },
         {
             "GameObject": "Healthbar_Cover",
-            "ID": 33,
+            "ID": 3,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
@@ -162,12 +162,84 @@
                     "colG": 1.0,
                     "colB": 0.0,
                     "colA": 1.0
-                },
-                {
-                    "Component Name": "struct Carmicah::PrefabData",
-                    "prefabRef": 32
                 }
             ]
+        },
+        {
+            "GameObject": "Particle_Right",
+            "ID": 4,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.06,
+                    "yPos": -1.6,
+                    "depth": 4.5,
+                    "xScale": 1.6666666269302369,
+                    "yScale": 1.6666666269302369,
+                    "rot": 35.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::ParticleEmitter",
+                    "texture": "Projectile_SpriteSheet_Shooter 3",
+                    "VelX": 0.0,
+                    "VelY": -0.2,
+                    "RadiusX": 0.25,
+                    "RadiusY": 0.1,
+                    "SizeRangeMin": 0.1,
+                    "SizeRangeMax": 0.15,
+                    "SpawnPSec": 20,
+                    "Lifetime": 4.0,
+                    "BurstTime": 0.3,
+                    "SpeedRange": 0.1,
+                    "AngleRange": 35.0,
+                    "EmitterStatus": 38,
+                    "ColR": 0.49572646617889407,
+                    "ColG": 0.2851811945438385,
+                    "ColB": 0.0127109345048666,
+                    "ColA": 1.0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "Particle_Left",
+            "ID": 5,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": -0.7,
+                    "yPos": -1.6,
+                    "depth": 4.5,
+                    "xScale": 1.6666666269302369,
+                    "yScale": 1.6666666269302369,
+                    "rot": 35.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::ParticleEmitter",
+                    "texture": "Projectile_SpriteSheet_Shooter 3",
+                    "VelX": 0.0,
+                    "VelY": -0.2,
+                    "RadiusX": 0.25,
+                    "RadiusY": 0.1,
+                    "SizeRangeMin": 0.1,
+                    "SizeRangeMax": 0.15,
+                    "SpawnPSec": 20,
+                    "Lifetime": 4.0,
+                    "BurstTime": 0.3,
+                    "SpeedRange": 0.1,
+                    "AngleRange": 35.0,
+                    "EmitterStatus": 38,
+                    "ColR": 0.49572646617889407,
+                    "ColG": 0.2851811945438385,
+                    "ColB": 0.0127109345048666,
+                    "ColA": 1.0
+                }
+            ],
+            "Children": []
         }
     ]
 }

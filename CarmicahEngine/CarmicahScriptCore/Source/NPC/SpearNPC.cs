@@ -149,6 +149,10 @@ namespace Carmicah
                     }
                     break;
             }
+            if(distance == float.MaxValue)
+            {
+                targetMouse = null;
+            }
         }
 
         public override void OnStateEnter(string stateName)
@@ -175,6 +179,14 @@ namespace Carmicah
             }
             else if (stateName == "Teleport")
             {
+                Entity[] children = GetAllChildren();
+                foreach (Entity ent in children)
+                {
+                    if (ent != null)
+                    {
+                        ent.GetComponent<Renderer>().SetAlpha(0.0f);
+                    }
+                }
                 ChangeAnim(teleportAnim);
                 
             }
@@ -308,6 +320,18 @@ namespace Carmicah
                     PlayVoiceOver();
 
                 }
+            }
+            else if (stateName == "Teleport")
+            {
+                Entity[] children = GetAllChildren();
+                foreach (Entity ent in children)
+                {
+                    if (ent != null)
+                    {
+                        ent.GetComponent<Renderer>().SetAlpha(0.3528999984264374f);
+                    }
+                }
+                // ChangeAnim(TeleportAnim);
             }
         }
 

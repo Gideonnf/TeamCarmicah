@@ -35,6 +35,10 @@
                         {
                             "targetState": "Dead",
                             "condition": 4
+                        },
+                        {
+                            "targetState": "Teleport",
+                            "condition": 5
                         }
                     ]
                 },
@@ -178,7 +182,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.5,
+                    "xPos": -0.3499999940395355,
                     "yPos": -2.75,
                     "depth": 3.5,
                     "xScale": 1.5,

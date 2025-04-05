@@ -27,10 +27,19 @@ DigiPen Institute of Technology is prohibited.
 #include "Singleton.h"
 #include "Systems/AssetTypes.h"
 #include "PrefabSystem.h"
+#include <mutex>
 #include "FileWatcher.h"
 
 namespace Carmicah
 {
+
+	//struct threadGraphicData
+	//{
+	//	std::string textureName;
+	//	stbi_uc* dataPtr;
+	//	std::string spriteSheetName;
+	//};
+
 	// Only used for the map so that theres a base class that can be dynamic casted
 	class IAsset
 	{
@@ -66,7 +75,8 @@ namespace Carmicah
 			Asset Path to load data from
 		***************************************************************************/
 		void LoadAll(const char* assetPath);
-
+		void LoadAssetFile(std::string assetFile);
+		void InitialLoadThread(FileWatcher& fw);
 		bool LoadAsset(File const& file, bool reload = false);
 
 		/*!*************************************************************************
@@ -88,6 +98,11 @@ namespace Carmicah
 		FMOD::System* mSoundSystem{};
 
 		std::shared_ptr<PrefabSystem> prefabPtr;
+		std::atomic_bool doneLoading = false;
+		bool texturesAllLoaded = false;
+
+		std::mutex inMutex;
+		std::queue <std::tuple<int, int, std::string, std::string, unsigned char*>> dataStuff;
 
 		/*!*************************************************************************
 		brief
@@ -444,6 +459,10 @@ namespace Carmicah
 		***************************************************************************/
 		void RenameScene(std::string oldName, std::string newName, const char* assetPath);
 
+		void LoadTextureThreaded(const std::string& textureName, const std::string& textureFile, const std::string& spriteSheetFile);
+
+		void LoadTextureThreadedFinish();
+
 		/*!*************************************************************************
 		brief
 			Creates a Scene Name thats not a duplicate
@@ -474,7 +493,7 @@ namespace Carmicah
 
 	private:
 
-
+		bool LoadAssetThreaded(File const& file, bool reload = false);
 		//----------------------------  Graphics  ----------------------------
 		/*!*************************************************************************
 		brief

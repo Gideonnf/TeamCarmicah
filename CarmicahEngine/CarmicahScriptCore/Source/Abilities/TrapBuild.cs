@@ -178,7 +178,7 @@ namespace Carmicah
 
 
 
-                        Sound.PlaySFX(soundFile, 0.5f);
+                        Sound.PlaySFX(soundFile, 1.0f);
 
                         //To reset it
                         soundFile = "Trap_Placement";
