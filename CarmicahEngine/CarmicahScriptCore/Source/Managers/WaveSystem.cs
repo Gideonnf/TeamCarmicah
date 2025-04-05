@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -55,27 +56,61 @@ namespace Carmicah
 
             }
 
-            if (Input.IsKeyPressed(Keys.KEY_0))
+            if (winScreenCreated)
             {
-                // Skip to the end of level screen
-                if (winScreen == null)
+                List<bool> listEnemiesActive = new List<bool>();
+                listEnemiesActive = levelManager.PreviewNextLevelEnemies();
+                int count = 0;
+                for (int i = 0; i < listEnemiesActive.Count; i++)
                 {
-                    Sound.SwitchBGM("WinScreen", 0.5f, 0.5f, false);
-                    Sound.StopAllSFX();
-                    gameManager.As<GameManager>().GameOver = true;
-                    winScreen = CreateGameObject(winPrefab);
+                    if (listEnemiesActive[i])
+                        count++;
                 }
-                waveStart = false;
-                waveTimer = 0.0f;
-                gameManager.As<GameManager>().activeEnemies = 0;
-                return;
+                List<Entity> listEnemies = new List<Entity>();
+                Entity[] winScreenChildren = winScreen.GetAllChildren();
+                int iterator = 0;
+                foreach (Entity ent in winScreenChildren)
+                {
+                    if (iterator > 3)
+                    {
+                        listEnemies.Add(ent);
+                    }
+                    ++iterator;
+                }
+                CMConsole.Log($"A:{listEnemies.Count} B:{listEnemiesActive.Count}");
+                if (listEnemies.Count == listEnemiesActive.Count)
+                {
+                    Vector2 pos = new Vector2(-365.0f, -80.0f);
+                    if (count < 5)
+                        pos.x += 460.0f / ((float)Math.Pow(2, count));
+                    for (int i = 0; i < listEnemiesActive.Count; i++)
+                    {
+                        if (listEnemiesActive[i])
+                        {
+                            listEnemies[i].GetComponent<Renderer>().SetAlpha(1.0f);
+                            listEnemies[i].LocalPosition = pos;
+                            // -365 ~ 95 == 460
+                            pos.x += 460.0f / Math.Min(count, 4.0f);
+                        }
+                    }
+                    winScreenCreated = false;
+                }
             }
-
 
             // Only increment time for as long as theres a wave coming
             if (gameManager.As<GameManager>().GameOver)
             {
                 return;
+            }
+
+
+            if (winScreen == null &&  Input.IsKeyPressed(Keys.KEY_0))
+            {
+                waveStart = false;
+                waveTimer = 0.0f;
+                levelManager.EndLevel();
+                gameManager.As<GameManager>().activeEnemies = 0;
+                gameManager.As<GameManager>().CheatKillAllEnemies();
             }
 
             waveTimer += dt;
@@ -162,54 +197,7 @@ namespace Carmicah
                 waveTimer = 0.0f;
                 //startNewWave = true;
                 // waveCounter--;
-            }
-
-            if (winScreenCreated)
-            {
-                List<bool> listEnemiesActive = new List<bool>();
-                listEnemiesActive = levelManager.PreviewNextLevelEnemies();
-                int count = 0;
-                for (int i = 0; i < listEnemiesActive.Count; i++)
-                {
-                    if (listEnemiesActive[i])
-                        count++;
-                }
-                List<Entity> listEnemies = new List<Entity>();
-                Entity wMouse0 = FindEntityWithName("NWMouse0");
-                if (wMouse0 != null)
-                    listEnemies.Add(wMouse0);
-                Entity wMouse1 = FindEntityWithName("NWMouse1");
-                if (wMouse1 != null)
-                    listEnemies.Add(wMouse1);
-                Entity wMouse2 = FindEntityWithName("NWMouse2");
-                if (wMouse2 != null)
-                    listEnemies.Add(wMouse2);
-                Entity wBear = FindEntityWithName("NWBear");
-                if (wBear != null)
-                    listEnemies.Add(wBear);
-                Entity wBird = FindEntityWithName("NWBird");
-                if (wBird != null)
-                    listEnemies.Add(wBird);
-
-                CMConsole.Log($"A:{listEnemies.Count} B:{listEnemiesActive.Count}");
-
-                if (listEnemies.Count == listEnemiesActive.Count)
-                {
-                    Vector2 pos = new Vector2(-365.0f, -80.0f);
-                    if (count < 5)
-                        pos.x += 460.0f / ((float)Math.Pow(2,count));
-                    for (int i = 0; i < listEnemiesActive.Count; i++)
-                    {
-                        if (listEnemiesActive[i])
-                        {
-                            listEnemies[i].GetComponent<Renderer>().SetAlpha(1.0f);
-                            listEnemies[i].LocalPosition = pos;
-                            // -365 ~ 95 == 460
-                            pos.x += 460.0f / Math.Min(count, 4.0f);
-                        }
-                    }
-                    winScreenCreated = false;
-                }
+                return;
             }
 
             //CMConsole.Log("PLEASE GO TO A NEW LEVEL PLS PLS PLS");

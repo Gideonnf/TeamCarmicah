@@ -298,6 +298,11 @@ namespace Carmicah
             return currWave;
         }
 
+        public void EndLevel()
+        {
+            levelMap[currentLevel].currWave = 1000;
+        }
+
         public bool EndOfLevel()
         {
             Level currLevel = levelMap[currentLevel];
