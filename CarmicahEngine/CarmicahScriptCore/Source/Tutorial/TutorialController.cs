@@ -13,7 +13,7 @@ namespace Carmicah
     public class TutorialController : Entity
     {
         private Entity enemy;
-        private Entity[] powerIco = new Entity[4];// Reset 1 to (0, 240)
+        private Entity powerIco;// Reset 1 to (0, 240)
         private Entity[] traps = new Entity[4];
         private Entity[] npcs = new Entity[4];
         private bool[] placedObj = new bool[8];
@@ -43,16 +43,16 @@ namespace Carmicah
                                         "Oop, here come a critter!",// Pause, Pans down onto the creature
                                         "Use R/F to pan the camera back up, we need to prepare",
                                         "Here, I'll provide you a trap to fend it off",                     // ----- 5 -----
-                                        "The trap is on the menu on the right --->",                        // Optional txt
-                                        "That's the wrong spot, here's another trap to try",                // Optional txt
+                                        "The trap is on the menu on the right, you need to place them in the mouse's path",// Optional txt
+                                        "That's the wrong spot, place it on the right side",                // Optional txt
                                         "You are not going to be able to keep these FYI",                   // Optional txt
                                         "This trap can only take 2 hits total before it is used up",
                                         "Perfect timing, reinforcements from above, use WASD to move and pick it up", // 4 reinforcements // ----- 10 -----
                                         "This is a Soldier unit, you can only place them on top of the tower",
                                         "They have limited number of attacks, but can be healed up by clicking on them",
-                                        "Units are also placed on the right --->",                        // Optional txt
+                                        "In the tutorial units are also placed on the right of the tower",  // Optional txt
                                         "Yeap, just one more, I'll give you another one for free",
-                                        "They usually start off healthy, but for this tutorial, I've drained their energy", // ----- 15 -----
+                                        "They usually start off healthy, but for this tutorial, click them to refuel them", // ----- 15 -----
                                         "You can click the Soldier to refuel them",
                                         "Be careful to not lose your Soldiers to random enemies",
                                         "Tutorial Ends here.. Good luck!",              // Dun matter win / lose
@@ -75,12 +75,6 @@ namespace Carmicah
 
         public override void OnUpdate(float dt)
         {
-            Entity pauseManager = FindEntityWithName("PauseManager");
-            if (pauseManager != null && pauseManager.As<PauseManager>().IsPaused)
-            {
-                return;
-            }
-
             //dt *= 4;
 
             if (Input.IsKeyPressed(Keys.KEY_5))
@@ -108,8 +102,8 @@ namespace Carmicah
                         int i = 0;
                         foreach (Entity child in UIBarChild)
                         {
-                            if (i < 4)
-                                powerIco[i++] = child;
+                            if (i == 0)
+                                powerIco = child;
                         }
                     }
                     UIBar = FindEntityWithName("Tutorial_HaveNots");
@@ -185,8 +179,8 @@ namespace Carmicah
                     TypeWords(dt, 5);
                     if(FinishedTyping())
                     {
-                        powerIco[0].GetComponent<Renderer>().SetAlpha(1f);
-                        powerIco[0].Scale = Vector2.Zero;
+                        powerIco.GetComponent<Renderer>().SetAlpha(1f);
+                        powerIco.Scale = Vector2.Zero;
                         someBools[1] = false;
                         someBools[2] = false;
                         someBools[3] = false;
@@ -217,7 +211,7 @@ namespace Carmicah
                     if (!someBools[1])
                     {
                         // Not Hover
-                        if (!(powerIco[0].As<TutorialBasic>().GetHover()))
+                        if (!(powerIco.As<TutorialBasic>().GetHover()))
                         {
                             if (someBools[0])
                             {
@@ -232,22 +226,29 @@ namespace Carmicah
                                     someBools[0] = true;
 
                             }
-                            powerIco[0].Scale = new Vector2(someFloat[0], someFloat[0]);
-                            powerIco[0].LocalPosition = new Vector2(someFloat[0] * 83.33f, 232);
-                            if (powerIco[0].As<TutorialBasic>().GetExitHover())
-                                powerIco[0].GetComponent<Renderer>().SetColour(1f, 1f, 1f);
+                            powerIco.Scale = new Vector2(someFloat[0], someFloat[0]);
+                            powerIco.LocalPosition = new Vector2(someFloat[0] * 83.33f, 232);
+                            if (powerIco.As<TutorialBasic>().GetExitHover())
+                            {
+                                powerIco.GetComponent<Renderer>().SetColour(1f, 1f, 1f);
+                                powerIco.GetComponentInChildren<TextRenderer>().SetText("");
+                            }
                         }
                         else
                         {
-                            if (powerIco[0].As<TutorialBasic>().GetEnterHover())
+                            if (powerIco.As<TutorialBasic>().GetEnterHover())
+                            {
                                 Sound.PlaySFX("Item_Hover", 0.3f);
-                                powerIco[0].GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
+                                powerIco.GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
+                                powerIco.GetComponentInChildren<TextRenderer>().SetText("Damages 2");
+                            }
                             if (Input.IsMousePressed(MouseButtons.MOUSE_BUTTON_LEFT))
                             {
                                 Sound.PlaySFX("UI_Select 2", 0.3f);
-                                powerIco[0].GetComponent<Renderer>().SetColour(1f, 1f, 1f);
-                                powerIco[0].GetComponent<Renderer>().SetAlpha(0.0f);
-                                powerIco[0].Scale = new Vector2(0.6f, 0.6f);
+                                powerIco.GetComponent<Renderer>().SetColour(1f, 1f, 1f);
+                                powerIco.GetComponent<Renderer>().SetAlpha(0.0f);
+                                powerIco.GetComponentInChildren<TextRenderer>().SetText("");
+                                powerIco.Scale = new Vector2(0.6f, 0.6f);
                                 ditto[0].GetComponent<Renderer>().ChangeTexture("candy_trap_spritesheet_Spike 9");
                                 ditto[0].Scale = new Vector2(0.6f, 0.6f);
 
@@ -270,7 +271,7 @@ namespace Carmicah
                     {
                         //Vector2 mousePos = Input.GetMousePos();
 
-                        //powerIco[0].LocalPosition += mousePos - someVec;
+                        //powerIco.LocalPosition += mousePos - someVec;
                         //someVec = mousePos;
                         ditto[0].LocalPosition = Input.GetMousePos();
 
@@ -362,12 +363,12 @@ namespace Carmicah
                                         }
                                     }
                                     else someInt = 14;
-                                    powerIco[0].GetComponent<Renderer>().SetAlpha(1.0f);
+                                    powerIco.GetComponent<Renderer>().SetAlpha(1.0f);
                                 }
                             }
                             // Failed to place
                             else
-                                powerIco[0].GetComponent<Renderer>().SetAlpha(1.0f);
+                                powerIco.GetComponent<Renderer>().SetAlpha(1.0f);
                             // Hide back all not placed traps
                             for (int i = 0; i < 4; ++i)
                             {
@@ -420,10 +421,10 @@ namespace Carmicah
                     player.LocalPosition.y + someVec[1].y > ditto[1].LocalPosition.y - someVec[0].y &&
                     player.LocalPosition.y - someVec[1].y < ditto[1].LocalPosition.y + someVec[0].y)
                     {
-                        powerIco[0].GetComponent<Renderer>().SetAlpha(1);
-                        powerIco[0].GetComponent<Renderer>().ChangeTexture("UI2_Shooter_Icon 0");
-                        powerIco[0].LocalPosition = new Vector2(0, 240);
-                        powerIco[0].Scale = new Vector2(1.2f, 1.2f);
+                        powerIco.GetComponent<Renderer>().SetAlpha(1);
+                        powerIco.GetComponent<Renderer>().ChangeTexture("UI2_Shooter_Icon 0");
+                        powerIco.LocalPosition = new Vector2(0, 240);
+                        powerIco.Scale = new Vector2(1.2f, 1.2f);
                         ditto[1].LocalPosition = new Vector2(100, 0);
 
 
@@ -480,20 +481,27 @@ namespace Carmicah
                     if (!someBools[0])
                     {
                         // Not Hover
-                        if (!(powerIco[0].As<TutorialBasic>().GetHover()))
+                        if (!(powerIco.As<TutorialBasic>().GetHover()))
                         {
-                            if (powerIco[0].As<TutorialBasic>().GetExitHover())
-                                powerIco[0].GetComponent<Renderer>().SetColour(1f, 1f, 1f);
+                            if (powerIco.As<TutorialBasic>().GetExitHover())
+                            {
+                                powerIco.GetComponent<Renderer>().SetColour(1f, 1f, 1f);
+                                powerIco.GetComponentInChildren<TextRenderer>().SetText("");
+                            }
                         }
                         else
                         {
-                            if (powerIco[0].As<TutorialBasic>().GetEnterHover())
+                            if (powerIco.As<TutorialBasic>().GetEnterHover())
+                            {
                                 Sound.PlaySFX("Item_Hover", 0.3f);
-                                powerIco[0].GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
+                                powerIco.GetComponent<Renderer>().SetColour(1.5f, 1.5f, 1.5f);
+                                powerIco.GetComponentInChildren<TextRenderer>().SetText("Ground/Air");
+                            }
                             if (Input.IsMousePressed(MouseButtons.MOUSE_BUTTON_LEFT))
                             {
-                                powerIco[0].GetComponent<Renderer>().SetColour(1f, 1f, 1f);
-                                powerIco[0].GetComponent<Renderer>().SetAlpha(0.0f);
+                                powerIco.GetComponent<Renderer>().SetColour(1f, 1f, 1f);
+                                powerIco.GetComponent<Renderer>().SetAlpha(0.0f);
+                                powerIco.GetComponentInChildren<TextRenderer>().SetText("");
                                 ditto[0].GetComponent<Renderer>().ChangeTexture("NPC_SpriteSheet_Shooter_Idle 0");
                                 ditto[0].Scale = new Vector2(-0.45f, 0.45f);
 
@@ -516,7 +524,7 @@ namespace Carmicah
                     {
                         //Vector2 mousePos = Input.GetMousePos();
 
-                        //powerIco[0].LocalPosition += mousePos - someVec;
+                        //powerIco.LocalPosition += mousePos - someVec;
                         //someVec = mousePos;
                         ditto[0].LocalPosition = Input.GetMousePos();
 
@@ -558,7 +566,7 @@ namespace Carmicah
                                 
                                 placedObj[justPlaced + 4] = true;
                                 npcs[justPlaced].GetComponent<Renderer>().SetAlpha(1.0f);
-
+                                npcs[justPlaced].GetComponentInChildren<Renderer>().SetAlpha(0.392156862745098f);
                                 if (justPlaced > 1)
                                 {
                                     someInt = 15;
@@ -576,11 +584,11 @@ namespace Carmicah
                                     ++tutorialProgress;
                                 }
                                 else
-                                    powerIco[0].GetComponent<Renderer>().SetAlpha(1.0f);
+                                    powerIco.GetComponent<Renderer>().SetAlpha(1.0f);
                             }
                             // Failed to place
                             else
-                                powerIco[0].GetComponent<Renderer>().SetAlpha(1.0f);
+                                powerIco.GetComponent<Renderer>().SetAlpha(1.0f);
                             // Hide back all not placed npcs
                             for (int i = 0; i < 4; ++i)
                             {
@@ -633,7 +641,8 @@ namespace Carmicah
 
                     if (someInt == 18 && FinishedTyping() && Delay(dt, 2.0f))
                     {
-                        endScreen.LocalPosition = new Vector2(960.0f, 540.0f);
+                        endScreen.As<UISliding>().createDimBG = true;
+                        endScreen.As<UISliding>().ChangeSlideDetails(8, new Vector2(960.0f, -540.0f), new Vector2(960.0f, 540.0f), 1.0f);
                         ++tutorialProgress;
                     }
                     break;

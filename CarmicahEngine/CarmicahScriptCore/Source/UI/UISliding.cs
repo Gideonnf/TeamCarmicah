@@ -67,6 +67,12 @@ namespace Carmicah
             slideCurve = sc;
             startPos = s;
             endPos = e;
+
+            if(dimBG == null && createDimBG)
+            {
+                // creating it will start it's fade in effect
+                dimBG = CreateGameObject("DimBG");
+            }
         }
 
         public void SlideAgain()
