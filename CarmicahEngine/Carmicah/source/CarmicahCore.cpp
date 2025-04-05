@@ -140,15 +140,14 @@ namespace Carmicah
         const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
         Input.mWindowScale.x = mode->width;
         Input.mWindowScale.y = mode->height;
-        //glfwWindowHint(GLFW_RED_BITS, mode->redBits);
-        //glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
-        //glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
-        //glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-        //glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_TRUE);
-        //glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
-        //GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", primaryMonitor, NULL);
-        GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", NULL, NULL);
-
+        glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+        glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+        glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+        glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+        glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_TRUE);
+        glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
+        GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", primaryMonitor, NULL);
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 #else    
         //comment it when using installer
         //CM_CORE_INFO("Reached before window creation");
@@ -489,7 +488,7 @@ namespace Carmicah
 #ifdef CM_INSTALLER
                     RenderHelper::GetInstance()->FinalRender();
 
-                    ShowCursor(true);
+                    //ShowCursor(Input.mNotFullScreen);
                     // hide cursor
                     //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 #endif  
