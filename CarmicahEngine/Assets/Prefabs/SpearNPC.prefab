@@ -14,6 +14,11 @@
             "collisionMask": 0
         },
         {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Shooter_Idle",
+            "AnimSpeed": 1.5
+        },
+        {
             "Component Name": "struct Carmicah::StateMachine",
             "currState": "",
             "nextState": "",
@@ -30,6 +35,10 @@
                         {
                             "targetState": "Dead",
                             "condition": 4
+                        },
+                        {
+                            "targetState": "Teleport",
+                            "condition": 5
                         }
                     ]
                 },
@@ -95,11 +104,6 @@
             ]
         },
         {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Shooter_Idle",
-            "AnimSpeed": 1.5
-        },
-        {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "",
             "customWidth": 0.5,
@@ -121,17 +125,26 @@
             "objectType": 0
         },
         {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "Spear_SpriteSheet_Spear_Idle 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
             "Component Name": "struct Script",
             "scriptName": "Carmicah.SpearNPC",
             "ScriptableFieldMap": [
                 {
                     "IsLeft": false,
                     "active": false,
-                    "deathSound": "Shooter_Death",
                     "animationTime": 0.0,
-                    "hovering": false,
-                    "dissolveAnim": "NPC_Death",
+                    "deathSound": "Shooter_Death",
                     "manaAnim": "Spear_Mana",
+                    "dissolveAnim": "NPC_Death",
+                    "hovering": false,
                     "hasAmmo": true,
                     "idleAnim": "Spear_Idle",
                     "isShooting": false,
@@ -151,15 +164,6 @@
                     "yShootOffset": 1.0
                 }
             ]
-        },
-        {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "Spear_SpriteSheet_Spear_Idle 0",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
         }
     ],
     "Children": [
