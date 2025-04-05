@@ -32,9 +32,9 @@ namespace Carmicah
         public float timer = 0.0f;                          // track elapsed time
         public int state = 0;                               // track which image is currently displayed
         public const float FadeDuration = 1.0f;             // duration for fade in/out in seconds
-        public const float HoldDuration = 3.0f;             // new hold time for state 0
-        public const float maxDuration = 5.0f;              // total duration for state 0
-        public const float otherStateDuration = 5.0f;       // duration for other states
+        public const float HoldDuration = 4.0f;             // new hold time for state 0
+        public const float maxDuration = 6.0f;              // total duration for state 0
+        public const float otherStateDuration = 3.0f;       // duration for other states
 
         public string schoolLogoName = "digipen_logo";      // name of school logo entity
         public string schoolRightsName = "digipen_rights";  // name of school rights entity
