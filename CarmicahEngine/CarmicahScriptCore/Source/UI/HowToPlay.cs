@@ -108,6 +108,9 @@ namespace Carmicah
 
         public void ProgressScene(int num)
         {
+            if (currentPanel + num >= totalPanels && currentPanel == totalPanels - 1)
+                return;
+
             oldPanel = currentPanel;
             boardMovingLeft = (num > 0);
             Entity slideOutE;
@@ -138,7 +141,7 @@ namespace Carmicah
             // If Overshot, end
             if (currentPanel >= totalPanels)
             {
-                Destroy();
+                //Destroy();
                 return;
             }
             // Return to first panel
@@ -216,6 +219,52 @@ namespace Carmicah
                         if (curPanel != null)
                             howToNum.Add(currentPanel, curPanel);
                     }
+
+                    // Reset the progress of the prev. panels
+                    switch(oldPanel)
+                    {
+                        case 3:
+                            cursor.Position = new Vector2(850, 0);
+                            power1Ico.Position = new Vector2(450, 135);
+                            power1Ico.GetComponentInChildren<TextRenderer>().SetText("");
+                            power2Ico.Position = new Vector2(450, 80);
+                            power2Ico.GetComponentInChildren<TextRenderer>().SetText("");
+                            power2Ico.GetComponent<Renderer>().ChangeTexture("UI2_Shooter_Icon 0");
+                            actlObj1.GetComponent<Renderer>().SetAlpha(0.0f);
+                            actlObj1.Depth = 52;
+                            actlObj1.GetComponent<Animation>().ChangeAnim("CandyCone_Idle");
+                            actlObj2.GetComponent<Renderer>().SetAlpha(0.0f);
+                            actlObj2.GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+                            actlObj2.GetComponent<Animation>().ChangeAnim("Shooter_Idle");
+                            enemyMouse1.GetComponent<Renderer>().SetAlpha(0.0f);
+                            enemyMouse1.GetComponent<Animation>().ChangeAnim("Mouse_Climb_Blue");
+                            enemyBear.GetComponent<Renderer>().SetAlpha(0.0f);
+                            enemyBear.GetComponent<Animation>().ChangeAnim("Bear_Climb");
+                            enemyMouse1.Position = new Vector2(105, -400);
+                            enemyBear.Position = new Vector2(105, -400);
+                            break;
+                        case 4:
+                            playerWalk.LocalPosition = new Vector2(-160.0f, 105.0f);
+                            playerWalk.GetFirstChild().LocalPosition = new Vector2(0.0f, -70.0f);
+                            playerWalk.Scale = new Vector2(0.666f, 0.666f);
+                            actlObj1.GetComponent<Renderer>().SetAlpha(0.0f);
+                            actlObj1.GetComponentInChildren<Renderer>().SetAlpha(0.0f);
+                            power2Ico.GetComponent<Animation>().ChangeAnim("Shooter_Mana");
+                            playerWalk.GetComponent<Animation>().ChangeAnim("MC_Idle");
+                            power1Ico.GetComponent<Renderer>().ChangeTexture("UI2_Mage_Icon 0");
+                            power1Ico.LocalPosition = new Vector2(100.0f, 450.0f);
+                            power1Ico.Scale = new Vector2(1, 1);
+                            power1Ico.Depth = 52;
+                            cursor.LocalPosition = new Vector2(850, 0);
+                            break;
+                        case 5:
+                            actlObj1.LocalPosition = new Vector2(0, 1000);
+                            actlObj1.GetComponent<Animation>().ChangeAnim("CakeStrawberry_Fall");
+                            power1Ico.GetComponent<Renderer>().SetAlpha(0);
+                            power1Ico.Depth = 52;
+                            break;
+                    }
+
                     // Just re-get, it's easier ;w;
                     switch (currentPanel)
                     {
@@ -256,6 +305,23 @@ namespace Carmicah
                             power1Ico = FindEntityWithName("HowToDrop");
                             power2Ico = FindEntityWithName("HowToShooter");
                             actlObj1 = FindEntityWithName("HowToMage");
+                            break;
+                        case 5:
+                            actlObj1 = FindEntityWithName("HowToCakeFalling");
+                            power1Ico = FindEntityWithName("HowToCakeFallVFXBack");
+                            mouse1Climbing = false;
+                            mouse2Climbing = true;
+                            if (FunctionCalls.GetSceneName() != "Scene3")
+                            {
+                                FindEntityWithName("HowToFakeTutorialTop").GetComponent<Renderer>().ChangeTexture("UI2_Tutorial_Hide3 0");
+                            }
+                            break;
+                        case 6:
+                            if (FunctionCalls.GetSceneName() != "Scene3")
+                            {
+                                FindEntityWithName("HowToHomeBtn").GetComponent<Renderer>().SetAlpha(0.0f);
+                                FindEntityWithName("HowToPlayBtn").GetComponent<Renderer>().SetAlpha(0.0f);
+                            }
                             break;
                     }
                 }
@@ -446,17 +512,24 @@ namespace Carmicah
                             cursor.LocalPosition = pos;
                             if (pos.x < 465)
                             {
-                                someDir = (new Vector2(105, -220)) - cursor.LocalPosition;
+                                someDir = (new Vector2(120, -200)) - cursor.LocalPosition;
                                 someDir = someDir.Normalize();
                                 actlObj1.GetComponent<Renderer>().SetAlpha(0.3f);
                                 power1Ico.Scale = new Vector2(0.666f, 0.666f);
+                                power1Ico.GetComponentInChildren<TextRenderer>().SetText("Damages 2");
                                 ++aniProgress;
+                                mouse1Climbing = true;
                                 isClicked = true;
                                 clickTime = 1;
                             }
                             break;
-                        // Cursor moves to 105, -220 (place trap)
+                        // Cursor moves to 120, -200 (place trap)
                         case 2:
+                            if(mouse1Climbing)
+                            {
+                                power1Ico.GetComponentInChildren<TextRenderer>().SetText("");
+                                mouse1Climbing = false;
+                            }
                             pos = power1Ico.LocalPosition;
                             pos.x += someDir.x * dt * 200.0f;
                             pos.y += someDir.y * dt * 200.0f;
@@ -465,7 +538,7 @@ namespace Carmicah
                             pos.x += someDir.x * dt * 200.0f;
                             pos.y += someDir.y * dt * 200.0f;
                             cursor.LocalPosition = pos;
-                            if (pos.x < 105)
+                            if (pos.x < 120)
                             {
                                 actlObj1.GetComponent<Renderer>().SetAlpha(1.0f);
                                 power1Ico.Scale = new Vector2(0.55f, 0.55f);
@@ -494,7 +567,7 @@ namespace Carmicah
                             pos = enemyMouse1.LocalPosition;
                             pos.y += dt * 150.0f;
                             enemyMouse1.LocalPosition = pos;
-                            if (pos.y > -300)
+                            if (pos.y > -270)
                             {
                                 enemyMouse1.GetComponent<Animation>().ChangeAnim("Mouse_Death_Blue");
                                 actlObj1.GetComponent<Animation>().ChangeAnim("CandyCone");
@@ -513,8 +586,11 @@ namespace Carmicah
                                 someDir = (new Vector2(65, 20)) - cursor.LocalPosition;
                                 someDir = someDir.Normalize();
                                 actlObj2.GetComponent<Renderer>().SetAlpha(0.3f);
+                                actlObj2.GetComponentInChildren<Renderer>().SetAlpha(0.3f);
                                 power2Ico.Scale = new Vector2(-0.666f, 0.666f);
                                 power2Ico.GetComponent<Renderer>().ChangeTexture("NPC_SpriteSheet_Shooter_Idle 0");
+                                power2Ico.GetComponentInChildren<TextRenderer>().SetText("Ground/Air");
+                                mouse1Climbing = true;
 
                                 ++aniProgress;
                                 isClicked = true;
@@ -522,7 +598,11 @@ namespace Carmicah
                             }
                             break;
                         case 5:
-
+                            if(mouse1Climbing)
+                            {
+                                power2Ico.GetComponentInChildren<TextRenderer>().SetText("");
+                                mouse1Climbing = false;
+                            }
                             pos = power2Ico.LocalPosition;
                             pos.x += someDir.x * dt * 200.0f;
                             pos.y += someDir.y * dt * 200.0f;
@@ -545,7 +625,7 @@ namespace Carmicah
                             pos = enemyBear.LocalPosition;
                             pos.y += dt * 100.0f;
                             enemyBear.LocalPosition = pos;
-                            if (pos.y > -300)
+                            if (pos.y > -270)
                             {
                                 actlObj1.GetComponent<Animation>().ChangeAnim("Dissolve");
                                 actlObj1.Depth = 56;
@@ -593,6 +673,7 @@ namespace Carmicah
                                 actlObj1.Depth = 52;
                                 actlObj1.GetComponent<Animation>().ChangeAnim("CandyCone_Idle");
                                 actlObj2.GetComponent<Renderer>().SetAlpha(0.0f);
+                                actlObj2.GetComponentInChildren<Renderer>().SetAlpha(0.0f);
                                 actlObj2.GetComponent<Animation>().ChangeAnim("Shooter_Idle");
                                 enemyMouse1.GetComponent<Renderer>().SetAlpha(0.0f);
                                 enemyMouse1.GetComponent<Animation>().ChangeAnim("Mouse_Climb_Blue");
@@ -686,6 +767,7 @@ namespace Carmicah
                                 power1Ico.GetComponent<Renderer>().ChangeTexture("NPC_SpriteSheet_Mage_Idle 0");
                                 power1Ico.Depth = 54;
                                 actlObj1.GetComponent<Renderer>().SetAlpha(0.3f);
+                                actlObj1.GetComponentInChildren<Renderer>().SetAlpha(0.3f);
                                 ++aniProgress;
                                 isClicked = true;
                                 clickTime = 1;
@@ -732,6 +814,9 @@ namespace Carmicah
                                 Vector2 pPos = playerWalk.LocalPosition;
                                 pPos.x += 24;
                                 playerWalk.LocalPosition = pPos;
+                                pPos = playerWalk.GetFirstChild().LocalPosition;
+                                pPos.x -= 24;
+                                playerWalk.GetFirstChild().LocalPosition = pPos;
                                 ++aniProgress;
                             }
                             break;
@@ -745,6 +830,9 @@ namespace Carmicah
                                     Vector2 pPos = playerWalk.LocalPosition;
                                     pPos.x -= 24;
                                     playerWalk.LocalPosition = pPos;
+                                    pPos = playerWalk.GetFirstChild().LocalPosition;
+                                    pPos.x += 24;
+                                    playerWalk.GetFirstChild().LocalPosition = pPos;
                                     isPlayerFacingLeft = false;
                                     pos.x = 0.0f;
                                 }
@@ -757,6 +845,7 @@ namespace Carmicah
                                     playerWalk.LocalPosition = new Vector2(-160.0f, 105.0f);
                                     playerWalk.Scale = new Vector2(0.666f, 0.666f);
                                     actlObj1.GetComponent<Renderer>().SetAlpha(0.0f);
+                                    actlObj1.GetComponentInChildren<Renderer>().SetAlpha(0.0f);
                                     power2Ico.GetComponent<Animation>().ChangeAnim("Shooter_Mana");
                                     power1Ico.Scale = new Vector2(1, 1);
                                     cursor.LocalPosition = new Vector2(850, 0);
@@ -767,6 +856,60 @@ namespace Carmicah
                             break;
                     }
                     // Mouse moves back to 1'000, 100
+                    break;
+                case 5:
+                    // y == 660
+                    // y == 480
+                    switch(aniProgress)
+                    {
+                        case 0:
+                            Vector2 fallPos = actlObj1.LocalPosition;
+                            fallPos.y -= 700.0f * dt;
+                            if(!mouse1Climbing && fallPos.y < 660)
+                            {
+                                power1Ico.Depth = 52;
+                                power1Ico.GetComponent<Renderer>().SetAlpha(1.0f);
+                                power1Ico.GetComponent<Animation>().ChangeAnim("CakeFallVFx");
+                                mouse1Climbing = true;
+                                mouse2Climbing = false;
+                            }
+                            if (!mouse2Climbing && power1Ico.GetComponent<Animation>().IsAnimFinished())
+                            {
+                                power1Ico.Depth = 54;
+                                power1Ico.GetComponent<Animation>().ChangeAnim("CakeFallVFxEnd");
+                                mouse2Climbing = true;
+                            }
+                            if(fallPos.y < 480)
+                            {
+                                fallPos.y = 480.0f;
+                                actlObj1.GetComponent<Animation>().ChangeAnim("CakeStrawberry_Squish");
+                                clickTime = 1.5f;
+                                ++aniProgress;
+                            }
+                            actlObj1.LocalPosition = fallPos;
+                            break;
+                        case 1:
+                            if (!mouse2Climbing && power1Ico.GetComponent<Animation>().IsAnimFinished())
+                            {
+                                power1Ico.Depth = 54;
+                                power1Ico.GetComponent<Animation>().ChangeAnim("CakeFallVFxEnd");
+                                mouse2Climbing = true;
+                            }
+
+                            clickTime -= dt;
+                            if (clickTime < 0)
+                                ++aniProgress;
+                            break;
+                        case 2:
+                            actlObj1.LocalPosition = new Vector2(0, 1000);
+                            actlObj1.GetComponent<Animation>().ChangeAnim("CakeStrawberry_Fall");
+                            power1Ico.GetComponent<Renderer>().SetAlpha(0);
+                            power1Ico.Depth = 52;
+                            mouse1Climbing = false;
+                            mouse2Climbing = true;
+                            aniProgress = 0;
+                            break;
+                    }
                     break;
             }
         }

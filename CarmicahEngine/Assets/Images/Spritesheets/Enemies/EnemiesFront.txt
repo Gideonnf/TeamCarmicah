@@ -1,0 +1,11 @@
+Mouse
+Top Left: 0 x 0, 367 x 483
+3 Sprites
+
+Bear
+Top Left: 1101 x 0, 314 x 435
+1 Sprites
+
+Bird
+Top Left: 1415 x 0, 320 x 377
+1 Sprites

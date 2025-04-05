@@ -18,7 +18,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Tutorial_Spritesheet_How 0",
+            "texture": "UI2_Tutorial_2 0",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
@@ -145,7 +145,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 715.0,
+                    "xPos": 677.0,
                     "yPos": 343.0,
                     "depth": 60.0,
                     "xScale": 1.0,
@@ -162,7 +162,7 @@
                 {
                     "Component Name": "struct Carmicah::Animation",
                     "Atlas": "Shooter_Idle",
-                    "AnimSpeed": 1.0
+                    "AnimSpeed": 1.5
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -178,8 +178,8 @@
                     "xPos": -360.0,
                     "yPos": 178.0,
                     "depth": 51.0,
-                    "xScale": 0.6000000238418579,
-                    "yScale": 0.6000000238418579,
+                    "xScale": 0.5,
+                    "yScale": 0.5,
                     "rot": 0.0,
                     "transformTag": ""
                 }
@@ -192,7 +192,7 @@
                 {
                     "Component Name": "struct Carmicah::Animation",
                     "Atlas": "Mage_Idle",
-                    "AnimSpeed": 1.0
+                    "AnimSpeed": 1.5
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -208,8 +208,8 @@
                     "xPos": 100.0,
                     "yPos": 200.0,
                     "depth": 51.0,
-                    "xScale": 0.6000000238418579,
-                    "yScale": 0.6000000238418579,
+                    "xScale": 0.5,
+                    "yScale": 0.5,
                     "rot": 0.0,
                     "transformTag": ""
                 }
@@ -222,7 +222,7 @@
                 {
                     "Component Name": "struct Carmicah::Animation",
                     "Atlas": "Spear_Idle",
-                    "AnimSpeed": 1.0
+                    "AnimSpeed": 1.5
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -238,8 +238,8 @@
                     "xPos": 490.0,
                     "yPos": 213.0,
                     "depth": 51.0,
-                    "xScale": 0.6000000238418579,
-                    "yScale": 0.6000000238418579,
+                    "xScale": 0.5,
+                    "yScale": 0.5,
                     "rot": 0.0,
                     "transformTag": ""
                 }
@@ -266,10 +266,10 @@
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 490.0,
-                    "yPos": -160.0,
+                    "yPos": -130.0,
                     "depth": 51.0,
-                    "xScale": 0.75,
-                    "yScale": 0.75,
+                    "xScale": 0.5,
+                    "yScale": 0.5,
                     "rot": 0.0,
                     "transformTag": ""
                 }
@@ -298,8 +298,8 @@
                     "xPos": 115.0,
                     "yPos": -174.97796630859376,
                     "depth": 51.0,
-                    "xScale": 0.75,
-                    "yScale": 0.75,
+                    "xScale": 0.6,
+                    "yScale": 0.6,
                     "rot": 0.0,
                     "transformTag": ""
                 }
@@ -321,7 +321,7 @@
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": -468.85577392578127,
-                    "yPos": -290.0,
+                    "yPos": -335.35,
                     "depth": 52.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -395,11 +395,11 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 340.0,
-                    "yPos": -265.0,
+                    "xPos": 350.0,
+                    "yPos": -320.0,
                     "depth": 51.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
+                    "xScale": 0.75,
+                    "yScale": 0.75,
                     "rot": 0.0,
                     "transformTag": ""
                 }
@@ -446,10 +446,10 @@
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": -20.0,
-                    "yPos": -265.0,
+                    "yPos": -320.0,
                     "depth": 51.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
+                    "xScale": 0.9,
+                    "yScale": 0.9,
                     "rot": 0.0,
                     "transformTag": ""
                 }
@@ -470,11 +470,11 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": -560.0,
-                    "yPos": -265.0,
+                    "xPos": -550.0,
+                    "yPos": -315.0,
                     "depth": 51.0,
-                    "xScale": 0.75,
-                    "yScale": 0.75,
+                    "xScale": 0.5,
+                    "yScale": 0.5,
                     "rot": 0.0,
                     "transformTag": ""
                 }
@@ -500,11 +500,11 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": -310.0,
-                    "yPos": -170.99114990234376,
+                    "xPos": -345.0,
+                    "yPos": -170.0,
                     "depth": 51.0,
-                    "xScale": 0.75,
-                    "yScale": 0.75,
+                    "xScale": 0.6,
+                    "yScale": 0.6,
                     "rot": 0.0,
                     "transformTag": ""
                 }

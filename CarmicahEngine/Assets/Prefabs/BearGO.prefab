@@ -7,8 +7,8 @@
             "xPos": 8.947422981262207,
             "yPos": -18.05034828186035,
             "depth": 5.0,
-            "xScale": 0.5,
-            "yScale": 0.5,
+            "xScale": 0.8,
+            "yScale": 0.8,
             "rot": 0.0,
             "transformTag": "",
             "collisionMask": 4
@@ -172,6 +172,82 @@
                     "prefabRef": 33
                 }
             ]
-        }
+        },
+        {
+            "GameObject": "Particle_1",
+            "ID": 18,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.04934573173522949,
+                    "yPos": -1.5859031677246094,
+                    "depth": 3.0,
+                    "xScale": 1.6666666269302369,
+                    "yScale": 1.6666666269302369,
+                    "rot": 35.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::ParticleEmitter",
+                    "texture": "Projectile_SpriteSheet_Shooter 3",
+                    "VelX": 0.0,
+                    "VelY": -0.15000000596046449,
+                    "RadiusX": 0.07999999821186066,
+                    "RadiusY": 0.0,
+                    "SizeRangeMin": 0.10000000149011612,
+                    "SizeRangeMax": 0.15000000596046449,
+                    "SpawnPSec": 1,
+                    "Lifetime": 4.0,
+                    "BurstTime": 0.0,
+                    "SpeedRange": 0.0,
+                    "AngleRange": 35.0,
+                    "EmitterStatus": 5,
+                    "ColR": 0.49572646617889407,
+                    "ColG": 0.2851811945438385,
+                    "ColB": 0.0127109345048666,
+                    "ColA": 1.0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "Particle",
+            "ID": 89,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": -0.7090048789978027,
+                    "yPos": -1.5859031677246094,
+                    "depth": 3.0,
+                    "xScale": 1.6666666269302369,
+                    "yScale": 1.6666666269302369,
+                    "rot": 35.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::ParticleEmitter",
+                    "texture": "Projectile_SpriteSheet_Shooter 3",
+                    "VelX": 0.0,
+                    "VelY": -0.15000000596046449,
+                    "RadiusX": 0.07999999821186066,
+                    "RadiusY": 0.0,
+                    "SizeRangeMin": 0.10000000149011612,
+                    "SizeRangeMax": 0.15000000596046449,
+                    "SpawnPSec": 1,
+                    "Lifetime": 4.0,
+                    "BurstTime": 0.0,
+                    "SpeedRange": 0.0,
+                    "AngleRange": 35.0,
+                    "EmitterStatus": 5,
+                    "ColR": 0.49572646617889407,
+                    "ColG": 0.2851811945438385,
+                    "ColB": 0.0127109345048666,
+                    "ColA": 1.0
+                }
+            ],
+            "Children": []
+    }
     ]
 }

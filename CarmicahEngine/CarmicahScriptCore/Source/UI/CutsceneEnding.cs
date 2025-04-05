@@ -9,7 +9,7 @@ namespace Carmicah
     public class CutsceneEnding : Entity
     {
         public float timer = 0.0f;
-        private float timeToSwapPanel = 30.0f;
+        private float timeToSwapPanel = 5.0f;
 
         public float fadeSpeed = 0.5f;
         public float finalFadeOutDuration = 1.5f;
@@ -24,23 +24,28 @@ namespace Carmicah
         public string backgroundMusicTrack = "Endingcutscene";
         public string backgroundMusicTrack1 = "BGM_SetupPhase_Mix1";
 
+
         private bool musicStarted = false;
 
         int currentPanel = 0;
         Entity cutsceneEntity;
         Entity nextCutsceneEntity;
         float particlesDownTime = 4.0f;
-        Entity leftParticles;
-        Entity rightParticles;
+        Entity[] leftParticles = new Entity[3];
+        Entity[] rightParticles = new Entity[3];
         float currAlpha;
 
         public override void OnCreate()
         {
             Sound.StopSoundBGM(backgroundMusicTrack1);
             cutsceneEntity = FindEntityWithName("CutSceneImage");
-            leftParticles = FindEntityWithName("Left Particles");
-            rightParticles = FindEntityWithName("Right Particles");
-            cutsceneEntity.Depth = cutsceneEntity.Depth + 1.0f;
+            leftParticles[0] = FindEntityWithName("Left Particles");
+            rightParticles[0] = FindEntityWithName("Right Particles");
+            leftParticles[1] = FindEntityWithName("Left Particles_1");
+            rightParticles[1] = FindEntityWithName("Right Particles_1");
+            leftParticles[2] = FindEntityWithName("Left Particles_2");
+            rightParticles[2] = FindEntityWithName("Right Particles_2");
+            //cutsceneEntity.Depth = cutsceneEntity.Depth + 1.0f;
 
             if (!musicStarted)
             {
@@ -51,18 +56,30 @@ namespace Carmicah
 
         public override void OnUpdate(float dt)
         {
-            if (leftParticles == null)
-                leftParticles = FindEntityWithName("Left Particles");
-            else if (rightParticles == null)
-                rightParticles = FindEntityWithName("Right Particles");
+            if (leftParticles[0] == null)
+                leftParticles[0] = FindEntityWithName("Left Particles");
+            if (rightParticles[0] == null)
+                rightParticles[0] = FindEntityWithName("Right Particles");
+            if (leftParticles[1] == null)
+                leftParticles[1] = FindEntityWithName("Left Particles_1");
+            if (rightParticles[1] == null)
+                rightParticles[1] = FindEntityWithName("Right Particles_1");
+            if (leftParticles[2] == null)
+                leftParticles[2] = FindEntityWithName("Left Particles_2");
+            if (rightParticles[2] == null)
+                rightParticles[2] = FindEntityWithName("Right Particles_2");
 
-            if (!leftParticles.GetComponent<ParticleEmitter>().GetActive())
+            if (!leftParticles[0].GetComponent<ParticleEmitter>().GetActive())
             {
                 particlesDownTime += dt;
                 if (particlesDownTime > 4.0f)
                 {
-                    leftParticles.GetComponent<ParticleEmitter>().SetActive();
-                    rightParticles.GetComponent<ParticleEmitter>().SetActive();
+                    leftParticles[0].GetComponent<ParticleEmitter>().SetActive();
+                    rightParticles[0].GetComponent<ParticleEmitter>().SetActive();
+                    leftParticles[1].GetComponent<ParticleEmitter>().SetActive();
+                    rightParticles[1].GetComponent<ParticleEmitter>().SetActive();
+                    leftParticles[2].GetComponent<ParticleEmitter>().SetActive();
+                    rightParticles[2].GetComponent<ParticleEmitter>().SetActive();
                     particlesDownTime = 0.0f;
                 }
             }

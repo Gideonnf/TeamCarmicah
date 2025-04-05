@@ -1,7 +1,21 @@
 {
     "GameObject": "HowToStep5",
-    "ID": 1,
+    "ID": 69,
     "Components": [
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.UISliding",
+            "ScriptableFieldMap": [
+                {
+                    "createDimBG": false,
+                    "slideDist": 1920.0,
+                    "slideCurve": 10,
+                    "slideTime": 2.0,
+                    "slideToCenter": true,
+                    "slideType": "left"
+                }
+            ]
+        },
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
@@ -20,25 +34,51 @@
             "yScale": 1.0,
             "rot": 0.0,
             "transformTag": ""
-        },
-        {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.UISliding",
-            "ScriptableFieldMap": [
-                {
-                    "slideCurve": 10,
-                    "slideDist": 1920.0,
-                    "slideTime": 2.0,
-                    "slideType": "left"
-                }
-            ]
         }
     ],
     "Children": [
         {
-            "GameObject": "HowToLeftBtn",
-            "ID": 2,
+            "GameObject": "HowToCake5",
+            "ID": 70,
             "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "rainbow_cake_SpriteSheet_Squish 3",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 150.0,
+                    "depth": 51.0,
+                    "xScale": 0.75,
+                    "yScale": 0.75,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToLeftBtn",
+            "ID": 71,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "hOWToBack",
+                            "nextScene": ""
+                        }
+                    ]
+                },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
@@ -49,15 +89,6 @@
                     "colA": 1.0
                 },
                 {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.ButtonGeneric",
-                    "ScriptableFieldMap": [
-                        {
-                            "buttonType": "hOWToBack"
-                        }
-                    ]
-                },
-                {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": -710.0,
                     "yPos": 20.0,
@@ -66,24 +97,15 @@
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": ""
-                },
-                {
-                    "Component Name": "struct Carmicah::Button"
                 }
             ]
         },
         {
             "GameObject": "HowToRightBtn",
-            "ID": 3,
+            "ID": 72,
             "Components": [
                 {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.ButtonGeneric",
-                    "ScriptableFieldMap": [
-                        {
-                            "buttonType": "HowToNext"
-                        }
-                    ]
+                    "Component Name": "struct Carmicah::Button"
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
@@ -95,6 +117,16 @@
                     "colA": 1.0
                 },
                 {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "HowToNext",
+                            "nextScene": ""
+                        }
+                    ]
+                },
+                {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 710.0,
                     "yPos": 20.0,
@@ -103,16 +135,26 @@
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": ""
-                },
-                {
-                    "Component Name": "struct Carmicah::Button"
                 }
             ]
         },
         {
             "GameObject": "HowToQuickClose",
-            "ID": 4,
+            "ID": 73,
             "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "CloseHowTo",
+                            "nextScene": ""
+                        }
+                    ]
+                },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
@@ -124,25 +166,123 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 715.0,
+                    "xPos": 677.0,
                     "yPos": 343.0,
                     "depth": 60.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToCakeFalling",
+            "ID": 74,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "CakeStrawberry_Fall",
+                    "AnimSpeed": 1.0
                 },
                 {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.ButtonGeneric",
-                    "ScriptableFieldMap": [
-                        {
-                            "buttonType": "CloseHowTo"
-                        }
-                    ]
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "strawberry_cake_SpriteSheet_Squish 3",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
                 },
                 {
-                    "Component Name": "struct Carmicah::Button"
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 1000.0,
+                    "depth": 53.0,
+                    "xScale": 0.75,
+                    "yScale": 0.75,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToCakeFallVFXBack",
+            "ID": 75,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "CakeFallVfx",
+                    "AnimSpeed": 1.5
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "sparkle_vfx_spritesheet_Sparkle 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -13.0,
+                    "yPos": 195.0,
+                    "depth": 52.0,
+                    "xScale": 0.75,
+                    "yScale": 0.75,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToFakeTutorialTop",
+            "ID": 76,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_Tutorial_Hide1 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 507.0,
+                    "depth": 55.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToFakeTutorialTop2",
+            "ID": 77,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_Tutorial_Hide2 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 450.750,
+                    "depth": 56.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
                 }
             ]
         }

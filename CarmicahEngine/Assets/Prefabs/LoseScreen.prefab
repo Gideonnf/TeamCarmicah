@@ -94,7 +94,7 @@
                 {
                     "Component Name": "struct Carmicah::TextRenderer",
                     "font": "Sigmar-Regular",
-                    "text": "You died",
+                    "text": "Try again?",
                     "colorR": 0.9647058844566345,
                     "colorG": 0.16470588743686677,
                     "colorB": 0.5960784554481506,
@@ -162,54 +162,11 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 251.4036865234375,
-                    "yPos": -7.579833984375,
+                    "xPos": 260.0,
+                    "yPos": 30.0,
                     "depth": 2.0,
                     "xScale": 1.600000023841858,
                     "yScale": 1.600000023841858,
-                    "rot": 0.0,
-                    "transformTag": ""
-                }
-            ]
-        },
-        {
-            "GameObject": "Setting",
-            "ID": 46,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::Button"
-                },
-                {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Button_HE_Settings",
-                    "AnimSpeed": 1.0
-                },
-                {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.ButtonGeneric",
-                    "ScriptableFieldMap": [
-                        {
-                            "buttonType": "settings",
-                            "nextScene": ""
-                        }
-                    ]
-                },
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Settings 1",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
-                    "colA": 1.0
-                },
-                {
-                    "Component Name": "struct Carmicah::UITransform",
-                    "xPos": -295.0,
-                    "yPos": -231.41400146484376,
-                    "depth": 2.0,
-                    "xScale": 1.100000023841858,
-                    "yScale": 1.100000023841858,
                     "rot": 0.0,
                     "transformTag": ""
                 }
@@ -248,11 +205,11 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 12.0,
-                    "yPos": -233.27935791015626,
+                    "xPos": -200.0,
+                    "yPos": -225.0,
                     "depth": 2.0,
-                    "xScale": 1.100000023841858,
-                    "yScale": 1.100000023841858,
+                    "xScale": 1.384615384615385,
+                    "yScale": 1.384615384615385,
                     "rot": 0.0,
                     "transformTag": ""
                 }
@@ -291,11 +248,11 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 310.0,
-                    "yPos": -231.41412353515626,
+                    "xPos": 200.0,
+                    "yPos": -225.0,
                     "depth": 2.0,
-                    "xScale": 1.100000023841858,
-                    "yScale": 1.100000023841858,
+                    "xScale": 1.384615384615385,
+                    "yScale": 1.384615384615385,
                     "rot": 0.0,
                     "transformTag": ""
                 }

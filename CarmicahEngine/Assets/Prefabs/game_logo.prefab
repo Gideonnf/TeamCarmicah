@@ -5,15 +5,15 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "UI_Game_Logo 0"
+            "texture": "UI2_SugarStrike 0"
         },
         {
             "Component Name": "struct Carmicah::UITransform",
                 "xPos": 960.0,
                 "yPos": 540.0,
                 "depth": 0.0,
-                "xScale": 1.0,
-                "yScale": 1.0,
+                "xScale": 0.6,
+                "yScale": 0.6,
                 "rot": 0.0
         }
     ]

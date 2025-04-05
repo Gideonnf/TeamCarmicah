@@ -111,18 +111,30 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 	glBindFramebuffer(GL_FRAMEBUFFER, FBOScene.FBO);
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);	// Write to depth
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	GLuint zero = 0;
 	glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
-	glClearBufferuiv(GL_COLOR, 1, &zero);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	for (int renderPass = 0; renderPass < 2; ++renderPass)
+	for (int renderPass = 0; renderPass < 3; ++renderPass)
 	{
 		BufferID currID(0, std::numeric_limits<unsigned int>::max(), std::numeric_limits<unsigned int>::max(), std::numeric_limits<unsigned int>::max());
-		if (renderPass == 1)
+		
+		switch (renderPass)
 		{
+		case 0:
+			glDisable(GL_BLEND);
+			glEnable(GL_DEPTH_TEST);
+			glDepthMask(GL_TRUE);	// Enable writing to depth buffer
+			glDepthFunc(GL_LESS);	// When incoming depth is smaller, pass the test
+
+			break;
+		case 1:
+			glColorMaski(1, GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			break;
+		case 2:
 			glClearBufferfv(GL_COLOR, 2, zeroFiller);
 			glClearBufferfv(GL_COLOR, 3, oneFiller);
+			break;
 		}
 		// Loops through all batch Buffers
 		for (const auto& it : mBufferMap)
@@ -130,9 +142,8 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 			const auto& batchBuffer = it.second;
 			if (!(currID == it.first))
 			{
-				if (!isEditor && (it.first.dat[BUFFER_SHADER] == debugShaderID))
-					continue;
-				if (renderPass != 0 && it.first.dat[BUFFER_SHADER] != defaultShaderID)
+				// Don't need debug if editor
+				if ((it.first.dat[BUFFER_SHADER] == debugShaderID) && (!isEditor || renderPass == 2))
 					continue;
 
 				GLint uniformLoc{};
@@ -147,43 +158,36 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 					{
 						if(UniformExists(mCurrShader, "uPassNum", uniformLoc))
 							glUniform1i(uniformLoc, renderPass);
-						if (renderPass == 0)
+						switch (renderPass)
 						{
-							glDisable(GL_BLEND);
-
-							glEnable(GL_DEPTH_TEST);
-
-							// Specifically disable writing to ID 2 since id 2 is particles, yes, ik, it's dumb
-							if(it.first.dat[BUFFER_ID] == 0)
+						case 0:
+							if (it.first.dat[BUFFER_ID] == 0)
 								glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
-							else if(it.first.dat[BUFFER_ID] == 2)
+							// Specifically disable writing to ID 2 since id 2 is particles, yes, ik, it's dumb
+							else if (it.first.dat[BUFFER_ID] == 2)
 								glColorMaski(1, GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-							glDepthMask(GL_TRUE);	// Enable writing to depth buffer
-							glDepthFunc(GL_LESS);	// When incoming depth is smaller, pass the test
-
-						}
-						else
-						{
+							break;
+						case 1:
+							break;
+						case 2:
 							glEnable(GL_BLEND);
 							glBlendFunci(0, GL_ZERO, GL_ONE);
-							glBlendFunci(1, GL_ZERO, GL_ONE);
-							glColorMaski(1, GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 							glBlendFunci(2, GL_ONE, GL_ONE);	// left - the amount of alpha of the newly rendered thing, right - the original thing at the back
 							glBlendFunci(3, GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
 							glBlendEquation(GL_FUNC_ADD);
 
 							glDepthMask(GL_FALSE);
 							glDepthFunc(GL_LEQUAL);
+							break;
 						}
 					}
+					// Rendering debug things
 					else
 					{
-						glEnable(GL_BLEND);
-						glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-						glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
-						glEnable(GL_DEPTH_TEST);
-						glDepthMask(GL_TRUE);
-						glDepthFunc(GL_LESS);
+						if (renderPass == 0)
+						{
+							glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
+						}
 					}
 					// Binds the entire 32 texture array
 					glBindTexture(GL_TEXTURE_2D_ARRAY, AssetManager::GetInstance()->mArrayTex);
@@ -239,7 +243,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 							continue;
 
 						if (UniformExists(mCurrShader, "uTextColor", uniformLoc))
-							glUniform3f(uniformLoc, font.second.col[0], font.second.col[1], font.second.col[2]);
+							glUniform4f(uniformLoc, font.second.col[0], font.second.col[1], font.second.col[2], font.second.col[3]);
 						if (UniformExists(mCurrShader, "uTextOffset", uniformLoc))
 							glUniform2f(uniformLoc, font.second.offset.x, font.second.offset.y);
 						if (UniformExists(mCurrShader, "uTextScale", uniformLoc))
@@ -301,6 +305,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 			}
 			else if (!batchBuffer.isDebug)
 			{
+				int renderCount = static_cast<int>(batchBuffer.objCount);
 				for (auto& i : batchBuffer.buffer)
 				{
 					glBindVertexArray(i.vao);
@@ -308,14 +313,15 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 					glMultiDrawElementsIndirect(GL_TRIANGLES,
 						GL_UNSIGNED_SHORT,// Indices
 						(GLvoid*)0,
-						mBatchSize,
+						std::min(renderCount ,mBatchSize),
 						0);
+					renderCount -= mBatchSize;
 				}
 			}
 			else
 			{
 				glLineWidth(4.f);
-
+				int renderCount = static_cast<int>(batchBuffer.objCount);
 				for (auto& i : batchBuffer.buffer)
 				{
 					glBindVertexArray(i.vao);
@@ -323,8 +329,9 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 					glMultiDrawElementsIndirect(batchBuffer.pRef->drawMode,
 						GL_UNSIGNED_SHORT,// Indices
 						(GLvoid*)0,
-						mBatchSize,
+						std::min(renderCount, mBatchSize),
 						0);
+					renderCount -= mBatchSize;
 				}
 			}
 		}
@@ -332,7 +339,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 
 	glDepthFunc(GL_ALWAYS);
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO, GL_ONE);
 	glBlendFunci(1, GL_ZERO, GL_ONE);
 
 	mCurrShader = AssetManager::GetInstance()->GetAsset<Shader>("combi").s;

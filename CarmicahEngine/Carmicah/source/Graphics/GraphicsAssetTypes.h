@@ -133,7 +133,7 @@ namespace Carmicah
 		std::vector<vtxTexd2D> vtx;
 		Vec2f offset;
 		Vec2f scale;
-		float col[3];
+		float col[4];
 		int vtxSize = 0; // because vtx getting resized in 100 batches * 4 vtxs, dun keep actl size there
 		/*!*************************************************************************
 		brief
@@ -145,11 +145,12 @@ namespace Carmicah
 		param[b]
 			Blue (0.f ~ 1.f)
 		***************************************************************************/
-		void SetColor(const float& r, const float& g, const float& b)
+		void SetColor(const float& r, const float& g, const float& b, const float& a = 1.0f)
 		{
 			col[0] = r;
 			col[1] = g;
 			col[2] = b;
+			col[3] = a;
 		}
 	};
 	// Editor Gizmos specific things

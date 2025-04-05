@@ -56,6 +56,7 @@ namespace Carmicah
 
         //target enemy
         public Entity target;
+        public Vector2 targetEndpt;
 
         float timer = 0.0f;
         float animTimer = 0.0f;
@@ -123,7 +124,18 @@ namespace Carmicah
                 if (HasComponent<RigidBody>())
                 {
                     Vector2 mousePos = target.Position;
-                    if(bulletType == BulletType.MAGE_BULLET)
+
+                    if (bulletType == BulletType.SHOOTER_BULLET)
+                    {
+
+                        if(bulletTarget == BulletTarget.GROUND)
+                        {
+                            CMConsole.Log("Targetting the start point supposedly");
+                            mousePos = targetEndpt;
+                        }
+                    }
+
+                    if (bulletType == BulletType.MAGE_BULLET)
                     {
                         if(!facingRight)
                         {
@@ -167,6 +179,8 @@ namespace Carmicah
                         mousePos.y -= 4.0f;
                     }
 
+
+                    CMConsole.Log($"Actual Target: {mousePos.x} + {mousePos.y}");
                     Vector2 dir = mousePos - Position;
                     dir.Normalize();
                     //CMConsole.Log($"target mouse??? {targetMouse.mID}");
@@ -206,24 +220,54 @@ namespace Carmicah
                     {
                         if(facingRight)
                         {
-                            Rot = 0;
+                            Rot = 180;
                         }
                         else
                         {
-                            Rot = 80;
+                            Rot = 260;
                         }
                     }
                     if(bulletTarget == BulletTarget.GROUND)
                     {
                         if(facingRight)
                         {
-                            Rot = 225;
+                            Rot = 45;
                         }
                         else
                         {
-                            Rot = 205;
+                            Rot = 25;
+                        }
+
+                        switch (targetEnemy.As<MouseAI>().lane)
+                        {
+                            case 0:
+                                {
+                                    targetEndpt = target.As<MouseAI>().startPosRight;
+                                    CMConsole.Log($"Target: {targetEndpt.x} + {targetEndpt.y}");
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    targetEndpt = target.As<MouseAI>().startPosLeft;
+                                    CMConsole.Log($"Target: {targetEndpt.x} + {targetEndpt.y}");
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    targetEndpt = target.As<MouseAI>().startPosRight2;
+                                    CMConsole.Log($"Target: {targetEndpt.x} + {targetEndpt.y}");
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    targetEndpt = target.As<MouseAI>().startPosLeft2;
+                                    CMConsole.Log($"Target: {targetEndpt.x} + {targetEndpt.y}");
+                                    break;
+                                }
                         }
                     }
+
+                    
                 }
                 else if(bulletType == BulletType.MAGE_BULLET)
                 {

@@ -50,7 +50,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": -30.0,
+                    "xPos": -50.0,
                     "yPos": 20.0,
                     "depth": 1.0,
                     "xScale": 0.8,
@@ -62,9 +62,9 @@
                     "Component Name": "struct Carmicah::TextRenderer",
                     "font": "Chewy-Regular",
                     "text": "",
-                    "colorR": 0.0,
-                    "colorG": 0.0,
-                    "colorB": 0.0,
+                    "colorR": 0.4117647058823529,
+                    "colorG": 0.1725490196078431,
+                    "colorB": 0.0941176470588235,
                     "textAlign": 33              
                 }
             ]

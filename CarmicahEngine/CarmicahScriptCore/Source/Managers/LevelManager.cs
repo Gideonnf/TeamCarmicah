@@ -336,6 +336,29 @@ namespace Carmicah
           //  CMConsole.Log($"J : {j}, {count}");
         }
 
+        public List<bool> PreviewNextLevelEnemies()
+        {
+            List<bool> ret = new List<bool>();
+            for(int i = 0; i < 5; ++i)
+            {
+                ret.Add(false);
+            }
+
+            if (levelMap.ContainsKey(currentLevel + 1))
+            {
+                Level lvl = levelMap[currentLevel + 1];
+                for (int i = 0; i < lvl.waves.Count; i++)
+                {
+                    for (int j = 0; j < lvl.waves[i].enemySpawns.Length; j++)
+                    {
+                        if (lvl.waves[i].enemySpawns[j] > 0)
+                            ret[j] = true;
+                    }
+                }
+            }
+            return ret;
+        }
+
         public void DebugPrintLevelMap()
         {
             foreach (KeyValuePair<int, Level> entry in levelMap)

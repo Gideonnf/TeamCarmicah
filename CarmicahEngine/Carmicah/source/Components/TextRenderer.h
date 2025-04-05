@@ -35,7 +35,7 @@ namespace Carmicah
         std::string font;
         std::string txt;
         std::string oldTxt;
-        float colorR, colorG, colorB;
+        float colorR, colorG, colorB, colorA;
         float totalWidth;
         float totalHeight;
         unsigned short txtAlign;
@@ -90,6 +90,10 @@ namespace Carmicah
             colorR = component["colorR"].GetFloat();
             colorG = component["colorG"].GetFloat();
             colorB = component["colorB"].GetFloat();
+            if (component.HasMember("colorA"))
+                colorA = component["colorA"].GetFloat();
+            else
+                colorA = 1.0f;
             if (component.HasMember("textAlign"))
                 txtAlign = static_cast<unsigned short>(component["textAlign"].GetInt());
             return *this;
@@ -107,6 +111,8 @@ namespace Carmicah
             writer.Double(colorG);
             writer.String("colorB");
             writer.Double(colorB);
+            writer.String("colorA");
+            writer.Double(colorA);
             writer.String("textAlign");
             writer.Int(static_cast<int>(txtAlign));
 

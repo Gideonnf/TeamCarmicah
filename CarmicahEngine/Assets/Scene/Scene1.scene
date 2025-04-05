@@ -37,31 +37,6 @@
             "Children": []
         },
         {
-            "GameObject": "GameTitle",
-            "ID": 3,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::TextRenderer",
-                    "font": "Chewy-Regular",
-                    "text": "Sugar Strike",
-                    "colorR": 1.0,
-                    "colorG": 1.0,
-                    "colorB": 1.0,
-                    "textAlign": 0
-                },
-                {
-                    "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 0.0,
-                    "yPos": 0.0,
-                    "depth": 0.0,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
-                    "rot": 0.0,
-                    "transformTag": ""
-                }
-            ]
-        },
-        {
             "GameObject": "StartPointRight",
             "ID": 5,
             "Components": [
@@ -105,7 +80,7 @@
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.16312193870544434,
                     "yPos": 11.047698974609375,
-                    "depth": 3.25,
+                    "depth": 1.100000023841858,
                     "xScale": 1.2000000476837159,
                     "yScale": 1.2000000476837159,
                     "rot": 0.0,
@@ -130,11 +105,11 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -5.659003257751465,
-                    "yPos": -21.167631149291993,
+                    "xPos": -5.610000133514404,
+                    "yPos": -21.121999740600587,
                     "depth": 1.2000000476837159,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
+                    "xScale": 0.6000000238418579,
+                    "yScale": 0.6000000238418579,
                     "rot": 0.0,
                     "transformTag": "",
                     "collisionMask": 1
@@ -162,7 +137,7 @@
                         {
                             "Component Name": "struct Carmicah::Transform",
                             "xPos": 0.0,
-                            "yPos": -2.5627124309539797,
+                            "yPos": -4.039999961853027,
                             "depth": 6.5,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -216,13 +191,13 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Button_HE_Settings",
+                    "Atlas": "Button_C_Pause",
                     "AnimSpeed": 1.0
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Button_SpriteSheet_H_Settings 8",
+                    "texture": "UI_Pause 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -230,11 +205,11 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1726.22802734375,
-                    "yPos": 1001.3499755859375,
+                    "xPos": 1820.0,
+                    "yPos": 1000.0,
                     "depth": 1.0,
-                    "xScale": 0.800000011920929,
-                    "yScale": 0.800000011920929,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": ""
                 },
@@ -418,7 +393,7 @@
                     "ScriptableFieldMap": [
                         {
                             "BearPrefabName": "BearGO",
-                            "CakeHeightOffset": 11.600000381469727,
+                            "CakeHeightOffset": 11.0,
                             "CakeVFXPrefab": "CakeVFX",
                             "EndPointEntityLeft": "EndPointLeft",
                             "EndPointEntityLeft2": "EndPointLeft_1",
@@ -437,13 +412,10 @@
                             "StartingCake": "StartingCake",
                             "PlayerName": "mainCharacter",
                             "activeEnemies": 0,
-                            "yTargetPos": 22.0,
                             "cameraHeight": 10.0,
                             "spawnTimer": 1.5,
                             "timer": 0.0,
-                            "ySpawnPos": 44.0,
-                            "yVFXLocation": 13.0,
-                            "yVFXSpawn": 28.0
+                            "ySpawnPos": 44.0
                         }
                     ]
                 }
@@ -517,12 +489,12 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 6.167421817779541,
-                    "yPos": -21.639293670654298,
+                    "xPos": 6.834000110626221,
+                    "yPos": -20.91200065612793,
                     "depth": 1.2000000476837159,
-                    "xScale": 1.0,
-                    "yScale": 1.0,
-                    "rot": 39.6349983215332,
+                    "xScale": -0.6000000238418579,
+                    "yScale": 0.6000000238418579,
+                    "rot": 0.0,
                     "transformTag": "",
                     "collisionMask": 0
                 },
@@ -552,12 +524,12 @@
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Transform",
-                            "xPos": -0.07995014637708664,
-                            "yPos": -2.567535877227783,
+                            "xPos": 0.0,
+                            "yPos": -4.039999961853027,
                             "depth": 6.5,
                             "xScale": 1.0,
                             "yScale": 1.0,
-                            "rot": 0.4665374755859375,
+                            "rot": 0.0,
                             "transformTag": "",
                             "collisionMask": 0
                         },
@@ -1105,7 +1077,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 3.0,
                             "yOffset": 1.0,
                             "IsLeft": true,
@@ -1171,7 +1143,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 0.0,
                             "yOffset": 1.0,
                             "IsLeft": false,
@@ -1245,7 +1217,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "Pigeon_SpriteSheet_Dive 4",
+                            "texture": "EnemiesFront_Bird 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -1253,11 +1225,11 @@
                         },
                         {
                             "Component Name": "struct Carmicah::UITransform",
-                            "xPos": 0.0,
-                            "yPos": 0.0,
+                            "xPos": 7.449999809265137,
+                            "yPos": -16.0,
                             "depth": 2.6500000953674318,
-                            "xScale": 0.800000011920929,
-                            "yScale": 0.800000011920929,
+                            "xScale": 0.6000000238418579,
+                            "yScale": 0.6000000238418579,
                             "rot": 18.294904708862306,
                             "transformTag": ""
                         }
@@ -1357,7 +1329,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "Pigeon_SpriteSheet_Dive 4",
+                            "texture": "EnemiesFront_Bird 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -1365,11 +1337,11 @@
                         },
                         {
                             "Component Name": "struct Carmicah::UITransform",
-                            "xPos": 0.0,
-                            "yPos": 0.0,
+                            "xPos": -7.449999809265137,
+                            "yPos": -16.0,
                             "depth": 2.8499999046325685,
-                            "xScale": -0.800000011920929,
-                            "yScale": 0.800000011920929,
+                            "xScale": -0.6000000238418579,
+                            "yScale": 0.6000000238418579,
                             "rot": -18.184127807617189,
                             "transformTag": ""
                         }
@@ -1516,7 +1488,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 2.0,
                             "yOffset": 1.0,
                             "IsLeft": true,
@@ -1582,7 +1554,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 1.0,
                             "yOffset": 1.0,
                             "IsLeft": false,
@@ -1605,12 +1577,13 @@
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
+                    "colorA": 1.0,
                     "textAlign": 17
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1802.13525390625,
-                    "yPos": 91.5252685546875,
+                    "xPos": 1797.0,
+                    "yPos": 91.5,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -2262,8 +2235,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 363.8429870605469,
-                    "yPos": 986.6439819335938,
+                    "xPos": 360.0,
+                    "yPos": 965.0,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -2329,13 +2302,16 @@
                 },
                 {
                     "Component Name": "struct Carmicah::PrefabData",
-                    "prefabRef": 53
+                    "prefabRef": 1
                 },
                 {
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.Parallex",
                     "ScriptableFieldMap": [
-                        {}
+                        {
+                            "cloudMaxSpeed": 2.0,
+                            "cloudMinSpeed": 0.5
+                        }
                     ]
                 }
             ],
@@ -2357,7 +2333,7 @@
                         },
                         {
                             "Component Name": "struct Carmicah::PrefabData",
-                            "prefabRef": 57
+                            "prefabRef": 2
                         },
                         {
                             "Component Name": "struct Carmicah::Renderer",
@@ -2388,7 +2364,7 @@
                         },
                         {
                             "Component Name": "struct Carmicah::PrefabData",
-                            "prefabRef": 59
+                            "prefabRef": 3
                         },
                         {
                             "Component Name": "struct Carmicah::Renderer",
@@ -2403,169 +2379,14 @@
                     "Children": []
                 },
                 {
-                    "GameObject": "BackgroundCakesL1",
-                    "ID": 65,
-                    "Components": [
-                        {
-                            "Component Name": "struct Carmicah::Transform",
-                            "xPos": -15.128072738647461,
-                            "yPos": -9.530776977539063,
-                            "depth": -93.0,
-                            "xScale": 1.0,
-                            "yScale": 1.0,
-                            "rot": 0.0,
-                            "transformTag": "",
-                            "collisionMask": 0
-                        },
-                        {
-                            "Component Name": "struct Carmicah::PrefabData",
-                            "prefabRef": 61
-                        },
-                        {
-                            "Component Name": "struct Carmicah::Renderer",
-                            "model": "Square",
-                            "texture": "Background_SpriteSheet_Cake1 0",
-                            "colR": 1.0,
-                            "colG": 1.0,
-                            "colB": 1.0,
-                            "colA": 1.0
-                        }
-                    ],
-                    "Children": []
-                },
-                {
-                    "GameObject": "BackgroundCakesR0",
-                    "ID": 66,
-                    "Components": [
-                        {
-                            "Component Name": "struct Carmicah::Transform",
-                            "xPos": 9.974595069885254,
-                            "yPos": -7.926632881164551,
-                            "depth": -94.0,
-                            "xScale": 1.0,
-                            "yScale": 1.0,
-                            "rot": 0.0,
-                            "transformTag": "",
-                            "collisionMask": 0
-                        },
-                        {
-                            "Component Name": "struct Carmicah::PrefabData",
-                            "prefabRef": 62
-                        },
-                        {
-                            "Component Name": "struct Carmicah::Renderer",
-                            "model": "Square",
-                            "texture": "Background_SpriteSheet_Cake2 0",
-                            "colR": 1.0,
-                            "colG": 1.0,
-                            "colB": 1.0,
-                            "colA": 1.0
-                        }
-                    ],
-                    "Children": []
-                },
-                {
-                    "GameObject": "BackgroundCakesL0",
-                    "ID": 67,
-                    "Components": [
-                        {
-                            "Component Name": "struct Carmicah::Transform",
-                            "xPos": -10.295802116394043,
-                            "yPos": -7.568086624145508,
-                            "depth": -94.0,
-                            "xScale": 1.0,
-                            "yScale": 1.0,
-                            "rot": 0.0,
-                            "transformTag": "",
-                            "collisionMask": 0
-                        },
-                        {
-                            "Component Name": "struct Carmicah::PrefabData",
-                            "prefabRef": 63
-                        },
-                        {
-                            "Component Name": "struct Carmicah::Renderer",
-                            "model": "Square",
-                            "texture": "Background_SpriteSheet_Cake3 0",
-                            "colR": 1.0,
-                            "colG": 1.0,
-                            "colB": 1.0,
-                            "colA": 1.0
-                        }
-                    ],
-                    "Children": []
-                },
-                {
-                    "GameObject": "BackgroundCakesL2",
-                    "ID": 69,
-                    "Components": [
-                        {
-                            "Component Name": "struct Carmicah::Transform",
-                            "xPos": -15.711970329284668,
-                            "yPos": -16.76885223388672,
-                            "depth": -92.0,
-                            "xScale": 1.0,
-                            "yScale": 1.0,
-                            "rot": 0.0,
-                            "transformTag": "",
-                            "collisionMask": 0
-                        },
-                        {
-                            "Component Name": "struct Carmicah::PrefabData",
-                            "prefabRef": 64
-                        },
-                        {
-                            "Component Name": "struct Carmicah::Renderer",
-                            "model": "Square",
-                            "texture": "Background_SpriteSheet_Cake4 0",
-                            "colR": 1.0,
-                            "colG": 1.0,
-                            "colB": 1.0,
-                            "colA": 1.0
-                        }
-                    ],
-                    "Children": []
-                },
-                {
-                    "GameObject": "BackgroundCakesR1",
-                    "ID": 70,
-                    "Components": [
-                        {
-                            "Component Name": "struct Carmicah::Transform",
-                            "xPos": 14.190044403076172,
-                            "yPos": -2.778690814971924,
-                            "depth": -93.0,
-                            "xScale": 0.699999988079071,
-                            "yScale": 0.699999988079071,
-                            "rot": 0.0,
-                            "transformTag": "",
-                            "collisionMask": 0
-                        },
-                        {
-                            "Component Name": "struct Carmicah::PrefabData",
-                            "prefabRef": 65
-                        },
-                        {
-                            "Component Name": "struct Carmicah::Renderer",
-                            "model": "Square",
-                            "texture": "Background_SpriteSheet_Cake5 0",
-                            "colR": 1.0,
-                            "colG": 1.0,
-                            "colB": 1.0,
-                            "colA": 1.0
-                        }
-                    ],
-                    "Children": []
-                },
-                {
                     "GameObject": "BackgroundBigClouds",
-                    "ID": 71,
+                    "ID": 65,
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Transform",
                             "xPos": 0.0,
                             "yPos": 3.513518810272217,
-                            "depth": -98.0,
+                            "depth": -97.0,
                             "xScale": 1.0,
                             "yScale": 1.0,
                             "rot": 0.0,
@@ -2574,12 +2395,360 @@
                         },
                         {
                             "Component Name": "struct Carmicah::PrefabData",
-                            "prefabRef": 66
+                            "prefabRef": 4
                         },
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
                             "texture": "Clouds_SpriteSheet_BigClouds 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "BackgroundCloud0",
+                    "ID": 66,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 33.61225509643555,
+                            "yPos": 15.765496253967286,
+                            "depth": -98.0,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 5
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Clouds_SpriteSheet_TRCloud1 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "BackgroundCloud1",
+                    "ID": 67,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -31.866172790527345,
+                            "yPos": 22.292619705200197,
+                            "depth": -99.0,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 6
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Clouds_SpriteSheet_TLCloud2 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "BackgroundP0",
+                    "ID": 69,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 0.0,
+                            "yPos": 0.0,
+                            "depth": 0.0,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 7
+                        }
+                    ],
+                    "Children": [
+                        {
+                            "GameObject": "BackgroundCakesL0",
+                            "ID": 70,
+                            "Components": [
+                                {
+                                    "Component Name": "struct Carmicah::Transform",
+                                    "xPos": -7.999508380889893,
+                                    "yPos": -7.568000793457031,
+                                    "depth": -94.0,
+                                    "xScale": 1.0,
+                                    "yScale": 1.0,
+                                    "rot": 0.0,
+                                    "transformTag": "",
+                                    "collisionMask": 0
+                                },
+                                {
+                                    "Component Name": "struct Carmicah::PrefabData",
+                                    "prefabRef": 8
+                                },
+                                {
+                                    "Component Name": "struct Carmicah::Renderer",
+                                    "model": "Square",
+                                    "texture": "Background_SpriteSheet_Cake3 0",
+                                    "colR": 1.0,
+                                    "colG": 1.0,
+                                    "colB": 1.0,
+                                    "colA": 1.0
+                                }
+                            ],
+                            "Children": []
+                        },
+                        {
+                            "GameObject": "BackgroundCakesR0",
+                            "ID": 71,
+                            "Components": [
+                                {
+                                    "Component Name": "struct Carmicah::Transform",
+                                    "xPos": 9.235825538635254,
+                                    "yPos": -7.927000045776367,
+                                    "depth": -94.0,
+                                    "xScale": 1.0,
+                                    "yScale": 1.0,
+                                    "rot": 0.0,
+                                    "transformTag": "",
+                                    "collisionMask": 0
+                                },
+                                {
+                                    "Component Name": "struct Carmicah::PrefabData",
+                                    "prefabRef": 9
+                                },
+                                {
+                                    "Component Name": "struct Carmicah::Renderer",
+                                    "model": "Square",
+                                    "texture": "Background_SpriteSheet_Cake2 0",
+                                    "colR": 1.0,
+                                    "colG": 1.0,
+                                    "colB": 1.0,
+                                    "colA": 1.0
+                                }
+                            ],
+                            "Children": []
+                        }
+                    ]
+                },
+                {
+                    "GameObject": "BackgroundP1",
+                    "ID": 73,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 0.0,
+                            "yPos": 0.0,
+                            "depth": 0.0,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 10
+                        }
+                    ],
+                    "Children": [
+                        {
+                            "GameObject": "BackgroundCakesL1",
+                            "ID": 83,
+                            "Components": [
+                                {
+                                    "Component Name": "struct Carmicah::Transform",
+                                    "xPos": -12.410470962524414,
+                                    "yPos": -10.849000930786133,
+                                    "depth": -93.0,
+                                    "xScale": 1.0,
+                                    "yScale": 1.0,
+                                    "rot": 0.0,
+                                    "transformTag": "",
+                                    "collisionMask": 0
+                                },
+                                {
+                                    "Component Name": "struct Carmicah::PrefabData",
+                                    "prefabRef": 11
+                                },
+                                {
+                                    "Component Name": "struct Carmicah::Renderer",
+                                    "model": "Square",
+                                    "texture": "Background_SpriteSheet_Cake1 0",
+                                    "colR": 1.0,
+                                    "colG": 1.0,
+                                    "colB": 1.0,
+                                    "colA": 1.0
+                                }
+                            ],
+                            "Children": []
+                        }
+                    ]
+                },
+                {
+                    "GameObject": "BackgroundP2",
+                    "ID": 84,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 0.0,
+                            "yPos": 0.0,
+                            "depth": 0.0,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 12
+                        }
+                    ],
+                    "Children": [
+                        {
+                            "GameObject": "BackgroundCakesR1",
+                            "ID": 85,
+                            "Components": [
+                                {
+                                    "Component Name": "struct Carmicah::Transform",
+                                    "xPos": 14.547622680664063,
+                                    "yPos": -9.392000198364258,
+                                    "depth": -93.0,
+                                    "xScale": 0.699999988079071,
+                                    "yScale": 0.699999988079071,
+                                    "rot": 0.0,
+                                    "transformTag": "",
+                                    "collisionMask": 0
+                                },
+                                {
+                                    "Component Name": "struct Carmicah::PrefabData",
+                                    "prefabRef": 13
+                                },
+                                {
+                                    "Component Name": "struct Carmicah::Renderer",
+                                    "model": "Square",
+                                    "texture": "Background_SpriteSheet_Cake5 0",
+                                    "colR": 1.0,
+                                    "colG": 1.0,
+                                    "colB": 1.0,
+                                    "colA": 1.0
+                                }
+                            ],
+                            "Children": []
+                        },
+                        {
+                            "GameObject": "BackgroundCakesL2",
+                            "ID": 86,
+                            "Components": [
+                                {
+                                    "Component Name": "struct Carmicah::Transform",
+                                    "xPos": -15.711970329284668,
+                                    "yPos": -9.059999465942383,
+                                    "depth": -92.0,
+                                    "xScale": 1.0,
+                                    "yScale": 1.0,
+                                    "rot": 0.0,
+                                    "transformTag": "",
+                                    "collisionMask": 0
+                                },
+                                {
+                                    "Component Name": "struct Carmicah::PrefabData",
+                                    "prefabRef": 14
+                                },
+                                {
+                                    "Component Name": "struct Carmicah::Renderer",
+                                    "model": "Square",
+                                    "texture": "Background_SpriteSheet_Cake4 0",
+                                    "colR": 1.0,
+                                    "colG": 1.0,
+                                    "colB": 1.0,
+                                    "colA": 1.0
+                                }
+                            ],
+                            "Children": []
+                        }
+                    ]
+                },
+                {
+                    "GameObject": "BackgroundCakesL3",
+                    "ID": 87,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -15.0,
+                            "yPos": -19.42565155029297,
+                            "depth": -91.0,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 15
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Background_SpriteSheet_Puff 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "BackgroundCakesR2",
+                    "ID": 88,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 16.200000762939454,
+                            "yPos": -19.338163375854493,
+                            "depth": -91.0,
+                            "xScale": 1.0,
+                            "yScale": 1.0,
+                            "rot": 0.0,
+                            "transformTag": "",
+                            "collisionMask": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 16
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Background_SpriteSheet_Cone 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -2601,12 +2770,13 @@
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
+                    "colorA": 1.0,
                     "textAlign": 17
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1803.8687744140626,
-                    "yPos": 55.14324951171875,
+                    "xPos": 1795.0,
+                    "yPos": 55.0,
                     "depth": 0.0,
                     "xScale": 0.6000000238418579,
                     "yScale": 0.6000000238418579,
@@ -2630,6 +2800,7 @@
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
+                    "colorA": 1.0,
                     "textAlign": 0
                 },
                 {
@@ -2674,9 +2845,9 @@
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "UI2_Cursor 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
+                    "colR": 1.25,
+                    "colG": 1.25,
+                    "colB": 1.25,
                     "colA": 0.7843137383460999
                 },
                 {
@@ -2693,7 +2864,11 @@
                     "BurstTime": 0.0,
                     "SpeedRange": 0.5,
                     "AngleRange": 90.0,
-                    "EmitterStatus": 5
+                    "EmitterStatus": 5,
+                    "ColR": 1.0,
+                    "ColG": 1.0,
+                    "ColB": 1.0,
+                    "ColA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
@@ -3225,7 +3400,7 @@
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.4282580018043518,
                     "yPos": -8.753324508666993,
-                    "depth": 3.049999952316284,
+                    "depth": 1.0499999523162842,
                     "xScale": 1.2000000476837159,
                     "yScale": 1.2000000476837159,
                     "rot": 0.0,

@@ -234,7 +234,7 @@ namespace Carmicah
 		if (mOnTriggerExit)
 		{
 			void* param = &id;
-			CM_CORE_INFO("Calling the Invoke Method onTriggerExit");
+			//CM_CORE_INFO("Calling the Invoke Method onTriggerExit");
 			mScriptClass->InvokeMethod(mMonoInstance, mOnTriggerExit, &param);
 		}
 	}

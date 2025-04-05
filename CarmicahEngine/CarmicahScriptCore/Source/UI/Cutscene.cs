@@ -8,20 +8,20 @@ namespace Carmicah
 {
     public class Cutscene : Entity
     {
-        public float timer = 0.0f;
-        private float panel1 = 11.0f;
-        private float panel2a = 16.0f;
-        private float panel2b = 20.0f;
-        private float panel3 = 24.0f;
-        private float panel4a = 29.0f;
-        private float panel4b = 33.0f;
-        private float panel5 = 37.0f;
-        private float panel6 = 40.0f;
-        private float panel7 = 46.0f;
-        private float panel8 = 49.5f;
-        private float panel9 = 55.0f;
-        private float panel10 = 64.0f;
-        private float panelFadeOut = 66.0f;
+        public float timer = 0.0f; 
+        private float panel1 = 7.0f;
+        private float panel2a = 10.0f;
+        private float panel2b = 14.0f;
+        private float panel3 = 18.0f;
+        private float panel4a = 21.0f;
+        private float panel4b = 24.5f;
+        private float panel5 = 26.8f;
+        private float panel6 = 31.0f;
+        private float panel7 = 33.0f;
+        private float panel8 = 38.5f;
+        private float panel9 = 44.0f;
+        private float panel10 = 46.0f;
+        private float panelFadeOut = 48.0f;
 
         public float fadeSpeed = 0.5f;
 
