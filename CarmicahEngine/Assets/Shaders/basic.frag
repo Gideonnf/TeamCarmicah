@@ -13,13 +13,13 @@ layout (binding = 0) uniform sampler2DArray 	uTex;
 
 uniform int		uPassNum;
 uniform bool	uIsText;
-uniform vec3	uTextColor;
+uniform vec4	uTextColor;
 
 void main(void){
 	vec4 col = vec4(0.f);
 
 	if(uIsText)
-		col = vec4(uTextColor, texture(uTex, vec3(vTexCoord.xy, vID.y)).r);
+		col = vec4(uTextColor.rgb, texture(uTex, vec3(vTexCoord.xy, vID.y)).r * uTextColor.a);
 	else
 		col = texture(uTex, vec3(vTexCoord, vID.y) ) * vColor;
 

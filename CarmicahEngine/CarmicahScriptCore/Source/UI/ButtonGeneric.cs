@@ -220,12 +220,9 @@ namespace Carmicah
                     willColorChange = true;
                     break;
                 case "nextlevel":
-                    //destroyList.Add(0, "Win_Screen");
-
                     hoverEnterAnim = "Button_HS_Next";
                     hoverExitAnim = "Button_HE_Next";
                     clickAnim = "Button_C_Next";
-
                     break;
                 case "tback":
                     destroyList.Add(0, "QuitConfirmationPopup");

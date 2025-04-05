@@ -1220,7 +1220,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "Pigeon_SpriteSheet_Dive 4",
+                            "texture": "EnemiesFront_Bird 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -1228,11 +1228,11 @@
                         },
                         {
                             "Component Name": "struct Carmicah::UITransform",
-                            "xPos": 0.0,
-                            "yPos": 0.0,
+                            "xPos": 7.45,
+                            "yPos": -16.0,
                             "depth": 2.6500000953674318,
-                            "xScale": 0.800000011920929,
-                            "yScale": 0.800000011920929,
+                            "xScale": 0.6,
+                            "yScale": 0.6,
                             "rot": 18.294904708862306,
                             "transformTag": ""
                         }
@@ -1332,7 +1332,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "Pigeon_SpriteSheet_Dive 4",
+                            "texture": "EnemiesFront_Bird 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -1340,11 +1340,11 @@
                         },
                         {
                             "Component Name": "struct Carmicah::UITransform",
-                            "xPos": 0.0,
-                            "yPos": 0.0,
+                            "xPos": -7.45,
+                            "yPos": -16.0,
                             "depth": 2.8499999046325685,
-                            "xScale": -0.800000011920929,
-                            "yScale": 0.800000011920929,
+                            "xScale": -0.6,
+                            "yScale": 0.6,
                             "rot": -18.184127807617189,
                             "transformTag": ""
                         }

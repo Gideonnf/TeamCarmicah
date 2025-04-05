@@ -111,10 +111,8 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 	glBindFramebuffer(GL_FRAMEBUFFER, FBOScene.FBO);
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);	// Write to depth
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	GLuint zero = 0;
 	glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
-	glClearBufferuiv(GL_COLOR, 1, &zero);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	for (int renderPass = 0; renderPass < 3; ++renderPass)
 	{
@@ -123,6 +121,11 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 		switch (renderPass)
 		{
 		case 0:
+			glDisable(GL_BLEND);
+			glEnable(GL_DEPTH_TEST);
+			glDepthMask(GL_TRUE);	// Enable writing to depth buffer
+			glDepthFunc(GL_LESS);	// When incoming depth is smaller, pass the test
+
 			break;
 		case 1:
 			glColorMaski(1, GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
@@ -140,10 +143,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 			if (!(currID == it.first))
 			{
 				// Don't need debug if editor
-				if (!isEditor && (it.first.dat[BUFFER_SHADER] == debugShaderID))
-					continue;
-				// If not the shader that handles passes, Only render it in pass 1
-				if (renderPass != 0 && it.first.dat[BUFFER_SHADER] != defaultShaderID)
+				if ((it.first.dat[BUFFER_SHADER] == debugShaderID) && (!isEditor || renderPass == 2))
 					continue;
 
 				GLint uniformLoc{};
@@ -161,21 +161,13 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 						switch (renderPass)
 						{
 						case 0:
-							glDisable(GL_BLEND);
-							glEnable(GL_DEPTH_TEST);
 							if (it.first.dat[BUFFER_ID] == 0)
 								glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
 							// Specifically disable writing to ID 2 since id 2 is particles, yes, ik, it's dumb
 							else if (it.first.dat[BUFFER_ID] == 2)
 								glColorMaski(1, GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-							glDepthMask(GL_TRUE);	// Enable writing to depth buffer
-							glDepthFunc(GL_LESS);	// When incoming depth is smaller, pass the test
 							break;
 						case 1:
-							glDisable(GL_BLEND);
-							glEnable(GL_DEPTH_TEST);
-							glDepthMask(GL_TRUE);	// Enable writing to depth buffer
-							glDepthFunc(GL_LESS);	// When incoming depth is smaller, pass the test
 							break;
 						case 2:
 							glEnable(GL_BLEND);
@@ -189,15 +181,13 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 							break;
 						}
 					}
-					// Rendering debug things in pass 1
-					else if(renderPass == 0)
+					// Rendering debug things
+					else
 					{
-						glEnable(GL_BLEND);
-						glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-						glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
-						glEnable(GL_DEPTH_TEST);
-						glDepthMask(GL_TRUE);
-						glDepthFunc(GL_LESS);
+						if (renderPass == 0)
+						{
+							glColorMaski(1, GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
+						}
 					}
 					// Binds the entire 32 texture array
 					glBindTexture(GL_TEXTURE_2D_ARRAY, AssetManager::GetInstance()->mArrayTex);
@@ -253,7 +243,7 @@ void RenderHelper::Render(std::optional<Transform*> cam, bool isEditor)
 							continue;
 
 						if (UniformExists(mCurrShader, "uTextColor", uniformLoc))
-							glUniform3f(uniformLoc, font.second.col[0], font.second.col[1], font.second.col[2]);
+							glUniform4f(uniformLoc, font.second.col[0], font.second.col[1], font.second.col[2], font.second.col[3]);
 						if (UniformExists(mCurrShader, "uTextOffset", uniformLoc))
 							glUniform2f(uniformLoc, font.second.offset.x, font.second.offset.y);
 						if (UniformExists(mCurrShader, "uTextScale", uniformLoc))
