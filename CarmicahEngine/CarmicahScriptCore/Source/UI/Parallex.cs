@@ -22,6 +22,8 @@ namespace Carmicah
         Vector2 cloud1Pos;
         float cloud0Speed;
         float cloud1Speed;
+        public float cloudMinSpeed = 0.5f;
+        public float cloudMaxSpeed = 2.0f;
 
         Entity layer2;
         Entity layer1;
@@ -38,6 +40,12 @@ namespace Carmicah
 
         public override void OnFixedUpdate(float dt)
         {
+            Entity pauseManager = FindEntityWithName("PauseManager");
+            if (pauseManager != null && pauseManager.As<PauseManager>().IsPaused)
+            {
+                return;
+            }
+
             // Find things
             if (cam == null)
             {
@@ -55,7 +63,7 @@ namespace Carmicah
                 FunctionCalls.Transform_GetRenderingScale(cloud0.mID, out temp);
                 cloud0Pos.x = temp.x / 2.0f;
                 cloud0Pos.y = CMRand.Range(-10.0f, 10.0f);
-                cloud0Speed = CMRand.Range(1.0f, 20.0f);
+                cloud0Speed = CMRand.Range(cloudMinSpeed, cloudMaxSpeed);
             }
             if (cloud1 == null)
             {
@@ -64,7 +72,7 @@ namespace Carmicah
                 FunctionCalls.Transform_GetRenderingScale(cloud1.mID, out temp);
                 cloud1Pos.x = temp.x / 2.0f;
                 cloud1Pos.y = CMRand.Range(-10.0f, 10.0f);
-                cloud1Speed = CMRand.Range(1.0f, 20.0f);
+                cloud1Speed = CMRand.Range(cloudMinSpeed, cloudMaxSpeed);
             }
             if (layer0 == null)
                 layer0 = FindEntityWithName("BackgroundP0");
@@ -127,7 +135,7 @@ namespace Carmicah
                     FunctionCalls.Transform_GetRenderingScale(cloud0.mID, out temp);
                     cloud0Pos.x = temp.x / 2.0f;
                     cloud0Pos.y = CMRand.Range(-10.0f, 10.0f);
-                    cloud0Speed = CMRand.Range(1.0f, 20.0f);
+                    cloud0Speed = CMRand.Range(cloudMinSpeed, cloudMaxSpeed);
                     if (CMRand.Range(0.0f, 1.0f) > 0.5f)
                     {
                         c0Left = true;
@@ -180,7 +188,7 @@ namespace Carmicah
                     FunctionCalls.Transform_GetRenderingScale(cloud1.mID, out temp);
                     cloud1Pos.x = temp.x / 2.0f;
                     cloud1Pos.y = CMRand.Range(-10.0f, 10.0f);
-                    cloud1Speed = CMRand.Range(1.0f, 20.0f);
+                    cloud1Speed = CMRand.Range(cloudMinSpeed, cloudMaxSpeed);
                     if(CMRand.Range(0.0f, 1.0f) > 0.5f)
                     {
                         c1Left = true;

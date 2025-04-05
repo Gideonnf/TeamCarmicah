@@ -100,7 +100,7 @@ namespace Carmicah
         public float timer;
         public float DeathTime = 2.0f;
         public float Speed;
-        public float speedDebuff = 0.7f; // 60% slower
+        public float speedDebuff = 0.9f; // 60% slower
         public float cameraHeight = 10.0f;
         public float debuff = 1.0f;
         bool dead = false;
@@ -132,36 +132,13 @@ namespace Carmicah
             if (FindEntityWithName(SpawnPointEntityLeft) != null)
                 startPosLeft = FindEntityWithName(SpawnPointEntityLeft).Position;
 
-            // Initialize state machine
-            //stateMachine = new StateMachine();
-            //stateMachine.AddState(new MouseChase("Chase"));
-            //stateMachine.AddState(new MouseDead("Dead"));
-            //stateMachine.SetNextState("Chase");
-            //Random rand = new Random();
-            //animType = CMRand.Range(0, 3); // rand between 0 to 3
+            if (enemyType == EnemyTypes.BEAR)
+            {
+                mouseType = MouseType.Heavy;
+            }
+
             randLane = CMRand.Range(0, 4); // rand between 0 to 3
-
-            //randLane = 3; //For Testing
-
             lane = randLane;
-            //SetInitialPosition();
-            //int mouseTypeRand = rand.Next(0, 3); // Random type
-
-            //switch (mouseTypeRand)
-            //{
-            //    case 0:
-            //        mouseType = MouseType.Regular;
-            //        Speed = baseRegularSpeed;
-            //        break;
-            //    case 1:
-            //        mouseType = MouseType.Fast;
-            //        Speed = baseFastSpeed;
-            //        break;
-            //    case 2:
-            //        mouseType = MouseType.Heavy;
-            //        Speed = baseHeavySpeed;
-            //        break;
-            //}
 
             Sound.PlaySFX("Portal_Spawn", 0.3f);
 
@@ -200,8 +177,7 @@ namespace Carmicah
 
                 if (CMRand.Range(0, 100) < 15) // 15% chance every 5s
                 {
-                    StartLaneSwitch();
-                    isSwitching = true;
+                    StartLaneSwitch(); 
                     switchCooldown = switchDelay;
                 }
             }
@@ -617,8 +593,10 @@ namespace Carmicah
         // not anymore
         public void StartLaneSwitch()
         {
+            //CMConsole.Log($"[MouseAI] Mouse {mID} is a {mouseType}");
+
             // don't allow bears to switch lanes
-            if (mouseType == MouseType.Heavy)
+            if (enemyType == EnemyTypes.BEAR)
             {
                 return;
             }

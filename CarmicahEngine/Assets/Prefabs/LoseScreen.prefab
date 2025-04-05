@@ -94,7 +94,7 @@
                 {
                     "Component Name": "struct Carmicah::TextRenderer",
                     "font": "Sigmar-Regular",
-                    "text": "You died",
+                    "text": "Try again?",
                     "colorR": 0.9647058844566345,
                     "colorG": 0.16470588743686677,
                     "colorB": 0.5960784554481506,
@@ -206,10 +206,10 @@
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": -200.0,
-                    "yPos": -233.0,
+                    "yPos": -225.0,
                     "depth": 2.0,
-                    "xScale": 1.100000023841858,
-                    "yScale": 1.100000023841858,
+                    "xScale": 1.384615384615385,
+                    "yScale": 1.384615384615385,
                     "rot": 0.0,
                     "transformTag": ""
                 }
@@ -248,11 +248,11 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 190.0,
-                    "yPos": -233.0,
+                    "xPos": 200.0,
+                    "yPos": -225.0,
                     "depth": 2.0,
-                    "xScale": 1.100000023841858,
-                    "yScale": 1.100000023841858,
+                    "xScale": 1.384615384615385,
+                    "yScale": 1.384615384615385,
                     "rot": 0.0,
                     "transformTag": ""
                 }
