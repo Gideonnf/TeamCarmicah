@@ -1193,14 +1193,15 @@ namespace Carmicah
 				ImGui::Text("Color");
 
 				// Add RGB color picker
-				float color[3] = { text.colorR, text.colorG, text.colorB };
+				float color[4] = { text.colorR, text.colorG, text.colorB, text.colorA };
 				ImGui::TableNextColumn();
-				if (ImGui::ColorEdit3("##Color", color))
+				if (ImGui::ColorEdit4("##Color", color))
 				{
 					// Update the component's color with the selected values
 					text.colorR = color[0];
 					text.colorG = color[1];
 					text.colorB = color[2];
+					text.colorA = color[3];
 				}
 
 				ImGui::EndTable();
