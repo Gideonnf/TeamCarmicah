@@ -328,6 +328,13 @@ public override void OnCreate()
                 mouseAI.SetInitialPosition(); // Reset initial position
                 mouseEntity.As<MouseAI>().enemyType = type;
 
+                Entity dissolve = CreateGameObject("Dissolve");
+                dissolve.GetComponent<Animation>().ChangeAnim("Dissolve_Purple");
+                dissolve.Position = mouseEntity.Position;
+                dissolve.Depth = mouseEntity.Depth + 2.0f;
+                Vector2 scale = dissolve.Scale;
+                dissolve.Scale = new Vector2(scale.x + 0.5f, scale.y + 0.5f);
+
                 //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
                 //CMConsole.Log($"Lane : {mouseAI.lane}");
                 switch (mouseAI.lane)
