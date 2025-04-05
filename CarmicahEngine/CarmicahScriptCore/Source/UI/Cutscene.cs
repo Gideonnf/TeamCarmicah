@@ -160,7 +160,8 @@ namespace Carmicah
         private void ProgressScene()
         {
             Sound.StopAllSFX();
-            Scene.ChangeScene("Loading");
+            FindEntityWithName("SceneTransition").As<SceneTransition>().FadeOut("Loading");
+            //Scene.ChangeScene("Loading");
         }
 
         public override void OnUpdate(float dt)

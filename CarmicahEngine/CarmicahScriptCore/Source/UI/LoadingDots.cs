@@ -100,7 +100,8 @@ namespace Carmicah
                 finalCountdown += dt;
                 if(finalCountdown > totalFinal)
                 {
-                    Scene.ChangeScene("Scene1");
+                    FindEntityWithName("SceneTransition").As<SceneTransition>().FadeOut("Scene1");
+                    //Scene.ChangeScene("Scene1");
                 }
             }
             

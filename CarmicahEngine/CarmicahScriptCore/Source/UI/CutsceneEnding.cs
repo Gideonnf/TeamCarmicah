@@ -90,13 +90,16 @@ namespace Carmicah
                 if (fadeOutTimer >= finalFadeOutDuration)
                 {
                     Sound.StopAllSFX();
-                    Scene.ChangeScene("Scene3");
+                    FindEntityWithName("SceneTransition").As<SceneTransition>().FadeOut("Scene3");
+                    // Scene.ChangeScene("Scene3");
                 }
             }
 
             if (Input.IsKeyPressed(Keys.KEY_5))
             {
-                Scene.ChangeScene("Scene3");
+                FindEntityWithName("SceneTransition").As<SceneTransition>().FadeOut("Scene3");
+
+                //  Scene.ChangeScene("Scene3");
             }
         }
 

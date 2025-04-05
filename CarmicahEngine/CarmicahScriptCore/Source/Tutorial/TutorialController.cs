@@ -650,7 +650,8 @@ namespace Carmicah
                         
                     break;
                 default:
-                    Scene.ChangeScene("Loading");
+                    FindEntityWithName("SceneTransition").As<SceneTransition>().FadeOut("Loading");
+                    //Scene.ChangeScene("Loading");
                     break;
             }
             //Sound.PlaySFX("Item_Hover", 0.4f);
