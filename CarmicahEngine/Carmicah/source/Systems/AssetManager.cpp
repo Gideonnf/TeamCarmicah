@@ -368,6 +368,15 @@ namespace Carmicah
 			}
 			LoadTextureThreaded(fileName, file.fileEntry.path().string(), spriteSheet.string());
 		}
+		else if (fileExt == ".wav" || fileExt == ".ogg" || fileExt == ".mp3")
+		{
+			if (!reload && AssetExist<FMOD::Sound*>(fileName))
+			{
+				CM_CORE_WARN("Sound:" + fileName + " Already Exists");
+				return false;
+			}
+			LoadSound(fileName, file.fileEntry.path().string());
+		}
 		
 		return false;
 	}
