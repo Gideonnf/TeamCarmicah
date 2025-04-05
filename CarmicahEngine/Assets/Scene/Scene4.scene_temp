@@ -72,8 +72,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1750.0,
-                    "yPos": 75.0,
+                    "xPos": 1740.0,
+                    "yPos": 1000.0,
                     "depth": 1.0,
                     "xScale": 0.75,
                     "yScale": 0.75,
@@ -143,6 +143,7 @@
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
+                    "colorA": 1.0,
                     "textAlign": 0
                 },
                 {
@@ -205,9 +206,9 @@
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
                     "texture": "UI2_Cursor 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
+                    "colR": 1.25,
+                    "colG": 1.25,
+                    "colB": 1.25,
                     "colA": 0.7843137383460999
                 },
                 {
@@ -224,7 +225,11 @@
                     "BurstTime": 0.0,
                     "SpeedRange": 0.5,
                     "AngleRange": 360.0,
-                    "EmitterStatus": 5
+                    "EmitterStatus": 5,
+                    "ColR": 1.0,
+                    "ColG": 1.0,
+                    "ColB": 1.0,
+                    "ColA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
