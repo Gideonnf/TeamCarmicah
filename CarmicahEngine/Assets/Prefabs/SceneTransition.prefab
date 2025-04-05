@@ -3,20 +3,6 @@
     "ID": 29,
     "Components": [
         {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.SceneTransition",
-            "ScriptableFieldMap": [
-                {
-                    "duration": 1.0,
-                    "fadeOut": true,
-                    "isWhite": false,
-                    "targetAlpha": 1.0,
-                    "targetScene": "",
-                    "timer": 0.0
-                }
-            ]
-        },
-        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "Wall_Black 0",
@@ -24,6 +10,20 @@
             "colG": 1.0,
             "colB": 1.0,
             "colA": 0.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.SceneTransition",
+            "ScriptableFieldMap": [
+                {
+                    "duration": 0.6499999761581421,
+                    "fadeOut": true,
+                    "isWhite": false,
+                    "targetAlpha": 1.0,
+                    "targetScene": "",
+                    "timer": 0.0
+                }
+            ]
         },
         {
             "Component Name": "struct Carmicah::UITransform",

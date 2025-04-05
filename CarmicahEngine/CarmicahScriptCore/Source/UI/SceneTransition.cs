@@ -38,6 +38,7 @@ namespace Carmicah
             if (!fadeOut)
             {
                 float alpha = (timer / duration) * targetAlpha;
+                CMConsole.Log($"{timer} and {alpha}");
                 GetComponent<Renderer>().SetAlpha(alpha);
                 if (alpha >= targetAlpha)
                 {
@@ -59,9 +60,14 @@ namespace Carmicah
 
         public void FadeOut(string scene)
         {
-            fadeOut = false;
-            timer = 0.0f;
-            targetScene = scene;
+            if (fadeOut)
+            {
+                //CMConsole.Log("Calling fade out");
+                fadeOut = false;
+                timer = 0.0f;
+                targetScene = scene;
+
+            }
         }
 
         public void ChangeScene()

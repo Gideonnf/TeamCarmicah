@@ -32,26 +32,6 @@
             ]
         },
         {
-            "GameObject": "game_logo",
-            "ID": 20,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::Renderer",
-                    "model": "Square",
-                    "texture": "UI2_SugarStrike 0"
-                },
-                {
-                    "Component Name": "struct Carmicah::UITransform",
-                        "xPos": 1282.0,
-                        "yPos": 750.0,
-                        "depth": 0.0,
-                        "xScale": 0.45,
-                        "yScale": 0.45,
-                        "rot": 0.0
-                }
-            ]
-        },
-        {
             "GameObject": "MainCamera",
             "ID": 2,
             "Components": [
@@ -322,6 +302,31 @@
             ]
         },
         {
+            "GameObject": "game_logo",
+            "ID": 20,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_SugarStrike 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1282.0,
+                    "yPos": 750.0,
+                    "depth": 0.0,
+                    "xScale": 0.44999998807907107,
+                    "yScale": 0.44999998807907107,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
             "GameObject": "MainMenuBGM",
             "ID": 32,
             "Components": [
@@ -404,7 +409,11 @@
                     "BurstTime": 0.0,
                     "SpeedRange": 0.5,
                     "AngleRange": 360.0,
-                    "EmitterStatus": 5
+                    "EmitterStatus": 5,
+                    "ColR": 1.0,
+                    "ColG": 1.0,
+                    "ColB": 1.0,
+                    "ColA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
@@ -431,6 +440,7 @@
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
+                    "colorA": 1.0,
                     "textAlign": 0
                 },
                 {
@@ -479,6 +489,45 @@
                     "yScale": 0.0,
                     "rot": 0.0,
                     "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "SceneTransition",
+            "ID": 300,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_Black 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 960.0,
+                    "yPos": 540.0,
+                    "depth": 70.0,
+                    "xScale": 40.0,
+                    "yScale": 40.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.SceneTransition",
+                    "ScriptableFieldMap": [
+                        {
+                            "duration": 1.0,
+                            "fadeOut": true,
+                            "isWhite": false,
+                            "targetAlpha": 1.0,
+                            "targetScene": "",
+                            "timer": 0.0
+                        }
+                    ]
                 }
             ]
         }

@@ -125,8 +125,8 @@ namespace Carmicah
 
                         if (state == 3)
                         {
-                            FindEntityWithName("SceneTransition").As<SceneTransition>().FadeOut("Scene3");
-                            //Scene.ChangeScene("Scene3"); // go main menu
+                            //FindEntityWithName("SceneTransition").As<SceneTransition>().FadeOut("Scene3");
+                            Scene.ChangeSceneReal("Scene3"); // go main menu
                         }
 
                     }

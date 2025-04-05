@@ -266,8 +266,15 @@ namespace Carmicah
                         else
                         {
                             //CMConsole.Log("Changing scene 2");
-                            FindEntityWithName("SceneTransition").As<SceneTransition>().FadeOut(nextScene);
-                            //Scene.ChangeScene(nextScene);
+                            Entity transitionEntity = FindEntityWithName("SceneTransition");
+                            if (transitionEntity != null)
+                            {
+                                transitionEntity.As<SceneTransition>().FadeOut(nextScene);
+                            }
+                            else
+                            {
+                                Scene.ChangeSceneReal(nextScene);
+                            }
                         }
                     }
                 }
