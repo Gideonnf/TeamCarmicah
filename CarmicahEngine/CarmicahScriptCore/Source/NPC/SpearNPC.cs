@@ -206,6 +206,11 @@ namespace Carmicah
         {
             if (active == false) return;
 
+            if (pauseManager.IsPaused)
+            {
+                return;
+            }
+
             // idk if this will happen but if the mouse dies
             // this script might still hold a refeence to a 0 id mouse
             // which will cause crashes
@@ -250,8 +255,8 @@ namespace Carmicah
             {
                 //CMConsole.Log($"Shooting timer : {timer}");
 
-                timer += dt;
-                if (timer > shootTime)
+                //timer += dt;
+                //if (timer > shootTime)
                 {
                     if (!shot && targetMouse != null)
                     {
@@ -263,7 +268,7 @@ namespace Carmicah
                     }
                     else
                     {
-                        if (timer >= animationTime)
+                        if (GetComponent<Animation>().IsAnimFinished())
                             GetComponent<StateMachine>().SetStateCondition(1);
                     }
 
