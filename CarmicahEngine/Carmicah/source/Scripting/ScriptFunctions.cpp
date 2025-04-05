@@ -1268,6 +1268,11 @@ namespace Carmicah
 			go.GetComponent<Collider2D>().SetyPivot(inFloat);
 	}
 
+	static bool IsDoneLoading()
+	{
+		return AssetManager::GetInstance()->doneLoading;
+	}
+
 	/// <summary>
 	/// Register the component. Clear the map before registering
 	/// </summary>
@@ -1405,5 +1410,7 @@ namespace Carmicah
 		ADD_INTERNAL_CALL(Collider2D_GetyPivot);
 		ADD_INTERNAL_CALL(Collider2D_SetxPivot);
 		ADD_INTERNAL_CALL(Collider2D_SetyPivot);
+
+		ADD_INTERNAL_CALL(IsDoneLoading);
 	}
 }

@@ -89,6 +89,7 @@ namespace Carmicah
 		FMOD::System* mSoundSystem{};
 
 		std::shared_ptr<PrefabSystem> prefabPtr;
+		std::atomic_bool doneLoading = false;
 
 		/*!*************************************************************************
 		brief

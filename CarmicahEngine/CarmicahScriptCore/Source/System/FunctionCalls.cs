@@ -269,6 +269,8 @@ namespace Carmicah
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Collider2D_SetyPivot(uint entityID, float x);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static bool IsDoneLoading();
         //[MethodImplAttribute(MethodImplOptions.InternalCall)]
         //internal extern static void SetCollisionLayer(uint entityID, int layer);
     }

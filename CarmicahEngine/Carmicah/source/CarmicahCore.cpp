@@ -202,8 +202,9 @@ namespace Carmicah
         REGISTER_COMPONENT(Script);
 
         CM_CORE_INFO("Starting system init");
-
+#ifndef CM_INSTALLER
         auto editorSys = REGISTER_SYSTEM(Editor);
+#endif
         REGISTER_SYSTEM(GOFactory);
         REGISTER_SYSTEM(ScriptSystem);
         auto graSystem = REGISTER_SYSTEM(WorldGraphicsSystem);
@@ -251,16 +252,17 @@ namespace Carmicah
         Input.BindSystem(souSystem);
         colSystem->BindSystem(gScriptSystem);
 
-        gameSystem->BindSystem(editorSys);
         gameSystem->BindSystem(butSystem);
         // Add transform system into gGOFactory's observer so that it can send msg to it
         gGOFactory->BindSystem(transformSystem);
         gGOFactory->BindSystem(prefabSystem);
+#ifndef CM_INSTALLER
+        gameSystem->BindSystem(editorSys);
         gGOFactory->BindSystem(editorSys);
         // Add Scene system into editor's observer
         editorSys->BindSystem(gameSystem);
         editorSys->BindSystem(prefabSystem);
-
+#endif
         butSystem->BindSystem(gScriptSystem);
         mouseSystem->BindSystem(gScriptSystem);
         fsmSystem->BindSystem(gScriptSystem);
@@ -427,6 +429,8 @@ namespace Carmicah
                 }
 
                // glfwMakeContextCurrent(ImGuiWindow);
+#ifndef CM_INSTALLER
+
                 if (!gameOnly)
                 {
                     CarmicahTime::GetInstance()->StartSystemTimer("EditorSystem");
@@ -437,6 +441,7 @@ namespace Carmicah
                     editorSys->Render(window);
                     CarmicahTime::GetInstance()->StopSystemTimer("EditorSystem");
                 }
+#endif
                 CarmicahTime::GetInstance()->StartSystemTimer("RenderingSystems");
                 // Update world and local transforms before rendering
                 rendTransformSystem->Update();
@@ -539,8 +544,10 @@ namespace Carmicah
 #endif
 
         SceneToImgui::GetInstance()->UnloadFramebuffer();
+#ifndef CM_INSTALLER
 
         editorSys->Exit();
+#endif
         souSystem->Exit();
         colSystem->Exit();
 		butSystem->Exit();

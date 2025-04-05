@@ -122,12 +122,17 @@ namespace Carmicah
 
                 if (timer >= otherStateDuration)
                 {
-                    state += 1;
-                    timer = 0.0f;
-
-                    if (state == 3)
+                    if (Scene.IsDoneLoading())
                     {
-                        Scene.ChangeScene("Scene3"); // go main menu
+                        state += 1;
+                    
+                        timer = 0.0f;
+
+                        if (state == 3)
+                        {
+                            Scene.ChangeScene("Scene3"); // go main menu
+                        }
+
                     }
                 }
             }
