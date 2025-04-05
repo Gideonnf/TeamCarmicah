@@ -76,7 +76,7 @@ namespace Carmicah
 
         Entity[] endEntities = new Entity[4];
 
-        Entity[] flyingSpawns = new Entity[2]; 
+        Entity[] flyingSpawns = new Entity[2];
 
         List<Entity> npcList;
 
@@ -86,12 +86,9 @@ namespace Carmicah
 
         Entity[] walls = new Entity[4];
 
-        int cakeCounter = 1;
+        int cakeCounter = 0;
 
         public float ySpawnPos;
-        public float yTargetPos;
-        public float yVFXSpawn;
-        public float yVFXLocation = 1.5f;
         public float cameraHeight = 10.0f;
         int cakeType = 0; // 0 - 3
         Entity towerPrefab;
@@ -104,8 +101,14 @@ namespace Carmicah
         public string[] CakeFallAnimations = new string[4];
         public string[] CakeSquishAnimations = new string[4];
 
+        public float[] CakeVFXFinalPos = new float[3];
 
-        public override void OnCreate()
+        public float[] CakeVFXSpawnPos = new float[3];
+
+        public float[] CakeStackFinalPos = new float[3];
+
+        public float[] CakeDepthValues = new float[3];
+public override void OnCreate()
         {
             mainCamera = FindEntityWithName("MainCamera");
             UIManager = FindEntityWithName("UIManager");
@@ -152,25 +155,40 @@ namespace Carmicah
 
             waveSystem = FindEntityWithName(WaveSystemObject);
 
-            CakeFallAnimations[0] = "CakeStrawberry_Fall";
+            CakeFallAnimations[0] = "CakeMatcha_Fall";
             CakeFallAnimations[1] = "CakeRainbow_Fall";
-            CakeFallAnimations[2] = "CakeMatcha_Fall";
+            CakeFallAnimations[2] = "CakeFruit_Fall";
             CakeFallAnimations[3] = "CakeFruit_Fall";
 
-            CakeSquishAnimations[0] = "CakeStrawberry_Squish";
+            CakeSquishAnimations[0] = "CakeMatcha_Squish";
             CakeSquishAnimations[1] = "CakeRainbow_Squish";
-            CakeSquishAnimations[2] = "CakeMatcha_Squish";
+            CakeSquishAnimations[2] = "CakeFruit_Squish";
             CakeSquishAnimations[3] = "CakeFruit_Squish";
 
             // theres 4 but i realy only need 2 tbh cause we cut the first 2 alr
             CakePrefabNames[0] = "Level3_Cake";
-            CakePrefabNames[1] = "Level3_Cake";
-            CakePrefabNames[2] = "Level3_Cake";
+            CakePrefabNames[1] = "Level4_Cake";
+            CakePrefabNames[2] = "Level5_Cake";
             CakePrefabNames[3] = "Level4_Cake";
 
             flyingSpawns[0] = FindEntityWithName("StartTopLeft");
             flyingSpawns[1] = FindEntityWithName("StartTopRight");
 
+            CakeVFXFinalPos[0] = 13.0f;
+            CakeVFXFinalPos[1] = 23.45f;
+            CakeVFXFinalPos[2] = 34.0f;
+
+            CakeVFXSpawnPos[0] = 28.0f;
+            CakeVFXSpawnPos[1] = 38.45f;
+            CakeVFXSpawnPos[2] = 49.0f;
+
+            CakeStackFinalPos[0] = 22.0f;
+            CakeStackFinalPos[1] = 32.650f;
+            CakeStackFinalPos[2] = 43.1f;
+
+            CakeDepthValues[0] = 3.0f;
+            CakeDepthValues[1] = 3.4f;
+            CakeDepthValues[2] = 4.4f;
 
             Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
         }
@@ -187,6 +205,16 @@ namespace Carmicah
                 if (pauseManager.As<PauseManager>().IsPaused)
                     return;
             }
+
+            // Cheat code: Kill all enemies (0)
+            if (Input.IsKeyPressed(Keys.KEY_9))
+            {
+                CheatKillAllEnemies();
+               //CMConsole.Log("Cheat activated: Killed em'all");
+
+            }
+
+
 
             // get rid of any npcs that got destroyed?? maybe??
             // I havent gotten to killing NPCs yet so idk if this works
@@ -299,6 +327,13 @@ namespace Carmicah
 
                 mouseAI.SetInitialPosition(); // Reset initial position
                 mouseEntity.As<MouseAI>().enemyType = type;
+
+                Entity dissolve = CreateGameObject("Dissolve");
+                dissolve.GetComponent<Animation>().ChangeAnim("Dissolve_Purple");
+                dissolve.Position = mouseEntity.Position;
+                dissolve.Depth = mouseEntity.Depth + 2.0f;
+                Vector2 scale = dissolve.Scale;
+                dissolve.Scale = new Vector2(scale.x + 0.5f, scale.y + 0.5f);
 
                 //CMConsole.Log($"Adding mouse entity {mouseAI.mID}");
                 //CMConsole.Log($"Lane : {mouseAI.lane}");
@@ -699,6 +734,83 @@ namespace Carmicah
             }
         }
 
+        public void CheatKillAllEnemies()
+        {
+            CMConsole.Log("Cheat activated: Killing all enemies");
+
+            // Create temporary lists to avoid modification during iteration
+            List<MouseAI> allMouseToKill = new List<MouseAI>();
+
+            // Add all mice from each lane to our kill list
+            foreach (MouseAI mouse in mouseLaneOne)
+            {
+                if (mouse != null && mouse.mID != 0 && !mouse.isDead())
+                {
+                    allMouseToKill.Add(mouse);
+                }
+            }
+
+            foreach (MouseAI mouse in mouseLaneTwo)
+            {
+                if (mouse != null && mouse.mID != 0 && !mouse.isDead())
+                {
+                    allMouseToKill.Add(mouse);
+                }
+            }
+
+            foreach (MouseAI mouse in mouseLaneThree)
+            {
+                if (mouse != null && mouse.mID != 0 && !mouse.isDead())
+                {
+                    allMouseToKill.Add(mouse);
+                }
+            }
+
+            foreach (MouseAI mouse in mouseLaneFour)
+            {
+                if (mouse != null && mouse.mID != 0 && !mouse.isDead())
+                {
+                    allMouseToKill.Add(mouse);
+                }
+            }
+
+            // Kill all mice in our list
+            foreach (MouseAI mouse in allMouseToKill)
+            {
+                mouse.KillMouse();
+            }
+
+            // Handle flying enemies
+            List<FlyingEnemyAI> allBirdsToKill = new List<FlyingEnemyAI>();
+
+            foreach (FlyingEnemyAI bird in flyingEnemyLeft)
+            {
+                if (bird != null && bird.mID != 0 && !bird.isDead())
+                {
+                    allBirdsToKill.Add(bird);
+                }
+            }
+
+            foreach (FlyingEnemyAI bird in flyingEnemyRight)
+            {
+                if (bird != null && bird.mID != 0 && !bird.isDead())
+                {
+                    allBirdsToKill.Add(bird);
+                }
+            }
+
+            // Kill all birds in our list
+            foreach (FlyingEnemyAI bird in allBirdsToKill)
+            {
+                bird.KillEnemy();
+            }
+
+            activeEnemies = 0;
+        }
+
+
+
+
         public void HideEntities()
         {
             // set them to teleport state
@@ -944,26 +1056,25 @@ namespace Carmicah
         {
             if (stateName == "TowerIdle")
             {
-                //CMConsole.Log("TESTING TOWER IDLE");
+                CMConsole.Log("TESTING TOWER IDLE");
             }
             else if (stateName == "TowerCreate")
             {
-                //CMConsole.Log("TESTING TOWER CREATE ");
+                CMConsole.Log("TESTING TOWER CREATE ");
 
-                if (cakeCounter >= 2) return;
+                //if (cakeCounter >= 2) return;
 
                 Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
 
-                cakeType = 2;//CMRand.Range(0, 3);
+                //cakeType = 2;//CMRand.Range(0, 3);
                 //CMConsole.Log($"cake type {cakeType}");
                 Sound.PlaySFX("TowerStack", 1.0f);
-                towerPrefab = CreateGameObject(CakePrefabNames[cakeType]);
+                towerPrefab = CreateGameObject(CakePrefabNames[cakeCounter]);
                 towerPrefab.Position = new Vector2(Position.x, ySpawnPos);
 
-                towerPrefab.GetComponent<Animation>().ChangeAnim(CakeFallAnimations[cakeType]);
-                towerPrefab.Depth = startingCakeEntity.Depth;
-                towerPrefab.Depth = towerPrefab.Depth + (0.1f * cakeCounter);
-                cakeCounter++;
+                towerPrefab.GetComponent<Animation>().ChangeAnim(CakeFallAnimations[cakeCounter]);
+                //towerPrefab.Depth = startingCakeEntity.Depth;
+                //towerPrefab.Depth = towerPrefab.Depth + (0.1f * cakeCounter);
                 // if (gameManager != null)
                 // {
                 //Entity gm = FindEntityWithName("GameManager");
@@ -972,14 +1083,15 @@ namespace Carmicah
                 HideEntities();
 
                 // }
-                //CMConsole.Log("TESTING TOWER CREATE 2");
+                CMConsole.Log("TESTING TOWER CREATE 2");
 
                 GetComponent<StateMachine>().SetStateCondition(3);
             }
             else if (stateName == "TowerLand")
             {
                 // gm = FindEntityWithName("GameManager");
-               
+
+                CMConsole.Log("Tower LANDING Init");
 
             }
         }
@@ -1002,32 +1114,42 @@ namespace Carmicah
 
             if (stateName == "TowerDrop")
             {
-                if (towerPrefab.Position.y <= yVFXSpawn)
+                CMConsole.Log("Tower Drop");
+
+                //if (towerPrefab == null) return;
+                if (towerPrefab.Position.y <= CakeVFXSpawnPos[cakeCounter])
                 {
+                    CMConsole.Log("Creating VFX Prefab. IS VFX NULL???");
+
                     // create the vfx prefab
                     if (VFXPrefab == null)
                     {
+                        CMConsole.Log("Creating VFX Prefab");
                         VFXPrefab = CreateGameObject(CakeVFXPrefab);
-                        
-                        VFXPrefab.Position = new Vector2(-0.75f, yVFXLocation);
+                        VFXPrefab.Depth = towerPrefab.Depth - 0.2f;
+                        VFXPrefab.Position = new Vector2(0.0f, CakeVFXFinalPos[cakeCounter]);
                     }
                 }
                // CMConsole.Log($"IN TOWER DROP UPDATE {towerPrefab.Position.x}, {towerPrefab.Position.y}");
-                if (towerPrefab.Position.y > yTargetPos)
+                if (towerPrefab.Position.y > CakeStackFinalPos[cakeCounter])
                 {
                     Vector2 pos = towerPrefab.Position;
                     pos.y -= dropSpeed * dt;
                     towerPrefab.Position = pos;
                 }
-                else if (towerPrefab.Position.y <= yTargetPos && (VFXPrefab != null && VFXPrefab.GetComponent<Animation>().IsAnimFinished()))
+                else if (towerPrefab.Position.y <= CakeStackFinalPos[cakeCounter] && (VFXPrefab != null && VFXPrefab.GetComponent<Animation>().IsAnimFinished()))
                 {
-                    towerPrefab.GetComponent<Animation>().ChangeAnim(CakeSquishAnimations[cakeType]);
+                    CMConsole.Log("ENDING VFX Prefab. GOING BACK TO LANDING");
+
+                    //CMConsole.Log("Creating VFX Prefab");
+                    towerPrefab.GetComponent<Animation>().ChangeAnim(CakeSquishAnimations[cakeCounter]);
                     // tower landed
-                    towerPrefab.Position = new Vector2(towerPrefab.Position.x, yTargetPos);
+                    towerPrefab.Position = new Vector2(towerPrefab.Position.x, CakeStackFinalPos[cakeCounter]);
                     GetComponent<StateMachine>().SetStateCondition(4);
                     //CMConsole.Log("Changing VFX prefab animation");
                     VFXPrefab.ChangeAnim("CakeFallVFxEnd");
-                    
+
+
                     Sound.PlaySFX("SFX__Magic", 0.4f);
 
                 }
@@ -1038,15 +1160,19 @@ namespace Carmicah
             {
                 if (VFXPrefab.GetComponent<Animation>().GetFrameNo() == 0)
                 {
-                    VFXPrefab.Depth = towerPrefab.Depth + 1.0f;
+                    VFXPrefab.Depth = towerPrefab.Depth + 0.2f;
                 }
                 if (VFXPrefab.GetComponent<Animation>().IsAnimFinished() && towerPrefab.GetComponent<Animation>().IsAnimFinished())
                 {
+                    CMConsole.Log("TOWER LANDING COMPLETEEE");
                     VFXPrefab.Destroy();
+                    VFXPrefab = null;
                     UpdatePositions();
                     ySpawnPos += CakeHeightOffset;
-                    yTargetPos += CakeHeightOffset;
-                    yVFXLocation += CakeHeightOffset;
+                    cakeCounter++; // increment cake when its done
+                    //yTargetPos += CakeHeightOffset;
+                    //yVFXLocation += CakeHeightOffset;
+                    //yVFXSpawn += CakeHeightOffset;
                     GetComponent<StateMachine>().SetStateCondition(1);
                 }
             }

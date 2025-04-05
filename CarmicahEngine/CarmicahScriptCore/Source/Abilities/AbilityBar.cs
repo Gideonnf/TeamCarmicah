@@ -33,11 +33,11 @@ namespace Carmicah
         public override void OnCreate()
         {
             CreateIcon(IconType.SHOOTER_ICON);
-            CreateIcon(IconType.CANDY_ICON);
+            CreateIcon(IconType.SPEAR_ICON);
             CreateIcon(IconType.MAGE_ICON);
             CreateIcon(IconType.CANDY_ICON);
             CreateIcon(IconType.HONEY_ICON);
-            //CreateIcon(IconType.SPEAR_ICON);
+            CreateIcon(IconType.JELLYBEAN_ICON);
 
             originalPos = this.Position;
         }

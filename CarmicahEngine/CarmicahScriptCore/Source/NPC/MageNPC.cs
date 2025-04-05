@@ -233,6 +233,15 @@ namespace Carmicah
             }
             else if (stateName == "Teleport")
             {
+                Entity[] children = GetAllChildren();
+                foreach (Entity ent in children)
+                {
+                    if (ent != null)
+                    {
+                        ent.GetComponent<Renderer>().SetAlpha(0.0f);
+                    }
+                }
+
                 ChangeAnim(teleportAnim);
                 
             }
@@ -385,6 +394,18 @@ namespace Carmicah
                     PlayVoiceOver();
                     
                 }
+            }
+            else if (stateName == "Teleport")
+            {
+                Entity[] children = GetAllChildren();
+                foreach (Entity ent in children)
+                {
+                    if (ent != null)
+                    {
+                        ent.GetComponent<Renderer>().SetAlpha(1.0f);
+                    }
+                }
+                // ChangeAnim(TeleportAnim);
             }
 
         }

@@ -962,7 +962,7 @@ namespace Carmicah
 			if (mEntityTriggerMap[obj1].count(obj2) == 0)
 			{
 				EntityCollidedMessage newMsg(obj1, obj2, CollideType::TRIGGER_ENTER);
-				CM_CORE_INFO(gGOFactory->GetMIDToGO()[obj1].GetName() + " entering " + gGOFactory->GetMIDToGO()[obj2].GetName());
+				//CM_CORE_INFO(gGOFactory->GetMIDToGO()[obj1].GetName() + " entering " + gGOFactory->GetMIDToGO()[obj2].GetName());
 				SendSysMessage(&newMsg);
 
 				mEntityTriggerMap[obj1].insert(obj2);
