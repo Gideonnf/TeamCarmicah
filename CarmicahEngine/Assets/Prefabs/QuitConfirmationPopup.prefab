@@ -20,6 +20,20 @@
             "yScale": 0.5,
             "rot": 0.0,
             "transformTag": ""
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.UISliding",
+            "ScriptableFieldMap": [
+                {
+                    "slideCurve": 8,
+                    "slideDist": 1080.0,
+                    "slideTime": 1.5,
+                    "slideToCenter": true,
+                    "slideType": "Up",
+                    "createDimBG": true
+                }
+            ]
         }
     ],
     "Children": [

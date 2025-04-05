@@ -268,5 +268,10 @@ namespace Carmicah
         {
             FunctionCalls.SetParticlesActive(Entity.mID);
         }
+
+        public void SetColor(float r, float g, float b)
+        {
+            FunctionCalls.Particles_SetColor(Entity.mID, r, g, b);
+        }
     }
 }
