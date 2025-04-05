@@ -477,6 +477,8 @@ namespace Carmicah
                 if (gm != null)
                     gm.EntityDestroyed(this);
 
+                GetComponent<Collider2D>().SetxPivot(100000.0f); // set to a large number so that it doesn't collide with anything
+
                 //CMConsole.Log("Dying here");
                 dead = true;
                 move = false;

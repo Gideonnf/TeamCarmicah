@@ -102,6 +102,10 @@ namespace Carmicah
                     {
                         foreach (MouseAI mouse in gameManager.mouseLaneOne)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -114,6 +118,10 @@ namespace Carmicah
 
                         foreach (MouseAI mouse in gameManager.mouseLaneTwo)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -129,6 +137,10 @@ namespace Carmicah
                     {
                         foreach (MouseAI mouse in gameManager.mouseLaneOne)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -141,6 +153,10 @@ namespace Carmicah
 
                         foreach (MouseAI mouse in gameManager.mouseLaneTwo)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -156,6 +172,10 @@ namespace Carmicah
                     {
                         foreach (MouseAI mouse in gameManager.mouseLaneThree)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -168,6 +188,10 @@ namespace Carmicah
 
                         foreach (MouseAI mouse in gameManager.mouseLaneFour)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -183,6 +207,10 @@ namespace Carmicah
                     {
                         foreach (MouseAI mouse in gameManager.mouseLaneThree)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -195,6 +223,10 @@ namespace Carmicah
 
                         foreach (MouseAI mouse in gameManager.mouseLaneFour)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
