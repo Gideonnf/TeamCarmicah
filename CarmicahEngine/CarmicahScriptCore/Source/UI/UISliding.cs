@@ -106,7 +106,11 @@ namespace Carmicah
                     Position = endPos;
                     slidIn = true;
                     if (sd)
+                    {
+                        if(dimBG != null)
+                            dimBG.Destroy();
                         Destroy();
+                    }
                     return;
                 }
 

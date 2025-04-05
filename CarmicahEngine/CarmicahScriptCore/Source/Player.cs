@@ -303,7 +303,7 @@ namespace Carmicah
                 {
                     if (ent != null)
                     {
-                        ent.GetComponent<Renderer>().SetAlpha(1.0f);
+                        ent.GetComponent<Renderer>().SetAlpha(0.3528999984264374f);
                     }
                 }
                // ChangeAnim(TeleportAnim);
