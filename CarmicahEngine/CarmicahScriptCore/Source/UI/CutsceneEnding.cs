@@ -24,6 +24,7 @@ namespace Carmicah
         public string backgroundMusicTrack = "Endingcutscene";
         public string backgroundMusicTrack1 = "BGM_SetupPhase_Mix1";
 
+
         private bool musicStarted = false;
 
         int currentPanel = 0;
