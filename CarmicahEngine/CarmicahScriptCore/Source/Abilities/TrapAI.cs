@@ -48,6 +48,12 @@ namespace Carmicah
                     ChangeAnim("CandyCone");
                     life -= 1;
                 }
+                else if (collidedEntity.Has<MouseAI>())
+                {
+                    Sound.PlaySFX("trap extend");
+                    ChangeAnim("CandyCone");
+                    life -= 1;
+                }
             }
         }
 

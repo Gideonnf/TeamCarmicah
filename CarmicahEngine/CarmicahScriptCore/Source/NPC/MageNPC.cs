@@ -17,6 +17,7 @@ namespace Carmicah
         // some one else do this pls
 
         MouseAI targetMouse;
+        Entity projectile;
         float timer = 0.0f;
         public float maxDistance = 12.0f;
         //public Vector2 shootOffset = new Vector2(2, 2);
@@ -36,11 +37,16 @@ namespace Carmicah
             }
         }
 
+        public override void ProjectileDestroyed()
+        {
+            projectile = null;
+        }
+
         public override void ShootProjectile()
         {
             if (targetMouse != null)
             {
-                Entity projectile = CreateGameObject(projectilePrefab);
+                projectile = CreateGameObject(projectilePrefab);
                 Vector2 shootOffset = new Vector2(xShootOffset, yShootOffset);
                 if (projectile != null)
                 {
@@ -57,6 +63,7 @@ namespace Carmicah
                     // CMConsole.Log($"Projectile Position: {projectile.Position.x}, {projectile.Position.y}");
 
                     Projectile bullet = projectile.As<Projectile>();
+                    bullet.SetParent(this);
                     bullet.As<Projectile>().bulletType = BulletType.MAGE_BULLET;
                     if(!IsLeft)
                     { 
@@ -321,7 +328,7 @@ namespace Carmicah
                 if (timer >= shootTime)
                 {
                     GetTarget(); // get targetMouse
-                    if (targetMouse != null)
+                    if (targetMouse != null && projectile == null)
                     {
                         //CMConsole.Log($"Target mouse : {targetMouse.mID}");
 
