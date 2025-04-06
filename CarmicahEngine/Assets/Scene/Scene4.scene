@@ -58,7 +58,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "",
+                    "Atlas": "Button_HE_Skip",
                     "AnimSpeed": 1.0
                 },
                 {
