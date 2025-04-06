@@ -17,7 +17,7 @@ namespace Carmicah
         // some one else do this pls
 
         MouseAI targetMouse;
-        Entity projectile;
+       // Entity projectile;
         float timer = 0.0f;
         public float maxDistance = 12.0f;
         //public Vector2 shootOffset = new Vector2(2, 2);
@@ -39,14 +39,14 @@ namespace Carmicah
 
         public override void ProjectileDestroyed()
         {
-            projectile = null;
+            //projectile = null;
         }
 
         public override void ShootProjectile()
         {
             if (targetMouse != null)
             {
-                projectile = CreateGameObject(projectilePrefab);
+                Entity projectile = CreateGameObject(projectilePrefab);
                 Vector2 shootOffset = new Vector2(xShootOffset, yShootOffset);
                 if (projectile != null)
                 {

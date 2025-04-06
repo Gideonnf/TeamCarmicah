@@ -10,7 +10,7 @@ namespace Carmicah
     public class SpearNPC : BaseNPC
     {
         MouseAI targetMouse;
-        Entity projectile;
+        //Entity projectile;
         float timer = 0.0f;
         string voiceOver;
         
@@ -31,14 +31,14 @@ namespace Carmicah
 
         public override void ProjectileDestroyed()
         {
-            projectile = null;
+           // projectile = null;
         }
 
         public override void ShootProjectile()
         {
             if (targetMouse != null)
             {
-                projectile = CreateGameObject(projectilePrefab);
+                Entity projectile = CreateGameObject(projectilePrefab);
                 Vector2 shootOffset = new Vector2(xShootOffset, yShootOffset);
                 if (projectile != null)
                 {

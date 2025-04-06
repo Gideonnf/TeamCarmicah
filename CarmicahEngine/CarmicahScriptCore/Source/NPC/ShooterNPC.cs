@@ -12,7 +12,6 @@ namespace Carmicah
     {
         public string airAnim;
         Entity target;
-        Entity projectile;
         BulletTarget targetType;
         float timer = 0.0f;
         string voiceOver;
@@ -40,14 +39,14 @@ namespace Carmicah
 
         public override void ProjectileDestroyed()
         {
-            projectile = null;
+           // projectile = null;
         }
 
         public override void ShootProjectile()
         {
             if (target != null)
             {
-                projectile = CreateGameObject(projectilePrefab);
+                Entity projectile = CreateGameObject(projectilePrefab);
                 Vector2 shootOffset;
                 if (targetType == BulletTarget.GROUND)
                 {

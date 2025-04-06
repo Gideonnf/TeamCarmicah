@@ -59,7 +59,7 @@ namespace Carmicah
         public Entity target;
 
         // NPC that shot it
-        public Entity parent;
+        //public Entity parent;
 
         float timer = 0.0f;
         float animTimer = 0.0f;
@@ -174,7 +174,7 @@ namespace Carmicah
 
         public void SetParent(Entity _parent)
         {
-            parent = _parent;
+           // parent = _parent;
         }
 
         // Set initial direction
@@ -312,10 +312,10 @@ namespace Carmicah
                 }
                 else
                 {
-                    if (parent != null)
-                    {
-                        parent.As<BaseNPC>().ProjectileDestroyed();
-                    }
+                    //if (parent != null)
+                    //{
+                    //    parent.As<BaseNPC>().ProjectileDestroyed();
+                    //}
                     Destroy();
                 }
             }
@@ -337,10 +337,10 @@ namespace Carmicah
 
                 if (GetComponent<Animation>().IsAnimFinished())
                 {
-                    if (parent != null)
-                    {
-                        parent.As<BaseNPC>().ProjectileDestroyed();
-                    }
+                    //if (parent != null)
+                    //{
+                    //    parent.As<BaseNPC>().ProjectileDestroyed();
+                    //}
                     Destroy();
                 }
             }
