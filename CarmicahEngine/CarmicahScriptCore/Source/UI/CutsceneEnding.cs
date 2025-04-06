@@ -52,17 +52,20 @@ namespace Carmicah
         float currAlpha;
         Vector2 originalScale;
         float particlesDownTime = 4.0f;
-        Entity leftParticles;
-        Entity rightParticles;
+        Entity[] leftParticles = new Entity[3];
+        Entity[] rightParticles = new Entity[3];
 
         public override void OnCreate()
         {
             Sound.StopSoundBGM(backgroundMusicTrack1);
             cutsceneEntity = FindEntityWithName("CutSceneImage");
             textObj = FindEntityWithName("Default");
-            leftParticles = FindEntityWithName("Left Particles");
-            rightParticles = FindEntityWithName("Right Particles");
-
+            leftParticles[0] = FindEntityWithName("Left Particles");
+            rightParticles[0] = FindEntityWithName("Right Particles");
+            leftParticles[1] = FindEntityWithName("Left Particles_1");
+            rightParticles[1] = FindEntityWithName("Right Particles_1");
+            leftParticles[2] = FindEntityWithName("Left Particles_2");
+            rightParticles[2] = FindEntityWithName("Right Particles_2");
             if (cutsceneEntity != null)
             {
                 originalScale = cutsceneEntity.Scale;
@@ -142,18 +145,36 @@ namespace Carmicah
 
         public override void OnUpdate(float dt)
         {
-            if (leftParticles == null)
-                leftParticles = FindEntityWithName("Left Particles");
-            else if (rightParticles == null)
-                rightParticles = FindEntityWithName("Right Particles");
+            if (leftParticles[0] == null)
+                leftParticles[0] = FindEntityWithName("Left Particles");
+            if (rightParticles[0] == null)
+                rightParticles[0] = FindEntityWithName("Right Particles");
+            if (leftParticles[1] == null)
+                leftParticles[1] = FindEntityWithName("Left Particles_1");
+            if (rightParticles[1] == null)
+                rightParticles[1] = FindEntityWithName("Right Particles_1");
+            if (leftParticles[2] == null)
+                leftParticles[2] = FindEntityWithName("Left Particles_2");
+            if (rightParticles[2] == null)
+                rightParticles[2] = FindEntityWithName("Right Particles_2");
 
-            if (leftParticles != null && !leftParticles.GetComponent<ParticleEmitter>().GetActive())
+            if (!leftParticles[0].GetComponent<ParticleEmitter>().GetActive())
             {
                 particlesDownTime += dt;
                 if (particlesDownTime > 4.0f)
                 {
-                    leftParticles.GetComponent<ParticleEmitter>().SetActive();
-                    rightParticles.GetComponent<ParticleEmitter>().SetActive();
+                    if (leftParticles[0] != null)
+                        leftParticles[0].GetComponent<ParticleEmitter>().SetActive();
+                    if (rightParticles[0] != null)
+                        rightParticles[0].GetComponent<ParticleEmitter>().SetActive();
+                    if (leftParticles[1] != null)
+                        leftParticles[1].GetComponent<ParticleEmitter>().SetActive();
+                    if (rightParticles[1] != null)
+                        rightParticles[1].GetComponent<ParticleEmitter>().SetActive();
+                    if (leftParticles[2] != null)
+                        leftParticles[2].GetComponent<ParticleEmitter>().SetActive();
+                    if (rightParticles[2] != null)
+                        rightParticles[2].GetComponent<ParticleEmitter>().SetActive();
                     particlesDownTime = 0.0f;
                 }
             }
