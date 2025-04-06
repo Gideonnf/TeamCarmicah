@@ -9,6 +9,7 @@ namespace Carmicah
     public class CutsceneEnding : Entity
     {
         public float timer = 0.0f;
+        public float wordsTimer = 0.0f;
 
         // Panel timings
         private float panel1 = 15.0f;        // First panel fade in
@@ -31,15 +32,19 @@ namespace Carmicah
 
 
         private float[] panelTimings = new float[3];
-        private string[] panelWords = new string[3]{
-            "As the last Critter fell, a sense of relief washed over Princess Strawberry, knowing all their efforts had not been in vain as she heard her kingdom erupt in cheers of victory over their fallen enemy.",
-            "And from then on the Candy Kingdom lived happily ever after",
+        private float[] panelWordsTimings = new float[5];
+        private string[] panelWords = new string[5]{
+            "As the last Critter fell, a sense of relief washed over Princess Strawberry, ",
+            "knowing all their efforts had not been in vain ",
+            "as she heard her kingdom erupt in cheers of victory over their fallen enemy.",
+            "And from then on the Candy Kingdom lived  happily  ever  after",
             ""
         };
 
         private bool musicStarted = false;
 
         int currentPanel = 0;
+        int currentWordsPanel = 0;
         Entity cutsceneEntity;
         Entity nextCutsceneEntity;
         Entity textObj;
@@ -78,6 +83,11 @@ namespace Carmicah
             panelTimings[0] = panel1;
             panelTimings[1] = panel2;
             panelTimings[2] = panelFadeOut;
+            panelWordsTimings[0] = 6.0f;
+            panelWordsTimings[1] = 9.0f;
+            panelWordsTimings[2] = 16.0f;
+            panelWordsTimings[3] = 23.0f;
+            panelWordsTimings[4] = 30.0f;
         }
 
         private string GetCurrPanelName()
@@ -90,22 +100,22 @@ namespace Carmicah
 
         private void UpdateCutsceneText()
         {
-            if (currentPanel < panelWords.Length)
+            if (currentWordsPanel < panelWords.Length)
             {
                 float startTime = 0;
-                if (currentPanel != 0)
-                    startTime = panelTimings[currentPanel - 1];
+                if (currentWordsPanel != 0)
+                    startTime = panelWordsTimings[currentWordsPanel - 1];
 
-                float percentage = (timer - startTime) / (panelTimings[currentPanel] - startTime - 1.0f);
+                float percentage = (wordsTimer - startTime) / (panelWordsTimings[currentWordsPanel] - startTime - 1.0f);
                // percentage = Math.Min(Math.Max(percentage, 0), 1); // Clamp between 0 and 1
 
-                int numTextToAdd = Math.Min((int)(percentage * panelWords[currentPanel].Length), panelWords[currentPanel].Length);
+                int numTextToAdd = Math.Min((int)(percentage * panelWords[currentWordsPanel].Length), panelWords[currentWordsPanel].Length);
 
                 bool toUpdateTxtYet = currText.Length != 0;
 
                 while (numTextToAdd > currText.Length)
                 {
-                    currText += panelWords[currentPanel][currText.Length];
+                    currText += panelWords[currentWordsPanel][currText.Length];
                 }
 
                 if (toUpdateTxtYet && textObj != null)
@@ -153,12 +163,29 @@ namespace Carmicah
                 ProgressScene();
             }
 
+
+            if (wordsTimer >= panelWordsTimings[currentWordsPanel])
+            {
+                ++currentWordsPanel;
+                if (currentWordsPanel >= panelWordsTimings.Length)
+                    currentWordsPanel = panelWordsTimings.Length - 1;
+                if (textObj != null)
+                {
+                    Entity txtChild = new Entity(FunctionCalls.Entity_GetChild(textObj.mID));
+                    txtChild.Scale = new Vector2(0.0f, 0.0f);
+
+                    currText = "";
+                    textObj.GetComponent<TextRenderer>().SetText(currText);
+                }
+            }
+
             UpdateCutsceneText();
         }
 
         public override void OnFixedUpdate(float fixedDt)
         {
             timer += fixedDt;
+            wordsTimer += fixedDt;
         }
 
         public override void OnStateEnter(string stateName)
@@ -177,15 +204,6 @@ namespace Carmicah
                     {
                         nextCutsceneEntity.Scale = new Vector2(1000.0f, 1000.0f);
                     }
-                }
-
-                if (textObj != null)
-                {
-                    Entity txtChild = new Entity(FunctionCalls.Entity_GetChild(textObj.mID));
-                    txtChild.Scale = new Vector2(0.0f, 0.0f);
-
-                    currText = "";
-                    textObj.GetComponent<TextRenderer>().SetText(currText);
                 }
             }
             else if (stateName == "Idle")
