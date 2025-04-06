@@ -72,9 +72,9 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1740.0,
-                    "yPos": 1000.0,
-                    "depth": 1.0,
+                    "xPos": 1700.0,
+                    "yPos": 990.0,
+                    "depth": 20.0,
                     "xScale": 0.75,
                     "yScale": 0.75,
                     "rot": 0.0,
@@ -112,11 +112,11 @@
                     "scriptName": "Carmicah.Intro",
                     "ScriptableFieldMap": [
                         {
-                            "FadeDuration": -107374176.0,
-                            "HoldDuration": -107374176.0,
+                            "FadeDuration": 0.0,
+                            "HoldDuration": 0.0,
                             "gameLogoName": "game_logo",
-                            "maxDuration": -107374176.0,
-                            "otherStateDuration": -107374176.0,
+                            "maxDuration": 7.00623507842151e22,
+                            "otherStateDuration": 7.00623507842151e22,
                             "schoolLogoName": "digipen_logo",
                             "schoolRightsName": "digipen_rights",
                             "state": 0,
@@ -188,7 +188,11 @@
                     "BurstTime": 0.0,
                     "SpeedRange": 0.5,
                     "AngleRange": 360.0,
-                    "EmitterStatus": 5
+                    "EmitterStatus": 5,
+                    "ColR": 1.0,
+                    "ColG": 1.0,
+                    "ColB": 1.0,
+                    "ColA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
