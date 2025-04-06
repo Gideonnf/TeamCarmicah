@@ -193,6 +193,15 @@ namespace Carmicah
             }
             else if (stateName == "Teleport")
             {
+                Entity[] children = GetAllChildren();
+                foreach (Entity ent in children)
+                {
+                    if (ent != null)
+                    {
+                        ent.GetComponent<Renderer>().SetAlpha(0.0f);
+                    }
+                }
+
                 ChangeAnim(TeleportAnim);
             }
         }
@@ -276,7 +285,18 @@ namespace Carmicah
 
         public override void OnStateExit(string stateName)
         {
-
+             if (stateName == "Teleport")
+            {
+                Entity[] children = GetAllChildren();
+                foreach (Entity ent in children)
+                {
+                    if (ent != null)
+                    {
+                        ent.GetComponent<Renderer>().SetAlpha(0.3528999984264374f);
+                    }
+                }
+                // ChangeAnim(TeleportAnim);
+            }
         }
 
         void PlaySoundEffect(string name)
