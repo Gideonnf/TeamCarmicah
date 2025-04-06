@@ -158,7 +158,7 @@
                     "xShootOffset": 0.699999988079071,
                     "shootRate": 1.0,
                     "shootSound": "Shooter_Shooting",
-                    "shootTime": 1.0,
+                    "shootTime": 1.3,
                     "teleportAnim": "NPC_Teleport",
                     "dissolvePrefab": "",
                     "yShootOffset": 1.0

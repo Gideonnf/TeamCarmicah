@@ -226,7 +226,7 @@ namespace Carmicah
 
                     if (currentPanel == 6)
                     {
-                        cutsceneEntity.Scale = new Vector2(originalScale.x * 1.1f, originalScale.y * 1.1f);
+                        //cutsceneEntity.Scale = new Vector2(originalScale.x * 1.1f, originalScale.y * 1.1f);
                     }
                     else if (currentPanel == 12)
                     {
@@ -243,7 +243,7 @@ namespace Carmicah
                     }
                     else
                     {
-                        cutsceneEntity.Scale = originalScale;
+                        //cutsceneEntity.Scale = originalScale;
                     }
                 }
             }
