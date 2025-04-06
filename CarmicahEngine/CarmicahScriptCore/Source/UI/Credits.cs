@@ -28,7 +28,8 @@ namespace Carmicah
     {
         public Transform transform;
         public float scrollSpeed = 2.5f; // adjust speed as needed
-        public float endYPosition = 45.0f; // change to match final Y position
+        public float slowDownYPosition = 24.0f;
+        public float endYPosition = 29.0f; // change to match final Y position
 
         public string backgroundMusicTrack = "BGM_Credits"; 
         public float fadeOutDuration = 1.5f; 
@@ -53,13 +54,21 @@ namespace Carmicah
             {
                 Vector2 position = transform.Position;
 
-                if (position.y < endYPosition) 
+                if (position.y < slowDownYPosition) 
                 {
+                    position.y += scrollSpeed * dt;
+                    transform.Position = position;
+                }
+                else if (position.y < endYPosition)
+                {
+                    // total time = x / scrollSpeed
+                    scrollSpeed = Math.Max(0.05f, scrollSpeed - 0.627f * dt);
                     position.y += scrollSpeed * dt;
                     transform.Position = position;
                 }
                 else 
                 {
+                    scrollSpeed = 2.5f;
                     if (!isFadingOut)
                     {
                         isFadingOut = true;
@@ -73,7 +82,8 @@ namespace Carmicah
                         if (fadeTimer >= fadeOutDuration)
                         {
                             Sound.StopAllSFX();
-                            Scene.ChangeScene("Scene3");
+                            FindEntityWithName("SceneTransition").As<SceneTransition>().FadeOut("Scene3");
+                            // Scene.ChangeScene("Scene3");
                         }
                     }
                 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace Carmicah
         public string losePrefab = "LoseScreen";
         public string countdownPrefab = "Countdown_1";
 
-        //public bool EndGame;
+        public bool EndGame;
 
         Entity gameManager;
         Entity pauseManager;
@@ -55,10 +56,72 @@ namespace Carmicah
 
             }
 
+            // only handles how long end game screen last
+            if (EndGame)
+            {
+                waveTimer += dt;
+                if (waveTimer >= 3.0f)
+                {
+                    // transition to new scene
+                    FindEntityWithName("SceneTransition").As<SceneTransition>().FadeOut("CutsceneEnding");
+                }
+            }
+
+            if (winScreenCreated)
+            {
+                List<bool> listEnemiesActive = new List<bool>();
+                listEnemiesActive = levelManager.PreviewNextLevelEnemies();
+                int count = 0;
+                for (int i = 0; i < listEnemiesActive.Count; i++)
+                {
+                    if (listEnemiesActive[i])
+                        count++;
+                }
+                List<Entity> listEnemies = new List<Entity>();
+                Entity[] winScreenChildren = winScreen.GetAllChildren();
+                int iterator = 0;
+                foreach (Entity ent in winScreenChildren)
+                {
+                    if (iterator > 3)
+                    {
+                        listEnemies.Add(ent);
+                    }
+                    ++iterator;
+                }
+                CMConsole.Log($"A:{listEnemies.Count} B:{listEnemiesActive.Count}");
+                if (listEnemies.Count == listEnemiesActive.Count)
+                {
+                    Vector2 pos = new Vector2(-365.0f, -80.0f);
+                    if (count < 5)
+                        pos.x += 460.0f / ((float)Math.Pow(2, count));
+                    for (int i = 0; i < listEnemiesActive.Count; i++)
+                    {
+                        if (listEnemiesActive[i])
+                        {
+                            listEnemies[i].GetComponent<Renderer>().SetAlpha(1.0f);
+                            listEnemies[i].LocalPosition = pos;
+                            // -365 ~ 95 == 460
+                            pos.x += 460.0f / Math.Min(count, 4.0f);
+                        }
+                    }
+                    winScreenCreated = false;
+                }
+            }
+
             // Only increment time for as long as theres a wave coming
             if (gameManager.As<GameManager>().GameOver)
             {
                 return;
+            }
+
+
+            if (winScreen == null &&  Input.IsKeyPressed(Keys.KEY_0))
+            {
+                waveStart = false;
+                waveTimer = 0.0f;
+                levelManager.EndLevel();
+                gameManager.As<GameManager>().activeEnemies = 0;
+                gameManager.As<GameManager>().CheatKillAllEnemies();
             }
 
             waveTimer += dt;
@@ -128,14 +191,16 @@ namespace Carmicah
                     gameManager.As<GameManager>().GameOver = true;
                     if (levelManager.EndOfGame())
                     {
-                       // CMConsole.Log("Does this runNnnnnnnnnnnnnn");
+                        // CMConsole.Log("Does this runNnnnnnnnnnnnnn");
                         winScreen = CreateGameObject("GameEnd_Screen");
-
+                        EndGame = true;
+                        waveTimer = 0.0f;
                     }
                     else
                     {
-                      //  CMConsole.Log("Does this run");
+                        //  CMConsole.Log("Does this run");
                         winScreen = CreateGameObject(winPrefab);
+                        winScreenCreated = true;
                     }
                 }
                 //CreateGameObject(winPrefab);
@@ -144,22 +209,22 @@ namespace Carmicah
                 waveTimer = 0.0f;
                 //startNewWave = true;
                 // waveCounter--;
+                return;
             }
 
+            //CMConsole.Log("PLEASE GO TO A NEW LEVEL PLS PLS PLS");
 
-           //CMConsole.Log("PLEASE GO TO A NEW LEVEL PLS PLS PLS");
-
-          //  if (winScreen != null && winScreen.mID == 0)
-          //      winScreen = null;
-          ////  CMConsole.Log("ASDASASDASDA");
-          //  //CMConsole.Log($"{gameManager.As<GameManager>().GameOver} and {winScreen == null}");
-          //  if (winScreen != null)
-          //      // CMConsole.Log($"{winScreen.mID}");
-          //      // win screen was deleted
-          //      if (gameManager.As<GameManager>().GameOver && winScreen == null)
-          //      {
-          //          CMConsole.Log("PLEASE GO TO A NEW LEVEL PLS PLS PLS");
-          //      }
+            //  if (winScreen != null && winScreen.mID == 0)
+            //      winScreen = null;
+            ////  CMConsole.Log("ASDASASDASDA");
+            //  //CMConsole.Log($"{gameManager.As<GameManager>().GameOver} and {winScreen == null}");
+            //  if (winScreen != null)
+            //      // CMConsole.Log($"{winScreen.mID}");
+            //      // win screen was deleted
+            //      if (gameManager.As<GameManager>().GameOver && winScreen == null)
+            //      {
+            //          CMConsole.Log("PLEASE GO TO A NEW LEVEL PLS PLS PLS");
+            //      }
         }
 
         public void EndOfLevel()

@@ -30,7 +30,7 @@ namespace Carmicah
 
         public AbilityType npcType = 0;
         public float shootRate = 1.0f;
-        public float shootTime = 1.0f;
+        public float shootTime = 1.3f;
         public float xShootOffset = 0.0f;
         public float yShootOffset = 0.0f;
         public string projectilePrefab = "Bullet";
@@ -49,7 +49,6 @@ namespace Carmicah
         protected bool shot = false;
         protected bool hasAmmo = true;
         protected bool hovering = false;
-        protected float animationTime;
         public override void OnCreate()
         {
             CMConsole.Log("Base NPC On Create");
@@ -81,6 +80,11 @@ namespace Carmicah
         public void KillHero()
         {
             GetComponent<StateMachine>().SetStateCondition(4);
+        }
+
+        public virtual void ProjectileDestroyed()
+        {
+
         }
 
         public virtual void GetTarget()

@@ -147,7 +147,7 @@ namespace Carmicah
         glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_TRUE);
         glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
         GLFWwindow* window = glfwCreateWindow(Width, Height, "Carmicah", primaryMonitor, NULL);
-
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 #else    
         //comment it when using installer
         //CM_CORE_INFO("Reached before window creation");
@@ -201,8 +201,9 @@ namespace Carmicah
         REGISTER_COMPONENT(Script);
 
         CM_CORE_INFO("Starting system init");
-
+#ifndef CM_INSTALLER
         auto editorSys = REGISTER_SYSTEM(Editor);
+#endif
         REGISTER_SYSTEM(GOFactory);
         REGISTER_SYSTEM(ScriptSystem);
         auto graSystem = REGISTER_SYSTEM(WorldGraphicsSystem);
@@ -250,16 +251,17 @@ namespace Carmicah
         Input.BindSystem(souSystem);
         colSystem->BindSystem(gScriptSystem);
 
-        gameSystem->BindSystem(editorSys);
         gameSystem->BindSystem(butSystem);
         // Add transform system into gGOFactory's observer so that it can send msg to it
         gGOFactory->BindSystem(transformSystem);
         gGOFactory->BindSystem(prefabSystem);
+#ifndef CM_INSTALLER
+        gameSystem->BindSystem(editorSys);
         gGOFactory->BindSystem(editorSys);
         // Add Scene system into editor's observer
         editorSys->BindSystem(gameSystem);
         editorSys->BindSystem(prefabSystem);
-
+#endif
         butSystem->BindSystem(gScriptSystem);
         mouseSystem->BindSystem(gScriptSystem);
         fsmSystem->BindSystem(gScriptSystem);
@@ -282,10 +284,10 @@ namespace Carmicah
         int steps = 0;
         const double maxAccumulation = 0.1f;
         const int maxSteps = 5;
-
+#ifndef CM_INSTALLER
         //Editor Editor;
         editorSys->Init(window);
-        
+#endif    
 
         static bool gameOnly = false;
 #ifdef CM_INSTALLER
@@ -302,6 +304,7 @@ namespace Carmicah
             std::string title = "Carmicah - FPS: " + std::to_string(static_cast<int>(CarmicahTime::GetInstance()->FPS())) + " - Scene : " + gameSystem->GetCurrScene();
             glfwSetWindowTitle(window, title.c_str());
             glfwPollEvents(); // this takes 20% of engine run time
+            AssetManager::GetInstance()->LoadTextureThreadedFinish();
             CarmicahTime::GetInstance()->StopSystemTimer("Misc");
 
             if (gameSystem->mNextState == SceneState::EXIT)
@@ -426,6 +429,8 @@ namespace Carmicah
                 }
 
                // glfwMakeContextCurrent(ImGuiWindow);
+#ifndef CM_INSTALLER
+
                 if (!gameOnly)
                 {
                     CarmicahTime::GetInstance()->StartSystemTimer("EditorSystem");
@@ -436,6 +441,7 @@ namespace Carmicah
                     editorSys->Render(window);
                     CarmicahTime::GetInstance()->StopSystemTimer("EditorSystem");
                 }
+#endif
                 CarmicahTime::GetInstance()->StartSystemTimer("RenderingSystems");
                 // Update world and local transforms before rendering
                 rendTransformSystem->Update();
@@ -482,7 +488,7 @@ namespace Carmicah
 #ifdef CM_INSTALLER
                     RenderHelper::GetInstance()->FinalRender();
 
-                    ShowCursor(false);
+                    //ShowCursor(Input.mNotFullScreen);
                     // hide cursor
                     //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 #endif  
@@ -538,8 +544,10 @@ namespace Carmicah
 #endif
 
         SceneToImgui::GetInstance()->UnloadFramebuffer();
+#ifndef CM_INSTALLER
 
         editorSys->Exit();
+#endif
         souSystem->Exit();
         colSystem->Exit();
 		butSystem->Exit();

@@ -12,12 +12,14 @@ namespace Carmicah
     {
         public string airAnim;
         Entity target;
+        Entity projectile;
         BulletTarget targetType;
         float timer = 0.0f;
         string voiceOver;
         public float xAirOffset = 0.0f;
         public float yAirOffset = 0.0f;
-        
+
+
         public override void OnCreate()
         {
             base.OnCreate();
@@ -36,11 +38,16 @@ namespace Carmicah
             }
         }
 
+        public override void ProjectileDestroyed()
+        {
+            projectile = null;
+        }
+
         public override void ShootProjectile()
         {
             if (target != null)
             {
-                Entity projectile = CreateGameObject(projectilePrefab);
+                projectile = CreateGameObject(projectilePrefab);
                 Vector2 shootOffset;
                 if (targetType == BulletTarget.GROUND)
                 {
@@ -63,6 +70,7 @@ namespace Carmicah
 
                     }
                     Projectile bullet = projectile.As<Projectile>();
+                    bullet.SetParent(this);
                     bullet.As<Projectile>().bulletType = BulletType.SHOOTER_BULLET;
                     if(targetType == BulletTarget.AIR)
                     {
@@ -113,9 +121,12 @@ namespace Carmicah
                     {
                         foreach (MouseAI mouse in gameManager.mouseLaneOne)
                         {
+                            if(mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
-
                             if (dist < distance)
                             {
                                 distance = dist;
@@ -129,6 +140,10 @@ namespace Carmicah
                     {
                         foreach(MouseAI mouse in gameManager.mouseLaneTwo)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -145,6 +160,10 @@ namespace Carmicah
                     {
                         foreach(MouseAI mouse in gameManager.mouseLaneThree)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -161,6 +180,10 @@ namespace Carmicah
                     {
                         foreach(MouseAI mouse in gameManager.mouseLaneFour)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -218,6 +241,8 @@ namespace Carmicah
         {
             if (stateName == "Idle")
             {
+                timer = 0.0f;
+
                 ChangeAnim(idleAnim);
                 //shot = false;
                 //CMConsole.Log("IDLE ANIM");
@@ -233,8 +258,6 @@ namespace Carmicah
                 { 
                     ChangeAnim(shootAnim); 
                 }
-                animationTime = GetComponent<Animation>().GetMaxTime();
-                timer = 0.0f;
                 shot = false;
                // CMConsole.Log($"Max Anim Time : {animationTime}");
 
@@ -246,6 +269,14 @@ namespace Carmicah
             }
             else if (stateName == "Teleport")
             {
+                Entity[] children = GetAllChildren();
+                foreach (Entity ent in children)
+                {
+                    if (ent != null)
+                    {
+                        ent.GetComponent<Renderer>().SetAlpha(0.0f);
+                    }
+                }
                 ChangeAnim(teleportAnim);
                 
             }
@@ -265,12 +296,17 @@ namespace Carmicah
         {
             if (active == false) return;
 
+            if (pauseManager.IsPaused)
+            {
+                return;
+            }
+            
+
             // idk if this will happen but if the mouse dies
             // this script might still hold a refeence to a 0 id mouse
             // which will cause crashes
             if (target != null && target.mID == 0)
             {
-                CMConsole.Log("I AM HERE");
                 target = null;
                 // Change back to idle state
                 //if (stateName == "Attacking")
@@ -281,54 +317,58 @@ namespace Carmicah
             // CMConsole.Log($"Update State Name: {stateName}");
             if (stateName == "Idle")
             {
+                timer += dt;
+
                 // Get nearest enemy 
                 //targetMouse = gameManager.GetClosestMouse(this);
-                GetTarget(); // get targetMouse
-                if (target != null)
+                if (timer > shootTime)
                 {
-                    //CMConsole.Log($"Target mouse : {target.mID}");
-                    if(targetType == BulletTarget.GROUND)
+                    GetTarget(); // get targetMouse
+                    if (target != null)
                     {
-                        if(target.As<MouseAI>().isDead())
+                        //CMConsole.Log($"Target mouse : {target.mID}");
+                        if (targetType == BulletTarget.GROUND)
                         {
-                           // CMConsole.Log("Target Mouse died already");
-                            return;
-                        }
-                        else
-                        {
-                            if (mana > 0)
+                            if (target.As<MouseAI>().isDead())
                             {
-                               // CMConsole.Log("Trying to attack!");
-                                GetComponent<StateMachine>().SetStateCondition(2);
+                                // CMConsole.Log("Target Mouse died already");
+                                return;
                             }
                             else
                             {
-                                GetComponent<StateMachine>().SetStateCondition(3);
+                                if (mana > 0)
+                                {
+                                    // CMConsole.Log("Trying to attack!");
+                                    GetComponent<StateMachine>().SetStateCondition(2);
+                                }
+                                else
+                                {
+                                    GetComponent<StateMachine>().SetStateCondition(3);
+                                }
                             }
                         }
-                    }
 
-                    else if (targetType == BulletTarget.AIR)
-                    {
-                        if (target.As<FlyingEnemyAI>().isDead())
+                        else if (targetType == BulletTarget.AIR)
                         {
-                            return;
-                        }
-                        else
-                        {
-                            if (mana > 0)
+                            if (target.As<FlyingEnemyAI>().isDead())
                             {
-                                //CMConsole.Log("Trying to attack!");
-                                GetComponent<StateMachine>().SetStateCondition(2);
+                                return;
                             }
                             else
                             {
-                                GetComponent<StateMachine>().SetStateCondition(3);
+                                if (mana > 0)
+                                {
+                                    //CMConsole.Log("Trying to attack!");
+                                    GetComponent<StateMachine>().SetStateCondition(2);
+                                }
+                                else
+                                {
+                                    GetComponent<StateMachine>().SetStateCondition(3);
+                                }
                             }
                         }
                     }
                 }
-
                 if (mana == 0)
                 {
                     GetComponent<StateMachine>().SetStateCondition(3);
@@ -337,40 +377,35 @@ namespace Carmicah
             else if (stateName == "Attacking")
             {
                 //CMConsole.Log($"Shooting timer : {timer}");
-
-                timer += dt;
-                if (timer > shootTime)
+                if (!shot && target != null)
                 {
-                    if (!shot && target != null)
+                    if (targetType == BulletTarget.AIR)
                     {
-                        if (targetType == BulletTarget.AIR)
+                        if (GetComponent<Animation>().GetFrameNo() == 7)
                         {
-                            if (GetComponent<Animation>().GetFrameNo() == 7)
-                            {
-                                ShootProjectile();
-                                //CMConsole.Log("Shooting Air");
-                                shot = true;
-                            }
-                        }
-                        else if (targetType == BulletTarget.GROUND)
-                        {
-                            if (GetComponent<Animation>().GetFrameNo() == 7)
-                            {
-                                ShootProjectile();
-                                shot = true;
-                            }
+                            ShootProjectile();
+                            //CMConsole.Log("Shooting Air");
+                            shot = true;
                         }
                     }
-                    else
+                    else if (targetType == BulletTarget.GROUND)
                     {
-                        if (GetComponent<Animation>().IsAnimFinished())
+                        if (GetComponent<Animation>().GetFrameNo() == 7)
                         {
-                            //CMConsole.Log("Going back to Idle");
-                            GetComponent<StateMachine>().SetStateCondition(1);
+                            ShootProjectile();
+                            shot = true;
                         }
                     }
-
                 }
+                else
+                {
+                    if (GetComponent<Animation>().IsAnimFinished())
+                    {
+                        //CMConsole.Log("Going back to Idle");
+                        GetComponent<StateMachine>().SetStateCondition(1);
+                    }
+                }
+
             }
             else if (stateName == "NoMana")
             {
@@ -406,6 +441,21 @@ namespace Carmicah
 
                 }
             }
+
+            else if (stateName == "Teleport")
+            {
+                Entity[] children = GetAllChildren();
+                foreach (Entity ent in children)
+                {
+                    if (ent != null)
+                    {
+                        ent.GetComponent<Renderer>().SetAlpha(0.3528999984264374f);
+                    }
+                }
+                // ChangeAnim(TeleportAnim);
+            }
+
+
 
         }
 

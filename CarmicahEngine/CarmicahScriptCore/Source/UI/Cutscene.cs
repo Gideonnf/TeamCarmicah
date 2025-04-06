@@ -8,20 +8,21 @@ namespace Carmicah
 {
     public class Cutscene : Entity
     {
-        public float timer = 0.0f;
-        private float panel1 = 11.0f;
-        private float panel2a = 16.0f;
-        private float panel2b = 20.0f;
-        private float panel3 = 24.0f;
-        private float panel4a = 29.0f;
-        private float panel4b = 33.0f;
-        private float panel5 = 37.0f;
-        private float panel6 = 40.0f;
-        private float panel7 = 46.0f;
-        private float panel8 = 49.5f;
-        private float panel9 = 55.0f;
-        private float panel10 = 64.0f;
-        private float panelFadeOut = 66.0f;
+        public float timer = 0.0f; 
+
+        private float panel1 = 7.0f;
+        private float panel2a = 10.0f;
+        private float panel2b = 12.0f;
+        private float panel3 = 14.0f;
+        private float panel4a = 18.0f;
+        private float panel4b = 21.8f; //em
+        private float panel5 = 24.5f; //if nth was 
+        private float panel6 = 27.0f; //d save her king
+        private float panel7 = 31.5f; //railled troop
+        private float panel8 = 33.5f; //courage
+        private float panel9 = 38.5f; //the 
+        private float panel10 = 44.0f;
+        private float panelFadeOut = 48.0f;
 
         public float fadeSpeed = 0.5f;
 
@@ -160,7 +161,8 @@ namespace Carmicah
         private void ProgressScene()
         {
             Sound.StopAllSFX();
-            Scene.ChangeScene("Loading");
+            FindEntityWithName("SceneTransition").As<SceneTransition>().FadeOut("Loading");
+            //Scene.ChangeScene("Loading");
         }
 
         public override void OnUpdate(float dt)
@@ -224,7 +226,7 @@ namespace Carmicah
 
                     if (currentPanel == 6)
                     {
-                        cutsceneEntity.Scale = new Vector2(originalScale.x * 1.1f, originalScale.y * 1.1f);
+                        //cutsceneEntity.Scale = new Vector2(originalScale.x * 1.1f, originalScale.y * 1.1f);
                     }
                     else if (currentPanel == 12)
                     {
@@ -241,7 +243,7 @@ namespace Carmicah
                     }
                     else
                     {
-                        cutsceneEntity.Scale = originalScale;
+                        //cutsceneEntity.Scale = originalScale;
                     }
                 }
             }

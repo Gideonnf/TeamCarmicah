@@ -243,6 +243,9 @@ namespace Carmicah
         internal extern static void SetParticlesActive(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Particles_SetColor(uint entityID, float r, float g, float b);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void RigidBody_StopForces(uint entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -269,6 +272,8 @@ namespace Carmicah
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Collider2D_SetyPivot(uint entityID, float x);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static bool IsDoneLoading();
         //[MethodImplAttribute(MethodImplOptions.InternalCall)]
         //internal extern static void SetCollisionLayer(uint entityID, int layer);
     }

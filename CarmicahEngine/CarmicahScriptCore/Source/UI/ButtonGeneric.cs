@@ -220,16 +220,11 @@ namespace Carmicah
                     willColorChange = true;
                     break;
                 case "nextlevel":
-                    //destroyList.Add(0, "Win_Screen");
-
                     hoverEnterAnim = "Button_HS_Next";
                     hoverExitAnim = "Button_HE_Next";
                     clickAnim = "Button_C_Next";
-
                     break;
                 case "tback":
-                    destroyList.Add(0, "QuitConfirmationPopup");
-
                     hoverEnterAnim = "Button_HS_Back";
                     hoverExitAnim = "Button_HE_Back";
                     clickAnim = "Button_C_Back";
@@ -271,7 +266,15 @@ namespace Carmicah
                         else
                         {
                             //CMConsole.Log("Changing scene 2");
-                            Scene.ChangeScene(nextScene);
+                            Entity transitionEntity = FindEntityWithName("SceneTransition");
+                            if (transitionEntity != null)
+                            {
+                                transitionEntity.As<SceneTransition>().FadeOut(nextScene);
+                            }
+                            else
+                            {
+                                Scene.ChangeScene(nextScene);
+                            }
                         }
                     }
                 }
@@ -366,7 +369,8 @@ namespace Carmicah
                 Entity waveSystem = FindEntityWithName("Something");
                 if (waveSystem.As<WaveSystem>().levelManager.EndOfGame())
                 {
-                    Scene.ChangeScene("CutsceneEnding");
+                    //Scene.ChangeScene("CutsceneEnding");
+                    FindEntityWithName("SceneTransition").As<SceneTransition>().FadeOut("CutsceneEnding");
 
                 }
                 else
@@ -447,6 +451,18 @@ namespace Carmicah
                             if (PauseScreen.Has<UISliding>())
                             {
                                 PauseScreen.As<UISliding>().SlideThenSD();
+                            }
+                        }
+                    }
+                    break;
+                case "tback":
+                    {
+                        Entity quitCfm = FindEntityWithName("QuitConfirmationPopup");
+                        if (quitCfm != null)
+                        {
+                            if (quitCfm.Has<UISliding>())
+                            {
+                                quitCfm.As<UISliding>().SlideThenSD();
                             }
                         }
                     }

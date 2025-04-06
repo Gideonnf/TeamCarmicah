@@ -30,45 +30,34 @@ namespace Carmicah
 			{
 				fileMap.insert({ file.path().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED) });
 				std::string fileExt = file.path().extension().string();
-		
+				if (fileExt == ".frag" || fileExt == ".vert" || fileExt == ".o" || fileExt == ".do" || fileExt == ".scene" || fileExt == ".ttf")
+				{
+					shaderFiles.push_back(file.path().string());
+				}
 
-				// NOTE: For anims to be able to be played properly
-				// the starting texture of the object has to be a sprite from the sprite sheet of the animations
-				// i.e bear_climb 0 is the starting texture
-				// and all animations it needs in the script is all bear
-				// if it uses an animation that isnt part of the original sprite sheet, it will crash.
-				// TODO: find a way to pull out the related spritesheet from animation needed 
-				// 
-				// meshes, shaders and scenes are loaded by default
-				// only images and animations are loaded when needed
-				//if (fileExt != ".txt" || fileExt != ".vert" || fileExt != ".frag" || fileExt != ".scene" || fileExt != ".do" || fileExt != ".o")
-				//	assetMap.insert({ file.path().filename().stem().string(), File(file, file.path().string(), std::filesystem::last_write_time(file), FILE_CREATED)});
-//#ifdef CM_INSTALLER
-//				//std::string fileExt = file.path().extension().string();
-//
-//				// TODO: Find a way to pull out audio files being used from C# scripting side
-//				// for now we just load all audio
-//				if (fileExt == ".wav" || fileExt == ".ogg" || fileExt == ".mp3")
-//				{
-//					if (AssetManager::GetInstance()->LoadAsset(assetMap[file.path().filename().stem().string()]))
-//					{
-//						assetMap[file.path().filename().stem().string()].fileStatus = FILE_OK;
-//					}
-//				}
-//
-//				// Load all shaders here  and primitives
-//				if (fileExt == ".vert" || fileExt == ".frag" || fileExt == ".scene" || fileExt == ".do" || fileExt == ".o")
-//				{
-//					if (AssetManager::GetInstance()->LoadAsset(fileMap[file.path().string()]))
-//					{
-//						fileMap[file.path().string()].fileStatus = FILE_OK;
-//					}
-//				}
-//#endif
+
+				FileNameToFileMap[file.path().stem().string()] = file.path().string();
 			}
 		}
 
 		filePathReference = filePath;
+	}
+
+	void FileWatcher::LoadSingleFile(const std::string& fileName)
+	{
+		for (auto it = fileMap.begin(); it != fileMap.end(); ++it)
+		{
+			std::filesystem::path p(it->first);
+			std::string nameOnly = p.stem().string();
+			if (nameOnly == fileName)
+			{
+				if (AssetManager::GetInstance()->LoadAsset(it->second))
+				{
+					it->second.fileStatus = FILE_OK;
+				}
+			}
+			//std::string file = it->first
+		}
 	}
 
 	void FileWatcher::Update()
@@ -96,6 +85,7 @@ namespace Carmicah
 					if (AssetManager::GetInstance()->LoadAsset(it->second))
 					{
 						it->second.fileStatus = FILE_OK;
+						//AssetManager::GetInstance()->assetLoaded++;
 					}
 				}
 				else if (it->second.fileStatus == FILE_MODIFIED)
@@ -217,6 +207,22 @@ namespace Carmicah
 	void FileWatcher::LoadSoundFiles()
 	{
 		std::filesystem::path directoryPath = AssetManager::GetInstance()->enConfig.assetLoc.c_str() + std::string("/Audio");
+	}
+
+	void FileWatcher::LoadShaderFiles()
+	{
+		for each(auto it in shaderFiles)
+		{
+			auto it2 = fileMap.find(it);
+			if (it2 != fileMap.end())
+			{
+				auto& entry = it2->second;
+				if (AssetManager::GetInstance()->LoadAsset(entry))
+				{
+					entry.fileStatus = FILE_OK;
+				}
+			}
+		}
 	}
 
 	auto FileWatcher::DestroyFile(File file)

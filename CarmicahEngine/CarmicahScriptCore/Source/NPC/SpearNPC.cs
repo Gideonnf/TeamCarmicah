@@ -10,6 +10,7 @@ namespace Carmicah
     public class SpearNPC : BaseNPC
     {
         MouseAI targetMouse;
+        Entity projectile;
         float timer = 0.0f;
         string voiceOver;
         
@@ -28,11 +29,16 @@ namespace Carmicah
             }
         }
 
+        public override void ProjectileDestroyed()
+        {
+            projectile = null;
+        }
+
         public override void ShootProjectile()
         {
             if (targetMouse != null)
             {
-                Entity projectile = CreateGameObject(projectilePrefab);
+                projectile = CreateGameObject(projectilePrefab);
                 Vector2 shootOffset = new Vector2(xShootOffset, yShootOffset);
                 if (projectile != null)
                 {
@@ -47,6 +53,7 @@ namespace Carmicah
 
                     }
                     Projectile bullet = projectile.As<Projectile>();
+                    bullet.SetParent(this);
                     bullet.As<Projectile>().bulletType = BulletType.SPEAR_BULLET;
                     if (!IsLeft)
                     {
@@ -160,14 +167,13 @@ namespace Carmicah
             if (stateName == "Idle")
             {
                 ChangeAnim(idleAnim);
-              //  CMConsole.Log("IDLE ANIM");
+                timer = 0.0f;
+                //  CMConsole.Log("IDLE ANIM");
             }
             else if (stateName == "Attacking")
             {
                 //CMConsole.Log("TESTING Enter State");
                 ChangeAnim(shootAnim);
-                animationTime = GetComponent<Animation>().GetMaxTime();
-                timer = 0.0f;
                 shot = false;
                 //CMConsole.Log($"Max Anim Time : {animationTime}");
 
@@ -179,6 +185,14 @@ namespace Carmicah
             }
             else if (stateName == "Teleport")
             {
+                Entity[] children = GetAllChildren();
+                foreach (Entity ent in children)
+                {
+                    if (ent != null)
+                    {
+                        ent.GetComponent<Renderer>().SetAlpha(0.0f);
+                    }
+                }
                 ChangeAnim(teleportAnim);
                 
             }
@@ -198,6 +212,11 @@ namespace Carmicah
         {
             if (active == false) return;
 
+            if (pauseManager.IsPaused)
+            {
+                return;
+            }
+
             // idk if this will happen but if the mouse dies
             // this script might still hold a refeence to a 0 id mouse
             // which will cause crashes
@@ -214,25 +233,30 @@ namespace Carmicah
             // CMConsole.Log($"Update State Name: {stateName}");
             if (stateName == "Idle")
             {
-                // Get nearest enemy 
-                //targetMouse = gameManager.GetClosestMouse(this);
-                GetTarget(); // get targetMouse
-                if (targetMouse != null)
-                {
-                    //CMConsole.Log($"Target mouse : {targetMouse.mID}");
+                timer += dt;
 
-                    // change to attacking state
-                    if (mana > 0)
+                if (timer > shootTime)
+                {
+
+                    // Get nearest enemy 
+                    //targetMouse = gameManager.GetClosestMouse(this);
+                    GetTarget(); // get targetMouse
+                    if (targetMouse != null)
                     {
-                        //CMConsole.Log("Trying to attack!");
-                        GetComponent<StateMachine>().SetStateCondition(2);
-                    }
-                    else
-                    {
-                        GetComponent<StateMachine>().SetStateCondition(3);
+                        //CMConsole.Log($"Target mouse : {targetMouse.mID}");
+
+                        // change to attacking state
+                        if (mana > 0)
+                        {
+                            //CMConsole.Log("Trying to attack!");
+                            GetComponent<StateMachine>().SetStateCondition(2);
+                        }
+                        else
+                        {
+                            GetComponent<StateMachine>().SetStateCondition(3);
+                        }
                     }
                 }
-
                 if (mana == 0)
                 {
                     GetComponent<StateMachine>().SetStateCondition(3);
@@ -242,33 +266,29 @@ namespace Carmicah
             {
                 //CMConsole.Log($"Shooting timer : {timer}");
 
-                timer += dt;
-                if (timer > shootTime)
+                if (!shot && targetMouse != null)
                 {
-                    if (!shot && targetMouse != null)
-                    {
-                        ShootProjectile();
-                        shot = true;
+                    ShootProjectile();
+                    shot = true;
 
-                        // reset the timer
-                        // timer = 0.0f;
-                    }
-                    else
-                    {
-                        if (timer >= animationTime)
-                            GetComponent<StateMachine>().SetStateCondition(1);
-                    }
-
+                    // reset the timer
+                    // timer = 0.0f;
                 }
+                else if (GetComponent<Animation>().IsAnimFinished())
+                {
+                    GetComponent<StateMachine>().SetStateCondition(1);
+                }
+
+
             }
             else if (stateName == "NoMana")
             {
                 //TODO: Implement Logic with MC
                 if (Input.IsMousePressed(MouseButtons.MOUSE_BUTTON_LEFT) && hovering)
                 {
-                   // CMConsole.Log("MC Should try to heal " + mID.ToString());
+                    // CMConsole.Log("MC Should try to heal " + mID.ToString());
                     player.HealAI(mID);
-                    
+
                 }
             }
             else if (stateName == "Dead")
@@ -312,6 +332,18 @@ namespace Carmicah
                     PlayVoiceOver();
 
                 }
+            }
+            else if (stateName == "Teleport")
+            {
+                Entity[] children = GetAllChildren();
+                foreach (Entity ent in children)
+                {
+                    if (ent != null)
+                    {
+                        ent.GetComponent<Renderer>().SetAlpha(0.3528999984264374f);
+                    }
+                }
+                // ChangeAnim(TeleportAnim);
             }
         }
 

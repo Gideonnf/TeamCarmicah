@@ -30,7 +30,8 @@
                     "slideDist": 1080.0,
                     "slideTime": 1.5,
                     "slideToCenter": true,
-                    "slideType": "Up"
+                    "slideType": "Up",
+                    "createDimBG": true
                 }
             ]
         }

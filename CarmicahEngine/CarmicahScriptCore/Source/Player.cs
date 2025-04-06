@@ -37,6 +37,9 @@ namespace Carmicah
         public string TeleportAnim = "NPC_Teleport";
         public static bool GameLost = false;
 
+        // God mode variable - made static so it can be accessed by other classes
+        public static bool godMode = false;
+
         public bool isWalking = true;
         public bool isCreated = false;
 
@@ -97,13 +100,46 @@ namespace Carmicah
                 }
             }
 
-
             //CMConsole.Log("Healing " + id.ToString());
             GetComponent<StateMachine>().SetStateCondition(3);
         }
 
         public override void OnUpdate(float dt)
         {
+            //cheat code
+            Entity pauseManager = FindEntityWithName("PauseManager");
+            if (pauseManager != null)
+            {
+                if (pauseManager.As<PauseManager>().IsPaused)
+                    return;
+            }
+
+            // Cheat code Full health (key 8)
+            if (Input.IsKeyPressed(Keys.KEY_8))
+            {
+                CMConsole.Log("Cheat activated: Full health restored");
+                health = 100.0f;
+                healthBar.As<PrincessHPBar>().percentHP = health;
+            }
+
+            // God Mode cheat code (keys 1 and 3)
+            if (Input.IsKeyHold(Keys.KEY_1) && Input.IsKeyPressed(Keys.KEY_3))
+            {
+                godMode = !godMode;
+
+                if (godMode)
+                {
+                    CMConsole.Log("Cheat activated: God Mode ON - Player invulnerable, NPCs deal 2x damage");
+                    // When activating God Mode, also restore health
+                    health = 100.0f;
+                    healthBar.As<PrincessHPBar>().percentHP = health;
+                }
+                else
+                {
+                    CMConsole.Log("God Mode OFF");
+                }
+            }
+
             if (damaged)
             {
                 flashTime += dt;
@@ -157,6 +193,15 @@ namespace Carmicah
             }
             else if (stateName == "Teleport")
             {
+                Entity[] children = GetAllChildren();
+                foreach (Entity ent in children)
+                {
+                    if (ent != null)
+                    {
+                        ent.GetComponent<Renderer>().SetAlpha(0.0f);
+                    }
+                }
+
                 ChangeAnim(TeleportAnim);
             }
         }
@@ -172,16 +217,11 @@ namespace Carmicah
 
             if (stateName == "Idle")
             {
-                if (Input.IsKeyHold(Keys.KEY_W) || Input.IsKeyHold(Keys.KEY_A)|| Input.IsKeyHold(Keys.KEY_S) || Input.IsKeyHold(Keys.KEY_D))
+                if (Input.IsKeyHold(Keys.KEY_W) || Input.IsKeyHold(Keys.KEY_A) || Input.IsKeyHold(Keys.KEY_S) || Input.IsKeyHold(Keys.KEY_D))
                 {
                     //CMConsole.Log("Should be changing to Walking State");
                     isWalking = true;
                     GetComponent<StateMachine>().SetStateCondition(2);
-
-                    //PlaySoundEffect("walk2");
-                    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
-
-                    //GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
                 }
             }
 
@@ -191,15 +231,10 @@ namespace Carmicah
                 if (Input.IsKeyHold(Keys.KEY_W))
                 {
                     PlaySoundEffect("walk2");
-                    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
-
-                    //GetComponent<RigidBody>().ApplyForce(new Vector2(0, 1), 2.0f);
-                    //Position = new Vector2(Position.x, Position.y + (walkingSpeed * dt));
                     position.y += walkingSpeed * dt;
                 }
                 if (Input.IsKeyHold(Keys.KEY_A))
                 {
-
                     PlaySoundEffect("walk2");
 
                     Vector2 scale = Scale;
@@ -209,26 +244,15 @@ namespace Carmicah
                     }
 
                     Scale = scale;
-
-                    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
-
-                    // Position = new Vector2(Position.x - (walkingSpeed * dt), Position.y);
                     position.x -= walkingSpeed * dt;
-                    // GetComponent<RigidBody>().ApplyForce(new Vector2(-1, 0), 2.0f);
                 }
                 if (Input.IsKeyHold(Keys.KEY_S))
                 {
-
                     PlaySoundEffect("walk2");
-
-                    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
-                    // Position = new Vector2(Position.x, Position.y - (walkingSpeed * dt));
                     position.y -= walkingSpeed * dt;
-                    // GetComponent<RigidBody>().ApplyForce(new Vector2(0, -1), 2.0f);
                 }
                 if (Input.IsKeyHold(Keys.KEY_D))
                 {
-
                     PlaySoundEffect("walk2");
 
                     Vector2 scale = Scale;
@@ -238,28 +262,21 @@ namespace Carmicah
                     }
 
                     Scale = scale;
-
-                    //Console.WriteLine("Thoughts and prayers. It do :b: like that sometimes");
-                    // Position = new Vector2(Position.x + (walkingSpeed * dt), Position.y);
                     position.x += walkingSpeed * dt;
-                    //GetComponent<RigidBody>().ApplyForce(new Vector2(1, 0), 2.0f);
                 }
-                
-                if((!Input.IsKeyHold(Keys.KEY_W) && !Input.IsKeyHold(Keys.KEY_A) && !Input.IsKeyHold(Keys.KEY_S) && !Input.IsKeyHold(Keys.KEY_D)))
+
+                if ((!Input.IsKeyHold(Keys.KEY_W) && !Input.IsKeyHold(Keys.KEY_A) && !Input.IsKeyHold(Keys.KEY_S) && !Input.IsKeyHold(Keys.KEY_D)))
                 {
                     GetComponent<StateMachine>().SetStateCondition(1);
                 }
 
-                //if (position != Position)
-                    GetComponent<RigidBody>().Move(position);
-                //Position = position;
+                GetComponent<RigidBody>().Move(position);
             }
             else if (stateName == "Heal")
             {
                 timer += dt;
-                if(timer > healAnimTime)
+                if (timer > healAnimTime)
                 {
-                   // CMConsole.Log("Healing Target!");
                     healTarget.As<BaseNPC>().HealAmmo();
                     GetComponent<StateMachine>().SetStateCondition(1);
                 }
@@ -268,7 +285,18 @@ namespace Carmicah
 
         public override void OnStateExit(string stateName)
         {
-
+             if (stateName == "Teleport")
+            {
+                Entity[] children = GetAllChildren();
+                foreach (Entity ent in children)
+                {
+                    if (ent != null)
+                    {
+                        ent.GetComponent<Renderer>().SetAlpha(0.3528999984264374f);
+                    }
+                }
+                // ChangeAnim(TeleportAnim);
+            }
         }
 
         void PlaySoundEffect(string name)
@@ -282,15 +310,17 @@ namespace Carmicah
 
         public void TakeDamage(int damage, EnemyTypes enemyType)
         {
+            // Skip damage if in God Mode
+            if (godMode)
+                return;
+
             health -= damage;
             healthBar.As<PrincessHPBar>().percentHP = health;
 
-            //this.AsChild<HealthSystem>().TakeDamage(damage);
             Sound.PlaySFX("Princess_DamageWarning", 0.3f);
             damaged = true;
             Entity camera = FindEntityWithName("MainCamera");
             camera.As<Camera>().ShakeCamera();
-            //CMConsole.Log($"Health :{this.AsChild<HealthSystem>().mCurHealth}");
             if (health <= 0)
             {
                 // game end
@@ -298,7 +328,6 @@ namespace Carmicah
                 {
                     Entity gameManager = FindEntityWithName("GameManager");
                     gameManager.As<GameManager>().LoseGame();
-                    //CreateGameObject("LosePrefab");
                     isCreated = true;
                 }
             }

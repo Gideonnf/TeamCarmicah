@@ -17,6 +17,7 @@ namespace Carmicah
         // some one else do this pls
 
         MouseAI targetMouse;
+        Entity projectile;
         float timer = 0.0f;
         public float maxDistance = 12.0f;
         //public Vector2 shootOffset = new Vector2(2, 2);
@@ -36,11 +37,16 @@ namespace Carmicah
             }
         }
 
+        public override void ProjectileDestroyed()
+        {
+            projectile = null;
+        }
+
         public override void ShootProjectile()
         {
             if (targetMouse != null)
             {
-                Entity projectile = CreateGameObject(projectilePrefab);
+                projectile = CreateGameObject(projectilePrefab);
                 Vector2 shootOffset = new Vector2(xShootOffset, yShootOffset);
                 if (projectile != null)
                 {
@@ -57,6 +63,7 @@ namespace Carmicah
                     // CMConsole.Log($"Projectile Position: {projectile.Position.x}, {projectile.Position.y}");
 
                     Projectile bullet = projectile.As<Projectile>();
+                    bullet.SetParent(this);
                     bullet.As<Projectile>().bulletType = BulletType.MAGE_BULLET;
                     if(!IsLeft)
                     { 
@@ -102,6 +109,10 @@ namespace Carmicah
                     {
                         foreach (MouseAI mouse in gameManager.mouseLaneOne)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -114,6 +125,10 @@ namespace Carmicah
 
                         foreach (MouseAI mouse in gameManager.mouseLaneTwo)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -129,6 +144,10 @@ namespace Carmicah
                     {
                         foreach (MouseAI mouse in gameManager.mouseLaneOne)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -141,6 +160,10 @@ namespace Carmicah
 
                         foreach (MouseAI mouse in gameManager.mouseLaneTwo)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -156,6 +179,10 @@ namespace Carmicah
                     {
                         foreach (MouseAI mouse in gameManager.mouseLaneThree)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -168,6 +195,10 @@ namespace Carmicah
 
                         foreach (MouseAI mouse in gameManager.mouseLaneFour)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -183,6 +214,10 @@ namespace Carmicah
                     {
                         foreach (MouseAI mouse in gameManager.mouseLaneThree)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -195,6 +230,10 @@ namespace Carmicah
 
                         foreach (MouseAI mouse in gameManager.mouseLaneFour)
                         {
+                            if (mouse.isDead() == true)
+                            {
+                                continue;
+                            }
                             float dist = mouse.Position.Distance(Position);
                             //CMConsole.Log($"left {dist}");
 
@@ -221,7 +260,6 @@ namespace Carmicah
             {
                 //CMConsole.Log("TESTING Enter State");
                 ChangeAnim(shootAnim);
-                animationTime = GetComponent<Animation>().GetMaxTime();
                 timer = 0.0f;
                 //CMConsole.Log($"Max Anim Time : {animationTime}");
 
@@ -233,6 +271,15 @@ namespace Carmicah
             }
             else if (stateName == "Teleport")
             {
+                Entity[] children = GetAllChildren();
+                foreach (Entity ent in children)
+                {
+                    if (ent != null)
+                    {
+                        ent.GetComponent<Renderer>().SetAlpha(0.0f);
+                    }
+                }
+
                 ChangeAnim(teleportAnim);
                 
             }
@@ -252,12 +299,18 @@ namespace Carmicah
         {
             if (active == false) return;
 
+            if (pauseManager.IsPaused)
+            {
+                return;
+            }
+
+
             // idk if this will happen but if the mouse dies
             // this script might still hold a refeence to a 0 id mouse
             // which will cause crashes
             if (targetMouse != null && targetMouse.mID == 0)
             {
-                CMConsole.Log("I AM HERE");
+                //CMConsole.Log("I AM HERE");
                 targetMouse = null;
                 // Change back to idle state
                 //if (stateName == "Attacking")
@@ -276,7 +329,7 @@ namespace Carmicah
                     GetTarget(); // get targetMouse
                     if (targetMouse != null)
                     {
-                        CMConsole.Log($"Target mouse : {targetMouse.mID}");
+                        //CMConsole.Log($"Target mouse : {targetMouse.mID}");
 
                         // change to attacking state
                         if (mana > 0)
@@ -300,7 +353,7 @@ namespace Carmicah
             }
             else if (stateName == "Attacking")
             {
-                CMConsole.Log($"current frame : {GetComponent<Animation>().GetFrameNo()}");
+                //CMConsole.Log($"current frame : {GetComponent<Animation>().GetFrameNo()}");
                 if (GetComponent<Animation>().GetFrameNo() == 5)
                 {
                     if (targetMouse != null && shot == false)
@@ -385,6 +438,18 @@ namespace Carmicah
                     PlayVoiceOver();
                     
                 }
+            }
+            else if (stateName == "Teleport")
+            {
+                Entity[] children = GetAllChildren();
+                foreach (Entity ent in children)
+                {
+                    if (ent != null)
+                    {
+                        ent.GetComponent<Renderer>().SetAlpha(0.3528999984264374f);
+                    }
+                }
+                // ChangeAnim(TeleportAnim);
             }
 
         }

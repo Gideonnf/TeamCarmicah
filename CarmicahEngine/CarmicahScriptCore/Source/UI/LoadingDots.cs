@@ -39,6 +39,7 @@ namespace Carmicah
         bool cake2Created = false;
         bool cake3Created = false;
         bool cake4Created = false;
+        bool changingScenes = false;
         List<int> cakeKeyNum;
 
         float finalCountdown = 0.0f;
@@ -98,9 +99,16 @@ namespace Carmicah
             else if (textProgress == finalText.Length)
             {
                 finalCountdown += dt;
+               // CMConsole.Log($"{finalCountdown} vs {totalFinal}");
                 if(finalCountdown > totalFinal)
                 {
-                    Scene.ChangeScene("Scene1");
+                    if (changingScenes == false)
+                    {
+                        changingScenes = true;
+                            FindEntityWithName("SceneTransition").As<SceneTransition>().FadeOut("Scene1");
+                    }
+                    //CMConsole.Log("CHANGING SCENE");
+                    //Scene.ChangeScene("Scene1");
                 }
             }
             

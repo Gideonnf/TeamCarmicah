@@ -72,9 +72,9 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1740.0,
-                    "yPos": 1000.0,
-                    "depth": 1.0,
+                    "xPos": 1700.0,
+                    "yPos": 990.0,
+                    "depth": 20.0,
                     "xScale": 0.75,
                     "yScale": 0.75,
                     "rot": 0.0,
@@ -112,11 +112,11 @@
                     "scriptName": "Carmicah.Intro",
                     "ScriptableFieldMap": [
                         {
-                            "FadeDuration": -107374176.0,
-                            "HoldDuration": -107374176.0,
+                            "FadeDuration": 0.0,
+                            "HoldDuration": 0.0,
                             "gameLogoName": "game_logo",
-                            "maxDuration": -107374176.0,
-                            "otherStateDuration": -107374176.0,
+                            "maxDuration": 7.00623507842151e22,
+                            "otherStateDuration": 7.00623507842151e22,
                             "schoolLogoName": "digipen_logo",
                             "schoolRightsName": "digipen_rights",
                             "state": 0,
@@ -127,42 +127,6 @@
                 }
             ],
             "Children": []
-        },
-        {
-            "GameObject": "FPS",
-            "ID": 5,
-            "Components": [
-                {
-                    "Component Name": "struct Carmicah::PrefabData",
-                    "prefabRef": 53
-                },
-                {
-                    "Component Name": "struct Carmicah::TextRenderer",
-                    "font": "Chewy-Regular",
-                    "text": "Test",
-                    "colorR": 1.0,
-                    "colorG": 1.0,
-                    "colorB": 1.0,
-                    "textAlign": 0
-                },
-                {
-                    "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 800.0,
-                    "yPos": 1000.0,
-                    "depth": 0.0,
-                    "xScale": 2.0,
-                    "yScale": 2.0,
-                    "rot": 0.0,
-                    "transformTag": ""
-                },
-                {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.FPSCounter",
-                    "ScriptableFieldMap": [
-                        {}
-                    ]
-                }
-            ]
         },
         {
             "GameObject": "Default",
@@ -224,7 +188,11 @@
                     "BurstTime": 0.0,
                     "SpeedRange": 0.5,
                     "AngleRange": 360.0,
-                    "EmitterStatus": 5
+                    "EmitterStatus": 5,
+                    "ColR": 1.0,
+                    "ColG": 1.0,
+                    "ColB": 1.0,
+                    "ColA": 1.0
                 },
                 {
                     "Component Name": "struct Script",

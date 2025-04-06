@@ -249,6 +249,34 @@
                         "rot": 0.0,
                         "transformTag": ""
                     }
+                ],
+                "Children": [
+                    {
+                        "GameObject": "HowToPrincessShadow",
+                        "ID": 14,
+                        "Components": [
+                            {
+                                "Component Name": "struct Carmicah::UITransform",
+                                "xPos": 0.0,
+                                "yPos": -70.0,
+                                "depth": 52,
+                                "xScale": 1.0,
+                                "yScale": 1.0,
+                                "rot": 0.0,
+                                "transformTag": "",
+                                "collisionMask": 1
+                            },
+                            {
+                                "Component Name": "struct Carmicah::Renderer",
+                                "model": "Square",
+                                "texture": "MC_SpriteSheet_Shadow 0",
+                                "colR": 1.0,
+                                "colG": 1.0,
+                                "colB": 1.0,
+                                "colA": 0.3528999984264374
+                            }
+                        ]
+                    }
                 ]
             },
             {
@@ -279,6 +307,34 @@
                         "rot": 0.0,
                         "transformTag": ""
                     }
+                ],
+                "Children": [
+                    {
+                        "GameObject": "HowToShooterShadow",
+                        "ID": 15,
+                        "Components": [
+                            {
+                                "Component Name": "struct Carmicah::UITransform",
+                                "xPos": 0.0,
+                                "yPos": -95.0,
+                                "depth": 51,
+                                "xScale": 1.5,
+                                "yScale": 1.5,
+                                "rot": 0.0,
+                                "transformTag": "",
+                                "collisionMask": 1
+                            },
+                            {
+                                "Component Name": "struct Carmicah::Renderer",
+                                "model": "Square",
+                                "texture": "MC_SpriteSheet_Shadow 0",
+                                "colR": 1.0,
+                                "colG": 1.0,
+                                "colB": 1.0,
+                                "colA": 0.3528999984264374
+                            }
+                        ]
+                    }
                 ]
             },
             {
@@ -308,6 +364,34 @@
                         "yScale": 0.6666666865348816,
                         "rot": 0.0,
                         "transformTag": ""
+                    }
+                ],
+                "Children": [
+                    {
+                        "GameObject": "HowToMageShadow",
+                        "ID": 16,
+                        "Components": [
+                            {
+                                "Component Name": "struct Carmicah::UITransform",
+                                "xPos": 0.0,
+                                "yPos": -110.0,
+                                "depth": 51,
+                                "xScale": 1.5,
+                                "yScale": 1.5,
+                                "rot": 0.0,
+                                "transformTag": "",
+                                "collisionMask": 1
+                            },
+                            {
+                                "Component Name": "struct Carmicah::Renderer",
+                                "model": "Square",
+                                "texture": "MC_SpriteSheet_Shadow 0",
+                                "colR": 1.0,
+                                "colG": 1.0,
+                                "colB": 1.0,
+                                "colA": 0.0
+                            }
+                        ]
                     }
                 ]
             },

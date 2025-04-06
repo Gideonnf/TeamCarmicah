@@ -82,6 +82,7 @@ namespace Carmicah
         Entity endEntityLeft2;
         Entity endEntityRight2;
         Entity mainCamera;
+        Entity[] childParticle = new Entity[2];
 
         public float ChanceToDie = 0.12f;
 
@@ -107,6 +108,10 @@ namespace Carmicah
         //int animType = 0;
         int randLane = 0;
         bool move = false;
+        bool isFlip = false;
+
+        private Vector3[] crumbsColor = new Vector3[6];
+        private float[] crumbsLanes = new float[24];
 
         public override void OnCreate()
         {
@@ -128,7 +133,6 @@ namespace Carmicah
             // InitWaypoints();
             //
 
-
             if (FindEntityWithName(SpawnPointEntityLeft) != null)
                 startPosLeft = FindEntityWithName(SpawnPointEntityLeft).Position;
 
@@ -143,6 +147,38 @@ namespace Carmicah
             Sound.PlaySFX("Portal_Spawn", 0.3f);
 
             ChangeAnim(baseAnimation);
+
+            crumbsColor[0] = new Vector3(0.49411f, 0.28627f, 0.01176f);
+            crumbsColor[1] = new Vector3(0.32941f, 0.20784f, 0.65882f);
+            crumbsColor[2] = new Vector3(0.92156f, 0.32941f, 0.45490f);
+            crumbsColor[3] = new Vector3(0.24313f, 0.48235f, 0.07058f);
+            crumbsColor[4] = new Vector3(2.0f, 2.0f, 2.0f);
+            crumbsColor[5] = new Vector3(1.0f, 1.0f, 1.0f);
+
+            crumbsLanes[0] = -18.4f;
+            crumbsLanes[1] = -7.5f;
+            crumbsLanes[2] = 3.0f;
+            crumbsLanes[3] = 13.9f;
+            crumbsLanes[4] = 24.8f;
+            crumbsLanes[5] = 35.3f;
+            crumbsLanes[6] = -20.0f;
+            crumbsLanes[7] = -9.5f;
+            crumbsLanes[8] = 1.3f;
+            crumbsLanes[9] = 12.3f;
+            crumbsLanes[10] = 23.2f;
+            crumbsLanes[11] = 33.6f;
+            crumbsLanes[12] = -19.8f;
+            crumbsLanes[13] = -9.0f;
+            crumbsLanes[14] = 1.6f;
+            crumbsLanes[15] = 12.5f;
+            crumbsLanes[16] = 23.0f;
+            crumbsLanes[17] = 33.4f;
+            crumbsLanes[18] = -18.0f;
+            crumbsLanes[19] = -7.3f;
+            crumbsLanes[20] = 3.4f;
+            crumbsLanes[21] = 14.3f;
+            crumbsLanes[22] = 24.7f;
+            crumbsLanes[23] = 35.2f;
         }
 
         public override void OnUpdate(float dt)
@@ -152,6 +188,87 @@ namespace Carmicah
             {
                 if (pauseManager.As<PauseManager>().IsPaused)
                     return;
+            }
+
+
+            if (childParticle[0] == null)
+            {
+                Entity[] children = GetAllChildren();
+                int i = 0;
+                if (isFlip)
+                    i = 1;
+                foreach (Entity child in children)
+                {
+                    if (isFlip)
+                    {
+                        Vector2 tmpScale = child.Scale;
+                        tmpScale.x = -tmpScale.x;
+                        child.Scale = tmpScale;
+                        if (child.HasComponent<ParticleEmitter>())
+                        {
+                            childParticle[i--] = child;
+                        }
+                    }
+                    else
+                    {
+                        if (child.HasComponent<ParticleEmitter>())
+                        {
+
+                            childParticle[i++] = child;
+                        }
+                    }
+                }
+                if (isFlip)
+                {
+                    Vector2 cp0Pos = childParticle[0].LocalPosition;
+                    float temp = cp0Pos.x;
+                    Vector2 cp1Pos = childParticle[1].LocalPosition;
+                    cp0Pos.x = -cp1Pos.x;
+                    cp1Pos.x = -temp;
+                    childParticle[0].LocalPosition = cp0Pos;
+                    childParticle[1].LocalPosition = cp1Pos;
+                }
+            }
+            else if (!dead)
+            {
+                int frameNum = GetComponent<Animation>().GetFrameNo();
+
+                float thisYPos = LocalPosition.y;
+                int orderedLane = 3 - lane;
+                if (frameNum == 0)
+                {
+                    if(thisYPos > crumbsLanes[orderedLane * 6 + 0])
+                    {
+                        if (thisYPos > crumbsLanes[orderedLane * 6 + 5])
+                            childParticle[0].GetComponent<ParticleEmitter>().SetColor(crumbsColor[5].x, crumbsColor[5].y, crumbsColor[5].z);
+                        else if (thisYPos > crumbsLanes[orderedLane * 6 + 4])
+                            childParticle[0].GetComponent<ParticleEmitter>().SetColor(crumbsColor[4].x, crumbsColor[4].y, crumbsColor[4].z);
+                        else if (thisYPos > crumbsLanes[orderedLane * 6 + 3])
+                            childParticle[0].GetComponent<ParticleEmitter>().SetColor(crumbsColor[3].x, crumbsColor[3].y, crumbsColor[3].z);
+                        else if (thisYPos > crumbsLanes[orderedLane * 6 + 2])
+                            childParticle[0].GetComponent<ParticleEmitter>().SetColor(crumbsColor[2].x, crumbsColor[2].y, crumbsColor[2].z);
+                        else if (thisYPos > crumbsLanes[orderedLane * 6 + 1])
+                            childParticle[0].GetComponent<ParticleEmitter>().SetColor(crumbsColor[1].x, crumbsColor[1].y, crumbsColor[1].z);
+                        childParticle[0].GetComponent<ParticleEmitter>().SetActive();
+                    }
+                }
+                else if (frameNum == 3)
+                {
+                    if (thisYPos > crumbsLanes[orderedLane * 6 + 0])
+                    {
+                        if (thisYPos > crumbsLanes[orderedLane * 6 + 5])
+                            childParticle[1].GetComponent<ParticleEmitter>().SetColor(crumbsColor[5].x, crumbsColor[5].y, crumbsColor[5].z);
+                        else if (thisYPos > crumbsLanes[orderedLane * 6 + 4])
+                            childParticle[1].GetComponent<ParticleEmitter>().SetColor(crumbsColor[4].x, crumbsColor[4].y, crumbsColor[4].z);
+                        else if (thisYPos > crumbsLanes[orderedLane * 6 + 3])
+                            childParticle[1].GetComponent<ParticleEmitter>().SetColor(crumbsColor[3].x, crumbsColor[3].y, crumbsColor[3].z);
+                        else if (thisYPos > crumbsLanes[orderedLane * 6 + 2])
+                            childParticle[1].GetComponent<ParticleEmitter>().SetColor(crumbsColor[2].x, crumbsColor[2].y, crumbsColor[2].z);
+                        else if (thisYPos > crumbsLanes[orderedLane * 6 + 1])
+                            childParticle[1].GetComponent<ParticleEmitter>().SetColor(crumbsColor[1].x, crumbsColor[1].y, crumbsColor[1].z);
+                        childParticle[1].GetComponent<ParticleEmitter>().SetActive();
+                    }
+                }
             }
 
             //if (Input.IsKeyPressed(Keys.KEY_T)) // test to see if switching works
@@ -250,6 +367,7 @@ namespace Carmicah
                     Position = startPosLeft2;
                     lane = 3;
                     scale.x *= -1;
+                    isFlip = true;
                     Scale = scale;
                     break;
                 case 2:
@@ -260,6 +378,7 @@ namespace Carmicah
                     Position = startPosRight2;
                     lane = 2;
                     scale.x *= -1;
+                    isFlip = true;
                     Scale = scale;
                     break;
             }
@@ -421,6 +540,8 @@ namespace Carmicah
                 if (gm != null)
                     gm.EntityDestroyed(this);
 
+                GetComponent<Collider2D>().SetxPivot(100000.0f); // set to a large number so that it doesn't collide with anything
+
                 //CMConsole.Log("Dying here");
                 dead = true;
                 move = false;
@@ -430,7 +551,8 @@ namespace Carmicah
 
                 foreach(Entity entity in children)
                 {
-                    entity.GetComponent<Renderer>().SetAlpha(0);
+                    if(entity.HasComponent<Renderer>())
+                        entity.GetComponent<Renderer>().SetAlpha(0);
                 }
 
 

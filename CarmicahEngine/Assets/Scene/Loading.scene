@@ -30,6 +30,7 @@
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
+                    "colorA": 1.0,
                     "textAlign": 0
                 },
                 {
@@ -59,6 +60,7 @@
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
+                    "colorA": 1.0,
                     "textAlign": 0
                 },
                 {
@@ -279,6 +281,49 @@
             ]
         },
         {
+            "GameObject": "SceneTransition",
+            "ID": 55,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 29
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_Black 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 960.0,
+                    "yPos": 540.0,
+                    "depth": 14.0,
+                    "xScale": 40.0,
+                    "yScale": 40.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.SceneTransition",
+                    "ScriptableFieldMap": [
+                        {
+                            "duration": 0.6499999761581421,
+                            "fadeOut": true,
+                            "isWhite": false,
+                            "targetAlpha": 1.0,
+                            "targetScene": "",
+                            "timer": 0.0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "GameObject": "Loading",
             "ID": 78,
             "Components": [
@@ -289,6 +334,7 @@
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
+                    "colorA": 1.0,
                     "textAlign": 17
                 },
                 {

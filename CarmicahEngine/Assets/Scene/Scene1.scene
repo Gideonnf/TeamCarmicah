@@ -80,7 +80,7 @@
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.16312193870544434,
                     "yPos": 11.047698974609375,
-                    "depth": 3.25,
+                    "depth": 1.100000023841858,
                     "xScale": 1.2000000476837159,
                     "yScale": 1.2000000476837159,
                     "rot": 0.0,
@@ -105,11 +105,11 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -5.61,
-                    "yPos": -21.122,
+                    "xPos": -5.610000133514404,
+                    "yPos": -21.121999740600587,
                     "depth": 1.2000000476837159,
-                    "xScale": 0.6,
-                    "yScale": 0.6,
+                    "xScale": 0.6000000238418579,
+                    "yScale": 0.6000000238418579,
                     "rot": 0.0,
                     "transformTag": "",
                     "collisionMask": 1
@@ -137,7 +137,7 @@
                         {
                             "Component Name": "struct Carmicah::Transform",
                             "xPos": 0.0,
-                            "yPos": -4.04,
+                            "yPos": -4.039999961853027,
                             "depth": 6.5,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -393,7 +393,7 @@
                     "ScriptableFieldMap": [
                         {
                             "BearPrefabName": "BearGO",
-                            "CakeHeightOffset": 11.600000381469727,
+                            "CakeHeightOffset": 11.0,
                             "CakeVFXPrefab": "CakeVFX",
                             "EndPointEntityLeft": "EndPointLeft",
                             "EndPointEntityLeft2": "EndPointLeft_1",
@@ -412,13 +412,10 @@
                             "StartingCake": "StartingCake",
                             "PlayerName": "mainCharacter",
                             "activeEnemies": 0,
-                            "yTargetPos": 22.0,
                             "cameraHeight": 10.0,
                             "spawnTimer": 1.5,
                             "timer": 0.0,
-                            "ySpawnPos": 44.0,
-                            "yVFXLocation": 13.0,
-                            "yVFXSpawn": 28.0
+                            "ySpawnPos": 44.0
                         }
                     ]
                 }
@@ -492,11 +489,11 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 6.834,
-                    "yPos": -20.912,
+                    "xPos": 6.834000110626221,
+                    "yPos": -20.91200065612793,
                     "depth": 1.2000000476837159,
-                    "xScale": -0.6,
-                    "yScale": 0.6,
+                    "xScale": -0.6000000238418579,
+                    "yScale": 0.6000000238418579,
                     "rot": 0.0,
                     "transformTag": "",
                     "collisionMask": 0
@@ -528,7 +525,7 @@
                         {
                             "Component Name": "struct Carmicah::Transform",
                             "xPos": 0.0,
-                            "yPos": -4.04,
+                            "yPos": -4.039999961853027,
                             "depth": 6.5,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -1220,7 +1217,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "Pigeon_SpriteSheet_Dive 4",
+                            "texture": "EnemiesFront_Bird 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -1228,11 +1225,11 @@
                         },
                         {
                             "Component Name": "struct Carmicah::UITransform",
-                            "xPos": 0.0,
-                            "yPos": 0.0,
+                            "xPos": 7.449999809265137,
+                            "yPos": -16.0,
                             "depth": 2.6500000953674318,
-                            "xScale": 0.800000011920929,
-                            "yScale": 0.800000011920929,
+                            "xScale": 0.6000000238418579,
+                            "yScale": 0.6000000238418579,
                             "rot": 18.294904708862306,
                             "transformTag": ""
                         }
@@ -1332,7 +1329,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "Pigeon_SpriteSheet_Dive 4",
+                            "texture": "EnemiesFront_Bird 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -1340,11 +1337,11 @@
                         },
                         {
                             "Component Name": "struct Carmicah::UITransform",
-                            "xPos": 0.0,
-                            "yPos": 0.0,
+                            "xPos": -7.449999809265137,
+                            "yPos": -16.0,
                             "depth": 2.8499999046325685,
-                            "xScale": -0.800000011920929,
-                            "yScale": 0.800000011920929,
+                            "xScale": -0.6000000238418579,
+                            "yScale": 0.6000000238418579,
                             "rot": -18.184127807617189,
                             "transformTag": ""
                         }
@@ -1580,6 +1577,7 @@
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
+                    "colorA": 1.0,
                     "textAlign": 17
                 },
                 {
@@ -2310,7 +2308,10 @@
                     "Component Name": "struct Script",
                     "scriptName": "Carmicah.Parallex",
                     "ScriptableFieldMap": [
-                        {}
+                        {
+                            "cloudMaxSpeed": 2.0,
+                            "cloudMinSpeed": 0.5
+                        }
                     ]
                 }
             ],
@@ -2769,6 +2770,7 @@
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
+                    "colorA": 1.0,
                     "textAlign": 17
                 },
                 {
@@ -2798,6 +2800,7 @@
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
+                    "colorA": 1.0,
                     "textAlign": 0
                 },
                 {
@@ -2861,7 +2864,11 @@
                     "BurstTime": 0.0,
                     "SpeedRange": 0.5,
                     "AngleRange": 90.0,
-                    "EmitterStatus": 5
+                    "EmitterStatus": 5,
+                    "ColR": 1.0,
+                    "ColG": 1.0,
+                    "ColB": 1.0,
+                    "ColA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
@@ -3386,6 +3393,49 @@
             "Children": []
         },
         {
+            "GameObject": "SceneTransition",
+            "ID": 89,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 29
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_Black 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 960.0,
+                    "yPos": 540.0,
+                    "depth": 3.0,
+                    "xScale": 40.0,
+                    "yScale": 40.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.SceneTransition",
+                    "ScriptableFieldMap": [
+                        {
+                            "duration": 0.6499999761581421,
+                            "fadeOut": true,
+                            "isWhite": false,
+                            "targetAlpha": 1.0,
+                            "targetScene": "",
+                            "timer": 0.0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "GameObject": "Default_1",
             "ID": 104,
             "Components": [
@@ -3393,7 +3443,7 @@
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.4282580018043518,
                     "yPos": -8.753324508666993,
-                    "depth": 3.049999952316284,
+                    "depth": 1.0499999523162842,
                     "xScale": 1.2000000476837159,
                     "yScale": 1.2000000476837159,
                     "rot": 0.0,

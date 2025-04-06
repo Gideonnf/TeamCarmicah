@@ -311,6 +311,59 @@
             "Children": []
         },
         {
+            "GameObject": "Default",
+            "ID": 16,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Sigmar-Regular",
+                    "text": "",
+                    "colorR": 1.0,
+                    "colorG": 1.0,
+                    "colorB": 1.0,
+                    "colorA": 1.0,
+                    "textAlign": 0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 23.0,
+                    "yPos": 14.0,
+                    "depth": 3.049999952316284,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "Default_1",
+                    "ID": 14,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_White 0",
+                            "colR": 0.43589740991592409,
+                            "colG": 0.43589740991592409,
+                            "colB": 0.43589740991592409,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": -23.0,
+                            "yPos": -14.0,
+                            "depth": 0.0,
+                            "xScale": 0.0,
+                            "yScale": 0.0,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "GameObject": "CutsceneController",
             "ID": 32,
             "Components": [
@@ -483,6 +536,7 @@
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
+                    "colorA": 1.0,
                     "textAlign": 0
                 },
                 {
