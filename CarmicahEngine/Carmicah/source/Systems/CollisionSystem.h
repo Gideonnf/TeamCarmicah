@@ -24,9 +24,9 @@ namespace Carmicah
 	{
 	private:
 
-		static constexpr int MAX_ENTITIES = 1024;
-		static constexpr int GRID_WIDTH = 100;
-		static constexpr int GRID_HEIGHT = 100;
+		//static constexpr int MAX_ENTITIES = 1024;
+		static constexpr int GRID_WIDTH = 250;
+		static constexpr int GRID_HEIGHT = 250;
 		float cellSize = 2.5f;
 
 		std::bitset<MAX_ENTITIES> rowsBitArray[GRID_HEIGHT];
