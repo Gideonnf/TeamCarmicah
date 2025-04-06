@@ -337,6 +337,10 @@ namespace Carmicah
 
                 if (GetComponent<Animation>().IsAnimFinished())
                 {
+                    if (parent != null)
+                    {
+                        parent.As<BaseNPC>().ProjectileDestroyed();
+                    }
                     Destroy();
                 }
             }

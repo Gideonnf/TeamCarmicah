@@ -609,6 +609,10 @@ public override void OnCreate()
                 pos = playerEntity.Position;
                 pos.y += CakeHeightOffset;
                 playerEntity.Position = pos;
+
+                Entity DissolveEffect = CreateGameObject("Dissolve");
+                DissolveEffect.Position = playerEntity.Position;
+                DissolveEffect.Depth = playerEntity.Depth + 0.1f;
             }
 
             for (int i = 0; i < 4; ++i)
@@ -646,6 +650,10 @@ public override void OnCreate()
                 pos = npc.Position;
                 pos.y += CakeHeightOffset;
                 npc.Position = pos;
+
+                Entity DissolveEffect = CreateGameObject("Dissolve");
+                DissolveEffect.Position = npc.Position;
+                DissolveEffect.Depth = npc.Depth + 0.1f;
             }
 
             foreach(Entity towerBox in topTowerBoxes)
