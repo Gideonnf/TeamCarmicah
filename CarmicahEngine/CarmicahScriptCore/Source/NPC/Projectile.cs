@@ -64,6 +64,7 @@ namespace Carmicah
         float timer = 0.0f;
         float animTimer = 0.0f;
         float maxAnimTime;
+        bool isDead = false;
 
         public override void OnCreate()
         {
@@ -86,6 +87,7 @@ namespace Carmicah
             {
                 target = null;
                 GetComponent<StateMachine>().SetStateCondition(1);
+                isDead = true;
                 return;
             }
 
@@ -98,6 +100,7 @@ namespace Carmicah
                 else
                 {
                     GetComponent<StateMachine>().SetStateCondition(1);
+                    isDead = true;
                     return;
                 }
             }
@@ -110,7 +113,7 @@ namespace Carmicah
                     return;
                 }
                 // Move the bullet
-                if (HasComponent<RigidBody>())
+                if (HasComponent<RigidBody>() && !isDead)
                 {
                     Vector2 mousePos = target.Position;
                     if (bulletType == BulletType.MAGE_BULLET)
@@ -181,6 +184,7 @@ namespace Carmicah
         public void SetUp(Entity targetEnemy)
         {
             target = targetEnemy;
+            isDead = false;
 
             if (targetEnemy != null)
             {
@@ -282,6 +286,7 @@ namespace Carmicah
         {
             if (stateName == "Dead")
             {
+                isDead = true;
                 if (!string.IsNullOrEmpty(BulletImpactAnim))
                 {
                     if (bulletType == BulletType.MAGE_BULLET)
