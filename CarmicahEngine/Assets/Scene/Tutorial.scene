@@ -272,23 +272,24 @@
                             "ID": 54,
                             "Components": [
                                 {
-                                "Component Name": "struct Carmicah::UITransform",
-                                "xPos": -100.0,
-                                "yPos": 20.0,
-                                "depth": 51.0,
-                                "xScale": 0.8,
-                                "yScale": 0.8,
-                                "rot": 0.0,
-                                "collisionMask": 0
-                                },
-                                {
                                     "Component Name": "struct Carmicah::TextRenderer",
                                     "font": "Chewy-Regular",
                                     "text": "",
-                                    "colorR": 0.4117647058823529,
-                                    "colorG": 0.1725490196078431,
-                                    "colorB": 0.0941176470588235,
-                                    "textAlign": 33              
+                                    "colorR": 0.4117647111415863,
+                                    "colorG": 0.1725490242242813,
+                                    "colorB": 0.0941176488995552,
+                                    "colorA": 1.0,
+                                    "textAlign": 33
+                                },
+                                {
+                                    "Component Name": "struct Carmicah::UITransform",
+                                    "xPos": -100.0,
+                                    "yPos": 20.0,
+                                    "depth": 51.0,
+                                    "xScale": 0.800000011920929,
+                                    "yScale": 0.800000011920929,
+                                    "rot": 0.0,
+                                    "transformTag": ""
                                 }
                             ]
                         }
@@ -1485,23 +1486,52 @@
             ]
         },
         {
+            "GameObject": "SceneTransition",
+            "ID": 49,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 29
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_Black 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 960.0,
+                    "yPos": 540.0,
+                    "depth": 3.0,
+                    "xScale": 40.0,
+                    "yScale": 40.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.SceneTransition",
+                    "ScriptableFieldMap": [
+                        {
+                            "duration": 0.6499999761581421,
+                            "fadeOut": true,
+                            "isWhite": false,
+                            "targetAlpha": 1.0,
+                            "targetScene": "",
+                            "timer": 0.0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "GameObject": "EndScreen",
             "ID": 50,
             "Components": [
-                {
-                    "Component Name": "struct Script",
-                    "scriptName": "Carmicah.UISliding",
-                    "ScriptableFieldMap": [
-                        {
-                            "slideCurve": 8,
-                            "slideDist": 0.0,
-                            "createDimBG": false,
-                            "slideTime": 0,
-                            "slideType": "up",
-                            "slideToCenter": false
-                        }
-                    ]
-                },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
@@ -1520,6 +1550,20 @@
                     "yScale": 0.800000011920929,
                     "rot": 0.0,
                     "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.UISliding",
+                    "ScriptableFieldMap": [
+                        {
+                            "createDimBG": false,
+                            "slideDist": 0.0,
+                            "slideCurve": 8,
+                            "slideTime": 0.0,
+                            "slideToCenter": false,
+                            "slideType": "up"
+                        }
+                    ]
                 }
             ],
             "Children": [
@@ -1540,7 +1584,7 @@
                         {
                             "Component Name": "struct Carmicah::UITransform",
                             "xPos": -405.0,
-                            "yPos": 115.000,
+                            "yPos": 115.0,
                             "depth": 4.0,
                             "xScale": 2.0,
                             "yScale": 2.0,
@@ -1572,8 +1616,8 @@
                             "xPos": 246.64773559570313,
                             "yPos": 15.8548583984375,
                             "depth": 4.0,
-                            "xScale": 1.3,
-                            "yScale": 1.3,
+                            "xScale": 1.2999999523162842,
+                            "yScale": 1.2999999523162842,
                             "rot": 0.0,
                             "transformTag": ""
                         }

@@ -293,12 +293,18 @@ namespace Carmicah
         {
             if (active == false) return;
 
+            if (pauseManager.IsPaused)
+            {
+                return;
+            }
+
+
             // idk if this will happen but if the mouse dies
             // this script might still hold a refeence to a 0 id mouse
             // which will cause crashes
             if (targetMouse != null && targetMouse.mID == 0)
             {
-                CMConsole.Log("I AM HERE");
+                //CMConsole.Log("I AM HERE");
                 targetMouse = null;
                 // Change back to idle state
                 //if (stateName == "Attacking")
@@ -317,7 +323,7 @@ namespace Carmicah
                     GetTarget(); // get targetMouse
                     if (targetMouse != null)
                     {
-                        CMConsole.Log($"Target mouse : {targetMouse.mID}");
+                        //CMConsole.Log($"Target mouse : {targetMouse.mID}");
 
                         // change to attacking state
                         if (mana > 0)
@@ -341,7 +347,7 @@ namespace Carmicah
             }
             else if (stateName == "Attacking")
             {
-                CMConsole.Log($"current frame : {GetComponent<Animation>().GetFrameNo()}");
+                //CMConsole.Log($"current frame : {GetComponent<Animation>().GetFrameNo()}");
                 if (GetComponent<Animation>().GetFrameNo() == 5)
                 {
                     if (targetMouse != null && shot == false)

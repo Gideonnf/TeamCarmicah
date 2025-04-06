@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 
 namespace Carmicah
 {
+    // Adding enum definitions that were missing
     public enum BulletType
     {
         SHOOTER_BULLET,
@@ -56,30 +57,18 @@ namespace Carmicah
 
         //target enemy
         public Entity target;
-        public Vector2 targetEndpt;
 
         float timer = 0.0f;
         float animTimer = 0.0f;
         float maxAnimTime;
-
-        //bool playDeathAnimation = false;
 
         public override void OnCreate()
         {
             // Set initial animation
             if (!string.IsNullOrEmpty(BulletAnim))
             {
-                //CMConsole.Log("Changing animation to " + BulletAnim);
                 ChangeAnim(BulletAnim);
             }
-
-            // Set scale based on direction
-            //Vector2 scale = Scale;
-            //if (!facingRight)
-            //{
-            //    scale.x *= -1;
-            //    Scale = scale;
-            //}
         }
 
         public override void OnUpdate(float dt)
@@ -93,20 +82,18 @@ namespace Carmicah
             if (timer >= LifeTime)
             {
                 target = null;
-               // CMConsole.Log("Lifetime over!");
                 GetComponent<StateMachine>().SetStateCondition(1);
                 return;
             }
 
             if (target == null)
             {
-                if(!GetComponent<Animation>().IsAnimFinished())
+                if (!GetComponent<Animation>().IsAnimFinished())
                 {
 
                 }
                 else
                 {
-                    //CMConsole.Log("No target!is i");
                     GetComponent<StateMachine>().SetStateCondition(1);
                     return;
                 }
@@ -120,24 +107,12 @@ namespace Carmicah
                     return;
                 }
                 // Move the bullet
-                // this is dying for some reason
                 if (HasComponent<RigidBody>())
                 {
                     Vector2 mousePos = target.Position;
-
-                    if (bulletType == BulletType.SHOOTER_BULLET)
-                    {
-
-                        if(bulletTarget == BulletTarget.GROUND)
-                        {
-                            CMConsole.Log("Targetting the start point supposedly");
-                            mousePos = targetEndpt;
-                        }
-                    }
-
                     if (bulletType == BulletType.MAGE_BULLET)
                     {
-                        if(!facingRight)
+                        if (!facingRight)
                         {
                             mousePos.x = -4;
 
@@ -148,59 +123,50 @@ namespace Carmicah
                         }
                     }
 
-                    /* NEEDS TO BE RE-WORKED IF WE RE-WRITE THE LANING SYSTEM
-                     * NEEDS TO BE RE-WORKED IF WE RE-WRITE THE LANING SYSTEM
-                     */
-                    if (bulletType == BulletType.SPEAR_BULLET)
+                    // Make sure target has the MouseAI component before accessing it
+                    if (bulletType == BulletType.SPEAR_BULLET && target.Has<MouseAI>())
                     {
-                        switch(target.As<MouseAI>().lane)
+                        MouseAI mouseAI = target.As<MouseAI>();
+                        switch (mouseAI.lane)
                         {
                             case 0:
                                 {
-                                    mousePos = target.As<MouseAI>().startPosRight;
+                                    mousePos = mouseAI.startPosRight;
                                     break;
                                 }
                             case 1:
                                 {
-                                    mousePos = target.As<MouseAI>().startPosLeft;
+                                    mousePos = mouseAI.startPosLeft;
                                     break;
                                 }
                             case 2:
                                 {
-                                    mousePos = target.As<MouseAI>().startPosRight2;
+                                    mousePos = mouseAI.startPosRight2;
                                     break;
                                 }
                             case 3:
                                 {
-                                    mousePos = target.As<MouseAI>().startPosLeft2;
+                                    mousePos = mouseAI.startPosLeft2;
                                     break;
                                 }
                         }
                         mousePos.y -= 4.0f;
                     }
 
-
-                    CMConsole.Log($"Actual Target: {mousePos.x} + {mousePos.y}");
                     Vector2 dir = mousePos - Position;
-                    dir.Normalize();
-                    //CMConsole.Log($"target mouse??? {targetMouse.mID}");
-                    //Vector2 dir = facingRight ? new Vector2(1, 0) : new Vector2(-1, 0);
+                    dir = dir.Normalize();
                     GetComponent<RigidBody>().ApplyForce(dir, Speed);
                     float dist = Position.Distance(mousePos);
 
-                  //  CMConsole.Log($"Distance from target: {dist}");
-
-                    if(bulletType == BulletType.SPEAR_BULLET)
+                    if (bulletType == BulletType.SPEAR_BULLET)
                     {
-                        if(dist <= 0.5f)
+                        if (dist <= 0.5f)
                         {
                             GetComponent<StateMachine>().SetStateCondition(1);
                         }
                     }
                 }
-
             }
-
         }
 
         // Set initial direction
@@ -212,13 +178,13 @@ namespace Carmicah
             {
                 // Get target direction
                 Vector2 dir = targetEnemy.Position - Position;
-                dir.Normalize();
-                //CMConsole.Log($"{dir.x}, {dir.y}");
-                if(bulletType == BulletType.SHOOTER_BULLET)
+                dir = dir.Normalize();
+
+                if (bulletType == BulletType.SHOOTER_BULLET)
                 {
-                    if(bulletTarget == BulletTarget.AIR)
+                    if (bulletTarget == BulletTarget.AIR)
                     {
-                        if(facingRight)
+                        if (facingRight)
                         {
                             Rot = 180;
                         }
@@ -227,9 +193,9 @@ namespace Carmicah
                             Rot = 260;
                         }
                     }
-                    if(bulletTarget == BulletTarget.GROUND)
+                    if (bulletTarget == BulletTarget.GROUND)
                     {
-                        if(facingRight)
+                        if (facingRight)
                         {
                             Rot = 45;
                         }
@@ -237,54 +203,17 @@ namespace Carmicah
                         {
                             Rot = 25;
                         }
-
-                        switch (targetEnemy.As<MouseAI>().lane)
-                        {
-                            case 0:
-                                {
-                                    targetEndpt = target.As<MouseAI>().startPosRight;
-                                    CMConsole.Log($"Target: {targetEndpt.x} + {targetEndpt.y}");
-                                    break;
-                                }
-                            case 1:
-                                {
-                                    targetEndpt = target.As<MouseAI>().startPosLeft;
-                                    CMConsole.Log($"Target: {targetEndpt.x} + {targetEndpt.y}");
-                                    break;
-                                }
-                            case 2:
-                                {
-                                    targetEndpt = target.As<MouseAI>().startPosRight2;
-                                    CMConsole.Log($"Target: {targetEndpt.x} + {targetEndpt.y}");
-                                    break;
-                                }
-                            case 3:
-                                {
-                                    targetEndpt = target.As<MouseAI>().startPosLeft2;
-                                    CMConsole.Log($"Target: {targetEndpt.x} + {targetEndpt.y}");
-                                    break;
-                                }
-                        }
                     }
-
-                    
                 }
-                else if(bulletType == BulletType.MAGE_BULLET)
+                else if (bulletType == BulletType.MAGE_BULLET)
                 {
                     float rot = Rot;
                     rot = 25;
                     Rot = rot;
-
-                    //if(!facingRight)
-                    //{
-                    //    Vector2 scale = Scale;
-                    //    scale.x *= -1;
-                    //    Scale = scale;
-                    //}
                 }
                 else if (bulletType == BulletType.SPEAR_BULLET)
                 {
-                    if(facingRight)
+                    if (facingRight)
                     {
                         Rot = 190;
                     }
@@ -296,7 +225,6 @@ namespace Carmicah
             }
             else
             {
-              //  CMConsole.Log("Error setting up bullet");
                 Destroy();
             }
         }
@@ -304,11 +232,6 @@ namespace Carmicah
         public void SetDirection(bool right)
         {
             facingRight = right;
-        }
-
-        void BulletDeathAnimation()
-        {
-
         }
 
         public override void OnCollide(uint id)
@@ -321,15 +244,27 @@ namespace Carmicah
             Entity collidedEntity = FindEntityWithID(id);
             if (collidedEntity != null)
             {
-                //CMConsole.Log($"Collided Entity : {collidedEntity.mID} with tag {collidedEntity.GetTag()}");
-                //if (collidedEntity.GetTag() == "Enemy")
-                //{
-                //    collidedEntity.AsChild<HealthSystem>().TakeDamage(50)
-                //}
+                // Apply damage if this is an enemy
+                if (collidedEntity.GetTag() == "Enemy")
+                {
+                    // Check if the entity has a HealthSystem component
+                    if (collidedEntity.Has<HealthSystem>())
+                    {
+                        int damageAmount = 50; // Default damage
+
+                        // Apply double damage in God Mode
+                        if (Player.godMode)
+                        {
+                            damageAmount = 100; // Double damage in God Mode
+                        }
+
+                        collidedEntity.AsChild<HealthSystem>().TakeDamage(damageAmount);
+                    }
+                }
             }
 
             //Set to dead state
-            if(bulletType == BulletType.MAGE_BULLET || bulletType == BulletType.SHOOTER_BULLET)
+            if (bulletType == BulletType.MAGE_BULLET || bulletType == BulletType.SHOOTER_BULLET)
             {
                 GetComponent<StateMachine>().SetStateCondition(1);
             }
@@ -341,24 +276,20 @@ namespace Carmicah
             {
                 if (!string.IsNullOrEmpty(BulletImpactAnim))
                 {
-                    if(bulletType == BulletType.MAGE_BULLET)
+                    if (bulletType == BulletType.MAGE_BULLET)
                     {
                         Vector2 scale = Scale;
                         float rot = Rot;
-                        if(this.HasComponent<Collider2D>())
+                        if (this.HasComponent<Collider2D>())
                         {
                             this.GetComponent<Collider2D>().SetCustomWidth(0.5f);
                         }
 
-                        //CMConsole.Log("Playing Mage Hit Explosion");
                         Sound.PlaySFX("Mage_Hit_Explosion", 0.3f);
                         if (!facingRight)
                         {
                             rot -= 5;
                             Rot = rot;
-                            //scale.x *= -1;
-                            //Scale = scale;
-
                         }
                         else
                         {
@@ -380,7 +311,7 @@ namespace Carmicah
 
         public override void OnStateUpdate(string stateName, float dt)
         {
-            if(stateName == "Alive")
+            if (stateName == "Alive")
             {
                 if (health == 0)
                 {
@@ -388,11 +319,11 @@ namespace Carmicah
                 }
             }
 
-            if(stateName == "Dead")
+            if (stateName == "Dead")
             {
                 animTimer += dt;
 
-                if(GetComponent<Animation>().IsAnimFinished())
+                if (GetComponent<Animation>().IsAnimFinished())
                 {
                     Destroy();
                 }
@@ -403,12 +334,18 @@ namespace Carmicah
         {
             Entity entity = FindEntityWithID(collidedEntity);
 
-            if(entity != null)
-            { 
-                if(entity.GetTag() == "Enemy")
+            if (entity != null)
+            {
+                if (entity.GetTag() == "Enemy")
                 {
-                    //CMConsole.Log("Spear losing health");
-                    health--;
+                    if (Player.godMode)
+                    {
+                        health -= 0.5f; // Make spears last longer in God Mode
+                    }
+                    else
+                    {
+                        health--;
+                    }
                 }
             }
         }

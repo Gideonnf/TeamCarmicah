@@ -266,7 +266,15 @@ namespace Carmicah
                         else
                         {
                             //CMConsole.Log("Changing scene 2");
-                            Scene.ChangeScene(nextScene);
+                            Entity transitionEntity = FindEntityWithName("SceneTransition");
+                            if (transitionEntity != null)
+                            {
+                                transitionEntity.As<SceneTransition>().FadeOut(nextScene);
+                            }
+                            else
+                            {
+                                Scene.ChangeScene(nextScene);
+                            }
                         }
                     }
                 }
@@ -361,7 +369,8 @@ namespace Carmicah
                 Entity waveSystem = FindEntityWithName("Something");
                 if (waveSystem.As<WaveSystem>().levelManager.EndOfGame())
                 {
-                    Scene.ChangeScene("CutsceneEnding");
+                    //Scene.ChangeScene("CutsceneEnding");
+                    FindEntityWithName("SceneTransition").As<SceneTransition>().FadeOut("CutsceneEnding");
 
                 }
                 else

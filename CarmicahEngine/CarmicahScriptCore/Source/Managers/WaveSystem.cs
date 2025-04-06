@@ -25,7 +25,7 @@ namespace Carmicah
         public string losePrefab = "LoseScreen";
         public string countdownPrefab = "Countdown_1";
 
-        //public bool EndGame;
+        public bool EndGame;
 
         Entity gameManager;
         Entity pauseManager;
@@ -54,6 +54,17 @@ namespace Carmicah
             {
                 return;
 
+            }
+
+            // only handles how long end game screen last
+            if (EndGame)
+            {
+                waveTimer += dt;
+                if (waveTimer >= 3.0f)
+                {
+                    // transition to new scene
+                    FindEntityWithName("SceneTransition").As<SceneTransition>().FadeOut("CutsceneEnding");
+                }
             }
 
             if (winScreenCreated)
@@ -182,7 +193,8 @@ namespace Carmicah
                     {
                         // CMConsole.Log("Does this runNnnnnnnnnnnnnn");
                         winScreen = CreateGameObject("GameEnd_Screen");
-
+                        EndGame = true;
+                        waveTimer = 0.0f;
                     }
                     else
                     {

@@ -112,6 +112,7 @@ public override void OnCreate()
         {
             mainCamera = FindEntityWithName("MainCamera");
             UIManager = FindEntityWithName("UIManager");
+            //mainCamera.As<Camera>().topLimit = ySpawnPos;
             mobCounter = new Wave();
             mouseLaneOne = new List<MouseAI>();
             mouseLaneTwo = new List<MouseAI>();
@@ -1169,6 +1170,13 @@ public override void OnCreate()
                     VFXPrefab = null;
                     UpdatePositions();
                     ySpawnPos += CakeHeightOffset;
+                    Entity camEntity = FindEntityWithName("MainCamera");
+                    if (camEntity != null)
+                    {
+                        camEntity.As<Camera>().topLimit += CakeHeightOffset;
+                    }
+
+
                     cakeCounter++; // increment cake when its done
                     //yTargetPos += CakeHeightOffset;
                     //yVFXLocation += CakeHeightOffset;

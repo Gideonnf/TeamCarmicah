@@ -82,7 +82,8 @@ namespace Carmicah
                         if (fadeTimer >= fadeOutDuration)
                         {
                             Sound.StopAllSFX();
-                            Scene.ChangeScene("Scene3");
+                            FindEntityWithName("SceneTransition").As<SceneTransition>().FadeOut("Scene3");
+                            // Scene.ChangeScene("Scene3");
                         }
                     }
                 }

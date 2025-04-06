@@ -114,7 +114,7 @@ namespace Carmicah
 				}
 
 				// Continue with actual mem alloc
-				RenderHelper::GetInstance()->ReserveFontBuffer(buff->second, charsToWrite);
+				RenderHelper::GetInstance()->ReserveFontBuffer(buff->second, txtRenderer.txt.size());
 				// iterate through all characters (alot of it divides by 2 since quad is based on [-1,1])
 				for (size_t txtCount{ firstDiff }; txtCount < txtRenderer.txt.size(); ++txtCount)
 				{

@@ -123,6 +123,7 @@
     <Compile Include="Source\UI\MouseParticles.cs" />
     <Compile Include="Source\UI\Parallex.cs" />
     <Compile Include="Source\UI\PrincessHPBar.cs" />
+    <Compile Include="Source\UI\SceneTransition.cs" />
     <Compile Include="Source\UI\UISliding.cs" />
     <Compile Include="Source\UI\VolumeControl.cs" />
     <Compile Include="Source\UI\WaveCountdown.cs" />
