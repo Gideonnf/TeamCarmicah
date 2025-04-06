@@ -37,7 +37,9 @@ namespace Carmicah
 
         private float[] panelTimings = new float[3];
         private string[] panelWords = new string[3]{
-            "As the last Critter fell, a sense of relief washed over Princess Strawberry, knowing all their efforts had not been in vain as she heard her kingdom erupt in cheers of victory over their fallen enemy.",
+            "As the last Critter fell, a sense of relief washed over Princess Strawberry, " +
+            "knowing all their efforts had not been in vain " +
+            "as she heard her kingdom erupt in cheers of victory over their fallen enemy.",
             "And from then on the Candy Kingdom lived happily ever after",
             ""
         };
