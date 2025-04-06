@@ -10,6 +10,7 @@ namespace Carmicah
     public class SpearNPC : BaseNPC
     {
         MouseAI targetMouse;
+        Entity projectile;
         float timer = 0.0f;
         string voiceOver;
         
@@ -28,11 +29,16 @@ namespace Carmicah
             }
         }
 
+        public override void ProjectileDestroyed()
+        {
+            projectile = null;
+        }
+
         public override void ShootProjectile()
         {
             if (targetMouse != null)
             {
-                Entity projectile = CreateGameObject(projectilePrefab);
+                projectile = CreateGameObject(projectilePrefab);
                 Vector2 shootOffset = new Vector2(xShootOffset, yShootOffset);
                 if (projectile != null)
                 {
@@ -47,6 +53,7 @@ namespace Carmicah
 
                     }
                     Projectile bullet = projectile.As<Projectile>();
+                    bullet.SetParent(this);
                     bullet.As<Projectile>().bulletType = BulletType.SPEAR_BULLET;
                     if (!IsLeft)
                     {
@@ -230,7 +237,7 @@ namespace Carmicah
                 // Get nearest enemy 
                 //targetMouse = gameManager.GetClosestMouse(this);
                 GetTarget(); // get targetMouse
-                if (targetMouse != null)
+                if (targetMouse != null && projectile == null)
                 {
                     //CMConsole.Log($"Target mouse : {targetMouse.mID}");
 

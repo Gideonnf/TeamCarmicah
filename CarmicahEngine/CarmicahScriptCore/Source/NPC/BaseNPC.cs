@@ -83,6 +83,11 @@ namespace Carmicah
             GetComponent<StateMachine>().SetStateCondition(4);
         }
 
+        public virtual void ProjectileDestroyed()
+        {
+
+        }
+
         public virtual void GetTarget()
         {
 

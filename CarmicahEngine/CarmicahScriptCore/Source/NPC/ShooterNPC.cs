@@ -12,12 +12,14 @@ namespace Carmicah
     {
         public string airAnim;
         Entity target;
+        Entity projectile;
         BulletTarget targetType;
         float timer = 0.0f;
         string voiceOver;
         public float xAirOffset = 0.0f;
         public float yAirOffset = 0.0f;
-        
+
+
         public override void OnCreate()
         {
             base.OnCreate();
@@ -36,11 +38,16 @@ namespace Carmicah
             }
         }
 
+        public override void ProjectileDestroyed()
+        {
+            projectile = null;
+        }
+
         public override void ShootProjectile()
         {
             if (target != null)
             {
-                Entity projectile = CreateGameObject(projectilePrefab);
+                projectile = CreateGameObject(projectilePrefab);
                 Vector2 shootOffset;
                 if (targetType == BulletTarget.GROUND)
                 {
@@ -63,6 +70,7 @@ namespace Carmicah
 
                     }
                     Projectile bullet = projectile.As<Projectile>();
+                    bullet.SetParent(this);
                     bullet.As<Projectile>().bulletType = BulletType.SHOOTER_BULLET;
                     if(targetType == BulletTarget.AIR)
                     {
@@ -312,7 +320,7 @@ namespace Carmicah
                 // Get nearest enemy 
                 //targetMouse = gameManager.GetClosestMouse(this);
                 GetTarget(); // get targetMouse
-                if (target != null)
+                if (target != null && projectile == null)
                 {
                     //CMConsole.Log($"Target mouse : {target.mID}");
                     if(targetType == BulletTarget.GROUND)

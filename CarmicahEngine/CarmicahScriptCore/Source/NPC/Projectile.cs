@@ -58,6 +58,9 @@ namespace Carmicah
         //target enemy
         public Entity target;
 
+        // NPC that shot it
+        public Entity parent;
+
         float timer = 0.0f;
         float animTimer = 0.0f;
         float maxAnimTime;
@@ -167,6 +170,11 @@ namespace Carmicah
                     }
                 }
             }
+        }
+
+        public void SetParent(Entity _parent)
+        {
+            parent = _parent;
         }
 
         // Set initial direction
@@ -304,6 +312,10 @@ namespace Carmicah
                 }
                 else
                 {
+                    if (parent != null)
+                    {
+                        parent.As<BaseNPC>().ProjectileDestroyed();
+                    }
                     Destroy();
                 }
             }

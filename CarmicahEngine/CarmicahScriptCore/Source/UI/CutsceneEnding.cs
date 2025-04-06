@@ -29,11 +29,6 @@ namespace Carmicah
         public string backgroundMusicTrack = "Endingcutscene";
         public string backgroundMusicTrack1 = "BGM_SetupPhase_Mix1";
 
-        // White overlay for transitions
-        private bool isWhiteOutTransition = false;
-        private Entity whiteFlashEntity = null;
-        private float whiteFlashAlpha = 0.0f;
-        private float whiteOutSpeed = 2.0f;
 
         private float[] panelTimings = new float[3];
         private string[] panelWords = new string[3]{
@@ -95,20 +90,20 @@ namespace Carmicah
 
         private void UpdateCutsceneText()
         {
-            if (currentPanel < panelWords.Length && panelWords[currentPanel].Length > 0)
+            if (currentPanel < panelWords.Length)
             {
                 float startTime = 0;
                 if (currentPanel != 0)
                     startTime = panelTimings[currentPanel - 1];
 
                 float percentage = (timer - startTime) / (panelTimings[currentPanel] - startTime - 1.0f);
-                percentage = Math.Min(Math.Max(percentage, 0), 1); // Clamp between 0 and 1
+               // percentage = Math.Min(Math.Max(percentage, 0), 1); // Clamp between 0 and 1
 
                 int numTextToAdd = Math.Min((int)(percentage * panelWords[currentPanel].Length), panelWords[currentPanel].Length);
 
                 bool toUpdateTxtYet = currText.Length != 0;
 
-                while (numTextToAdd > currText.Length && currText.Length < panelWords[currentPanel].Length)
+                while (numTextToAdd > currText.Length)
                 {
                     currText += panelWords[currentPanel][currText.Length];
                 }
@@ -150,30 +145,6 @@ namespace Carmicah
                     leftParticles.GetComponent<ParticleEmitter>().SetActive();
                     rightParticles.GetComponent<ParticleEmitter>().SetActive();
                     particlesDownTime = 0.0f;
-                }
-            }
-
-            if (isWhiteOutTransition && whiteFlashEntity != null)
-            {
-                whiteFlashAlpha += whiteOutSpeed * dt;
-                if (whiteFlashAlpha > 1.0f)
-                    whiteFlashAlpha = 1.0f;
-
-                whiteFlashEntity.GetComponent<Renderer>().SetAlpha(whiteFlashAlpha);
-
-                if (whiteFlashAlpha >= 1.0f)
-                {
-                    ProgressScene();
-                }
-            }
-            else if (isFadingOut)
-            {
-                fadeOutTimer += dt;
-                if (fadeOutTimer >= finalFadeOutDuration)
-                {
-                    Sound.StopAllSFX();
-                    //FindEntityWithName("SceneTransition").As<SceneTransition>().FadeOut("Scene3");
-                    Scene.ChangeScene("Scene3");
                 }
             }
 
@@ -228,16 +199,16 @@ namespace Carmicah
 
                     if (currentPanel == 2) // White overlay for the final scene
                     {
-                        if (whiteFlashEntity == null)
-                        {
-                            whiteFlashEntity = CreateGameObject("WhiteOverlay");
-                            if (whiteFlashEntity != null)
-                            {
-                                whiteFlashEntity.Depth = cutsceneEntity.Depth + 1.0f;
-                                whiteFlashEntity.GetComponent<Renderer>().SetAlpha(0.0f);
-                                isWhiteOutTransition = true;
-                            }
-                        }
+                        //if (whiteFlashEntity == null)
+                        //{
+                        //    whiteFlashEntity = CreateGameObject("WhiteOverlay");
+                        //    if (whiteFlashEntity != null)
+                        //    {
+                        //        whiteFlashEntity.Depth = cutsceneEntity.Depth + 1.0f;
+                        //        whiteFlashEntity.GetComponent<Renderer>().SetAlpha(0.0f);
+                        //        isWhiteOutTransition = true;
+                        //    }
+                        //}
                     }
                 }
             }
@@ -271,10 +242,6 @@ namespace Carmicah
                     cutsceneEntity.Scale = scale;
                 }
 
-                if (currentPanel == 1 && isWhiteOutTransition)
-                {
-                    return;
-                }
 
                 float currentPanelDisplayTime = panelTimings[currentPanel];
                 if (timer >= currentPanelDisplayTime)
@@ -284,25 +251,9 @@ namespace Carmicah
                     {
                         GetComponent<StateMachine>().SetStateCondition(2);
                     }
-                    else if (!isFadingOut && !isWhiteOutTransition)
+                    else 
                     {
-                        // Start the final fade out
-                        isFadingOut = true;
-                        fadeOutTimer = 0.0f;
-                        Sound.SwitchBGM("zero", finalFadeOutDuration, finalFadeOutDuration, false);
-                    }
-                }
-
-                if (isFadingOut && cutsceneEntity != null && !isWhiteOutTransition)
-                {
-                    float fadePercent = fadeOutTimer / finalFadeOutDuration;
-                    cutsceneEntity.GetComponent<Renderer>().SetAlpha(1.0f - fadePercent);
-
-                    if (textObj != null)
-                    {
-                        textObj.GetComponent<Renderer>().SetAlpha(1.0f - fadePercent);
-                        Entity txtChild = new Entity(FunctionCalls.Entity_GetChild(textObj.mID));
-                        txtChild.GetComponent<Renderer>().SetAlpha(1.0f - fadePercent);
+                        ProgressScene();
                     }
                 }
             }
