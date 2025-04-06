@@ -260,7 +260,6 @@ namespace Carmicah
             {
                 //CMConsole.Log("TESTING Enter State");
                 ChangeAnim(shootAnim);
-                animationTime = GetComponent<Animation>().GetMaxTime();
                 timer = 0.0f;
                 //CMConsole.Log($"Max Anim Time : {animationTime}");
 
@@ -328,7 +327,7 @@ namespace Carmicah
                 if (timer >= shootTime)
                 {
                     GetTarget(); // get targetMouse
-                    if (targetMouse != null && projectile == null)
+                    if (targetMouse != null)
                     {
                         //CMConsole.Log($"Target mouse : {targetMouse.mID}");
 

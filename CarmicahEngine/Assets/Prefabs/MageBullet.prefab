@@ -79,7 +79,7 @@
                     "BulletAnim": "Mage_Projectile",
                     "BulletImpactAnim": "Mage_Impact_Projectile",
                     "LifeTime": 10.0,
-                    "Speed": 2.0,
+                    "Speed": 10.0,
                     "facingRight": false,
                     "health": 3.0
                 }
