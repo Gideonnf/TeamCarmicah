@@ -563,8 +563,9 @@ namespace Carmicah
                                 actlObj1.GetComponent<Renderer>().SetAlpha(1.0f);
                                 power1Ico.Scale = new Vector2(0.55f, 0.55f);
                                 power1Ico.Position = new Vector2(2000, 135);
+                                power2Ico.Position = new Vector2(450, 135);
 
-                                someDir = (new Vector2(465, 40)) - cursor.LocalPosition;
+                                someDir = (new Vector2(465, 95)) - cursor.LocalPosition;
                                 someDir = someDir.Normalize();
 
                                 ++aniProgress;
