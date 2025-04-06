@@ -1356,7 +1356,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "RedBorder_SpriteSheet_Red_Border 1",
+                    "texture": "RedBorder",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
