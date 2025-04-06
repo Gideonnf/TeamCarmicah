@@ -40,7 +40,7 @@ namespace Carmicah
         ImVec2 canvas_pos = ImGui::GetCursorScreenPos();
         ImVec2 canvas_size = ImGui::GetContentRegionAvail();
         float xPos = canvas_pos.x;
-
+        UNUSED(xPos);
         const auto& systemPercentages = CarmicahTime::GetInstance()->GetSystemPercentages();
         double totalLoopTime = CarmicahTime::GetInstance()->GetTotalLoopTime();
 
@@ -48,8 +48,8 @@ namespace Carmicah
         {
             DebugStatistics stats;
             stats.width = (static_cast<float>(pair.second) / 100.0f) * canvas_size.x;
-            stats.timeTaken = totalLoopTime * (pair.second / 100.0) * 1000.0;
-            stats.loadPercentage = pair.second;
+            stats.timeTaken = (float)(totalLoopTime * (pair.second / 100.0) * 1000.0);
+            stats.loadPercentage = (float)pair.second;
             debugStats.insert_or_assign(pair.first, stats);
         }
     }
@@ -82,7 +82,7 @@ namespace Carmicah
         ImGui::BeginChild("Performance Overview", ImVec2(0, 60), true);
         {
             static float accumulatedTime = 0.0f;
-            float dt = CarmicahTime::GetInstance()->ForceDeltaTime();
+            float dt = (float)CarmicahTime::GetInstance()->ForceDeltaTime();
             static float frameTime = static_cast<float>(CarmicahTime::GetInstance()->GetDeltaTime() * 1000.0);
             static float fps = static_cast<float>(CarmicahTime::GetInstance()->FPS());
             static float gpuTime = static_cast<float>(CarmicahTime::GetInstance()->GetGPUTime());
@@ -114,8 +114,9 @@ namespace Carmicah
     {
         const auto& systemPercentages = CarmicahTime::GetInstance()->GetSystemPercentages();
         double totalLoopTime = CarmicahTime::GetInstance()->GetTotalLoopTime();
+        UNUSED(totalLoopTime);
         static float accumulatedTime = 0.0f;
-        float dt = CarmicahTime::GetInstance()->ForceDeltaTime();
+        float dt = (float)CarmicahTime::GetInstance()->ForceDeltaTime();
         accumulatedTime += dt;
 
         ImGui::Text("System Timeline");
@@ -178,11 +179,12 @@ namespace Carmicah
     {
         const auto& systemPercentages = CarmicahTime::GetInstance()->GetSystemPercentages();
         double totalLoopTime = CarmicahTime::GetInstance()->GetTotalLoopTime();
-
+        UNUSED(totalLoopTime);
         ImGui::Text("System Statistics");
         ImGui::BeginChild("System Stats", ImVec2(0, 0), true);
         {
             const float columnWidth = ImGui::GetContentRegionAvail().x - 20;
+            UNUSED(columnWidth);
             for (const auto& pair : systemPercentages) {
                 // Create a bordered box for each system
                 ImGui::BeginChild(pair.first.c_str(), ImVec2(0, 0), ImGuiChildFlags_AutoResizeY);
@@ -252,7 +254,7 @@ namespace Carmicah
     {
         static float accumulatedTime = 0.0f;
         static bool firstTime = true;
-        float dt = CarmicahTime::GetInstance()->ForceDeltaTime();
+        float dt = (float)CarmicahTime::GetInstance()->ForceDeltaTime();
         accumulatedTime += dt;
 
         if (firstTime)

@@ -735,7 +735,8 @@ namespace Carmicah
 
 		auto& transform1 = componentManager->GetComponent<Transform>(obj1);
 		auto& transform2 = componentManager->GetComponent<Transform>(obj2);
-
+		UNUSED(transform1);
+		UNUSED(transform2);
 
 		// Check if either object has no vertices (invalid collider)
 		if (collider1.objVert.empty() || collider2.objVert.empty())

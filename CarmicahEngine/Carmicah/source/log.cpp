@@ -50,18 +50,20 @@ namespace Carmicah
     void Log::init() {
         try {
             // Try to create logs directory first
+#ifndef CM_INSTALLER
             if (!std::filesystem::exists("logs")) {
                 if (!std::filesystem::create_directory("logs")) {
                     throw std::runtime_error("Failed to create logs directory");
                 }
             }
-
+#endif
             // Set up console logging first
             spdlog::set_pattern("%d-%m-%Y %T.%e [%n] %^%l%$ %v");
             sCoreLogger = spdlog::stdout_color_mt("CARMICAH");
             sCoreLogger->set_level(spdlog::level::trace);
             sClientLogger = spdlog::stdout_color_mt("APP");
             sClientLogger->set_level(spdlog::level::trace);
+#ifndef CM_INSTALLER
 
             // Now create log file with timestamp
             auto now = std::chrono::system_clock::now();
@@ -75,7 +77,7 @@ namespace Carmicah
             if (!logFile.is_open()) {
                 throw std::runtime_error("Failed to open log file: " + currentLogFile);
             }
-
+#endif
             // Log successful initialization
             CM_CORE_INFO("Log system initialized. Writing to {}", currentLogFile);
         }
@@ -92,26 +94,29 @@ namespace Carmicah
 
     void Log::initAssertion() {
         try {
+#ifndef CM_INSTALLER
+
             // Create crashes directory if it doesn't exist
             if (!std::filesystem::exists("crashes")) {
                 if (!std::filesystem::create_directory("crashes")) {
                     throw std::runtime_error("Failed to create crashes directory");
                 }
             }
-
+#endif
             // Create crash log file with timestamp
             auto now = std::chrono::system_clock::now();
             auto nowTime = std::chrono::system_clock::to_time_t(now);
             std::stringstream ss;
             ss << "crashes/crash_" << std::put_time(std::localtime(&nowTime), "%Y%m%d_%H%M%S") << ".txt";
             currentCrashLogFile = ss.str();
+#ifndef CM_INSTALLER
 
             // Open crash log file
             crashLogFile.open(currentCrashLogFile, std::ios::out | std::ios::app);
             if (!crashLogFile.is_open()) {
                 throw std::runtime_error("Failed to open crash log file: " + currentCrashLogFile);
             }
-
+#endif
             // Write header information
             crashLogFile << "Carmicah Engine Crash Log" << std::endl;
             crashLogFile << "=========================" << std::endl;
@@ -131,6 +136,7 @@ namespace Carmicah
 
     void Log::logMessage(const std::string& msg) {
         logMessages.push_back(msg);
+#ifndef CM_INSTALLER
 
         // Write to file if open
         if (logFile.is_open()) {
@@ -144,6 +150,7 @@ namespace Carmicah
                 flushLogsToFile();
             }
         }
+#endif
     }
 
     void Log::logCrashMessage(const char* file, int line, const char* function, const char* message) {

@@ -90,7 +90,7 @@ namespace Carmicah
 
         public float ySpawnPos;
         public float cameraHeight = 10.0f;
-        int cakeType = 0; // 0 - 3
+        //int cakeType = 0; // 0 - 3
         Entity towerPrefab;
         Entity VFXPrefab;
         Entity waveSystem;

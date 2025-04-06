@@ -105,7 +105,10 @@ namespace Carmicah
                 case "skipsplash":
                     nextScene       = "Scene3";
                     willChangeScene = true;
-
+                    if (HasComponent<Renderer>())
+                    {
+                        GetComponent<Renderer>().SetAlpha(0.0f);
+                    }
                     hoverEnterAnim  = "Button_HS_Skip";
                     hoverExitAnim   = "Button_HE_Skip";
                     clickAnim       = "Button_C_Skip";
@@ -251,6 +254,17 @@ namespace Carmicah
 
         public override void OnUpdate(float dt)
         {
+            if (buttonType == "skipSplash")
+            {
+                if (Scene.IsDoneLoading())
+                {
+                    if(HasComponent<Renderer>())
+                    {
+                        GetComponent<Renderer>().SetAlpha(1.0f);
+                    }
+                }
+            }
+
             if (!HasComponent<Animation>() || GetComponent<Animation>().IsAnimFinished())
             {
                 if (sceneChangerTimer > 0)

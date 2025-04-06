@@ -18,13 +18,13 @@ namespace Carmicah
 
         public float fadeSpeed = 0.5f;
         public float finalFadeOutDuration = 1.5f;
-        private bool isFadingOut = false;
-        private float fadeOutTimer = 0.0f;
+        //private bool isFadingOut = false;
+        //private float fadeOutTimer = 0.0f;
 
         private string cutscenePrefab = "CutSceneImage";
         private string baseImgName = "EndingCutscene_SpriteSheet_Yes";
         private string img3Name = "Wall_White_1";
-        private int img3Size = 1;
+        //private int img3Size = 1;
 
         // Background music
         public string backgroundMusicTrack = "Endingcutscene";

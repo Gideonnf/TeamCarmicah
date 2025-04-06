@@ -1049,7 +1049,7 @@ namespace Carmicah
 				ImGui::Text("xPos Grid");
 				ImGui::TableNextColumn();
 				//Vec2f pos = data.Pos();
-				tempValue = col.gridPos.x;
+				tempValue = (float)col.gridPos.x;
 				if (ImGui::DragFloat("##xGrid", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
 
@@ -1060,7 +1060,7 @@ namespace Carmicah
 				ImGui::Text("yPos Grid");
 				ImGui::TableNextColumn();
 				//Vec2f pos = data.Pos();
-				tempValue = col.gridPos.y;
+				tempValue = (float)col.gridPos.y;
 				if (ImGui::DragFloat("##yGrid", &tempValue, 0.05f, -FLT_MAX, FLT_MAX, "%.3f"))
 				{
 					//col.posPivot.y = tempValue;
