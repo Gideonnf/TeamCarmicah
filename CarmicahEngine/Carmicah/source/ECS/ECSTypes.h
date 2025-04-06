@@ -24,7 +24,7 @@ namespace Carmicah
 	using Entity = unsigned int;
 
 	// For setting sizes of component arrays, define the max number of entities allowed
-	const unsigned int MAX_ENTITIES = 5000;
+	const unsigned int MAX_ENTITIES = 10000;
 
 	// use an 8 bit int since there wont be that many components created
 	using ComponentID = std::uint8_t;
