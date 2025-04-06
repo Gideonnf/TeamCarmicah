@@ -304,6 +304,7 @@ namespace Carmicah
         public override void OnFixedUpdate(float fixedDt)
         {
             Entity gameManager = FindEntityWithName("GameManager");
+            Entity pauseManager = FindEntityWithName("PauseManager");
             if (gameManager != null)
             {
                 if (gameManager.As<GameManager>().GameOver)
@@ -312,6 +313,17 @@ namespace Carmicah
                     {
                         //CMConsole.Log("Stop Da mouse!");
                         GetComponent<RigidBody>().StopObject();
+                    }
+                    return;
+                }
+            }
+            if(pauseManager != null)
+            {
+                if(pauseManager.As<PauseManager>().IsPaused)
+                {
+                    if(HasComponent<RigidBody>())
+                    {
+                        GetComponent<RigidBody>().StopForces();
                     }
                     return;
                 }
