@@ -110,6 +110,9 @@ namespace Carmicah
         bool move = false;
         bool isFlip = false;
 
+        private Vector3[] crumbsColor = new Vector3[6];
+        private float[] crumbsLanes = new float[24];
+
         public override void OnCreate()
         {
             mainCamera = FindEntityWithName("MainCamera");
@@ -144,6 +147,38 @@ namespace Carmicah
             Sound.PlaySFX("Portal_Spawn", 0.3f);
 
             ChangeAnim(baseAnimation);
+
+            crumbsColor[0] = new Vector3(0.49411f, 0.28627f, 0.01176f);
+            crumbsColor[1] = new Vector3(0.32941f, 0.20784f, 0.65882f);
+            crumbsColor[2] = new Vector3(0.92156f, 0.32941f, 0.45490f);
+            crumbsColor[3] = new Vector3(0.24313f, 0.48235f, 0.07058f);
+            crumbsColor[4] = new Vector3(2.0f, 2.0f, 2.0f);
+            crumbsColor[5] = new Vector3(1.0f, 1.0f, 1.0f);
+
+            crumbsLanes[0] = -18.4f;
+            crumbsLanes[1] = -7.5f;
+            crumbsLanes[2] = 3.0f;
+            crumbsLanes[3] = 13.9f;
+            crumbsLanes[4] = 24.8f;
+            crumbsLanes[5] = 35.3f;
+            crumbsLanes[6] = -20.0f;
+            crumbsLanes[7] = -9.5f;
+            crumbsLanes[8] = 1.3f;
+            crumbsLanes[9] = 12.3f;
+            crumbsLanes[10] = 23.2f;
+            crumbsLanes[11] = 33.6f;
+            crumbsLanes[12] = -19.8f;
+            crumbsLanes[13] = -9.0f;
+            crumbsLanes[14] = 1.6f;
+            crumbsLanes[15] = 12.5f;
+            crumbsLanes[16] = 23.0f;
+            crumbsLanes[17] = 33.4f;
+            crumbsLanes[18] = -18.0f;
+            crumbsLanes[19] = -7.3f;
+            crumbsLanes[20] = 3.4f;
+            crumbsLanes[21] = 14.3f;
+            crumbsLanes[22] = 24.7f;
+            crumbsLanes[23] = 35.2f;
         }
 
         public override void OnUpdate(float dt)
@@ -198,13 +233,41 @@ namespace Carmicah
             {
                 int frameNum = GetComponent<Animation>().GetFrameNo();
 
+                float thisYPos = LocalPosition.y;
+                int orderedLane = 3 - lane;
                 if (frameNum == 0)
                 {
-                    childParticle[0].GetComponent<ParticleEmitter>().SetActive();
+                    if(thisYPos > crumbsLanes[orderedLane * 6 + 0])
+                    {
+                        if (thisYPos > crumbsLanes[orderedLane * 6 + 5])
+                            childParticle[0].GetComponent<ParticleEmitter>().SetColor(crumbsColor[5].x, crumbsColor[5].y, crumbsColor[5].z);
+                        else if (thisYPos > crumbsLanes[orderedLane * 6 + 4])
+                            childParticle[0].GetComponent<ParticleEmitter>().SetColor(crumbsColor[4].x, crumbsColor[4].y, crumbsColor[4].z);
+                        else if (thisYPos > crumbsLanes[orderedLane * 6 + 3])
+                            childParticle[0].GetComponent<ParticleEmitter>().SetColor(crumbsColor[3].x, crumbsColor[3].y, crumbsColor[3].z);
+                        else if (thisYPos > crumbsLanes[orderedLane * 6 + 2])
+                            childParticle[0].GetComponent<ParticleEmitter>().SetColor(crumbsColor[2].x, crumbsColor[2].y, crumbsColor[2].z);
+                        else if (thisYPos > crumbsLanes[orderedLane * 6 + 1])
+                            childParticle[0].GetComponent<ParticleEmitter>().SetColor(crumbsColor[1].x, crumbsColor[1].y, crumbsColor[1].z);
+                        childParticle[0].GetComponent<ParticleEmitter>().SetActive();
+                    }
                 }
                 else if (frameNum == 3)
                 {
-                    childParticle[1].GetComponent<ParticleEmitter>().SetActive();
+                    if (thisYPos > crumbsLanes[orderedLane * 6 + 0])
+                    {
+                        if (thisYPos > crumbsLanes[orderedLane * 6 + 5])
+                            childParticle[1].GetComponent<ParticleEmitter>().SetColor(crumbsColor[5].x, crumbsColor[5].y, crumbsColor[5].z);
+                        else if (thisYPos > crumbsLanes[orderedLane * 6 + 4])
+                            childParticle[1].GetComponent<ParticleEmitter>().SetColor(crumbsColor[4].x, crumbsColor[4].y, crumbsColor[4].z);
+                        else if (thisYPos > crumbsLanes[orderedLane * 6 + 3])
+                            childParticle[1].GetComponent<ParticleEmitter>().SetColor(crumbsColor[3].x, crumbsColor[3].y, crumbsColor[3].z);
+                        else if (thisYPos > crumbsLanes[orderedLane * 6 + 2])
+                            childParticle[1].GetComponent<ParticleEmitter>().SetColor(crumbsColor[2].x, crumbsColor[2].y, crumbsColor[2].z);
+                        else if (thisYPos > crumbsLanes[orderedLane * 6 + 1])
+                            childParticle[1].GetComponent<ParticleEmitter>().SetColor(crumbsColor[1].x, crumbsColor[1].y, crumbsColor[1].z);
+                        childParticle[1].GetComponent<ParticleEmitter>().SetActive();
+                    }
                 }
             }
 
