@@ -101,7 +101,7 @@ namespace Carmicah
         public float timer;
         public float DeathTime = 2.0f;
         public float Speed;
-        public float speedDebuff = 0.9f; // 60% slower
+        public float speedDebuff = 0.65f; // 60% slower
         public float cameraHeight = 10.0f;
         public float debuff = 1.0f;
         bool dead = false;
@@ -509,8 +509,8 @@ namespace Carmicah
                 {
                     if (!entity.As<TrapAI>().built) return;
 
-                    //CMConsole.Log("COLLIDING WITH HONEY TRAP");
-                    debuff = speedDebuff;
+                    CMConsole.Log("COLLIDING WITH HONEY TRAP");
+                    debuff = 0.65f; // idk if the public float is breaking this for other mouses
                     //this.AsChild<HealthSystem>().TakeDamage(100);
                 }
             }
@@ -519,8 +519,18 @@ namespace Carmicah
         public override void OnTriggerExit(uint collidedEntity)
         {
             // reset
-            //CMConsole.Log("Exiting some kinematic other thing");
-            debuff = 1.0f;
+            Entity entity = FindEntityWithID(collidedEntity);
+            if (entity != null)
+            {
+                if (entity.GetTag() == "Trap")
+                {
+                    if (!entity.As<TrapAI>().built) return;
+
+                    CMConsole.Log("NOT COLLIDING WITH HONEY TRAP");
+                    debuff = 1.0f;
+                    //this.AsChild<HealthSystem>().TakeDamage(100);
+                }
+            }
         }
         public void KillMouse()
         {
