@@ -475,7 +475,7 @@ namespace Carmicah
                 voiceOver = "VO_Shooter_Placement_0" + number.ToString();
             }
 
-            Sound.PlaySFX(voiceOver, 1.3f);
+            Sound.PlaySFX(voiceOver, 1.5f);
         }
 
         public override void OnMouseEnter()

@@ -35,6 +35,7 @@ namespace Carmicah
         // 3 stage, constanrt, at rest, suicide bomb
         public float horizontalSpeed = 1.0f;
         public float diagonalSpeed = 1.8f;  // Increased speed when gg down 45 degrees
+        public float cameraHeight = 10.0f;
 
         public int lane;
         bool dead = false;
@@ -63,12 +64,14 @@ namespace Carmicah
 
 
         Entity targetEntity;
+        Entity mainCamera;
 
         int randLane = 0;
         bool move = false;
 
         public override void OnCreate()
         {
+            mainCamera = FindEntityWithName("MainCamera");
             if (FindEntityWithName(SpawnPointEntityLeft) != null)
                 startPosLeft = FindEntityWithName(SpawnPointEntityLeft).Position;
             if (FindEntityWithName(SpawnPointEntityRight) != null)
@@ -309,7 +312,7 @@ namespace Carmicah
                     AttackSound = "Pigeon_Attack_" + number.ToString();
                 }
                 //CMConsole.Log(soundFile);
-                Sound.PlaySFX(AttackSound, 0.2f, true, this.mID);
+                Sound.PlaySFX(AttackSound, 0.5f, true, this.mID);
 
                 if (isLeft)
                 { 
@@ -319,6 +322,8 @@ namespace Carmicah
                 {
                     Rot = 60.0f;
                 }
+
+                
             }
 
             if (stateName == "Dead")
@@ -356,6 +361,8 @@ namespace Carmicah
                 }
                 //CMConsole.Log(soundFile);
                 Sound.PlaySFX(DeathSound, 0.2f, false, this.mID);
+
+               
             }
         }
 
@@ -402,6 +409,22 @@ namespace Carmicah
 
                 targetPos = targetEntity.Position;
 
+                if (GetComponent<Transform>().Position.y > (mainCamera.Position.y + cameraHeight))
+                {
+                    //CMConsole.Log("Below Camera");
+
+                    //float distance = Math.Abs(GetComponent<Transform>().Position.y - (mainCamera.Position.y - cameraHeight));
+                    Sound.ToggleMuffleSFX(false, this.mID);
+                    
+
+
+                }
+                else if (GetComponent<Transform>().Position.y < (mainCamera.Position.y + cameraHeight))
+                {
+                    Sound.ToggleMuffleSFX(true, this.mID);
+                    
+                }
+
                 float dist = Position.Distance(targetPos);
                 if (dist <= 1.0f)
                 {
@@ -424,6 +447,8 @@ namespace Carmicah
                         GetComponent<StateMachine>().SetStateCondition(2);
                     }
                 }
+
+                
             }
             else if (stateName == "Dead")
             {
