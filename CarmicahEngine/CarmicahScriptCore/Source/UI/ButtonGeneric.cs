@@ -273,7 +273,7 @@ namespace Carmicah
                             }
                             else
                             {
-                                Scene.ChangeSceneReal(nextScene);
+                                Scene.ChangeScene(nextScene);
                             }
                         }
                     }

@@ -23,7 +23,7 @@ namespace Carmicah
         //    return true;
         //}
 
-        public static bool ChangeSceneReal(string sceneName)
+        public static bool ChangeScene(string sceneName)
         {
 
             FunctionCalls.ChangeScene(sceneName);

@@ -78,7 +78,7 @@ namespace Carmicah
             }
             else
             {
-                Scene.ChangeSceneReal(targetScene);
+                Scene.ChangeScene(targetScene);
             }
         }
 
