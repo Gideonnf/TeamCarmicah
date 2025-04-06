@@ -24,7 +24,7 @@ namespace Carmicah
         public string placeSound = "Shooter_Appear";
         public string shootSound = "Shooter_Shooting";
         public string deathSound = "Shooter_Death";
-        public string dissolvePrefab = "Dissolve";
+       // public string dissolvePrefab = "Dissolve";
 
         
 
@@ -65,12 +65,14 @@ namespace Carmicah
         }
         public void HealAmmo()
         {
-            Entity dissolveEntity = CreateGameObject(dissolvePrefab);
+            Entity dissolveEntity = CreateGameObject("Dissolve");
+            dissolveEntity.GetComponent<Animation>().ChangeAnim("Dissolve_Purple");
             if (dissolveEntity != null)
             {
-                CMConsole.Log($"dissolve entity pos before {dissolveEntity.Position.x}, {dissolveEntity.Position.y}");
+               // CMConsole.Log($"dissolve entity pos before {dissolveEntity.Position.x}, {dissolveEntity.Position.y}");
                 dissolveEntity.Position = new Vector2(Position.x, Position.y);
-                CMConsole.Log($"dissolve entity pos after {dissolveEntity.Position.x}, {dissolveEntity.Position.y}");
+                dissolveEntity.Depth = Depth + 0.2f;
+                //CMConsole.Log($"dissolve entity pos after {dissolveEntity.Position.x}, {dissolveEntity.Position.y}");
 
             }
             mana = maxMana;
