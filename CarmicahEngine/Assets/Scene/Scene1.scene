@@ -8,7 +8,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.0,
-                    "yPos": 15.25,
+                    "yPos": 43.1245231628418,
                     "depth": 0.0,
                     "xScale": 0.05299999937415123,
                     "yScale": 0.10000000149011612,
@@ -61,7 +61,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -5.236000061035156,
-                    "yPos": 12.078839302062989,
+                    "yPos": 45.07883834838867,
                     "depth": 4.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -122,7 +122,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Portal_SpriteSheet_Top 0",
+                    "texture": "Portal_SpriteSheet_Top 3",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -153,7 +153,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "Portal_SpriteSheet_Bottom 0",
+                            "texture": "Portal_SpriteSheet_Bottom 3",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -171,7 +171,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 6.180373668670654,
-                    "yPos": 12.505587577819825,
+                    "yPos": 45.50558853149414,
                     "depth": 4.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -295,7 +295,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -1.8170000314712525,
-                    "yPos": 10.360663414001465,
+                    "yPos": 43.36066436767578,
                     "depth": 4.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -313,7 +313,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 2.4820001125335695,
-                    "yPos": 10.651863098144532,
+                    "yPos": 43.65186309814453,
                     "depth": 4.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -341,8 +341,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::StateMachine",
-                    "currState": "",
-                    "nextState": "",
+                    "currState": "TowerIdle",
+                    "nextState": "TowerIdle",
                     "startingState": "TowerIdle",
                     "stateMap": [
                         {
@@ -377,7 +377,7 @@
                         },
                         {
                             "stateName": "TowerIdle",
-                            "stateCondition": 0,
+                            "stateCondition": 3,
                             "transitions": [
                                 {
                                     "targetState": "TowerCreate",
@@ -451,12 +451,13 @@
                     "scriptName": "Carmicah.WaveSystem",
                     "ScriptableFieldMap": [
                         {
-                            "countdownPrefab": "Countdown_1",
-                            "losePrefab": "LoseScreen",
-                            "countdownStartTime": 5.0,
-                            "waveTimer": 0.0,
-                            "waveSetupTime": 15.0,
                             "waveStart": false,
+                            "waveSetupTime": 15.0,
+                            "EndGame": false,
+                            "losePrefab": "LoseScreen",
+                            "countdownPrefab": "Countdown_1",
+                            "waveTimer": 0.0,
+                            "countdownStartTime": 5.0,
                             "waveStartTime": 21.0,
                             "winPrefab": "Win_Screen"
                         }
@@ -510,7 +511,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Portal_SpriteSheet_Top 0",
+                    "texture": "Portal_SpriteSheet_Top 3",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -545,7 +546,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "Portal_SpriteSheet_Bottom 0",
+                            "texture": "Portal_SpriteSheet_Bottom 3",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -563,7 +564,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -15.368393898010254,
-                    "yPos": 27.824405670166017,
+                    "yPos": 27.85579490661621,
                     "depth": 2.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -605,7 +606,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 14.723932266235352,
-                    "yPos": 27.13429832458496,
+                    "yPos": 27.176855087280275,
                     "depth": 2.049999952316284,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -665,7 +666,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.530199408531189,
-                    "yPos": 14.294038772583008,
+                    "yPos": 47.294036865234378,
                     "depth": 3.4000000953674318,
                     "xScale": 0.699999988079071,
                     "yScale": 0.699999988079071,
@@ -692,17 +693,17 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": -0.8816788196563721,
-                    "posPrevY": -4.722804069519043,
+                    "posPrevX": 0.530199408531189,
+                    "posPrevY": 47.294036865234378,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": 4.0,
+                    "zposPrev": 3.4000000953674318,
                     "objectType": 1
                 },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "MC_SpriteSheet_Idle 9",
+                    "texture": "MC_SpriteSheet_Idle 11",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -710,8 +711,8 @@
                 },
                 {
                     "Component Name": "struct Carmicah::StateMachine",
-                    "currState": "",
-                    "nextState": "",
+                    "currState": "Idle",
+                    "nextState": "Idle",
                     "startingState": "Idle",
                     "stateMap": [
                         {
@@ -792,6 +793,7 @@
                             "flashTime": 1.0,
                             "flashTotalTime": 1.0,
                             "flashTimer": 0.0,
+                            "godMode": false,
                             "health": 100.0,
                             "healthBarName": "Princess_HealthBar",
                             "walkingSpeed": 4.0,
@@ -838,7 +840,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 4.59253454208374,
-                    "yPos": 9.243711471557618,
+                    "yPos": 42.24371337890625,
                     "depth": 0.0,
                     "xScale": 10.270000457763672,
                     "yScale": 0.6269400119781494,
@@ -860,8 +862,8 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 2.677000045776367,
-                    "posPrevY": -4.0269999504089359,
+                    "posPrevX": 4.59253454208374,
+                    "posPrevY": 42.24371337890625,
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
@@ -886,7 +888,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 4.923981666564941,
-                    "yPos": 16.112279891967775,
+                    "yPos": 49.112281799316409,
                     "depth": 0.0,
                     "xScale": 10.319815635681153,
                     "yScale": 0.6269400119781494,
@@ -908,8 +910,8 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 2.240000009536743,
-                    "posPrevY": 0.3779999911785126,
+                    "posPrevX": 4.923981666564941,
+                    "posPrevY": 49.112281799316409,
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
@@ -934,7 +936,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -4.913930416107178,
-                    "yPos": 15.667709350585938,
+                    "yPos": 48.66770935058594,
                     "depth": 0.0,
                     "xScale": 11.448826789855957,
                     "yScale": 0.6269400119781494,
@@ -956,8 +958,8 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": -4.576000213623047,
-                    "posPrevY": 0.14399999380111695,
+                    "posPrevX": -4.913930416107178,
+                    "posPrevY": 48.66770935058594,
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
@@ -982,7 +984,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -4.285809516906738,
-                    "yPos": 9.544428825378418,
+                    "yPos": 42.544429779052737,
                     "depth": 0.0,
                     "xScale": 9.649003982543946,
                     "yScale": 0.6269400119781494,
@@ -1004,8 +1006,8 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": -3.884000062942505,
-                    "posPrevY": -4.263999938964844,
+                    "posPrevX": -4.285809516906738,
+                    "posPrevY": 42.544429779052737,
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
@@ -1030,7 +1032,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -4.386155128479004,
-                    "yPos": 12.413259506225586,
+                    "yPos": 45.41326141357422,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -1056,8 +1058,8 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": -4.190000057220459,
-                    "posPrevY": -1.850000023841858,
+                    "posPrevX": -4.386155128479004,
+                    "posPrevY": 45.41326141357422,
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
@@ -1077,7 +1079,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "ShooterNPC",
                             "lane": 3.0,
                             "yOffset": 1.0,
                             "IsLeft": true,
@@ -1096,7 +1098,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 5.11874532699585,
-                    "yPos": 12.820463180541993,
+                    "yPos": 45.820465087890628,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -1122,8 +1124,8 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 2.4079999923706056,
-                    "posPrevY": -1.8109999895095826,
+                    "posPrevX": 5.11874532699585,
+                    "posPrevY": 45.820465087890628,
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
@@ -1143,7 +1145,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "ShooterNPC",
                             "lane": 0.0,
                             "yOffset": 1.0,
                             "IsLeft": false,
@@ -1266,8 +1268,8 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 2.8450000286102297,
-                    "posPrevY": -1.8539999723434449,
+                    "posPrevX": 5.972240447998047,
+                    "posPrevY": -2.9205567836761476,
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
@@ -1441,7 +1443,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -1.0249128341674805,
-                    "yPos": 11.488515853881836,
+                    "yPos": 44.48851776123047,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -1467,11 +1469,11 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 0.0,
-                    "posPrevY": 0.0,
+                    "posPrevX": -1.0249128341674805,
+                    "posPrevY": 44.48851776123047,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": -107374176.0,
+                    "zposPrev": 0.0,
                     "objectType": 1
                 },
                 {
@@ -1488,7 +1490,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "ShooterNPC",
                             "lane": 2.0,
                             "yOffset": 1.0,
                             "IsLeft": true,
@@ -1507,7 +1509,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 2.14717698097229,
-                    "yPos": 11.438796043395996,
+                    "yPos": 44.43879699707031,
                     "depth": 0.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -1533,11 +1535,11 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 0.0,
-                    "posPrevY": 0.0,
+                    "posPrevX": 2.14717698097229,
+                    "posPrevY": 44.43879699707031,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": -107374176.0,
+                    "zposPrev": 0.0,
                     "objectType": 1
                 },
                 {
@@ -1554,7 +1556,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "ShooterNPC",
                             "lane": 1.0,
                             "yOffset": 1.0,
                             "IsLeft": false,
@@ -1573,7 +1575,7 @@
                 {
                     "Component Name": "struct Carmicah::TextRenderer",
                     "font": "Chewy-Regular",
-                    "text": "0/5",
+                    "text": "4/4",
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
@@ -1660,8 +1662,8 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 5.191999912261963,
-                    "posPrevY": -0.7689999938011169,
+                    "posPrevX": 2.4346554279327394,
+                    "posPrevY": -4.748066425323486,
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
@@ -1724,8 +1726,8 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": -2.5290000438690187,
-                    "posPrevY": -1.8539999723434449,
+                    "posPrevX": -1.83767831325531,
+                    "posPrevY": -4.74553918838501,
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
@@ -1788,8 +1790,8 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": -4.881999969482422,
-                    "posPrevY": -0.6340000033378601,
+                    "posPrevX": -5.482798099517822,
+                    "posPrevY": -2.9147226810455324,
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
@@ -1826,7 +1828,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -20.19472312927246,
-                    "yPos": 23.30699920654297,
+                    "yPos": 56.30699920654297,
                     "depth": 0.0,
                     "xScale": 0.0,
                     "yScale": 0.0,
@@ -1941,7 +1943,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.4921469986438751,
-                    "yPos": 12.542685508728028,
+                    "yPos": 45.542686462402347,
                     "depth": 0.0,
                     "xScale": 6.300000190734863,
                     "yScale": 6.199999809265137,
@@ -1963,11 +1965,11 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 0.0,
-                    "posPrevY": 0.0,
+                    "posPrevX": 0.4921469986438751,
+                    "posPrevY": 45.542686462402347,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": -107374176.0,
+                    "zposPrev": 0.0,
                     "objectType": 1
                 },
                 {
@@ -1989,7 +1991,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 5.064925193786621,
-                    "yPos": 12.485238075256348,
+                    "yPos": 45.48523712158203,
                     "depth": 0.0,
                     "xScale": 3.3499999046325685,
                     "yScale": 4.5,
@@ -2011,11 +2013,11 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 0.0,
-                    "posPrevY": 0.0,
+                    "posPrevX": 5.064925193786621,
+                    "posPrevY": 45.48523712158203,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": -107374176.0,
+                    "zposPrev": 0.0,
                     "objectType": 1
                 },
                 {
@@ -2037,7 +2039,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -4.1308441162109379,
-                    "yPos": 12.4586820602417,
+                    "yPos": 45.458683013916019,
                     "depth": 0.0,
                     "xScale": 3.3499999046325685,
                     "yScale": 4.5,
@@ -2059,11 +2061,11 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 0.0,
-                    "posPrevY": 0.0,
+                    "posPrevX": -4.1308441162109379,
+                    "posPrevY": 45.458683013916019,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": -107374176.0,
+                    "zposPrev": 0.0,
                     "objectType": 1
                 },
                 {
@@ -2205,7 +2207,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 19.83151626586914,
-                    "yPos": 23.307409286499025,
+                    "yPos": 56.307411193847659,
                     "depth": 0.0,
                     "xScale": 0.0,
                     "yScale": 0.0,
@@ -2354,7 +2356,7 @@
                         {
                             "Component Name": "struct Carmicah::Transform",
                             "xPos": 0.0,
-                            "yPos": 1.9500000476837159,
+                            "yPos": 43.1245231628418,
                             "depth": -100.0,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -2385,7 +2387,7 @@
                         {
                             "Component Name": "struct Carmicah::Transform",
                             "xPos": 0.0,
-                            "yPos": 3.513518810272217,
+                            "yPos": 17.450780868530275,
                             "depth": -97.0,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -2415,8 +2417,8 @@
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Transform",
-                            "xPos": 33.61225509643555,
-                            "yPos": 15.765496253967286,
+                            "xPos": 7.2867751121521,
+                            "yPos": 47.774208068847659,
                             "depth": -98.0,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -2446,8 +2448,8 @@
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Transform",
-                            "xPos": -31.866172790527345,
-                            "yPos": 22.292619705200197,
+                            "xPos": 4.73396110534668,
+                            "yPos": 50.290489196777347,
                             "depth": -99.0,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -2478,7 +2480,7 @@
                         {
                             "Component Name": "struct Carmicah::Transform",
                             "xPos": 0.0,
-                            "yPos": 0.0,
+                            "yPos": 22.1922607421875,
                             "depth": 0.0,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -2563,7 +2565,7 @@
                         {
                             "Component Name": "struct Carmicah::Transform",
                             "xPos": 0.0,
-                            "yPos": 0.0,
+                            "yPos": 13.86735725402832,
                             "depth": 0.0,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -2617,7 +2619,7 @@
                         {
                             "Component Name": "struct Carmicah::Transform",
                             "xPos": 0.0,
-                            "yPos": 0.0,
+                            "yPos": 4.842452526092529,
                             "depth": 0.0,
                             "xScale": 1.0,
                             "yScale": 1.0,
@@ -2796,7 +2798,7 @@
                 {
                     "Component Name": "struct Carmicah::TextRenderer",
                     "font": "Chewy-Regular",
-                    "text": "Test",
+                    "text": "",
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
@@ -2828,8 +2830,8 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 2.75,
-                    "yPos": 11.050000190734864,
+                    "xPos": -15.388225555419922,
+                    "yPos": 52.73069381713867,
                     "depth": 600.0,
                     "xScale": 0.5,
                     "yScale": 0.5,
@@ -2913,11 +2915,11 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 0.0,
-                    "posPrevY": 0.0,
+                    "posPrevX": 5.712474346160889,
+                    "posPrevY": 7.963287353515625,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": -107374176.0,
+                    "zposPrev": 0.0,
                     "objectType": 1
                 },
                 {
@@ -2977,11 +2979,11 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 0.0,
-                    "posPrevY": 0.0,
+                    "posPrevX": 2.421360731124878,
+                    "posPrevY": 6.400020122528076,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": -107374176.0,
+                    "zposPrev": 0.0,
                     "objectType": 1
                 },
                 {
@@ -3041,11 +3043,11 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 0.0,
-                    "posPrevY": 0.0,
+                    "posPrevX": -2.061000108718872,
+                    "posPrevY": 6.400000095367432,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": -107374176.0,
+                    "zposPrev": 0.0,
                     "objectType": 1
                 },
                 {
@@ -3105,11 +3107,11 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 0.0,
-                    "posPrevY": 0.0,
+                    "posPrevX": -5.4435882568359379,
+                    "posPrevY": 7.9629998207092289,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": -107374176.0,
+                    "zposPrev": 0.0,
                     "objectType": 1
                 },
                 {
@@ -3169,11 +3171,11 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 0.0,
-                    "posPrevY": 0.0,
+                    "posPrevX": 5.711999893188477,
+                    "posPrevY": 4.022464752197266,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": -107374176.0,
+                    "zposPrev": 0.0,
                     "objectType": 1
                 },
                 {
@@ -3233,11 +3235,11 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 0.0,
-                    "posPrevY": 0.0,
+                    "posPrevX": 2.4210000038146974,
+                    "posPrevY": 2.450000047683716,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": -107374176.0,
+                    "zposPrev": 0.0,
                     "objectType": 1
                 },
                 {
@@ -3297,11 +3299,11 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 0.0,
-                    "posPrevY": 0.0,
+                    "posPrevX": -2.061000108718872,
+                    "posPrevY": 2.450000047683716,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": -107374176.0,
+                    "zposPrev": 0.0,
                     "objectType": 1
                 },
                 {
@@ -3361,11 +3363,11 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 0.0,
-                    "posPrevY": 0.0,
+                    "posPrevX": -5.443999767303467,
+                    "posPrevY": 4.021999835968018,
                     "mass": 1.0,
                     "gravity": 0.0,
-                    "zposPrev": -107374176.0,
+                    "zposPrev": 0.0,
                     "objectType": 1
                 },
                 {
@@ -3407,7 +3409,7 @@
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
-                    "colA": 0.0
+                    "colA": -31.444320678710939
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
@@ -3491,8 +3493,8 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 2.8450000286102297,
-                    "posPrevY": -1.8539999723434449,
+                    "posPrevX": -5.47890043258667,
+                    "posPrevY": -6.676992893218994,
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
@@ -3551,8 +3553,8 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 2.8450000286102297,
-                    "posPrevY": -1.8539999723434449,
+                    "posPrevX": -1.8470581769943238,
+                    "posPrevY": -8.476816177368164,
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
@@ -3611,8 +3613,8 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 2.8450000286102297,
-                    "posPrevY": -1.8539999723434449,
+                    "posPrevX": 2.4268500804901125,
+                    "posPrevY": -8.477657318115235,
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
@@ -3671,8 +3673,8 @@
                     "velocityX": 0.0,
                     "velocityY": 0.0,
                     "angularVelocity": 0.0,
-                    "posPrevX": 2.8450000286102297,
-                    "posPrevY": -1.8539999723434449,
+                    "posPrevX": 6.027731418609619,
+                    "posPrevY": -6.6593756675720219,
                     "mass": 1.0,
                     "gravity": 0.0,
                     "zposPrev": 0.0,
@@ -3701,6 +3703,2172 @@
                 }
             ],
             "Children": []
+        },
+        {
+            "GameObject": "ShooterIcon",
+            "ID": 307,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 45
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_Shooter_Icon 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1820.9251708984376,
+                    "yPos": 760.0,
+                    "depth": 1.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 352.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.HeroIcon",
+                    "ScriptableFieldMap": [
+                        {
+                            "HeroBuild": "HeroBuild",
+                            "HeroBuild1": "HeroBuild_1",
+                            "WaveSystemObject": "Something",
+                            "HeroBuild2": "HeroBuild_2",
+                            "mouseXOffset": 0.0,
+                            "HeroBuild3": "HeroBuild_3",
+                            "actualTrapPrefab": "",
+                            "fakeTrapPrefab": "",
+                            "flipped": false,
+                            "heroPrefab": "ShooterNPC",
+                            "xOffset": 0.0,
+                            "yOffset": 0.5
+                        }
+                    ]
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "TrapDescript",
+                    "ID": 308,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 46
+                        },
+                        {
+                            "Component Name": "struct Carmicah::TextRenderer",
+                            "font": "Chewy-Regular",
+                            "text": "",
+                            "colorR": 0.4117647111415863,
+                            "colorG": 0.1725490242242813,
+                            "colorB": 0.0941176488995552,
+                            "colorA": 1.0,
+                            "textAlign": 33
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": -50.0,
+                            "yPos": 20.0,
+                            "depth": 1.0,
+                            "xScale": 0.800000011920929,
+                            "yScale": 0.800000011920929,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "GameObject": "SpearIcon",
+            "ID": 309,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 12
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_Spear_Icon 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1820.9251708984376,
+                    "yPos": 670.0,
+                    "depth": 1.0,
+                    "xScale": 0.800000011920929,
+                    "yScale": 0.75,
+                    "rot": 352.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.HeroIcon",
+                    "ScriptableFieldMap": [
+                        {
+                            "HeroBuild": "HeroBuild",
+                            "HeroBuild1": "HeroBuild_1",
+                            "WaveSystemObject": "Something",
+                            "HeroBuild2": "HeroBuild_2",
+                            "mouseXOffset": -0.25,
+                            "HeroBuild3": "HeroBuild_3",
+                            "actualTrapPrefab": "",
+                            "fakeTrapPrefab": "",
+                            "flipped": false,
+                            "heroPrefab": "SpearNPC",
+                            "xOffset": 0.0,
+                            "yOffset": 1.2999999523162842
+                        }
+                    ]
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "TrapDescript_1",
+                    "ID": 310,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 13
+                        },
+                        {
+                            "Component Name": "struct Carmicah::TextRenderer",
+                            "font": "Chewy-Regular",
+                            "text": "",
+                            "colorR": 0.4117647111415863,
+                            "colorG": 0.1725490242242813,
+                            "colorB": 0.0941176488995552,
+                            "colorA": 1.0,
+                            "textAlign": 33
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": -50.0,
+                            "yPos": 20.0,
+                            "depth": 1.0,
+                            "xScale": 0.800000011920929,
+                            "yScale": 0.800000011920929,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "GameObject": "MageIcon",
+            "ID": 311,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 46
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_Mage_Icon 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1820.9251708984376,
+                    "yPos": 580.0,
+                    "depth": 1.0,
+                    "xScale": 0.8999999761581421,
+                    "yScale": 0.8999999761581421,
+                    "rot": 352.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.HeroIcon",
+                    "ScriptableFieldMap": [
+                        {
+                            "HeroBuild": "HeroBuild",
+                            "HeroBuild1": "HeroBuild_1",
+                            "WaveSystemObject": "Something",
+                            "HeroBuild2": "HeroBuild_2",
+                            "mouseXOffset": 0.25,
+                            "HeroBuild3": "HeroBuild_3",
+                            "actualTrapPrefab": "",
+                            "fakeTrapPrefab": "",
+                            "flipped": false,
+                            "heroPrefab": "MageNPC",
+                            "xOffset": 0.0,
+                            "yOffset": 1.25
+                        }
+                    ]
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "TrapDescript_2",
+                    "ID": 312,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 47
+                        },
+                        {
+                            "Component Name": "struct Carmicah::TextRenderer",
+                            "font": "Chewy-Regular",
+                            "text": "",
+                            "colorR": 0.4117647111415863,
+                            "colorG": 0.1725490242242813,
+                            "colorB": 0.0941176488995552,
+                            "colorA": 1.0,
+                            "textAlign": 33
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": -50.0,
+                            "yPos": 20.0,
+                            "depth": 1.0,
+                            "xScale": 0.800000011920929,
+                            "yScale": 0.800000011920929,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "GameObject": "TrapIcon",
+            "ID": 313,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 22
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "candy_trap_spritesheet_Icon 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1820.9251708984376,
+                    "yPos": 490.0,
+                    "depth": 0.5,
+                    "xScale": 0.45000001788139346,
+                    "yScale": 0.45000001788139346,
+                    "rot": 22.860260009765626,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.TrapIcon",
+                    "ScriptableFieldMap": [
+                        {
+                            "WaveSystemObject": "Something",
+                            "activeTrapIcon": false,
+                            "actualTrapPrefab": "CandyConeTrap",
+                            "canOverlap": false,
+                            "cooldown": false,
+                            "cooldownTime": 0.0,
+                            "fakeTrapPrefab": "FakeCandyConeTrap",
+                            "flipped": false,
+                            "trapxOffset": 1.600000023841858,
+                            "trapyOffset": 0.0
+                        }
+                    ]
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "TrapDescript_3",
+                    "ID": 314,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 23
+                        },
+                        {
+                            "Component Name": "struct Carmicah::TextRenderer",
+                            "font": "Chewy-Regular",
+                            "text": "",
+                            "colorR": 0.4117647111415863,
+                            "colorG": 0.1725490242242813,
+                            "colorB": 0.0941176488995552,
+                            "colorA": 1.0,
+                            "textAlign": 33
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": -50.0,
+                            "yPos": 20.0,
+                            "depth": 1.0,
+                            "xScale": 0.800000011920929,
+                            "yScale": 0.800000011920929,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "GameObject": "HoneyIcon",
+            "ID": 315,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 57
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_Honey_Icon 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1820.9251708984376,
+                    "yPos": 400.0,
+                    "depth": 0.5,
+                    "xScale": 0.8500000238418579,
+                    "yScale": 0.8500000238418579,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.TrapIcon",
+                    "ScriptableFieldMap": [
+                        {
+                            "WaveSystemObject": "Something",
+                            "activeTrapIcon": false,
+                            "actualTrapPrefab": "HoneyTrap",
+                            "canOverlap": false,
+                            "cooldown": false,
+                            "cooldownTime": 3.0,
+                            "fakeTrapPrefab": "FakeHoneyTrap",
+                            "flipped": false,
+                            "trapxOffset": 0.0,
+                            "trapyOffset": 0.0
+                        }
+                    ]
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "TrapDescript_4",
+                    "ID": 316,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 23
+                        },
+                        {
+                            "Component Name": "struct Carmicah::TextRenderer",
+                            "font": "Chewy-Regular",
+                            "text": "",
+                            "colorR": 0.4117647111415863,
+                            "colorG": 0.1725490242242813,
+                            "colorB": 0.0941176488995552,
+                            "colorA": 1.0,
+                            "textAlign": 33
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": -50.0,
+                            "yPos": 20.0,
+                            "depth": 1.0,
+                            "xScale": 0.800000011920929,
+                            "yScale": 0.800000011920929,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "GameObject": "JellybeanIcon",
+            "ID": 317,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 61
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_Jellybean_Icon 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1820.9251708984376,
+                    "yPos": 310.0,
+                    "depth": 0.5,
+                    "xScale": 0.6499999761581421,
+                    "yScale": 0.6499999761581421,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.TrapIcon",
+                    "ScriptableFieldMap": [
+                        {
+                            "WaveSystemObject": "Something",
+                            "activeTrapIcon": false,
+                            "actualTrapPrefab": "JellybeanTrap",
+                            "canOverlap": true,
+                            "cooldown": false,
+                            "cooldownTime": 3.0,
+                            "fakeTrapPrefab": "FakeJellybeanTrap",
+                            "flipped": false,
+                            "trapxOffset": 0.0,
+                            "trapyOffset": 0.5
+                        }
+                    ]
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "TrapDescript_5",
+                    "ID": 318,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 23
+                        },
+                        {
+                            "Component Name": "struct Carmicah::TextRenderer",
+                            "font": "Chewy-Regular",
+                            "text": "",
+                            "colorR": 0.4117647111415863,
+                            "colorG": 0.1725490242242813,
+                            "colorB": 0.0941176488995552,
+                            "colorA": 1.0,
+                            "textAlign": 33
+                        },
+                        {
+                            "Component Name": "struct Carmicah::UITransform",
+                            "xPos": -50.0,
+                            "yPos": 20.0,
+                            "depth": 1.0,
+                            "xScale": 0.800000011920929,
+                            "yScale": 0.800000011920929,
+                            "rot": 0.0,
+                            "transformTag": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "GameObject": "Level3_Cake",
+            "ID": 330,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.4745073914527893,
+                    "yPos": 22.0,
+                    "depth": 2.0,
+                    "xScale": 1.2000000476837159,
+                    "yScale": 1.2000000476837159,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 0
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "CakeMatcha_Squish",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 58
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "matcha_cake_SpriteSheet_Squish 3",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.CakeControl",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "TrapBuild_16",
+                    "ID": 331,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 2.2679998874664308,
+                            "yPos": -5.393209934234619,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 19
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": 2.2679998874664308,
+                            "posPrevY": -5.393209934234619,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": false,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_1_1",
+                    "ID": 332,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 5.304999828338623,
+                            "yPos": -3.747999906539917,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 21
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": 5.304999828338623,
+                            "posPrevY": -3.747999906539917,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": false,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_2_1",
+                    "ID": 333,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -2.434999942779541,
+                            "yPos": -5.26800012588501,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 23
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": -2.434999942779541,
+                            "posPrevY": -5.26800012588501,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": true,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_3_1",
+                    "ID": 334,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -5.433000087738037,
+                            "yPos": -3.625,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 15
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": -5.433000087738037,
+                            "posPrevY": -3.625,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": true,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_4_1",
+                    "ID": 335,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -5.428999900817871,
+                            "yPos": -7.689000129699707,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 15
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": -5.428999900817871,
+                            "posPrevY": -7.689000129699707,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": true,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_5_1",
+                    "ID": 336,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -2.4769999980926515,
+                            "yPos": -9.430000305175782,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 15
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": -2.4769999980926515,
+                            "posPrevY": -9.430000305175782,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": true,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_6_1",
+                    "ID": 337,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 2.4210000038146974,
+                            "yPos": -9.524999618530274,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 15
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": 2.4210000038146974,
+                            "posPrevY": -9.524999618530274,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": false,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_7_1",
+                    "ID": 338,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 5.327000141143799,
+                            "yPos": -7.798999786376953,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 15
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": 5.327000141143799,
+                            "posPrevY": -7.798999786376953,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": false,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                }
+            ]
+        },
+        {
+            "GameObject": "Level4_Cake",
+            "ID": 352,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.4745073914527893,
+                    "yPos": 32.650001525878909,
+                    "depth": 2.4000000953674318,
+                    "xScale": 1.2000000476837159,
+                    "yScale": 1.2000000476837159,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 0
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "CakeRainbow_Squish",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 67
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "rainbow_cake_SpriteSheet_Squish 3",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.CakeControl",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "TrapBuild_17",
+                    "ID": 353,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 2.302000045776367,
+                            "yPos": -5.2210001945495609,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 19
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": 2.302000045776367,
+                            "posPrevY": -5.2210001945495609,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": false,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_1_2",
+                    "ID": 354,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 5.614999771118164,
+                            "yPos": -3.6530001163482668,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 21
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": 5.614999771118164,
+                            "posPrevY": -3.6530001163482668,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": false,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_2_2",
+                    "ID": 355,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -2.302000045776367,
+                            "yPos": -5.2210001945495609,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 23
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": -2.302000045776367,
+                            "posPrevY": -5.2210001945495609,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": true,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_3_2",
+                    "ID": 356,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -5.614999771118164,
+                            "yPos": -3.6530001163482668,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 15
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": -5.614999771118164,
+                            "posPrevY": -3.6530001163482668,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": true,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_4_2",
+                    "ID": 357,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -5.614999771118164,
+                            "yPos": -7.714000225067139,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 15
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": -5.614999771118164,
+                            "posPrevY": -7.714000225067139,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": true,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_5_2",
+                    "ID": 358,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -2.302000045776367,
+                            "yPos": -9.36400032043457,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 15
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": -2.302000045776367,
+                            "posPrevY": -9.36400032043457,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": true,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_6_2",
+                    "ID": 359,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 2.302000045776367,
+                            "yPos": -9.36400032043457,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 15
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": 2.302000045776367,
+                            "posPrevY": -9.36400032043457,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": true,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_7_2",
+                    "ID": 360,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 5.614999771118164,
+                            "yPos": -7.714000225067139,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 15
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": 5.614999771118164,
+                            "posPrevY": -7.714000225067139,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": true,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                }
+            ]
+        },
+        {
+            "GameObject": "Level5_Cake",
+            "ID": 374,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.4745073914527893,
+                    "yPos": 43.099998474121097,
+                    "depth": 2.799999952316284,
+                    "xScale": 1.2000000476837159,
+                    "yScale": 1.2000000476837159,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 0
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "CakeFruit_Squish",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 82
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "fruit_cake_SpriteSheet_Squish 3",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.CakeControl",
+                    "ScriptableFieldMap": [
+                        {}
+                    ]
+                }
+            ],
+            "Children": [
+                {
+                    "GameObject": "TrapBuild_18",
+                    "ID": 375,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 2.552000045776367,
+                            "yPos": -5.120999813079834,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 19
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": 2.302000045776367,
+                            "posPrevY": -3.0209999084472658,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": false,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_1_3",
+                    "ID": 376,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 5.364999771118164,
+                            "yPos": -4.002999782562256,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 21
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": 5.614999771118164,
+                            "posPrevY": -1.152999997138977,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": false,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_2_3",
+                    "ID": 377,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -2.184999942779541,
+                            "yPos": -4.9679999351501469,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 23
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": -2.184999942779541,
+                            "posPrevY": -3.0179998874664308,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": true,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_3_3",
+                    "ID": 378,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -5.001999855041504,
+                            "yPos": -4.044000148773193,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 15
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": -5.501999855041504,
+                            "posPrevY": -1.093999981880188,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": true,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_4_3",
+                    "ID": 379,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -5.081999778747559,
+                            "yPos": -7.414000034332275,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 15
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": -5.5320000648498539,
+                            "posPrevY": -5.763999938964844,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": true,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_5_3",
+                    "ID": 380,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": -2.131999969482422,
+                            "yPos": -8.71399974822998,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 15
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": -2.131999969482422,
+                            "posPrevY": -7.664000034332275,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": true,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_6_3",
+                    "ID": 381,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 2.7179999351501467,
+                            "yPos": -8.61400032043457,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 15
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": 2.318000078201294,
+                            "posPrevY": -7.664000034332275,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": true,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                },
+                {
+                    "GameObject": "TrapBuild_7_3",
+                    "ID": 382,
+                    "Components": [
+                        {
+                            "Component Name": "struct Carmicah::Transform",
+                            "xPos": 5.51800012588501,
+                            "yPos": -7.214000225067139,
+                            "depth": 0.0,
+                            "xScale": 1.600000023841858,
+                            "yScale": 1.399999976158142,
+                            "rot": 0.05306386947631836,
+                            "transformTag": "TrapBuild",
+                            "collisionMask": 32
+                        },
+                        {
+                            "Component Name": "struct Carmicah::PrefabData",
+                            "prefabRef": 15
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Collider2D",
+                            "shape": "",
+                            "customWidth": 1.0,
+                            "customRotation": 0.0,
+                            "customHeight": 1.0,
+                            "xPosPivot": 0.0,
+                            "yPosPivot": 0.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::RigidBody",
+                            "velocityX": 0.0,
+                            "velocityY": 0.0,
+                            "angularVelocity": 0.0,
+                            "posPrevX": 5.567999839782715,
+                            "posPrevY": -5.714000225067139,
+                            "mass": 1.0,
+                            "gravity": 0.0,
+                            "zposPrev": 0.0,
+                            "objectType": 1
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "Wall_Invis 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Script",
+                            "scriptName": "Carmicah.TrapBuild",
+                            "ScriptableFieldMap": [
+                                {
+                                    "IsLeft": true,
+                                    "TrapPrefabName": "Trap_1",
+                                    "TrapTranslucentPrefab": "TrapTranslucent",
+                                    "depthVal": 3.450000047683716
+                                }
+                            ]
+                        }
+                    ],
+                    "Children": []
+                }
+            ]
         }
     ]
 }
