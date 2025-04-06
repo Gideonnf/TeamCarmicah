@@ -80,9 +80,9 @@
         {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "DebugSquare",
-            "customWidth": 1.0,
+            "customWidth": 0.75,
             "customRotation": 0.0,
-            "customHeight": 1.0
+            "customHeight": 0.75
         },
         {
             "Component Name": "struct Carmicah::RigidBody",

@@ -20,7 +20,7 @@ namespace Carmicah
             base.OnTriggerEnter(id);
 
             Entity collidedEntity = FindEntityWithID(id);
-            if (collidedEntity.GetTag() == "Enemy")
+            if (collidedEntity.Has<MouseAI>())
             {
                 collidedEntities.Add(collidedEntity);
             }
@@ -33,7 +33,7 @@ namespace Carmicah
             {
                 // idk if flying enemies have the same tag 
                 // if it does then this will break
-                if (entity.GetTag() == "Enemy")
+                if (entity.Has<MouseAI>())
                 {
                     entity.As<MouseAI>().KillMouse();
                 }
