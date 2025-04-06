@@ -265,14 +265,16 @@ namespace Carmicah
             else if (stateName == "Attacking")
             {
                 //CMConsole.Log($"Shooting timer : {timer}");
-
-                if (!shot && targetMouse != null)
+                if (GetComponent<Animation>().GetFrameNo() == 8)
                 {
-                    ShootProjectile();
-                    shot = true;
+                    if (!shot && targetMouse != null)
+                    {
+                        ShootProjectile();
+                        shot = true;
 
-                    // reset the timer
-                    // timer = 0.0f;
+                        // reset the timer
+                        // timer = 0.0f;
+                    }
                 }
                 else if (GetComponent<Animation>().IsAnimFinished())
                 {
