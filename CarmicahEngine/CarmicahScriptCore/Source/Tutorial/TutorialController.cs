@@ -87,7 +87,7 @@ namespace Carmicah
             {
                 if(readyToLoad == 1)
                 {
-                    Sound.PlayBGM("BGM_Tutorial_Mix1", 0.4f);
+                    Sound.PlayBGM("BGM_MidAutumn_MainMenu", 0.4f);
                     cam = FindEntityWithName("MainCamera");
                     enemy = FindEntityWithName("Tutorial_Enemy");
                     player = FindEntityWithName("MC");

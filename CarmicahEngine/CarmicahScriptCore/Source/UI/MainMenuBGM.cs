@@ -33,7 +33,7 @@ namespace Carmicah
         public override void OnCreate()
         {
             // display first animation
-            Sound.PlayBGM("BGM_MainMenu_Mix1", 0.4f);
+            Sound.PlayBGM("BGM_MidAutumn_MainMenu", 0.4f);
             
         }
 
