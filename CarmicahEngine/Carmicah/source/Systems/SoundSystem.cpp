@@ -105,12 +105,15 @@ namespace Carmicah
      */
     bool SoundSystem::PlaySoundThis(const std::string& soundName, SoundCategory category, INTSOUND internalCatergoy, bool isLoop, float volume, unsigned int id)
     {
-        if (!AssetManager::GetInstance()->AssetExist<FMOD::Sound*>(soundName))
+        std::string assetName = soundName;
+        std::transform(assetName.begin(), assetName.end(), assetName.begin(), ::toupper);
+
+        if (!AssetManager::GetInstance()->AssetExist<FMOD::Sound*>(assetName))
         {
-            CM_CORE_WARN("Non-existant Sound Tried playing: " + soundName);
+            CM_CORE_WARN("Non-existant Sound Tried playing: " + assetName);
             return false;
         }
-        FMOD::Sound* sound = AssetManager::GetInstance()->GetAsset<FMOD::Sound*>(soundName);
+        FMOD::Sound* sound = AssetManager::GetInstance()->GetAsset<FMOD::Sound*>(assetName);
 
         FMOD::Channel* channel;
         mSoundSystem->playSound(sound, nullptr, false, &channel);
@@ -168,6 +171,9 @@ namespace Carmicah
      */
     void SoundSystem::SwitchSound(INTSOUND internalCatergoy, const std::string& newSoundName, SoundCategory category, bool isLoop, float volume, float fadeTimer, float fadeDuration, bool fadeInNext)
     {
+        std::string assetName = newSoundName;
+        std::transform(assetName.begin(), assetName.end(), assetName.begin(), ::toupper);
+
         if (mSoundTracks[internalCatergoy].empty())
         {
             return;
@@ -200,7 +206,7 @@ namespace Carmicah
             fadeOutDSP = volumeDSP;
             oldChannel = currentChannel;
             switchBGM = true;
-            newSoundNamePending = newSoundName;
+            newSoundNamePending = assetName;
             newSoundCategory = category;
             newSoundInternalCatergoy = internalCatergoy;
             newSoundLoop = isLoop;

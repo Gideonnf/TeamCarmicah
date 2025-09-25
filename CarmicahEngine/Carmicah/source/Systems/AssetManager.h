@@ -148,12 +148,15 @@ namespace Carmicah
 		template <typename T>
 		T& GetAsset(std::string name)
 		{
+			std::string assetName = name;
+			std::transform(assetName.begin(), assetName.end(), assetName.begin(), ::toupper);
+
 			if (GetAssetMap<T>()->mAssetList.size() == 0)
 				assert("Asset does not exist");
-			if (GetAssetMap<T>()->mAssetMap.count(name) == 0)
+			if (GetAssetMap<T>()->mAssetMap.count(assetName) == 0)
 				assert("Asset does not exist");
 
-			return GetAssetMap<T>()->mAssetList[GetAssetMap<T>()->mAssetMap[name]];
+			return GetAssetMap<T>()->mAssetList[GetAssetMap<T>()->mAssetMap[assetName]];
 		}
 
 		/*!*************************************************************************
@@ -187,6 +190,9 @@ namespace Carmicah
 		template <typename T>
 		void AddAsset(std::string name, T& asset)
 		{
+			std::string assetName = name;
+			std::transform(assetName.begin(), assetName.end(), assetName.begin(), ::toupper);
+
 			// Check if asset exist
 			std::string assetType = typeid(T).name();
 			if (mAssetTypeMap.count(assetType) == 0)
@@ -196,17 +202,17 @@ namespace Carmicah
 			}
 
 			// The asset exist already
-			if (GetAssetMap<T>()->mAssetMap.count(name) != 0)
+			if (GetAssetMap<T>()->mAssetMap.count(assetName) != 0)
 			{
 				// if it dose then we have to replace it in the vector
-				GetAssetMap<T>()->mAssetList[GetAssetMap<T>()->mAssetMap[name]] = asset;
+				GetAssetMap<T>()->mAssetList[GetAssetMap<T>()->mAssetMap[assetName]] = asset;
 			}
 			else
 			{
 				GetAssetMap<T>()->mAssetList.push_back(asset);
 				// The map is name -> index
 				// where index is where the asset belongs in mAssetList
-				GetAssetMap<T>()->mAssetMap[name] = (unsigned int)GetAssetMap<T>()->mAssetList.size() - 1;
+				GetAssetMap<T>()->mAssetMap[assetName] = (unsigned int)GetAssetMap<T>()->mAssetList.size() - 1;
 
 			}
 		}
@@ -216,6 +222,9 @@ namespace Carmicah
 		template <typename T>
 		void RemoveAsset(std::string name)
 		{
+			std::string assetName = name;
+			std::transform(assetName.begin(), assetName.end(), assetName.begin(), ::toupper);
+
 			std::string assetType = typeid(T).name();
 
 			// asset type doesn't exist
@@ -229,19 +238,19 @@ namespace Carmicah
 
 
 			// erase from the vector first
-			if (assetMap.count(name) == 0)
+			if (assetMap.count(assetName) == 0)
 			{
 				CM_CORE_ERROR("Asset being removed does not exist");
 			}
 
-			unsigned int index = assetMap[name];
+			unsigned int index = assetMap[assetName];
 
 			if constexpr (std::is_same_v <T, FMOD::Sound>)
 			{
 				assetList[index].release();
 			}
 
-			assetMap.erase(name);
+			assetMap.erase(assetName);
 
 			// check if the index is correct before accessing vector
 			if (index < assetList.size() - 1)
@@ -266,6 +275,9 @@ namespace Carmicah
 		template <>
 		void RemoveAsset<FMOD::Sound>(std::string name)
 		{
+			std::string assetName = name;
+			std::transform(assetName.begin(), assetName.end(), assetName.begin(), ::toupper);
+
 			std::string assetType = typeid(FMOD::Sound).name();
 
 			// asset type doesn't exist
@@ -278,14 +290,14 @@ namespace Carmicah
 			auto& assetList = GetAssetMap<FMOD::Sound>()->mAssetList;
 
 			// erase from the vector first
-			if (assetMap.count(name) == 0)
+			if (assetMap.count(assetName) == 0)
 			{
 				CM_CORE_ERROR("Asset being removed does not exist");
 			}
 
-			unsigned int index = assetMap[name];
+			unsigned int index = assetMap[assetName];
 			assetList[index].release();
-			assetMap.erase(name);
+			assetMap.erase(assetName);
 
 			// check if the index is correct before accessing vector
 			if (index < assetList.size() - 1)
@@ -313,6 +325,9 @@ namespace Carmicah
 		template <>
 		void RemoveAsset<Texture>(std::string name)
 		{
+			std::string assetName = name;
+			std::transform(assetName.begin(), assetName.end(), assetName.begin(), ::toupper);
+
 			std::string assetType = typeid(Texture).name();
 
 			// asset type doesn't exist
@@ -330,11 +345,12 @@ namespace Carmicah
 					return std::tolower(c);
 				});
 
+
 			std::vector<std::string> assetsToRemove;
 
 			for (const auto& entry : assetMap)
 			{
-				if (entry.first.find(name) == 0)
+				if (entry.first.find(assetName) == 0)
 				{
 					assetsToRemove.push_back(entry.first);
 				}
@@ -387,6 +403,9 @@ namespace Carmicah
 		template <typename T>
 		bool AssetExist(std::string name)
 		{
+			std::string assetName = name;
+			std::transform(assetName.begin(), assetName.end(), assetName.begin(), ::toupper);
+
 			// Check if asset exist
 			std::string assetType = typeid(T).name();
 			if (mAssetTypeMap.count(assetType) == 0)
@@ -397,7 +416,7 @@ namespace Carmicah
 
 			if (GetAssetMap<T>()->mAssetList.size() == 0)
 				return false;
-			if (GetAssetMap<T>()->mAssetMap.count(name) == 0)
+			if (GetAssetMap<T>()->mAssetMap.count(assetName) == 0)
 				return false;
 
 			return true;
@@ -406,6 +425,9 @@ namespace Carmicah
 		template <>
 		bool AssetExist<Prefab>(std::string name)
 		{
+			std::string assetName = name;
+			std::transform(assetName.begin(), assetName.end(), assetName.begin(), ::toupper);
+
 			std::string assetType = typeid(Prefab).name();
 			if (mAssetTypeMap.count(assetType) == 0)
 			{
@@ -415,7 +437,7 @@ namespace Carmicah
 
 			if (GetAssetMap<Prefab>()->mAssetList.size() == 0)
 				return false;
-			if (GetAssetMap<Prefab>()->mAssetMap.count(name) == 0)
+			if (GetAssetMap<Prefab>()->mAssetMap.count(assetName) == 0)
 				return false;
 
 			return true;

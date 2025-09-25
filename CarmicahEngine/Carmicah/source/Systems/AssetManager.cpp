@@ -188,6 +188,7 @@ namespace Carmicah
 	{
 		std::string fileName = file.fileEntry.path().stem().string();
 		std::string fileExt = file.fileEntry.path().extension().string();
+		std::transform(fileName.begin(), fileName.end(), fileName.begin(), ::toupper);
 
 
 		if (fileExt == ".ani")
@@ -311,6 +312,8 @@ namespace Carmicah
 	{
 		std::string fileName = file.fileEntry.path().stem().string();
 		std::string fileExt = file.fileEntry.path().extension().string();
+		std::transform(fileName.begin(), fileName.end(), fileName.begin(), ::toupper);
+
 
 		if (fileExt == ".ani")
 		{
@@ -1060,9 +1063,12 @@ namespace Carmicah
 
 	bool AssetManager::GetScene(std::string scene, std::string& filePath)
 	{
-		if (AssetExist<Scene>(scene))
+		std::string assetName = scene;
+		std::transform(assetName.begin(), assetName.end(), assetName.begin(), ::toupper);
+
+		if (AssetExist<Scene>(assetName))
 		{
-			filePath = GetAsset<Scene>(scene).sceneFile;
+			filePath = GetAsset<Scene>(assetName).sceneFile;
 			return true;
 		}
 		else
