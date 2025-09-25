@@ -82,6 +82,16 @@ namespace Carmicah
             Vector2 mousePos = Input.GetMousePos();
             trapEntity.Position = mousePos + new Vector2(mouseXOffset, 0);
 
+            if (type == AbilityType.SPEAR && !flipped)
+            {
+                Vector2 Pos = trapEntity.GetComponent<Transform>().Position;
+                Pos.x += 1.0f;
+                trapEntity.GetComponent<Transform>().Position = Pos;
+                CMConsole.Log("Shenanigans to the spear fella");
+                CMConsole.Log("TEST IF IT BUILD to the spear fella");
+
+            }
+
             if (trapEntity.Position.x < 0.0f && flipped != true)
             {
                 Vector2 scale = trapEntity.GetComponent<Transform>().Scale;
@@ -111,12 +121,13 @@ namespace Carmicah
             if (trapEntity != null) return;
 
             trapEntity = CreateGameObject(heroPrefab);
-            //if(type == AbilityType.SPEAR)
+            //if (type == AbilityType.SPEAR)
             //{
             //    Vector2 Pos = trapEntity.GetComponent<Transform>().Position;
-            //    Pos.x -= 0.5f;
+            //    Pos.x += 2.0f;
             //    trapEntity.GetComponent<Transform>().Position = Pos;
             //    CMConsole.Log("Shenanigans to the spear fella");
+            //    CMConsole.Log("TEST IF IT BUILD to the spear fella");
 
             //}
 
