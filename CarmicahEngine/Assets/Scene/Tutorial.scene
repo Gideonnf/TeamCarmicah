@@ -1816,7 +1816,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "Background_SpriteSheet_Floor 0",
+                            "texture": "MidAutmn_SpriteSheet_Floor 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
