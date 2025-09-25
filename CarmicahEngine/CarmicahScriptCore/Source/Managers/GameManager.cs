@@ -191,7 +191,7 @@ public override void OnCreate()
             CakeDepthValues[1] = 3.4f;
             CakeDepthValues[2] = 4.4f;
 
-            Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
+            Sound.PlayBGM("BGM_MidAutumn", 0.4f);
         }
 
         public override void OnUpdate(float dt)
@@ -1073,7 +1073,7 @@ public override void OnCreate()
 
                 //if (cakeCounter >= 2) return;
 
-                Sound.PlayBGM("BGM_SetupPhase_Mix1", 0.4f);
+                Sound.PlayBGM("BGM_MidAutumn", 0.4f);
 
                 //cakeType = 2;//CMRand.Range(0, 3);
                 //CMConsole.Log($"cake type {cakeType}");
