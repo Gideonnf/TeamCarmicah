@@ -44,7 +44,7 @@ namespace Carmicah
             switch(buttonType)
             {
                 case "play":
-                    nextScene       = "Cutscenes";
+                    nextScene       = "Scene1";
                     willChangeScene = true;
 
                     hoverEnterAnim  = "Button_HS_Play";
