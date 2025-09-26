@@ -451,13 +451,14 @@
                     "scriptName": "Carmicah.WaveSystem",
                     "ScriptableFieldMap": [
                         {
+                            "EndGame": false,
                             "countdownPrefab": "Countdown_1",
-                            "losePrefab": "LoseScreen",
                             "countdownStartTime": 5.0,
-                            "waveTimer": 0.0,
+                            "losePrefab": "LoseScreen",
                             "waveSetupTime": 15.0,
                             "waveStart": false,
                             "waveStartTime": 21.0,
+                            "waveTimer": 0.0,
                             "winPrefab": "Win_Screen"
                         }
                     ]
@@ -578,7 +579,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Background_SpriteSheet_Balloon_Left 0",
+                    "texture": "MIDAUTMN_SPRITESHEET_LANTERN2 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -620,7 +621,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Background_SpriteSheet_Balloon_Right 0",
+                    "texture": "MIDAUTMN_SPRITESHEET_LANTERN4 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -782,7 +783,7 @@
                     "scriptName": "Carmicah.Player",
                     "ScriptableFieldMap": [
                         {
-                            "GameLost": true,
+                            "GameLost": false,
                             "HealAnim": "MC_Heal",
                             "IdleAnim": "MC_Idle",
                             "TeleportAnim": "NPC_Teleport",
@@ -792,6 +793,7 @@
                             "flashTime": 1.0,
                             "flashTotalTime": 1.0,
                             "flashTimer": 0.0,
+                            "godMode": false,
                             "health": 100.0,
                             "healthBarName": "Princess_HealthBar",
                             "walkingSpeed": 4.0,
@@ -2637,7 +2639,7 @@
                             "Components": [
                                 {
                                     "Component Name": "struct Carmicah::Transform",
-                                    "xPos": 14.547622680664063,
+                                    "xPos": 17.06395721435547,
                                     "yPos": -9.392000198364258,
                                     "depth": -93.0,
                                     "xScale": 0.699999988079071,
@@ -2701,9 +2703,9 @@
                     "Components": [
                         {
                             "Component Name": "struct Carmicah::Transform",
-                            "xPos": -15.0,
-                            "yPos": -19.42565155029297,
-                            "depth": -91.0,
+                            "xPos": -16.427907943725587,
+                            "yPos": -29.936803817749025,
+                            "depth": -88.25,
                             "xScale": 1.0,
                             "yScale": 1.0,
                             "rot": 0.0,
@@ -2717,7 +2719,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "Background_SpriteSheet_Puff 0",
+                            "texture": "BACKGROUND_SPRITESHEET_FOREGROUNDLEFT 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -2733,8 +2735,8 @@
                         {
                             "Component Name": "struct Carmicah::Transform",
                             "xPos": 16.200000762939454,
-                            "yPos": -19.338163375854493,
-                            "depth": -91.0,
+                            "yPos": -29.937009811401368,
+                            "depth": -87.80000305175781,
                             "xScale": 1.0,
                             "yScale": 1.0,
                             "rot": 0.0,
@@ -2748,7 +2750,7 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "Background_SpriteSheet_Cone 0",
+                            "texture": "BACKGROUND_SPRITESHEET_FOREGROUNDRIGHT 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
@@ -3434,6 +3436,68 @@
                     ]
                 }
             ]
+        },
+        {
+            "GameObject": "BackgroundCakesR2_1",
+            "ID": 90,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 16.200000762939454,
+                    "yPos": -19.338163375854493,
+                    "depth": -91.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 16
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Background_SpriteSheet_Cone 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "BackgroundCakesL3_1",
+            "ID": 91,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": -15.0,
+                    "yPos": -19.42565155029297,
+                    "depth": -91.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::PrefabData",
+                    "prefabRef": 15
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Background_SpriteSheet_Puff 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                }
+            ],
+            "Children": []
         },
         {
             "GameObject": "Default_1",

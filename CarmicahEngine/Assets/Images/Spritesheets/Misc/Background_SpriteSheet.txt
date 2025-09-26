@@ -37,3 +37,11 @@ T L: 2220 x 1499, 399 x 790
 Balloon_Right
 T L: 2619 x 1499, 493 x 790
 1 S
+
+ForegroundLeft
+T L: 1921 x 2992, 271 x 248
+1 S
+
+ForegroundRight
+T L: 2192 x 2992, 300 x 248
+1 S
