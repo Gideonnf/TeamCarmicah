@@ -3,22 +3,22 @@ Top left: 0 x 0, 1920 x 1147
 1 sprites
 
 Lantern1
-Top left: 0 x 1920, 253 x 321
+Top left: 0 x 1147, 253 x 321
 1 sprites
 
 Lantern2
-Top left: 253 x 1920, 209 x 264
+Top left: 253 x 1147, 209 x 264
 1 sprites
 
 Lantern3
-Top left: 462 x 1920, 192 x 233
+Top left: 462 x 1147, 192 x 233
 1 sprites
 
 Lantern4
-Top left: 654 x 1920, 178 x 216
+Top left: 654 x 1147, 178 x 216
 1 sprites
 
 Lantern5
-Top left: 832 x 1920, 82 x 96
+Top left: 832 x 1147, 82 x 96
 1 sprites
 
