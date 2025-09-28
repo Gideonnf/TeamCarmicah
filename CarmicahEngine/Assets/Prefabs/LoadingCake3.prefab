@@ -5,7 +5,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "fruit_cake_SpriteSheet_Squish 3",
+            "texture": "mooncake_SpriteSheet_Squish 3",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,

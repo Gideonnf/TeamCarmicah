@@ -33,22 +33,22 @@ namespace Carmicah
             {
                 case CakeTypes.STRAWBERRY_CAKE:
                 {
-                        ChangeAnim("StrawberryCake_Squish");
+                        ChangeAnim("CakeMoon_Squish");
                     break;
                 }
                 case CakeTypes.MATCHA_CAKE:
                 {
-                        ChangeAnim("MatchaCake_Squish");
+                        ChangeAnim("CakeMoon_Squish");
                     break;
                 }
                 case CakeTypes.RAINBOW_CAKE:
                 {
-                        ChangeAnim("RainbowCake_Squish");
+                        ChangeAnim("CakeMoon_Squish");
                         break;
                 }
                 case CakeTypes.FRUIT_CAKE:
                 {
-                        ChangeAnim("FruitCake_Squish");
+                        ChangeAnim("CakeMoon_Squish");
                         break;
                 }
                 default:

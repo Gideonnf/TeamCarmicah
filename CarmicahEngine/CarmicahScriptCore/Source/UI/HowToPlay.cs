@@ -259,7 +259,7 @@ namespace Carmicah
                             break;
                         case 5:
                             actlObj1.LocalPosition = new Vector2(0, 1000);
-                            actlObj1.GetComponent<Animation>().ChangeAnim("CakeStrawberry_Fall");
+                            actlObj1.GetComponent<Animation>().ChangeAnim("CakeMoon_Fall");
                             power1Ico.GetComponent<Renderer>().SetAlpha(0);
                             power1Ico.Depth = 52;
                             break;
@@ -903,7 +903,7 @@ namespace Carmicah
                             if(fallPos.y < 480)
                             {
                                 fallPos.y = 480.0f;
-                                actlObj1.GetComponent<Animation>().ChangeAnim("CakeStrawberry_Squish");
+                                actlObj1.GetComponent<Animation>().ChangeAnim("CakeMoon_Squish");
                                 clickTime = 1.5f;
                                 ++aniProgress;
                             }
@@ -923,7 +923,7 @@ namespace Carmicah
                             break;
                         case 2:
                             actlObj1.LocalPosition = new Vector2(0, 1000);
-                            actlObj1.GetComponent<Animation>().ChangeAnim("CakeStrawberry_Fall");
+                            actlObj1.GetComponent<Animation>().ChangeAnim("CakeMoon_Fall");
                             power1Ico.GetComponent<Renderer>().SetAlpha(0);
                             power1Ico.Depth = 52;
                             mouse1Climbing = false;

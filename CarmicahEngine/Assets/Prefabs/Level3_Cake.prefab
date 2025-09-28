@@ -23,7 +23,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "matcha_cake_SpriteSheet_Squish 3",
+            "texture": "mooncake_SpriteSheet_Squish 3",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
@@ -31,7 +31,7 @@
         },
         {
             "Component Name": "struct Carmicah::Animation",
-            "Atlas": "CakeMatcha_Fall",
+            "Atlas": "CakeMoon_Fall",
             "AnimSpeed": 1.0
         }
     ],

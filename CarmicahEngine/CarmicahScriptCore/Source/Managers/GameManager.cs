@@ -156,15 +156,15 @@ public override void OnCreate()
 
             waveSystem = FindEntityWithName(WaveSystemObject);
 
-            CakeFallAnimations[0] = "CakeMatcha_Fall";
-            CakeFallAnimations[1] = "CakeRainbow_Fall";
-            CakeFallAnimations[2] = "CakeFruit_Fall";
-            CakeFallAnimations[3] = "CakeFruit_Fall";
+            CakeFallAnimations[0] = "CakeMoon_Fall";
+            CakeFallAnimations[1] = "CakeMoon_Fall";
+            CakeFallAnimations[2] = "CakeMoon_Fall";
+            CakeFallAnimations[3] = "CakeMoon_Fall";
 
-            CakeSquishAnimations[0] = "CakeMatcha_Squish";
-            CakeSquishAnimations[1] = "CakeRainbow_Squish";
-            CakeSquishAnimations[2] = "CakeFruit_Squish";
-            CakeSquishAnimations[3] = "CakeFruit_Squish";
+            CakeSquishAnimations[0] = "CakeMoon_Squish";
+            CakeSquishAnimations[1] = "CakeMoon_Squish";
+            CakeSquishAnimations[2] = "CakeMoon_Squish";
+            CakeSquishAnimations[3] = "CakeMoon_Squish";
 
             // theres 4 but i realy only need 2 tbh cause we cut the first 2 alr
             CakePrefabNames[0] = "Level3_Cake";
