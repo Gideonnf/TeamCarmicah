@@ -1562,9 +1562,23 @@ namespace Carmicah
 				ImGui::SetNextWindowSize(ImVec2(300, 500));
 				if (ImGui::BeginPopup("ParticleTexture Select"))
 				{
+
+					static char buffer[256];
+					static std::string searchPrompt;
+					ImGui::Text("Search:");
+					ImGui::SameLine();
+					if (ImGui::InputText("##TextureSearch", buffer, sizeof(buffer)))
+					{
+						searchPrompt = buffer;
+					}
+
 					for (const auto& entry : textureMap->mAssetMap)
 					{
 						if (entry.first.empty()) continue; // TODO: Find out why "" is being added to asset map
+						if(entry.first.find(searchPrompt) == std::string::npos)
+						{
+							continue;
+						}
 						if (entry.first.find("SpriteSheet") != std::string::npos)
 						{
 							continue;
