@@ -95,7 +95,11 @@ namespace Carmicah
             {
                 if (!GetComponent<Animation>().IsAnimFinished())
                 {
-
+                    if(bulletType == BulletType.MAGE_BULLET)
+                    {
+                        isDead = true;
+                        return;
+                    }
                 }
                 else
                 {
