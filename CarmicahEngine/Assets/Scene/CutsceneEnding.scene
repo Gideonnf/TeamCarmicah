@@ -57,7 +57,7 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -18.850000381469728,
+                    "xPos": -12.705469131469727,
                     "yPos": -9.399999618530274,
                     "depth": 15.0,
                     "xScale": 2.0,
@@ -68,18 +68,18 @@
                 },
                 {
                     "Component Name": "struct Carmicah::ParticleEmitter",
-                    "texture": "Dissolve_SpriteSheet_Dissolve 16",
-                    "VelX": 10.0,
-                    "VelY": 25.0,
+                    "texture": "MIDAUTMN_SPRITESHEET_LANTERN5 0",
+                    "VelX": 4.0,
+                    "VelY": 23.299999237060548,
                     "RadiusX": 0.0,
                     "RadiusY": 0.0,
-                    "SizeRangeMin": 1.0,
+                    "SizeRangeMin": 0.6000000238418579,
                     "SizeRangeMax": 1.0,
-                    "SpawnPSec": 50,
-                    "Lifetime": 7.0,
-                    "BurstTime": 0.75,
+                    "SpawnPSec": 7,
+                    "Lifetime": 13.449999809265137,
+                    "BurstTime": 0.949999988079071,
                     "SpeedRange": 0.0,
-                    "AngleRange": 45.0,
+                    "AngleRange": 45.849998474121097,
                     "EmitterStatus": 50,
                     "ColR": 1.0,
                     "ColG": 0.5960784554481506,
@@ -411,6 +411,7 @@
                     "ScriptableFieldMap": [
                         {
                             "backgroundMusicTrack": "Endingcutscene",
+                            "wordsTimer": 0.0,
                             "backgroundMusicTrack1": "BGM_SetupPhase_Mix1",
                             "fadeSpeed": 0.5,
                             "finalFadeOutDuration": 1.5,
