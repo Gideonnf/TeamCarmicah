@@ -1,0 +1,15 @@
+Top
+Top left: 0 x 0, 1023 x 337
+4 sprites
+
+Top2
+Top left: 0 x 674, 1023 x 337
+4 sprites
+
+Bottom
+Top left: 0 x 337, 1023 x 337
+4 sprites
+
+Bottom2
+Top left: 0 x 1011, 1023 x 337
+4 sprites

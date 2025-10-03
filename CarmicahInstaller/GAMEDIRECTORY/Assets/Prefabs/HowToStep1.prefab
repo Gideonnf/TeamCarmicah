@@ -1,11 +1,24 @@
 {
     "GameObject": "HowToStep1",
-    "ID": 2,
+    "ID": 49,
     "Components": [
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.UISliding",
+            "ScriptableFieldMap": [
+                {
+                    "slideCurve": 10,
+                    "slideDist": 1920.0,
+                    "slideTime": 2.0,
+                    "slideToCenter": true,
+                    "slideType": "left"
+                }
+            ]
+        },
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "strawberry_cake_SpriteSheet_Squish 3",
+            "texture": "UI2_Tutorial_2 0",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
@@ -14,100 +27,509 @@
         {
             "Component Name": "struct Carmicah::UITransform",
             "xPos": 960.0,
-            "yPos": 690.0,
-            "depth": 51.0,
-            "xScale": 0.75,
-            "yScale": 0.75,
+            "yPos": 540.0,
+            "depth": 50.0,
+            "xScale": 1.0,
+            "yScale": 1.0,
             "rot": 0.0,
             "transformTag": ""
         }
     ],
     "Children": [
         {
-            "GameObject": "HowToMice1",
-            "ID": 3,
+            "GameObject": "HowToLeftBtn",
+            "ID": 58,
             "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Enemies_SpriteSheet_Mouse_Climb_Blue 0",
+                    "texture": "Tutorial_Spritesheet_Left 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
                     "colA": 1.0
                 },
                 {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Mouse_Climb_Blue",
-                    "AnimSpeed": 1.0
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "hOWToBack",
+                            "nextScene": ""
+                        }
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 80.0,
-                    "yPos": -310.0,
-                    "depth": 52.0,
-                    "xScale": 0.800000011920929,
-                    "yScale": 0.800000011920929,
+                    "xPos": -710.0,
+                    "yPos": 20.0,
+                    "depth": 60.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": ""
                 }
             ]
         },
         {
-            "GameObject": "HowToBear",
-            "ID": 4,
+            "GameObject": "HowToRightBtn",
+            "ID": 67,
             "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "HowToNext",
+                            "nextScene": ""
+                        }
+                    ]
+                },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Enemies_SpriteSheet_Bear_Climb 0",
+                    "texture": "Tutorial_Spritesheet_Right 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
                     "colA": 1.0
                 },
                 {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Bear_Climb",
-                    "AnimSpeed": 1.0
-                },
-                {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": -105.0,
-                    "yPos": -280.0,
-                    "depth": 52.0,
-                    "xScale": -1.0666667222976685,
-                    "yScale": 1.0666667222976685,
+                    "xPos": 710.0,
+                    "yPos": 20.0,
+                    "depth": 60.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": ""
                 }
             ]
         },
         {
-            "GameObject": "HowToMice2",
-            "ID": 5,
+            "GameObject": "HowToQuickClose",
+            "ID": 68,
             "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Button_C_Cross",
+                    "AnimSpeed": 1.0
+                },
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Enemies_SpriteSheet_Mouse_Climb_Brown 0",
+                    "texture": "UI_Close 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
                     "colA": 1.0
                 },
                 {
-                    "Component Name": "struct Carmicah::Animation",
-                    "Atlas": "Mouse_Climb_Brown",
-                    "AnimSpeed": 1.0
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "CloseHowTo",
+                            "nextScene": ""
+                        }
+                    ]
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 225.0,
-                    "yPos": -260.0,
+                    "xPos": 677.0,
+                    "yPos": 343.0,
+                    "depth": 60.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToDemoShooter",
+            "ID": 69,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Shooter_Idle",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "NPC_SpriteSheet_Shooter_Idle 5",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -360.0,
+                    "yPos": 178.0,
+                    "depth": 51.0,
+                    "xScale": 0.5,
+                    "yScale": 0.5,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToDemoMage",
+            "ID": 70,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Mage_Idle",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "NPC_SpriteSheet_Mage_Idle 13",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 100.0,
+                    "yPos": 200.0,
+                    "depth": 51.0,
+                    "xScale": 0.5,
+                    "yScale": 0.5,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToDemoSpear",
+            "ID": 71,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Spear_Idle",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Spear_SpriteSheet_Spear_Idle 9",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 490.0,
+                    "yPos": 213.0,
+                    "depth": 51.0,
+                    "xScale": 0.5,
+                    "yScale": 0.5,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToDemoExplosion",
+            "ID": 72,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "Jellybean_Preset",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "jellybean_explosion_spritesheet_explode 2",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 490.0,
+                    "yPos": -130.0,
+                    "depth": 51.0,
+                    "xScale": 0.5,
+                    "yScale": 0.5,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToDemoHoney",
+            "ID": 73,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "TrapHoneyIdle",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "honey_spritesheet_Splat 18",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 115.0,
+                    "yPos": -174.97796630859376,
+                    "depth": 51.0,
+                    "xScale": 0.6,
+                    "yScale": 0.6,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowTo_TrapTxt",
+            "ID": 74,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Sigmar-Regular",
+                    "text": "Damages                                       Slows                            Explodes",
+                    "colorR": 1.0,
+                    "colorG": 1.0,
+                    "colorB": 1.0,
+                    "textAlign": 0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -468.85577392578127,
+                    "yPos": -335.35,
                     "depth": 52.0,
-                    "xScale": 0.800000011920929,
-                    "yScale": 0.800000011920929,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToDemoShootIco",
+            "ID": 75,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_Shooter_Icon 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -580.0,
+                    "yPos": 40.0,
+                    "depth": 51.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToDemoMageIco",
+            "ID": 76,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_Mage_Icon 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -20.0,
+                    "yPos": 40.0,
+                    "depth": 51.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToDemoJellyIco",
+            "ID": 77,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_Jellybean_Icon 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 350.0,
+                    "yPos": -320.0,
+                    "depth": 51.0,
+                    "xScale": 0.75,
+                    "yScale": 0.75,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToDemoSpearIco",
+            "ID": 78,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_Spear_Icon 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 385.0,
+                    "yPos": 40.0,
+                    "depth": 51.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToDemoHoneyIco",
+            "ID": 79,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_Honey_Icon 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -20.0,
+                    "yPos": -320.0,
+                    "depth": 51.0,
+                    "xScale": 0.9,
+                    "yScale": 0.9,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToDemoCandyIco",
+            "ID": 80,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "candy_trap_spritesheet_Icon 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -550.0,
+                    "yPos": -315.0,
+                    "depth": 51.0,
+                    "xScale": 0.5,
+                    "yScale": 0.5,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowToDemoTrap",
+            "ID": 81,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "CandyCone_Idle",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "candy_trap_spritesheet_Spike 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -345.0,
+                    "yPos": -170.0,
+                    "depth": 51.0,
+                    "xScale": 0.6,
+                    "yScale": 0.6,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "HowtTo_Hero_Txt",
+            "ID": 82,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Sigmar-Regular",
+                    "text": "Shoots Land + Air                              AOE                                  Pierces",
+                    "colorR": 1.0,
+                    "colorG": 1.0,
+                    "colorB": 1.0,
+                    "textAlign": 0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -530.0,
+                    "yPos": 14.6695556640625,
+                    "depth": 52.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": ""
                 }

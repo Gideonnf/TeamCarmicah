@@ -1,3 +1,0 @@
-Polka
-Top left: 0 x 0, 1023 x 494
-24 sprites

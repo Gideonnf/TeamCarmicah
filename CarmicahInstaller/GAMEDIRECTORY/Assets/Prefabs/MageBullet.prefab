@@ -14,6 +14,11 @@
             "collisionMask": 16
         },
         {
+            "Component Name": "struct Carmicah::Animation",
+            "Atlas": "Mage_Projectile",
+            "AnimSpeed": 1.0
+        },
+        {
             "Component Name": "struct Carmicah::StateMachine",
             "currState": "",
             "nextState": "",
@@ -37,16 +42,13 @@
             ]
         },
         {
-            "Component Name": "struct Carmicah::Animation",
-            "Atlas": "Mage_Projectile",
-            "AnimSpeed": 1.0
-        },
-        {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "DebugSquare",
             "customWidth": 1.5,
             "customRotation": 0.0,
-            "customHeight": 0.25
+            "customHeight": 0.25,
+            "xPosPivot": 0.0,
+            "yPosPivot": 0.0
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
@@ -61,18 +63,6 @@
             "objectType": 2
         },
         {
-            "Component Name": "struct Script",
-            "scriptName": "Carmicah.Projectile",
-            "ScriptableFieldMap": [
-                {
-                    "BulletAnim": "Mage_Projectile",
-                    "BulletImpactAnim": "Mage_Impact_Projectile",
-                    "LifeTime": 10.0,
-                    "Speed": 2.0
-                }
-            ]
-        },
-        {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
             "texture": "Projectile_SpriteSheet_Mage 0",
@@ -80,6 +70,20 @@
             "colG": 1.0,
             "colB": 1.0,
             "colA": 1.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.Projectile",
+            "ScriptableFieldMap": [
+                {
+                    "BulletAnim": "Mage_Projectile",
+                    "BulletImpactAnim": "Mage_Impact_Projectile",
+                    "LifeTime": 10.0,
+                    "Speed": 10.0,
+                    "facingRight": false,
+                    "health": 3.0
+                }
+            ]
         }
     ]
 }

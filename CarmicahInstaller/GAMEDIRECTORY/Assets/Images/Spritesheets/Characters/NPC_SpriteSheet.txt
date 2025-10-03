@@ -15,7 +15,7 @@ Top left: 0 x 2530, 468 x 468
 14 sprites
 
 Shooter_Mana
-Top left: 0 x 3466, 391 x 391
+Top left: 1561 x 3587, 560 x 391
 1 sprites
 
 Mage_Mana

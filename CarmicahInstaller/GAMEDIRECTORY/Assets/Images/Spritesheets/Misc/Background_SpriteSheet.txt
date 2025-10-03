@@ -1,9 +1,5 @@
 Sky
-T L: 0 x 0, 1920 x 2091
-1 S
-
-Floor
-T L: 0 x 2091,  1920 x 1149
+T L: 0 x 0, 1920 x 3240
 1 S
 
 Cake1
@@ -11,7 +7,7 @@ T L: 1920 x 0, 457 x 536
 1 S
 
 Cake2
-T L: 1920 x 915, 248 x 336
+T L: 1920 x 915, 248 x 326
 1 S
 
 Cake3
@@ -24,4 +20,28 @@ T L: 2377 x 0, 355 x 838
 
 Cake5
 T L: 2732 x 0, 724 x 1288
+1 S
+
+Cone
+T L: 1920 x 1241, 300 x 675
+1 S
+
+Puff
+T L: 2284 x 915, 425 x 584
+1 S
+
+Balloon_Left
+T L: 2220 x 1499, 399 x 790
+1 S
+
+Balloon_Right
+T L: 2619 x 1499, 493 x 790
+1 S
+
+ForegroundLeft
+T L: 1921 x 2992, 271 x 248
+1 S
+
+ForegroundRight
+T L: 2192 x 2992, 300 x 248
 1 S

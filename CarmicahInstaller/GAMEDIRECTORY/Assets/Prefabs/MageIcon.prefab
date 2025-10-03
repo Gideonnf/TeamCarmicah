@@ -8,7 +8,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "UI_Spritesheet_Mage_Icon 0",
+            "texture": "UI2_Mage_Icon 0",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
@@ -44,6 +44,33 @@
             "yScale": 0.8999999761581421,
             "rot": 352.0,
             "transformTag": ""
+        }
+    ],
+    "Children": [
+        {
+            "GameObject": "TrapDescript",
+            "ID": 47,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": -50.0,
+                    "yPos": 20.0,
+                    "depth": 1.0,
+                    "xScale": 0.8,
+                    "yScale": 0.8,
+                    "rot": 0.0,
+                    "collisionMask": 0
+                },
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Chewy-Regular",
+                    "text": "",
+                    "colorR": 0.4117647058823529,
+                    "colorG": 0.1725490196078431,
+                    "colorB": 0.0941176470588235,
+                    "textAlign": 33              
+                }
+            ]
         }
     ]
 }

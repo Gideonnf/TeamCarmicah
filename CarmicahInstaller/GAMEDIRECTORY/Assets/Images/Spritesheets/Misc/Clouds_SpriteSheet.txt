@@ -7,9 +7,29 @@ T L: 0 x 1288, 2078 x 1261
 1 S
 
 SmallCloud
-T L: 2078 x 0, 367 x 126
+T L: 2078 x 0, 367 x 114
 1 S
 
-BigCakes
-T L: 2078 x 0, 729 x 1288
+BigCloud
+T L: 0 x 2550, 3410 x 759
+1 S
+
+TLCloud1
+T L: 0 x 3310, 1396 x 610
+1 S
+
+TRCloud1
+T L: 1396 x 3310, 1192 x 550
+1 S
+
+TLCloud2
+T L: 2078 x 114, 1000 x 487
+1 S
+
+TRCloud2
+T L: 3078 x 114, 1008 x 498
+1 S
+
+TRCloud3
+T L: 3078 x 612, 894 x 478
 1 S

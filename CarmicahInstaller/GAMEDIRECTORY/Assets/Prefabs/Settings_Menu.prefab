@@ -3,15 +3,6 @@
     "ID": 17,
     "Components": [
         {
-            "Component Name": "struct Carmicah::Renderer",
-            "model": "Square",
-            "texture": "Settings_SpriteSheet_Panel 0",
-            "colR": 1.0,
-            "colG": 1.0,
-            "colB": 1.0,
-            "colA": 1.0
-        },
-        {
             "Component Name": "struct Carmicah::UITransform",
             "xPos": 960.0,
             "yPos": 540.0,
@@ -20,9 +11,56 @@
             "yScale": 1.0,
             "rot": 0.0,
             "transformTag": ""
+        },
+        {
+            "Component Name": "struct Carmicah::Renderer",
+            "model": "Square",
+            "texture": "UI_Panel 0",
+            "colR": 1.0,
+            "colG": 1.0,
+            "colB": 1.0,
+            "colA": 1.0
+        },
+        {
+            "Component Name": "struct Script",
+            "scriptName": "Carmicah.UISliding",
+            "ScriptableFieldMap": [
+                {
+                    "slideCurve": 8,
+                    "slideDist": 1080.0,
+                    "slideTime": 1.5,
+                    "slideType": "Up",
+                    "slideToCenter": true
+                }
+            ]
         }
     ],
     "Children": [
+        {
+            "GameObject": "SettingsText",
+            "ID": 25,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::TextRenderer",
+                    "font": "Sigmar-Regular",
+                    "text": "Settings",
+                    "colorR": 0.8470588235294118,
+                    "colorG": 0.1294117647058824,
+                    "colorB": 0.5333333333333333,
+                    "textAlign": 17
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 230.0,
+                    "depth": 15,
+                    "xScale": 1.8,
+                    "yScale": 1.8,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
         {
             "GameObject": "Music Bar",
             "ID": 18,
@@ -30,7 +68,7 @@
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 100.0,
-                    "yPos": 100.0,
+                    "yPos": 55.0,
                     "depth": 15.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -40,7 +78,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Settings_SpriteSheet_Bar 0",
+                    "texture": "UI_Bar 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -65,14 +103,11 @@
                         {
                             "Component Name": "struct Carmicah::Renderer",
                             "model": "Square",
-                            "texture": "Settings_SpriteSheet_Slider 0",
+                            "texture": "UI_Slider 0",
                             "colR": 1.0,
                             "colG": 1.0,
                             "colB": 1.0,
                             "colA": 1.0
-                        },
-                        {
-                            "Component Name": "struct Carmicah::Button"
                         },
                         {
                             "Component Name": "struct Script",
@@ -82,6 +117,9 @@
                                     "soundType": "Music"
                                 }
                             ]
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Button"
                         }
                     ]
                 }
@@ -94,7 +132,7 @@
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": 100.0,
-                    "yPos": -100.0,
+                    "yPos": -65.0,
                     "depth": 15.0,
                     "xScale": 1.0,
                     "yScale": 1.0,
@@ -104,7 +142,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Settings_SpriteSheet_Bar 0",
+                    "texture": "UI_Bar 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -127,18 +165,6 @@
                             "transformTag": ""
                         },
                         {
-                            "Component Name": "struct Carmicah::Renderer",
-                            "model": "Square",
-                            "texture": "Settings_SpriteSheet_Slider 0",
-                            "colR": 1.0,
-                            "colG": 1.0,
-                            "colB": 1.0,
-                            "colA": 1.0
-                        },
-                        {
-                            "Component Name": "struct Carmicah::Button"
-                        },
-                        {
                             "Component Name": "struct Script",
                             "scriptName": "Carmicah.VolumeControl",
                             "ScriptableFieldMap": [
@@ -146,6 +172,18 @@
                                     "soundType": "Sound"
                                 }
                             ]
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Renderer",
+                            "model": "Square",
+                            "texture": "UI_Slider 0",
+                            "colR": 1.0,
+                            "colG": 1.0,
+                            "colB": 1.0,
+                            "colA": 1.0
+                        },
+                        {
+                            "Component Name": "struct Carmicah::Button"
                         }
                     ]
                 }
@@ -158,7 +196,7 @@
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": -200.0,
-                    "yPos": 100.0,
+                    "yPos": 55.0,
                     "depth": 15.0,
                     "xScale": 1.5,
                     "yScale": 1.5,
@@ -167,7 +205,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::TextRenderer",
-                    "font": "Chewy-Regular",
+                    "font": "Sigmar-Regular",
                     "text": "Music",
                     "colorR": 0.9450980424880981,
                     "colorG": 0.37254902720451357,
@@ -183,7 +221,7 @@
                 {
                     "Component Name": "struct Carmicah::UITransform",
                     "xPos": -200.0,
-                    "yPos": -100.0,
+                    "yPos": -65.0,
                     "depth": 15.0,
                     "xScale": 1.5,
                     "yScale": 1.5,
@@ -192,12 +230,54 @@
                 },
                 {
                     "Component Name": "struct Carmicah::TextRenderer",
-                    "font": "Chewy-Regular",
+                    "font": "Sigmar-Regular",
                     "text": "Sound",
                     "colorR": 0.9450980424880981,
                     "colorG": 0.37254902720451357,
                     "colorB": 0.5960784554481506,
                     "textAlign": 17
+                }
+            ]
+        },
+        {
+            "GameObject": "Close_Button",
+            "ID": 24,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Button"
+                },
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.ButtonGeneric",
+                    "ScriptableFieldMap": [
+                        {
+                            "buttonType": "backSettings"
+                        }
+                    ]
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Button_SpriteSheet_H_Back 1",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 17.0,
+                    "yPos": -267.0,
+                    "depth": 15.0,
+                    "xScale": 1.0,
+                    "yScale": 1.0,
+                    "rot": 0.0,
+                    "transformTag": ""
                 }
             ]
         }

@@ -13,32 +13,37 @@ layout (binding = 0) uniform sampler2DArray 	uTex;
 
 uniform int		uPassNum;
 uniform bool	uIsText;
-uniform vec3	uTextColor;
+uniform vec4	uTextColor;
 
 void main(void){
 	vec4 col = vec4(0.f);
 
 	if(uIsText)
-		col = vec4(uTextColor, texture(uTex, vec3(vTexCoord.xy, vID.y)).r);
+		col = vec4(uTextColor.rgb, texture(uTex, vec3(vTexCoord.xy, vID.y)).r * uTextColor.a);
 	else
 		col = texture(uTex, vec3(vTexCoord, vID.y) ) * vColor;
 
 
-	if(uPassNum == 0)// Solid Pass
+	if(uPassNum == 0)
 	{
 		if(col.a < 0.8f)
 			discard;
 
-		fFragColor = col;
 		fGID = vID.x;
 	}
-	else if(uPassNum == 1)// Transparent Pass
+	else if(uPassNum == 1)// Solid Pass
 	{
-		if(col.a >= 0.8f)
+		if(col.a < 0.99f)
 			discard;
-		
 
-		float weight = clamp(pow(min(1.0, col.a * 10.0) + 0.01, 3.0) * 1e8 * pow(1.0 - gl_FragCoord.z * 0.9, 3.0), 1e-2, 3e3);
+		fFragColor = col;
+	}
+	else if(uPassNum == 2)// Transparent Pass
+	{
+		if(col.a >= 0.99f || col.a < 0.01f)
+			discard;
+
+		float weight = clamp(pow(min(1.0, col.a * 10.0) + 0.01, 3.0) * 1e4 * pow(1.0 - gl_FragCoord.z * 0.9, 3.0), 1e-2, 3e3);
 		fAccum = vec4(col.rgb * col.a, col.a) * weight;
 		fReveal = col.a;
 	}

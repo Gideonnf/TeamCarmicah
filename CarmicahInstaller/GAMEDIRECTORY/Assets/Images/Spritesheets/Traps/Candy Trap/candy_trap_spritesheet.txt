@@ -1,3 +1,7 @@
 Spike
 top left: 0 x 0, 450 x 235
 10 sprites
+
+Icon
+top left: 0 x 235, 300 x 235
+1 sprite

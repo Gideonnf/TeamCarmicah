@@ -2,11 +2,6 @@
     "Scene": "Scene3",
     "SceneObjects": [
         {
-            "GameObject": "",
-            "ID": 0,
-            "Components": []
-        },
-        {
             "GameObject": "BackgroundGO",
             "ID": 1,
             "Components": [
@@ -77,7 +72,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1150.0,
+                    "xPos": 1070.0,
                     "yPos": 400.0,
                     "depth": 1.0,
                     "xScale": 1.0,
@@ -157,7 +152,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1375.0,
+                    "xPos": 1290.0,
                     "yPos": 150.0,
                     "depth": 1.0,
                     "xScale": 1.0,
@@ -200,7 +195,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1600.0,
+                    "xPos": 1515.0,
                     "yPos": 400.0,
                     "depth": 1.0,
                     "xScale": 1.0,
@@ -213,7 +208,7 @@
                     "scriptName": "Carmicah.ButtonGeneric",
                     "ScriptableFieldMap": [
                         {
-                            "buttonType": "Settings",
+                            "buttonType": "MenuSettings",
                             "nextScene": ""
                         }
                     ]
@@ -243,7 +238,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1600.0,
+                    "xPos": 1515.0,
                     "yPos": 280.0,
                     "depth": 1.0,
                     "xScale": 1.0,
@@ -286,7 +281,7 @@
                 },
                 {
                     "Component Name": "struct Carmicah::UITransform",
-                    "xPos": 1151.7081298828126,
+                    "xPos": 1070.0,
                     "yPos": 280.0,
                     "depth": 1.0,
                     "xScale": 1.0,
@@ -303,6 +298,31 @@
                             "nextScene": ""
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "GameObject": "game_logo",
+            "ID": 20,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "UI2_SugarStrike 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 1282.0,
+                    "yPos": 750.0,
+                    "depth": 0.0,
+                    "xScale": 0.44999998807907107,
+                    "yScale": 0.44999998807907107,
+                    "rot": 0.0,
+                    "transformTag": ""
                 }
             ]
         },
@@ -369,15 +389,15 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "UI_Spritesheet_Cursor 0",
-                    "colR": 1.0,
-                    "colG": 1.0,
-                    "colB": 1.0,
+                    "texture": "UI2_Cursor 0",
+                    "colR": 1.25,
+                    "colG": 1.25,
+                    "colB": 1.25,
                     "colA": 0.7843137383460999
                 },
                 {
                     "Component Name": "struct Carmicah::ParticleEmitter",
-                    "texture": "UI_Spritesheet_Sparkle_VFX 0",
+                    "texture": "UI2_Sparkle_VFX 0",
                     "VelX": 1.0,
                     "VelY": 1.0,
                     "RadiusX": 0.0,
@@ -389,7 +409,11 @@
                     "BurstTime": 0.0,
                     "SpeedRange": 0.5,
                     "AngleRange": 360.0,
-                    "EmitterStatus": 5
+                    "EmitterStatus": 5,
+                    "ColR": 1.0,
+                    "ColG": 1.0,
+                    "ColB": 1.0,
+                    "ColA": 1.0
                 },
                 {
                     "Component Name": "struct Script",
@@ -416,6 +440,7 @@
                     "colorR": 1.0,
                     "colorG": 1.0,
                     "colorB": 1.0,
+                    "colorA": 1.0,
                     "textAlign": 0
                 },
                 {
@@ -433,6 +458,75 @@
                     "scriptName": "Carmicah.FPSCounter",
                     "ScriptableFieldMap": [
                         {}
+                    ]
+                }
+            ]
+        },
+        {
+            "GameObject": "Default_1",
+            "ID": 93,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Animation",
+                    "Atlas": "",
+                    "AnimSpeed": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Default",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 0.0,
+                    "yPos": 0.0,
+                    "depth": 0.0,
+                    "xScale": 0.0,
+                    "yScale": 0.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "SceneTransition",
+            "ID": 300,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "Wall_Black 0",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 0.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 960.0,
+                    "yPos": 540.0,
+                    "depth": 70.0,
+                    "xScale": 40.0,
+                    "yScale": 40.0,
+                    "rot": 0.0,
+                    "transformTag": ""
+                },
+                {
+                    "Component Name": "struct Script",
+                    "scriptName": "Carmicah.SceneTransition",
+                    "ScriptableFieldMap": [
+                        {
+                            "duration": 1.0,
+                            "fadeOut": true,
+                            "isWhite": false,
+                            "targetAlpha": 1.0,
+                            "targetScene": "",
+                            "timer": 0.0
+                        }
                     ]
                 }
             ]

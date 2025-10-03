@@ -17,3 +17,7 @@ Top left: 0 x 1158, 415 x 415
 Lose
 Top left: 0 x 1998, 415 x 415
 4 sprites
+
+Shadow
+Top left: 0 x 2413, 204 x 56
+1 sprite

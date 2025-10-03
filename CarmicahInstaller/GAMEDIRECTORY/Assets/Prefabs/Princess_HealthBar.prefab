@@ -14,7 +14,7 @@
         {
             "Component Name": "struct Carmicah::Renderer",
             "model": "Square",
-            "texture": "Princess_HealthBar_Back 0",
+            "texture": "UI_Princess_HP_Back 0",
             "colR": 1.0,
             "colG": 1.0,
             "colB": 1.0,
@@ -39,7 +39,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Princess_HealthBar_HP 0",
+                    "texture": "UI_Princess_HP 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,

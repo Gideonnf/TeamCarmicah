@@ -1,14 +1,14 @@
 {
     "GameObject": "BearGO",
-    "ID": 31,
+    "ID": 1,
     "Components": [
         {
             "Component Name": "struct Carmicah::Transform",
             "xPos": 8.947422981262207,
             "yPos": -18.05034828186035,
             "depth": 5.0,
-            "xScale": 0.5,
-            "yScale": 0.5,
+            "xScale": 0.8,
+            "yScale": 0.8,
             "rot": 0.0,
             "transformTag": "",
             "collisionMask": 4
@@ -80,9 +80,9 @@
         {
             "Component Name": "struct Carmicah::Collider2D",
             "shape": "DebugSquare",
-            "customWidth": 1.0,
+            "customWidth": 0.75,
             "customRotation": 0.0,
-            "customHeight": 1.0
+            "customHeight": 0.75
         },
         {
             "Component Name": "struct Carmicah::RigidBody",
@@ -100,7 +100,7 @@
     "Children": [
         {
             "GameObject": "Healthbar",
-            "ID": 32,
+            "ID": 2,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
@@ -116,7 +116,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "health_bar",
+                    "texture": "UI_HealthBar 0",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
@@ -130,7 +130,7 @@
         },
         {
             "GameObject": "Healthbar_Cover",
-            "ID": 33,
+            "ID": 3,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
@@ -172,6 +172,82 @@
                     "prefabRef": 33
                 }
             ]
+        },
+        {
+            "GameObject": "Particle_Right",
+            "ID": 4,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.06,
+                    "yPos": -1.6,
+                    "depth": 4.5,
+                    "xScale": 1.6666666269302369,
+                    "yScale": 1.6666666269302369,
+                    "rot": 35.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::ParticleEmitter",
+                    "texture": "Projectile_SpriteSheet_Shooter 3",
+                    "VelX": 0.0,
+                    "VelY": -0.2,
+                    "RadiusX": 0.25,
+                    "RadiusY": 0.1,
+                    "SizeRangeMin": 0.1,
+                    "SizeRangeMax": 0.15,
+                    "SpawnPSec": 20,
+                    "Lifetime": 4.0,
+                    "BurstTime": 0.3,
+                    "SpeedRange": 0.1,
+                    "AngleRange": 35.0,
+                    "EmitterStatus": 38,
+                    "ColR": 0.49572646617889407,
+                    "ColG": 0.2851811945438385,
+                    "ColB": 0.0127109345048666,
+                    "ColA": 1.0
+                }
+            ],
+            "Children": []
+        },
+        {
+            "GameObject": "Particle_Left",
+            "ID": 5,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": -0.7,
+                    "yPos": -1.6,
+                    "depth": 4.5,
+                    "xScale": 1.6666666269302369,
+                    "yScale": 1.6666666269302369,
+                    "rot": 35.0,
+                    "transformTag": "",
+                    "collisionMask": 1
+                },
+                {
+                    "Component Name": "struct Carmicah::ParticleEmitter",
+                    "texture": "Projectile_SpriteSheet_Shooter 3",
+                    "VelX": 0.0,
+                    "VelY": -0.2,
+                    "RadiusX": 0.25,
+                    "RadiusY": 0.1,
+                    "SizeRangeMin": 0.1,
+                    "SizeRangeMax": 0.15,
+                    "SpawnPSec": 20,
+                    "Lifetime": 4.0,
+                    "BurstTime": 0.3,
+                    "SpeedRange": 0.1,
+                    "AngleRange": 35.0,
+                    "EmitterStatus": 38,
+                    "ColR": 0.49572646617889407,
+                    "ColG": 0.2851811945438385,
+                    "ColB": 0.0127109345048666,
+                    "ColA": 1.0
+                }
+            ],
+            "Children": []
         }
     ]
 }
