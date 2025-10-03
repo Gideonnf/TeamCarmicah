@@ -183,7 +183,7 @@ public override void OnCreate()
             CakeVFXSpawnPos[1] = 38.45f;
             CakeVFXSpawnPos[2] = 49.0f;
 
-            CakeStackFinalPos[0] = 20.7f;
+            CakeStackFinalPos[0] = 20.12f;
             CakeStackFinalPos[1] = 32.650f;
             CakeStackFinalPos[2] = 43.1f;
 

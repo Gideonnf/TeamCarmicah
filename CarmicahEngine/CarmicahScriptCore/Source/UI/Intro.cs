@@ -43,7 +43,7 @@ namespace Carmicah
         public string teamLogoName = "team_logo";           // name of team logo entity
 
         Entity schoolLogoEntity;                            // entity for school logo
-        Entity schoolRightsEntity;                          // entity for school rights
+        //Entity schoolRightsEntity;                          // entity for school rights
         //Entity schoolBGEntity;                              // entity for school background
         Entity gameLogoEntity;                              // entity for game logo
         Entity teamLogoEntity;                              // entity for team logo
@@ -51,14 +51,14 @@ namespace Carmicah
         public override void OnCreate()
         {
             schoolLogoEntity = CreateGameObject(schoolLogoName);
-            schoolRightsEntity = CreateGameObject(schoolRightsName);
+           // schoolRightsEntity = CreateGameObject(schoolRightsName);
             //schoolBGEntity = CreateGameObject(schoolBGName);
             gameLogoEntity = CreateGameObject(gameLogoName);
             teamLogoEntity = CreateGameObject(teamLogoName);
 
             // set initial transparency
             if (schoolLogoEntity != null) schoolLogoEntity.GetComponent<Renderer>().SetAlpha(0.0f);
-            if (schoolRightsEntity != null) schoolRightsEntity.GetComponent<Renderer>().SetAlpha(0.0f);
+            //if (schoolRightsEntity != null) schoolRightsEntity.GetComponent<Renderer>().SetAlpha(0.0f);
             //if (schoolBGEntity != null) schoolBGEntity.GetComponent<Renderer>().SetAlpha(0.0f);
             if (gameLogoEntity != null) gameLogoEntity.GetComponent<Renderer>().SetAlpha(0.0f);
             if (teamLogoEntity != null) teamLogoEntity.GetComponent<Renderer>().SetAlpha(0.0f);
@@ -90,7 +90,7 @@ namespace Carmicah
                 }
 
                 if (schoolLogoEntity != null) schoolLogoEntity.GetComponent<Renderer>().SetAlpha(alpha);
-                if (schoolRightsEntity != null) schoolRightsEntity.GetComponent<Renderer>().SetAlpha(alpha);
+               // if (schoolRightsEntity != null) schoolRightsEntity.GetComponent<Renderer>().SetAlpha(alpha);
                // if (schoolBGEntity != null) schoolBGEntity.GetComponent<Renderer>().SetAlpha(alpha);
 
                 if (timer >= maxDuration)  // move to next state, game and team logo
