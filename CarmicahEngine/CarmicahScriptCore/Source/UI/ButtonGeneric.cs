@@ -79,7 +79,8 @@ namespace Carmicah
                     clickAnim = "Button_C_Quit";
                     break;
                 case "home":
-                    nextScene       = "Scene3";
+                    // they ask to make the loading screen replay
+                    nextScene       = "Scene4";
                     willChangeScene = true;
 
                     hoverEnterAnim  = "Button_HS_Home";

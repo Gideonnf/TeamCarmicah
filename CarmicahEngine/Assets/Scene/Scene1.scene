@@ -79,8 +79,8 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 0.16312193870544434,
-                    "yPos": 10.135884284973145,
-                    "depth": 1.100000023841858,
+                    "yPos": -11.305130004882813,
+                    "depth": 0.550000011920929,
                     "xScale": 1.2000000476837159,
                     "yScale": 1.2000000476837159,
                     "rot": 0.0,
@@ -840,7 +840,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 4.59253454208374,
-                    "yPos": 9.243711471557618,
+                    "yPos": 9.978673934936524,
                     "depth": 0.0,
                     "xScale": 10.270000457763672,
                     "yScale": 0.6269400119781494,
@@ -888,7 +888,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 4.923981666564941,
-                    "yPos": 16.112279891967775,
+                    "yPos": 14.603672981262207,
                     "depth": 0.0,
                     "xScale": 10.319815635681153,
                     "yScale": 0.6269400119781494,
@@ -936,7 +936,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -4.913930416107178,
-                    "yPos": 15.667709350585938,
+                    "yPos": 14.31383228302002,
                     "depth": 0.0,
                     "xScale": 11.448826789855957,
                     "yScale": 0.6269400119781494,
@@ -984,7 +984,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -4.285809516906738,
-                    "yPos": 9.544428825378418,
+                    "yPos": 9.931249618530274,
                     "depth": 0.0,
                     "xScale": 9.649003982543946,
                     "yScale": 0.6269400119781494,
@@ -1100,7 +1100,7 @@
                     "xPos": 5.11874532699585,
                     "yPos": 12.820463180541993,
                     "depth": 0.0,
-                    "xScale": 1.0,
+                    "xScale": 1.344689965248108,
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": "",
@@ -1442,10 +1442,10 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": -1.0249128341674805,
+                    "xPos": -0.9408369660377502,
                     "yPos": 11.488515853881836,
                     "depth": 0.0,
-                    "xScale": 1.0,
+                    "xScale": 1.3447083234786988,
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": "",
@@ -1508,10 +1508,10 @@
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 2.14717698097229,
+                    "xPos": 2.0631024837493898,
                     "yPos": 11.438796043395996,
                     "depth": 0.0,
-                    "xScale": 1.0,
+                    "xScale": 1.1723511219024659,
                     "yScale": 1.0,
                     "rot": 0.0,
                     "transformTag": "",
@@ -3500,13 +3500,65 @@
             "Children": []
         },
         {
+            "GameObject": "Default_2",
+            "ID": 92,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "DIGIPEN_LOGO",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                },
+                {
+                    "Component Name": "struct Carmicah::UITransform",
+                    "xPos": 180.96951293945313,
+                    "yPos": 82.46697998046875,
+                    "depth": 0.0,
+                    "xScale": 0.20000000298023225,
+                    "yScale": 0.20000000298023225,
+                    "rot": 0.0,
+                    "transformTag": ""
+                }
+            ]
+        },
+        {
+            "GameObject": "StartingCake_1",
+            "ID": 94,
+            "Components": [
+                {
+                    "Component Name": "struct Carmicah::Transform",
+                    "xPos": 0.16312193870544434,
+                    "yPos": 9.817058563232422,
+                    "depth": 1.100000023841858,
+                    "xScale": 1.2000000476837159,
+                    "yScale": 1.2000000476837159,
+                    "rot": 0.0,
+                    "transformTag": "",
+                    "collisionMask": 8
+                },
+                {
+                    "Component Name": "struct Carmicah::Renderer",
+                    "model": "Square",
+                    "texture": "mooncake_SpriteSheet_Squish 3",
+                    "colR": 1.0,
+                    "colG": 1.0,
+                    "colB": 1.0,
+                    "colA": 1.0
+                }
+            ],
+            "Children": []
+        },
+        {
             "GameObject": "Default_1",
             "ID": 104,
             "Components": [
                 {
                     "Component Name": "struct Carmicah::Transform",
-                    "xPos": 0.4282580018043518,
-                    "yPos": -8.753324508666993,
+                    "xPos": 0.18663622438907624,
+                    "yPos": -0.7864840030670166,
                     "depth": 1.0499999523162842,
                     "xScale": 1.2000000476837159,
                     "yScale": 1.2000000476837159,
@@ -3517,7 +3569,7 @@
                 {
                     "Component Name": "struct Carmicah::Renderer",
                     "model": "Square",
-                    "texture": "Level1_cake",
+                    "texture": "MOONCAKE_SPRITESHEET_SQUISH 3",
                     "colR": 1.0,
                     "colG": 1.0,
                     "colB": 1.0,
