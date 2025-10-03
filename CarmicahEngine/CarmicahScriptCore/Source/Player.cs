@@ -169,6 +169,15 @@ namespace Carmicah
                     }
                 }
             }
+        
+            if (Position.y >= 12.5)
+            {
+                Depth = 3.6f;
+            }
+            if (Position.y < 12.5)
+            {
+                Depth = 3.9f;
+            }
         }
 
         public override void OnStateEnter(string stateName)

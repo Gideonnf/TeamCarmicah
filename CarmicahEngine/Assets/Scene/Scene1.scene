@@ -685,8 +685,8 @@
                     "customWidth": 0.5,
                     "customRotation": 0.0,
                     "customHeight": 0.5,
-                    "xPosPivot": 0.0,
-                    "yPosPivot": 0.0
+                    "xPosPivot": 0.05000000074505806,
+                    "yPosPivot": -0.6000000238418579
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -840,11 +840,11 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": 4.59253454208374,
-                    "yPos": 9.978673934936524,
+                    "yPos": 10.391011238098145,
                     "depth": 0.0,
                     "xScale": 10.270000457763672,
                     "yScale": 0.6269400119781494,
-                    "rot": 206.1713409423828,
+                    "rot": 208.46942138671876,
                     "transformTag": "",
                     "collisionMask": 8
                 },
@@ -984,7 +984,7 @@
                 {
                     "Component Name": "struct Carmicah::Transform",
                     "xPos": -4.285809516906738,
-                    "yPos": 9.931249618530274,
+                    "yPos": 10.565610885620118,
                     "depth": 0.0,
                     "xScale": 9.649003982543946,
                     "yScale": 0.6269400119781494,
@@ -1047,11 +1047,11 @@
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "",
-                    "customWidth": 2.799999952316284,
+                    "customWidth": 2.200000047683716,
                     "customRotation": 0.0,
-                    "customHeight": 2.9000000953674318,
+                    "customHeight": 3.700000047683716,
                     "xPosPivot": 0.0,
-                    "yPosPivot": 0.0
+                    "yPosPivot": 0.20000000298023225
                 },
                 {
                     "Component Name": "struct Carmicah::RigidBody",
@@ -1079,7 +1079,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 3.0,
                             "yOffset": 1.0,
                             "IsLeft": true,
@@ -1113,9 +1113,9 @@
                 {
                     "Component Name": "struct Carmicah::Collider2D",
                     "shape": "",
-                    "customWidth": 2.299999952316284,
+                    "customWidth": 1.5,
                     "customRotation": 0.0,
-                    "customHeight": 3.0,
+                    "customHeight": 3.5,
                     "xPosPivot": 0.0,
                     "yPosPivot": 0.0
                 },
@@ -1145,7 +1145,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 0.0,
                             "yOffset": 1.0,
                             "IsLeft": false,
@@ -1490,7 +1490,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 2.0,
                             "yOffset": 1.0,
                             "IsLeft": true,
@@ -1556,7 +1556,7 @@
                     "scriptName": "Carmicah.HeroBuild",
                     "ScriptableFieldMap": [
                         {
-                            "HeroPrefab": "",
+                            "HeroPrefab": "MageNPC",
                             "lane": 1.0,
                             "yOffset": 1.0,
                             "IsLeft": false,
